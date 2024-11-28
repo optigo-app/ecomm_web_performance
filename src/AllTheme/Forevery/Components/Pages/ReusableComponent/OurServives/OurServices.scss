@@ -1,0 +1,108 @@
+@import '../../../scss/variable.scss';
+
+.for_serviceMainDiv {
+    font-family: $primaryFontFamily;
+    margin-bottom: 30px;
+
+    h2 {
+        margin-bottom: 20px;
+        font-size: $fontSize6;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .8px;
+    }
+
+    .for_services-container {
+        padding: 10px;
+        background-color: $ProjectActiveColor;
+        text-align: center;
+
+        .for_services-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+
+            .for_service-item {
+                border-radius: 10px;
+                margin: 10px;
+                width: 100%;
+                max-width: 220px;
+                text-align: center;
+                flex: 1 1 220px;
+                transition: transform 0.2s ease-in-out;
+
+                &:hover {
+                    transform: translateY(-5px);
+                }
+
+                img {
+                    max-width: 100%;
+                    height: auto;
+                    margin-bottom: 10px;
+                    border-radius: 50px;
+                }
+
+                h3 {
+                    margin-bottom: 10px;
+                    font-size: $fontSize4;
+                    color: $primaryfontcolor2;
+                    font-weight: 600;
+                }
+
+                p {
+                    font-size: $fontSize2;
+                    color: $primaryfontcolor2;
+                    margin-bottom: 10px;
+                }
+
+                a {
+                    color: $primaryfontcolor2;
+                    font-size: $fontSize1;
+                    text-decoration: underline;
+                    font-weight: 600;
+                }
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .for_services-list {
+                justify-content: space-between;
+            }
+
+            .for_service-item {
+                max-width: 180px;
+                flex: 1 1 180px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .for_services-list {
+                justify-content: space-around;
+            }
+
+            .for_service-item {
+                max-width: 150px;
+                flex: 1 1 150px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .for_services-list {
+                flex-direction: column;
+                align-items: center;
+
+                .for_service-item {
+                    max-width: 80%;
+                }
+            }
+        }
+
+        @media (max-width: 576px) {
+            .for_services-list {
+                .for_service-item {
+                    max-width: 90%;
+                }
+            }
+        }
+    }
+}

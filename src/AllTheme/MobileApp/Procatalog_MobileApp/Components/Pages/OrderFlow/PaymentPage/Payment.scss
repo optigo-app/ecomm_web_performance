@@ -1,0 +1,394 @@
+@import '../../../scss/variable.scss';
+
+.smrMo_paymentMainDiv {
+    background-color: white;
+    position: relative;
+
+
+
+
+    .smilingPaymentMain {
+        background-color: white;
+    }
+    
+    .smilingPayentImg {
+        height: 450px;
+        width: 450px;
+    }
+    
+    .smilingPaySub1Main {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .smilingPaySub1 {
+        padding: 20px;
+        display: flex;
+        width: 1000px;
+        max-width: 600px;
+        /* background-color: red; */
+        margin-bottom: 100px;
+        background-color: #fcfcfc;
+    }
+    
+    .smilingPaySub1Box1 {
+        width: 55%;
+        /* padding: 50px; */
+    }
+    
+    .smilingPaySub1Box2 {
+        width: 45%;
+        /* padding: 50px; */
+    }
+    
+    .paymentBtn {
+        height: 40px;
+        width: 100%;
+        background-color: #ffd814;
+        font-weight: 500;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+    }
+    
+    .AddressTitle {
+        font-size: 15px;
+        margin: 0px;
+    }
+    
+    .AdressData {
+        font-size: 16px;
+        margin: 0px;
+    }
+    
+    .smilingPaymentBtn {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+    }
+    
+    .changeAddressBtnPayment{
+        height: 30px;
+        width: 110px;
+        font-weight: 500;
+        border-radius: 5px;
+        border: none;
+        background-color: #d3d3d38f;
+    }
+    
+    
+    .filterDivcontainerPaymetPage {
+        display: flex;
+        border: 1px solid #d9d9d9;
+        overflow: hidden;
+        justify-content: center;
+        margin-block: 20px;
+        /* margin: 0px 100px 0px 100px; */
+    }
+    
+    .orderSubTitle{
+        margin: 0px;
+        font-size: 14px;
+    }
+    
+    .smilingPaymentBtn {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+    }
+    
+    
+    @media screen and (min-width:1001px) {
+        .smilingPaymentMainMobile {
+            display: none;
+        }
+    
+    }
+    
+    @media screen and (max-width: 900px) {
+        .HideBlackViewPaymentTop {
+            display: none !important;
+        }
+        
+        .smilingPaySub1{
+            width: 95%!important;
+            max-width: 95%!important;
+        }
+    
+        .PaymentMainTitle{
+            font-size: 17px!important;
+            margin: 0px!important;
+        }
+    
+        .BilingMainApyment{
+            margin-top: 10px!important;
+        }
+    
+        
+        .OrderNamMAinTitle{
+            font-size: 17px!important;
+            font-weight: 400;
+        }
+    }
+    
+    .smilingPaySub1Box1{
+        margin-left: 15px;
+    }
+    
+    @media screen and (max-width: 600px) {
+        .paymentSubDiv {
+            padding: 20px 0px 0px !important;
+        }
+    
+        .mainTitleMobileShiping {
+            font-size: 20px !important;
+        }
+    
+        .BilingAdressMain {
+            margin-top: 15px !important;
+        }
+    
+        .shipingName {
+            font-size: 17px !important;
+        }
+    
+        .AddressTitle{
+            font-size: 13px!important;
+        }
+    
+        .smilingPaySub1{
+            padding: 0px!important;
+        }
+        .AdressData{
+            font-size: 13px!important;
+        }
+        .orderSubmmuryMain{
+            background-color: rgb(245, 244, 244);
+            padding: 15px;
+            margin-block: 25px;
+        }
+    
+        .deliveryShiipingMain{
+            padding: 10px;
+        }
+    }
+    
+     @media screen and (max-width: 550px) {
+    
+    
+        .smilingPaySub1 {
+            display: flex!important;
+            flex-direction: column!important;
+            padding: 10px;
+        }
+    
+        .smilingPaySub1Box1{
+            width: 95%!important;
+        }
+    
+        .smilingPaySub1Box2{
+            width: 100%!important;
+            margin-top: 10px!important;
+        }
+    } 
+    
+}
+
+.smrMo_paymentSecondMainDiv {
+    margin-inline: 0%;
+    background-color: #fff;
+    position: relative;
+}
+
+.smrMo_PaymentContainer {
+    padding: 5px;
+}
+
+.smrMo_paymentDetailMainDiv {
+    display: flex;
+    justify-content: space-around;
+    font-family: $primaryFontFamily;
+    color: $titleColor;
+    background-color: #fcfcfc !important;
+    padding: 10px;
+}
+
+.smrMo_paymenttotalpricesummary {
+    display: flex;
+    justify-content: space-between;
+}
+
+.smrMo_paymentUserName {
+    font-weight: 600;
+    font-size: 20px !important;
+}
+
+.smrMA_TotlaText {
+    color: rgb(51, 50, 50);
+    font-size: 16px !important;
+}
+
+.smrNA_PriceShow {
+    color: rgb(51, 50, 50);
+    font-size: 18px !important;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.smrMo_paymentDetailLeftSideContent {
+    .smrMo_billingAddress {
+        margin-top: 10px;
+    }
+
+    h2 {
+        font-size: 25px;
+        font-weight: 500 !important;
+    }
+
+    h3 {
+        font-size: 20px;
+        font-weight: 500;
+        color: gray;
+    }
+
+    p {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: $fontSize2;
+    }
+}
+
+.smrMo_paymentDetailRightSideContent {
+    .smrMo_orderSummary {
+        background-color: rgb(245, 244, 244);
+        padding: 15px;
+    }
+
+    .smrMo_Divider {
+        color: $titleColor !important;
+    }
+
+    h3 {
+        font-size: 20px;
+        font-weight: 500;
+        color: gray;
+    }
+
+    p {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .shippingAddress {
+        p {
+            font-size: $fontSize3;
+            color: rgb(109 107 107);
+        }
+
+        .smrMo_addrChangesBtn {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .smrMo_changeAddr {
+                background: #f0f0f0 !important;
+                color: $titleColor !important;
+                font-size: $fontSize1 !important;
+                text-transform: capitalize !important;
+            }
+        }
+
+    }
+}
+
+.smr_paymenttotalpricesummary {
+    font-size: $fontSize1;
+}
+
+.smrMo_paymentButtonDiv {
+    // text-align: center;
+    // display: flex;
+    // position: fixed;
+    // bottom: 60px;
+    // width: 100%;
+
+    .smrMo_payOnAccountBtn {
+        position: fixed;
+        bottom: 0px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 45px;
+        // width: 180px;
+        font-family: $primaryFontFamily !important;
+        font-size: $fontSize3;
+        color: #fff !important;
+        font-weight: 600 !important;
+        background-color: rgb(214 176 139) !important;
+        border: none;
+        border-radius: none;
+        cursor: pointer;
+        text-transform: capitalize !important;
+        transition: background-color 0.3s, color 0.3s;
+
+        &:hover {
+            color: $btn1hoverFontColor;
+            background-color: $btn1ActivebgColor;
+        }
+    }
+}
+
+.loader {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #7d7f85;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-left: 8px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+@media (max-width: 614px) {
+    .smrMo_PaymentContainer {
+        position: relative;
+    }
+
+    .smrMo_paymentDetailMainDiv {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .smrMo_paymentDetailLeftSideContent,
+    .smrMo_paymentDetailRightSideContent {
+        width: 100%;
+    }
+
+    .smrMo_paymentDetailRightSideContent {
+        .smrMo_orderSummary {
+            padding: 15px 0px 15px 2px;
+        }
+    }
+
+    .smrMo_payOnAccountBtn {
+        width: 140px;
+        position: fixed;
+        bottom: 0px;
+        right: 10px;
+    }
+}

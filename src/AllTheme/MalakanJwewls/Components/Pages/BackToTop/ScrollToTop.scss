@@ -1,0 +1,21 @@
+.mala_scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 28px;
+    z-index: 1000;
+  }
+  
+  .scroll-icon-mal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 57px;
+    height: 57px;
+    background-color: #0c1f1a;
+    color: #F6C2B5;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: opacity 0.3s ease-in-out;
+  }
+  

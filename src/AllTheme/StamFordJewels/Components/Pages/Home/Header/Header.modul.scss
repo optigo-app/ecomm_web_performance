@@ -1,0 +1,554 @@
+@import '../../../scss/variable';
+
+.stam_headerMain_div {
+    .stam_Top_header {
+        height: 110px;
+        background-color: $stambackcolor;
+    }
+
+    .stam_Top_header_sub {
+        padding-inline: 0%;
+        display: flex;
+        height: 100%;
+    }
+
+    .stam_Top_header_div1 {
+        width: 60%;
+        display: flex;
+        align-items: center;
+    }
+
+    .stam_Top_header_div2_web {
+        width: 20%;
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+    }
+
+    .stam_logo_header {
+        max-width: 1000px;
+    }
+
+
+    .stam_Top_header_div3 {
+        width: 35%;
+        display: flex;
+        align-items: center;
+    }
+
+    .nav_ul_shop {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        margin: 0px;
+        padding: 0px;
+        gap: 20px;
+    }
+
+    .nav_li_smining_shop:hover {
+        height: 150px;
+        // width: 110px;
+        display: flex;
+        align-items: center;
+    }
+
+
+    .nav_li_smining_Icone {
+        color: black;
+        font-size: $fontSize1;
+        font-weight: 500;
+        position: relative;
+        display: inline-block;
+    }
+
+    .nav_li_smining {
+        color: black;
+        font-size: $fontSize2;
+        font-weight: 500;
+        letter-spacing: 1px;
+        position: relative;
+        display: inline-block;
+        font-family: $primaryFontFamily;
+    }
+
+    .nav_li_smining::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 0%;
+        height: 1px;
+        background-color: white;
+        transition: width 0.3s ease-out;
+    }
+
+    .nav_li_smining:hover::before {
+        width: 100%;
+        left: 0;
+        right: auto;
+        transition: width 0.3s ease-out;
+    }
+
+    .nav_li_smining_Fixed_Icone {
+        color: black;
+        font-size: 13px;
+        font-weight: 500;
+        position: relative;
+        display: inline-block;
+    }
+
+    .nav_li_smining_Fixed {
+        color: black;
+        font-size: $fontSize2;
+        font-weight: 500;
+        letter-spacing: 1px;
+        position: relative;
+        display: inline-block;
+        font-family: $primaryFontFamily;
+    }
+
+    .nav_li_smining_Fixed::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 0%;
+        height: 1px;
+        background-color: #7d7f85;
+        transition: width 0.3s ease-out;
+    }
+
+    .nav_li_smining_Fixed:hover::before {
+        width: 100%;
+        left: 0;
+        right: auto;
+        transition: width 0.3s ease-out;
+    }
+
+    .stam_logo_header_Fixed {
+        object-fit: contain;
+        max-width: 500px;
+    }
+
+    .stam_Top_Header_fixed_main {
+        width: 100%;
+        background-color: $stambackcolor;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        transform: translateY(-300px);
+        height: 110px;
+    }
+
+    .stam_Top_Header_fixed_main.fixed {
+        position: fixed;
+        top: 0;
+        box-shadow: 0 2px 5px rgba(20, 19, 19, 0.1);
+        z-index: 1000;
+        transform: translateY(0px);
+        transition: all 0.7s ease;
+        height: 110px;
+    }
+
+    .stam_A_link {
+        text-decoration: none;
+        color: black;
+    }
+
+    .stam_A_linkFixed {
+        text-decoration: none;
+        color: black;
+    }
+
+    /// open dropdownList 
+    .shop-dropdown {
+        height: auto;
+        width: 100%;
+        position: absolute;
+        background: #fff;
+        top: 72px;
+        left: 0;
+        display: none;
+        transition: all 0.5s ease;
+        box-shadow: 0 0 25px 0 rgba(200, 200, 200, .5);
+    }
+
+    .shop-dropdown.open {
+        display: block;
+        position: absolute;
+        z-index: 111111;
+        width: 88%;
+        margin-left: 5.7%;
+        z-index: 9999;
+        // margin-left: 6%;
+        margin-top: 37px;
+        transition: all 0.5s ease;
+    }
+
+    .shop-dropdown.open.fixed {
+        position: fixed;
+        // top: 50px;
+        box-shadow: 0 2px 5px rgba(20, 19, 19, 0.1);
+        z-index: 1000;
+        transform: translateY(0px);
+        transition: all 0.4s ease;
+        height: 60px;
+    }
+
+    .muilistMenutext {
+        font-size: 15px !important;
+        font-weight: 600;
+        margin: 5px 5px 5px 0px;
+        text-decoration: underline;
+    }
+
+    .stam_menuSubTitle {
+        font-size: 13px;
+        text-decoration: none;
+        color: #9b978f;
+        // color: rgb(192 187 184);
+    }
+
+    .muilist2ndSubMenutext {
+        font-size: 12px;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    .muilist2ndSubMenutext:hover {
+        color: black;
+
+    }
+
+    .stam_underline_button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        border: 1px solid lightgray;
+        width: 80px;
+        height: 25px;
+        margin-top: 15px;
+        font-size: 13px;
+    }
+
+    .stam_listMain {
+        display: flex;
+        flex-flow: column wrap;
+        height: 350px;
+        width: max-content;
+        margin-right: 20px !important;
+    }
+
+
+
+    .srm_MobileSiderBarMain {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 150%;
+        background-color: rgba(192, 187, 177, 1.8);
+        z-index: 999999999999;
+        transition: all 0.9s ease-in-out;
+    }
+
+
+    //search box styling......
+    .stam_smlingSearchoverlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 150%;
+        background-color: rgba(0, 0, 0, 0.40);
+        display: flex;
+        z-index: 999;
+    }
+
+    .stam_smlingTopSerachOver {
+        height: 70px;
+        background-color: white;
+        width: 100%;
+        margin: 10px 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .stam_serachinputBoxOverly {
+        width: 95%;
+        height: 50px;
+        border: none;
+        outline: none;
+    }
+
+
+
+    .stam_smlingTopSerachOver-Fixed {
+        height: 60px;
+        background-color: white;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .stam_smlingSearchoverlayNew {
+        position: relative;
+        transform: translateY(-200px);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 150%;
+        background-color: rgba(0, 0, 0, 0.40);
+        display: flex;
+        z-index: 999;
+    }
+
+    .stam_smlingSearchoverlayNew.fixed {
+        position: fixed;
+        top: 0;
+        left: 0;
+        box-shadow: 0 2px 5px rgba(20, 19, 19, 0.1);
+        z-index: 1000;
+        transform: translateY(0px);
+        transition: all 0.4s ease;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.40);
+        display: flex;
+        transform: translateY(0px);
+        transition: all 0.4s ease;
+    }
+
+    .Smining-Top-Header-fixed-main.fixed.searchoverly {
+        z-index: -500 !important;
+    }
+
+    .srm_MobileSiderBarMain::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    .stam_showDropOptionMainDiv {
+        overflow: auto;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .stam_showDropOptionMainDiv::-webkit-scrollbar {
+        // display: none!important;
+        height: 10px !important;
+    }
+
+    .badgeColor .MuiBadge-badge {
+        background-color: #c0bbb1 !important;
+    }
+
+    .badgeColorFix .MuiBadge-badge {
+        background-color: white !important;
+        color: #c0bbb1 !important;
+        margin-left: 10px !important;
+
+    }
+
+    .stam_mobile_viewAllBtn {
+        border: none;
+        background-color: transparent;
+        color: white;
+        text-decoration: underline;
+        font-size: 15px;
+    }
+
+    .stam_mobile_subMenu {
+        margin: 0px 0px 0px 15px;
+        padding-block: 5px;
+        color: #f6f6f6;
+
+    }
+
+    .stam_headerOptionSingleDiv {
+        width: max-content;
+    }
+
+    .mobileSideBarSearch::placeholder {
+        color: white;
+    }
+
+    @media screen and (max-width:1650px) {
+        .stam_headerOptionSingleDiv {
+            min-width: 250px !important;
+        }
+    }
+
+    @media screen and (max-width:1500px) {
+        .stam_headerOptionSingleDiv {
+            min-width: 200px !important;
+        }
+
+        .nav_li_smining {
+            letter-spacing: 0px !important;
+        }
+
+    }
+
+    @media screen and (max-width:1390px) {
+        .nav_li_smining {
+            font-size: 12px !important;
+        }
+
+        .nav_li_smining_Fixed {
+            font-size: 12px !important;
+        }
+    }
+
+    @media screen and (min-width:1201px) {
+
+        .nav_ul_shop_menu_Mobile {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width:1200px) {
+
+        .stam_Top_header {
+            height: 80px !important;
+        }
+
+        .stam_Top_Header_fixed_main.fixed {
+            height: 80px !important;
+        }
+
+        .stam_Top_header_div1 {
+            width: 0% !important;
+        }
+
+        .stam_Top_header_div2_web {
+            width: 50% !important;
+        }
+
+        .stam_Top_header_div2_mobile {
+            width: 30% !important;
+            display: flex;
+            align-items: center;
+        }
+
+        .stam_Top_header_div3 {
+            width: 50% !important;
+
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 15px;
+
+            @media (max-width: 768px) {
+                width: 100% !important;
+            }
+        }
+
+        .stam_mobileHeader_top_div1 {
+            width: 33.33%;
+        }
+
+        .stam_mobileHeader_top_div2 {
+            width: 33.33%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stam_mobileHeader_top_div3 {
+            width: 33.33%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+
+
+        .muilistMenutext {
+            text-decoration: none;
+        }
+
+        .srm_MobileSiderBarMain {
+            height: 100%;
+            width: 100%;
+            overflow: scroll;
+        }
+
+        .nav_li_smining_shop {
+            display: none;
+        }
+
+        .nav_li_smining_Mobile {
+            display: none;
+        }
+
+        .nav_ul_shop_menu_Mobile {
+            padding: 0px;
+            margin: 0px !important;
+        }
+
+        .stam_menuStaicMobile {
+            margin: 0px;
+            color: white;
+            padding: 5px 0px 5px 15px;
+        }
+
+        .stam_menuStaicMobilePage {
+            margin: 0px;
+            border-bottom: 1px solid white;
+            color: white;
+            padding: 5px 0px 5px 20px;
+        }
+
+        .stam_menuStaicMobilePageLink {
+            margin: 0px;
+            color: white;
+            font-weight: 500;
+            padding: 5px 0px 5px 20px;
+        }
+
+        .stam_ListMenuSiderMobile {
+            margin-top: 0px !important;
+        }
+
+
+
+    }
+
+
+
+
+    @media screen and (min-width:426px) {
+        .stam_Top_header_div2_mobile {
+            display: none !important;
+        }
+
+        .stam_mobileHeader_top_div2_mobile {
+            display: none !important;
+        }
+
+        .stam_mobileHeader_top_div2_mobile {
+            display: none !important;
+        }
+    }
+
+    @media screen and (max-width: 425px) {
+        .stam_Top_header_div2_web {
+            display: none !important;
+        }
+
+        .stam_mobileHeader_top_div2_web {
+            display: none !important;
+        }
+
+        .stam_mobileHeader_top_div2_web {
+            display: none !important;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .stam_mobileHideIcone {
+            display: none !important;
+        }
+    }
+}

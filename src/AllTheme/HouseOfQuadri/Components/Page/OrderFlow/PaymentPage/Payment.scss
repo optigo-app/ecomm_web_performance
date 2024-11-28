@@ -1,0 +1,230 @@
+@import "../../../scss/variable.scss";
+
+.sl {
+  position: fixed;
+  bottom: 0;
+  z-index: 88;
+  width: 100%;
+  background: #fff;
+  .skeleton1 {
+    width: 100%;
+    height: 95px;
+  }
+}
+
+.hoqMo_paymentMainDiv {
+  background-color: white;
+  font-family: $fontDmSans;
+  position: relative;
+  
+  .SmiCartListTitle {
+    margin-left: 30px;
+    margin-top: 25px;
+    box-shadow: none;
+  }
+}
+
+.hoqMo_paymentSecondMainDiv {
+  margin-inline: 0%;
+  background-color: #fff;
+  position: relative;
+  box-shadow: none;
+  // padding-bottom: 30px;
+}
+
+.hoqMo_PaymentContainer {
+  padding: 15px;
+}
+
+.hoqMo_paymentDetailMainDiv {
+  display: flex;
+  justify-content: space-around;
+  color: $titleColor;
+  background-color: #fcfcfc !important;
+  padding: 10px;
+
+  .skeleton-payment {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 10px;
+    @media screen and (max-width: 614px) {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
+
+.hoqMo_paymenttotalpricesummary {
+  display: flex;
+  justify-content: space-between;
+}
+
+.hoqMo_paymentUserName {
+  font-weight: 600;
+}
+
+.hoqMo_paymentDetailLeftSideContent {
+  width: 50%;
+  padding: 10px 0;
+  .hoqMo_billingAddress {
+    margin-top: 15px;
+  }
+
+  h2 {
+    font-size: $fontSize5;
+  }
+
+  h3 {
+    font-size: $fontSize4;
+  }
+
+  p {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: $fontSize1;
+  }
+}
+
+.hoqMo_paymentDetailRightSideContent {
+  width: 20%;
+  .hoqMo_orderSummary {
+    background-color: rgb(245, 244, 244);
+    padding: 15px;
+  }
+
+  .hoqMo_Divider {
+    color: $titleColor !important;
+  }
+
+  h3 {
+    font-size: $fontSize4;
+  }
+
+  p {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .shippingAddress {
+    p {
+      font-size: $fontSize1;
+    }
+
+    .hoqMo_addrChangesBtn {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .hoqMo_changeAddr {
+        background: #f0f0f0 !important;
+        color: $titleColor !important;
+        font-size: $fontSize1 !important;
+        text-transform: capitalize !important;
+      }
+    }
+  }
+}
+
+.hoq_paymenttotalpricesummary {
+  font-size: $fontSize1;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 5px 0;
+}
+
+.hoqMo_paymentButtonDiv {
+  // text-align: center;
+  // display: flex;
+  // position: fixed;
+  // bottom: 60px;
+  // width: 100%;
+
+  .hoqMo_payOnAccountBtn {
+    // position: fixed;
+    // bottom: 0px;
+    // left: 0;
+    // right: 0;
+    width: 100%;
+    height: 45px;
+    // width: 180px;
+    font-size: $fontSize3;
+    color: #fff !important;
+    font-weight: 400 !important;
+    background-color: #c20000 !important;
+    margin-top: 15px;
+    border: none;
+    border-radius: 2px;
+    border-radius: none;
+    cursor: pointer;
+    text-transform: capitalize !important;
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+
+    &:hover {
+      color: $btn1hoverFontColor;
+      background-color: $btn1ActivebgColor;
+    }
+  }
+}
+
+.loader {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #7d7f85;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 614px) {
+  .hoqMo_PaymentContainer {
+    padding-bottom: 100px;
+    position: relative;
+  }
+
+  .hoqMo_paymentDetailMainDiv {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hoqMo_paymentDetailLeftSideContent,
+  .hoqMo_paymentDetailRightSideContent {
+    width: 100%;
+  }
+
+  .hoqMo_paymentDetailRightSideContent {
+    .hoqMo_orderSummary {
+      padding: 10px;
+    }
+  }
+
+  .hoqMo_payOnAccountBtn {
+    width: 100%;
+    position: fixed;
+    background-color: #c20000;
+    z-index: 888;
+    padding: 32px 0;
+    bottom: 0px;
+    right: 0;
+    left: 0;
+    font-weight: 800 !important;
+    font-size: 18px !important;
+  }
+}

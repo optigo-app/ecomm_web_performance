@@ -1,0 +1,828 @@
+@import "../../../scss/variable";
+
+@mixin Truncate($lines: 1, $font-size: 13px, $font-weight: 400 ,$height : auto) {
+  font-size: $font-size;
+  font-weight: $font-weight;
+  width: 100%;
+  height:$height ;
+  display: -webkit-box;
+  text-align: center;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+
+.mala_bodyContain {
+  height: 100%;
+  width: 100%;
+  margin-top: 220px;
+  background-color: #17372f;
+  color: white;
+  font-family: $rown !important;
+
+  @media screen and (max-width: 1200px) {
+    margin-top: 80px;
+    padding-top: 36px;
+  }
+
+  .mala_outerContain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // flex-direction: column;
+    position: sticky;
+    top: 0;
+  }
+
+
+  .mala_whiteInnerContain {
+    background-color: #fff;
+    width: 100%;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+
+  }
+
+  .mala_prodSorting {
+    display: flex;
+    //   justify-content: flex-end;
+    font-family: $primaryFontFamily;
+    width: 100%;
+  }
+
+  .mala_mobile_prodSorting {
+    display: flex;
+    justify-content: flex-end;
+    font-family: $primaryFontFamily;
+    width: 100%;
+    padding: 12px 10px 12px 0px;
+  }
+
+  .empty_sorting_div {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 100% !important;
+    padding: 0 18%;
+
+  }
+
+  .mala_main_sorting_div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: $primaryFontFamily;
+    width: 98.3% !important;
+    margin: 0px 0px 10px 0px !important;
+    // margin:15px 70px 0px 15px
+  }
+
+  .container {
+    display: flex;
+    align-items: baseline;
+    border-bottom: 1px solid $primaryBorderColor;
+    width: auto;
+    //   margin-right: 65px;
+    //   margin-top: 10px;
+  }
+
+  .label {
+    font-size: 12px;
+    color: $primaryfontcolor;
+  }
+
+  .select {
+    width: auto;
+    min-width: 120px;
+    height: 27px;
+    border: none;
+    outline: none;
+    font-size: 12px;
+    color: $primaryfontcolor;
+    display: flex;
+    justify-content: center;
+    text-transform: uppercase;
+  }
+
+  .option {
+    font-size: 12px;
+    color: $primaryfontcolor;
+    display: flex;
+    justify-content: center;
+  }
+
+  // main portion of product and filter
+
+  .mala_mainPortion {
+    width: 100%;
+    display: flex;
+  }
+
+  .mala_filter_portion {
+    // top: 25px !important;
+    // position: sticky !important;
+    // width: 25%;
+    font-family: $primaryFontFamily;
+    height: 100%;
+  }
+
+  .mala_backtotop {
+    color: white;
+    font-family: $primaryFontFamily;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+    background-color: #c0bbb1;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  // .mala_filterDrawer .MuiPaper-root{
+  //   // width: 400px !important;
+  //   display: flex;
+  //   flex-direction: column-reverse;
+  // }
+
+  .mala_mobile_filter_portion {
+    min-width: 300px;
+    font-family: $primaryFontFamily;
+  }
+
+  .mala_filter_portion_outter {
+    // padding: 6% 18%;
+    padding: 6% 12% 6% 18% !important;
+  }
+
+  .mala_mobile_filter_portion_outter {
+    padding: 6% 6%;
+  }
+
+  .mala_filter_text {
+    font-weight: bold;
+    font-family: $primaryFontFamily;
+    color: $primaryfontcolor;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .mala_productList {
+    width: 92%;
+    display: flex;
+    align-items: baseline;
+    margin: 20px auto;
+    flex-direction: column;
+    // position: sticky;
+    // top: 50px;
+    // overflow-y: scroll;
+    // height: 100vh;
+    // -webkit-overflow-scrolling: touch;
+    // -ms-overflow-style: none;
+    // scrollbar-width: none;
+  }
+
+  .mala_productList::-webkit-scrollbar {
+    display: none;
+    /* Hide scrollbar for Webkit browsers */
+  }
+
+  .mala_outer_portion {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .mala_breadcums_port {
+    font-family: $primaryFontFamily;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    cursor: pointer;
+    color: gray;
+  }
+
+  .mala_inner_portion {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18%, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+    margin-bottom: 2rem;
+
+    @media screen and (max-width:1288px) {
+      grid-template-columns: repeat(auto-fill, minmax(24%, 1fr));
+    }
+
+    @media screen and (max-width:988px) {
+      grid-template-columns: repeat(auto-fill, minmax(28%, 1fr));
+    }
+
+    @media screen and (max-width:620px) {
+      grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+    }
+
+    @media screen and (max-width:300px) {
+      grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    }
+  }
+
+  .mala_productCard {
+    width: 100% !important;
+    text-align: center;
+    margin: 2px;
+    color: $primaryfontcolor;
+    position: relative;
+    z-index: 0;
+    font-family: $primaryFontFamily;
+    border-radius: 5px;
+  }
+
+  .mala_productCard:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  }
+
+  .cart_and_wishlist_icon {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 1111111;
+  }
+
+  .mala_productListCard_Image {
+    cursor: pointer;
+    object-fit: scale-down;
+    background-position: 50%;
+    background-size: cover;
+    height: 412px;
+    min-height: 412px;
+    width: 100%;
+  }
+
+  .mala_prod_card_info {
+    height: 90px;
+
+    @media screen and (max-width:768px) {
+      height: 100px;
+    }
+
+    margin-bottom: 10px;
+
+    .fmg_mal1_prodBtn {
+      background: #094234e3;
+      color: white !important;
+      font-weight: 500;
+      padding: 6px 0;
+
+      @media screen and (max-width:500px) {
+        padding: 5px 0;
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      &:hover {
+        background: #17372f;
+      }
+
+      .fmg_mal1_prodBtn_proBtn_text {
+        color: white !important;
+      }
+    }
+  }
+
+  .mala_prod_Title {
+    // padding-bottom: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: $primaryFontFamily;
+    flex-direction: row-reverse;
+  }
+
+  .titleline_malakan{
+    @include  Truncate(1);
+    padding: 0 5px;
+    
+  }
+
+  .smr1_prod_title_with_width {
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 400;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0 5px;
+    min-height: 19.5px;
+    width: 300px !important;
+    margin: 3px;
+    // max-height: 3em;
+    /* Adjust as needed */
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    letter-spacing: 0.5px;
+  }
+
+  .smr1_prod_title_with_no_width {
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 400;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0 5px;
+    min-height: 19.5px;
+    /* width:300px; */
+    // margin: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.5px;
+  }
+
+  .mala_prod_designno {
+    font-size: 14px;
+    font-weight: 400;
+    padding: 0px 5px;
+  }
+
+  .mala_prod_Allwt {
+    display: flex;
+    // flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    // padding-inline: 30px;
+    gap: 3px;
+    font-family: $primaryFontFamily;
+  }
+
+  .mala_por {
+    display: flex;
+    // align-items: center;
+    flex-direction: column;
+  }
+
+  .mala_prod_wt {
+    display: flex;
+    gap: 2px;
+  }
+
+  .mala_main_keys_res {
+    font-size: 9px;
+
+    @media screen and (max-width: 1620px) {
+      font-size: 8px;
+    }
+  }
+
+  .mala_main_val_res {
+    font-size: 9px;
+    font-weight: 400;
+
+    @media screen and (max-width: 1620px) {
+      font-size: 8px;
+    }
+  }
+
+  .mala_main_keys {
+    font-size: 11px;
+  }
+
+  .mala_main_val {
+    font-size: 11px;
+    font-weight: 400;
+  }
+
+  .mala_prod_mtcolr_price {
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    gap: 3px;
+    font-family: $primaryFontFamily;
+    padding: 2px;
+    align-items: baseline;
+  }
+
+  .mala_price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $primaryfontcolor;
+    gap: 2px;
+    font-size: 14px;
+    // font-weight: 600;
+
+    // .mala_currencyFont{
+
+    // }
+    // .mala_pricePort{
+
+    // }
+  }
+
+  .mala_mui_checkbox_label {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: row-reverse;
+    font-family: $primaryFontFamily;
+  }
+
+  .MuiTypography-root.MuiTypography-body1.MuiFormControlLabel-label.MuiTypography-root {
+    font-family: $primaryFontFamily;
+    color: #818181;
+    // color: $primaryfontcolor;
+    // font-size: 12px;
+  }
+
+  .mala_prod_datanotfound {
+    font-family: $primaryFontFamilyMedium;
+    color: $primaryfontcolor;
+    font-size: 28px;
+  }
+
+  .filtercategoryLable {
+    color: $primaryfontcolor;
+    border-radius: 0;
+  }
+
+  .mala_metal_custom {
+    border-bottom: 1px solid #e1e1e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mala_dia_custom {
+    border-bottom: 1px solid #e1e1e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  .mala_cs_custom {
+    border-bottom: 1px solid #e1e1e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+  .smrWeb_app_product_label {
+    position: absolute;
+    top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 14px;
+    width: 60px;
+    left: 5px;
+  }
+
+  .smrWeb_app_instock {
+    background-color: #2cb32c;
+    // background-color: #00d300;
+    color: white;
+    text-transform: uppercase;
+    width: 70px;
+    font-size: 10px;
+  }
+
+  .smrWeb_app_bestSeller {
+    // padding: 0px 5px;
+    /* background-color: white !important; */
+    /* border: 1px solid red !important; */
+    /* border-radius: 50px; */
+    /* color: red !important; */
+    // margin-left: 5px;
+    background-color: #8e5bff;
+    // background-color: #ff5100;
+    color: white;
+    text-transform: uppercase;
+    width: 70px;
+    font-size: 10px;
+  }
+
+  .mala_intrending {
+    // background-color: khaki;
+    // color: black;
+    padding: 0px 5px;
+    background-color: white !important;
+    padding: 0px 5px;
+    border: 1px solid #ff8c00 !important;
+    border-radius: 50px;
+    color: #ff8c00 !important;
+    margin-left: 5px;
+  }
+
+  .mala_app_newarrival {
+    background-color: #2e2eff;
+    // background-color: darkblue;
+    color: white;
+    text-transform: uppercase;
+    width: 70px;
+    font-size: 10px;
+  }
+
+  .smrWeb_app_newarrival {
+    background-color: #2e2eff;
+    // background-color: darkblue;
+    color: white;
+    text-transform: uppercase;
+    width: 70px;
+    font-size: 10px;
+  }
+
+
+  .smrWeb_app_intrending {
+    // padding: 0px 5px;
+    /* background-color: white !important; */
+    /* border: 1px solid red !important; */
+    /* border-radius: 50px; */
+    /* color: red !important; */
+    // margin-left: 5px;
+    background-color: #c90039;
+    // background-color: darkorange;
+    color: white;
+    text-transform: uppercase;
+    width: 70px;
+    font-size: 10px;
+  }
+
+  // .mala_shorcutCustomization{
+  //     border:1px solid #d9d9d9;
+  //     // margin-inline:5%;
+  //     width: 98.7%;
+  // }
+
+  .mala_ImgandVideoContainer {
+    height: 412px;
+    min-height: 412px;
+  }
+
+  .mala_productCard_video {
+    object-fit: contain;
+    height: 412px;
+    min-height: 412px;
+    width: 100%;
+    // min-width:399px;
+  }
+
+  // .mala_backtotop{
+  //   width:100%;
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  //   color: black;
+  //   font-family: $primaryFontFamily;
+  //   height: 13vh;
+  // }
+
+  .pSkelton {
+    background-color: #f6f6f6 !important;
+  }
+
+  @media screen and (max-width: 1441px) {
+    .mala_filter_portion_outter {
+      // padding: 6% 14%;
+      padding: 6% 12% 6% 14%;
+    }
+
+    .empty_sorting_div {
+      padding: 0 14%;
+    }
+
+    .mala_ImgandVideoContainer {
+      height: 350px;
+      min-height: 350px;
+    }
+
+    .mala_productListCard_Image {
+      object-fit: scale-down;
+      height: 350px;
+      min-height: 350px;
+    }
+
+    .mala_productCard_video {
+      height: 350px;
+      min-height: 350px;
+    }
+  }
+
+  @media screen and (max-width: 1200px) {
+    .mala_filter_portion_outter {
+      display: none;
+    }
+
+    .mala_filter_portion {
+      width: 0
+    }
+
+    .mala_productList {
+      width: 100%;
+      margin: 0px 18px 0px 18px;
+      // display: flex;
+      // justify-content: center;
+      // align-items: center;
+    }
+
+
+    // .mala_prodSorting{
+    //   display: none;
+    // }
+
+    .mala_ImgandVideoContainer {
+      height: 312px;
+      min-height: 312px;
+    }
+
+    .mala_productListCard_Image {
+      object-fit: scale-down;
+      height: 312px;
+      min-height: 312px;
+    }
+
+    .mala_productCard_video {
+      height: 312px;
+      min-height: 312px;
+    }
+
+    .mala_main_sorting_div {
+      display: none !important;
+    }
+
+    .empty_sorting_div {
+      display: none !important;
+    }
+  }
+
+
+  @media screen and (max-width: 1042px) {
+    .smr1_prod_title_with_width {
+      font-size: 12px;
+    }
+
+    .mala_product_label {
+      font-size: 12px;
+    }
+
+    .mala_price {
+      font-size: 12px;
+    }
+
+    .mala_prod_mtcolr_price {
+      font-size: 12px;
+    }
+
+    .mala_prod_designno {
+      font-size: 12px !important;
+    }
+
+    .smr1_prod_title_with_no_width {
+      font-size: 12px;
+    }
+
+    .mala_main_keys {
+      font-size: 11px !important;
+    }
+
+    .mala_main_val {
+      font-size: 11px !important;
+    }
+  }
+
+
+  @media screen and (max-width: 768px) {
+    .mala_productCard {
+      width: 49%;
+    }
+
+
+  }
+
+  @media screen and (max-width: 650px) {
+    .mala_productListCard_Image {
+      object-fit: scale-down;
+      height: 250px;
+      min-height: 250px;
+    }
+
+
+    .mala_ImgandVideoContainer {
+      height: 250px;
+      min-height: 250px;
+    }
+
+    .mala_productCard_video {
+      height: 250px;
+      min-height: 250px;
+    }
+
+    .smr1_prod_title_with_width {
+      font-size: 10px;
+    }
+
+    .mala_product_label {
+      font-size: 10px;
+    }
+
+    .mala_price {
+      font-size: 10px;
+    }
+
+    .mala_prod_mtcolr_price {
+      font-size: 10px;
+    }
+
+    .mala_prod_designno {
+      font-size: 10px !important;
+    }
+
+    .smr1_prod_title_with_no_width {
+      font-size: 10px;
+    }
+
+    .mala_main_keys {
+      font-size: 9px !important;
+    }
+
+    .mala_main_val {
+      font-size: 9px !important;
+    }
+
+  }
+
+  @media screen and (max-width:560px) {
+    .smr1_prod_title_with_width {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width:1860px) {
+    .mala_main_keys {
+      font-size: 10px !important;
+    }
+
+    .mala_main_val {
+      font-size: 10px !important;
+    }
+  }
+
+  @media screen and (max-width:1674px) {
+    .mala_prod_Allwt {
+      padding-inline: 0 !important;
+    }
+  }
+
+  @media screen and (max-width:590px) {
+    .mala_prod_Allwt {
+      height: 30px;
+    }
+
+    .mala_main_keys {
+      font-size: 9px !important;
+    }
+
+    .mala_main_val {
+      font-size: 9px !important;
+    }
+  }
+
+  @media screen and (max-width:425px) {
+    .mala_productListCard_Image {
+      object-fit: scale-down;
+      height: 200px;
+      min-height: 200px;
+    }
+
+    .mala_productCard_video {
+      height: 200px;
+      min-height: 200px;
+    }
+
+    .mala_ImgandVideoContainer {
+      height: 200px;
+      min-height: 200px;
+    }
+
+    .mala_productList {
+      width: 100%;
+      margin: 0px 0px 0px 0px !important;
+    }
+  }
+
+  @media screen and (max-width:900px) {
+    .mala_productList {
+      width: 100%;
+      margin: 0px 10px 0px 10px;
+    }
+  }
+}

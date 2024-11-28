@@ -1,0 +1,60 @@
+.smr_Expert_FooterTopMain {
+
+    background-color: #c0bbb1;
+
+    .container {
+        margin-inline: 6%;
+        padding-inline: 4%;
+        padding-top: 110px;
+        background-color: white;
+    }
+
+    .container2 {
+        margin-inline: 15%;
+    }
+
+    .smr_Expert_FooterTopMain_sub {
+        margin-inline: 6%;
+        background-color: white;
+    }
+
+    @media screen and (max-width: 1200px) {
+        .smr_Expert_FooterTopMain_sub {
+            margin-inline: 2%;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+
+        .FooterTopMain {
+            padding-top: 40px !important;
+        }
+
+        .TitleMainFoterExpert {
+            font-size: 25px !important;
+        }
+
+        .text_center {
+            padding-block: 0px !important;
+        }
+
+        .container2 {
+            margin-inline: 2% !important;
+        }
+
+        .daimondsEveryAboutDiv {
+            margin-inline: 1% !important;
+        }
+
+        .daimondsEveryAbout {
+            margin-inline: 2% !important;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        .smr_Expert_FooterTopMain_sub {
+            margin-inline: 1%;
+            padding-inline: 10px;
+        }
+    }
+}

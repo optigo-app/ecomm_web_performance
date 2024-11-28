@@ -1,0 +1,181 @@
+@import '../../../scss/elvee_modules.scss';
+
+.el_ContinueEmailMain {
+
+    font-family: $fontSansSerif !important;
+
+    .css-1wc848c-MuiFormHelperText-root {
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+
+    .el_continu_subDiv {
+        background-color: white;
+        width: 30%;
+        padding-bottom: 3rem;
+    }
+
+    .el_continu_div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 6% 0px 6% 0px;
+    }
+
+    .smling-forgot-main-Color {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 6% 0px 6% 0px;
+    }
+
+    .labGrowForgot {
+        width: 28rem;
+        margin: 10px;
+        font-family: $fontSansSerif !important;
+    }
+
+    .elv_cancel_mb_btn {
+        font-family: $fontSansSerif !important;
+        margin-top: 10px;
+        color: gray;
+        margin-bottom: 50px;
+        font-weight: 500;
+    }
+
+    .submitBtnForgot {
+        height: 40px;
+        width: 28rem;
+        border: 1px solid black;
+        margin-top: 10px;
+        font-size: 14px;
+        color: #424242;
+        font-weight: 600 !important;
+        letter-spacing: 1px;
+        transition: all 0.5s ease;
+        // font-family: 'PT Sans', sans-serif;
+        font-family: $fontSansSerif !important;
+        cursor: pointer;
+        background-color: white;
+    }
+    .submitBtnForgot:hover {
+        background-color: rgba(66, 66, 66, 0.05);
+    }
+
+    .cancleForgot {
+        color: #7d7f85;
+        font-size: 12px;
+        margin-top: 25px;
+        font-weight: 500;
+        letter-spacing: 1px;
+
+        position: relative;
+        text-decoration: none;
+        transition: color 0.3s;
+        cursor: pointer;
+    }
+
+    .cancleForgot::before {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: 0;
+        left: 0;
+        background-color: #000;
+        transition: width 0.3s ease;
+    }
+
+    .cancleForgot:hover::before {
+        width: 100%;
+    }
+
+    .cancleBtn {
+        margin-top: 10px;
+    }
+
+    @media screen and (max-width: 1500px) {
+        .el_continu_subDiv {
+            width: 50%;
+        }
+    }
+
+    @media screen and (max-width: 950px) {
+        .AuthScreenMainTitle {
+            font-size: 25px !important;
+            padding-bottom: 50px !important;
+        }
+
+        .AuthScreenSubTitle {
+            font-size: 12px !important;
+            margin-inline: 15%;
+        }
+
+        .el_continu_subDiv {
+            margin-inline: 2% !important;
+        }
+
+
+    }
+
+    @media screen and (max-width: 1200px) {
+
+        /* .smling-forgot-main-Color{
+        padding-top: 20%;
+    } */
+        .el_continu_subDiv {
+            width: 70%;
+        }
+    }
+
+    @media screen and (max-width: 950px) {
+        .AuthScreenMainTitle {
+            font-size: 25px !important;
+            padding-bottom: 50px !important;
+        }
+
+        .AuthScreenSubTitle {
+            font-size: 12px !important;
+            margin-inline: 15%;
+        }
+
+        .el_continu_subDiv {
+            margin-inline: 2% !important;
+        }
+
+
+    }
+
+    @media screen and (max-width: 700px) {
+        .labGrowForgot {
+            width: 95%;
+        }
+
+
+        .submitBtnForgot {
+            width: 95% !important;
+            height: 50px !important;
+
+        }
+
+        /* .smling-forgot-main-Color {
+        padding-top: 30%;
+    } */
+
+        .el_continu_subDiv {
+            width: 90%;
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+
+        .submitBtnForgot {
+            width: 95%;
+            height: 40px !important;
+        }
+
+        .AuthScreenSubTitle {
+            margin-top: -65px !important;
+        }
+    }
+}

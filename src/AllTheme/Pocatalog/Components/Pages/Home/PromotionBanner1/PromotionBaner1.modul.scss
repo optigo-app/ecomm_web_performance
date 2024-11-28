@@ -1,0 +1,85 @@
+.FestiveMainImage {
+    position: relative;
+}
+
+.FestiveBannerImage {
+    width: 100%;
+}
+
+.festiveBox {
+    position: absolute;
+    top: 50%;
+    left: 80%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 20px;
+}
+
+.DiscoverBtn {
+    margin-top: 30px;
+    height: 60px;
+    width: 200px;
+    background-color: gray;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+.DiscoverBtn:hover {
+    border: 1px solid gray;
+    color: gray;
+    background-color: transparent;
+}
+
+@media screen and (max-width: 1024px) {
+
+    .smr_promotion1 {
+        min-height: auto !important;
+    }
+
+    .FestiveMainImage {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .festiveBox {
+        position: static !important;
+        background-color: #c0bbb1;
+        top: 0;
+        left: 0;
+        transform: translate(0%, 0%) !important;
+        text-align: center;
+    }
+
+    .smilingFestiMainTitle1 {
+        font-size: 11px !important;
+        font-weight: 500;
+        margin: 0px;
+        color: white !important;
+    }
+
+    .festiveBox {
+        padding-top: 5px !important;
+    }
+
+
+    .smilingFestiMainTitle2 {
+        font-size: 20px !important;
+        color: white !important;
+
+    }
+
+    .smilingFestiMainTitle3 {
+        color: white !important;
+    }
+
+    .DiscoverBtn {
+        width: 200px !important;
+        height: 50px !important;
+        color: white;
+        background-color: gray;
+        font-weight: 500;
+        font-size: 13px;
+        margin-top: 10px !important;
+    }
+}

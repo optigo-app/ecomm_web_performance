@@ -1,0 +1,135 @@
+.hem_LoginOptionMain_div{
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+    .hem_LoginOption_div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #8F8F8F;
+    }
+
+    .hem_LoginOption_layout{
+        max-height: 76vh;
+        margin: 8px;
+        width: 400px;
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 30px;
+        overflow: auto;
+        position: relative;
+    }
+
+    .hem_LoginOption_close_btn{
+        position: absolute;
+        top: -5px;
+        right: 0px;
+        padding: 7px;
+        background: #F0F0F0;
+        border: none;
+        cursor: pointer;
+    }
+
+    .hem_LoginOption_login{
+        font-size: 22px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .hem_LoginOption_login_mess{
+        font-size: 15px;
+        font-weight: normal;
+        margin-bottom: 20px;
+    }
+
+    .hem_LoginOption_Continue_with_email{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 2px solid transparent;
+        border-radius: 4px;
+        background-color: #40576d12;
+        color: #0d1216;
+        position: relative;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 17px;
+    }
+
+    .hem_LoginOption_Continue_with_email:hover{
+        background-color: lightgray;
+    }
+
+    .hem_LoginOption_Email_svg{
+        position: absolute;
+        left: 10px;
+    }
+
+    .hem_LoginOption_Continue_with_phone{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 2px solid transparent;
+        border-radius: 4px;
+        background-color: #40576d12;
+        color: #0d1216;
+        position: relative;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 17px;
+    }
+
+    .hem_LoginOption_Continue_with_phone:hover{
+        background-color: lightgray;
+    }
+
+    .hem_LoginOption_phone_svg{
+        position: absolute;
+        left: 10px;
+    }
+
+    .hem_LoginOption_terms{
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .hem_LoginOption_terms_link{
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    
+
+    @media screen and (max-width: 350px) {
+        .hem_LoginOption_layout{
+            max-height: 76vh;
+            width: 400px;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 10px;
+            overflow: auto;
+        }
+
+        .hem_LoginOption_login {
+            font-size: 18px;
+        }
+
+        .hem_LoginOption_login_mess{
+            font-size: 13px;
+        }
+        .hem_LoginOption_Continue_with_email{
+            font-size: 14px;
+        }
+        .hem_LoginOption_Continue_with_phone{
+            font-size: 14px;
+        }
+    }
+
+
+}

@@ -1,0 +1,23 @@
+@import "../../../../scss/variable.scss";
+
+.forvery_main_video {
+  .forvery_bg_img {
+    .for_desktop {
+      display: block;
+    }
+    .for_mobile {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .forvery_bg_img {
+      .for_desktop {
+        display: none;
+      }
+      .for_mobile {
+        display: block;
+      }
+    }
+  }
+}

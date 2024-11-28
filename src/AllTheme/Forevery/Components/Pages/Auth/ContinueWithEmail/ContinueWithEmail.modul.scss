@@ -1,0 +1,146 @@
+@import "../../../scss/variable.scss";
+
+.for_continuemail {
+
+  background-color: $backgroundColor;
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .css-1wc848c-MuiFormHelperText-root {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+  }
+
+  .smling-forgot-main {
+    margin-inline: 6%;
+    background-color: white;
+  }
+
+  .for_continuEmailBox {
+    width: 420px;
+    // margin: 10px;
+    background-color: white;
+  }
+
+  .submitBtnForgot {
+    height: 60px;
+    width: 420px;
+    color: white;
+    background-color: black;
+    border: 0;
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 2px;
+    cursor: pointer;
+    letter-spacing: 1;
+    transition: all 0.5s ease;
+    border-radius: 4px;
+  }
+
+  .submitBtnForgot:hover {
+    color: white;
+    border: 1px solid black;
+  }
+
+  .for_cancleForgot {
+    color: #7d7f85;
+    font-size: 12px;
+    margin-top: 25px;
+    font-weight: 500;
+    background-color: white;
+    font-size: 14px;
+    letter-spacing: 1px;
+    border: 1px solid #7d7f85;
+    width: 420px;
+    height: 60px;
+    position: relative;
+    text-decoration: none;
+    transition: all 0.5s ease;
+    cursor: pointer;
+  }
+
+  .for_cancleForgot:hover {
+    background-color: rgba(66, 66, 66, 0.05);
+  }
+
+  .cancleForgot {
+    font-size: 12px;
+    margin-top: 25px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    position: relative;
+    text-decoration: none;
+    transition: color 0.3s;
+    cursor: pointer;
+  }
+
+  .cancleForgot::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: #000;
+    transition: width 0.3s ease;
+  }
+
+  .cancleForgot:hover::before {
+    width: 100%;
+  }
+
+  .cancleBtn {
+    margin-top: 10px;
+  }
+
+  @media screen and (max-width: 950px) {
+    .AuthScreenMainTitle {
+      font-size: 25px !important;
+      padding-bottom: 50px !important;
+    }
+
+    .AuthScreenSubTitle {
+      font-size: 12px !important;
+      margin-inline: 15%;
+    }
+
+    .smling-forgot-main {
+      margin-inline: 2% !important;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    .for_continuEmailBox {
+      width: 90%;
+    }
+
+    .submitBtnForgot {
+      width: 90%;
+      height: 50px !important;
+    }
+
+    .for_cancleForgot {
+      width: 90%;
+      height: 50px !important;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .submitBtnForgot {
+      width: 90%;
+      height: 40px !important;
+    }
+
+    .AuthScreenSubTitle {
+      margin-top: -65px !important;
+    }
+
+    .for_cancleForgot {
+      width: 90%;
+      height: 40px !important;
+    }
+  }
+}

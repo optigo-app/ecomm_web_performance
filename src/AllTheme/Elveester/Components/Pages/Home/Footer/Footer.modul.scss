@@ -1,0 +1,405 @@
+@import '../../../scss/elvee_modules.scss';
+
+.el_footer_main {
+    .ElveFooterMain {
+        color: rgba(29, 50, 88, 0.8) !important;
+        display: flex;
+        border-top: 1px solid black;
+        padding: 35px 35px 15px 35px;
+    }
+
+    .ElveFooter1 {
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .elveBox1Title {
+        font-size: 19px;
+        font-weight: bold;
+        margin: 0px;
+        font-family: $fontSansSerif;
+    }
+
+    .elvBox1TitDesc {
+        margin: 0;
+        max-width: 350px;
+        font-size: 15px;
+        font-family: $fontSansSerif;
+    }
+
+    .eleBox1InputBox {
+        height: 45px;
+        width: 55%;
+        border: none;
+        background-color: transparent;
+        border: 1px solid #ebdcc3;
+        outline: none;
+        padding: 0px 5px;
+        font-family: $fontSansSerif;
+    }
+
+    .elevBox1Btn {
+        height: 45px;
+        width: 90px;
+        border: none;
+        background-color: #ebdcc3;
+        font-weight: 600;
+        font-size: 16px;
+        padding-top: 4px;
+        font-family: $fontSansSerif;
+    }
+
+    .ElveFooter2 {
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        padding-left: 1%;
+    }
+
+    .ElveFooter2_login {
+        width: 20%;
+        padding-left: 1%;
+    }
+
+    .ElveFooter3 {
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        padding-left: 1%;
+    }
+
+    .ElveFooter3_login {
+        width: 20%;
+        padding-left: 1%;
+    }
+
+    .ElveFooter4 {
+        width: 25%;
+        padding-left: 1%;
+    }
+
+    .ElveFooter4_login {
+        width: 20%;
+        padding-left: 1%;
+    }
+
+    .ElevFooterBoxTitle {
+        font-size: 20px;
+        font-weight: bold;
+        font-family: $fontSansSerif;
+    }
+
+    .ElveFooterDesc {
+        font-size: 15px;
+        font-family: $fontSansSerif;
+        cursor: pointer;
+        margin-bottom: 9px;
+        width: fit-content;
+        color: #1d3258cc;
+        text-decoration: none;
+    }
+
+    .ElevBox4Title {
+        font-size: 14px;
+        font-weight: bold;
+        font-family: $fontSansSerif;
+        cursor: pointer;
+    }
+
+    .footerIconMain {
+        display: flex;
+        margin-top: 30px;
+    }
+
+    .ElevFooterDesc {
+        opacity: 0;
+        /* Initially hide the content */
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, opacity 0.3s ease;
+        /* Add transition for max-height and opacity */
+    }
+
+    .ElevFooterDesc .show {
+        opacity: 1;
+        /* Show the content */
+        max-height: 100px;
+        /* Adjust height as needed */
+    }
+
+    .footerSocialIcon {
+        height: 45px;
+        width: 45px;
+        border: 1px solid #e1e1e1;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        margin-inline: 5px;
+    }
+
+    .footerSocialIcon:hover {
+        border-color: #7d7f85;
+    }
+
+    .footerOfficeDesc {
+        font-size: 15px;
+    }
+
+    // .eleBox1InputBox::placeholder {
+    //     padding-left: 10px;
+    // }
+
+    .ElveFooterDesc:hover {
+        text-decoration: underline;
+    }
+
+    .elv_copyrights_div {
+        margin-top: 1rem;
+    }
+
+    .elv_copy_hr {
+        margin-block: 0.5rem;
+    }
+
+    .elv_coprights {
+        max-width: 80rem;
+        margin-inline: auto;
+        text-align: center;
+        margin-block: 0.5rem;
+    }
+
+    .elv_copyrights_text {
+        font-weight: 500;
+        font-size: 14px;
+        font-family: $fontSansSerif;
+    }
+
+    @media screen and (max-width:1500px) {
+
+        .ElevFooterBoxTitle {
+            font-size: 20px;
+        }
+
+        .ElveFooterDesc {
+            font-size: 13px;
+        }
+
+        .elveBox1Title {
+            font-size: 20px;
+        }
+
+        .footerOfficeDesc {
+            font-size: 13px;
+            height: auto;
+        }
+
+        .eleBox1InputBox {
+            width: 60%;
+        }
+    }
+
+    @media (max-width: 1480px) {
+        .ElveFooter2 {
+            width: 25%;
+            padding-left: 2rem;
+        }
+
+        .ElveFooter2_login {
+            width: 20%;
+            padding-left: 2rem;
+        }
+
+        .ElveFooter3 {
+            width: 25%;
+            padding-left: 2rem;
+        }
+
+        .ElveFooter3_login {
+            width: 20%;
+            padding-left: 2rem;
+        }
+
+        .ElveFooter4 {
+            width: 25%;
+            padding-left: 2rem;
+        }
+
+        .ElveFooter4_login {
+            width: 20%;
+            padding-left: 2rem;
+        }
+    }
+
+    @media screen and (max-width: 1400px) {
+
+        .elevBox1Btn {
+            width: 100px;
+            color: black;
+            font-size: 14px;
+        }
+
+        .eleBox1InputBox {
+            border-radius: 0px !important;
+        }
+
+        .ElveFooterMain {
+            padding: 50px 30px 30px 30px !important;
+        }
+    }
+
+    @media (max-width: 1024px) {
+        .ElveFooter2 {
+            width: 25%;
+            padding-left: 2rem;
+        }
+
+        .ElveFooter2_login {
+            width: 20%;
+            padding-left: 2rem;
+        }
+
+        .ElveFooter3 {
+            width: 25%;
+            padding-left: 2rem;
+        }
+
+        .ElveFooter3_login {
+            width: 20%;
+            padding-left: 2rem;
+        }
+
+        .ElveFooter4 {
+            width: 25%;
+            padding-left: 2rem;
+        }
+
+        .ElveFooter4_login {
+            width: 20%;
+            padding-left: 2rem;
+        }
+    }
+
+    @media screen and (max-width: 960px) {
+
+        .ElveFooterMain {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ElveFooter1Input {
+            // display: flex;
+            // justify-content: center;
+            width: 100%;
+        }
+
+        .ElveFooter1 {
+            padding: 0px;
+            // display: flex;
+            // align-items: center;
+            width: 100%;
+            padding-inline: 0;
+        }
+
+        .ElveFooter2_login {
+            width: 100%;
+        }
+
+        .ElveFooter3_login {
+            width: 100%;
+        }
+
+        .ElveFooter4_login {
+            width: 100%;
+        }
+
+        .ElveFooter2 {
+            width: 100%;
+            margin-top: 10px;
+            padding-inline: 0px;
+        }
+
+        .elveBox1Title {
+            margin-left: 0px !important;
+        }
+
+
+        .ElveFooter3 {
+            width: 100%;
+            margin-top: 10px;
+            padding-inline: 0px;
+        }
+
+
+        .ElveFooter4 {
+            width: 100%;
+            margin-top: 10px;
+            padding-inline: 0px;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+
+        .ElveFooter1Input {
+            width: 100%;
+        }
+
+        .ElveFooter1 {
+            width: 100%;
+        }
+
+        .ElveFooter2_login {
+            width: 100%;
+        }
+
+        .ElveFooter2 {
+            width: 100%;
+            padding-inline: 0;
+        }
+
+        .ElveFooter3_login {
+            width: 100%;
+        }
+
+        .ElveFooter4_login {
+            width: 100%;
+        }
+
+        .eleBox1InputBox {
+            width: 60% !important;
+        }
+
+        .ElveFooter3 {
+            width: 100%;
+            padding-inline: 0;
+        }
+
+
+        .ElveFooter4 {
+            width: 100%;
+            padding-inline: 0;
+        }
+
+        .elevBox1Btn {
+            width: 30%;
+            font-size: 15px;
+        }
+
+        .ElveFooterMain {
+            padding: 10px !important;
+        }
+
+    }
+
+    @media (max-width: 425px) {
+        .elv_copyrights_text {
+            font-size: 17px;
+        }
+
+    }
+}

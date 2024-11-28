@@ -1,0 +1,55 @@
+@import "../../../../scss/variable.scss";
+
+.for_DiamondLifeTime {
+  width: 100%;
+  height: auto;
+  font-family: $primaryFontFamily;
+  padding: 0 80px;
+  margin-top: 5rem;
+  .for_DiamondLifeTime_video {
+    width: 100%;
+    height: 100%;
+    .for_desktop {
+      display: block;
+    }
+    .for_Mobile {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    padding: 0 0;
+    margin-top: 4rem;
+    .for_DiamondLifeTime_video {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 0 0;
+    margin-top: 4rem;
+    .for_DiamondLifeTime_video {
+      width: 100%;
+      height: 100%;
+      .for_desktop {
+        display: none;
+        video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      .for_Mobile {
+        display: block;
+        width: 100%;
+        height: 100%;
+        video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}

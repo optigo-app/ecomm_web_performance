@@ -1,0 +1,573 @@
+@import '../../scss/variable.scss';
+
+.roop_WlListCard {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Ensures all cards are at least the same height */
+    justify-content: space-between;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+    font-family: $fontRegular !important;
+
+    .cardContent {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+    }
+
+    .roop_WlListImage {
+        width: 100%;
+        // max-height: 400px;
+        object-fit: contain;
+        cursor: pointer;
+        // height: 300px;
+    }
+
+    .roop_WlListImage2 {
+        width: 100%;
+        max-height: 500px;
+        object-fit: cover;
+        cursor: pointer;
+        // height: 400px;
+    }
+
+    .cardText {
+        flex: 1;
+        padding: 10px;
+        // max-height: 150px;
+        height: auto !important;
+    }
+}
+
+.stam_MainWishlist_Div {
+    background-color: $backgroundColor;
+    font-family: $fontRegular;
+}
+
+.stam_wishlist_sub {
+    background-color: #fff;
+}
+
+.roop_WlMainPage {
+    display: flex;
+    gap: 30px;
+    margin-bottom: -8%;
+}
+
+.WlBtnGroupMainDiv {
+    text-align: center;
+    padding-top: 40px;
+
+    .roop_Wl-title {
+        color: $titleColor;
+        font-size: $fontSize8;
+    }
+
+    .roop_WlButton-group {
+        display: flex;
+        padding-inline: 15px;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 0px;
+
+        .roop_ReomoveAllWLbtn {
+            display: flex;
+            background-color: $btnprimarycolor;
+            color: $btn1hoverFontColor;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            outline: none;
+            height: 45px;
+            border-radius: 8px;
+            width: 160px;
+            font-size: $fontSize1;
+            font-weight: 600;
+            // text-decoration-color: $titleColor !important;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: $btn1hoverColor;
+            }
+        }
+
+        .roop_WlAddToCartBtn {
+            font-family: $fontRegular !important;
+            background-color: $btnprimarycolor;
+            color: $btn1hoverFontColor;
+            font-size: $fontSize2;
+            border: none;
+            outline: none;
+            height: 45px;
+            border-radius: 8px;
+            width: 200px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: $btn1hoverColor;
+            }
+
+
+            &.roop_cartActivebtn {
+                background-color: $btn1hoverColor;
+                color: $btn1hoverFontColor;
+                border-radius: 8px
+            }
+        }
+    }
+}
+
+
+.roop_noWishlistData {
+    text-align: center;
+    height: 100%;
+    margin-block: 125px;
+    font-family: $fontRegular !important;
+
+    .roop_title {
+        color: $titleColor;
+        font-size: $fontSize6;
+    }
+
+    .roop_desc {
+        color: $titleColor;
+        font-size: $fontSize4;
+    }
+
+    .roop_browseOurCollectionbtn {
+        background-color: $btnprimarycolor;
+        border: none;
+        color: $btn1hoverFontColor;
+        border: 1px solid $btn1FontColor;
+        font-size: 15px;
+        font-weight: 500;
+        height: 50px;
+        border: none;
+        width: 220px;
+        border-radius: 8px;
+        transition: 0.3s ease-in-out;
+
+        &:hover {
+            background: $btn1hoverColor;
+            color: $btn1hoverFontColor;
+        }
+    }
+}
+
+.roop_WlListData {
+    padding: 40px 14px 10px 15px;
+
+    .roop_wlListGrid {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        opacity: 1;
+        padding-inline: 3rem;
+        transition: opacity .5s ease;
+
+        @media (max-width: 1600px) {
+            padding-inline: 0;
+        }
+    }
+
+    .fade-out {
+        opacity: 0;
+    }
+
+    // .fade-in {
+    //     opacity: 1;
+    // }
+
+
+    // .roop_wlListGrid {
+    //     display: flex !important;
+    //     justify-content: center !important;
+    //     align-items: center !important;
+    //     opacity: 1;
+    //     transition: opacity 0.8s ease-in-out;
+    //     transform: translateX(0);
+    //     animation: slide-in 0.8s forwards ease-in-out;
+    // }
+
+    // .fade-out {
+    //     animation: slide-out 0.8s forwards ease-in-out;
+    // }
+
+    // @keyframes slide-out {
+    //     from {
+    //         transform: translateX(0);
+    //         opacity: 1;
+    //     }
+
+    //     to {
+    //         transform: translateX(-500px);
+    //         opacity: 0;
+    //     }
+    // }
+
+    // @keyframes slide-in {
+    //     from {
+    //         transform: translateX(500px);
+    //         opacity: 0;
+    //     }
+
+    //     to {
+    //         transform: translateX(0);
+    //         opacity: 1;
+    //     }
+    // }
+
+
+    .roop_wlToggleButtonDiv {
+        display: flex;
+        justify-content: end;
+        padding-bottom: 20px;
+    }
+}
+
+.roop_WlListCard {
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+    position: relative;
+    border-radius: 0px !important;
+
+}
+
+.roop_wishDT {
+    font-size: $fontSize2;
+    font-family: $fontRegular;
+}
+
+.closeWlIconDiv {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #c9c9c9;
+    color: #fff;
+}
+
+.closeWlIcon {
+    cursor: pointer;
+}
+
+.roop_Wl-CartbtnDiv {
+    text-align: center;
+    margin-bottom: 10px;
+
+    .roop_Wl-Cartbtn {
+        width: 150px;
+        height: 30px;
+        font-size: $fontSize2;
+        color: $titleColor;
+        font-weight: 500;
+        border: none;
+        background: none;
+        text-transform: capitalize !important;
+        cursor: pointer;
+
+        &:hover {
+            color: $btn1hoverFontColor;
+            background-color: $btnprimarycolor;
+            border-radius: 8px;
+        }
+    }
+}
+
+.roop_card-ContentData {
+    text-align: center;
+    color: $titleColor !important;
+    font-size: $fontSize2 !important;
+    font-family: $fontRegular;
+    padding-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-inline: auto;
+    align-items: center;
+}
+
+.roop_wish_price {
+    font-size: 15px !important;
+    font-family: $fontRegular !important;
+}
+
+.roop_prod_wt_wl {
+    display: flex;
+    gap: 2px;
+    font-size: $fontSize2 !important;
+}
+
+.roop_WlTitleline {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    color: $titleColor !important;
+    font-size: $fontSize2 !important;
+    font-family: $fontRegular !important;
+    text-align: center;
+}
+
+@media (max-width: 1750px) {
+    .WlBtnGroupMainDiv {
+        .roop_WlButton-group {
+            .roop_WlAddToCartBtn {
+                width: 140px;
+                font-size: $fontSize1;
+            }
+
+            .roop_ReomoveAllWLbtn {
+                width: 120px;
+                font-size: $fontSize1;
+            }
+        }
+    }
+
+    .roop_cardContent {
+        padding-top: 16px !important;
+
+        .cardText {
+            padding: 2px;
+        }
+
+        .cardText p {
+            font-size: $fontSize1 !important;
+        }
+
+        .cardText p span {
+            font-size: $fontSize1 !important;
+        }
+    }
+}
+
+@media (max-width: 1350px) {
+    .WlBtnGroupMainDiv {
+        .roop_WlButton-group {
+            .roop_WlAddToCartBtn {
+                width: 140px;
+                font-size: $fontSize1;
+            }
+
+            .roop_ReomoveAllWLbtn {
+                width: 120px;
+                font-size: $fontSize1;
+            }
+        }
+    }
+
+    .roop_cardContent {
+        padding-top: 16px !important;
+
+        .cardText {
+            padding: 2px;
+        }
+
+        .cardText p {
+            font-size: $fontSize0 !important;
+        }
+
+        .cardText p span {
+            font-size: $fontSize0 !important;
+        }
+    }
+}
+
+@media (max-width: 1050px) {
+    .WlBtnGroupMainDiv {
+        .roop_WlButton-group {
+            .roop_WlAddToCartBtn {
+                width: 140px;
+                font-size: $fontSize1;
+            }
+
+            .roop_ReomoveAllWLbtn {
+                width: 120px;
+                font-size: $fontSize1;
+            }
+        }
+    }
+
+    .roop_cardContent {
+        padding-top: 16px !important;
+
+        .cardText {
+            padding: 2px;
+        }
+
+        .cardText p {
+            font-size: $fontSize0 !important;
+        }
+
+        .cardText p span {
+            font-size: $fontSize0 !important;
+        }
+    }
+}
+
+
+@media (max-width: 768px) {
+    .stam_WlListData {
+        padding: 10px 10px 10px 10px;
+    }
+
+    .roop_card-ContentData .roop_DesignNoTExt .roop_Wl-Cartbtn {
+        font-size: $fontSize2 !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .stam_WlListData {
+        padding: 10px 10px 10px 10px;
+    }
+
+    .WlBtnGroupMainDiv {
+        .roop_WlButton-group {
+            .roop_WlAddToCartBtn {
+                width: 120px;
+                font-size: $fontSize1;
+            }
+
+            .roop_ReomoveAllWLbtn {
+                width: 90px;
+                font-size: $fontSize1;
+            }
+        }
+    }
+
+    .roop_card-ContentData {
+        font-size: $fontSize1 !important;
+    }
+
+    .roop_DesignNoTExt {
+        font-size: $fontSize1 !important;
+    }
+
+    .roop_Wl-Cartbtn {
+        font-size: $fontSize1 !important;
+        text-align: center;
+        width: 100% !important;
+    }
+
+    .roop_cardContent {
+        padding-top: 16px !important;
+        padding-inline: 5px !important;
+
+        .roop_currencyFont {
+            // margin-left: 40px;
+        }
+
+        .cardText {
+            padding: 2px;
+        }
+
+        .cardText p {
+            font-size: $fontSize0 !important;
+            margin-top: 0.4rem;
+        }
+
+        .cardText p span {
+            font-size: $fontSize0 !important;
+        }
+    }
+}
+
+@media (max-width: 320px) {
+    .stam_WlListData {
+        padding: 6px;
+    }
+
+    .WlBtnGroupMainDiv {
+        .roop_WlButton-group {
+            .roop_WlAddToCartBtn {
+                width: 100px !important;
+                font-size: $fontSize0 !important;
+                height: 34px !important;
+            }
+
+            .roop_ReomoveAllWLbtn {
+                width: 80px;
+                font-size: $fontSize1;
+                height: 34px !important;
+            }
+        }
+    }
+
+    .roop_card-ContentData {
+        font-size: $fontSize1 !important;
+    }
+
+    .roop_DesignNoTExt {
+        font-size: $fontSize1 !important;
+    }
+
+    .roop_Wl-Cartbtn {
+        font-size: $fontSize1 !important;
+        text-align: center;
+        width: 100% !important;
+    }
+
+    .roop_cardContent {
+        padding-top: 16px !important;
+
+        .roop_currencyFont {
+            // margin-left: 40px;
+        }
+
+        .cardText {
+            padding: 2px;
+        }
+
+        .cardText p {
+            font-size: $fontSize0 !important;
+        }
+
+        .cardText p span {
+            font-size: $fontSize0 !important;
+        }
+    }
+}
+
+
+
+
+// skelton scss
+
+.roop_addwishlistSkeltonMainBox {
+    padding: 0px 60px;
+
+    .roop_addwishlistSkelton {
+        height: 450px;
+        box-shadow: none !important;
+
+        .roop_addwishlistSkelton {
+            background-color: #f6f6f6 !important;
+        }
+    }
+}
+
+@media(max-width:650px) {
+    .roop_addwishlistSkeltonMainBox {
+        padding: 0px 10px;
+    }
+
+    .roop_addwishlistSkelton {
+        height: 250px !important;
+    }
+
+    .roop_WlButton-group {
+        padding-top: 30px;
+    }
+
+    // .roop_toggleWishButtonDiv {
+    //     height: 30px !important;
+    // }
+
+    .stam_WlListData {
+        .roop_wlToggleButtonDiv {
+            padding-top: 30px;
+        }
+    }
+}

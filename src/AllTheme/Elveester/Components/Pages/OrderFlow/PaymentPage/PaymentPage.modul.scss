@@ -1,0 +1,638 @@
+@import '../../../scss/elvee_modules.scss';
+
+.elv_payment_Main_div {
+    font-family: $fontSansSerif !important;
+
+    .elv_payment_lists_div {
+        height: 100%;
+        width: 100%;
+    }
+
+    .elv_payment_lists_header {
+        align-items: center;
+        margin-inline: 13%;
+        margin-top: 30px;
+        padding: 20px 0px 20px 0px;
+    }
+
+    .elv_payment_lists_header_breadcrumb {
+        display: flex;
+        justify-content: space-between;
+        background: $backgroundColor;
+        padding: 20px 0px 20px 40px;
+    }
+
+    .elv_payment_details {
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        // font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: $fontSansSerif !important;
+        color: #AF8238;
+    }
+
+    .elv_payment_details_1 {
+        text-transform: uppercase;
+        font-size: 30px;
+        // font-family: "Segoe UI", "Noto Sans", sans-serif;
+        font-family: $fontSansSerif !important;
+    }
+
+    .elv_payment_details_3 {
+        text-transform: capitalize;
+    }
+
+    .elv_payment_lists_name {
+        margin-top: 30px;
+    }
+
+
+    .elv_breadcrumbs {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: #AF8238;
+    }
+
+
+    .elv_payment_lists_header_logo {
+        padding-right: 20px;
+    }
+
+    .elv_payment_ptitle {
+        font-size: 50px;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+
+    .elv_payment_logo {
+        width: 70px;
+        height: 100px;
+        margin-right: 30px;
+    }
+
+    .elv_payblock_rows {
+        display: flex;
+        justify-content: center;
+        margin-block: 20px;
+    }
+
+
+    .elv_payblock_rows_1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1 1 20%;
+        padding-block: 1.2rem;
+        border: 1px solid #d9d9d9;
+
+        .elv_back_title {
+            display: flex;
+            text-decoration: underline;
+            color: #7b7b7b;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+    }
+
+    .elv_payblock_rows_2 {
+        display: flex;
+        visibility: hidden;
+        justify-content: center;
+        align-items: center;
+        padding-block: 1.2rem;
+        flex: 1 1 20%;
+        border: 1px solid #d9d9d9;
+    }
+
+    .elv_payblock_rows_3 {
+        display: flex;
+        visibility: hidden;
+        justify-content: center;
+        align-items: center;
+        padding-block: 1.2rem;
+        flex: 1 1 20%;
+        border: 1px solid #d9d9d9;
+    }
+
+
+
+    .elv_payblock_rows_4 {
+        display: flex;
+        visibility: hidden;
+        justify-content: center;
+        align-items: center;
+        padding-block: 1.2rem;
+        flex: 1 1 20%;
+        border: 1px solid #d9d9d9;
+
+    }
+
+    .elv_payblock_rows_5 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-block: 1.2rem;
+        flex: 1 1 20%;
+        background-color: #7d7f85;
+        color: white;
+        border: 1px solid #d9d9d9;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+
+        &:hover {
+            background-color: #FFFFFF;
+            color: #7b7b7b;
+        }
+
+        .elv_continue_title {
+            display: flex;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    }
+
+    .elv_addCardSkeltonMainBox {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        margin-bottom: 20px;
+
+        .elv_addCardSkelton {
+            width: 345px !important;
+            max-width: 345px !important;
+            box-shadow: none !important;
+
+            .elv_addCardSkelton {
+                background-color: #f6f6f6 !important;
+            }
+        }
+    }
+
+    .elv_TitleDetailMainDiv {
+        display: flex;
+        justify-content: start;
+
+        .elv_paymentdesc {
+            font-size: 16px;
+        }
+    }
+
+    .elv_getAddrMainDiv {
+        margin-bottom: 40px;
+    }
+
+    .elv_AddrCard {
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+        padding: 20px 20px 0px 20px !important;
+    }
+
+    .elv_ActiveAddrCard {
+        padding: 20px 20px 0px 20px !important;
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+        background: #f5f4f4 !important;
+        position: relative;
+    }
+
+    .elv_addrTypoTitle {
+        color: #7d7f85;
+        text-transform: capitalize;
+        margin-bottom: 0.3rem;
+    }
+
+    .elv_addrTypo {
+        color: #7d7f85;
+        text-transform: capitalize;
+    }
+
+    .elv_editDeleteBtngroup {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 10px;
+
+        .elv_editIcon {
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: #7d7f85;
+        }
+
+        .elv_DeleteIcon {
+            font-size: 20px;
+            color: #7d7f85
+        }
+    }
+
+}
+
+
+// Card Design
+
+.elv_paymentMainDiv {
+    background-color: #c0bbb1;
+}
+
+.elv_paymentSecondMainDiv {
+    margin-inline: 6%;
+    background-color: #fff;
+}
+
+@media (max-width: 1200px) {
+    .elv_paymentSecondMainDiv {
+        margin-inline: 1% !important;
+    }
+}
+
+@media (max-width: 1000px) {
+    .elv_payblock_rows {
+        .elv_payblock_rows_1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1 1 40%;
+            padding-block: 1.2rem;
+            border: 1px solid #d9d9d9;
+
+            .elv_back_title {
+                display: flex;
+                text-decoration: underline;
+                color: #7b7b7b;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+            }
+
+        }
+
+        .elv_payblock_rows_5 {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 999;
+            background-color: #7d7f85;
+            color: white;
+            border: 1px solid #d9d9d9;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+
+            &:hover {
+                background-color: #FFFFFF;
+                color: #7b7b7b;
+            }
+
+            .elv_continue_title {
+                display: flex;
+                text-transform: uppercase;
+                font-size: 14px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+
+.elv_PaymentContainer {
+    margin-inline: 4%;
+}
+
+.elv_paymentBackbtnDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.elv_paymentDetailMainDiv {
+    display: flex;
+    justify-content: space-between;
+    color: #5E5E5E;
+    display: flex;
+    background-color: #FCFCFC;
+    max-width: 600px;
+    margin-inline: auto;
+}
+
+.elv_payment_total_title {
+    font-size: 16px;
+}
+
+.elv_currencyFont {
+    .elv_subtotal_price {
+        font-size: 16px;
+    }
+
+    .elv_estimate_tax {
+        font-size: 16px;
+    }
+
+    .elv_estimate_total {
+        font-size: 16px;
+    }
+
+}
+
+
+
+.elv_paymenttotalpricesummary {
+    display: flex;
+    justify-content: space-between;
+}
+
+.elv_payment_div {
+    margin-top: 1.8rem;
+}
+
+.elv_paymenttotalpricesummary p {
+    padding: 0;
+    margin-bottom: 2px;
+    font-size: 14px;
+}
+
+.elv_payment_total_border {
+    border: 0.5px solid #E9E9E9;
+    margin-block: 0.2rem;
+}
+
+.elv_paymenttotalpricesummary p span {
+    font-weight: bold !important;
+}
+
+.elv_paymentUserName {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.elv_paymentDetailLeftSideContent {
+    padding-inline: 18px;
+    padding-block: 20px;
+
+    h2 {
+        font-size: $fontSize6;
+    }
+}
+
+.elv_paymentDetailRightSideContent {
+    padding-inline: 18px;
+    padding-block: 20px;
+}
+
+.elv_paymentButtonDiv {
+    text-align: center;
+
+    .elv_payOnAccountBtn {
+        margin-right: 20px;
+        height: 40px;
+        width: 180px;
+        font-size: $fontSize3;
+        color: $btn1hoverFontColor;
+        background-color: $btn1ActivebgColor;
+        border: 1px solid $btn1FontColor;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+
+        &:hover {
+            color: $btn1hoverFontColor;
+            background-color: $btn1ActivebgColor;
+        }
+    }
+}
+
+.elv_payment_shipp_title {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.elv_addorderRemarkbtn {
+    color: $titleColor !important;
+    font-size: $fontSize2 !important;
+    text-transform: capitalize !important;
+}
+
+.elv_addorderRemark {
+    color: $titleColor !important;
+}
+
+@media (max-width: 1024px) {
+    .elv_payment_lists_header {
+        margin-inline: 4% !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .elv_paymentDetailMainDiv {
+        display: block;
+    }
+
+    .elv_paymentDetailLeftSideContent {
+        h2 {
+            font-size: $fontSize5 !important;
+        }
+    }
+
+    .elv_paymenttotalpricesummary p {
+        margin: 2px !important;
+    }
+
+    .elv_billingAddress {
+        h3 {
+            font-size: $fontSize4 !important;
+        }
+
+        p {
+            font-size: $fontSize1 !important;
+        }
+    }
+
+    .elv_paymentButtonDiv {
+        .elv_payOnAccountBtn {
+            width: 100%;
+        }
+    }
+
+    .elv_shippingAddress {
+        margin-top: 10px;
+        margin-bottom: 40px !important;
+        color: black;
+        border-top: 1px solid #cccdce;
+
+        h3 {
+            font-size: $fontSize4 !important;
+        }
+
+        p {
+            font-size: $fontSize1 !important;
+            margin-bottom: 5px !important;
+        }
+    }
+
+    .elv_paymentBackbtnDiv {
+        .elv_paymentBackbtn {
+            width: 22px !important;
+            height: 22px !important;
+        }
+    }
+
+
+    .elv_PaymentContainer {
+        margin-inline: 0;
+    }
+
+    .elv_payment_lists_header {
+        margin-inline: 2% !important;
+    }
+}
+
+@media (max-width: 425px) {
+    .elv_payblock_rows {
+        .elv_payblock_rows_1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1 1 65%;
+            padding-block: 1.2rem;
+            border: 1px solid #d9d9d9;
+
+            .elv_back_title {
+                display: flex;
+                text-decoration: underline;
+                color: #7b7b7b;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+            }
+
+        }
+
+        .elv_payblock_rows_5 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-block: 1.2rem;
+            flex: 1 1 65%;
+            background-color: #7d7f85;
+            color: white;
+            border: 1px solid #d9d9d9;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+
+            &:hover {
+                background-color: #FFFFFF;
+                color: #7b7b7b;
+            }
+
+            .elv_continue_title {
+                display: flex;
+                text-transform: uppercase;
+                font-size: 12px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 375px) {
+    .elv_payment_Main_div .elv_payment_details_1 {
+        font-size: 25px;
+    }
+}
+
+.loader {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-left: 8px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.elv_shippingAddress p {
+    margin-bottom: 0px;
+}
+
+.elv_noCartlistData {
+    text-align: center;
+    height: 100%;
+    margin-bottom: 327px;
+    margin-top: 3rem;
+
+    .elv_title {
+        color: #7d7f85;
+        font-size: 28px;
+        ;
+    }
+
+    .elv_desc {
+        color: #7d7f85;
+        font-size: 18px;
+    }
+
+    .elv_browseOurCollectionbtn {
+        background-color: #7d7f85;
+        border: none;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 500;
+        height: 50px;
+        outline: none;
+        width: 220px;
+    }
+}
+
+.elv_shippingAddress {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .elv_bill_add_text {
+        max-width: 18rem;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        margin-top: 1rem;
+        font-size: 15px;
+        margin: 0;
+        color: black;
+    }
+}
+
+.elv_billingAddress {
+    line-height: 1.5rem;
+
+    .elv_billAdd_text {
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .elv_bill_add_text {
+            max-width: 18rem;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            margin-top: 1rem;
+            font-size: 15px;
+            margin: 0;
+            color: black;
+        }
+    }
+
+}

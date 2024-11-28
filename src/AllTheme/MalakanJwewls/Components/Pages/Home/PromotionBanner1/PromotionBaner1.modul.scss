@@ -1,0 +1,453 @@
+@import '../../../scss/variable';
+
+
+.mala_Banner_main {
+
+    .mala_BannerMAinTitleMAin {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .mala_banner_Title {
+        font-family: math;
+        font-size: 7rem;
+        color: #f1dfdf;
+        font-style: italic;
+        text-transform: lowercase;
+        letter-spacing: 10px;
+    }
+
+    .mala_promo2_main2_1 {
+        width: 50%;
+        display: flex;
+        justify-content: flex-end;
+        padding: 70px;
+        @media screen and (max-width:1044px) {
+            margin-left: 3.3rem;
+        }
+        @media screen and (max-width:928px) {
+            margin-left: 4.3rem;
+        }
+        @media screen and (max-width:804px) {
+            margin-left: 0;
+        }
+    }
+
+    .mala_promo_bottomMain {
+        background-color: #17372F;
+        @media screen and (max-width:768px) {
+            padding-block: 1rem;
+        }
+    }
+
+    .mala_promo2_main2_2 {
+        width: 40%;
+        padding: 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .mala_promo2_main2 {
+        display: flex;
+    }
+
+    .mala_promo_bottomMainP {
+        font-size: 26px;
+        color: white;        
+        font-family: $primaryFontFamily;
+        text-align: center;
+        width: 40%;
+        @media screen and (max-width:500px) {
+            font-size: 15px !important;
+        }
+    }
+
+    .mala_promo_bottomMainBtn {
+        height: 50px;
+        width: 170px;
+        font-family: $primaryFontFamily;
+        font-weight: 500;
+        letter-spacing: 1px;
+        background-color: #F6C2B5;
+        font-size: 20px;
+    }
+
+    .mala_promo_bottomMainBtn:hover {
+        font-weight: 500;
+        background-color: transparent;
+        border: 1px solid #F6C2B5;
+        color: #F6C2B5;
+        transition: 250ms all ease-in-out;
+    }
+
+    .mala_promo_bottomMainSub {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 100px;
+    }
+
+    .mala_Banner_main_div_subMain {
+        display: flex;
+    }
+
+    .mala_BannerMAinTitle1 {
+        font-size: 18px;
+        margin: 0px;
+    }
+
+    .mala_promo2_main2_2_p {
+        text-align: justify;
+        font-size: $fontSize6;
+        font-family: $primaryFontFamily;
+    }
+
+    .mala_BannerMAinTitle2 {
+        font-size: 30px;
+        margin: 0px;
+    }
+
+    .mala_BannerMAinTitle3 {
+        font-size: 16px;
+        margin: 0px;
+    }
+
+    .mala_Banner_main_div {
+        // display: flex;
+        margin-bottom: 50px;
+    }
+
+    .mala_Banner_Iamge1 {
+        width: 100%;
+        padding: 60px 18% 12% 18%;
+    }
+
+    .mala_Banner_Iamge2 {
+        width: 100%;
+        padding: 60px 18% 10% 18%;
+    }
+
+    .mala_Banner_Iamge3 {
+        width: 100%;
+        padding: 60px 18% 12% 18%;
+    }
+
+    .mala_Banner_Iamge4 {
+        width: 100%;
+        padding: 60px 18% 12% 18%;
+    }
+
+
+    .mala_Banner_main_div_main1 {
+        width: 50%;
+        position: relative;
+    }
+
+    .mala_Banner_main_div_main2 {
+        width: 50%;
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .mala_Banner_main_div_main3 {
+        position: relative;
+        width: 100%;
+        margin-top: 240px;
+    }
+
+    .mala_Banner_main_div_main4 {
+        position: relative;
+        width: 100%;
+    }
+
+    .products__desc {
+        text-align: left;
+        width: 70%;
+        background: rgba(255, 255, 255, .8);
+        box-sizing: border-box;
+        z-index: 1;
+        padding: 80px;
+        height: fit-content;
+    }
+
+    .FestiveMainImage {
+        position: relative;
+    }
+
+    .FestiveBannerImage {
+        width: 100%;
+    }
+
+    .festiveBox {
+        position: absolute;
+        top: 50%;
+        left: 83% !important;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        padding: 20px;
+        background: #ffffff59;
+    }
+
+    .mala_promo_secton2_img {
+        max-width: 400px;
+    }
+
+    .mala_promo_section2 {
+        background-color: #F6C2B5;
+        display: flex;
+        padding: 2rem ;
+        @media screen and (max-width:1024px) {
+            padding: 1rem;
+        }
+    }
+
+    .mala_promo_section2_div1 {
+        width: 50%;
+        padding: 100px 0px 100px 410px;
+    }
+
+    .mala_promo_section2_div2 {
+        width: 50%;
+        display: flex;
+        align-items: center;
+    }
+
+    .mala_promo_section2_div1_p1 {
+        font-size: 40px;
+        font-family: $primaryFontFamily;
+    }
+
+    .mala_promo_section2_div1_p2 {
+        font-family: $primaryFontFamily;
+        font-size: $fontSize6;
+    }
+
+    .mala_promo_section2_div1_btn {
+        height: 35px;
+        font-family: $primaryFontFamily;
+        width: 138px;
+        height: 52px;
+        color: #F6C2B5;
+        letter-spacing: 1px;
+        font-size: 20px;
+        outline: none;
+        font-weight: 500;
+        border: 2px solid black;
+        background-color: #17372F;
+    }
+    .mala_promo_section2_div1_btn:hover{
+        background-color: transparent;
+        color: #17372F;
+        border: 2px solid #17372F;
+    }
+
+
+    .DiscoverBtn {
+        margin-top: 30px;
+        height: 60px;
+        width: 200px;
+        background-color: gray;
+        color: white;
+        cursor: pointer;
+        border: none;
+    }
+
+    .DiscoverBtn:hover {
+        border: 1px solid gray;
+        color: gray;
+        background-color: transparent;
+    }
+
+    @media screen and (max-width: 1550px) {
+        .mala_banner_Title {
+            display: none !important;
+        }
+
+        .mala_promo2_main2_2 {
+            padding: 0px 0 0px 0px !important;
+            .mala_promo2_main2_2_p{
+                font-size: 24px !important;
+            }
+        }
+
+        .mala_promo_section2_div1 {
+            padding: 10px 0px 10px 10px !important;
+        }
+
+    }
+
+    @media screen and (max-width: 1290px) {
+   
+        .mala_promo2_main2_2 {
+            padding: 0px 0 0px 0px !important;
+            .mala_promo2_main2_2_p{
+                font-size: 16px !important;
+            }
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+
+        .mala_promo_bottomMainP {
+            width: 90% !important;
+        }
+
+        .products__desc {
+            position: static !important;
+        }
+
+        .mala_Banner_main_div_main1 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .mala_Banner_main_div_main2 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .mala_Banner_main_div_main3 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .mala_Banner_main_div_main4 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .mala_Banner_main_div {
+            display: flex;
+            flex-direction: column !important;
+        }
+
+        .products__desc {
+            width: 95% !important;
+        }
+
+        .mala_Banner_Iamge1,
+        .mala_Banner_Iamge2,
+        .mala_Banner_Iamge3,
+        .mala_Banner_Iamge4 {
+            padding: 10px !important;
+        }
+
+        .mala_promotion1 {
+            min-height: auto !important;
+        }
+
+        .FestiveMainImage {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        .festiveBox {
+            position: static !important;
+            background-color: #c0bbb1;
+            top: 0;
+            left: 0;
+            transform: translate(0%, 0%) !important;
+            text-align: center;
+        }
+
+        .smilingFestiMainTitle1 {
+            font-size: 11px !important;
+            font-weight: 500;
+            margin: 0px;
+            color: white !important;
+        }
+
+        .festiveBox {
+            padding-top: 5px !important;
+        }
+
+
+        .smilingFestiMainTitle2 {
+            font-size: 20px !important;
+            color: white !important;
+
+        }
+
+        .smilingFestiMainTitle3 {
+            color: white !important;
+        }
+
+        .DiscoverBtn {
+            width: 200px !important;
+            height: 50px !important;
+            color: white;
+            background-color: gray;
+            font-weight: 500;
+            font-size: 13px;
+            margin-top: 10px !important;
+        }
+    }
+
+    @media screen and (max-width: 804px) {
+
+        .mala_promo_section2 {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mala_promo_section2_div2 {
+            order: 1;
+            width: 100%;
+        }
+
+        .mala_promo_section2_div1 {
+            width: 100%;
+            order: 2;
+        }
+
+        .mala_promo2_main2 {
+            display: flex;
+            flex-direction: column !important;
+        }
+
+        .mala_promo2_main2_2 {
+            width: 100% !important;
+            // padding: 10px !important;
+            padding-inline: 30px !important;
+        }
+
+        .mala_promo2_main2_1 {
+            width: 100% !important;
+            padding: 10px !important;
+        }
+
+        .mala_promo_secton2_img {
+            max-width: none !important;
+            width: 100% !important;
+            padding: 20px;
+        }
+
+        .mala_promo2_main2_2_p {
+            font-size: 15px !important;
+        }
+
+        .mala_promo_section2_div1_p1 {
+            font-size: 30px !important;
+        }
+
+        .mala_promo_section2_div1_p2 {
+            font-size: 20px !important;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .mala_promo_bottomMainSub {
+            padding: 20px !important;
+        }
+    }
+}

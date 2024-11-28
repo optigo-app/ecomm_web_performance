@@ -1,0 +1,96 @@
+@import '../../../scss/variable';
+
+.mala_newwArr1MainDiv {
+    .mala_NewArr1Title {
+        text-align: center;
+        color: $titleColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize5;
+        padding-block: 3%;
+    }
+
+    .mala_NewArrival1product-list {
+        padding: 0px 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+    }
+
+    .mala_NewArrproduct-card {
+        background: #fff;
+        border: none;
+        border-radius: 5px;
+        // box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+        box-shadow: none;
+        overflow: hidden;
+        transition: box-shadow 0.3s ease-in-out;
+
+        &:hover {
+            box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 0px 1px;
+        }
+
+        .mala_newArr1Image {
+            padding: 50px;
+            background-color: #f1f1f1;
+
+            .mala_newArrImage {
+                max-width: 100%;
+                height: auto;
+                display: block;
+            }
+        }
+
+
+        .mala_newarrproduct-info {
+            padding: 0px 10px;
+
+            .mala_newArrPrice {
+                font-size: $fontSize2 !important;
+                color: $titleColor !important;
+                font-family: $primaryFontFamily;
+                font-weight: bold !important;
+                letter-spacing: .5px;
+            }
+
+            .mala_newArrTitle {
+                font-size: $fontSize2;
+                color: $titleColor;
+                font-family: $primaryFontFamily;
+                letter-spacing: .5px;
+            }
+
+            p {
+                margin: 5px 0;
+                color: $titleColor;
+                font-size: $fontSize1;
+                font-family: $primaryFontFamily;
+                letter-spacing: .5px;
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        .mala_newwArr1MainDiv {
+            .mala_NewArr1Title {
+                padding-block: 6%;
+            }
+        }
+
+        .mala_NewArrproduct-card {
+            .mala_newArr1Image {
+                padding: 10px !important;
+            }
+        }
+
+        .mala_newarrproduct-info {
+            .mala_newArrTitle{
+                font-size: $fontSize1 !important;
+            }
+            p {
+                font-size: $fontSize0 !important;
+                letter-spacing: .1px;
+            }
+        }
+    }
+}

@@ -1,0 +1,146 @@
+.hem_AlbumListsMain_div {
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+  
+    .hem_AlbumLists_div {   
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding-block: 20px;
+    }
+   
+    .hem_AlbumLists_sec1 {  
+      background-color: #efeded;
+      color: white;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+  
+    .hem_AlbumLists_albums {  
+      display: flex;
+      width: 100%;
+    }
+  
+    .hem_AlbumLists_ablums_category { 
+      margin-left: 40px;
+      width: 100%;
+    }
+  
+    .hem_AlbumLists_cat2 { 
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+  
+    .hem_AlbumLists_category_img {  
+      border-radius: 50%;
+      height: 150px;
+      width: 150px;
+      object-fit: cover;
+    }
+  
+    .hem_AlbumLists_subCat_div {  
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-items: center;
+      padding-right: 20px;
+    }
+
+    .hem_AlbumLists_subCat_names {  
+        text-transform: uppercase;
+        text-align: center;
+        max-width: 140px;
+        font-family: "Poppins", sans-serif;
+        font-size: 15px;
+        margin: 8px 0;
+        letter-spacing: 1px;
+        font-weight: bold;
+        color: #4d4d4d;
+        word-break: break-word;
+        line-height: 17px;
+    }
+
+    .hem_AlbumLists_lockIcon_div{  
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .hem_AlbumLists_lockicon{  
+        position: absolute;
+        background: #fff;
+        box-shadow: 0px 3px 6px rgba(168, 168, 168, 0.6);
+        object-fit: contain;
+        padding: 8px;
+        border-radius: 10px;
+        z-index: auto;
+        height: 45px;
+        width: 45px;
+    }
+
+    .disable_pointer_events {  
+        pointer-events: none;
+    }
+  
+  
+    @media screen and (max-width: "800px") {
+
+      .hem_AlbumLists_category_img{  
+        height: 90px;
+        width: 90px;
+      }
+
+      .hem_AlbumLists_lockicon{  
+        padding: 6px;
+        height: 35px;
+        width: 35px;
+    }
+
+      .hem_AlbumLists_subCat_names {  
+        max-width: 75px;
+        font-size: 13px;
+        margin: 5px 0;
+      }
+    }
+    @media screen and (max-width: "430px") {
+
+      .hem_AlbumLists_category_img{  
+        height: 60px;
+        width: 60px;
+      }
+
+      .hem_AlbumLists_subCat_names {  
+        max-width: 60px;
+        font-size: 10px;
+        margin: 4px 0
+      }
+
+      .hem_AlbumLists_lockicon{  
+        padding: 4px; 
+        height: 25px;
+        width: 25px;
+    }
+  
+      .hem_AlbumLists_sec1 { 
+          padding: 10px;
+        }
+  
+        .hem_AlbumLists_ablums_category{  
+          margin-left: 0;
+        }
+
+        .hem_AlbumLists_subCat_div{  
+          padding-right: 5px;
+        }
+    }
+  
+   
+  }
+  

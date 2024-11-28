@@ -1,0 +1,64 @@
+@import '../../../scss/variable';
+
+
+
+.shopbycategoryTitle {
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    font-size: $fontSize7;
+    text-align: center;
+    margin: 60px 0px 0px 0px;
+    
+}
+.shopbycategoryDescp{
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    font-size: $fontSize1;
+}
+.mala_shopByCateTitle{
+    color: $homePageFontColor;
+    font-family: $primaryFontFamilyMedium;
+    font-size: $fontSize3;
+    margin: 0px;
+}
+.shopbycategoryDesc {
+    display: flex;
+    justify-content: center;
+}
+
+.shopByCategoryBox {
+    margin: 30px;
+}
+
+.shopByCategoryBoxImg {
+    height: 200px;
+    width: 200px;
+}
+
+.shopByCategoryBox1Main {
+    display: flex;
+}
+
+.shopByCategoryBox2Main {
+    display: flex;
+}
+
+@media screen and (max-width: 1000px) {
+    .shopbycategoryTitle {
+        font-size: 20px !important;
+        margin: 5px 0px 0px 0px !important;
+    }
+}
+
+@media screen and (max-width: 550px) {
+
+    .shopByCategoryBox {
+        width: 50% !important;
+        margin: 5px !important;
+    }
+
+    .shopByCategoryBoxImg {
+        height: 80% !important;
+        width: 100% !important;
+    }
+}

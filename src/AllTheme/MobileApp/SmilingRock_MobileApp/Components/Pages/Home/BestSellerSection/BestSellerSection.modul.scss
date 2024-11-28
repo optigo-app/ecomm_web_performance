@@ -1,0 +1,199 @@
+@import '../../../scss/variable';
+
+
+.smr_bestSellerPrice {
+    color: $homePageFontColor;
+    margin: 0px;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.smrMA_bestSallerMain {
+
+    margin-top: 0px;
+
+    .linkingLoveMain {
+        display: flex;
+        margin-inline: 0px;
+    }
+
+    .linkingLove {
+        width: 60%;
+        /* border-bottom: 1px solid; */
+    }
+
+    .linkingLoveImage {
+        width: 40%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* border: 1px solid; */
+    }
+
+    .linkingTitle {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize5;
+        text-align: center;
+    }
+
+    .linkingDesc {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize2;
+        margin: 0px;
+        text-align: center;
+    }
+
+    .linkingShopCol {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize1;
+        text-align: center;
+    }
+
+    .linkRingLove {
+        display: flex !important;
+    }
+
+    .linkLoveRing1 {
+        /* border: 1px solid; */
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        padding: 5px;
+
+    }
+
+    .linkLoveRing1Desc {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .ring1Desc {
+        width: 70%;
+        text-align: center;
+        font-weight: 500;
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize1;
+        margin: 5px;
+    }
+
+    .linkLoveRing2 {
+        /* border: 1px solid; */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 5px;
+    }
+
+    .linkingLoveImageDesign {
+        max-height: 645px;
+        width: 100%;
+    }
+
+    .likingLoveImages {
+        width: 100%;
+        max-height: 400px;
+        cursor: pointer;
+    }
+
+    .smr_bestSellerPrice {
+        color: $homePageFontColor;
+        margin: 0px;
+        font-weight: 500;
+        font-size: 13px;
+    }
+
+    .smr_BestSallerViewAll {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize1;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: underline;
+        margin-top: 32px;
+        font-weight: 600;
+    }
+
+    @media screen and (max-width: 1200px) {
+        .likingLoveImages {
+            width: 100%;
+            object-fit: contain;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+
+
+        .linkRingLove {
+            display: flex !important;
+            justify-content: center;
+        }
+
+        .linkingLoveMain2 {
+            margin-top: 30px;
+        }
+
+        .linkingLove {
+            width: 65%;
+        }
+
+        .linkingLoveImage {
+            width: 100%;
+        }
+
+        .likingLoveImages {
+            width: 100%;
+        }
+
+        .likingLoveImages {
+            height: 250px;
+        }
+
+        .linkRingLoveSubMain {
+            height: 250px !important;
+            width: 50% !important;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        .linkingLoveImageDesign {
+            object-fit: contain;
+            height: auto !important;
+        }
+    }
+
+
+    @media screen and (max-width: 550px) {
+
+
+        .linkingTitle {
+            margin: 0px;
+        }
+
+        .linkingLoveMain {
+            display: flex;
+            flex-direction: column;
+            margin-inline: 0px !important;
+        }
+
+        .linkingLoveImage {
+            order: 1;
+        }
+
+        .linkingLove {
+            order: 2;
+            width: 100% !important;
+        }
+    }
+
+    @media screen and (max-width: 420px) {
+
+        .likingLoveImages {
+            height: 150px;
+        }
+    }
+}

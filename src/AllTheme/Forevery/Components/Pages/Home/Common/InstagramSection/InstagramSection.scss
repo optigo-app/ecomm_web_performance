@@ -1,0 +1,1079 @@
+@import "../../../../scss/variable.scss";
+
+.for_InstagramSection {
+  width: 100%;
+  height: auto;
+  font-family: $primaryFontFamily;
+  margin-bottom: 6rem;
+  .for_heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    .title-insta {
+      font-size: 18px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #e16c52;
+      padding-top: 10px;
+    }
+    .desc_insta {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1b1b1b;
+    }
+  }
+  .insta_carousel_frame {
+    height: auto;
+    width: 100%;
+    margin-top: 4rem;
+    .main_swiper_carousel {
+      position: relative;
+      .mySwiper-1{
+        margin-inline: 1%;
+        .left-over-lay{
+          display: none ;
+        }
+          .right-over-lay{
+            display: none ;
+          }
+      }
+      .mobile_frame {
+        position: absolute;
+        top: -75px;
+        height: 523px;
+        width: 323px;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        z-index: 3;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+      }
+      .swiper-slide {
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        .insta_card {
+          padding: 2px;
+          height: 373px;
+          border: 1px solid rgba(192, 192, 192, 0.61);
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+      }
+    }
+  }
+  .btn{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8rem;
+  }
+
+  @media screen and (max-width : 3000px) {
+    .insta_carousel_frame {
+      .main_swiper_carousel {
+        position: relative;
+        .mySwiper-1{
+          margin-inline: 18%;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 2483px) {
+    .insta_carousel_frame {
+      .main_swiper_carousel {
+        position: relative;
+        .mySwiper-1{
+          margin-inline: 16%;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 2260px) {
+    .insta_carousel_frame {
+      .main_swiper_carousel {
+        position: relative;
+        .mySwiper-1{
+          margin-inline: 14%;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 2260px) {
+    .insta_carousel_frame {
+      .main_swiper_carousel {
+        position: relative;
+        .mySwiper-1{
+          margin-inline: 12%;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 2013px) {
+    .insta_carousel_frame {
+      .main_swiper_carousel {
+        position: relative;
+        .mySwiper-1{
+          margin-inline: 10%;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1913px) {
+    .insta_carousel_frame {
+      .main_swiper_carousel {
+        position: relative;
+        .mySwiper-1{
+          margin-inline: 8%;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1846px) {
+    .insta_carousel_frame {
+      .main_swiper_carousel {
+        position: relative;
+        .mySwiper-1{
+          margin-inline: 6%;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1766px) {
+    .insta_carousel_frame {
+      .main_swiper_carousel {
+        position: relative;
+        .mySwiper-1{
+          margin-inline: 4%;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1766px) {
+    .insta_carousel_frame {
+      .main_swiper_carousel {
+        position: relative;
+        .mySwiper-1{
+          margin-inline: 2%;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1766px) {
+    .insta_carousel_frame {
+      .main_swiper_carousel {
+        position: relative;
+        .mySwiper-1{
+          margin-inline: 0%;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1766px) {
+    .insta_carousel_frame {
+      .main_swiper_carousel {
+        position: relative;
+        .mySwiper-1{
+          margin-inline: 4%;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1670px) {
+    .insta_carousel_frame {
+      .main_swiper_carousel {
+        position: relative;
+        .mySwiper-1{
+          margin-inline: 3%;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1640px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 70% !important;
+        width: 100%;
+        position: relative;
+        .mySwiper-1{
+          margin-inline: -20%;
+          overflow: hidden;
+          position: relative;
+          .left-over-lay{
+            position: absolute;
+            width: 150px;
+            height: 500px;
+            background-color: white;
+            z-index: 25;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            display: block;
+          }
+          .right-over-lay{
+            position: absolute;
+            width: 150px;
+            height: 500px;
+            background-color: white;
+            z-index: 25;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: block;
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1600px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 70% !important;
+        width: 100%;
+        position: relative;
+        .mySwiper-1{
+          margin-inline: -24%;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1523px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 80% !important;
+        width: 100%;
+        position: relative;
+        .mySwiper-1{
+          margin-inline: -15%;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1507px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mySwiper-1{
+          margin-inline: -24%;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1254px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mySwiper-1{
+          margin-inline: -30%;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1147px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mobile_frame {
+          position: absolute;
+          top: -75px;
+          height: 500px;
+          width: 300px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          z-index: 3;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .mySwiper-1{
+          margin-inline: -32%;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          .insta_card {
+            padding: 2px;
+            height: 340px;
+            border: 1px solid rgba(192, 192, 192, 0.61);
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1026px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mobile_frame {
+          position: absolute;
+          top: -75px;
+          height: 500px;
+          width: 300px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          z-index: 3;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .mySwiper-1{
+          margin-inline: -35%;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          .insta_card {
+            padding: 2px;
+            height: 340px;
+            border: 1px solid rgba(192, 192, 192, 0.61);
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 996px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mobile_frame {
+          position: absolute;
+          top: -57px;
+          height: 400px;
+          width: 300px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          z-index: 3;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .mySwiper-1{
+          margin-inline: -30%;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          .insta_card {
+            padding: 2px;
+            height: auto;
+            border: 1px solid rgba(192, 192, 192, 0.61);
+            img {
+              width: 100%;
+              height: 280px;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 885px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mobile_frame {
+          position: absolute;
+          top: -57px;
+          height: 400px;
+          width: 300px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          z-index: 3;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .mySwiper-1{
+          margin-inline: -36%;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          .insta_card {
+            padding: 2px;
+            height: auto;
+            border: 1px solid rgba(192, 192, 192, 0.61);
+            img {
+              width: 100%;
+              height: 280px;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 848px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mobile_frame {
+          position: absolute;
+          top: -52px;
+          height: 360px;
+          width: 280px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          z-index: 3;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .mySwiper-1{
+          margin-inline: -36%;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          .insta_card {
+            padding: 2px;
+            height: auto;
+            border: 1px solid rgba(192, 192, 192, 0.61);
+            img {
+              width: 100%;
+              height: 250px;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 768px) {
+    .for_heading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 0;
+      .title-insta {
+        font-size: 16px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #e16c52;
+        padding-top: 10px;
+        text-align: center;
+      }
+      .desc_insta {
+        font-size: 14px;
+        padding: 5px 8px;
+        text-align: center;
+        color: #1b1b1b;
+        font-weight: 650;
+        line-height: 19px;
+      }
+    }
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mobile_frame {
+          position: absolute;
+          top: -49px;
+          height: 340px;
+          width: 280px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          z-index: 3;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .mySwiper-1{
+          margin-inline: -36%;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          .insta_card {
+            padding: 2px;
+            height: auto;
+            border: 1px solid rgba(192, 192, 192, 0.61);
+            img {
+              width: 100%;
+              height: 240px;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 729px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mobile_frame {
+          position: absolute;
+          top: -43px;
+          height: 300px;
+          width: 250px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          z-index: 3;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .mySwiper-1{
+          margin-inline: -36%;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          .insta_card {
+            padding: 2px;
+            height: auto;
+            border: 1px solid rgba(192, 192, 192, 0.61);
+            img {
+              width: 100%;
+              height: 210px;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 662px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mobile_frame {
+          position: absolute;
+          top: -39px;
+          height: 280px;
+          width: 250px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          z-index: 3;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .mySwiper-1{
+          margin-inline: -40%;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          .insta_card {
+            padding: 2px;
+            height: auto;
+            border: 1px solid rgba(192, 192, 192, 0.61);
+            img {
+              width: 100%;
+              height: 200px;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 600px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mobile_frame {
+          position: absolute;
+          top: -36px;
+          height: 260px;
+          width: 210px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          z-index: 3;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .mySwiper-1{
+          margin-inline: -40%;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          .insta_card {
+            padding: 2px;
+            height: auto;
+            border: 1px solid rgba(192, 192, 192, 0.61);
+            img {
+              width: 100%;
+              height: 180px;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 534px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mobile_frame {
+          position: absolute;
+          top: -36px;
+          height: 260px;
+          width: 210px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          z-index: 3;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .mySwiper-1{
+          margin-inline: -48%;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          .insta_card {
+            padding: 2px;
+            height: auto;
+            border: 1px solid rgba(192, 192, 192, 0.61);
+            img {
+              width: 100%;
+              height: 180px;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 524px) {
+    .btn{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .forevery-btn{
+        padding: 5px 25px !important;
+        font-size: 14px !important;
+      }
+    }
+  }
+  @media screen and (max-width : 502px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mobile_frame {
+          position: absolute;
+          top: -33px;
+          height: 240px;
+          width: 200px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          z-index: 3;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .mySwiper-1{
+          margin-inline: -50%;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          .insta_card {
+            padding: 2px;
+            height: auto;
+            border: 1px solid rgba(192, 192, 192, 0.61);
+            img {
+              width: 100%;
+              height: 165px;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 452px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mobile_frame {
+          position: absolute;
+          top: -33px;
+          height: 220px;
+          width: 200px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          z-index: 3;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .mySwiper-1{
+          margin-inline: -52%;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          .insta_card {
+            padding: 2px;
+            height: auto;
+            border: 1px solid rgba(192, 192, 192, 0.61);
+            img {
+              width: 100%;
+              height: 150px;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 430px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mobile_frame {
+          position: absolute;
+          top: -26px;
+          height: 190px;
+          width: 200px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          z-index: 3;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .mySwiper-1{
+          margin-inline: -48%;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          .insta_card {
+            padding: 2px;
+            height: auto;
+            border: 1px solid rgba(192, 192, 192, 0.61);
+            img {
+              width: 100%;
+              height: 132px;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+    
+  }
+  @media screen and (max-width : 378px) {
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mobile_frame {
+          position: absolute;
+          top: -26px;
+          height: 180px;
+          width: 170px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          z-index: 3;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .mySwiper-1{
+          margin-inline: -56%;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          .insta_card {
+            padding: 2px;
+            height: auto;
+            border: 1px solid rgba(192, 192, 192, 0.61);
+            img {
+              width: 100%;
+              height: 125px;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 336px) {
+  margin-bottom: 2rem;
+    .insta_carousel_frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .main_swiper_carousel {
+        width: 84% !important;
+        width: 100%;
+        position: relative;
+        .mobile_frame {
+          position: absolute;
+          top: -26px;
+          height: 170px;
+          width: 160px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+          z-index: 3;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .mySwiper-1{
+          margin-inline: -58%;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          .insta_card {
+            padding: 2px;
+            height: auto;
+            border: 1px solid rgba(192, 192, 192, 0.61);
+            img {
+              width: 100%;
+              height: 112px;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+    .btn{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .forevery-btn{
+        padding: 5px 25px !important;
+        font-size: 14px !important;
+      }
+    }
+  
+  }
+}

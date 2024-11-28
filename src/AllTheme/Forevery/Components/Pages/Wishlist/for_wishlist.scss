@@ -1,0 +1,530 @@
+@import '../../scss/variable.scss';
+
+.for_MainWlDiv {
+    font-family: $primaryFontFamily;
+    margin-top: 0px;
+
+    .for_blacklineDiv {
+        width: 100%;
+        height: 80px;
+        margin-top: 60px;
+        background-color: #000;
+        border-bottom: 6px solid #b1b0af;
+    }
+
+    .for_WishlistDiv {
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        margin-top: -90px;
+        margin-inline: 280px;
+        height: 75px;
+        background-color: #000;
+        border-bottom: 6px solid #b1b0af;
+
+        .for_wishtitleDiv {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 120px;
+            height: 100%;
+            margin: auto;
+            background-color: #ffdde5;
+            color: #000;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+
+            .for_wishHeartIcon {
+                font-size: $fontSize5;
+
+            }
+
+            span {
+                font-size: $fontSize3;
+            }
+        }
+    }
+
+    .for_WishlistSubDiv {
+        margin-top: -105px;
+        margin-inline: 300px;
+        border-radius: 4px;
+        padding-inline: 20px;
+        background-color: #ffffff;
+        overflow: auto;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, .35);
+
+        .for_wishtitlesubDiv {
+            height: 65px;
+            margin-top: 120px;
+            border-bottom: 3px solid #b1b0af;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+
+            .for_wishtitleDiv {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: row;
+                width: 280px;
+                height: 100%;
+                margin: auto;
+                color: #000;
+                z-index: 111;
+
+                .for_wishHeartIcon {
+                    width: 100%;
+                    max-width: 40px;
+                    max-height: 40px;
+                    margin-right: 10px;
+                }
+
+                span {
+                    font-size: $fontSize7;
+                }
+            }
+        }
+
+        .for_wishlistRemoveBtndiv {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+
+            button {
+                font-size: $fontSize1;
+                background: $btn1FontColor;
+                color: $btn1hoverFontColor;
+                border: 1px solid rgba(0, 0, 0, .412);
+                border-radius: 0;
+                display: inline-block;
+                padding: 5px 10px;
+                position: relative;
+                z-index: 1;
+                transition: 0.3s ease-in-out;
+
+                &:hover {
+                    background: $btn1hoverFontColor;
+                    color: $btn1FontColor;
+                }
+            }
+        }
+
+        .for_wishLoginBtnDiv {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            letter-spacing: .5px;
+
+            span {
+                font-size: $fontSize5;
+                color: $primaryfontcolor2;
+            }
+
+            button {
+                height: 35px;
+                margin-top: 10px;
+                width: 170px;
+                font-size: $fontSize2;
+                background: $btn1FontColor;
+                color: $btn1hoverFontColor;
+                border: 1px solid rgba(0, 0, 0, .412);
+                border-radius: 0;
+                display: inline-block;
+                padding: 5px 10px;
+                position: relative;
+                z-index: 1;
+                text-shadow: inherit;
+                transition: 0.3s ease-in-out;
+
+                &:hover {
+                    background: $btn1hoverFontColor;
+                    color: $btn1FontColor;
+                }
+            }
+        }
+
+        .for_wishlistCardDiv {
+            margin-block: 40px;
+            font-family: $primaryFontFamily !important;
+
+            .for_WlListData {
+
+                .for_wlListGrid {
+                    display: flex !important;
+                    justify-content: start !important;
+                    align-items: center !important;
+                    opacity: 1;
+                    transition: opacity .5s ease;
+                    flex-wrap: wrap;
+
+                    .for_WlListCard {
+                        border: 1px solid #d2d2d2 !important;
+                        box-shadow: none !important;
+                        position: relative;
+                        border-radius: 0px !important;
+                        width: 100%;
+                        // max-width: 320px;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+
+                        .for_cardContentMainDiv {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            height: 100%;
+                            padding-bottom: 10px;
+
+
+                            .for_WlListImage {
+                                height: 260px;
+                                object-fit: contain;
+                                cursor: pointer;
+                            }
+
+                            .for_diamondImage {
+
+                                .for_cardText {
+                                    p {
+                                        text-transform: uppercase !important;
+                                        letter-spacing: .8px !important;
+                                        margin-bottom: 5px !important;
+
+                                        span {
+                                            text-transform: uppercase !important;
+                                            letter-spacing: .8px !important;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .for_cardContent {
+                                padding: 10px;
+                                flex: 1;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: space-between;
+                                height: 40px;
+
+                                .for_cardText {
+                                    margin-top: 10px;
+                                    height: 115px;
+                                    max-height: 150px;
+
+                                    .for_card-ContentData {
+                                        font-size: $fontSize1;
+                                        color: $primaryfontcolor2;
+                                        font-family: $primaryFontFamily !important;
+                                        letter-spacing: .6px;
+
+                                        .for_diamondDShapeImg {
+                                            width: 100%;
+                                            max-width: 25px;
+                                            margin: 0;
+                                            padding-right: 5px;
+                                            filter: invert(1);
+                                        }
+                                    }
+
+                                    .for_diamondData {
+                                        margin-top: 5px;
+                                        padding-bottom: 10px;
+                                    }
+                                }
+                            }
+                        }
+
+                        .for_Wl-CartbtnDiv {
+                            margin-top: 10px;
+                            display: flex;
+                            justify-content: center;
+
+                            .for_Wl-Cartbtn {
+                                width: auto;
+                                background-color: $btn1FontColor;
+                                color: $btn1hoverFontColor;
+                                border: 1px solid $btn1FontColor;
+                                padding: 6px 8px;
+                                font-size: $fontSize1;
+                                text-align: center;
+                                cursor: pointer;
+                                text-transform: uppercase;
+                                transition: .3s ease-in-out;
+
+                                &:hover {
+                                    background-color: $btn1hoverFontColor;
+                                    color: $btn1FontColor;
+                                }
+                            }
+                        }
+
+                        .for_priceDataDiv {
+                            text-align: center;
+
+                            span {
+                                font-size: $fontSize3;
+                                font-weight: 700;
+                                color: #000;
+                            }
+                        }
+
+                        .for_totalcart {
+                            text-align: center;
+                            margin-bottom: -7px;
+                            font-size: 14px;
+                            letter-spacing: .8px;
+                            margin-top: 10px;
+                            height: 20px;
+                        }
+
+                        .for_closeWlIconDiv {
+                            border-radius: 50px;
+                            padding: 1px 4px;
+                            position: absolute;
+                            right: 5px;
+                            top: 5px;
+                            width: auto;
+                            background-color: #000;
+
+                            .closeWlIcon {
+                                font-size: $fontSize4 !important;
+                                color: $btn1hoverFontColor;
+                            }
+                        }
+                    }
+                }
+
+                .for_noWishlistData {
+                    text-align: center;
+                    height: 100%;
+                    margin-block: 100px;
+
+                    .for_title {
+                        color: $titleColor;
+                        font-size: $fontSize6;
+                    }
+
+                    .for_desc {
+                        color: $titleColor;
+                        font-size: $fontSize4;
+                    }
+
+                    .for_browseOurCollectionbtn {
+                        background-color: $btn1FontColor;
+                        border: none;
+                        color: #fff;
+                        border: 1px solid $btn1FontColor;
+                        font-size: 15px;
+                        font-weight: 500;
+                        height: 50px;
+                        outline: none;
+                        width: 220px;
+                        transition: 0.3s ease-in-out;
+
+                        &:hover {
+                            background: $btn1hoverFontColor;
+                            color: $btn1FontColor;
+                        }
+                    }
+                }
+            }
+        }
+
+        .for_noWishlistData {
+            text-align: center;
+            height: 100%;
+            margin-block: 100px;
+
+            .for_title {
+                color: $titleColor;
+                font-size: $fontSize6;
+            }
+
+            .for_desc {
+                color: $titleColor;
+                font-size: $fontSize4;
+            }
+
+            .for_browseOurCollectionbtn {
+                background-color: $btn1FontColor;
+                border: none;
+                color: #fff;
+                border: 1px solid $btn1FontColor;
+                font-size: 15px;
+                font-weight: 500;
+                height: 50px;
+                outline: none;
+                width: 220px;
+                transition: 0.3s ease-in-out;
+
+                &:hover {
+                    background: $btn1hoverFontColor;
+                    color: $btn1FontColor;
+                }
+            }
+        }
+    }
+
+    .for_addwishlistSkelton {
+        height: 420px;
+        margin-bottom: 50px;
+        background: #fdf6f6 !important;
+    }
+
+    /* Media Queries for Responsive Design */
+    @media (max-width: 1450px) {
+        .for_WishlistDiv {
+            margin-inline: 80px;
+        }
+
+        .for_WishlistSubDiv {
+            margin-inline: 100px;
+        }
+    }
+
+    @media (max-width: 1400px) {
+        .for_WishlistDiv {
+            margin-inline: 80px;
+        }
+
+        .for_WishlistSubDiv {
+            margin-inline: 100px;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .for_wlListGrid {
+            .css-16cooyn-MuiGrid-root {
+                max-width: 33.333% !important;
+                width: 33.333% !important;
+                flex-basis: 33.333% !important;
+            }
+        }
+
+        .for_WishlistDiv {
+            margin-inline: 10px;
+        }
+
+        .for_WishlistSubDiv {
+            margin-inline: 15px;
+            padding-inline: 10px;
+        }
+
+        .for_WlListCard {
+            // max-width: 180px;
+
+            .for_WlListImage {
+                height: 180px;
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        .for_wlListGrid {
+            padding-left: 10px !important;
+            padding-top: 10px !important;
+
+            .css-16cooyn-MuiGrid-root {
+                max-width: 33.33333333333333% !important;
+                width: 33.33333333333333% !important;
+                flex-basis: 33.33333333333333% !important;
+            }
+        }
+
+        .for_WishlistDiv {
+            margin-inline: 10px;
+        }
+
+        .for_WishlistSubDiv {
+            margin-inline: 15px;
+            padding: 0px 10px 0px 6px;
+        }
+
+        .for_cardContentMainDiv {
+            .for_cardContent {
+                .for_cardText {
+                    height: 110px !important;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 576px) {
+        .for_wlListGrid {
+            padding-left: 10px !important;
+            padding-top: 10px !important;
+
+            .css-16cooyn-MuiGrid-root {
+                max-width: 50% !important;
+                width: 50% !important;
+                flex-basis: 50% !important;
+            }
+        }
+
+        .for_WishlistDiv {
+            margin-inline: 10px;
+        }
+
+        .for_WishlistSubDiv {
+            margin-inline: 15px;
+            padding: 0px 10px 0px 6px;
+        }
+
+        .for_WlListCard {
+            // max-width: 180px;
+
+            .for_WlListImage {
+                height: 100% !important;
+                object-fit: contain;
+            }
+        }
+    }
+
+    @media (max-width: 415px) {
+        .for_wlListGrid {
+            .css-16cooyn-MuiGrid-root {
+                max-width: 100% !important;
+                width: 100% !important;
+                flex-basis: 100% !important;
+            }
+        }
+
+        .for_WishlistDiv {
+            margin-inline: 10px;
+        }
+
+        .for_WishlistSubDiv {
+            margin-inline: 15px;
+            padding-inline: 10px;
+        }
+
+        .for_WlListCard {
+            // max-width: 180px;
+
+            .for_WlListImage {
+                height: 180px;
+            }
+        }
+
+        .for_cardContentMainDiv {
+            .for_cardContent {
+                .for_cardText {
+                    height: 100% !important;
+                    max-height: 100% !important;
+                }
+            }
+        }
+
+        .for_totalcart {
+            display: none;
+        }
+    }
+}

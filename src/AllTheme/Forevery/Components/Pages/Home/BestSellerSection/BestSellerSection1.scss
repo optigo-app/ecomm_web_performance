@@ -1,0 +1,263 @@
+@import '../../../scss/variable';
+
+.for_mainBestSeler1Div {
+    .for_bestseler1TitleDiv {
+        text-align: center;
+        padding-block: 3%;
+
+        .for_bestseler1Title {
+            font-size: $fontSize6;
+            color: $homePageFontColor;
+            font-family: $primaryFontFamily;
+        }
+    }
+
+    .product-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 0px 10px;
+
+        .for_leftSideBestSeler {
+            width: 50%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+
+            .product-card {
+                width: calc(50% - 10px);
+                box-sizing: border-box;
+
+                .for_btimageDiv {
+                    padding: 50px;
+                    background-color: #f1f1f1;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        display: block;
+                        object-fit: contain;
+                        max-height: 450px;
+                    }
+                }
+
+                .product-info {
+                    padding: 5px;
+                    background-color: #fff;
+
+                    h3 {
+                        font-size: $fontSize1;
+                        color: $titleColor;
+                        font-family: $primaryFontFamily;
+                        margin: 0;
+                        letter-spacing: .5px;
+                    }
+
+                    p {
+                        margin: 5px 0;
+                        font-size: $fontSize2;
+                        color: $titleColor;
+                        font-family: $primaryFontFamily;
+                        font-weight: bold;
+                        letter-spacing: .5px;
+                    }
+
+                    span {
+                        font-size: $fontSize1;
+                        font-family: $primaryFontFamily;
+                        color: $titleColor;
+                        letter-spacing: .5px;
+                    }
+
+                    .for_btpipe {
+                        margin: 0px 3px;
+                    }
+                }
+            }
+        }
+
+        .for_rightSideBestSeler {
+            width: 50%;
+            position: relative;
+
+            img {
+                width: 100%;
+                height: 100%;
+                display: block;
+                object-fit: cover;
+            }
+
+            .for_lookbookImageRightDT {
+                position: absolute;
+                top: 50%;
+                left: 40%;
+                transform: translate(-30%, -70%);
+                font-size: $fontSize6;
+                color: #fff;
+                text-transform: capitalize;
+                font-family: $primaryFontFamily;
+                text-align: center;
+
+                h2 {
+                    font-size: $fontSize7;
+                    font-family: $primaryFontFamily;
+                    left: .8px;
+                }
+
+                p {
+                    font-size: $fontSize3;
+                    font-family: $primaryFontFamily;
+                    left: .5px;
+                }
+
+                button {
+                    width: 160px;
+                    height: 35px;
+                    font-size: $fontSize2;
+                    font-family: $primaryFontFamily;
+                    background-color: #fff;
+                    color: $titleColor;
+                    letter-spacing: .5px;
+                    border: none;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .for_leftSideBestSeler {
+                width: 100%;
+
+                .product-card {
+                    width: calc(50% - 10px);
+                }
+            }
+
+            .for_rightSideBestSeler {
+                width: 100%;
+                margin-top: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .for_leftSideBestSeler {
+                width: 100%;
+
+                .product-card {
+                    width: calc(50% - 10px);
+                }
+            }
+
+            .for_rightSideBestSeler {
+                width: 100%;
+                margin-top: 20px;
+
+                .for_lookbookImageRightDT {
+                    font-size: $fontSize5;
+
+                    h2 {
+                        font-size: $fontSize6;
+                    }
+
+                    p {
+                        font-size: $fontSize2;
+                    }
+
+                    button {
+                        width: 140px;
+                        height: 30px;
+                        font-size: $fontSize2;
+                    }
+                }
+            }
+        }
+
+        @media (max-width: 576px) {
+            .for_mainBestSeler1Div {
+                .product-grid {
+                    padding: 0px 10px !important;
+                }
+            }
+
+            .for_leftSideBestSeler,
+            .for_rightSideBestSeler {
+                width: 100%;
+                margin-top: 10px;
+
+                .product-card {
+                    width: calc(50% - 10px) !important;
+                }
+
+                .for_btimageDiv {
+                    padding: 10px !important;
+                }
+
+                .for_lookbookImageRightDT {
+                    font-size: $fontSize4;
+
+                    h2 {
+                        font-size: $fontSize5;
+                    }
+
+                    p {
+                        font-size: $fontSize2;
+                    }
+
+                    button {
+                        width: 140px;
+                        height: 35px;
+                        font-size: $fontSize1;
+                    }
+                }
+            }
+        }
+
+        @media (max-width: 400px) {
+            .for_leftSideBestSeler {
+                .product-card {
+                    width: 100%;
+                }
+
+                .for_btimageDiv {
+                    padding: 10px !important;
+                }
+
+                .product-info {
+                    h3 {
+                        font-size: $fontSize1 !important;
+                    }
+
+                    p {
+                        span {
+                            font-size: $fontSize2 !important;
+                        }
+                    }
+
+                    span {
+                        font-size: $fontSize0 !important;
+                    }
+                }
+            }
+
+            .for_rightSideBestSeler {
+                .for_lookbookImageRightDT {
+                    font-size: $fontSize4;
+
+                    h2 {
+                        font-size: $fontSize5;
+                    }
+
+                    p {
+                        font-size: $fontSize1;
+                    }
+
+                    button {
+                        width: 137px;
+                        height: 34px;
+                        font-size: $fontSize1;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,27 @@
+@import "../../../scss/variable.scss";
+
+.for_privacyPolicy {
+  width: 100%;
+  height: auto;
+  font-family: $primaryFontFamily;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  .privacy-policy{
+    h1{
+        margin-top: -1rem !important;
+        margin-bottom: 2rem !important  ;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+    li{
+        @media screen and (max-width : 340px) {
+            font-size: 14px !important;
+        padding: 1px 0;
+        }
+        @media screen and (max-width : 768px) {
+            font-size: 15px !important;
+        padding: 4px 0;
+        }
+    }
+  }
+}

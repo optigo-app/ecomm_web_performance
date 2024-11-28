@@ -1,0 +1,173 @@
+@import '../../../scss/elvee_modules.scss';
+
+.el_LoginWithCodeEmailMain {
+
+    font-family: $fontSansSerif !important;
+
+    #outlined-confirm-password-input::-ms-reveal {
+        display: none !important;
+    }
+
+    .labgrowRegister {
+        width: 28rem;
+        margin: 10px;
+        font-family: $fontSansSerif !important;
+    }
+
+    .elv_cancel_lec {
+        font-family: $fontSansSerif !important;
+        margin-top: 10px;
+        color: gray;
+        margin-bottom: 40px;
+        font-weight: 500;
+    }
+
+    .submitBtnForgot {
+        height: 40px;
+        width: 28rem;
+        border: 1px solid black;
+        margin-top: 10px;
+        font-size: 14px;
+        color: #424242;
+        font-weight: 600 !important;
+        letter-spacing: 1px;
+        transition: all 0.5s ease;
+        // font-family: 'PT Sans', sans-serif;
+        font-family: $fontSansSerif !important;
+        cursor: pointer;
+        background-color: white;
+    }
+
+    .submitBtnForgot:hover {
+        background-color: rgba(66, 66, 66, 0.05);
+    }
+
+    .el_LoginEmailMainDiv {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 6% 0px 6% 0px;
+    }
+
+    .el_LoginSubDivMain {
+        background-color: white;
+        width: 30%;
+    }
+
+    @media screen and (max-width: 700px) {
+
+        .SmilingLoginCodeBtn {
+            width: 50%;
+            height: 50px !important;
+
+        }
+
+    }
+
+    @media screen and (max-width: 700px) {
+        .labgrowRegister {
+            width: 95%;
+            margin: 10px;
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+
+        .SmilingLoginCodeBtn {
+            width: 70%;
+            height: 40px !important;
+            font-size: 12px !important;
+
+        }
+    }
+
+    @media screen and (max-width: 1500px) {
+        .el_LoginSubDivMain {
+            width: 50%;
+        }
+    }
+
+    @media screen and (max-width: 950px) {
+        .AuthScreenMainTitle {
+            font-size: 25px !important;
+            padding-bottom: 50px !important;
+        }
+
+        .AuthScreenSubTitle {
+            font-size: 12px !important;
+            margin-inline: 15%;
+        }
+
+        .el_LoginSubDivMain {
+            margin-inline: 2% !important;
+        }
+
+
+    }
+
+    @media screen and (max-width: 1200px) {
+
+        /* .smling-forgot-main-Color{
+        padding-top: 20%;
+    } */
+        .el_LoginSubDivMain {
+            width: 70%;
+        }
+    }
+
+    @media screen and (max-width: 950px) {
+        .AuthScreenMainTitle {
+            font-size: 25px !important;
+            padding-bottom: 50px !important;
+        }
+
+        .AuthScreenSubTitle {
+            font-size: 12px !important;
+            margin-inline: 15%;
+        }
+
+        .el_LoginSubDivMain {
+            margin-inline: 2% !important;
+        }
+
+
+    }
+
+    @media screen and (max-width: 700px) {
+        .labGrowForgot {
+            width: 95%;
+        }
+
+
+        .submitBtnForgot {
+            width: 95% !important;
+            height: 50px !important;
+
+        }
+
+        /* .smling-forgot-main-Color {
+        padding-top: 30%;
+    } */
+
+        .el_LoginSubDivMain {
+            width: 90%;
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+
+        .labgrowRegister {
+            width: 95% !important;
+        }
+
+        .submitBtnForgot {
+            width: 95%;
+            height: 40px !important;
+            font-size: 12px;
+        }
+
+        .AuthScreenSubTitle {
+            margin-top: -65px !important;
+        }
+    }
+}

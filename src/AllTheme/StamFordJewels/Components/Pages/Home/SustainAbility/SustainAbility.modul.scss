@@ -1,0 +1,87 @@
+@import '../../../scss/variable';
+
+.stam_sustaionMain {
+
+    .sustaionMain {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        flex-direction: column;
+        padding: 45px 0px 0px 0px;
+        gap: 12px;
+    }
+
+    .sustaionImage1 {
+        height: 200px;
+        width: 200px;
+    }
+
+    .sustaionImage2 {
+        height: 200px;
+        width: 200px;
+        object-fit: cover;
+    }
+
+    .sustaionMainTitle {
+        margin: 0px;
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize5;
+    }
+
+    .sustaionMainTitleDesc {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize2;
+        margin: 0px;
+    }
+
+    @media screen and (max-width: 600px) {
+        .sustaionMain {
+            padding: 0px;
+        }
+
+        .sustaionMainTitle {
+            font-size: 22px !important;
+            margin: 0px;
+        }
+
+        .sustaionMainTitleDesc {
+            font-size: 11px !important;
+            margin: 0px;
+        }
+
+        .sustainBoxImageBoxMain {
+            width: 50%;
+            padding: 0px !important;
+        }
+
+        .sustainBoxImageBoxMainDiv {
+            gap: 3px !important;
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+        .sustainBoxImageBoxMain {
+            padding: 0px !important;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        .sustaionMain {
+            padding: 0px;
+        }
+
+        .sustaionImage1 {
+            height: 130px;
+            width: 130px;
+            object-fit: contain;
+        }
+
+        .sustaionImage2 {
+            height: 130px;
+            width: 130px;
+            object-fit: contain;
+        }
+    }
+}

@@ -1,0 +1,33 @@
+.hero {
+    width: 100%;
+    height: auto;
+    background-color: palevioletred;
+  
+    .col_gor {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 4rem;
+      width: 100%;
+    }
+  
+    .grid {
+      width: 100%;
+      display: grid;
+      gap: 10px;
+      padding-inline: 8rem;
+      padding-block: 8rem;
+      transition: grid-template-columns 0.3s ease-in-out;
+  
+      .card {
+        width: 100%;
+        transition: transform 0.3s ease-in-out, height 0.3s ease-in-out !important;
+        img {
+          width: 100%;
+          object-fit: contain;
+          transition: transform 0.3s ease-in-out !important;
+        }
+      }
+    }
+  }
+  

@@ -1,0 +1,58 @@
+.mala_productCard_SkeltenShow {
+    width: 100%;
+    padding-inline: 5%;
+}
+
+.mala_productCard_skeltonMainDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    margin-inline: 4%;
+    margin-bottom: 20px;
+}
+
+.mala_productCardskelton_MainDiv_prodlistPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    // margin-inline: 13%;
+    margin-bottom: 20px;
+}
+
+.mala_productCard_skeltoncards {
+    box-shadow: none !important;
+}
+
+.mala_productCard_skle_Main {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.mala_productCard_listpage {
+    box-shadow: none !important;
+    width: 350px
+}
+
+@media (max-width:1440px) {
+    .mala_productCard_filtercard {
+        display: none !important;
+    }
+
+    .mala_productCard_topSkeletonMain {
+        margin-top: 50px;
+    }
+}
+
+@media (max-width: 600px) {
+    .mala_productCard_skeltonMainDiv {
+        margin-inline: 1%;
+    }
+
+    .mala_productCard_cardMainSkeleton {
+        height: 20vh !important;
+    }
+
+
+}

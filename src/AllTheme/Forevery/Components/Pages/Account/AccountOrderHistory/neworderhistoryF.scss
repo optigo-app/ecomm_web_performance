@@ -1,0 +1,330 @@
+.orderHistory_Account_FE{
+
+
+.orderHistory_acc{
+    // border: 1px solid black;
+    padding: 10px;
+ 
+    
+    .orderImgAcc{
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        padding: 2px;
+        margin: 2px;
+        border: 1px solid #e8e8e8;
+        max-width: 70px;
+        max-height: 70px;
+    }
+
+    .text_danger_oh{
+        color: #dc3545;
+    }
+    .text_success_oh{
+        color: #28a745;
+    }
+    .text_primary_oh{
+        color: #007bff;
+    }
+    .text_primary_oh{
+        color: #007bff;
+    }
+
+    .d_end_oh{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    .fs_head_accF{
+        font-size: 14px !important;
+    }
+
+    .fs_head_accF .MuiAccordionSummary-content {
+        margin: 0px !important;
+    }
+    .fs_head_accF .MuiButtonBase-root {
+        min-height: 20px !important;
+    }
+    .fs_head_accF .MuiCardContent-root {
+        padding-bottom: 2px !important;
+    }
+    .minh_noh{
+        min-height: 50px;
+    }
+    .minh_noh2{
+        min-height: 40px;
+    }
+    .center_noh{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .smr_yourProfile_mt8_for{
+        margin-top: 8% !important;
+    }
+    .loadingBarManage{
+        color: #7d7f85 !important;
+    }
+
+ @media (max-width:788px){
+    .wdate_smr_acc_noh{
+        width: 30% !important;
+    }
+    .wstatus_smr_acc_noh{
+        width: 35% !important;
+    }
+    .wprice_smr_acc_noh{
+        width: 35% !important;
+    }
+    .fs_head_accFF2{
+        font-size: 8px !important;
+    }
+    .d_flex_acc_new_oh{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+ }
+ @media (max-width:756px){
+    .wdate_smr_acc_noh{
+        width: 26% !important;
+    }
+    .wstatus_smr_acc_noh{
+        width: 37% !important;
+    }
+    .wprice_smr_acc_noh{
+        width: 37% !important;
+    }
+ }
+ @media (max-width:720px){
+    .wdate_smr_acc_noh{
+        width: 22% !important;
+    }
+    .wstatus_smr_acc_noh{
+        width: 39% !important;
+    }
+    .wprice_smr_acc_noh{
+        width: 39% !important;
+    }
+ }
+ @media (max-width:687px){
+    .wdate_smr_acc_noh{
+        width: 22% !important;
+    }
+    .wstatus_smr_acc_noh{
+        width: 39% !important;
+    }
+    .wprice_smr_acc_noh{
+        width: 39% !important;
+    }
+    .fs_head_accF{
+        font-size: 12px !important;
+    }
+ }
+ @media (max-width:562px){
+    .wdate_smr_acc_noh{
+        width: 20% !important;
+    }
+    .wstatus_smr_acc_noh{
+        width: 40% !important;
+    }
+    .wprice_smr_acc_noh{
+        width: 40% !important;
+    }
+    .fs_head_accF{
+        font-size: 12px !important;
+    }
+ }
+ @media (max-width:548px){
+    .wdate_smr_acc_noh{
+        width: 20% !important;
+    }
+    .wstatus_smr_acc_noh{
+        width: 40% !important;
+    }
+    .wprice_smr_acc_noh{
+        width: 40% !important;
+    }
+    .fs_head_accF{
+        font-size: 10px !important;
+    }
+    .fs_head_accF .MuiButtonBase-root {
+        min-height: 16px !important;
+    }
+    .fs_head_accF .MuiList-root {
+        padding: 0px !important;
+    }
+
+    .fs_head_accFF2{
+        font-size: 8px !important;
+    }
+    .d_flex_acc_new_oh{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .w_50_noh{
+        width: 50% !important;
+    }
+ }
+ @media (max-width:480px){
+    .wdate_smr_acc_noh{
+        width: 20% !important;
+    }
+    .wstatus_smr_acc_noh{
+        width: 40% !important;
+    }
+    .wprice_smr_acc_noh{
+        width: 40% !important;
+    }
+    .fs_head_accF{
+        font-size: 10px !important;
+    }
+    .orderImgAcc{
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        padding: 2px;
+        margin: 2px;
+        border: 1px solid #e8e8e8;
+        max-width: 60px;
+        max-height: 60px;
+    }
+    .fs_head_accF .MuiButtonBase-root {
+        min-height: 16px !important;
+    }
+    .fs_head_accF .MuiList-root {
+        padding: 0px !important;
+    }
+
+    .fs_head_accF .MuiPaper-root{
+        right: 35% !important;
+        top: 15px;
+        z-index: 1000 !important;
+    }
+    .pb_25_noh{
+        padding-bottom: 25px;
+    }
+    .fs_head_accFF2{
+        font-size: 7px !important;
+    }
+    .d_flex_acc_new_oh{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .w_50_noh{
+        width: 50% !important;
+    }
+
+    .start_noh_acc{
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+    }
+    .w_100_noh_acc{
+        width: 100% !important;
+    }
+ }
+
+ @media (max-width:390px){
+    .fs_head_accF .MuiPaper-root{
+        right: 30% !important;
+        top: 15px;
+        z-index: 1000 !important;
+    }
+    .pb_25_noh{
+        padding-bottom: 25px;
+    }
+
+    .fs_head_accFF2{
+        font-size: 7px !important;
+    }
+    .d_flex_acc_new_oh{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    .w_50_noh{
+        width: 50% !important;
+    }
+
+    .start_noh_acc{
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+    }
+
+    .w_100_noh_acc{
+        width: 100% !important;
+    }
+ }
+ @media (max-width:320px),(max-width:360px),(max-width:365px){
+    .wdate_smr_acc_noh{
+        width: 20% !important;
+    }
+    .wstatus_smr_acc_noh{
+        width: 40% !important;
+    }
+    .wprice_smr_acc_noh{
+        width: 40% !important;
+    }
+    .fs_head_accF{
+        font-size: 8px !important;
+    }
+    .orderImgAcc{
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        padding: 2px;
+        margin: 2px;
+        border: 1px solid #e8e8e8;
+        max-width: 40px;
+        max-height: 40px;
+    }
+    .fs_head_accF .MuiButtonBase-root {
+        min-height: 16px !important;
+    }
+    .fs_head_accF .MuiList-root {
+        padding: 0px !important;
+    }
+
+
+    .fs_head_accF .MuiPaper-root{
+        right: 30% !important;
+        top: 15px;
+        z-index: 1000 !important;
+    }
+    .pb_25_noh{
+        padding-bottom: 25px;
+    }
+    .fs_head_accFF2{
+        font-size: 7px !important;
+    }
+    .d_flex_acc_new_oh{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .w_50_noh{
+        width: 50% !important;
+    }
+
+    .start_noh_acc{
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+    }
+    .w_100_noh_acc{
+        width: 100% !important;
+    }
+ }
+
+
+}
+}

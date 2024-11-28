@@ -1,0 +1,97 @@
+@import '../../../scss/variable.scss';
+
+.for_OrderModalBox {
+  width: 90%;
+  max-width: 500px;
+  min-width: 300px;
+  margin: 0 auto;
+  font-family: $primaryFontFamily;
+
+  .for_addorderRemark {
+    font-size: $fontSize4;
+    font-family: $primaryFontFamily;
+    color: $primaryfontcolor2;
+    font-weight: 700;
+  }
+
+
+  .for_projectRemarkBtn-group {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    margin-top: 25px;
+
+    .for_remarksave-btn {
+      height: 35px;
+      width: 120px;
+      font-family: $primaryFontFamily !important;
+      font-size: $fontSize3;
+      color: $btn1hoverFontColor;
+      background-color: $btn1FontColor;
+      border: 1px solid $btn1FontColor;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+
+      &:hover {
+        color: $btn1FontColor;
+        background-color: $btn1hoverFontColor;
+      }
+    }
+
+    .for_remarkcancel-btn {
+      margin-right: 20px;
+      height: 35px;
+      width: 120px;
+      font-family: $primaryFontFamily !important;
+      font-size: $fontSize3;
+      color: $btn1FontColor;
+      background-color: $btn1hoverFontColor;
+      border: 1px solid $btn1FontColor;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+
+      &:hover {
+        color: $btn1hoverFontColor;
+        background-color: $btn1FontColor;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .for_OrderModalBox {
+    width: 95%;
+    max-width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 474px) {
+  .for_OrderModalBox {
+    width: 95% !important;
+  }
+
+  .for_OrderModalBox {
+    padding: 20px 8px 20px 8px !important;
+
+    h2 {
+      color: $titleColor !important;
+      font-size: $fontSize2 !important;
+    }
+
+    .for_projectRemarkBtn-group {
+
+      .for_remarksave-btn,
+      .for_remarkcancel-btn {
+        font-size: $fontSize0 !important;
+        padding: 5px 10px !important;
+      }
+    }
+
+    .for_orderRemarkMoalInput textarea {
+      font-size: $fontSize1 !important;
+    }
+  }
+}

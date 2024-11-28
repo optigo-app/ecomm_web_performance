@@ -1,0 +1,136 @@
+// .designWiseSalesReport_Account_PCMJ{
+
+
+.proCatApp_desisnwiseSaleReportMain {
+
+    .proCat_DWSR_BoxMainDiv {
+        padding: 0px !important;
+        margin: 0px !important;
+    }
+
+    .proCatApp_DWSR_SubDivMain {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .proCatApp_DWSR_SubDivMain_Top {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .proCat_APP_prod_img {
+        object-fit: contain;
+        width: 100%;
+    }
+
+    .DesignWiseSalesReport>div {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .design_No input {
+        padding: 10px 5px;
+    }
+
+    .design_No input::placeholder {
+        color: rgb(125, 127, 133) !important;
+        opacity: 1 !important;
+    }
+
+    .netWtSecSlider.MuiSlider-colorPrimary {
+        color: #7d7f85;
+        padding: 2px;
+    }
+
+    .netWtSliderSec {
+        padding-top: 7px;
+    }
+
+    .netWtSliderSec input {
+        padding: 5px
+    }
+
+    .designWiseSalesProducts {}
+
+    .designWiseSalesReport * {
+        font-size: 12px !important;
+    }
+
+    .searchDesignWiseSalesReport svg,
+    .designWiseSalesReport svg {
+        font-size: 20px !important;
+    }
+
+    .proCatAPP_DWSRP_DeatilBoxMain {
+        background-color: #fff;
+        width: 49%;
+        border: 1px solid #e1e1e1;
+        text-align: center;
+        color: #7d7f85;
+        margin: 2px;
+        z-index: 0;
+        background: #c0bbb133;
+    }
+
+
+    .designWiseSalesInputRadio svg {
+        color: #7d7f85;
+    }
+
+    .reactPaginationDesignWise {
+        display: flex;
+        justify-content: center;
+        list-style-type: none;
+    }
+
+    .reactPaginationDesignWise {
+        padding-top: 25px;
+    }
+
+    .reactPaginationDesignWise>li>a {
+        text-decoration: unset;
+        font-size: 22px !important;
+    }
+
+    .reactPaginationDesignWise>li {
+        padding: 0 10px;
+        margin: 0 5px;
+        cursor: pointer;
+    }
+
+    .reactPaginationDesignWise>li:hover,
+    .reactPaginationDesignWise>li.active {
+        background-color: rgba(0, 0, 0, 0.08);
+    }
+
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 10; // Ensures it stays on top of other content
+        background-color: white; // Ensures background color is consistent when it becomes sticky
+    }
+
+    @media(max-width: 500px) {
+        .proCatAPP_DEWSR_Deatail_Show {
+            font-size: 9px !important;
+        }
+    }
+
+    @media(max-width: 405px) {
+        .proCatAPP_DWSRP_DeatilBoxMain {
+            width: 48% !important;
+        }
+
+        .proCatApp_DWSR_SubDivMain_Top {
+            display: flex !important;
+            flex-direction: column-reverse !important;
+        }
+
+        .proCatApp_gwsr_TopDivMainSet{
+            margin-bottom: 5px!important;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
+// }

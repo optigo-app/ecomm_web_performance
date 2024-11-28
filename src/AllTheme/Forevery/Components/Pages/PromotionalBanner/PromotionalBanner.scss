@@ -1,0 +1,183 @@
+@import "../../scss/variable.scss";
+
+.for_pm_PromotionalBanner {
+  width: 100%;
+  height: 100vh;
+  background: rgba(0,0,0,.5);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 8888888;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $primaryFontFamily;
+
+  .discount-popup {
+    background-color: #000;
+    border: 1px solid #fff;
+    max-width: 900px;
+    position: relative;
+    width: 100%;
+    display: flex;
+    @media screen and (max-width : 1018px) {
+    max-width: 700px;
+    }
+    @media screen and (max-width : 824px) {
+      max-width: 100%;
+      }
+      @media screen and (max-width : 768px) {
+        max-width: 60%;
+        }
+        @media screen and (max-width : 640px) {
+          max-width: 70%;
+          }
+          @media screen and (max-width : 472px) {
+            max-width: 80%;
+            }
+            @media screen and (max-width : 410px) {
+              max-width: 90%;
+              }
+    .for-col-discount {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 40px 20px 20px;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      text-align: center;
+      color: white;
+      position: relative;
+
+      .close_for_btn{
+        position: absolute;
+        display: flex;
+        align-items: center;
+        height: 15px;
+        top: 10px;
+        left: 10px;
+      }
+      .for_li_logo {
+        width: 100%;
+        height: 100%;
+        padding-bottom: 2.4rem;
+        img {
+          max-width: 200px;
+          @media screen and (max-width : 768px) {
+            max-width: 170px;
+            }
+        }
+      }
+      .for_pb_title {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        .pb-for_1 {
+          font-size: 48px;
+          line-height: 68px;
+          font-weight: 400;
+           @media screen and (max-width : 768px) {
+            font-size: 38px;
+            line-height: 68px;
+            }
+            @media screen and (max-width : 410px) {
+              font-size: 32px;
+              }
+        }
+        .pb-for_2 {
+          font-size: 30px;
+          line-height: 45px;
+          font-weight: 350;
+           @media screen and (max-width : 768px) {
+            font-size: 26px;
+            line-height: 35px;
+            }
+            @media screen and (max-width : 410px) {
+              font-size: 21px;
+              }
+        }
+      }
+      .for_line {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        padding-top: 2rem;
+        padding-bottom: 0.5rem;
+        @media screen and (max-width : 410px) {
+          padding-top: 1rem;
+            }
+        .line_li_12 {
+          width: 50%;
+          height: 2px;
+          background-color: rgba(255, 255, 255, 0.866);
+        }
+      }
+      .for_desc_meow_meow {
+        display: flex;
+        flex-direction: column;
+        font-size: 20px;
+        line-height: 30px;
+        font-weight: 400;
+        text-transform: capitalize;
+        padding-bottom: 2rem;
+        @media screen and (max-width : 410px) {
+          padding-bottom: 1rem;
+            }
+        @media screen and (max-width : 768px) {
+          font-size: 16px;
+        line-height: 15px;
+          }
+
+      }
+      .for_pb_btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        button {
+          background: #fff;
+          color: #000 !important;
+          display: inline-block;
+          font-size: 17px;
+          font-weight: 600;
+          margin-bottom: 15px;
+          padding: 10px 15px;
+          position: relative;
+          text-transform: uppercase;
+          transition: 0.5s;
+          border: none;
+          @media screen and (max-width : 768px) {
+            padding: 10px 20px;
+            }
+            @media screen and (max-width : 410px) {
+              padding: 10px 22px;
+              }
+        }
+      }
+      .for_pb_note {
+        margin-top: 30px;
+        width: 100%;
+        text-align: center;
+        font-size: 10px;
+        line-height: 15px;
+        font-weight: 400;
+        letter-spacing: 0.5px;
+        @media screen and (max-width : 410px) {
+        margin-top: 20px;
+          }
+      }
+    }
+    .for-col-image {
+      padding: 40px 20px 20px;
+      flex: 1;
+      background-repeat: no-repeat;
+      background-size: cover;
+      @media screen and (max-width : 768px) {
+        display: none;
+        }
+    }
+  }
+}

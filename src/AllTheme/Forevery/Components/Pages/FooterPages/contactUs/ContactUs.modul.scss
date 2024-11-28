@@ -1,0 +1,459 @@
+@import "../../../scss/variable.scss";
+@mixin grid-columns($width: 20%, $columns: 4) {
+  grid-template-columns: repeat(auto-fill, minmax($width, 1fr));
+}
+
+.forevery_ContactMain {
+  width: 100%;
+  height: auto;
+  font-family: $primaryFontFamily;
+  margin-top: 205px;
+  margin-bottom: 4rem;
+  .heading {
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 250px;
+    justify-content: center;
+    h1 {
+      color: white;
+      font-size: 26px;
+      font-weight: 500;
+    }
+  }
+  .form_box_forvery {
+    width: 68%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    .title {
+      font-size: 22px;
+      font-weight: 500;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
+    .for_grid_col {
+      width: 100%;
+      display: grid;
+      @include grid-columns(20%, 4);
+      gap: 55px;
+      .box1 {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: 0.2s ease-in-out;
+        border: 1px solid #c4c4c4;
+        border-radius: 2px !important;
+        box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px, rgba(0, 0, 0, 0.24) 0 1px 2px;
+        border-radius: 2px;
+        .title-box {
+          font-size: 24px;
+          font-weight: 500;
+          margin-bottom: 5px;
+        }
+        .desc-box {
+          display: flex;
+          text-align: center;
+          align-items: center;
+          flex-direction: column;
+          justify-content: center;
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            li {
+              font-size: 14px;
+              font-weight: 400;
+            }
+          }
+          .href-box {
+            text-decoration: none;
+            cursor: pointer;
+            display: flex;
+            color: black;
+            gap: 4px;
+            span {
+              font-size: 16px;
+              font-weight: 400;
+              margin: 0;
+              padding: 0;
+              display: flex;
+              align-items: center;
+              &:first-child {
+                display: block;
+              }
+            }
+          }
+        }
+      }
+    }
+    .forevery_form {
+      width: 100%;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      form {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 25px;
+        .input {
+          display: grid;
+          width: 100%;
+          gap: 20px;
+          @include grid-columns(38%, 2);
+          .box_input {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            label {
+              font-size: 16px;
+              font-weight: 400;
+            }
+            input {
+              width: 100%;
+              padding: 8px 8px;
+              border-radius: none !important;
+              border: 1px solid gray;
+              &:focus {
+                outline: none;
+              }
+            }
+          }
+        }
+        .textarea {
+          display: flex;
+          align-items: start;
+          flex-direction: column;
+          margin-top: 15px;
+          label {
+            font-size: 16px;
+            font-weight: 400;
+          }
+          textarea {
+            width: 100%;
+            height: 254px;
+            outline: none;
+            border: 1px solid 1px solid rgb(140, 140, 140);
+            padding: 10px;
+            border-radius: none !important;
+            border: 1px solid gray;
+            &:focus {
+              outline: none;
+            }
+          }
+        }
+        .btn_form {
+          width: 100%;
+          padding: 20px 0;
+          button {
+            padding: 9px 45px;
+            outline: none;
+            text-align: center;
+            border-radius: 0 !important;
+            font-size: 17px;
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
+  .for_OurServices {
+    .contact-page {
+      width: 75%;
+      margin: 0 auto;
+    }
+  }
+  @media screen and (max-width: 1344px) {
+    .form_box_forvery {
+      width: 85%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+    }
+    .for_OurServices {
+        .contact-page {
+          width: 90%;
+          margin: 0 auto;
+        }
+      }
+  }
+
+  @media screen and (max-width: 1000px) {
+    .form_box_forvery {
+      width: 90%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+      .title {
+        font-size: 22px;
+        font-weight: 500;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+      }
+      .for_grid_col {
+        width: 100%;
+        display: grid;
+        @include grid-columns(45%, 4);
+        gap: 40px;
+        .box1 {
+          padding: 10px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          transition: 0.2s ease-in-out;
+          border: 1px solid #c4c4c4;
+          border-radius: 2px !important;
+          box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px,
+            rgba(0, 0, 0, 0.24) 0 1px 2px;
+          border-radius: 2px;
+          .title-box {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 5px;
+          }
+          .desc-box {
+            display: flex;
+            text-align: center;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            ul {
+              list-style: none;
+              padding: 0;
+              margin: 0;
+              li {
+                font-size: 14px;
+                font-weight: 400;
+              }
+            }
+            .href-box {
+              text-decoration: none;
+              cursor: pointer;
+              display: flex;
+              color: black;
+              gap: 4px;
+              span {
+                font-size: 16px;
+                font-weight: 400;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                &:first-child {
+                  display: block;
+                }
+              }
+            }
+          }
+        }
+      }
+      .forevery_form {
+        width: 100%;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        form {
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+          gap: 10px;
+          margin-top: 25px;
+          .input {
+            display: grid;
+            width: 100%;
+            gap: 20px;
+            @include grid-columns(80%, 2);
+            .box_input {
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: start;
+              label {
+                font-size: 16px;
+                font-weight: 400;
+              }
+              input {
+                width: 100%;
+                padding: 8px 8px;
+                border-radius: none !important;
+                border: 1px solid gray;
+                &:focus {
+                  outline: none;
+                }
+              }
+            }
+          }
+          .textarea {
+            display: flex;
+            align-items: start;
+            flex-direction: column;
+            margin-top: 15px;
+            label {
+              font-size: 16px;
+              font-weight: 400;
+            }
+            textarea {
+              width: 100%;
+              height: 254px;
+              outline: none;
+              border: 1px solid 1px solid rgb(140, 140, 140);
+              padding: 10px;
+              border-radius: none !important;
+              border: 1px solid gray;
+              &:focus {
+                outline: none;
+              }
+            }
+          }
+          .btn_form {
+            width: 100%;
+            padding: 20px 0;
+            button {
+              padding: 9px 45px;
+              outline: none;
+              text-align: center;
+              border-radius: 0 !important;
+              font-size: 17px;
+              background-color: transparent;
+            }
+          }
+        }
+      }
+    }
+    .for_OurServices {
+      .contact-page {
+        width: 90%;
+        margin: 0 auto;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .form_box_forvery {
+      width: 92%;
+      .for_grid_col {
+        gap: 45px;
+      
+      }
+      .forevery_form {
+        form {
+         .input{
+            .box_input{
+                input{
+                    &::placeholder{
+                        font-size: 14px;
+                      }
+                }
+            }
+         }
+        }
+      }
+    }
+    .for_OurServices {
+      .contact-page {
+        width: 85%;
+        margin: 0 auto;
+      }
+    }
+  }
+  @media screen and (max-width: 532px) {
+    .form_box_forvery {
+      width: 92%;
+      .for_grid_col {
+        width: 100%;
+        display: grid;
+        @include grid-columns(80%, 4);
+        gap: 40px;
+      }
+      .forevery_form {
+        width: 100%;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        form {
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+          gap: 10px;
+          margin-top: 25px;
+          .input {
+            display: grid;
+            width: 100%;
+            gap: 20px;
+            @include grid-columns(80%, 2);
+            .box_input {
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: start;
+              label {
+                font-size: 16px;
+                font-weight: 400;
+              }
+              input {
+                width: 100%;
+                padding: 8px 8px;
+                border-radius: none !important;
+                border: 1px solid gray;
+                &:focus {
+                  outline: none;
+                }
+              }
+            }
+          }
+          .textarea {
+            display: flex;
+            align-items: start;
+            flex-direction: column;
+            margin-top: 15px;
+            label {
+              font-size: 16px;
+              font-weight: 400;
+            }
+            textarea {
+              width: 100%;
+              height: 254px;
+              outline: none;
+              border: 1px solid 1px solid rgb(140, 140, 140);
+              padding: 10px;
+              border-radius: none !important;
+              border: 1px solid gray;
+              &:focus {
+                outline: none;
+              }
+            }
+          }
+          .btn_form {
+            width: 100%;
+            padding: 20px 0;
+            button {
+              padding: 9px 45px;
+              outline: none;
+              text-align: center;
+              border-radius: 0 !important;
+              font-size: 17px;
+              background-color: transparent;
+            }
+          }
+        }
+      }
+    }
+    .for_OurServices {
+      .contact-page {
+        width: 92%;
+        margin: 0 auto;
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.stam_addCardSkeltonMainBox{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+
+.stam_addCardSkelton{
+    width: 345px !important;
+    max-width: 345px !important;
+    box-shadow: none !important;
+    
+    .stam_addCardSkelton{
+        background-color: #f6f6f6 !important;
+    }
+}
+}

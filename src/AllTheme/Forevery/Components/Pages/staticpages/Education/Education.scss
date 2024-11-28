@@ -1,0 +1,570 @@
+@import "../../../scss/variable.scss";
+
+.for_Education {
+  width: 100%;
+  height: auto ;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: $primaryFontFamily;
+  .heading-e {
+    background-color: #ffdfdf;
+    color: black;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    span {
+      font-size: 32px;
+      font-weight: 500;
+      padding: 20px 0;
+    }
+  }
+  .education-wrapper {
+    padding: 10px;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    align-items: center;
+    text-align: center;
+    hr {
+      width: 100%;
+      height: 1px;
+      background-color: gray;
+    }
+    .desc {
+      h2 {
+        font-size: 32px;
+        font-weight: 500;
+      }
+      bdo {
+        font-family: $cursive;
+        font-size: 30px;
+        font-weight: 500;
+        padding-bottom: 1rem;
+      }
+      p {
+        font-weight: 350;
+        font-size: 15px;
+        color: black;
+      }
+    }
+    .education_grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+      margin-top: 2rem;
+      gap: 4rem;
+      height: auto;
+      margin-bottom: 9rem;
+      .grid_boxes {
+        width: 100%;
+        height: 380px;
+        .image {
+          height: inherit;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+        .details-t {
+          width: 100%;
+          padding: 8px 0;
+          .title-t {
+            font-size: 20px;
+            font-weight: 500;
+            text-transform: uppercase;
+            padding: 10px 0;
+          }
+          .descri-t {
+            font-size: 13px;
+          }
+          button {
+            padding: 5px 10px;
+            border: 1px solid rgba(168, 166, 166, 0.705);
+            background-color: transparent;
+            color: rgba(51, 51, 51, 0.911);
+            font-weight: 500;
+            &:hover {
+              color: white;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 2000px) {
+      .education-wrapper {
+        padding: 10px;
+        width: 85%;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        align-items: center;
+        text-align: center;
+        hr {
+          width: 100%;
+          height: 1px;
+          background-color: gray;
+        }
+        .desc {
+          h2 {
+            font-size: 32px;
+            font-weight: 500;
+          }
+          bdo {
+            font-family: $cursive;
+            font-size: 30px;
+            font-weight: 500;
+            padding-bottom: 1rem;
+          }
+          p {
+            padding-inline: 10rem;
+            font-weight: 350;
+            font-size: 15px;
+            color: black;
+          }
+        }
+        .education_grid {
+          width: 100%;
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+          margin-top: 2rem;
+          gap: 4rem;
+          height: auto;
+          margin-bottom: 9rem;
+          .grid_boxes {
+            width: 100%;
+            height: 380px;
+            .image {
+              height: inherit;
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+              }
+            }
+            .details-t {
+              width: 100%;
+              padding: 8px 0;
+              .title-t {
+                font-size: 20px;
+                font-weight: 500;
+                text-transform: uppercase;
+                padding: 10px 0;
+              }
+              .descri-t {
+                font-size: 13px;
+              }
+              button {
+                padding: 5px 10px;
+                border: 1px solid rgba(168, 166, 166, 0.705);
+                background-color: transparent;
+                color: rgba(51, 51, 51, 0.911);
+                font-weight: 500;
+                &:hover {
+                  color: white;
+                }
+              }
+            }
+          }
+        }
+      }
+  }
+  @media screen and (max-width : 1545px) {
+    .education-wrapper {
+      padding: 10px;
+      width: 85%;
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      align-items: center;
+      text-align: center;
+      hr {
+        width: 100%;
+        height: 1px;
+        background-color: gray;
+      }
+      .desc {
+        h2 {
+          font-size: 32px;
+          font-weight: 500;
+        }
+        bdo {
+          font-family: $cursive;
+          font-size: 30px;
+          font-weight: 500;
+          padding-bottom: 1rem;
+        }
+        p {
+          padding-inline: 7rem;
+          font-weight: 350;
+          font-size: 15px;
+          color: black;
+        }
+      }
+      .education_grid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(28%, 1fr));
+        margin-top: 2rem;
+        gap: 2rem;
+        height: auto;
+        margin-bottom: 9rem;
+        .grid_boxes {
+          width: 100%;
+          height: 350px;
+          .image {
+            height: inherit;
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
+          .details-t {
+            width: 100%;
+            padding: 8px 0;
+            .title-t {
+              font-size: 20px;
+              font-weight: 500;
+              text-transform: uppercase;
+              padding: 10px 0;
+            }
+            .descri-t {
+              font-size: 13px;
+            }
+            button {
+              padding: 5px 10px;
+              border: 1px solid rgba(168, 166, 166, 0.705);
+              background-color: transparent;
+              color: rgba(51, 51, 51, 0.911);
+              font-weight: 500;
+              &:hover {
+                color: white;
+              }
+            }
+          }
+        }
+      }
+    }
+}
+@media screen and (max-width : 1196px) {
+    .education-wrapper {
+      padding: 10px;
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      align-items: center;
+      text-align: center;
+      hr {
+        width: 100%;
+        height: 1px;
+        background-color: gray;
+      }
+      .desc {
+        h2 {
+          font-size: 32px;
+          font-weight: 500;
+        }
+        bdo {
+          font-family: $cursive;
+          font-size: 30px;
+          font-weight: 500;
+          padding-bottom: 1rem;
+        }
+        p {
+          padding-inline: 5rem;
+          font-weight: 350;
+          font-size: 15px;
+          color: black;
+        }
+      }
+      .education_grid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(28%, 1fr));
+        margin-top: 2rem;
+        gap: 2rem;
+        height: auto;
+        margin-bottom: 9rem;
+        .grid_boxes {
+          width: 100%;
+          height: 290px;
+          .image {
+            height: inherit;
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
+          .details-t {
+            width: 100%;
+            padding: 8px 0;
+            .title-t {
+              font-size: 15px;
+              font-weight: 500;
+              text-transform: uppercase;
+              padding: 10px 0;
+            }
+            .descri-t {
+              font-size: 12px;
+            }
+            button {
+              padding: 5px 10px;
+              border: 1px solid rgba(168, 166, 166, 0.705);
+              background-color: transparent;
+              color: rgba(51, 51, 51, 0.911);
+              font-weight: 500;
+              &:hover {
+                color: white;
+              }
+            }
+          }
+        }
+      }
+    }
+}
+@media screen and (max-width : 932px) {
+    .education-wrapper {
+      padding: 10px;
+      width: 95%;
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      align-items: center;
+      text-align: center;
+      hr {
+        width: 100%;
+        height: 1px;
+        background-color: gray;
+      }
+      .desc {
+        h2 {
+          font-size: 32px;
+          font-weight: 500;
+        }
+        bdo {
+          font-family: $cursive;
+          font-size: 30px;
+          font-weight: 500;
+          padding-bottom: 1rem;
+        }
+        p {
+          padding-inline: 3rem;
+          font-weight: 350;
+          font-size: 15px;
+          color: black;
+        }
+      }
+      .education_grid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(28%, 1fr));
+        margin-top: 2rem;
+        gap: 2rem;
+        height: auto;
+        margin-bottom: 9rem;
+        .grid_boxes {
+          width: 100%;
+          height: 250px;
+          .image {
+            height: inherit;
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
+          .details-t {
+            width: 100%;
+            padding: 8px 0;
+            .title-t {
+              font-size: 15px;
+              font-weight: 500;
+              text-transform: uppercase;
+              padding: 10px 0;
+            }
+            .descri-t {
+              font-size: 12px;
+            }
+            button {
+              padding: 5px 10px;
+              border: 1px solid rgba(168, 166, 166, 0.705);
+              background-color: transparent;
+              color: rgba(51, 51, 51, 0.911);
+              font-weight: 500;
+              &:hover {
+                color: white;
+              }
+            }
+          }
+        }
+      }
+    }
+}
+@media screen and (max-width : 676px) {
+    .education-wrapper {
+      padding: 10px;
+      width: 98%;
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      align-items: center;
+      text-align: center;
+      hr {
+        width: 100%;
+        height: 1px;
+        background-color: gray;
+      }
+      .desc {
+        h2 {
+          font-size: 32px;
+          font-weight: 500;
+        }
+        bdo {
+          font-family: $cursive;
+          font-size: 30px;
+          font-weight: 500;
+          padding-bottom: 1rem;
+        }
+        p {
+          padding-inline: 1rem;
+          font-weight: 350;
+          font-size: 15px;
+          color: black;
+        }
+      }
+      .education_grid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(80%, 1fr));
+        margin-top: 2rem;
+        gap: 8rem;
+        height: auto;
+        margin-bottom: 9rem;
+        .grid_boxes {
+          width: 100%;
+          height: 250px;
+          .image {
+            height: inherit;
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
+          .details-t {
+            width: 100%;
+            padding: 8px 0;
+            margin-bottom: 5rem;
+            .title-t {
+              font-size: 15px;
+              font-weight: 500;
+              text-transform: uppercase;
+              padding: 10px 0;
+            }
+            .descri-t {
+              font-size: 12px;
+            }
+            button {
+              padding: 5px 10px;
+              border: 1px solid rgba(168, 166, 166, 0.705);
+              background-color: transparent;
+              color: rgba(51, 51, 51, 0.911);
+              font-weight: 500;
+              &:hover {
+                color: white;
+              }
+            }
+          }
+        }
+      }
+    }
+}
+@media screen and (max-width : 470px) {
+    .education-wrapper {
+      padding: 10px;
+      width: 98%;
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      align-items: center;
+      text-align: center;
+      hr {
+        width: 100%;
+        height: 1px;
+        background-color: gray;
+      }
+      .desc {
+        h2 {
+          font-size: 27px;
+          font-weight: 500;
+        }
+        bdo {
+          font-family: $cursive;
+          font-size: 25px;
+          font-weight: 500;
+          padding-bottom: 1rem;
+        }
+        p {
+          padding-inline: 0rem;
+          font-weight: 350;
+          font-size: 15px;
+          color: black;
+        }
+      }
+      .education_grid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(80%, 1fr));
+        margin-top: 2rem;
+        gap: 8rem;
+        height: auto;
+        margin-bottom: 9rem;
+        .grid_boxes {
+          width: 100%;
+          height: 250px;
+          .image {
+            height: inherit;
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
+          .details-t {
+            width: 100%;
+            padding: 8px 0;
+            margin-bottom: 5rem;
+            .title-t {
+              font-size: 15px;
+              font-weight: 500;
+              text-transform: uppercase;
+              padding: 10px 0;
+            }
+            .descri-t {
+              font-size: 12px;
+            }
+            button {
+              padding: 5px 10px;
+              border: 1px solid rgba(168, 166, 166, 0.705);
+              background-color: transparent;
+              color: rgba(51, 51, 51, 0.911);
+              font-weight: 500;
+              &:hover {
+                color: white;
+              }
+            }
+          }
+        }
+      }
+    }
+}
+}

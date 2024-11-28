@@ -1,0 +1,295 @@
+// .quotationJob_Account_SMRM{
+
+
+.headSetINQMAMain{
+
+    .quotationFilterDates>div>input {
+        padding: 9.5px 10px;
+    max-width: 96px;
+    min-width: 96px;
+}
+
+.searchbox input {
+    padding: 9.5px 30px 9.5px 10px;
+    max-width: 140px;
+}
+
+.quotationFilterDates label {
+    top: -6px;
+}
+
+#demo-simple-select~fieldset legend {
+    color: #000;
+    display: none !important;
+}
+
+#demo-simple-select {
+    padding: 5px 32px 9px 10px;
+}
+#demo-multiple-checkbox {
+    padding: 12px 32px 9px 10px;
+}
+
+#demo-simple-select~svg {
+    top: 5px;
+}
+
+.searchbox label {
+    top: -6px;
+}
+
+.searchbox>div {
+    top: -2px;
+    position: relative;
+}
+
+.searchbox button:has(svg) {
+    right: 20px;
+    top: 7px;
+}
+
+.orderFrom span:has(input) {
+    padding: 5px;
+}
+
+.quotationFilters>div {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.quotationFiltersText * {
+    font-size: 14px !important;
+    line-height: 120%;
+}
+
+.selectLabel {
+    font-size: 11px !important;
+}
+
+.quotationFiltersText svg {
+    font-size: 20px !important;
+    color: #7d7f85;
+}
+
+.quotationFiltersText .MuiTablePagination-selectLabel,
+.quotationFiltersText .MuiTablePagination-displayedRows {
+    margin-bottom: 0;
+}
+
+.statusSelect>div {
+    min-width: 85px;
+}
+
+.categoryList,
+.MetalColorList {
+    min-width: 120px;
+}
+
+.MetalPurityList {
+    min-width: 150px;
+}
+
+.quotaionFiltertable th {
+    position: relative;
+    cursor: pointer;
+}
+
+.quotaionFiltertable th>span {
+    position: absolute;
+    top: 50%;
+    /* right: 0; */
+    right: 20%;
+    transform: translateY(-50%);
+}
+
+.quotaionFiltertable {
+    position: relative;
+}
+
+.quotaionFiltertable thead>tr:first-child {
+    position: sticky;
+    top: 0;
+    z-index:100
+}
+
+.muiSmilingRocksBtn {
+    border: 1px solid #7d7f85 !important;
+}
+
+.muiSmilingRocksBtn:hover {
+    background: #fff !important;
+    color: #7d7f85;
+}
+
+.muiSmilingRocksBtn:hover svg {
+    color: #7d7f85 !important;
+}
+
+
+    
+    @media(max-width: 768px) {
+        .QuotationJobAllBtn  {
+            margin-bottom: 20px !important;
+        }
+        .QuotationJobAllBtnSec{
+            padding-bottom: 30px !important;
+        }
+        .QuotationJobAllBtnSecDate{
+            padding-bottom: 20px !important;
+        }
+        
+        
+        .QuoteJobtableJMA .MuiTablePagination-root {
+            padding-bottom: 0 !important;
+            max-height: 50px;
+            overflow: hidden;
+        }
+        
+        .QuoteJobtableJMA .MuiTablePagination-root .MuiTablePagination-toolbar {
+            padding: 0 10px;
+        }
+        
+        .QuoteJobtableJMA .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input {
+            margin-right: 5px;
+        }
+        
+        .QuoteJobtableJMA .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input div[role="combobox"] {
+            padding-left: 0;
+            margin-left: -5px;
+            padding-right: 20px;
+        }
+
+    .QuoteJobtableJMA .MuiTablePagination-root .MuiTablePagination-actions {
+        margin-left: 5px;
+    }
+
+    .QuoteJobtableJMA .MuiTablePagination-root .MuiTablePagination-actions button {
+        padding-right: 0;
+        padding-left: 5px;
+    }
+    
+    .smilingSavedAddressMain.quotationFiltersText{
+        padding: 10px 7px;
+    } 
+    .quotaionFiltertable th>span {
+        position: absolute;
+        top: 50%;
+        /* right: 0; */
+        right: 20%;
+        transform: translateY(-50%);
+    }
+}
+
+@media (max-width:320px), (max-width: 576px) {
+    
+    .quotationJobSecJMA {
+        max-height: 450px !important;
+    }
+    
+    .QuoteJobtableJMA table thead tr {
+        // display: flex;
+        // flex-direction: column;
+        overflow: auto;
+    }
+    
+    .QuoteJobtableJMA>div>table {
+        min-width: 100%;
+        // display: flex;
+        // flex-direction: column;
+        overflow: auto;
+        position: static !important;
+        border: unset;
+    }
+    
+    .QuoteJobtableJMA>div>table>thead>tr>th,
+    .QuoteJobtableJMA>div>table>tbody>tr>td {
+        text-align: start !important;
+        padding: 5px 10px !important;
+    }
+    
+    .QuoteJobtableJMA>div>table>thead>tr>th svg {
+        position: absolute;
+        right: -30px;
+    }
+
+    .QuoteJobtableJMA>div>table>tbody>tr {
+        width: 100%;
+        overflow: auto;
+        // display: flex;
+        // flex-direction: column;
+    }
+    
+    .QuoteJobtableJMA>div>table>tbody>tr>td:last-child {
+        // border-bottom: 1px solid #9b978f !important;
+    }
+    
+    .QuoteJobtableJMA>div>table>tbody>tr>td {
+        min-height: 31.02px;
+    }
+    
+    .QuoteJobtableJMA>div>table>tbody>tr:first-child>td:first-child {
+        border-top: 1px solid #9b978f !important;
+    }
+    
+    .QuoteJobtableJMA>div>table>thead>tr>th:last-child,
+    .QuoteJobtableJMA>div>table>thead>tr>th:first-child,
+    .QuoteJobtableJMA>div>table>thead>tr {
+        border-radius: 0 !important;
+    }
+    
+    .quotaionFiltertable th>span {
+        position: absolute;
+        top: 50%;
+        /* right: 0; */
+        right: 82%;
+        transform: translateY(-50%);
+    }
+    .br_bottom_0_JMA{
+        border-bottom: 0px !important;
+    }
+    .MuiTableCell-root .MuiTableCell-head .MuiTableCell-stickyHeader .MuiTableCell-sizeMedium .css-y8ay40-MuiTableCell-root{
+        border-bottom: 0px !important;
+    }
+    
+
+    .css-1m9pwf3 {
+        cursor: inherit;
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 30px;
+        margin: 0;
+        padding: 0;
+        z-index: 1;
+    }
+
+    .parentcell_icon_ma{
+        position: relative !important;
+    }
+
+    .sorticon_ma{
+        position: absolute !important;
+        right: 0px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+    }
+    .sorticon_ma_span{
+        position: absolute !important;
+        right: 10px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+    }
+    
+
+}
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 10; // Ensures it stays on top of other content
+    background-color: white; // Ensures background color is consistent when it becomes sticky
+  }
+// }

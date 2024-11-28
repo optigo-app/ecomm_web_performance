@@ -1,0 +1,161 @@
+@import '../../../../scss/elvee_modules.scss';
+
+.elv_history_maindiv {
+    font-family: $fontSansSerif !important;
+    .elv_history_div {
+        .elv_history_mainImg {
+            max-height: 750px;
+            min-height: 100%;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .elv_history_details_div {
+            margin-inline: 3%;
+        }
+
+        .elv_history_head_title {
+            color: #4b4747;
+            font-size: 20px;
+            font-weight: 700;
+            height: 30px;
+            margin-block: 15px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .elv_history_details {
+            .elv_history_paragraph {
+                width: 100%;
+                word-wrap: break-word;
+                color: #424141;
+                font-size: 18px;
+                line-height: 20px;
+            }
+        }
+
+        .elv_history_journey_div {
+            display: flex;
+            flex-wrap: nowrap;
+            /* Default behavior */
+
+            .elv_history_journey_1 {
+                flex: 1 50%;
+
+                .elv_history_journey_design {
+                    width: 100%;
+                    display: flex;
+                    padding-inline: 1%;
+
+                    .elv_history_jour_1 {
+                        width: 50%;
+
+                        .elv_history_desc_1 {
+                            display: flex;
+                            justify-content: center;
+                            flex-direction: column;
+                            text-align: end;
+                            padding-right: 1.5rem;
+                            visibility: hidden;
+                        }
+
+                        .elv_history_desc_1_active {
+                            display: flex;
+                            justify-content: center;
+                            flex-direction: column;
+                            text-align: end;
+                            padding-right: 1.5rem;
+                            border-right: 3px solid brown;
+                            min-height: 80px;
+
+                            .elv_his_journey_text_1 {
+                                font-size: 18px;
+                                font-weight: 700;
+                                width: 100%;
+                            }
+
+                            .elv_his_journey_text_2 {
+                                font-size: 17px;
+                                width: 100%;
+                            }
+                        }
+                    }
+
+                    .elv_history_jour_2 {
+                        width: 50%;
+
+                        .elv_history_desc_2 {
+                            display: flex;
+                            justify-content: center;
+                            flex-direction: column;
+                            text-align: start;
+                            visibility: hidden;
+                            padding-left: 1.5rem;
+                        }
+
+                        .elv_history_desc_2_active {
+                            display: flex;
+                            justify-content: center;
+                            flex-direction: column;
+                            text-align: start;
+                            padding-left: 1.5rem;
+                            border-left: 3px solid brown;
+                            min-height: 80px;
+
+                            .elv_his_journey_text_1 {
+                                font-size: 18px;
+                                font-weight: 700;
+                                width: 100%;
+                            }
+
+                            .elv_his_journey_text_2 {
+                                font-size: 17px;
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .elv_history_journey_2 {
+                flex: 1 50%;
+
+                .elv_history_jor_img {
+                    border-radius: 8px;
+                    max-height: 680px;
+                    object-fit: contain;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .elv_history_journey_div {
+        flex-direction: column;
+        /* Stack the children vertically */
+        flex-wrap: wrap;
+        /* Allow wrapping if needed */
+        width: 100%;
+    }
+
+    .elv_history_jour_1,
+    .elv_history_jour_2 {
+        width: 100%;
+        /* Take full width */
+    }
+
+    .elv_history_jor_img {
+        margin-top: 5rem;
+    }
+}
+
+@media screen and (max-width: 450px) {
+
+
+    .elv_history_jor_img {
+        margin-top:  4rem;
+        margin-bottom: 1rem;
+    }
+}

@@ -1,0 +1,58 @@
+
+
+
+@font-face {
+    font-family: 'Playfair Display';
+    src: url('./../Assets/fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf');
+}
+
+// $homePageFontFamily: if($prim, $prim, $fontFamily1), sans-serif;
+// $primaryFontFamily: if($prim, $prim, $fontFamily1), sans-serif;
+
+
+$AuthBackgroundColor : '';
+
+$fontFamily1 : 'Poppins', sans-serif;
+
+//backgroundcolors
+
+$backgroundColor: var(--background-color);
+$btn1bgColor: #a8807c;
+$btn1ActivebgColor: #a8807c;
+$btn1FontColor: #fff;
+$btn1hoverColor: #fff;
+$btn1hoverFontColor: #a8807c;
+$homePageColor: #f0e0e0;
+
+//fontcolors
+$primaryfontcolor: #8f8c8be6;
+$primaryfontcolor2: #7d7f85;
+$homePageFontColor: #7d7f85;
+$titleColor: #000;
+$primaryfontcolorLight: #7d7f856e;
+$primaryFontFamilyMedium: "TT Commons Medium";
+$prim : "Playfair Display";
+
+//fontFamily
+
+$homePageFontFamily: "Poppins", sans-serif;
+$primaryFontFamily: "Poppins", sans-serif;
+
+
+// $homePageFontFamily: if($prim, $prim, $fontFamily1), sans-serif;
+// $primaryFontFamily: if($prim, $prim, $fontFamily1), sans-serif;
+
+//fontSize
+$fontSize0: 10px;
+$fontSize1: 12px;
+$fontSize2: 14px;
+$fontSize3: 16px;
+$fontSize4: 18px;
+$fontSize5: 22px;
+$fontSize6: 28px;
+$fontSize7: 35px;
+$fontSize8: 40px;
+
+//borderColor
+$primaryBorderColor: #e1e1e1;
+$primaryBorderColor2: #42424233;

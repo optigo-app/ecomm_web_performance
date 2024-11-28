@@ -1,0 +1,81 @@
+@import '../../../../scss/variable.scss';
+
+.for_related_products_mainDiv {
+    .for_related_products_div {
+        width: 100%;
+
+        .for_related_products_title {
+            display: flex;
+            justify-content: center;
+            font-family: $primaryFontFamily;
+        }
+
+        .for_related_products_swipper_div {
+            cursor: pointer;
+            margin-top: 2rem;
+
+            .for_related_products_card_div {
+                width: 100%;
+                position: relative;
+
+                .for_related_ratings_div {
+                    position: absolute;
+                    top: 0.7rem;
+                    left: 3.5rem;
+                    color: #8f8e8c;
+
+                    .for_related_rating {
+                        font-size: 0.7rem;
+                        display: flex;
+                        gap: 4px;
+                    }
+                }
+
+                .for_related_card_image_div {
+                    display: flex;
+                    justify-content: center;
+
+                    .for_related_card_image {
+                        width: 17rem;
+                        height: 15rem;
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.for_RelatedmySwiper {
+    .swiper-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+
+    .swiper-button-prev:after {
+        content: "prev";
+        font-size: 13px;
+        border: 1px solid black;
+        padding: 5px;
+        border-radius: 50%;
+        width: 90%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        z-index: 1000;
+        right: 10px;
+    }
+
+    .swiper-button-next:after {
+        content: 'next';
+        font-size: 13px;
+        border: 1px solid black;
+        padding: 5px;
+        border-radius: 50%;
+        width: 90%;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        left: 10px;
+    }
+}

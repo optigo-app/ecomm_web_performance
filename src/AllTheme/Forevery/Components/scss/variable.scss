@@ -1,0 +1,55 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap");
+
+$backgroundColor: var(--background-color);
+$btn1bgColor: #fff;
+$btn1ActivebgColor: #7d7f85;
+
+$primaryfontcolor: #5f5f5f;
+$primaryfontcolor2: #212529;
+$primaryfontcolor3: #484848;
+$homePageFontColor: #5f5f5f;
+$titleColor: #565656;
+$ProjectActiveColor: #ffdfdf;
+
+$btn1FontColor: #1b1b1b;
+$btn1hoverColor: #1b1b1b;
+$btn1hoverFontColor: #fff;
+
+$primaryfontcolorLight: #7d7f856e;
+
+$primaryFontFamily: "Nunito", sans-serif;
+$cursive: "Cedarville Cursive", cursive;
+
+// background color
+
+$filterbackground: #ffdfdf;
+
+//fontSize
+$fontSize0: 10px;
+$fontSize1: 12px;
+$fontSize2: 14px;
+$fontSize02: 14px;
+$fontSize3: 16px;
+$fontSize4: 18px;
+$fontSize5: 22px;
+$fontSize6: 24px;
+$fontSize7: 28px;
+$fontSize8: 35px;
+$fontSize9: 40px;
+
+//borderColor
+$primaryBorderColor: #e1e1e1;
+$primaryBorderColor2: #42424233;
+
+@mixin Truncate($lines: 3, $font-size: 13px, $font-weight: 400 ,$height : 200px) {
+  font-size: $font-size;
+  font-weight: $font-weight;
+  width: 100%;
+  height:$height ;
+  display: -webkit-box;
+  text-align: left;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

@@ -1,0 +1,64 @@
+@import '../../../scss/variable';
+
+
+.mala_bottom_main_div {
+
+    background-color: #17372F;
+
+    .mala_bottom_title {
+        color: white;
+        font-size: 60px;
+        font-family: $primaryFontFamily;
+        text-align: center;
+    }
+
+    .mala_bottom_main_div_sub {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-block: 50px;
+    }
+
+    .mala_bottom_main_div_sub1 {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .mala_bottom_title_sub {
+        color: white;
+        font-size: $fontSize6;
+        font-family: $primaryFontFamily;
+        text-align: center;
+    }
+
+    .mala_bottom_btn {
+        height: 50px;
+        width: 160px;
+        font-size: 20px;
+        font-family: $primaryFontFamily;
+        letter-spacing: 1px;
+        background-color: #F6C2B5;
+        color: #17372F;
+        font-weight: 500;
+    }
+
+    .mala_bottom_btn:hover {
+        border: 1px solid #F6C2B5;
+        background-color: transparent;
+        color: #F6C2B5;
+    }
+
+    @media screen and (max-width:1200px) {
+        .mala_bottom_title {
+            font-size: 35px !important;
+        }
+
+        .mala_bottom_main_div_sub1 {
+            width: 90% !important;
+        }
+
+    }
+}

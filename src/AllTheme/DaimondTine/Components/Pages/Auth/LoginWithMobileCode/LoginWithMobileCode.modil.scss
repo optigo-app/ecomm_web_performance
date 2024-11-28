@@ -1,0 +1,102 @@
+.dt_loginmobileCode {
+
+    .css-1wc848c-MuiFormHelperText-root {
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+
+    .dt_LoginMobileCode_labgrowRegister {
+        width: 430px;
+        margin: 10px;
+    }
+
+    .dt_mobileCodeMainDiv{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 6% 0px 6% 0px;
+    }
+
+    .dt_mobileCodeSubDiv{
+        background-color: white;
+        width: 30%;
+    }
+    .SmilingSignInHere {
+        color: #7d7f85;
+        font-size: 12px;
+        margin-top: 10px;
+        font-weight: 500;
+
+        position: relative;
+        text-decoration: none;
+        transition: color 0.3s;
+        cursor: pointer;
+    }
+
+    .SmilingSignInHere::before {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: 0;
+        left: 0;
+        background-color: #000;
+        transition: width 0.3s ease;
+    }
+
+    .SmilingSignInHere:hover::before {
+        width: 100%;
+    }
+    .submitBtnForgot {
+        height: 40px;
+        width: 430px;
+        border: 1px solid black;
+        margin-top: 10px;
+        font-size: 14px;
+        color: #424242;
+        font-weight: 600!important;
+        letter-spacing: 1px;
+        transition: all 0.5s ease;
+        font-family: "Poppins", sans-serif;
+        cursor: pointer;
+        background-color: white;
+    }
+    .submitBtnForgot:hover{
+        background-color: rgba(66, 66, 66, 0.05);
+    }
+
+    @media screen and (max-width: 1500px) {
+        .dt_mobileCodeSubDiv {
+            width: 50%;
+        }
+    }
+
+
+    @media screen and (max-width: 1200px) {
+        .dt_mobileCodeSubDiv {
+            width: 70%;
+        }
+
+        .dt_mobileCodeMainDiv{
+            padding: 100px 0px 0px 0px!important;
+        }
+    }
+
+
+    @media screen and (max-width: 700px) {
+
+        .submitBtnForgot {
+            width: 90% !important;
+            height: 50px !important;
+        }
+
+        .dt_mobileCodeSubDiv {
+            width: 90%;
+        }
+
+        .dt_LoginMobileCode_labgrowRegister {
+            width: 90%;
+            margin: 10px;
+        }
+    }
+}

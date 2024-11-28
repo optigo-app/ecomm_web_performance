@@ -1,0 +1,152 @@
+@import '../../../scss/variable';
+
+
+
+.smaMA_newArrivalBoxcMain {
+    width: 100%;
+}
+
+
+
+.smrMA_NewArrivalMain {
+
+    .smaMA_newArrivalBoxcMainSub {
+        width: 40% !important;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 1px;
+    }
+
+    .smilingBridesMain {
+        display: flex;
+        margin-inline: 0px;
+        border: 0.5px solid #e1e1e1;
+    }
+
+    .enagementBtn {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize1;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: underline;
+        margin-top: 32px;
+        font-weight: 600;
+    }
+
+
+
+    .smilingBrides {
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-right: 0.5px solid #e1e1e1;
+    }
+
+    .smlingBridesImages {
+        width: 75%;
+    }
+
+    .smilingMainImages {
+        max-height: 650px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .smilingBridesMainTitle {
+        text-align: center;
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize5;
+    }
+
+    .smr_newArrivaldivMain {
+        display: flex;
+        width: 100%;
+    }
+
+    .smr_newArrialDiv1 {
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .ring1Desc {
+        text-align: center;
+        font-weight: 500;
+        color: $homePageFontColor;
+        font-size: $fontSize1;
+        margin: 0px;
+    }
+
+    .smr_nwArrivalTitle {
+        color: $homePageFontColor;
+        margin: 0px;
+        font-weight: 500;
+        text-align: center;
+        font-size: 13px;
+    }
+
+    @media screen and (max-width: 900px) {
+
+        .smilingBridesMain {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .smlingBridesImages {
+            width: 100%;
+            order: 2;
+        }
+
+        .smilingBrides {
+            width: 100%;
+            height: auto !important;
+            order: 1;
+        }
+
+
+        .linkingTitle {
+            margin: 5px 0px 0px 0px !important;
+            font-size: 20px !important;
+
+        }
+
+        .linkingShopCol {
+            margin: 0px;
+        }
+
+        .linkingShopCol {
+            font-weight: 700 !important;
+        }
+
+        .ring1Desc {
+            font-size: 12px !important;
+            letter-spacing: 1px !important;
+            font-weight: 500 !important;
+            color: #7d7f85 !important;
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+
+        margin-block: 7px !important;
+
+        .smilingBridesMain {
+            margin-top: 0px !important;
+            border: none !important;
+        }
+
+        .smilingBrides {
+            border: none !important;
+        }
+
+        .smilingBridesMainTitle {
+            font-size: 20px !important;
+            margin: 5px;
+        }
+
+        .smilingBridesMain {
+            margin-inline: 5px;
+        }
+
+    }
+}

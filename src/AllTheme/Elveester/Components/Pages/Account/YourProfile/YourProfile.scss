@@ -1,0 +1,104 @@
+@import "./../../../scss/elvee_modules.scss";
+// .yourProfile_Account_Elvee{
+
+
+.elvee_profile{
+    font-family: $fontSansSerif !important;
+} 
+.smr_yourProfile {
+    // $fontPTSans: "PT Sans", sans-serif;
+    $fontSansSerif: sans-serif !important;
+
+    .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
+        -webkit-text-fill-color: black !important;
+    }
+
+    .css-1x5jdmq.Mui-disabled {
+        -webkit-text-fill-color: black !important;
+    }
+
+    @media screen and (max-width:1120px){
+        .mobileEditProfileDiv{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+
+    @media screen and (max-width: 1000px) {
+        .mobileEditProfileDiv {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            width: 100% !important;
+        }
+    }
+
+
+    @media screen and (max-width: 700px) {
+        .userProfileMain {
+            width: 100%;
+        }
+
+    }
+
+    @media screen and (max-width: 500px) {
+
+        .smilingEditProfilePopup {
+            width: 95% !important;
+            margin: 5px !important;
+        }
+    }
+
+
+}
+
+.smr_SmilingAddEditAddrwess {
+    height: 40px;
+    width: 160px;
+    font-weight: 700 !important;
+    opacity: .9;
+    background: #f6efe6 !important;
+    color: rgba(31, 25, 25, 0.7) !important;
+    border: none;
+    font-weight: 500;
+}
+
+.smr_SmilingAddEditAddrwess:hover {
+    background-color: #fff !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.smilingDeleveryformSaveBtn{
+    background: #f6efe6;
+    border: none;
+    border-radius: 5px;
+    color: rgba(31, 25, 25, .7);
+    font-weight: 600;
+    margin-inline: 5px;
+    opacity: .8;
+    padding: 6px 10px;
+    width: 100px;
+}
+.smilingDeleveryformCansleBtn_elvee{
+    background: #f6efe6;
+    border: none;
+    border-radius: 5px;
+    color: rgba(31, 25, 25, .7);
+    font-weight: 600;
+    margin-inline: 5px;
+    opacity: .8;
+    padding: 6px 10px;
+    width: 100px;
+}
+
+@media screen and (max-height:360px),(max-height:500px){
+    .elveeYPPopup{
+        max-height: 300px !important;
+        overflow: scroll;
+        height: 100% !important;
+    }
+}
+// }

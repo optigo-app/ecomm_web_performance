@@ -1,0 +1,23 @@
+// .title_Account_mala{
+
+
+    .HeadTitleAcc{
+        font-size: 25px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #7D7F85;
+        font-weight: 500;
+        letter-spacing: 1.5px;
+    }
+    @media screen and (min-width:1025px){
+        .HeadTitleAcc{
+            display: none !important;
+        }
+        .mala-AccountTabMain{
+            padding-top: 0px !important;
+        }
+    
+    }
+    // }

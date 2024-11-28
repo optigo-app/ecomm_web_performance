@@ -1,0 +1,169 @@
+@import "../../../../scss/variable.scss";
+
+@mixin Truncate($lines) {
+  display: -webkit-box;
+  text-align: center;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.for_OurServices {
+  width: 100%;
+  height: auto;
+  font-family: $primaryFontFamily;
+  margin-bottom: 2rem;
+
+  .for_heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 40px;
+    padding-bottom: 10px;
+
+    h1 {
+      font-size: 26px;
+      font-weight: 600;
+      color: #1b1b1b;
+      text-transform: uppercase;
+    }
+  }
+
+  .services-wrap {
+    display: flex;
+    justify-content: center;
+    background-color: #ffdfdf;
+    gap: 4rem;
+    // gap: 5rem;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    padding: 50px 0;
+    flex-wrap: wrap;
+
+    .services {
+      width: 210px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .for_link {
+        @include Truncate(1);
+        font-size: 14px;
+        color: black;
+        text-decoration: none;
+        padding: 0;
+        margin: 0;
+        text-decoration: underline;
+      }
+
+      .serv-heading {
+        @include Truncate(2);
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      p {
+        font-size: 14px;
+        font-weight: 400;
+        width: 100%;
+        height: auto;
+        @include Truncate(3);
+        padding: 5px 0;
+        margin: 0;
+      }
+    }
+  }
+
+  @media screen and (max-width: 900px) {
+    .services-wrap {
+      display: flex;
+      justify-content: center;
+      background-color: #ffdfdf;
+      gap: 1rem;
+      padding-top: 10px;
+      padding-bottom: 40px;
+      padding-inline: 20px;
+      flex-wrap: wrap;
+
+      .services {
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 0;
+        height: auto;
+
+        .for_link {
+          @include Truncate(1);
+          font-size: 14px;
+          color: black;
+          text-decoration: none;
+          padding: 0;
+          margin: 0;
+          text-decoration: underline;
+        }
+
+        .serv-heading {
+          @include Truncate(2);
+          font-size: 16px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 572px) {
+    .services-wrap {
+      display: flex;
+      justify-content: center;
+      background-color: #ffdfdf;
+      gap: 1rem;
+      padding-top: 10px;
+      padding-bottom: 40px;
+      padding-inline: 10px !important;
+      margin-inline: 10px !important;
+      flex-wrap: wrap;
+
+      .services {
+        width: 160px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 0;
+        height: auto;
+
+        .for_link {
+          @include Truncate(1);
+          font-size: 14px;
+          color: black;
+          text-decoration: none;
+          padding: 0;
+          margin: 0;
+          text-decoration: underline;
+        }
+
+        .serv-heading {
+          @include Truncate(2);
+          font-size: 16px;
+          font-weight: 500;
+        }
+
+        p {
+          font-size: 14px;
+          font-weight: 400;
+          width: 100%;
+          height: auto;
+          // @include Truncate(3);
+          display: none;
+          padding: 5px 0;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+}

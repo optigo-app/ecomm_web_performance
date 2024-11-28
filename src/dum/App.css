@@ -1,0 +1,48 @@
+.for_preloader-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.fade-in {
+  opacity: 1;
+  visibility: visible;
+}
+
+.for_loader {
+  height: 3px;
+  width: 100%;
+  position: relative;
+}
+
+.for_trackbar {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+.for_loadbar {
+  height: 100%;
+  width: 100%;
+  background: #df647e;
+  transition: width 0.5s ease-out;
+}
+
+.for_percentage {
+  margin-top: 10px;
+  font-size: 18px;
+}

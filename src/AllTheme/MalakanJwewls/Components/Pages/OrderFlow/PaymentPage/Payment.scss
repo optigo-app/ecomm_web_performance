@@ -1,0 +1,223 @@
+@import '../../../scss/variable.scss';
+
+.mala_paymentMainDiv {
+    // background-color: $backgroundColor;
+    font-family: $primaryFontFamily;
+    margin-top: 220px;
+    color: white;
+    font-family: $rown !important;
+
+    @media screen and (max-width: 1200px) {
+        margin-top: 80px;
+        padding-block: 45px;
+    }
+}
+
+.mala_paymentSecondMainDiv {
+    margin-inline: 6%;
+    background-color: #fff;
+}
+
+@media (max-width: 1200px) {
+    .mala_paymentSecondMainDiv {
+        margin-inline: 1% !important;
+    }
+}
+
+
+.mala_PaymentContainer {
+    margin-inline: 4%;
+    padding-block: 3%;
+}
+
+.mala_paymentBackbtnDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+    .mala_paymentBackbtn {
+        width: 32px;
+        height: 32px;
+        color: $titleColor;
+        cursor: pointer;
+    }
+}
+
+.mala_paymentDetailMainDiv {
+    display: flex;
+    justify-content: space-around;
+    font-family: $primaryFontFamily;
+    color: $titleColor;
+}
+
+.mala_paymenttotalpricesummary {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mala_paymenttotalpricesummary p {
+    padding: 0;
+    margin-bottom: 5px;
+    font-size: $fontSize2;
+}
+
+.mala_paymenttotalpricesummary p span {
+    font-weight: bold !important;
+}
+
+.mala_paymentUserName {
+    font-weight: 600;
+}
+
+.mala_paymentDetailLeftSideContent {
+    h2 {
+        font-size: $fontSize6;
+    }
+}
+
+.mala_order-summary {
+    font-family: $primaryFontFamily;
+    color: $titleColor;
+}
+
+.mala_summary-item {
+    display: flex;
+    justify-content: start;
+    margin-bottom: 10px;
+}
+
+.mala_summary-item .mala_label {
+    min-width: 180px;
+    text-align: left;
+    font-size: $fontSize2;
+}
+
+.mala_summary-item .mala_value {
+    text-align: left;
+    white-space: nowrap;
+    font-size: $fontSize2;
+    font-weight: bold !important;
+}
+
+.mala_paymentButtonDiv {
+    text-align: center;
+    padding-top: 2rem;
+
+    .mala_payOnAccountBtn {
+        margin-right: 20px;
+        height: 40px;
+        width: 180px;
+        font-family: $primaryFontFamily !important;
+        font-size: $fontSize3;
+        color: $btn1hoverFontColor;
+        background-color: $btn1ActivebgColor;
+        border: 1px solid $btn1FontColor;
+        border-radius: 0px !important;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+
+        &:hover {
+            color: $btn1hoverFontColor;
+            background-color: $btn1ActivebgColor;
+        }
+    }
+}
+
+.mala_backtoTopBtn {
+    font-family: $homePageFontFamily;
+}
+
+.mala_addorderRemarkbtn {
+    color: $titleColor !important;
+    font-size: $fontSize2 !important;
+    text-transform: capitalize !important;
+}
+
+.mala_addorderRemark {
+    color: $titleColor !important;
+}
+
+@media (max-width: 600px) {
+    .mala_paymentDetailMainDiv {
+        display: block;
+    }
+
+    .mala_paymentDetailLeftSideContent {
+        h2 {
+            font-size: $fontSize5 !important;
+        }
+    }
+
+    .mala_paymenttotalpricesummary p {
+        margin: 3px !important;
+    }
+
+    .mala_billingAddress {
+        h3 {
+            font-size: $fontSize4 !important;
+        }
+
+        p {
+            font-size: $fontSize1 !important;
+        }
+    }
+
+    .mala_paymentButtonDiv {
+        .mala_payOnAccountBtn {
+            width: 100%;
+        }
+    }
+
+    .mala_shippingAddress {
+        margin-top: 10px;
+        margin-bottom: 40px !important;
+        border-top: 1px solid #cccdce;
+
+        h3 {
+            font-size: $fontSize4 !important;
+        }
+
+        p {
+            font-size: $fontSize1 !important;
+            margin-bottom: 5px !important;
+        }
+    }
+
+    .mala_paymentBackbtnDiv {
+        .mala_paymentBackbtn {
+            width: 22px !important;
+            height: 22px !important;
+        }
+    }
+}
+
+.loader {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-left: 8px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.mala_billingAddress p {
+    margin-bottom: 5px;
+    font-size: $fontSize2;
+}
+
+.mala_shippingAddress p {
+    margin-bottom: 0px;
+}

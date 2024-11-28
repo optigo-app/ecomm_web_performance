@@ -1,0 +1,494 @@
+@import '../../scss/variable.scss';
+
+.stam_WlListCard {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Ensures all cards are at least the same height */
+    justify-content: space-between;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+
+    .cardContent {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        
+    }
+
+    .stam_WlListImage {
+        width: 100%;
+        // max-height: 400px;
+        object-fit: contain;
+        cursor: pointer;
+        // height: 300px;
+    }
+
+    .stam_WlListImage2 {
+        width: 100%;
+        max-height: 500px;
+        object-fit: cover;
+        cursor: pointer;
+        // height: 400px;
+    }
+
+    .cardText {
+        flex: 1;
+        padding: 10px;
+        max-height: 150px;
+        height: 110px;
+    }
+}
+
+.stam_MainWishlist_Div {
+    background-color: $backgroundColor;
+    font-family: $primaryFontFamily;
+}
+
+.stam_wishlist_sub {
+    background-color: #fff;
+}
+
+.stam_WlMainPage {
+    display: flex;
+    gap: 30px;
+    margin-bottom: -8%;
+}
+
+.WlBtnGroupMainDiv {
+    text-align: center;
+    padding-top: 40px;
+
+    .stam_Wl-title {
+        color: $titleColor;
+        font-size: $fontSize8;
+    }
+
+    .stam_WlButton-group {
+        display: flex;
+        padding-inline: 15px;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 0px;
+
+        .stam_ReomoveAllWLbtn {
+            display: flex;
+            align-items: center;
+            width: 200px;
+            font-size: $fontSize1;
+            color: $titleColor !important;
+            text-decoration-color: $titleColor !important;
+        }
+
+        .stam_WlAddToCartBtn {
+            font-family: $primaryFontFamily !important;
+            background-color: $btn1hoverColor;
+            color: $btn1hoverFontColor;
+            font-size: $fontSize2;
+            border: none;
+            outline: none;
+            height: 45px;
+            border-radius: 0px;
+            width: 200px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: #666;
+            }
+
+
+            &.stam_cartActivebtn {
+                background-color: $btn1ActivebgColor;
+                color: $btn1hoverFontColor;
+            }
+        }
+    }
+}
+
+
+.stam_noWishlistData {
+    text-align: center;
+    height: 100%;
+    margin-block: 125px;
+
+    .stam_title {
+        color: $titleColor;
+        font-size: $fontSize6;
+    }
+
+    .stam_desc {
+        color: $titleColor;
+        font-size: $fontSize4;
+    }
+
+    .stam_browseOurCollectionbtn {
+        background-color: #7d7f85;
+        border: none;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 500;
+        height: 50px;
+        outline: none;
+        width: 220px;
+    }
+}
+
+.stam_WlListData {
+    padding: 60px 14px 10px 15px;
+
+    .stam_wlListGrid {
+        display: flex !important;
+        justify-content: start !important;
+        align-items: center !important;
+        opacity: 1;
+        transition: opacity .5s ease;
+    }
+
+    .fade-out {
+        opacity: 0;
+    }
+
+    // .fade-in {
+    //     opacity: 1;
+    // }
+
+
+    // .stam_wlListGrid {
+    //     display: flex !important;
+    //     justify-content: center !important;
+    //     align-items: center !important;
+    //     opacity: 1;
+    //     transition: opacity 0.8s ease-in-out;
+    //     transform: translateX(0);
+    //     animation: slide-in 0.8s forwards ease-in-out;
+    // }
+
+    // .fade-out {
+    //     animation: slide-out 0.8s forwards ease-in-out;
+    // }
+
+    // @keyframes slide-out {
+    //     from {
+    //         transform: translateX(0);
+    //         opacity: 1;
+    //     }
+
+    //     to {
+    //         transform: translateX(-500px);
+    //         opacity: 0;
+    //     }
+    // }
+
+    // @keyframes slide-in {
+    //     from {
+    //         transform: translateX(500px);
+    //         opacity: 0;
+    //     }
+
+    //     to {
+    //         transform: translateX(0);
+    //         opacity: 1;
+    //     }
+    // }
+
+
+    .stam_wlToggleButtonDiv {
+        display: flex;
+        justify-content: end;
+        padding-bottom: 20px;
+    }
+}
+
+.stam_WlListCard {
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+    position: relative;
+    border-radius: 0px !important;
+}
+
+.stam_wishDT {
+    font-size: $fontSize1;
+    font-family: $primaryFontFamily;
+}
+
+.closeWlIconDiv {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #c9c9c9;
+    color: #fff;
+}
+
+.closeWlIcon {
+    cursor: pointer;
+}
+
+.stam_Wl-CartbtnDiv {
+    text-align: center;
+    margin-bottom: 10px;
+
+    .stam_Wl-Cartbtn {
+        width: 150px;
+        height: 30px;
+        font-size: $fontSize2;
+        color: $titleColor;
+        font-weight: 500;
+        border: none;
+        background: none;
+        text-transform: capitalize !important;
+        cursor: pointer;
+
+        &:hover {
+            color: $btn1hoverFontColor;
+            background-color: $btn1ActivebgColor;
+        }
+    }
+}
+
+.stam_card-ContentData {
+    text-align: center;
+    color: $titleColor !important;
+    font-size: $fontSize1 !important;
+    font-family: $primaryFontFamily;
+    padding-bottom: 6px;
+}
+
+.stam_WlTitleline {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+@media (max-width: 1750px) {
+    .WlBtnGroupMainDiv {
+        .stam_WlButton-group {
+            .stam_WlAddToCartBtn {
+                width: 140px;
+                font-size: $fontSize1;
+            }
+        }
+    }
+
+    .stam_cardContent {
+        padding-top: 16px !important;
+
+        .cardText {
+            padding: 2px;
+        }
+
+        .cardText p {
+            font-size: $fontSize1 !important;
+        }
+
+        .cardText p span {
+            font-size: $fontSize1 !important;
+        }
+    }
+}
+
+@media (max-width: 1350px) {
+    .WlBtnGroupMainDiv {
+        .stam_WlButton-group {
+            .stam_WlAddToCartBtn {
+                width: 140px;
+                font-size: $fontSize1;
+            }
+        }
+    }
+
+    .stam_cardContent {
+        padding-top: 16px !important;
+
+        .cardText {
+            padding: 2px;
+        }
+
+        .cardText p {
+            font-size: $fontSize0 !important;
+        }
+
+        .cardText p span {
+            font-size: $fontSize0 !important;
+        }
+    }
+}
+
+@media (max-width: 1050px) {
+    .WlBtnGroupMainDiv {
+        .stam_WlButton-group {
+            .stam_WlAddToCartBtn {
+                width: 140px;
+                font-size: $fontSize1;
+            }
+        }
+    }
+
+    .stam_cardContent {
+        padding-top: 16px !important;
+
+        .cardText {
+            padding: 2px;
+        }
+
+        .cardText p {
+            font-size: $fontSize0 !important;
+        }
+
+        .cardText p span {
+            font-size: $fontSize0 !important;
+        }
+    }
+}
+
+
+@media (max-width: 768px) {
+    .stam_WlListData {
+        padding: 10px 10px 10px 10px;
+    }
+
+    .stam_card-ContentData .stam_DesignNoTExt .stam_Wl-Cartbtn {
+        font-size: $fontSize2 !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .stam_WlListData {
+        padding: 10px 10px 10px 10px;
+    }
+
+    .WlBtnGroupMainDiv {
+        .stam_WlButton-group {
+            .stam_WlAddToCartBtn {
+                width: 120px;
+                font-size: $fontSize1;
+            }
+        }
+    }
+
+    .stam_card-ContentData {
+        font-size: $fontSize1 !important;
+    }
+
+    .stam_DesignNoTExt {
+        font-size: $fontSize1 !important;
+    }
+
+    .stam_Wl-Cartbtn {
+        font-size: $fontSize1 !important;
+        text-align: center;
+        width: 100% !important;
+    }
+
+    .stam_cardContent {
+        padding-top: 16px !important;
+
+        .stam_currencyFont {
+            // margin-left: 40px;
+        }
+
+        .cardText {
+            padding: 2px;
+        }
+
+        .cardText p {
+            font-size: $fontSize0 !important;
+        }
+
+        .cardText p span {
+            font-size: $fontSize0 !important;
+        }
+    }
+}
+
+@media (max-width: 320px) {
+    .stam_WlListData {
+        padding: 6px;
+    }
+
+    .WlBtnGroupMainDiv {
+        .stam_WlButton-group {
+            .stam_WlAddToCartBtn {
+                width: 100px !important;
+                font-size: $fontSize0 !important;
+                height: 34px !important;
+            }
+        }
+    }
+
+    .stam_card-ContentData {
+        font-size: $fontSize1 !important;
+    }
+
+    .stam_DesignNoTExt {
+        font-size: $fontSize1 !important;
+    }
+
+    .stam_Wl-Cartbtn {
+        font-size: $fontSize1 !important;
+        text-align: center;
+        width: 100% !important;
+    }
+
+    .stam_cardContent {
+        padding-top: 16px !important;
+
+        .stam_currencyFont {
+            // margin-left: 40px;
+        }
+
+        .cardText {
+            padding: 2px;
+        }
+
+        .cardText p {
+            font-size: $fontSize0 !important;
+        }
+
+        .cardText p span {
+            font-size: $fontSize0 !important;
+        }
+    }
+}
+
+
+
+
+// skelton scss
+
+.stam_addwishlistSkeltonMainBox {
+    padding: 0px 60px;
+
+    .stam_addwishlistSkelton {
+        height: 450px;
+        box-shadow: none !important;
+
+        .stam_addwishlistSkelton {
+            background-color: #f6f6f6 !important;
+        }
+    }
+}
+
+@media(max-width:650px) {
+    .stam_addwishlistSkeltonMainBox {
+        padding: 0px 10px;
+    }
+
+    .stam_addwishlistSkelton {
+        height: 250px !important;
+    }
+
+    .stam_WlButton-group {
+        padding-top: 30px;
+    }
+
+    // .stam_toggleWishButtonDiv {
+    //     height: 30px !important;
+    // }
+
+    .stam_WlListData {
+        .stam_wlToggleButtonDiv {
+            padding-top: 30px;
+        }
+    }
+}

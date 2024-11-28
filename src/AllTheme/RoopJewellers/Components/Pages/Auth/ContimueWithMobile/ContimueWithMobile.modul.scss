@@ -1,0 +1,160 @@
+@import '../../../scss/variable.scss';
+
+
+.roop_continuMobile {
+
+    font-family: $fontRegular !important;
+
+    .css-1wc848c-MuiFormHelperText-root {
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+        font-family: $fontRegular !important;
+        font-size: 14px;
+    }
+
+    .smling-forgot-main {
+        margin-inline: 6%;
+        background-color: white;
+    }
+
+    .smr_loginmobileBox {
+        width: 420px;
+        margin: 10px;
+    }
+
+    .submitBtnForgot {
+        height: 60px;
+        width: 420px;
+        color: white;
+        background-color: $btnprimarycolor !important;
+        border: 0;
+        margin-top: 10px;
+        font-size: 13px;
+        font-family: $fontRegular !important;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        letter-spacing: 1px;
+        transition: transform 0.3s ease;
+    }
+
+    .submitBtnForgot:hover {
+        transform: scale(1.02);
+    }
+
+    .AuthScreenMainTitle {
+        text-align: center;
+        padding-block: 60px;
+        margin-top: 0px;
+        font-size: 40px;
+        color: #7d7f85;
+        font-family: $fontBold !important;
+    }
+
+    .AuthScreenSubTitle {
+        text-align: center;
+        margin-top: -60px;
+        font-size: 16px;
+        color: #7d7f85;
+    }
+
+    .rp_cancleForgot {
+        color: #7d7f85;
+        font-size: 12px;
+        margin-top: 25px;
+        font-weight: 500;
+        background-color: white;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border: 1px solid #7d7f85;
+        width: 420px;
+        font-family: $fontRegular !important;
+        border-radius: 8px;
+        height: 60px;
+        position: relative;
+        text-decoration: none;
+        transition: all 0.5s ease;
+        cursor: pointer;
+    }
+
+    .rp_cancleForgot:hover {
+        background-color: rgba(66, 66, 66, 0.05);
+    }
+
+    .cancleForgot::before {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: 0;
+        left: 0;
+        background-color: #000;
+        transition: width 0.3s ease;
+    }
+
+    .cancleForgot:hover::before {
+        width: 100%;
+    }
+
+    .cancleBtn {
+        margin-top: 10px;
+    }
+
+    .labgrowRegister {
+        width: 420px;
+        margin: 10px;
+    }
+
+    @media screen and (max-width: 950px) {
+        .AuthScreenMainTitle {
+            font-size: 25px !important;
+            padding-bottom: 50px !important;
+        }
+
+        .AuthScreenSubTitle {
+            font-size: 12px !important;
+            margin-inline: 15%;
+        }
+
+        .smling-forgot-main {
+            margin-inline: 2% !important;
+        }
+
+
+    }
+
+    @media screen and (max-width: 700px) {
+        .smr_loginmobileBox {
+            width: 90%;
+            height: 50px !important;
+        }
+
+        .submitBtnForgot {
+            width: 90%;
+            height: 50px !important;
+        }
+
+        .rp_cancleForgot {
+            width: 90%;
+            height: 50px !important;
+        }
+
+    }
+
+    @media screen and (max-width: 500px) {
+
+        .submitBtnForgot {
+            width: 90%;
+            height: 40px !important;
+        }
+
+        .rp_cancleForgot {
+            width: 90%;
+            height: 40px !important;
+        }
+
+        .AuthScreenSubTitle {
+            margin-top: -65px !important;
+        }
+    }
+}

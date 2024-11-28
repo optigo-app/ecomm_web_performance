@@ -1,0 +1,137 @@
+@import '../../../scss/variable.scss';
+
+
+.malan_continuMobile {
+    margin-top: 220px;
+    background-color: #17372f;
+    color: white;
+    padding-bottom: 4rem;
+    font-family: $rown !important;
+    padding-block: 100px;
+
+    @media screen and (max-width: 1200px) {
+        margin-top: 80px;
+    }
+
+
+    .css-1wc848c-MuiFormHelperText-root {
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+
+    .smling-forgot-main {
+        background-color: inherit;
+    }
+
+    .mala_loginmobileBox {
+        width: 420px;
+        margin: 10px;
+
+        .MuiInputBase-input {
+            font-family: $rown !important;
+            color: white !important;
+        }
+    }
+
+    .submitBtnForgot {
+        height: 60px;
+        width: 420px;
+        border: 0;
+        margin-top: 10px;
+        font-size: 13px;
+        cursor: pointer;
+        font-weight: 500;
+        letter-spacing: 1;
+        background-color: #fda994;
+        color: #17372f;
+        font-family: $primaryFontFamilyMedium;
+        cursor: pointer;
+        letter-spacing: 1;
+        transition: 0.2s ease-in;
+        border-radius: 3px;
+
+        &:hover {
+            background-color: #ff8e72;
+        }
+    }
+
+    .cancleForgot {
+        color: #7d7f85;
+        font-size: 12px;
+        margin-top: 25px;
+        font-weight: 500;
+        letter-spacing: 1px;
+
+        position: relative;
+        text-decoration: none;
+        transition: color 0.3s;
+        cursor: pointer;
+    }
+
+    .cancleForgot::before {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: 0;
+        left: 0;
+        background-color: #000;
+        transition: width 0.3s ease;
+    }
+
+    .cancleForgot:hover::before {
+        width: 100%;
+    }
+
+    .cancleBtn {
+        margin-top: 10px;
+    }
+
+    .labgrowRegister {
+        width: 420px;
+        margin: 10px;
+    }
+
+    @media screen and (max-width: 950px) {
+        .AuthScreenMainTitle {
+            font-size: 25px !important;
+            padding-bottom: 50px !important;
+        }
+
+        .AuthScreenSubTitle {
+            font-size: 12px !important;
+            margin-inline: 15%;
+        }
+
+        .smling-forgot-main {
+            margin-inline: 2% !important;
+        }
+
+
+    }
+
+    @media screen and (max-width: 700px) {
+        .mala_loginmobileBox {
+            width: 90%;
+        }
+
+        .submitBtnForgot {
+            width: 90%;
+            height: 50px !important;
+        }
+
+
+    }
+
+    @media screen and (max-width: 500px) {
+
+        .submitBtnForgot {
+            width: 90%;
+            height: 40px !important;
+        }
+
+        .AuthScreenSubTitle {
+            margin-top: -35px !important;
+        }
+    }
+}

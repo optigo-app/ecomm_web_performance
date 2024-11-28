@@ -1,0 +1,99 @@
+@import '../../../scss/elvee_modules.scss';
+
+.elv_confirMaindiv {
+    // background-color: $backgroundColor;
+    font-family: $fontSansSerif !important;
+
+    .elv_confirSecondMaindiv {
+        margin-inline: 6%;
+        background-color: #fff;
+    }
+
+    .elv_thankYouContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-block: 70px;
+        position: relative;
+    }
+
+    .elv_thankYouContent {
+        text-align: center;
+        margin-bottom: 5rem;
+    }
+
+    .elv_thankYouMessage h1 {
+        font-size: $fontSize6;
+        color: #ff6600;
+        margin-bottom: 20px;
+    }
+
+    .elv_thankYouMessage h1 span {
+        color: $titleColor;
+    }
+
+    .elv_orderNumber p {
+        font-size: $fontSize3 ;
+        color: $titleColor;
+    }
+
+    .elv_orderNumber p span {
+        font-weight: bold;
+        color: #ff6600;
+    }
+
+    .elv_continueShoppingBtn {
+        margin-top: 20px;
+        height: 50px;
+        width: 200px;
+        font-size: $fontSize4;
+        color: black;
+        background-color: white;
+        border: 1px solid $btn1FontColor;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+
+        &:hover {
+            color: $btn1hoverFontColor;
+            background-color: $btn1ActivebgColor;
+        }
+    }
+
+    .elv_orderCnfThankyouImage {
+        height: 250px;
+        width: 250px
+    }
+
+    .elv_plwlPrintDiv {
+        // position: absolute;
+        // top: 50px;
+        // right: 50px;
+
+        .elv_icon-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            width: 150px;
+            // font-family: $homePageFontFamily !important;
+            font-family: $fontSansSerif !important;
+            font-size: $fontSize3;
+            color: $btn1hoverFontColor;
+            background-color: $btn1ActivebgColor;
+            border: 1px solid $btn1FontColor;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                background-color: #fff;
+                color: $titleColor;
+            }
+
+            .icon {
+                margin-right: 5px;
+            }
+        }
+    }
+}
