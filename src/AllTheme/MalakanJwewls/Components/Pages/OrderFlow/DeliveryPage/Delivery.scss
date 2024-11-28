@@ -1,0 +1,230 @@
+@import '../../../scss/variable.scss';
+
+
+
+.stam_DeliverMainDiv {
+  font-family: $primaryFontFamily;
+  margin-top: 220px;
+  color: white;
+  font-family: $rown !important;
+
+  @media screen and (max-width: 1200px) {
+    margin-top: 80px;
+    padding-block: 45px;
+  }
+
+  .mala_secondMaindivAdd {
+    margin-inline: 6%;
+    background-color: #fff;
+  }
+
+  .mala_addMainDiv {
+    margin-inline: 10%;
+    padding-top: 15%;
+    padding-bottom: 5%;
+
+    @media screen and (max-width: 1700px) {
+      padding-top: 18%;
+    }
+
+    @media screen and (max-width: 1430px) {
+      padding-top: 20%;
+    }
+
+    @media screen and (max-width: 1300px) {
+      padding-top: 23%;
+    }
+
+    @media screen and (max-width: 1200px) {
+      padding-top: 10%;
+    }
+
+    @media screen and (max-width: 600px) {
+      padding-top: 13%;
+    }
+
+    @media screen and (max-width: 400px) {
+      padding-top: 18%;
+    }
+  }
+
+  .mala_getAddrMainDiv {
+    margin-bottom: 40px;
+  }
+
+  .mala_TitleDetailMainDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .mala_ContinueOrderbtn {
+      height: 40px;
+      width: 150px;
+      font-family: $homePageFontFamily !important;
+      font-size: $fontSize3;
+      color: $btn1hoverFontColor;
+      background-color: $btn1ActivebgColor;
+      border: 1px solid $btn1FontColor;
+      border-radius: 0px !important;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+
+      &:hover {
+        color: $btn1hoverFontColor;
+        background-color: $btn1ActivebgColor;
+      }
+    }
+  }
+
+  .mala_addressTextFields {
+    margin-bottom: 18px !important;
+    font-family: $homePageFontFamily !important;
+    color: $titleColor !important;
+
+    .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
+      border-radius: 0px !important;
+    }
+  }
+
+  .mala_deliveryTitle {
+    color: $titleColor;
+    font-family: $homePageFontFamily;
+  }
+
+  .mala_deliverydesc {
+    color: $titleColor;
+    font-family: $homePageFontFamily;
+  }
+
+  .mala_AddrCard {
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+    padding: 20px 20px 0px 20px !important;
+    border-radius: 0px !important;
+  }
+
+  .mala_ActiveAddrCard {
+    padding: 20px 20px 0px 20px !important;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+    background: #f5f4f4 !important;
+    border-radius: 0px !important;
+    position: relative;
+  }
+
+
+  .mala_defualt_addrSelected {
+    padding: 3px 10px;
+    font-family: $homePageFontFamily !important;
+    font-size: $fontSize3;
+    color: #fff;
+    background: blue;
+    border-radius: 0px !important;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .mala_defualt_addrSelectedHide {
+    display: none !important;
+  }
+
+  .mala_addrTypoTitle {
+    color: $titleColor;
+    font-family: $homePageFontFamily !important;
+    text-transform: capitalize;
+  }
+
+  .mala_addrTypo {
+    color: $titleColor;
+    font-family: $homePageFontFamily !important;
+    text-transform: capitalize;
+  }
+
+  .mala_AddressBtnGroup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .mala_AddNewAddrbtn {
+      margin-right: 20px;
+      height: 40px;
+      width: 150px;
+      font-family: $homePageFontFamily !important;
+      font-size: $fontSize3;
+      color: $btn1FontColor;
+      background-color: $btn1bgColor;
+      border: 1px solid $btn1FontColor;
+      border-radius: 0px !important;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+
+      &:hover {
+        color: $btn1hoverFontColor;
+        background-color: $btn1ActivebgColor;
+      }
+    }
+  }
+
+  .mala_dialogTitle {
+    color: $titleColor;
+    font-weight: 500 !important;
+    text-align: center;
+  }
+
+  .mala_AddNewAddrModalbtn {
+    margin-right: 20px;
+    height: 40px;
+    width: 150px;
+    font-family: $homePageFontFamily !important;
+    font-size: $fontSize3;
+    color: $btn1hoverFontColor;
+    background-color: $btn1ActivebgColor;
+    border: 1px solid $btn1FontColor;
+    border-radius: 0px !important;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      color: $btn1hoverFontColor;
+      background-color: $btn1ActivebgColor;
+    }
+  }
+
+  .mala_Cancelbtn {
+    margin-right: 20px;
+    height: 40px;
+    width: 150px;
+    font-family: $homePageFontFamily !important;
+    font-size: $fontSize3;
+    color: $btn1FontColor;
+    background-color: $btn1bgColor;
+    border: 1px solid $btn1FontColor;
+    border-radius: 0px !important;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      color: $btn1hoverFontColor;
+      background-color: $btn1ActivebgColor;
+    }
+  }
+
+  .mala_editDeleteBtngroup {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .mala_editIcon {
+      font-size: 20px;
+      color: $titleColor;
+    }
+
+    .mala_DeleteIcon {
+      font-size: 20px;
+      color: $titleColor
+    }
+  }
+}

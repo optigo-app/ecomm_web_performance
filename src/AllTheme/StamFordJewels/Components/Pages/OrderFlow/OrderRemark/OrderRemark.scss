@@ -1,0 +1,88 @@
+@import '../../../scss/variable.scss';
+
+.stam_OrderModalBox {
+  width: 90%;
+  max-width: 500px;
+  min-width: 300px;
+  margin: 0 auto;
+
+  .stam_projectRemarkBtn-group {
+    margin-top: 10px;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    gap: 10px;
+
+    .stam_remarksave-btn {
+      background-color: $titleColor;
+      border: 1px solid $titleColor;
+      border-radius: 0 !important;
+      color: #fff;
+      cursor: pointer;
+      font-family: $primaryFontFamily !important;
+      font-size: $fontSize2;
+      height: 35px;
+      transition: background-color .3s, color .3s;
+      width: 100px;
+
+      &:hover {
+        background-color: #fff;
+        color: $titleColor;
+      }
+    }
+
+    .stam_remarkcancel-btn {
+      background-color: #fff;
+      border: 1px solid $titleColor;
+      border-radius: 0 !important;
+      color: $titleColor;
+      cursor: pointer;
+      font-family: $primaryFontFamily !important;
+      font-size: $fontSize2;
+      height: 35px;
+      transition: background-color .3s, color .3s;
+      width: 100px;
+
+      &:hover {
+        background-color: $titleColor;
+        color: #fff;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .stam_OrderModalBox {
+    width: 95%;
+    max-width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 474px) {
+  .stam_OrderModalBox {
+    width: 95% !important;
+  }
+
+  .stam_OrderModalBox {
+    padding: 20px 8px 20px 8px !important;
+
+    h2 {
+      color: $titleColor !important;
+      font-size: $fontSize2 !important;
+    }
+
+    .stam_projectRemarkBtn-group {
+
+      .stam_remarksave-btn,
+      .stam_remarkcancel-btn {
+        font-size: $fontSize0 !important;
+        padding: 5px 10px !important;
+      }
+    }
+
+    .stam_orderRemarkMoalInput textarea {
+      font-size: $fontSize1 !important;
+    }
+  }
+}

@@ -1,0 +1,51 @@
+// .plm_Account_HOQ{
+
+
+.plm_container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .plm_width{
+    width: 500px;
+  }
+
+  .plm_title{
+    color: #989898 !important;
+    font-size: 20px;
+    margin: 20px 0 20px 0 !important;
+  }
+  
+  .margin_plm{
+    margin: 10px;
+  }
+  
+  .fieldContainer{
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+  }
+  .FieldWidthPLM{
+    max-width: 400px;
+    min-width: 100%;
+  }
+
+  .smr_plmPreviewImgage{
+    width: 100%;
+    max-height: 55px;
+  }
+  .SmilingAddEditAddrwess_hoq{
+    height: 40px;
+    width: 160px;
+    font-weight: 700 !important;
+    opacity: 0.9;
+    background: #c20000 !important;
+    color: white !important;
+    border: none;
+    outline: none;
+    font-weight: 500;
+}
+}
+// }

@@ -1,0 +1,19 @@
+@import "../../../scss/variable.scss";
+.smr_Services_mainDiv_q {
+    padding-top: 2rem;
+    background-color: #C0BBB1;
+    font-family: 'Arial' !important;
+    .service_Wrraper_main{
+        min-height: 400px;
+        margin-inline: 6%;
+        padding-bottom: 80px;
+        background-color: white;
+        /* top | right | bottom | left */
+        padding: 4rem 5rem 1rem 5rem;
+    }
+    .mairo2_terms_title{
+        font-family: $homePageFontFamily !important;
+        font-weight: 600;
+    }
+
+}

@@ -1,0 +1,26 @@
+// $fontPTSans: "PT Sans", sans-serif;
+@import "../../scss/elvee_modules.scss"; 
+// .title_Account_Elvee{
+
+
+.HeadTitleAcc_elvee{
+    font-size: 25px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #7D7F85;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    font-family: $fontSansSerif !important;
+}
+@media screen and (min-width:1086px){
+    .HeadTitleAcc_elvee{
+        display: none !important;
+    }
+    .smling-AccountTabMain_elvee{
+        padding-top: 0px !important;
+    }
+
+}
+// }

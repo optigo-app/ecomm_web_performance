@@ -1,0 +1,55 @@
+// Font face
+@font-face {
+  font-family: "Rowan1";
+  src: url("../fonts/Rowan1.otf");
+}
+
+@font-face {
+  font-family: "Rowan5";
+  src: url("../fonts/Rowan5.otf");
+}
+
+// Background colors
+$backgroundColor: var(--background-color);
+$btn1bgColor: #fff;
+$btn1ActivebgColor: #7d7f85;
+$stambackcolor: #fff2e6;
+$stamMainBackColor: #fbf8f3;
+
+// Font colors
+$primaryfontcolor: #8f8c8be6;
+$primaryfontcolor2: #7d7f85;
+$homePageFontColor: #7d7f85;
+$titleColor: #7d7f85;
+$btn1FontColor: #7d7f85;
+$btn1hoverColor: #7d7f85;
+$btn1hoverFontColor: #fff;
+$primaryfontcolorLight: #7d7f856e;
+
+// Font family
+$homePageFontFamily: "Rowan5";
+$primaryFontFamily: "Rowan5";
+$primaryFontFamilyMedium: "Rowan5";
+$rown: "Rowan1";
+
+$themeColor :'#F6C2B5' ;
+
+// Font size
+$fontSize0: 9px;
+$fontSize1: 12px;
+$fontSize2: 14px;
+$fontSize3: 16px;
+$fontSize4: 18px;
+$fontSize5: 22px;
+$fontSize6: 26px;
+$fontSize7: 28px;
+$fontSize8: 35px;
+$fontSize9: 40px;
+$fontSize10: 64px;
+
+// Border color
+$primaryBorderColor: #e1e1e1;
+$primaryBorderColor2: #42424233;
+
+// Account background color
+$accountBgColor: #fff2e6;

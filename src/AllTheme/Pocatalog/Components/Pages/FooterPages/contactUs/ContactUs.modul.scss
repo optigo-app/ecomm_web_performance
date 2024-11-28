@@ -1,0 +1,155 @@
+
+@import '../../../scss/variable';
+
+
+.Fo-contactMain {
+    background-color: white;
+    margin-inline: 6%;
+}
+
+.proCat_contactMain{
+    background-color: $backgroundColor;
+}
+.daimondsEveryAbout{
+  background-color: white;
+  margin-inline: 6%;  
+}
+
+.Fo-contactBoxMain {
+    display: flex;
+    margin-inline: 10%;
+}
+
+.Fo-contactBox1 {
+
+    width: 50%;
+    padding-left: 230px;
+    margin-top: 50px;
+    border-right: 1px solid #e1e1e1;
+}
+
+.Fo-contactBox1Title {
+
+    margin: 0px 0px 10px;
+    letter-spacing: 1px;
+    color: #7d7f85;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.Fo-contactBox1InputBox {
+    height: 60px;
+    width: 300px;
+    border: 1px solid #e1e1e1;
+}
+
+.Fo-contactBox2 {
+    width: 35%;
+    margin: 60px 130px 130px 130px;
+}
+
+.Fo-contactBox2Title {
+    font-family: 'TTCommons-Regular,Helvetica,sans-serif';
+    font-size: 23px;
+    font-weight: 500;
+    color: #7d7f85;
+    margin: 0;
+}
+
+.Fo-contactBox1BtnSub {
+    height: 60px;
+    width: 250px;
+    margin-top: 30px;
+    border: 0;
+    background-color: #7d7f85;
+    color: white;
+    transition: all 0.4s ease;
+}
+
+.Fo-contactBox1BtnSub:hover {
+    background-color: white;
+    border: 1px solid #7d7f85;
+    color: #7d7f85;
+}
+
+.Fo-contactBox2Desc {
+    color: #7d7f85;
+    font-size: 14px;
+}
+
+.error{
+    color: red;
+}
+
+.tab-buttons {
+    display: flex;
+    width: 100%;
+    margin-bottom: 20px ;
+  }
+  
+  .tab-buttons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    margin-right: 10px;
+  }
+  
+  .tab-buttons button.active {
+    border-bottom: 2px solid blue;
+  }
+
+@media screen and (min-width:1441px) {
+    .mobileHeaderSmining {
+        /* display: none; */
+    }
+}
+
+@media screen and (max-width:1440px) {
+    .Fo-contactBox1 {
+        padding-left: 0px;
+
+    }
+
+    .Fo-contactBox2 {
+        width: 40%;
+        margin: 0px;
+        margin-top: 15%;
+        margin-left: 100px;
+    }
+}
+
+@media screen and (max-width:1000px) {
+
+    .Fo-contactBoxMain {
+        display: flex;
+        margin-inline: 10%;
+        flex-direction: column;
+    }
+
+    .Fo-contactBox1 {
+        width: 100%;
+        padding-left: 0px;
+        margin-top: 50px;
+        border-right: 0;
+    }
+    .Fo-contactBox1InputBox {
+        height: 60px;
+        width: 100%;
+        border: 1px solid #e1e1e1;
+    }
+    .Fo-contactBox2 {
+        width: 100%;
+        margin: 10px;
+        margin-top: 30px;
+
+    }
+
+    .mapContact{
+        width: 100%!important;
+    }
+
+    .contactMain{
+        padding-top: 10px!important;
+    }
+}

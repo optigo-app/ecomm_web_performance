@@ -1,0 +1,164 @@
+@import '../../../scss/variable.scss';
+
+.mr_MRMainDrawer {
+    .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+        max-width: 800px !important;
+        margin-inline: 2%;
+    }
+
+    .mr_modal-content {
+        padding: 0px !important;
+        max-width: 800px;
+        text-align: center;
+        font-family: $primaryFontFamily;
+
+        .mr_modal-header {
+            text-align: end;
+            margin: 0px 4px 4px 0px;
+
+            .mr_close-button {
+                margin: 0;
+                padding: 4px;
+                background: #fca4a4;
+                color: white;
+                font-size: 8px;
+
+                .closeIconBtn {
+                    font-size: 12px !important;
+                }
+            }
+        }
+
+        .mr_modal-Title {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 20px;
+            background: #faebeb;
+
+            p {
+                padding: 5px;
+                margin: 0;
+                font-weight: 400;
+            }
+        }
+
+        .mr_modal-steps {
+            margin-bottom: 20px;
+            padding-inline: 35px;
+
+            .mr_count {
+                font-weight: bold;
+            }
+
+            .mr_step {
+                text-align: center;
+
+                img {
+                    max-width: 90px;
+                    width: 100%;
+                    margin-bottom: 10px;
+                }
+
+                h3 {
+                    font-size: $fontSize2;
+                    color: #222;
+                    text-transform: uppercase;
+                    letter-spacing: .8px;
+                }
+
+                p {
+                    font-size: $fontSize1;
+                    color: #666;
+                    letter-spacing: .5px;
+                }
+            }
+        }
+
+        .mr_ModalBtnGpDiv {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0px 15px 20px 15px;
+
+            .mr_dtCheckbox {
+                .mr_checkedIcon {
+                    color: #313131 !important;
+                }
+
+                .css-ahj2mt-MuiTypography-root {
+                    font-size: $fontSize1;
+                    color: #b0b0b0 !important;
+                    letter-spacing: 1.5px !important;
+                    text-transform: uppercase !important;
+                }
+            }
+
+            .mr_continue-button {
+                background-color: #df647e;
+                border-radius: 0px;
+
+                &:hover {
+                    background-color: #df647e;
+                }
+            }
+
+        }
+
+    }
+
+    @media (max-width: 500px) {
+        .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+            max-width: 100% !important;
+            margin-inline: 2%;
+        }
+
+        .mr_modal-Title p {
+            font-size: $fontSize2;
+        }
+
+        .mr_modal-content {
+            .mr_modal-steps {
+                padding-inline: 5px;
+
+                .mr_step {
+                    text-align: center;
+
+                    img {
+                        max-width: 40px;
+                    }
+
+                    h3 {
+                        font-size: $fontSize1;
+                    }
+
+                    p {
+                        font-size: $fontSize0;
+                    }
+                }
+            }
+        }
+
+        .mr_ModalBtnGpDiv {
+            .mr_continue-button {
+                font-size: $fontSize1 !important;
+            }
+
+        }
+    }
+
+    @media (max-width: 375px) {
+        .mr_ModalBtnGpDiv {
+
+            .mr_dtCheckbox {
+                .mr_checkedIcon {
+                    color: #313131 !important;
+                }
+
+                .css-ahj2mt-MuiTypography-root {
+                    font-size: $fontSize0 !important;
+                }
+            }
+
+        }
+    }
+}

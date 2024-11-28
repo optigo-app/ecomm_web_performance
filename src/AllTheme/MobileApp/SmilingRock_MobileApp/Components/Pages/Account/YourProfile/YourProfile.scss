@@ -1,0 +1,109 @@
+// .yourProfile_Account_SMRM{
+
+
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
+    -webkit-text-fill-color: black !important;
+}
+
+.css-1x5jdmq.Mui-disabled {
+    -webkit-text-fill-color: black !important;
+}
+
+.SmilingAddEditAddrwess {
+    height: 40px;
+    width: 160px;
+    font-weight: 700 !important;
+    opacity: .9;
+    background: #f6efe6 !important;
+    color: rgba(31, 25, 25, 0.7) !important;
+    border: none;
+    outline: none;
+    font-weight: 500;
+}
+
+.SmilingAddEditAddrwess:hover {
+    background-color: #fff !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.titleMain {
+    color: #7d7f85;
+    font-family: 'PT Sans', sans-serif;
+    display: flex;
+    font-size: 18px;
+    padding: 10px;
+    height: 175px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.comptitle{
+    font-size: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    color: #7d7f85;
+}
+
+@media screen and (max-width: 1000px) {
+    .mobileEditProfileDiv {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+}
+
+
+@media screen and (max-width: 700px) {
+    .userProfileMain{
+        width: 100%;
+    }
+
+}
+    @media screen and (max-width: 500px) {
+
+    .smilingEditProfilePopup {
+        width: 95% !important;
+        margin: 5px !important;
+    }
+}
+
+@media (max-width:320px),(max-width:360px),(max-width:390px),(max-width:430px),(max-width:576px), (max-width:768px){
+    .btnPaddingYP{
+        width: 100%;
+        padding-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
+        justify-content: center;
+    }
+    .smilingEditProfilePopup{
+        width: 85% !important;
+    }
+
+    .pop_yp_MAPP{
+        position: absolute;
+        background-color: white;
+        top: 45% !important;
+        left: 48.5% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 300px !important;
+        height: 100vh !important;
+        max-height: 80vh;
+        overflow-y: scroll;
+    }
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 10; // Ensures it stays on top of other content
+    background-color: white; // Ensures background color is consistent when it becomes sticky
+  }
+// }

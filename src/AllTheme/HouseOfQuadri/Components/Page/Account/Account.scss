@@ -1,0 +1,375 @@
+// .accountTab_Account_HOQ{
+
+
+.hoq-AccountMain {
+    background-color: white;
+    margin-inline: 6%;
+}
+
+.hoqAccountTitle {
+    font-size: 40px;
+    text-align: center;
+    color: #7d7f85;
+    font-family: 'FreightDispProBook-Regular,Times New Roman,serif';
+    font-weight: 500;
+    padding-top: 25px;
+}
+
+.hoq-AccountTabMain {
+    margin-inline: 10%;
+}
+
+.hoqOrderHistory {
+
+    border: 1px solid #e1e1e1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hoqOrderHistoryBtn {
+    height: 55px;
+    width: 200px;
+    background-color: #7d7f85;
+    color: white;
+    font-weight: 500;
+    font-size: 15px;
+    border: 0;
+}
+
+.hoqSavedAddressMain {
+    border: 1px solid #e1e1e1;
+    margin-bottom: 20px;
+}
+
+
+.hoqAccountSavedRemoveBtn {
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 15px;
+    color: #7d7f85;
+    margin: 0px;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    height: 22px;
+}
+
+.hoqAccountSavedRemoveBtn::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0%;
+    height: 1px;
+    background-color: black;
+    transition: width 0.3s ease-out;
+}
+
+.hoqAccountSavedRemoveBtn:hover::before {
+    width: 100%;
+    left: 0;
+    right: auto;
+    transition: width 0.3s ease-out;
+}
+
+.hoqAcoountAddNewBtn {
+    height: 55px;
+    width: 220px;
+    background-color: #7d7f85;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    border: 0;
+    transition: all 0.4s ease;
+    margin-top: 25px;
+}
+
+.hoqAcoountAddNewBtn:hover {
+    border: 1px solid #7d7f85;
+    background-color: white;
+    color: #7d7f85;
+}
+
+.hoqAccountLogout {
+    position: relative;
+    left: 235px !important;
+    top: 18px;
+    font-size: 13px;
+    color: #7d7f85;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.hoqAccountLogout:hover {
+    border-bottom: 1px solid black;
+}
+
+.hoqAccountTabWebView button.Mui-selected{
+    color: #3b3c3d;
+    /* text-decoration: underline; */
+}
+
+.hoqAccountTabWebView span.MuiTabs-indicator{
+    background-color: #3b3c3d;
+}
+
+.hoqYourAccountPageTabs .MuiTab-textColorPrimary.Mui-selected{
+    color: #000;
+}
+
+.salesPage > div{
+    padding-left: 0;
+    padding-right: 0;
+}
+.sticky_header_web_sm_hoq {
+    position: -webkit-sticky !important; /* For Safari */
+    position: sticky !important;
+    top: 135px !important;
+    background-color: white;
+    z-index: 11; /* Adjust z-index as needed */
+    padding: 10px 0;
+}
+.sticky_header_web_sm_hoq_isSticky {
+    position: -webkit-sticky !important; /* For Safari */
+    position: sticky !important;
+    top: 0px !important;
+    background-color: white;
+    z-index: 11; /* Adjust z-index as needed */
+    padding: 10px 0;
+}
+.hoqYourAccountPageTabs{
+    display: none;
+}
+// .iconsTabAcc .MuiTabs-flexContainer{
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     width: 100%;
+// }
+.iconsTabAcc{
+    display: none !important;
+}
+@media screen and (max-width: 1441px) {
+
+    .Smiling-AccountMain {
+    margin-inline: 2%;
+
+    }
+
+    .hoq-AccountTabMain {
+    margin-inline: 5%;
+
+    }
+
+    .hoqAccountLogout{
+        position: relative;
+        left: 130px;
+    }
+    .sticky_header_web_sm_hoq {
+        position: -webkit-sticky !important; /* For Safari */
+        position: sticky !important;
+        top: 100px !important;
+        background-color: white;
+        z-index: 10; /* Adjust z-index as needed */
+        padding: 10px 0;
+    }
+    .iconsTabAcc{
+        display: none !important;
+    }
+}
+// @media screen and (min-width: 1050px) {
+//     .hoqAccountTabMobileView{
+//         display: none;
+//     }
+//     .sticky_header_web_sm_hoq {
+//         position: unset; /* For Safari */
+//         position: unset;
+//         top: 100px !important;
+//         background-color: white;
+//         z-index: 10; /* Adjust z-index as needed */
+//         padding: 10px 0;
+//     }
+    
+// }
+
+// @media screen and (max-width: 1049px) {
+
+//     .hoqAccountTabWebView{
+//         display: none;
+//     }
+
+//     .hoqAccountLogoutMobile{
+//         position: relative;
+//         left: 18px;
+//         top: 10px;
+//         font-size: 13px;
+//         color: #7d7f85;
+//         font-weight: 500;
+//         cursor: pointer;
+//         transition: all 0.4s ease;
+//         border-bottom: 1xp solid #7d7f85!important;
+//     }
+//     .css-10d9dml-MuiTabs-indicator{
+//         position: relative!important;
+//     }
+//     .css-jg8ebh-MuiButtonBase-root-MuiTab-root{
+//         display: flex;
+//         align-items: start!important;
+//     }
+//     .css-1h9z7r5-MuiButtonBase-root-MuiTab-root{
+//         display: flex;
+//         align-items: start!important;
+//     }
+//     .sticky_header_web_sm_hoq {
+//         position: unset; /* For Safari */
+//         position: unset;
+//         top: 100px !important;
+//         background-color: white;
+//         z-index: 11; /* Adjust z-index as needed */
+//         padding: 10px 0;
+//     }
+// }
+    
+@media screen and (max-width:1224px){
+    .mobileEditProfileDiv{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .iconsTabAcc{
+        display: none !important;
+    }
+}
+
+@media screen and (max-width:1024px){
+    .yourAccount .MuiButtonBase-root{
+        padding: 0px !important;
+        min-height: auto !important;
+        align-items: flex-start;
+    }
+    .d_none_acc{
+        display: none !important;
+    }
+    .hoqYourAccountPageTabs{
+        display: block;
+    }
+    .hoq_main_head_none{
+        display: none;
+    }
+    .mobileEditProfileDiv{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .iconsTabAcc{
+        display: unset !important;
+    }
+    .iconsTabAcc .MuiTabs-flexContainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 2%;
+    }
+}
+
+@media(max-width: 768px){
+    .hoqYourAccountPageTabs div[aria-orientation="vertical"] > .MuiTab-textColorPrimary {
+        padding: 8px 15px;
+        min-height: unset;
+        min-width: 100%;
+        align-items: flex-start;
+    }
+
+    .youraccountpagesec{
+        font-size: calc(1.375rem + 1.5vw) !important;
+        padding-bottom: 10px;
+    }
+
+    .accountTabSection .MuiTabs-scrollButtons{
+        display: -webkit-inline-box !important;
+        /* width: 20px !important; */
+    }
+
+    .accountTabSection .Mui-disabled.MuiTabs-scrollButtons{
+        display: none !important;
+    }
+
+   .accountTabSection .MuiTab-root.MuiTab-textColorPrimary{
+    padding: 0 10px !important;
+    min-width: max-content;
+   }
+
+   .accountSalesPage > div{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-top: 50px !important;
+   }
+   .sticky_header_web_sm_hoq {
+    position: unset; /* For Safari */
+    position: unset;
+    top: 100px !important;
+    background-color: white;
+    z-index: 11; /* Adjust z-index as needed */
+    padding: 10px 0;
+}
+.smilingEditProfilePopup{
+    max-width: 450px;
+}
+}
+@media screen and (max-width:700px){
+    .smilingEditProfilePopup{
+        max-width: 450px;
+    }
+}
+@media screen and (max-width:320px){
+    .hoq-AccountMain {
+        background-color: white;
+        margin-inline: 1% ;
+    }
+
+}
+
+/* 1px solid #e1e1e1 */
+@media screen and (max-width:768px), (max-width:800px),(max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px){
+    .acc_hoq_tab_p_0{
+        padding: 0px !important;
+    }
+}
+
+.accordion_Account_Head{
+    box-shadow: none !important;
+    border: 1px solid #e8e8e8 !important;
+    border-radius: 8px !important;
+}
+
+.p0_acc_mob{
+    padding: 0px 15px !important;
+}
+
+@media screen and (max-width:320px), (max-width:360px){
+    .p0_acc_mob{
+        padding: 0px 3px !important;
+    }   
+    
+}
+.p2_newhead_hoq_acc{
+    padding: 2px !important;
+}
+.p2_newhead_hoq_acc .MuiButtonBase-root{
+    padding: 2px !important;
+}
+
+
+@media screen and (max-width:1024px){
+    .HeadTitleAcc_none{
+        display: none !important;
+    }
+    .acc_hoq_tab_p_0{
+        padding-top: 0px !important;
+    }
+}
+// }

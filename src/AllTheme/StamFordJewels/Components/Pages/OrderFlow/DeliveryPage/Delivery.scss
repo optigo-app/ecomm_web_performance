@@ -1,0 +1,190 @@
+@import '../../../scss/variable.scss';
+
+.stam_DeliverMainDiv {
+margin-top: 0 !important;
+  .stam_secondMaindivAdd {
+    margin-inline: 6%;
+    background-color: #fff;
+  }
+
+  .stam_addMainDiv {
+    margin-inline: 10%;
+    padding-top: 4%;
+  }
+
+  .stam_getAddrMainDiv {
+    margin-bottom: 40px;
+  }
+
+  .stam_TitleDetailMainDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .stam_ContinueOrderbtn {
+      height: 40px;
+      width: 150px;
+      font-family: $homePageFontFamily !important;
+      font-size: $fontSize3;
+      color: $btn1hoverFontColor;
+      background-color: $btn1ActivebgColor;
+      border: 1px solid $btn1FontColor;
+      border-radius: 0px !important;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+
+      &:hover {
+        color: $btn1hoverFontColor;
+        background-color: $btn1ActivebgColor;
+      }
+    }
+  }
+
+  .stam_addressTextFields {
+    margin-bottom: 18px !important;
+    font-family: $homePageFontFamily !important;
+    color: $titleColor !important;
+
+    .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
+      border-radius: 0px !important;
+    }
+  }
+
+  .stam_deliveryTitle {
+    color: $titleColor;
+    font-family: $homePageFontFamily;
+  }
+
+  .stam_deliverydesc {
+    color: $titleColor;
+    font-family: $homePageFontFamily;
+  }
+
+  .stam_AddrCard {
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+    padding: 20px 20px 0px 20px !important;
+    border-radius: 0px !important;
+  }
+
+  .stam_ActiveAddrCard {
+    padding: 20px 20px 0px 20px !important;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+    background: #f5f4f4 !important;
+    border-radius: 0px !important;
+    position: relative;
+  }
+
+
+  .stam_defualt_addrSelected {
+    padding: 3px 10px;
+    font-family: $homePageFontFamily !important;
+    font-size: $fontSize3;
+    color: #fff;
+    background: blue;
+    border-radius: 0px !important;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .stam_defualt_addrSelectedHide {
+    display: none !important;
+  }
+
+  .stam_addrTypoTitle {
+    color: $titleColor;
+    font-family: $homePageFontFamily !important;
+    text-transform: capitalize;
+  }
+
+  .stam_addrTypo {
+    color: $titleColor;
+    font-family: $homePageFontFamily !important;
+    text-transform: capitalize;
+  }
+
+  .stam_AddressBtnGroup {
+    .stam_AddNewAddrbtn {
+      margin-right: 20px;
+      height: 40px;
+      width: 150px;
+      font-family: $homePageFontFamily !important;
+      font-size: $fontSize3;
+      color: $btn1FontColor;
+      background-color: $btn1bgColor;
+      border: 1px solid $btn1FontColor;
+      border-radius: 0px !important;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+
+      &:hover {
+        color: $btn1hoverFontColor;
+        background-color: $btn1ActivebgColor;
+      }
+    }
+  }
+
+  .stam_dialogTitle {
+    color: $titleColor;
+    font-weight: 500 !important;
+    text-align: center;
+  }
+
+  .stam_AddNewAddrModalbtn {
+    margin-right: 20px;
+    height: 40px;
+    width: 150px;
+    font-family: $homePageFontFamily !important;
+    font-size: $fontSize3;
+    color: $btn1hoverFontColor;
+    background-color: $btn1ActivebgColor;
+    border: 1px solid $btn1FontColor;
+    border-radius: 0px !important;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      color: $btn1hoverFontColor;
+      background-color: $btn1ActivebgColor;
+    }
+  }
+
+  .stam_Cancelbtn {
+    margin-right: 20px;
+    height: 40px;
+    width: 150px;
+    font-family: $homePageFontFamily !important;
+    font-size: $fontSize3;
+    color: $btn1FontColor;
+    background-color: $btn1bgColor;
+    border: 1px solid $btn1FontColor;
+    border-radius: 0px !important;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      color: $btn1hoverFontColor;
+      background-color: $btn1ActivebgColor;
+    }
+  }
+
+  .stam_editDeleteBtngroup {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .stam_editIcon {
+      font-size: 20px;
+      color: $titleColor;
+    }
+
+    .stam_DeleteIcon {
+      font-size: 20px;
+      color: $titleColor
+    }
+  }
+}

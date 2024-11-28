@@ -1,0 +1,60 @@
+@import '../../../scss/variable.scss';
+
+.smrMo_confirMaindiv{
+    background-color: #c0bbb1;
+}
+
+.smrMo_confirSecondMaindiv{
+    margin-inline: 0%;
+    background-color: #fff;
+    padding-bottom: 100px;
+}
+
+.smrMo_thankYouContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 70px;
+}
+
+.smrMo_thankYouContent {
+    text-align: center;
+}
+
+.smrMo_thankYouMessage h1 span {
+    color: $titleColor;
+}
+
+.orderNumber p {
+    font-size: $fontSize3   ;
+    color: $titleColor;
+}
+
+.orderNumber p span {
+    font-weight: bold;
+    color: #ff6600;
+}
+
+.smrMo_continueShoppingBtn {
+    margin-top: 20px;
+    height: 40px;
+    width: 180px;
+    font-family: $primaryFontFamily !important;
+    font-size: $fontSize3;
+    color: #fff;
+    background-color: rgb(214 176 139);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  
+    &:hover {
+      color: #fff;
+      background-color: rgb(214 176 139);
+    }
+}
+
+.smr_orderCnfThankyouImage{
+    height: 250px;
+    width: 250px
+}

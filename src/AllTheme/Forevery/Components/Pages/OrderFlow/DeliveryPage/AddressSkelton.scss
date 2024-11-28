@@ -1,0 +1,16 @@
+.for_addCardSkeltonMainBox{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+
+.for_addCardSkelton{
+    width: 345px !important;
+    max-width: 345px !important;
+    box-shadow: none !important;
+    
+    .for_addCardSkelton{
+        background-color: #fdf6f6  !important;
+    }
+}
+}

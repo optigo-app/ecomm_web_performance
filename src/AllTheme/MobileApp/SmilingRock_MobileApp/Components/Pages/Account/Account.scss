@@ -1,0 +1,247 @@
+// .accountTab_Account_SMRM{
+
+
+.smrMA_Smiling_AccountMain {
+    background-color: white;
+
+    .SmilingAccountTitle {
+        font-size: 40px;
+        text-align: center;
+        color: #7d7f85;
+        font-family: 'PT Sans', sans-serif;
+        font-weight: 500;
+    }
+
+
+    .titleMain {
+        color: #7d7f85;
+        font-family: 'PT Sans', sans-serif;
+        display: flex;
+        font-size: 18px;
+        padding: 10px;
+        height: 175px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    }
+
+    .boxMainTopSection {
+        display: flex;
+        border: 1px solid #e3dada;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        border-radius: 5px;
+        margin-right: 10px;
+        width: 50%;
+    }
+
+    .smlingOrderHistory {
+
+        border: 1px solid #e1e1e1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .smlingOrderHistoryBtn {
+        height: 55px;
+        width: 200px;
+        background-color: #7d7f85;
+        color: white;
+        font-weight: 500;
+        font-size: 15px;
+        border: 0;
+    }
+
+    .smilingSavedAddressMain {
+        border: 1px solid #e1e1e1;
+    }
+
+
+    .smilingAccountSavedRemoveBtn {
+        font-size: 13px;
+        font-weight: 500;
+        margin-top: 15px;
+        color: #7d7f85;
+        margin: 0px;
+        cursor: pointer;
+        position: relative;
+        display: inline-block;
+        height: 22px;
+    }
+
+    .smilingAccountSavedRemoveBtn::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 0%;
+        height: 1px;
+        background-color: black;
+        transition: width 0.3s ease-out;
+    }
+
+    .smilingAccountSavedRemoveBtn:hover::before {
+        width: 100%;
+        left: 0;
+        right: auto;
+        transition: width 0.3s ease-out;
+    }
+
+    .smilingAcoountAddNewBtn {
+        height: 55px;
+        width: 220px;
+        background-color: #7d7f85;
+        color: white;
+        font-size: 15px;
+        font-weight: 500;
+        border: 0;
+        transition: all 0.4s ease;
+        margin-top: 25px;
+    }
+
+    .smilingAcoountAddNewBtn:hover {
+        border: 1px solid #7d7f85;
+        background-color: white;
+        color: #7d7f85;
+    }
+
+    .smilingAccountLogout {
+        position: relative;
+        left: 280px;
+        top: 18px;
+        font-size: 13px;
+        color: #7d7f85;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.4s ease;
+    }
+
+    .smilingAccountLogout:hover {
+        border-bottom: 1px solid black;
+    }
+
+    .smlingAccountTabWebView button.Mui-selected {
+        color: #3b3c3d;
+    }
+
+    .smlingAccountTabWebView span.MuiTabs-indicator {
+        background-color: #3b3c3d;
+    }
+
+    .YourAccountPageTabs .MuiTab-textColorPrimary.Mui-selected {
+        color: #000;
+    }
+
+    .salesPage>div {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .menuMainAccountTitle {
+        margin: 0px;
+        font-weight: 500;
+        font-size: 14px;
+        color: #7d7f85;
+    }
+
+    .menuMainAccount {
+        height: 55px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-inline: 20px;
+        border-bottom: 1px solid lightgray;
+    }
+
+    .accountPageTitle {
+        font-size: 22px;
+        margin: 5px 0px 5px 0px;
+        text-align: center;
+        font-weight: 500;
+        color: #7d7f85;
+    }
+
+    @media screen and (max-width: 1441px) {
+
+        .smlingMA-AccountTabMain {
+            padding-bottom: 100px;
+        }
+    }
+
+    @media screen and (min-width: 1050px) {
+        .smlingAccountTabMobileView {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 1049px) {
+
+        .smlingAccountTabWebView {
+            display: none;
+        }
+
+        .smilingAccountLogoutMobile {
+            font-size: 16px;
+            font-weight: 500;
+            height: 40px;
+            width: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 2px;
+            cursor: pointer;
+            margin-top: 20px;
+            background-color: #ffd814;
+            transition: all 0.4s ease;
+            border-bottom: 1xp solid #7d7f85 !important;
+        }
+
+        .css-10d9dml-MuiTabs-indicator {
+            position: relative !important;
+        }
+
+        .css-jg8ebh-MuiButtonBase-root-MuiTab-root {
+            display: flex;
+            align-items: start !important;
+        }
+
+        .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+            display: flex;
+            align-items: start !important;
+        }
+    }
+
+    @media(max-width: 768px) {
+        .YourAccountPageTabs div[aria-orientation="vertical"]>.MuiTab-textColorPrimary {
+            padding: 8px 15px;
+            min-height: unset;
+            min-width: 100%;
+        }
+
+        .youraccountpagesec {
+            font-size: calc(1.375rem + 1.5vw) !important;
+        }
+
+        .accountTabSection .MuiTabs-scrollButtons {
+            display: -webkit-inline-box !important;
+            /* width: 20px !important; */
+        }
+
+        .accountTabSection .Mui-disabled.MuiTabs-scrollButtons {
+            display: none !important;
+        }
+
+        .accountTabSection .MuiTab-root.MuiTab-textColorPrimary {
+            padding: 0 10px !important;
+            min-width: max-content;
+        }
+
+        .accountSalesPage>div {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+    }
+}
+
+// }

@@ -1,0 +1,1453 @@
+@import "../../../scss/variable.scss";
+
+@mixin metal-type-style($border-color) {
+  // background-color: #f1f0ee;
+  // border: 1px solid $border-color;
+
+  @if $border-color ==#e06e6e {
+    background: linear-gradient(30deg, #ec8a55 0, #fcede2 55%, #fcede2 60%, #ec8a55 100%) !important;
+    border: 1px solid darken($border-color, 20%);
+  }
+
+  @else if $border-color ==#848484 {
+    background: linear-gradient(30deg, #b3b2af 0, #f7f7f7 55%, #f7f7f7 60%, #b3b2af 100%) !important;
+    border: 1px solid darken($border-color, 20%);
+  }
+
+  @else if $border-color ==#c9a63a {
+    background: linear-gradient(30deg, #e1b94f 0, #fcf1d5 55%, #fcf1d5 60%, #e1b94f 100%) !important;
+    border: 1px solid darken($border-color, 20%);
+  }
+
+  border-radius: 50%;
+  width: 7%;
+  text-align: center;
+  color: #707070;
+  font-size: 12px;
+  font-weight: 300;
+  height: 21px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in;
+
+  @media (max-width: 900px) {
+    width: 6%;
+    height: 21px;
+  }
+
+  @media (max-width: 700px) {
+    width: 8%;
+    height: 21px;
+  }
+
+  @media (max-width: 520px) {
+    width: 5%;
+    height: 25px;
+  }
+
+  @media (max-width: 450px) {
+    width: 6%;
+    height: 25px;
+  }
+
+  @media (max-width: 375px) {
+    width: 7%;
+    height: 21px;
+  }
+
+  @media (max-width: 320px) {
+    width: 8%;
+    height: 21px;
+  }
+}
+
+@mixin metal-type-style-clicked($border-color) {
+  @include metal-type-style($border-color);
+  transform: scale(1.3); // Scales the clicked div
+  z-index: 100000; // Ensures the clicked div is above others
+}
+
+
+.for_productList_MainDiv {
+  .for_productList_div {
+    margin-top: 0rem;
+
+    .for_productList_banner_swiper {
+      position: relative;
+      width: 100%;
+      min-width: 100%;
+      overflow: hidden;
+
+      @media (max-width: 600px) {
+        display: none;
+      }
+
+      .for_banner_title {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+
+        .for_banner_head_title {
+          color: #6c757d;
+          font-size: 20px;
+          text-align: center;
+          font-family: $primaryFontFamily;
+          font-weight: 700;
+          margin-bottom: 1rem;
+        }
+
+        .for_banner_head_desc {
+          color: $primaryfontcolor2;
+          font-size: 24px;
+          text-align: center;
+          font-family: $primaryFontFamily;
+          font-weight: 400;
+        }
+
+        .for_productList_banner_slider {
+          width: 100%;
+
+          .for_productList_Banner_img {
+            width: 100%;
+            height: 12.5rem;
+            object-fit: contain;
+          }
+        }
+
+      }
+
+    }
+
+    .for_productList_breadcrumbs {
+      max-width: 90%;
+      margin-inline: auto;
+      margin-top: 0.75rem;
+
+      @media (max-width: 600px) {
+        margin-top: 1.2rem;
+      }
+
+      .for_breadcrumbs {
+        font-family: $primaryFontFamily;
+        font-size: $fontSize2;
+        color: #777;
+        display: inline-block;
+
+        @media (max-width: 600px) {
+          font-size: $fontSize3;
+        }
+
+      }
+    }
+
+    .for_productList_filter_mainDiv {
+      max-width: 82.5rem;
+      margin-inline: auto;
+
+      $breakpoints: (
+        1400: 71rem,
+        1200: 60rem,
+        1000: 55rem,
+        900: 46rem,
+        750: 42rem,
+        700: 36rem,
+        580: 33rem,
+        500: 28rem,
+        425: 24rem,
+        375: 20rem,
+        320: 16rem,
+      );
+
+    @each $max-width, $value in $breakpoints {
+      @media (max-width: #{$max-width}px) {
+        max-width: $value;
+      }
+    }
+
+    .for_productList_category_filter_mainDiv {
+      padding-block: 30px;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+
+      .for_productList_category_filter_desc {
+        max-width: 50rem;
+        width: 100%;
+        font-family: $primaryFontFamily;
+        font-weight: 500;
+        font-size: 0.875rem;
+        color: black;
+        text-align: center;
+        margin-bottom: 2.5rem;
+
+        @media (max-width: 1000px) {
+          display: none;
+        }
+      }
+
+      .for_productList_category_filter_options {
+        width: 75%;
+        margin-inline: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        @media (max-width: 1000px) {
+          width: 100%;
+          justify-content: center;
+          gap: 10px;
+          padding: 10px 40px;
+          flex-wrap: wrap;
+        }
+
+        .for_category_filter_options_card {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          cursor: pointer;
+
+          @media (max-width: 1000px) {
+            padding: 10px 5px;
+            border: 1px solid #eee !important;
+            border-radius: 4px;
+
+            &.selected {
+              border: 1px solid #ffdfdf !important;
+              box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06) !important;
+            }
+          }
+
+          @media (max-width: 768px) {
+            display: flex;
+            width: 15%;
+            text-align: center;
+            line-height: 15px;
+          }
+
+          @media (max-width: 550px) {
+            width: 30%;
+          }
+
+          @media (max-width: 375px) {
+            width: 45%;
+          }
+
+          .for_category_filter_image_div {
+            border: 1px solid #707070;
+            border-radius: 50%;
+            height: 90px;
+            margin: 0 auto;
+            width: 90px;
+            position: relative;
+
+            @media (max-width: 1000px) {
+              height: 75px;
+              width: 75px;
+            }
+
+            @media (max-width: 768px) {
+              height: 60px;
+              width: 60px;
+            }
+
+            .for_category_filter_image {
+              height: 4rem;
+              // transform: translate(1px);
+              width: 3rem;
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%, -50%);
+              object-fit: contain;
+
+              @media (max-width: 768px) {
+                width: 2rem;
+                height: 2rem;
+              }
+            }
+          }
+
+          .for_category_filter_image_div_selected {
+            border: 1px solid #707070;
+            background-color: #2B2B2B;
+            border-radius: 50%;
+            height: 90px;
+            margin: 0 auto;
+            width: 90px;
+            position: relative;
+
+            @media (max-width: 1000px) {
+              height: 75px;
+              width: 75px;
+            }
+
+            @media (max-width: 768px) {
+              height: 60px;
+              width: 60px;
+            }
+
+            .for_category_filter_image_selected {
+              height: 4rem;
+              filter: invert(100%);
+              width: 3rem;
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%, -50%) scale(1.2);
+              object-fit: contain;
+
+              @media (max-width: 768px) {
+                width: 2rem;
+                height: 2rem;
+              }
+
+            }
+          }
+
+          .for_category_filter_title_div {
+            background: 0 0;
+            border-radius: 0;
+            margin-top: 0 !important;
+            margin: 0 10px;
+            outline: none;
+            padding: 10px;
+            font-family: $primaryFontFamily;
+            transition: all .3s ease 0s;
+
+            @media (max-width: 1000px) {
+              padding-inline: 0 !important;
+              padding-block: 5px;
+              margin: 0 5px;
+            }
+
+            .for_category_filter_title_span {
+              color: #000;
+              font-size: 13px;
+              transition: transform 0.3s ease, color 0.3s ease;
+
+              @media (max-width: 1000px) {
+                font-size: 11px;
+              }
+
+              @media (max-width: 374px) {
+                font-size: 12px;
+              }
+            }
+
+            .for_category_filter_title_span_selected {
+              color: #000;
+              font-size: 15px;
+
+              @media (max-width: 1000px) {
+                font-size: 12px;
+                font-weight: 600;
+              }
+            }
+          }
+        }
+      }
+
+    }
+
+    .for_productList_collection_filter_mainDiv {
+      padding-block: 0.35rem;
+      background-color: $filterbackground;
+
+      @media (max-width: 1000px) {
+        display: none;
+      }
+
+      .for_collection_filter_lists {
+        width: 90%;
+        margin-inline: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .for_collection_filter_dropdown {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          position: relative;
+
+          .for_collection_filter_label {
+            font-family: $primaryFontFamily;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+
+            label {
+              text-transform: uppercase;
+              font-size: $fontSize3;
+              color: $primaryfontcolor2;
+              font-weight: 700;
+              cursor: pointer;
+            }
+          }
+
+          .for_collection_filter_option_div {
+            position: absolute;
+            top: 2.6rem;
+            background: white;
+            width: 12rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            font-family: $primaryFontFamily;
+            z-index: 1000;
+            padding: 1rem;
+            max-height: 0;
+            transition: max-height 0.5s ease-in-out;
+
+            &.open {
+              max-height: 180px;
+            }
+
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: 100%;
+              left: 50%;
+              margin-left: -0.5rem;
+
+              border-width: 0.7rem;
+              border-style: solid;
+              border-color: transparent transparent white transparent;
+              border-bottom-color: white;
+            }
+
+            .for_collction_filter_options {
+              display: flex;
+              align-items: center;
+              cursor: pointer;
+
+              input {
+                margin-left: 10px;
+                accent-color: black;
+              }
+
+              span {
+                color: #1b1b1b;
+                font-size: 12px;
+                font-weight: 700;
+                padding-block: 5px;
+                margin-left: 10px;
+                text-transform: uppercase;
+              }
+            }
+          }
+
+          .for_collection_filter_option_div_slide {
+            position: absolute;
+            top: 2.6rem;
+            background: white;
+            width: 25rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            font-family: $primaryFontFamily;
+
+            z-index: 1000;
+            padding: 1rem;
+
+            // Positioning the arrow
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: 100%; // Position above the tooltip
+              left: 50%; // Adjust the left position to center the arrow horizontally
+              margin-left: -0.5rem; // Half of the width of the arrow to center it properly
+
+              // Triangle arrow
+              border-width: 0.7rem;
+              border-style: solid;
+              border-color: transparent transparent white transparent; // Arrow pointing upwards
+
+              // Adjust the position of the arrow
+              border-bottom-color: white; // Color of the tooltip background
+            }
+
+            .for_collction_filter_options {
+              display: flex;
+              align-items: center;
+              cursor: pointer;
+
+              input {
+                margin-left: 10px;
+
+                &:checked {
+                  background-color: #000;
+                }
+              }
+
+              span {
+                color: #1b1b1b;
+                font-size: 12px;
+                font-weight: 700;
+                padding-block: 5px;
+                margin-left: 10px;
+                text-transform: uppercase;
+              }
+
+            }
+
+            .for_collection_slider_div {
+              margin-top: 2px;
+              padding: 5px;
+              width: 90%;
+              margin-inline: auto;
+
+              .for_collection_slider_input {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .for_collection_price {
+                  width: 30%;
+                  display: flex;
+                  align-items: center;
+                  font-size: 13px;
+                  height: 24px;
+                  padding: 5px 4px 3px;
+                  text-align: center;
+                }
+
+                .for_collection_weights {
+                  width: 20%;
+                  display: flex;
+                  align-items: center;
+                  font-size: 13px;
+                  height: 24px;
+                  padding: 5px 4px 3px;
+                  text-align: center;
+                }
+              }
+            }
+          }
+
+          .for_collection_filter_option_div_hide {
+            position: absolute;
+            top: 1.7rem;
+            display: none;
+            background: white;
+            width: 100%;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            font-family: $primaryFontFamily;
+
+            opacity: 0;
+            transform: translateY(-10px);
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
+          }
+
+          .for_collection_filter_option_div_slide_hide {
+            position: absolute;
+            top: 2.6rem;
+            background: white;
+            display: none;
+            width: 25rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            font-family: $primaryFontFamily;
+
+            z-index: 1000;
+            padding: 1rem;
+          }
+
+        }
+
+        .for_collection_filter_dropdown_sort {
+          display: flex;
+          align-items: center;
+
+          .for_collection_filter_label {
+            font-family: $primaryFontFamily;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+
+            label {
+              text-transform: uppercase;
+              font-size: $fontSize3;
+              color: $primaryfontcolor2;
+              font-weight: 700;
+              cursor: pointer;
+            }
+          }
+
+          .for_collection_filter_sort_select {
+            margin-left: 5px;
+            background: transparent;
+            border: none;
+            font-size: 15px;
+            font-family: $primaryFontFamily;
+            color: #656565;
+            outline: none;
+          }
+        }
+
+      }
+    }
+
+    .for_productList_collection_filter_mainDiv_tabletView {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      .for_productList_filter_btn {
+        background-color: #df647e !important;
+        border: 1px solid #df647e;
+        border-bottom-color: currentcolor;
+        color: #fff;
+        cursor: pointer;
+        margin-block: 20px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        text-align: left;
+        text-transform: uppercase;
+        width: 145px;
+      }
+
+      .for_productList_filter_span {
+        font-family: $primaryFontFamily;
+        padding-left: 1rem;
+        font-size: $fontSize3;
+      }
+    }
+
+    .for_productList_filter_display_mainDiv {
+      padding-block: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-inline: 0.5%;
+
+      @media (max-width: 500px) {
+        flex-direction: column-reverse;
+        gap: 0.5rem;
+      }
+
+      .for_productList_filter_data_div {
+        display: flex;
+        align-items: center;
+
+        @media (max-width: 500px) {
+          justify-content: center;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+        }
+
+        .for_productList_filter_selected {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-family: $primaryFontFamily;
+
+          @media (max-width: 500px) {
+            flex-wrap: wrap;
+            gap: 10px;
+          }
+
+          .for_productList_filter_selected_value {
+            color: #000;
+            cursor: default;
+            display: flex;
+            font-size: 10px;
+            letter-spacing: 1px;
+            padding: 4px 2px 0 4px;
+            text-transform: uppercase;
+          }
+
+          .for_productList_filter_selected_icon {
+            background-color: #df647e;
+            color: #fff;
+            font-size: 10px;
+            margin-left: 0px;
+            cursor: pointer;
+          }
+        }
+
+        .for_productList_reset_button {
+          color: #df647e;
+          cursor: pointer;
+          display: flex;
+          font-size: 13px;
+          margin-left: 1rem;
+          background: transparent;
+          border: none;
+          outline: none;
+        }
+      }
+
+      .for_productList_total_filtered_data_div {
+        font-family: $primaryFontFamily;
+
+        .for_total_filtered_span {
+          font-size: $fontSize2;
+          color: $primaryfontcolor2;
+          font-weight: 700;
+
+          @media (max-width: 500px) {
+            font-size: $fontSize3;
+          }
+        }
+      }
+
+      .for_productList_shipping_div {
+        display: flex;
+        align-items: center;
+
+        .for_collection_filter_dropdown_sort_ship {
+          visibility: hidden;
+          // display: flex;
+          align-items: center;
+
+          .for_collection_filter_label_ship {
+            font-family: $primaryFontFamily;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+
+            label {
+              text-transform: uppercase;
+              font-size: 13px;
+              color: $primaryfontcolor2;
+              font-weight: 700;
+              cursor: pointer;
+            }
+          }
+
+          .for_collection_filter_sort_select_ship {
+            margin-left: 5px;
+            background: transparent;
+            border: none;
+            font-size: 12px;
+            font-family: $primaryFontFamily;
+            color: #656565;
+            outline: none;
+          }
+        }
+      }
+    }
+
+    .for_productList_listing_div {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+      padding-bottom: 50px;
+      padding-inline: 5px;
+
+      @media (max-width: 600px) {
+        gap: 10px;
+      }
+
+      .for_productCard_mainDiv {
+
+        width: 100%;
+        height: auto;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition: border 0.3s ease;
+
+        &:hover {
+          // border: 1px solid red;
+          box-shadow: 0 3px 8px rgba(0, 0, 0, .24);
+        }
+
+        .for_productList_listing_card_div {
+          position: relative;
+
+          .for_product_listing_ratings_div {
+            position: absolute;
+            padding-top: 5px;
+            z-index: 100;
+
+            .for_product_listting_rating {
+              font-size: 0.7rem;
+              display: flex;
+              gap: 4px;
+            }
+          }
+
+          .forWeb_app_product_label_prd {
+            position: absolute;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            font-size: 14px;
+            font-family: $primaryFontFamily;
+            z-index: 100;
+
+            .forWeb_app_instock {
+              background-color: #00b894;
+              color: white;
+              text-transform: uppercase;
+              width: 70px;
+              font-size: 10px;
+              text-align: center;
+              font-weight: 500;
+            }
+
+            .forWeb_app_bestSeller {
+              background-color: #ff5100;
+              color: white;
+              text-transform: uppercase;
+              width: 70px;
+              font-size: 10px;
+              text-align: center;
+            }
+
+            .forWeb_app_newarrival {
+              background-color: darkblue;
+              color: white;
+              text-transform: uppercase;
+              width: 70px;
+              font-size: 10px;
+              text-align: center;
+            }
+
+            .forWeb_app_intrending {
+              background-color: darkorange;
+              color: white;
+              text-transform: uppercase;
+              width: 70px;
+              font-size: 10px;
+              text-align: center;
+            }
+
+          }
+
+
+          .for_productList_listing_card_image_div {
+            width: 100%;
+            min-height: 246px;
+
+            .for_rollup_video,
+            .for_rollup_img {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              z-index: 1;
+
+              video {
+                width: 100%;
+                // height: 246px !important;
+                object-fit: contain;
+              }
+
+              img {
+                width: 100%;
+                // height: 246px !important;
+                object-fit: contain;
+              }
+            }
+
+            .for_productList_listing_card_image {
+              width: 100%;
+              // height: 246px;
+              object-fit: contain;
+            }
+
+          }
+
+          .for_productList_metaltype_div {
+            bottom: 2.5rem;
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            position: absolute;
+            padding: 5px;
+            width: 100%;
+            align-items: center;
+            z-index: 100;
+
+            .for_metaltype_gold {
+              @include metal-type-style(#c9a63a);
+            }
+
+            .for_metaltype_gold_clicked {
+              @include metal-type-style-clicked(#c9a63a)
+            }
+
+            .for_metaltype_white {
+              @include metal-type-style(#848484);
+            }
+
+            .for_metaltype_white_clicked {
+              @include metal-type-style-clicked(#848484)
+            }
+
+            .for_metaltype_rose {
+              @include metal-type-style(#e06e6e);
+            }
+
+            .for_metaltype_rose_clicked {
+              @include metal-type-style-clicked(#e06e6e)
+            }
+          }
+
+          .for_ATC_handler {
+            position: absolute;
+            /* Take the checkbox out of the normal flow */
+            opacity: 0;
+            /* Make it invisible */
+            width: 0;
+            /* No width */
+            height: 0;
+            /* No height */
+            overflow: hidden;
+            /* Prevent any overflow */
+            border: 0;
+            /* No border */
+          }
+
+          .for_productList_listinig_ATC_div {
+            background: #5C5C5C;
+            height: 40px;
+            color: #fff;
+            font-family: "Nunito", sans-serif;
+            display: flex;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+            z-index: 100;
+            margin-inline: 0px;
+
+            @media (max-width: 1000px) {
+              opacity: 1;
+            }
+
+            .for_productList_cart_icon {
+              padding-bottom: 4px;
+              padding-left: 15px;
+              padding-right: 8px;
+              font-size: 16px;
+            }
+
+            .for_productList_cart_title {
+              font-size: 14px;
+              color: #fff;
+              font-family: "Nunito", sans-serif;
+            }
+
+          }
+        }
+
+        /* Show the ATC div on hover */
+        &:hover .for_productList_listinig_ATC_div {
+          opacity: 1;
+        }
+
+        .for_productList_card_description {
+          margin-top: 10px;
+          font-family: $primaryFontFamily;
+
+          .for_productList_metaltype_div {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            position: relative;
+            padding: 5px;
+            // margin-bottom: 10px;
+            width: 100%;
+            align-items: center;
+            z-index: 100;
+
+            .for_metaltype_gold {
+              @include metal-type-style(#c9a63a);
+            }
+
+            .for_metaltype_gold_clicked {
+              @include metal-type-style-clicked(#c9a63a)
+            }
+
+            .for_metaltype_white {
+              @include metal-type-style(#848484);
+            }
+
+            .for_metaltype_white_clicked {
+              @include metal-type-style-clicked(#848484)
+            }
+
+            .for_metaltype_rose {
+              @include metal-type-style(#e06e6e);
+            }
+
+            .for_metaltype_rose_clicked {
+              @include metal-type-style-clicked(#e06e6e)
+            }
+          }
+
+          .for_productList_caratWeight {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding-inline: 2%;
+
+            .for_carat_title {
+              color: #707070;
+              font-size: 12px;
+            }
+
+            .for_carat_weights {
+              display: flex;
+              align-items: center;
+              gap: 5px;
+
+              .for_weight_bg {
+                display: flex;
+                align-items: center;
+                background: #CECECE;
+                height: 25px;
+                color: #707070;
+                font-size: 12px;
+                padding: 0 4px;
+              }
+            }
+          }
+
+          .for_productList_desc_title {
+            height: 45px;
+            margin-top: 1.7rem;
+            font-family: $primaryFontFamily;
+
+            .for_listing_desc_span {
+              width: 100%;
+              padding-inline: 4%;
+              color: $primaryfontcolor2;
+              font-size: $fontSize3;
+              font-weight: 700;
+              display: inline-block;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              text-align: center;
+            }
+          }
+
+          .for_productList_desc_div {
+            font-family: $primaryFontFamily;
+            color: #707070;
+            font-size: 10px;
+            text-align: center;
+            height: 30px;
+            width: 100%;
+            padding-inline: 3rem;
+          }
+
+          .for_productList_price_div {
+            color: #000000;
+            margin-top: 10px;
+            font-size: $fontSize3;
+            height: 50px;
+            width: 100%;
+            font-weight: 700;
+            text-align: center;
+          }
+        }
+      }
+
+
+    }
+
+  }
+
+
+}
+}
+
+.for_global_spinner {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  border-radius: 50%;
+  -webkit-mask: radial-gradient(farthest-side, #0000 40%, #000000 41%);
+  background: linear-gradient(0deg, #000000 50%, #000000 0) center/4.5px 100%,
+    linear-gradient(90deg, rgba(21, 21, 31, 0.25) 50%, #000000 0) center/100% 4.5px;
+  background-repeat: no-repeat;
+  animation: for_global_spinner-d3o0rx 1s infinite steps(12);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%, -50%);
+}
+
+.for_global_spinner::before,
+.for_global_spinner::after {
+  content: "";
+  grid-area: 1/1;
+  border-radius: 50%;
+  background: inherit;
+  opacity: 0.915;
+  transform: rotate(30deg);
+}
+
+.for_global_spinner::after {
+  opacity: 0.83;
+  transform: rotate(60deg);
+}
+
+@keyframes for_global_spinner-d3o0rx {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+.for_productList_drawer_div {
+  position: relative;
+
+  .for_modal_cancel_btn_div_pd {
+    position: absolute;
+    right: 0;
+    z-index: 10;
+    padding-inline: 4px;
+    color: white;
+    padding-block: 4px;
+    background: black;
+    cursor: pointer;
+    font-weight: bold;
+
+    .for_modal_cancel_btn_pd {
+      top: 0px;
+      position: relative;
+      color: white;
+      right: 0;
+    }
+  }
+
+  .css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
+    .for_productLisrt_fillter_div_1 {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+      padding-inline: 1.5rem;
+      padding-block: 3rem;
+
+      .for_collection_filter_dropdown {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        position: relative;
+
+        .for_collection_filter_label {
+          font-family: $primaryFontFamily;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          cursor: pointer;
+
+          label {
+            text-transform: uppercase;
+            font-size: $fontSize3;
+            color: $primaryfontcolor2;
+            font-weight: 700;
+            cursor: pointer;
+          }
+        }
+
+        .for_collection_filter_option_div {
+          position: relative;
+          top: 2.6rem;
+          background: white;
+          width: 12rem;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+          font-family: $primaryFontFamily;
+          z-index: 1000;
+          padding: 1rem;
+          height: 0;
+          transition: max-height 0.5s ease-in-out;
+
+          &.open {
+            height: auto;
+            top: 10px;
+            background: white;
+            width: 12rem;
+            box-shadow: 0 0px 0px 0px rgba(0, 0, 0, 0.1), 0 0px 0px 0px rgba(0, 0, 0, 0.1);
+            font-family: $primaryFontFamily;
+            z-index: 1000;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            padding-inline: 0 !important;
+          }
+
+          &.for_collection_filter_option_div_hide {
+            display: none;
+          }
+
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            margin-left: -0.5rem;
+
+            border-width: 0.7rem;
+            border-style: solid;
+            border-color: transparent transparent white transparent;
+            border-bottom-color: white;
+
+            @media (max-width: 1000px) {
+              position: relative;
+            }
+          }
+
+          .for_collction_filter_options {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            input {
+              margin-left: 10px;
+              accent-color: black;
+            }
+
+            span {
+              color: #1b1b1b;
+              font-size: 12px;
+              font-weight: 700;
+              padding-block: 5px;
+              margin-left: 10px;
+              text-transform: uppercase;
+
+              @media (max-width: 1000px) {
+                margin-left: 1rem;
+                font-size: 13px;
+              }
+            }
+          }
+        }
+
+        .for_collection_filter_option_div_slide {
+          position: relative;
+          top: 0.5rem;
+          background: white;
+          width: 100%;
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .02), 0 0 0 1px rgba(27, 31, 35, .15);
+          font-family: "Nunito", sans-serif;
+          padding-inline: 1rem;
+          z-index: 1000;
+          border-radius: 4px;
+
+          // Positioning the arrow
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: 100%; // Position above the tooltip
+            left: 50%; // Adjust the left position to center the arrow horizontally
+            margin-left: -0.5rem; // Half of the width of the arrow to center it properly
+
+            // Triangle arrow
+            border-width: 0.7rem;
+            border-style: solid;
+            border-color: transparent transparent white transparent; // Arrow pointing upwards
+
+            // Adjust the position of the arrow
+            border-bottom-color: white; // Color of the tooltip background
+
+            @media (max-width: 1000px) {
+              position: relative;
+            }
+          }
+
+          .for_collction_filter_options {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            input {
+              margin-left: 10px;
+
+              &:checked {
+                background-color: #000;
+              }
+            }
+
+            span {
+              color: #1b1b1b;
+              font-size: 12px;
+              font-weight: 700;
+              padding-block: 5px;
+              margin-left: 10px;
+              text-transform: uppercase;
+            }
+
+          }
+
+          .for_collection_slider_div {
+            margin-top: 2px;
+            padding: 5px;
+            width: 100%;
+            margin-inline: 0 !important;
+
+            .for_collection_slider_input {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+
+              .for_collection_price {
+                width: 30%;
+                display: flex;
+                align-items: center;
+                font-size: 13px;
+                height: 24px;
+                padding: 5px 4px 3px;
+                text-align: center;
+
+                @media (max-width: 464px) {
+                  width: 39%;
+                  font-size: 14px;
+                  padding: 3px 3px 3px;
+                }
+
+                @media (max-width: 375px) {
+                  width: 39%;
+                  font-size: 11px;
+                  padding: 3px 3px 3px;
+                }
+              }
+
+              .for_collection_weights {
+                width: 20%;
+                display: flex;
+                align-items: center;
+                font-size: 13px;
+                height: 24px;
+                padding: 5px 4px 3px;
+                text-align: center;
+
+                @media (max-width: 464px) {
+                  width: 25%;
+                }
+
+                @media (max-width: 375px) {
+                  width: 34%;
+                }
+              }
+            }
+          }
+        }
+
+        .for_collection_filter_option_div_hide {
+          position: absolute;
+          top: 1.7rem;
+          display: none;
+          background: white;
+          width: 100%;
+          box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+          font-family: $primaryFontFamily;
+
+          opacity: 0;
+          transform: translateY(-10px);
+          visibility: hidden;
+          transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
+        }
+
+        .for_collection_filter_option_div_slide_hide {
+          position: absolute;
+          top: 2.6rem;
+          background: white;
+          display: none;
+          width: 25rem;
+          box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+          font-family: $primaryFontFamily;
+
+          z-index: 1000;
+          padding: 1rem;
+        }
+
+      }
+
+      .for_collection_filter_dropdown_sort {
+        display: flex;
+        align-items: center;
+        margin-block: 1rem;
+
+        .for_collection_filter_label {
+          font-family: $primaryFontFamily;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          cursor: pointer;
+
+          label {
+            text-transform: uppercase;
+            font-size: $fontSize3;
+            color: $primaryfontcolor2;
+            font-weight: 700;
+            cursor: pointer;
+          }
+        }
+
+        .for_collection_filter_sort_select {
+          margin-left: 5px;
+          background: transparent;
+          border: none;
+          font-size: 15px;
+          font-family: $primaryFontFamily;
+          color: #656565;
+          outline: none;
+        }
+      }
+
+      .for_productList_shipping_div {
+        display: flex;
+        align-items: center;
+
+        .for_collection_filter_dropdown_sort_ship {
+          visibility: hidden;
+          // display: flex;
+          align-items: center;
+
+          .for_collection_filter_label_ship {
+            font-family: $primaryFontFamily;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+
+            label {
+              text-transform: uppercase;
+              font-size: 15px;
+              color: $primaryfontcolor2;
+              font-weight: 700;
+              cursor: pointer;
+
+              @media (max-width: 375px) {
+                font-size: 14px;
+              }
+            }
+          }
+
+          .for_collection_filter_sort_select_ship {
+            margin-left: 5px;
+            background: transparent;
+            border: none;
+            font-size: 12px;
+            font-family: $primaryFontFamily;
+            color: #656565;
+            outline: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.myProductList_swiper {
+  width: 100%;
+  height: auto;
+
+  .swiper-wrapper {
+    width: 100% !important;
+  }
+}

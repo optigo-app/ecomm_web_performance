@@ -1,0 +1,70 @@
+.smarMA_sustaionMain {
+
+    margin-top: 10px;
+
+    .sustaionMain {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        flex-direction: column;
+        padding: 45px 85px 10px;
+        gap: 12px;
+    }
+
+    .sustaionImage1 {
+        height: 200px;
+        width: 200px;
+        object-fit: cover;
+    }
+
+    .sustaionImage2 {
+        height: 200px;
+        width: 200px;
+        object-fit: cover;
+    }
+
+    .sustaionMainTitle {
+        font-size: 22px !important;
+        color: #7d7f85;
+        font-family: 'PT Sans', sans-serif;
+        margin: 0px;
+    }
+
+    .sustaionMainTitle2 {
+        font-size: 13px !important;
+        color: #7d7f85;
+        font-family: 'PT Sans', sans-serif;
+        margin: 0px;
+    }
+
+    @media screen and (max-width: 600px) {
+        .sustaionMain {
+            padding: 0px;
+        }
+
+    }
+
+    @media screen and (max-width: 400px) {
+        .sustainBoxImageBoxMain {
+            padding: 0px !important;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        .sustaionMain {
+            padding: 0px;
+        }
+
+        .sustaionImage1 {
+            height: 130px;
+            width: 130px;
+            object-fit: cover;
+        }
+
+        .sustaionImage2 {
+            height: 130px;
+            width: 130px;
+            object-fit: cover;
+        }
+    }
+}

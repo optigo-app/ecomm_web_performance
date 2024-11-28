@@ -1,0 +1,602 @@
+// @import "../../../../scss/variable.scss";
+
+// .for_LabgrownDiamondInfo {
+//   width: 100%;
+//   height: auto;
+//   font-family: $primaryFontFamily;
+//   color: white;
+//   padding: 0 90px;
+//   .Labgrown_Diamonds {
+//     background-position: 50%;
+//     background-repeat: no-repeat;
+//     background-size: cover;
+//     height: 490px;
+//   }
+//   .banner-wrap {
+//     display: flex;
+//     flex-direction: column;
+//     padding: 110px 55px;
+//     .main_wrap_title {
+//       width: 45%;
+//       .title_head {
+//         font-size: 32px;
+//         font-weight: 600;
+//       }
+//       .paragraph {
+//         font-size: 14px;
+//       }
+//     }
+//     .labgrown-mobile-content {
+//       display: grid;
+//       grid-template-columns: 14% 14% 14%;
+//       grid-gap: 30px;
+//       margin-top: 25px;
+//       .blocks {
+//         .lg-items-head {
+//           display: flex;
+//           align-items: center;
+//           gap: 10px;
+//           img {
+//             width: 35x;
+//             height: 35x;
+//             object-fit: cover;
+//           }
+//           .text-capitalize {
+//             font-size: 16px;
+//           }
+//         }
+//         .mini_para {
+//           font-size: 13.2px;
+//         }
+//       }
+//     }
+//   }
+
+//   @media screen and (max-width: 2450px) {
+//     width: 100%;
+//     height: auto;
+//     font-family: $primaryFontFamily;
+//     color: white;
+//     padding: 0 90px;
+//     .Labgrown_Diamonds {
+//       background-position: 50%;
+//       background-repeat: no-repeat;
+//       background-size: cover;
+//       height: 490px;
+//     }
+//     .banner-wrap {
+//       display: flex;
+//       flex-direction: column;
+//       padding: 110px 55px;
+//       .main_wrap_title {
+//         width: 70%;
+//         .title_head {
+//           font-size: 32px;
+//           font-weight: 600;
+//         }
+//         .paragraph {
+//           font-size: 14px;
+//         }
+//       }
+//       .labgrown-mobile-content {
+//         display: grid;
+//         grid-template-columns: 14% 14% 14%;
+//         grid-gap: 30px;
+//         margin-top: 25px;
+//         .blocks {
+//           .lg-items-head {
+//             display: flex;
+//             align-items: center;
+//             gap: 10px;
+//             img {
+//               width: 35x;
+//               height: 35x;
+//               object-fit: cover;
+//             }
+//             .text-capitalize {
+//               font-size: 16px;
+//             }
+//           }
+//           .mini_para {
+//             font-size: 13.2px;
+//           }
+//         }
+//       }
+//     }
+//   }
+
+//   @media screen and (max-width: 1500px) {
+//     width: 100%;
+//     height: auto;
+//     font-family: $primaryFontFamily;
+//     color: white;
+//     padding: 0 90px;
+//     .Labgrown_Diamonds {
+//       background-position: 50%;
+//       background-repeat: no-repeat;
+//       background-size: cover;
+//       height: 490px;
+//     }
+//     .banner-wrap {
+//       display: flex;
+//       flex-direction: column;
+//       padding: 110px 55px;
+//       .main_wrap_title {
+//         width: 90%;
+//         .title_head {
+//           font-size: 32px;
+//           font-weight: 600;
+//         }
+//         .paragraph {
+//           font-size: 14px;
+//         }
+//       }
+//       .labgrown-mobile-content {
+//         display: grid;
+//         grid-template-columns: 14% 14% 14%;
+//         grid-gap: 30px;
+//         margin-top: 25px;
+//         .blocks {
+//           .lg-items-head {
+//             display: flex;
+//             align-items: center;
+//             gap: 10px;
+//             img {
+//               width: 35x;
+//               height: 35x;
+//               object-fit: cover;
+//             }
+//             .text-capitalize {
+//               font-size: 16px;
+//             }
+//           }
+//           .mini_para {
+//             font-size: 13.2px;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+@import "../../../../scss/variable.scss";
+
+.for_LabgrownDiamondInfo {
+  width: 100%;
+  height: auto;
+  font-family: $primaryFontFamily;
+  color: white;
+  padding: 0 90px;
+
+  .Labgrown_Diamonds {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 490px;
+    overflow: hidden;
+  }
+
+  .banner-wrap {
+    display: flex;
+    position: relative;
+    height: 100%;
+    flex-direction: column;
+    .bg-img-for {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      position: absolute;
+    }
+
+    .main_wrap_title {
+      width: 45%;
+      z-index: 1;
+      padding-top: 110px;
+      padding-left: 55px;
+      .title_head {
+        font-size: 32px;
+        font-weight: 600;
+      }
+
+      .paragraph {
+        font-size: 14px;
+      }
+    }
+
+    .labgrown-mobile-content {
+      display: grid;
+      grid-template-columns: repeat(3, 15%);
+      grid-gap: 30px;
+      margin-top: 25px;
+      z-index: 1;
+      padding-left: 55px;
+      .blocks {
+        .lg-items-head {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          img {
+            width: 35px;
+            height: 35px;
+            object-fit: cover;
+          }
+
+          .text-capitalize {
+            font-size: 16px;
+          }
+        }
+
+        .mini_para {
+          font-size: 13.2px;
+        }
+      }
+    }
+  }
+}
+.mobile_info_for {
+  display: none;
+}
+
+@media screen and (max-width: 1500px) {
+  .for_LabgrownDiamondInfo {
+    padding: 0 10px;
+    width: 100%;
+    height: auto;
+    font-family: $primaryFontFamily;
+    color: white;
+
+    .banner-wrap {
+      display: flex;
+      flex-direction: column;
+
+      .main_wrap_title {
+        width: 80%;
+
+        .title_head {
+          font-size: 32px;
+          font-weight: 600;
+        }
+
+        .paragraph {
+          font-size: 14px;
+        }
+      }
+
+      .labgrown-mobile-content {
+        display: grid;
+        grid-template-columns: repeat(3, 30%);
+        grid-gap: 30px;
+        margin-top: 25px;
+
+        .blocks {
+          .lg-items-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            img {
+              width: 35px;
+              height: 35px;
+              object-fit: cover;
+            }
+
+            .text-capitalize {
+              font-size: 16px;
+            }
+          }
+
+          .mini_para {
+            font-size: 13.2px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1350px) {
+  .for_LabgrownDiamondInfo {
+    padding: 0 8px;
+    width: 100%;
+    height: auto;
+    font-family: $primaryFontFamily;
+    color: white;
+
+    .banner-wrap {
+      display: flex;
+      flex-direction: column;
+
+      .main_wrap_title {
+        width: 70%;
+
+        .title_head {
+          font-size: 32px;
+          font-weight: 600;
+        }
+
+        .paragraph {
+          font-size: 14px;
+        }
+      }
+
+      .labgrown-mobile-content {
+        display: grid;
+        grid-template-columns: repeat(3, 30%);
+        grid-gap: 30px;
+        margin-top: 25px;
+
+        .blocks {
+          .lg-items-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            img {
+              width: 35px;
+              height: 35px;
+              object-fit: cover;
+            }
+
+            .text-capitalize {
+              font-size: 16px;
+            }
+          }
+
+          .mini_para {
+            font-size: 13.2px;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1183px) {
+  .for_LabgrownDiamondInfo {
+    padding: 0 2px;
+    width: 100%;
+    height: auto;
+    font-family: $primaryFontFamily;
+    color: white;
+
+    .banner-wrap {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      .main_wrap_title {
+        width: 80%;
+        .title_head {
+          font-size: 32px;
+          font-weight: 600;
+        }
+
+        .paragraph {
+          font-size: 14px;
+        }
+      }
+
+      .labgrown-mobile-content {
+        display: grid;
+        grid-template-columns: repeat(3, 25%);
+        grid-gap: 30px;
+        margin-top: 25px;
+
+        .blocks {
+          .lg-items-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            img {
+              width: 35px;
+              height: 35px;
+              object-fit: cover;
+            }
+
+            .text-capitalize {
+              font-size: 16px;
+            }
+          }
+
+          .mini_para {
+            font-size: 13.2px;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1000px) {
+  .for_LabgrownDiamondInfo {
+    padding: 0 8px;
+    width: 100%;
+    height: auto;
+    font-family: $primaryFontFamily;
+    color: white;
+
+    .banner-wrap {
+      display: flex;
+      flex-direction: column;
+
+      .main_wrap_title {
+        width: 95%;
+        padding-top: 110px;
+        padding-left: 40px;
+        .title_head {
+          font-size: 32px;
+          font-weight: 600;
+        }
+
+        .paragraph {
+          font-size: 14px;
+        }
+      }
+
+      .labgrown-mobile-content {
+        display: grid;
+        grid-template-columns: repeat(3, 25%);
+        grid-gap: 30px;
+        margin-top: 25px;
+        padding-left: 40px;
+        .blocks {
+          .lg-items-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            img {
+              width: 35px;
+              height: 35px;
+              object-fit: cover;
+            }
+
+            .text-capitalize {
+              font-size: 16px;
+            }
+          }
+
+          .mini_para {
+            font-size: 13.2px;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .for_LabgrownDiamondInfo {
+    padding: 0 8px;
+    width: 100%;
+    height: auto;
+    font-family: $primaryFontFamily;
+    color: white;
+
+    .Labgrown_Diamonds {
+      height: auto;
+      padding-bottom: 15px;
+    }
+    .banner-wrap {
+      display: flex;
+      flex-direction: column;
+      .bg-img-for {
+        // object-position: center;
+        object-position: calc(60% - 50px) center;
+
+      }
+
+      .main_wrap_title {
+        width: 95%;
+        padding-top: 110px;
+        padding-left: 25px;
+        .title_head {
+          font-size: 32px;
+          font-weight: 600;
+        }
+
+        .paragraph {
+          font-size: 14px;
+        }
+      }
+
+      .labgrown-mobile-content {
+        display: grid;
+        grid-template-columns: repeat(1, 94%);
+        grid-gap: 30px;
+        margin-top: 25px;
+        padding-left: 25px;
+        .blocks {
+          .lg-items-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            img {
+              width: 35px;
+              height: 35px;
+              object-fit: cover;
+            }
+
+            .text-capitalize {
+              font-size: 16px;
+            }
+          }
+
+          .mini_para {
+            font-size: 13.2px;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 425px) {
+  .for_LabgrownDiamondInfo {
+    display: none;
+  }
+  .mobile_info_for {
+    display: flex;
+    font-family: $primaryFontFamily;
+    flex-direction: column;
+    align-items: start;
+    padding: 25px 8px;
+    .main_wrap_title {
+      text-align: center;
+      width: 100%;
+      .title_head {
+        font-weight: 600;
+        font-size: 26px;
+      }
+      .paragraph {
+        font-size: 14px;
+        padding: 0 3px;
+        padding-bottom: 25px;
+        padding-top: 8px;
+      }
+    }
+    .image_hos {
+      width: 100%;
+      height: 280px;
+      .bg-img-for-mob {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: calc(65% - 50px) center;
+        transition: 0.3s ease-in-out;
+      }
+    }
+    .mobile-content {
+      display: grid;
+      grid-template-columns: repeat(1, auto);
+      grid-gap: 5px;
+      margin-top: 25px;
+      z-index: 1;
+      padding-left: 4px;
+      .blocks {
+        .lg-items-head {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          .m-img {
+            width: 35px;
+            height: 35px;
+            object-fit: cover;
+          }
+
+          .text-capitalize {
+            font-size: 16px;
+            font-weight: 500;
+          }
+        }
+
+        .mini_para {
+          font-size: 13.2px;
+          font-weight: 500;
+          color: gray;
+        }
+      }
+    }
+  }
+}

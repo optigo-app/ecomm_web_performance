@@ -1,0 +1,373 @@
+@import "../../../scss/variable.scss";
+
+.for_fineJewel_mainDiv {
+  .for_fineJewel_container_div {
+    .for_fineJewel_breadcrumbs_div {
+      max-width: auto;
+      margin-inline: 25px;
+      font-family: $primaryFontFamily;
+
+      margin-left: 5rem;
+      margin-bottom: 0.5rem;
+      .for_fineJewel_breadcrumbs {
+        color: #777777;
+        font-size: 14px;
+        cursor: pointer;
+
+        .for_fineJewel_breadcrumbs_label {
+          &:hover {
+            color: $primaryfontcolor2;
+          }
+        }
+      }
+    }
+
+    .for_fineJewel_banners_div {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      text-align: unset;
+
+      .for_fineJewel_banner_text_div {
+        padding-block: 8rem;
+        margin-inline: 5rem;
+        font-family: $primaryFontFamily;
+        text-align: unset;
+
+        h1 {
+          &:first-child {
+            font-size: 36px;
+            font-weight: 600;
+            line-height: 50px;
+          }
+
+          &:not(:first-child) {
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 30px;
+            text-transform: uppercase;
+          }
+        }
+
+        span {
+          display: block;
+          font-size: 38px;
+          font-weight: 600;
+          text-transform: capitalize;
+        }
+
+        .for_fineJewel_para {
+          // width: 100%;
+
+          .for_fineJewel_para_p {
+            font-size: 15px;
+            line-height: 25px;
+            margin-bottom: 1rem;
+            width: 30%;
+            font-weight: 500;
+          }
+        }
+
+        .for_fineJewel_btn_div {
+          .for_finrJewel_btn {
+            background: transparent;
+            text-transform: uppercase;
+            padding: 7px 30px;
+            font-size: $fontSize3;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1600px) {
+    .for_fineJewel_container_div {
+      .for_fineJewel_breadcrumbs_div {
+        max-width: auto;
+        margin-inline: 25px;
+        font-family: $primaryFontFamily;
+        margin-left: 5rem;
+        margin-bottom: 0.5rem;
+        .for_fineJewel_breadcrumbs {
+          color: #777777;
+          font-size: 14px;
+          cursor: pointer;
+
+          .for_fineJewel_breadcrumbs_label {
+            &:hover {
+              color: $primaryfontcolor2;
+            }
+          }
+        }
+      }
+
+      .for_fineJewel_banners_div {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: unset;
+
+        .for_fineJewel_banner_text_div {
+          padding-block: 8rem;
+          margin-inline: 3rem;
+          font-family: $primaryFontFamily;
+          text-align: unset;
+
+          h1 {
+            &:first-child {
+              font-size: 36px;
+              font-weight: 600;
+              line-height: 50px;
+            }
+
+            &:not(:first-child) {
+              font-size: 16px;
+              font-weight: 700;
+              line-height: 30px;
+              text-transform: uppercase;
+            }
+          }
+
+          span {
+            display: block;
+            font-size: 38px;
+            font-weight: 600;
+            text-transform: capitalize;
+          }
+
+          .for_fineJewel_para {
+            // width: 100%;
+
+            .for_fineJewel_para_p {
+              font-size: 15px;
+              line-height: 25px;
+              margin-bottom: 1rem;
+              width: 50%;
+              font-weight: 500;
+            }
+          }
+
+          .for_fineJewel_btn_div {
+            .for_finrJewel_btn {
+              background: transparent;
+              text-transform: uppercase;
+              padding: 7px 30px;
+              font-size: $fontSize3;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 1160px) {
+    .for_fineJewel_container_div {
+      .for_fineJewel_breadcrumbs_div {
+        max-width: auto;
+        margin-inline: 25px;
+        font-family: $primaryFontFamily;
+        margin-left: 5rem;
+        margin-bottom: 0.5rem;
+        .for_fineJewel_breadcrumbs {
+          color: #777777;
+          font-size: 14px;
+          cursor: pointer;
+
+          .for_fineJewel_breadcrumbs_label {
+            &:hover {
+              color: $primaryfontcolor2;
+            }
+          }
+        }
+      }
+
+      .for_fineJewel_banners_div {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: unset;
+
+        .for_fineJewel_banner_text_div {
+          padding-block: 5rem;
+          margin-inline: 2rem;
+          font-family: $primaryFontFamily;
+          text-align: unset;
+
+          h1 {
+            &:first-child {
+              font-size: 36px;
+              font-weight: 600;
+              line-height: 50px;
+            }
+
+            &:not(:first-child) {
+              font-size: 16px;
+              font-weight: 700;
+              line-height: 30px;
+              text-transform: uppercase;
+            }
+          }
+
+          span {
+            display: block;
+            font-size: 38px;
+            font-weight: 600;
+            text-transform: capitalize;
+          }
+
+          .for_fineJewel_para {
+            // width: 100%;
+
+            .for_fineJewel_para_p {
+              font-size: 15px;
+              line-height: 25px;
+              margin-bottom: 1rem;
+              width: 80%;
+              font-weight: 500;
+            }
+          }
+
+          .for_fineJewel_btn_div {
+            .for_finrJewel_btn {
+              background: transparent;
+              text-transform: uppercase;
+              padding: 7px 30px;
+              font-size: $fontSize3;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 965px) {
+    .for_fineJewel_container_div {
+      .for_fineJewel_breadcrumbs_div {
+        max-width: auto;
+        margin-inline: 25px;
+        font-family: $primaryFontFamily;
+        margin-left: 5rem;
+        margin-bottom: 0.5rem;
+        .for_fineJewel_breadcrumbs {
+          color: #777777;
+          font-size: 14px;
+          cursor: pointer;
+
+          .for_fineJewel_breadcrumbs_label {
+            &:hover {
+              color: $primaryfontcolor2;
+            }
+          }
+        }
+      }
+
+      .for_fineJewel_banners_div {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: unset;
+        .for_fineJewel_banner_text_div {
+          margin-inline: 2rem;
+          font-family: $primaryFontFamily;
+          text-align: unset;
+          h1 {
+            &:first-child {
+              font-size: 32px;
+              font-weight: 600;
+              line-height: 50px;
+            }
+
+            &:not(:first-child) {
+              font-size: 14px;
+              font-weight: 700;
+              line-height: 25px;
+              text-transform: uppercase;
+            }
+          }
+
+          span {
+            display: block;
+            font-size: 38px;
+            font-weight: 600;
+            text-transform: capitalize;
+          }
+
+          .for_fineJewel_para {
+            // width: 100%;
+
+            .for_fineJewel_para_p {
+              font-size: 14px !important;
+              line-height: 23px !important;
+              margin-bottom: 1rem;
+              width: 90%;
+              font-weight: 500;
+            }
+          }
+
+          .for_fineJewel_btn_div {
+            .for_finrJewel_btn {
+              background: transparent;
+              text-transform: uppercase;
+              padding: 6px 25px !important;
+              font-size: $fontSize3;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 576px) {
+    display: none;
+  }
+}
+
+.mobile_container_resposnive {
+    font-family: $primaryFontFamily;
+  display: none;
+  @media screen and (max-width: 576px) {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding: 0 10px;
+    .m-breadcrumb-com {
+      padding: 10px 15px;
+      color: #777777;
+      font-weight: 400;
+      font-size: 14px !important;
+    }
+    .m-card-container {
+        margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: auto;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      img {
+        width: 100%;
+        height: 275px;
+        object-fit: cover;
+      }
+      h1 {
+        font-size: 18px !important;
+        margin-top: 1rem;
+        line-height: 15px;
+        text-transform: capitalize;
+      }
+      h2 {
+        font-size: 27px !important;
+        text-transform: capitalize;
+      }
+      p{
+        font-size: 13.4px;
+        padding: 0 ;
+        width: 100%;
+      }
+      button{
+        padding: 5px 18px;
+        font-size: 14px;
+      }
+    }
+  }
+}

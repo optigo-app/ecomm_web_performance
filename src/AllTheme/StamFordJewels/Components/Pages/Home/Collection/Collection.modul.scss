@@ -1,0 +1,330 @@
+@import "../../../scss/Variable.scss";
+
+.stam_main_Collection {
+  width: 100%;
+  height: auto;
+
+  .mobile-only {
+    display: none;
+  }
+
+  .stam_Collection_heading {
+    font-family: $homePageFontFamily;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    padding: 3rem 0;
+
+    h1 {
+      margin: 10px 0px 0px 0px;
+      font-size: 25px;
+      color: #7d7f85;
+    }
+  }
+
+  .collection_cards {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    border-radius: 2px;
+    gap: 2rem;
+    margin-bottom: 2rem;
+
+    .c_card {
+      width: 450px;
+      height: 640px;
+      background-color: rgba(51, 50, 50, 0.082);
+      position: relative;
+
+      &:hover {
+        button::after {
+          animation: ripple 0.4s ease-in forwards;
+        }
+      }
+
+      .details {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: end;
+        width: 100%;
+        height: 100%;
+        padding-bottom: 30px;
+        background-color: #462d2d10;
+        font-family: $homePageFontFamily;
+
+        h3 {
+          color: #fdf9f5;
+          font-weight: 400;
+        }
+
+        button {
+          padding: 9px 25px;
+          outline: none;
+          border: none;
+          border-radius: 4px;
+          font-weight: 200;
+          letter-spacing: 2.1px;
+          text-transform: uppercase;
+          font-size: 14px;
+          color: white;
+          background-color: #c20000;
+          position: relative;
+          overflow: hidden;
+
+          &::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 120%;
+            width: 100%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.274);
+            transform: translateY(-100%);
+            pointer-events: none;
+          }
+
+          &:hover::after {
+            animation: ripple 0.4s ease-in forwards;
+          }
+
+          @keyframes ripple {
+            from {
+              left: 120%;
+            }
+
+            to {
+              left: -320%;
+            }
+          }
+        }
+      }
+
+      img {
+        width: 100%;
+        object-fit: cover;
+        height: 100%;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1900px) {
+    .collection_cards {
+      gap: 0.5rem !important;
+    }
+  }
+
+  @media (max-width: 1830px) {
+    .collection_cards {
+      .c_card {
+        width: 400px !important;
+        height: 600px !important;
+      }
+    }
+  }
+
+  @media (max-width: 1635px) {
+    .collection_cards {
+      .c_card {
+        width: 350px !important;
+        height: 600px !important;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1442px) {
+    .collection_cards {
+      padding: 0 5px;
+      gap: 0.5em;
+
+      .c_card {
+        width: 280px !important;
+        height: 570px !important;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1200px) {
+    .collection_cards {
+      padding: 0;
+      gap: 1em;
+      flex-wrap: nowrap;
+      overflow: hidden;
+
+      .c_card {
+        width: 220px;
+        height: 470px;
+        background-color: blueviolet;
+        position: relative;
+
+        .details {
+          font-family: $homePageFontFamily;
+
+          h3 {
+            text-align: center;
+            padding: 15px;
+            font-weight: 800;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 972px) {
+    .collection_cards {
+      padding: 0 5px;
+
+      .c_card {
+        width: 300px;
+        height: 470px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .desktop-collection {
+      display: none;
+    }
+
+    .mobile-only {
+      overflow: hidden;
+      display: block;
+
+      .slick-dots {
+        bottom: 30px;
+        margin: 0;
+
+        li.slick-active button:before {
+          font-size: 13px;
+        }
+
+        li button:before {
+          font-size: 8px;
+          color: #fff;
+        }
+      }
+
+      .c_card {
+        color: white;
+        width: 100%;
+        position: relative;
+        height: 90vh;
+        background-color: rgba(49, 49, 49, 0.089);
+
+        h3 {
+          font-family: $homePageFontFamily;
+        }
+
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: cover !important;
+        }
+
+        .details {
+          position: absolute;
+          bottom: 55px;
+          left: 0;
+          right: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          padding: 10px;
+
+          button {
+            padding: 8px 25px;
+            outline: none;
+            border: none;
+            border-radius: 4px;
+            font-weight: 200;
+            letter-spacing: 2.1px;
+            text-transform: uppercase;
+            font-size: 14px;
+            color: white;
+            background-color: #c20000;
+            position: relative;
+            overflow: hidden;
+            font-family: $homePageFontFamily;
+
+            &::after {
+              content: "";
+              position: absolute;
+              top: 100%;
+              left: 120%;
+              width: 100%;
+              height: 200%;
+              background: rgba(255, 255, 255, 0.274);
+              transform: translateY(-100%);
+              pointer-events: none;
+            }
+
+            &:hover::after {
+              animation: ripple 0.4s ease-in forwards;
+            }
+
+            @keyframes ripple {
+              from {
+                left: 120%;
+              }
+
+              to {
+                left: -320%;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .stam_Collection_heading {
+      h1 {
+        font-size: 22px;
+        font-weight: 500 !important;
+      }
+    }
+  }
+
+  @media screen and (max-width: 420px) {
+    .mobile-only {
+      overflow: hidden;
+      display: block;
+
+      .slick-dots {
+        bottom: 30px;
+        margin: 0;
+
+        li.slick-active button:before {
+          font-size: 10px;
+        }
+
+        li button:before {
+          font-size: 8px;
+          color: #fff;
+        }
+      }
+
+      .c_card {
+        color: white;
+        width: 100%;
+        position: relative;
+        height: 60vh;
+
+        .details {
+          button {
+            padding: 6px 15px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+}

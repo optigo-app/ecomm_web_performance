@@ -1,0 +1,206 @@
+@import '../../../scss/variable.scss';
+
+.for_paymentMainDiv {
+    font-family: $primaryFontFamily;
+    margin-top: 140px;
+    min-height: 475px;
+    margin-bottom: 50px;
+}
+
+.for_paymentSecondMainDiv {
+    margin-inline: 280px;
+    background-color: #fff;
+}
+
+@media (max-width: 1200px) {
+    .for_paymentSecondMainDiv {
+        margin-inline: 1% !important;
+    }
+}
+
+
+.for_PaymentContainer {
+    margin-inline: 4%;
+    padding-top: 4%;
+}
+
+.for_paymentBackbtnDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+    .for_paymentBackbtn {
+        width: 32px;
+        height: 32px;
+        color: $titleColor;
+        cursor: pointer;
+    }
+}
+
+.for_paymentDetailMainDiv {
+    display: flex;
+    justify-content: space-around;
+    font-family: $primaryFontFamily;
+    color: $titleColor;
+}
+
+.for_paymenttotalpricesummary {
+    display: flex;
+    justify-content: space-between;
+}
+
+.for_paymenttotalpricesummary p {
+    padding: 0;
+    margin-bottom: 5px;
+    font-size: $fontSize2;
+}
+
+.for_paymenttotalpricesummary p span {
+    font-weight: bold !important;
+}
+
+.for_paymentUserName {
+    font-weight: 600;
+}
+
+.for_paymentDetailLeftSideContent {
+    h2 {
+        font-size: $fontSize6;
+    }
+}
+
+.for_order-summary {
+    font-family: $primaryFontFamily;
+    color: $titleColor;
+}
+
+.for_summary-item {
+    display: flex;
+    justify-content: start;
+    margin-bottom: 10px;
+}
+
+.for_summary-item .for_label {
+    min-width: 180px;
+    text-align: left;
+    font-size: $fontSize2;
+}
+
+.for_summary-item .for_value {
+    text-align: left;
+    white-space: nowrap;
+    font-size: $fontSize2;
+    font-weight: bold !important;
+}
+
+.for_paymentButtonDiv {
+    margin-top: 30px;
+    text-align: center;
+
+    button {
+        margin-right: 20px;
+        height: 40px;
+        width: 180px;
+        font-family: $primaryFontFamily !important;
+        font-size: $fontSize3;
+    }
+}
+
+.for_backtoTopBtn {
+    font-family: $primaryFontFamily;
+}
+
+.for_addorderRemarkbtn {
+    color: $titleColor !important;
+    font-size: $fontSize2 !important;
+    text-transform: capitalize !important;
+}
+
+.for_addorderRemark {
+    color: $titleColor !important;
+}
+
+@media (max-width: 600px) {
+    .for_paymentDetailMainDiv {
+        display: block;
+    }
+
+    .for_paymentDetailLeftSideContent {
+        h2 {
+            font-size: $fontSize5 !important;
+        }
+    }
+
+    .for_paymenttotalpricesummary p {
+        margin: 3px !important;
+    }
+
+    .for_billingAddress {
+        h3 {
+            font-size: $fontSize4 !important;
+        }
+
+        p {
+            font-size: $fontSize1 !important;
+        }
+    }
+
+    .for_paymentButtonDiv {
+        .for_payOnAccountBtn {
+            width: 100%;
+        }
+    }
+
+    .for_shippingAddress {
+        margin-top: 10px;
+        margin-bottom: 40px !important;
+        border-top: 1px solid #cccdce;
+
+        h3 {
+            font-size: $fontSize4 !important;
+        }
+
+        p {
+            font-size: $fontSize1 !important;
+            margin-bottom: 5px !important;
+        }
+    }
+
+    .for_paymentBackbtnDiv {
+        .for_paymentBackbtn {
+            width: 22px !important;
+            height: 22px !important;
+        }
+    }
+}
+
+.loader {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #F2B1B7;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-left: 8px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.for_billingAddress p {
+    margin-bottom: 5px;
+    font-size: $fontSize2;
+}
+
+.for_shippingAddress p {
+    margin-bottom: 0px;
+}

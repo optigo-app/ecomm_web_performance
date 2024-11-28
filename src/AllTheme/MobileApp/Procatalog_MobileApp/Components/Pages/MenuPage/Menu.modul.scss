@@ -1,0 +1,58 @@
+@import '../../scss/variable.scss';
+
+.smrMA_menuPageMain {
+
+    .smrMA_menuVieAllLink {
+        text-decoration: underline;
+        background-color: transparent;
+        border: none;
+        font-family: $primaryFontFamily;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+
+
+    .tabMainSmilingMobile .Mui-selected {
+        color: black !important;
+        font-weight: 600 !important;
+    }
+
+    .smrMA_menuViewTitle {
+        font-family: $primaryFontFamily;
+        font-weight: 600;
+    }
+
+    .smrMA_SuMenuTitle {
+        height: 30px;
+        margin: 0px 0px 0px 15px !important;
+        display: flex;
+        font-size: 17px;
+        align-items: center;
+        width: 100%;
+        font-family: $primaryFontFamily;
+        margin: 0px;
+    }
+
+    .tabMainSmilingMobile .MuiTabs-indicator {
+       display: none !important;
+    }
+
+    .tabMainMenu {
+        margin-top: 5px;
+        border-bottom: 1px solid lightgray;
+    }
+
+    .smrMA_menuMainSwipe {
+        height: 600px;
+        overflow: auto;
+    }
+
+    .smrMA_menuMainSwipe::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    .smrMA_menuMainTitle {
+        font-family: $primaryFontFamily;
+    }
+}

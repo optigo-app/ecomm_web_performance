@@ -1,0 +1,510 @@
+// @import "../../../../scss/variable.scss";
+
+// .forevery_ShoptheCollections {
+//   width: 100%;
+//   height: auto;
+//   font-family: $primaryFontFamily;
+//   margin-bottom: 2rem;
+//   .heading {
+//     width: 100%;
+//     display: flex;
+//     padding: 50px 0;
+//     flex-direction: column;
+//     align-items: center;
+//     justify-content: center;
+//     .title_for {
+//       font-size: 40px;
+//       font-weight: 500;
+//     }
+//     .para_for {
+//       font-size: 14px;
+//       font-weight: 500;
+//     }
+//   }
+//   .for_collections {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     gap: 1.2rem;
+//     .for_card {
+//       margin-top: 15px;
+//       width: 420px;
+//       height: 420px;
+//       display: flex;
+//       align-items: center;
+//       justify-content: center;
+//       flex-direction: column;
+//       position: relative;
+//       overflow: hidden;
+//       background-color: skyblue;
+//       .for_square {
+//         width: 100%;
+//         border: 1px solid rgba(255, 255, 255, 0.788);
+//         height: 100%;
+//         z-index: 2;
+//         opacity: 0;
+//         background-color: green;
+//       }
+//       &:hover .for_square {
+//         opacity: 1;
+//         transition: 0.33s ease-in-out;
+//         width: 395px;
+//         height: 395px;
+//       }
+//       &:hover img {
+//         scale: 1.1;
+//       }
+//       img {
+//         position: absolute;
+//         top: 0;
+//         bottom: 0;
+//         left: 0;
+//         right: 0;
+//         width: 100%;
+//         height: 100%;
+//         object-fit: scale-down;
+//         transition: 0.2s ease-in;
+//         &:hover {
+//           scale: 1.1;
+//         }
+//       }
+//       .for_btn {
+//         z-index: 2;
+//         background-color: #fff;
+//         position: absolute;
+//         width: 70%;
+//         padding: 7px 0;
+//         bottom: 0;
+//         border: none;
+//         outline: none;
+//         font-weight: 300;
+//         font-size: 14px;
+//       }
+//     }
+//   }
+
+//   @media screen and (max-width : 1012px) {
+
+//   }
+//   @media screen and (max-width : 768px) {
+
+//   }
+//   @media screen and (max-width : 768px) {
+
+//   }
+//   @media screen and (max-width : 768px) {
+
+//   }
+
+// }
+
+@import "../../../../scss/variable.scss";
+
+.forevery_ShoptheCollections {
+  width: 100%;
+  height: auto;
+  font-family: $primaryFontFamily;
+  margin-bottom: 2rem;
+  padding: 0 90px;
+
+  .heading {
+    width: 100%;
+    display: flex;
+    padding: 50px 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .title_for {
+      font-size: 40px;
+      font-weight: 500;
+    }
+
+    .para_for {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+
+  .for_collections {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(24%, 1fr));
+    gap: 1.2rem;
+    justify-content: center;
+    margin: 0 auto;
+    transition: 0.3s ease-in-out;
+    .for_card {
+      transition: 0.3s ease-in-out;
+      margin-top: 15px;
+      width: 100%;
+      height: 45vh;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+      .for_square {
+        width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.788);
+        height: 100%;
+        z-index: 2;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+      }
+
+      &:hover .for_square {
+        opacity: 1;
+        transition: 0.33s ease-in-out;
+        width: 90%;
+        height: 90%;
+      }
+
+      &:hover img {
+        scale: 1.1;
+      }
+
+      img {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.2s ease-in;
+        &:hover {
+          scale: 1.1;
+        }
+      }
+
+      .for_btn {
+        z-index: 2;
+        background-color: #fff;
+        position: absolute;
+        width: 70%;
+        padding: 1vh 0;
+        bottom: -1px;
+        border: none;
+        outline: none;
+        font-weight: 300;
+        font-size: 14px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 2708px) {
+    .for_collections {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(24%, 1fr));
+      gap: 1.2rem;
+      justify-content: center;
+      margin: 0 auto;
+      .for_card {
+        margin-top: 15px;
+        width: 100%;
+        display: grid;
+        place-items: center;
+        position: relative;
+        overflow: hidden;
+
+        .for_square {
+          width: 100%;
+          border: 1px solid rgba(255, 255, 255, 0.788);
+          height: 100%;
+          z-index: 2;
+          opacity: 0;
+          overflow: hidden;
+          position: absolute;
+        }
+
+        &:hover .for_square {
+          opacity: 1;
+          transition: 0.33s ease-in-out;
+          width: 90%;
+          height: 90%;
+        }
+
+        &:hover img {
+          scale: 1.1;
+        }
+
+        img {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: 0.2s ease-in;
+          &:hover {
+            scale: 1.1;
+          }
+        }
+
+        .for_btn {
+          z-index: 2;
+          background-color: #fff;
+          position: absolute;
+          width: 70%;
+          // padding: 15px 0;
+          bottom: -1px;
+          border: none;
+          outline: none;
+          font-weight: 500;
+          font-size: 22px;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 2332px) {
+    .for_collections {
+      .for_card {
+        height: 40vh;
+      }
+    }
+  }
+  @media screen and (max-width: 1997px) {
+    .for_collections {
+      .for_card {
+        .for_btn {
+          background-color: #fff;
+          font-weight: 400;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 1500px) {
+    padding: 0 10px;
+    .for_collections {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(24%, 1fr));
+      gap: 1.2rem;
+      .for_card {
+        height: 40vh;
+        .for_btn {
+          background-color: #fff;
+          font-weight: 400;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 1200px) {
+    padding: 0 10px;
+    .for_collections {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(24%, 1fr));
+      gap: 1.2rem;
+      .for_card {
+        height: 33vh;
+        .for_btn {
+          background-color: #fff;
+          font-weight: 400;
+          font-size: 14px;
+          padding: 0.8vh 0;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 1000px) {
+    padding: 0 10px;
+    .heading {
+      width: 100%;
+      display: flex;
+      padding: 50px 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      .title_for {
+        font-size: 40px;
+        font-weight: 500;
+      }
+
+      .para_for {
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+    .for_collections {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(48%, 1fr));
+      gap: 1.2rem;
+      .for_card {
+        height: 50vh;
+        .for_btn {
+          background-color: #fff;
+          font-weight: 400;
+          font-size: 17px;
+          padding: 1vh 0;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 900px) {
+    padding: 0 10px;
+    .heading {
+      width: 100%;
+      display: flex;
+      padding: 50px 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      .title_for {
+        font-size: 40px;
+        font-weight: 500;
+      }
+
+      .para_for {
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+    .for_collections {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(48%, 1fr));
+      gap: 1.2rem;
+      .for_card {
+        height: 42vh;
+        .for_btn {
+          background-color: #fff;
+          font-weight: 400;
+          font-size: 17px;
+          padding: 0.9vh 0;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 900px) {
+    padding: 0 10px;
+    .heading {
+      width: 100%;
+      display: flex;
+      padding: 50px 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      .title_for {
+        font-size: 30px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+      }
+
+      .para_for {
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+    .for_collections {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(48%, 1fr));
+      gap: 1rem;
+      margin-top: -2rem;
+      .for_card {
+        height: 40vh;
+        .for_btn {
+          background-color: #fff;
+          font-weight: 400;
+          font-size: 15px;
+          padding: 0.9vh 0;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 768px) {
+    padding: 0 10px;
+    .heading {
+      width: 100%;
+      display: flex;
+      padding: 50px 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      .title_for {
+        font-size: 30px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+      }
+
+      .para_for {
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+    .for_collections {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(48%, 1fr));
+      gap: 1rem;
+      margin-top: -2rem;
+      .for_card {
+        height: 38vh;
+        .for_btn {
+          background-color: #fff;
+          font-weight: 400;
+          font-size: 15px;
+          padding: 0.9vh 0;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 540px) {
+    padding: 0 10px;
+    .heading {
+      width: 100%;
+      display: flex;
+      padding: 50px 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      .title_for {
+        font-size: 25px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+      }
+
+      .para_for {
+        font-size: 12.5px;
+        font-weight: 500;
+      }
+    }
+    .for_collections {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(100%, 1fr));
+      gap: 1rem;
+      .for_card {
+        height: 38vh;
+        .for_btn {
+          background-color: #fff;
+          font-weight: 400;
+          font-size: 16px;
+          padding: 0.9vh 0;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 360px) {
+    padding: 0 10px;
+    .for_collections {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(100%, 1fr));
+      gap: 1rem;
+      .for_card {
+        height: 35vh;
+      }
+    }
+  }
+}

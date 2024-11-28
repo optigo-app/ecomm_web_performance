@@ -1,0 +1,297 @@
+.hem_ProAlbumMain_div {
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+  .hem_ProAlbum_div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-block: 20px;
+  }
+
+  .hem_ProAlbum_sec1 {
+    background-color: #efeded;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+
+  .hem_ProAlbum_sec1_New{
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+
+  .hem_ProAlbum_albums {
+    display: flex;
+    width: 100%;
+  }
+
+  .hem_ProAlbum_album_img {
+    width: 300px;
+    height: 300px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  .hem_ProAlbum_ablums_category {
+    margin-left: 40px;
+    width: 100%;
+  }
+
+  .hem_ProAlbum_cat1 {
+    margin-left: 25px;
+  }
+
+  .hem_ProAlbum_cat2 {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .hem_ProAlbum_cat2_sm{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+    position: relative;
+    top: 48px;
+  }
+
+  .hem_ProAlbum_category_img {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+  }
+
+  .hem_ProAlbum_category_img_New {
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+  }
+
+  .hem_ProAlbum_category_name {
+    font-size: 25px;
+    font-family: "Poppins", sans-serif;
+    color: black;
+  }
+
+  .hem_ProAlbum_subCat_div {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-right: 20px;
+  }
+
+  .hem_ProAlbum_catgoey_items {
+    background: #b39c9c !important;
+    font-size: 10px;
+    padding: 5px;
+    position: relative;
+    top: -3px;
+    padding-inline: 5px;
+    border-radius: 3px;
+    width: fit-content;
+    color: #fff !important;
+  }
+
+  .hem_ProAlbum_subCat_names {
+    text-transform: uppercase;
+    text-align: center;
+    max-width: 100px;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    margin: 5px 0;
+    letter-spacing: 1px;
+    font-weight: bold;
+    color: #4d4d4d;
+    word-break: break-word;
+    line-height: 17px;
+  }
+
+  .hem_ProAlbum_subCat_names_New {
+    text-transform: uppercase;
+    text-align: center;
+    max-width: 62px;
+    font-family: "Poppins", sans-serif;
+    font-size: 8px;
+    margin: 2px 0;
+    letter-spacing: 1px;
+    font-weight: bold;
+    color: #4d4d4d;
+    word-break: break-word;
+    line-height: 10px;
+  }
+
+  .hem_ProAlbum_subCat_items {
+    font-size: 11px;
+    font-family: "Poppins", sans-serif;
+    color: #000;
+  }
+  
+  .hem_ProAlbum_subCat_items_New {
+    font-size: 9px;
+    font-family: "Poppins", sans-serif;
+    color: #000;
+  }
+
+  .hem_ProAlbum_show_more {
+    display: flex;
+    justify-content: end;
+    border: 1px solid #4687ff;
+    border-radius: 10px;
+    text-transform: uppercase;
+    padding: 5px 15px;
+    color: white;
+    background-color: #4687ff;
+  }
+
+  .hem_lockIcon_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hem_lockicon{
+    position: absolute;
+    background: #fff;
+    box-shadow: 0px 3px 6px rgb(168 168 168 / 60%);
+    object-fit: contain;
+    padding: 7px;
+    border-radius: 10px;
+    z-index: auto;
+    height: 40px;
+    width: 40px;
+  }
+
+
+  @media screen and (max-width: "800px") {
+    .hem_ProAlbum_album_img {
+      width: 150px;
+      height: 150px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+    .hem_ProAlbum_catgoey_items {
+      background: #b39c9c !important;
+      font-size: 15px;
+      padding: 5px;
+      position: relative;
+      top: 3px;
+      padding-inline: 5px;
+      border-radius: 3px;
+      width: fit-content;
+      color: #fff !important;
+    }
+    .hem_ProAlbum_category_name {
+      font-size: 28px;
+      font-family: "Poppins", sans-serif;
+      color: black;
+    } 
+    .hem_lockicon{
+      padding: 4px;
+      height: 28px;
+      width: 28px;
+    }
+  }
+  @media screen and (max-width: "430px") {
+    .hem_ProAlbum_album_img {
+      width: 120px;
+      height: 120px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+    .hem_lockicon{
+      padding: 4px;
+      height: 23px;
+      width: 23px;
+    }
+
+    .hem_ProAlbum_sec1 {
+        padding: 10px;
+      }
+
+      .hem_ProAlbum_ablums_category{
+        margin-left: 0;
+      }
+
+      .hem_ProAlbum_cat2_sm{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: end;
+        position: relative;
+        top: 44px;
+      }
+
+    .hem_ProAlbum_catgoey_items {
+      background: #b39c9c !important;
+      font-size: 10px;
+      padding: 3px;
+      position: relative;
+      top: -5px;
+      padding-inline: 4px;
+      border-radius: 3px;
+      width: fit-content;
+      color: #fff !important;
+    }
+    .hem_ProAlbum_category_name {
+      font-size: 20px;
+      font-family: "Poppins", sans-serif;
+      color: black;
+    }
+    .hem_ProAlbum_show_more {
+        display: flex;
+        justify-content: end;
+        border: 1px solid #4687ff;
+        border-radius: 10px;
+        text-transform: uppercase;
+        padding: 3px 8px;
+        color: white;
+        font-size: 11px;
+        background-color: #4687ff;
+      }
+      .hem_ProAlbum_category_img_New {
+        border-radius: 50%;
+        height: 48px;
+        width: 48px;
+      }
+      .hem_ProAlbum_subCat_names_New {
+        text-transform: uppercase;
+        text-align: center;
+        max-width: 62px;
+        font-family: "Poppins", sans-serif;
+        font-size: 8px;
+        margin: 2px 0;
+        letter-spacing: 1px;
+        font-weight: bold;
+        color: #4d4d4d;
+        word-break: break-word;
+        line-height: 10px;
+      }
+      .hem_ProAlbum_subCat_items_New {
+        font-size: 8px;
+        font-family: "Poppins", sans-serif;
+        color: #000;
+      }
+
+      .hem_ProAlbum_subCat_div{
+        padding-right: 5px;
+      }
+  }
+
+  .disable_pointer_events {
+    pointer-events: none;
+}
+}

@@ -1,0 +1,150 @@
+.hem_ContinueWithMobileMain_div{
+
+    .hem_ContinueWithMobile_div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #8F8F8F;
+    }
+
+    .hem_ContinueWithMobile_layout{
+        max-height: 76vh;
+        margin: 8px;
+        width: 400px;
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 30px;
+        overflow: auto;
+        position: relative;
+    }
+
+    .hem_ContinueWithMobile_close_btn{
+        position: absolute;
+        top: -5px;
+        right: 0px;
+        padding: 7px;
+        background: #F0F0F0;
+        border: none;
+        cursor: pointer;
+    }
+
+    .hem_ContinueWithMobile_back_btn_div{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .hem_ContinueWithMobile_back_btn{
+        border: none;
+        background-color: #fff;
+        padding: 0;
+    }
+
+    .hem_ContinueWithMobile_title{
+        font-size: 22px;
+        font-weight: bold;
+        margin: 0;
+        font-family: futura-pt, sans-serif;
+    }
+
+    .hem_ContinueWithMobile_mess{
+        font-size: 14px;
+        font-weight: normal;
+        margin-bottom: 23px;
+        font-family: futura-pt, sans-serif;
+    }
+
+    .hem_ContinueWithMobile_input_div{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    .hem_ContinueWithMobile_inp_label{
+        color: #0d1216db;
+        font-size: 12px;
+        line-height: 20px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        font-family: futura-pt, sans-serif;
+    }
+
+    .hem_ContinueWithMobile_number_inp{
+        display: flex;
+        align-items: center;
+        border: 1px solid #2b3b4a4d;
+    }
+
+    .hem_ContinueWithMobile_input {
+        padding: 10px;
+        width: 100%;
+        border: none; 
+        box-sizing: border-box;
+        color: #0d1216;
+        cursor: text;
+        outline: none;
+    }
+    
+    .hem_ContinueWithMobile_input:focus {
+        border: 1px solid;
+        border-color: rgb(145, 2, 241);
+    }
+
+    .hem_ContinueWithMobile_country_dropdown{
+        border: none;
+        font-weight: bolder;
+        padding: 6px 5px;
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    .hem_ContinueWithMobile_submit_btn{
+        width: 100%;
+        border: none;
+        text-align: center;
+        padding: 10px;
+        color: #fff;
+        font-weight: bold;
+        font-size: 14px;
+        background-color: #4687FF;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        font-family: futura-pt, sans-serif;
+    }
+
+    .hem_ContinueWithMobile_submit_btn:hover{
+        background-color: #6da0ff;
+    }
+
+    
+
+    @media screen and (max-width: 350px) {
+        .hem_ContinueWithMobile_layout{
+            max-height: 76vh;
+            width: 400px;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 10px;
+            overflow: auto;
+        }
+
+        .hem_ContinueWithMobile_title {
+            font-size: 17px;
+        }
+
+        .hem_ContinueWithMobile_mess{
+            font-size: 12px;
+        }
+        .hem_ContinueWithMobile_inp_label{
+            font-size: 12px;
+        }
+        .hem_ContinueWithMobile_submit_btn{
+            font-size: 12px;
+        }
+    }
+
+
+}

@@ -1,0 +1,166 @@
+@import '../../../scss/variable';
+
+
+.smilingPAgeMain {
+
+    .smilingRock {
+        display: flex;
+        justify-content: center;
+        margin-inline: 20%;
+    }
+
+    .smilingRockBox {
+        /* border: 1px solid; */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 15%;
+        text-align: center;
+        margin: 15px;
+        margin-inline: 30px;
+        cursor: pointer;
+    }
+
+    .smilingTitle {
+        text-align: center;
+        font-size: $fontSize5;
+        margin-bottom: 50px;
+        font-family: $homePageFontFamily;
+        color: $homePageFontColor;
+    }
+
+    // .smilingBoxName {
+    //     font-size: $fontSize2;
+    //     color: $homePageFontColor;
+    //     font-family: $homePageFontFamily;
+    //     max-height: 80px;
+    //     line-height: 12px;
+    //     height: 68px;
+    //     overflow: hidden;
+    //     text-overflow: ellipsis;
+    //     width: 160px;
+    //     display: -webkit-box;
+    //     -webkit-line-clamp: 3;
+    //     -webkit-box-orient: vertical;
+    //     box-sizing: border-box;
+    // }
+
+    .smilingRockBoxSub2 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .learnMore {
+        margin-top: auto;
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize1;
+        letter-spacing: 1.5px;
+        width: fit-content;
+    }
+
+
+    .smilingRockBox {
+        position: relative;
+        width: 40%;
+        /* Other styles for smilingRockBox */
+    }
+
+    .learnMore {
+        position: relative;
+        text-decoration: none;
+        color: $homePageFontColor;
+        margin: 0px;
+    }
+
+    .learnMore::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 100%;
+        /* Initially positioned outside */
+        width: 0%;
+        height: 1px;
+        background-color: $homePageFontColor;
+        transition: width 0.3s ease-out, left 0.3s ease-out;
+        /* Added 'left' property for transition */
+    }
+
+    .smilingRockBox:hover .learnMore::before {
+        width: 100%;
+        left: 0;
+        right: auto;
+        transition: width 0.3s ease-out;
+    }
+
+
+    .simple-card__img {
+        margin-bottom: 10px;
+        max-height: 45px;
+    }
+
+    .smilingRockMobileDffres {
+        display: flex !important;
+    }
+
+
+    @media screen and (max-width: 1440px) {
+        .smilingRock {
+            margin-inline: 5px;
+        }
+
+        .smilingRockBox {
+            width: 70% !important;
+            margin-inline: 5px !important;
+        }
+
+        .smilingTitle {
+            margin: 0px !important;
+        }
+    }
+
+    @media screen and (max-width: 650px) {
+        .smilingRock {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .smilingPAgeMain {
+            padding-block: 0px !important;
+        }
+
+        .smilingRockBox {
+            width: 60% !important;
+            display: flex !important;
+            flex-direction: initial !important;
+        }
+
+        .smilingRockBoxSub1 {
+            width: 40% !important;
+        }
+
+        .smilingTitle {
+            font-size: 18px !important;
+        }
+
+        .smilingRockBoxSub2 {
+            width: 60% !important;
+        }
+
+        .smilingBoxName {
+            font-size: 12px !important;
+            font-weight: 500;
+            text-align: left;
+        }
+
+        .learnMore {
+            text-align: left;
+            color: $homePageFontColor;
+            font-weight: 800 !important;
+            font-size: 10px;
+        }
+    }
+}

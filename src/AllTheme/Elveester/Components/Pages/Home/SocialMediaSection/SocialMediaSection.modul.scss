@@ -1,0 +1,92 @@
+@import '../../../scss/elvee_modules.scss';
+
+.mainSocialMediaConatiner {
+    margin-top: 20px;
+    margin-bottom: 0.5rem;
+
+    .galeryComponents {
+        color: rgba(29, 50, 88, 0.8) !important;
+        text-align: center;
+        font-size: 22px;
+    }
+
+    .elv_socialMed_div {
+        text-align: center;
+        margin: 73px 0px 37px 0px !important;
+
+        .socialmediaptag {
+            color: rgba(29, 50, 88, 0.8) !important;
+            font-size: 28px;
+            font-weight: 600;
+            text-transform: capitalize;
+            line-height: 2px;
+            font-family: $fontSansSerif;
+
+            @media (max-width: 500px) {
+                font-size: 24px;
+            }
+
+            @media (max-width: 350px) {
+                font-size: 24px;
+            }
+        }
+
+        .elv_social_subtitle {
+            font-size: 15px;
+            text-transform: uppercase;
+            font-family: $fontSansSerif;
+
+            @media (max-width: 500px) {
+                font-size: 13px;
+            }
+
+            @media (max-width: 350px) {
+                font-size: 12px;
+            }
+        }
+    }
+
+
+    .galeryComponents {
+        color: rgba(29, 50, 88, 0.8) !important;
+        text-align: center;
+        font-size: 22px;
+        text-transform: capitalize;
+        line-height: 2px;
+        margin: 40px 0px 25px 0px !important;
+    }
+
+    .elv_social_div {
+        background: white;
+        position: absolute;
+        bottom: 10px;
+        padding: 8px;
+        left: 2rem;
+        border-radius: 50%;
+    }
+
+
+    @media (min-width: 445px) and (max-width: 768px) {}
+
+    @media (min-width: 768px) and (max-width: 1200px) {
+        .elv_social_div {
+            padding: 5px;
+        }
+
+        .elv_social_icon {
+            position: relative;
+            bottom: 1px;
+            height: 18px;
+            width: 18px;
+        }
+    }
+
+    @media (max-width: 445px) {}
+}
+
+.social_mySwiper {
+    .swiper-wrapper {
+        padding-inline: 1%;
+        margin-bottom: 2%;
+    }
+}

@@ -1,0 +1,84 @@
+@import '../../../scss/variable';
+
+
+.roop_BottomBannerMain {
+    .shopifyMain {
+        display: flex;
+        margin-inline: 0px;
+        margin-block: 60px;
+    }
+
+    .shopifyDesc {
+        border: 0.5px solid #e1e1e1;
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .shopifyMainImage {
+        /* border: 1px solid; */
+        width: 50%;
+    }
+
+    .shopifyTitle {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize5;
+        text-align: center;
+        margin: 0px;
+    }
+
+    .shopifyDescription {
+        width: 70%;
+        text-align: center;
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize2;
+        margin: 5px;
+    }
+
+
+
+    @media screen and (max-width: 1200px) {
+        .roop_shopifyImg {
+            min-height: auto!important;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        .shopifyMain {
+            display: flex;
+            flex-direction: column;
+            margin-inline: 10px;
+            margin-block: 60px;
+
+        }
+
+        .shopifyDesc {
+            width: 100%;
+            order: 2;
+        }
+
+        .shopifyMainImage {
+            width: 100%;
+            order: 1;
+        }
+
+        .shopifyDescription {
+            color: #7d7f85 !important;
+            width: 95% !important;
+        }
+
+        .shopifyTitle {
+            font-size: 20px !important;
+            margin: 0px;
+        }
+
+        .shopifyDescription {
+            font-size: 12px !important;
+        }
+
+    }
+}

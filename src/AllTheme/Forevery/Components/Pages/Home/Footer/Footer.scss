@@ -1,0 +1,235 @@
+@import "../../../scss/variable.scss";
+
+.footer {
+  padding: 20px;
+  background-color: #f9f9f9;
+  padding-inline: 15%;
+  color: $primaryfontcolor2;
+
+  .footerContainer {
+    display: flex;
+    justify-content: space-between;
+    font-family: $primaryFontFamily;
+
+    .footer-section {
+      flex: 1;
+      margin-bottom: 40px;
+      padding-top: 30px;
+
+      .socialMediaTitle {
+        text-align: end;
+      }
+
+      h4 {
+        font-size: $fontSize3;
+        font-weight: 700;
+        margin-bottom: 8px;
+        cursor: pointer;
+        position: relative;
+        text-transform: uppercase;
+        letter-spacing: 0.8;
+
+        &::after {
+          display: none;
+        }
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          margin-bottom: 8px;
+          font-size: $fontSize1;
+          a {
+            color: $primaryfontcolor2;
+            text-decoration: none;
+          }
+        }
+      }
+
+      .socialMediaMainDiv {
+        a {
+          color: $primaryfontcolor2;
+          text-decoration: none;
+          h4 {
+            text-align: end;
+          }
+        }
+
+        .socialMediaIconDiv,
+        .paymentDiv {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: end;
+          margin: 10px 0px;
+
+          .footerSocialIcon {
+            margin-right: 10px;
+            margin-bottom: 10px;
+
+            a {
+              display: inline-block;
+              width: 24px;
+              height: 24px;
+
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                filter: grayscale(1);
+                transition: filter 0.3s ease;
+
+                &:hover {
+                  filter: grayscale(0);
+                }
+              }
+            }
+          }
+        }
+
+        .paymentDiv {
+          h5 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+          }
+
+          .footerSocialIcon {
+            margin-right: 10px;
+            margin-bottom: 10px;
+          }
+        }
+      }
+    }
+  }
+
+  .companyCopyRight {
+    font-size: $fontSize1;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    font-family: $primaryFontFamily;
+
+    li {
+      position: relative;
+      margin: 0 5px;
+
+      a {
+        text-decoration: none;
+        color: #000;
+        font-weight: 420;
+
+        &:hover {
+          color: #000;
+        }
+      }
+
+      &::before {
+        content: "|";
+        margin: 0 5px;
+        font-size: 10px;
+      }
+
+      &:first-child::before {
+        content: "";
+      }
+    }
+  }
+
+  .footer-link {
+    display: block;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: $fontSize2;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #0056b3;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding-inline: 5%;
+    width: 100%;
+    .footerContainer {
+      flex-direction: column;
+      width: 100%;
+      .footer-section {
+        margin-bottom: 0;
+        width: 100%;
+        transition: 0.3s ease-in-out;
+
+        .socialMediaTitle {
+          text-align: start;
+        }
+
+        .socialMediaMainDiv {
+          a {
+            h4 {
+              text-align: start;
+            }
+          }
+
+          .socialMediaIconDiv,
+          .paymentDiv {
+            justify-content: start;
+            margin: 10px 0px;
+            .footerSocialIcon {
+              margin-right: 10px;
+              margin-bottom: 10px;
+
+              a {
+                display: inline-block;
+                width: 24px;
+                height: 24px;
+              }
+
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                filter: grayscale(1);
+              }
+            }
+          }
+        }
+
+        h4 {
+          &::after {
+            // content: "+";
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 20px;
+            display: block;
+          }
+        }
+
+        ul {
+          display: none;
+        }
+
+        &.active ul {
+          padding: 0px 8px;
+          display: block;
+        }
+      }
+    }
+  }
+  .companyCopyRight {
+    justify-content: center !important;
+    padding: 10px 0 !important;
+    font-size: 14px;
+    font-weight: 400;
+    width: 100%;
+  }
+}

@@ -1,0 +1,454 @@
+@import "./../../../scss/elvee_modules.scss"; 
+// .address_Account_elvee{
+
+
+.manage_address_elvee_fs{
+        // font-family: $fontPTSans !important;
+        font-family: $fontSansSerif !important;
+}
+
+.muiSmilingRocksBtnManage{
+    /* border: 1px solid #7d7f85 !important; */
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    opacity: .8 !important;
+    margin-left: auto !important;
+    display: block !important;
+    background: #f6efe6 !important;
+    color: rgba(31, 25, 25, 0.7) !important;
+}
+
+.manageAddressBlock{
+    border: 1px solid #e9e9ed;
+    padding: 15px 15px 65px 15px;
+    position: relative;
+    height: 100%;
+}
+
+.muiSmilingRocksBtnManageEdit{
+    /* border: 1px solid #7d7f85 !important; */
+    font-family: $fontSansSerif !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    opacity: .8 !important;
+    padding: 7px 20px 7px 20px !important;
+    background: rgb(246,239,230) !important;
+    color: rgba(31, 25, 25, 0.7) !important;
+}
+.muiSmilingRocksBtnManage:hover, .muiSmilingRocksBtnManageEdit:hover{
+    background: #fff !important;
+    color: #1f1919;
+    opacity: .8;
+}
+
+.addressMainSec{
+    gap: 2%;
+}
+
+.AddressSec{
+    width: 32%;
+    min-width: 32%;
+    margin-bottom: 2%;
+}
+
+.manageAddressInputRadio{
+    accent-color: #7d7f85;
+    margin-right: 10px;
+    margin-left: 1px;
+}
+
+.loadingBarManage{
+    color: #7d7f85 !important;
+}
+
+.manageAddressDefault{
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+    /* border: 1px solid rgba(0, 0, 0, 0.35); */
+
+}
+
+.smilingDeleveryformSaveBtn{
+    font-family: $fontSansSerif !important;
+    background: #f6efe6;
+    border: none;
+    border-radius: 5px;
+    color: rgba(31, 25, 25, .7);
+    font-weight: 600;
+    margin-inline: 5px;
+    opacity: .8;
+    padding: 6px 10px;
+    width: 100px;
+}
+.smilingDeleveryformCansleBtn_elvee{
+    font-family: $fontSansSerif !important;
+    background: #f6efe6;
+    border: none;
+    border-radius: 5px;
+    color: rgba(31, 25, 25, .7);
+    font-weight: 600;
+    margin-inline: 5px;
+    opacity: .8;
+    padding: 6px 10px;
+    width: 100px;
+}
+.smilingAddressPopupMain {
+    height: 730px;
+    width: 570px;
+}
+.labgrowRegisterElvee{
+    width: 430px !important;
+}
+
+@media(max-width: 1024px){
+    .AddressSec{
+        width: 49%;
+        min-width: 49%;
+        /* margin-bottom: 1%; */
+    }
+
+}
+
+@media(max-width: 768px){
+    .manageAddressSec > div{    
+        padding: 0 !important;
+    }
+
+    .savedAddress{
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+    }
+
+    .savedAddressManageBtn{
+        padding: 3px 10px !important;
+    }
+}
+
+@media(max-width: 576px){
+    .AddressSec{
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .addressMainSec{
+        gap: 0;
+    }
+     .smilingAddressPopupMain {
+        height: 80vh !important;
+        width: 100% !important;
+        padding: 10px;
+    }
+    .labgrowRegisterElvee{
+        width: 400px !important;
+    }
+}
+@media (max-width:470px){
+    .labgrowRegisterElvee{
+        width: 370px !important;
+    }
+}
+@media (max-width:464px){
+    .labgrowRegisterElvee{
+        width: 370px !important;
+    }
+}
+@media (max-width:440px){
+    .labgrowRegisterElvee{
+        width: 330px !important;
+    }
+}
+@media (max-width:400px){
+    .labgrowRegisterElvee{
+        width: 300px !important;
+    }
+}
+@media (max-width:370px){
+    .labgrowRegisterElvee{
+        width: 280px !important;
+    }
+}
+@media (max-width:350px){
+    .labgrowRegisterElvee{
+        width: 250px !important;
+    }
+}
+@media (max-width:320px), (max-width:330px), (max-width:340px), (max-width:345px){
+    .labgrowRegisterElvee{
+        width: 200px !important;
+    }
+}
+@media(max-width: 320px), (max-width: 360px), (max-width: 430px){
+    .AddressSec{
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .addressMainSec{
+        gap: 0;
+    }
+    .smilingAddressPopupMain {
+        height: 80vh !important;
+        width: 100% !important;
+        padding: 10px;
+    }
+}
+@media(max-width: 425px), (max-width: 430px){
+    .smilingAddressPopupMain {
+        height: 80vh !important;
+        width: 100% !important;
+        padding: 10px;
+        min-width: 320px;
+    }
+    .mt_5_ad_elvee{
+        margin-top: 5.5px !important;
+        margin-bottom: 5.5px !important;
+    }
+    .elveeMAddresscenter{
+        width: 100%;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center;
+        align-items: center;
+    }
+}
+@media(max-width: 375px){
+    .smilingAddressPopupMain {
+        height: 80vh !important;
+        width: 100% !important;
+        padding: 10px;
+        min-width: 280px;
+    }
+}
+@media(max-width: 320px){
+    .smilingAddressPopupMain {
+        height: 80vh !important;
+        width: 100% !important;
+        padding: 10px;
+        min-width: 250px;
+    }
+}
+@media screen and (max-width:1086px){
+    .none_addTitleAcc_elvee{
+        display: none !important;
+    }
+}
+// }
+// .muiSmilingRocksBtnManage{
+//     /* border: 1px solid #7d7f85 !important; */
+//     font-size: 13.5px !important;
+//     font-weight: 600 !important;
+//     opacity: .8 !important;
+//     margin-left: auto !important;
+//     display: block !important;
+//     background: #f6efe6 !important;
+//     color: rgba(31, 25, 25, 0.7) !important;
+// }
+
+// .manageAddressBlock{
+//     border: 1px solid #e9e9ed;
+//     padding: 15px 15px 65px 15px;
+//     position: relative;
+//     height: 100%;
+// }
+
+// .muiSmilingRocksBtnManageEdit{
+//     /* border: 1px solid #7d7f85 !important; */
+//     font-size: 13.5px !important;
+//     font-weight: 700 !important;
+//     opacity: .8 !important;
+//     padding: 7px 20px 7px 20px !important;
+//     background: rgb(246,239,230) !important;
+//     color: rgba(31, 25, 25, 0.7) !important;
+// }
+// .muiSmilingRocksBtnManage:hover, .muiSmilingRocksBtnManageEdit:hover{
+//     background: #fff !important;
+//     color: #1f1919;
+//     opacity: .8;
+// }
+
+// .addressMainSec{
+//     gap: 2%;
+// }
+
+// .AddressSec{
+//     width: 32%;
+//     min-width: 32%;
+//     margin-bottom: 2%;
+// }
+
+// .manageAddressInputRadio{
+//     accent-color: #7d7f85;
+//     margin-right: 10px;
+//     margin-left: 1px;
+// }
+
+// .loadingBarManage{
+//     color: #7d7f85 !important;
+// }
+
+
+
+// .smilingDeleveryformSaveBtn{
+//     background: #f6efe6;
+//     border: none;
+//     border-radius: 5px;
+//     color: rgba(31, 25, 25, .7);
+//     font-weight: 600;
+//     margin-inline: 5px;
+//     opacity: .8;
+//     padding: 6px 10px;
+//     width: 100px;
+// }
+// .smilingDeleveryformCansleBtn{
+//     background: #f6efe6;
+//     border: none;
+//     border-radius: 5px;
+//     color: rgba(31, 25, 25, .7);
+//     font-weight: 600;
+//     margin-inline: 5px;
+//     opacity: .8;
+//     padding: 6px 10px;
+//     width: 100px;
+// }
+// .smilingAddressPopupMainElvee {
+//     height: 730px;
+//     width: 570px;
+// }
+// .labgrowRegister{
+//     width: 90%;
+//     max-width: 500px;
+// }
+// .labgrowRegister_address_elvee{
+//     width: 100% !important;
+// }
+// @media(max-width: 1024px){
+//     .AddressSec{
+//         width: 49%;
+//         min-width: 49%;
+//         /* margin-bottom: 1%; */
+//     }
+
+// }
+
+// @media(max-width: 768px){
+//     .manageAddressSec > div{    
+//         padding: 0 !important;
+//     }
+
+//     .savedAddress{
+//         padding-top: 5px !important;
+//         padding-bottom: 5px !important;
+//     }
+
+//     .savedAddressManageBtn{
+//         padding: 3px 10px !important;
+//     }
+// }
+
+// @media screen and (max-width:600px){
+//     .smilingAddressPopupMainElvee {
+//         height: 730px;
+//         width: 540px !important;
+//     }
+//     .labgrowRegister{
+//         width: 90% !important;
+//     }
+// }
+
+// @media screen and (max-width:590px){
+//     .smilingAddressPopupMainElvee {
+//         height: 730px;
+//         width: 500px !important;
+//     }
+//     .labgrowRegister{
+//         width: 90% !important;
+//     }
+// }
+// @media(max-width: 576px){
+//     .AddressSec{
+//         width: 100%;
+//         min-width: 100%;
+//     }
+
+//     .addressMainSec{
+//         gap: 0;
+//     }
+//     .labgrowRegister{
+//         width: 90% !important;
+//     }
+//     .smilingAddressPopupMainElvee {
+//         height: 730px;
+//         width: 500px !important;
+//     }
+// }
+// @media screen and (max-width:515px){
+//     .smilingAddressPopupMainElvee {
+//         height: 730px;
+//         width: 430px !important;
+//     }
+//     .labgrowRegister{
+//         width: 90% !important;
+//     }
+// }
+// @media screen and (max-width:495px){
+//     // .labgrowRegister_address_elvee{
+//     //     width: 400px !important;
+//     // }
+//     .labgrowRegister{
+//         width: 90% !important;
+//     }
+// }
+// @media screen and (max-width:450px){
+//     // .smilingAddressPopupMainElvee {
+//     //     height: 730px;
+//     //     width: 380px !important;
+//     // }
+//     // .labgrowRegister_address_elvee{
+//     //     width: 360px !important;
+//     // }
+//     .labgrowRegister{
+//         width: 90% !important;
+//     }
+// }
+
+// @media screen and (max-width: 320px), (max-width: 360px), (max-width: 430px){
+// // @media screen and (max-width: 430px){
+//     .AddressSec{
+//         width: 100%;
+//         min-width: 100%;
+//     }
+
+//     .addressMainSec{
+//         gap: 0;
+//     }
+//     .smilingAddressPopupMainElvee {
+//         height: 80vh !important;
+//         width: 100% !important;
+//         padding: 10px;
+//     }
+//     .smilingAddressPopupMainElvee {
+//         height: 730px;
+//         width: 380px !important;
+//     }
+//     // .labgrowRegister_address_elvee{
+//     //     width: 80% !important;
+//     //     margin: 0px !important;
+//     // }
+//     .labgrowRegister{
+//         width: 90% !important;
+//     }
+
+// }
+// @media screen and (max-width:320px){
+//     // .smilingAddressPopupMainElvee {
+//     //     max-height: 730px;
+//     //     height: 100%;
+//     //     width: 320px !important;
+//     // }
+//     // .labgrowRegister_address_elvee{
+//     //     width: 80% !important;
+//     //     margin: 0px !important;
+//     // }
+//     .labgrowRegister{
+//         width: 90% !important;
+//     }
+// }

@@ -1,0 +1,163 @@
+// .designWiseSalesReport_Account_stam{
+
+
+    .DesignWiseSalesReport>div {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .design_No input {
+        padding: 10px 5px;
+    }
+    
+    .design_No input::placeholder {
+        color: rgb(125, 127, 133) !important;
+        opacity: 1 !important;
+    }
+    
+    .netWtSecSlider.MuiSlider-colorPrimary {
+        color: #7d7f85;
+        padding: 2px;
+    }
+    
+    .netWtSliderSec {
+        padding-top: 7px;
+    }
+    
+    .netWtSliderSec input {
+        padding: 5px
+    }
+    
+    .designWiseSalesReport * {
+        font-size: 12px !important;
+    }
+    
+    .searchDesignWiseSalesReport svg,
+    .designWiseSalesReport svg {
+        font-size: 20px !important;
+    }
+    
+    .designWiseSalesProducts .designWiseSalesReportProduct {
+        transition: 0.4s ease;
+        position: relative;
+        z-index: 1;
+        background-color: #fff;
+        /* min-width: 250px !important; */
+    }
+    
+    .designWiseSalesProducts .designWiseSalesReportProduct:hover {
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        cursor: pointer;
+        scale: 1.05;
+        z-index: 2 !important;
+    }
+    
+    .designWiseSalesInputRadio svg {
+        color: #7d7f85;
+    }
+    
+    .reactPaginationDesignWise {
+        display: flex;
+        justify-content: center;
+        list-style-type: none;
+    }
+    
+    .reactPaginationDesignWise {
+        padding-top: 25px;
+    }
+    
+    .reactPaginationDesignWise>li>a {
+        text-decoration: unset;
+        font-size: 22px !important;
+    }
+    
+    .reactPaginationDesignWise>li {
+        padding: 0 10px;
+        margin: 0 5px;
+        cursor: pointer;
+    }
+    
+    .reactPaginationDesignWise>li:hover,
+    .reactPaginationDesignWise>li.active {
+        background-color: rgba(0, 0, 0, 0.08);
+    }
+    
+    
+    /* .designWiseSalesProducts .designWiseSalesReportProduct > .MuiBox-root:has(.MuiTypography-root){
+        transition: 0.4s ease;
+    }
+    
+    .designWiseSalesProducts .designWiseSalesReportProduct:hover > .MuiBox-root:has(.MuiTypography-root){
+        padding-left: 15px;
+        padding-right: 15px;
+    } */
+    
+    
+    /* .designWiseSalesReportProduct *{
+        font-size: 14px !important;
+    } */
+    
+    
+    .w100_dwsr{
+        width: 100% !important;
+    }
+    .w100dwsr{
+        width: 100% !important;
+    }
+    @media screen and (max-width:320px), (max-width:320px){
+        .w100dwsr{
+            width: 95% !important;
+        }   
+    }
+    
+    .toggleRange_dsr{
+        display: none ;
+    }
+    .toggleRange_dsr2{
+        display: none ;
+    }
+    @media screen and (min-width:501px) and (max-width:680px){
+        .toggleRange_dsr{
+            display: flex !important;
+        }
+        .toggleRange_dsr2{
+            display: none !important;
+        }
+    }
+    @media screen and (max-width:500px){
+        .toggleRange_dsr2{
+            display: block;
+        }
+        .toggleRange_dsr{
+            display: none !important;
+        }
+        .minW_dwsr_acc_stam{
+            min-width: 90% !important;
+            width: 90% !important;
+            margin: 0 auto !important;
+        }
+    }
+    @media screen and (max-width:320px), (max-width:360px), (max-width:390px), (max-width:400px), (max-width:430px), (max-width:460px),(max-width:500px){
+        .toggleRange_dsr2{
+            display: flex;
+            width: 100%;
+            justify-content: space-evenly;
+            align-items: center;
+            margin-left:-6px !important;
+        }
+        .toggleRange_dsr{
+            display: none !important;
+        }
+        .minW_dwsr_acc_stam{
+            min-width: 90% !important;
+            width: 90% !important;
+            margin: 0 auto !important;
+        }
+        .boxWidth_Acc_Slider{
+            width: 100% !important;
+        }
+        .mr10_slider1_acc{
+            margin-right: 10px;
+        }
+    }
+    // }

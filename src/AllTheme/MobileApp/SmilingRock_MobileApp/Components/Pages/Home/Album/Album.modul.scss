@@ -1,0 +1,63 @@
+@import '../../../scss/variable';
+
+.smrMA_alubmMainDiv {
+
+    margin-inline: 0px;
+    margin-top: -5px;
+
+    .smr_AlbumImageMain {
+        width: 300px;
+        padding: 2px;
+        cursor: pointer;
+        // box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+    }
+
+    .smr_albumTitle {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize5;
+        text-align: center;
+        margin: 0px;
+    }
+
+    .smr_albumName {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        margin: 0px 0px 10px 0px;
+        text-align: center;
+    }
+
+    .smr_AlbumImageMain_img {
+        width: 100%;
+        object-fit: contain;
+        height: 100%;
+    }
+
+    .smr_albumALL_div {
+        display: flex;
+        justify-content: center;
+    }
+
+    @media screen and (max-width: 1200px) {
+        .smr_AlbumImageMain_img {
+            // height: auto !important;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        // margin-inline: 10px !important;
+    }
+
+
+    @media screen and (max-width: 650px) {
+        .smr_albumALL_div {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .smr_AlbumImageMain {
+            width: 50% !important;
+        }
+    }
+}

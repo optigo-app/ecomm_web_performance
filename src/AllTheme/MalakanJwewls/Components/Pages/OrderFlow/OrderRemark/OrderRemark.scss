@@ -1,0 +1,85 @@
+@import '../../../scss/variable.scss';
+.mala_OrderModalBox {
+    width: 90%;
+    max-width: 500px;
+    min-width: 300px;
+    margin: 0 auto;
+
+    .mala_projectRemarkBtn-group {
+      margin-top: 10px;
+      display: flex;
+      justify-content: end;
+      align-items: end;
+      gap: 10px;
+  
+      .mala_remarksave-btn {
+        background-color: $titleColor;
+        border: 1px solid $titleColor;
+        border-radius: 0 !important;
+        color: #fff;
+        cursor: pointer;
+        font-family: $primaryFontFamily !important;
+        font-size: $fontSize2;
+        height: 35px;
+        transition: background-color .3s, color .3s;
+        width: 100px;
+  
+        &:hover {
+          background-color: #fff;
+          color: $titleColor;
+        }
+      }
+  
+      .mala_remarkcancel-btn {
+        background-color: #fff;
+        border: 1px solid $titleColor;
+        border-radius: 0 !important;
+        color: $titleColor;
+        cursor: pointer;
+        font-family: $primaryFontFamily !important;
+        font-size: $fontSize2;
+        height: 35px;
+        transition: background-color .3s, color .3s;
+        width: 100px;
+  
+        &:hover {
+          background-color: $titleColor;
+          color: #fff;
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .mala_OrderModalBox {
+      width: 95%;
+      max-width: 100%;
+      min-width: 0;
+    }
+  }
+
+  @media (max-width: 474px) {
+    .mala_OrderModalBox {
+      width: 95% !important;
+    }
+    .mala_OrderModalBox {
+      padding: 20px 8px 20px 8px !important;
+
+      h2 {
+          color: $titleColor !important;
+          font-size: $fontSize2 !important;
+      }
+
+      .mala_projectRemarkBtn-group {
+
+          .mala_remarksave-btn,
+          .mala_remarkcancel-btn {
+              font-size: $fontSize0 !important;
+              padding: 5px 10px !important;
+          }
+      }
+      .mala_orderRemarkMoalInput textarea{
+        font-size: $fontSize1 !important;
+      }
+  }
+  }

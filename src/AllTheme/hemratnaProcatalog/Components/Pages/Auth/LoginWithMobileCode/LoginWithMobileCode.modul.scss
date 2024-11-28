@@ -1,0 +1,208 @@
+.hem_LoginWithMobileCodeMain_div{
+
+    .hem_LoginWithMobileCode_div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #8F8F8F;
+    }
+
+    .hem_LoginWithMobileCode_layout{
+        max-height: 76vh;
+        margin: 8px;
+        width: 400px;
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 30px;
+        overflow: auto;
+        position: relative;
+    }
+
+    .hem_LoginWithMobileCode_close_btn{
+        position: absolute;
+        top: -5px;
+        right: 0px;
+        padding: 7px;
+        background: #F0F0F0;
+        border: none;
+        cursor: pointer;
+    }
+
+    .hem_LoginWithMobileCode_back_btn_div{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .hem_LoginWithMobileCode_back_btn{
+        border: none;
+        background-color: #fff;
+        padding: 0;
+    }
+
+    .hem_LoginWithMobileCode_title{
+        font-size: 22px;
+        font-weight: bold;
+        margin: 0;
+        font-family: futura-pt, sans-serif;
+    }
+
+    .hem_LoginWithMobileCode_mess{
+        font-size: 14px;
+        font-weight: normal;
+        margin-bottom: 50px;
+        font-family: futura-pt, sans-serif;
+    }
+    
+    .hem_LoginWithMobileCode_email_data{
+        padding-left: 5px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .hem_LoginWithMobileCode_input_div{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    .hem_LoginWithMobileCode_inp_label{
+        color: #0d1216db;
+        font-size: 12px;
+        line-height: 20px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        font-family: futura-pt, sans-serif;
+    }
+
+    .hem_LoginWithMobileCode_input {
+        padding: 10px;
+        width: 100%;
+        border: 1px solid #2b3b4a4d;
+        border-radius: 4px;
+        box-sizing: border-box;
+        color: #0d1216;
+        cursor: text;
+        outline: none;
+    }
+    
+    .hem_LoginWithMobileCode_input:focus {
+        border-color: rgb(145, 2, 241);
+    }
+
+    .hem_LoginWithMobileCode_submit_btn{
+        width: 100%;
+        border: none;
+        text-align: center;
+        padding: 10px;
+        color: #fff;
+        font-weight: bold;
+        font-size: 14px;
+        background-color: #4687FF;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        font-family: futura-pt, sans-serif;
+    }
+
+    .hem_LoginWithMobileCode_submit_btn:hover{
+        background-color: #6da0ff;
+    }
+
+    .hem_LoginWithMobileCode_division{
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .hem_LoginWithMobileCode_division_lines1{
+        width: 100px;
+        border: none;
+        border-bottom: 2px solid #000;
+        height: 1px;
+    }
+
+    .hem_LoginWithMobileCode_division_text{
+        padding: 8px;
+        font-size: 11px;
+        color: #0d1216db;
+        line-height: 20px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .hem_LoginWithMobileCode_division_lines2{
+        width: 100px;
+        border: none;
+        border-bottom: 2px solid #000;
+        height: 1px;
+    }
+
+    .hem_LoginWithMobileCode_login_code_btn{
+        width: 100%;
+        border: none;
+        border-radius: 4px;
+        text-align: center;
+        padding: 10px;
+        font-weight: bold;
+    }
+
+    .hem_LoginWithMobileCode_login_code_mess{
+        color: #0d1216db;
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .hem_LoginWithMobileCode_forgot_password{
+        color: #007bff !important;
+        font-size: 12px;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    .hem_LoginWithMobileCode_resend_code_span_timer{
+        color: #007bff !important;
+        padding-left: 5px;
+    }
+
+    .hem_LoginWithMobileCode_resend_code_span{
+        color: #007bff !important;
+        padding-left: 5px;
+        cursor: pointer;
+    }
+    
+
+    @media screen and (max-width: 350px) {
+        .hem_LoginWithMobileCode_layout{
+            max-height: 76vh;
+            width: 400px;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 10px;
+            overflow: auto;
+        }
+
+        .hem_LoginWithMobileCode_title {
+            font-size: 17px;
+        }
+
+        .hem_LoginWithMobileCode_mess{
+            font-size: 12px;
+        }
+        .hem_LoginWithMobileCode_inp_label{
+            font-size: 11px;
+        }
+        .hem_LoginWithMobileCode_submit_btn{
+            font-size: 12px;
+        }
+        .hem_LoginWithMobileCode_submit_btn{
+            margin-bottom: 5px;
+        }
+    }
+
+
+}

@@ -1,0 +1,111 @@
+// .yourProfile_Account_DT{
+
+
+.smr_yourProfile {
+
+    .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
+        -webkit-text-fill-color: black !important;
+    }
+
+    .css-1x5jdmq.Mui-disabled {
+        -webkit-text-fill-color: black !important;
+    }
+
+
+.btn_bg_color_DT{
+    background-color:#f0e0e0 !important;
+    color: black !important;
+}
+
+    @media screen and (max-width: 1000px) {
+        .mobileEditProfileDiv {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            width: 100% !important;
+        }
+        .m_top_15_DT{
+            margin-top: 10%;
+        }
+    }
+
+
+    @media screen and (max-width: 700px),(max-width: 768px){
+        .userProfileMain {
+            width: 100%;
+        }
+        .m_top_15_DT{
+            margin-top: 10%;
+        }
+
+    }
+
+    @media screen and (max-width: 500px) {
+
+        .smilingEditProfilePopup {
+            width: 95% !important;
+            margin: 5px !important;
+        }
+
+        .m_top_15_DT{
+            margin-top: 17%;
+        }
+
+     
+    }
+    // @media screen and (max-width: 320px), (max-width: 360px) {
+
+    //     .smilingEditProfilePopup {
+    //         width: 95% !important;
+    //         margin: 5px !important;
+    //     }
+
+    //     .pop_yp_DT{
+    //         position: absolute !important;
+    //         background-color: white !important;
+    //         top: 45% !important;
+    //         left: 48.5% !important;
+    //         transform: translate(-50%, -50%) !important;
+    //         width: 450px !important;
+    //         padding: 10px !important;
+    //     }
+    // }
+
+    // @media (max-width: 320px),(max-width: 360px) {
+
+    //     .smilingEditProfilePopup {
+    //         width: 95% !important;
+    //         margin: 5px !important;
+    //     }
+
+    //     .pop_yp_DT{
+    //         position: absolute !important;
+    //         background-color: white !important;
+    //         top: 45% !important;
+    //         left: 48.5% !important;
+    //         transform: translate(-50%, -50%) !important;
+    //         width: 450px !important;
+    //         padding: 10px !important;
+    //     }
+    // }
+}
+    
+
+
+.smr_SmilingAddEditAddrwessDT {
+    height: 40px;
+    width: 160px;
+    font-family: "PT Sans", sans-serif !important;
+    font-weight: 700 !important;
+    opacity: .9;
+    background: #f6efe6 !important;
+    color: rgba(31, 25, 25, 0.7) !important;
+    border: none;
+    font-weight: 500;
+}
+
+.smr_SmilingAddEditAddrwessDT:hover {
+    background-color: #fff !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+// }

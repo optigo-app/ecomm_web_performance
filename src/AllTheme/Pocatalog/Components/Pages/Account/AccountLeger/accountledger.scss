@@ -1,0 +1,161 @@
+// .ledger_Account_PCJ{
+
+
+.fs_al{
+    font-size: 15px;
+}
+.fs_al2{
+    font-size: 14px;
+}
+.eeal{
+    font-size: 12px;
+    width: 70%;
+}
+.fs_td{
+    font-size: 13px;
+}
+._centeral{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.w_Al{
+    width: 7.14%;
+}
+.daybtn{
+    /* height: 35px;
+    width: 35px; */
+    min-height: 42px;
+    max-height: 42px;
+    min-width: 45px;
+    padding: 5px !important;
+}
+.daybtn:hover{
+    background-color: rgb(210, 213, 213) !important;
+}
+// .selected{
+//     border: 1px solid black !important;
+// }
+.toggleBtn{
+    border: none;
+    font-size: 14px;
+    background-color: rgb(125, 127, 133);
+    color: white !important;
+    font-weight: 500;
+    min-width: 100px;
+    width: 100%;
+    outline: none !important;
+    border-radius: 4px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    height: 40px;
+}
+
+.bal_Amt_ac{
+    padding: 8px;
+    border: 1px solid #989898;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+}
+/* .header_al{
+    display: none;
+} */
+
+/* @media print {
+    .header_al{
+        display: normal;
+    }   
+    
+} */
+.ledger_title{
+    /* height: 40px; */
+    margin: 1rem;
+    background-color: rgb(125, 127, 133);
+    color: white !important;
+    padding: 1rem;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+// @media (min-width: 320px) and (max-width: 576px){
+//     .fs_Al_mq *{
+//         font-size: 15px !important;
+//         padding-left: 0.65rem !important;
+//     }
+//     /* .fs_Al_mq{
+        
+//         padding-left: 0.65rem !important;
+//     } */
+//     .flex_col_Al{
+//         flex-direction: column !important;
+//         align-items: start !important;
+//     }
+//     .px_2_al{
+//         padding: 0 0.3rem !important;
+//     }
+//     .date_margin_acc{
+//         margin-top: 10px !important;
+//         width: 100%;
+//     }
+//     .mb_acc{
+//         margin-bottom: 15px;
+//     }
+//     .w_30_acc{
+//         width: 20%;
+//     }
+//     .w_70_acc{
+//         width: 70%;
+//     }
+//     .w_all_acc{
+//         width: 100%;
+//     }
+//     .w_40_acc{
+//         width: 48%;
+//     }
+//     .w_60_acc{
+//         width: 52%;
+//     }
+//     .end_acc{
+//         display: flex;
+//         justify-content: flex-end;
+//         align-items: center;
+//     }
+//     .pad_r_acc{
+//         padding-right: 0px !important;
+//     }
+//     .center_acc{
+//         display: flex;
+//         justify-content: center;
+//         align-items: center;
+//     }
+// }
+.me_3{
+    margin-right: 1rem !important;
+}
+.balance_not_none{
+    display: none !important;
+}
+.d_flex_Acc{
+    display: flex;
+}
+
+
+@media (max-width:320px), (max-width:360px), (max-width:390px), (max-width:430px), (max-width:576px), (max-width:650px){
+    .css-19kzrtu{
+        padding: 0px !important;
+    }
+    .pad_right_Acc{
+        padding-right: 7px !important;
+    }
+    .me_3{
+        margin-right: 0px !important;
+    }
+    .balance_not_none{
+        display: unset !important;
+    }
+    .balance_none{
+        display: none !important;
+    }
+}
+// }

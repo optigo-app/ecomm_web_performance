@@ -1,0 +1,156 @@
+@import '../../../scss/variable.scss';
+
+.dt_confirSecondMaindiv {
+    // margin: 0 auto;
+    // max-width: 1200px;
+    background-color: #fff;
+    // padding: 20px;
+}
+
+.dt_thankYouContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    position: relative;
+}
+
+.dt_thankYouContent {
+    text-align: center;
+    width: 100%;
+}
+
+.dt_thankYouMessage h1 {
+    font-size: $fontSize8;
+    color: #ff6600;
+    margin-bottom: 20px;
+}
+
+.dt_thankYouMessage h1 span {
+    color: $titleColor;
+}
+
+.dt_orderNumber p {
+    margin-top: 20px;
+    font-size: $fontSize7;
+    color: $titleColor;
+}
+
+.dt_orderNumber p span {
+    font-weight: bold;
+    color: #ff6600;
+}
+
+.dt_continueShoppingBtn {
+    margin-top: 20px;
+    height: 40px;
+    width: 190px;
+    font-family: $homePageFontFamily !important;
+    font-size: $fontSize3;
+    color: #fff;
+    background-color: #a8807c !important;
+    border: 1px solid #a8807c !important;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+        color: #a8807c !important;
+        background-color: #fff !important;
+        border: 1px solid #a8807c !important;
+    }
+}
+
+.dt_orderCnfThankyouImage {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.dt_plwlPrintDiv {
+    margin-top: 20px;
+
+    .icon-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        width: 150px;
+        font-family: $homePageFontFamily !important;
+        font-size: $fontSize3;
+        color: $btn1hoverFontColor;
+        background-color: $btn1ActivebgColor;
+        border: 1px solid $btn1FontColor;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: #fff;
+            color: $titleColor;
+        }
+
+        .icon {
+            margin-right: 5px;
+        }
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 1150px) {
+    .dt_confirMaindiv {
+        padding-top: 60px;
+    }
+}
+
+@media (max-width: 800px) {
+    .dt_confirSecondMaindiv {
+        margin-inline: 0%;
+    }
+
+    .dt_orderNumber p {
+        margin-top: 20px;
+        font-size: $fontSize5;
+        color: $titleColor;
+    }
+
+    .dt_continueShoppingBtn {
+        width: 30%;
+        font-size: $fontSize4;
+    }
+}
+
+@media (max-width: 600px) {
+    .dt_confirSecondMaindiv {
+        margin-inline: 0%;
+    }
+
+    .dt_continueShoppingBtn {
+        width: 60%;
+        font-size: $fontSize4;
+    }
+
+    .dt_orderNumber p {
+        margin-top: 20px;
+        font-size: $fontSize4;
+        color: $titleColor;
+    }
+
+    .dt_plwlPrintDiv .icon-button {
+        width: 100%;
+        font-size: $fontSize4;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .dt_continueShoppingBtn {
+        width: 60%;
+        font-size: $fontSize4;
+    }
+
+    .dt_plwlPrintDiv .icon-button {
+        width: 100%;
+        font-size: $fontSize4;
+    }
+}

@@ -1,0 +1,113 @@
+.smrMA_HeaderMain {
+
+    background-color: #ede1d5;
+    .smrMA_Fixed_Header {
+        width: 100%;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        transform: translateY(-1000px);
+        height: 60px;
+    }
+
+    .smrMA_Fixed_Header.fixed {
+        position: fixed;
+        top: 0;
+        background-color: #ede1d5;
+        // background-color: rgb(211 211 209);
+        box-shadow: 0 2px 5px rgba(20, 19, 19, 0.1);
+        z-index: 1000;
+        transform: translateY(0px);
+        transition: all 0.4s ease;
+        padding-inline: 10px;
+        height: 60px;
+    }
+
+    .smrMA_logo_header {
+        max-width: 120px;
+    }
+
+    .smrMA_Div1Main {
+        padding-block: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .smrMA_Top_header_sub {
+        margin-inline: 10px;
+    }
+
+    .searchBoxOnlyHeaderFiexedMain {
+        height: 35px;
+        width: 100%;
+        outline: none;
+        border: 1px solid lightgray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        border-radius: 8px;
+    }
+
+    .searchBoxOnlyHeaderFiexed {
+        height: 30px;
+        width: 92%;
+        outline: none;
+        border: none;
+        border-radius: 20px;
+    }
+
+    .searchBoxOnlyProductPageMain {
+        height: 35px;
+        width: 85%;
+        outline: none;
+        border: 1px solid lightgray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 20px;
+    }
+
+
+}
+
+.smeMASearchBoxDiv {
+    height: 35px;
+    width: 85%;
+    outline: none;
+    border: 1px solid lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.smeMASearchBoxInputDiv {
+    height: 30px;
+    width: 95%;
+    outline: none;
+    border: none;
+    border-radius: 20px;
+}
+
+@media screen and (max-width: 700px) {
+    .smeMASearchBoxInputDiv {
+        height: 30px;
+        width: 90% !important;
+        outline: none;
+        border: none;
+        border-radius: 20px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .smeMASearchBoxInputDiv {
+        height: 30px;
+        width: 85% !important;
+        outline: none;
+        border: none;
+        border-radius: 20px;
+    }
+}

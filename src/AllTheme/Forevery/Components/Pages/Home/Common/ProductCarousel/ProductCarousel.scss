@@ -1,0 +1,214 @@
+@import "../../../../scss/variable.scss";
+@mixin Truncate($lines) {
+  display: -webkit-box;
+  text-align: center;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.for_ProductCarousel {
+  width: 100%;
+  height: auto;
+  margin-top: 4rem;
+  font-family: $primaryFontFamily;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 1rem;
+.for_ProductCarousel_banner_image{
+  height: auto;
+    padding-bottom: 20px;
+    width: 88%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @media screen and (max-width: 650px) {
+        width: 92%;
+    }
+  
+    @media screen and (max-width: 520px) {
+        width: 100%;
+      }
+  
+    img{
+      width: 100%;
+    }
+}
+  .heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 0rem;
+    padding-bottom: 1rem;
+    span {
+      font-size: 18px;
+      font-weight: 500;
+    }
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+  }
+  .for_carousel {
+    height: auto;
+    padding-bottom: 20px;
+    width: 88%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      width: auto;
+      height: auto;
+      margin-top: -2rem;
+      margin-bottom: 2rem;
+      @media screen and (max-width: 870px) {
+        margin-bottom: 1rem;
+      }
+      @media screen and (max-width: 548px) {
+        margin-bottom: -2rem;
+      }
+    }
+    .for_product_card {
+      width: 100%;
+      height: auto;
+      transition: 0.3s ease-in-out;
+      .image_box {
+        width: 100%;
+        position: relative;
+        background-color: rgba(197, 197, 197, 0.219);
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          mix-blend-mode: multiply;
+        }
+        .addtocart_overlay {
+          position: absolute;
+          bottom: 0;
+          background-color: #474747;
+          padding: 8px;
+          width: 100%;
+          transition: 0.5s ease-in-out;
+          color: white;
+          align-items: center;
+          display: flex;
+          display: none;
+          gap: 15px;
+          cursor: pointer;
+          span {
+            font-size: 14px;
+            font-weight: 500;
+          }
+        }
+      }
+      &:hover {
+        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+          rgba(0, 0, 0, 0.23) 0px 6px 6px;
+        .image_box {
+          .addtocart_overlay {
+            display: flex;
+            gap: 15px;
+          }
+        }
+      }
+      .details {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        padding: 20px 0;
+        span {
+          font-size: 16px;
+          padding: 4px 0;
+          font-weight: 700;
+          @include Truncate(1);
+        }
+        .diamond_Details {
+          display: flex !important;
+          gap: 5px;
+          .separator_for {
+            display: flex !important;
+            align-items: center;
+            font-weight: 500 !important;
+            span {
+              display: flex !important;
+              align-items: center;
+              font-size: 13px !important;
+              font-weight: 500 !important;
+            }
+          }
+        }
+        p {
+          font-size: 14px;
+          font-weight: 450;
+          padding: 0 20px;
+          margin-top: 0;
+          margin-bottom: 10px;
+        }
+        .price_fresj {
+          font-size: 17px;
+          font-weight: 800;
+          letter-spacing: 0.3px;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    .for_carousel {
+      .for_product_card {
+        .details {
+          .diamond_Details {
+            display: flex !important;
+            gap: 5px;
+            flex-wrap: wrap !important;
+            line-height: 15px;
+            text-align: center !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            .separator_for {
+              display: flex !important;
+              align-items: center;
+              font-weight: 500 !important;
+              padding: 0 !important;
+              margin: 0 !important;
+              span {
+                display: flex !important;
+                align-items: center;
+                font-size: 13px !important;
+                font-weight: 500 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+              }
+            }
+          }
+          p {
+            font-size: 14px;
+            font-weight: 450;
+            padding: 0 20px;
+            margin-top: 0;
+            margin-bottom: 10px;
+          }
+          .price_fresj {
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            margin-top: 10px;
+          }
+        }
+      }
+    }
+  }
+}

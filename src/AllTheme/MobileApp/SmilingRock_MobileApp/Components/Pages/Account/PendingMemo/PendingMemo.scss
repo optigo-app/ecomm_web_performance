@@ -1,0 +1,332 @@
+// .memo_Account_SMRM{
+
+
+.grossWtinputSecSalesReport input {
+    padding: 9.5px 15px;
+}
+
+.salesReporttable table {
+    border-collapse: collapse;
+}
+
+.salesReport *{
+    font-size: 12px !important;
+}
+
+.salesReport svg{
+    font-size: 20px !important;
+}
+
+.salesReporttable table tr td,
+.salesReporttable table tr th {
+    border: 1px solid #d6d6d6;
+}
+
+.salesReporttable table td,
+.salesReporttable table tr th {
+    font-size: 12px;
+    padding: 5px 10px;
+    text-align: center;
+}
+
+.salesReporttable table td.fw_bold {
+    font-weight: 600;
+}
+
+
+.salesReporttable table tr:first-child td {
+    font-weight: normal;
+}
+
+.salesReporttable {
+    overflow-y: auto;
+}
+
+.salesReport>div {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.salesReportTableSec table thead tr:first-child {
+    background: #eaeaeb;
+}
+
+/* .salesReporttabelHead th{
+    position: relative;
+}
+*/
+
+.salesReporttabelHead th>span>svg {
+    position: absolute;
+    right: -25px;
+    /* top: 50%; */
+    /* transform: translateY(-50%); */
+}
+
+.salesReport .MuiTablePagination-selectLabel,
+.salesReport .MuiTablePagination-displayedRows {
+    margin-bottom: 0 !important;
+}
+
+.salesReportImgSec {
+    margin-bottom: 20px !important;
+}
+
+
+
+.css-levciy-MuiTablePagination-displayedRows{
+    margin-bottom: 0px !important;
+}
+
+.css-pdct74-MuiTablePagination-selectLabel{
+    margin-bottom: 0px !important;
+}
+
+
+@media(max-width: 768px){
+    .salesReport .MuiTablePagination-root{
+        padding-bottom: 0 !important;
+        max-height: 50px;
+    } 
+    .salesReport .MuiTablePagination-root .MuiTablePagination-toolbar {
+        padding: 0 10px;
+    }
+
+    .salesReport .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input{
+        margin-right: 5px;
+    }
+
+    .salesReport .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input div[role="combobox"]{
+        padding-left: 0;
+        margin-left: -5px;
+    }
+
+    .salesReport .MuiTablePagination-root .MuiTablePagination-actions{
+        margin-left: 5px;
+    }
+    
+    .salesReport .MuiTablePagination-root .MuiTablePagination-actions button{
+        padding-right: 0;
+    }
+}
+
+@media(max-width: 576px) {
+
+    .salesReporttable {
+        border-collapse: collapse;
+        padding-right: 0 !important;
+        padding-bottom: 15px !important;
+    }
+
+    .salesReporttable,
+    .salesReporttable table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .salesReporttable table tbody {
+        // display: flex;
+        // flex-wrap: wrap;
+        overflow: auto;
+    }
+
+    .salesReporttable table tbody tr {
+        // display: flex;
+        // flex-direction: column;
+        // width: 50%;
+        overflow: auto;
+        width: 100%;
+    }
+
+    .salesReporttable table tbody tr td{
+        text-align: start !important;
+    }
+
+    .salesReportTableSec table thead tr {
+        // display: flex;
+        // flex-direction: column;
+        overflow: auto;
+    }
+
+    .salesReportTableSec>div>table {
+        min-width: 100%;
+        // display: flex;
+        // flex-direction: column;
+        position: static !important;
+        border: unset;
+    }
+
+    .salesReportTableSec>div>table>thead>tr>th,
+    .salesReportTableSec>div>table>tbody>tr>td {
+        text-align: start !important;
+        padding: 5px 10px !important;
+    }
+
+    .salesReportTableSec>div>table>thead>tr>th svg {
+        position: absolute;
+        right: -30px;
+    }
+
+    .salesReportTableSec>div>table>tbody>tr {
+        width: 100%;
+        // display: flex;
+        // flex-direction: column;
+    }
+
+    .salesReportTableSec>div>table>tbody>tr>td:last-child {
+        // border-bottom: 1px solid #9b978f !important;
+    }
+
+    .salesReportTableSec>div>table>tbody>tr>td {
+        min-height: 31.02px;
+    }
+
+    .salesReportTableSec>div>table>tbody>tr:first-child>td:first-child {
+        border-top: 1px solid #9b978f !important;
+    }
+
+    .salesReportTableSec>div>table>thead>tr>th:last-child,
+    .salesReportTableSec>div>table>thead>tr>th:first-child,
+    .salesReportTableSec>div>table>thead>tr {
+        border-radius: 0 !important;
+    }
+
+}
+
+@media (max-width:320px){
+    .pad_10_ds{
+        padding: 10px !important;
+    }
+    .mb_0_sp_mob{
+        margin-bottom: 0px !important;
+    }
+
+
+
+
+    .css-levciy-MuiTablePagination-displayedRows{
+        margin-bottom: 0px !important;
+    }
+
+    .css-pdct74-MuiTablePagination-selectLabel{
+        margin-bottom: 0px !important;
+    }
+
+
+
+
+
+
+
+    .salesReporttable {
+        border-collapse: collapse;
+        padding-right: 0 !important;
+        padding-bottom: 15px !important;
+    }
+
+
+    .salesReporttable,
+    .salesReporttable table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .salesReporttable table tbody {
+        // display: flex;
+        // flex-wrap: wrap;
+        overflow: auto;
+    }
+
+    .salesReporttable table tbody tr {
+        // display: flex;
+        // flex-direction: column;
+        // width: 50%;
+        overflow: auto;
+        width: 100%;
+    }
+
+    .salesReporttable table tbody tr td{
+        text-align: start !important;
+    }
+
+    .salesReportTableSec table thead tr {
+        // display: flex;
+        // flex-direction: column;
+        overflow: auto;
+    }
+
+    .salesReportTableSec>div>table {
+        min-width: 100%;
+        // display: flex;
+        // flex-direction: column;
+        position: static !important;
+        border: unset;
+    }
+
+    .salesReportTableSec>div>table>thead>tr>th,
+    .salesReportTableSec>div>table>tbody>tr>td {
+        text-align: start !important;
+        padding: 5px 10px !important;
+    }
+
+    .salesReportTableSec>div>table>thead>tr>th svg {
+        position: absolute;
+        right: -30px;
+    }
+
+    .salesReportTableSec>div>table>tbody>tr {
+        width: 100%;
+        // display: flex;
+        // flex-direction: column;
+    }
+
+    .salesReportTableSec>div>table>tbody>tr>td:last-child {
+        // border-bottom: 1px solid #9b978f !important;
+    }
+
+    .salesReportTableSec>div>table>tbody>tr>td {
+        min-height: 31.02px;
+    }
+
+    .salesReportTableSec>div>table>tbody>tr:first-child>td:first-child {
+        border-top: 1px solid #9b978f !important;
+    }
+
+    .salesReportTableSec>div>table>thead>tr>th:last-child,
+    .salesReportTableSec>div>table>thead>tr>th:first-child,
+    .salesReportTableSec>div>table>thead>tr {
+        border-radius: 0 !important;
+    }
+
+    .pd_0_Sp_mapp > .css-16c50h-MuiInputBase-root-MuiTablePagination-select{
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+    }
+    .pd_0_Sp_mapp .MuiInputBase-root{
+        margin: 0px!important;
+      }
+    
+      .pd_0_Sp_mapp .MuiTablePagination-actions{
+    
+        margin: 0px!important;
+      }
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 10; // Ensures it stays on top of other content
+    background-color: white; // Ensures background color is consistent when it becomes sticky
+  }
+
+
+  .pd_0_Sp_mapp .MuiInputBase-root{
+
+    margin: 0px!important;
+  }
+
+  .pd_0_Sp_mapp .MuiTablePagination-actions{
+
+    margin: 0px!important;
+  }
+// }

@@ -1,0 +1,447 @@
+@import "../../scss/variable.scss";
+
+.for_DiamondPage {
+  width: 100%;
+  height: auto;
+  font-family: $primaryFontFamily;
+  margin-top: 1rem;
+  position: relative;
+
+  .setting_bg {
+    width: 100%;
+    height: 100%;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .section_dia {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+
+    .breadcrumb {
+      width: 68%;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-top: 15px;
+
+      ul {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+        gap: 5px;
+
+        li {
+          padding: 0;
+          margin: 0;
+          font-size: 14px;
+          color: #777777;
+          font-weight: 400;
+
+          a {
+            text-decoration: none;
+            color: #777777;
+
+            &:hover {
+              color: black;
+            }
+          }
+
+          cursor: pointer;
+
+          &::first-letter {
+            text-transform: uppercase;
+          }
+        }
+      }
+
+      @media screen and (max-width: 1450px) {
+        width: 75%;
+      }
+
+      @media screen and (max-width: 1240px) {
+        width: 80%;
+      }
+
+      @media screen and (max-width: 968px) {
+        width: 88%;
+      }
+
+      @media screen and (max-width: 768px) {
+        width: 98%;
+      }
+    }
+
+    .diamond_Step_data {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 68%;
+      margin: 0 auto;
+      justify-content: space-between;
+      height: 70px;
+      border: 1px solid #eeeeee;
+      margin-bottom: 25px;
+
+      .step_data {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: inherit;
+        position: relative;
+
+        @media screen and (max-width: 508px) {
+          flex: 0.6;
+        }
+
+        @media screen and (max-width: 434px) {
+          flex: 0.3;
+        }
+
+        @media screen and (max-width: 362px) {
+          flex: 0.2;
+        }
+
+        .disabled {
+          pointer-events: none;
+          cursor: not-allowed;
+          opacity: 0.3;
+        }
+
+        .for_title_span {
+          cursor: pointer;
+        }
+
+        .for_shapes_img {
+          @media (max-width: 470px) {
+            display: none;
+          }
+        }
+
+        &.finish_set {
+          opacity: 0.5;
+          cursor: not-allowed;
+          pointer-events: none;
+        }
+
+        &.active {
+          background-color: #ffdfdf;
+          position: relative;
+
+          &::after {
+            content: "";
+            border-color: transparent transparent transparent #ffdfdf !important;
+            border-style: solid;
+            border-width: 36px 0 33px 24px;
+            position: absolute;
+            right: -24px;
+            top: -1px;
+            z-index: 9;
+          }
+
+          &:last-child {
+            &::after {
+              display: none;
+            }
+          }
+        }
+
+        .for_total_prc {
+          position: absolute;
+          right: 15px;
+          bottom: 0;
+          font-family: "Nunito", sans-serif;
+          font-size: 14px;
+          font-weight: 500;
+          display: flex;
+          align-items: center;
+        }
+
+        .for_pendant_view {
+          width: 30px;
+          object-fit: contain;
+          margin-top: -3px;
+          height: 30px;
+
+          @media (max-width: 470px) {
+            display: none;
+          }
+        }
+
+        .for_dia_step_eye_div {
+          position: relative;
+          z-index: 5;
+
+          .for_dia_step_eye {
+            position: absolute;
+            top: -10px;
+            left: 6rem;
+            height: 21px;
+            z-index: 10;
+
+            $breakpoint: (
+              1500: 5.5rem,
+              1300: 5rem,
+              1000: 4.5rem,
+              900: 4rem,
+              800: 3rem,
+              700: 2rem,
+              580: 1rem,
+              375: 0.2rem,
+            );
+
+          @each $left, $value in $breakpoint {
+            @media (max-width: #{$left}px) {
+              left: $value;
+            }
+          }
+        }
+
+        .for_navigate_eye_div {
+          position: absolute;
+          top: 2.3rem;
+          right: -3.5rem;
+          background: #FFDFDF;
+          width: 20rem;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+          font-family: "Nunito", sans-serif;
+          z-index: 1000;
+          transition: 0.2s ease-in-out;
+
+          @media (max-width: 1400px) {
+            right: -5.3rem;
+            z-index: 99;
+          }
+
+          @media (max-width: 1150px) {
+            right: -7rem;
+            z-index: 99;
+          }
+
+          @media (max-width: 1000px) {
+            right: -3.7rem;
+            z-index: 99;
+            width: 15rem;
+          }
+
+          @media (max-width: 830px) {
+            right: -4.8rem;
+            z-index: 99;
+            width: 15rem;
+          }
+
+          @media (max-width: 768px) {
+            right: -5.4rem;
+            z-index: 99;
+            width: 15rem;
+          }
+
+          @media (max-width: 670px) {
+            right: -5.8rem;
+            z-index: 99;
+            width: 15rem;
+          }
+
+          @media (max-width: 600px) {
+            right: -8.2rem;
+            z-index: 99;
+            width: 15rem;
+          }
+
+          @media (max-width: 470px) {
+            right: -7.5rem;
+            z-index: 99;
+            width: 13rem;
+          }
+
+          &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            border: 3px solid #de687f;
+            width: 100%;
+          }
+
+          .for_dia_data_div {
+            display: flex;
+            margin-inline: 0.5rem;
+            margin-block: 0.5rem;
+            justify-content: space-between;
+            align-items: center;
+
+            .for_dia_data_image {
+              img {
+                height: 50px;
+                width: 50px;
+                mix-blend-mode: darken;
+              }
+            }
+
+            .for_dia_price {
+              font-family: $primaryFontFamily;
+              font-size: $fontSize0;
+            }
+
+            .for_view_rem_div {
+              font-family: $primaryFontFamily;
+              display: flex;
+              align-items: center;
+
+              .for_view {
+                font-size: 11px;
+                text-transform: capitalize;
+                cursor: pointer;
+                font-weight: 500;
+              }
+
+              .for_rem {
+                font-size: 11px;
+                text-transform: capitalize;
+                cursor: pointer;
+                font-weight: 500;
+              }
+            }
+          }
+        }
+      }
+
+      span {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+
+        @media screen and (max-width: 450px) {
+          &:last-child {
+            margin-right: 5px;
+            margin-left: 5px;
+          }
+        }
+
+        img {
+          width: 28px;
+          object-fit: scale-down;
+          margin-top: -3px;
+
+          @media screen and (max-width: 450px) {
+            width: 22px;
+
+            &:nth-child(1) {
+              margin-left: 5px;
+            }
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 1450px) {
+      width: 75%;
+    }
+
+    @media screen and (max-width: 1240px) {
+      width: 85%;
+    }
+
+    @media screen and (max-width:968px) {
+      width: 95%;
+    }
+
+    @media screen and (max-width: 768px) {
+      width: 98%;
+    }
+  }
+
+  .diamond_Step {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 68%;
+    margin: 0 auto;
+    justify-content: space-between;
+    height: 70px;
+    border: 1px solid #eeeeee;
+    margin-bottom: 25px;
+
+    .step {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: inherit;
+      position: relative;
+      cursor: pointer;
+
+      &:last-child {
+        opacity: 0.5;
+        cursor: default;
+      }
+
+      &:nth-child(1) {
+        background-color: #ffdfdf;
+        position: relative;
+
+        &::after {
+          content: "";
+          border-color: transparent transparent transparent #ffdfdf !important;
+          border-style: solid;
+          border-width: 36px 0 33px 24px;
+          position: absolute;
+          right: -24px;
+          top: -1px;
+          z-index: 9;
+        }
+      }
+
+      span {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+
+        img {
+          width: 28px;
+          object-fit: scale-down;
+          margin-top: -3px;
+        }
+      }
+    }
+
+    @media screen and (max-width: 1450px) {
+      width: 75%;
+    }
+
+    @media screen and (max-width: 1240px) {
+      width: 80%;
+    }
+
+    @media screen and (max-width: 968px) {
+      width: 88%;
+    }
+
+    @media screen and (max-width: 768px) {
+      width: 98%;
+    }
+  }
+}
+}

@@ -1,0 +1,205 @@
+// .address_Account_SMRM{
+
+
+.muiSmilingRocksBtnManage{
+    /* border: 1px solid #7d7f85 !important; */
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    opacity: .8 !important;
+    margin-left: auto !important;
+    display: block !important;
+    background: #f6efe6 !important;
+    color: rgba(31, 25, 25, 0.7) !important;
+}
+
+.manageAddressBlock{
+    border: 1px solid #e9e9ed;
+    padding: 15px 15px 65px 15px;
+    position: relative;
+    height: 100%;
+}
+
+.muiSmilingRocksBtnManageEdit{
+    /* border: 1px solid #7d7f85 !important; */
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    opacity: .8 !important;
+    padding: 7px 20px 7px 20px !important;
+    background: rgb(246,239,230) !important;
+    color: rgba(31, 25, 25, 0.7) !important;
+}
+.muiSmilingRocksBtnManage:hover, .muiSmilingRocksBtnManageEdit:hover{
+    background: #fff !important;
+    color: #1f1919;
+    opacity: .8;
+}
+
+.addressMainSec{
+    gap: 2%;
+}
+
+.AddressSec{
+    width: 32%;
+    min-width: 32%;
+    margin-bottom: 2%;
+}
+
+.manageAddressInputRadio{
+    accent-color: #7d7f85;
+    margin-right: 10px;
+    margin-left: 1px;
+}
+
+.loadingBarManage{
+    color: #7d7f85 !important;
+}
+
+.manageAddressDefault{
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+    /* border: 1px solid rgba(0, 0, 0, 0.35); */
+
+}
+
+.smilingDeleveryformSaveBtn{
+    background: #f6efe6;
+    border: none;
+    border-radius: 5px;
+    color: rgba(31, 25, 25, .7);
+    font-weight: 600;
+    margin-inline: 5px;
+    opacity: .8;
+    padding: 6px 10px;
+    width: 100px;
+}
+.smilingDeleveryformCansleBtn_mapp{
+    background: #f6efe6;
+    border: none;
+    border-radius: 5px;
+    color: rgba(31, 25, 25, .7);
+    font-weight: 600;
+    margin-inline: 5px;
+    opacity: .8;
+    padding: 6px 10px;
+    width: 100px;
+}
+.smilingAddressPopupMain {
+    height: 730px;
+    width: 570px;
+}
+
+@media(max-width: 1024px){
+    .AddressSec{
+        width: 49%;
+        min-width: 49%;
+        padding-left: 5px;
+        padding-right: 5px;
+        /* margin-bottom: 1%; */
+    }
+
+}
+
+@media(max-width: 768px){
+    .manageAddressSec > div{    
+        padding: 0 !important;
+    }
+
+    .savedAddress{
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+    }
+
+    .savedAddressManageBtn{
+        padding: 3px 10px !important;
+    }
+}
+
+@media(max-width: 576px){
+    .AddressSec{
+        width: 100%;
+        min-width: 100%;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .addressMainSec{
+        gap: 0;
+    }
+}
+@media(max-width: 320px), (max-width: 360px), (max-width: 430px){
+    .AddressSec{
+        width: 100%;
+        min-width: 75%;
+        min-width: 95%;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .addressMainSec{
+        gap: 0;
+        max-width: 95%;
+        margin-bottom: 25%;
+    }
+    .smilingAddressPopupMain {
+        height: 80vh !important;
+        width: 100% !important;
+        padding: 10px;
+    }
+    .addressMainSec .MuiBox-root .css-qu2uuu{
+        max-width: 95% !important;
+    }
+    .manageAddressBlock .manageAddressDefault .MuiBox-root .css-0{
+        width: 100% !important;
+        max-width: 95% !important;
+    }
+    .mainBox_MAMAPP{
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    .addressBtnMapp{
+        margin-right: 10px !important;
+    }
+    .dialogMAddress_Mapp{
+        max-height: 100vh;
+        height: 100%;
+        margin-bottom: 20px;
+        overflow-y: scroll;
+    }
+    
+}
+
+@media (max-height:600px){
+    .dialogBox_Mapp{
+        max-height: 90vh !important;
+        height: 100%;
+    }
+}
+@media (max-height:700px),(max-height:800px),(max-height:900px){
+    .dialogBox_Mapp{
+        max-height: 90vh !important;
+        height: 100%;
+    }
+}
+@media (max-height:1024px),(max-height:1200px),(max-height:1400px){
+    .dialogBox_Mapp{
+        max-height: 100vh;
+    }
+}
+@media (min-height:1401px){
+    .dialogBox_Mapp{
+        max-height: auto;
+    }
+    .smilingAddressPopupMain {
+        height: auto !important;
+        width: 100% !important;
+        padding: 10px;
+    }
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 10; // Ensures it stays on top of other content
+    background-color: white; // Ensures background color is consistent when it becomes sticky
+  }
+// }

@@ -1,0 +1,53 @@
+
+
+.HeaderMainSearch{
+    display: flex;
+    align-items: center;
+    padding-inline: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    height: 50px;
+}
+.searchPageBoxOnlyHeaderFiexedMain{
+    height: 35px;
+    width: 85%;
+    outline: none;
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+.searchBoxOnlyHeaderFiexed{
+    height: 30px;
+    width: 85%;
+    outline: none;
+    border: none;
+    border-radius: 20px;
+
+}
+
+.searchTreadingTitle{
+    margin-top: 40px;
+    font-size: 15px;
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 500;
+    margin-inline: 10px;
+    color: #7d7f85;
+}
+
+.recentSearchMain{
+    display: flex;
+    align-items: center;
+    padding-inline: 10px;
+    border-bottom: 1px solid lightgray;
+    height: 50px;
+}
+
+.recenSearchAllMain{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.menuRecentSearch{
+    margin: 0px;
+    font-family: 'PT Sans', sans-serif;
+    color: #7d7f85;
+}

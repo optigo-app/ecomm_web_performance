@@ -1,0 +1,166 @@
+@import '../../../scss/variable.scss';
+
+.for_DeliverMainDiv {
+  font-family: $primaryFontFamily;
+    margin-top: 187px;
+    min-height: 475px;
+    margin-bottom: 20px;
+}
+
+.for_secondMaindivAdd {
+  margin-inline: 280px;
+  background-color: #fff;
+}
+.for_addMainDiv{
+  margin-bottom: 20px;
+}
+
+.for_getAddrMainDiv {
+  margin: 20px 0px;
+}
+
+.for_TitleDetailMainDiv{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    height: 40px;
+    width: 150px;
+    font-family: $primaryFontFamily !important;
+    font-size: $fontSize3;
+  }
+}
+
+.for_addressTextFields {
+  margin-bottom: 18px !important;
+  font-family: $primaryFontFamily !important;
+  color: $titleColor !important;
+
+  .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root{
+    border-radius: 0px !important;
+  }
+}
+
+.for_deliveryTitle {
+  color: $titleColor;
+  font-family: $primaryFontFamily;
+}
+
+.for_deliverydesc {
+  color: $titleColor;
+  font-family: $primaryFontFamily;
+}
+
+.for_AddrCard {
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+  padding: 20px 20px 0px 20px !important;
+  border-radius: 0px !important;
+}
+
+.for_ActiveAddrCard {
+  padding: 20px 20px 0px 20px !important;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+  background: #fdf6f6 !important;
+  border-radius: 0px !important;
+  position: relative;
+}
+
+
+.for_defualt_addrSelected {
+  padding: 3px 10px;
+  font-family: $primaryFontFamily !important;
+  font-size: $fontSize3;
+  color: #fff;
+  background: #df647e;
+  border-radius: 0px !important;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.for_defualt_addrSelectedHide{
+  display: none !important;
+}
+
+.for_addrTypoTitle {
+  color: $titleColor;
+  font-family: $primaryFontFamily !important;
+  text-transform: capitalize;
+}
+
+.for_addrTypo {
+  color: $titleColor;
+  font-family: $primaryFontFamily !important;
+  text-transform: capitalize;
+}
+
+.for_AddressBtnGroup {
+  button {
+    height: 40px;
+    width: 150px;
+    font-family: $primaryFontFamily !important;
+    font-size: $fontSize3;
+  }
+}
+
+.for_dialogTitle{
+  color: $titleColor;
+  font-weight: 500 !important;
+  text-align: center;
+}
+
+.for_AddNewAddrModalbtn{
+    margin-right: 20px;
+    height: 40px;
+    width: 150px;
+    font-family: $primaryFontFamily !important;
+    font-size: $fontSize3;
+    color: $btn1hoverFontColor;
+    background-color: $btn1ActivebgColor;
+    border: 1px solid $btn1FontColor;
+    border-radius: 0px !important;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      color: $btn1hoverFontColor;
+      background-color: $btn1ActivebgColor;
+    }
+}
+.for_Cancelbtn{
+  margin-right: 20px;
+  height: 40px;
+  width: 150px;
+  font-family: $primaryFontFamily !important;
+  font-size: $fontSize3;
+  color: $btn1FontColor;
+  background-color: $btn1bgColor;
+  border: 1px solid $btn1FontColor;
+  border-radius: 0px !important;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    color: $btn1hoverFontColor;
+    background-color: $btn1ActivebgColor;
+  }
+}
+
+.for_editDeleteBtngroup{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 10px;
+  .for_editIcon{
+    font-size: 20px;
+    color: $titleColor;
+  }
+  .for_DeleteIcon{
+    font-size: 20px;
+    color: $titleColor
+  }
+}

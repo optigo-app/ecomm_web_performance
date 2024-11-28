@@ -1,0 +1,1 @@
+export const MainLogo = "https://houseofquadri.com/cdn/shop/files/HOQ_Logo-011_140x.png?v=1654495961"

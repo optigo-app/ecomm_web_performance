@@ -1,0 +1,31 @@
+/* .header_Account_PCMJ{ */
+
+
+.titleMain{
+    color: #7d7f85;
+    font-family: 'PT Sans', sans-serif;
+    display: flex;
+    font-size: 18px;
+    padding: 10px;
+    /* height: 175px; */
+    height: auto !important;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.boxMainTopSection {
+    display: flex;
+    border: 1px solid #e3dada;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    margin-right: 10px;
+    width: 50%;
+}
+.proptitle{
+    font-size: 20px;
+    font-weight: bold;
+    color: #7d7f85;
+    padding-right: 20px;
+}
+/* } */

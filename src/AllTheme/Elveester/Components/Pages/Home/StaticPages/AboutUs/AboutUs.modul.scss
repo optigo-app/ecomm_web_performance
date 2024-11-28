@@ -1,0 +1,101 @@
+@import '../../../../scss/elvee_modules.scss';
+
+.elv_aboutus_maindiv {
+    font-family: $fontSansSerif !important;
+
+    .elv_aboutus_div {
+        .elv_aboutus_mainImg {
+            max-height: 750px;
+            min-height: fit-content;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .elv_aboutus_head_title {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 25px;
+            font-weight: 700;
+            height: 30px;
+            text-transform: uppercase;
+        }
+
+        .elv_aboutus_details {
+            display: flex;
+            justify-content: space-between;
+            margin-block: 2rem;
+
+            .elv_aboutus_details_leftside {
+                flex: 1 50%;
+
+                .elv_aboutus_title {
+                    display: flex;
+                    justify-content: space-around;
+                }
+            }
+
+            .elv_aboutus_details_rightside {
+                flex: 1 50%;
+
+                .elv_aboutus_sec_img {
+                    border-radius: 8px;
+                    max-height: 450px;
+                    min-height: fit-content;
+                    object-fit: cover;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+.elv_paragraph_style {
+    word-wrap: break-word;
+    color: #4c4a4a;
+    font-size: 18px;
+    line-height: 22px;
+    padding: 5px 2rem;
+    text-align: justify;
+    font-family: $fontSansSerif !important;
+}
+
+.elv_aboutus_desc {
+    max-height: 30rem;
+    min-height: fit-content;
+}
+
+@media (max-width: 550px) {
+    .elv_aboutus_details_rightside {
+        padding-right: 13px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .elv_paragraph_style {
+        word-wrap: break-word;
+        color: #4c4a4a;
+        font-size: 14px;
+        line-height: 15px;
+        padding: 5px 0rem;
+        text-align: justify;
+    }
+
+    .elv_aboutus_details {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .elv_aboutus_details_leftside {
+        flex: 1 100%;
+    }
+
+    .elv_aboutus_details_rightside {
+        flex: 1 100%;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .elv_aboutus_details_rightside {
+        margin-left: 8%;
+    }
+}

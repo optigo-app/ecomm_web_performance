@@ -1,0 +1,22 @@
+@import "../../scss/variable.scss";
+
+.forevery_main{
+    font-family: $primaryFontFamily !important;
+    width: 100%;
+    height: auto;
+    .head{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 10rem;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-bottom: 1rem;
+        h1{
+            font-size: 50px;
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+    }
+}

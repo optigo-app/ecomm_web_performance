@@ -1,0 +1,150 @@
+@import "../../../scss/variable";
+
+
+.proCat_Loginoption {
+
+    background-color: $backgroundColor;
+
+    .loginDailog {
+        margin-inline: 6%;
+        background-color: white;
+        padding: 15px;
+    }
+
+
+    .smilingLoginOptionMain {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .loginDiTile {
+        font-size: 30px;
+        font-weight: 600;
+        margin-top: 25px;
+        text-align: center;
+        color: #7d7f85,
+    }
+
+    .loginMail {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // background-color: #888;
+        // color: white;
+        margin-inline: 7px;
+        border-radius: 4px;
+        height: 55px;
+        cursor: pointer;
+        width: 25%;
+        margin-top: 30px;
+    }
+
+    .loginMobile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // background-color: #888;
+        // color: white;
+        margin-inline: 7px;
+        border-radius: 4px;
+        height: 55px;
+        cursor: pointer;
+        margin-top: 25px;
+        width: 25%;
+    }
+
+    .pro_loginText {
+        margin: 0px;
+        font-size: 20px;
+        font-weight: 500;
+        padding-left: 25px;
+    }
+
+    .pro_loginText_mobile {
+        margin: 0px;
+        font-size: 20px;
+        font-weight: 500;
+        padding-left: 18px;
+    }
+
+    @media screen and (max-width: 1400px) {
+
+        .loginMail {
+            width: 40% !important;
+        }
+
+        .loginMobile {
+            width: 40% !important;
+        }
+    }
+
+    @media screen and (max-width: 1150px) {
+
+        .loginMail {
+            width: 50% !important;
+        }
+
+        .loginMobile {
+            width: 50% !important;
+        }
+    }
+
+    @media screen and (max-width: 1200px) {
+        .loginDailog {
+            margin-inline: 1% !important;
+        }
+
+    }
+
+    @media screen and (max-width: 700px) {
+
+        .loginMail {
+            width: 80% !important;
+        }
+
+        .loginMobile {
+            width: 80% !important;
+        }
+
+        .loginDiTile {
+            font-size: 25px;
+        }
+
+    }
+
+
+    @media screen and (max-width: 500px) {
+
+        .loginMail {
+
+            margin-top: 0px !important;
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+
+        .loginMail {
+            width: 100% !important;
+        }
+
+        .loginMobile {
+            width: 100% !important;
+        }
+
+        .loginDiTile {
+            font-size: 22px;
+        }
+
+        .pro_loginText {
+            font-size: 17px !important;
+        }
+
+        .pro_loginText_mobile {
+            font-size: 17px !important;
+        }
+
+    }
+
+}
