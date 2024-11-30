@@ -29,12 +29,15 @@ const RelatedProduct = ({
                 <img
                   src={
                     elv?.ImageCount > 0
-                      ? storeInit?.DesignImageFol +
-                        elv?.designno +
-                        "_" +
-                        "1" +
-                        "." +
-                        elv?.ImageExtension
+                      ? 
+                      // storeInit?.DesignImageFol +
+                      //   elv?.designno +
+                      //   "_" +
+                      //   "1" +
+                      //   "." +
+                      //   elv?.ImageExtension
+
+                        storeInit?.CDNDesignImageFol + elv?.designno + "~" + "1" + "." + elv?.ImageExtension
                       : "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
                   }
                   alt={elv?.id}

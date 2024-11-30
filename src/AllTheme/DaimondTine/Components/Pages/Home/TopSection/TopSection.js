@@ -10,13 +10,13 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 
 const sliderData = [
     {
-        imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner1.jpg",
+        imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner1.webp",
     },
     {
-        imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner2.jpg",
+        imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner2.webp",
     },
     {
-        imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner3.png",
+        imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner3.webp",
     },
 ];
 
@@ -52,7 +52,7 @@ const TopSection = () => {
                 ))}
             </Swiper>
             <div className="dt_imageContainer">
-                <img src={`${storImagePath()}/images/HomePage/Banner/PromoBanner1.png`} className="dt_centeredImg" alt="Diamondtine Banner" />
+                <img src={`${storImagePath()}/images/HomePage/Banner/PromoBanner1.webp`} className="dt_centeredImg" alt="Diamondtine Banner" />
             </div>
         </div>
     )

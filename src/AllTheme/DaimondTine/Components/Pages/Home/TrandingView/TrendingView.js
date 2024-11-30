@@ -56,7 +56,8 @@ const TrendingView = () => {
         setStoreInit(storeinit)
 
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
-        setImageUrl(data?.DesignImageFol);
+        // setImageUrl(data?.DesignImageFol);
+        setImageUrl(data?.CDNDesignImageFol);
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { IsB2BWebsite } = storeInit;
@@ -143,7 +144,7 @@ const TrendingView = () => {
                 <div className='dt_trendingViewTopMain'>
                     <div className='smr_trendingViewTopMain_div'>
                         <div className='smr_trendingViewTopMain_Imgdiv'>
-                            <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.jpg`} className='linkingLoveImageDesign' />
+                            <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.webp`} className='linkingLoveImageDesign' />
                         </div>
                         <div className='smr_trendingViewTopMain_Sliderdiv'>
                             <p className='linkingTitle'>Trending View</p>
@@ -151,12 +152,12 @@ const TrendingView = () => {
                                 {chunkedData?.map((chunk, index) => (
                                         <div className='linkRingLove'>
                                               {chunk?.map((data, dataIndex) => (
-                                            <div className='smr_TrendingMainDiv'>
+                                            <div className='smr_TrendingMainDiv' key={dataIndex}>
                                                 <div className='linkLoveRing1' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                                     <img src={hoveredItem === data.SrNo  ?
-                                                        `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                        `${imageUrl}${data.designno === undefined ? '' : data?.designno}~2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                         :
-                                                        `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                        `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                     } className='likingLoveImages'
                                                         onMouseEnter={() => handleMouseEnterRing1(data)} onMouseLeave={handleMouseLeaveRing1}
                                                     />

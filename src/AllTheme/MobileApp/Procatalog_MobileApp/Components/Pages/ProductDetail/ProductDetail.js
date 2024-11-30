@@ -916,13 +916,13 @@ const ProductDetail = () => {
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
-          singleProd?.designno +
-          "_" +
-          i +
-          "_" + mcArr?.colorcode +
-          "." +
-          singleProd?.ImageExtension;
+        storeInit?.CDNDesignImageFol +
+        singleProd?.designno +
+        "~" +
+        i +
+        "~" + mcArr?.colorcode +
+        "." +
+        singleProd?.ImageExtension;
 
         let IsImg = checkImageAvailability(imgString)
         if (IsImg) {
@@ -946,12 +946,12 @@ const ProductDetail = () => {
     if (singleProd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
-          singleProd?.designno +
-          "_" +
+          storeInit?.CDNDesignImageFol +
+          pd?.designno +
+          "~" +
           i +
           "." +
-          singleProd?.ImageExtension;
+          pd?.ImageExtension;
 
         let IsImg = checkImageAvailability(imgString)
         if (IsImg) {
@@ -967,13 +967,12 @@ const ProductDetail = () => {
     if (singleProd?.VideoCount > 0) {
       for (let i = 1; i <= singleProd?.VideoCount; i++) {
         let videoString =
-          (storeInit?.DesignImageFol).slice(0, -13) +
-          "video/" +
-          singleProd?.designno +
-          "_" +
+          (storeInit?.CDNVPath) +
+          pd?.designno +
+          "~" +
           i +
           "." +
-          singleProd?.VideoExtension;
+          pd?.VideoExtension;
         pdvideoList.push(videoString);
       }
     }
@@ -1038,12 +1037,14 @@ const ProductDetail = () => {
 
     setSelectMtColor(e.target.value)
 
-    let imgLink = storeInit?.DesignImageFol +
-      (singleProd)?.designno +
-      "_" +
-      (thumbImgIndex + 1) + "_" + mcArr?.colorcode +
+
+    let imgLink = storeInit?.CDNDesignImageFol +
+      (singleProd ?? singleProd1)?.designno +
+      "~" +
+      (thumbImgIndex + 1) + "~" + mcArr?.colorcode +
       "." +
-      (singleProd)?.ImageExtension;
+      (singleProd ?? singleProd1)?.ImageExtension;
+
 
     let pd = singleProd;
     let pdImgListCol = [];
@@ -1051,12 +1052,12 @@ const ProductDetail = () => {
 
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
-        let imgString =
-          storeInit?.DesignImageFol +
+       let imgString =
+          storeInit?.CDNDesignImageFol +
           singleProd?.designno +
-          "_" +
+          "~" +
           i +
-          "_" + mcArr?.colorcode +
+          "~" + mcArr?.colorcode +
           "." +
           singleProd?.ImageExtension;
         pdImgListCol.push(imgString);
@@ -1066,12 +1067,12 @@ const ProductDetail = () => {
     if (singleProd?.ImageCount > 0) {
       for (let i = 1; i <= singleProd?.ImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
-          singleProd?.designno +
-          "_" +
-          i +
-          "." +
-          singleProd?.ImageExtension;
+        storeInit?.CDNDesignImageFol +
+        singleProd?.designno +
+        "~" +
+        i +
+        "." +
+        singleProd?.ImageExtension;
         pdImgList.push(imgString);
       }
     }
@@ -1936,13 +1937,17 @@ const ProductDetail = () => {
                           {/* <img
                         className="smrMA_productCard_Image"
                         src={
-                          storeInit?.DesignImageFol +
+                          ele?.ImageCount > 0 ?
+                          storeInit?.CDNDesignImageFol +
                           ele?.designno +
-                          "_" +
+                          "~" +
                           "1" +
                           "." +
-                          ele?.ImageExtension
+                          ele?.ImageExtension : imageNotFound
                         }
+                        onError={(e)=>{
+                          e.target.src = imageNotFound ;
+                        }}
                         alt={""}
                       /> */}
                           <div className="smr_stockutem_shortinfo" style={{ display: 'flex', flexDirection: 'column', gap: '5px', paddingBottom: '5px', marginTop: '40px' }}>
@@ -2043,15 +2048,18 @@ const ProductDetail = () => {
                             src={
 
                               ele?.ImageCount > 0 ?
-                                (storeInit?.DesignImageFol +
+                                (storeInit?.CDNDesignImageFol +
                                   ele?.designno +
-                                  "_" +
+                                  "~" +
                                   "1" +
                                   "." +
                                   ele?.ImageExtension)
                                 :
                                 imageNotFound
                             }
+                            onError={(e)=>{
+                              e.target.src = imageNotFound ;
+                            }}
                             alt={""}
                           />
                           <div className="smr_stockutem_shortinfo" style={{ display: 'flex', flexDirection: 'column', gap: '5px', paddingBottom: '5px' }}>
@@ -2122,6 +2130,9 @@ const ProductDetail = () => {
                                       :
                                       imageNotFound
                                   }
+                                  onError={(e)=>{
+                                    e.target.src = imageNotFound ;
+                                  }}
                                   alt={""}
                                   className="ctl_img"
                                 />
@@ -2162,15 +2173,18 @@ const ProductDetail = () => {
                                         <img
                                           src={
                                             ele?.ImageCount > 0
-                                              ? storeInit?.DesignImageFol +
+                                              ? storeInit?.CDNDesignImageFol +
                                               ele?.designno +
-                                              "_" +
+                                              "~" +
                                               "1" +
                                               "." +
                                               ele?.ImageExtension
                                               : imageNotFound
                                           }
                                           alt={""}
+                                          onError={(e)=>{
+                                            e.target.src = imageNotFound ;
+                                          }}
                                           // src={
                                           //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
                                           // }

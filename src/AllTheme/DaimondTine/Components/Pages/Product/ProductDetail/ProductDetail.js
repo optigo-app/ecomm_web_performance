@@ -776,11 +776,12 @@ const ProductDetail = () => {
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
+          // storeInit?.DesignImageFol +
+          storeInit?.CDNDesignImageFol +
           singleProd?.designno +
-          "_" +
+          "~" +
           i +
-          "_" + mcArr?.colorcode +
+          "~" + mcArr?.colorcode +
           "." +
           singleProd?.ImageExtension;
 
@@ -804,9 +805,10 @@ const ProductDetail = () => {
     if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
+          // storeInit?.DesignImageFol +
+          storeInit?.CDNDesignImageFol +
           pd?.designno +
-          "_" +
+          "~" +
           i +
           "." +
           pd?.ImageExtension;
@@ -823,13 +825,12 @@ const ProductDetail = () => {
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
         let videoString =
-          (storeInit?.DesignImageFol).slice(0, -13) +
-          "video/" +
-          pd?.designno +
-          "_" +
-          i +
-          "." +
-          pd?.VideoExtension;
+        (storeInit?.CDNVPath) +
+        pd?.designno +
+        "~" +
+        i +
+        "." +
+        pd?.VideoExtension;
         pdvideoList.push(videoString);
       }
     }
@@ -902,20 +903,18 @@ const ProductDetail = () => {
     let mcArr;
 
     if (mtColorLocal?.length) {
-      mcArr = mtColorLocal?.filter(
+      mcArr = mtColorLocal?.filter( 
         (ele) => ele?.colorcode == e.target.value
       )[0];
     }
 
     setSelectMtColor(e.target.value);
 
-    let imgLink =
-      storeInit?.DesignImageFol +
+    // let imgLink =       storeInit?.DesignImageFol +
+  let imgLink = storeInit?.CDNDesignImageFol +
       (singleProd ?? singleProd1)?.designno +
-      "_" +
-      (thumbImgIndex + 1) +
-      "_" +
-      mcArr?.colorcode +
+      "~" +
+      (thumbImgIndex + 1) + "~" + mcArr?.colorcode +
       "." +
       (singleProd ?? singleProd1)?.ImageExtension;
 
@@ -934,12 +933,12 @@ const ProductDetail = () => {
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
+          // storeInit?.DesignImageFol +
+          storeInit?.CDNDesignImageFol +
           singleProd?.designno +
-          "_" +
+          "~" +
           i +
-          "_" +
-          mcArr?.colorcode +
+          "~" + mcArr?.colorcode +
           "." +
           singleProd?.ImageExtension;
         pdImgListCol.push(imgString);
@@ -949,9 +948,9 @@ const ProductDetail = () => {
     if (singleProd?.ImageCount > 0) {
       for (let i = 1; i <= singleProd?.ImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
+          storeInit?.CDNDesignImageFol +
           singleProd?.designno +
-          "_" +
+          "~" +
           i +
           "." +
           singleProd?.ImageExtension;
@@ -2323,13 +2322,8 @@ const ProductDetail = () => {
                           className="smr_productCard_Image"
                           src={
                             ele?.ImageCount > 0
-                              ? storeInit?.DesignImageFol +
-                              ele?.designno +
-                              "_" +
-                              "1" +
-                              "." +
-                              ele?.ImageExtension
-                              : imageNotFound
+                              ? storeInit?.CDNDesignImageFol + ele?.designno + "~" + "1" + "." + ele?.ImageExtension                   
+                                         : imageNotFound
                           }
                           alt={""}
                         />
@@ -2465,12 +2459,7 @@ const ProductDetail = () => {
                                   <img
                                     src={
                                       ele?.ImageCount > 0
-                                        ? storeInit?.DesignImageFol +
-                                        ele?.designno +
-                                        "_" +
-                                        "1" +
-                                        "." +
-                                        ele?.ImageExtension
+                                        ? storeInit?.CDNDesignImageFol + ele?.designno + "~" + "1" + "." + ele?.ImageExtension
                                         : imageNotFound
                                     }
                                     alt={""}
@@ -2478,6 +2467,9 @@ const ProductDetail = () => {
                                     //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
                                     // }
                                     className="dt_srthelook_img"
+                                    onError={(e)=>{
+                                      e.target.src = imageNotFound
+                                    }}
                                   />
                                 </div>
                                 <div className="dt_srthelook_prodinfo">

@@ -8,12 +8,12 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import imageNotFound from '../../../Assets/image-not-found.jpg';
 import Pako from 'pako';
 import { Box, Link, Tab, Tabs, tabsClasses, useMediaQuery } from '@mui/material';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { dt_homeLoading, dt_loginState } from '../../../Recoil/atom';
 import GoogleAnalytics  from 'react-ga4';
+import noimageFound from '../../../Assets/image-not-found.jpg';
 
 
 const Album1 = () => {
@@ -144,7 +144,8 @@ const Album1 = () => {
             albumData?.forEach(album => {
                 const designs = JSON?.parse(album?.Designdetail) || [];
                 designs.forEach(async (design) => {
-                    const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
+                    // const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
+                    const imageSrc = `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
                     const available = await checkImageAvailability(imageSrc);
                     setImageStatus(prevStatus => ({
                         ...prevStatus,
@@ -212,15 +213,19 @@ const Album1 = () => {
                                     className='dt_album_swiper_SubDiv'
                                 >
                                     {album?.Designdetail && JSON?.parse(album?.Designdetail)?.map((design) => {
-                                        const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
+                                        // const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
+                                        const imageSrc = `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
                                         const isImageAvailable = imageStatus[imageSrc] !== false;
                                         return (
                                             <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
                                                 <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
                                                     <img
-                                                        src={isImageAvailable ? imageSrc : imageNotFound}
+                                                        src={isImageAvailable ? imageSrc : noimageFound }
                                                         alt={design?.TitleLine}
                                                         loading="lazy"
+                                                        onError={(e)=>{
+                                                            e.target.src = noimageFound ;
+                                                          }}
                                                     />
                                                 </div>
                                                 <div className="design-info">

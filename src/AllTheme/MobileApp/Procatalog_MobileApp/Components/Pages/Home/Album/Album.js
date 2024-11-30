@@ -98,7 +98,8 @@ const Album = () => {
                 const designDetails = JSON.parse(detail.Designdetail);
                 designDetails.forEach((design) => {
                   if (design.ImageCount > 1) {
-                    const fallbackImage = `${storeInit?.DesignImageFol}${design.designno}_1.${design.ImageExtension}`;
+                    // const fallbackImage = `${storeInit?.DesignImageFol}${design.designno}_1.${design.ImageExtension}`;
+                    const fallbackImage = `${storeInit?.CDNDesignImageFol}${design.designno}~1.${design.ImageExtension}`;
                     fallbackImages[fullImageUrl] = fallbackImage;
                   }
                 });
@@ -141,9 +142,9 @@ const Album = () => {
 
           let finalImg = data1?.map((data) => {
             if (data?.ImageCount > 0 && data?.ImageExtension !== '') {
-              let imgLink = storeinit?.DesignImageFol + data?.designno + "_" + '1' + "." + data?.ImageExtension;
+              let imgLink = storeinit?.CDNDesignImageFol + data?.designno + "~" + '1' + "." + data?.ImageExtension;
               if (checkImageAvailability(imgLink)) {
-                return imgLink
+                return imgLink ;
               }
             }
           })?.find(item => item !== undefined);
@@ -292,7 +293,7 @@ const Album = () => {
                       const designDetails = JSON.parse(detail.Designdetail);
                       designDetails.some((design) => {
                           if (design.ImageCount > 0) {
-                              imgSrc = `${storeinit?.DesignImageFol}${design.designno}_1.${design.ImageExtension}`;
+                              imgSrc = `${storeinit?.CDNDesignImageFol}${design.designno}~1.${design.ImageExtension}`;
                               isImageFound = true;  // Break the loop after finding the first valid image
                               return true;
                           }
@@ -317,6 +318,9 @@ const Album = () => {
                   src={imgSrc}
                   className="smr_AlbumImageMain_img"
                   alt={data?.AlbumName}
+                  onError={(e)=>{
+                    e.target.src = imageNotFound ;
+                  }}
                 />
                 {islogin || data?.AlbumSecurityId === 0 ? (
                   ""

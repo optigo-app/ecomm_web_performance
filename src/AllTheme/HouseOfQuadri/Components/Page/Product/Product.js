@@ -723,14 +723,13 @@ const ProductPage = () => {
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
-          singleProd?.designno +
-          "_" +
-          i +
-          "_" +
-          mcArr?.colorcode +
-          "." +
-          singleProd?.ImageExtension;
+        storeInit?.CDNDesignImageFol +
+        singleProd?.designno +
+        "~" +
+        i +
+        "~" + mcArr?.colorcode +
+        "." +
+        singleProd?.ImageExtension;
 
         let IsImg = checkImageAvailability(imgString);
         if (IsImg) {
@@ -751,12 +750,12 @@ const ProductPage = () => {
     if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
-          pd?.designno +
-          "_" +
-          i +
-          "." +
-          pd?.ImageExtension;
+        storeInit?.CDNDesignImageFol +
+        pd?.designno +
+        "~" +
+        i +
+        "." +
+        pd?.ImageExtension;
 
         let IsImg = checkImageAvailability(imgString);
         if (IsImg) {
@@ -770,10 +769,9 @@ const ProductPage = () => {
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
         let videoString =
-          (storeInit?.DesignImageFol).slice(0, -13) +
-          "video/" +
+          (storeInit?.CDNVPath) +
           pd?.designno +
-          "_" +
+          "~" +
           i +
           "." +
           pd?.VideoExtension;
@@ -928,15 +926,12 @@ const ProductPage = () => {
 
     setSelectMtColor(e.target.value);
 
-    let imgLink =
-      storeInit?.DesignImageFol +
-      (singleProd ?? singleProd1)?.designno +
-      "_" +
-      (thumbImgIndex + 1) +
-      "_" +
-      mcArr?.colorcode +
-      "." +
-      (singleProd ?? singleProd1)?.ImageExtension;
+    let imgLink = storeInit?.CDNDesignImageFol +
+    (singleProd ?? singleProd1)?.designno +
+    "~" +
+    (thumbImgIndex + 1) + "~" + mcArr?.colorcode +
+    "." +
+    (singleProd ?? singleProd1)?.ImageExtension;
 
     setMetalWiseColorImg(imgLink);
 
@@ -955,24 +950,23 @@ const ProductPage = () => {
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
-          singleProd?.designno +
-          "_" +
-          i +
-          "_" +
-          mcArr?.colorcode +
-          "." +
-          singleProd?.ImageExtension;
-        pdImgListCol.push(imgString);
+        storeInit?.CDNDesignImageFol +
+        singleProd?.designno +
+        "~" +
+        i +
+        "~" + mcArr?.colorcode +
+        "." +
+        singleProd?.ImageExtension;
+      pdImgListCol.push(imgString);
       }
     }
 
     if (singleProd?.ImageCount > 0) {
       for (let i = 1; i <= singleProd?.ImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
+          storeInit?.CDNDesignImageFol +
           singleProd?.designno +
-          "_" +
+          "~" +
           i +
           "." +
           singleProd?.ImageExtension;

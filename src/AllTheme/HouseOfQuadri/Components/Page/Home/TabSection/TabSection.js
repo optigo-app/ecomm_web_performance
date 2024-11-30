@@ -78,7 +78,9 @@ const TabSection = () => {
       finalID = loginUserDetail?.id || "0";
     }
     let data = JSON.parse(sessionStorage.getItem("storeInit"));
-    setImageUrl(data?.DesignImageFol);
+    // setImageUrl(data?.DesignImageFol);
+    setImageUrl(data?.CDNDesignImageFol);
+
 
     Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID)
       ?.then((response) => {
@@ -91,7 +93,7 @@ const TabSection = () => {
 
   const ImageGenrate = (product) => {
     return product?.ImageCount >= 1
-      ? `${imageUrl}${newArrivalData && product?.designno}_1.${
+      ? `${imageUrl}${newArrivalData && product?.designno}~1.${
           newArrivalData && product?.ImageExtension
         }`
       : "noImageFound";

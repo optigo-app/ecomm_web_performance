@@ -163,8 +163,10 @@ const Lookbook = () => {
     setStoreInit(storeinit);
 
     let data = JSON?.parse(sessionStorage.getItem("storeInit"));
+    // setImageUrl(data?.DesignSetImageFol);
+    // setImageUrlDesignSet(data?.DesignImageFol);
     setImageUrl(data?.DesignSetImageFol);
-    setImageUrlDesignSet(data?.DesignImageFol);
+    setImageUrlDesignSet(data?.CDNDesignImageFol);
 
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
@@ -637,7 +639,8 @@ const Lookbook = () => {
     if (filteredDesignSetLstData && Array.isArray(filteredDesignSetLstData)) {
       const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
         parseDesignDetails(slide?.Designdetail).map(async (detail) => {
-          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
+          // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
+          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`;
           const isAvailable = await checkImageAvailability(designImageUrl);
           return {
             designno: detail?.designno,
@@ -2102,7 +2105,7 @@ const Lookbook = () => {
                                                 <img
                                                   src={
                                                     ele?.ImageCount > 0
-                                                      ? `${storeInit?.DesignImageFol}${ele?.designno}_1.${ele?.ImageExtension}`
+                                                      ? `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`
                                                       : imageNotFound
                                                   }
                                                   alt=""
@@ -2116,6 +2119,9 @@ const Lookbook = () => {
                                                         : ""
                                                     )
                                                   }
+                                                  onError={(e)=>{
+                                                    e.target.src  = imageNotFound ;
+                                                  }}
                                                 />
                                               </div>
                                               <div className="stam_lb3srthelook_prodinfo" onClick={() =>

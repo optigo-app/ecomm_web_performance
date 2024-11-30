@@ -471,7 +471,8 @@ const ProductList = () => {
 
       if (product?.ImageCount > 0) {
         for (let i = 1; i <= product?.ImageCount; i++) {
-          let imgString = storeInit?.DesignImageFol + product?.designno + "_" + i + "." + product?.ImageExtension
+          let imgString = storeInit?.CDNDesignImageFol + product?.designno + "~" + i + "." + product?.ImageExtension
+          // let imgString = storeInit?.DesignImageFol + product?.designno + "_" + i + "." + product?.ImageExtension
           pdImgList.push(imgString)
         }
       }
@@ -3162,16 +3163,27 @@ const ProductList = () => {
                                         isRollOverVideo[productData?.autocode] == true ?
                                           <video
                                             //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
-                                            src={productData?.VideoCount > 0 ?
-                                              (storeInit?.DesignImageFol).slice(0, -13) +
-                                              "video/" +
-                                              productData?.designno +
-                                              "_" +
-                                              1 +
-                                              "." +
-                                              productData?.VideoExtension : ""}
+                                            // src={productData?.VideoCount > 0 ?
+                                            //   (storeInit?.DesignImageFol).slice(0, -13) +
+                                            //   "video/" +
+                                            //   productData?.designno +
+                                            //   "_" +
+                                            //   1 +
+                                            //   "." +
+                                            //   productData?.VideoExtension : ""}
+
+                                              src={productData?.VideoCount > 0 ?
+                                                (storeInit?.CDNVPath) +
+                                                productData?.designno +
+                                                "~" +
+                                                1 +
+                                                "." +
+                                                productData?.VideoExtension : ""}
                                             loop={true}
                                             autoPlay={true}
+                                            onError={(e)=>{
+                                              e.target.poster = imageNotFound ;
+                                            }}
                                             className="stam_productCard_video"
                                           // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
                                           />
@@ -3189,6 +3201,9 @@ const ProductList = () => {
                                                   : imageNotFound
                                             }
                                             alt=""
+                                            onError={(e)=>{
+                                              e.target.src = imageNotFound ;
+                                            }}
                                           // onClick={() =>
                                           //   handleMoveToDetail(productData)
                                           // }
