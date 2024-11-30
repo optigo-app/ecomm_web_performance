@@ -74,7 +74,8 @@ const TrendingView1 = () => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeinit)
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
-        setImageUrl(data?.DesignImageFol);
+        // setImageUrl(data?.DesignImageFol);
+        setImageUrl(data?.CDNDesignImageFol);
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const IsB2BWebsite = storeInit?.IsB2BWebsite;
@@ -165,7 +166,7 @@ const TrendingView1 = () => {
                     <div className="smr_trendingProduct-grid">
                         <div className='smr_leftSideBestTR'>
                             {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/web-210128-BW-PF21_S219259.jpg?v=1646112530&width=2000" alt="modalimages" /> */}
-                            <img src={`${storImagePath()}/images/HomePage/Banner/trending.png`} alt="modalimages" />
+                            <img src={`${storImagePath()}/images/HomePage/Banner/trending.webp`} alt="modalimages" />
 
                             <div className="smr_lookbookImageRightDT">
                                 <p>SHORESIDE COLLECTION</p>
@@ -179,11 +180,14 @@ const TrendingView1 = () => {
                                     <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                         <img
                                             src={data?.ImageCount >= 1 ?
-                                                `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                 :
                                                 imageNotFound
                                             }
                                             alt={data.name}
+                                            onError={(e)=>{
+                                                e.target.src = imageNotFound ;
+                                              }}
                                         />
                                     </div>
                                     <div className="trending_ifno_web_product_info">

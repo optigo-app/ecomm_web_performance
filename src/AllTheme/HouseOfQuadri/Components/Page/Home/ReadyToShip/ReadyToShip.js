@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { useRecoilValue } from "recoil";
 import Pako from "pako";
 import './../TabSection/TabSection.modul.scss'
+import noimage from '../../../Assets/noImageFound.jpg'
 
 const ReadyToShip = () => {
   const [imageUrl, setImageUrl] = useState();
@@ -32,7 +33,8 @@ const ReadyToShip = () => {
     setStoreInit(storeinit);
 
     let data = JSON.parse(sessionStorage.getItem("storeInit"));
-    setImageUrl(data?.DesignImageFol);
+    // setImageUrl(data?.DesignImageFol);
+    setImageUrl(data?.CDNDesignImageFol);
 
    const BestSeller =async()=>{
     Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID)
@@ -76,11 +78,11 @@ const ReadyToShip = () => {
   };
 
   const ImageUrl = (designNo, ext) => {
-    return storeInit?.DesignImageFol + designNo + "_" + 1 + "." + ext;
+    return storeInit?.CDNDesignImageFol + designNo + "~" + 1 + "." + ext;
   };
   const RollUpImageUrl2 = (designNo, ext, imagCount) => {
     if (imagCount > 1) {
-      return storeInit?.DesignImageFol + designNo + "_" + 2 + "." + ext;
+      return storeInit?.CDNDesignImageFol + designNo + "~" + 2 + "." + ext;
     }
     return;
   };
@@ -170,12 +172,16 @@ const CARD = ({
           onError={(e) => {
             e.target.onerror = null;
             e.target.src =
-              "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+              noimage;
           }}
         />
         {ImageCount > 1 && (
           <div className="overlay_img" style={{ backgroundColor: "#F5F5F5" }}>
-            <img src={rollUpImage} style={{ mixBlendMode: "multiply" }} />
+            <img  onError={(e) => {
+            e.target.onerror = null;
+            e.target.src =
+              noimage;
+          }} src={rollUpImage} style={{ mixBlendMode: "multiply" }} />
           </div>
         )}
       </div>

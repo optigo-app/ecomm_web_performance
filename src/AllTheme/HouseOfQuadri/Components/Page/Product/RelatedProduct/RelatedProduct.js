@@ -26,10 +26,12 @@ const RelatedProduct = ({
               <div className="cardhover">
                 <img
                   src={
+
+                    // storeInit?.CDNDesignImageFol + ele?.designno + "~" + "1" + "." + ele?.ImageExtension
                     hoq?.ImageCount > 0
-                      ? storeInit?.DesignImageFol +
+                      ? storeInit?.CDNDesignImageFol +
                         hoq?.designno +
-                        "_" +
+                        "~" +
                         "1" +
                         "." +
                         hoq?.ImageExtension

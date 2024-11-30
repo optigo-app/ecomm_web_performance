@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { loginState } from "../../../Recoil/atom";
 import { useRecoilValue } from "recoil";
+import noimageFound from '../../../Assets/image-not-found.jpg';
+
 
 const Album = () => {
   const [albumData, setAlbumData] = useState();
@@ -52,6 +54,9 @@ const Album = () => {
             <img
               src={imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName}
               className="smr_AlbumImageMain_img"
+              onError={(e)=>{
+                e.target.src = noimageFound ;
+              }}
             />
             <p className="smr_albumName">{data?.AlbumName}</p>
           </div>

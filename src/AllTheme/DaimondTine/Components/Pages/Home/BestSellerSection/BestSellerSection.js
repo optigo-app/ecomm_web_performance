@@ -7,9 +7,10 @@ import Slider from 'react-slick';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
-import { loginState } from '../../../Recoil/atom';
+import { dt_loginState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import Cookies from 'js-cookie';
+import noiamge from '../../../Assets/image-not-found.jpg';
 
 const BestSellerSection = () => {
 
@@ -19,7 +20,7 @@ const BestSellerSection = () => {
 
     const navigation = useNavigate();
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    const islogin = useRecoilValue(loginState);
+    const islogin = useRecoilValue(dt_loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
 
 
@@ -51,7 +52,9 @@ const BestSellerSection = () => {
         setStoreInit(storeinit)
 
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
-        setImageUrl(data?.DesignImageFol);
+        // setImageUrl(data?.DesignImageFol);
+        setImageUrl(data?.CDNDesignImageFol);
+        
 
         Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller" , finalID).then((response) => {
             if (response?.Data?.rd) {
@@ -123,11 +126,12 @@ const BestSellerSection = () => {
                                             <div className='smr_bestselerDiv'>
                                                 <div className='linkLoveRing1' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                                     <img src={hoveredItem === data.SrNo  ?
-                                                        `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                        `${imageUrl}${data.designno === undefined ? '' : data?.designno}~2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                         :
-                                                        `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                        `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                     } className='likingLoveImages'
                                                         onMouseEnter={() => handleMouseEnterRing1(data)} onMouseLeave={handleMouseLeaveRing1}
+                                                        onError={(E)=>E.target.src = noiamge}
                                                     />
                                                 </div>
                                                 <div className='linkLoveRing1Desc'>
@@ -155,7 +159,7 @@ const BestSellerSection = () => {
                     <p className='smr_BestSallerViewAll' onClick={() =>  navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)}>SHOP COLLECTION</p>
         </div>
         <div className='linkingLoveImage'>
-            <img src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetMainBanner.jpg`} className='linkingLoveImageDesign' />
+            <img src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetMainBanner.webp`} className='linkingLoveImageDesign' />
         </div>
     </div>
     </div>

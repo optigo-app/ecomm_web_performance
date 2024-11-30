@@ -58,6 +58,7 @@ import { Hoq_CartCount, Hoq_loginState } from "../../Recoil/atom";
 import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import LookbookSkeleton from "./lookbookSkelton";
+import noimage from '../../Assets/noImageFound.jpg'
 
 const Lookbook = () => {
   let location = useLocation();
@@ -102,8 +103,9 @@ const Lookbook = () => {
   let maxwidth464px = useMediaQuery('(max-width:464px)');
   const [imageLoadError, setImageLoadError] = useState({});
 
-  const handleImageError = (index) => {
+  const handleImageError = (index,e) => {
     setImageLoadError((prev) => ({ ...prev, [index]: true }));
+    e.target.src = noimage ;
   };
 
   const updateSize = () => {
@@ -169,8 +171,10 @@ const Lookbook = () => {
     setStoreInit(storeinit);
 
     let data = JSON?.parse(sessionStorage.getItem("storeInit"));
+    // setImageUrl(data?.DesignSetImageFol);
+    // setImageUrlDesignSet(data?.DesignImageFol);
     setImageUrl(data?.DesignSetImageFol);
-    setImageUrlDesignSet(data?.DesignImageFol);
+    setImageUrlDesignSet(data?.CDNDesignImageFol);
 
     const loginUserDetail = JSON?.parse(
       sessionStorage.getItem("loginUserDetail")
@@ -1216,7 +1220,7 @@ const Lookbook = () => {
                               alt={`Slide ${index}`}
                               onMouseEnter={() => handleHoverImages(index)}
                               onMouseLeave={() => seyDataKey(null)}
-                              onError={() => handleImageError(index)}
+                              onError={(e) => handleImageError(index,e)}
                               style={{
                                 height: dataKey == index ? "100%" : "250px",
                                 cursor: "pointer",
@@ -1382,6 +1386,8 @@ const Lookbook = () => {
                                       loading="lazy"
                                       src={imageSrc}
                                       alt={`Sub image ${subIndex} for slide ${index}`}
+                              onError={(e) => handleImageError(index,e)}
+
                                       onClick={() =>
                                         handleNavigation(
                                           detail?.designno,
@@ -1458,7 +1464,7 @@ const Lookbook = () => {
                                 loading="lazy"
                                 src={ProdCardImageFunc(slide)}
                                 alt={`Slide ${index}`}
-                                onError={() => handleImageError(index)}
+                                onError={(e) => handleImageError(index,e)}
                                 // onMouseEnter={() => handleHoverImages(index)}
                                 // onMouseLeave={() => seyDataKey(null)}
                                 style={{
@@ -1640,7 +1646,7 @@ const Lookbook = () => {
                                     <img
                                       className="hoq_lookBookSubImage"
                                       loading="lazy"
-                                      src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                      src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
                                       alt={`Sub image ${subIndex} for slide ${index}`}
                                       onClick={() =>
                                         handleNavigation(
@@ -1651,7 +1657,8 @@ const Lookbook = () => {
                                             : ""
                                         )
                                       }
-                                    />
+                                      onError={(e) => handleImageError(index,e)}
+                                      />
                                     <div
                                       style={{
                                         display: "flex",
@@ -1717,7 +1724,7 @@ const Lookbook = () => {
                                         <img
                                           className="hoq_lookBookSubImage"
                                           loading="lazy"
-                                          src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                          src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
                                           alt={`Sub image ${subIndex} for slide ${index}`}
                                           onClick={() =>
                                             handleNavigation(
@@ -1815,7 +1822,7 @@ const Lookbook = () => {
                                       src={ProdCardImageFunc(slide)}
                                       alt=""
                                       className="hoq_lb3ctl_img_new "
-                                      onError={() => handleImageError(index)}
+                                      onError={(e) => handleImageError(index,e)}
                                       style={{
                                         backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                       }}
@@ -1898,11 +1905,12 @@ const Lookbook = () => {
                                             <img
                                               src={
                                                 ele?.ImageCount > 0
-                                                  ? `${storeInit?.DesignImageFol}${ele?.designno}_1.${ele?.ImageExtension}`
+                                                  ? `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`
                                                   : imageNotFound
                                               }
                                               alt=""
                                               className="hoq_lb3srthelook_img"
+                                              onError={(e) => handleImageError(index,e)}
                                               onClick={() =>
                                                 handleNavigation(
                                                   ele?.designno,
@@ -2163,7 +2171,7 @@ const Lookbook = () => {
                                       onLoad={handleImageLoad}
                                       alt=""
                                       className="ctl_Paginationimg"
-                                      onError={() => handleImageError(index)}
+                                      onError={(e) => handleImageError(index,e)}
                                       style={{
                                         height: DynamicSize.h || "66.5px",
                                         width: DynamicSize.w || "66.5x",

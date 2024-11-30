@@ -12,6 +12,7 @@ import './Index.modul.scss'
 import { useRecoilValue } from 'recoil';
 import { dt_homeLoading } from '../../Recoil/atom';
 import { Value } from 'sass';
+import BestSellerSection from './BestSellerSection/BestSellerSection';
 
 function Home() {
 

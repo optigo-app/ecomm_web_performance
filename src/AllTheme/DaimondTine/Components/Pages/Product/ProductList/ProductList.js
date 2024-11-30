@@ -304,9 +304,10 @@ const ProductList = () => {
       if (product?.ImageCount > 0) {
         for (let i = 1; i <= product?.ImageCount; i++) {
           let imgString =
-            storeInit?.DesignImageFol +
+            // storeInit?.DesignImageFol +
+            storeInit?.CDNDesignImageFol +
             product?.designno +
-            "_" +
+            "~" +
             i +
             "." +
             product?.ImageExtension;
@@ -2730,13 +2731,9 @@ const ProductList = () => {
                                               <video
                                                 src={
                                                   productData?.VideoCount > 0
-                                                    ? (storeInit?.DesignImageFol).slice(
-                                                      0,
-                                                      -13
-                                                    ) +
-                                                    "video/" +
+                                                    ? (storeInit?.CDNVPath) +
                                                     productData?.designno +
-                                                    "_" +
+                                                    "~" +
                                                     1 +
                                                     "." +
                                                     productData?.VideoExtension
@@ -2762,7 +2759,10 @@ const ProductList = () => {
                                                       ? productData?.images[0]
                                                       : imageNotFound
                                                 }
-                                                alt=""
+                                                alt="aa"
+                                                onError={(e)=>{
+                                                  e.target.src = imageNotFound ;
+                                                }}
                                               />
                                             )}
                                           </div>

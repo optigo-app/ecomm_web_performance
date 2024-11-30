@@ -107,9 +107,9 @@ const DesignSet = ({
                             <img
                               src={
                                 ele?.ImageCount > 0
-                                  ? storeInit?.DesignImageFol +
+                                  ? storeInit?.CDNDesignImageFol +
                                   ele?.designno +
-                                  "_" +
+                                  "~" +
                                   "1" +
                                   "." +
                                   ele?.ImageExtension
@@ -119,6 +119,9 @@ const DesignSet = ({
                               // src={
                               //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
                               // }
+                              onError={(e)=>{
+                                e.target.src = imageNotFound ;
+                              }}
                               className="srthelook_img"
                             />
                           </div>

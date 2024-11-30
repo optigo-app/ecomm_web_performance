@@ -7,6 +7,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "./style.scss";
 import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { noimage } from './../../../Constants/noimage';
 
 const DesignSet = ({
   storeInit,
@@ -102,10 +103,13 @@ const DesignSet = ({
                           <div style={{ marginLeft: "12px" }}>
                             <img
                               src={
+
+                                // storeInit?.CDNDesignImageFol + ele1?.designno + "~" + "1" + "." + ele1?.ImageExtension
+
                                 ele?.ImageCount > 0
-                                  ? storeInit?.DesignImageFol +
+                                  ? storeInit?.CDNDesignImageFol +
                                     ele?.designno +
-                                    "_" +
+                                    "~" +
                                     "1" +
                                     "." +
                                     ele?.ImageExtension
@@ -116,6 +120,9 @@ const DesignSet = ({
                               //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
                               // }
                               className="hoqthelook_img"
+                              onError={(e)=>{
+                                e.target.src = noimage ;
+                              }}
                             />
                           </div>
                           <div className="hoqthelook_prodinfo">

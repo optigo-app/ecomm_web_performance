@@ -74,8 +74,12 @@ const DesignSet2 = () => {
     setStoreInit(storeinit);
 
     let data = JSON.parse(sessionStorage.getItem('storeInit'));
-    setImageUrl(data?.DesignSetImageFol);
-    setImageUrlDesignSet(data?.DesignImageFol);
+    // setImageUrl(data?.DesignSetImageFol);
+    // setImageUrlDesignSet(data?.DesignImageFol);
+
+    setImageUrl(data?.CDNDesignImageFol);
+    setImageUrlDesignSet(data?.CDNDesignImageFol);
+
 
     Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
       .then((response) => {
@@ -220,7 +224,7 @@ const DesignSet2 = () => {
                   <img
                     // src={ProdCardImageFunc(slide)}
                     // src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-26.jpg?height=1366&v=1638651514&width=2048"
-                    src={`${storImagePath()}/images/HomePage/DesignSet/BottomBannerDesignSet1.png`}
+                    src={`${storImagePath()}/images/HomePage/DesignSet/BottomBannerDesignSet1.webp`}
                     alt=""
                     className="imgBG"
                   />
@@ -258,7 +262,7 @@ const DesignSet2 = () => {
                                 <div className="smr_ds2ImageDiv">
                                   <img
                                     loading="lazy"
-                                    src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                    src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
                                     alt={`Sub image ${subIndex} for slide ${index}`}
                                     onClick={() =>
                                       handleNavigation(
@@ -267,7 +271,11 @@ const DesignSet2 = () => {
                                         detail?.TitleLine ? detail?.TitleLine : ""
                                       )
                                     }
+                                    onError={(e)=>{
+                                      e.target.src = imageNotFound ;
+                                    }}
                                     className="cardimg"
+
                                   />
                                 </div>
                               </div>

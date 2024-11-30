@@ -445,9 +445,9 @@ const ProductList = () => {
       if (product?.ImageCount > 0) {
         for (let i = 1; i <= product?.ImageCount; i++) {
           let imgString =
-            storeInit?.DesignImageFol +
+            storeInit?.CDNDesignImageFol +
             product?.designno +
-            "_" +
+            "~" +
             i +
             "." +
             product?.ImageExtension;
@@ -571,7 +571,7 @@ const ProductList = () => {
 
     if (pd?.ImageCount > 0) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
-        let imgString = storeInit?.DesignImageFol + pd?.designno + "_" + i + "." + pd?.ImageExtension
+        let imgString = storeInit?.CDNDesignImageFol + pd?.designno + "~" + i + "." + pd?.ImageExtension
         pdImgList.push(imgString)
       }
     }
@@ -2290,6 +2290,9 @@ const ProductList = () => {
                                             src={productData?.images?.length > 0 ? productData?.images[0] : imageNotFound}
                                             alt=""
                                             onClick={() => handleMoveToDetail(productData)}
+                                            onError={(e)=>{
+                                              e.target.src = imageNotFound ;
+                                            }}
                                             onMouseEnter={() => { handleImgRollover(productData, i) }}
                                           />
                                           <div className="smr_prod_Title" >

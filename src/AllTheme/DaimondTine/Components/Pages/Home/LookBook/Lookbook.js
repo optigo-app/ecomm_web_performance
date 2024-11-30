@@ -97,8 +97,9 @@ const Lookbook = () => {
   const SwiperSlideRef = useRef();
   const [imageLoadError, setImageLoadError] = useState({});
 
-  const handleImageError = (index) => {
+  const handleImageError = (index,e) => {
     setImageLoadError((prev) => ({ ...prev, [index]: true }));
+    e.target.src = imageNotFound ;
   };
 
 
@@ -166,7 +167,8 @@ const Lookbook = () => {
 
     let data = JSON?.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.DesignSetImageFol);
-    setImageUrlDesignSet(data?.DesignImageFol);
+    setImageUrlDesignSet(data?.CDNDesignImageFol);
+    // setImageUrlDesignSet(data?.DesignImageFol);
 
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
@@ -1410,7 +1412,7 @@ const Lookbook = () => {
                                 alt={`Slide ${index}`}
                                 onMouseEnter={() => handleHoverImages(index)}
                                 onMouseLeave={() => seyDataKey(null)}
-                                onError={() => handleImageError(index)}
+                                onError={(e) => handleImageError(index ,e)}
                                 style={{
                                   height: dataKey == index ? "100%" : "250px",
                                   cursor: "pointer",
@@ -1552,7 +1554,7 @@ const Lookbook = () => {
                                     <img
                                       className="dt_lookBookSubImage"
                                       loading="lazy"
-                                      src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                      src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
                                       alt={`Sub image ${subIndex} for slide ${index}`}
                                       onClick={() =>
                                         handleNavigation(
@@ -1561,6 +1563,9 @@ const Lookbook = () => {
                                           detail?.TitleLine ? detail?.TitleLine : ""
                                         )
                                       }
+                                      onError={(e)=>{
+                                        e.target.src = imageNotFound ;
+                                      }}
                                     />
                                     {/* <p style={{ margin: '0px 0px 5px 2px', color: '#ccc', fontSize: '12px' }}>{detail?.CategoryName}</p> */}
                                     <div
@@ -1628,7 +1633,7 @@ const Lookbook = () => {
                                   loading="lazy"
                                   src={ProdCardImageFunc(slide)}
                                   alt={`Slide ${index}`}
-                                  onError={() => handleImageError(index)}
+                                  onError={(e) => handleImageError(index ,e)}
                                   // onMouseEnter={() => handleHoverImages(index)}
                                   // onMouseLeave={() => seyDataKey(null)}
                                   style={{
@@ -1782,7 +1787,7 @@ const Lookbook = () => {
                                       <img
                                         className="dt_lookBookSubImage"
                                         loading="lazy"
-                                        src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                        src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
                                         alt={`Sub image ${subIndex} for slide ${index}`}
                                         onClick={() =>
                                           handleNavigation(
@@ -1793,6 +1798,9 @@ const Lookbook = () => {
                                               : ""
                                           )
                                         }
+                                        onError={(e)=>{
+                                          e.target.src = imageNotFound ;
+                                        }}
                                       />
                                       <div
                                         style={{
@@ -1856,7 +1864,7 @@ const Lookbook = () => {
                                           <img
                                             className="dt_lookBookSubImage"
                                             loading="lazy"
-                                            src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                            src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
                                             alt={`Sub image ${subIndex} for slide ${index}`}
                                             onClick={() =>
                                               handleNavigation(
@@ -1867,6 +1875,9 @@ const Lookbook = () => {
                                                   : ""
                                               )
                                             }
+                                            onError={(e)=>{
+                                              e.target.src = imageNotFound ;
+                                            }}
                                           />
                                           <div
                                             style={{
@@ -1946,7 +1957,7 @@ const Lookbook = () => {
                                         src={ProdCardImageFunc(slide)}
                                         alt=""
                                         className="dt_lb3ctl_img"
-                                        onError={() => handleImageError(index)}
+                                        onError={(e) => handleImageError(index ,e)}
                                         style={{
                                           backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                         }}
@@ -2022,10 +2033,13 @@ const Lookbook = () => {
                                               <img
                                                 src={
                                                   ele?.ImageCount > 0
-                                                    ? `${storeInit?.DesignImageFol}${ele?.designno}_1.${ele?.ImageExtension}`
+                                                    ? `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`
                                                     : imageNotFound
                                                 }
-                                                alt=""
+                                                alt="image"
+                                                onError={(e)=>{
+                                                  e.target.src = imageNotFound ;
+                                                }}
                                                 className="dt_lb3srthelook_img"
                                                 onClick={() =>
                                                   handleNavigation(
@@ -2230,7 +2244,7 @@ const Lookbook = () => {
                                       className="ctl_Paginationimg"
                                       // ref={SwiperSlideRef}
                                       onLoad={handleImageLoad}
-                                      onError={() => handleImageError(index)}
+                                      onError={(e) => handleImageError(index ,e)}
                                       style={{
                                         height: DynamicSize.h || "66.5px",
                                         width: DynamicSize.w || "66.5x",

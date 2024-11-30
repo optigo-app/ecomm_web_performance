@@ -738,10 +738,10 @@ const ProductDetail = () => {
 
     setMetalColor(e.target.value)
 
-    let imgLink = storeInit?.DesignImageFol +
+    let imgLink = storeInit?.CDNDesignImageFol +
       (singleProd ?? singleProd1)?.designno +
-      "_" +
-      (thumbImgIndex + 1) + "_" + mcArr?.colorcode +
+      "~" +
+      (thumbImgIndex + 1) + "~" + mcArr?.colorcode +
       "." +
       (singleProd ?? singleProd1)?.ImageExtension;
 
@@ -762,11 +762,11 @@ const ProductDetail = () => {
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
+          storeInit?.CDNDesignImageFol +
           singleProd?.designno +
-          "_" +
+          "~" +
           i +
-          "_" + mcArr?.colorcode +
+          "~" + mcArr?.colorcode +
           "." +
           singleProd?.ImageExtension;
         pdImgListCol.push(imgString);
@@ -776,9 +776,9 @@ const ProductDetail = () => {
     if (singleProd?.ImageCount > 0) {
       for (let i = 1; i <= singleProd?.ImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
+          storeInit?.CDNDesignImageFol +
           singleProd?.designno +
-          "_" +
+          "~" +
           i +
           "." +
           singleProd?.ImageExtension;
@@ -851,11 +851,11 @@ const ProductDetail = () => {
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
+          storeInit?.CDNDesignImageFol +
           singleProd?.designno +
-          "_" +
+          "~" +
           i +
-          "_" + mcArr?.colorcode +
+          "~" + mcArr?.colorcode +
           "." +
           singleProd?.ImageExtension;
 
@@ -880,12 +880,12 @@ const ProductDetail = () => {
     if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
-          pd?.designno +
-          "_" +
-          i +
-          "." +
-          pd?.ImageExtension;
+        storeInit?.CDNDesignImageFol +
+        pd?.designno +
+        "~" +
+        i +
+        "." +
+        pd?.ImageExtension;
 
         let IsImg = checkImageAvailability(imgString)
         if (IsImg) {
@@ -899,10 +899,9 @@ const ProductDetail = () => {
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
         let videoString =
-          (storeInit?.DesignImageFol).slice(0, -13) +
-          "video/" +
+          (storeInit?.CDNVPath) +
           pd?.designno +
-          "_" +
+          "~" +
           i +
           "." +
           pd?.VideoExtension;

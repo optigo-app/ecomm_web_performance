@@ -700,25 +700,25 @@ const DynamicCollection = () => {
 
   // Image Hover
   const ImageUrl = (designNo, ext) => {
-    return storeInit?.DesignImageFol + designNo + "_" + 1 + "." + ext;
+    return storeInit?.CDNDesignImageFol + designNo + "~" + 1 + "." + ext;
   };
   const RollUpImageUrl2 = (designNo, ext, imagCount) => {
     if (imagCount > 1) {
-      return storeInit?.DesignImageFol + designNo + "_" + 2 + "." + ext;
+      return storeInit?.CDNDesignImageFol + designNo + "~" + 2 + "." + ext;
     }
     return;
   };
   const VideoUrl = (i = 1, designno, VideoExtension) => {
     if (VideoExtension) {
       return (
-        (storeInit?.DesignImageFol).slice(0, -13) +
-        "video/" +
+        (storeInit?.CDNVPath) +
         designno +
-        "_" +
+        "~" +
         i +
         "." +
         VideoExtension
       );
+      
     }
   };
   // Bread new comp
@@ -2273,6 +2273,7 @@ const C_Card = ({
   CurrencyCode,
   CurrencyCode2,
 }) => {
+
   const [isHover, setisHover] = useState(false);
   const [isPlusClicked, SetisPlusClicked] = useState(false);
 
@@ -2361,7 +2362,7 @@ const C_Card = ({
           <>
             {videoUrl !== undefined ? (
               <div className="rollup_video">
-                <video src={videoUrl} autoPlay muted loop></video>
+                <video src={videoUrl} autoPlay muted loop ></video>
               </div>
             ) : null}
 

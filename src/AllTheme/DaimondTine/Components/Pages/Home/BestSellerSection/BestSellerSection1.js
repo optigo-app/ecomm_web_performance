@@ -78,7 +78,8 @@ const BestSellerSection1 = () => {
         setStoreInit(storeinit)
 
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
-        setImageUrl(data?.DesignImageFol);
+        // setImageUrl(data?.DesignImageFol);
+        setImageUrl(data?.CDNDesignImageFol);
 
         Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID).then((response) => {
             if (response?.Data?.rd) {
@@ -157,11 +158,15 @@ const BestSellerSection1 = () => {
                                     <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                         <img
                                             src={data?.ImageCount >= 1 ?
-                                                `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                 :
                                                 imageNotFound
                                             }
                                             alt={data.name}
+                                            onError={(e)=>{
+                                                e.target.src = imageNotFound ;
+                                                e.target.alt = "no-image-image"
+                                            }}
                                         />
                                     </div>
                                     <div className="dt_bestSaller_product_info_Web">
@@ -275,7 +280,7 @@ const BestSellerSection1 = () => {
                         </div>
                         <div className='smr_rightSideBestSeler'>
                             {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" /> */}
-                            <img src={`${storImagePath()}/images/HomePage/Banner/bestsellar.png`} alt="modalimages" />
+                            <img src={`${storImagePath()}/images/HomePage/Banner/bestsellar.webp`} alt="modalimages" />
                             <div className="smr_lookbookImageRightDT">
                                 <p>SHORESIDE COLLECTION</p>
                                 <h2>FOR LOVE OF SUN & SEA</h2>

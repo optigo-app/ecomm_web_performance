@@ -148,7 +148,7 @@ const ProductList = () => {
     }
   }, [openGridModal, filter, showFilter]);
 
-  let getDesignImageFol = storeInit?.DesignImageFol;
+  let getDesignImageFol = storeInit?.CDNDesignImageFol;
 
   const handleCheckboxChange = (e, listname, val) => {
     const { name, checked } = e.target;
@@ -799,21 +799,21 @@ const ProductList = () => {
     }
   };
 
-  const getDesignVideoFol = storeInit?.DesignImageFol?.slice(0, -13) + "video/";
+  const getDesignVideoFol = storeInit?.CDNVPath;
 
   const getDynamicImages = (designno, extension) => {
-    return `${getDesignImageFol}${designno}_${1}.${extension}`;
+    return `${getDesignImageFol}${designno}~${1}.${extension}`;
   };
   const getDynamicRollImages = (designno, count, extension) => {
     if (count > 1) {
-      return `${getDesignImageFol}${designno}_${2}.${extension}`;
+      return `${getDesignImageFol}${designno}~${2}.${extension}`;
     }
     return;
   };
 
   const getDynamicVideo = (designno, count, extension) => {
     if (extension && count > 0) {
-      const url = `${getDesignVideoFol}${designno}_${1}.${extension}`;
+      const url = `${getDesignVideoFol}${designno}~${1}.${extension}`;
       return url;
     }
     return;
@@ -872,6 +872,7 @@ const ProductList = () => {
       });
     }, 100);
   };
+  
   const handleRangeFilterApi1 = async (Rangeval1) => {
     setIsOnlyProdLoading(true);
     let diafilter = JSON.parse(
