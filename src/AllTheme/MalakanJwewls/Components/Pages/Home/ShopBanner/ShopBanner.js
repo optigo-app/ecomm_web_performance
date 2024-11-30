@@ -17,7 +17,7 @@ const ShopBanner = () => {
     const islogin = useRecoilValue(mala_loginState);
     const [imageUrl, setImageUrl] = useState();
     const [albumList, setAlbumList] = useState([]);
-  
+    const navigation = useNavigate();
     const apiCall = () => {
       const loginUserDetail = JSON?.parse(
         sessionStorage?.getItem("loginUserDetail")
@@ -132,7 +132,7 @@ export const CategoryGrid = ({ title = "Find Your Forever Ring", data ,imageUrl 
                                  <img  src={GenrateImage(val)}
                    onError={(e) => {
                           e.target.src = noimagefound;
-                          e.target.alt = "no-image-found";``
+                          e.target.alt = "no-image-found";
                         }}
                   loading="lazy" alt="" />
               </div>
