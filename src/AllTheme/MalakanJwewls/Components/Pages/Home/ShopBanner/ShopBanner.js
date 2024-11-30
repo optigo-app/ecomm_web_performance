@@ -61,9 +61,16 @@ const ShopBanner = () => {
       }
     };
 
-    const handleNavigate = (name) => {
-      navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`);
-    };
+    const GenrateImageV2 = (data)=>{
+      let Image ;
+      Image =  imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName
+    //   return 'URL_ADDRESS'
+      return Image
+    }
+
+    function handleNavigate(name) {
+    navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`);
+  }
   
     useEffect(() => {
       apiCall();
