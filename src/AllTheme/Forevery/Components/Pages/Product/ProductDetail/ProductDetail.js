@@ -693,11 +693,11 @@ const ProductDetail = () => {
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
+          storeInit?.CDNDesignImageFol +
           singleProd?.designno +
-          "_" +
+          "~" +
           i +
-          "_" +
+          "~" +
           (activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null ? mcArr1 : mcArr?.colorcode) +
           "." +
           singleProd?.ImageExtension;
@@ -721,9 +721,9 @@ const ProductDetail = () => {
     if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
+          storeInit?.CDNDesignImageFol +
           pd?.designno +
-          "_" +
+          "~" +
           i +
           "." +
           pd?.ImageExtension;
@@ -740,10 +740,8 @@ const ProductDetail = () => {
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
         let videoString =
-          (storeInit?.DesignImageFol).slice(0, -13) +
-          "video/" +
-          pd?.designno +
-          "_" +
+          (storeInit?.CDNVPath) + pd?.designno +
+          "~" +
           i +
           "." +
           pd?.VideoExtension;
@@ -807,11 +805,11 @@ const ProductDetail = () => {
     setMetalColor(e.target.value);
 
     let imgLink =
-      storeInit?.DesignImageFol +
+      storeInit?.CDNDesignImageFol +
       (singleProd ?? singleProd1)?.designno +
-      "_" +
+      "~" +
       (thumbImgIndex + 1) +
-      "_" +
+      "~" +
       mcArr?.colorcode +
       "." +
       (singleProd ?? singleProd1)?.ImageExtension;
@@ -833,11 +831,11 @@ const ProductDetail = () => {
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
+          storeInit?.CDNDesignImageFol +
           singleProd?.designno +
-          "_" +
+          "~" +
           i +
-          "_" +
+          "~" +
           mcArr?.colorcode +
           "." +
           singleProd?.ImageExtension;
@@ -848,9 +846,9 @@ const ProductDetail = () => {
     if (singleProd?.ImageCount > 0) {
       for (let i = 1; i <= singleProd?.ImageCount; i++) {
         let imgString =
-          storeInit?.DesignImageFol +
+          storeInit?.CDNDesignImageFol +
           singleProd?.designno +
-          "_" +
+          "~" +
           i +
           "." +
           singleProd?.ImageExtension;
@@ -2739,12 +2737,15 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     });
   };
 
-  let getDesignImageFol = storeInit?.DesignImageFol;
+  let getDesignImageFol = storeInit?.CDNDesignImageFol;
+  // let getDesignImageFol = storeInit?.DesignImageFol;
 
   const getDynamicImages = async (imageData, designno, MetalColorid, extension) => {
     const matchMetalColorid = metalColor.find((color) => color?.id === MetalColorid);
-    const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
-    const colorImage = imageData?.ImageCount > 0 ? `${baseImagePath}_${matchMetalColorid?.colorcode}.${extension}` : imageNotFound;
+    const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
+    // const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+    const colorImage = imageData?.ImageCount > 0 ? `${baseImagePath}~${matchMetalColorid?.colorcode}.${extension}` : imageNotFound;
+    // const colorImage = imageData?.ImageCount > 0 ? `${baseImagePath}_${matchMetalColorid?.colorcode}.${extension}` : imageNotFound;
     const defaultImage = imageData?.ImageCount > 0 ? `${baseImagePath}.${extension}` : imageNotFound;
 
     try {

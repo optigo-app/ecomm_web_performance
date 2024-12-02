@@ -57,11 +57,13 @@
 
 .WlBtnGroupMainDiv {
     text-align: center;
-    padding-top: 40px;
+    padding-top: 100px;
+    // padding-top: 40px;
 
     .roop_Wl-title {
         color: $titleColor;
         font-size: $fontSize8;
+        font-family: $fontRegular !important;
     }
 
     .roop_WlButton-group {
@@ -73,6 +75,7 @@
 
         .roop_ReomoveAllWLbtn {
             display: flex;
+            font-family: $fontRegular !important;
             background-color: $btnprimarycolor;
             color: $btn1hoverFontColor;
             align-items: center;
@@ -83,7 +86,7 @@
             border-radius: 8px;
             width: 160px;
             font-size: $fontSize1;
-            font-weight: 600;
+            font-weight: 500;
             // text-decoration-color: $titleColor !important;
             cursor: pointer;
             transition: background-color 0.3s;
@@ -163,8 +166,10 @@
 
     .roop_wlListGrid {
         display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+        // justify-content: center !important;
+        // align-items: center !important;
         opacity: 1;
         padding-inline: 3rem;
         transition: opacity .5s ease;
@@ -290,8 +295,9 @@
 }
 
 .roop_wish_price {
-    font-size: 15px !important;
+    font-size: 16px !important;
     font-family: $fontRegular !important;
+    font-weight: 800;
 }
 
 .roop_prod_wt_wl {

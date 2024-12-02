@@ -8,7 +8,7 @@ import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { homeLoading, loginState, smr_loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
-import noImageFound from "../../../Assets/image-not-found.jpg"
+import imageNotFound from "../../../Assets/image-not-found.jpg"
 
 const NewArrival = () => {
     const newArrivalRef = useRef(null);
@@ -21,6 +21,7 @@ const NewArrival = () => {
     const [ring2ImageChange, setRing2ImageChange] = useState(false);
     const islogin = useRecoilValue(smr_loginState);
     const setLoadingHome = useSetRecoilState(homeLoading);
+    const [validatedData, setValidatedData] = useState([]);
 
     useEffect(() => {
         setLoadingHome(true);
@@ -94,6 +95,30 @@ const NewArrival = () => {
         }).catch((err) => console.log(err))
     }
 
+    const checkImageAvailability = (url) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(url);
+            img.onerror = () => resolve(imageNotFound);
+            img.src = url;
+        });
+    };
+
+    const validateImageURLs = async () => {
+        if (!newArrivalData?.length) return;
+        const validatedData = await Promise.all(
+            newArrivalData.map(async (item) => {
+                const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
+                const validatedURL = await checkImageAvailability(imageURL);
+                return { ...item, validatedImageURL: validatedURL };
+            })
+        );
+        setValidatedData(validatedData);
+    };
+
+    useEffect(() => {
+        validateImageURLs();
+    }, [newArrivalData]);
 
     const compressAndEncode = (inputString) => {
         try {
@@ -146,7 +171,7 @@ const NewArrival = () => {
 
     return (
         <div ref={newArrivalRef}>
-            {newArrivalData?.length != 0 &&
+            {validatedData?.length != 0 &&
                 <div className='smr_newwArr1MainDiv'>
                     <Typography variant='h4' className='smrN_NewArr1Title'>NEW ARRIVAL
                         <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
@@ -154,7 +179,7 @@ const NewArrival = () => {
                         </Link>
                     </Typography>
                     <Grid container spacing={1} className='smr_NewArrival1product-list'>
-                        {newArrivalData?.slice(0, 4)?.map((product, index) => (
+                        {validatedData?.slice(0, 4)?.map((product, index) => (
                             <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
                                 <Card className='smr_NewArrproduct-card' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
                                     <div className='smr_newArr1Image'>
@@ -163,13 +188,18 @@ const NewArrival = () => {
                                             className='smr_newArrImage'
                                             // image="https://www.bringitonline.in/uploads/2/2/4/5/22456530/female-diamond-necklace-jewellery-photoshoot-jewellery-photography-jewellery-photographers-jewellery-model-shoot-jewellery-product-shoot-bringitonline_orig.jpeg"
                                             image={product?.ImageCount >= 1 ?
-                                                `${imageUrl}${newArrivalData && product?.designno}~1.${newArrivalData && product?.ImageExtension}`
-                                                : noImageFound}
+                                                product?.validatedImageURL
+                                                // `${imageUrl}${newArrivalData && product?.designno}~1.${newArrivalData && product?.ImageExtension}`
+                                                : imageNotFound}
                                             alt={product?.TitleLine}
                                         />
                                     </div>
                                     <CardContent className='smr_newarrproduct-info'>
-                                        <Typography variant='h6' className='smr_newArrTitle'>{product?.designno} {product?.TitleLine && +" - "} {product?.TitleLine != "" && product?.TitleLine }</Typography>
+                                        <Typography variant="h6" className="smr_newArrTitle">
+                                            {product?.designno}
+                                            {product?.TitleLine && " - "}
+                                            {product?.TitleLine != "" && product?.TitleLine}
+                                        </Typography>
                                         <Typography variant='body2'>
                                             {storeInit?.IsGrossWeight == 1 &&
                                                 <>

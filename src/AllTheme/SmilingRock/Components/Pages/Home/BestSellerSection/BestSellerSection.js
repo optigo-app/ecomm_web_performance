@@ -4,6 +4,7 @@ import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick';
+import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
@@ -21,6 +22,7 @@ const BestSellerSection = () => {
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const islogin = useRecoilValue(smr_loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
+    const [validatedData, setValidatedData] = useState([]);
 
 
     const settings = {
@@ -73,6 +75,33 @@ const BestSellerSection = () => {
         }
     };
 
+    const checkImageAvailability = (url) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(url);
+            img.onerror = () => resolve(imageNotFound);
+            img.src = url;
+        });
+    };
+
+    const validateImageURLs = async () => {
+        if (!bestSellerData?.length) return;
+        const validatedData = await Promise.all(
+            bestSellerData.map(async (item) => {
+                const defaultImageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
+                const RollOverImageURL = `${imageUrl}${item?.designno}~2.${item?.ImageExtension}`;
+                const validatedURL1 = await checkImageAvailability(defaultImageURL);
+                const validatedURL2 = await checkImageAvailability(RollOverImageURL);
+                return { ...item, defaultImageURL: validatedURL1, RollOverImageURL: validatedURL2 };
+            })
+        );
+        setValidatedData(validatedData);
+    };
+
+    useEffect(() => {
+        validateImageURLs();
+    }, [bestSellerData]);
+
     const handleNavigation = (designNo, autoCode, titleLine) => {
         let obj = {
             a: autoCode,
@@ -104,8 +133,8 @@ const BestSellerSection = () => {
       }
 
       const chunkedData = [];
-      for (let i = 0; i < bestSellerData?.length; i += 3) {
-        chunkedData.push(bestSellerData?.slice(i, i + 3));
+      for (let i = 0; i < validatedData?.length; i += 3) {
+        chunkedData.push(validatedData?.slice(i, i + 3));
       }
 
   return (
@@ -123,10 +152,17 @@ const BestSellerSection = () => {
                                             <div className='smr_bestselerDiv'>
                                                 <div className='linkLoveRing1' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                                     <img src={hoveredItem === data.SrNo  ?
-                                                        `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                        data?.RollOverImageURL
                                                         :
-                                                        `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                        data?.defaultImageURL
+                                                        // `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                        // :
+                                                        // `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                     } className='likingLoveImages'
+                                                    onError={(e) => {
+                                                        e.target.src = imageNotFound;
+                                                        e.target.alt = "no-image-found"
+                                                    }}
                                                         onMouseEnter={() => handleMouseEnterRing1(data)} onMouseLeave={handleMouseLeaveRing1}
                                                     />
                                                 </div>

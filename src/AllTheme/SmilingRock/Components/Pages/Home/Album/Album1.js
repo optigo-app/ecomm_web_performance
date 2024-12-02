@@ -27,6 +27,8 @@ const Album1 = () => {
     const isMobileScreen = useMediaQuery('(max-width:768px)');
     const setLoadingHome = useSetRecoilState(homeLoading);
     const [isloding, setIsloding] = useState(false);
+    const [slideHeight, setSlideHeight] = useState(null);
+    const swiperSlideRef = useRef(null);
 
     useEffect(() => {
         setLoadingHome(true);
@@ -122,6 +124,33 @@ const Album1 = () => {
         return txt.value;
     }
 
+    const GenerateWidthBaseOnContent = () => {
+        const length = selectedAlbum?.length;
+        console.log(albumData)
+        if (length === 1) {
+            return '25%';
+        } else if (length === 2) {
+            return '50%';
+        } else if (length === 3) {
+            return '75%';
+        } else if (length > 3) {
+            return '100%';
+        }
+    }
+
+    useEffect(() => {
+        if (swiperSlideRef.current) {
+            setSlideHeight(swiperSlideRef.current.offsetHeight);
+        }
+    }, [selectedAlbum, albumData]);
+
+    const HandleAlbumMore = (data) => {
+        const url = `/p/${encodeURIComponent(selectedAlbum)}/?A=${btoa(`AlbumName=${selectedAlbum}`)}`;
+        const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
+        sessionStorage.setItem('redirectURL', url)
+        navigation(islogin !== 0 ? url : redirectUrl);
+    };
+
     return (
         <>
             {!isloding ? (
@@ -160,7 +189,11 @@ const Album1 = () => {
                                     ))}
                                 </Tabs>
                             </Box>
-                            <div className="smr_swiper_container">
+                            <div className="smr_swiper_container"
+                                style={{
+                                    width: GenerateWidthBaseOnContent(),
+                                }}
+                            >
                                 {albumData?.map((album) =>
                                     album?.AlbumName === selectedAlbum ? (
                                         <Swiper
@@ -185,8 +218,10 @@ const Album1 = () => {
                                             keyboard={{ enabled: true }}
                                         // pagination={false}
                                         >
-                                            {JSON?.parse(album?.Designdetail)?.map((design) => (
-                                                <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
+                                            {JSON?.parse(album?.Designdetail)?.map((design,index) => (
+                                                <SwiperSlide
+                                                    ref={index === 0 ? swiperSlideRef : null}
+                                                    key={design?.autocode} className="swiper-slide-custom">
                                                     <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
                                                         <img
                                                             src={
@@ -196,6 +231,10 @@ const Album1 = () => {
                                                             }
                                                             alt={design?.TitleLine}
                                                             loading="lazy"
+                                                            onError={(e) => {
+                                                                e.target.src = imageNotFound;
+                                                                e.target.alt = "no-image-found"
+                                                            }}
                                                         />
                                                     </div>
                                                     <div className="design-info">
@@ -212,6 +251,24 @@ const Album1 = () => {
                                                     </div>
                                                 </SwiperSlide>
                                             ))}
+                                            {selectedAlbum?.length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
+                                                width: "25%",
+                                                height: "auto",
+                                                borderRadius: "4px",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center"
+                                            }}>
+                                                <div className="data_album">
+                                                    <button style={{
+                                                        border: "none",
+                                                        backgroundColor: "transparent",
+                                                        fontWeight: "500",
+                                                        textDecoration: "underline",
+                                                        color: "grey"
+                                                    }} className='btn_more_A' onClick={() => HandleAlbumMore()}>View More</button>
+                                                </div>
+                                            </SwiperSlide>}
                                         </Swiper>
                                     ) : null
                                 )}

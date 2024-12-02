@@ -37,6 +37,7 @@ const TrendingView = () => {
     const [evenNumberObjects, setEvenNumberObjects] = useState([]);
     const islogin = useRecoilValue(smr_loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
+    const [validatedData, setValidatedData] = useState([]);
 
     const isOdd = (num) => num % 2 !== 0;
 
@@ -126,25 +127,52 @@ const TrendingView = () => {
         // }
     }
 
+    const checkImageAvailability = (url) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(url);
+            img.onerror = () => resolve(imageNotFound);
+            img.src = url;
+        });
+    };
+
+    const validateImageURLs = async () => {
+        if (!trandingViewData?.length) return;
+        const validatedData = await Promise.all(
+            trandingViewData.map(async (item) => {
+                const defaultImageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
+                const RollOverImageURL = `${imageUrl}${item?.designno}~2.${item?.ImageExtension}`;
+                const validatedURL1 = await checkImageAvailability(defaultImageURL);
+                const validatedURL2 = await checkImageAvailability(RollOverImageURL);
+                return { ...item, defaultImageURL: validatedURL1, RollOverImageURL: validatedURL2 };
+            })
+        );
+        setValidatedData(validatedData);
+    };
+
+    useEffect(() => {
+        validateImageURLs();
+    }, [trandingViewData]);
+
     const handleMouseEnterRing1 = (data) => {
         if (data?.ImageCount > 1) {
-            setHoveredItem(data.SrNo); 
+            setHoveredItem(data.SrNo);
             setRing1ImageChange(true)
         }
     }
     const handleMouseLeaveRing1 = () => {
-        setHoveredItem(null); 
+        setHoveredItem(null);
         setRing1ImageChange(false)
     }
 
-    
+
     const chunkedData = [];
-    for (let i = 0; i < trandingViewData?.length; i += 3) {
-        chunkedData.push(trandingViewData?.slice(i, i + 3));
+    for (let i = 0; i < validatedData?.length; i += 3) {
+        chunkedData.push(validatedData?.slice(i, i + 3));
     }
     return (
         <div>
-            {trandingViewData?.length != 0 &&
+            {validatedData?.length != 0 &&
                 <div className='smr_trendingViewTopMain'>
                     <div className='smr_trendingViewTopMain_div'>
                         <div className='smr_trendingViewTopMain_Imgdiv'>
@@ -154,30 +182,37 @@ const TrendingView = () => {
                             <p className='linkingTitle'>Trending View</p>
                             <Slider {...settings} >
                                 {chunkedData?.map((chunk, index) => (
-                                        <div className='linkRingLove'>
-                                              {chunk?.map((data, dataIndex) => (
+                                    <div className='linkRingLove'>
+                                        {chunk?.map((data, dataIndex) => (
                                             <div className='smr_TrendingMainDiv'>
                                                 <div className='linkLoveRing1' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
-                                                    <img src={hoveredItem === data.SrNo  ?
-                                                        `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                    <img src={hoveredItem === data.SrNo ?
+                                                        data?.RollOverImageURL
                                                         :
-                                                        `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                        data?.defaultImageURL
+                                                        // `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                        // :
+                                                        // `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                     } className='likingLoveImages'
                                                         onMouseEnter={() => handleMouseEnterRing1(data)} onMouseLeave={handleMouseLeaveRing1}
+                                                        onError={(e) => {
+                                                            e.target.src = imageNotFound;
+                                                            e.target.alt = "no-image-found"
+                                                        }}
                                                     />
                                                 </div>
                                                 <div className='linkLoveRing1Desc'>
                                                     <p className='ring1Desc'>{data?.TitleLine}</p>
                                                     <p className='ring1Desc'>
                                                         <span className="smr_currencyFont">
-                                                           {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                            {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                         </span> &nbsp;
                                                         {formatter(data?.UnitCostWithMarkUp)}</p>
                                                 </div>
                                             </div>
-                                             ))}
-                                        </div>
-                                    ))
+                                        ))}
+                                    </div>
+                                ))
                                 }
                             </Slider>
                             <p className='smr_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>SHOP COLLECTION</p>

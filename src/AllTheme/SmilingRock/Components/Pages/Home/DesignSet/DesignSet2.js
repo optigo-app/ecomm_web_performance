@@ -245,6 +245,10 @@ const DesignSet2 = () => {
                                         detail?.TitleLine ? detail?.TitleLine : ""
                                       )
                                     }
+                                    onError={(e) => {
+                                      e.target.src = imageNotFound;
+                                      e.target.alt = "no-image-found";
+                                    }}
                                     className="cardimg"
                                   />
                                 </div>

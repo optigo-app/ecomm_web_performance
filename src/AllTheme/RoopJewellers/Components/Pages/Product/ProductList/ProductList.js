@@ -9,7 +9,7 @@ import { findMetal, findMetalColor, findMetalType, formatter } from "../../../..
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import {
-  Accordion, AccordionDetails, AccordionSummary, Badge, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Skeleton, Slider,
+  Accordion, AccordionDetails, AccordionSummary, Badge, Box, Button, CardMedia, Checkbox, Drawer, FormControlLabel, Input, Pagination, Skeleton, Slider,
   Typography, useMediaQuery
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -66,6 +66,7 @@ const ProductList = () => {
   let maxwidth1674px = useMediaQuery('(max-width:1674px)')
   let maxwidth590px = useMediaQuery('(max-width:590px)')
   let maxwidth464px = useMediaQuery('(max-width:464px)')
+  let maxwidth425px = useMediaQuery('(max-width:425px)')
 
   const [productListData, setProductListData] = useState([]);
   const [priceListData, setPriceListData] = useState([]);
@@ -97,7 +98,7 @@ const ProductList = () => {
 
   const [imageAvailability, setImageAvailability] = useState({});
 
-  const [sortBySelect, setSortBySelect] = useState("Recommended");
+  let [sortBySelect, setSortBySelect] = useState("Recommended");
 
   const [totalProductCount, setTotalProductCount] = useState();
 
@@ -318,6 +319,7 @@ const ProductList = () => {
   useEffect(() => {
 
     const fetchData = async () => {
+      setSortBySelect('Recommended');
 
       let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
@@ -395,7 +397,7 @@ const ProductList = () => {
       setIsProdLoading(true)
       //  if(location?.state?.SearchVal === undefined){ 
       setprodListType(productlisttype)
-      await ProductListApi({}, 1, obj, productlisttype, cookie, sortBySelect)
+      await ProductListApi({}, 1, obj, productlisttype, cookie, sortBySelect = "Recommended")
         .then((res) => {
           if (res) {
             // console.log("productList", res);
@@ -805,7 +807,7 @@ const ProductList = () => {
   }
 
   useEffect(() => {
-    if (productListData?.length === 0 || !productListData) {
+    if (productListData?.length === 0 || !productListData || productListData?.[0]?.stat_code === 1005) {
       setFilterProdListEmpty(true)
     } else {
       setFilterProdListEmpty(false)
@@ -941,19 +943,23 @@ const ProductList = () => {
   const handleImgRollover = async (pd) => {
     if (pd?.images?.length >= 1) {
       const imageUrl = pd?.images[1];
-      const isImageAvailable = await checkImageAvailability(imageUrl);
-      // setRolloverImgPd((prev) => pd?.images[1])
-      if (isImageAvailable) {
+
+      try {
+        const isImageAvailable = await checkImageAvailability(imageUrl);
+
+        if (isImageAvailable) {
+          setRolloverImgPd((prev) => {
+            return { [pd?.autocode]: imageUrl };
+          });
+        }
+      } catch (error) {
         setRolloverImgPd((prev) => {
-          return { [pd?.autocode]: pd?.images[1] };
-        });
-      } else {
-        setRolloverImgPd((prev) => {
-          return { [pd?.autocode]: imageNotFound };
+          return { [pd?.autocode]: pd?.images[0] };
         });
       }
     }
   };
+
 
   const handleLeaveImgRolloverImg = async (pd) => {
     if (pd?.images?.length > 0) {
@@ -961,13 +967,7 @@ const ProductList = () => {
       const imageUrl = pd?.images[0];
       const isImageAvailable = await checkImageAvailability(imageUrl);
       if (isImageAvailable) {
-        setRolloverImgPd((prev) => {
-          return { [pd?.autocode]: pd?.images[0] };
-        });
-      } else {
-        setRolloverImgPd((prev) => {
-          return { [pd?.autocode]: imageNotFound };
-        });
+        setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[0] } })
       }
     }
   };
@@ -1432,9 +1432,9 @@ const ProductList = () => {
 
   const DynamicListPageTitleLineFunc = () => {
     if (location?.search.split("=")[0]?.slice(1) == "M") {
-      return menuParams?.menuname
+      return menuParams?.menuname?.replaceAll('%20', '')
     } else {
-      return location?.pathname.split('/')[2]
+      return location?.pathname.split('/')[2]?.replaceAll('%20', "")
     }
   }
 
@@ -1649,56 +1649,61 @@ const ProductList = () => {
               </div>
             )}
 
-            <div
-            // className="roop_sorting_custom"
-            >
+            {storeInit?.IsMetalCustComb === 1 && (
+
               <div
-              // className="container"
+              // className="roop_sorting_custom"
               >
-                <Typography
-                  className="label"
-                  sx={{
-                    color: "#7f7d85",
-                    fontSize: "14px",
-                    fontFamily: "Spectral-Regular",
-                  }}
+                <div
+                // className="container"
                 >
-                  Sort By:&nbsp;
-                </Typography>
-                <select
-                  style={{
-                    border: "1px solid #e1e1e1",
-                    borderRadius: "8px",
-                    minWidth: "270px",
-                  }}
-                  className="select"
-                  value={sortBySelect}
-                  onChange={(e) => handleSortby(e)}
-                >
-                  <option className="option" value="Recommended">
-                    Recommended
-                  </option>
-                  <option className="option" value="New">
-                    New
-                  </option>
-                  <option className="option" value="Trending">
-                    Trending
-                  </option>
-                  {/*<option className="option" value="Bestseller">
-                                    Bestseller
-                                    </option>*/}
-                  <option className="option" value="In Stock">
-                    In stock
-                  </option>
-                  <option className="option" value="PRICE HIGH TO LOW">
-                    Price High To Low
-                  </option>
-                  <option className="option" value="PRICE LOW TO HIGH">
-                    Price Low To High
-                  </option>
-                </select>
+                  <Typography
+                    className="label"
+                    sx={{
+                      color: "#7f7d85",
+                      fontSize: "14px",
+                      fontFamily: "Spectral-Regular",
+                    }}
+                  >
+                    Sort By:&nbsp;
+                  </Typography>
+                  <select
+                    style={{
+                      border: "1px solid #e1e1e1",
+                      borderRadius: "8px",
+                      minWidth: "270px",
+                    }}
+                    className="select"
+                    value={sortBySelect}
+                    onChange={(e) => handleSortby(e)}
+                  >
+                    <option className="option" value="Recommended">
+                      Recommended
+                    </option>
+                    <option className="option" value="New">
+                      New
+                    </option>
+                    <option className="option" value="Trending">
+                      Trending
+                    </option>
+                    <option className="option" value="Bestseller">
+                      Bestseller
+                    </option>
+                    {storeInit?.IsStockWebsite == 1 &&
+                      <option className="option" value="In Stock">
+                        In stock
+                      </option>
+                    }
+                    <option className="option" value="PRICE HIGH TO LOW">
+                      Price High To Low
+                    </option>
+                    <option className="option" value="PRICE LOW TO HIGH">
+                      Price Low To High
+                    </option>
+                  </select>
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div className="roop_mobile_filter_portion">
             {filterData?.length > 0 && (
@@ -2476,7 +2481,12 @@ const ProductList = () => {
                         }}
                       >
                         <span className="roop_prod_datanotfound">
-                          Products Not found !!!
+                          <div className="serach_notfound">
+                            <p style={{ textTransform: 'capitalize' }}>We couldn't find any matches for</p>
+                            <p style={{ fontWeight: 'bold' }}>{`"${decodeURIComponent(location?.pathname?.split("/")[2])}".`}</p>
+                            <p className="search_notfound2" style={{ marginTop: '0.5rem' }}>Please try another search.</p>
+                          </div>
+
                         </span>
                       </div>
                     ) : (
@@ -2595,43 +2605,53 @@ const ProductList = () => {
                                               loop={true}
                                               autoPlay={true}
                                               className="roop_productCard_video"
+                                              onError={(e) => {
+                                                e.target.poster = imageNotFound
+                                              }}
                                             // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
                                             />
                                             :
-                                            <img
-                                              className="roop_productListCard_Image"
-                                              id={`roop_productListCard_Image${productData?.autocode}`}
-                                              // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                                              // src={ ProdCardImageFunc(productData,0)}
-                                              src={
-                                                rollOverImgPd[productData?.autocode]
-                                                  ? rollOverImgPd[productData?.autocode]
-                                                  : isAvailable === undefined
-                                                    ? <ProductCard_Skeleton />
-                                                    : isAvailable
-                                                      ? productData?.images[0]
-                                                      : imageNotFound
+                                            <>
+                                              {isAvailable === undefined
+                                                ? <CardMedia style={{ width: '100%', height: '100%' }} className='roop_productCard_cardMainSkeleton'>
+                                                  <Skeleton animation="wave" variant="rect" width={'100%'} height='100%' style={{ backgroundColor: '#e8e8e86e' }} />
+                                                </CardMedia> :
+                                                <img
+                                                  className="roop_productListCard_Image"
+                                                  id={`roop_productListCard_Image${productData?.autocode}`}
+                                                  // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
+                                                  // src={ ProdCardImageFunc(productData,0)}
+                                                  src={
+                                                    rollOverImgPd[productData?.autocode]
+                                                      ? rollOverImgPd[productData?.autocode]
+                                                      : isAvailable
+                                                        ? productData?.images[0]
+                                                        : imageNotFound
+                                                  }
+                                                  onError={(e) => {
+                                                    e.target.src = imageNotFound
+                                                  }}
+                                                  // {Old code}
+                                                  // src={
+                                                  //   rollOverImgPd[productData?.autocode]
+                                                  //     ? rollOverImgPd[productData?.autocode]
+                                                  //     : productData?.images?.length > 0
+                                                  //       ? productData?.images[0]
+                                                  //       : imageNotFound
+                                                  // }
+                                                  alt=""
+                                                // onClick={() =>
+                                                //   handleMoveToDetail(productData)
+                                                // }
+                                                // onMouseEnter={() => {
+                                                //   handleImgRollover(productData);
+                                                // }}
+                                                // onMouseLeave={() => {
+                                                //   handleLeaveImgRolloverImg(productData);
+                                                // }}
+                                                />
                                               }
-                                              // {Old code}
-                                              // src={
-                                              //   rollOverImgPd[productData?.autocode]
-                                              //     ? rollOverImgPd[productData?.autocode]
-                                              //     : productData?.images?.length > 0
-                                              //       ? productData?.images[0]
-                                              //       : imageNotFound
-                                              // }
-                                              alt=""
-                                            // onClick={() =>
-                                            //   handleMoveToDetail(productData)
-                                            // }
-                                            // onMouseEnter={() => {
-                                            //   handleImgRollover(productData);
-                                            // }}
-                                            // onMouseLeave={() => {
-                                            //   handleLeaveImgRolloverImg(productData);
-                                            // }}
-                                            />
-
+                                            </>
                                         }
                                       </div>
                                       <div className="roop_prod_card_info">
@@ -2650,6 +2670,18 @@ const ProductList = () => {
                                           </span>
 
                                         </div>
+                                        <div style={{ display: !maxwidth425px ? "none" : "block" }}>
+                                          <span className="roop_price">
+                                            <span className="roop_currencyFont">
+                                              {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>
+                                            <span className="roop_pricePort">
+                                              {formatter(
+                                                productData?.UnitCostWithMarkUp
+                                              )}
+                                            </span>
+                                          </span>
+                                        </div>
                                         <div className="roop_prod_Allwt">
                                           <div
                                             style={{
@@ -2663,7 +2695,7 @@ const ProductList = () => {
                                               alignItems: 'center',
                                             }}
                                           >
-                                            <div style={{ display: 'flex', flexDirection: "column" }}>
+                                            <div style={{ display: 'flex', flexDirection: maxwidth425px ? "row" : "column", justifyContent: maxwidth425px ? 'space-between' : "", width: maxwidth425px ? '100%' : "" }}>
                                               {storeInit?.IsGrossWeight == 1 &&
                                                 Number(productData?.Gwt) !== 0 && (
                                                   <span className="roop_prod_wt">
@@ -2686,7 +2718,7 @@ const ProductList = () => {
                                                 </>
                                               )}
                                             </div>
-                                            <div>
+                                            <div style={{ display: maxwidth425px ? "none" : "block" }}>
                                               <span className="roop_price">
                                                 <span className="roop_currencyFont">
                                                   {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
@@ -2929,7 +2961,6 @@ const GivaFilterMenu = ({
         const checkedOption = options.find(
           (option) => option?.id?.toString() === checkedId
         );
-        console.log(checkedOption, "before");
 
         if (checkedOption) {
           checkedNames.push(checkedOption.Name);
@@ -2961,7 +2992,7 @@ const GivaFilterMenu = ({
     { value: "New", label: "New" },
     { value: "Trending", label: "Trending" },
     { value: "Bestseller", label: "Bestseller" },
-    { value: "In Stock", label: "In stock" },
+    { value: "In Stock", label: "In stock", },
     { value: "PRICE HIGH TO LOW", label: "Price High To Low" },
     { value: "PRICE LOW TO HIGH", label: "Price Low To High" },
   ];
@@ -3537,11 +3568,35 @@ const GivaFilterMenu = ({
                         outline: "none",
                       }}
                     >
-                      {options?.map((sort, i) => (
+                      {/* {options?.map((sort, i) => (
                         <option key={i} value={sort?.value}>
                           {sort?.label}
                         </option>
-                      ))}
+                      ))} */}
+
+                      <option className="option" value="Recommended">
+                        Recommended
+                      </option>
+                      <option className="option" value="New">
+                        New
+                      </option>
+                      <option className="option" value="Trending">
+                        Trending
+                      </option>
+                      <option className="option" value="Bestseller">
+                        Bestseller
+                      </option>
+                      {storeInit?.IsStockWebsite == 1 &&
+                        <option className="option" value="In Stock">
+                          In stock
+                        </option>
+                      }
+                      <option className="option" value="PRICE HIGH TO LOW">
+                        Price High To Low
+                      </option>
+                      <option className="option" value="PRICE LOW TO HIGH">
+                        Price Low To High
+                      </option>
                     </select>
                   </Typography>
                 </div>
@@ -3582,7 +3637,8 @@ const BreadCumView = ({ BreadCumsObj, handleBreadcums, IsBreadCumShow }) => {
             className="roop_breadcums_port_fmg"
             style={{ marginLeft: "3px" }}
           >
-            <span>{"Album"}</span>
+            {location?.pathname?.split("/")[2]?.replaceAll('%20', '')}
+            {/* <span>{"Album"}</span> */}
           </div>
         )}
 
@@ -3600,7 +3656,7 @@ const BreadCumView = ({ BreadCumsObj, handleBreadcums, IsBreadCumShow }) => {
             className="roop_breadcums_port_fmg"
             style={{ marginLeft: "3px" }}
           >
-            {decodeURIComponent(location?.pathname?.split("/")[2])}
+            {location?.pathname?.split("/")[2]?.replaceAll('%20', '')}
           </div>
         )}
 
@@ -3636,7 +3692,7 @@ const BreadCumView = ({ BreadCumsObj, handleBreadcums, IsBreadCumShow }) => {
                   })
                 }
               >
-                {BreadCumsObj()?.menuname}
+                {location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname}
               </span>
             )}
 

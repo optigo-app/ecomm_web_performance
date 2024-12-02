@@ -1085,10 +1085,10 @@ const Lookbook = () => {
               <button
                 onClick={handleOpen}
                 className="roop_lookBookSelectViewBtn"
-                style={{
-                  background: selectedCategories.length !== 0 ? "#7d7f85" : "#ffff",
-                  color: selectedCategories.length !== 0 ? "#fff" : "#7d7f85",
-                }}
+              // style={{
+              //   background: selectedCategories.length !== 0 ? "#7d7f85" : "#ffff",
+              //   color: selectedCategories.length !== 0 ? "#fff" : "#7d7f85",
+              // }}
               >
                 Set View
               </button>
@@ -2051,7 +2051,9 @@ const Lookbook = () => {
                                       }
                                     >
                                       <p className="roop_lb3designList_title" >{slide?.designsetno}</p>
-                                      <div className="roop_lb3_prodtDivs2">
+                                      <div className="roop_lb3_prodtDivs2" style={{
+                                        maxHeight: sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail)).length > 3 ? "400px" : "364px"
+                                      }}>
                                         {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((ele, subIndex) => {
                                           const imageSrc = imageSources[ele?.designno] || imageNotFound;
                                           return (

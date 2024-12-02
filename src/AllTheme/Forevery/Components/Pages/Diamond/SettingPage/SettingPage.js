@@ -5,7 +5,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Cookies from 'js-cookie';
-import noImageFound from '../../../Assets/image-not-found.jpg'
+import noImageFound from '../../../Assets/image-not-found.jpg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import { useNavigate, useLocation } from "react-router-dom";
@@ -219,10 +219,12 @@ const SettingPage = () => {
     },
   ]
 
-  let getDesignImageFol = storeInit?.DesignImageFol;
+  // let getDesignImageFol = storeInit?.DesignImageFol;
+  let getDesignImageFol = storeInit?.CDNDesignImageFol;
 
   const getDynamicImages = (designno, extension) => {
-    return `${getDesignImageFol}${designno}_${1}.${extension}`;
+    return `${getDesignImageFol}${designno}~${1}.${extension}`;
+    // return `${getDesignImageFol}${designno}_${1}.${extension}`;
   };
 
   const getDynamicYellowImage = (item, designno, extension) => {
@@ -235,9 +237,10 @@ const SettingPage = () => {
         img.onerror = () => reject(src);
       });
 
-      const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+      const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
+      // const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
       const colorImage = item?.ImageCount > 0
-        ? `${baseImagePath}_Yellow.${extension}`
+        ? `${baseImagePath}~Yellow.${extension}`
         : noImageFound;
       const defaultImage = item?.ImageCount > 0
         ? `${baseImagePath}.${extension}`
@@ -261,9 +264,9 @@ const SettingPage = () => {
         img.onerror = () => reject(src);
       });
 
-      const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+      const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
       const colorImage = item?.ImageCount > 0
-        ? `${baseImagePath}_White.${extension}`
+        ? `${baseImagePath}~White.${extension}`
         : noImageFound;
       const defaultImage = item?.ImageCount > 0
         ? `${baseImagePath}.${extension}`
@@ -287,9 +290,9 @@ const SettingPage = () => {
         img.onerror = () => reject(src);
       });
 
-      const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+      const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
       const colorImage = item?.ImageCount > 0
-        ? `${baseImagePath}_Rose.${extension}`
+        ? `${baseImagePath}~Rose.${extension}`
         : noImageFound;
       const defaultImage = item?.ImageCount > 0
         ? `${baseImagePath}.${extension}`
