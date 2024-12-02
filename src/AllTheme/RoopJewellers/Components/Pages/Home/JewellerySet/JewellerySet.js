@@ -4,6 +4,11 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 import { roop_loginState } from '../../../Recoil/atom';
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { useRecoilValue } from 'recoil';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import { Pagination, Navigation } from 'swiper/modules';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
@@ -34,7 +39,8 @@ function JewellerySet() {
       finalID = loginUserDetail?.id || '0';
     }
 
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum_List", finalID)
+    // Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum_List", finalID)
+    Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum", finalID)
       .then((response) => {
         if (response?.Data?.rd) {
           setAlbumData(response.Data.rd);
@@ -50,18 +56,18 @@ function JewellerySet() {
       })
   }, [islogin]);
 
-  const checkImageAvailability = (imageUrl) => {
+  const checkImageAvailability = (url) => {
     return new Promise((resolve) => {
       const img = new Image();
-      img.onload = () => resolve(true);
-      img.onerror = () => resolve(false);
-      img.src = imageUrl;
+      img.onload = () => resolve(url);
+      img.onerror = () => resolve(imageNotFound);
+      img.src = url;
     });
   };
 
   const findValidImage = async (designDetails) => {
     const imageChecks = designDetails.map((design) => {
-      const imageUrl = `${storeInit?.CDNDesignImageFolCDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
+      const imageUrl = `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
       return checkImageAvailability(imageUrl).then((isAvailable) =>
         isAvailable ? imageUrl : null
       );
@@ -76,12 +82,14 @@ function JewellerySet() {
       if (!albumData?.length) return;
 
       const imagePromises = albumData.map(async (album) => {
-        if (album?.Designdetail) {
-          const designDetails = JSON?.parse(album?.Designdetail) || [];
-          const validImage = await findValidImage(designDetails);
+        if (album.AlbumImageName && album.AlbumImageFol) {
+          const imgSrc = `${storeInit?.AlbumImageFol}${album?.AlbumImageFol}/${album?.AlbumImageName}`
+          const validImage = await checkImageAvailability(imgSrc);
           return { ...album, src: validImage, name: album?.AlbumName };
         }
-        return { ...album, src: imageNotFound, name: album?.AlbumName };
+        else {
+          return { ...album, src: imageNotFound, name: album?.AlbumName };
+        }
       });
 
       const images = await Promise.all(imagePromises);
@@ -90,6 +98,25 @@ function JewellerySet() {
 
     getValidImages();
   }, [albumData, storeInit, imageNotFound]);
+  // useEffect(() => {
+  //   const getValidImages = async () => {
+  //     if (!albumData?.length) return;
+
+  //     const imagePromises = albumData.map(async (album) => {
+  //       if (album?.Designdetail) {
+  //         const designDetails = JSON?.parse(album?.Designdetail) || [];
+  //         const validImage = await findValidImage(designDetails);
+  //         return { ...album, src: validImage, name: album?.AlbumName };
+  //       }
+  //       return { ...album, src: imageNotFound, name: album?.AlbumName };
+  //     });
+
+  //     const images = await Promise.all(imagePromises);
+  //     setValidImages(images);
+  //   };
+
+  //   getValidImages();
+  // }, [albumData, storeInit, imageNotFound]);
 
   const handleNavigate = (data) => {
     const url = `/p/${encodeURIComponent(data?.AlbumName)}/?A=${btoa(`AlbumName=${data?.AlbumName}`)}`;
@@ -99,22 +126,59 @@ function JewellerySet() {
   };
 
   return (
-    <div className='roop_jewlSet_Main'>
+    <div className="roop_jewlSet_Main">
+      {/* <p className="roop_jewl_title">Discover our carefully curated Jewellery Album</p> */}
+      <p className="roop_jewl_title">Album</p>
 
-      <p className='roop_jewl_title'>Discover our carefully curated Jewellery Album</p>
-      {/* <p className='roop_jewl_title'>Discover our carefully curated Jewellery Sets</p> */}
-      <div className='roop_jewls_main_sub'>
-        {validImages?.slice(0, 4)?.map((item, index) => (
-          <div className='roop_jewls__image_div' key={index}>
-            <img className='roop_jewelImg' loading="lazy" src={item?.src} alt={item?.name} onClick={() => handleNavigate(item)} />
-            <p className='roop_jewls_Div_name'>{item?.name}</p>
-          </div>
-        ))}
+      <div className="roop_jewls_main_sub">
+        <Swiper
+          modules={[Navigation]}
+          spaceBetween={30}
+          navigation={true}
+          // loop={true}
+          breakpoints={{
+            768: {
+              slidesPerView: 3,
+            },
+            500: {
+              slidesPerView: 2,
+            },
+            0: {
+              slidesPerView: 1,
+            },
+          }}
+          className='roop_album_main_swiper'
+        >
+
+          {validImages?.map((item, index) => (
+            <SwiperSlide key={index}>
+              <div className="roop_jewls__image_div">
+                <img
+                  className="roop_jewelImg"
+                  loading="lazy"
+                  src={item?.src}
+                  alt={item?.name}
+                  onClick={() => handleNavigate(item)}
+                />
+                <p className="roop_jewls_Div_name">{item?.name}</p>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+    </div >
+  )
+}
+
+export default JewellerySet;
 
 
-        {/* <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/1.jpg`} /> */}
-        {/* <p className='roop_jewls_Div_name'>Gold Ring</p> */}
-        {/* <div className='roop_jewls__image_div1'>
+
+
+
+{/* <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/1.jpg`} /> */ }
+{/* <p className='roop_jewls_Div_name'>Gold Ring</p> */ }
+{/* <div className='roop_jewls__image_div1'>
                     <p className='roop_jewls_Div_name'>Gold Bar</p>
                     <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/2.jpg`} />
                 </div>
@@ -127,24 +191,24 @@ function JewellerySet() {
                     <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/4.jpg`} />
                 </div> */}
 
-        {/* <div className='roop_jewels_bannerImg_div'>
+{/* <div className='roop_jewels_bannerImg_div'>
                     <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/5.png`} />
                     <p className='roop_jewls_Div_name'>Silver Coin & Bars</p>
                 </div> */}
 
-        {/* <div className='roop_jewls__image_div'>
+{/* <div className='roop_jewls__image_div'>
                     <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/3.jpg`} />
                     <p className='roop_jewls_Div_name'>Gold Necklace</p>
                 </div> */}
-        {/* <div className='roop_jewls__image_div1'>
+{/* <div className='roop_jewls__image_div1'>
                     <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/4.jpg`} />
                     <p className='roop_jewls_Div_name'>Diamond Necklace</p>
                 </div> */}
-        {/* <div className='roop_jewls__image_div'>
+{/* <div className='roop_jewls__image_div'>
                     <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/1.jpg`} />
                     <p className='roop_jewls_Div_name'>Gold Ring</p>
                 </div> */}
-        {/* <div className='roop_jewls__image_div' style={{ position: 'relative', display: 'inline-block' }}>
+{/* <div className='roop_jewls__image_div' style={{ position: 'relative', display: 'inline-block' }}>
                     <img
                         className='roop_jewelImg'
                         loading="lazy"
@@ -172,13 +236,7 @@ function JewellerySet() {
                     </p>
                 </div> */}
 
-        {/* <div className='roop_jewls__image_div1'>
+{/* <div className='roop_jewls__image_div1'>
                     <p className='roop_jewls_Div_name'>Gold Bar</p>
                     <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/2.jpg`} />
                 </div> */}
-      </div>
-    </div>
-  )
-}
-
-export default JewellerySet

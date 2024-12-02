@@ -21,7 +21,8 @@ const ProductGrid = () => {
     const islogin = useRecoilValue(smr_loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
     const setLoadingHome = useSetRecoilState(homeLoading);
-    
+    const [validatedData, setValidatedData] = useState([]);
+
     const settings = {
         dots: true,
         infinite: true,
@@ -148,6 +149,32 @@ const ProductGrid = () => {
         }
     };
 
+
+    const checkImageAvailability = (url) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(url);
+            img.onerror = () => resolve(imageNotFound);
+            img.src = url;
+        });
+    };
+
+    const validateImageURLs = async () => {
+        if (!bestSellerData?.length) return;
+        const validatedData = await Promise.all(
+            bestSellerData.map(async (item) => {
+                const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
+                const validatedURL = await checkImageAvailability(imageURL);
+                return { ...item, validatedImageURL: validatedURL };
+            })
+        );
+        setValidatedData(validatedData);
+    };
+
+    useEffect(() => {
+        validateImageURLs();
+    }, [bestSellerData]);
+
     const handleNavigation = (designNo, autoCode, titleLine) => {
         let obj = {
             a: autoCode,
@@ -193,12 +220,13 @@ const ProductGrid = () => {
                         </div>
                         <div className="product-grid">
                             <div className='smr_leftSideBestSeler'>
-                                {bestSellerData?.slice(0, 4).map((data, index) => (
+                                {validatedData?.slice(0, 4).map((data, index) => (
                                     <div key={index} className="product-card">
                                         <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                             <img
                                                 src={data?.ImageCount >= 1 ?
-                                                    `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                    data?.validatedImageURL
+                                                    // `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                     :
                                                     imageNotFound
                                                 }
@@ -206,7 +234,7 @@ const ProductGrid = () => {
                                             />
                                         </div>
                                         <div className="product-info">
-                                            <h3>{data?.designno} {data?.TitleLine &&" - "} {data?.TitleLine != "" && data?.TitleLine }</h3>
+                                            <h3>{data?.designno} {data?.TitleLine && " - "} {data?.TitleLine != "" && data?.TitleLine}</h3>
                                             {storeInit?.IsGrossWeight == 1 &&
                                                 <>
                                                     <span className='smr_btdetailDT'>GWT: </span>
@@ -255,7 +283,7 @@ const ProductGrid = () => {
                                 {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" /> */}
                                 <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.png`} alt="modalimages" />
                                 <div className="smr_lookbookImageRightDT">
-                                {/*    not need for maiora  */}
+                                    {/*    not need for maiora  */}
                                     {/* <p>SHORESIDE COLLECTION</p>
                                     <h2>FOR LOVE OF SUN & SEA</h2> */}
                                     <button onClick={() => navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)}>SHOP COLLECTION</button>

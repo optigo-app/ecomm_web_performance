@@ -238,7 +238,7 @@
 
     @media screen and (max-width: 425px) {
       padding: 5px;
-      grid-template-columns: repeat(1, 1fr);
+      grid-template-columns: repeat(2, 1fr);
     }
 
     @media screen and (max-width: 280px) {
@@ -266,6 +266,10 @@
     z-index: 0;
     font-family: $primaryFontFamily;
     overflow: hidden;
+
+    @media (max-width: 500px) {
+      height: auto;
+    }
   }
 
   .roop_productCard:hover {
@@ -304,24 +308,51 @@
     }
   }
 
+  // .roop_ImgandVideoContainer {
+  //   border-radius: 8px;
+  //   min-height: 300px;
+  //   // background-color: rgba(114, 140, 165, 0.1);
+
+  //   // @media screen and (max-width: 840px) {
+  //   //   min-height: 250px;
+  //   // }
+
+  //   img {
+  //     border-radius: 8px;
+  //     // mix-blend-mode: multiply;
+  //   }
+
+  //   // video {
+  //   //   border-radius: 8px;
+  //   //   mix-blend-mode: multiply;
+  //   // }
+  // }
+
   .roop_ImgandVideoContainer {
     border-radius: 8px;
     min-height: 300px;
-    background-color: rgba(114, 140, 165, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 
-    // @media screen and (max-width: 840px) {
-    //   min-height: 250px;
-    // }
-
-    img {
-      border-radius: 8px;
-      mix-blend-mode: multiply;
+    @media (max-width: 500px) {
+      height: 20vh;
+      min-height: 250px;
     }
 
-    // video {
-    //   border-radius: 8px;
-    //   mix-blend-mode: multiply;
-    // }
+    @media (max-width: 375px) {
+      height: 20vh;
+      min-height: 200px;
+    }
+
+    img,
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
   }
 
   // .roop_productCard:hover .roop_ImgandVideoContainer {
@@ -435,6 +466,10 @@
     background-color: $btnprimarycolor;
     font-family: $fontRegular;
     color: white;
+
+    @media (max-width: 375px) {
+      font-size: 15px !important;
+    }
   }
 
   .roop_price {
@@ -451,6 +486,10 @@
     .roop_currencyFont {
       font-weight: bolder;
       font-size: 14px;
+
+      @media (max-width: 375px) {
+        font-size: 11px;
+      }
     }
 
     .roop_pricePort {
@@ -611,7 +650,8 @@
     object-fit: contain;
     // height: 412px;
     // min-height: 412px;
-    width: 100%;
+    width: 98%;
+    // width: 100%;
     // min-width:399px;
   }
 
@@ -741,7 +781,7 @@
     .roop_productListCard_Image {
       object-fit: contain;
       // object-fit: cover;
-      // height: 250px;
+      height: 100%;
       // min-height: 250px;
     }
 
@@ -808,7 +848,8 @@
 
   @media screen and (max-width:590px) {
     .roop_prod_Allwt {
-      height: 30px;
+      // height: 30px;
+      height: 10px;
     }
 
     .roop_main_keys {
@@ -849,15 +890,15 @@
     // }
 
     .roop_main_keys {
-      font-size: 12px !important;
+      font-size: 9px !important;
     }
 
     .roop_main_val {
-      font-size: 12px !important;
+      font-size: 9px !important;
     }
 
     .roop_price {
-      font-size: 15px !important;
+      font-size: 11px !important;
     }
   }
 

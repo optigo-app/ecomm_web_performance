@@ -577,6 +577,33 @@ const ProductDetail = () => {
 
   // console.log("sizeData",sizeData);
 
+  const handleMoveToDetail = (productData) => {
+
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
+    let obj = {
+      a: productData?.autocode,
+      b: productData?.designno,
+      m: loginInfo?.MetalId,
+      d: loginInfo?.cmboDiaQCid,
+      c: loginInfo?.cmboCSQCid,
+      f: {},
+    };
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+    navigate(
+      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+      }${productData?.designno}?p=${encodeObj}`
+    );
+
+    // setp 1
+    setSingleProd1({});
+    setSingleProd({});
+    setIsImageLoad(true);
+    setProdLoading(true)
+  };
+
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
 
@@ -645,7 +672,10 @@ const ProductDetail = () => {
       setProdLoading(true)
 
       setisPriceLoading(true)
-
+      
+      // step 4 
+      setSingleProd1({})
+      setSingleProd({})
       await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
         .then(async (res) => {
           if (res) {
@@ -942,6 +972,11 @@ const ProductDetail = () => {
       setSelectedThumbImg({ "link": FinalPdImgList[0], "type": 'img' });
       setPdThumbImg(FinalPdImgList);
       setThumbImgIndex(0)
+    } else {
+      // step 2 
+      setSelectedThumbImg({ link: imageNotFound, type: "img" });
+      setPdThumbImg();
+      setThumbImgIndex();
     }
 
     if (pdvideoList?.length > 0) {
@@ -1174,24 +1209,27 @@ const ProductDetail = () => {
     }
   };
 
-  const handleMoveToDetail = (productData) => {
+  // const handleMoveToDetail = (productData) => {
 
-    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  //   let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    let obj = {
-      a: productData?.autocode,
-      b: productData?.designno,
-      m: loginInfo?.MetalId,
-      d: loginInfo?.cmboDiaQCid,
-      c: loginInfo?.cmboCSQCid,
-      f: {}
-    }
+  //   let obj = {
+  //     a: productData?.autocode,
+  //     b: productData?.designno,
+  //     m: loginInfo?.MetalId,
+  //     d: loginInfo?.cmboDiaQCid,
+  //     c: loginInfo?.cmboCSQCid,
+  //     f: {}
+  //   }
 
-    let encodeObj = compressAndEncode(JSON.stringify(obj))
+  //   let encodeObj = compressAndEncode(JSON.stringify(obj))
 
-    navigate(`/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
-
-  }
+  //   navigate(`/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+  //   setSingleProd({})
+  //   setSingleProd1({})
+  //   setIsImageLoad(true);
+  //   setProdLoading(true)
+  // }
 
   const handleCustomChange = async (e, type) => {
 
@@ -1975,7 +2013,7 @@ const ProductDetail = () => {
                         }
 
                         {prodLoading ? null :
-                          <div>
+                          <div className="roop_cartWish_div">
 
                             <div className="Smr_CartAndWish_portion">
                               <button

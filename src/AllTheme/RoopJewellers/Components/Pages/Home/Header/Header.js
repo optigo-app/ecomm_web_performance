@@ -1362,6 +1362,9 @@ const Header = () => {
                   src={compnyLogoM}
                   loading="lazy"
                   className="roop_logo_header"
+                  style={{
+                    visibility: !drawerShowOverlay ? "visible" : "hidden",
+                  }}
                 />
               </a>
             </div>

@@ -10,6 +10,7 @@ import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../Assets/image-not-found.jpg"
 import { smrMA_CartCount, smrMA_WishCount } from '../../Recoil/atom';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import { Skeleton } from '@mui/material';
 
 const WishlistItems = (
     {
@@ -25,7 +26,7 @@ const WishlistItems = (
         handleWishlistToCart,
         handleMoveToDetail
     }) => {
-    const [imageSrc, setImageSrc] = useState(noImageFound);
+    const [imageSrc, setImageSrc] = useState();
     const setWishCountVal = useSetRecoilState(smrMA_WishCount)
     const setCartCountVal = useSetRecoilState(smrMA_CartCount)
     const visiterId = "";
@@ -62,13 +63,36 @@ const WishlistItems = (
         <Grid sx={{ paddingLeft: '12px !important', paddingTop: '10px !important' }} item xs={itemsLength !== 1 ? 6 : 12} sm={itemsLength !== 1 ? 6 : 12} md={itemsLength <= 2 ? 6 : 4} lg={itemsLength <= 2 ? 6 : 3}>
             <Card className='smrMo_WlListCard'>
                 <div className='cardContent'>
-                    <CardMedia
-                        component="img"
-                        image={imageSrc}
-                        alt={item?.TitleLine}
-                        className='smrMo_WlListImage'
-                        onClick={() => handleMoveToDetail(item)}
-                    />
+                    {imageSrc === undefined ? (
+                        <CardMedia
+                            style={{ width: "100%" }}
+                            className="roop_WlListImage"
+                        >
+                            <Skeleton
+                                animation="wave"
+                                variant="rect"
+                                width="100%"
+                                height={280}
+                                sx={{
+                                    backgroundColor: "#e8e8e86e",
+                                    '@media (max-width: 600px)': {
+                                        height: 200,
+                                    },
+                                    '@media (max-width: 960px)': {
+                                        height: 240,
+                                    }
+                                }}
+                            />
+                        </CardMedia>
+                    ) : (
+                        <CardMedia
+                            component="img"
+                            image={imageSrc}
+                            alt={item?.TitleLine}
+                            className='smrMo_WlListImage'
+                            onClick={() => handleMoveToDetail(item)}
+                        />
+                    )}
                     <CardContent className='smrMo_cardContent'>
                         <div className='cardText'>
                             <Typography variant="body2" className='smrMo_card-ContentData smrMo_WlTitleline'>

@@ -20,6 +20,15 @@ const NewArrival = () => {
     const [ring2ImageChange, setRing2ImageChange] = useState(false);
     const islogin = useRecoilValue(roop_loginState);
 
+    const checkImageAvailability = (url) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(url);
+            img.onerror = () => resolve(noImageFound);
+            img.src = url;
+        });
+    };
+
     useEffect(() => {
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
@@ -35,11 +44,19 @@ const NewArrival = () => {
         setStoreInit(storeinit)
 
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
-        setImageUrl(data?.DesignImageFol);
+        setImageUrl(data?.CDNDesignImageFol);
+        // setImageUrl(data?.DesignImageFol);
 
-        Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID).then((response) => {
+        Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID).then(async (response) => {
             if (response?.Data?.rd) {
-                setNewArrivalData(response?.Data?.rd);
+                const itemsWithImageCheck = await Promise.all(
+                    response.Data.rd.map(async (item) => {
+                        const imgURL = `${storeinit?.CDNDesignImageFol}${item.designno}~1.${item.ImageExtension}`;
+                        const imageAvailable = await checkImageAvailability(imgURL);
+                        return { ...item, src: imageAvailable };
+                    })
+                );
+                setNewArrivalData(itemsWithImageCheck);
             }
         }).catch((err) => console.log(err))
     }, [])
@@ -94,7 +111,6 @@ const NewArrival = () => {
         setRing2ImageChange(false)
     }
 
-    console.log('newArrivalData', newArrivalData);
 
     return (
         <div className='smr_newwArr1MainDiv'>
@@ -114,8 +130,11 @@ const NewArrival = () => {
                                         className='smr_newArrImage'
                                         // image="https://www.bringitonline.in/uploads/2/2/4/5/22456530/female-diamond-necklace-jewellery-photoshoot-jewellery-photography-jewellery-photographers-jewellery-model-shoot-jewellery-product-shoot-bringitonline_orig.jpeg"
                                         image={product?.ImageCount >= 1 ?
-                                            `${imageUrl}${newArrivalData && product?.designno}_1.${newArrivalData && product?.ImageExtension}`
+                                            product?.src
                                             : noImageFound}
+                                        // image={product?.ImageCount >= 1 ?
+                                        //     `${imageUrl}${newArrivalData && product?.designno}_1.${newArrivalData && product?.ImageExtension}`
+                                        //     : noImageFound}
                                         alt={product?.TitleLine}
                                     />
                                 </div>

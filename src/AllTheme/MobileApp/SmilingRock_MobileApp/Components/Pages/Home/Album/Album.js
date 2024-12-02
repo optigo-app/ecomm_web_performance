@@ -3,6 +3,7 @@ import "./Album.modul.scss";
 import { useNavigate } from "react-router-dom";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import Cookies from "js-cookie";
+import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { smrMA_homeLoading, smrMA_loginState } from "../../../Recoil/atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
@@ -79,6 +80,33 @@ const Album = () => {
     }
   }
 
+  const [validatedData, setValidatedData] = useState([]);
+
+  const checkImageAvailability = (url) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(url);
+      img.onerror = () => resolve(imageNotFound);
+      img.src = url;
+    });
+  };
+
+  const validatedImageURLs = async () => {
+    if (!albumData?.length) return;
+    const validatedData = await Promise.all(
+      albumData?.slice(0, 4)?.map(async (album) => {
+        const designDetails = imageUrl + album?.AlbumImageFol + "/" + album?.AlbumImageName || "";
+        const validImage = await checkImageAvailability(designDetails);
+        return { ...album, src: validImage };
+      })
+    );
+    setValidatedData(validatedData);
+  }
+
+  useEffect(() => {
+    validatedImageURLs();
+  }, [albumData]);
+
 
   return (
     <div ref={albumRef}>
@@ -86,18 +114,20 @@ const Album = () => {
         <div className="smrMA_alubmMainDiv">
           <p className="smr_albumTitle">Album</p>
           <div className="smr_albumALL_div">
-            {albumData?.slice(0, 4).map((data, index) => (
-              <div
-                key={index}
-                className="smr_AlbumImageMain"
-                onClick={() => handleNavigate(data?.AlbumName)}
-              >
-                <img
-                  src={imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName}
-                  className="smr_AlbumImageMain_img"
-                />
-              </div>
-            ))}
+            {validatedData?.map((data, index) => {
+              return (
+                <div
+                  key={index}
+                  className="smr_AlbumImageMain"
+                  onClick={() => handleNavigate(data?.AlbumName)}
+                >
+                  <img
+                    src={data?.src}
+                    className="smr_AlbumImageMain_img"
+                  />
+                </div>
+              )
+            })}
           </div>
         </div>
       }
