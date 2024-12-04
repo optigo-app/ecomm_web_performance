@@ -132,6 +132,11 @@ const ProductDetail = () => {
 
   }, [singleProd])
 
+  
+  useEffect(() => {
+    localStorage.removeItem('redirectLookBook');
+  }, []);
+
   // useEffect(()=>{
   //     getSizeData(singleProd).then((res)=>{
   //       console.log("Sizeres",res)
@@ -325,31 +330,54 @@ const ProductDetail = () => {
         let diaArr
         let csArr
 
+        let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+        let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
+        // if (mtTypeLocal?.length) {
+        //   metalArr =
+        //     mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
+        //     mtTypeLocal[0];
+        // }
+
+        // if (diaQcLocal?.length) {
+        //   diaArr =
+        //     diaQcLocal?.filter(
+        //       (ele) =>
+        //         ele?.QualityId == decodeobj?.d?.split(",")[0] &&
+        //         ele?.ColorId == decodeobj?.d?.split(",")[1]
+        //     )[0] ?? diaQcLocal[0];
+        // }
+
+        // if (csQcLocal?.length) {
+        //   csArr =
+        //     csQcLocal?.filter(
+        //       (ele) =>
+        //         ele?.QualityId == decodeobj?.c?.split(",")[0] &&
+        //         ele?.ColorId == decodeobj?.c?.split(",")[1]
+        //     )[0] ?? csQcLocal[0];
+        // }
         if (mtTypeLocal?.length) {
           metalArr =
-            mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
-            mtTypeLocal[0];
+            mtTypeLocal?.filter((ele) => ele?.Metalid == (decodeobj?.m ? decodeobj?.m : (logininfoInside?.MetalId ?? storeinitInside?.MetalId)))[0]
         }
 
         if (diaQcLocal?.length) {
           diaArr =
             diaQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.d?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.d?.split(",")[1]
-            )[0] ?? diaQcLocal[0];
+                ele?.QualityId == (decodeobj?.d ? decodeobj?.d?.split(",")[0] : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[0]) &&
+                ele?.ColorId == (decodeobj?.d ? decodeobj?.d?.split(",")[1] : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[1])
+            )[0]
         }
 
         if (csQcLocal?.length) {
           csArr =
             csQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.c?.split(",")[1]
-            )[0] ?? csQcLocal[0];
+                ele?.QualityId == (decodeobj?.c ? decodeobj?.c?.split(",")[0] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[0]) &&
+                ele?.ColorId == (decodeobj?.c ? decodeobj?.c?.split(",")[1] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[1])
+            )[0]
         }
-
 
 
         setSelectMtType(metalArr?.metaltype);
@@ -576,7 +604,7 @@ const ProductDetail = () => {
       metalArr =
         mtTypeLocal?.filter(
           (ele) => ele?.Metalid == decodeobj?.m
-        )[0]?.Metalid ?? mtTypeLocal[0]?.Metalid;
+        )[0]?.Metalid ?? decodeobj?.m;
     }
 
     if (diaQcLocal) {
@@ -585,7 +613,7 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.d?.split(",")[0] &&
             ele?.ColorId == decodeobj?.d?.split(",")[1]
-        )[0] ?? diaQcLocal[0];
+        )[0] ?? `${decodeobj?.d?.split(",")[0]},${decodeobj?.d?.split(",")[1]}`;
     }
 
     if (csQcLocal) {
@@ -594,7 +622,7 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.c?.split(",")[0] &&
             ele?.ColorId == decodeobj?.c?.split(",")[1]
-        )[0] ?? csQcLocal[0];
+        )[0] ?? `${decodeobj?.c?.split(",")[0]},${decodeobj?.c?.split(",")[1]}`;
     }
 
 
@@ -603,7 +631,7 @@ const ProductDetail = () => {
       let obj = {
         mt: metalArr,
         diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-        csQc: `${csArr?.QualityId},${csArr?.ColorId}`
+        csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
       }
 
       // console.log("objjj",obj)
@@ -920,13 +948,13 @@ const ProductDetail = () => {
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
-          storeInit?.CDNDesignImageFol +
-          singleProd?.designno +
-          "~" +
-          i +
-          "~" + mcArr?.colorcode +
-          "." +
-          singleProd?.ImageExtension;
+        storeInit?.CDNDesignImageFol +
+        singleProd?.designno +
+        "~" +
+        i +
+        "~" + mcArr?.colorcode +
+        "." +
+        singleProd?.ImageExtension;
 
         let IsImg = checkImageAvailability(imgString)
         if (IsImg) {
@@ -950,12 +978,12 @@ const ProductDetail = () => {
     if (singleProd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
-          storeInit?.CDNDesignImageFol +
-          singleProd?.designno +
-          "~" +
-          i +
-          "." +
-          singleProd?.ImageExtension;
+        storeInit?.CDNDesignImageFol +
+        singleProd?.designno +
+        "~" +
+        i +
+        "." +
+        singleProd?.ImageExtension;
 
         let IsImg = checkImageAvailability(imgString)
         if (IsImg) {
@@ -970,9 +998,10 @@ const ProductDetail = () => {
 
     if (singleProd?.VideoCount > 0) {
       for (let i = 1; i <= singleProd?.VideoCount; i++) {
-        let videoString =
+         let videoString =
           (storeInit?.CDNVPath) +
           singleProd?.designno +
+          "~" +
           "~" +
           i +
           "." +
@@ -1039,11 +1068,12 @@ const ProductDetail = () => {
     setSelectMtColor(e.target.value)
 
     let imgLink = storeInit?.CDNDesignImageFol +
-      (singleProd)?.designno +
-      "~" +
-      (thumbImgIndex + 1) + "~" + mcArr?.colorcode +
-      "." +
-      (singleProd)?.ImageExtension;
+    (singleProd)?.designno +
+    "~" +
+    (thumbImgIndex + 1) + "~" + mcArr?.colorcode +
+    "." +
+    (singleProd)?.ImageExtension;
+
 
     let pd = singleProd;
     let pdImgListCol = [];
@@ -1053,9 +1083,12 @@ const ProductDetail = () => {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
           storeInit?.CDNDesignImageFol +
+          storeInit?.CDNDesignImageFol +
           singleProd?.designno +
           "~" +
+          "~" +
           i +
+          "~" + mcArr?.colorcode +
           "~" + mcArr?.colorcode +
           "." +
           singleProd?.ImageExtension;
@@ -1066,12 +1099,12 @@ const ProductDetail = () => {
     if (singleProd?.ImageCount > 0) {
       for (let i = 1; i <= singleProd?.ImageCount; i++) {
         let imgString =
-          storeInit?.CDNDesignImageFol +
-          singleProd?.designno +
-          "~" +
-          i +
-          "." +
-          singleProd?.ImageExtension;
+        storeInit?.CDNDesignImageFol +
+        singleProd?.designno +
+        "~" +
+        i +
+        "." +
+        singleProd?.ImageExtension;
         pdImgList.push(imgString);
       }
     }
@@ -1325,48 +1358,50 @@ const ProductDetail = () => {
                           }}
                         >
                           {
-                            !(isImageload === false && !(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) ?
-                              ([...pdThumbImg, ...pdVideoArr]?.map((ele, i) => (
-                                <SwiperSlide key={i}>
-                                  {ele?.split(".")[1] !== "mp4" ? (
-                                    <img
-                                      // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                                      src={ele ?? imageNotFound}
-                                      onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
-                                      alt={""}
-                                      onLoad={() => setIsImageLoad(false)}
-                                      className="smr_prod_img"
-                                    />
-                                  ) : (
-                                    <div
-                                      className="smr_app_prod_video"
-                                    >
-                                      <video
-                                        src={ele ?? imageNotFound}
-                                        loop={true}
-                                        autoPlay={true}
-                                        style={{
-                                          width: "100%",
-                                          objectFit: "cover",
-                                          // marginTop: "40px",
-                                          height: "90%",
-                                          borderRadius: "8px",
-                                        }}
-                                      />
-                                    </div>
-                                  )}
-                                </SwiperSlide>
-                              )))
-                              :
-                              (
-                                <img
-                                  src={imageNotFound}
-                                  // onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
-                                  // alt={""}
-                                  onLoad={() => setIsImageLoad(false)}
-                                  className="smr_prod_img"
+                            !(isImageload === false && !(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0))  ?
+                            ([...pdThumbImg,...pdVideoArr]?.map((ele,i)=>(
+                              <SwiperSlide key={i}>
+                              {ele?.split(".")[1] !== "mp4" ? (
+                              <img
+                                // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                                src={ele ?? imageNotFound}
+                                onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                                alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className="smr_prod_img"
+                              />
+                              ) : (
+                              <div
+                                className="smr_app_prod_video"
+                              >
+                                <video
+                                  src={ele ?? imageNotFound}
+                                  loop={true}
+                                  autoPlay={true}
+                                  style={{
+                                    width: "100%",
+                                    objectFit: "cover",
+                                    // marginTop: "40px",
+                                    height: "90%",
+                                    borderRadius: "8px",
+                                  }}
+                                  muted={true}
+                                  playsInline={true}
                                 />
-                              )
+                              </div>
+                            )}
+                              </SwiperSlide>
+                            )))
+                            :
+                            (
+                              <img
+                                src={imageNotFound}
+                                // onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                                // alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className="smr_prod_img"
+                              />                        
+                            )
                           }
                         </Swiper>
 
@@ -1670,76 +1705,161 @@ const ProductDetail = () => {
                                 </tr>
                               </table> */}
 
-                              {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
-                                <span style={{ display: 'flex' }}>
-                                  <Typography>
-                                    {
+                                {/* {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
+                                  <span style={{ display: 'flex' }}>
+                                    <Typography>
+                                      {
+                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>
+                                      }
+                                    </Typography>
+                                    &nbsp;
+                                    <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                                  </span>
+                                </div> : null}
+
+                                {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
+
+                                  <span style={{ display: 'flex' }}>
+                                    <Typography>{
                                       <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
-                                    }
-                                  </Typography>
-                                  &nbsp;
-                                  <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
-                                </span>
-                              </div> : null}
+                                    }</Typography>
+                                    &nbsp;
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                  </span>
+                                </div> : null}
 
-                              {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
+                                {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
 
-                                <span style={{ display: 'flex' }}>
-                                  <Typography>{
-                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>
-                                  }</Typography>
-                                  &nbsp;
-                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
-                                </span>
-                              </div> : null}
+                                  <span style={{ display: 'flex' }}>
+                                    <Typography>{
+                                      <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
+                                    }</Typography>
+                                    &nbsp;
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                  </span>
+                                </div> : null}
 
-                              {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
+                                {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
 
-                                <span style={{ display: 'flex' }}>
-                                  <Typography>{
-                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>
-                                  }</Typography>
-                                  &nbsp;
-                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
-                                </span>
-                              </div> : null}
+                                  <span style={{ display: 'flex' }}>
+                                    <Typography>{
+                                      <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
+                                    }</Typography>
+                                    &nbsp;
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                  </span>
+                                </div> : null}
 
-                              {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
+                                {formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
 
-                                <span style={{ display: 'flex' }}>
-                                  <Typography>{
-                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>
-                                  }</Typography>
-                                  &nbsp;
-                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
-                                </span>
-                              </div> : null}
+                                  <span style={{ display: 'flex' }}>
+                                    <Typography>{
+                                      <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
+                                    }</Typography>
+                                    &nbsp;
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                  </span>
+                                </div> : null} */}
+                                {(singleProd1?.Metal_Cost ?? singleProd?.Metal_Cost) !== 0 ? (
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
+    <span style={{ display: 'flex' }}>
+      <Typography>
+        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+        </span>
+      </Typography>
+      &nbsp;
+      <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">
+        {formatter.format((singleProd1?.Metal_Cost ?? singleProd?.Metal_Cost)?.toFixed(2))}
+      </Typography>
+    </span>
+  </div>
+) : null}
 
-                              {formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
+{(singleProd1?.Diamond_Cost ?? singleProd?.Diamond_Cost) !== 0 ? (
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond</Typography>
+    <span style={{ display: 'flex' }}>
+      <Typography>
+        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+        </span>
+      </Typography>
+      &nbsp;
+      <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">
+        {formatter.format((singleProd1?.Diamond_Cost ?? singleProd?.Diamond_Cost)?.toFixed(2))}
+      </Typography>
+    </span>
+  </div>
+) : null}
 
-                                <span style={{ display: 'flex' }}>
-                                  <Typography>{
-                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>
-                                  }</Typography>
-                                  &nbsp;
-                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
-                                </span>
-                              </div> : null}
+{(singleProd1?.ColorStone_Cost ?? singleProd?.ColorStone_Cost) !== 0 ? (
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone</Typography>
+    <span style={{ display: 'flex' }}>
+      <Typography>
+        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+        </span>
+      </Typography>
+      &nbsp;
+      <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">
+        {formatter.format((singleProd1?.ColorStone_Cost ?? singleProd?.ColorStone_Cost)?.toFixed(2))}
+      </Typography>
+    </span>
+  </div>
+) : null}
+
+{(singleProd1?.Misc_Cost ?? singleProd?.Misc_Cost) !== 0 ? (
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC</Typography>
+    <span style={{ display: 'flex' }}>
+      <Typography>
+        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+        </span>
+      </Typography>
+      &nbsp;
+      <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">
+        {formatter.format((singleProd1?.Misc_Cost ?? singleProd?.Misc_Cost)?.toFixed(2))}
+      </Typography>
+    </span>
+  </div>
+) : null}
+
+{(singleProd1?.Labour_Cost ?? singleProd?.Labour_Cost) !== 0 ? (
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour</Typography>
+    <span style={{ display: 'flex' }}>
+      <Typography>
+        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+        </span>
+      </Typography>
+      &nbsp;
+      <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">
+        {formatter.format((singleProd1?.Labour_Cost ?? singleProd?.Labour_Cost)?.toFixed(2))}
+      </Typography>
+    </span>
+  </div>
+) : null}
+
 
                               {
                                 (
@@ -1921,12 +2041,12 @@ const ProductDetail = () => {
                         <ul style={{ margin: "0px 0px 3px 0px" }}>
                           <li
                             className="prod_detail_info_title"
-                          >{`ColorStone Detail(${csList?.filter((ele) => ele?.D === "MISC")?.reduce(
+                          >{`MISC Detail(${csList?.filter((ele) => ele?.D === "MISC")?.reduce(
                             (accumulator, data) => accumulator + data.M,
                             0
                           )}/${csList?.filter((ele) => ele?.D === "MISC")
                             ?.reduce((accumulator, data) => accumulator + data?.N, 0)
-                            .toFixed(3)}ct)`}</li>
+                            .toFixed(3)}ct)`}</li> 
                         </ul>
                         <ul className="smr_mt_detail_title_ul">
                           <li className="smr_proDeatilList_mobileapp">Shape</li>
@@ -1949,6 +2069,7 @@ const ProductDetail = () => {
                   </div>
 
                 </div>
+                
 
 
                 {(stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
@@ -1988,36 +2109,39 @@ const ProductDetail = () => {
                                   checked={cartArr[ele?.StockId] ?? ele?.IsInCart === 1 ? true : false}
                                 />
 
-                              </div>
-                              <img
-                                className="smrMA_productCard_Image"
-                                src={
-                                  ele?.ImageCount > 0 && isAvailable
-                                    ? imageUrl
-                                    : imageNotFound
+                          </div>
+                          {/* <img
+                        className="smrMA_productCard_Image"
+                        src={
+                          storeInit?.DesignImageFol +
+                          ele?.designno +
+                          "_" +
+                          "1" +
+                          "." +
+                          ele?.ImageExtension
+                        }
+                        alt={""}
+                      /> */}
+                          <div className="smr_stockutem_shortinfo" style={{ display: 'flex', flexDirection: 'column', gap: '5px', paddingBottom: '5px', marginTop: '40px' }}>
+                            <span className="dt_prod_designno">
+                              {ele?.designno}{ele?.StockBarcode && `- (${ele?.StockBarcode})`}
+                            </span>
+                            <div className="smr_prod_Allwt">
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  letterSpacing: "1px",
+                                  gap: "3px",
+                                }}
+                              >
+                                {storeInit?.IsMetalWeight == 1 &&
+                                  (<span className="smr_prod_wt">
+                                    <span className="dt_keys">NWT:</span>
+                                    <span className="dt_val">{ele?.NetWt}</span>
+                                  </span>)
                                 }
-                                alt={""}
-                              />
-                              <div className="smr_stockutem_shortinfo" style={{ display: 'flex', flexDirection: 'column', gap: '5px', paddingBottom: '5px', marginTop: '40px' }}>
-                                <span className="dt_prod_designno">
-                                  {ele?.designno}
-                                </span>
-                                <div className="smr_prod_Allwt">
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      letterSpacing: "1px",
-                                      gap: "3px",
-                                    }}
-                                  >
-                                    {storeInit?.IsMetalWeight == 1 &&
-                                      (<span className="smr_prod_wt">
-                                        <span className="dt_keys">NWT:</span>
-                                        <span className="dt_val">{ele?.NetWt}</span>
-                                      </span>)
-                                    }
 
                                     {storeInit?.IsGrossWeight == 1 &&
                                       Number(ele?.GrossWt) !== 0 && (
@@ -2084,30 +2208,32 @@ const ProductDetail = () => {
                   </div>
                 )}
 
-                {(storeInit?.IsProductDetailSimilarDesign == 1 &&
-                  SimilarBrandArr?.length > 0) && <div className="dt_stockItem_div">
-                    <p className="smr_details_title"> Similar Designs</p>
-                    <div className="smr_stockitem_container">
-                      <div className="smr_stock_item_card">
-                        {SimilarBrandArr?.map((ele) => {
-                          const imageUrl =
-                            storeInit?.CDNDesignImageFol + ele?.designno + "~" + "1" + "." + ele?.ImageExtension;
-                          const isAvailable = imageAvailability[ele?.designno];
-                          return (
-                            <div className="smr_stockItemCard" onClick={() => setTimeout(() => handleMoveToDetail(ele), 500)}>
-                              <img
-                                className="smrMA_productCard_Image"
-                                src={
-                                  ele?.ImageCount > 0 && isAvailable
-                                    ? imageUrl
-                                    : imageNotFound
-                                }
-                                alt={""}
-                              />
-                              <div className="smr_stockutem_shortinfo" style={{ display: 'flex', flexDirection: 'column', gap: '5px', paddingBottom: '5px' }}>
-                                <span className="smr_prod_designno" style={{ fontSize: '14px' }}>
-                                  {ele?.designno}
-                                </span>
+                {(storeInit?.IsProductDetailSimilarDesign == 1 && SimilarBrandArr?.length > 0) && <div className="dt_stockItem_div">
+                  <p className="smr_details_title"> Similar Designs</p>
+                  <div className="smr_stockitem_container">
+                    <div className="smr_stock_item_card">
+                      {SimilarBrandArr?.map((ele) => (
+                        <div className="smr_stockItemCard" onClick={() => setTimeout(() => handleMoveToDetail(ele), 500)}>
+                          <img
+                            className="smrMA_productCard_Image"
+                            src={
+
+                              ele?.ImageCount > 0 ?
+                              (storeInit?.CDNDesignImageFol +
+                                ele?.designno +
+                                "~" +
+                                "1" +
+                                "." +
+                                ele?.ImageExtension)
+                              :
+                              imageNotFound
+                            }
+                            alt={""}
+                          />
+                          <div className="smr_stockutem_shortinfo" style={{ display: 'flex', flexDirection: 'column', gap: '5px', paddingBottom: '5px' }}>
+                            <span className="smr_prod_designno" style={{ fontSize: '14px' }}>
+                              {ele?.designno}
+                            </span>
 
                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', fontSize: '16px' }} className="smr_stockItem_price_type_mt">
                                   <spam>
@@ -2161,16 +2287,16 @@ const ProductDetail = () => {
                             <div className="compeletethelook_cont">
                               <div className="smr_ctlImg_containe">
                                 <img
-                                  src={selectedThumbImg?.link}
-                                  // src={
-                                  //   designSetList?.DefaultImageName ? storeInit?.DesignSetImageFol +
-                                  //     designSetList?.designsetuniqueno +
-                                  //     "/" +
-                                  //     designSetList?.DefaultImageName
-                                  //     :
-                                  //     imageNotFound
-                                  // }
-                                  alt={""}
+                                  // src={selectedThumbImg?.link}
+                                  src={
+                                    designSetList?.DefaultImageName ? storeInit?.DesignSetImageFol +
+                                      designSetList?.designsetuniqueno +
+                                      "/" +
+                                      designSetList?.DefaultImageName
+                                      :
+                                      imageNotFound
+                                  }
+                                  alt={"design set"}
                                   className="ctl_img"
                                 />
                               </div>
@@ -2199,57 +2325,61 @@ const ProductDetail = () => {
                                 {(designSetList?.Designdetail == undefined
                                   ? []
                                   : JSON.parse(designSetList?.Designdetail)
-                                )?.map((ele, i) => {
-                                  const imageUrl =
-                                    storeInit?.CDNDesignImageFol + ele?.designno + "~" + "1" + "." + ele?.ImageExtension;
-                                  const isAvailable = imageAvailability1[ele?.designno];
-                                  return (
-                                    <div
-                                      className="completethelook_outer"
-                                      onClick={() => handleMoveToDetail(ele)}
-                                      style={{ borderTop: i !== 0 ? "none" : "" }}
-                                    >
-                                      <div style={{ display: "flex", gap: "60px" }}>
-                                        <div style={{ marginLeft: "12px" }}>
-                                          <img
-                                            src={
-                                              ele?.ImageCount > 0 && isAvailable
-                                                ? imageUrl
-                                                : imageNotFound
+                                )?.map((ele, i) => (
+                                  <div
+                                    className="completethelook_outer"
+                                    onClick={() => handleMoveToDetail(ele)}
+                                    style={{ borderTop: i !== 0 ? "none" : "" }}
+                                  >
+                                    <div style={{ display: "flex", gap: "60px" }}>
+                                      <div style={{ marginLeft: "12px" }}>
+                                        <img
+                                          src={
+                                            ele?.ImageCount > 0
+                                              ? storeInit?.CDNDesignImageFol +
+                                              ele?.designno +
+                                              "~" +
+                                              "1" +
+                                              "." +
+                                              ele?.ImageExtension
+                                              : imageNotFound
+                                          }
+                                          alt={""}
+                                          // src={
+                                          //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
+                                          // }
+                                          className="srthelook_img"
+                                          onError={(e)=>{
+                                            e.target.src=imageNotFound;
+                                          }}
+                                        />
+                                      </div>
+                                      <div className="srthelook_prodinfo">
+                                        <div
+                                          style={{
+                                            fontSize: "14px",
+                                            color: "#7d7f85",
+                                            textTransform: "uppercase",
+                                          }}
+                                          className="srthelook_prodinfo_inner"
+                                        >
+                                          <p>
+                                            {ele?.designno} - {ele?.CategoryName}
+                                            <br />
+                                            {
+                                              <span className="smr_currencyFont">
+                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                              </span>
                                             }
-                                            alt={""}
-                                            // src={
-                                            //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
-                                            // }
-                                            className="srthelook_img"
-                                          />
+                                            &nbsp;
+                                            {
+                                              formatter.format(
+                                                ele?.UnitCostWithMarkUp
+                                              )
+                                            }
+                                          </p>
                                         </div>
-                                        <div className="srthelook_prodinfo">
-                                          <div
-                                            style={{
-                                              fontSize: "14px",
-                                              color: "#7d7f85",
-                                              textTransform: "uppercase",
-                                            }}
-                                            className="srthelook_prodinfo_inner"
-                                          >
-                                            <p>
-                                              {ele?.designno} - {ele?.CategoryName}
-                                              <br />
-                                              {
-                                                <span className="smr_currencyFont">
-                                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                                </span>
-                                              }
-                                              &nbsp;
-                                              {
-                                                formatter.format(
-                                                  ele?.UnitCostWithMarkUp
-                                                )
-                                              }
-                                            </p>
-                                          </div>
-                                          {/* <div>
+                                        {/* <div>
                           <span style={{ fontSize: "30px", color: "#7d7f85",padding:'5px'}} className=''>
                             &#8250;
                           </span>

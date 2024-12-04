@@ -2,28 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./Index.modul.scss";
 import TopSection from "./TopVideo/TopSection";
 import TheDifference from "./TheDifference/TheDifference";
-import PromotionBaner1 from "./PromotionBanner1/PromotionBaner1";
 import PromotionBaner2 from "./PromotionBanner1/PromotionBaner2";
-import ShopByCategory from "./ShopByCategory/ShopByCategory";
-import PromoSetSection from "./BestSellerSection/BestSellerSection";
-import SustainAbility from "./SustainAbility/SustainAbility";
-import BottomBanner from "./ShopBanner/ShopBanner";
-import Footer from "./Footer/Footer";
-import TrendingView from "./TrandingView/TrendingView";
-import TrendingView1 from "./TrandingView/TrendingView1";
-import DesignSet from "./DesignSet/DesignSet1";
-import DesignSet1 from "./DesignSet/DesignSet2";
-import Album from "./Album/Album";
-import Album1 from "./Album/Album1";
-import NewArrival from "./NewArrival/NewArrival";
-import NewArrival1 from "./NewArrival/NewArrival1";
-import BestSellerSection from "./BestSellerSection/BestSellerSection";
-import BestSellerSection1 from "./BestSellerSection/BestSellerSection1";
-import BrandsComponent from "./BrandComponent/BrandComponents";
-import Collection from "./Collection/Collection";
 import ShopBanner from "./ShopBanner/ShopBanner";
 import BottomSection from "./BottomSection/BottomSection";
-import { MenuItem, Select } from "@mui/material";
+import TrendingView1 from "./TrandingView/TrendingView1";
 
 function Home() {
   const [localData, setLocalData] = useState();
@@ -53,19 +35,11 @@ function Home() {
         <div style={{ minHeight: minHeight }}>
           <div className="stam_home_index_Submain">
             <TopSection />
-            <TheDifference />
-            <PromotionBaner2 />
             <ShopBanner />
+            <PromotionBaner2 />
+            <TrendingView1/>
+            <TheDifference />
             <BottomSection />
-            {/* <TrendingView1 /> */}
-            {/* {localData?.IsHomeAlbum === 1 && <Album1 />}
-            {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
-            {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
-            {localData?.IsHomeTrending === 1 && <TrendingView1 />}
-            {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */}
-            {/* <PromotionBaner1 /> */}
-            {/* <Collection /> */}
-            {/* <BrandsComponent /> */}
           </div>
         </div>
       </div>

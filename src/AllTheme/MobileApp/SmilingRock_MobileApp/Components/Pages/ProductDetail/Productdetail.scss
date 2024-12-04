@@ -32,6 +32,7 @@
     width:60%;
     display: flex;
     justify-content: center;
+    margin-top: 1rem;
 }
 
 .smr_prod_shortInfo{
@@ -451,6 +452,6 @@ color: $primaryfontcolor2;
     }
     .smrMA_prod_shortInfo_inner{
         width:100%;
-        margin:50px 20px; 
+        margin:-5px 20px; 
     }
 }

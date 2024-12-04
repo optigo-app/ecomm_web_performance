@@ -10,6 +10,7 @@ import { useRecoilValue } from 'recoil';
 import Cookies from 'js-cookie';
 import noimagefound from './../../../Assets/image-not-found.jpg' ;
 import { FiChevronRight } from "react-icons/fi";
+import { FaChevronUp ,FaChevronDown } from "react-icons/fa6";
 
 
 const ShopBanner = () => {
@@ -17,7 +18,10 @@ const ShopBanner = () => {
     const islogin = useRecoilValue(mala_loginState);
     const [imageUrl, setImageUrl] = useState();
     const [albumList, setAlbumList] = useState([]);
+    const [More,setMore] = useState(false)
+    const [AlbumShowMore,setAlbumShowMore] = useState(6)
     const navigation = useNavigate();
+  
     const apiCall = () => {
       const loginUserDetail = JSON?.parse(
         sessionStorage?.getItem("loginUserDetail")
@@ -35,19 +39,12 @@ const ShopBanner = () => {
       Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum", finalID)
       .then((response) => {
         if (response?.Data?.rd) {
-          console.log("called album", response?.Data?.rd);
-          console.log(response?.Data?.rd);
           setAlbumList(response?.Data?.rd);
         }
       })
-      Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum_List", finalID)
-        .then((response) => {
-          if (response?.Data?.rd) {
-            console.log("album", response?.Data?.rd);
-            // setAlbumList(response?.Data?.rd);
-          }
-        })
-        .catch((err) => console.log(err));
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
     };
   
     const compressAndEncode = (inputString) => {
@@ -61,13 +58,6 @@ const ShopBanner = () => {
       }
     };
 
-    const GenrateImageV2 = (data)=>{
-      let Image ;
-      Image =  imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName
-    //   return 'URL_ADDRESS'
-      return Image
-    }
-
     function handleNavigate(name) {
     navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`);
   }
@@ -78,11 +68,18 @@ const ShopBanner = () => {
     // {albumList && albumList?.slice(0,4)?.map((data, i) 
 
     // img={GenrateImage(data)} title={data?.AlbumName} />;
-
+ const Toglefun = ()=>{
+    if(More){
+      setAlbumShowMore(12)
+    }else{
+      setAlbumShowMore(6)
+    }
+    setMore(!More)
+ }
 
     return (
       <div className="mala_BottomBannerMain">
-      <CategoryGrid data={albumList?.slice(0,4)} imageUrl={imageUrl} title='Album'/>
+      <CategoryGrid More={More} AlbumShowMore={AlbumShowMore} Toglefun={Toglefun} data={albumList} imageUrl={imageUrl} title='Album'/>
       </div>
     );
 }
@@ -90,13 +87,13 @@ const ShopBanner = () => {
 export default ShopBanner;
 
 
-export const CategoryGrid = ({ title = "Find Your Forever Ring", data ,imageUrl }) => {
+export const CategoryGrid = ({ AlbumShowMore,More ,Toglefun ,title = "Find Your Forever Ring", data ,imageUrl }) => {
+  console.log(data.length , "data.length")
   const navigation  = useNavigate();
 
   const GenrateImage = (data)=>{
     let Image ;
     Image =  imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName
-  //   return 'https://world.forevery.one/WebSiteStaticImage/Forevery/home/labgrownBanner/142.webp'
     return Image ;
   }
 
@@ -121,7 +118,7 @@ export const CategoryGrid = ({ title = "Find Your Forever Ring", data ,imageUrl 
           <h1>{title}</h1>
         </div>
         <div className="mala_grid_container">
-          {data?.map((val, i) => {
+          {data?.slice(0,AlbumShowMore)?.map((val, i) => {
             return (
               <div key={i} className="mala_card-grid">
                 <div className="details_malakan_overlay" onClick={()=>handleNavigate(val?.AlbumName)}>
@@ -146,11 +143,15 @@ export const CategoryGrid = ({ title = "Find Your Forever Ring", data ,imageUrl 
             );
           })}
         </div>
+        {data?.length > 6 && <div className="show_mlore_btn_malaakan">
+          <button  onClick={Toglefun}>Show {!More ? "Less" : "More"} {More ?<FaChevronUp/> : <FaChevronDown/>} </button>
+        </div>}
       </div>
     </>
   );
 };
 
+// FaChevronDown
 
 
 const BannerPost = ({text,color , bg})=>{

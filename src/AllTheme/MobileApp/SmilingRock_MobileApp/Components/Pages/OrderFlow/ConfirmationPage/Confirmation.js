@@ -24,7 +24,7 @@ const Confirmation = () => {
 
     return (
         <div className='smr_confirMaindiv'>
-            <div className='smrMo_confirSecondMaindiv'>
+            <div className='smrMo_confirSecondMaindivd'>
                 <div className="smrMo_thankYouContainer">
                     <div className="smrMo_thankYouContent">
                         <div className="smrMo_thankYouMessage">

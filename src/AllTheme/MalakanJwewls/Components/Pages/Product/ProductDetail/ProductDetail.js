@@ -5,7 +5,7 @@ import { useAsyncError, useLocation, useNavigate } from "react-router-dom";
 import Pako from "pako";
 import { SingleProdListAPI } from "../../../../../../utils/API/SingleProdListAPI/SingleProdListAPI";
 import { SingleFullProdPriceAPI } from "../../../../../../utils/API/SingleFullProdPriceAPI/SingleFullProdPriceAPI";
-import imageNotFound from "../../../Assets/image-not-found.jpg";
+import NOimage from "../../../Assets/image-not-found.jpg";
 import { Accordion, AccordionDetails, AccordionSummary, Checkbox, Skeleton, Typography } from "@mui/material";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
 import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
@@ -43,7 +43,7 @@ import { mala_CartCount, mala_WishCount } from "../../../Recoil/atom";
 
 const ProductDetail = () => {
   let location = useLocation();
-
+  const ErrornoiMAGE = '';
   const [singleProd, setSingleProd] = useState({});
   const [singleProd1, setSingleProd1] = useState({});
   // const [singleProdPrice, setSingleProdPrice] = useState();
@@ -112,7 +112,7 @@ const ProductDetail = () => {
 
   // console.log("sizeData",sizeData)
 
-  // console.log("pdVideoArr", selectedThumbImg?.link ?? imageNotFound)
+  // console.log("pdVideoArr", selectedThumbImg?.link ?? ErrornoiMAGE)
 
   const navigate = useNavigate()
 
@@ -896,6 +896,8 @@ const ProductDetail = () => {
     });
   }
 
+  const [LoadChecker,setloadchecker] = useState(true)
+
   const ProdCardImageFunc = async () => {
     let finalprodListimg;
     let pdImgList = [];
@@ -963,10 +965,8 @@ const ProductDetail = () => {
         }
       }
     } else {
-      finalprodListimg = imageNotFound;
+      finalprodListimg = ErrornoiMAGE;
     }
-
-    console.log("SearchData", pd?.VideoCount);
 
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
@@ -995,7 +995,6 @@ const ProductDetail = () => {
       }
     }
 
-    console.log("SearchData", singleProd);
 
     if (FinalPdImgList?.length > 0) {
       finalprodListimg = FinalPdImgList[0];
@@ -1004,7 +1003,7 @@ const ProductDetail = () => {
       setThumbImgIndex(0)
     }else{
       // step 2 
-      setSelectedThumbImg({ link: imageNotFound, type: "img" });
+      setSelectedThumbImg({ link: ErrornoiMAGE, type: "img" });
         setPdThumbImg();
         setThumbImgIndex();
     }
@@ -1032,10 +1031,18 @@ const ProductDetail = () => {
       //  console.log("checkurl",CheckUrl(`https://www.google.com/`))
 
     }
-
-
-
+    console.log("images123","bypass")
+   if(finalprodListimg){
+    setTimeout(() => {
+      setloadchecker(false)
+    }, 1000);
+    console.log(finalprodListimg,"images123")
     return finalprodListimg;
+   }else{
+    setTimeout(() => {
+      setloadchecker(false)
+    }, 1000);
+   }
   };
 
 
@@ -1046,7 +1053,7 @@ const ProductDetail = () => {
   useEffect(() => {
     if (isImageload === false) {
       if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
-        setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+        setSelectedThumbImg({ "link": ErrornoiMAGE, "type": 'img' });
       }
     }
   }, [isImageload])
@@ -1135,7 +1142,7 @@ const ProductDetail = () => {
         if (isImgAvl) {
           FinalPdColImgList.push(pdImgListCol[i])
         } else {
-          FinalPdColImgList.push(imageNotFound)
+          FinalPdColImgList.push(ErrornoiMAGE)
         }
       }
     }
@@ -1407,7 +1414,6 @@ const ProductDetail = () => {
   }, [designSetList]);
 
 
-
   return (
     <>
       <Helmet>
@@ -1434,7 +1440,7 @@ const ProductDetail = () => {
                   <div className="mala_prod_image_shortInfo">
                     <div className="mala_prod_image_Sec">
                       {/* {isImageload && ( */}
-                      {isImageload && (
+                      {LoadChecker && (
                         <Skeleton
                           sx={{
                             width: "95%",
@@ -1448,22 +1454,26 @@ const ProductDetail = () => {
 
                       <div
                         className="mala_main_prod_img"
-                        style={{ display: isImageload ? "none" : "block" }}
+                        style={{ display: LoadChecker ? "none" : "block" }}
                       >
                         {(selectedThumbImg?.type == "img") ? (
                           <img
-                            src={selectedThumbImg?.link}
-                            // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                            // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
-                            onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                            src={selectedThumbImg && selectedThumbImg?.link !== '' ? selectedThumbImg?.link :  NOimage}
+                            // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : ErrornoiMAGE}
+                            // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? ErrornoiMAGE) }
+                            // onError={() => setSelectedThumbImg({ "link": ErrornoiMAGE, "type": 'img' })}
                             alt={""}
                             onLoad={() => setIsImageLoad(false)}
                             className="mala_prod_img"
+                          //  onError={(e)=>{
+                          //   e.target.src = NOimage ; 
+                          //   e.target.onerror = null ;
+                          //  }}
                           />
                         ) : (
                           <div className="mala_prod_video">
                             <video
-                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : ErrornoiMAGE}
                               loop={true}
                               autoPlay={true}
                               style={{
@@ -1849,8 +1859,7 @@ const ProductDetail = () => {
                                   sx={{
                                     color: "#7d7f85 !important",
                                     borderRadius: 0,
-
-                                    "&.MuiAccordionSummary-root": {
+                                                                        "&.MuiAccordionSummary-root": {
                                       padding: 0,
                                     },
                                   }}
@@ -2547,7 +2556,7 @@ const ProductDetail = () => {
                                   src={
                                     ele?.ImageCount > 0 && isAvailable
                                       ? imageUrl
-                                      : imageNotFound
+                                      : NOimage
                                   }
                                   alt={""}
                                 />
@@ -2641,7 +2650,7 @@ const ProductDetail = () => {
                                       "/" +
                                       designSetList?.DefaultImageName
                                       :
-                                      imageNotFound
+                                      NOimage
                                   }
                                   alt={""}
                                   className="ctl_img"
@@ -2687,7 +2696,7 @@ const ProductDetail = () => {
                                             src={
                                               ele?.ImageCount > 0 && isAvailable ?
                                                 imageUrl
-                                                : imageNotFound
+                                                : NOimage
                                             }
                                             alt={""}
                                             // src={

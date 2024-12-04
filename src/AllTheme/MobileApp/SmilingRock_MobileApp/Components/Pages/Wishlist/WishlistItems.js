@@ -104,7 +104,7 @@ const WishlistItems = (
                                 <span className='smrMo_pipe'> | </span>
                                 <span className='smrMo_wishDT'>GWT: </span>
                                 <span className='smrMo_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                <span className='smrMo_pipe'> | </span>
+                                <span className='smrMo_pipe'>  </span> <br/>
                                 <span className='smrMo_wishDT'>DWT: </span>
                                 <span>{(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
                                 <span className='smrMo_pipe'> | </span>

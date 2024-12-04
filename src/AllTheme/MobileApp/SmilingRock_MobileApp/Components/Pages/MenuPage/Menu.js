@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './Menu.modul.scss'
 import { IoClose } from 'react-icons/io5';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -225,53 +225,97 @@ const Menu = () => {
                         animateTransitions
                         className='smrMA_menuMainSwipe'
                     >
-                        {menuItems.map(menuItem => (
-                            <TabPanel value={value} index={0} style={{ margin: '20px 10% 20px 10%', padding: '0px' }}>
-                                {selectedMenu === menuItem.menuname && (
-                                    <>
-                                        <ButtonBase
-                                            component="div"
-                                            onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}
-                                            style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
-                                        >
-                                            <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
-                                                <button class="smrMA_menuVieAllLink">View All</button>
+                        {menuItems.map(menuItem => {
+                            return  <TabPanel  value={value} index={0} style={{ margin: '20px 10% 20px 10%', padding: '0px'  }}
+                            >
+                            {selectedMenu === menuItem.menuname && (
+                                <>
+                                    <ButtonBase
+                                        component="div"
+                                        onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}
+                                        style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
+                                    >
+                                        <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
+                                            <button class="smrMA_menuVieAllLink">View All</button>
+                                        </div>
+                                    </ButtonBase>
+                                    {/* <List>
+                                        {menuItem.param1.map(subMenuItem => (
+                                            <div key={subMenuItem.param1dataid}>
+                                                <ButtonBase
+                                                    component="div"
+                                                    onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
+                                                    style={{ width: '100%' }}
+                                                >
+                                                    <p className='smrMA_menuMainTitle' style={{ margin: '0px 0px 0px 15px',fontSize: '18px', width: '100%', fontWeight: 600, height: '38px', display: 'flex', alignItems: 'center' }}>{subMenuItem.param1dataname}</p>
+                                                </ButtonBase>
+                                                {selectedMenu === menuItem?.menuname && (
+                                                    <>
+                                                        <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
+                                                            {subMenuItem.param2.map(subSubMenuItem => (
+                                                                <ButtonBase
+                                                                    component="div"
+                                                                    onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
+                                                                    style={{ width: '100%', height: '30px' }}
+                                                                >
+                                                                    <p className="smrMA_SuMenuTitle">
+                                                                        {subSubMenuItem.param2dataname}
+                                                                    </p>
+                                                                </ButtonBase>
+                                                            ))}
+                                                        </List>
+                                                    </>
+                                                )}
                                             </div>
-                                        </ButtonBase>
-                                        <List>
-                                            {menuItem.param1.map(subMenuItem => (
-                                                <div key={subMenuItem.param1dataid}>
-                                                    <ButtonBase
-                                                        component="div"
-                                                        onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
-                                                        style={{ width: '100%' }}
-                                                    >
-                                                        <p className='smrMA_menuMainTitle' style={{ margin: '0px 0px 0px 15px',fontSize: '18px', width: '100%', fontWeight: 600, height: '38px', display: 'flex', alignItems: 'center' }}>{subMenuItem.param1dataname}</p>
-                                                    </ButtonBase>
-                                                    {selectedMenu === menuItem.menuname && (
-                                                        <>
-                                                            <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
-                                                                {subMenuItem.param2.map(subSubMenuItem => (
-                                                                    <ButtonBase
-                                                                        component="div"
-                                                                        onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
-                                                                        style={{ width: '100%', height: '30px' }}
-                                                                    >
-                                                                        <p className="smrMA_SuMenuTitle">
-                                                                            {subSubMenuItem.param2dataname}
-                                                                        </p>
-                                                                    </ButtonBase>
-                                                                ))}
-                                                            </List>
-                                                        </>
-                                                    )}
-                                                </div>
-                                            ))}
-                                        </List>
-                                    </>
-                                )}
-                            </TabPanel>
-                        ))}
+                                        ))}
+                                    </List> */}
+      
+                                                <List >
+    {menuItem.param1 && menuItem.param1.length > 0 ? (
+        menuItem.param1.map(subMenuItem => (
+            <div key={subMenuItem.param1dataid}>
+                <ButtonBase
+                    component="div"
+                    onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
+                    style={{ width: '100%' }}
+                >
+                    <p className='smrMA_menuMainTitle' style={{ margin: '0px 0px 0px 15px', fontSize: '18px', width: '100%', fontWeight: 600, height: '38px', display: 'flex', alignItems: 'center' }}>
+                        {subMenuItem.param1dataname}
+                    </p>
+                </ButtonBase>
+                {selectedMenu === menuItem?.menuname && (
+                    <>
+                        <List  style={{ paddingTop: '0px', paddingBottom: '0px' }}>
+                            {subMenuItem.param2 && subMenuItem.param2.length > 0 && subMenuItem.param2.map(subSubMenuItem => (
+                                subSubMenuItem.param2dataname && subSubMenuItem.param2dataname.trim() !== "" ? (
+                                    <ButtonBase
+                                        component="div"
+                                        onClick={() => handelMenu(
+                                            { "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname },
+                                            { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname },
+                                            { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname }
+                                        )}
+                                        style={{ width: '100%', height: '30px' }}
+                                    >
+                                        <p className="smrMA_SuMenuTitle">
+                                            {subSubMenuItem.param2dataname}
+                                        </p>
+                                    </ButtonBase>
+                                ) : null 
+                            ))}
+                        </List>
+                    </>
+                )}
+            </div>
+        ))
+    ) : null}
+</List>
+
+
+                                </>
+                            )}
+                        </TabPanel>
+                        })}
                         {/* <TabPanel value={value} index={1} style={{ marginInline: '15%', padding: '0px' }}>
 
 
@@ -323,7 +367,7 @@ const Menu = () => {
                                             </div>
                                         </ButtonBase>
                                         <List>
-                                            {menuItem.param1.map(subMenuItem => (
+                                            {menuItem?.param1?.map(subMenuItem => (
                                                 <div key={subMenuItem.param1dataid}>
                                                     <ButtonBase
                                                         component="div"
@@ -335,14 +379,14 @@ const Menu = () => {
                                                     {selectedMenu === menuItem.menuname && (
                                                         <>
                                                             <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
-                                                                {subMenuItem.param2.map(subSubMenuItem => (
+                                                                {subMenuItem?.param2.map(subSubMenuItem => (
                                                                     <ButtonBase
                                                                         component="div"
                                                                         onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
                                                                         style={{ width: '100%', height: '30px' }}
                                                                     >
                                                                         <p className="smrMA_SuMenuTitle">
-                                                                            {subSubMenuItem.param2dataname}
+                                                                            {subSubMenuItem?.param2dataname}
                                                                         </p>
                                                                     </ButtonBase>
                                                                 ))}

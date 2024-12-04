@@ -31,7 +31,7 @@ export default function SearchPage() {
     };
 
     const searchDataFucn = (e) => {
-        if (e.key === "Enter") {
+        if (e.key === "Enter" || 'Enter'== e) {
             if (searchText) {
                 let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
                 let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -77,7 +77,7 @@ export default function SearchPage() {
                             }
                         }}
                     />
-                    <SearchIcon onClick={searchDataFucn} style={{ color: '#7d7f85' }} />
+                    <SearchIcon onClick={()=>searchDataFucn("Enter")} style={{ color: '#7d7f85' }} />
                 </div>
             </div>
 

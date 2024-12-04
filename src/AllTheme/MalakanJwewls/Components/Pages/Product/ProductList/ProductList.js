@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./productlist.scss";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -19,6 +19,7 @@ import {
   Badge,
   Box,
   Button,
+  CardMedia,
   Checkbox,
   Drawer,
   FormControlLabel,
@@ -132,6 +133,7 @@ const ProductList = () => {
   const [isRollOverVideo, setIsRollOverVideo] = useState({});
 
   const [afterCountStatus, setAfterCountStatus] = useState(false);
+  const [loadingIndex, setLoadingIndex] = useState(-1)
 
   const [value, setValue] = React.useState([]);
 
@@ -499,36 +501,37 @@ const ProductList = () => {
     }
   }, [location?.key]);
 
-  useEffect(() => {
-    const finalProdWithPrice = productListData.map((product) => {
-      let pdImgList = [];
+  // useEffect(() => {
+  //   const finalProdWithPrice = productListData.map((product) => {
+  //     let pdImgList = [];
 
-      if (product?.ImageCount > 0) {
-        for (let i = 1; i <= product?.ImageCount; i++) {
-          let imgString =
-            storeInit?.CDNDesignImageFol +
-            product?.designno +
-            "~" +
-            i +
-            "." +
-            product?.ImageExtension;
-          pdImgList.push(imgString);
-        }
-      } else {
-        pdImgList.push(imageNotFound);
-      }
+  //     if (product?.ImageCount > 0) {
+  //       for (let i = 1; i <= product?.ImageCount; i++) {
+  //         let imgString =
+  //           storeInit?.CDNDesignImageFol +
+  //           product?.designno +
+  //           "~" +
+  //           i +
+  //           "." +
+  //           product?.ImageExtension;
+  //         pdImgList.push(imgString);
+  //       }
+  //     } else {
+  //       pdImgList.push(imageNotFound);
+  //     }
 
-      let images = pdImgList;
+  //     let images = pdImgList;
 
-      return {
-        ...product,
-        images,
-      };
-    });
+  //     return {
+  //       ...product,
+  //       images,
+  //     };
+  //   });
 
-    // console.log("finalProdWithPrice", finalProdWithPrice?.filter((ele)=>ele?.ImageCount > 0));
-    setFinalProductListData(finalProdWithPrice);
-  }, [productListData]);
+  //   // console.log("finalProdWithPrice", finalProdWithPrice?.filter((ele)=>ele?.ImageCount > 0));
+  //   setFinalProductListData(finalProdWithPrice);
+  // }, [productListData]);
+
   // useEffect(() => {
   //   const finalProdWithPrice = productListData.map((product) => {
   //     const newPriceData = priceListData?.rd?.find(
@@ -616,6 +619,61 @@ const ProductList = () => {
   //   // console.log("finalProdWithPrice", finalProdWithPrice?.filter((ele)=>ele?.ImageCount > 0));
   //   setFinalProductListData(finalProdWithPrice);
   // }, [productListData, priceListData]);
+
+
+  
+  const generateImageList = useCallback((product) => {
+    let storeInitX = JSON.parse(sessionStorage.getItem("storeInit"));
+    let pdImgList = []
+    if (product?.ImageCount > 0) {
+      for (let i = 1; i <= product?.ImageCount; i++) {
+        let imgString =
+          storeInitX?.CDNDesignImageFol +
+          product?.designno +
+          "~" +
+          i +
+          "." +
+          product?.ImageExtension
+        pdImgList?.push(imgString)
+      }
+    } else {
+      pdImgList?.push(imageNotFound)
+    }
+    return pdImgList
+  }, [])
+
+  useEffect(() => {
+    const initialProducts = productListData?.map(product => ({
+      ...product,
+      images: [],
+      loading: true
+    }))
+    setFinalProductListData(initialProducts)
+    setLoadingIndex(0)
+  }, [productListData])
+
+  useEffect(() => {
+    if (loadingIndex >= finalProductListData?.length) return
+
+    const loadNextProductImages = () => {
+      setFinalProductListData(prevData => {
+        const newData = [...prevData]
+        newData[loadingIndex] = {
+          ...newData[loadingIndex],
+          images: generateImageList(newData[loadingIndex]),
+          loading: false
+        }
+        return newData
+      })
+
+      setLoadingIndex(prevIndex => prevIndex + 1)
+    } 
+
+    const timer = setTimeout(loadNextProductImages, 15)
+    return () => clearTimeout(timer)
+  }, [loadingIndex, finalProductListData, generateImageList])
+
+
 
   const ProdCardImageFunc = (pd, j) => {
     let finalprodListimg;
@@ -2697,6 +2755,7 @@ const ProductList = () => {
                                   const isAllWeight = productData?.Gwt > 0 && productData?.Nwt > 0 && productData?.Dwt > 0 && productData?.CSwt > 0;
                                   const isChecked = cartArr[productData?.autocode] ?? productData?.IsInCart === 1;
                                   const isAvailable = imageAvailability[productData?.autocode];
+                                  const isLoading = productData && productData?.loading === true;
                                   return <>
                                     <div className="mala_productCard">
                                       <div className="cart_and_wishlist_icon">
@@ -2801,7 +2860,28 @@ const ProductList = () => {
                                           </span>
                                         )}
                                       </div>
-                                      <div
+                                      {isLoading ? 
+                                              <CardMedia
+                                                style={{ width: "100%" }}
+                                                className="cardMainSkeleton"
+                                              >
+                                                <Skeleton
+                                                  animation="wave"
+                                                  variant="rect"
+                                                  width={"100%"}
+                                                  height="380px"
+                                                  sx={{
+                                                    height :{
+                                                      sm :"380px",
+                                                      xs :"300px",
+                                                      md :"380px",
+                                                      lg :"380px",
+                                                    }
+                                                  }}
+                                                  style={{ backgroundColor: "#e8e8e86e" }}
+                                                />
+                                              </CardMedia> : 
+                                               <div
                                         onMouseEnter={() => {
                                           handleImgRollover(productData);
                                           if (productData?.VideoCount > 0) {
@@ -2868,18 +2948,11 @@ const ProductList = () => {
                                             //       : imageNotFound
                                             // }
                                             alt=""
-                                          // onClick={() =>
-                                          //   handleMoveToDetail(productData)
-                                          // }
-                                          // onMouseEnter={() => {
-                                          //   handleImgRollover(productData);
-                                          // }}
-                                          // onMouseLeave={() => {
-                                          //   handleLeaveImgRolloverImg(productData);
-                                          // }}
+                                       
                                           />
                                         )}
                                       </div>
+                                      }
                                       <div className="mala_prod_card_info" style={{ height: isAllWeight ? "110px" : "90px" }}>
                                         <div className="mala_prod_Title">
                                           <span
@@ -3273,9 +3346,8 @@ const GivaFilterMenu = ({
 
         // Find the option with the matching id and push its name to checkedNames
         const checkedOption = options.find(
-          (option) => option.id.toString() === checkedId
+          (option) => option?.id?.toString() === checkedId
         );
-        console.log(checkedOption, "before");
 
         if (checkedOption) {
           checkedNames.push(checkedOption.Name);
@@ -3283,10 +3355,10 @@ const GivaFilterMenu = ({
       }
     }
 
-    console.log(checkedNames, "after");
-
     return checkedNames;
   }
+
+
 
   const totalSelected = calculateTotalFilters(FilterValueWithCheckedOnly);
 
@@ -3299,20 +3371,20 @@ const GivaFilterMenu = ({
     setshowMenu((prev) => (prev === id ? -1 : id));
   };
   const isFilterHaveEnoughData =
-    filterData?.length > 1 &&
-    filterData.some(
-      (ele) => ele?.Name === "Category" && ele?.id === "category"
-    );
+    filterData?.length > 0
+  // &&
+  // filterData.some(
+  //   (ele) => ele?.Name === "Category" && ele?.id === "category"
+  // );
   const options = [
     { value: "Recommended", label: "Recommended" },
     { value: "New", label: "New" },
     { value: "Trending", label: "Trending" },
     { value: "Bestseller", label: "Bestseller" },
-    { value: "In Stock", label: "In stock" },
+    { value: "In Stock", label: "In stock", },
     { value: "PRICE HIGH TO LOW", label: "Price High To Low" },
     { value: "PRICE LOW TO HIGH", label: "Price Low To High" },
   ];
-
   return (
     <>
       <div className="giva_filter_menu_style" id="style-1">
@@ -3394,7 +3466,7 @@ const GivaFilterMenu = ({
                         {ele?.id?.includes("Price") && (
                           <Box className="giva_menu">
                             <Typography className="giva_menu_title">
-                              {ele.Fil_DisName}
+                              {ele?.Fil_DisName}
                             </Typography>
                             <Box className="giva_menu_options">
                               {(JSON.parse(ele?.options) ?? []).map(
@@ -3427,22 +3499,22 @@ const GivaFilterMenu = ({
                                       }
                                       label={
                                         <CustomLabel
-                                          text={
-                                            opt?.Minval == 0
-                                              ? `Under ${loginUserDetail?.CurrencyCode ??
+                                        text={
+                                          opt?.Minval == 0
+                                            ? `Under ${loginUserDetail?.CurrencyCode ??
+                                            storeInit?.CurrencyCode
+                                            } ${opt?.Maxval}`
+                                            : opt?.Maxval == 0
+                                              ? `Over ${loginUserDetail?.CurrencyCode ??
+                                              storeInit?.CurrencyCode
+                                              } ${opt?.Minval}`
+                                              : `${loginUserDetail?.CurrencyCode ??
+                                              storeInit?.CurrencyCode
+                                              } ${opt?.Minval} 
+                                                  - ${loginUserDetail?.CurrencyCode ??
                                               storeInit?.CurrencyCode
                                               } ${opt?.Maxval}`
-                                              : opt?.Maxval == 0
-                                                ? `Over ${loginUserDetail?.CurrencyCode ??
-                                                storeInit?.CurrencyCode
-                                                } ${opt?.Minval}`
-                                                : `${loginUserDetail?.CurrencyCode ??
-                                                storeInit?.CurrencyCode
-                                                } ${opt?.Minval} 
-                                                    - ${loginUserDetail?.CurrencyCode ??
-                                                storeInit?.CurrencyCode
-                                                } ${opt?.Maxval}`
-                                          }
+                                        }
                                         />
                                       }
                                     />
