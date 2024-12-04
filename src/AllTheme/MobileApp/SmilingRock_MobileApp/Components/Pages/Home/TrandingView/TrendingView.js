@@ -22,6 +22,7 @@ const TrendingView = () => {
     const trendingRef = useRef(null);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const [trandingViewData, setTrandingViewData] = useState([]);
+    console.log('trandingViewData: ', trandingViewData);
     const navigation = useNavigate();
     const [storeInit, setStoreInit] = useState({});
     const islogin = useRecoilValue(smrMA_loginState);
@@ -71,6 +72,15 @@ const TrendingView = () => {
     }, [])
 
 
+    const checkImageAvailability = (url) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(url);
+            img.onerror = () => resolve(imageNotFound);
+            img.src = url;
+        });
+    };
+
     const callAPI = () => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeinit)
@@ -93,22 +103,14 @@ const TrendingView = () => {
                 const urls = await Promise.all(data?.map(async (item) => {
                     const url = `${storeInitData?.CDNDesignImageFol}${item.designno}~1.${item.ImageExtension}`;
                     const available = await checkImageAvailability(url);
-                    return available ? url : imageNotFound;
+                    return { ...item, src: available }
                 }));
-                setTrandingViewData(data);
-                setImageUrls(urls);
+                // setTrandingViewData(data);
+                setTrandingViewData(urls);
+                // setImageUrls(urls);
             }
         }).catch((err) => console.log(err));
     }
-
-    const checkImageAvailability = (url) => {
-        return new Promise((resolve) => {
-            const img = new Image();
-            img.onload = () => resolve(true);
-            img.onerror = () => resolve(false);
-            img.src = url;
-        });
-    };
 
     const compressAndEncode = (inputString) => {
         try {
@@ -173,7 +175,7 @@ const TrendingView = () => {
                 <div className='linkRingLove' key={i}>
                     <div>
                         <div className='linkLoveRing1' onClick={() => handleNavigation(trandingViewData[i]?.designno, trandingViewData[i]?.autocode, trandingViewData[i]?.TitleLine)}>
-                            <img src={imageUrls[i] || imageNotFound} className='likingLoveImages' alt='Trending Item' />
+                            <img src={trandingViewData[i]?.src || imageNotFound} className='likingLoveImages' alt='Trending Item' />
                         </div>
                         <div className='linkLoveRing1Desc'>
                             <p className='ring1Desc'>{trandingViewData[i]?.designno}</p>
@@ -187,7 +189,7 @@ const TrendingView = () => {
                     {trandingViewData[i + 1] && (
                         <div>
                             <div className='linkLoveRing2' onClick={() => handleNavigation(trandingViewData[i + 1]?.designno, trandingViewData[i + 1]?.autocode, trandingViewData[i + 1]?.TitleLine)}>
-                                <img src={imageUrls[i + 1] || imageNotFound} className='likingLoveImages' alt='Trending Item' />
+                                <img src={trandingViewData[i + 1]?.src || imageNotFound} className='likingLoveImages' alt='Trending Item' />
                             </div>
                             <div className='linkLoveRing1Desc'>
                                 <p className='ring1Desc'>{trandingViewData[i + 1]?.designno}</p>

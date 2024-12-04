@@ -4,7 +4,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, Grid, Snackbar, useMediaQuery } from '@mui/material';
+import { Button, Grid, Skeleton, Snackbar, useMediaQuery } from '@mui/material';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
@@ -23,7 +23,7 @@ const CartItem = ({
   itemLength,
   handleMoveToDetail
 }) => {
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   const [dialogOpen, setDialogOpen] = useState(false);
   const setCartCountVal = useSetRecoilState(smrMA_CartCount)
   const [storeInitData, setStoreInitData] = useState();
@@ -93,12 +93,37 @@ const CartItem = ({
       className='smrMo_cartListCardGrid'>
       <Card className='smrMo_cartListCard' >
         <Box onClick={() => handleMoveToDetail(item)} className="smrmo_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
-          <CardMedia
-            component="img"
-            image={imageSrc}
-            alt={item?.TitleLine}
-            className='smrMo_cartListImage'
-          />
+          {imageSrc === undefined ? (
+            <CardMedia
+              sx={{
+                width: "100%",
+                height: "11rem",
+                '@media (max-width: 425px)': {
+                  width: "9.5rem",
+                },
+              }}
+            >
+              <Skeleton
+                animation="wave"
+                variant="rect"
+                width="11rem"
+                height="100%"
+                sx={{
+                  '@media (max-width: 425px)': {
+                    width: "9.5rem",
+                  },
+                }}
+              />
+            </CardMedia>
+          ) : (
+            <CardMedia
+              component="img"
+              image={imageSrc}
+              alt={item?.TitleLine}
+              className='smrMo_cartListImage'
+            />
+          )}
+
           <div>
             <CardContent className='smrMo_cartcontentData'>
               <Typography variant="body2" className='smrmo_DesignNoTExt'>

@@ -30,6 +30,7 @@ const TrendingView1 = () => {
     const islogin = useRecoilValue(smr_loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
     const setLoadingHome = useSetRecoilState(homeLoading);
+    const [validatedData, setValidatedData] = useState([]);
 
     const isOdd = (num) => num % 2 !== 0;
 
@@ -113,6 +114,33 @@ const TrendingView1 = () => {
         }
         return finalprodListimg
     }
+
+    const checkImageAvailability = (url) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(url);
+            img.onerror = () => resolve(imageNotFound);
+            img.src = url;
+        });
+    };
+
+    const validateImageURLs = async () => {
+        if (!trandingViewData?.length) return;
+        const validatedData = await Promise.all(
+            trandingViewData.map(async (item) => {
+                const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
+                const validatedURL = await checkImageAvailability(imageURL);
+                return { ...item, validatedImageURL: validatedURL };
+            })
+        );
+        setValidatedData(validatedData);
+    };
+
+    useEffect(() => {
+        validateImageURLs();
+    }, [trandingViewData]);
+
+
     const compressAndEncode = (inputString) => {
         try {
             const uint8Array = new TextEncoder().encode(inputString);
@@ -140,13 +168,13 @@ const TrendingView1 = () => {
     }
 
     const chunkedData = [];
-    for (let i = 0; i < trandingViewData?.length; i += 3) {
-        chunkedData.push(trandingViewData?.slice(i, i + 3));
+    for (let i = 0; i < validatedData?.length; i += 3) {
+        chunkedData.push(validatedData?.slice(i, i + 3));
     }
 
     return (
         <div ref={trendingRef}>
-            {trandingViewData?.length != 0 &&
+            {validatedData?.length != 0 &&
                 <div className='smr_mainTrending1Div' >
                     <div className='smr1_trending1TitleDiv'>
                         <span className='smr_trending1Title'>TRENDING</span>
@@ -163,12 +191,13 @@ const TrendingView1 = () => {
                             </div>
                         </div>
                         <div className='smr_rightSideTR'>
-                            {trandingViewData?.slice(0, 4).map((data, index) => (
+                            {validatedData?.slice(0, 4).map((data, index) => (
                                 <div key={index} className="product-card">
                                     <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                         <img
                                             src={data?.ImageCount >= 1 ?
-                                                `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                data?.validatedImageURL
+                                                // `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                 :
                                                 imageNotFound
                                             }

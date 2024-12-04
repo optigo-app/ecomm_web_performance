@@ -139,11 +139,13 @@
 
     .smr_prod_titleLine {
         text-align: start !important;
-        font-size: 35px;
+        // font-size: 35px;
+        font-size: 25px;
         font-family: $homePageFontFamily;
         font-weight: 400;
         font-style: normal;
         color: $primaryfontcolor2;
+        margin-bottom: 3px;
     }
 
     .smr_prod_summury_info {
@@ -234,6 +236,10 @@
         margin-top: 12px;
         justify-content: flex-end;
         margin-right: 20px;
+    }
+
+    .roop_cartWish_div {
+        font-family: $primaryFontFamilyMedium !important;
     }
 
     .Smr_CartAndWish_portion {
@@ -346,6 +352,7 @@
         font-size: 30px;
         font-family: $fontBold !important;
         color: $primaryfontcolor2;
+        text-align: center;
     }
 
     .smr_material_details_portion_inner {
@@ -372,6 +379,15 @@
         width: 100%;
         display: flex;
         justify-content: center;
+    }
+
+    @media (max-width: 500px) {
+        .smr_stockitem_container {
+          display: block;
+          width: 100%; 
+          overflow-x: scroll; 
+          -webkit-overflow-scrolling: touch; 
+        }
     }
 
     .smr_stock_item_card {
@@ -476,6 +492,16 @@
         width: 80%;
         font-family: $primaryFontFamily;
         border: 1px solid #dddddd;
+
+
+        @media screen and (max-width: 768px) {
+            .Smr_stockItem_table {
+                display: block;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+        }
     }
 
     .smr_Swiper_designSet {
@@ -807,7 +833,7 @@
         }
 
         .smr_material_details_portion_inner {
-            width: 87%;
+            width: 100%;
         }
 
         .smr_prod_shortInfo_inner {
@@ -818,7 +844,8 @@
 
     @media screen and (max-width:1400px) {
         .smr_prod_shortInfo_inner {
-            margin: 70px 50px 0px;
+            margin: 80px 50px 0px;
+            // margin: 70px 50px 0px;
             width: 80%;
         }
     }
@@ -831,7 +858,8 @@
 
     @media screen and (max-width:425px) {
         .smr_prod_titleLine {
-            font-size: 30px;
+            // font-size: 30px;
+            font-size: 20px;
         }
 
         .smr_prod_shortInfo_inner {
@@ -845,6 +873,188 @@
         .smr_prod_shortInfo {
             width: 100%;
             padding-inline: 4%;
+        }
+    }
+}
+
+.roop_Stockitems {
+    width: 100%;
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    font-family: $fontRegular !important;
+
+    .roop_stockItem_div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .roop_details_title {
+        font-size: 30px;
+        // font-family: "FreightDisp Pro Medium";
+        font-family: $fontRegular !important;
+        color: $primaryfontcolor2;
+    }
+
+    .roop_material_details_portion_inner {
+        width: 60%;
+    }
+
+    .roop_mt_detail_title_ul {
+        display: flex;
+        text-decoration: none;
+        list-style: none;
+        margin: 0px 0px 3px;
+    }
+
+    .cart_and_wishlist_icon {
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        z-index: 1;
+        flex-direction: row-reverse;
+    }
+
+    .roop_stockitem_container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .roop_stock_item_card {
+        display: flex;
+        justify-content: center;
+        width: 94%;
+        align-items: center;
+        margin-inline: 3%;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .roop_stockItemCard {
+        display: flex;
+        position: relative;
+        width: 310px;
+        border: 1px solid #e1e1e1;
+        text-align: center;
+        flex-direction: column;
+    }
+
+    .roop_productCard_Image {
+        object-fit: contain;
+        // background-position: 50%;
+        background-size: cover;
+        // height: 100%;
+        // min-height: 100%;
+        width: 100%;
+    }
+
+    .roop_prod_Allwt {
+        display: flex;
+        // flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding-inline: 30px;
+        gap: 3px;
+        // font-family: $primaryFontFamily;
+        font-family: $fontRegular !important;
+        color: $primaryfontcolor2;
+    }
+
+    .roop_prod_wt {
+        display: flex;
+        gap: 2px;
+        // font-family: $primaryFontFamily;
+        font-family: $fontRegular !important;
+    }
+
+    .roop_d_keys {
+        font-size: 13px;
+    }
+
+    .roop_d_val {
+        font-size: 13px;
+        font-weight: 400;
+    }
+
+    .roop_prod_designno {
+        font-size: 14px;
+        font-weight: 400;
+        padding: 0px 5px;
+        color: $primaryfontcolor2;
+    }
+
+    .roop_stockItem_price_type_mt {
+        color: $primaryfontcolor;
+        font-size: 14px;
+        // font-family: $primaryFontFamily;
+        font-family: $fontRegular !important;
+    }
+
+    .roop_prodd_datanotfound {
+        // font-family: $primaryFontFamilyMedium;
+        font-family: $fontRegular !important;
+        color: $primaryfontcolor;
+        font-size: 42px;
+    }
+
+    .roop_stockItem_table_tr,
+    .roop_stockItem_table_td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        color: #7d7f85;
+    }
+
+    // .roop_stockItem_table_tr:nth-child(even){
+    //     background-color: #dddddd;
+    // }
+
+    .roop_stockItem_table {
+        border-collapse: collapse;
+        width: 70%;
+        // font-family: $primaryFontFamily;
+        font-family: $fontRegular !important;
+        border: 1px solid #dddddd;
+    }
+
+    .roop_Swiper_designSet {
+        max-width: 1600px;
+    }
+
+    .roop_Price_breakup_label {
+        width: 70px;
+        color: #7d7f85;
+        // font-family: $primaryFontFamily;
+        font-family: $fontRegular !important;
+    }
+
+    .roop_currencyFont {
+        // font-family: $primaryFontFamily;
+        font-family: $fontRegular !important;
+    }
+
+    .roop_PriceBreakup_Price {
+        // font-family: $primaryFontFamily;
+        font-family: $fontRegular !important;
+    }
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        display: unset !important;
+
+        .roop_stockItem_table {
+            display: block;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: scroll;
         }
     }
 }

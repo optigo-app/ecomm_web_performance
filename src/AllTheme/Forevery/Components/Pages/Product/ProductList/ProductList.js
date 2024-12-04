@@ -286,11 +286,14 @@ const ProductList = () => {
     },
   ]
 
-  let getDesignImageFol = storeInit?.DesignImageFol;
-  const getDesignVideoFol = (storeInit?.DesignImageFol)?.slice(0, -13) + "video/";
+  let getDesignImageFol = storeInit?.CDNDesignImageFol;
+  // let getDesignImageFol = storeInit?.DesignImageFol;
+  const getDesignVideoFol = storeInit?.CDNVPath;
+  // const getDesignVideoFol = (storeInit?.DesignImageFol)?.slice(0, -13) + "video/";
 
   const getDynamicImages = (designno, extension) => {
-    return `${getDesignImageFol}${designno}_${1}.${extension}`;
+    return `${getDesignImageFol}${designno}~${1}.${extension}`;
+    // return `${getDesignImageFol}${designno}_${1}.${extension}`;
   };
 
   const getDynamicYellowImage = (item, designno, extension) => {
@@ -303,9 +306,10 @@ const ProductList = () => {
         img.onerror = () => reject(src);
       });
 
-      const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+      const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
+      // const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
       const colorImage = item?.ImageCount > 0
-        ? `${baseImagePath}_Yellow.${extension}`
+        ? `${baseImagePath}~Yellow.${extension}`
         : noImageFound;
       const defaultImage = item?.ImageCount > 0
         ? `${baseImagePath}.${extension}`
@@ -329,9 +333,9 @@ const ProductList = () => {
         img.onerror = () => reject(src);
       });
 
-      const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+      const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
       const colorImage = item?.ImageCount > 0
-        ? `${baseImagePath}_White.${extension}`
+        ? `${baseImagePath}~White.${extension}`
         : noImageFound;
       const defaultImage = item?.ImageCount > 0
         ? `${baseImagePath}.${extension}`
@@ -355,9 +359,9 @@ const ProductList = () => {
         img.onerror = () => reject(src);
       });
 
-      const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+      const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
       const colorImage = item?.ImageCount > 0
-        ? `${baseImagePath}_Rose.${extension}`
+        ? `${baseImagePath}~Rose.${extension}`
         : noImageFound;
       const defaultImage = item?.ImageCount > 0
         ? `${baseImagePath}.${extension}`
@@ -381,10 +385,10 @@ const ProductList = () => {
         img.onerror = () => reject(src);
       });
 
-      const defaultImagePath = `${getDesignImageFol}${designno}_${1}`;
-      const baseImagePath = `${getDesignImageFol}${designno}_${2}`;
+      const defaultImagePath = `${getDesignImageFol}${designno}~${1}`;
+      const baseImagePath = `${getDesignImageFol}${designno}~${2}`;
       const colorImage = item?.ImageCount > 0
-        ? `${baseImagePath}_Yellow.${extension}`
+        ? `${baseImagePath}~Yellow.${extension}`
         : noImageFound;
       const defaultImage = item?.ImageCount > 0 ? `${baseImagePath}.${extension}` : defaultImagePath;
 
@@ -406,10 +410,10 @@ const ProductList = () => {
         img.onerror = () => reject(src);
       });
 
-      const defaultImagePath = `${getDesignImageFol}${designno}_${1}`;
-      const baseImagePath = `${getDesignImageFol}${designno}_${2}`;
+      const defaultImagePath = `${getDesignImageFol}${designno}~${1}`;
+      const baseImagePath = `${getDesignImageFol}${designno}~${2}`;
       const colorImage = item?.ImageCount > 0
-        ? `${baseImagePath}_White.${extension}`
+        ? `${baseImagePath}~White.${extension}`
         : noImageFound;
       const defaultImage = item?.ImageCount > 0 ? `${baseImagePath}.${extension}` : defaultImagePath;
 
@@ -431,10 +435,10 @@ const ProductList = () => {
         img.onerror = () => reject(src);
       });
 
-      const defaultImagePath = `${getDesignImageFol}${designno}_${1}`;
-      const baseImagePath = `${getDesignImageFol}${designno}_${2}`;
+      const defaultImagePath = `${getDesignImageFol}${designno}~${1}`;
+      const baseImagePath = `${getDesignImageFol}${designno}~${2}`;
       const colorImage = item?.ImageCount > 0
-        ? `${baseImagePath}_Rose.${extension}`
+        ? `${baseImagePath}~Rose.${extension}`
         : noImageFound;
       const defaultImage = item?.ImageCount > 0 ? `${baseImagePath}.${extension}` : defaultImagePath;
 
@@ -476,17 +480,48 @@ const ProductList = () => {
     }
   }, [productListData]);
 
+  const loadImage = (src) => new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => resolve(src);
+    img.onerror = () => reject(src);
+  });
 
-  const getDynamicRollImages = (designno, count, extension) => {
+  const getDynamicRollImages = async (designno, count, extension) => {
     if (count > 1) {
-      return `${getDesignImageFol}${designno}_${2}.${extension}`;
+      const imageSrc = `${getDesignImageFol}${designno}~2.${extension}`;
+      try {
+        await loadImage(imageSrc);
+        return imageSrc;
+      } catch (error) {
+        return noImageFound;
+      }
     }
-    return;
+    return noImageFound;
   };
+
+  const [rollImages, setRollImages] = useState({});
+
+  const loadRollImage = async (designno, count, extension) => {
+    const imageSrc = await getDynamicRollImages(designno, count, extension);
+    setRollImages(prevState => ({
+      ...prevState,
+      [designno]: imageSrc
+    }));
+  };
+
+  useEffect(() => {
+    if (productListData) {
+      productListData.forEach(item => {
+        loadRollImage(item.designno, item.ImageCount, item.ImageExtension);
+      });
+    }
+  }, [productListData]);
 
   const getDynamicVideo = (designno, count, extension) => {
     if (extension && count > 0) {
-      const url = `${getDesignVideoFol}${designno}_${1}.${extension}`;
+      const url = `${getDesignVideoFol}${designno}~${1}.${extension}`;
+      // const url = `${getDesignVideoFol}${designno}_${1}.${extension}`;
       return url;
     }
     return;
@@ -1325,6 +1360,7 @@ const ProductList = () => {
               {isOnlyProdLoading ? <div className="for_global_spinner"></div> : (
                 productListData?.map((item, index) => {
                   const images = imageMap[item.designno] || {};
+                  const rollImageUrl = rollImages[item.designno] || noImageFound; 
                   return (
                     <Product_Card
                       StyledRating={StyledRating}
@@ -1341,7 +1377,8 @@ const ProductList = () => {
                       whiteRollImage={images?.whiteRollImage}
                       roseRollImage={images?.roseRollImage}
                       videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
-                      RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
+                      RollImageUrl={rollImageUrl}
+                      // RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
                       loginCurrency={loginCurrency}
                       storeInit={storeInit}
                       handleCartandWish={handleCartandWish}

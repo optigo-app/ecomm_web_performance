@@ -10,12 +10,13 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../../utils/
 import { useNavigate } from "react-router-dom";
 import { for_loginState } from "../../../../Recoil/atom";
 import { useRecoilValue } from "recoil";
+import imageNotFound from '../../../../Assets/image-not-found.jpg';
 import Cookies from "js-cookie";
 import Pako from "pako";
 import btnstyle from "../../../../scss/Button.module.scss";
 import { FaChevronDown } from "react-icons/fa";
 
-const ProductCarousel = ({showmore = false}) => {
+const ProductCarousel = ({ showmore = false }) => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const navigation = useNavigate();
   const [storeInit, setStoreInit] = useState({});
@@ -27,7 +28,8 @@ const ProductCarousel = ({showmore = false}) => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
     let data = JSON.parse(sessionStorage.getItem("storeInit"));
-    setImageUrl(data?.DesignImageFol);
+    // setImageUrl(data?.DesignImageFol);
+    setImageUrl(data?.CDNDesignImageFol);
     const loginUserDetail = JSON.parse(
       sessionStorage.getItem("loginUserDetail")
     );
@@ -50,6 +52,33 @@ const ProductCarousel = ({showmore = false}) => {
       .catch((err) => console.log(err));
   }, []);
 
+  const [validatedData, setValidatedData] = useState([]);
+
+  const checkImageAvailability = (url) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(url);
+      img.onerror = () => resolve(imageNotFound);
+      img.src = url;
+    });
+  };
+
+  const validateImageURLs = async () => {
+    if (!TrendingProductlist?.length) return;
+    const validatedData = await Promise.all(
+      TrendingProductlist.map(async (item) => {
+        const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
+        const validatedURL = await checkImageAvailability(imageURL);
+        return { ...item, validatedImageURL: validatedURL };
+      })
+    );
+    setValidatedData(validatedData);
+  };
+
+  useEffect(() => {
+    validateImageURLs();
+  }, [TrendingProductlist]);
+
   const handleMoveToDetail = (designNo, autoCode, titleLine) => {
     let obj = {
       a: autoCode,
@@ -62,8 +91,7 @@ const ProductCarousel = ({showmore = false}) => {
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
     navigation(
-      `/d/${titleLine.replace(/\s+/g, `_`)}${
-        titleLine?.length > 0 ? "_" : ""
+      `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
       }${designNo}?p=${encodeObj}`
     );
   };
@@ -145,25 +173,25 @@ const ProductCarousel = ({showmore = false}) => {
           modules={[Pagination, Autoplay, FreeMode]}
           className="mySwiper"
         >
-          {TrendingProductlist?.map((data, i) => {
+          {validatedData?.map((data, i) => {
             return (
               <SwiperSlide>
                 <ProductCard
                   title={
-                    !data?.TitleLine?.length > 0 
-                      ? data?.designno 
-                      : data?.designno + ` - ${data?.TitleLine}` 
+                    !data?.TitleLine?.length > 0
+                      ? data?.designno
+                      : data?.designno + ` - ${data?.TitleLine}`
                   }
                   SourceImg={
                     data?.ImageCount >= 1
-                      ? `${imageUrl}${
-                          data?.designno === undefined ? "" : data?.designno
-                        }_1.${
-                          data?.ImageExtension === undefined
-                            ? ""
-                            : data.ImageExtension
-                        }`
-                      : NoImageFound
+                      ?
+                      data?.validatedImageURL
+                      // `${imageUrl}${data?.designno === undefined ? "" : data?.designno
+                      // }~1.${data?.ImageExtension === undefined
+                      //   ? ""
+                      //   : data.ImageExtension
+                      // }`
+                      : imageNotFound
                   }
                   productData={data}
                   storeInit={storeInit}
@@ -183,7 +211,7 @@ const ProductCarousel = ({showmore = false}) => {
           })}
         </Swiper>
       </div>
-    { showmore &&  <div
+      {showmore && <div
         className="show_more_btn"
         style={{
           width: "100%",
@@ -192,16 +220,16 @@ const ProductCarousel = ({showmore = false}) => {
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "transparent",
-          padding : "30px 0"
+          padding: "30px 0"
         }}
       >
         <button
-        style={{
-          padding  :"6px 50px"
-        }}
+          style={{
+            padding: "6px 50px"
+          }}
           className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
         >
-          Show More <FaChevronDown/>
+          Show More <FaChevronDown />
         </button>
       </div>}
     </div>
@@ -216,8 +244,10 @@ const ProductCard = ({
   storeInit,
   productData,
   CurrencyCode,
+  imageNotFound,
   onclick,
 }) => {
+
   return (
     <div className="for_product_card">
       <div className="image_box">
@@ -278,7 +308,7 @@ const ProductCard = ({
           )}
         </div>
         {/* <p>indulge in the enchanting beauty of 18k Gold product Forevery.</p> */}
-       {storeInit?.IsPriceShow == 1 &&   <h4 className="price_fresj">
+        {storeInit?.IsPriceShow == 1 && <h4 className="price_fresj">
           {CurrencyCode}&nbsp;
           {productData?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
         </h4>}

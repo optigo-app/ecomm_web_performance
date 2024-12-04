@@ -2,8 +2,13 @@ import React, { useEffect, useState } from 'react'
 import './BestSellerSection1.scss';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Pako from 'pako';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import { Pagination, Navigation } from 'swiper/modules';
 import { useRecoilValue } from 'recoil';
 import Cookies from 'js-cookie';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
@@ -50,7 +55,8 @@ const ProductGrid = () => {
         setStoreInit(storeinit)
 
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
-        setImageUrl(data?.DesignImageFol);
+        // setImageUrl(data?.DesignImageFol);
+        setImageUrl(data?.CDNDesignImageFol);
 
         Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID).then((response) => {
             if (response?.Data?.rd) {
@@ -72,9 +78,34 @@ const ProductGrid = () => {
         }
     };
 
-    const handleNavigation = (designNo, autoCode, titleLine) => {
+    const [validatedData, setValidatedData] = useState([]);
 
-        console.log('aaaaaaaaaaa', designNo, autoCode, titleLine);
+    const checkImageAvailability = (url) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(url);
+            img.onerror = () => resolve(imageNotFound);
+            img.src = url;
+        });
+    };
+
+    const validateImageURLs = async () => {
+        if (!bestSellerData?.length) return;
+        const validatedData = await Promise.all(
+            bestSellerData.map(async (item) => {
+                const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
+                const validatedURL = await checkImageAvailability(imageURL);
+                return { ...item, validatedImageURL: validatedURL };
+            })
+        );
+        setValidatedData(validatedData);
+    };
+
+    useEffect(() => {
+        validateImageURLs();
+    }, [bestSellerData]);
+
+    const handleNavigation = (designNo, autoCode, titleLine) => {
         let obj = {
             a: autoCode,
             b: designNo,
@@ -86,8 +117,6 @@ const ProductGrid = () => {
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
     }
-
-
 
     const handleMouseEnterRing1 = (data) => {
         if (data?.ImageCount > 1) {
@@ -104,12 +133,13 @@ const ProductGrid = () => {
         return txt.value;
     }
 
-    const chunkedData = [];
-    for (let i = 0; i < bestSellerData?.length; i += 3) {
-        chunkedData.push(bestSellerData?.slice(i, i + 3));
-    }
+    const HandleBestsellerMore = (data) => {
+        const url = `/p/BestSeller/?B=${btoa('BestSeller')}`;
+        const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
+        sessionStorage.setItem('redirectURL', url)
+        navigation(islogin !== 0 ? url : redirectUrl);
+    };
 
-    console.log("kjdkjkjdkjk", ...chunkedData);
 
     return (
         <>
@@ -118,14 +148,125 @@ const ProductGrid = () => {
                     <div className='roop_bestseler1TitleDiv'>
                         <span className='roop_bestseler1Title'>Best Seller</span>
                     </div>
-                    <div className="product-grid">
+                    <div className="roop_bestSellerSet_Main">
+
+                        <div className="roop_bestSeller_main_sub">
+                            <Swiper
+                                modules={[Navigation]}
+                                spaceBetween={30}
+                                navigation={true}
+                                // loop={true}
+                                breakpoints={{
+                                    768: {
+                                        slidesPerView: 4,
+                                        spaceBetween: 20
+                                    },
+                                    500: {
+                                        slidesPerView: 3,
+                                        spaceBetween: 20
+                                    },
+                                    400: {
+                                        slidesPerView: 2,
+                                        spaceBetween: 10
+                                    },
+                                    0: {
+                                        slidesPerView: 1,
+                                        spaceBetween: 10
+                                    },
+                                }}
+                                className='roop_bestseller_main_swiper'
+                            >
+
+                                {validatedData?.map((data, index) => (
+                                    <SwiperSlide key={index}>
+                                        <div className="roop_bestSeller__image_div" onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
+                                            <img
+                                                className="roop_bestSellerImg"
+                                                loading="lazy"
+                                                src={data?.ImageCount >= 1 ?
+                                                    data?.validatedImageURL
+                                                    // `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                    :
+                                                    imageNotFound
+                                                }
+                                                alt={'bestseller'}
+                                            />
+                                            <div className="product-info">
+                                                <h3>{data?.designno} {data?.TitleLine && " - "} {data?.TitleLine != "" && data?.TitleLine}</h3>
+                                                {storeInit?.IsGrossWeight == 1 &&
+                                                    <>
+                                                        <span className='roop_btdetailDT'>GWT: </span>
+                                                        <span className='roop_btdetailDT'>{(data?.Gwt || 0)?.toFixed(3)}</span>
+                                                    </>
+                                                }
+                                                {Number(data?.Nwt) !== 0 && (
+                                                    <>
+                                                        <span className='roop_btpipe'>|</span>
+                                                        <span className='roop_btdetailDT'>NWT : </span>
+                                                        <span className='roop_btdetailDT'>{(data?.Nwt || 0)?.toFixed(3)}</span>
+                                                    </>
+                                                )}
+                                                {storeInit?.IsDiamondWeight == 1 &&
+                                                    <>
+                                                        {(data?.Dwt != "0" || data?.Dpcs != "0") &&
+                                                            <>
+                                                                <span className='roop_btpipe'>|</span>
+                                                                <span className='roop_btdetailDT'>DWT: </span>
+                                                                <span className='roop_btdetailDT'>{(data?.Dwt || 0)?.toFixed(3)}/{(data?.Dpcs || 0)}</span>
+                                                            </>
+                                                        }
+                                                    </>
+                                                }
+                                                {storeInit?.IsStoneWeight == 1 &&
+                                                    <>
+                                                        {(data?.CSwt != "0" || data?.CSpcs != "0") &&
+                                                            <>
+                                                                <span className='roop_btpipe'>|</span>
+                                                                <span className='roop_btdetailDT'>CWT: </span>
+                                                                <span className='roop_btdetailDT'>{(data?.CSwt || 0)?.toFixed(3)}/{(data?.CSpcs || 0)}</span>
+                                                            </>
+                                                        }
+                                                    </>
+                                                }
+                                                <p>
+                                                    <span className="roop_currencyFont">
+                                                        {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(data?.UnitCostWithMarkUp)}</span></p>
+                                            </div>
+                                        </div>
+                                    </SwiperSlide>
+                                ))}
+                                {validatedData?.length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
+                                    width: "25%",
+                                    height: "auto",
+                                    borderRadius: "4px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center"
+                                }}>
+                                    <div className="data_album">
+                                        <button style={{
+                                            border: "none",
+                                            backgroundColor: "transparent",
+                                            fontWeight: "500",
+                                            textDecoration: "underline",
+                                            color: "grey"
+                                        }} className='btn_more_A' onClick={() => HandleBestsellerMore()}>View More</button>
+                                    </div>
+                                </SwiperSlide>}
+                            </Swiper>
+                        </div>
+                    </div >
+                    {/* <div className="product-grid">
                         <div className='roop_leftSideBestSeler'>
-                            {bestSellerData?.slice(0, 4).map((data, index) => (
+                            {validatedData?.slice(0, 4).map((data, index) => (
                                 <div key={index} className="product-card">
                                     <div className='roop_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                         <img
                                             src={data?.ImageCount >= 1 ?
-                                                `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                data?.validatedImageURL
+                                                // `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                 :
                                                 imageNotFound
                                             }
@@ -142,7 +283,7 @@ const ProductGrid = () => {
                                         }
                                         {Number(data?.Nwt) !== 0 && (
                                             <>
-                                            <span className='roop_btpipe'>|</span>
+                                                <span className='roop_btpipe'>|</span>
                                                 <span className='roop_btdetailDT'>NWT : </span>
                                                 <span className='roop_btdetailDT'>{(data?.Nwt || 0)?.toFixed(3)}</span>
                                             </>
@@ -178,17 +319,8 @@ const ProductGrid = () => {
                                 </div>
                             ))}
                         </div>
-                        <div className='roop_rightSideBestSeler'>
-                            {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" /> */}
-                            <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.webp`} alt="modalimages" />
-                            <div className="roop_lookbookImageRightDT">
-                                <p>SHORESIDE COLLECTION</p>
-                                <h2>FOR LOVE OF SUN & SEA</h2>
-                                <button onClick={() => navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)}>SHOP COLLECTION</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    </div> */}
+                </div >
             }
         </>
     );

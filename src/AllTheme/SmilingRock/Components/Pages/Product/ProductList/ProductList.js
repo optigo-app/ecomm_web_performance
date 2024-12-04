@@ -8,7 +8,7 @@ import { findMetal, findMetalColor, findMetalType, formatter } from "../../../..
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import {
-  Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Skeleton, Slider,
+  Accordion, AccordionDetails, AccordionSummary, Box, Button, CardMedia, Checkbox, Drawer, FormControlLabel, Input, Pagination, Skeleton, Slider,
   Typography, useMediaQuery
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -892,12 +892,31 @@ const ProductList = () => {
 
   }
 
-  const handleImgRollover = (pd) => {
+  // const handleImgRollover = (pd) => {
+  //   if (pd?.images?.length >= 1) {
+  //     // setRolloverImgPd((prev) => pd?.images[1])
+  //     setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[1] } })
+  //   }
+  // }
+  const handleImgRollover = async (pd) => {
     if (pd?.images?.length >= 1) {
-      // setRolloverImgPd((prev) => pd?.images[1])
-      setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[1] } })
+      const imageUrl = pd?.images[1];
+
+      try {
+        const isImageAvailable = await checkImageAvailability(imageUrl);
+
+        if (isImageAvailable) {
+          setRolloverImgPd((prev) => {
+            return { [pd?.autocode]: imageUrl };
+          });
+        }
+      } catch (error) {
+        setRolloverImgPd((prev) => {
+          return { [pd?.autocode]: pd?.images[0] };
+        });
+      }
     }
-  }
+  };
 
   const handleLeaveImgRolloverImg = (pd) => {
     if (pd?.images?.length > 0) {
@@ -1403,6 +1422,35 @@ const ProductList = () => {
   //   console.log("breadcum",BreadCumsObj())
   // },[location?.key])
 
+  function checkImageAvailability(imageUrl) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = imageUrl;
+    });
+  }
+
+  const [imageAvailability, setImageAvailability] = useState({});
+
+  useEffect(() => {
+    const checkAllImages = async () => {
+      let availability = {};
+
+      const checks = finalProductListData.map(async (productData) => {
+        const imageUrl = productData?.images?.[0] || imageNotFound;
+        const isAvailable = await checkImageAvailability(imageUrl);
+        availability[productData?.autocode] = isAvailable;
+      });
+
+      // Wait for all availability checks to complete
+      await Promise.all(checks);
+      setImageAvailability(availability);
+    };
+
+    checkAllImages();
+  }, [finalProductListData]);
+
   return (
     <>
       <Helmet>
@@ -1562,57 +1610,60 @@ const ProductList = () => {
                 </select>
               </div>
             )}
-
-            <div
-            // className="smr_sorting_custom"
-            >
+            {storeInit?.IsMetalCustComb === 1 && (
               <div
-              // className="container"
+              // className="smr_sorting_custom"
               >
-                <Typography
-                  className="label"
-                  sx={{
-                    color: "#7f7d85",
-                    fontSize: "14px",
-                    fontFamily: "TT Commons Regular",
-                  }}
+                <div
+                // className="container"
                 >
-                  Sort By:&nbsp;
-                </Typography>
-                <select
-                  style={{
-                    border: "1px solid #e1e1e1",
-                    borderRadius: "8px",
-                    minWidth: "270px",
-                  }}
-                  className="select"
-                  value={sortBySelect}
-                  onChange={(e) => handleSortby(e)}
-                >
-                  <option className="option" value="Recommended">
-                    Recommended
-                  </option>
-                  <option className="option" value="New">
-                    New
-                  </option>
-                  <option className="option" value="Trending">
-                    Trending
-                  </option>
-                  <option className="option" value="Bestseller">
-                    Bestseller
-                  </option>
-                  <option className="option" value="In Stock">
-                    In stock
-                  </option>
-                  <option className="option" value="PRICE HIGH TO LOW">
-                    Price High To Low
-                  </option>
-                  <option className="option" value="PRICE LOW TO HIGH">
-                    Price Low To High
-                  </option>
-                </select>
+                  <Typography
+                    className="label"
+                    sx={{
+                      color: "#7f7d85",
+                      fontSize: "14px",
+                      fontFamily: "TT Commons Regular",
+                    }}
+                  >
+                    Sort By:&nbsp;
+                  </Typography>
+                  <select
+                    style={{
+                      border: "1px solid #e1e1e1",
+                      borderRadius: "8px",
+                      minWidth: "270px",
+                    }}
+                    className="select"
+                    value={sortBySelect}
+                    onChange={(e) => handleSortby(e)}
+                  >
+                    <option className="option" value="Recommended">
+                      Recommended
+                    </option>
+                    <option className="option" value="New">
+                      New
+                    </option>
+                    <option className="option" value="Trending">
+                      Trending
+                    </option>
+                    <option className="option" value="Bestseller">
+                      Bestseller
+                    </option>
+                    {storeInit?.IsStockWebsite == 1 &&
+                      <option className="option" value="In Stock">
+                        In stock
+                      </option>
+                    }
+                    <option className="option" value="PRICE HIGH TO LOW">
+                      Price High To Low
+                    </option>
+                    <option className="option" value="PRICE LOW TO HIGH">
+                      Price Low To High
+                    </option>
+                  </select>
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div className="smr_mobile_filter_portion">
             {filterData?.length > 0 && (
@@ -3031,259 +3082,256 @@ const ProductList = () => {
                                 <div className="smr_outer_portion" id="smr_outer_portion">
                                   {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                                   <div className="smr_inner_portion">
-                                    {finalProductListData?.map((productData, i) => (
-                                      <div className="smr_productCard">
-                                        <div className="cart_and_wishlist_icon">
-                                          {/* <Button className="smr_cart-icon"> */}
-                                          <Checkbox
-                                            icon={
-                                              <LocalMallOutlinedIcon
-                                                sx={{
-                                                  fontSize: "22px",
-                                                  color: "#7d7f85",
-                                                  opacity: ".7",
-                                                }}
-                                              />
-                                            }
-                                            checkedIcon={
-                                              <LocalMallIcon
-                                                sx={{
-                                                  fontSize: "22px",
-                                                  color: "#009500",
-                                                }}
-                                              />
-                                            }
-                                            disableRipple={false}
-                                            sx={{ padding: "10px" }}
-                                            onChange={(e) =>
-                                              handleCartandWish(e, productData, "Cart")
-                                            }
-                                            checked={
-                                              cartArr[productData?.autocode] ??
-                                                productData?.IsInCart === 1
-                                                ? true
-                                                : false
-                                            }
-                                          />
-                                          {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
-                                          {/* </Button> */}
-                                          {/* <Button className="smr_wish-icon"> */}
-                                          <Checkbox
-                                            icon={
-                                              <StarBorderIcon
-                                                sx={{
-                                                  fontSize: "22px",
-                                                  color: "#7d7f85",
-                                                  opacity: ".7",
-                                                }}
-                                              />
-                                            }
-                                            checkedIcon={
-                                              <StarIcon
-                                                sx={{
-                                                  fontSize: "22px",
-                                                  color: "#ffd200",
-                                                }}
-                                              />
-                                            }
-                                            disableRipple={false}
-                                            sx={{ padding: "10px" }}
-                                            onChange={(e) =>
-                                              handleCartandWish(e, productData, "Wish")
-                                            }
-                                            // checked={productData?.IsInWish}
-                                            checked={
-                                              wishArr[productData?.autocode] ??
-                                                productData?.IsInWish === 1
-                                                ? true
-                                                : false
-                                            }
-                                          // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
-                                          // onChange={(e) => handelWishList(e, products)}
-                                          />
-                                          {/* </Button> */}
-                                        </div>
-
-                                        <div className="smrWeb_app_product_label">
-                                          {productData?.IsInReadyStock == 1 && <span className="smrWeb_app_instock">In Stock</span>}
-                                          {productData?.IsBestSeller == 1 && <span className="smrWeb_app_bestSeller">Best Seller</span>}
-                                          {productData?.IsTrending == 1 && <span className="smrWeb_app_intrending">Trending</span>}
-                                          {productData?.IsNewArrival == 1 && <span className="smrWeb_app_newarrival">New</span>}
-                                        </div>
-                                        <div
-                                          onMouseEnter={() => {
-                                            handleImgRollover(productData);
-                                            if (productData?.VideoCount > 0) {
-                                              setIsRollOverVideo({ [productData?.autocode]: true })
-                                            } else {
-                                              setIsRollOverVideo({ [productData?.autocode]: false })
-                                            }
-                                          }}
-
-                                          onClick={() =>
-                                            handleMoveToDetail(productData)
-                                          }
-
-                                          onMouseLeave={() => {
-                                            handleLeaveImgRolloverImg(productData);
-                                            setIsRollOverVideo({ [productData?.autocode]: false })
-                                          }}
-                                          className="smr_ImgandVideoContainer"
-                                        >
-                                          {
-                                            isRollOverVideo[productData?.autocode] == true ?
-                                              <video
-                                                //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
-                                                src={productData?.VideoCount > 0 ?
-                                                  (storeInit?.CDNVPath) +
-                                                  productData?.designno +
-                                                  "~" +
-                                                  1 +
-                                                  "." +
-                                                  productData?.VideoExtension : ""}
-                                                loop={true}
-                                                autoPlay={true}
-                                                className="smr_productCard_video"
-                                              // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
-                                              />
-                                              :
-                                              <img
-                                                className="smr_productListCard_Image"
-                                                id={`smr_productListCard_Image${productData?.autocode}`}
-                                                // src={productData?.DefaultImageName !== "" ? storeInit?.CDNDesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                                                // src={ ProdCardImageFunc(productData,0)}
-                                                src={
-                                                  rollOverImgPd[productData?.autocode]
-                                                    ? rollOverImgPd[productData?.autocode]
-                                                    : productData?.images?.length > 0
-                                                      ? productData?.images[0]
-                                                      : imageNotFound
-                                                }
-                                                alt=""
-                                              // onClick={() =>
-                                              //   handleMoveToDetail(productData)
-                                              // }
-                                              // onMouseEnter={() => {
-                                              //   handleImgRollover(productData);
-                                              // }}
-                                              // onMouseLeave={() => {
-                                              //   handleLeaveImgRolloverImg(productData);
-                                              // }}
-                                              />
-
-                                          }
-                                        </div>
-                                        <div className="smr_prod_card_info">
-                                          <div className="smr_prod_Title">
-                                            <span
-                                              className={
-                                                (productData?.TitleLine?.length > 30)
-                                                  ?
-                                                  "smr1_prod_title_with_width"
-                                                  :
-                                                  "smr1_prod_title_with_no_width"
+                                    {finalProductListData?.map((productData, i) => {
+                                      const isAvailable = imageAvailability[productData?.autocode];
+                                      return (
+                                        <div className="smr_productCard">
+                                          <div className="cart_and_wishlist_icon">
+                                            {/* <Button className="smr_cart-icon"> */}
+                                            <Checkbox
+                                              icon={
+                                                <LocalMallOutlinedIcon
+                                                  sx={{
+                                                    fontSize: "22px",
+                                                    color: "#7d7f85",
+                                                    opacity: ".7",
+                                                  }}
+                                                />
                                               }
-                                            >
-                                              {/* {productData?.TitleLine?.length > 0 &&
+                                              checkedIcon={
+                                                <LocalMallIcon
+                                                  sx={{
+                                                    fontSize: "22px",
+                                                    color: "#009500",
+                                                  }}
+                                                />
+                                              }
+                                              disableRipple={false}
+                                              sx={{ padding: "10px" }}
+                                              onChange={(e) =>
+                                                handleCartandWish(e, productData, "Cart")
+                                              }
+                                              checked={
+                                                cartArr[productData?.autocode] ??
+                                                  productData?.IsInCart === 1
+                                                  ? true
+                                                  : false
+                                              }
+                                            />
+                                            {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
+                                            {/* </Button> */}
+                                            {/* <Button className="smr_wish-icon"> */}
+                                            <Checkbox
+                                              icon={
+                                                <StarBorderIcon
+                                                  sx={{
+                                                    fontSize: "22px",
+                                                    color: "#7d7f85",
+                                                    opacity: ".7",
+                                                  }}
+                                                />
+                                              }
+                                              checkedIcon={
+                                                <StarIcon
+                                                  sx={{
+                                                    fontSize: "22px",
+                                                    color: "#ffd200",
+                                                  }}
+                                                />
+                                              }
+                                              disableRipple={false}
+                                              sx={{ padding: "10px" }}
+                                              onChange={(e) =>
+                                                handleCartandWish(e, productData, "Wish")
+                                              }
+                                              // checked={productData?.IsInWish}
+                                              checked={
+                                                wishArr[productData?.autocode] ??
+                                                  productData?.IsInWish === 1
+                                                  ? true
+                                                  : false
+                                              }
+                                            // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
+                                            // onChange={(e) => handelWishList(e, products)}
+                                            />
+                                            {/* </Button> */}
+                                          </div>
+
+                                          <div className="smrWeb_app_product_label">
+                                            {productData?.IsInReadyStock == 1 && <span className="smrWeb_app_instock">In Stock</span>}
+                                            {productData?.IsBestSeller == 1 && <span className="smrWeb_app_bestSeller">Best Seller</span>}
+                                            {productData?.IsTrending == 1 && <span className="smrWeb_app_intrending">Trending</span>}
+                                            {productData?.IsNewArrival == 1 && <span className="smrWeb_app_newarrival">New</span>}
+                                          </div>
+
+                                          <div
+                                            onMouseEnter={() => {
+                                              handleImgRollover(productData);
+                                              if (productData?.VideoCount > 0) {
+                                                setIsRollOverVideo({ [productData?.autocode]: true });
+                                              } else {
+                                                setIsRollOverVideo({ [productData?.autocode]: false });
+                                              }
+                                            }}
+                                            onClick={() => handleMoveToDetail(productData)}
+                                            onMouseLeave={() => {
+                                              handleLeaveImgRolloverImg(productData);
+                                              setIsRollOverVideo({ [productData?.autocode]: false });
+                                            }}
+                                            className="smr_ImgandVideoContainer"
+                                          >
+                                            {
+                                              isRollOverVideo[productData?.autocode] === true ?
+                                                (
+                                                  <video
+                                                    src={productData?.VideoCount > 0 ?
+                                                      `${storeInit?.CDNVPath}${productData?.designno}~1.${productData?.VideoExtension}`
+                                                      : ""}
+                                                    loop
+                                                    autoPlay
+                                                    className="smr_productCard_video"
+                                                    onError={(e) => {
+                                                      e.target.poster = imageNotFound; // Default image when video fails to load
+                                                    }}
+                                                  />
+                                                ) : (
+                                                  <>
+                                                    {isAvailable === undefined ? (
+                                                      <CardMedia style={{ width: '100%', height: '100%' }} className='roop_productCard_cardMainSkeleton'>
+                                                        <Skeleton animation="wave" variant="rect" width={'100%'} height='100%' style={{ backgroundColor: '#e8e8e86e' }} />
+                                                      </CardMedia>
+                                                    ) : (
+                                                      <img
+                                                        className="smr_productListCard_Image"
+                                                        id={`smr_productListCard_Image${productData?.autocode}`}
+                                                        src={
+                                                          rollOverImgPd[productData?.autocode]
+                                                            ? rollOverImgPd[productData?.autocode]
+                                                            : isAvailable
+                                                              ? productData?.images[0] // Default image when no rollover image
+                                                              : imageNotFound
+                                                        }
+                                                        onError={(e) => {
+                                                          e.target.src = imageNotFound; // Fallback in case image is not available
+                                                        }}
+                                                        alt=""
+                                                      />
+                                                    )}
+                                                  </>
+                                                )
+                                            }
+                                          </div>
+                                          <div className="smr_prod_card_info">
+                                            <div className="smr_prod_Title">
+                                              <span
+                                                className={
+                                                  (productData?.TitleLine?.length > 30)
+                                                    ?
+                                                    "smr1_prod_title_with_width"
+                                                    :
+                                                    "smr1_prod_title_with_no_width"
+                                                }
+                                              >
+                                                {/* {productData?.TitleLine?.length > 0 &&
                                             "-"}
                                           {productData?.TitleLine}{" "} */}
-                                              {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
-                                            </span>
-                                            {/* <span className="smr_prod_designno">
+                                                {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
+                                              </span>
+                                              {/* <span className="smr_prod_designno">
                                           {productData?.designno}
                                         </span> */}
-                                          </div>
-                                          <div className="smr_prod_Allwt">
-                                            <div
-                                              style={{
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                                letterSpacing: maxwidth590px
-                                                  ? "0px"
-                                                  : "1px",
-                                                // gap:maxwidth1674px ? '0px':'3px',
-                                                flexWrap: "wrap",
-                                              }}
-                                            >
-                                              {/* <span className="smr_por"> */}
-
-                                              {storeInit?.IsGrossWeight == 1 &&
-                                                Number(productData?.Gwt) !== 0 && (
-                                                  <span className="smr_prod_wt">
-                                                    <span className="smr_main_keys">
-                                                      GWT:
-                                                    </span>
-                                                    <span className="smr_main_val">
-                                                      {(productData?.Gwt)?.toFixed(3)}
-                                                    </span>
-                                                  </span>
-                                                )}
-                                              {Number(productData?.Nwt) !== 0 && (
-                                                <>
-                                                  <span style={{ fontSize: '13px' }}>|</span>
-                                                  <span className="smr_prod_wt">
-                                                    <span className="smr_main_keys">NWT:</span>
-                                                    <span className="smr_main_val">
-                                                      {(productData?.Nwt)?.toFixed(3)}
-                                                    </span>
-                                                  </span>
-                                                </>
-                                              )}
-                                              {/* </span> */}
-                                              {/* <span className="smr_por"> */}
-                                              {storeInit?.IsDiamondWeight == 1 &&
-                                                Number(productData?.Dwt) !== 0 && (
-                                                  <>
-                                                    <span style={{ fontSize: '13px' }}>|</span>
-                                                    <span className="smr_prod_wt">
-                                                      <span className="smr_main_keys">
-                                                        DWT:
-                                                      </span>
-                                                      <span className="smr_main_val">
-                                                        {(productData?.Dwt)?.toFixed(3)}
-                                                        {storeInit?.IsDiamondPcs === 1
-                                                          ? `/${productData?.Dpcs}`
-                                                          : null}
-                                                      </span>
-                                                    </span>
-                                                  </>
-                                                )}
-                                              {storeInit?.IsStoneWeight == 1 &&
-                                                Number(productData?.CSwt) !== 0 && (
-                                                  <>
-                                                    <span style={{ fontSize: '13px' }}>|</span>
-                                                    <span className="smr_prod_wt">
-                                                      <span className="smr_main_keys">
-                                                        CWT:
-                                                      </span>
-                                                      <span className="smr_main_val">
-                                                        {(productData?.CSwt)?.toFixed(3)}
-                                                        {storeInit?.IsStonePcs === 1
-                                                          ? `/${productData?.CSpcs}`
-                                                          : null}
-                                                      </span>
-                                                    </span>
-                                                  </>
-                                                )}
-                                              {/* </span> */}
                                             </div>
-                                          </div>
-                                          <div className="smr_prod_mtcolr_price">
-                                            <span className="smr_prod_metal_col">
-                                              {findMetalColor(
-                                                productData?.MetalColorid
-                                              )?.[0]?.metalcolorname.toUpperCase()}
-                                              -
-                                              {
-                                                findMetalType(
-                                                  productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
-                                                )[0]?.metaltype
-                                              }
-                                            </span>
-                                            <span>/</span>
-                                            <span className="smr_price">
-                                              {/*  <span
+                                            <div className="smr_prod_Allwt">
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  justifyContent: "center",
+                                                  alignItems: "center",
+                                                  letterSpacing: maxwidth590px
+                                                    ? "0px"
+                                                    : "1px",
+                                                  // gap:maxwidth1674px ? '0px':'3px',
+                                                  flexWrap: "wrap",
+                                                }}
+                                              >
+                                                {/* <span className="smr_por"> */}
+
+                                                {storeInit?.IsGrossWeight == 1 &&
+                                                  Number(productData?.Gwt) !== 0 && (
+                                                    <span className="smr_prod_wt">
+                                                      <span className="smr_main_keys">
+                                                        GWT:
+                                                      </span>
+                                                      <span className="smr_main_val">
+                                                        {(productData?.Gwt)?.toFixed(3)}
+                                                      </span>
+                                                    </span>
+                                                  )}
+                                                {Number(productData?.Nwt) !== 0 && (
+                                                  <>
+                                                    <span style={{ fontSize: '13px' }}>|</span>
+                                                    <span className="smr_prod_wt">
+                                                      <span className="smr_main_keys">NWT:</span>
+                                                      <span className="smr_main_val">
+                                                        {(productData?.Nwt)?.toFixed(3)}
+                                                      </span>
+                                                    </span>
+                                                  </>
+                                                )}
+                                                {/* </span> */}
+                                                {/* <span className="smr_por"> */}
+                                                {storeInit?.IsDiamondWeight == 1 &&
+                                                  Number(productData?.Dwt) !== 0 && (
+                                                    <>
+                                                      <span style={{ fontSize: '13px' }}>|</span>
+                                                      <span className="smr_prod_wt">
+                                                        <span className="smr_main_keys">
+                                                          DWT:
+                                                        </span>
+                                                        <span className="smr_main_val">
+                                                          {(productData?.Dwt)?.toFixed(3)}
+                                                          {storeInit?.IsDiamondPcs === 1
+                                                            ? `/${productData?.Dpcs}`
+                                                            : null}
+                                                        </span>
+                                                      </span>
+                                                    </>
+                                                  )}
+                                                {storeInit?.IsStoneWeight == 1 &&
+                                                  Number(productData?.CSwt) !== 0 && (
+                                                    <>
+                                                      <span style={{ fontSize: '13px' }}>|</span>
+                                                      <span className="smr_prod_wt">
+                                                        <span className="smr_main_keys">
+                                                          CWT:
+                                                        </span>
+                                                        <span className="smr_main_val">
+                                                          {(productData?.CSwt)?.toFixed(3)}
+                                                          {storeInit?.IsStonePcs === 1
+                                                            ? `/${productData?.CSpcs}`
+                                                            : null}
+                                                        </span>
+                                                      </span>
+                                                    </>
+                                                  )}
+                                                {/* </span> */}
+                                              </div>
+                                            </div>
+                                            <div className="smr_prod_mtcolr_price">
+                                              <span className="smr_prod_metal_col">
+                                                {findMetalColor(
+                                                  productData?.MetalColorid
+                                                )?.[0]?.metalcolorname.toUpperCase()}
+                                                -
+                                                {
+                                                  findMetalType(
+                                                    productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
+                                                  )[0]?.metaltype
+                                                }
+                                              </span>
+                                              <span>/</span>
+                                              <span className="smr_price">
+                                                {/*  <span
                                         className="smr_currencyFont"
                                         dangerouslySetInnerHTML={{
                                           __html: decodeEntities(
@@ -3291,26 +3339,27 @@ const ProductList = () => {
                                           ),
                                         }}
                                       /> */}
-                                              <span className="smr_currencyFont">
-                                                {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                              </span>
-                                              <span className="smr_pricePort">
-                                                {/* {productData?.ismrpbase === 1
+                                                <span className="smr_currencyFont">
+                                                  {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                </span>
+                                                <span className="smr_pricePort">
+                                                  {/* {productData?.ismrpbase === 1
                                               ? productData?.mrpbaseprice
                                               : PriceWithMarkupFunction(
                                                 productData?.markup,
                                                 productData?.price,
                                                 storeInit?.CurrencyRate
                                               )?.toFixed(2)} */}
-                                                {formatter(
-                                                  productData?.UnitCostWithMarkUp
-                                                )}
+                                                  {formatter(
+                                                    productData?.UnitCostWithMarkUp
+                                                  )}
+                                                </span>
                                               </span>
-                                            </span>
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                    ))}
+                                      )
+                                    })}
                                   </div>
                                 </div>
                                 {storeInit?.IsProductListPagination == 1 &&

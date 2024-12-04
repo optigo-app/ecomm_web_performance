@@ -52,10 +52,10 @@ function Home() {
           <div className="stam_home_index_Submain">
             <TopSection />
             {localData?.IsHomeAlbum === 1 && <JewellerySet />}
-            {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
-            {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
             {localData?.IsHomeTrending === 1 && <TrendingView1 />}
+            {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
             <Collection />
+            {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
             {/* <TheDifference /> */}
             {/* <TrendingView1 /> */}
             {/* <PromotionBaner2 /> */}

@@ -10,6 +10,7 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../../utils/
 import { useNavigate } from "react-router-dom";
 import { for_loginState } from "../../../../Recoil/atom";
 import { useRecoilValue } from "recoil";
+import imageNotFound from '../../../../Assets/image-not-found.jpg';
 import Cookies from "js-cookie";
 import Pako from "pako";
 import btnstyle from "../../../../scss/Button.module.scss";
@@ -22,6 +23,7 @@ const NewArrivalCarousel = ({ showmore = false }) => {
   const islogin = useRecoilValue(for_loginState);
   const [TrendingProductlist, setTrendingProductlist] = useState([]);
   const [imageUrl, setImageUrl] = useState();
+
 
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -57,11 +59,41 @@ const NewArrivalCarousel = ({ showmore = false }) => {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const [validatedData, setValidatedData] = useState([]);
+
+  const checkImageAvailability = (url) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(url);
+      img.onerror = () => resolve(imageNotFound);
+      img.src = url;
+    });
+  };
+
+  const validateImageURLs = async () => {
+    if (!TrendingProductlist?.length) return;
+    const validatedData = await Promise.all(
+      TrendingProductlist.map(async (item) => {
+        const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
+        const validatedURL = await checkImageAvailability(imageURL);
+        return { ...item, validatedImageURL: validatedURL };
+      })
+    );
+    setValidatedData(validatedData);
+  };
+
+  useEffect(() => {
+    validateImageURLs();
+  }, [TrendingProductlist]);
+
   const ImageGenrate = (product) => {
     return product?.ImageCount >= 1
-      ? `${imageUrl}${TrendingProductlist && product?.designno}_1.${TrendingProductlist && product?.ImageExtension
-      }`
-      : "noImageFound";
+      ?
+      product?.validatedImageURL
+      // `${imageUrl}${TrendingProductlist && product?.designno}~1.${TrendingProductlist && product?.ImageExtension
+      // }`
+      : imageNotFound;
   };
   const handleMoveToDetail = (designNo, autoCode, titleLine) => {
     let obj = {
@@ -164,7 +196,7 @@ const NewArrivalCarousel = ({ showmore = false }) => {
           modules={[Pagination, Autoplay, FreeMode]}
           className="mySwiper"
         >
-          {TrendingProductlist?.map((data, i) => {
+          {validatedData?.map((data, i) => {
             return (
               <SwiperSlide>
                 <ProductCard

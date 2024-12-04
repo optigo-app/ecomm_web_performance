@@ -28,6 +28,7 @@ import {
 } from "../../../../../../utils/API/AccountTabs/OrderHistory";
 import { useNavigate } from "react-router-dom";
 import Pako from "pako";
+import imageNotFound from '../../../Assets/image-not-found.jpg';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import PrintIcon from "@mui/icons-material/Print";
@@ -82,6 +83,15 @@ const NewOrderHistory = () => {
         return "text_primary_oh";
     }
   };
+
+  const checkImageAvailability = (url) => {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(url);
+        img.onerror = () => resolve(false);
+        img.src = url;
+    });
+};
 
   const getData = async () => {
     setLoaderOH(true);
@@ -262,6 +272,42 @@ const NewOrderHistory = () => {
   const handleToggleTaxes = (id) => {
     setOpenTaxes(openTaxes === id ? null : id); // Toggle taxes dropdown by item id
   };
+
+  const [images, setImages] = useState([]);
+  
+  useEffect(() => {
+    const fetchImages = async () => {
+      const updatedImages = await Promise.all(orderDetails?.map(async (el) => {
+        let finalImage = "";
+        const checkColorimage = `${image_path}Design_Thumb/${el?.designno}~1${el?.metalcolorname ? `~${el.metalcolorname}` : ''}.jpg`;
+        const checkImage = await checkImageAvailability(checkColorimage);
+        if(checkImage){
+          finalImage = checkImage;
+        }
+        else {
+          const checkDefaultImage = `${image_path}Design_Thumb/${el?.designno}~1.jpg`;
+          const checkImage = await checkImageAvailability(checkDefaultImage); 
+          if(checkImage){
+            finalImage = checkImage;
+          }
+          else
+          {
+            finalImage = imageNotFound;
+          }
+        }
+
+        return {
+          ...el,
+          finalImage, 
+        };
+      }));
+      setImages(updatedImages);
+    };
+
+    if (orderDetails?.length > 0) {
+      fetchImages(); 
+    }
+  }, [orderDetails]); 
   return (
     <div className="orderHistory_Account_RPJ">
       <div className="orderHistory_acc">
@@ -441,7 +487,8 @@ const NewOrderHistory = () => {
                                 ) : (
                                   <>
                                   <Grid container spacing={4}>
-                                  {orderDetails?.length > 0 && orderDetails?.map((el, index) => (
+                                  {images?.map((el, index) => {
+                                  return  (
                                     <Grid
                                       item
                                       key={index}
@@ -452,7 +499,13 @@ const NewOrderHistory = () => {
                                       xl={orderDetails?.length === 1 ? 3 : 3}
                                     >
                                       <Card sx={{display:'flex', alignItems:'center'}} >
-                                          <img src={`${image_path}Design_Thumb/${el?.designno}~${1}${el?.metalcolorname ? `~${el.metalcolorname}` : ''}.jpg`} onError={handleOrderImageError} alt="#designimage" style={{maxHeight:'90px', maxWidth:'90px', marginRight:'10px'}} onClick={() => handleMoveToDetail(el)} />
+                                      <img 
+                                          src={el.finalImage} 
+                                          onError={handleOrderImageError} 
+                                          alt="designimage" 
+                                          style={{ maxHeight: '90px', maxWidth: '90px', marginRight: '10px' }} 
+                                          onClick={() => handleMoveToDetail(el)} 
+                                      />
                                           {/* <img src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`} onError={handleOrderImageError} alt="#designimage" style={{maxHeight:'90px', maxWidth:'90px', marginRight:'10px'}} onClick={() => handleMoveToDetail(el)} /> */}
                                           <div>
                                             <div>{el?.designno}</div>
@@ -462,7 +515,7 @@ const NewOrderHistory = () => {
                                           </div>
                                       </Card>
                                     </Grid>
-                                  ))}
+                                  )})}
                                 </Grid>
                                 </>
                                 )

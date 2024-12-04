@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Divider, Skeleton, Button } from '@mui/material';
+import { Modal, Divider, Skeleton, Button, CardMedia } from '@mui/material';
 import './smrMo_cartPage.scss';
 import QuantitySelector from './QuantitySelectorMo';
 import CloseIcon from "@mui/icons-material/Close";
@@ -37,7 +37,7 @@ const MobileCartDetails = ({
   open,
   handleClose
 }) => {
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
@@ -81,13 +81,30 @@ const MobileCartDetails = ({
     <Modal open={open} onClose={handleClose} className="smrmo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="smrmo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="smrmo_Cart-imageDiv">
-          <img
-            src={imageSrc}
-            alt="Cluster Diamond"
-            className='smrmo_cartImage'
-            onClick={() => handleMoveToDetail(selectedItem)}
-            style={{ border: 'none' }}
-          />
+          {imageSrc === undefined ? (
+            <CardMedia
+              sx={{
+                width: "100%",
+                height: "25rem",
+              }}
+            >
+              <Skeleton
+                animation="wave"
+                variant="rect"
+                width="100%"
+                height="100%"
+              />
+            </CardMedia>
+          ) : (
+            <img
+              src={imageSrc}
+              alt="Cluster Diamond"
+              className='smrmo_cartImage'
+              onClick={() => handleMoveToDetail(selectedItem)}
+              style={{ border: 'none' }}
+            />
+          )}
+
         </div>
         <div className="smrMo_Cart_R-details">
           <p className='smrMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
@@ -168,7 +185,7 @@ const MobileCartDetails = ({
                   }
                 </>
               }
-             {sizeCombo?.rd?.length !== 0 &&
+              {sizeCombo?.rd?.length !== 0 &&
                 <div className="option">
                   <label htmlFor="size">Size:</label>
                   <select id="size" name={selectedItem?.id} defaultValue={selectedItem?.Mastermanagement_CategorySize} value={selectedItem?.size} onChange={handleSizeChange}>
@@ -176,7 +193,7 @@ const MobileCartDetails = ({
                       <option value={selectedItem?.size}>{selectedItem?.size}</option>
                     ) :
                       <>
-                         {sizeCombo?.rd?.map(option => (
+                        {sizeCombo?.rd?.map(option => (
                           <option key={option?.id} value={option?.sizename}>{option?.sizename}</option>
                         ))}
                       </>
