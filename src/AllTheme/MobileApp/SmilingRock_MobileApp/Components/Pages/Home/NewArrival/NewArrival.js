@@ -9,6 +9,7 @@ import { smrMA_homeLoading, smrMA_loginState } from "../../../Recoil/atom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Swiper, SwiperSlide } from "swiper/react";
+import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { Pagination } from "swiper/modules";
 import { formatter } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 import notfound from '../../../Assets/image-not-found.jpg';
@@ -25,14 +26,14 @@ const NewArrival = () => {
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const setLoadingHome = useSetRecoilState(smrMA_homeLoading);
 
-  function checkImageAvailability(imageUrl) {
-    return new Promise((resolve, reject) => {
+  const checkImageAvailability = (url) => {
+    return new Promise((resolve) => {
       const img = new Image();
-      img.onload = () => resolve(true);
-      img.onerror = () => resolve(false);
-      img.src = imageUrl;
+      img.onload = () => resolve(url);
+      img.onerror = () => resolve(imageNotFound);
+      img.src = url;
     });
-  }
+  };
 
   useEffect(() => {
     setLoadingHome(true);
@@ -79,7 +80,8 @@ const NewArrival = () => {
     setStoreInit(storeinit);
 
     let data = JSON.parse(sessionStorage.getItem("storeInit"));
-    setImageUrl(data?.DesignImageFol);
+    setImageUrl(data?.CDNDesignImageFol);
+    // setImageUrl(data?.DesignImageFol);
 
     setLoadingHome(false);
     Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID)
@@ -87,9 +89,9 @@ const NewArrival = () => {
         if (response?.Data?.rd) {
           const itemsWithImageCheck = await Promise.all(
             response.Data.rd.map(async (item) => {
-              const imgURL = `${storeinit?.DesignImageFol}${item.designno}_1.${item.ImageExtension}`;
+              const imgURL = `${storeinit?.CDNDesignImageFol}${item.designno}~1.${item.ImageExtension}`;
               const imageAvailable = await checkImageAvailability(imgURL);
-              return { ...item, imageAvailable };
+              return { ...item, src: imageAvailable };
             })
           );
           setNewArrivalData(itemsWithImageCheck);
@@ -170,7 +172,8 @@ const NewArrival = () => {
                 >
                   <img
                     src={item.imageAvailable
-                      ? `${imageUrl}${item.designno}_1.${item.ImageExtension}`
+                      ? `${item?.src}`
+                      // ? `${imageUrl}${item.designno}_1.${item.ImageExtension}`
                       : notfound}
                     className="smilingMainImages"
                     alt={item.TitleLine}

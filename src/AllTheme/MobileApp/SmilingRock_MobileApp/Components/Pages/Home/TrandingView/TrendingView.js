@@ -91,7 +91,7 @@ const TrendingView = () => {
             if (response?.Data?.rd) {
                 const data = response.Data.rd;
                 const urls = await Promise.all(data?.map(async (item) => {
-                    const url = `${storeInitData?.DesignImageFol}${item.designno}_1.${item.ImageExtension}`;
+                    const url = `${storeInitData?.CDNDesignImageFol}${item.designno}~1.${item.ImageExtension}`;
                     const available = await checkImageAvailability(url);
                     return available ? url : imageNotFound;
                 }));
@@ -213,10 +213,10 @@ const TrendingView = () => {
                 </div>
                 <div className='smr_trendingViewTopMain_Sliderdiv'>
                     <p className='linkingTitle'>Trending View</p>
+                    <p className='smr_TrendingViewAll' onClick={handleNavigate}>SHOP COLLECTION</p>
                     <Slider {...settings}>
                         {renderSlides()}
                     </Slider>
-                    <p className='smr_TrendingViewAll' onClick={handleNavigate}>SHOP COLLECTION</p>
                 </div>
             </div>
         </div>

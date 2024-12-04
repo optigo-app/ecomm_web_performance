@@ -12,6 +12,7 @@ import {
   FormControlLabel,
   IconButton,
   Modal,
+  PaginationItem,
   styled,
   ToggleButton,
   ToggleButtonGroup,
@@ -51,6 +52,8 @@ import { CartAndWishListAPI } from "../../../../../../../utils/API/CartAndWishLi
 import { RemoveCartAndWishAPI } from "../../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import ProductListSkeleton from "../../ProductList/productlist_skeleton/ProductListSkeleton";
 import LookbookSkeleton from "./lookbookSkelton";
+import noimagefound from "../../../Assets/image-not-found.jpg";
+
 
 const Lookbook = () => {
   let location = useLocation();
@@ -92,8 +95,9 @@ const Lookbook = () => {
   let maxwidth464px = useMediaQuery('(max-width:464px)')
   const [imageLoadError, setImageLoadError] = useState({});
 
-  const handleImageError = (index) => {
+  const handleImageError = (index,e) => {
     setImageLoadError((prev) => ({ ...prev, [index]: true }));
+    e.target.src = noimagefound;
   };
 
   const handelPageChange = (event, value) => {
@@ -156,7 +160,7 @@ const Lookbook = () => {
 
     let data = JSON.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.DesignSetImageFol);
-    setImageUrlDesignSet(data?.DesignImageFol);
+    setImageUrlDesignSet(data?.CDNDesignImageFol);
 
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -542,7 +546,7 @@ const Lookbook = () => {
       });
   };
 
-  const filteredDesignSetLstData = (designSetLstData?.length != 0 && selectedCategories?.length != 0) && filterDesignSetsByCategory(
+  const filteredDesignSetLstData = filterDesignSetsByCategory(
     designSetLstData,
     selectedCategories
   );
@@ -680,7 +684,8 @@ const Lookbook = () => {
     slidesPerView: 2,
   };
 
-  console.log('showSelectAll', showSelectAll);
+  const isCategoryPresent = filterData?.some(ele => ele?.Name === "Category" && ele?.id === "category");
+
 
   return (
     <div>
@@ -1359,7 +1364,7 @@ const Lookbook = () => {
                 )}
               </div>
               <div className="smr_lookBookImgDiv">
-                <div
+            {    <div
                   className="smr_lookBookMobileTopLine"
                   style={{
                     display: "flex",
@@ -1369,7 +1374,7 @@ const Lookbook = () => {
                   }}
                 >
 
-                  <HtmlTooltip
+                {     isCategoryPresent &&       <HtmlTooltip
                     title={<CustomTooltipContent categories={selectedCategories} />}
                   >
                     <button
@@ -1382,7 +1387,7 @@ const Lookbook = () => {
                     >
                       Set View
                     </button>
-                  </HtmlTooltip>
+                  </HtmlTooltip>}
 
                   <FilterAltIcon
                     fontSize="large"
@@ -1390,19 +1395,19 @@ const Lookbook = () => {
                     className="smr_lookBookMobileFilter"
                     onClick={() => setIsDrawerOpen(true)}
                   />
-                </div>
+                </div>}
 
                 {/* {selectedValue == 2 && ( */}
 
                 {!isPgLoading ? (
                   <>
                     <div className="smr_lookBookImgDivMain">
-                      {filteredDesignSetLstData?.length == 0 ? (
+                      {filteredDesignSetLstData && filteredDesignSetLstData?.length == 0 ? (
                         <div className="smr_noProductFoundLookBookDiv">
                           <p>No Product Found!</p>
                         </div>
                       ) : (
-                        filteredDesignSetLstData?.map((slide, index) => (
+                        filteredDesignSetLstData && filteredDesignSetLstData?.map((slide, index) => (
                           <div className="smr_designSetDiv" key={index}>
                             <div
                               style={{
@@ -1420,7 +1425,7 @@ const Lookbook = () => {
                                   alt={`Slide ${index}`}
                                   ref={addImageRef}
                                   onClick={() => handleHoverImages(index)}
-                                  onError={() => handleImageError(index)}
+                                  onError={(e) => handleImageError(index,e)}
                                   style={{
                                     height: "100%",
                                     // height: dataKey == index ? "250px" : "100%",
@@ -1532,7 +1537,7 @@ const Lookbook = () => {
                                             <img
                                               className="smr_lookBookSubImage"
                                               loading="lazy"
-                                              src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                              src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
                                               alt={`Sub image ${subIndex} for slide ${index}`}
                                               onClick={() =>
                                                 handleNavigation(
@@ -1541,6 +1546,9 @@ const Lookbook = () => {
                                                   detail?.TitleLine ? detail?.TitleLine : ""
                                                 )
                                               }
+                                              onError={(e)=>{
+                                                e.target.src = noimagefound;
+                                              }}
                                             />
                                             <div
                                               style={{
@@ -1588,8 +1596,13 @@ const Lookbook = () => {
                     shape="circular"
                     onChange={handelPageChange}
                     page={currentPage}
-                  // showFirstButton
-                  // showLastButton
+                    disabled={false} // Don't disable the whole pagination component
+                    renderItem={(item) => (
+                      <PaginationItem
+                        {...item}
+                        disabled={item.page === currentPage} 
+                      />
+                    )}
                   />
                 </div>
               </div>

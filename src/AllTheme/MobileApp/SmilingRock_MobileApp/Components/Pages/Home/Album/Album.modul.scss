@@ -3,7 +3,8 @@
 .smrMA_alubmMainDiv {
 
     margin-inline: 0px;
-    margin-top: -5px;
+    // margin-top: -5px;
+    padding-top: 2rem;
 
     .smr_AlbumImageMain {
         width: 300px;
@@ -17,7 +18,7 @@
         font-family: $homePageFontFamily;
         font-size: $fontSize5;
         text-align: center;
-        margin: 0px;
+        margin: 4px;
     }
 
     .smr_albumName {

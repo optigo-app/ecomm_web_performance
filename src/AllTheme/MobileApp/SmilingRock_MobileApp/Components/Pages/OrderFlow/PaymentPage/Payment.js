@@ -296,7 +296,7 @@ const Payment = () => {
                             <div className='smilingPaySub1Main'>
                                 <div className='smilingPaySub1'>
                                     <div className='smilingPaySub1Box1'>
-                                        <p className='PaymentMainTitleMain' style={{ fontSize: '22px', fontWeight: 500, color: '#5e5e5e' }}>Payment Card Method</p>
+                                        {/* <p className='PaymentMainTitleMain' style={{ fontSize: '22px', fontWeight: 500, color: '#5e5e5e' }}>Payment Card Method</p> */}
 
                                         <div className='BilingMainApyment' style={{ marginTop: '40px' }}>
                                             <p className='PaymentMainTitle' style={{ fontSize: '25px', fontWeight: 500, color: '#5e5e5e' }}>Billing Address :</p>

@@ -36,9 +36,9 @@ const Usewishlist = () => {
     const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     setStoreInit(storeInit)
     if (storeInit?.IsB2BWebsite != 0) {
-      setCurrencyData(storedData?.Currencysymbol)
+      setCurrencyData(storedData?.CurrencyCode)
     } else {
-      setCurrencyData(storeInit?.Currencysymbol)
+      setCurrencyData(storeInit?.CurrencyCode)
     }
   }, [])
 

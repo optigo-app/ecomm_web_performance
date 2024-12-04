@@ -55,7 +55,7 @@ export default function TopSection() {
         </div>
 
         <div className='homePageSliderImagwMain'>
-          <img src={`${storImagePath()}/images/HomePage/topBanner/HomepageMainBannerImage3.webp`} className='homePageSliderImagw' />.
+          <img src={`${storImagePath()}/images/HomePage/topBanner/HomepageMainBannerImage3.webp`} className='homePageSliderImagw' />
         </div>
 
         <div className='homePageSliderImagwMain'>

@@ -1,7 +1,6 @@
 // BottomTabNavigation.js
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-
 import { FaHome, FaUser, FaEnvelope, FaShoppingBag } from 'react-icons/fa';
 import { FaShoppingCart } from "react-icons/fa";
 import { useRecoilValue } from 'recoil';
@@ -201,7 +200,7 @@ const styles = {
     bottom: 0,
     width: '100%',
     backgroundColor: '#f0f0f0',
-    height: '60px',
+    height: '70px',
     borderTop: '1px solid #ccc',
     zIndex: 111111111111111
   },

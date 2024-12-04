@@ -66,19 +66,26 @@ const BestSellerSection = () => {
   const callAllApi = () => {
     const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
+    const { IsB2BWebsite } = storeInit;
+    console.log("IsB2BWebsite", IsB2BWebsite);
+    console.log("loginUserDetail", loginUserDetail)
     const visiterID = Cookies.get('visiterId');
     let finalID;
-    if (storeInit?.IsB2BWebsite == 0) {
+    if (IsB2BWebsite == 0) {
         finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
     } else {
         finalID = loginUserDetail?.id || '0';
     }
+    console.log("finalID", finalID);
+    console.log("loginUserDetail", loginUserDetail);
+    console.log("visiterID", visiterID);
+    
 
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit)
 
     let data = JSON.parse(sessionStorage.getItem('storeInit'))
-    setImageUrl(data?.DesignImageFol);
+    setImageUrl(data?.CDNDesignImageFol);
 
     Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID).then((response) => {
       setLoadingHome(false);
@@ -89,14 +96,6 @@ const BestSellerSection = () => {
 
 }
 
-    const checkImageAvailability = (url) => {
-      return new Promise((resolve) => {
-          const img = new Image();
-          img.onload = () => resolve(true);
-          img.onerror = () => resolve(false);
-          img.src = url;
-      });
-  };
 
     const compressAndEncode = (inputString) => {
         try {
@@ -152,53 +151,150 @@ const BestSellerSection = () => {
       }
 
 
-      const renderSlides = () => {
-        if (!bestSellerData?.length) return null;
-        const slides = [];
-        for (let i = 0; i < Math.min(bestSellerData?.length, 5); i += 2) {
-            slides.push(
-                <div className='linkRingLove' key={i}>
-                    <div>
-                        <div className='linkLoveRing1' onClick={() => handleNavigation(bestSellerData[i]?.designno, bestSellerData[i]?.autocode, bestSellerData[i]?.TitleLine)}>
-                            <img src={imageUrls[i] || imageNotFound} className='likingLoveImages' alt='Trending Item' />
-                        </div>
-                        <div className='linkLoveRing1Desc'>
-                            <p className='ring1Desc'>{bestSellerData[i]?.designno}</p>
-                            <p className='smr_bestSellerPrice'>
-                                <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
-                                {formatter(bestSellerData[i]?.UnitCostWithMarkUp)}
-                            </p>
-                        </div>
-                    </div>
-                    {bestSellerData[i + 1] && (
-                        <div>
-                            <div className='linkLoveRing2' onClick={() => handleNavigation(bestSellerData[i + 1]?.designno, bestSellerData[i + 1]?.autocode, bestSellerData[i + 1]?.TitleLine)}>
-                                <img src={imageUrls[i + 1] || imageNotFound} className='likingLoveImages' alt='Trending Item' />
-                            </div>
-                            <div className='linkLoveRing1Desc'>
-                                <p className='ring1Desc'>{bestSellerData[i + 1]?.designno}</p>
-                                <p className='smr_bestSellerPrice'>
-                                <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
-                                {formatter(bestSellerData[i]?.UnitCostWithMarkUp)}
-                            </p>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            );
-        }
-        return slides;
-    };
-  return (
+    //   const renderSlides = () => {
+    //     if (!bestSellerData?.length) return null;
+    //     const slides = [];
+    //     for (let i = 0; i < Math.min(bestSellerData?.length, 5); i += 2) {
+    //         slides.push(
+    //             <div className='linkRingLove' key={i}>
+    //                 <div>
+    //                     <div className='linkLoveRing1' onClick={() => handleNavigation(bestSellerData[i]?.designno, bestSellerData[i]?.autocode, bestSellerData[i]?.TitleLine)}>
+    //                         <img src={imageUrls[i] || imageNotFound} className='likingLoveImages' alt='Trending Item' />
+    //                     </div>
+    //                     <div className='linkLoveRing1Desc'>
+    //                         <p className='ring1Desc'>{bestSellerData[i]?.designno}</p>
+    //                         <p className='smr_bestSellerPrice'>
+    //                             <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
+    //                             {formatter(bestSellerData[i]?.UnitCostWithMarkUp)}
+    //                         </p>
+    //                     </div>
+    //                 </div>
+    //                 {bestSellerData[i + 1] && (
+    //                     <div>
+    //                         <div className='linkLoveRing2' onClick={() => handleNavigation(bestSellerData[i + 1]?.designno, bestSellerData[i + 1]?.autocode, bestSellerData[i + 1]?.TitleLine)}>
+    //                             <img src={imageUrls[i + 1] || imageNotFound} className='likingLoveImages' alt='Trending Item' />
+    //                         </div>
+    //                         <div className='linkLoveRing1Desc'>
+    //                             <p className='ring1Desc'>{bestSellerData[i + 1]?.designno}</p>
+    //                             <p className='smr_bestSellerPrice'>
+    //                             <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
+    //                             {formatter(bestSellerData[i]?.UnitCostWithMarkUp)}
+    //                         </p>
+    //                         </div>
+    //                     </div>
+    //                 )}
+    //             </div>
+    //         );
+    //     }
+    //     return slides;
+    // };
+    const [validatedData, setValidatedData] = useState([]);
+
+      const checkImageAvailability = (url) => {
+          return new Promise((resolve) => {
+              const img = new Image();
+              img.onload = () => resolve(url);
+              img.onerror = () => resolve(imageNotFound);
+              img.src = url;
+          });
+      };
+  
+      const validateImageURLs = async () => {
+          if (!bestSellerData?.length) return;
+          const validatedData = await Promise.all(
+              bestSellerData.map(async (item) => {
+                  const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
+                  const validatedURL = await checkImageAvailability(imageURL);
+                  return { ...item, validatedImageURL: validatedURL };
+              })
+          );
+          setValidatedData(validatedData);
+      };
+  
+      useEffect(() => {
+          validateImageURLs();
+      }, [bestSellerData]);
+
+    const renderSlides = () => {
+      if (!validatedData?.length) return null;
+      const slides = [];
+      for (let i = 0; i < Math.min(validatedData.length, 5); i += 2) {
+          slides.push(
+              <div className='linkRingLove' key={i}>
+                  <div>
+                      <div
+                          className='linkLoveRing1'
+                          onClick={() =>
+                              handleNavigation(
+                                  validatedData[i]?.designno,
+                                  validatedData[i]?.autocode,
+                                  validatedData[i]?.TitleLine
+                              )
+                          }
+                      >
+                          <img
+                              src={validatedData[i]?.validatedImageURL}
+                              className='likingLoveImages'
+                              alt='Bestselling Items'
+                          />
+                      </div>
+                      <div className='linkLoveRing1Desc'>
+                          <p className='ring1Desc'>{validatedData[i]?.designno}</p>
+                          <p className='smr_bestSellerPrice'>
+                              <span className="smr_currencyFont">
+                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </span>
+                              &nbsp;
+                              {formatter(validatedData[i]?.UnitCostWithMarkUp)}
+                          </p>
+                      </div>
+                  </div>
+                  {validatedData[i + 1] && (
+                      <div>
+                          <div
+                              className='linkLoveRing2'
+                              onClick={() =>
+                                  handleNavigation(
+                                      validatedData[i + 1]?.designno,
+                                      validatedData[i + 1]?.autocode,
+                                      validatedData[i + 1]?.TitleLine
+                                  )
+                              }
+                          >
+                              <img
+                                  src={validatedData[i + 1]?.validatedImageURL}
+                                  className='likingLoveImages'
+                                  alt='Bestselling Items'
+                              />
+                          </div>
+                          <div className='linkLoveRing1Desc'>
+                              <p className='ring1Desc'>{validatedData[i + 1]?.designno}</p>
+                              <p className='smr_bestSellerPrice'>
+                                  <span className="smr_currencyFont">
+                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                  </span>
+                                  &nbsp;
+                                  {formatter(validatedData[i + 1]?.UnitCostWithMarkUp)}
+                              </p>
+                          </div>
+                      </div>
+                  )}
+              </div>
+          );
+      }
+      return slides;
+  };
+
+    return (
     <div className='smrMA_bestSallerMain' ref={bestSallerRef}>
       {bestSellerData?.length != 0 &&
           <div className='linkingLoveMain'>
             <div className='linkingLove'>
             <p className='linkingTitle'>Best Seller</p>
+            <p className='lsmr_BestSallerViewAll'  onClick={handleNavigate}>SHOP COLLECTION</p>
             <Slider {...settings} >
               {renderSlides()}
             </Slider>
-             <p className='smr_BestSallerViewAll'  onClick={handleNavigate}>SHOP COLLECTION</p>
           </div>
           <div className='linkingLoveImage'>
             <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.webp`} className='linkingLoveImageDesign' />

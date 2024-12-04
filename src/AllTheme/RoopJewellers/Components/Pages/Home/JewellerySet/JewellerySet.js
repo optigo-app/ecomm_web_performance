@@ -61,7 +61,7 @@ function JewellerySet() {
 
   const findValidImage = async (designDetails) => {
     const imageChecks = designDetails.map((design) => {
-      const imageUrl = `${storeInit?.CDNDesignImageFolCDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
+      const imageUrl = `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
       return checkImageAvailability(imageUrl).then((isAvailable) =>
         isAvailable ? imageUrl : null
       );

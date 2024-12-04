@@ -1,11 +1,27 @@
-@import '../../../scss/variable';
-
-
+@import "../../../scss/variable";
 
 .smrMA_designSetMain {
   position: relative;
-  margin-top: 10px;
+  margin-top: 28px;
   margin-inline: 0px;
+  .smapp_linkingTitle {
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    font-size: $fontSize5;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+  }
+  .smapp_TrendingViewAll {
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    font-size: calc($fontSize1 - 1px);
+    text-align: center;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: underline;
+  }
 
   .designSetTitle {
     margin: 40px 0px 10px 0px;
@@ -32,7 +48,6 @@
     justify-content: center;
   }
 
-
   .smr_designSetImageViewAll {
     color: $homePageFontColor;
     font-family: $homePageFontFamily;
@@ -52,10 +67,6 @@
     border-radius: 8px;
     object-fit: contain;
   }
-
-
-
-
 
   .App {
     position: relative;
@@ -86,7 +97,6 @@
     // padding: 2px;
     cursor: pointer;
   }
-
 
   .smr_designsetDiv {
     width: 100%;
@@ -136,7 +146,6 @@
 
   @media screen and (max-width: 1000px) {
     margin-inline: 0px !important;
-
   }
 
   @media screen and (max-width: 800px) {
@@ -167,12 +176,11 @@
       width: 25% !important;
     }
 
-    .smr_designSetDiv1_img{
+    .smr_designSetDiv1_img {
       border-radius: 0px;
     }
   }
 }
-
 
 // .smr_designSetMain {
 
@@ -192,7 +200,7 @@
 //       }
 
 //       .image {
-//       
+//
 //       }
 
 //       .nav-btn-left {
@@ -231,7 +239,6 @@
 //         right: 0px;
 //       }
 
-
 //     .smr_designSetShowAll {
 //         text-decoration: underline;
 //         cursor: pointer;
@@ -244,9 +251,6 @@
 //         margin: 0px;
 //         font-weight: 500;
 //     }
-
-
-
 
 //     .smr_designsetDivImg{
 //         height: 100%;
@@ -278,8 +282,6 @@
 //         background-repeat: no-repeat;
 //     }
 
-
-
 //     .swiper-button-next-designSet,
 //     .swiper-button-prev-designSet {
 //         display: block;
@@ -297,7 +299,5 @@
 //         color: black !important;
 //         background-repeat: no-repeat;
 //     }
-
-
 
 // }
