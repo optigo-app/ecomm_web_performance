@@ -597,7 +597,7 @@ const ProductDetail = () => {
       }${productData?.designno}?p=${encodeObj}`
     );
 
-    // setp 1
+    // step 1
     setSingleProd1({});
     setSingleProd({});
     setIsImageLoad(true);
@@ -761,10 +761,6 @@ const ProductDetail = () => {
     });
 
   }, [location?.key]);
-
-  console.log("locationKey", location?.key);
-
-  console.log("prodLoading", prodLoading);
 
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(

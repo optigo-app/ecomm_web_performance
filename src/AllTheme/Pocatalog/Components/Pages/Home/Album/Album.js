@@ -312,9 +312,9 @@ const Album = () => {
         images.push({ id: index, src: imgSrc });
       }
   
-      setTimeout(() => {
+      // setTimeout(() => {
         setLoadedProducts(images);
-      }, 20);
+      // }, 1);
     };
   
     loadAllImages();
