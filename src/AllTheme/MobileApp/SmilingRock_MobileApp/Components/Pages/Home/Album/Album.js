@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { smrMA_homeLoading, smrMA_loginState } from "../../../Recoil/atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import imageNotFound from '../../../Assets/image-not-found.jpg'
 
 const Album = () => {
 
@@ -15,10 +16,13 @@ const Album = () => {
   const navigation = useNavigate();
   const islogin = useRecoilValue(smrMA_loginState);
   const setLoadingHome = useSetRecoilState(smrMA_homeLoading);
+  const [storeInit, setStoreInit] = useState({});
+  const [validImages, setValidImages] = useState([]);
 
   useEffect(() => {
     setLoadingHome(true);
     let data = JSON?.parse(sessionStorage.getItem("storeInit"));
+    setStoreInit(data);
     setImageUrl(data?.AlbumImageFol);
     const observer = new IntersectionObserver(
       (entries) => {
@@ -56,7 +60,7 @@ const Album = () => {
       finalID = loginUserDetail?.id || '0';
     }
     setLoadingHome(false);
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum_List", finalID)
+    Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum", finalID)
       .then((response) => {
         if (response?.Data?.rd) {
           setAlbumData(response?.Data?.rd);
@@ -64,23 +68,6 @@ const Album = () => {
       })
       .catch((err) => console.log(err));
   }
-
-
-  const handleNavigate = (name) => {
-    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
-    if (storeinit?.IsB2BWebsite == 1) {
-      if (islogin) {
-        navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
-      } else {
-        navigation('/signin')
-
-      }
-    } else {
-      navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
-    }
-  }
-
-  const [validatedData, setValidatedData] = useState([]);
 
   const checkImageAvailability = (url) => {
     return new Promise((resolve) => {
@@ -91,42 +78,79 @@ const Album = () => {
     });
   };
 
-  const validatedImageURLs = async () => {
-    if (!albumData?.length) return;
-    const validatedData = await Promise.all(
-      albumData?.slice(0, 4)?.map(async (album) => {
-        const designDetails = imageUrl + album?.AlbumImageFol + "/" + album?.AlbumImageName || "";
-        const validImage = await checkImageAvailability(designDetails);
-        return { ...album, src: validImage };
-      })
-    );
-    setValidatedData(validatedData);
-  }
+  const findValidImage = async (designDetails) => {
+    const imageChecks = designDetails.map((design) => {
+      const imageUrl = `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
+      return checkImageAvailability(imageUrl).then((isAvailable) =>
+        isAvailable ? imageUrl : null
+      );
+    });
+
+    const images = await Promise.all(imageChecks);
+    return images.find((url) => url !== null) || imageNotFound;
+  };
 
   useEffect(() => {
-    validatedImageURLs();
-  }, [albumData]);
+    const getValidImages = async () => {
+      if (!albumData?.length) return;
 
+      const imagePromises = albumData.map(async (album) => {
+        if (album.AlbumImageName && album.AlbumImageFol) {
+          const imgSrc = `${storeInit?.AlbumImageFol}${album?.AlbumImageFol}/${album?.AlbumImageName}`
+          console.log(imgSrc ,"img src")
+          const validImage = await checkImageAvailability(imgSrc);
+          return { ...album, src: validImage, name: album?.AlbumName };
+        }
+        else {
+          return { ...album, src: imageNotFound, name: album?.AlbumName };
+        }
+      });
+
+      const images = await Promise.all(imagePromises);
+      setValidImages(images);
+    };
+
+    getValidImages();
+  }, [albumData, storeInit, imageNotFound]);
+  
+    const handleNavigate = (name) => {
+      let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+      if (storeinit?.IsB2BWebsite == 1) {
+        if (islogin) {
+          navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
+        } else {
+          navigation('/signin')
+        }
+      } else {
+        navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
+      }
+    }
+ 
 
   return (
     <div ref={albumRef}>
-      {albumData?.length != 0 &&
+      {validImages?.length != 0 &&
         <div className="smrMA_alubmMainDiv">
           <p className="smr_albumTitle">Album</p>
           <div className="smr_albumALL_div">
-            {validatedData?.map((data, index) => {
-              return (
-                <div
-                  key={index}
-                  className="smr_AlbumImageMain"
-                  onClick={() => handleNavigate(data?.AlbumName)}
-                >
-                  <img
-                    src={data?.src}
-                    className="smr_AlbumImageMain_img"
-                  />
-                </div>
-              )
+            {validImages?.slice(0, 4)?.map((data, index) => {
+               return <div
+                key={index}
+                className="smr_AlbumImageMain"
+                onClick={() => handleNavigate(data?.name)}
+              >
+                <img
+                  className="smr_AlbumImageMain_img"
+                  src={data?.src}
+                  alt="image"
+                  onError={(e) => {
+                         e.target.src = imageNotFound;
+                         e.target.alt = "no-image-found";
+                       }}
+                 loading="lazy"
+                />
+
+              </div>
             })}
           </div>
         </div>

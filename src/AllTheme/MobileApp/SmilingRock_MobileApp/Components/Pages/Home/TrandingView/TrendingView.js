@@ -214,10 +214,10 @@ const TrendingView = () => {
                 </div>
                 <div className='smr_trendingViewTopMain_Sliderdiv'>
                     <p className='linkingTitle'>Trending View</p>
+                    <p className='smr_TrendingViewAll' onClick={handleNavigate}>SHOP COLLECTION</p>
                     <Slider {...settings}>
                         {renderSlides()}
                     </Slider>
-                    <p className='smr_TrendingViewAll' onClick={handleNavigate}>SHOP COLLECTION</p>
                 </div>
             </div>
         </div>

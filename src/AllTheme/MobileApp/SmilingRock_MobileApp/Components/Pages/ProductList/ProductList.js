@@ -40,7 +40,7 @@ const ProductList = () => {
   let maxwidth1674px = useMediaQuery('(max-width:1674px)')
   let maxwidth590px = useMediaQuery('(max-width:590px)')
   let maxwidth464px = useMediaQuery('(max-width:464px)')
-
+  const [isProductListData, setIsProductListData] = useState(false);
   const [productListData, setProductListData] = useState([]);
   const [priceListData, setPriceListData] = useState([]);
   const [finalProductListData, setFinalProductListData] = useState([]);
@@ -59,8 +59,13 @@ const ProductList = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
-  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
+  const [selectedMetalId, setSelectedMetalId] = useState(
+    loginUserDetail?.MetalId
+  );
+  const [selectedDiaId, setSelectedDiaId] = useState(
+    loginUserDetail?.cmboDiaQCid
+  );
+
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
@@ -295,16 +300,158 @@ const ProductList = () => {
   }, [location?.key, productListData, filterChecked])
   // },[location?.state?.menu,productListData,filterChecked])
 
-  useEffect(() => {
+  // useEffect(() => {
 
+  //   const fetchData = async () => {
+  //     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+  //     let UrlVal = location?.search.slice(1).split("/")
+  //     let MenuVal = '';
+  //     let MenuKey = '';
+  //     let SearchVar = '';
+  //     let TrendingVar = '';
+  //     let NewArrivalVar = '';
+  //     let BestSellerVar = '';
+  //     let AlbumVar = '';
+
+  //     let productlisttype;
+
+  //     UrlVal.forEach((ele) => {
+  //       let firstChar = ele.charAt(0);
+
+  //       switch (firstChar) {
+  //         case 'M':
+  //           MenuVal = ele;
+  //           break;
+  //         case 'S':
+  //           SearchVar = ele;
+  //           break;
+  //         case 'T':
+  //           TrendingVar = ele;
+  //           break;
+  //         case 'N':
+  //           NewArrivalVar = ele;
+  //           break;
+  //         case 'B':
+  //           BestSellerVar = ele;
+  //           break;
+  //         case 'A':
+  //           AlbumVar = ele;
+  //           break;
+  //         default:
+  //           return '';
+  //       }
+  //     })
+
+  //     if (MenuVal?.length > 0) {
+  //       let menuDecode = atob(MenuVal?.split("=")[1])
+
+  //       let key = menuDecode?.split("/")[1].split(',')
+  //       let val = menuDecode?.split("/")[0].split(',')
+
+  //       setIsBreadcumShow(true)
+
+  //       productlisttype = [key, val]
+  //     }
+
+  //     if (SearchVar) {
+  //       productlisttype = SearchVar
+  //     }
+
+  //     if (TrendingVar) {
+  //       productlisttype = TrendingVar.split("=")[1]
+  //     }
+  //     if (NewArrivalVar) {
+  //       productlisttype = NewArrivalVar.split("=")[1]
+  //     }
+
+  //     if (BestSellerVar) {
+  //       productlisttype = BestSellerVar.split("=")[1]
+  //     }
+
+  //     if (AlbumVar) {
+  //       productlisttype = AlbumVar.split("=")[1]
+  //     }
+
+  //     console.log("URLVal", productlisttype);
+
+  //     setIsProdLoading(true)
+  //     //  if(location?.state?.SearchVal === undefined){ 
+  //     setprodListType(productlisttype)
+  //     await ProductListApi({}, 1, obj, productlisttype, cookie)
+  //     .then((res) => {
+  //       if (res) {
+  //         // console.log("productList", res);
+
+  //         setProductListData(res?.pdList);
+  //         setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+  //       }
+
+  //       if (res?.pdList) {
+  //         setIsProductListData(true)
+  //       }
+  //       return res;
+  //     })
+  //       // .then( async(res) => {
+  //       //   let forWardResp;
+  //       //   if (res) {
+  //       //     await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList,obj,productlisttype).then((resp)=>{
+  //       //       if(resp){
+  //       //        console.log("productPriceData",resp);
+
+  //       //         setPriceListData(resp)
+  //       //         forWardResp = resp;
+  //       //       }
+  //       //     })
+  //       //   }
+  //       //   return forWardResp
+  //       // })
+  //       .then(async (res) => {
+  //         let forWardResp1;
+  //         if (res) {
+  //           await FilterListAPI(productlisttype, cookie).then((res) => {
+  //             setFilterData(res)
+
+  //             let diafilter = res?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0] : [];
+  //             let diafilter1 = res?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0] : [];
+  //             let diafilter2 = res?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0] : [];
+
+  //             // console.log("diafilter",diafilter);
+  //             setSliderValue([diafilter?.Min, diafilter?.Max])
+  //             setSliderValue1([diafilter1?.Min, diafilter1?.Max])
+  //             setSliderValue2([diafilter2?.Min, diafilter2?.Max])
+
+  //             forWardResp1 = res
+  //           }).catch((err) => console.log("err", err))
+  //         }
+  //         return forWardResp1
+  //       }).finally(() => {
+  //         setIsProdLoading(false)
+  //         setIsOnlyProdLoading(false)
+  //         window.scroll({
+  //           top: 0,
+  //           behavior: 'smooth'
+  //         })
+  //       })
+  //       .catch((err) => console.log("err", err))
+
+  //     // }
+
+  //   }
+
+  //   fetchData();
+
+  //   if (location?.key) {
+  //     setLocationKey(location?.key)
+  //   }
+
+  // }, [location?.key])
+
+  console.log(location ?.state?.SearchVal, location?.key, location?.state?.menu, location?.state?.menukey, location?.state?.menuname, location?.state?.menunamekey , "menu")
+
+    useEffect(() => {
     const fetchData = async () => {
-
       let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-
       let UrlVal = location?.search.slice(1).split("/")
-
-      // console.log("URLVal", UrlVal);
-
       let MenuVal = '';
       let MenuKey = '';
       let SearchVar = '';
@@ -373,14 +520,17 @@ const ProductList = () => {
       }
 
       setIsProdLoading(true)
-      //  if(location?.state?.SearchVal === undefined){ 
       setprodListType(productlisttype)
       await ProductListApi({}, 1, obj, productlisttype, cookie)
         .then((res) => {
           if (res) {
-            // console.log("productList", res);
+            console.log("productList", res);
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          }
+          console.log("productList", res);
+          if (res?.pdList) {
+            setIsProductListData(true)
           }
           return res;
         })
@@ -403,16 +553,12 @@ const ProductList = () => {
           if (res) {
             await FilterListAPI(productlisttype, cookie).then((res) => {
               setFilterData(res)
-
               let diafilter = res?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0] : [];
               let diafilter1 = res?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0] : [];
               let diafilter2 = res?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0] : [];
-
-              // console.log("diafilter",diafilter);
               setSliderValue([diafilter?.Min, diafilter?.Max])
               setSliderValue1([diafilter1?.Min, diafilter1?.Max])
               setSliderValue2([diafilter2?.Min, diafilter2?.Max])
-
               forWardResp1 = res
             }).catch((err) => console.log("err", err))
           }
@@ -426,7 +572,6 @@ const ProductList = () => {
           })
         })
         .catch((err) => console.log("err", err))
-
       // }
 
     }
@@ -458,7 +603,6 @@ const ProductList = () => {
       if (product?.ImageCount > 0) {
         for (let i = 1; i <= product?.ImageCount; i++) {
           let imgString = storeInit?.CDNDesignImageFol + product?.designno + "~" + i + "." + product?.ImageExtension
-          // let imgString = storeInit?.DesignImageFol + product?.designno + "_" + i + "." + product?.ImageExtension
           pdImgList.push(imgString)
         }
       }
@@ -526,7 +670,7 @@ const ProductList = () => {
 
     // console.log("finalProdWithPrice", finalProdWithPrice?.filter((ele)=>ele?.ImageCount > 0));
     setFinalProductListData(finalProdWithPrice);
-  }, [productListData, priceListData]);
+  }, [productListData]);
 
   const ProdCardImageFunc = (pd, j) => {
     let finalprodListimg;
@@ -535,7 +679,6 @@ const ProductList = () => {
     if (pd?.ImageCount > 0) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString = storeInit?.CDNDesignImageFol + pd?.designno + "~" + i + "." + pd?.ImageExtension
-        // let imgString = storeInit?.DesignImageFol + pd?.designno + "_" + i + "." + pd?.ImageExtension
         pdImgList.push(imgString)
       }
     }
@@ -616,12 +759,12 @@ const ProductList = () => {
   }
 
   useEffect(() => {
+    setAfterCountStatus(true);
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
     //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
     // console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
-
     if (location?.key === locationKey) {
       // setIsOnlyProdLoading(true)
       setIsProdLoading(true)
@@ -630,6 +773,7 @@ const ProductList = () => {
           if (res) {
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+            setAfterCountStatus(false);
           }
           return res;
         })
@@ -657,6 +801,7 @@ const ProductList = () => {
     // }
 
   }, [filterChecked])
+
 
 
   const handelFilterClearAll = () => {
@@ -1946,10 +2091,11 @@ const ProductList = () => {
           </div>}
         </div>
       </Drawer>
+  
       <div className="smrMA_bodyContain">
-        <div className="smr_outerContain">
-          <div className="smrMA_whiteInnerContain ">
-            {
+                <div className="smr_outerContain">
+                               <div className="smrMA_whiteInnerContain ">
+                                           {
 
               isProdLoading ?
                 // true ? 
@@ -2327,48 +2473,44 @@ const ProductList = () => {
                                                 className="smr_productCard_Image"
                                                 style={{ height: (isSingleView && '412px') || (isDoubleView && '200px'), minHeight: (isSingleView && '412px') || (isDoubleView && '200px') }}
 
-                                                id={`smr_productCard_Image${productData?.autocode}`}
-                                                // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                                                // src={ ProdCardImageFunc(productData,0)}
-                                                src={isAvailable
-                                                  ? productData?.images[0]
-                                                  : imageNotFound}
-                                                // src={productData?.images?.length > 0 ? productData?.images[0] : imageNotFound}
-                                                alt=""
-                                                onError={(e) => {
-                                                  e.target.src = imageNotFound
-                                                }}
-                                                onClick={() => handleMoveToDetail(productData)}
-                                                onMouseEnter={() => { handleImgRollover(productData, i) }}
-                                              />
-                                              {/* } */}
-                                            <div className="smr_prod_Title" >
-                                              <span
-                                                className={
-                                                  // productData?.TitleLine?.length > 30
-                                                  // ? 
-                                                  "smr_prod_title_with_width"
-                                                  // : 
-                                                  // "smr_prod_title_with_no_width"
-                                                }
-                                              >
-                                                {productData?.TitleLine?.length > 0 && "-"}
-                                                {productData?.TitleLine}{" "}
-                                              </span>
-                                              <span className="smrMA_prod_designno">
-                                                {productData?.designno}
-                                              </span>
-                                            </div>
-                                            <div className="smr_app_prod_Allwt" >
-                                              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', letterSpacing: maxwidth590px ? '0px' : '1px', gap: maxwidth1674px ? '0px' : '3px', flexWrap: 'wrap' }}>
-                                                {/* <span className="smr_por"> */}
-                                                {(storeInit?.IsGrossWeight == 1 && (Number(productData?.Gwt) !== 0)) && <span className="smr_prod_wt">
-                                                  <span className="smr_keys">GWT:</span>
-                                                  <span className="smr_val">
-                                                    {(productData?.Gwt)?.toFixed(3)}
-                                                  </span>
+                                            id={`smr_productCard_Image${productData?.autocode}`}
+                                            // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
+                                            // src={ ProdCardImageFunc(productData,0)}
+                                            src={productData?.images?.length > 0 ? productData?.images[0] : imageNotFound}
+                                            alt=""
+                                            onClick={() => handleMoveToDetail(productData)}
+                                            onMouseEnter={() => { handleImgRollover(productData, i) }}
+                                            onError={(e)=>{
+                                              e.target.src = imageNotFound ;
+                                            }}
+                                          />
+                                          <div className="smr_prod_Title" >
+                                            <span
+                                              className={
+                                                // productData?.TitleLine?.length > 30
+                                                // ? 
+                                                "smr_prod_title_with_width"
+                                                // : 
+                                                // "smr_prod_title_with_no_width"
+                                              }
+                                            >
+                                              {productData?.TitleLine?.length > 0 && "-"}
+                                              {productData?.TitleLine}{" "}
+                                            </span>
+                                            <span className="smrMA_prod_designno">
+                                              {productData?.designno}
+                                            </span>
+                                          </div>
+                                          <div className="smr_app_prod_Allwt" >
+                                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', letterSpacing: maxwidth590px ? '0px' : '1px', gap: maxwidth1674px ? '0px' : '3px', flexWrap: 'wrap' }}>
+                                              {/* <span className="smr_por"> */}
+                                              {(storeInit?.IsGrossWeight == 1 && (Number(productData?.Gwt) !== 0)) && <span className="smr_prod_wt">
+                                                <span className="smr_keys">GWT:</span>
+                                                <span className="smr_val">
+                                                  {(productData?.Gwt)?.toFixed(3)}
                                                 </span>
-                                                }
+                                              </span>
+                                              }
 
                                                 {(Number(productData?.Nwt !== 0)) &&
                                                   <>
@@ -2442,7 +2584,11 @@ const ProductList = () => {
                     </div>
                   </>
                 )}
-            {((storeInit?.IsProductListPagination == 1 && Math.ceil(afterFilterCount / storeInit.PageSize) > 1) && !filterProdListEmpty) ? <div
+            {storeInit?.IsProductListPagination == 1 &&
+                                  Math.ceil(afterFilterCount / storeInit.PageSize)
+                                   > 1 && 
+                                    (
+                                      <div
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -2454,13 +2600,13 @@ const ProductList = () => {
                 count={Math.ceil(afterFilterCount / storeInit.PageSize)}
                 size={maxwidth464px ? "small" : "large"}
                 shape="circular"
+                page={currPage}
                 onChange={handelPageChange}
                 showFirstButton
                 showLastButton
               />
             </div>
-              :
-              null
+                                    )
             }
           </div>
         </div>

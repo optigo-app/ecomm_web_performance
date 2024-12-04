@@ -1,12 +1,4 @@
-import React, { useEffect, useState } from "react";
-import TopSection from "./TopSection/TopSection";
-import PromotionBaner1 from "./PromotionBanner1/PromotionBaner1";
-import TrendingView from "./TrandingView/TrendingView";
-import Album from "./Album/Album";
-import NewArrival from "./NewArrival/NewArrival";
-import BestSellerSection from "./BestSellerSection/BestSellerSection";
-import DesignSet from "./DesignSet/DesignSet";
-import BottomBanner from "./BottomBanner/BottomBanner";
+import React, { useEffect, useState ,lazy, Suspense} from "react";
 import "./Home.modul.scss";
 import { smrMA_CartCount, smrMA_homeLoading, smrMA_loginState, smrMA_WishCount } from "../../Recoil/atom";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -19,6 +11,15 @@ import Cookies from 'js-cookie';
 import { CurrencyComboAPI } from "../../../../../../utils/API/Combo/CurrencyComboAPI";
 import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
+
+const TopSection = lazy(() => import('./TopSection/TopSection'));
+const PromotionBaner1 = lazy(() => import('./PromotionBanner1/PromotionBaner1'));
+const TrendingView = lazy(() => import('./TrandingView/TrendingView'));
+const Album = lazy(() => import('./Album/Album'));
+const NewArrival = lazy(() => import('./NewArrival/NewArrival'));
+const BestSellerSection = lazy(() => import('./BestSellerSection/BestSellerSection'));
+const DesignSet = lazy(() => import('./DesignSet/DesignSet'));
+const BottomBanner = lazy(() => import('./BottomBanner/BottomBanner'));
 
 const Home = () => {
   const [localData, setLocalData] = useState();
@@ -102,6 +103,7 @@ const Home = () => {
       token !== null &&
       token !== ""
     ) {
+      console.log("islogin")
       handleSubmit();
     }
   }, []);
@@ -129,6 +131,11 @@ const Home = () => {
             "loginUserDetail",
             JSON.stringify(response.Data.rd[0])
           );
+          let redirectLookBook = localStorage?.getItem("redirectLookBook")
+          if(redirectLookBook){
+          window.location.href = redirectLookBook ;
+          // navigation(redirectLookBook)
+          }
 
           GetCountAPI(visiterID).then((res) => {
             if (res) {
@@ -183,6 +190,7 @@ const Home = () => {
 
   return (
     <div className="smrMA_Home_main">
+            <Suspense fallback={<div></div>}>
       <TopSection />
       {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
       {localData?.IsHomeAlbum === 1 && <Album />}
@@ -190,7 +198,7 @@ const Home = () => {
       {localData?.IsHomeNewArrival === 1 && <NewArrival />}
       {localData?.IsHomeTrending === 1 && <TrendingView />}
       {localData?.IsHomeDesignSet === 1 && <DesignSet />}
-      {isLoadingHome == true ?
+      {/* {isLoadingHome == true ?
         <div className="smrMA_Home_loader">
           <div className="smrMA_Home_loader_container"></div>
         </div>
@@ -198,7 +206,8 @@ const Home = () => {
         <>
           <SustainAbility />
         </>
-      }
+      } */}
+      </Suspense>
     </div>
   );
 };

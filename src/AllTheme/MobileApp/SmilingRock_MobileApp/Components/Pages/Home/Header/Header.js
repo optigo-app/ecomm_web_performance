@@ -108,10 +108,8 @@ const Header = () => {
   //   }
   // }
   const handleNaviagteSearch = () => {
-
     if (isB2bFlag == 1) {
       if (islogin == false) {
-
       } else {
         navigation('/SearchPage')
       }
@@ -174,7 +172,11 @@ const Header = () => {
           :
           <div className='smrMA_HeaderMain' style={{ height: isB2bFlag == 1 ? islogin == true ? '113px' : '60px' : '113px' }}>
             <div className='smrMA_Top_header_sub'>
-              <div className='smrMA_Div1Main'>
+              <div className='smrMA_Div1Main'
+              style={{
+                paddingBlock: islogin == false ? '2.5px' : '10px',
+              }}
+              >
                 {/* <a href="/"> */}
                 <img src={compnyLogo} loading='lazy' className='smrMA_logo_header' />
                 {/* </a> */}

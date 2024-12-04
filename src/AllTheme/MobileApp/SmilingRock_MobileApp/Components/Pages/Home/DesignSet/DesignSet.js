@@ -114,17 +114,18 @@ const DesignSet = () => {
             f: {},
         };
         let encodeObj = compressAndEncode(JSON.stringify(obj));
+        const link  = `/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}` ;
 
         if (storeinit?.IsB2BWebsite == 1) {
             if (islogin) {
-                navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+                navigation(link);
             } else {
+                localStorage.setItem('redirectLookBook',link);
                 navigation('/signin')
             }
         } else {
             navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
         }
-
     };
 
     const decodeEntities = (html) => {
@@ -148,6 +149,10 @@ const DesignSet = () => {
     return (
         <div className="smrMA_designSetMain" ref={designSetRef}>
             <div className='smr_designSetMainDiv'>
+                <div className="designset_title_smrmp">
+                <p className='smapp_linkingTitle'>Complete Your Look</p>
+                <p className='smapp_TrendingViewAll' onClick={()=>{navigation('/Lookbook') ;window.scrollTo({behavior:"smooth",top:0})}}>View More</p>
+                </div>
                 <div className='smr_designSetDiv1'>
                     <img className="smr_designSetDiv1_img" loading="lazy" src={`${imageUrl}${designSetList[0]?.designsetuniqueno}/${designSetList[0]?.DefaultImageName}`} onClick={() => handleNavigation(designSetList[0]?.designno, designSetList[0]?.autocode, designSetList[0]?.TitleLine ? designSetList[0]?.TitleLine : '')} />
                 </div>

@@ -19,6 +19,7 @@
 
     .linkingLove {
         width: 60%;
+        padding-top: 0.5rem;
         /* border-bottom: 1px solid; */
     }
 
@@ -107,15 +108,16 @@
         font-size: 13px;
     }
 
-    .smr_BestSallerViewAll {
+    .lsmr_BestSallerViewAll {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
-        font-size: $fontSize1;
+        font-size: calc($fontSize1 - 1px);
         cursor: pointer;
         text-align: center;
         text-decoration: underline;
-        margin-top: 32px;
-        font-weight: 600;
+        font-weight: 500;
+        margin-bottom: 0;
+        margin-top: 0;
     }
 
     @media screen and (max-width: 1200px) {

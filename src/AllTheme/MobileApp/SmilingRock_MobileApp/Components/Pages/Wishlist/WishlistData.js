@@ -28,7 +28,7 @@ const WishlistData = ({
   return (
     <div className="smrMo_WlListData">
       <>
-        <Grid container spacing={2}>
+        <Grid container spacing={1.6}>
           {items.map(item => (
             <WishlistItems
             imageSrc={imageSrc}

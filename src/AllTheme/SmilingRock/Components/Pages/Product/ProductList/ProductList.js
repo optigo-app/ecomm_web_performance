@@ -292,8 +292,7 @@ const ProductList = () => {
 
 
   useEffect(() => {
-
-    let param = JSON.parse(sessionStorage.getItem("menuparams"))
+    let param = JSON?.parse(sessionStorage.getItem("menuparams"))
     if (location?.state?.SearchVal === undefined) {
       setMenuParams(param)
     }
@@ -3364,7 +3363,8 @@ const ProductList = () => {
                                   </div>
                                 </div>
                                 {storeInit?.IsProductListPagination == 1 &&
-                                  Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
+                                  Math.ceil(afterFilterCount / storeInit.PageSize)
+                                   > 1 && (
                                     <div
                                       style={{
                                         display: "flex",
