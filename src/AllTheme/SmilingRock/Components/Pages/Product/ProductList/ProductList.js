@@ -2432,7 +2432,8 @@ const ProductList = () => {
                                 className="smr_breadcums_port"
                                 style={{ marginLeft: "3px" }}
                               >
-                                <span>{"Album"}</span>
+                                {location?.pathname?.split("/")[2]?.replaceAll('%20', '')}
+                                {/* <span>{"Album"}</span> */}
                               </div>
                             )}
 
