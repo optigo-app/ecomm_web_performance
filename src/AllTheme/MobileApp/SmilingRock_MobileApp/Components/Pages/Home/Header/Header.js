@@ -170,7 +170,7 @@ const Header = () => {
         (location.pathname === "CartPage") ?
           ""
           :
-          <div className='smrMA_HeaderMain' style={{ height: isB2bFlag == 1 ? islogin == true ? '113px' : '60px' : '113px' }}>
+          <div className='smrMA_HeaderMain' style={{ height: isB2bFlag == 1 ? islogin == true ? '123px' : '60px' : '123px' }}>
             <div className='smrMA_Top_header_sub'>
               <div className='smrMA_Div1Main'
               style={{

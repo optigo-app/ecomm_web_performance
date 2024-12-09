@@ -131,11 +131,15 @@ const Home = () => {
             "loginUserDetail",
             JSON.stringify(response.Data.rd[0])
           );
-          let redirectLookBook = localStorage?.getItem("redirectLookBook")
-          if(redirectLookBook){
-          window.location.href = redirectLookBook ;
-          // navigation(redirectLookBook)
-          }
+          let redirectLookBook = localStorage?.getItem("redirectLookBook");
+          setTimeout(() => {
+            if (redirectLookBook) {
+              navigation(redirectLookBook);
+            }else {
+              navigation("/");
+            }
+          }, 0);
+       
 
           GetCountAPI(visiterID).then((res) => {
             if (res) {

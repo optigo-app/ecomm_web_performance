@@ -85,7 +85,9 @@ const Wishlist = () => {
 
   return (
     <div className="smrMA_MainWlDiv">
-      <p className="SmiCartListTitle">
+      <p className="SmiCartListTitle" style={{
+        marginTop:'1rem'
+      }}>
         <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigation(-1)} />My Wishlist
       </p>
       <div className="smrMo_WlBtnGroupMainDiv">

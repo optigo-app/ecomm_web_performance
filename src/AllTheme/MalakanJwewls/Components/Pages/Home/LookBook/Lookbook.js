@@ -687,9 +687,16 @@ const Lookbook = () => {
   return (
     <div className="mala_LookBookMain">
       <Drawer
-        open={isDrawerOpen}
+        open={isShowfilter}
         onClose={() => {
-          setIsDrawerOpen(false);
+          setIsShowFilter(false);
+        }}
+        sx={{
+          zIndex: 9999999,
+          '& .MuiBackdrop-root': {
+            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+            backdropFilter: 'blur(2px)',
+          },
         }}
         className="mala_filterDrawer"
       >
@@ -701,8 +708,9 @@ const Lookbook = () => {
                   width: "30px",
                   height: "30px",
                   color: "rgba(143, 140, 139, 0.9019607843)",
+                  cursor:'pointer'
                 }}
-                onClick={() => setIsDrawerOpen(false)}
+                onClick={() =>  setIsShowFilter(false)}
               />
             </div>
             <span className="mala_filter_text">
@@ -1108,16 +1116,16 @@ const Lookbook = () => {
               gap: '20px'
             }}
           >
-            {filterData?.length > 0 && <div className="mala_lookBook_FilterIconeDiv" onClick={handleFilterShow} style={{ fontSize: '12px' }}>
+       {filterData?.length > 0 &&      <div className="mala_lookBook_FilterIconeDiv" onClick={()=> setIsShowFilter(!isShowfilter)} style={{ fontSize: '12px' }}>
               {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"}
               <FilterListIcon style={{ color: 'white' }} />
             </div>}
             <div style={{ display: 'flex' }}>
               <FilterAltIcon
                 fontSize="large"
-                style={{ color: "#c0bbb1" }}
+                style={{ color: "#c0bbb1",cursor:'pointer' }}
                 className="mala_lookBookMobileFilter"
-                onClick={() => setIsDrawerOpen(true)}
+                onClick={() => setIsShowFilter(!isShowfilter)}
               />
               {isCategoryPresent && <HtmlTooltip
                 title={<CustomTooltipContent categories={selectedCategories} />}
@@ -1168,301 +1176,7 @@ const Lookbook = () => {
             </div>
           </div>
           <div className="mala_SubDiv_LookBookSubMainDiv">
-            <div className="mala_lookbookFilterMain" style={{ transition: "1s ease", backgroundColor: 'white', zIndex: '88888', width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: 'absolute', top: '100px', display: isShowfilter ? "block" : "none" }}>
-
-              {filterData?.length > 0 && (
-                <div className="smr1_lookBookFilterSubDiv">
-                  <span className="mala_filter_text">
-                    <span>Filters</span>
-
-
-                    {/* <span>
-                                        {Object.values(filterChecked).filter(
-                                            (ele) => ele.checked
-                                        )?.length === 0
-                                            ? 
-                                            "Filters"
-                                            : 
-                                            `Product Found:
-                                             ${afterFilterCount}`}
-                                    </span> */}
-                    <span onClick={() => handelFilterClearAll()}>
-                      {Object.values(filterChecked).filter((ele) => ele.checked)
-                        ?.length > 0
-                        ? "Clear All"
-                        : ""}
-                    </span>
-                  </span>
-                  <div style={{ marginTop: "12px" }}>
-                    {filterData?.map((ele) => (
-                      <>
-                        {!ele?.id?.includes("Range") &&
-                          !ele?.id?.includes("Price") && (
-                            <Accordion
-                              elevation={0}
-                              sx={{
-                                borderBottom: "1px solid #c7c8c9",
-                                borderRadius: 0,
-                                "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                {
-                                  borderBottomLeftRadius: "0px",
-                                  borderBottomRightRadius: "0px",
-                                },
-                                "&.MuiPaper-root.MuiAccordion-root:before": {
-                                  background: "none",
-                                },
-                              }}
-                            // expanded={accExpanded}
-                            // defaultExpanded={}
-                            >
-                              <AccordionSummary
-                                expandIcon={
-                                  <ExpandMoreIcon sx={{ width: "20px" }} />
-                                }
-                                aria-controls="panel1-content"
-                                id="panel1-header"
-                                sx={{
-                                  color: "#7d7f85 !important",
-                                  borderRadius: 0,
-
-                                  "&.MuiAccordionSummary-root": {
-                                    padding: 0,
-                                  },
-                                }}
-                              // className="filtercategoryLable"
-                              >
-                                {/* <span> */}
-                                {ele.Name}
-                                {/* </span> */}
-                              </AccordionSummary>
-                              <AccordionDetails
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  gap: "4px",
-                                  minHeight: "fit-content",
-                                  maxHeight: "300px",
-                                  overflow: "auto",
-                                  width: "100%"
-                                }}
-                              >
-                                {(JSON?.parse(ele?.options) ?? [])?.map((opt) => (
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "space-between",
-                                      gap: "12px",
-                                      width: "100%"
-
-                                    }}
-                                    key={opt?.id}
-                                  >
-                                    {/* <small
-                                        style={{
-                                          fontFamily: "TT Commons, sans-serif",
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
-                                    <FormControlLabel
-                                      sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "space-between",
-                                        flexDirection: "row-reverse",
-                                        width: "100%"
-                                      }}
-                                      control={
-                                        <Checkbox
-                                          name={`${ele?.id}${opt?.id}`}
-                                          // checked={
-                                          //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                          //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                          //     : false
-                                          // }
-                                          checked={
-                                            filterChecked[`${ele?.id}${opt?.id}`]
-                                              ?.checked === undefined
-                                              ? false
-                                              : filterChecked[
-                                                `${ele?.id}${opt?.id}`
-                                              ]?.checked
-                                          }
-                                          style={{
-                                            color: "#7f7d85",
-                                            padding: 0,
-                                            width: "10px",
-                                          }}
-                                          onClick={(e) =>
-                                            handleCheckboxChange(
-                                              e,
-                                              ele?.id,
-                                              opt?.Name
-                                            )
-                                          }
-                                          size="small"
-                                        />
-                                      }
-                                      // sx={{
-                                      //   display: "flex",
-                                      //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                      //   width: "100%",
-                                      //   flexDirection: "row-reverse", // Align items to the right
-                                      //   fontFamily:'TT Commons Regular'
-                                      // }}
-                                      className="mala_mui_checkbox_label"
-                                      label={opt.Name}
-                                    />
-                                  </div>
-                                ))}
-                              </AccordionDetails>
-                            </Accordion>
-                          )}
-                        {ele?.id?.includes("Price") && (
-                          <Accordion
-                            elevation={0}
-                            sx={{
-                              borderBottom: "1px solid #c7c8c9",
-                              borderRadius: 0,
-                              "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                                borderBottomLeftRadius: "0px",
-                                borderBottomRightRadius: "0px",
-                              },
-                              "&.MuiPaper-root.MuiAccordion-root:before": {
-                                background: "none",
-                              },
-                            }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
-                          >
-                            <AccordionSummary
-                              expandIcon={
-                                <ExpandMoreIcon sx={{ width: "20px" }} />
-                              }
-                              aria-controls="panel1-content"
-                              id="panel1-header"
-                              sx={{
-                                color: "#7d7f85 !important",
-                                borderRadius: 0,
-
-                                "&.MuiAccordionSummary-root": {
-                                  padding: 0,
-                                },
-                              }}
-                            // className="filtercategoryLable"
-                            >
-                              {/* <span> */}
-                              {ele.Name}
-                              {/* </span> */}
-                            </AccordionSummary>
-                            <AccordionDetails
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "4px",
-                                minHeight: "fit-content",
-                                maxHeight: "300px",
-                                overflow: "auto",
-                              }}
-                            >
-                              {(JSON?.parse(ele?.options) ?? [])?.map(
-                                (opt, i) => (
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "space-between",
-                                      gap: "12px",
-                                    }}
-                                    key={i}
-                                  >
-                                    {/* <small
-                                        style={{
-                                          fontFamily: "TT Commons, sans-serif",
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
-                                    <FormControlLabel
-                                      sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "space-between",
-                                        flexDirection: "row-reverse",
-                                        width: "100%"
-                                      }}
-                                      control={
-                                        <Checkbox
-                                          name={`Price${i}${i}`}
-                                          // checked={
-                                          //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                          //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                          //     : false
-                                          // }
-                                          checked={
-                                            filterChecked[`Price${i}${i}`]
-                                              ?.checked === undefined
-                                              ? false
-                                              : filterChecked[`Price${i}${i}`]
-                                                ?.checked
-                                          }
-                                          style={{
-                                            color: "#7f7d85",
-                                            padding: 0,
-                                            width: "10px",
-                                          }}
-                                          onClick={(e) =>
-                                            handleCheckboxChange(e, ele?.id, opt)
-                                          }
-                                          size="small"
-                                        />
-                                      }
-                                      // sx={{
-                                      //   display: "flex",
-                                      //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                      //   width: "100%",
-                                      //   flexDirection: "row-reverse", // Align items to the right
-                                      //   fontFamily:'TT Commons Regular'
-                                      // }}
-                                      className="mala_mui_checkbox_label"
-                                      // label={
-                                      //   opt?.Minval == 0
-                                      //     ? `Under ${decodeEntities(
-                                      //       storeInit?.Currencysymbol
-                                      //     )}${opt?.Maxval}`
-                                      //     : opt?.Maxval == 0
-                                      //       ? `Over ${decodeEntities(
-                                      //         storeInit?.Currencysymbol
-                                      //       )}${opt?.Minval}`
-                                      //       : `${decodeEntities(
-                                      //         storeInit?.Currencysymbol
-                                      //       )}${opt?.Minval} - ${decodeEntities(
-                                      //         storeInit?.Currencysymbol
-                                      //       )}${opt?.Maxval}`
-                                      // }
-                                      label={
-                                        opt?.Minval == 0
-                                          ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
-                                          : opt?.Maxval == 0
-                                            ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
-                                            : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
-                                      }
-                                    />
-                                  </div>
-                                )
-                              )}
-                            </AccordionDetails>
-                          </Accordion>
-                        )}
-                      </>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+           
             <div className="mala_Main_lookBookImgDiv" style={{ transition: "1s ease", width: '100%' }}>
 
               {selectedValue == 2 && (
@@ -1525,6 +1239,7 @@ const Lookbook = () => {
                                 justifyContent: "space-between",
                                 alignItems: 'center',
                                 margin: "5px",
+                                color:"gray"
                               }}
                             >
                               <p className="mala_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
@@ -1739,6 +1454,7 @@ const Lookbook = () => {
                                     width: "100%",
                                     padding: "0px 15px",
                                     margin: "5px",
+                                    color:'gray'
                                   }}
                                 >
                                   <p className="mala_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
@@ -1845,7 +1561,7 @@ const Lookbook = () => {
                                         <img
                                           className="mala_lookBookSubImage"
                                           loading="lazy"
-                                          src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                          src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
                                           alt={`Sub image ${subIndex} for slide ${index}`}
                                           onError={(e) => {
                                             e.target.src = imageNotFound;

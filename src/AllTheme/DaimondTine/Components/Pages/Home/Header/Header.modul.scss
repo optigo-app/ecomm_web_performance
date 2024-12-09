@@ -337,6 +337,9 @@
   @media screen and (min-width:426px) {
     .dt_mobileView_div2_mobile {
       display: none !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 

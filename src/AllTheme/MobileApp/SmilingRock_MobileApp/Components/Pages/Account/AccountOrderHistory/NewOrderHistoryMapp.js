@@ -511,7 +511,8 @@ const NewOrderHistoryMapp = () => {
                                             {/* <img src={`${image_path}Design_Thumb/${el?.designno}~${1}${el?.metalcolorname ? `~${el.metalcolorname}` : ''}.jpg`} onError={handleOrderImageError} alt="#designimage" style={{ maxHeight: '90px', maxWidth: '90px', marginRight: '10px' }} onClick={() => handleMoveToDetail(el)} /> */}
                                             {/* <img src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`} onError={handleOrderImageError} alt="#designimage" style={{maxHeight:'90px', maxWidth:'90px', marginRight:'10px'}} onClick={() => handleMoveToDetail(el)} /> */}
                                             <div>
-                                              <div>{el?.designno}</div>
+                                            <div>{el?.designno} - {`Quantity ${el?.quantity}`}</div>  
+                                             
                                               <div>{el?.metaltypename?.toUpperCase()?.split(" ")[1]} {el?.metalcolorname?.toUpperCase()} {el?.metaltypename?.toUpperCase()?.split(" ")[0]}</div>
                                               <div style={{ fontWeight: 'bold' }}><span style={{ paddingRight: '5px' }} dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></span>
                                                 {formatAmount2(el?.TotalUnitCostWithDiscount)}</div>
