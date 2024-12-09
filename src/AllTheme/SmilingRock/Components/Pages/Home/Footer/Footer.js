@@ -65,28 +65,32 @@ const Footer = ({ fromPage }) => {
                 </div>
                 <div className='footerMoreOption'>
                   <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p>
-                  {/* <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p> */}
+                  <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p>
                   {htmlContent?.rd && htmlContent?.rd.length > 0 &&
                     (
                       htmlContent?.rd[0]?.ExtraMenu == 1 &&
                       <>
-                        <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p>
+                        {/* no need in sonasons */}
+
+                        {/* <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p> */}
+
                         {/* Maiora not needed */}
                         {/* Kayra needed */}
-                        <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p>
+                        {/* no need in sonasons */}
+                        {/* <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p> */}
                       </>
                     )}
                 </div>
                 <div className='footerMoreText'>
                   {/* Maiora not needed */}
                   {/* Kayra needed */}
-                  <Copyright localData={localData}/>
-                  <p style={{
+                  <Copyright localData={localData} />
+                  {/* <p style={{
                     color: '#7d7f85',
                     fontSize: '12px',
                     fontWeight: 500,
                     cursor: 'pointer'
-                  }} onClick={() => navigation('/TermsPolicy')}>Terms & Privacy</p>
+                  }} onClick={() => navigation('/TermsPolicy')}>Terms & Privacy</p> */}
                 </div>
               </div>
               {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -102,18 +106,22 @@ const Footer = ({ fromPage }) => {
                 <div className='footerMoreOption'>
                   <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p>
                   {/* <p className='footerMoreOptionData' onClick={() => {navigation('/faq'); window.scrollTo(0, 0); }}>FAQ</p> */}
-                  {/* <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p> */}
+                  <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p>
                   {htmlContent?.rd && htmlContent?.rd.length > 0 &&
                     (
                       htmlContent?.rd[0]?.ExtraMenu == 1 &&
                       <>
-                        <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p>
+
+                        {/* no need in sonasons */}
+                        {/* <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p> */}
+
                         {/* Maiora not needed */}
                         {/* Kayra needed */}
-                        <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p>
+                        {/* no need in sonasons */}
+                        {/* <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p> */}
                       </>
                     )}
-                  <p className='footerMoreOptionData' onClick={() => navigation('/TermsPolicy')}>TERMS & PRIVACY</p>
+                  {/* <p className='footerMoreOptionData' onClick={() => navigation('/TermsPolicy')}>TERMS & PRIVACY</p> */}
                   {/* <p className='footerMoreOptionData' onClick={() => navigation('/press')}>PRESS</p> */}
                 </div>
                 <div className='footerIconMain'>

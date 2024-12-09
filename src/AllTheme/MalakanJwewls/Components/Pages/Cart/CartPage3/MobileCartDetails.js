@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl, CardMedia } from '@mui/material';
 import './mala3Mo_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
@@ -79,13 +79,26 @@ const MobileCartDetails = ({
     <Modal open={open} onClose={handleClose} className="mala3Mo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="mala3Mo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="mala3Mo_Cart-imageDiv">
-          <img
-            src={imageSrc}
-            alt="Cluster Diamond"
-            className='mala3Mo_cartImage'
-            onClick={() => handleMoveToDetail(selectedItem)}
-            style={{ border: 'none' }}
-          />
+          {imageSrc === undefined ? (
+            <CardMedia
+              style={{ width: "100%", height: '25rem' }}
+            >
+              <Skeleton
+                animation="wave"
+                variant="rect"
+                width="100%"
+                height="100%"
+              />
+            </CardMedia>
+          ) : (
+            <img
+              src={imageSrc}
+              alt="Cluster Diamond"
+              className='mala3Mo_cartImage'
+              onClick={() => handleMoveToDetail(selectedItem)}
+              style={{ border: 'none' }}
+            />
+          )}
         </div>
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (

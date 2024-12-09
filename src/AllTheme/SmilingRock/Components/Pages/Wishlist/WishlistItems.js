@@ -13,6 +13,7 @@ import noImageFound from "../../Assets/image-not-found.jpg";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import { Skeleton } from "@mui/material";
 
 const WishlistItems = ({
   item,
@@ -79,7 +80,28 @@ const WishlistItems = ({
         >
           <Card className="smr_WlListCard">
             <div className="cardContent">
-              {imageSrc !== undefined && (
+              {imageSrc === undefined ? (
+                <CardMedia
+                  style={{ width: "100%" }}
+                  className="smr_WlListImage"
+                >
+                  <Skeleton
+                    animation="wave"
+                    variant="rect"
+                    width="100%"
+                    height={280}
+                    sx={{
+                      backgroundColor: "#e8e8e86e",
+                      '@media (max-width: 960px)': {
+                        height: "240px !important",
+                      },
+                      '@media (max-width: 600px)': {
+                        height: "150px !important",
+                      },
+                    }}
+                  />
+                </CardMedia>
+              ) : (
                 <CardMedia
                   component="img"
                   image={imageSrc}

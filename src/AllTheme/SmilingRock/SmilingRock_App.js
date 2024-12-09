@@ -236,7 +236,8 @@ const SmilingRock_App = () => {
         <Route path="/ContactUs" element={<ContactUs />} />
         {/* Maiora needed servicePolicy */}
         {/* Kayra not needed */}
-        {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
+        {/* sonasons needed */}
+        <Route path="/servicePolicy" element={<ServicePolicy />} />
         <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
 
         {/* Maiora not needed fun facts */}

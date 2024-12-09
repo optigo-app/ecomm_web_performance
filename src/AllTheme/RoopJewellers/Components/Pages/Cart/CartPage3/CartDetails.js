@@ -49,7 +49,24 @@ const CartDetails = ({
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='roop3_cartImage' /> */}
         {imageSrc === undefined ? (
           <CardMedia
-            style={{ width: "100%", height: '25rem' }}
+            width="100%"
+            height={400}
+            sx={{
+              width: "100%",
+              height: "400px !important",
+              '@media (max-width: 1750px)': {
+                width: "100%",
+                height: "350px !important",
+              },
+              '@media (max-width: 1500px)': {
+                width: "100%",
+                height: "300px !important",
+              },
+              '@media (max-width: 1100px)': {
+                width: "100%",
+                height: "250px !important",
+              },
+            }}
           >
             <Skeleton
               animation="wave"

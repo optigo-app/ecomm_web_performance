@@ -159,11 +159,14 @@ const Album1 = () => {
                                                 <img
                                                     src={
                                                         design?.ImageCount > 0
-                                                            ? `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`
+                                                            ? `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`
                                                             : imageNotFound
                                                     }
                                                     alt={design?.TitleLine}
                                                     loading="lazy"
+                                                    onError={(e) => {
+                                                        e.target.src = imageNotFound
+                                                    }}
                                                 />
                                             </div>
                                             <div className="design-info">

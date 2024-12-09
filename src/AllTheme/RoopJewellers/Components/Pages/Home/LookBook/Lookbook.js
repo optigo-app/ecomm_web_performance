@@ -14,6 +14,7 @@ import {
   FormControlLabel,
   IconButton,
   Modal,
+  PaginationItem,
   styled,
   ToggleButton,
   ToggleButtonGroup,
@@ -2348,8 +2349,16 @@ const Lookbook = () => {
               shape="circular"
               onChange={handelPageChange}
               page={currentPage}
-            // showFirstButton
-            // showLastButton
+              // showFirstButton
+              // showLastButton
+              renderItem={(item) => (
+                <PaginationItem
+                  {...item}
+                  sx={{
+                    pointerEvents: item.page === currentPage ? 'none' : 'auto',
+                  }}
+                />
+              )}
             />
           </div>
         </div>

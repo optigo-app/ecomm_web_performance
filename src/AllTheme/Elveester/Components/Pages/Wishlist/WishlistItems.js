@@ -6,7 +6,7 @@ import Cookies from 'js-cookie'
 import CloseIcon from '@mui/icons-material/Close';
 import noImageFound from '../../Assets/image-not-found.jpg';
 import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
-import { Box, Card, CardContent, CardMedia, CircularProgress, Grid, Typography } from '@mui/material';
+import { Box, Card, CardContent, CardMedia, CircularProgress, Grid, Skeleton, Typography } from '@mui/material';
 import { formatter } from '../../../../../utils/Glob_Functions/GlobalFunction';
 import { toast } from 'react-toastify';
 
@@ -25,11 +25,14 @@ const WishlistItems = ({
     handleMoveToDetail
 }) => {
 
-    const [imageSrc, setImageSrc] = useState(noImageFound);
+    const [imageSrc, setImageSrc] = useState();
+    console.log('imageSrc: ', imageSrc);
 
     useEffect(() => {
         if (item?.ImageCount !== 0) {
-            WishCardImageFunc(item).then(setImageSrc);
+            WishCardImageFunc(item).then(
+                setImageSrc
+            );
         } else {
             setImageSrc(noImageFound);
         }
@@ -102,13 +105,39 @@ const WishlistItems = ({
             <Grid item xs={12} sm={itemsLength <= 2 ? 6 : 6} md={itemsLength <= 2 ? 4 : 4} lg={itemsLength <= 2 ? 3 : 3}>
                 <Card className='elv_WlListCard'>
                     <div className='cardContent'>
-                        <CardMedia
-                            component="img"
-                            image={imageSrc}
-                            alt={item?.TitleLine}
-                            className='elv_WlListImage'
-                            onClick={() => handleMoveToDetail(item)}
-                        />
+
+                        {imageSrc === undefined ? (
+                            <CardMedia
+                                style={{ width: "100%" }}
+                                className="elv_WlListImage"
+                            >
+                                <Skeleton
+                                    animation="wave"
+                                    variant="rect"
+                                    width="100%"
+                                    height={350}
+                                    sx={{
+                                        '@media (max-width: 960px)': {
+                                            height: "320px !important",
+                                        },
+                                        '@media (max-width: 600px)': {
+                                            height: "300px !important",
+                                        },
+                                        '@media (max-width: 400px)': {
+                                            height: "250px !important",
+                                        },
+                                    }}
+                                />
+                            </CardMedia>
+                        ) : (
+                            <CardMedia
+                                component="img"
+                                image={imageSrc}
+                                alt={item?.TitleLine}
+                                className='elv_WlListImage'
+                                onClick={() => handleMoveToDetail(item)}
+                            />
+                        )}
                         <CardContent className='elv_cardContent'>
                             <div className='elv_wish_card'>
                                 <span className={item?.TitleLine ? 'elv_wishlist_card_prod_title' : 'elv_wishlist_card_prod_title_hidden'}>{item?.TitleLine != "" && item?.TitleLine}</span>

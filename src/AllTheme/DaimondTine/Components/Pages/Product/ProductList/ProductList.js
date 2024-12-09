@@ -18,6 +18,7 @@ import {
   FormControlLabel,
   Input,
   Pagination,
+  PaginationItem,
   Skeleton,
   Slider,
   Typography,
@@ -329,7 +330,6 @@ const ProductList = () => {
   //   setFinalProductListData(finalProdWithPrice);
   // }, [productListData]);
 
-  
   const generateImageList = useCallback((product) => {
     let storeInitX = JSON.parse(sessionStorage.getItem("storeInit"));
     let pdImgList = []
@@ -351,35 +351,58 @@ const ProductList = () => {
   }, [])
 
   useEffect(() => {
-    const initialProducts = productListData?.map(product => ({
+    const initialProducts = productListData?.map((product) => ({
       ...product,
       images: [],
-      loading: true
-    }))
-    setFinalProductListData(initialProducts)
-    setLoadingIndex(0)
-  }, [productListData])
+      loading: true,
+    }));
 
-  useEffect(() => {
-    if (loadingIndex >= finalProductListData?.length) return
+    setFinalProductListData(initialProducts);
 
-    const loadNextProductImages = () => {
-      setFinalProductListData(prevData => {
-        const newData = [...prevData]
-        newData[loadingIndex] = {
-          ...newData[loadingIndex],
-          images: generateImageList(newData[loadingIndex]),
-          loading: false
-        }
-        return newData
-      })
+    const timer = setTimeout(() => {
+      const updateData = productListData?.map((product) => ({
+        ...product,
+        images: generateImageList(product),
+        loading: false,
+      }));
 
-      setLoadingIndex(prevIndex => prevIndex + 1)
-    } 
+      setFinalProductListData(updateData);
+    }, 1);
 
-    const timer = setTimeout(loadNextProductImages, 5)
-    return () => clearTimeout(timer)
-  }, [loadingIndex, finalProductListData, generateImageList])
+    return () => clearTimeout(timer);
+
+  }, [productListData, generateImageList]);
+
+  // useEffect(() => {
+  //   const initialProducts = productListData?.map(product => ({
+  //     ...product,
+  //     images: [],
+  //     loading: true
+  //   }))
+  //   setFinalProductListData(initialProducts)
+  //   setLoadingIndex(0)
+  // }, [productListData])
+
+  // useEffect(() => {
+  //   if (loadingIndex >= finalProductListData?.length) return
+
+  //   const loadNextProductImages = () => {
+  //     setFinalProductListData(prevData => {
+  //       const newData = [...prevData]
+  //       newData[loadingIndex] = {
+  //         ...newData[loadingIndex],
+  //         images: generateImageList(newData[loadingIndex]),
+  //         loading: false
+  //       }
+  //       return newData
+  //     })
+
+  //     setLoadingIndex(prevIndex => prevIndex + 1)
+  //   } 
+
+  //   const timer = setTimeout(loadNextProductImages, 5)
+  //   return () => clearTimeout(timer)
+  // }, [loadingIndex, finalProductListData, generateImageList])
 
 
   const BreadCumsObj = () => {
@@ -546,6 +569,7 @@ const ProductList = () => {
     }
 
     // if
+    setCurrPage(1);
 
     return output;
   };
@@ -1130,7 +1154,7 @@ const ProductList = () => {
 
     let sortby = e.target?.value;
 
-    await ProductListApi(output, currPage, obj, prodListType, cookie, sortby)
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortby)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -1239,12 +1263,32 @@ const ProductList = () => {
     });
   }, []);
 
-  const handleImgRollover = (pd) => {
+  // const handleImgRollover = (pd) => {
+  //   if (pd?.images?.length >= 1) {
+  //     // setRolloverImgPd((prev) => pd?.images[1])
+  //     setRolloverImgPd((prev) => {
+  //       return { [pd?.autocode]: pd?.images[1] };
+  //     });
+  //   }
+  // };
+
+  const handleImgRollover = async (pd) => {
     if (pd?.images?.length >= 1) {
-      // setRolloverImgPd((prev) => pd?.images[1])
-      setRolloverImgPd((prev) => {
-        return { [pd?.autocode]: pd?.images[1] };
-      });
+      const imageUrl = pd?.images[1];
+
+      try {
+        const isImageAvailable = await checkImageAvailability(imageUrl);
+
+        if (isImageAvailable) {
+          setRolloverImgPd((prev) => {
+            return { [pd?.autocode]: imageUrl };
+          });
+        }
+      } catch (error) {
+        setRolloverImgPd((prev) => {
+          return { [pd?.autocode]: pd?.images[0] };
+        });
+      }
     }
   };
 
@@ -1518,8 +1562,8 @@ const ProductList = () => {
                         }
                       </span>
                       <span
-                       onClick={() => { if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) { handelFilterClearAll() } }}
-                       >
+                        onClick={() => { if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) { handelFilterClearAll() } }}
+                      >
                         {Object.values(filterChecked).filter((ele) => ele.checked)
                           ?.length > 0
                           ? "Clear All"
@@ -2238,8 +2282,8 @@ const ProductList = () => {
                               Recommended
                             </option>
                             <option className="option" value="Bestseller">
-                        BestSeller
-                      </option>
+                              BestSeller
+                            </option>
                             <option className="option" value="New">
                               New
                             </option>
@@ -2385,7 +2429,7 @@ const ProductList = () => {
                                         }}
                                       >
                                         {ele
-                                        ?.Fil_DisName}
+                                          ?.Fil_DisName}
                                       </AccordionSummary>
                                       <AccordionDetails
                                         sx={{
@@ -2748,229 +2792,229 @@ const ProductList = () => {
                               <div className={`smilingAllProductDataMainMobile`}>
                                 {finalProductListData?.map((productData, i) => {
                                   const isLoading = productData && productData?.loading === true;
-                                 return  <div className={`main-ProdcutListConatiner`}>
-                                   <div className={`listing-card`}>
-                                     <div className="listing-image">
-                                       <div>
-                                       {isLoading ? 
-                                              <CardMedia
-                                                style={{ width: "100%" }}
-                                                className="cardMainSkeleton"
-                                              >
-                                                <Skeleton
-                                                  animation="wave"
-                                                  variant="rect"
-                                                  width={"100%"}
-                                                  height="280px"
-                                                  style={{ backgroundColor: "#e8e8e86e" }}
+                                  return <div className={`main-ProdcutListConatiner`}>
+                                    <div className={`listing-card`}>
+                                      <div className="listing-image">
+                                        <div>
+                                          {isLoading ?
+                                            <CardMedia
+                                              style={{ width: "100%" }}
+                                              className="cardMainSkeleton"
+                                            >
+                                              <Skeleton
+                                                animation="wave"
+                                                variant="rect"
+                                                width={"100%"}
+                                                height="280px"
+                                                style={{ backgroundColor: "#e8e8e86e" }}
+                                              />
+                                            </CardMedia> :
+                                            <div
+                                              onMouseEnter={() => {
+                                                handleImgRollover(productData);
+                                                if (productData?.VideoCount > 0) {
+                                                  setIsRollOverVideo({
+                                                    [productData?.autocode]: true,
+                                                  });
+                                                } else {
+                                                  setIsRollOverVideo({
+                                                    [productData?.autocode]: false,
+                                                  });
+                                                }
+                                              }}
+                                              onClick={() =>
+                                                handleMoveToDetail(productData)
+                                              }
+                                              onMouseLeave={() => {
+                                                handleLeaveImgRolloverImg(
+                                                  productData
+                                                );
+                                                setIsRollOverVideo({
+                                                  [productData?.autocode]: false,
+                                                });
+                                              }}
+                                              className="dt_ImgandVideoContainer"
+                                            >
+                                              {isRollOverVideo[
+                                                productData?.autocode
+                                              ] == true ? (
+                                                <video
+                                                  src={
+                                                    productData?.VideoCount > 0
+                                                      ? (storeInit?.CDNVPath) +
+                                                      productData?.designno +
+                                                      "~" +
+                                                      1 +
+                                                      "." +
+                                                      productData?.VideoExtension
+                                                      : ""
+                                                  }
+                                                  loop={true}
+                                                  autoPlay={true}
+                                                  muted
+                                                  playsInline
+                                                  className="dt_productCard_video"
+                                                  onError={(e) => {
+                                                    e.target.poster = imageNotFound;
+                                                  }}
                                                 />
-                                              </CardMedia> :
-                                               <div
-                                           onMouseEnter={() => {
-                                             handleImgRollover(productData);
-                                             if (productData?.VideoCount > 0) {
-                                               setIsRollOverVideo({
-                                                 [productData?.autocode]: true,
-                                               });
-                                             } else {
-                                               setIsRollOverVideo({
-                                                 [productData?.autocode]: false,
-                                               });
-                                             }
-                                           }}
-                                           onClick={() =>
-                                             handleMoveToDetail(productData)
-                                           }
-                                           onMouseLeave={() => {
-                                             handleLeaveImgRolloverImg(
-                                               productData
-                                             );
-                                             setIsRollOverVideo({
-                                               [productData?.autocode]: false,
-                                             });
-                                           }}
-                                           className="dt_ImgandVideoContainer"
-                                         >
-                                           {isRollOverVideo[
-                                             productData?.autocode
-                                           ] == true ? (
-                                             <video
-                                               src={
-                                                 productData?.VideoCount > 0
-                                                   ? (storeInit?.CDNVPath) +
-                                                   productData?.designno +
-                                                   "~" +
-                                                   1 +
-                                                   "." +
-                                                   productData?.VideoExtension
-                                                   : ""
-                                               }
-                                               loop={true}
-                                               autoPlay={true}
-                                               muted
-                                               playsInline
-                                               className="dt_productCard_video"
-                                               onError={(e)=>{
-                                                e.target.poster = imageNotFound ;
-                                               }}
-                                             />
-                                           ) : (
-                                             <img
-                                               className="dt_productListCard_Image"
-                                               id={`dt_productListCard_Image${productData?.autocode}`}
-                                               src={
-                                                 rollOverImgPd[
-                                                   productData?.autocode
-                                                 ]
-                                                   ? rollOverImgPd[
-                                                   productData?.autocode
-                                                   ]
-                                                   : productData?.images?.length >
-                                                     0
-                                                     ? productData?.images[0]
-                                                     : imageNotFound
-                                               }
-                                               alt="aa"
-                                               onError={(e)=>{
-                                                 e.target.src = imageNotFound ;
-                                               }}
-                                             />
-                                           )}
-                                         </div>}
-                                         <div className="dt_product_label">
-                                           {productData?.IsInReadyStock == 1 ? (
-                                             <span className="dt_instock">
-                                               In Stock
-                                             </span>
-                                           )
-                                             :
-                                             (
-                                               <span className="dt_instock">
-                                                 Make To Order
-                                               </span>
-                                             )
-                                           }
-                                           {productData?.IsBestSeller == 1 && (
-                                             <span className="dt_bestSeller">
-                                               Best Seller
-                                             </span>
-                                           )}
-                                           {productData?.IsTrending == 1 && (
-                                             <span className="dt_intrending">
-                                               Trending
-                                             </span>
-                                           )}
-                                           {productData?.IsNewArrival == 1 && (
-                                             <span className="dt_newarrival">
-                                               New Arrival
-                                             </span>
-                                           )}
-                                         </div>
-                                         <Button
-                                           className="cart-icon"
-                                           style={{ display: "none" }}
-                                         >
-                                           <Checkbox
-                                             icon={
-                                               <LocalMallOutlinedIcon
-                                                 sx={{
-                                                   fontSize: "22px",
-                                                   color: "#7d7f85",
-                                                   opacity: ".7",
-                                                 }}
-                                               />
-                                             }
-                                             checkedIcon={
-                                               <LocalMallIcon
-                                                 sx={{
-                                                   fontSize: "22px",
-                                                   color: "#009500",
-                                                 }}
-                                               />
-                                             }
-                                             disableRipple={true}
-                                             sx={{ padding: "5px" }}
-                                             onChange={(e) =>
-                                               handleCartandWish(
-                                                 e,
-                                                 productData,
-                                                 "Cart"
-                                               )
-                                             }
-                                             checked={
-                                               cartArr[productData?.autocode] ??
-                                                 productData?.IsInCart === 1
-                                                 ? true
-                                                 : false
-                                             }
-                                           />
-                                         </Button>
-                                         <Button className={"wishlist-icon"}>
-                                           <Checkbox
-                                             icon={
-                                               <FavoriteBorderIcon
-                                                 sx={{
-                                                   fontSize: "22px",
-                                                   color: "#7d7f85",
-                                                   opacity: ".7",
-                                                 }}
-                                               />
-                                             }
-                                             checkedIcon={
-                                               <FavoriteIcon
-                                                 sx={{
-                                                   fontSize: "22px",
-                                                   color: "#e31b23",
-                                                 }}
-                                               />
-                                             }
-                                             disableRipple={true}
-                                             sx={{ padding: "5px" }}
-                                             onChange={(e) =>
-                                               handleCartandWish(
-                                                 e,
-                                                 productData,
-                                                 "Wish"
-                                               )
-                                             }
-                                             checked={
-                                               wishArr[productData?.autocode] ??
-                                                 productData?.IsInWish === 1
-                                                 ? true
-                                                 : false
-                                             }
-                                           />
-                                         </Button>
-                                       </div>
-                                     </div>
+                                              ) : (
+                                                <img
+                                                  className="dt_productListCard_Image"
+                                                  id={`dt_productListCard_Image${productData?.autocode}`}
+                                                  src={
+                                                    rollOverImgPd[
+                                                      productData?.autocode
+                                                    ]
+                                                      ? rollOverImgPd[
+                                                      productData?.autocode
+                                                      ]
+                                                      : productData?.images?.length >
+                                                        0
+                                                        ? productData?.images[0]
+                                                        : imageNotFound
+                                                  }
+                                                  alt="aa"
+                                                  onError={(e) => {
+                                                    e.target.src = imageNotFound;
+                                                  }}
+                                                />
+                                              )}
+                                            </div>}
+                                          <div className="dt_product_label">
+                                            {productData?.IsInReadyStock == 1 ? (
+                                              <span className="dt_instock">
+                                                In Stock
+                                              </span>
+                                            )
+                                              :
+                                              (
+                                                <span className="dt_instock">
+                                                  Make To Order
+                                                </span>
+                                              )
+                                            }
+                                            {productData?.IsBestSeller == 1 && (
+                                              <span className="dt_bestSeller">
+                                                Best Seller
+                                              </span>
+                                            )}
+                                            {productData?.IsTrending == 1 && (
+                                              <span className="dt_intrending">
+                                                Trending
+                                              </span>
+                                            )}
+                                            {productData?.IsNewArrival == 1 && (
+                                              <span className="dt_newarrival">
+                                                New Arrival
+                                              </span>
+                                            )}
+                                          </div>
+                                          <Button
+                                            className="cart-icon"
+                                            style={{ display: "none" }}
+                                          >
+                                            <Checkbox
+                                              icon={
+                                                <LocalMallOutlinedIcon
+                                                  sx={{
+                                                    fontSize: "22px",
+                                                    color: "#7d7f85",
+                                                    opacity: ".7",
+                                                  }}
+                                                />
+                                              }
+                                              checkedIcon={
+                                                <LocalMallIcon
+                                                  sx={{
+                                                    fontSize: "22px",
+                                                    color: "#009500",
+                                                  }}
+                                                />
+                                              }
+                                              disableRipple={true}
+                                              sx={{ padding: "5px" }}
+                                              onChange={(e) =>
+                                                handleCartandWish(
+                                                  e,
+                                                  productData,
+                                                  "Cart"
+                                                )
+                                              }
+                                              checked={
+                                                cartArr[productData?.autocode] ??
+                                                  productData?.IsInCart === 1
+                                                  ? true
+                                                  : false
+                                              }
+                                            />
+                                          </Button>
+                                          <Button className={"wishlist-icon"}>
+                                            <Checkbox
+                                              icon={
+                                                <FavoriteBorderIcon
+                                                  sx={{
+                                                    fontSize: "22px",
+                                                    color: "#7d7f85",
+                                                    opacity: ".7",
+                                                  }}
+                                                />
+                                              }
+                                              checkedIcon={
+                                                <FavoriteIcon
+                                                  sx={{
+                                                    fontSize: "22px",
+                                                    color: "#e31b23",
+                                                  }}
+                                                />
+                                              }
+                                              disableRipple={true}
+                                              sx={{ padding: "5px" }}
+                                              onChange={(e) =>
+                                                handleCartandWish(
+                                                  e,
+                                                  productData,
+                                                  "Wish"
+                                                )
+                                              }
+                                              checked={
+                                                wishArr[productData?.autocode] ??
+                                                  productData?.IsInWish === 1
+                                                  ? true
+                                                  : false
+                                              }
+                                            />
+                                          </Button>
+                                        </div>
+                                      </div>
 
-                                     {productData?.TitleLine?.length !== 0 ? (
-                                       <div className="listing-details">
-                                         <p
-                                           className="prodTitle"
-                                           title={`${productData?.TitleLine}`}
-                                         >
-                                           {/* {productData?.designno} {" - "}  */}
-                                           {productData?.TitleLine}
-                                         </p>
-                                       </div>
-                                     ) : (
-                                       <div className="listing-details">
-                                         {/* <p
+                                      {productData?.TitleLine?.length !== 0 ? (
+                                        <div className="listing-details">
+                                          <p
+                                            className="prodTitle"
+                                            title={`${productData?.TitleLine}`}
+                                          >
+                                            {/* {productData?.designno} {" - "}  */}
+                                            {productData?.TitleLine}
+                                          </p>
+                                        </div>
+                                      ) : (
+                                        <div className="listing-details">
+                                          {/* <p
                                        className="prodTitle"
                                        title={`${productData?.designno}`}
                                      >
                                        {productData?.designno}
                                      </p> */}
-                                       </div>
-                                     )}
-                                     <div style={{ margin: '0px', fontSize: '15px', display: 'flex', justifyContent: 'center', width: '100%', gap: '5px' }}>
-                                       {/* <label className="from">Form:</label> */}
-                                       <div className="currencyFont" style={{ fontSize: '16px', color: '#8d8d8d' }}>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}</div>
-                                       <div style={{ fontFamily: 'Roboto, sans-serif', fontSize: '16px', color: '#8d8d8d' }}>{formatter.format(productData?.UnitCostWithMarkUp)}</div>
-                                     </div>
-                                   </div>
-                                 </div>
+                                        </div>
+                                      )}
+                                      <div style={{ margin: '0px', fontSize: '15px', display: 'flex', justifyContent: 'center', width: '100%', gap: '5px' }}>
+                                        {/* <label className="from">Form:</label> */}
+                                        <div className="currencyFont" style={{ fontSize: '16px', color: '#8d8d8d' }}>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}</div>
+                                        <div style={{ fontFamily: 'Roboto, sans-serif', fontSize: '16px', color: '#8d8d8d' }}>{formatter.format(productData?.UnitCostWithMarkUp)}</div>
+                                      </div>
+                                    </div>
+                                  </div>
                                 })}
                                 {storeInit?.IsProductListPagination == 1 &&
                                   Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
@@ -2990,9 +3034,15 @@ const ProductList = () => {
                                         shape="circular"
                                         onChange={handelPageChange}
                                         page={currPage}
+                                        disabled={false} // Don't disable the whole pagination component
                                         showFirstButton
                                         showLastButton
-
+                                        renderItem={(item) => (
+                                          <PaginationItem
+                                            {...item}
+                                            disabled={item.page === currPage}
+                                          />
+                                        )}
                                       />
                                     </div>
                                   )}

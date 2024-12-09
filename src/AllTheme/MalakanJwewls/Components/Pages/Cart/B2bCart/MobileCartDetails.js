@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl, CardMedia } from '@mui/material';
 import './malaMo_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
@@ -79,13 +79,40 @@ const MobileCartDetails = ({
     <Modal open={open} onClose={handleClose} className="malaMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="malaMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="malaMo_Cart-imageDiv">
-          <img
-            src={imageSrc}
-            alt="Cluster Diamond"
-            className='malaMo_cartImage'
-            onClick={() => handleMoveToDetail(selectedItem)}
-            style={{ border: 'none' }}
-          />
+          {imageSrc === undefined ? (
+            <CardMedia
+              className="dtMo_cart-image"
+              width="100%"
+              height={400}
+              sx={{
+                width: "100%",
+                height: "400px !important",
+                '@media (max-width: 570px)': {
+                  width: "100%",
+                  height: "300px !important",
+                },
+                '@media (max-width: 400px)': {
+                  width: "100%",
+                  height: "200px !important",
+                },
+              }}
+            >
+              <Skeleton
+                animation="wave"
+                variant="rect"
+                width="100%"
+                height="100%"
+              />
+            </CardMedia>
+          ) : (
+            <img
+              src={imageSrc}
+              alt="Cluster Diamond"
+              className='malaMo_cartImage'
+              onClick={() => handleMoveToDetail(selectedItem)}
+              style={{ border: 'none' }}
+            />
+          )}
         </div>
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (

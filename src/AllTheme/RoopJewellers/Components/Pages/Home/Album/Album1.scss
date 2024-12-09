@@ -109,15 +109,14 @@
             justify-content: center;
 
             &:after {
-                font-size: 16px;
+                font-size: 12px;
             }
         }
         .swiper-button-disabled {
             opacity: 0.5;
             cursor: pointer;
             pointer-events: auto;
-            background-color: #ababab;
-            margin-top: -30px!important;
+            // margin-top: -30px!important;
         }
     }
 

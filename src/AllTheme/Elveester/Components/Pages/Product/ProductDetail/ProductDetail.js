@@ -28,6 +28,7 @@ import DesignSet from './DesignSet/DesignSet';
 import Stockitems from './InstockProduct/Stockitems';
 import { SaveLastViewDesign } from '../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign';
 import { Helmet } from 'react-helmet';
+import { FilterListAPI } from '../../../../../../utils/API/FilterAPI/FilterListAPI';
 
 const ProductDetail = () => {
   const [maxWidth1400, setMaxWidth1400] = useState(false);
@@ -66,6 +67,7 @@ const ProductDetail = () => {
   const location = useLocation();
   const [saveLastView, setSaveLastView] = useState();
   const [imageSrc, setImageSrc] = useState();
+  const [filterData, setFilterData] = useState([]);
 
   const [showPlaceholder, setShowPlaceholder] = useState(false);
 
@@ -460,6 +462,11 @@ const ProductDetail = () => {
     e.target.src = noImageFound; // Fallback image
   };
 
+  const handleVideoError = (e) => {
+    e.target.onerror = null; // Prevent looping
+    e.target.poster = noImageFound; // Fallback image
+  };
+
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
     let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -509,6 +516,8 @@ const ProductDetail = () => {
 
     setloadingdata(true);
     const FetchProductData = async () => {
+      const res1 = await FilterListAPI(decodeobj?.g, cookie);
+      setFilterData(res1)
       let obj = {
         mt: metalArr,
         diaQc: `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`,
@@ -516,7 +525,9 @@ const ProductDetail = () => {
       };
 
       setisPriceLoading(true);
-
+      // step 4 
+      setSingleProd1({})
+      setSingleProd({})
       await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
         .then(async (res) => {
           if (res) {
@@ -880,12 +891,12 @@ const ProductDetail = () => {
     if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
-        storeInit?.CDNDesignImageFol +
-        pd?.designno +
-        "~" +
-        i +
-        "." +
-        pd?.ImageExtension;
+          storeInit?.CDNDesignImageFol +
+          pd?.designno +
+          "~" +
+          i +
+          "." +
+          pd?.ImageExtension;
 
         let IsImg = checkImageAvailability(imgString)
         if (IsImg) {
@@ -928,6 +939,11 @@ const ProductDetail = () => {
       setSelectedThumbImg({ "link": FinalPdImgList[0], "type": 'img' });
       setPdThumbImg(FinalPdImgList);
       setThumbImgIndex(0)
+    } else {
+      // step 2 
+      setSelectedThumbImg({ link: "", type: "img" });
+      setPdThumbImg();
+      setThumbImgIndex();
     }
 
     if (pdvideoList?.length > 0) {
@@ -1106,6 +1122,7 @@ const ProductDetail = () => {
       d: loginInfo?.cmboDiaQCid,
       c: loginInfo?.cmboCSQCid,
       f: {},
+      g: decodeUrl?.g,
     };
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
@@ -1114,6 +1131,10 @@ const ProductDetail = () => {
       `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
       }${productData?.designno}?p=${encodeObj}`
     );
+    // step 1
+    setSingleProd1({});
+    setSingleProd({});
+    setIsImageLoad(true);
   };
 
   const handleCartandWish = (e, ele, type) => {
@@ -1160,6 +1181,16 @@ const ProductDetail = () => {
       }));
     }
   };
+
+  const getCollectionId = (singleProd?.Collectionid ?? singleProd1?.Collectionid);
+
+  const getCollName = filterData
+    ?.filter((item) => item?.Name === "Collection")
+    ?.map((item) => {
+      const options = JSON.parse(item?.options || "[]");
+      const matchedOption = options.find((option) => option.id === getCollectionId);
+      return matchedOption?.Name || null;
+    })[0];
 
   return (
     <>
@@ -1215,6 +1246,7 @@ const ProductDetail = () => {
                                   height: "100%",
                                   borderRadius: "8px",
                                 }}
+                                onError={handleVideoError}
                               />
                             </div>
                           )
@@ -1285,6 +1317,7 @@ const ProductDetail = () => {
                                 height: "35px",
                                 cursor: 'pointer',
                               }}
+                              onError={handleVideoError}
                             />
                           </div>
                         ))}
@@ -1347,6 +1380,7 @@ const ProductDetail = () => {
                                 height: "35px",
                                 cursor: 'pointer',
                               }}
+                              onError={handleVideoError}
                             />
                           </div>
                         ))}
@@ -1380,6 +1414,7 @@ const ProductDetail = () => {
                                     left: '6rem',
                                     borderRadius: "8px",
                                   }}
+                                  onError={handleVideoError}
                                 />
                               )
                             ) : (
@@ -1437,6 +1472,7 @@ const ProductDetail = () => {
                                       maxHeight: "40.625rem",
                                       borderRadius: "8px",
                                     }}
+                                    onError={handleVideoError}
                                   />
                                 </div>
                               )
@@ -1503,6 +1539,7 @@ const ProductDetail = () => {
                                     height: "35px",
                                     cursor: 'pointer',
                                   }}
+                                  onError={handleVideoError}
                                 />
                               </div>
                             ))}
@@ -1514,6 +1551,7 @@ const ProductDetail = () => {
                       <div className='elv_Product_prod_desc_data_max1000'>
                         <h1 className='elv_ProductDet_prod_title_max1000'>{singleProd?.TitleLine}</h1>
                         <div className='elv_ProductDet_det_max1000'>
+                          <h5 className='elv_ProductDet_prod_code_Coll'>{getCollName}</h5>
                           <span className='elv_ProductDet_prod_code_max1000'>{singleProd?.designno}</span>
                           <div className='elv_productDet_metal_style_max1000'>
                             <div className='elv_ProductDet_prod_text_div_max1000'>
@@ -1957,6 +1995,7 @@ const ProductDetail = () => {
                     <div className='elv_Product_prod_desc_data'>
                       <h1 className='elv_ProductDet_prod_title'>{singleProd?.TitleLine}</h1>
                       <div className='elv_ProductDet_det'>
+                         <h5 className='elv_ProductDet_prod_code_Coll'>{getCollName}</h5>
                         <span className='elv_ProductDet_prod_code'>{singleProd?.designno}</span>
                         <div className='elv_productDet_metal_style'>
                           {singleProd?.MetalTypePurity !== "" &&
@@ -2606,37 +2645,3 @@ const TableComponentsMISC = ({ list, details }) => {
   );
 
 }
-
-
-
-// pdVideoArr?.length > 0 ? (
-//   <div>
-//     <video
-//       src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : 'p.png'}
-//       loop
-//       autoPlay
-//       playsInline
-//       muted // Add this attribute to ensure autoplay works
-//       style={{
-//         width: "100%",
-//         objectFit: "cover",
-//         position: 'relative',
-//         left: '6rem',
-//         // height: "90%",
-//         borderRadius: "8px",
-//       }}
-//     />
-//   </div>
-// ) : (
-//   <img
-//     src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : 'p.png'}
-//     onError={(e) => {
-//       e.target.onerror = null;
-//       e.target.src =
-//         "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-//     }}
-//     alt={""}
-//     onLoad={() => setIsImageLoad(false)}
-//     className="elv_ProductDet_prod_image"
-//   />
-// )

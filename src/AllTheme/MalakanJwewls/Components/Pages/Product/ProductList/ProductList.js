@@ -25,6 +25,7 @@ import {
   FormControlLabel,
   Input,
   Pagination,
+  PaginationItem,
   Skeleton,
   Slider,
   Typography,
@@ -342,6 +343,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchData = async () => {
       let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+      setSortBySelect("Recommended");
 
       let UrlVal = location?.search.slice(1).split("/");
 
@@ -621,7 +623,7 @@ const ProductList = () => {
   // }, [productListData, priceListData]);
 
 
-  
+
   const generateImageList = useCallback((product) => {
     let storeInitX = JSON.parse(sessionStorage.getItem("storeInit"));
     let pdImgList = []
@@ -667,7 +669,7 @@ const ProductList = () => {
       })
 
       setLoadingIndex(prevIndex => prevIndex + 1)
-    } 
+    }
 
     const timer = setTimeout(loadNextProductImages, 15)
     return () => clearTimeout(timer)
@@ -1138,7 +1140,7 @@ const ProductList = () => {
 
     let sortby = e.target?.value;
 
-    await ProductListApi(output, currPage, obj, prodListType, cookie, sortby)
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortby)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -1691,35 +1693,35 @@ const ProductList = () => {
     const breadCumSearch = location?.search?.slice(3);  // Skip the '?' part from the URL
     const breadCumDecoded = breadCumSearch ? decodeURI(atob(breadCumSearch)) : ''; // Decode if search exists
     const breadCumArray = breadCumDecoded.split('/'); // Split into segments
-  
+
     // Safely extract 'values' and 'labels' from breadCumArray, defaulting to empty arrays if undefined
     const values = breadCumArray[0]?.split(',') || [];
     const labels = breadCumArray[1]?.split(',') || [];
-  
+
     // Reduce labels to create the updatedBreadCum object, using default empty strings if no value is found
     const updatedBreadCum = labels?.reduce((acc, label, index) => {
       acc[label] = values[index] || '';  // Use empty string as fallback if no corresponding value
       return acc;
     }, {});
-  
+
     // Safely build the result object, iterating over the entries of updatedBreadCum
     const result = Object.entries(updatedBreadCum ?? {}).reduce((acc, [key, value], index) => {
       acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
       acc[`FilterVal${index === 0 ? '' : index}`] = value;
       return acc;
     }, {});
-  
+
     // Safely decode the menuname from pathname and handle any missing data
     const menuname = location?.pathname
       ? decodeURI(location.pathname.slice(3).slice(0, -1).split('/')[0]) // Decode and process the pathname
       : ''; // Default to an empty string if pathname is not available
-  
+
     // Add menuname to result
     result.menuname = menuname;
-  
+
     return result;
   };
-  
+
 
   // useEffect(()=>{
   //   console.log("breadcum",BreadCumsObj())
@@ -2712,6 +2714,7 @@ const ProductList = () => {
                     BreadCumsObj={BreadCumsObj}
                     IsBreadCumShow={IsBreadCumShow}
                     handleBreadcums={handleBreadcums}
+                    setCurrPage={setCurrPage}
                   />
                   <div className="mala_mainPortion">
                     <div
@@ -2860,105 +2863,105 @@ const ProductList = () => {
                                           </span>
                                         )}
                                       </div>
-                                      {isLoading ? 
-                                              <CardMedia
-                                                style={{ width: "100%" }}
-                                                className="cardMainSkeleton"
-                                              >
-                                                <Skeleton
-                                                  animation="wave"
-                                                  variant="rect"
-                                                  width={"100%"}
-                                                  height="380px"
-                                                  sx={{
-                                                    height :{
-                                                      sm :"380px",
-                                                      xs :"300px",
-                                                      md :"380px",
-                                                      lg :"380px",
-                                                    }
-                                                  }}
-                                                  style={{ backgroundColor: "#e8e8e86e" }}
-                                                />
-                                              </CardMedia> : 
-                                               <div
-                                        onMouseEnter={() => {
-                                          handleImgRollover(productData);
-                                          if (productData?.VideoCount > 0) {
-                                            setIsRollOverVideo({
-                                              [productData?.autocode]: true,
-                                            });
-                                          } else {
+                                      {isLoading ?
+                                        <CardMedia
+                                          style={{ width: "100%" }}
+                                          className="cardMainSkeleton"
+                                        >
+                                          <Skeleton
+                                            animation="wave"
+                                            variant="rect"
+                                            width={"100%"}
+                                            height="380px"
+                                            sx={{
+                                              height: {
+                                                sm: "380px",
+                                                xs: "300px",
+                                                md: "380px",
+                                                lg: "380px",
+                                              }
+                                            }}
+                                            style={{ backgroundColor: "#e8e8e86e" }}
+                                          />
+                                        </CardMedia> :
+                                        <div
+                                          onMouseEnter={() => {
+                                            handleImgRollover(productData);
+                                            if (productData?.VideoCount > 0) {
+                                              setIsRollOverVideo({
+                                                [productData?.autocode]: true,
+                                              });
+                                            } else {
+                                              setIsRollOverVideo({
+                                                [productData?.autocode]: false,
+                                              });
+                                            }
+                                          }}
+                                          onClick={() =>
+                                            handleMoveToDetail(productData)
+                                          }
+                                          onMouseLeave={() => {
+                                            handleLeaveImgRolloverImg(productData);
                                             setIsRollOverVideo({
                                               [productData?.autocode]: false,
                                             });
-                                          }
-                                        }}
-                                        onClick={() =>
-                                          handleMoveToDetail(productData)
-                                        }
-                                        onMouseLeave={() => {
-                                          handleLeaveImgRolloverImg(productData);
-                                          setIsRollOverVideo({
-                                            [productData?.autocode]: false,
-                                          });
-                                        }}
-                                        className="mala_ImgandVideoContainer"
-                                      >
-                                        {isRollOverVideo[productData?.autocode] ==
-                                          true ? (
-                                          <video
-                                            //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
-                                            src={
-                                              productData?.VideoCount > 0
-                                                ? (storeInit?.CDNVPath) +
-                                                productData?.designno +
-                                                "~" +
-                                                1 +
-                                                "." +
-                                                productData?.VideoExtension
-                                                : ""
-                                            }
-                                            loop={true}
-                                            autoPlay={true}
-                                            className="mala_productCard_video"
-                                          // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
-                                          />
-                                        ) : (
-                                          <img
-                                            className="mala_productListCard_Image"
-                                            id={`mala_productListCard_Image${productData?.autocode}`}
-                                            // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                                            // src={ ProdCardImageFunc(productData,0)}
-                                            src={
-                                              rollOverImgPd[productData?.autocode]
-                                                ? rollOverImgPd[productData?.autocode]
-                                                : isAvailable
-                                                  ? productData?.images[0]
-                                                  : isAvailable === undefined ? <ProductCard_Skeleton /> : imageNotFound
-                                            }
-                                            // {old}
-                                            // src={
-                                            //   rollOverImgPd[productData?.autocode]
-                                            //     ? rollOverImgPd[
-                                            //     productData?.autocode
-                                            //     ]
-                                            //     : productData?.images?.length > 0
-                                            //       ? productData?.images[0]
-                                            //       : imageNotFound
-                                            // }
-                                            alt=""
-                                       
-                                          />
-                                        )}
-                                      </div>
+                                          }}
+                                          className="mala_ImgandVideoContainer"
+                                        >
+                                          {isRollOverVideo[productData?.autocode] ==
+                                            true ? (
+                                            <video
+                                              //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
+                                              src={
+                                                productData?.VideoCount > 0
+                                                  ? (storeInit?.CDNVPath) +
+                                                  productData?.designno +
+                                                  "~" +
+                                                  1 +
+                                                  "." +
+                                                  productData?.VideoExtension
+                                                  : ""
+                                              }
+                                              loop={true}
+                                              autoPlay={true}
+                                              className="mala_productCard_video"
+                                            // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
+                                            />
+                                          ) : (
+                                            <img
+                                              className="mala_productListCard_Image"
+                                              id={`mala_productListCard_Image${productData?.autocode}`}
+                                              // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
+                                              // src={ ProdCardImageFunc(productData,0)}
+                                              src={
+                                                rollOverImgPd[productData?.autocode]
+                                                  ? rollOverImgPd[productData?.autocode]
+                                                  : isAvailable
+                                                    ? productData?.images[0]
+                                                    : isAvailable === undefined ? <ProductCard_Skeleton /> : imageNotFound
+                                              }
+                                              // {old}
+                                              // src={
+                                              //   rollOverImgPd[productData?.autocode]
+                                              //     ? rollOverImgPd[
+                                              //     productData?.autocode
+                                              //     ]
+                                              //     : productData?.images?.length > 0
+                                              //       ? productData?.images[0]
+                                              //       : imageNotFound
+                                              // }
+                                              alt=""
+
+                                            />
+                                          )}
+                                        </div>
                                       }
                                       <div className="mala_prod_card_info" style={{ height: isAllWeight ? "110px" : "90px" }}>
                                         <div className="mala_prod_Title">
                                           <span
                                             className={
                                               "titleline_malakan"
-                                                                                         }
+                                            }
                                           >
                                             {/* {productData?.TitleLine?.length > 0 &&
                                             "-"}
@@ -3076,8 +3079,8 @@ const ProductList = () => {
                                           </div>
                                         </div>
                                         <div className="mala_prod_mtcolr_price" style={{
-                                              fontWeight:"900"
-                                            }}>
+                                          fontWeight: "900"
+                                        }}>
                                           <span className="mala_prod_metal_col">
                                             {findMetalColor(
                                               productData?.MetalColorid
@@ -3094,8 +3097,8 @@ const ProductList = () => {
                                           </span>
                                           <span>/</span>
                                           <span className="mala_price" style={{
-                                              fontWeight:"900"
-                                            }}>
+                                            fontWeight: "900"
+                                          }}>
                                             {/*  <span
                                         className="mala_currencyFont"
                                         dangerouslySetInnerHTML={{
@@ -3105,13 +3108,13 @@ const ProductList = () => {
                                         }}
                                       /> */}
                                             <span className="mala_currencyFont" style={{
-                                              color:"grey"
+                                              color: "grey"
                                             }}>
                                               {loginUserDetail?.CurrencyCode ??
                                                 storeInit?.CurrencyCode}
                                             </span>
-                                            <span  className="mala_pricePort" style={{
-                                              color:"grey"
+                                            <span className="mala_pricePort" style={{
+                                              color: "grey"
                                             }}>
                                               {/* {productData?.ismrpbase === 1
                                               ? productData?.mrpbaseprice
@@ -3167,6 +3170,14 @@ const ProductList = () => {
                                     page={currPage}
                                     showFirstButton
                                     showLastButton
+                                    renderItem={(item) => (
+                                      <PaginationItem
+                                        {...item}
+                                        sx={{
+                                          pointerEvents: item.page === currPage ? 'none' : 'auto',
+                                        }}
+                                      />
+                                    )}
                                   />
                                 </div>
                               )}
@@ -3262,8 +3273,8 @@ const GivaFilterMenu = ({
   BreadCumsObj,
   IsBreadCumShow,
   handleBreadcums,
+  setCurrPage
 }) => {
-  console.log('selectedDiaId: ', selectedDiaId);
   const [showMenu, setshowMenu] = useState(-1);
   const CustomLabel = ({ text }) => (
     <Typography
@@ -3354,6 +3365,8 @@ const GivaFilterMenu = ({
         }
       }
     }
+
+    setCurrPage(1);
 
     return checkedNames;
   }
@@ -3499,22 +3512,22 @@ const GivaFilterMenu = ({
                                       }
                                       label={
                                         <CustomLabel
-                                        text={
-                                          opt?.Minval == 0
-                                            ? `Under ${loginUserDetail?.CurrencyCode ??
-                                            storeInit?.CurrencyCode
-                                            } ${opt?.Maxval}`
-                                            : opt?.Maxval == 0
-                                              ? `Over ${loginUserDetail?.CurrencyCode ??
-                                              storeInit?.CurrencyCode
-                                              } ${opt?.Minval}`
-                                              : `${loginUserDetail?.CurrencyCode ??
-                                              storeInit?.CurrencyCode
-                                              } ${opt?.Minval} 
-                                                  - ${loginUserDetail?.CurrencyCode ??
+                                          text={
+                                            opt?.Minval == 0
+                                              ? `Under ${loginUserDetail?.CurrencyCode ??
                                               storeInit?.CurrencyCode
                                               } ${opt?.Maxval}`
-                                        }
+                                              : opt?.Maxval == 0
+                                                ? `Over ${loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode
+                                                } ${opt?.Minval}`
+                                                : `${loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode
+                                                } ${opt?.Minval} 
+                                                  - ${loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode
+                                                } ${opt?.Maxval}`
+                                          }
                                         />
                                       }
                                     />
@@ -3908,7 +3921,7 @@ const GivaFilterMenu = ({
                   )}
                 </div>
               )} */}
-               {storeInit?.IsMetalCustComb === 1 && (
+              {storeInit?.IsMetalCustComb === 1 && (
                 <div className="filter_menu_giva_roop">
                   <Typography
                     sx={{ fontSize: "15px" }}
@@ -3977,10 +3990,10 @@ const BreadCumView = ({ BreadCumsObj, handleBreadcums, IsBreadCumShow }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location?.pathname || '';
-const pathSegments = pathname.split('/'); 
+  const pathSegments = pathname.split('/');
 
-const secondSegment = pathSegments.length > 2 ? decodeURIComponent(pathSegments[2]) : null;
-console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
+  const secondSegment = pathSegments.length > 2 ? decodeURIComponent(pathSegments[2]) : null;
+  console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
   return (
     <div className="breadcrumb_fmg">
       <div className="empty_sorting_div_fmg">
@@ -4016,7 +4029,7 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
             className="mala_breadcums_port_fmg"
             style={{ marginLeft: "3px" }}
           >
-        {secondSegment}
+            {secondSegment}
           </div>
         )}
 

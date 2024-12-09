@@ -6,7 +6,7 @@ import { green } from '@mui/material/colors';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Checkbox, FormControlLabel, Grid, Radio, RadioGroup, useMediaQuery } from '@mui/material';
+import { Checkbox, FormControlLabel, Grid, Radio, RadioGroup, Skeleton, useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
 import RemarkModal from './RemarkModal';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
@@ -154,7 +154,24 @@ const CartItem = ({
       // onTouchEnd={cancelPress}
       >
         <Box className="mala_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
-          {imageSrc != undefined &&
+          {imageSrc === undefined ? (
+            <CardMedia
+              sx={{
+                width: "13rem",
+                height: "11rem",
+                '@media (max-width: 570px)': {
+                  width: "100%",
+                },
+              }}
+            >
+              <Skeleton
+                animation="wave"
+                variant="rect"
+                width="100%"
+                height="100%"
+              />
+            </CardMedia>
+          ) : (
             <CardMedia
               component="img"
               image={imageSrc != undefined && imageSrc}
@@ -162,7 +179,7 @@ const CartItem = ({
               className='mala_cartListImage'
               onClick={() => onSelect(item)}
             />
-          }
+          )}
           <div className='mala_rightContentDataDiv'>
             <CardContent className='mala_cartcontentData' onClick={() => onSelect(item)}>
               <Typography variant="body2" className='mala_DesignNoTExt'>

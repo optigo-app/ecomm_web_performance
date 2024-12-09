@@ -96,7 +96,7 @@ const ReadyToShip = () => {
       <div className="header">
         <h1>Best Seller</h1>
         <button
-          onClick={() => navigation(`/p/BestSeller/?N=${btoa("BestSeller")}`)}
+          onClick={() => navigation(`/p/BestSeller/?B=${btoa("BestSeller")}`)}
         >
           View All
         </button>

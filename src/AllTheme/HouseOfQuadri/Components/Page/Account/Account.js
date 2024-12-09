@@ -317,7 +317,8 @@ export default function Account() {
                     <ChangePassword />
                   </div>
                 </CustomTabPanel>
-                { loginUSerDeatil?.IsPLWOn && <CustomTabPanel value={value} index={5}>
+                {/* { loginUSerDeatil?.IsPLWOn && <CustomTabPanel value={value} index={5}> */}
+                {<CustomTabPanel value={value} index={5}>
                   <div>
                     <Plm />
                   </div>

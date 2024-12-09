@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './smr3_cartPage.scss';
 import Customization from './Customization';
 import noImageFound from "../../../Assets/image-not-found.jpg"
+import { CardMedia, Skeleton } from '@mui/material';
 
 const CartDetails = ({
   ispriceloding,
@@ -46,12 +47,26 @@ const CartDetails = ({
     <div className="smr3_cart-container">
       <div className="smr3_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='smr3_cartImage' /> */}
+
+        {imageSrc === undefined ? (
+          <CardMedia
+            style={{ width: "100%", height: '25rem' }}
+          >
+            <Skeleton
+              animation="wave"
+              variant="rect"
+              width="100%"
+              height="100%"
+            />
+          </CardMedia>
+        ) : (
           <img
             src={imageSrc}
             alt="image"
             className='smr3_cartDetailImage'
             onClick={() => handleMoveToDetail(selectedItem)}
           />
+        )}
       </div>
       <Customization
         ispriceloding={ispriceloding}

@@ -504,24 +504,30 @@ const Header2 = () => {
                                 </span>
                             </li>
 
-                            {/* <li
+                            {/* sonasons need */}
+
+                            <li
                                 className="nav_li_smining nav_li_smining_Mobile"
                                 style={{ cursor: "pointer" }}
                                 onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
                             >
                                 SERVICE POLICY
-                            </li> */}
+                            </li>
 
-                            <li
+                            {/* NO need in sonasons */}
+
+                            {/* <li
                                 className="nav_li_smining nav_li_smining_Mobile"
                                 style={{ cursor: "pointer" }}
                                 onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}
                             >
                                 EXPERT ADVICE
-                            </li>
+                            </li> */}
 
                             {/* Maiora not needed fun facts */}
                             {/* Kayra needed */}
+                            {/* no need in sonasons */}
+
                             {/* <li
                                 className="nav_li_smining nav_li_smining_Mobile"
                                 style={{ cursor: "pointer" }}
@@ -669,24 +675,31 @@ const Header2 = () => {
                                     </span>
                                 </li>
 
-                                {/* <li
+                                {/* sonasons needs */}
+
+                                <li
                                     className="nav_li_smining_Fixed nav_li_smining_Mobile"
                                     style={{ cursor: "pointer" }}
                                     onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
                                 >
                                     SERVICE POLICY
-                                </li> */}
+                                </li>
 
-                                <li
+                                {/* No need in sonasons */}
+
+                                {/* <li
                                     className="nav_li_smining_Fixed nav_li_smining_Mobile"
                                     style={{ cursor: "pointer" }}
                                     onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}
                                 >
                                     EXPERT ADVICE
-                                </li>
+                                </li> */}
 
                                 {/* Maiora not needed fun facts */}
                                 {/* Kayra needed */}
+                                {/* no need in sonasons */}
+
+
                                 {/* <li
                                     className="nav_li_smining_Fixed nav_li_smining_Mobile"
                                     style={{ cursor: "pointer" }}

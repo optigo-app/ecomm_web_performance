@@ -383,6 +383,12 @@
     height: 15px;
   }
 
+  .swiper-button-disabled {
+    opacity: 0.5;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
   .swiper-button-next::after,
   .swiper-button-prev::after {
     font-size: 25px;
@@ -654,13 +660,6 @@
       height: 20%;
       box-sizing: border-box;
       padding: 10px 0;
-    }
-
-    .swiper-button-disabled {
-      opacity: 0.5;
-      cursor: pointer;
-      pointer-events: auto;
-      background-color: #ababab;
     }
 
     .mySwiper .swiper-slide {

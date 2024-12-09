@@ -14,6 +14,7 @@ import {
   FormControlLabel,
   IconButton,
   Modal,
+  PaginationItem,
   styled,
   ToggleButton,
   ToggleButtonGroup,
@@ -1533,6 +1534,9 @@ const Lookbook = () => {
                                               detail?.TitleLine ? detail?.TitleLine : ""
                                             )
                                           }
+                                          onError={(e) => {
+                                            e.target.src = imageNotFound
+                                          }}
                                         />
                                         <div style={{ display: "flex", justifyContent: "center", marginBottom: "5px" }}>
                                           {cartItems.includes(detail?.autocode) ? (
@@ -1838,6 +1842,9 @@ const Lookbook = () => {
                                                     : ""
                                                 )
                                               }
+                                              onError={(e) => {
+                                                e.target.src = imageNotFound
+                                              }}
                                             />
                                             <div
                                               style={{
@@ -2009,6 +2016,9 @@ const Lookbook = () => {
                                                         : ""
                                                     )
                                                   }
+                                                  onError={(e) => {
+                                                    e.target.src = imageNotFound
+                                                  }}
                                                 />
                                               </div>
                                               <div className="smr_lb3srthelook_prodinfo" onClick={() =>
@@ -2260,8 +2270,15 @@ const Lookbook = () => {
               shape="circular"
               onChange={handelPageChange}
               page={currentPage}
-            // showFirstButton
-            // showLastButton
+              // showFirstButton
+              // showLastButton
+              disabled={false}
+              renderItem={(item) => (
+                <PaginationItem
+                  {...item}
+                  disabled={item.page === currentPage}
+                />
+              )}
             />
           </div>
         </div>

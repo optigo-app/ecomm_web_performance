@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./productlist.scss";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import { findMetal, findMetalColor, findMetalType, formatter } from "../../../..
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import {
-  Accordion, AccordionDetails, AccordionSummary, Box, Button, CardMedia, Checkbox, Drawer, FormControlLabel, Input, Pagination, Skeleton, Slider,
+  Accordion, AccordionDetails, AccordionSummary, Box, Button, CardMedia, Checkbox, Drawer, FormControlLabel, Input, Pagination, PaginationItem, Skeleton, Slider,
   Typography, useMediaQuery
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -434,6 +434,7 @@ const ProductList = () => {
 
     fetchData();
 
+    setCurrPage(1);
     if (location?.key) {
       setLocationKey(location?.key)
     }
@@ -640,6 +641,8 @@ const ProductList = () => {
     let finalOutput = JSON.stringify(output?.Price)
     // console.log("finalOutput",finalOutput)
 
+    setCurrPage(1);
+
     return output
   }
 
@@ -833,6 +836,49 @@ const ProductList = () => {
 
   }, [selectedMetalId, selectedDiaId, selectedCsId])
 
+  const generateImageList = useCallback((product) => {
+    let storeInitX = JSON.parse(sessionStorage.getItem("storeInit"));
+    let pdImgList = []
+    if (product?.ImageCount > 0) {
+      for (let i = 1; i <= product?.ImageCount; i++) {
+        let imgString =
+          storeInitX?.CDNDesignImageFol +
+          product?.designno +
+          "~" +
+          i +
+          "." +
+          product?.ImageExtension
+        pdImgList?.push(imgString)
+      }
+    } else {
+      pdImgList?.push(imageNotFound)
+    }
+    return pdImgList
+  }, [])
+
+  useEffect(() => {
+    const initialProducts = productListData?.map((product) => ({
+      ...product,
+      images: [],
+      loading: true,
+    }));
+
+    setFinalProductListData(initialProducts);
+
+    const timer = setTimeout(() => {
+      const updateData = productListData?.map((product) => ({
+        ...product,
+        images: generateImageList(product),
+        loading: false,
+      }));
+
+      setFinalProductListData(updateData);
+    }, 1);
+
+    return () => clearTimeout(timer);
+
+  }, [productListData, generateImageList]);
+
   const compressAndEncode = (inputString) => {
     try {
       const uint8Array = new TextEncoder().encode(inputString);
@@ -990,7 +1036,7 @@ const ProductList = () => {
 
     let sortby = e.target?.value
 
-    await ProductListApi(output, currPage, obj, prodListType, cookie, sortby)
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortby)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -3083,7 +3129,7 @@ const ProductList = () => {
                                   {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                                   <div className="smr_inner_portion">
                                     {finalProductListData?.map((productData, i) => {
-                                      const isAvailable = imageAvailability[productData?.autocode];
+                                      const isLoading = productData && productData?.loading === true;
                                       return (
                                         <div className="smr_productCard">
                                           <div className="cart_and_wishlist_icon">
@@ -3164,63 +3210,76 @@ const ProductList = () => {
                                             {productData?.IsNewArrival == 1 && <span className="smrWeb_app_newarrival">New</span>}
                                           </div>
 
-                                          <div
-                                            onMouseEnter={() => {
-                                              handleImgRollover(productData);
-                                              if (productData?.VideoCount > 0) {
-                                                setIsRollOverVideo({ [productData?.autocode]: true });
-                                              } else {
+                                          {isLoading ?
+                                            <CardMedia
+                                              style={{ width: "100%" }}
+                                              className="cardMainSkeleton"
+                                            >
+                                              <Skeleton
+                                                animation="wave"
+                                                variant="rect"
+                                                width={"100%"}
+                                                height="280px"
+                                                style={{ backgroundColor: "#e8e8e86e" }}
+                                              />
+                                            </CardMedia> :
+                                            <div
+                                              onMouseEnter={() => {
+                                                handleImgRollover(productData);
+                                                if (productData?.VideoCount > 0) {
+                                                  setIsRollOverVideo({ [productData?.autocode]: true });
+                                                } else {
+                                                  setIsRollOverVideo({ [productData?.autocode]: false });
+                                                }
+                                              }}
+                                              onClick={() => handleMoveToDetail(productData)}
+                                              onMouseLeave={() => {
+                                                handleLeaveImgRolloverImg(productData);
                                                 setIsRollOverVideo({ [productData?.autocode]: false });
+                                              }}
+                                              className="smr_ImgandVideoContainer"
+                                            >
+                                              {
+                                                isRollOverVideo[productData?.autocode] === true ?
+                                                  (
+                                                    <video
+                                                      src={productData?.VideoCount > 0 ?
+                                                        `${storeInit?.CDNVPath}${productData?.designno}~1.${productData?.VideoExtension}`
+                                                        : ""}
+                                                      loop={true}
+                                                      autoPlay={true}
+                                                      muted
+                                                      playsInline
+                                                      className="smr_productCard_video"
+                                                      onError={(e) => {
+                                                        e.target.poster = imageNotFound; // Default image when video fails to load
+                                                      }}
+                                                    />
+                                                  ) : (
+                                                    <img
+                                                      className="smr_productListCard_Image"
+                                                      id={`smr_productListCard_Image${productData?.autocode}`}
+                                                      src={
+                                                        rollOverImgPd[
+                                                          productData?.autocode
+                                                        ]
+                                                          ? rollOverImgPd[
+                                                          productData?.autocode
+                                                          ]
+                                                          : productData?.images?.length >
+                                                            0
+                                                            ? productData?.images[0]
+                                                            : imageNotFound
+                                                      }
+                                                      onError={(e) => {
+                                                        e.target.src = imageNotFound; // Fallback in case image is not available
+                                                      }}
+                                                      alt=""
+                                                    />
+                                                  )
                                               }
-                                            }}
-                                            onClick={() => handleMoveToDetail(productData)}
-                                            onMouseLeave={() => {
-                                              handleLeaveImgRolloverImg(productData);
-                                              setIsRollOverVideo({ [productData?.autocode]: false });
-                                            }}
-                                            className="smr_ImgandVideoContainer"
-                                          >
-                                            {
-                                              isRollOverVideo[productData?.autocode] === true ?
-                                                (
-                                                  <video
-                                                    src={productData?.VideoCount > 0 ?
-                                                      `${storeInit?.CDNVPath}${productData?.designno}~1.${productData?.VideoExtension}`
-                                                      : ""}
-                                                    loop
-                                                    autoPlay
-                                                    className="smr_productCard_video"
-                                                    onError={(e) => {
-                                                      e.target.poster = imageNotFound; // Default image when video fails to load
-                                                    }}
-                                                  />
-                                                ) : (
-                                                  <>
-                                                    {isAvailable === undefined ? (
-                                                      <CardMedia style={{ width: '100%', height: '100%' }} className='roop_productCard_cardMainSkeleton'>
-                                                        <Skeleton animation="wave" variant="rect" width={'100%'} height='100%' style={{ backgroundColor: '#e8e8e86e' }} />
-                                                      </CardMedia>
-                                                    ) : (
-                                                      <img
-                                                        className="smr_productListCard_Image"
-                                                        id={`smr_productListCard_Image${productData?.autocode}`}
-                                                        src={
-                                                          rollOverImgPd[productData?.autocode]
-                                                            ? rollOverImgPd[productData?.autocode]
-                                                            : isAvailable
-                                                              ? productData?.images[0] // Default image when no rollover image
-                                                              : imageNotFound
-                                                        }
-                                                        onError={(e) => {
-                                                          e.target.src = imageNotFound; // Fallback in case image is not available
-                                                        }}
-                                                        alt=""
-                                                      />
-                                                    )}
-                                                  </>
-                                                )
-                                            }
-                                          </div>
+                                            </div>
+                                          }
                                           <div className="smr_prod_card_info">
                                             <div className="smr_prod_Title">
                                               <span
@@ -3364,7 +3423,7 @@ const ProductList = () => {
                                 </div>
                                 {storeInit?.IsProductListPagination == 1 &&
                                   Math.ceil(afterFilterCount / storeInit.PageSize)
-                                   > 1 && (
+                                  > 1 && (
                                     <div
                                       style={{
                                         display: "flex",
@@ -3382,7 +3441,12 @@ const ProductList = () => {
                                         page={currPage}
                                         showFirstButton
                                         showLastButton
-
+                                        renderItem={(item) => (
+                                          <PaginationItem
+                                            {...item}
+                                            disabled={item.page === currPage}
+                                          />
+                                        )}
                                       />
                                     </div>
                                   )}
