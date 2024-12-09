@@ -3,10 +3,10 @@ import "./Album.modul.scss";
 import { useNavigate } from "react-router-dom";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import Cookies from "js-cookie";
-import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { smrMA_homeLoading, smrMA_loginState } from "../../../Recoil/atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import imageNotFound from '../../../Assets/image-not-found.jpg'
+import { HiMiniArrowLeftCircle ,HiMiniArrowRightCircle  } from "react-icons/hi2";
 
 const Album = () => {
 
@@ -125,14 +125,65 @@ const Album = () => {
         navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
       }
     }
- 
+    const scrollRef = useRef(null);
+    const [isAtStart, setIsAtStart] = useState(true);
+    const [isAtEnd, setIsAtEnd] = useState(false);
+  
+    const updateButtonState = () => {
+      if (scrollRef.current) {
+        const scrollLeft = scrollRef.current.scrollLeft;
+        const scrollWidth = scrollRef.current.scrollWidth;
+        const clientWidth = scrollRef.current.clientWidth;
+        setIsAtStart(scrollLeft === 0);
+        setIsAtEnd(scrollLeft + clientWidth >= scrollWidth);
+      }
+    };
+  
+    const scrollLeft = () => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollBy({ left: -204, behavior: "smooth" });
+        updateButtonState();
+      }
+    };
+  
+    const scrollRight = () => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollBy({ left: 204, behavior: "smooth" });
+        updateButtonState();
+      }
+    };
+  
+    useEffect(() => {
+      updateButtonState();
+      window?.addEventListener("resize", updateButtonState);
+      scrollRef.current?.addEventListener("scroll", updateButtonState);  
+      return () => {
+        window?.removeEventListener("resize", updateButtonState);
+        scrollRef.current?.removeEventListener("scroll", updateButtonState);
+      };
+    }, []);
 
   return (
     <div ref={albumRef}>
       {validImages?.length != 0 &&
         <div className="smrMA_alubmMainDiv">
-          <p className="smr_albumTitle">Album</p>
-          <div className="smr_albumALL_div">
+          <p className="smr_albumTitle">Album</p>  
+          <button
+               className="album-menu-btn-left"
+            onClick={scrollLeft}
+            disabled={isAtStart}
+          >
+            <HiMiniArrowLeftCircle size={35} color="gray"/>
+          </button>
+        {validImages?.length > 2 &&  <button
+          className="album-menu-btn-right"
+            onClick={scrollRight}
+            disabled={isAtEnd}
+          >
+            <HiMiniArrowRightCircle size={35} color="gray"/>
+            </button>}
+          <div className="smr_mapp_albumALL_div"  ref={scrollRef}>
+         
             {validImages?.slice(0, 4)?.map((data, index) => {
                return <div
                 key={index}
@@ -149,7 +200,6 @@ const Album = () => {
                        }}
                  loading="lazy"
                 />
-
               </div>
             })}
           </div>

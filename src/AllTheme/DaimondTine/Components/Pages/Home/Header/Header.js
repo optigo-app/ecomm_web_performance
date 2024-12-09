@@ -767,12 +767,22 @@ const Header = () => {
                             </IconButton>)
                     }
                 </div>
-                <div className="dt_mobileView_div2">
+                <div className="dt_mobileView_div2"
+                style={{
+                    display: 'flex',
+    alignItems: 'center',
+                }}
+                >
                     <a href="/">
                         {titleImg && <img src={titleImg} className="dt_mobileView_div2_logo" />}
                     </a>
                 </div>
-                <div className="dt_mobileView_div2_mobile">
+                <div className="dt_mobileView_div2_mobile"
+                style={{
+                    display: 'flex',
+    alignItems: 'center',
+                }}
+                >
                     <a href="/">
                         {titleImgM && <img src={titleImgM} className="dt_mobileView_div2_logo" />}
                     </a>

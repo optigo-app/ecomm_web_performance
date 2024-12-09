@@ -224,9 +224,18 @@ const Menu = () => {
                         enableMouseEvents
                         animateTransitions
                         className='smrMA_menuMainSwipe'
+                        style={{
+                            padding: '0px',
+                            margin: '0px',
+                            height: '700px',
+                            width: '100%',
+                            overflowY: 'auto',  // To make the vertical scrollbar appear when needed
+                        }}
                     >
                         {menuItems.map(menuItem => {
-                            return  <TabPanel  value={value} index={0} style={{ margin: '20px 10% 20px 10%', padding: '0px'  }}
+                            return  <TabPanel sx={{
+                                height:"612px",
+                            }}  value={value} index={0} style={{ margin: '20px 10% 20px 10%', padding: '0px'  }}
                             >
                             {selectedMenu === menuItem.menuname && (
                                 <>

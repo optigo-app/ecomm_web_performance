@@ -1,47 +1,53 @@
-import React, { useEffect, useState } from 'react'
-import Header from './Components/Pages/Home/Header/Header'
+import React, { Suspense, useEffect, useState } from 'react'
+// import Header from './Components/Pages/Home/Header/Header'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
-import Home from './Components/Pages/Home/Index'
-import LoginOption from './Components/Pages/Auth/LoginOption/LoginOption'
-import ContinueWithEmail from './Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'
-import ContimueWithMobile from './Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile'
-import LoginWithEmail from './Components/Pages/Auth/LoginWithEmail/LoginWithEmail'
-import Register from './Components/Pages/Auth/Registretion/Register'
-import LoginWithMobileCode from './Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode'
-import LoginWithEmailCode from './Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode'
-import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass'
-import { dt_companyLogo, dt_companyLogoM, dt_loginState, lookBookDrawer } from './Components/Recoil/atom'
-import ProductList from './Components/Pages/Product/ProductList/ProductList'
-import ProductDetail from './Components/Pages/Product/ProductDetail/ProductDetail'
-import DiamondTine_PrivateRoutes from './DiamondTine_PrivateRoutes'
-import Account from './Components/Pages/Account/Account';
-import CartMain from './Components/Pages/Cart/CartMain';
-import Wishlist from "./Components/Pages/Wishlist/MainWish";
-import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
-import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
-import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
-import { LoginWithEmailAPI } from '../../utils/API/Auth/LoginWithEmailAPI'
-import Cookies from "js-cookie";
-import FAQ from './Components/Pages/StaticPages/FAQ/FAQ'
-import TermsAndConditions from './Components/Pages/StaticPages/Terms&Condition/TermsCondition'
-import PrivacyPolicy from './Components/Pages/StaticPages/privacyPolicy/PrivacyPolicy'
-import ContactUs from './Components/Pages/StaticPages/contactUs/ContactUs'
-import ScrollToTop from './Components/Pages/ScrollToTop '
-import Lookbook from './Components/Pages/Home/LookBook/Lookbook'
-import WhtasIcone from './Components/Pages/Home/ChatMenu/ChatMenu'
-import MaterialCore from './Components/Pages/StaticPages/MaterialCore/MaterialCore'
-import ShipingReturn from './Components/Pages/StaticPages/ShipingReturn/ShipingReturn'
-import Exchange from './Components/Pages/StaticPages/Exchange/Exchange'
-import Location from './Components/Pages/StaticPages/Location/Location'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { storImagePath } from '../../utils/Glob_Functions/GlobalFunction'
 import GoogleAnalytics  from 'react-ga4';
-import PaymentFailure from '../../utils/PaymentSuccessFail/PaymentFailure'
+import { LoginWithEmailAPI } from '../../utils/API/Auth/LoginWithEmailAPI'
+import Cookies from "js-cookie";  
+import { dt_companyLogo, dt_companyLogoM, dt_loginState, lookBookDrawer } from './Components/Recoil/atom';
+import ScrollToTop from './Components/Pages/ScrollToTop ';
+import DiamondTine_PrivateRoutes from './DiamondTine_PrivateRoutes';
 
+const Home = React.lazy(() => import('./Components/Pages/Home/Index'));
+const LoginOption = React.lazy(() => import('./Components/Pages/Auth/LoginOption/LoginOption'));
+const ContinueWithEmail = React.lazy(() => import('./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'));
+const ContimueWithMobile = React.lazy(() => import('./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile'));
+const LoginWithEmail = React.lazy(() => import('./Components/Pages/Auth/LoginWithEmail/LoginWithEmail'));
+const Register = React.lazy(() => import('./Components/Pages/Auth/Registretion/Register'));
+const LoginWithMobileCode = React.lazy(() => import('./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode'));
+const LoginWithEmailCode = React.lazy(() => import('./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode'));
+const ForgotPass = React.lazy(() => import('./Components/Pages/Auth/forgotPass/ForgotPass'));
+const ProductList = React.lazy(() => import('./Components/Pages/Product/ProductList/ProductList'));
+const ProductDetail = React.lazy(() => import('./Components/Pages/Product/ProductDetail/ProductDetail'));
+const Account = React.lazy(() => import('./Components/Pages/Account/Account'));
+const CartMain = React.lazy(() => import('./Components/Pages/Cart/CartMain'));
+const Wishlist = React.lazy(() => import('./Components/Pages/Wishlist/MainWish'));
+const Delivery = React.lazy(() => import('./Components/Pages/OrderFlow/DeliveryPage/Delivery'));
+const Payment = React.lazy(() => import('./Components/Pages/OrderFlow/PaymentPage/Payment'));
+const Confirmation = React.lazy(() => import('./Components/Pages/OrderFlow/ConfirmationPage/Confirmation'));
+const FAQ = React.lazy(() => import('./Components/Pages/StaticPages/FAQ/FAQ'));
+const TermsAndConditions = React.lazy(() => import('./Components/Pages/StaticPages/Terms&Condition/TermsCondition'));
+const PrivacyPolicy = React.lazy(() => import('./Components/Pages/StaticPages/privacyPolicy/PrivacyPolicy'));
+const ContactUs = React.lazy(() => import('./Components/Pages/StaticPages/contactUs/ContactUs'));
+const Lookbook = React.lazy(() => import('./Components/Pages/Home/LookBook/Lookbook'));
+const WhtasIcone = React.lazy(() => import('./Components/Pages/Home/ChatMenu/ChatMenu'));
+const MaterialCore = React.lazy(() => import('./Components/Pages/StaticPages/MaterialCore/MaterialCore'));
+const ShipingReturn = React.lazy(() => import('./Components/Pages/StaticPages/ShipingReturn/ShipingReturn'));
+const Exchange = React.lazy(() => import('./Components/Pages/StaticPages/Exchange/Exchange'));
+const Location = React.lazy(() => import('./Components/Pages/StaticPages/Location/Location'));
+const PaymentFailure = React.lazy(() => import('../../utils/PaymentSuccessFail/PaymentFailure'));
+const Header  = React.lazy(()=>import('./Components/Pages/Home/Header/Header'));
+
+
+
+const LazyWrapper = ({ children }) => {
+  return <Suspense fallback={<></>}>{children}</Suspense>;
+};
 
 
 const DaimondTine_App = () => {
-
   const navigation = useNavigate();
   const [islogin, setIsLoginState] = useRecoilState(dt_loginState)
   const  setCompanyTitleLogo = useSetRecoilState(dt_companyLogo);
@@ -55,16 +61,35 @@ const DaimondTine_App = () => {
   
 
   const TRACKING_ID = "G-6ETM8Y1KCR";
-  GoogleAnalytics.initialize(TRACKING_ID);
+  // GoogleAnalytics.initialize(TRACKING_ID);
+
+  // useEffect(() => {
+  //   GoogleAnalytics.set({ page: location.pathname });
+  //   GoogleAnalytics.send("pageview");
+  //   GoogleAnalytics.event({
+  //     category: "Navigation",
+  //     action: "Visited Route",
+  //     label: location.pathname,
+  //   });
+  // }, [location]);
 
   useEffect(() => {
-    GoogleAnalytics.set({ page: location.pathname });
-    GoogleAnalytics.send("pageview");
-    GoogleAnalytics.event({
-      category: "Navigation",
-      action: "Visited Route",
-      label: location.pathname,
-    });
+    const initGA = () => {
+      GoogleAnalytics.initialize(TRACKING_ID);
+      GoogleAnalytics.set({ page: location.pathname });
+      GoogleAnalytics.send("pageview");
+      GoogleAnalytics.event({
+        category: "Navigation",
+        action: "Visited Route",
+        label: location.pathname,
+      });
+    };
+  
+    // Delay the GA initialization by 500ms to prevent blocking the main thread
+    const timeoutId = setTimeout(initGA, 500);
+  
+    // Cleanup the timeout if component is unmounted
+    return () => clearTimeout(timeoutId);
   }, [location]);
 
   useEffect(() => {
@@ -129,8 +154,11 @@ const DaimondTine_App = () => {
   }, [location?.pathname])
 
 
+ 
+
   return (
     <div>
+      <Suspense fallback={<></>}>
       {!isDrawerLookBook && <Header />}
       <Routes>
         <Route path="/" element={<Home />} />
@@ -165,6 +193,7 @@ const DaimondTine_App = () => {
       </Routes>
       <ScrollToTop />
       <WhtasIcone phoneNo='9810976359'/>
+      </Suspense>
     </div>
   )
 }
