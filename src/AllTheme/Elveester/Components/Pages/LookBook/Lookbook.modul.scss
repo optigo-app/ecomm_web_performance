@@ -351,6 +351,12 @@
     height: 15px;
   }
 
+  .swiper-button-disabled {
+    opacity: 0.5;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
   .swiper-button-next::after,
   .swiper-button-prev::after {
     font-size: 25px;

@@ -5,7 +5,8 @@ import { useAsyncError, useLocation, useNavigate } from "react-router-dom";
 import Pako from "pako";
 import { SingleProdListAPI } from "../../../../../../utils/API/SingleProdListAPI/SingleProdListAPI";
 import { SingleFullProdPriceAPI } from "../../../../../../utils/API/SingleFullProdPriceAPI/SingleFullProdPriceAPI";
-import imageNotFound from "../../../Assets/image-not-found.jpg";
+// import imageNotFound from "../../../Assets/image-not-found.jpg";
+import imageNotFound1 from "../../../Assets/image-not-found.jpg";
 import {
   Accordion,
   AccordionDetails,
@@ -51,6 +52,7 @@ import axios from "axios";
 
 const ProductDetail = () => {
   let location = useLocation();
+  const imageNotFound = imageNotFound1;
 
   const [singleProd, setSingleProd] = useState({});
   const [singleProd1, setSingleProd1] = useState({});
@@ -67,6 +69,7 @@ const ProductDetail = () => {
   const [pdThumbImg, setPdThumbImg] = useState([]);
   const [isImageload, setIsImageLoad] = useState(true);
   const [selectedThumbImg, setSelectedThumbImg] = useState();
+  console.log('selectedThumbImg: ', selectedThumbImg);
   const [decodeUrl, setDecodeUrl] = useState({});
   // const [finalprice, setFinalprice] = useState(0);
   const [addToCartFlag, setAddToCartFlag] = useState(null);
@@ -97,6 +100,7 @@ const ProductDetail = () => {
   const setWishCountVal = useSetRecoilState(WishCount);
 
   const [pdVideoArr, setPdVideoArr] = useState([]);
+  const [ImagePromise, setImagePromise] = useState(true);
 
   // const [metalFilterData, setMetalFilterData] = useState();
   // const [daimondFilterData, setDaimondFiletrData] = useState([]);
@@ -874,6 +878,45 @@ const ProductDetail = () => {
       img.src = imageUrl;
     });
   }
+  const imageCache = {};  // Caching object to store checked images
+
+  const loadAndCheckImages = async (img) => {
+    if (imageCache[img] !== undefined) {
+      // If the image result is already cached, return the cached result
+      return imageCache[img];
+    }
+
+    try {
+      const result = await checkImage(img);
+      imageCache[img] = result;  // Cache the result for future reference
+      return result;
+    } catch (error) {
+      imageCache[img] = imageNotFound;  // Cache the fallback result in case of an error
+      return imageNotFound;
+    } finally {
+      if (!prodLoading) {
+        setTimeout(() => {
+          setImagePromise(false);
+        }, 0);
+      }
+    }
+  };
+
+  const checkImage = (imageUrl) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        resolve(imageUrl);  // Image loaded successfully
+      };
+
+      img.onerror = () => {
+        reject(new Error("Image not found"));  // Image not found
+      };
+
+      img.src = imageUrl;
+    });
+  };
+
 
   const ProdCardImageFunc = async () => {
     let finalprodListimg;
@@ -907,7 +950,7 @@ const ProductDetail = () => {
           "." +
           singleProd?.ImageExtension;
 
-        let IsImg = checkImageAvailability(imgString);
+        let IsImg = await checkImageAvailability(imgString);
         if (IsImg) {
           pdImgList.push(imgString);
         }
@@ -933,7 +976,7 @@ const ProductDetail = () => {
           "." +
           pd?.ImageExtension;
 
-        let IsImg = checkImageAvailability(imgString);
+        let IsImg = await checkImageAvailability(imgString);
         if (IsImg) {
           pdImgList.push(imgString);
         }
@@ -965,7 +1008,7 @@ const ProductDetail = () => {
         if (isImgAvl) {
           FinalPdImgList.push(pdImgList[i]);
         }
-      } 
+      }
     }
 
     if (FinalPdImgList?.length > 0) {
@@ -1004,7 +1047,8 @@ const ProductDetail = () => {
       setVision360(VisionLink);
     }
     // setIsImageLoad(false);
-    return finalprodListimg;
+    const img = await loadAndCheckImages(finalprodListimg);
+    return img;
   };
 
   useEffect(() => {
@@ -1014,17 +1058,15 @@ const ProductDetail = () => {
 
 
   // console.log("loading",isImageload === false || prodLoading === false);
-  console.log("loading", pdThumbImg?.length, pdVideoArr?.length, prodLoading, isImageload);
 
 
   useEffect(() => {
     if (isImageload === false) {
       if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
         setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
-        // setIsImageLoad(false)
       }
     }
-  }, [isImageload])
+  }, [isImageload, pdThumbImg, pdVideoArr])
 
   // useEffect(()=>{
   //   if(prodLoading === false){
@@ -1131,19 +1173,17 @@ const ProductDetail = () => {
       }
     }
 
-    if (FinalPdColImgList?.length > 0 && isImgCol == true) {
-      setPdThumbImg(FinalPdColImgList);
-      setSelectedThumbImg({
-        link: FinalPdColImgList[thumbImgIndex],
-        type: "img",
-      });
-      setThumbImgIndex(thumbImgIndex);
-    } else {
+    if (FinalPdColImgList?.length > 0 && (isImgCol == true)) {
+      setPdThumbImg(FinalPdColImgList)
+      setSelectedThumbImg({ "link": FinalPdColImgList[thumbImgIndex], "type": 'img' });
+      setThumbImgIndex(thumbImgIndex)
+
+    }
+    else {
       if (pdImgList?.length > 0) {
-        setSelectedThumbImg({ link: pdImgList[thumbImgIndex], type: "img" });
-        setPdThumbImg(pdImgList);
-        setThumbImgIndex(thumbImgIndex);
-        // setIsImageLoad(false);
+        setSelectedThumbImg({ "link": pdImgList[thumbImgIndex], "type": 'img' });
+        setPdThumbImg(pdImgList)
+        setThumbImgIndex(thumbImgIndex)
       }
     }
   };
@@ -1264,7 +1304,8 @@ const ProductDetail = () => {
     setSingleProd1({});
     setSingleProd({});
     setIsImageLoad(true);
-    setProdLoading(true)
+    setProdLoading(true);
+    setImagePromise(true);
   };
 
   const handleCustomChange = async (e, type) => {
@@ -1408,7 +1449,7 @@ const ProductDetail = () => {
                   <div className="smr_prod_image_shortInfo">
                     <div className="smr_prod_image_Sec">
                       {/* {isImageload && ( */}
-                      {isImageload && (
+                      {ImagePromise && (
                         <Skeleton
                           sx={{
                             width: "95%",
@@ -1423,7 +1464,7 @@ const ProductDetail = () => {
                       <div
                         className="smr_main_prod_img"
                         style={{
-                          display: isImageload ? "none" : "block",
+                          display: ImagePromise ? "none" : "block",
                         }}
                       >
                         {/* {isVisionShow && (
@@ -1490,11 +1531,9 @@ const ProductDetail = () => {
                           selectedThumbImg?.type == "img" ? (
                             <img
                               src={selectedThumbImg?.link}
-                              onError={() => {
-                                setSelectedThumbImg({
-                                  link: imageNotFound,
-                                  type: "img",
-                                });
+                              onError={(e) => {
+                                e.target.src = imageNotFound1;
+                                e.target.alt = 'no-image-found';
                               }}
                               alt={""}
                               onLoad={() => {
@@ -1505,7 +1544,7 @@ const ProductDetail = () => {
                           ) : (
                             <div className="smr_prod_video">
                               <video
-                                src={selectedThumbImg?.link}
+                                src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                                 loop={true}
                                 autoPlay={true}
                                 // poster={ (prodLoading && isImageload) ? ( pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound) : null}
@@ -1541,6 +1580,10 @@ const ProductDetail = () => {
                                 src={ele}
                                 alt={""}
                                 onLoad={() => setIsImageLoad(false)}
+                                onError={(e) => {
+                                  e.target.src = imageNotFound1;
+                                  e.target.alt = 'no-image-found';
+                                }}
                                 className="smr_prod_thumb_img"
                                 onClick={() => {
                                   setSelectedThumbImg({
@@ -1674,7 +1717,7 @@ const ProductDetail = () => {
                                   </span>
                                 </span> : null}
                               {/* Miora Need Net weight / kayra Don't */}
-                              {KayraCreation === 2 && storeInit?.IsMetalWeight === 1 &&
+                              {KayraCreation === 1 && storeInit?.IsMetalWeight === 1 &&
                                 <span className="smr_prod_short_key">
                                   Net. wt :{" "}
                                   <span className="smr_prod_short_val">
@@ -2450,7 +2493,7 @@ const ProductDetail = () => {
 
 
                 {/* Maiora chnages Need the / in website for other not need right now !! */}
-                {KayraCreation === 2 && <div className="smr_material_details_portion">
+                {KayraCreation === 1 && <div className="smr_material_details_portion">
                   {(diaList?.length > 0 ||
                     csList?.filter((ele) => ele?.D === "MISC")?.length > 0 ||
                     csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
@@ -2781,17 +2824,17 @@ const ProductDetail = () => {
                                     )}
 
                                     {/* {storeInit?.IsGrossWeight == 1 &&
-                              Number(ele?.GrossWt) !== 0 && (
-                                <>
-                                  <span>|</span>
-                                  <span className="smr_prod_wt">
-                                    <span className="smr_d_keys">GWT:</span>
-                                    <span className="smr_d_val">
-                                      {ele?.GrossWt}
-                                    </span>
-                                  </span>
-                                </>
-                              )} */}
+                                      Number(ele?.GrossWt) !== 0 && (
+                                        <>
+                                          <span>|</span>
+                                          <span className="smr_prod_wt">
+                                            <span className="smr_d_keys">GWT:</span>
+                                            <span className="smr_d_val">
+                                              {ele?.GrossWt}
+                                            </span>
+                                          </span>
+                                        </>
+                                      )} */}
                                     {storeInit?.IsDiamondWeight == 1 &&
                                       Number(ele?.DiaWt) !== 0 && (
                                         <>

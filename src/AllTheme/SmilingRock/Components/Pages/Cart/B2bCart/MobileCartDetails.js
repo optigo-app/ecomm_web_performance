@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl, CardMedia } from '@mui/material';
 import './smrMo_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
@@ -54,7 +54,7 @@ const MobileCartDetails = ({
     setMetalTypeCombo(metalTypeData);
     setMetalColorCombo(metalColorData);
     setDiamondQualityColorCombo(diamondQtyColorData);
-    setColorStoneCombo(CSQtyColorData);                   
+    setColorStoneCombo(CSQtyColorData);
   }, [])
 
   const handleUpdateCart = async (selectedItem) => {
@@ -67,10 +67,10 @@ const MobileCartDetails = ({
   useEffect(() => {
     if (selectedItem?.ImageCount > 0) {
       CartCardImageFunc(selectedItem).then((src) => {
-        setImageSrc(src);
+        setImageSrc(undefined);
       });
     } else {
-      setImageSrc(noImageFound);
+      setImageSrc(undefined);
     }
   }, [selectedItem]);
 
@@ -79,7 +79,32 @@ const MobileCartDetails = ({
     <Modal open={open} onClose={handleClose} className="smrMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="smrMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="smrMo_Cart-imageDiv">
-          {imageSrc != undefined &&
+          {imageSrc === undefined ? (
+            <CardMedia
+              className="dtMo_cart-image"
+              width="100%"
+              height={400}
+              sx={{
+                width: "100%",
+                height: "400px !important",
+                '@media (max-width: 570px)': {
+                  width: "100%",
+                  height: "300px !important",
+                },
+                '@media (max-width: 400px)': {
+                  width: "100%",
+                  height: "200px !important",
+                },
+              }}
+            >
+              <Skeleton
+                animation="wave"
+                variant="rect"
+                width="100%"
+                height="100%"
+              />
+            </CardMedia>
+          ) : (
             <img
               src={imageSrc}
               alt="Cluster Diamond"
@@ -87,7 +112,7 @@ const MobileCartDetails = ({
               onClick={() => handleMoveToDetail(selectedItem)}
               style={{ border: 'none' }}
             />
-          }
+          )}
         </div>
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (

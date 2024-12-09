@@ -1,0 +1,152 @@
+@import '../../../scss/variable';
+
+.dt_SocialMedia {
+
+    margin-bottom: 70px;
+
+    .dt_followInsTitle {
+        font-size: 2rem;
+        font-family: "Playfair Display", Sans-serif;
+        font-weight: 500;
+        text-align: center;
+        margin: 30px 0px 0px 0px;
+    }
+
+    .dt_SocialmediawidgetsComponentsCard {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+    }
+
+
+    .smr_bestseler1Title {
+        font-size: $fontSize6;
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        text-align: center;
+        margin: 10px 0px 0px 0px;
+    }
+
+    .widgetsComponentsCard {
+        width: 60%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+    }
+
+    .service-card {
+        position: relative;
+    }
+
+    .text-block {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: white;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .dt_instagram_gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .dt_instagram_photo {
+        width: 20%;
+        height: 400px;
+        cursor: pointer;
+    }
+
+    .dt_instagram_photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .dt_instagram_photo:hover img {
+        cursor: pointer;
+        transform: scale(1.1);
+    }
+
+    .dt_instagram_photo:hover .dt_socialMedioverlay {
+        opacity: 1;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    // .dt_socialMedioverlay {
+    //     position: absolute;
+    //     top: 0;
+    //     left: 0;
+    //     width: 100%;
+    //     height: 100%;
+    //     background-color: rgba(0, 0, 0, 0.5);
+    //     opacity: 0;
+    //     transition: opacity 0.3s ease;
+    // }
+
+    @media screen and (max-width: 1500px) {
+        .dt_instagram_photo {
+            height: auto !important;
+        }
+    }
+
+    @media screen and (max-width: 1300px) {
+        .dt_instagram_photo {
+            height: auto !important;
+            width: 300px !important;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        .dt_instagram_photo {
+            height: auto !important;
+            width: 50% !important;
+        }
+
+        .smr_bestseler1Title {
+            font-size: 20px !important;
+        }
+
+        .dt_instagram_gallery {
+            display: flex;
+            justify-content: start !important;
+        }
+    }
+
+    @media screen and (max-width: 550px) {
+
+        .dt_instagram_gallery{
+            padding-inline: 6px!important;
+        }
+        
+        .widgetsComponentsCard {
+            width: 100% !important;
+        }
+
+
+        .dt_SocialmediawidgetsComponentsCard {
+            width: 100% !important;
+        }
+
+        .dt_SocialmediawidgetsComponentsCard {
+            margin: 0px !important;
+        }
+
+        .instagram-photo {
+            width: 50% !important;
+            height: 100% !important;
+        }
+
+    }
+}

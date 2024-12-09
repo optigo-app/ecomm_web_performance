@@ -90,8 +90,8 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
 
   let diaQc = (obj?.dia === undefined ? (loginInfo?.cmboDiaQCid ?? storeinit?.cmboDiaQCid) : obj?.dia)
   let csQc = (obj?.cs === undefined ? (loginInfo?.cmboCSQCid ?? storeinit?.cmboCSQCid) : obj?.cs)
-  // let mtid = (obj?.mt === undefined ? (loginInfo?.MetalId ?? storeinit?.MetalId) : obj?.mt)
-  let mtid = (loginInfo?.MetalId ?? storeinit?.MetalId) ?? "" ;
+  let mtid = (obj?.mt === undefined ? (loginInfo?.MetalId ?? storeinit?.MetalId) : obj?.mt)
+  // let mtid = (loginInfo?.MetalId ?? storeinit?.MetalId) ?? "" ;
   let filPrice = filterObj?.Price?.length > 0 ? filterObj?.Price : ''
 
   console.log("stroreeeeeeeeeeee", filPrice);

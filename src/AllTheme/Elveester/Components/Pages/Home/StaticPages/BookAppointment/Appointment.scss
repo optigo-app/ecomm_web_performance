@@ -121,6 +121,7 @@
       .service_bar {
         display: flex;
         width: 100%;
+        margin-top: 1rem;
 
         span {
           text-decoration: underline;
@@ -144,6 +145,7 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
+          cursor: pointer;
 
           .det_elvee_card {
             flex: 1;
@@ -214,19 +216,38 @@
             justify-content: space-between;
             position: relative;
 
-            .elv_date_icon {
-              position: absolute;
-              background-color: white;
-              cursor: pointer;
-              right: 0;
-            }
-
-            input {
-              border: none;
-              outline: none;
-              background: transparent;
+            @media screen and (max-width: 548px) {
               width: 100%;
+              margin-inline: 0;
             }
+          }
+
+          .elvee_input_from {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid rgb(255, 255, 255) !important;
+            outline: none;
+
+            .for_error-message {
+              margin-top: 3px;
+              margin-bottom: 0;
+              text-align: left;
+              color: red;
+            }
+          }
+
+          .elv_date_icon {
+            position: absolute;
+            background-color: white;
+            cursor: pointer;
+            right: 0;
+          }
+
+          input {
+            border: none;
+            outline: none;
+            background: transparent;
+            width: 100%;
           }
         }
 
@@ -237,6 +258,20 @@
           grid-template-columns: repeat(auto-fit, minmax(40%, 1fr));
           place-items: start;
           place-content: start;
+
+          div {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid rgb(255, 255, 255) !important;
+            outline: none;
+
+            p {
+              margin-top: 3px;
+              margin-bottom: 0;
+              text-align: left;
+              color: red;
+            }
+          }
 
           @media screen and (max-width: 548px) {
 

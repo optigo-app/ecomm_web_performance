@@ -16,19 +16,19 @@ const Footer = ({ fromPage }) => {
   let footerLogo = `${storImagePath()}/images/HomePage/sonasons1.png`;
 
   useEffect(() => {
-    const localD = JSON.parse(sessionStorage.getItem("storeInit"));
+    const localD = JSON.parse(sessionStorage?.getItem("storeInit"));
     setLocalData(localD);
   }, []);
 
   useEffect(() => {
     const companyInfoData =
-      JSON.parse(sessionStorage.getItem("CompanyInfoData")) || {};
+      JSON?.parse(sessionStorage?.getItem("CompanyInfoData")) || {};
     const socialLinkObj = companyInfoData?.SocialLinkObj || "";
     setcompanyInfoData(companyInfoData);
     console.log("smmd",companyInfoData) ;
 
     if (socialLinkObj) {
-      const parsedSocialMediaUrlData = JSON.parse(socialLinkObj) || [];
+      const parsedSocialMediaUrlData = JSON?.parse(socialLinkObj) || [];
       setSocialMediaData(parsedSocialMediaUrlData);
     }
   }, []);

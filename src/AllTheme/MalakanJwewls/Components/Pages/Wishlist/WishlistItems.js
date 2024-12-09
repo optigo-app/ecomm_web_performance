@@ -13,6 +13,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { mala_CartCount, mala_WishCount } from "../../Recoil/atom";
+import { Skeleton } from "@mui/material";
 
 const WishlistItems = ({
     item,
@@ -74,12 +75,33 @@ const WishlistItems = ({
                     xs={itemsLength <= 2 ? 6 : 6}
                     sm={itemsLength <= 2 ? 4 : 4}
                     md={itemsLength <= 2 ? 4 : 4}
-                    lg={itemsLength <= 2 ? 2.4 : 2.4}  
+                    lg={itemsLength <= 2 ? 2.4 : 2.4}
                     className="mala_wlListGrid"
                 >
                     <Card className="mala_WlListCard">
                         <div className="cardContent">
-                            {imageSrc !== undefined &&
+                            {imageSrc === undefined ? (
+                                <CardMedia
+                                    style={{ width: "100%" }}
+                                    className="roop_WlListImage"
+                                >
+                                    <Skeleton
+                                        animation="wave"
+                                        variant="rect"
+                                        width="100%"
+                                        height={280}
+                                        sx={{
+                                            backgroundColor: "#e8e8e86e",
+                                            '@media (max-width: 600px)': {
+                                                height: 200,
+                                            },
+                                            '@media (max-width: 960px)': {
+                                                height: 240,
+                                            }
+                                        }}
+                                    />
+                                </CardMedia>
+                            ) : (
                                 <CardMedia
                                     component="img"
                                     image={imageSrc}
@@ -87,7 +109,7 @@ const WishlistItems = ({
                                     className="mala_WlListImage"
                                     onClick={() => handleMoveToDetail(item)}
                                 />
-                            }
+                            )}
                             <CardContent className="mala_cardContent">
                                 <div className="cardText">
                                     <Typography

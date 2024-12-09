@@ -137,6 +137,12 @@
             margin-top: 1rem;
             width: 27rem;
 
+            .elv_ProductDet_prod_code_Coll {
+                font-size: 18px;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
+
             .elv_ProductDet_prod_code {
                 font-size: 16px;
                 font-weight: 600;
@@ -190,6 +196,13 @@
                 font-weight: 600;
                 letter-spacing: 1.7px;
                 color: rgb(125, 127, 133);
+            }
+
+            .elv_ProductDet_prod_code_Coll {
+                font-size: 16px;
+                color: black;
+                font-weight: 700;
+                text-transform: uppercase;
             }
         }
 

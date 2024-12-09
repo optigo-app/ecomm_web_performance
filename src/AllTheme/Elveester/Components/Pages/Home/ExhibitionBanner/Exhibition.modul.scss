@@ -1,0 +1,121 @@
+@import "../../../scss/elvee_modules.scss";
+
+.elv_exhib_banner_title_div {
+    text-align: center;
+    margin: 50px 0px 50px 0px !important;
+
+    .elv_exhib_banner_title_h3 {
+        font-size: 28px;
+        font-weight: 600;
+        text-transform: capitalize;
+        line-height: 2px;
+        font-family: $fontSansSerif;
+        color: rgba(29, 50, 88, 0.8) !important;
+    }
+
+    .elv_exhib_banner_p {
+        font-size: 15px;
+        line-height: 35px;
+        text-transform: uppercase;
+        font-family: $fontSansSerif;
+        color: rgba(29, 50, 88, 0.8) !important;
+    }
+}
+
+.elv_exhib_banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6rem;
+    margin-top: 3rem;
+    margin-bottom: 6rem;
+}
+
+.elv_exh_banner {
+    padding-inline: 1%;
+    object-fit: contain;
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .elv_exhib_banner {
+        margin-top: 3rem;
+        margin-bottom: 5rem;
+    }
+}
+
+@media (min-width: 446px) and (max-width: 768px) {
+    .elv_exhib_banner {
+        width: 100%;
+        overflow: auto;
+        display: flex !important;
+        margin-top: 3rem;
+        margin-bottom: 5rem;
+    }
+
+    .elv_exhib_banner_title_div {
+        font-size: 16px;
+    }
+}
+
+
+@media (max-width: 445px) {
+    .elv_exhib_banner {
+        width: 100%;
+        overflow: auto;
+        display: flex !important;
+        justify-content: start !important;
+        margin-top: 1rem;
+        margin-bottom: 4rem;
+    }
+
+    .elv_exhib_banner_title_div {
+        font-size: 16px;
+        margin: 50px 0px 30px 0px !important;
+    }
+}
+
+@media (max-width: 500px) {
+    .elv_exhib_banner_title_div {
+
+        .elv_exhib_banner_title_h3 {
+            font-size: 21px;
+        }
+
+        .elv_exhib_banner_p {
+            font-size: 13px;
+        }
+    }
+}
+
+@media (max-width: 350px) {
+    .elv_exhib_banner_title_div {
+
+        .elv_exhib_banner_title_h3 {
+            font-size: 19px;
+        }
+
+        .elv_exhib_banner_p {
+            font-size: 12px;
+        }
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+    .elv_exhib_banner {
+        // width: fit-content;
+        gap: 3rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .elv_affi_cards {
+        width: 100%;
+    }
+}
+
+@media (max-width: 320px) {
+    .elv_affi_cards {
+        width: 100%;
+    }
+}

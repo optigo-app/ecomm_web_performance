@@ -580,13 +580,14 @@ const ProductDetail = () => {
   const handleMoveToDetail = (productData) => {
 
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
     let obj = {
       a: productData?.autocode,
       b: productData?.designno,
-      m: loginInfo?.MetalId,
-      d: loginInfo?.cmboDiaQCid,
-      c: loginInfo?.cmboCSQCid,
+      m: loginInfo?.MetalId ?? storeInit?.MetalId,
+      d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+      c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
       f: {},
     };
 
@@ -656,23 +657,33 @@ const ProductDetail = () => {
 
     const FetchProductData = async () => {
 
-      // let obj = {
-      //   mt: metalArr ? metalArr : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
-      //   diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid),
-      //   csQc: csArr ? `${csArr?.QualityId},${csArr?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid)
-      // }
+      let obj1 = {
+        mt: logininfoInside?.MetalId ?? storeinitInside?.MetalId,
+        diaQc: diaArr
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+        csQc: csArr
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
+      };
 
       let obj = {
-        mt: metalArr,
-        diaQc: `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`,
-        csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`,
+        mt: metalArr
+          ? metalArr
+          : logininfoInside?.MetalId ?? storeinitInside?.MetalId,
+        diaQc: diaArr
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+        csQc: csArr
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
       };
 
       // console.log("objjj",obj)
       setProdLoading(true)
 
       setisPriceLoading(true)
-      
+
       // step 4 
       setSingleProd1({})
       setSingleProd({})
@@ -739,7 +750,7 @@ const ProductDetail = () => {
             }
 
             if (storeinitInside?.IsProductDetailDesignSet === 1) {
-              await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
+              await DesignSetListAPI(obj1, resp?.pdList[0]?.designno, cookie).then((res) => {
                 // console.log("designsetList",res?.Data?.rd[0])
                 setDesignSetList(res?.Data?.rd)
               }).catch((err) => console.log("designsetErr", err))
@@ -2659,7 +2670,7 @@ const ProductDetail = () => {
                                     <div
                                       className="completethelook_outer"
                                       onClick={() => handleMoveToDetail(ele)}
-                                      style={{ borderTop: i !== 0 ? "none" : "" }}
+                                      style={{ borderTop: i !== 0 ? "none" : "", cursor: 'pointer' }}
                                     >
                                       <div style={{ display: "flex", gap: "60px" }}>
                                         <div style={{ marginLeft: "12px" }}>

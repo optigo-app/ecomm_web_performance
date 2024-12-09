@@ -5,6 +5,7 @@ import { CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import Cookies from "js-cookie";
 import moment from 'moment';
+import { CardMedia, Skeleton } from '@mui/material';
 
 const ExampleComponent = ({
     cartData,
@@ -69,13 +70,36 @@ const ExampleComponent = ({
             <tbody>
                 <tr key={cartData.id} className="smr_B2C-cartData-row">
                     <td className='smr_b2cCartImagetd'>
-                        {imageSrc != undefined &&
+                        {imageSrc === undefined ? (
+                            <CardMedia
+                                sx={{
+                                    width: "10rem",
+                                    height: "9rem",
+                                    '@media (max-width: 1350px)': {
+                                        width: "9rem",
+                                    },
+                                    '@media (max-width: 840px)': {
+                                        width: "10rem",
+                                    },
+                                    '@media (max-width: 650px)': {
+                                        width: "9rem",
+                                    },
+                                }}
+                            >
+                                <Skeleton
+                                    animation="wave"
+                                    variant="rect"
+                                    width="100%"
+                                    height="100%"
+                                />
+                            </CardMedia>
+                        ) : (
                             <img
                                 className='smr_b2ccartImage'
                                 src={imageSrc}
                                 alt={`cartData images`}
                             />
-                        }
+                        )}
                     </td>
                     <td className='smr_b2ccartContentTd'>
                         <p className='smr_b2ccartContentTitle' title="Titleline">{cartData?.TitleLine}</p>

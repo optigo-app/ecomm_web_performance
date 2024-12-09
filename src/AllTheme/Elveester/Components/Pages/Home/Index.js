@@ -11,6 +11,7 @@ import GaleryView from './GaleryView/GaleryView';
 import CompanyData from './ComapnayData/CompanyData';
 import AffiliationData from './PromoComponent/BrandsComponent/AffiliationData';
 import SocialMediaSection from './SocialMediaSection/SocialMediaSection';
+import Exhibition from './ExhibitionBanner/Exhibition';
 
 function Home() {
 
@@ -24,6 +25,7 @@ function Home() {
         <>
           <TopSection />
           <PromoComponent1 />
+          <Exhibition />
           <BrandsComponent />
           <PromoComponent2 />
           <Collection />

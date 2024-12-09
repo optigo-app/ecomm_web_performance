@@ -10,7 +10,8 @@ const ServicePolicy = () => {
 
   useEffect(() => {
     // fetch(`${storImagePath()}/html/servicePolice.html`)   /*  for kayra */
-    fetch(`${storImagePath()}/html/MaioraservicePolice.html`)   /* for mairo */
+    // fetch(`${storImagePath()}/html/MaioraservicePolice.html`)   /* for mairo */
+    fetch(`${storImagePath()}/html/servicePolice.html`)   /* for sonasons */
 
       .then((response) => response.text())
       .then((html) => {

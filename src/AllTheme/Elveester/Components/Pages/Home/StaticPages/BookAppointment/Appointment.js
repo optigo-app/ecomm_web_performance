@@ -1,23 +1,123 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MdDateRange } from "react-icons/md";
+import './Appointment.scss';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { ImClock2 } from "react-icons/im";
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
-import './Appointment.scss';
+import { BookAppointment } from '../../../../../../../utils/API/BookAppointment/BookAppointment';
+import { toast } from 'react-toastify';
 
 const Appointment = () => {
-    const [selectedbox, setselectedbox] = useState(null);
+    const [selectedbox, setselectedbox] = useState({
+        id: "",
+        name: "",
+    });
     const [selectedDate, setSelectedDate] = useState();
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState({});
+    const [minDateTime, setMinDateTime] = useState('');
+
+    const [formData, setFormData] = useState({
+        // titlename: '',
+        firstname: '',
+        lastname: '',
+        EmailId: '',
+        mobileno: '',
+        JewelleryType: '',
+        AppointmentMessage: '',
+        AppointmentDateTime: '',
+        // location: '',
+    });
 
     const inputRef = useRef(null);
+
+    const formatDateTime = (dateTimeString) => {
+        if (!dateTimeString) return '';
+        const [date, time] = dateTimeString.split('T');
+        const [year, month, day] = date.split('-');
+        return `${day}-${month}-${year} ${time}`;
+    };
+
+    useEffect(() => {
+        const today = new Date();
+        const threeDaysFromNow = new Date();
+        threeDaysFromNow.setDate(today.getDate() + 3);
+        const formatDate = (date) => {
+            return date.toISOString().slice(0, 16);
+        };
+        setMinDateTime(formatDate(threeDaysFromNow));
+    }, []);
+
+    const handleChange = (event) => {
+        const { id, value } = event.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [id]: value,
+        }));
+        if (value) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                [id]: '',
+            }));
+        }
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const formErrors = validate();
+        if (Object.keys(formErrors).length === 0) {
+            setLoading(true)
+            const formattedData = {
+                ...formData,
+                JewelleryType: selectedbox?.name,
+                AppointmentDateTime: formatDateTime(formData?.AppointmentDateTime)
+            }
+            await BookAppointment(formattedData).then((res) => {
+                if (res?.stat_msg === 'success') {
+                    toast.success("Appointment Booked Successfully");
+                    setLoading(false)
+                } else {
+                    toast.error("Something went wrong");
+                    setLoading(false);
+                }
+            })
+        } else {
+            setErrors(formErrors);
+        }
+    };
 
     const handleClick = () => {
         if (inputRef.current) {
             inputRef.current.showPicker()
         }
     };
+
+    const validate = () => {
+        const newErrors = {};
+        // if (!formData.titlename) newErrors.titlename = 'Title Name is required';
+        if (!formData.firstname) newErrors.firstname = 'First Name is required';
+        if (!formData.lastname) newErrors.lastname = 'Last Name is required';
+        if (!formData.EmailId) {
+            newErrors.EmailId = 'Email is required';
+        } else if (!/\S+@\S+\.\S+/.test(formData.EmailId)) {
+            newErrors.EmailId = 'Invalid email address';
+        }
+        if (!formData.mobileno) {
+            newErrors.mobileno = 'Phone is required';
+        } else if (!/^\d{10}$/.test(formData.mobileno)) {
+            newErrors.mobileno = 'Phone must be a 10-digit number';
+        }
+        if (!selectedbox.id || !selectedbox.name) {
+            newErrors.selectedbox = 'Please select your subject.';
+        }
+        if (!formData.AppointmentDateTime) {
+            newErrors.AppointmentDateTime = 'Date & Time is required';
+        }
+        return newErrors;
+    };
+
 
     useEffect(() => {
         window.scrollTo({
@@ -29,13 +129,13 @@ const Appointment = () => {
 
     const appointment = [
         { src: `${storImagePath()}/images/HomePage/Appointment/Collection.jpg`, alt: "Collection" },
-        { src: `${storImagePath()}/images/HomePage/Appointment/Engagement_Ring.jpg`, alt: "Engagement-Ring" },
-        { src: `${storImagePath()}/images/HomePage/Appointment/Fine_Jewellery.jpg`, alt: "Fine-Jewellery" },
-        { src: `${storImagePath()}/images/HomePage/Appointment/Gold_Jewellery.jpg`, alt: "Gold-Jewellery" },
-        { src: `${storImagePath()}/images/HomePage/Appointment/High_Jewellery.jpg`, alt: "High-Jewellery" },
-        { src: `${storImagePath()}/images/HomePage/Appointment/Men's_Jewellery.jpg`, alt: "Men-s-Jewellery" },
+        { src: `${storImagePath()}/images/HomePage/Appointment/Engagement_Ring.jpg`, alt: "Engagement Ring" },
+        { src: `${storImagePath()}/images/HomePage/Appointment/Fine_Jewellery.jpg`, alt: "Fine Jewellery" },
+        { src: `${storImagePath()}/images/HomePage/Appointment/Gold_Jewellery.jpg`, alt: "Gold Jewellery" },
+        { src: `${storImagePath()}/images/HomePage/Appointment/High_Jewellery.jpg`, alt: "High Jewellery" },
+        { src: `${storImagePath()}/images/HomePage/Appointment/Men's_Jewellery.jpg`, alt: "Mens Jewellery" },
+        { src: `${storImagePath()}/images/HomePage/Appointment/Wedding_Ring.jpg`, alt: "Wedding Ring" },
         { src: `${storImagePath()}/images/HomePage/Appointment/Others.jpg`, alt: "Others" },
-        { src: `${storImagePath()}/images/HomePage/Appointment/Wedding_Ring.jpg`, alt: "Wedding-Ring" },
     ];
 
     return (
@@ -57,15 +157,16 @@ const Appointment = () => {
                 </div>
                 <div className="grid_layout_card">
                     <div className="service_bar">
-                        {/* <span>Select a service</span> */}
+                        <span>Select your subject</span>
                     </div>
-                    {/* <div className="layout_elvee_grid">
+                    <div className="layout_elvee_grid">
                         {appointment.map((val, i) => (
                             <div
                                 key={i}
-                                onClick={() => setselectedbox(i)}
-                                style={selectedbox === i ? { border: "2px solid rgb(0, 0, 34)" } : {}}
+                                onClick={(e) => { setselectedbox({ id: i, name: val?.alt }) }}
+                                style={selectedbox?.id === i ? { border: "2.5px solid rgb(0, 0, 34)" } : {}}
                                 className="elvee_card_app"
+                                id="JewelleryType"
                             >
                                 <div className="image_card_elevee">
                                     <img src={val.src} alt={val.alt} />
@@ -73,10 +174,11 @@ const Appointment = () => {
                                 <div className="det_elvee_card">{val.alt}</div>
                             </div>
                         ))}
-                    </div> */}
+                    </div>
+                    {errors.selectedbox && <span className="error" style={{ marginTop: '1rem', display: 'block' }}>{errors.selectedbox}</span>}
                     <div className="from_elvee_appointmnet">
                         <div className="service_bar">
-                            <span>Your Appointment</span>
+                            <span>Your Appointment Data & Time</span>
                         </div>
                         <div className="time_grid_elvee">
                             {/* <label className='elv_lab_1'>
@@ -103,12 +205,32 @@ const Appointment = () => {
                                     size={26}
                                 />
                             </label> */}
-                            <label className='elv_lab_2'>
-                                <input type="datetime-local" ref={inputRef} placeholder="Time: hh:mm" />
-                                <ImClock2 className='elv_date_icon' size={26} onClick={() => {
-                                    inputRef.current.showPicker();
-                                }} />
-                            </label>
+                            <div className="elvee_input_from">
+                                <label className="elv_lab_2">
+                                    <input
+                                        type="datetime-local"
+                                        id="AppointmentDateTime"
+                                        value={formData.AppointmentDateTime}
+                                        min={minDateTime}
+                                        onChange={(e) => {
+                                            handleChange(e); // Update the form data
+                                            // inputRef.current.blur(); // Close the picker modal
+                                        }}
+                                        ref={inputRef}
+                                        placeholder="Time: hh:mm"
+                                    />
+                                    <ImClock2
+                                        className="elv_date_icon"
+                                        size={26}
+                                        onClick={() => {
+                                            inputRef.current.showPicker();
+                                        }}
+                                    />
+                                </label>
+                                {errors.AppointmentDateTime && (
+                                    <p className="for_error-message">{errors.AppointmentDateTime}</p>
+                                )}
+                            </div>
                             {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DemoContainer components={['DateTimePicker']} sx={{ width: '48%' }}>
                                     <DateTimePicker
@@ -123,21 +245,73 @@ const Appointment = () => {
                         <div className="service_bar">
                             <span>Your Details</span>
                         </div>
-                        <form className="form_grid_elvee">
-                            <input type="text" placeholder="Title:" className="elvee_input_from" />
-                            <input type="text" placeholder="First Name:" className="elvee_input_from" />
-                            <input type="text" placeholder="Last Name:" className="elvee_input_from" />
-                            <input type="tel" placeholder="Phone:" className="elvee_input_from" />
-                            <input type="email" placeholder="Email ID:" className="elvee_input_from" />
-                            <input type="text" placeholder="Location:" className="elvee_input_from" />
+                        <form className="form_grid_elvee" onSubmit={handleSubmit}>
+                            {/* <input
+                                type="text"
+                                id="titlename"
+                                value={formData.titlename}
+                                onChange={handleChange}
+                                placeholder="Title:"
+                                className="elvee_input_from" /> */}
+                            <div className="elvee_input_from">
+                                <input
+                                    type="text"
+                                    id="firstname"
+                                    value={formData.firstname}
+                                    onChange={handleChange}
+                                    placeholder="First Name:"
+
+                                />
+                                {errors.firstname && <p className="for_error-message">{errors.firstname}</p>}
+                            </div>
+                            <div className="elvee_input_from">
+                                <input
+                                    type="text"
+                                    id="lastname"
+                                    value={formData.lastname}
+                                    onChange={handleChange}
+                                    placeholder="Last Name:"
+                                    className="elvee_input_from" />
+                                {errors.lastname && <p className="for_error-message">{errors.lastname}</p>}
+                            </div>
+                            <div className="elvee_input_from">
+                                <input
+                                    type="tel"
+                                    id="mobileno"
+                                    value={formData.mobileno}
+                                    onChange={handleChange}
+                                    placeholder="Phone:"
+                                    className="elvee_input_from" />
+                                {errors.mobileno && <p className="for_error-message">{errors.mobileno}</p>}
+                            </div>
+                            <div className="elvee_input_from">
+                                <input
+                                    type="email"
+                                    id="EmailId"
+                                    value={formData.EmailId}
+                                    onChange={handleChange}
+                                    placeholder="Email ID:"
+                                    className="elvee_input_from" />
+                                {errors.EmailId && <p className="for_error-message">{errors.EmailId}</p>}
+                            </div>
+                            <div className="elvee_input_from">
+                                <input
+                                    type="text"
+                                    id="AppointmentMessage"
+                                    value={formData.AppointmentMessage}
+                                    onChange={handleChange}
+                                    placeholder="Message: (optional)"
+                                    className="elvee_input_from" />
+                                {errors.AppointmentMessage && <p className="for_error-message">{errors.AppointmentMessage}</p>}
+                            </div>
                             <div className="btn_el_vee">
-                                <button type="submit">Book Appointment</button>
+                                <button type="submit">{loading ? "Booking Appointment" : "Book Appointment"}</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

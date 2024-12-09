@@ -22,6 +22,7 @@
   margin-top: 220px;
   color: white;
   font-family: $rown !important;
+
   @media screen and (max-width: 1200px) {
     margin-top: 80px;
     padding-block: 36px;
@@ -346,6 +347,12 @@
   .swiper-button-prev {
     width: 15px;
     height: 15px;
+  }
+
+  .swiper-button-disabled {
+    opacity: 0.5;
+    cursor: pointer;
+    pointer-events: auto;
   }
 
   .swiper-button-next::after,

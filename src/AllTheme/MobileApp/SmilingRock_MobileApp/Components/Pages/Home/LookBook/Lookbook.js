@@ -95,7 +95,7 @@ const Lookbook = () => {
   let maxwidth464px = useMediaQuery('(max-width:464px)')
   const [imageLoadError, setImageLoadError] = useState({});
 
-  const handleImageError = (index,e) => {
+  const handleImageError = (index, e) => {
     setImageLoadError((prev) => ({ ...prev, [index]: true }));
     e.target.src = noimagefound;
   };
@@ -550,6 +550,18 @@ const Lookbook = () => {
     designSetLstData,
     selectedCategories
   );
+
+
+  function checkImageAvailability(imageUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = imageUrl;
+    });
+  }
+
+  const [imageSources, setImageSources] = React.useState({});
 
   useEffect(() => {
     if (filteredDesignSetLstData && Array.isArray(filteredDesignSetLstData)) {
@@ -1393,7 +1405,7 @@ const Lookbook = () => {
                 )}
               </div>
               <div className="smr_lookBookImgDiv">
-            {    <div
+                {<div
                   className="smr_lookBookMobileTopLine"
                   style={{
                     display: "flex",
@@ -1403,7 +1415,7 @@ const Lookbook = () => {
                   }}
                 >
 
-                {     isCategoryPresent &&       <HtmlTooltip
+                  {isCategoryPresent && <HtmlTooltip
                     title={<CustomTooltipContent categories={selectedCategories} />}
                   >
                     <button
@@ -1454,7 +1466,7 @@ const Lookbook = () => {
                                   alt={`Slide ${index}`}
                                   ref={addImageRef}
                                   onClick={() => handleHoverImages(index)}
-                                  onError={(e) => handleImageError(index,e)}
+                                  onError={(e) => handleImageError(index, e)}
                                   style={{
                                     height: "100%",
                                     // height: dataKey == index ? "250px" : "100%",
@@ -1575,7 +1587,7 @@ const Lookbook = () => {
                                                   detail?.TitleLine ? detail?.TitleLine : ""
                                                 )
                                               }
-                                              onError={(e)=>{
+                                              onError={(e) => {
                                                 e.target.src = noimagefound;
                                               }}
                                             />
@@ -1629,7 +1641,7 @@ const Lookbook = () => {
                     renderItem={(item) => (
                       <PaginationItem
                         {...item}
-                        disabled={item.page === currentPage} 
+                        disabled={item.page === currentPage}
                       />
                     )}
                   />

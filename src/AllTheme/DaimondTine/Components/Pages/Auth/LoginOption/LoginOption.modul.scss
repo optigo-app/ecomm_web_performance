@@ -1,0 +1,164 @@
+@import '../../../scss/variable.scss';
+
+.dt_loginOptionMain {
+
+    .optionLoginMain {
+        background-color: white;
+        width: 30%;
+    }
+
+    .loginDailog {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 6% 0px 6% 0px;
+    }
+
+    .smilingLoginOptionMain {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .loginDiTile {
+        font-size: 25px;
+        font-weight: 500;
+        margin-top: 25px;
+        text-align: center;
+        font-family: $fontFamily1;
+    }
+
+    .dt_box_loginMail {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid black;
+        background-color: white;
+        color: black;
+        margin-inline: 7px;
+        height: 45px;
+        cursor: pointer;
+        width: 75%;
+        margin-top: 30px;
+    }
+
+    .loginMail:hover {
+        background-color: rgba(66, 66, 66, 0.05);
+    }
+
+    .dt_box_loginMobile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        color: black;
+        border: 1px solid black;
+        margin-inline: 7px;
+        height: 45px;
+        cursor: pointer;
+        margin-top: 25px;
+        width: 75%;
+    }
+
+    .dt_box_loginMobile:hover {
+        background-color: rgba(66, 66, 66, 0.05);
+    }
+
+
+    .dt_authBoxMain {
+        display: flex;
+        justify-content: center;
+        padding-block: 100px;
+    }
+
+    @media screen and (max-width: 1450px) {
+        .optionLoginMain {
+            width: 50%;
+        }
+    }
+
+    @media screen and (max-width: 1150px) {
+
+
+        .dt_authBoxMain {
+            padding: 100px 0px 0px 0px !important
+        }
+
+        .loginMail {
+            width: 50% !important;
+        }
+
+        .loginMobile {
+            width: 50% !important;
+        }
+
+        .optionLoginMain {
+            width: 80%;
+        }
+
+
+        /* .loginDailog {
+        padding-top: 20%;
+    } */
+    }
+
+
+
+
+    @media screen and (max-width: 900px) {
+        .loginDailog {
+            margin-inline: 2% !important;
+        }
+
+    }
+
+    @media screen and (max-width: 700px) {
+
+        .loginMail {
+            width: 80% !important;
+        }
+
+        .loginMobile {
+            width: 80% !important;
+        }
+
+        .loginDiTile {
+            font-size: 25px;
+        }
+
+        .optionLoginMain {
+            width: 95%;
+        }
+
+        /* 
+    .loginDailog {
+        padding-top: 35%;
+    } */
+
+    }
+
+
+    @media screen and (max-width: 400px) {
+
+        .loginMail {
+            width: 95% !important;
+        }
+
+        .loginDiTile {
+            font-size: 20px !important;
+        }
+
+        .dt_box_loginMail{
+            width: 90%!important;
+        }
+
+        .dt_box_loginMobile{
+            width: 90%!important;
+        }
+
+        .loginMobile {
+            width: 95% !important;
+        }
+    }
+}

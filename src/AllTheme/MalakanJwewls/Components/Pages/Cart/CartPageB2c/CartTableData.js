@@ -5,6 +5,7 @@ import { useSetRecoilState } from 'recoil';
 import Cookies from "js-cookie";
 import moment from 'moment';
 import { mala_CartCount } from '../../../Recoil/atom';
+import { CardMedia, Skeleton } from '@mui/material';
 
 const ExampleComponent = ({
     cartData,
@@ -35,13 +36,13 @@ const ExampleComponent = ({
 
     useEffect(() => {
         if (cartData?.ImageCount > 0) {
-          CartCardImageFunc(cartData).then((src) => {
-            setImageSrc(src);
-          });
+            CartCardImageFunc(cartData).then((src) => {
+                setImageSrc(src);
+            });
         } else {
-          setImageSrc(noImageFound);
+            setImageSrc(noImageFound);
         }
-      }, [cartData]);
+    }, [cartData]);
 
     // const handleRemovecartData = (cartData) => {
     //     onRemove(cartData)
@@ -69,11 +70,36 @@ const ExampleComponent = ({
             <tbody>
                 <tr key={cartData.id} className="mala_B2C-cartData-row">
                     <td className='mala_b2cCartImagetd'>
-                        <img
-                            className='mala_b2ccartImage'
-                            src={imageSrc}
-                            alt={`cartData images`}
-                        />
+                        {imageSrc === undefined ? (
+                            <CardMedia
+                                sx={{
+                                    width: "10rem",
+                                    height: "9rem",
+                                    '@media (max-width: 1350px)': {
+                                        width: "9rem",
+                                    },
+                                    '@media (max-width: 840px)': {
+                                        width: "10rem",
+                                    },
+                                    '@media (max-width: 650px)': {
+                                        width: "9rem",
+                                    },
+                                }}
+                            >
+                                <Skeleton
+                                    animation="wave"
+                                    variant="rect"
+                                    width="100%"
+                                    height="100%"
+                                />
+                            </CardMedia>
+                        ) : (
+                            <img
+                                className='mala_b2ccartImage'
+                                src={imageSrc}
+                                alt={`cartData images`}
+                            />
+                        )}
                     </td>
                     <td className='mala_b2ccartContentTd'>
                         <p className='mala_b2ccartContentTitle' title="Titleline">{cartData?.TitleLine}</p>

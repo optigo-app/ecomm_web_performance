@@ -21,7 +21,7 @@ function Home() {
 
   useEffect(() => {
     let data = JSON.parse(sessionStorage.getItem('storeInit'));
-    setTitle(data?.companyname);
+    setTitle(data?.BrowserTitle);
   }, [])
 
   return (
@@ -42,7 +42,7 @@ function Home() {
           {localData?.IsHomeDesignSet === 1 && <DesignSet />} */}
         {/* <BottomBanner /> */}
       </div>
-     
+
     </div>
   )
 }

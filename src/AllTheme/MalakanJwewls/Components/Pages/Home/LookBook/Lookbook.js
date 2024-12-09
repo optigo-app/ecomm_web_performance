@@ -14,6 +14,7 @@ import {
   FormControlLabel,
   IconButton,
   Modal,
+  PaginationItem,
   styled,
   ToggleButton,
   ToggleButtonGroup,
@@ -30,7 +31,7 @@ import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListA
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import Cookies from "js-cookie";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { mala_CartCount,  mala_loginState } from "../../../Recoil/atom";
+import { mala_CartCount, mala_loginState } from "../../../Recoil/atom";
 import imageNotFound from "../../../Assets/image-not-found.jpg";
 import { LookBookAPI } from "../../../../../../utils/API/FilterAPI/LookBookAPI";
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
@@ -100,15 +101,15 @@ const Lookbook = () => {
   let maxwidth464px = useMediaQuery('(max-width:464px)')
   const [imageLoadError, setImageLoadError] = useState({});
 
-  const handleImageError = (index,e) => {
+  const handleImageError = (index, e) => {
     setImageLoadError((prev) => ({ ...prev, [index]: true }));
-    e.target.src = imageNotFound ;
+    e.target.src = imageNotFound;
     e.target.alt = "no-images";
   };
 
   const updateSize = () => {
     if (SwiperSlideRef.current) {
-      const { offsetWidth} = SwiperSlideRef.current;
+      const { offsetWidth } = SwiperSlideRef.current;
       setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetWidth}px` });
       console.log("Size updated:", offsetWidth, offsetWidth);
     }
@@ -623,7 +624,7 @@ const Lookbook = () => {
   //   }
   // }, [filteredDesignSetLstData, imageUrlDesignSet]);
 
-  
+
   useEffect(() => {
     if (filteredDesignSetLstData && Array.isArray(filteredDesignSetLstData)) {
       const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
@@ -666,7 +667,7 @@ const Lookbook = () => {
     })
   };
   const isCategoryPresent = filterData?.some(ele => ele?.Name === "Category" && ele?.id === "category");
- 
+
   const CustomLabel = ({ text }) => (
     <Typography
       sx={{
@@ -745,7 +746,7 @@ const Lookbook = () => {
                             "&.MuiAccordionSummary-root": {
                               padding: 0,
                             },
-        fontFamily: "Rowan1 , sans-serif !important",
+                            fontFamily: "Rowan1 , sans-serif !important",
 
                           }}
                         // className="filtercategoryLable"
@@ -784,11 +785,11 @@ const Lookbook = () => {
                                       </small> */}
                               <FormControlLabel
                                 sx={{
-                                  display:"flex",
-                                  alignItems:"center",
-                                  justifyContent:"space-between",
-                                  flexDirection:"row-reverse",
-                                  width:"100%"
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "space-between",
+                                  flexDirection: "row-reverse",
+                                  width: "100%"
                                 }}
                                 control={
                                   <Checkbox
@@ -862,7 +863,7 @@ const Lookbook = () => {
                           "&.MuiAccordionSummary-root": {
                             padding: 0,
                           },
-        fontFamily: "Rowan1 , sans-serif !important",
+                          fontFamily: "Rowan1 , sans-serif !important",
 
                         }}
                       // className="filtercategoryLable"
@@ -901,11 +902,11 @@ const Lookbook = () => {
                                       </small> */}
                             <FormControlLabel
                               sx={{
-                                display:"flex",
-                                alignItems:"center",
-                                justifyContent:"space-between",
-                                flexDirection:"row-reverse",
-                                width:"100%"
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                flexDirection: "row-reverse",
+                                width: "100%"
                               }}
                               control={
                                 <Checkbox
@@ -958,13 +959,13 @@ const Lookbook = () => {
                               label={
                                 <CustomLabel text={
                                   opt?.Minval == 0
-                                  ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
-                                  : opt?.Maxval == 0
-                                    ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
-                                    : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
-                              
+                                    ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
+                                    : opt?.Maxval == 0
+                                      ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
+                                      : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
+
                                 } />
-                               }
+                              }
                             />
                           </div>
                         ))}
@@ -984,7 +985,7 @@ const Lookbook = () => {
         aria-describedby="modal-description"
         className="smrlookBookPopuMain"
         sx={{
-          zIndex:888888
+          zIndex: 888888
         }}
       >
         <Box
@@ -1054,11 +1055,11 @@ const Lookbook = () => {
                       >
                         <FormControlLabel
                           sx={{
-                            display:"flex",
-                            alignItems:"center",
-                            justifyContent:"space-between",
-                            flexDirection:"row-reverse",
-                            width:"100%"
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            flexDirection: "row-reverse",
+                            width: "100%"
                           }}
                           control={
                             <Checkbox
@@ -1107,7 +1108,7 @@ const Lookbook = () => {
               gap: '20px'
             }}
           >
-       {filterData?.length > 0 &&      <div className="mala_lookBook_FilterIconeDiv" onClick={handleFilterShow} style={{ fontSize: '12px' }}>
+            {filterData?.length > 0 && <div className="mala_lookBook_FilterIconeDiv" onClick={handleFilterShow} style={{ fontSize: '12px' }}>
               {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"}
               <FilterListIcon style={{ color: 'white' }} />
             </div>}
@@ -1118,7 +1119,7 @@ const Lookbook = () => {
                 className="mala_lookBookMobileFilter"
                 onClick={() => setIsDrawerOpen(true)}
               />
-{isCategoryPresent &&              <HtmlTooltip
+              {isCategoryPresent && <HtmlTooltip
                 title={<CustomTooltipContent categories={selectedCategories} />}
               >
                 <button
@@ -1242,7 +1243,7 @@ const Lookbook = () => {
                                   minHeight: "fit-content",
                                   maxHeight: "300px",
                                   overflow: "auto",
-                                  width:"100%"
+                                  width: "100%"
                                 }}
                               >
                                 {(JSON?.parse(ele?.options) ?? [])?.map((opt) => (
@@ -1252,7 +1253,7 @@ const Lookbook = () => {
                                       alignItems: "center",
                                       justifyContent: "space-between",
                                       gap: "12px",
-                                  width:"100%"
+                                      width: "100%"
 
                                     }}
                                     key={opt?.id}
@@ -1266,13 +1267,13 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                                     <FormControlLabel
-                                    sx={{
-                                      display:"flex",
-                                      alignItems:"center",
-                                      justifyContent:"space-between",
-                                      flexDirection:"row-reverse",
-                                      width:"100%"
-                                    }}
+                                      sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        flexDirection: "row-reverse",
+                                        width: "100%"
+                                      }}
                                       control={
                                         <Checkbox
                                           name={`${ele?.id}${opt?.id}`}
@@ -1387,11 +1388,11 @@ const Lookbook = () => {
                                       </small> */}
                                     <FormControlLabel
                                       sx={{
-                                        display:"flex",
-                                        alignItems:"center",
-                                        justifyContent:"space-between",
-                                        flexDirection:"row-reverse",
-                                        width:"100%"
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        flexDirection: "row-reverse",
+                                        width: "100%"
                                       }}
                                       control={
                                         <Checkbox
@@ -1488,7 +1489,7 @@ const Lookbook = () => {
                                   loading="lazy"
                                   src={ProdCardImageFunc(slide)}
                                   alt={`Slide ${index}`}
-                                  onError={(e) => handleImageError(index,e)}
+                                  onError={(e) => handleImageError(index, e)}
                                   onMouseEnter={() => handleHoverImages(index)}
                                   onMouseLeave={() => seyDataKey(null)}
                                   style={{
@@ -1514,8 +1515,8 @@ const Lookbook = () => {
                                 </div>
                               )}
                               <p className="mala_lb2designList_title">
-                            {slide?.designsetno}
-                          </p>
+                                {slide?.designsetno}
+                              </p>
                             </div>
                             <div
                               className="mala_lookBookImgDeatil"
@@ -1617,9 +1618,9 @@ const Lookbook = () => {
                                           loading="lazy"
                                           src={imageSrc}
                                           alt={`Sub image ${subIndex} for slide ${index}`}
-                                          onError={(e)=>{
-                                            e.target.src = imageNotFound ;
-    e.target.alt = "no-images";
+                                          onError={(e) => {
+                                            e.target.src = imageNotFound;
+                                            e.target.alt = "no-images";
                                           }}
                                           onClick={() =>
                                             handleNavigation(
@@ -1690,7 +1691,7 @@ const Lookbook = () => {
                                     loading="lazy"
                                     src={ProdCardImageFunc(slide)}
                                     alt={`Slide ${index}`}
-                                    onError={(e) => handleImageError(index,e)}
+                                    onError={(e) => handleImageError(index, e)}
                                     // onMouseEnter={() => handleHoverImages(index)}
                                     // onMouseLeave={() => seyDataKey(null)}
                                     style={{
@@ -1846,9 +1847,9 @@ const Lookbook = () => {
                                           loading="lazy"
                                           src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
                                           alt={`Sub image ${subIndex} for slide ${index}`}
-                                          onError={(e)=>{
-                                            e.target.src = imageNotFound ;
-    e.target.alt = "no-images";
+                                          onError={(e) => {
+                                            e.target.src = imageNotFound;
+                                            e.target.alt = "no-images";
                                           }}
                                           onClick={() =>
                                             handleNavigation(
@@ -1924,9 +1925,9 @@ const Lookbook = () => {
                                               loading="lazy"
                                               src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
                                               alt={`Sub image ${subIndex} for slide ${index}`}
-                                              onError={(e)=>{
-                                                e.target.src = imageNotFound ;
-        e.target.alt = "no-images";
+                                              onError={(e) => {
+                                                e.target.src = imageNotFound;
+                                                e.target.alt = "no-images";
                                               }}
                                               onClick={() =>
                                                 handleNavigation(
@@ -2017,15 +2018,15 @@ const Lookbook = () => {
                                         <img
                                           src={ProdCardImageFunc(slide)}
                                           alt={`Slide ${index}`}
-                                          onError={(e) => handleImageError(index,e)}
+                                          onError={(e) => handleImageError(index, e)}
                                           className="mala_lb3ctl_img_new"
                                           style={{
                                             backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                           }}
-                                          // onError={(e)=>{
-    //                                         e.target.src = imageNotFound ;
-    // e.target.alt = "no-images";
-    //                                       }}
+                                        // onError={(e)=>{
+                                        //                                         e.target.src = imageNotFound ;
+                                        // e.target.alt = "no-images";
+                                        //                                       }}
                                         />
                                       ) : (
                                         <div
@@ -2103,9 +2104,9 @@ const Lookbook = () => {
                                                   }
                                                   alt=""
                                                   className="mala_lb3srthelook_img"
-                                                  onError={(e)=>{
-                                                    e.target.src = imageNotFound ;
-            e.target.alt = "no-images";
+                                                  onError={(e) => {
+                                                    e.target.src = imageNotFound;
+                                                    e.target.alt = "no-images";
                                                   }}
                                                   onClick={() =>
                                                     handleNavigation(
@@ -2304,7 +2305,7 @@ const Lookbook = () => {
                                 }}
                               >
                                 {filteredDesignSetLstData?.map((slide, index) => (
-                                  <SwiperSlide key={index}  ref={SwiperSlideRef}>
+                                  <SwiperSlide key={index} ref={SwiperSlideRef}>
 
                                     {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                       <img
@@ -2315,7 +2316,7 @@ const Lookbook = () => {
                                         onLoad={() => {
                                           handleImageLoad();
                                         }}
-                                        onError={(e) => handleImageError(index,e)}
+                                        onError={(e) => handleImageError(index, e)}
                                         style={{
                                           height: DynamicSize.h || "66.5px",
                                           width: DynamicSize.w || "66.5x",
@@ -2366,8 +2367,16 @@ const Lookbook = () => {
               shape="circular"
               onChange={handelPageChange}
               page={currentPage}
-            // showFirstButton
-            // showLastButton
+              // showFirstButton
+              // showLastButton
+              renderItem={(item) => (
+                <PaginationItem
+                  {...item}
+                  sx={{
+                    pointerEvents: item.page === currentPage ? 'none' : 'auto',
+                  }}
+                />
+              )}
             />
           </div>
         </div>

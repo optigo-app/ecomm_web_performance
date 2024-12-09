@@ -1,0 +1,89 @@
+@import '../../../scss/variable.scss';
+
+.dt_OrderModalBox {
+  width: 90%;
+  max-width: 500px;
+  min-width: 300px;
+  margin: 0 auto;
+}
+
+.dt_projectRemarkBtn-group {
+  display: flex;
+  justify-content: end;
+  align-items: end;
+  margin-top: 25px;
+
+  .dt_remarksave-btn {
+    margin-right: 20px;
+    height: 35px;
+    width: 120px;
+    font-family: $homePageFontFamily !important;
+    font-size: $fontSize3;
+    color: $btn1FontColor;
+    background-color: $btn1bgColor;
+    border: 1px solid $btn1bgColor;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      color: $btn1bgColor;
+      background-color: $btn1FontColor;
+    }
+  }
+
+  .dt_remarkcancel-btn {
+    margin-right: 20px;
+    height: 35px;
+    width: 120px;
+    font-family: $homePageFontFamily !important;
+    font-size: $fontSize3;
+    color: $btn1bgColor;
+    background-color: $btn1FontColor;
+    border: 1px solid $btn1bgColor;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      color: $btn1FontColor;
+      background-color: $btn1bgColor;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .dt_OrderModalBox {
+    width: 95%;
+    max-width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 474px) {
+  .dt_OrderModalBox {
+    width: 95% !important;
+  }
+
+  .dt_OrderModalBox {
+    padding: 20px 8px 20px 8px !important;
+
+    h2 {
+      color: $titleColor !important;
+      font-size: $fontSize2 !important;
+    }
+
+    .dt_projectRemarkBtn-group {
+
+      .dt_remarksave-btn,
+      .dt_remarkcancel-btn {
+        font-size: $fontSize0 !important;
+        padding: 5px 10px !important;
+      }
+    }
+
+    .dt_orderRemarkMoalInput textarea {
+      font-size: $fontSize1 !important;
+    }
+  }
+}

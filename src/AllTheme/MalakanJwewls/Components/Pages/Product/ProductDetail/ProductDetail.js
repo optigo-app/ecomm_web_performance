@@ -75,6 +75,7 @@ const ProductDetail = () => {
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
   const [prodLoading, setProdLoading] = useState(false)
+  console.log('prodLoading: ', prodLoading);
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -608,13 +609,14 @@ const ProductDetail = () => {
   const handleMoveToDetail = (productData) => {
 
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    let storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
 
     let obj = {
       a: productData?.autocode,
       b: productData?.designno,
-      m: loginInfo?.MetalId,
-      d: loginInfo?.cmboDiaQCid,
-      c: loginInfo?.cmboCSQCid,
+      m: loginInfo?.MetalId ?? storeInit?.MetalId,
+      d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+      c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
       f: {},
     };
 
@@ -629,6 +631,7 @@ const ProductDetail = () => {
     setSingleProd1({});
     setSingleProd({});
     setIsImageLoad(true);
+    setImagePromise(true);
     setProdLoading(true)
   };
 
@@ -684,10 +687,26 @@ const ProductDetail = () => {
 
     const FetchProductData = async () => {
 
+      let obj1 = {
+        mt: logininfoInside?.MetalId ?? storeinitInside?.MetalId,
+        diaQc: diaArr
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+        csQc: csArr
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
+      };
+
       let obj = {
-        mt: metalArr,
-        diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-        csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`,
+        mt: metalArr
+          ? metalArr
+          : logininfoInside?.MetalId ?? storeinitInside?.MetalId,
+        diaQc: diaArr
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+        csQc: csArr
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
       };
       // let obj = {
       //   mt: metalArr ? metalArr : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
@@ -765,7 +784,7 @@ const ProductDetail = () => {
             }
 
             if (storeinitInside?.IsProductDetailDesignSet === 1) {
-              await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
+              await DesignSetListAPI(obj1, resp?.pdList[0]?.designno, cookie).then((res) => {
                 // console.log("designsetList",res?.Data?.rd[0])
                 setDesignSetList(res?.Data?.rd)
               }).catch((err) => console.log("designsetErr", err))
@@ -787,10 +806,6 @@ const ProductDetail = () => {
     });
 
   }, [location?.key]);
-
-  console.log("locationKey", location?.key);
-
-  console.log("prodLoading", prodLoading);
 
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(
@@ -896,7 +911,47 @@ const ProductDetail = () => {
     });
   }
 
-  const [LoadChecker,setloadchecker] = useState(true)
+  const [LoadChecker, setloadchecker] = useState(true)
+  const [ImagePromise, setImagePromise] = useState(true);
+  console.log('ImagePromise: ', ImagePromise);
+
+  const imageCache = {};  // Caching object to store checked images
+
+  const loadAndCheckImages = async (img) => {
+    if (imageCache[img] !== undefined) {
+      // If the image result is already cached, return the cached result
+      return imageCache[img];
+    }
+
+    try {
+      const result = await checkImage(img); // check the image
+      imageCache[img] = result;  // Cache the result for future reference
+      if (!prodLoading) {
+        setTimeout(() => {
+          setImagePromise(false);
+        }, 500);
+      }
+      return result; // Ensure you return the result from the try block
+    } catch (error) {
+      imageCache[img] = NOimage;  // Cache the fallback result in case of an error
+      return NOimage; // Return the fallback image
+    }
+  };
+
+  const checkImage = (imageUrl) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        resolve(imageUrl);  // Image loaded successfully
+      };
+
+      img.onerror = () => {
+        reject(new Error("Image not found"));  // Image not found
+      };
+
+      img.src = imageUrl;
+    });
+  };
 
   const ProdCardImageFunc = async () => {
     let finalprodListimg;
@@ -1001,11 +1056,11 @@ const ProductDetail = () => {
       setSelectedThumbImg({ "link": FinalPdImgList[0], "type": 'img' });
       setPdThumbImg(FinalPdImgList);
       setThumbImgIndex(0)
-    }else{
+    } else {
       // step 2 
       setSelectedThumbImg({ link: ErrornoiMAGE, type: "img" });
-        setPdThumbImg();
-        setThumbImgIndex();
+      setPdThumbImg();
+      setThumbImgIndex();
     }
 
     if (pdvideoList?.length > 0) {
@@ -1031,18 +1086,21 @@ const ProductDetail = () => {
       //  console.log("checkurl",CheckUrl(`https://www.google.com/`))
 
     }
-    console.log("images123","bypass")
-   if(finalprodListimg){
-    setTimeout(() => {
-      setloadchecker(false)
-    }, 1000);
-    console.log(finalprodListimg,"images123")
-    return finalprodListimg;
-   }else{
-    setTimeout(() => {
-      setloadchecker(false)
-    }, 1000);
-   }
+    // console.log("images123", "bypass")
+    // if (finalprodListimg) {
+    //   setTimeout(() => {
+    //     setloadchecker(false)
+    //   }, 1000);
+    //   console.log(finalprodListimg, "images123")
+    //   return finalprodListimg;
+    // } else {
+    //   setTimeout(() => {
+    //     setloadchecker(false)
+    //   }, 1000);
+    // }
+
+    const img = await loadAndCheckImages(finalprodListimg);
+    return img;
   };
 
 
@@ -1440,7 +1498,7 @@ const ProductDetail = () => {
                   <div className="mala_prod_image_shortInfo">
                     <div className="mala_prod_image_Sec">
                       {/* {isImageload && ( */}
-                      {LoadChecker && (
+                      {(ImagePromise || prodLoading) && (
                         <Skeleton
                           sx={{
                             width: "95%",
@@ -1454,21 +1512,21 @@ const ProductDetail = () => {
 
                       <div
                         className="mala_main_prod_img"
-                        style={{ display: LoadChecker ? "none" : "block" }}
+                        style={{ display: (ImagePromise || prodLoading) ? "none" : "block" }}
                       >
                         {(selectedThumbImg?.type == "img") ? (
                           <img
-                            src={selectedThumbImg && selectedThumbImg?.link !== '' ? selectedThumbImg?.link :  NOimage}
+                            src={selectedThumbImg && selectedThumbImg?.link !== '' ? selectedThumbImg?.link : ""}
                             // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : ErrornoiMAGE}
                             // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? ErrornoiMAGE) }
                             // onError={() => setSelectedThumbImg({ "link": ErrornoiMAGE, "type": 'img' })}
                             alt={""}
                             onLoad={() => setIsImageLoad(false)}
                             className="mala_prod_img"
-                          //  onError={(e)=>{
-                          //   e.target.src = NOimage ; 
-                          //   e.target.onerror = null ;
-                          //  }}
+                            onError={(e) => {
+                              e.target.src = NOimage;
+                              e.target.onerror = null;
+                            }}
                           />
                         ) : (
                           <div className="mala_prod_video">
@@ -1859,7 +1917,7 @@ const ProductDetail = () => {
                                   sx={{
                                     color: "#7d7f85 !important",
                                     borderRadius: 0,
-                                                                        "&.MuiAccordionSummary-root": {
+                                    "&.MuiAccordionSummary-root": {
                                       padding: 0,
                                     },
                                   }}
@@ -2051,7 +2109,7 @@ const ProductDetail = () => {
                               <div className="Smr_CartAndWish_portion">
                                 <button
                                   className={
-                                    !addToCartFlag  
+                                    !addToCartFlag
                                       ? "mala_AddToCart_btn"
                                       : "mala_AddToCart_btn_afterCart"
                                   }

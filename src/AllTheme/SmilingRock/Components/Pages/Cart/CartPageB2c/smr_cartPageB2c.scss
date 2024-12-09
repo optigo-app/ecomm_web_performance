@@ -178,6 +178,10 @@
     border: none;
     font-family: $primaryFontFamily;
     color: $titleColor;
+
+    @media (max-width: 375px){
+      width: 30px !important;
+    }
   }
 
   a.bttn,
@@ -356,7 +360,8 @@
   }
 
   .smr_cartB2c-quantity {
-    width: 100px;
+    // width: 100px;
+    width: 75px;
     height: 40px;
   }
 }

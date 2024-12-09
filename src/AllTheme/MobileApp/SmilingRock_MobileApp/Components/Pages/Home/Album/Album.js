@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { smrMA_homeLoading, smrMA_loginState } from "../../../Recoil/atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import imageNotFound from '../../../Assets/image-not-found.jpg'
 
 const Album = () => {
 

@@ -9,7 +9,7 @@ import { findMetal, findMetalColor, findMetalType, formatter } from "../../../..
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import {
-  Accordion, AccordionDetails, AccordionSummary, Badge, Box, Button, CardMedia, Checkbox, Drawer, FormControlLabel, Input, Pagination, Skeleton, Slider,
+  Accordion, AccordionDetails, AccordionSummary, Badge, Box, Button, CardMedia, Checkbox, Drawer, FormControlLabel, Input, Pagination, PaginationItem, Skeleton, Slider,
   Typography, useMediaQuery
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -455,11 +455,11 @@ const ProductList = () => {
 
     fetchData();
 
-    setCurrPage(1)
     if (location?.key) {
       setLocationKey(location?.key)
     }
 
+    setCurrPage(1)
   }, [location?.key])
 
   useEffect(() => {
@@ -702,7 +702,6 @@ const ProductList = () => {
     //   }
     // })
     // }
-    setCurrPage(1)
   }, [filterChecked])
 
 
@@ -1037,7 +1036,7 @@ const ProductList = () => {
 
     let sortby = e.target?.value
 
-    await ProductListApi(output, currPage, obj, prodListType, cookie, sortby)
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortby)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -2463,6 +2462,7 @@ const ProductList = () => {
                     BreadCumsObj={BreadCumsObj}
                     IsBreadCumShow={IsBreadCumShow}
                     handleBreadcums={handleBreadcums}
+                    setCurrPage={setCurrPage}
                   />
 
                   <div className="roop_mainPortion">
@@ -2824,7 +2824,14 @@ const ProductList = () => {
                                     page={currPage}
                                     showFirstButton
                                     showLastButton
-
+                                    renderItem={(item) => (
+                                      <PaginationItem
+                                        {...item}
+                                        sx={{
+                                          pointerEvents: item.page === currPage ? 'none' : 'auto',
+                                        }}
+                                      />
+                                    )}
                                   />
                                 </div>
                               )}
@@ -2876,6 +2883,7 @@ const GivaFilterMenu = ({
   BreadCumsObj,
   IsBreadCumShow,
   handleBreadcums,
+  setCurrPage,
 }) => {
   const [showMenu, setshowMenu] = useState(-1);
   const CustomLabel = ({ text }) => (
@@ -2967,6 +2975,8 @@ const GivaFilterMenu = ({
         }
       }
     }
+
+    setCurrPage(1)
 
     return checkedNames;
   }

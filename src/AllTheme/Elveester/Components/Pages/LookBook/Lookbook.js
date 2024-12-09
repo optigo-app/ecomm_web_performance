@@ -12,6 +12,7 @@ import {
   FormControlLabel,
   IconButton,
   Modal,
+  PaginationItem,
   styled,
   ToggleButton,
   ToggleButtonGroup,
@@ -460,6 +461,7 @@ const Lookbook = () => {
       d: loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
       c: loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid,
       f: {},
+      g: [["", ""], ["", "", ""]],
     };
     let encodeObj = compressAndEncode(JSON?.stringify(obj));
     navigate(
@@ -2098,8 +2100,8 @@ const Lookbook = () => {
                                                       ? `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`
                                                       : imageNotFound
                                                   }
-                                                  onError={(e)=>{
-                                                    e.target.src = imageNotFound ;
+                                                  onError={(e) => {
+                                                    e.target.src = imageNotFound;
                                                   }}
                                                   alt=""
                                                   className="el_lb3srthelook_img"
@@ -2376,6 +2378,13 @@ const Lookbook = () => {
           shape="circular"
           onChange={handelPageChange}
           page={currentPage}
+          disabled={false}
+          renderItem={(item) => (
+            <PaginationItem
+              {...item}
+              disabled={item.page === currentPage}
+            />
+          )}
         // showFirstButton
         // showLastButton
         />

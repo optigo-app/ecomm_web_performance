@@ -2246,7 +2246,7 @@ const ProductDetail = () => {
                               </div>
                             </div>
                           )
-                        })}
+                        )}
                       </div>
                     </div>
                   </div>
@@ -2388,7 +2388,7 @@ const ProductDetail = () => {
                                       </div>
                                     </div>
                                   )
-                                })}
+                                )}
                               </div>
                             </div>
                           </SwiperSlide>

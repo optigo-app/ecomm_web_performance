@@ -109,6 +109,7 @@ const ProductDetail = () => {
   const SoketData = useRecoilValue(soketProductData);
   const [imageStates, setImageStates] = useState({});
   const [imageSrc, setImageSrc] = useState();
+  console.log('imageSrc: ', imageSrc);
 
   const [stockItemArr, setStockItemArr] = useState([]);
   const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
@@ -960,6 +961,52 @@ const ProductDetail = () => {
     });
   }
 
+  const [imagePromise, setImagePromise] = useState(true)
+  console.log('imagePromise: ', imagePromise);
+
+  const imageCache = {};  // Caching object to store checked images
+
+  const loadAndCheckImages = async (img) => {
+    if (imageCache[img] !== undefined) {
+      // If the image result is already cached, return the cached result
+      return imageCache[img];
+    }
+
+    try {
+      const result = await checkImage(img);
+      imageCache[img] = result;  // Cache the result for future reference
+      setSelectedThumbImg({
+        link: img,
+        type: "img",
+      });
+      setImagePromise(false);
+      return result;
+    } catch (error) {
+      imageCache[img] = imageNotFound;
+      setSelectedThumbImg({
+        link: imageNotFound,
+        type: "img",
+      });
+      setImagePromise(false);
+      return imageNotFound;
+    }
+  }
+
+  const checkImage = (imageUrl) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        resolve(imageUrl);  // Image loaded successfully
+      };
+
+      img.onerror = () => {
+        reject(new Error("Image not found"));  // Image not found
+      };
+
+      img.src = imageUrl;
+    });
+  };
+
   const ProdCardImageFunc = async () => {
     let finalprodListimg;
     let pdImgList = [];
@@ -1072,7 +1119,9 @@ const ProductDetail = () => {
       setPdVideoArr([]);
     }
 
-    return finalprodListimg;
+    // return finalprodListimg;
+    const img = await loadAndCheckImages(finalprodListimg);
+    return img;
   };
 
   useEffect(() => {
@@ -1082,11 +1131,10 @@ const ProductDetail = () => {
   useEffect(() => {
     if (isImageload === false) {
       if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
-        setSelectedThumbImg({ link: imageNotFound, type: "img" });
-        // setIsImageLoad(false)
+        setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
       }
     }
-  }, [isImageload]);
+  }, [isImageload, pdThumbImg, pdVideoArr])
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -1327,6 +1375,7 @@ const ProductDetail = () => {
       `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
       }${productData?.designno}?p=${encodeObj}`
     );
+    setProdLoading(true);
   };
 
   const handleCustomChange = async (e, type) => {
@@ -1455,9 +1504,11 @@ const ProductDetail = () => {
       const imageLink = await checkImageAvailability(selectedData?.images?.[0]);
       if (imageLink === undefined || imageLink === false) {
         setImageSrc(imageNotFound)
+        setSelectedThumbImg({ link: imageNotFound, type: "img" });
       }
       else {
         setImageSrc(imageLink);
+        setSelectedThumbImg({ link: imageLink, type: "img" });
       }
     }
     handleProductDetail(nextIndex);
@@ -1471,9 +1522,11 @@ const ProductDetail = () => {
       const imageLink = await checkImageAvailability(selectedData?.images?.[0]);
       if (imageLink === undefined || imageLink === false) {
         setImageSrc(imageNotFound)
+        setSelectedThumbImg({ link: imageNotFound, type: "img" });
       }
       else {
         setImageSrc(imageLink);
+        setSelectedThumbImg({ link: imageLink, type: "img" });
       }
     }
     handleProductDetail(prevIndex);
@@ -1576,7 +1629,7 @@ const ProductDetail = () => {
 
                       <div className="smr_prod_image_Sec">
                         {/* {isImageload && ( */}
-                        {isImageload && (
+                        {(isImageload) && (
                           <Skeleton
                             sx={{
                               width: "95%",
@@ -1593,14 +1646,12 @@ const ProductDetail = () => {
                         >
                           {selectedThumbImg?.type == "img" ? (
                             <img
-                              src={imageSrc}
-                              // src={selectedThumbImg?.link}
-                              onError={() =>
-                                setSelectedThumbImg({
-                                  link: imageNotFound,
-                                  type: "img",
-                                })
-                              }
+                              // src={imageSrc}
+                              src={selectedThumbImg?.link}
+                              onError={(e) => {
+                                e.target.src = imageNotFound;
+                                e.target.alt = 'no-image-found';
+                              }}
                               alt={""}
                               onLoad={() => setIsImageLoad(false)}
                               className="smr_prod_img"

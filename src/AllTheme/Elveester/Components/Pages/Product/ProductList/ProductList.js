@@ -5,7 +5,7 @@ import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import MuiAccordion from "@mui/material/Accordion";
 import Typography from "@mui/material/Typography";
-import { Drawer, useMediaQuery, useTheme } from "@mui/material";
+import { Drawer, PaginationItem, useMediaQuery, useTheme } from "@mui/material";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import noImageFound from "../../../Assets/image-not-found.jpg";
@@ -114,6 +114,7 @@ const ProductList = () => {
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [filterDiamondSlider, setFilterDiamondSlider] = useState([]);
   const [loginInfo, setLoginInfo] = useState();
+  const [detailsMenu, setDetailsMenu] = useState();
   const [selectedMetalId, setSelectedMetalId] = useState(
     loginUserDetail?.MetalId
   );
@@ -493,12 +494,14 @@ const ProductList = () => {
           let val = menuDecode?.split("/")[0].split(",");
           setIsBreadcumShow(true);
           productlisttype = [key, val];
+          setDetailsMenu(productlisttype)
         }
 
         if (SearchVar) {
           productlisttype = SearchVar;
         }
         setprodListType(productlisttype);
+        setDetailsMenu(productlisttype)
         setIsProdLoading(true);
         const res = await ProductListApi({}, 1, obj, productlisttype, cookie);
         const res1 = await FilterListAPI(productlisttype, cookie);
@@ -677,7 +680,7 @@ const ProductList = () => {
     setIsOnlyProdLoading(true);
     let sortby = e.target?.value;
 
-    await ProductListApi(output, currPage, obj, prodListType, cookie, sortby)
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortby)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -872,7 +875,7 @@ const ProductList = () => {
       });
     }, 100);
   };
-  
+
   const handleRangeFilterApi1 = async (Rangeval1) => {
     setIsOnlyProdLoading(true);
     let diafilter = JSON.parse(
@@ -1207,8 +1210,8 @@ const ProductList = () => {
       d: selectedDiaId,
       c: selectedCsId,
       f: output,
+      g: detailsMenu,
     };
-    console.log("ksjkfjkjdkjfkjsdk--", obj);
     // compressAndEncode(JSON.stringify(obj))
 
     // decodeAndDecompress()
@@ -2714,6 +2717,13 @@ const ProductList = () => {
                                         page={currPage}
                                         showFirstButton
                                         showLastButton
+                                        disabled={false} // Don't disable the whole pagination component
+                                        renderItem={(item) => (
+                                          <PaginationItem
+                                            {...item}
+                                            disabled={item.page === currPage}
+                                          />
+                                        )}
                                       />
                                     </div>
                                   )}
@@ -2861,13 +2871,13 @@ const Product_Card = ({
                 <>
                   {videoUrl !== undefined ? (
                     <div className="elv_rollup_video">
-                      <video src={videoUrl} autoPlay muted loop></video>
+                      <video src={videoUrl} autoPlay muted loop onError={(e) => { e.target.poster = noImageFound; e.stopPropagation() }}></video>
                     </div>
                   ) : null}
 
                   {videoUrl === undefined && RollImageUrl !== undefined ? (
                     <div className="elv_rollup_img">
-                      <img src={RollImageUrl} alt="Roll Up Image" />
+                      <img src={RollImageUrl} alt="Roll Up Image" onError={(e) => { e.target.src = noImageFound; e.stopPropagation() }} />
                     </div>
                   ) : null}
                 </>

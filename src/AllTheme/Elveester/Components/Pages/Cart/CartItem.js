@@ -11,7 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { green } from '@mui/material/colors';
 import Cookies from 'js-cookie';
 import { useSetRecoilState } from 'recoil';
-import { Box, Checkbox, useMediaQuery } from '@mui/material';
+import { Box, Checkbox, Skeleton, useMediaQuery } from '@mui/material';
 import noImageFound from "../../Assets/image-not-found.jpg"
 import { el_CartCount } from '../../Recoil/atom';
 import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
@@ -71,7 +71,7 @@ const CartItem = ({
         setImageSrc(src);
       });
     } else {
-      setImageSrc(noImageFound);
+      setImageSrc(undefined);
     }
   }, [item]);
 
@@ -173,28 +173,76 @@ const CartItem = ({
         onTouchEnd={cancelPress}
         style={{
           boxShadow:
-          !multiSelect &&
-          !isMobileScreen &&
-          selectedItem?.id == item?.id &&
-          "#c20000 1px 1px 1px 0px, #c20000 0px 0px 0px 1px !important",
-        border: selectedItem?.id == item?.id && '1px solid #c20000',
+            !multiSelect &&
+            !isMobileScreen &&
+            selectedItem?.id == item?.id &&
+            "#c20000 1px 1px 1px 0px, #c20000 0px 0px 0px 1px !important",
+          border: selectedItem?.id == item?.id && '1px solid #c20000',
           // border: isSelectedItems ? '1px solid brown' : '1px solid #e1e1e1'
         }}
-      > 
+      >
         {item?.StockId != 0 &&
           <div className="elv_inStockbadgeDiv">
             <span className="elv_inStockbadgeSpan">In Stock</span>
           </div>
         }
         <div className='elv_cardImage_div' >
-          {imageSrc !== undefined && (
-            <img className='elv_cardImage_img' src={imageSrc} alt=""
-              onClick={() => {
-                // handleIsSelected();
-                onSelect(item)
+          {/* {imageSrc === undefined ? (
+            <CardMedia
+              sx={{
+                width: "13rem",
+                height: "11rem",
+                '@media (max-width: 1550px)': {
+                  width: "11rem",
+                },
+                '@media (max-width: 1110px)': {
+                  width: "9rem",
+                  height: "9rem",
+                },
+                '@media (max-width: 710px)': {
+                  width: "9rem",
+                  height: "12rem",
+                },
+                '@media (max-width: 650px)': {
+                  width: "8rem",
+                  height: "12rem",
+                },
+              }}
+            >
+              <Skeleton
+                animation="wave"
+                variant="rect"
+                width="100%"
+                height="100%"
+              />
+            </CardMedia>
+          ) : ( */}
+          {imageSrc === undefined ? (
+            <img className='elv_cardImage_img' src={noImageFound} alt=""
+              onClick={
+                () => {
+                  // handleIsSelected();
+                  onSelect(item)
+                }
+              }
+              onError={(e) => {
+                e.target.src = noImageFound
               }}
             />
-          )}
+          ) :
+            <img className='elv_cardImage_img' src={imageSrc} alt=""
+              onClick={
+                () => {
+                  // handleIsSelected();
+                  onSelect(item)
+                }
+              }
+              onError={(e) => {
+                e.target.src = noImageFound
+              }}
+            />
+          }
+          {/* )} */}
         </div>
         <div className='elv_ProductCard_details'>
           <div className={`elv_Product_details ${mobileScreen && item?.Remarks !== '' ? 'with-remarks' : ''}`}>
