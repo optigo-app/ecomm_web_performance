@@ -9,9 +9,9 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filt
         const email = sessionStorage.getItem("registerEmail") ?? "";
 
         // Choose source based on userLogin status
+        // const dataSource = userLogin ? userData : storeInit;
         const dataSource = userLogin ? userData : storeInit;
 
-        // Shared object with conditional data source
         const sharedParams = {
             FrontEnd_RegNo: storeInit?.FrontEnd_RegNo || "",
             Customerid: customerID || "",

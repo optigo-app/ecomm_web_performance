@@ -77,6 +77,7 @@ const Lookbook = () => {
   const [selectedCsId, setSelectedCsId] = useState(
     loginUserDetail?.cmboCSQCid ?? ""
   );
+  const [imageSources , setImageSources] = useState([]);
   const [productListData, setProductListData] = useState([]);
   const [locationKey, setLocationKey] = useState();
   const islogin = useRecoilValue(smrMA_loginState);
@@ -116,6 +117,15 @@ const Lookbook = () => {
       setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
       console.log("Size updated:", offsetWidth, offsetHeight);
     }
+  };
+
+  const checkImageAvailability = (url) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(url);
+      img.onerror = () => resolve(imageNotFound);
+      img.src = url;
+    });
   };
 
   const handleResize = () => {
@@ -572,7 +582,7 @@ const Lookbook = () => {
         }, {});
 
         setImageSources((prevSources) => {
-          const isDifferent = Object.keys(newImageSources).some(
+          const isDifferent = newImageSources && Object?.keys(newImageSources)?.some(
             (key) => newImageSources[key] !== prevSources[key]
           );
           return isDifferent ? newImageSources : prevSources;
@@ -1010,10 +1020,12 @@ const Lookbook = () => {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              width: 400,
+              width: 380,
               bgcolor: "background.paper",
               boxShadow: 24,
               p: 2,
+              margin:"0",
+              padding:'0 16px !important'
             }}
             className="smr_lookBookCategoryPoupuBox"
           >
@@ -1021,18 +1033,6 @@ const Lookbook = () => {
               <IoClose
                 style={{ height: "25px", width: "25px", color: "#000000ab" }}
               />
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-              {showSelectAll && (
-                <button
-                  variant="contained"
-                  onClick={handleSelectAll}
-                  style={{ marginTop: '10px' }}
-                  className="smrMA_selctAllCategoryBtn"
-                >
-                  Select All
-                </button>
-              )}
             </div>
             {filterData?.map((ele) => (
               <React.Fragment key={ele.id}>
@@ -1106,7 +1106,19 @@ const Lookbook = () => {
                 )}
               </React.Fragment>
             ))}
-          </Box>
+             <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+             {showSelectAll && (
+               <button
+               variant="contained"
+               onClick={handleSelectAll}
+               // style={{ marginTop: '10px' }}  
+               className="smrMA_selctAllCategoryBtn"
+               >
+                  Select All
+                </button>
+              )}
+              </div>
+                       </Box>
         </Modal>
         {isProdLoading ? (
           // true ?
@@ -1632,6 +1644,8 @@ const Lookbook = () => {
                         disabled={item.page === currentPage} 
                       />
                     )}
+                    hidePrevButton={currentPage === 1}
+                    hideNextButton={currentPage  === Math.ceil(dstCount / itemsPerPage)}
                   />
                 </div>
               </div>

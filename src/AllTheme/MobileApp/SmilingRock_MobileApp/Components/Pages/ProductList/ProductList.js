@@ -41,6 +41,7 @@ const ProductList = () => {
   let maxwidth590px = useMediaQuery('(max-width:590px)')
   let maxwidth464px = useMediaQuery('(max-width:464px)')
   const [isProductListData, setIsProductListData] = useState(false);
+  const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [productListData, setProductListData] = useState([]);
   const [priceListData, setPriceListData] = useState([]);
   const [finalProductListData, setFinalProductListData] = useState([]);
@@ -67,7 +68,6 @@ const ProductList = () => {
   );
 
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
-  const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
@@ -1046,49 +1046,7 @@ const ProductList = () => {
     }
   };
 
-  const handleBreadcums = (mparams) => {
 
-    let key = Object?.keys(mparams)
-    let val = Object?.values(mparams)
-
-    let KeyObj = {};
-    let ValObj = {};
-
-    key.forEach((value, index) => {
-      let keyName = `FilterKey${index === 0 ? '' : index}`;
-      KeyObj[keyName] = value;
-    });
-
-    val.forEach((value, index) => {
-      let keyName = `FilterVal${index === 0 ? '' : index}`;
-      ValObj[keyName] = value;
-    });
-
-    let finalData = { ...KeyObj, ...ValObj }
-
-    const queryParameters = [
-      finalData?.FilterKey && `${finalData.FilterVal}`,
-      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-    ].filter(Boolean).join('&');
-
-    const otherparamUrl = Object.entries({
-      b: finalData?.FilterKey,
-      g: finalData?.FilterKey1,
-      c: finalData?.FilterKey2,
-    })
-      .filter(([key, value]) => value !== undefined)
-      .map(([key, value]) => value)
-      .filter(Boolean)
-      .join('&');
-
-    const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
-
-    navigate(url);
-
-    console.log("mparams", KeyObj, ValObj)
-
-  }
 
   console.log("isSortByDrawerOpen", isSortByDrawerOpen);
 
@@ -1533,6 +1491,98 @@ const ProductList = () => {
 
     chechAllImages();
   }, [finalProductListData])
+
+  const BreadCumsObj = () => {
+    // Check if location.search exists and handle decoding and splitting safely
+    const breadCumSearch = location?.search?.slice(3);  // Skip the '?' part from the URL
+    const breadCumDecoded = breadCumSearch ? decodeURI(atob(breadCumSearch)) : ''; // Decode if search exists
+    const breadCumArray = breadCumDecoded.split('/'); // Split into segments
+  
+    // Safely extract 'values' and 'labels' from breadCumArray, defaulting to empty arrays if undefined
+    const values = breadCumArray[0]?.split(',') || [];
+    const labels = breadCumArray[1]?.split(',') || [];
+  
+    // Reduce labels to create the updatedBreadCum object, using default empty strings if no value is found
+    const updatedBreadCum = labels?.reduce((acc, label, index) => {
+      acc[label] = values[index] || '';  // Use empty string as fallback if no corresponding value
+      return acc;
+    }, {});
+  
+    // Safely build the result object, iterating over the entries of updatedBreadCum
+    const result = Object.entries(updatedBreadCum ?? {}).reduce((acc, [key, value], index) => {
+      acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
+      acc[`FilterVal${index === 0 ? '' : index}`] = value;
+      return acc;
+    }, {});
+  
+    // Safely decode the menuname from pathname and handle any missing data
+    const menuname = location?.pathname
+      ? decodeURI(location.pathname.slice(3).slice(0, -1).split('/')[0]) // Decode and process the pathname
+      : ''; // Default to an empty string if pathname is not available
+  
+    // Add menuname to result
+    result.menuname = menuname;
+  
+    return result;
+  };
+
+  const handleBreadcums = (mparams) => {
+    let key = Object?.keys(mparams);
+    let val = Object?.values(mparams);
+
+    let KeyObj = {};
+    let ValObj = {};
+
+    key.forEach((value, index) => {
+      let keyName = `FilterKey${index === 0 ? "" : index}`;
+      KeyObj[keyName] = value;
+    });
+
+    val.forEach((value, index) => {
+      let keyName = `FilterVal${index === 0 ? "" : index}`;
+      ValObj[keyName] = value;
+    });
+
+    let finalData = { ...KeyObj, ...ValObj };
+
+    const queryParameters1 = [
+      finalData?.FilterKey && `${finalData.FilterVal}`,
+      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+    ]
+      .filter(Boolean)
+      .join("/");
+
+    const queryParameters = [
+      finalData?.FilterKey && `${finalData.FilterVal}`,
+      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+    ]
+      .filter(Boolean)
+      .join(",");
+
+    const otherparamUrl = Object.entries({
+      b: finalData?.FilterKey,
+      g: finalData?.FilterKey1,
+      c: finalData?.FilterKey2,
+    })
+      .filter(([key, value]) => value !== undefined)
+      .map(([key, value]) => value)
+      .filter(Boolean)
+      .join(",");
+
+    let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+
+    const url = `/p/${BreadCumsObj()?.menuname}/${queryParameters1}/?M=${btoa(
+      menuEncoded
+    )}`;
+    // const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
+
+    navigate(url);
+
+    // console.log("mparams", KeyObj, ValObj)
+  };
+  
 
 
   return (
@@ -2215,7 +2265,10 @@ const ProductList = () => {
 
                       </div>}
 
-                    <div className="smr_mainPortion" style={{ marginTop: '50px' }}>
+                    <div className="smr_mainPortion" style={{ marginTop: '50px',display:'flex',flexDirection:'column' }}>
+                      <div className="breadcrumb_mapp">
+                       <BreadCumView BreadCumsObj={BreadCumsObj}  handleBreadcums={handleBreadcums} IsBreadCumShow={IsBreadCumShow}/>
+                      </div>
                       <div className="smr_filter_portion">
                         {filterData?.length > 0 && <div className="smr_filter_portion_outter">
                           <span className="smr_filter_text">
@@ -2688,4 +2741,121 @@ const styles = {
     fontWeight: 'bold',
     fontSize: '14px'
   },
+};
+
+
+const BreadCumView = ({ BreadCumsObj, handleBreadcums, IsBreadCumShow }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const pathname = location?.pathname || '';
+const pathSegments = pathname.split('/'); 
+
+const secondSegment = pathSegments.length > 2 ? decodeURIComponent(pathSegments[2]) : null;
+console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
+  return (
+    <div className="breadcrumb_fmg">
+      <div className="empty_sorting_div_fmg">
+        <span
+          className="mala_breadcums_port_fmg"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          {"Home /"}
+        </span>
+
+        {location?.search.charAt(1) == "A" && (
+          <div
+            className="mala_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+            <span>{"Album"}</span>
+          </div>
+        )}
+
+        {location?.search.charAt(1) == "T" && (
+          <div
+            className="mala_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+            <span>{"Trending"}</span>
+          </div>
+        )}
+
+        {location?.search.charAt(1) == "S" && (
+          <div
+            className="mala_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+        {secondSegment}
+          </div>
+        )}
+
+        {location?.search.charAt(1) == "B" && (
+          <div
+            className="mala_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+            <span>{"Best Seller"}</span>
+          </div>
+        )}
+
+        {location?.search.charAt(1) == "N" && (
+          <div
+            className="mala_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+            <span>{"New Arrival"}</span>
+          </div>
+        )}
+
+        {IsBreadCumShow && (
+          <div
+            className="mala_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+            {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
+            {BreadCumsObj()?.menuname && (
+              <span
+                onClick={() =>
+                  handleBreadcums({
+                    [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+                  })
+                }
+              >
+                {location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname}
+              </span>
+            )}
+
+            {BreadCumsObj()?.FilterVal1 && (
+              <span
+                onClick={() =>
+                  handleBreadcums({
+                    [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+                    [BreadCumsObj()?.FilterKey1]: BreadCumsObj()?.FilterVal1,
+                  })
+                }
+              >
+                &nbsp;{` / ${BreadCumsObj()?.FilterVal1}`}
+              </span>
+            )}
+
+            {BreadCumsObj()?.FilterVal2 && (
+              <span
+                onClick={() =>
+                  handleBreadcums({
+                    [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+                    [BreadCumsObj()?.FilterKey1]: BreadCumsObj()?.FilterVal1,
+                    [BreadCumsObj()?.FilterKey2]: BreadCumsObj()?.FilterVal2,
+                  })
+                }
+              >
+                &nbsp;{` / ${BreadCumsObj()?.FilterVal2}`}
+              </span>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };

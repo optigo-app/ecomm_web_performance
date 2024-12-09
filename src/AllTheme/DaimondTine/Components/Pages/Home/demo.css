@@ -1,0 +1,201 @@
+:root {
+    --diamondtine-primary-bg: #fdf6f6;
+    --diamondtine-secondary-bg: #ffffff;
+    --diamondtine-text-color: #333333;
+    --diamondtine-accent-color: #d4a977;
+    --diamondtine-border-color: #f0e0e0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--diamondtine-primary-bg);
+    color: var(--diamondtine-text-color);
+}
+
+.diamondtine-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.diamondtine-header {
+    background-color: var(--diamondtine-secondary-bg);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--diamondtine-border-color);
+}
+
+.diamondtine-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.diamondtine-logo {
+    max-width: 150px;
+}
+
+.diamondtine-nav-icons {
+    display: flex;
+    gap: 20px;
+}
+
+.diamondtine-nav-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.diamondtine-hero {
+    background-color: var(--diamondtine-secondary-bg);
+    text-align: center;
+    padding: 40px 0;
+}
+
+.diamondtine-hero h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.diamondtine-hero p {
+    color: var(--diamondtine-accent-color);
+    margin-bottom: 20px;
+}
+
+.diamondtine-cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--diamondtine-accent-color);
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.diamondtine-category-icons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px 0;
+    flex-wrap: wrap;
+}
+
+.diamondtine-category-icon {
+    width: 50px;
+    height: 50px;
+    background-color: var(--diamondtine-secondary-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.diamondtine-product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.diamondtine-product-card {
+    background-color: var(--diamondtine-secondary-bg);
+    padding: 10px;
+    text-align: center;
+    border: 1px solid var(--diamondtine-border-color);
+}
+
+.diamondtine-product-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.diamondtine-product-title {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.diamondtine-product-price {
+    color: var(--diamondtine-accent-color);
+    font-weight: bold;
+}
+
+.diamondtine-banner {
+    background-color: var(--diamondtine-secondary-bg);
+    padding: 40px 0;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.diamondtine-banner img {
+    max-width: 100%;
+    height: auto;
+}
+
+.diamondtine-instagram-feed {
+    padding: 40px 0;
+    text-align: center;
+}
+
+.diamondtine-instagram-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.diamondtine-instagram-post img {
+    width: 100%;
+    height: auto;
+}
+
+.diamondtine-footer {
+    background-color: #000000;
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.diamondtine-footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.diamondtine-footer-section {
+    margin-bottom: 20px;
+}
+
+.diamondtine-footer-section h3 {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.diamondtine-footer-section ul {
+    list-style-type: none;
+}
+
+.diamondtine-footer-section ul li {
+    margin-bottom: 5px;
+}
+
+.diamondtine-footer-section ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .diamondtine-product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .diamondtine-instagram-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+}

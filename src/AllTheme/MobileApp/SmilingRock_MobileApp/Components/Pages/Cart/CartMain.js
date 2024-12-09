@@ -15,8 +15,16 @@ const CartMain = () => {
 
     return (
         <div>
-            <p className="SmiCartListTitle">
-                <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigation(-1)} />My Cart
+            <p className="SmiCartListTitle" style={{
+                marginTop:'1rem',
+                display:'flex',
+                alignItems: 'center',
+                fontSize: '1rem',
+                fontWeight: 'bold',
+                marginBottom: '1rem',
+                color: '#333',
+            }}>
+                <IoArrowBack size={22} style={{ marginRight: '10px' }} onClick={() => navigation(-1)} />My Cart
             </p>
             {storeInitData && storeInitData.IsB2BWebsite == 1 ? (
                 <B2bCart />
