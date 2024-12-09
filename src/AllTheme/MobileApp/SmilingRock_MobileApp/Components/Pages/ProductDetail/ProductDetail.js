@@ -651,18 +651,28 @@ const ProductDetail = () => {
 
     const FetchProductData = async () => {
 
+      let obj1 = {
+        mt: logininfoInside?.MetalId ?? storeinitInside?.MetalId,
+        diaQc: diaArr
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+        csQc: csArr
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
+      };
+
       let obj = {
         mt: metalArr
           ? metalArr
           : logininfoInside?.MetalId ?? storeinitInside?.MetalId,
         diaQc: diaArr
-          ? `${diaArr?.QualityId},${diaArr?.ColorId}`
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
           : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
         csQc: csArr
-          ? `${csArr?.QualityId},${csArr?.ColorId}`
-
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
           : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
       };
+
 
       // console.log("objjj",obj)
       setProdLoading(true)
@@ -732,7 +742,7 @@ const ProductDetail = () => {
             }
 
             if (storeinitInside?.IsProductDetailDesignSet === 1) {
-              await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
+              await DesignSetListAPI(obj1, resp?.pdList[0]?.designno, cookie).then((res) => {
                 // console.log("designsetList",res?.Data?.rd[0])
                 setDesignSetList(res?.Data?.rd)
               }).catch((err) => console.log("designsetErr", err))
@@ -1334,7 +1344,7 @@ const ProductDetail = () => {
                           pagination={{
                             clickable: true,
                             renderBullet: (index, className) => {
-                              const isVideo = mediaItems[index]?.split('.')[1] === 'mp4'; // Check if media is a video
+                              const isVideo = mediaItems[index]?.split('.')[1] === 'mp4'; 
                               return `
                                 <button class="${className} flex items-center justify-center w-8 h-8 rounded-full bg-transparent">
                                   ${isVideo 
@@ -1345,7 +1355,6 @@ const ProductDetail = () => {
                               `;
                             }
                           }}
-                          
                         >
                           {
                             !(isImageload === false && !(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0))  ?
@@ -2199,6 +2208,9 @@ const ProductDetail = () => {
                       {SimilarBrandArr?.map((ele) => (
                         <div className="smr_stockItemCard" onClick={() => setTimeout(() => handleMoveToDetail(ele), 500)}>
                           <img
+                          style={{
+                            objectFit:'contain'
+                          }}
                             className="smrMA_productCard_Image"
                             src={
 
@@ -2213,6 +2225,9 @@ const ProductDetail = () => {
                               imageNotFound
                             }
                             alt={""}
+                            onError={(e)=>{
+                              e.target.src = imageNotFound ;
+                            }}
                           />
                           <div className="smr_stockutem_shortinfo" style={{ display: 'flex', flexDirection: 'column', gap: '5px', paddingBottom: '5px' }}>
                             <span className="smr_prod_designno" style={{ fontSize: '14px' }}>
@@ -2285,6 +2300,10 @@ const ProductDetail = () => {
                               </div>
 
                               <div
+                                 style={{
+                                  overflowX: "auto",
+                                  maxHeight:'400px !important'
+                                }}  
                                 className={
                                   (designSetList?.Designdetail == undefined
                                     ? []
@@ -2293,10 +2312,7 @@ const ProductDetail = () => {
                                     ? "compeletethelook_prodt_for_3"
                                     : "compeletethelook_prodt"
                                 }
-                                style={{
-                                  height: "360px !important",
-                                  overflowX: "auto"
-                                }}  
+                             
                               >
                                 <p
                                   style={{
@@ -2309,6 +2325,13 @@ const ProductDetail = () => {
                                   Complete The Look
                                 </p>
 
+                                <div className="list_Smr_lookbook"
+                                style={{
+                                  width: '100%',
+                                  height: '367px',
+                                  overflow: 'auto',
+                                }}
+                                >
                                 {(designSetList?.Designdetail == undefined
                                   ? []
                                   : JSON.parse(designSetList?.Designdetail)
@@ -2332,9 +2355,6 @@ const ProductDetail = () => {
                                               : imageNotFound
                                           }
                                           alt={""}
-                                          // src={
-                                          //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
-                                          // }
                                           className="srthelook_img"
                                           onError={(e)=>{
                                             e.target.src=imageNotFound;
@@ -2375,6 +2395,7 @@ const ProductDetail = () => {
                                     </div>
                                   </div>
                                 ))}
+                                </div>
                               </div>
                             </div>
                           </SwiperSlide>
