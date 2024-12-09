@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./Header.modul.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import Cookies from "js-cookie";
 import {
@@ -483,6 +483,70 @@ const Header = () => {
     });
   }, []);
 
+//   const HandleMoveToMenu = (MenuId) => {
+//     navigation('/');
+//     setTimeout(() => {
+//         const targetElement = document.querySelector(`[name='${MenuId}']`);
+//         if (targetElement) {
+//             const rect = targetElement.getBoundingClientRect();
+//             const offsetTop = window.pageYOffset + rect.top;
+//             let top = 135 ;
+//             if(MenuId === 'elveeGiftMainId'){
+//                 top = 70;
+//             }
+
+//             window.scrollTo({
+//                 top: offsetTop - top, 
+//                 behavior: 'smooth'  
+//             });
+//         }
+//     }, 100);  
+// }
+
+const location  = useLocation();
+const [Menu,setMenuId] =useState('')
+
+const HandleMoveToMenu = (MenuId) => {
+  const isContactPage = location.pathname === "/contact-us"; // Check if the user is on the contact page
+
+  if (isContactPage) {
+    // If user is on contact page, navigate to home
+    navigation('/');
+  }
+
+  setMenuId(MenuId); // Set the target menu ID
+};
+
+useEffect(() => {
+  if (Menu !== '') {
+    // Wait for the next frame to make sure everything is loaded
+    const checkIfLoaded = () => {
+      const targetElement = document.querySelector(`[name='${Menu}']`);
+
+      if (targetElement) {
+        const rect = targetElement.getBoundingClientRect();
+        const offsetTop = window.pageYOffset + rect.top;
+        let top = 135 ;
+                    if(Menu === 'elveeGiftMainId'){
+                        top = 70;
+                    }
+        
+                    window.scrollTo({
+                        top: offsetTop - top, 
+                        behavior: 'smooth'  
+                    });
+      } else {
+        // Retry if element isn't found yet (due to dynamic loading)
+        requestAnimationFrame(checkIfLoaded);
+      }
+    };
+
+    requestAnimationFrame(checkIfLoaded); // Start checking for the target element
+  }
+}, [Menu]); //
+
+
+
   return (
     <>
       <div className="el_header_main">
@@ -524,21 +588,24 @@ const Header = () => {
                     <li
                       className="el_whioutL_li"
                       style={{ cursor: "pointer" }}
-                      onClick={() => ScrollToView("brandsComponentID")}
+                      // onClick={() => ScrollToView("brandsComponentID")}
+                      onClick={()=>HandleMoveToMenu('brandsComponentID')}
                     >
                       Our Brands
                     </li>
                     <li
                       className="el_whioutL_li"
                       style={{ cursor: "pointer" }}
-                      onClick={() => ScrollToView("elveeGiftMainId")}
+                      // onClick={() => ScrollToView("elveeGiftMainId")}
+                      onClick={()=>HandleMoveToMenu('elveeGiftMainId')}
                     >
                       Product
                     </li>
                     <li
                       className="el_whioutL_li"
                       style={{ cursor: "pointer" }}
-                      onClick={() => ScrollToView("craftmenshipId")}
+                      // onClick={() => ScrollToView("craftmenshipId")}
+                      onClick={()=>HandleMoveToMenu('craftmenshipId')}
                     >
                       Our Craftsmanship
                     </li>
@@ -559,14 +626,18 @@ const Header = () => {
                       <li
                         className="el_whioutL_li"
                         style={{ cursor: "pointer" }}
-                        onClick={() => ScrollToView("mainGalleryConatinerID")}
+                        // onClick={() => ScrollToView("mainGalleryConatinerID")}
+                      onClick={()=>HandleMoveToMenu('mainGalleryConatinerID123')}
+
                       >
                         Gallery
                       </li>
                       <li
                         className="el_whioutL_li"
                         style={{ cursor: "pointer" }}
-                        onClick={() => ScrollToView("mainSocialMediaConatinerID")}
+                        // onClick={() => ScrollToView("mainSocialMediaConatinerID")}
+                      onClick={()=>HandleMoveToMenu('mainSocialMediaConatinerID')}
+
                       >
                         Social Media
                       </li>

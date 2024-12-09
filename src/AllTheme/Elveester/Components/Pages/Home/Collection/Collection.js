@@ -4,7 +4,7 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 
 const Collection = () => {
     return (
-        <div className='el_Collection_main' id="elveeGiftMainId">
+        <div className='el_Collection_main' id="elveeGiftMainId" name='elveeGiftMainId'>
             <p className='gorGiftBoxMainTitleMobile'>Gifting Made Easy</p>
             <div className='gorGiftMain'>
                 <div className='gorGiftBox1'>

@@ -144,6 +144,25 @@ const DesignSet = () => {
         setShowAll(true);
     };
 
+    const handleNavigate = () => {
+        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+
+        const link  = `/Lookbook` ;
+
+        if (storeinit?.IsB2BWebsite == 1) {
+            if (islogin) {
+                navigation(link);
+            } else {
+                localStorage.setItem('redirectLookBook',link);
+                navigation('/signin')
+            }
+        } else {
+            navigation(link);
+        }
+        window.scrollTo({behavior:"smooth",top:0})
+    };
+
+
     const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 5);
 
     return (
@@ -151,7 +170,7 @@ const DesignSet = () => {
             <div className='smr_designSetMainDiv'>
                 <div className="designset_title_smrmp">
                 <p className='smapp_linkingTitle'>Complete Your Look</p>
-                <p className='smapp_TrendingViewAll' onClick={()=>{navigation('/Lookbook') ;window.scrollTo({behavior:"smooth",top:0})}}>View More</p>
+                <p className='smapp_TrendingViewAll' onClick={handleNavigate}>View More</p>
                 </div>
                 <div className='smr_designSetDiv1'>
                     <img className="smr_designSetDiv1_img" loading="lazy" src={`${imageUrl}${designSetList[0]?.designsetuniqueno}/${designSetList[0]?.DefaultImageName}`} onClick={() => handleNavigation(designSetList[0]?.designno, designSetList[0]?.autocode, designSetList[0]?.TitleLine ? designSetList[0]?.TitleLine : '')} />

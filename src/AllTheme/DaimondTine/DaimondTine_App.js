@@ -193,7 +193,7 @@ const DaimondTine_App = () => {
       </Routes>
       <ScrollToTop />
       <WhtasIcone phoneNo='9810976359'/>
-      </Suspense>
+      </Suspense> 
     </div>
   )
 }

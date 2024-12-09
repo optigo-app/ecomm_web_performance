@@ -119,10 +119,12 @@ const BestSellerSection = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
+        const link = `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}` ;
         if(storeinit?.IsB2BWebsite == 1){
           if(islogin){
-            navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+            navigation(link)
           }else{
+            localStorage.setItem('redirectLookBook',link);
             navigation('/signin')
           }
         }else{
@@ -132,14 +134,16 @@ const BestSellerSection = () => {
 
     const handleNavigate = () =>{
       let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+      const link = `/p/BestSeller/?B=${btoa('BestSeller')}` ;
       if(storeinit?.IsB2BWebsite == 1){
         if(islogin){
-      navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)
+      navigation(link)
         }else{
+            localStorage.setItem('redirectLookBook',link);
           navigation('/signin')
         }
       }else{
-      navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)
+      navigation(link)
       }
     }
 

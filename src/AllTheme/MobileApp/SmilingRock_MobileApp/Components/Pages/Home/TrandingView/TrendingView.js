@@ -135,15 +135,16 @@ const TrendingView = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-
+      const link = `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`;
         if (IsB2BWebsite == 1) {
             if (islogin) {
-                navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+                navigation(link)
             } else {
+                localStorage.setItem('redirectLookBook',link);
                 navigation('/signin')
             }
         } else {
-            navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+                navigation(link)
         }
     }
 
@@ -155,14 +156,16 @@ const TrendingView = () => {
 
     const handleNavigate = () => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+        const link = `/p/Trending/?T=${btoa('Trending')}` ;
         if (storeinit?.IsB2BWebsite == 1) {
             if (islogin) {
-                navigation(`/p/Trending/?T=${btoa('Trending')}`)
+                navigation(link)
             } else {
+                localStorage.setItem('redirectLookBook',link);
                 navigation('/signin')
             }
         } else {
-            navigation(`/p/Trending/?T=${btoa('Trending')}`)
+            navigation(link)
         }
     }
 
