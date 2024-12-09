@@ -21,7 +21,7 @@ const sliderData = [
 
 export default function Craftmenship() {
     return (
-        <div className='el_craftmenshipId_main' id="craftmenshipId">
+        <div className='el_craftmenshipId_main' name='craftmenshipId' id="craftmenshipId">
             <div className='elv_craftman_div'>
                 <p className='craftmenship'>Our Craftmenship</p>
                 <span className='elv_craft_subtitle'>Crafting Timeless Elegance with Precision</span>

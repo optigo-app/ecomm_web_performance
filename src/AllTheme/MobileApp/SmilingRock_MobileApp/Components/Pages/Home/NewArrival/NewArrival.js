@@ -122,21 +122,17 @@ const NewArrival = () => {
       f: {},
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
-
+    const link =  `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
+          }${designNo}?p=${encodeObj}`;
     if (storeinit?.IsB2BWebsite == 1) {
       if (islogin) {
-        navigation(
-          `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
-          }${designNo}?p=${encodeObj}`
-        );
+        navigation(link);
       } else {
+        localStorage.setItem('redirectLookBook',link);
         navigation("/signin");
       }
     } else {
-      navigation(
-        `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
-        }${designNo}?p=${encodeObj}`
-      );
+      navigation(link);
     }
   };
 

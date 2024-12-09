@@ -105,6 +105,9 @@
       align-items: center;
       padding-bottom: 4px;
       padding-left: 4px;
+      span{
+        font-size: 12.5px !important;
+      }
       .empty_sorting_div_fmg {
         display: flex;
         align-items: center;
@@ -113,7 +116,7 @@
         color: rgba(77, 77, 77, 0.966) !important;
         span {
           cursor: pointer !important;
-          font-size: 13.5px;
+          font-size: 12.5px;
 
           &:hover {
             color: #17372f;

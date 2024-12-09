@@ -75,7 +75,11 @@ const AddressManagement = () => {
 
     return (
         <div className='smrMo_DeliverMainDiv'>
-            <p className="SmiCartListTitle">
+            <p className="SmiCartListTitle" style={{
+                marginTop:'1rem',
+                display:'flex',
+                alignItems:'center'
+            }}>
                 <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigate(-1)} />Select delivery address
             </p>
             <div className='smrMo_secondMaindivAdd'>

@@ -552,6 +552,9 @@ const ProductList = () => {
 
     if (location?.key) {
       setLocationKey(location?.key);
+
+
+      
     }
     setCurrPage(1)
     window.scrollTo({

@@ -1422,7 +1422,7 @@ const Lookbook = () => {
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    margin: "0px 5px 25px 5px",
+                    margin: "0px 5px 2.5px 5px",
                     gap: '20px'
                   }}
                 >

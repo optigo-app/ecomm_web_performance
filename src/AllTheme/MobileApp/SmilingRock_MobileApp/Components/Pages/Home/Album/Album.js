@@ -115,14 +115,16 @@ const Album = () => {
   
     const handleNavigate = (name) => {
       let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+      const link = `/p/${name}/?A=${btoa(`AlbumName=${name}`)}` ;
       if (storeinit?.IsB2BWebsite == 1) {
         if (islogin) {
-          navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
+          navigation(link)
         } else {
+          localStorage.setItem('redirectLookBook',link);
           navigation('/signin')
         }
       } else {
-        navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
+        navigation(link)
       }
     }
     const scrollRef = useRef(null);

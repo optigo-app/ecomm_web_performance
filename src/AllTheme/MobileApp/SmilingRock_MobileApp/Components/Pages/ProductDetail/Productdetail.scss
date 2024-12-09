@@ -49,6 +49,12 @@
     justify-content: center;
     align-items: center;
     // margin-left: 51px;
+    .swiper-button-prev{
+        display: none;
+    }
+    .swiper-button-next{
+        display: none;
+    }
 }
 
 .smr_prod_img{
@@ -308,6 +314,7 @@
 .smr_stockitem_container{
     width:100%
 }
+
 
 .smr_stock_item_card{
     display: flex;
