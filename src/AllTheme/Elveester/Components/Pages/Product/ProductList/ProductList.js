@@ -465,7 +465,13 @@ const ProductList = () => {
   }, []);
 
   useEffect(() => {
+    // const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    // setSelectedMetalId(loginUserDetail?.MetalId)
+    // setSelectedDiaId(loginUserDetail?.cmboDiaQCid);
+    // setSelectedCsId(loginUserDetail?.cmboCSQCid);
     const fetchData = async () => {
+      setTrend('Recommeded');
+      setSortBySelect('Recommended');
       try {
         let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
         let UrlVal = location?.search?.slice(1).split("/");
@@ -1996,8 +2002,14 @@ const ProductList = () => {
                     flex: "100%",
                   }}
                 >
-                  <ProductListSkeleton />
-                  <ProductFilterSkeleton />
+                  {!maxwidth700px ? (
+                    <>
+                      <ProductListSkeleton />
+                      <ProductFilterSkeleton />
+                    </>
+                  ) :
+                    <ProductFilterSkeleton />
+                  }
                 </div>
               </>
             ) : (
@@ -2024,6 +2036,22 @@ const ProductList = () => {
                           }}
                         >
                           <div className="elv_filtered_category_div ">
+                            <div className="elv_filtered_data_div_filter_drawer">
+                              <div className="elv_filtered_data_text">Filter</div>
+                              <div
+                                className="elv_filter_data_clearAll"
+                                onClick={() => handelFilterClearAll()}
+                              >
+                                {Object.values(filterChecked).filter(
+                                  (ele) => ele.checked
+                                )?.length > 0 ? (
+                                  "Clear All"
+                                ) : (
+                                  <span>{`Total Products: ${afterFilterCount || 0
+                                    }`}</span>
+                                )}
+                              </div>
+                            </div>
                             {filterData?.map((item, index) => {
                               return (
                                 <>
@@ -2626,7 +2654,17 @@ const ProductList = () => {
                       )}
                     </div>
                     {isOnlyProdLoading ? (
-                      <ProductFilterSkeleton />
+                      <>
+                        {!maxwidth700px ? (
+
+                          <ProductFilterSkeleton />
+                        ) :
+                          <>
+                            <ProductListSkeleton />
+                            <ProductFilterSkeleton />
+                          </>
+                        }
+                      </>
                     ) : (
                       <>
                         {productListData.length == 0 ? (
@@ -2707,21 +2745,19 @@ const ProductList = () => {
                                   ) > 1 && (
                                     <div className="pagination-container">
                                       <Pagination
-                                        className="pagination_div"
-                                        count={Math.ceil(
-                                          afterFilterCount / storeInit.PageSize
-                                        )}
+                                        count={Math.ceil(afterFilterCount / storeInit.PageSize)}
                                         size={maxwidth464px ? "small" : "large"}
                                         shape="circular"
                                         onChange={handelPageChange}
                                         page={currPage}
                                         showFirstButton
                                         showLastButton
-                                        disabled={false} // Don't disable the whole pagination component
                                         renderItem={(item) => (
                                           <PaginationItem
                                             {...item}
-                                            disabled={item.page === currPage}
+                                            sx={{
+                                              pointerEvents: item.page === currPage ? 'none' : 'auto',
+                                            }}
                                           />
                                         )}
                                       />

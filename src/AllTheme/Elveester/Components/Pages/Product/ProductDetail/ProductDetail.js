@@ -470,6 +470,7 @@ const ProductDetail = () => {
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
     let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+    let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let decodeobj = decodeAndDecompress(navVal);
     if (decodeobj) {
       setDecodeUrl(decodeobj);
@@ -518,10 +519,32 @@ const ProductDetail = () => {
     const FetchProductData = async () => {
       const res1 = await FilterListAPI(decodeobj?.g, cookie);
       setFilterData(res1)
+      // let obj = {
+      //   mt: metalArr,
+      //   diaQc: `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`,
+      //   csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`,
+      // };
+
+      let obj1 = {
+        mt: logininfoInside?.MetalId ?? storeinitInside?.MetalId,
+        diaQc: diaArr
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+        csQc: csArr
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
+      };
+
       let obj = {
-        mt: metalArr,
-        diaQc: `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`,
-        csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`,
+        mt: metalArr
+          ? metalArr
+          : logininfoInside?.MetalId ?? storeinitInside?.MetalId,
+        diaQc: diaArr
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+        csQc: csArr
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
       };
 
       setisPriceLoading(true);
@@ -572,7 +595,7 @@ const ProductDetail = () => {
               }
 
               if (storeinitInside?.IsProductDetailDesignSet === 1) {
-                await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
+                await DesignSetListAPI(obj1, resp?.pdList[0]?.designno, cookie).then((res) => {
                   setDesignSetList(res?.Data?.rd)
                 }).catch((err) => console.log("designsetErr", err))
               }
@@ -1995,7 +2018,7 @@ const ProductDetail = () => {
                     <div className='elv_Product_prod_desc_data'>
                       <h1 className='elv_ProductDet_prod_title'>{singleProd?.TitleLine}</h1>
                       <div className='elv_ProductDet_det'>
-                         <h5 className='elv_ProductDet_prod_code_Coll'>{getCollName}</h5>
+                        <h5 className='elv_ProductDet_prod_code_Coll'>{getCollName}</h5>
                         <span className='elv_ProductDet_prod_code'>{singleProd?.designno}</span>
                         <div className='elv_productDet_metal_style'>
                           {singleProd?.MetalTypePurity !== "" &&

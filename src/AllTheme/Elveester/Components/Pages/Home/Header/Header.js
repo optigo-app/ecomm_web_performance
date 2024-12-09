@@ -1022,6 +1022,8 @@ const Header = () => {
                 textTransform: "uppercase",
                 maxWidth: '70rem',
                 overflowX: 'auto',
+                scrollbarWidth: "thin",
+                msOverflowStyle: "none",
               }}
             >
               {selectedData?.param1?.map((param1Item, param1Index) => {
