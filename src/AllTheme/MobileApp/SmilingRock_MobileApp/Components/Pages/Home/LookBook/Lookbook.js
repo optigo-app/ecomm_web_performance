@@ -119,14 +119,14 @@ const Lookbook = () => {
     }
   };
 
-  const checkImageAvailability = (url) => {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => resolve(url);
-      img.onerror = () => resolve(imageNotFound);
-      img.src = url;
-    });
-  };
+  // const checkImageAvailability = (url) => {
+  //   return new Promise((resolve) => {
+  //     const img = new Image();
+  //     img.onload = () => resolve(url);
+  //     img.onerror = () => resolve(imageNotFound);
+  //     img.src = url;
+  //   });
+  // };
 
   const handleResize = () => {
     updateSize();
@@ -571,7 +571,7 @@ const Lookbook = () => {
     });
   }
 
-  const [imageSources, setImageSources] = React.useState({});
+  // const [imageSources, setImageSources] = React.useState({});
 
   useEffect(() => {
     if (filteredDesignSetLstData && Array.isArray(filteredDesignSetLstData)) {
