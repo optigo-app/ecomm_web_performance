@@ -22,6 +22,12 @@
 .smr_prod_detail_main{
     width:100%
 }
+.list_Smr_lookbook{
+    ::-webkit-scrollbar{
+        width: 15px;
+        background-color: gray;
+    }
+}
 
 .smr_prod_image_shortInfo{
     width:100%;
