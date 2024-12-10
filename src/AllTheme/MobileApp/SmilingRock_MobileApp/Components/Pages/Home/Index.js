@@ -54,7 +54,7 @@ const Home = () => {
               }
             }).catch((err) => {
               if (err) {
-                console.log("getCountApiErr", err);
+                return err;
               }
             })
 

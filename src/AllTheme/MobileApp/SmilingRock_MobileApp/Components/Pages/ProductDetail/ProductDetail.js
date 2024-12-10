@@ -1344,7 +1344,10 @@ const ProductDetail = () => {
                           pagination={{
                             clickable: true,
                             renderBullet: (index, className) => {
-                              const isVideo = mediaItems[index]?.split('.')[1] === 'mp4'; 
+                              const mediaItem = mediaItems[index];
+                              if (!mediaItem || typeof mediaItem !== 'string') return null;
+                              const videoFormats = /\.(mp4|mov|avi|wmv|flv|webm|ogv|mkv)$/i;
+                              const isVideo = videoFormats.test(mediaItem);  
                               return `
                                 <button class="${className} flex items-center justify-center w-8 h-8 rounded-full bg-transparent">
                                   ${isVideo 
@@ -1356,7 +1359,7 @@ const ProductDetail = () => {
                             }
                           }}
                         >
-                          {
+                          {/* {
                             !(isImageload === false && !(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0))  ?
                             ([...pdThumbImg,...pdVideoArr]?.map((ele,i)=>(
                               <SwiperSlide key={i}>
@@ -1401,7 +1404,57 @@ const ProductDetail = () => {
                                 className="smr_prod_img"
                               />                        
                             )
-                          }
+                          } */}
+                          {
+  !(isImageload === false && !(pdThumbImg?.length || pdVideoArr?.length)) ?
+    ([...pdThumbImg, ...pdVideoArr]?.map((ele, i) => {
+      // Check if the element is a valid string and then check the format
+      if (typeof ele !== 'string') return null;
+
+      const videoFormats = /\.(mp4|mov|avi|wmv|flv|webm|ogv|mkv)$/i;
+      const isVideo = videoFormats.test(ele);
+
+      return (
+        <SwiperSlide key={i}>
+          {isVideo ? (
+            <div className="smr_app_prod_video">
+              <video
+                ref={videoRef} // Ensure this ref is initialized
+                src={ele ?? imageNotFound}
+                loop={true}
+                autoPlay={true}
+                style={{
+                  width: "100%",
+                  objectFit: "cover",
+                  height: "90%",
+                  borderRadius: "8px",
+                }}
+                muted={true}
+                playsInline={true}
+              />
+            </div>
+          ) : (
+            <img
+              src={ele ?? imageNotFound}
+              onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+              alt=""
+              onLoad={() => setIsImageLoad(false)}
+              className="smr_prod_img"
+            />
+          )}
+        </SwiperSlide>
+      );
+    })) :
+    (
+      <img
+        src={imageNotFound}
+        alt="fallback"
+        onLoad={() => setIsImageLoad(false)}
+        className="smr_prod_img"
+      />
+    )
+}
+
                         </Swiper>                        
                         
                         {/* {selectedThumbImg?.type == "img" ? (
@@ -2328,7 +2381,7 @@ const ProductDetail = () => {
                                 <div className="list_Smr_lookbook"
                                 style={{
                                   width: '100%',
-                                  height: '367px',
+                                  height: '390px',
                                   overflow: 'auto',
                                 }}
                                 >
