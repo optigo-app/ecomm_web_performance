@@ -465,13 +465,7 @@ const ProductList = () => {
   }, []);
 
   useEffect(() => {
-    // const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    // setSelectedMetalId(loginUserDetail?.MetalId)
-    // setSelectedDiaId(loginUserDetail?.cmboDiaQCid);
-    // setSelectedCsId(loginUserDetail?.cmboCSQCid);
     const fetchData = async () => {
-      setTrend('Recommeded');
-      setSortBySelect('Recommended');
       try {
         let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
         let UrlVal = location?.search?.slice(1).split("/");
@@ -560,7 +554,7 @@ const ProductList = () => {
       setLocationKey(location?.key);
 
 
-      
+
     }
     setCurrPage(1)
     window.scrollTo({

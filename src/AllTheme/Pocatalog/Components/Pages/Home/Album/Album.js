@@ -34,19 +34,19 @@ const Album = () => {
     setImageUrl(storeinit?.AlbumImageFol || "");
   }, []);
 
-  useEffect(() => {
-    const checkImages = async () => {
-      const status = {};
-      for (const data of designSubData) {
-        const imageUrlI = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
-        const available = await checkImageAvailability(imageUrlI);
-        status[imageUrlI] = available;
-      }
-      setImageStatusModel(status);
-    };
+  // useEffect(() => {
+  //   const checkImages = async () => {
+  //     const status = {};
+  //     for (const data of designSubData) {
+  //       const imageUrlI = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
+  //       // const available = await checkImageAvailability(imageUrlI);
+  //       status[imageUrlI] = imageUrlI;
+  //     }
+  //     setImageStatusModel(status);
+  //   };
 
-    checkImages();
-  }, [designSubData, imageUrl]);
+  //   checkImages();
+  // }, [designSubData, imageUrl]);
 
   useEffect(() => {
     const fetchAlbumData = async () => {
@@ -82,7 +82,8 @@ const Album = () => {
       return;
     }
     try {
-      const response = await Get_Procatalog("GETProcatalog", finalID, value);
+      // const response = await Get_Procatalog("GETProcatalog", finalID, value);
+      const response = await Get_Procatalog("GET_Procatalog", finalID, value);
       if (response?.Data?.rd) {
         const albums = response.Data.rd;
         setAlbumData(albums);
@@ -91,28 +92,32 @@ const Album = () => {
         const fallbackImages = {};
         for (const data of albums) {
           const fullImageUrl = `${storeInit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
-          let imageAvailable;
-          if(data?.AlbumImageName !== ""){
-            imageAvailable = await checkImageAvailability(fullImageUrl);
-          }else{
-            imageAvailable = false;
-          }
-          if (!imageAvailable && data?.AlbumDetail) {
+          // let imageAvailable;
+          // if(data?.AlbumImageName !== ""){
+          //   imageAvailable = await checkImageAvailability(fullImageUrl);
+          // }else{
+          //   imageAvailable = false;
+          // }
+          if (![storeInit?.AlbumImageFol, data?.AlbumImageFol, data?.AlbumImageName].every(Boolean) && data?.AlbumDetail) {
             const albumDetails = JSON.parse(data.AlbumDetail);
-            albumDetails.forEach((detail) => {
-              if (detail?.Designdetail) {
-                const designDetails = JSON.parse(detail.Designdetail);
-                designDetails.forEach((design) => {
-                  if (design.ImageCount > 1) {
-                    const fallbackImage = `${storeInit?.DesignImageFol}${design.designno}~1.${design.ImageExtension}`;
-                    fallbackImages[fullImageUrl] = fallbackImage;
-                  }
-                });
+            if(albumDetails?.length > 0){
+              const fallbackImage = `${storeInit?.CDNDesignImageFol}${albumDetails?.[0]?.Image_Name}`;
+              fallbackImages[fullImageUrl] = fallbackImage;
+            }
+            // albumDetails.forEach((detail) => {
+            //   if (detail?.Designdetail) {
+            //     const designDetails = JSON.parse(detail.Designdetail);
+            //     designDetails.forEach((design) => {
+            //       if (design.ImageCount > 1) {
+            //         const fallbackImage = `${storeInit?.DesignImageFol}${design.designno}~1.${design.ImageExtension}`;
+            //         fallbackImages[fullImageUrl] = fallbackImage;
+            //       }
+            //     });
 
-              }
-            });
+            //   }
+            // });
           }
-          status[fullImageUrl] = imageAvailable;
+          status[fullImageUrl] = fullImageUrl;
         }
         setImageStatus(status);
         setFallbackImages(fallbackImages);
@@ -122,14 +127,14 @@ const Album = () => {
       console.error(err);
     }
   };
-  function checkImageAvailability(imageUrl) {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => resolve(true);
-      img.onerror = () => resolve(false);
-      img.src = imageUrl;
-    });
-  }
+  // function checkImageAvailability(imageUrl) {
+  //   return new Promise((resolve) => {
+  //     const img = new Image();
+  //     img.onload = () => resolve(true);
+  //     img.onerror = () => resolve(false);
+  //     img.src = imageUrl;
+  //   });
+  // }
 
   const handleNavigate = (data) => {
     const url = `/p/${encodeURIComponent(data?.AlbumName)}/?A=${btoa(`AlbumName=${data?.AlbumName}`)}`;
@@ -146,10 +151,10 @@ const Album = () => {
           let finalImg = data1?.map((data) => {
             if (data?.ImageCount > 0 && data?.ImageExtension !== '') {
               let imgLink = storeinit?.DesignImageFol + data?.designno + "~" + '1' + "." + data?.ImageExtension;
-              if (checkImageAvailability(imgLink)) {
+              // if (checkImageAvailability(imgLink)) {
+                // }
                 return imgLink
               }
-            }
           })?.find(item => item !== undefined);
           let finalImgData = finalImg ?? imageNotFound;
           return { ...data, imageKey: finalImgData }
@@ -250,30 +255,39 @@ const Album = () => {
   const ImageMaking = useCallback(async (data) => {
     if (data.AlbumImageName && data.AlbumImageFol) {
       const imgSrc = `${storeinit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`
-      if (await checkImageAvailability(imgSrc)) {
-        return imgSrc
+      // if (await checkImageAvailability(imgSrc)) {
+      // }
+      return imgSrc
+    }
+
+    if (![storeinit?.AlbumImageFol, data?.AlbumImageFol, data?.AlbumImageName].every(Boolean) && data?.AlbumDetail) {
+      const albumDetails = JSON.parse(data.AlbumDetail);
+      if(albumDetails?.length > 0){
+        const fallbackImage = `${storeinit?.CDNDesignImageFol}${albumDetails?.[0]?.Image_Name}`;
+        return fallbackImage;
       }
     }
 
-    if (data.AlbumDetail) {
-      const albumDetails = JSON.parse(data.AlbumDetail)
-      for (const detail of albumDetails) {
-        if (detail?.Designdetail) {
-          const designDetails = JSON.parse(detail.Designdetail)
-          for (const design of designDetails) {
-            if (design.ImageCount > 0) {
-              const imgSrc = `${storeinit?.CDNDesignImageFol}${design.designno}~1.${design.ImageExtension}`
-              if (await checkImageAvailability(imgSrc)) {
-                return imgSrc
-              }
-            }
-          }
-        }
-      }
-    }
+    // if (data.AlbumDetail) {
+    //   const albumDetails = JSON.parse(data.AlbumDetail)
+    //   for (const detail of albumDetails) {
+    //     if (detail?.Designdetail) {
+    //       const designDetails = JSON.parse(detail.Designdetail)
+    //       for (const design of designDetails) {
+    //         if (design.ImageCount > 0) {
+    //           const imgSrc = `${storeinit?.CDNDesignImageFol}${design.designno}~1.${design.ImageExtension}`
+    //           // if (await checkImageAvailability(imgSrc)) {
+    //           // }
+    //           return imgSrc
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
 
     return imageNotFound
-  }, [storeinit, checkImageAvailability])
+  }, [storeinit])
+  // }, [storeinit, checkImageAvailability])
 
   // useEffect(() => {
   //   const loadAllImages = async () => {
@@ -424,6 +438,9 @@ const Album = () => {
                       src={data?.imageKey}
                       className="proCat_AlbumImageMainPopup_img"
                       alt={openAlbumName}
+                      onError={(e) => {
+                        e.target.src = imageNotFound;
+                      }}
                     />
                     {islogin || data?.AlbumSecurityId === 0 ? (
                       ""
@@ -518,6 +535,9 @@ const Album = () => {
                   className="smr_AlbumImageMain_img"
                   alt={data?.AlbumName}
                   loading="lazy"
+                  onError={(e) => {
+                    e.target.src = imageNotFound;
+                  }}
                 />
                 </LazyLoad>
               )}

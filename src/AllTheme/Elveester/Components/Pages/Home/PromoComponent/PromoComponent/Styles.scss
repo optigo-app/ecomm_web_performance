@@ -5,12 +5,13 @@
     margin-inline: 90px;
 }
 
-.promo_first_div{
+.promo_first_div {
     margin-block: 90px;
 }
 
 .elv_promo_div {
-    margin-top: 17rem;
+    margin-top: 6rem;
+    // margin-top: 17rem;
 }
 
 .promo-daimondBox1 {
@@ -65,14 +66,14 @@
     margin-block: 50px;
 }
 
-.promo_dia_title_1{
+.promo_dia_title_1 {
     font-size: 28px;
     color: rgba(29, 50, 88, 0.8);
     font-weight: 600;
     font-family: $fontSansSerif;
 }
 
-.promo_dia_title_desc_1{
+.promo_dia_title_desc_1 {
     font-size: 22px;
     color: rgba(29, 50, 88, 0.8);
     font-family: $fontSansSerif;
@@ -123,17 +124,17 @@
 
 @media (min-width: 768px) and (max-width: 1200px) {
     .elv_promo_div {
-        margin-top: 8rem;
+        margin-top: 6rem;
     }
 
-    .promo_first_div{
+    .promo_first_div {
         margin-block: 60px;
     }
 }
 
 @media (min-width: 500px) and (max-width: 768px) {
     .elv_promo_div {
-        margin-top: 8rem;
+        margin-top: 5rem;
     }
 }
 
@@ -162,7 +163,7 @@
         margin-top: 6rem;
     }
 
-    .promo_first_div{
+    .promo_first_div {
         margin-block: 50px;
     }
 }

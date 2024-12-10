@@ -371,6 +371,89 @@
     font-weight: 600;
     margin-inline: 1rem;
     position: relative;
+
+    .submenu {
+      position: absolute;
+      display: none;
+      flex-direction: column;
+      align-items: start;
+      background-color: #ffffff;
+      padding: 15px 15px;
+      gap: 12px;
+      width: auto;
+      left: -15px;
+      top: 1.5rem;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      color: black;
+
+      li {
+        font-size: $fontSize2;
+        letter-spacing: 0.3px;
+        display: inline-block;
+        white-space: nowrap;
+        color: #1f1f1f;
+        font-family: $fontRegular;
+        font-weight: 500;
+        cursor: pointer;
+        width: 100%;
+
+        &:hover {
+          color: #1f1e1ee0;
+          font-weight: 700;
+        }
+
+        &::after {
+          position: absolute;
+          content: "";
+          width: 0%;
+        }
+
+        &:hover::after {
+          width: 0;
+        }
+      }
+
+      .sub_submenu {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        align-items: start;
+        margin-left: 8px;
+        gap: 5px;
+
+        li {
+          font-size: 12px;
+          letter-spacing: 1.5px;
+          margin: 0;
+          padding: 0;
+
+          span {
+            color: #525252;
+            margin: 0;
+            padding: 0;
+          }
+        }
+      }
+
+      &::after {
+        position: absolute;
+        content: "";
+        width: 0%;
+        height: 2px;
+        background-color: black;
+        bottom: -5px;
+        left: 0;
+        transition: 0.3s ease-in-out;
+      }
+
+      &:hover::after {
+        width: 100%;
+      }
+
+      &:hover .submenu {
+        display: flex;
+      }
+    }
   }
 
   .roop_header_link {
