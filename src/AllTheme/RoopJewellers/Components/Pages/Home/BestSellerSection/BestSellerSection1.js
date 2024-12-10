@@ -179,7 +179,11 @@ const ProductGrid = () => {
 
                                 {validatedData?.map((data, index) => (
                                     <SwiperSlide key={index}>
-                                        <div className="roop_bestSeller__image_div" onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
+                                        <div className="roop_bestSeller__image_div"
+                                         role="link"
+                                         aria-label={`View details for ${data?.TitleLine} - Design No: ${data?.designno}`}
+                                    
+                                        onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                             <img
                                                 className="roop_bestSellerImg"
                                                 loading="lazy"
@@ -189,7 +193,7 @@ const ProductGrid = () => {
                                                     :
                                                     imageNotFound
                                                 }
-                                                alt={'bestseller'}
+                                                alt={`Best Seller Jewellery: ${data?.TitleLine || 'Design No: ' + data?.designno}`}
                                             />
                                             <div className="product-info">
                                                 <h3>{data?.designno} {data?.TitleLine && " - "} {data?.TitleLine != "" && data?.TitleLine}</h3>
@@ -252,7 +256,8 @@ const ProductGrid = () => {
                                             fontWeight: "500",
                                             textDecoration: "underline",
                                             color: "grey"
-                                        }} className='btn_more_A' onClick={() => HandleBestsellerMore()}>View More</button>
+                                        }} className='btn_more_A'  aria-label="View more best sellers"
+                                         onClick={() => HandleBestsellerMore()}>View More</button>
                                     </div>
                                 </SwiperSlide>}
                             </Swiper>

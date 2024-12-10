@@ -29,7 +29,7 @@ const TopSection = () => {
   };
 
   return (
-    <div className="smr_topVideoMain" >
+    <div className="smr_topVideoMain" role="region" aria-labelledby="top-video-banner">
       {/* <video
           ref={videoRef}
           width="500"
@@ -48,10 +48,12 @@ const TopSection = () => {
         </video> */}
 
       {/* {localData?.Blockno === 3 && ( */}
-      <div>
+      <div id="top-banner-image-rp">
         <img
           src={`${storImagePath()}/images/HomePage/Banner/3.jpg`}
+          alt="Top banner image showcasing our latest promotions"
           style={{ width: "100%" }}
+          loading="lazy"
         />
       </div>
       {/* )} */}

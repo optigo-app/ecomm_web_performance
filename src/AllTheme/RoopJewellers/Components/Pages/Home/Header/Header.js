@@ -547,6 +547,7 @@ const Header = () => {
                           src={compnyLogo}
                           loading="lazy"
                           className="roop_logo_header"
+                          alt="roop_logo_header-mobile"
                         />
                       </a>
                     </div>
@@ -559,6 +560,7 @@ const Header = () => {
                           src={compnyLogoM}
                           loading="lazy"
                           className="roop_logo_header"
+                          alt="roop_logo_header-mobile-500"
                         />
                       </a>
                     </div>
@@ -1075,7 +1077,7 @@ const Header = () => {
 
       <div className="roop_Top_header">
         <div className="roop_header_top_line">
-          <p className="roop_header_top_line_text">
+          <p className="roop_header_top_line_text" aria-labelledby="title">
             Welcome To Sonasons's Offical Website
             {/* Welcome To Roop Jewellers's Offical Website */}
           </p>
@@ -1088,7 +1090,8 @@ const Header = () => {
                   src={compnyLogo}
                   loading="lazy"
                   className="roop_logo_header"
-                />
+                  alt="roop_logo_header-mobile-1200"
+                  />
               </a>
             </div>
             {/* <div className="roop_Top2_header_div2">
@@ -1109,9 +1112,10 @@ const Header = () => {
            </div> */}
             <div className="roop_Top2_header_div2">
               {menuItems.map((item, index) => {
-                const { menuname, param1 } = item;
+                const { menuname, param1 ,param2 } = item;
                 return (
                   <li
+                  role="menuitem"
                     className="roop_header_li"
                     key={index}
                     label={item.menuname}
@@ -1139,12 +1143,12 @@ const Header = () => {
                     {param1 &&
                       param1?.length > 0 &&
                       param1[0].param1name !== "" && (
-                        <ul className="submenu">
+                        <ul className="submenu-rp" role="listbox">
                           {param1[0].param1name === ""
-                            ? "no"
+                            ? " "
                             : param1?.map(
                               ({ param1dataname, param1name }, j) => (
-                                <li>
+                                <li role="menuitem" >
                                   <span
                                     onClick={() => {
                                       handelMenu(
@@ -1164,6 +1168,7 @@ const Header = () => {
                                         left: 0,
                                       });
                                     }}
+                                    role="link"
                                   >
                                     {param1dataname}
                                   </span>
@@ -1174,7 +1179,7 @@ const Header = () => {
                                       <li>
                                         <span
                                           onClick={() =>
-                                            handleMenu(
+                                            handelMenu(
                                               {
                                                 menuname: menuname,
                                                 key: menuItem?.param0name,
@@ -1419,6 +1424,7 @@ const Header = () => {
                   style={{
                     visibility: !drawerShowOverlay ? "visible" : "hidden",
                   }}
+                  alt="roop_logo_header-mobile-1200"
                 />
               </a>
             </div>
@@ -1433,6 +1439,7 @@ const Header = () => {
                   style={{
                     visibility: !drawerShowOverlay ? "visible" : "hidden",
                   }}
+                  alt="roop_logo_header-mobile-mobile"
                 />
               </a>
             </div>

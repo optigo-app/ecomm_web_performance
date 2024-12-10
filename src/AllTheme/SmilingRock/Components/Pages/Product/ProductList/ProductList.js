@@ -3442,12 +3442,15 @@ const ProductList = () => {
                                         page={currPage}
                                         showFirstButton
                                         showLastButton
+                                                                              disabled={false}
                                         renderItem={(item) => (
-                                          <PaginationItem
-                                            {...item}
-                                            disabled={item.page === currPage}
-                                          />
-                                        )}
+                                 <PaginationItem
+                                   {...item}
+                                   sx={{
+                                     pointerEvents: item.page === currPage ? 'none' : 'auto',
+                                   }}
+                                 />
+                               )}
                                       />
                                     </div>
                                   )}

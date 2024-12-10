@@ -1,7 +1,16 @@
 @import '../../../scss/variable.scss';
 
+.rls-inducing-div {
+    display: none;
+}
+
+.rls-inducing-div.show {
+    display: block;
+}
+
 .roop_jewlSet_Main {
 
+ 
 
     .roop_jewl_title {
         font-size: 40px;
@@ -16,6 +25,30 @@
         // padding-inline: 250px;
         padding-inline: 10px;
         // padding-inline: 100px;
+        .swiper-button-prev,
+        .swiper-button-next {
+            background-color: #b7b7b7;
+            color: #fff;
+            padding: 10px;
+            border-radius: 50%;
+            z-index: 12;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:after {
+                font-size: 16px;
+            }
+        }
+        .swiper-button-disabled {
+            opacity: 0.5;
+            cursor: pointer;
+            pointer-events: auto;
+            background-color: #ababab;
+            margin-top: -30px!important;
+        }
     }
 
     .roop_jewls__image_div {

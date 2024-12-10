@@ -128,11 +128,13 @@ const TrendingView1 = () => {
         <>
             <div className='roop_mainTrending1Div'>
                 <div className='smr_trending1TitleDiv'>
-                    <span className='smr_trending1Title'>Trending</span>
+                    <span className='smr_trending1Title' id='smr_Trending'>Trending</span>
                 </div>
                 <div className="stam_trendingProduct-grid">
                     <div className='smr_leftSideBestTR'>
-                        <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trendingBanner.png`} alt="trendingBanner" />
+                        <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trendingBanner.png`} 
+                                  alt="Trending Jewellery Collection Banner"
+                                  />
                     </div>
                     {/* <div className='smr_rightSideTR'> */}
 
@@ -187,6 +189,7 @@ const TrendingView1 = () => {
                                             src={item?.src}
                                             alt={item?.name}
                                             onClick={() => handleNavigate(item?.designno, item?.autocode, item?.TitleLine)}
+                                            aria-label={`View details of ${item?.name}`} 
                                         />
                                         <p className="roop_trend_Div_name">{item?.name}</p>
                                         <div className="product-info">
@@ -251,7 +254,8 @@ const TrendingView1 = () => {
                                     fontWeight: "500",
                                     textDecoration: "underline",
                                     color: "grey"
-                                }} className='btn_more_A' onClick={() => HandleTrendingMore()}>View More</button>
+                                }}                 aria-label="View more trending products"
+                                className='btn_more_A' onClick={() => HandleTrendingMore()}>View More</button>
                             </div>
                         </SwiperSlide>}
                     </Swiper>

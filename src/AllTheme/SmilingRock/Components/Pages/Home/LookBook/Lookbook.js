@@ -2273,10 +2273,12 @@ const Lookbook = () => {
               // showFirstButton
               // showLastButton
               disabled={false}
-              renderItem={(item) => (
+                       renderItem={(item) => (
                 <PaginationItem
                   {...item}
-                  disabled={item.page === currentPage}
+                  sx={{
+                    pointerEvents: item.page === currentPage ? 'none' : 'auto',
+                  }}
                 />
               )}
             />
