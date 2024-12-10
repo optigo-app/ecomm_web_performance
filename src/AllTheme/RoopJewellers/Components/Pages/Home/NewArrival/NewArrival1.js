@@ -115,7 +115,9 @@ const NewArrival = () => {
     return (
         <div className='smr_newwArr1MainDiv'>
             <Typography variant='h4' className='smr_NewArr1Title'>NEW ARRIVAL
-                <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
+                <Link className='smr_designSetViewmoreBtn'
+                 aria-label="View more new arrival products"
+                onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
                     View more
                 </Link>
             </Typography>
@@ -123,7 +125,8 @@ const NewArrival = () => {
                 <Grid container spacing={1} className='smr_NewArrival1product-list'>
                     {newArrivalData?.slice(0, 4)?.map((product, index) => (
                         <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
-                            <Card className='smr_NewArrproduct-card' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
+                            <Card             aria-label={`View details of ${product?.TitleLine || 'product'} - ${product?.designno}`}
+ className='smr_NewArrproduct-card' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
                                 <div className='smr_newArr1Image'>
                                     <CardMedia
                                         component="img"
@@ -136,6 +139,8 @@ const NewArrival = () => {
                                         //     `${imageUrl}${newArrivalData && product?.designno}_1.${newArrivalData && product?.ImageExtension}`
                                         //     : noImageFound}
                                         alt={product?.TitleLine}
+                                        loading="lazy" // Use lazy loading to optimize performance
+
                                     />
                                 </div>
                                 <CardContent className='smr_newarrproduct-info'>

@@ -517,7 +517,7 @@ const NewOrderHistoryMapp = () => {
                                               <div style={{ fontWeight: 'bold' }}><span style={{ paddingRight: '5px' }} dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></span>
                                                 {formatAmount2(el?.TotalUnitCostWithDiscount)}</div>
                                             </div>
-                                          </Card>
+                                          </Card> 
                                         </Grid>
                                       ))}
                                     </Grid>

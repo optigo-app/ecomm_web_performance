@@ -356,10 +356,8 @@
     display: flex;
     flex: 1 25%;
     align-items: center;
-    overflow-x: auto;
     justify-content: center;
     margin-top: 0.3rem;
-    white-space: nowrap;
   }
 
   .roop_header_li {
@@ -371,10 +369,19 @@
     font-weight: 600;
     margin-inline: 1rem;
     position: relative;
+    height: 80px;
 
-    .submenu {
+    &:hover{
+      .submenu-rp{
+        display: flex;
+      }
+    }
+
+    .submenu-rp {
       position: absolute;
       display: none;
+      flex-direction: column;
+      align-items: start;
       flex-direction: column;
       align-items: start;
       background-color: #ffffff;
@@ -385,6 +392,9 @@
       top: 1.5rem;
       box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
       color: black;
+      z-index: 8888;
+      top:4.5rem;
+      text-align: left;
 
       li {
         font-size: $fontSize2;
@@ -402,15 +412,7 @@
           font-weight: 700;
         }
 
-        &::after {
-          position: absolute;
-          content: "";
-          width: 0%;
-        }
-
-        &:hover::after {
-          width: 0;
-        }
+       
       }
 
       .sub_submenu {
@@ -420,8 +422,7 @@
         align-items: start;
         margin-left: 8px;
         gap: 5px;
-
-        li {
+           li {
           font-size: 12px;
           letter-spacing: 1.5px;
           margin: 0;
@@ -446,9 +447,9 @@
         transition: 0.3s ease-in-out;
       }
 
-      &:hover::after {
-        width: 100%;
-      }
+      // &:hover::after {
+      //   width: 100%;
+      // }
 
       &:hover .submenu {
         display: flex;

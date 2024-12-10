@@ -29,10 +29,12 @@
     text-align: center;
   }
 
+
   .smr_AlbumImageMain_img {
     width: 100%;
     object-fit: contain;
     height: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.034);
   }
   .album-menu-btn-left {
     position: absolute;
@@ -57,10 +59,28 @@
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
-   
+    &::-webkit-scrollbar {
+      width: 8px; /* or height for vertical scrollbar */
+      display: none;
+    }
+    
+    /* Show scrollbar on hover */
+    &:hover::-webkit-scrollbar {
+      display: block;
+    }
+    
+    /* Optional: Customize the scrollbar styles */
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
     .smr_AlbumImageMain {
       width: 100%;
-      min-width: 205px;
+      min-width: 198px;
       display: block;
       height: 250px;
       img {

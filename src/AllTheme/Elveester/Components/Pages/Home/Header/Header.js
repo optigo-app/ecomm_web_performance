@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import "./Header.modul.scss";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -22,6 +22,7 @@ import Menubar from "../MenuBar/Menubar";
 import { RxCross1 } from "react-icons/rx";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Pako from "pako";
+import reportWebVitals from './../../../../../../reportWebVitals';
 
 const Header = () => {
   const [lodingLogo, setLodingLogo] = useState(true);
@@ -483,67 +484,50 @@ const Header = () => {
     });
   }, []);
 
-//   const HandleMoveToMenu = (MenuId) => {
-//     navigation('/');
-//     setTimeout(() => {
-//         const targetElement = document.querySelector(`[name='${MenuId}']`);
-//         if (targetElement) {
-//             const rect = targetElement.getBoundingClientRect();
-//             const offsetTop = window.pageYOffset + rect.top;
-//             let top = 135 ;
-//             if(MenuId === 'elveeGiftMainId'){
-//                 top = 70;
-//             }
-
-//             window.scrollTo({
-//                 top: offsetTop - top, 
-//                 behavior: 'smooth'  
-//             });
-//         }
-//     }, 100);  
-// }
-
-const location  = useLocation();
-const [Menu,setMenuId] =useState('')
+const location = useLocation();
+const [Menu, setMenuId] = useState('');
 
 const HandleMoveToMenu = (MenuId) => {
-  const isContactPage = location.pathname === "/contact-us"; // Check if the user is on the contact page
-
-  if (isContactPage) {
-    // If user is on contact page, navigate to home
-    navigation('/');
-  }
-
-  setMenuId(MenuId); // Set the target menu ID
+  navigation('/');
+  setMenuId(MenuId);
 };
 
-useEffect(() => {
-  if (Menu !== '') {
-    // Wait for the next frame to make sure everything is loaded
-    const checkIfLoaded = () => {
-      const targetElement = document.querySelector(`[name='${Menu}']`);
-
-      if (targetElement) {
-        const rect = targetElement.getBoundingClientRect();
-        const offsetTop = window.pageYOffset + rect.top;
-        let top = 135 ;
-                    if(Menu === 'elveeGiftMainId'){
-                        top = 70;
-                    }
-        
-                    window.scrollTo({
-                        top: offsetTop - top, 
-                        behavior: 'smooth'  
-                    });
-      } else {
-        // Retry if element isn't found yet (due to dynamic loading)
-        requestAnimationFrame(checkIfLoaded);
+useLayoutEffect(() => {
+  const scrollToElement = () => {
+    const targetElement = document.querySelector(`[name='${Menu}']`);
+    
+    if (targetElement) {
+      const rect = targetElement.getBoundingClientRect();
+      const offsetTop = window.pageYOffset + rect.top;
+      let top = 135;
+      if (Menu === 'elveeGiftMainId') {
+        top = 70;
       }
-    };
 
-    requestAnimationFrame(checkIfLoaded); // Start checking for the target element
+      window.scrollTo({
+        top: offsetTop - top,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  if (Menu !== '') {
+    const timeoutId = setTimeout(() => {
+      scrollToElement();
+      const targetElement = document.querySelector(`[name='${Menu}']`);
+      if (targetElement) {
+        const resizeObserver = new ResizeObserver(() => {
+          scrollToElement();
+        });
+
+        resizeObserver.observe(targetElement);
+        return () => resizeObserver.disconnect();
+      }
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
   }
-}, [Menu]); //
+}, [Menu, location.pathname]); 
 
 
 
@@ -1198,5 +1182,7 @@ useEffect(() => {
 
   );
 };
+
+reportWebVitals(console.log);
 
 export default Header;

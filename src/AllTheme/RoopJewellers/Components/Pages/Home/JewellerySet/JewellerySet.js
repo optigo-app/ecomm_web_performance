@@ -125,10 +125,19 @@ function JewellerySet() {
     navigation(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl);
   };
 
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+        setIsVisible(true); 
+    }, 2000); 
+
+    return () => clearTimeout(timer);
+}, []);
   return (
-    <div className="roop_jewlSet_Main">
+    <div className={`roop_jewlSet_Main rls-inducing-div ${isVisible ? 'show' : ''}`} role="region" aria-labelledby="album-gallery">
       {/* <p className="roop_jewl_title">Discover our carefully curated Jewellery Album</p> */}
-      <p className="roop_jewl_title">Album</p>
+      <p className="roop_jewl_title" id="album-gallery">Album</p>
 
       <div className="roop_jewls_main_sub">
         <Swiper
@@ -151,14 +160,15 @@ function JewellerySet() {
         >
 
           {validImages?.map((item, index) => (
-            <SwiperSlide key={index}>
+            <SwiperSlide key={index} role="listitem">
               <div className="roop_jewls__image_div">
                 <img
                   className="roop_jewelImg"
                   loading="lazy"
-                  src={item?.src}
-                  alt={item?.name}
+                  src={item?.src} 
+                  alt={item?.name ?? 'Jewellery Item'}  // Ensure alt text is descriptive
                   onClick={() => handleNavigate(item)}
+                  aria-label={`Navigate to details of ${item?.name}`}  // Accessibility for clicking
                 />
                 <p className="roop_jewls_Div_name">{item?.name}</p>
               </div>
