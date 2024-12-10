@@ -1,41 +1,73 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, lazy,useState,useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import Home from "./Components/Pages/Home/Index";
-import Header from "./Components/Pages/Home/Header/Header";
-import Cart from "./Components/Pages/Cart/CartMain";
-import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
-import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
-import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import ProductList from "./Components/Pages/Product/ProductList/ProductList";
-import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
-import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
-import ServicePolicy from "./Components/Pages/FooterPages/servicePolicy/ServicePolicy";
-import ExpertAdvice from "./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice";
-import FunFact from "./Components/Pages/FooterPages/FunFact/FunFact";
-import Register from "./Components/Pages/Auth/Registretion/Register";
-import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile";
-import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
-import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode";
-import AboutUs from "./Components/Pages/aboutUs/AboutUs";
-import Wishlist from "./Components/Pages/Wishlist/Wishlist";
-import PageNotFound from "./Components/Pages/404Page/PageNotFound";
 import PrivateRoutes from "./PrivateRoutes";
-import { Helmet } from "react-helmet";
-import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
-import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
-import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
-import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
-import Header2 from "./Components/Pages/Home/Header/Header2";
-import Account from "./Components/Pages/Account/Account";
 import Cookies from "js-cookie";
-import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
-import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
-import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
-import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
-import Footer from "./Components/Pages/Home/Footer/Footer";
+import { Helmet } from "react-helmet";
 import { roop_CartNo, roop_companyLogo, roop_loginState } from "./Components/Recoil/atom";
 import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
+import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
+
+// import Home from "./Components/Pages/Home/Index";
+// import Header from "./Components/Pages/Home/Header/Header";
+// import Cart from "./Components/Pages/Cart/CartMain";
+// import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
+// import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
+// import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
+// import ProductList from "./Components/Pages/Product/ProductList/ProductList";
+// import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
+// import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
+// import ServicePolicy from "./Components/Pages/FooterPages/servicePolicy/ServicePolicy";
+// import ExpertAdvice from "./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice";
+// import FunFact from "./Components/Pages/FooterPages/FunFact/FunFact";
+// import Register from "./Components/Pages/Auth/Registretion/Register";
+// import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile";
+// import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
+// import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode";
+// import AboutUs from "./Components/Pages/aboutUs/AboutUs";
+// import Wishlist from "./Components/Pages/Wishlist/Wishlist";
+// import PageNotFound from "./Components/Pages/404Page/PageNotFound";
+// import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
+// import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
+// import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
+// import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
+// import Header2 from "./Components/Pages/Home/Header/Header2";
+// import Account from "./Components/Pages/Account/Account";
+// import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
+// import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
+// import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
+// import Footer from "./Components/Pages/Home/Footer/Footer";
+
+const Home = lazy(() => import("./Components/Pages/Home/Index"));
+const Header = lazy(() => import("./Components/Pages/Home/Header/Header"));
+const Cart = lazy(() => import("./Components/Pages/Cart/CartMain"));
+const LoginOption = lazy(() => import("./Components/Pages/Auth/LoginOption/LoginOption"));
+const ContinueWithEmail = lazy(() => import("./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail"));
+const LoginWithEmail = lazy(() => import("./Components/Pages/Auth/LoginWithEmail/LoginWithEmail"));
+const ProductList = lazy(() => import("./Components/Pages/Product/ProductList/ProductList"));
+const ProductDetail = lazy(() => import("./Components/Pages/Product/ProductDetail/ProductDetail"));
+const ContactUs = lazy(() => import("./Components/Pages/FooterPages/contactUs/ContactUs"));
+const ServicePolicy = lazy(() => import("./Components/Pages/FooterPages/servicePolicy/ServicePolicy"));
+const ExpertAdvice = lazy(() => import("./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice"));
+const FunFact = lazy(() => import("./Components/Pages/FooterPages/FunFact/FunFact"));
+const Register = lazy(() => import("./Components/Pages/Auth/Registretion/Register"));
+const ContimueWithMobile = lazy(() => import("./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile"));
+const LoginWithEmailCode = lazy(() => import("./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode"));
+const LoginWithMobileCode = lazy(() => import("./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode"));
+const AboutUs = lazy(() => import("./Components/Pages/aboutUs/AboutUs"));
+const Wishlist = lazy(() => import("./Components/Pages/Wishlist/Wishlist"));
+const PageNotFound = lazy(() => import("./Components/Pages/404Page/PageNotFound"));
+const Delivery = lazy(() => import("./Components/Pages/OrderFlow/DeliveryPage/Delivery"));
+const Payment = lazy(() => import("./Components/Pages/OrderFlow/PaymentPage/Payment"));
+const Confirmation = lazy(() => import("./Components/Pages/OrderFlow/ConfirmationPage/Confirmation"));
+const ForgotPass = lazy(() => import("./Components/Pages/Auth/forgotPass/ForgotPass"));
+const Header2 = lazy(() => import("./Components/Pages/Home/Header/Header2"));
+const Account = lazy(() => import("./Components/Pages/Account/Account"));
+const Lookbook = lazy(() => import("./Components/Pages/Home/LookBook/Lookbook"));
+const ScrollToTop = lazy(() => import("../DaimondTine/Components/Pages/ScrollToTop "));
+const StamScrollToTop = lazy(() => import("./Components/Pages/BackToTop/StamScrollToTop"));
+const Footer = lazy(() => import("./Components/Pages/Home/Footer/Footer"));
+
 
 const RoopJewellers_App = () => {
   const islogin = useRecoilValue(roop_loginState);
@@ -130,6 +162,7 @@ const RoopJewellers_App = () => {
 
   return (
     <>
+    <Suspense fallback={<></>}>
       <Helmet>
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
@@ -201,7 +234,9 @@ const RoopJewellers_App = () => {
           ''
       }
       <StamScrollToTop />
+    </Suspense>
     </>
+
   );
 };
 

@@ -170,7 +170,7 @@ const Album = () => {
       {validImages?.length != 0 &&
         <div className="smrMA_alubmMainDiv">
           <p className="smr_albumTitle">Album</p>  
-          <button
+          {/* <button
                className="album-menu-btn-left"
             onClick={scrollLeft}
             disabled={isAtStart}
@@ -183,7 +183,7 @@ const Album = () => {
             disabled={isAtEnd}
           >
             <HiMiniArrowRightCircle size={35} color="gray"/>
-            </button>}
+            </button>} */}
           <div className="smr_mapp_albumALL_div"  ref={scrollRef}>
          
             {validImages?.slice(0, 4)?.map((data, index) => {

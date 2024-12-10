@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Navigation, Keyboard, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -124,19 +124,25 @@ const Album1 = () => {
         return txt.value;
     }
 
-    const GenerateWidthBaseOnContent = () => {
-        const length = selectedAlbum?.length;
-        console.log(albumData)
-        if (length === 1) {
-            return '25%';
-        } else if (length === 2) {
-            return '50%';
-        } else if (length === 3) {
-            return '75%';
-        } else if (length > 3) {
-            return '100%';
-        }
-    }
+    const GenerateWidthBaseOnContent = useCallback(()=>{
+            const selectedAlbumDetails = albumData?.find((album) => album?.AlbumName === selectedAlbum);
+            const parsedDesignDetails = selectedAlbumDetails?.Designdetail 
+            ? JSON.parse(selectedAlbumDetails.Designdetail) 
+            : null;
+            const totalDesignDetails = Array.isArray(parsedDesignDetails) ? parsedDesignDetails.length : 0;
+            const length = totalDesignDetails ;
+            let w ; 
+            if (length === 1) {
+               w = '100%';
+            } else if (length === 2) {
+               w = '100%';
+            } else if (length === 3) {
+               w = '100%';
+            } else if (length > 3) {
+               w = '100%';
+            }
+            return {width:w , length : length}
+    },[selectedAlbum])
 
     useEffect(() => {
         if (swiperSlideRef.current) {
@@ -150,6 +156,7 @@ const Album1 = () => {
         sessionStorage.setItem('redirectURL', url)
         navigation(islogin !== 0 ? url : redirectUrl);
     };
+
 
     return (
         <>
@@ -191,12 +198,15 @@ const Album1 = () => {
                             </Box>
                             <div className="smr_swiper_container"
                                 style={{
-                                    width: GenerateWidthBaseOnContent(),
+                                    width: GenerateWidthBaseOnContent().width,
                                 }}
                             >
-                                {albumData?.map((album) =>
+                                {albumData && albumData?.map((album) =>
                                     album?.AlbumName === selectedAlbum ? (
                                         <Swiper
+                                        style={{
+                                            width:"100%"
+                                        }}
                                             key={album?.Albumid}
                                             spaceBetween={10}
                                             slidesPerView={4}
@@ -218,8 +228,11 @@ const Album1 = () => {
                                             keyboard={{ enabled: true }}
                                         // pagination={false}
                                         >
-                                            {JSON?.parse(album?.Designdetail)?.map((design,index) => (
+                                            {album &&  JSON?.parse(album?.Designdetail)?.map((design,index) => (
                                                 <SwiperSlide
+                                                style={{
+                                                    width:'300px'
+                                                }}
                                                     ref={index === 0 ? swiperSlideRef : null}
                                                     key={design?.autocode} className="swiper-slide-custom">
                                                     <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
@@ -251,7 +264,7 @@ const Album1 = () => {
                                                     </div>
                                                 </SwiperSlide>
                                             ))}
-                                            {selectedAlbum?.length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
+                                            {GenerateWidthBaseOnContent().length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
                                                 width: "25%",
                                                 height: "auto",
                                                 borderRadius: "4px",
