@@ -1,5 +1,6 @@
 import React from "react";
 import "./related.modul.scss";
+import imageNotFound from '../../../../Assets/image-not-found.jpg';
 import { Link } from "react-router-dom";
 
 const RelatedProduct = ({
@@ -29,7 +30,7 @@ const RelatedProduct = ({
                 <img
                   src={
                     elv?.ImageCount > 0
-                      ? 
+                      ?
                       // storeInit?.DesignImageFol +
                       //   elv?.designno +
                       //   "_" +
@@ -37,10 +38,13 @@ const RelatedProduct = ({
                       //   "." +
                       //   elv?.ImageExtension
 
-                        storeInit?.CDNDesignImageFol + elv?.designno + "~" + "1" + "." + elv?.ImageExtension
-                      : "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                      storeInit?.CDNDesignImageFol + elv?.designno + "~" + "1" + "." + elv?.ImageExtension
+                      : imageNotFound
                   }
                   alt={elv?.id}
+                  onError={(e) => {
+                    e.target.src = imageNotFound;
+                  }}
                 />
                 {/* <div className="overlay_img">
                     <img src={elv?.BackerImg} alt={elv?.id} />

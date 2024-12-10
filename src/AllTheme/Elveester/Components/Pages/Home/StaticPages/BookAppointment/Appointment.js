@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { MdDateRange } from "react-icons/md";
 import './Appointment.scss';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
@@ -18,6 +18,8 @@ const Appointment = () => {
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const [minDateTime, setMinDateTime] = useState('');
+
+    const scrollToRef = useRef(null);
 
     const [formData, setFormData] = useState({
         // titlename: '',
@@ -39,6 +41,22 @@ const Appointment = () => {
         const [year, month, day] = date.split('-');
         return `${day}-${month}-${year} ${time}`;
     };
+
+    const handleReset = () => {
+        setFormData({
+            firstname: '',
+            lastname: '',
+            EmailId: '',
+            mobileno: '',
+            JewelleryType: '',
+            AppointmentMessage: '',
+            AppointmentDateTime: '',
+        })
+        setselectedbox({
+            id: "",
+            name: "",
+        })
+    }
 
     useEffect(() => {
         const today = new Date();
@@ -78,9 +96,11 @@ const Appointment = () => {
                 if (res?.stat_msg === 'success') {
                     toast.success("Appointment Booked Successfully");
                     setLoading(false)
+                    handleReset();
                 } else {
                     toast.error("Something went wrong");
                     setLoading(false);
+                    handleReset();
                 }
             })
         } else {
@@ -109,7 +129,7 @@ const Appointment = () => {
         } else if (!/^\d{10}$/.test(formData.mobileno)) {
             newErrors.mobileno = 'Phone must be a 10-digit number';
         }
-        if (!selectedbox.id || !selectedbox.name) {
+        if (selectedbox?.id === undefined || selectedbox?.id === null || selectedbox?.id === '' || !selectedbox?.name) {
             newErrors.selectedbox = 'Please select your subject.';
         }
         if (!formData.AppointmentDateTime) {
@@ -133,7 +153,7 @@ const Appointment = () => {
         { src: `${storImagePath()}/images/HomePage/Appointment/Fine_Jewellery.jpg`, alt: "Fine Jewellery" },
         { src: `${storImagePath()}/images/HomePage/Appointment/Gold_Jewellery.jpg`, alt: "Gold Jewellery" },
         { src: `${storImagePath()}/images/HomePage/Appointment/High_Jewellery.jpg`, alt: "High Jewellery" },
-        { src: `${storImagePath()}/images/HomePage/Appointment/Men's_Jewellery.jpg`, alt: "Mens Jewellery" },
+        { src: `${storImagePath()}/images/HomePage/Appointment/Men's_Jewellery.jpg`, alt: "Men's Jewellery" },
         { src: `${storImagePath()}/images/HomePage/Appointment/Wedding_Ring.jpg`, alt: "Wedding Ring" },
         { src: `${storImagePath()}/images/HomePage/Appointment/Others.jpg`, alt: "Others" },
     ];
@@ -156,32 +176,47 @@ const Appointment = () => {
                     <p>Our commitment is to provide you with the highest level of jewelry care services. Our experts will be delighted to offer you advice and services to personalize your jewels, restore them, or simply preserve their beauty and longevity.</p>
                 </div>
                 <div className="grid_layout_card">
-                    <div className="service_bar">
+                    <div className="service_bar_1">
                         <span>Select your subject</span>
                     </div>
                     <div className="layout_elvee_grid">
-                        {appointment.map((val, i) => (
-                            <div
-                                key={i}
-                                onClick={(e) => { setselectedbox({ id: i, name: val?.alt }) }}
-                                style={selectedbox?.id === i ? { border: "2.5px solid rgb(0, 0, 34)" } : {}}
-                                className="elvee_card_app"
-                                id="JewelleryType"
-                            >
-                                <div className="image_card_elevee">
-                                    <img src={val.src} alt={val.alt} />
+                        {appointment.map((val, i) => {
+                            return (
+                                <div
+                                    key={i}
+                                    onClick={(e) => {
+                                        setselectedbox({ id: i, name: val?.alt });
+                                        setErrors((prevErrors) => ({
+                                            ...prevErrors,
+                                            selectedbox: '',
+                                        }));
+                                        if (scrollToRef.current) {
+                                            window.scrollTo({
+                                                top: scrollToRef.current.offsetTop,  // Scroll to the element's position
+                                                behavior: "smooth",  // Smooth scrolling
+                                            });
+                                        }
+                                    }}
+                                    style={selectedbox?.id === i ? { border: "2.5px solid rgb(0, 0, 34)" } : {}}
+                                    className="elvee_card_app"
+                                    id="JewelleryType"
+                                >
+                                    <div className="image_card_elevee">
+                                        <img src={val.src} alt={val.alt} />
+                                    </div>
+                                    <div className="det_elvee_card">{val.alt}</div>
                                 </div>
-                                <div className="det_elvee_card">{val.alt}</div>
-                            </div>
-                        ))}
+                            )
+                        })}
                     </div>
-                    {errors.selectedbox && <span className="error" style={{ marginTop: '1rem', display: 'block' }}>{errors.selectedbox}</span>}
-                    <div className="from_elvee_appointmnet">
-                        <div className="service_bar">
-                            <span>Your Appointment Data & Time</span>
-                        </div>
-                        <div className="time_grid_elvee">
-                            {/* <label className='elv_lab_1'>
+                    {errors.selectedbox && <span className="for_error-message_box" style={{ marginTop: '1rem', display: 'block' }}>{errors.selectedbox}</span>}
+                    <div ref={scrollToRef} style={{ marginTop: "30px" }}>
+                        <div className="from_elvee_appointmnet">
+                            <div className="service_bar">
+                                <span>Your Appointment Data & Time</span>
+                            </div>
+                            <div className="time_grid_elvee">
+                                {/* <label className='elv_lab_1'>
                                 <input
                                     type="date"
                                     ref={dateRef}
@@ -205,33 +240,23 @@ const Appointment = () => {
                                     size={26}
                                 />
                             </label> */}
-                            <div className="elvee_input_from">
-                                <label className="elv_lab_2">
-                                    <input
-                                        type="datetime-local"
-                                        id="AppointmentDateTime"
-                                        value={formData.AppointmentDateTime}
-                                        min={minDateTime}
-                                        onChange={(e) => {
-                                            handleChange(e); // Update the form data
-                                            // inputRef.current.blur(); // Close the picker modal
-                                        }}
-                                        ref={inputRef}
-                                        placeholder="Time: hh:mm"
-                                    />
-                                    <ImClock2
-                                        className="elv_date_icon"
-                                        size={26}
-                                        onClick={() => {
+                                <div className="elvee_input_from">
+                                    <label className='elv_lab_2'>
+                                        <input
+                                            type="datetime-local"
+                                            id="AppointmentDateTime"
+                                            value={formData.AppointmentDateTime}
+                                            min={minDateTime}
+                                            onChange={handleChange}
+                                            ref={inputRef}
+                                            placeholder="Time: hh:mm" />
+                                        <ImClock2 className='elv_date_icon' size={26} onClick={() => {
                                             inputRef.current.showPicker();
-                                        }}
-                                    />
-                                </label>
-                                {errors.AppointmentDateTime && (
-                                    <p className="for_error-message">{errors.AppointmentDateTime}</p>
-                                )}
-                            </div>
-                            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        }} />
+                                    </label>
+                                    {errors.AppointmentDateTime && <p className="for_error-message">{errors.AppointmentDateTime}</p>}
+                                </div>
+                                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DemoContainer components={['DateTimePicker']} sx={{ width: '48%' }}>
                                     <DateTimePicker
                                         className="elv_date_time_picker"
@@ -241,73 +266,74 @@ const Appointment = () => {
                                     />
                                 </DemoContainer>
                             </LocalizationProvider> */}
-                        </div>
-                        <div className="service_bar">
-                            <span>Your Details</span>
-                        </div>
-                        <form className="form_grid_elvee" onSubmit={handleSubmit}>
-                            {/* <input
+                            </div>
+                            <div className="service_bar">
+                                <span>Your Details</span>
+                            </div>
+                            <form className="form_grid_elvee" onSubmit={handleSubmit}>
+                                {/* <input
                                 type="text"
                                 id="titlename"
                                 value={formData.titlename}
                                 onChange={handleChange}
                                 placeholder="Title:"
                                 className="elvee_input_from" /> */}
-                            <div className="elvee_input_from">
-                                <input
-                                    type="text"
-                                    id="firstname"
-                                    value={formData.firstname}
-                                    onChange={handleChange}
-                                    placeholder="First Name:"
+                                <div className="elvee_input_from">
+                                    <input
+                                        type="text"
+                                        id="firstname"
+                                        value={formData.firstname}
+                                        onChange={handleChange}
+                                        placeholder="First Name:"
 
-                                />
-                                {errors.firstname && <p className="for_error-message">{errors.firstname}</p>}
-                            </div>
-                            <div className="elvee_input_from">
-                                <input
-                                    type="text"
-                                    id="lastname"
-                                    value={formData.lastname}
-                                    onChange={handleChange}
-                                    placeholder="Last Name:"
-                                    className="elvee_input_from" />
-                                {errors.lastname && <p className="for_error-message">{errors.lastname}</p>}
-                            </div>
-                            <div className="elvee_input_from">
-                                <input
-                                    type="tel"
-                                    id="mobileno"
-                                    value={formData.mobileno}
-                                    onChange={handleChange}
-                                    placeholder="Phone:"
-                                    className="elvee_input_from" />
-                                {errors.mobileno && <p className="for_error-message">{errors.mobileno}</p>}
-                            </div>
-                            <div className="elvee_input_from">
-                                <input
-                                    type="email"
-                                    id="EmailId"
-                                    value={formData.EmailId}
-                                    onChange={handleChange}
-                                    placeholder="Email ID:"
-                                    className="elvee_input_from" />
-                                {errors.EmailId && <p className="for_error-message">{errors.EmailId}</p>}
-                            </div>
-                            <div className="elvee_input_from">
-                                <input
-                                    type="text"
-                                    id="AppointmentMessage"
-                                    value={formData.AppointmentMessage}
-                                    onChange={handleChange}
-                                    placeholder="Message: (optional)"
-                                    className="elvee_input_from" />
-                                {errors.AppointmentMessage && <p className="for_error-message">{errors.AppointmentMessage}</p>}
-                            </div>
-                            <div className="btn_el_vee">
-                                <button type="submit">{loading ? "Booking Appointment" : "Book Appointment"}</button>
-                            </div>
-                        </form>
+                                    />
+                                    {errors.firstname && <p className="for_error-message">{errors.firstname}</p>}
+                                </div>
+                                <div className="elvee_input_from">
+                                    <input
+                                        type="text"
+                                        id="lastname"
+                                        value={formData.lastname}
+                                        onChange={handleChange}
+                                        placeholder="Last Name:"
+                                        className="elvee_input_from" />
+                                    {errors.lastname && <p className="for_error-message">{errors.lastname}</p>}
+                                </div>
+                                <div className="elvee_input_from">
+                                    <input
+                                        type="tel"
+                                        id="mobileno"
+                                        value={formData.mobileno}
+                                        onChange={handleChange}
+                                        placeholder="Phone:"
+                                        className="elvee_input_from" />
+                                    {errors.mobileno && <p className="for_error-message">{errors.mobileno}</p>}
+                                </div>
+                                <div className="elvee_input_from">
+                                    <input
+                                        type="email"
+                                        id="EmailId"
+                                        value={formData.EmailId}
+                                        onChange={handleChange}
+                                        placeholder="Email ID:"
+                                        className="elvee_input_from" />
+                                    {errors.EmailId && <p className="for_error-message">{errors.EmailId}</p>}
+                                </div>
+                                <div className="elvee_input_from">
+                                    <input
+                                        type="text"
+                                        id="AppointmentMessage"
+                                        value={formData.AppointmentMessage}
+                                        onChange={handleChange}
+                                        placeholder="Message: (optional)"
+                                        className="elvee_input_from" />
+                                    {errors.AppointmentMessage && <p className="for_error-message">{errors.AppointmentMessage}</p>}
+                                </div>
+                                <div className="btn_el_vee">
+                                    <button disabled={loading} style={{ backgroundColor: loading ? "#00487C" : "#00185a" }} type="submit">{loading ? "Booking Appointment" : "Book Appointment"}</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
