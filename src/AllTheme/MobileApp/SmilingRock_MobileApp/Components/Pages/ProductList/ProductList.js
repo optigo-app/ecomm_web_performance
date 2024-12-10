@@ -2757,6 +2757,7 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
       <div className="empty_sorting_div_fmg">
         <span
           className="mala_breadcums_port_fmg"
+          style={{fontSize:'12.5px'}}
           onClick={() => {
             navigate("/");
           }}
@@ -2767,7 +2768,7 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
         {location?.search.charAt(1) == "A" && (
           <div
             className="mala_breadcums_port_fmg"
-            style={{ marginLeft: "3px" }}
+            style={{ marginLeft: "3px"  , fontSize:'12.5px'}}
           >
                         {location?.pathname?.split("/")[2]?.replaceAll('%20', '')}
           </div>
@@ -2776,7 +2777,7 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
         {location?.search.charAt(1) == "T" && (
           <div
             className="mala_breadcums_port_fmg"
-            style={{ marginLeft: "3px" }}
+            style={{ marginLeft: "3px" , fontSize:'12.5px' }}
           >
             <span>{"Trending"}</span>
           </div>
@@ -2785,7 +2786,7 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
         {location?.search.charAt(1) == "S" && (
           <div
             className="mala_breadcums_port_fmg"
-            style={{ marginLeft: "3px" }}
+            style={{ marginLeft: "3px"  , fontSize:'12.5px'}}
           >
         {secondSegment}
           </div>
@@ -2794,7 +2795,7 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
         {location?.search.charAt(1) == "B" && (
           <div
             className="mala_breadcums_port_fmg"
-            style={{ marginLeft: "3px" }}
+            style={{ marginLeft: "3px"  , fontSize:'12.5px'}}
           >
             <span>{"Best Seller"}</span>
           </div>
@@ -2803,7 +2804,7 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
         {location?.search.charAt(1) == "N" && (
           <div
             className="mala_breadcums_port_fmg"
-            style={{ marginLeft: "3px" }}
+            style={{ marginLeft: "3px" , fontSize:'12.5px' }}
           >
             <span>{"New Arrival"}</span>
           </div>
@@ -2812,11 +2813,12 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
         {IsBreadCumShow && (
           <div
             className="mala_breadcums_port_fmg"
-            style={{ marginLeft: "3px" }}
+            style={{ marginLeft: "3px" , fontSize:'12.5px' }}
           >
             {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
             {BreadCumsObj()?.menuname && (
               <span
+          style={{fontSize:'12.5px'}}
                 onClick={() =>
                   handleBreadcums({
                     [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
@@ -2829,6 +2831,7 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
 
             {BreadCumsObj()?.FilterVal1 && (
               <span
+          style={{fontSize:'12.5px'}}
                 onClick={() =>
                   handleBreadcums({
                     [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
@@ -2842,6 +2845,7 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
 
             {BreadCumsObj()?.FilterVal2 && (
               <span
+          style={{fontSize:'12.5px'}}
                 onClick={() =>
                   handleBreadcums({
                     [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
