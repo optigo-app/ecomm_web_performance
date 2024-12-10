@@ -471,10 +471,13 @@ const ProductDetail = () => {
     let navVal = location?.search.split("?p=")[1];
     let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
     let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    let decodeobj = decodeAndDecompress(navVal);
-    if (decodeobj) {
-      setDecodeUrl(decodeobj);
+    let getDecode = decodeAndDecompress(navVal)
+    let decodeobj = { ...getDecode };
+
+    if (!decodeobj?.g) {
+      decodeobj.g = { g: [["", ""], ["", "", ""]] };
     }
+    setDecodeUrl(decodeobj);
 
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
 
@@ -1467,7 +1470,7 @@ const ProductDetail = () => {
                       <Skeleton className='elv_prod_det_default_max1000' variant="rectangular" />
                     ) : (
                       <>
-                        <div>
+                        <div style={{ width: maxWidth1000 ? "100%" : "" }}>
                           <div className='elv_ProductDet_prod_img_max1000'>
                             {selectedThumbImg || imageSrc ? (
                               selectedThumbImg?.type == "img" ? (

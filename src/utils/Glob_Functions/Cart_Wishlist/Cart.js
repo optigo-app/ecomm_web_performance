@@ -353,7 +353,7 @@ const useCart = () => {
           cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
         );
         setCartData(updatedCartData);
-        setProductRemark("");
+        // setProductRemark("");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -664,7 +664,8 @@ const useCart = () => {
       m: cartData?.metaltypeid,
       d: diaIDData,
       c: colorStoneID,
-      f: {}
+      f: {},
+      g: [["", ""], ["", "", ""]],
     }
     compressAndEncode(JSON.stringify(obj))
     let encodeObj = compressAndEncode(JSON.stringify(obj))

@@ -14,6 +14,7 @@
     .elv_ProductDet_max1400 {
         display: flex;
         flex-direction: column;
+        width: 50%;
 
         .elv_ProductDet_prod_img_max1400 {
             display: flex;
@@ -32,6 +33,11 @@
             justify-content: center;
             align-items: center;
             gap: 10px;
+            margin: 0 auto;
+            overflow-x: auto;
+            max-width: 97%;
+            scrollbar-width: thin;
+            -ms-overflow-style: none;
 
             .elv_ProductDet_image_max1400 {
                 height: 58px;
@@ -68,6 +74,11 @@
             margin-top: 1rem;
             padding-left: 1rem;
             gap: 10px;
+            margin: 0 auto;
+            overflow-x: auto;
+            max-width: 97%;
+            scrollbar-width: thin;
+            -ms-overflow-style: none;
 
             .elv_ProductDet_image_max1000 {
                 height: 58px;

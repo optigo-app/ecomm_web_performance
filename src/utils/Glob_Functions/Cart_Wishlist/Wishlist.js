@@ -311,7 +311,8 @@ const Usewishlist = () => {
       m: wishtData?.metaltypeid,
       d: `${wishtData?.diamondqualityid}${","}${wishtData?.diamondcolorid}`,
       c: `${wishtData?.colorstonequalityid}${","}${wishtData?.colorstonecolorid}`,
-      f: {}
+      f: {},
+      g: [["", ""], ["", "", ""]],
     }
     compressAndEncode(JSON.stringify(obj))
     let encodeObj = compressAndEncode(JSON.stringify(obj))
