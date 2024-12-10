@@ -67,7 +67,11 @@
 
 .mySwiper {
   .swiper-pagination {
-    bottom: 5px;
+    bottom: -5px;
+
+    @media (max-width: 1130px) {
+      bottom: 5px;
+    }
   }
 
   .swiper-pagination-bullet {

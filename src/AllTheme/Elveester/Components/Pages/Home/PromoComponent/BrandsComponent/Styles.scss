@@ -8,7 +8,13 @@
 
 .brandsCompoents_div {
     text-align: center;
-    margin: 50px 0px 65px 0px !important;
+    margin: 50px 0px 50px 0px !important;
+
+    @media (max-width: 1200px) {
+        margin: 50px 0px 40px 0px !important;
+    }
+
+    // margin: 50px 0px 65px 0px !important;
 
     .elv_brand_title_h3 {
         font-size: 28px;
@@ -33,12 +39,34 @@
     justify-content: center;
     align-items: center;
     gap: 6rem;
-    margin-block: 4rem;
+    margin-block: 3rem;
+
+    @media (max-width: 1200px) {
+        margin-block: 2rem;
+    }
 }
 
 .affilitionImg {
     object-fit: contain;
     width: 10%;
+}
+
+.affiliation-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.affiliation-image {
+    width: 150px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+.affli_swiper {
+    width: 100%;
+    margin: auto;
 }
 
 
@@ -102,6 +130,15 @@
         width: 100%;
         overflow: auto;
         display: flex !important;
+        gap: 0px !important;
+        margin-block: -1rem !important;
+
+        img {
+            width: 100% !important;
+            height: 60px;
+            object-fit: cover;
+            margin-inline: 4px;
+        }
 
         &::-webkit-scrollbar {
             display: none;
@@ -148,6 +185,17 @@
         overflow: auto;
         display: flex !important;
         justify-content: start !important;
+        align-items: center !important;
+        gap: 0px;
+        margin-block: -1rem !important;
+
+        img {
+            width: 100% !important;
+            height: 60px;
+            object-fit: cover;
+            // border: 2px solid #ddd;
+            margin-inline: 4px;
+        }
 
         &::-webkit-scrollbar {
             display: none;

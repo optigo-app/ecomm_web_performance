@@ -136,7 +136,7 @@ const RoopJewellers_App = () => {
       <div style={{ minHeight: '85vh' }}>
         {/* <div style={{ minHeight: '700px' }}> */}
         {localData?.Headerno === 1 && <Header />}
-        {localData?.Headerno === 2 && <Header2 />}
+        {/* {localData?.Headerno === 2 && <Header2 />} */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route

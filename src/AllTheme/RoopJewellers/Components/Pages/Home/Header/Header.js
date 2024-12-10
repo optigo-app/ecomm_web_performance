@@ -1109,6 +1109,7 @@ const Header = () => {
            </div> */}
             <div className="roop_Top2_header_div2">
               {menuItems.map((item, index) => {
+                const { menuname, param1 } = item;
                 return (
                   <li
                     className="roop_header_li"
@@ -1135,6 +1136,73 @@ const Header = () => {
                     >
                       {item.menuname}
                     </Link>
+                    {param1 &&
+                      param1?.length > 0 &&
+                      param1[0].param1name !== "" && (
+                        <ul className="submenu">
+                          {param1[0].param1name === ""
+                            ? "no"
+                            : param1?.map(
+                              ({ param1dataname, param1name }, j) => (
+                                <li>
+                                  <span
+                                    onClick={() => {
+                                      handelMenu(
+                                        {
+                                          menuname: menuname,
+                                          key: item?.param0name,
+                                          value: item?.param0dataname,
+                                        },
+                                        {
+                                          key: param1name,
+                                          value: param1dataname,
+                                        }
+                                      );
+                                      window.scrollTo({
+                                        behavior: "smooth",
+                                        top: 0,
+                                        left: 0,
+                                      });
+                                    }}
+                                  >
+                                    {param1dataname}
+                                  </span>
+                                  {/* {param2 && (
+                                <ul className="sub_submenu">
+                                  {param2?.map(
+                                    ({ param2dataname, param2name }, j) => (
+                                      <li>
+                                        <span
+                                          onClick={() =>
+                                            handleMenu(
+                                              {
+                                                menuname: menuname,
+                                                key: menuItem?.param0name,
+                                                value: menuItem?.param0dataname,
+                                              },
+                                              {
+                                                key: param1name,
+                                                value: param1dataname,
+                                              },
+                                              {
+                                                key: param2name,
+                                                value: param2dataname,
+                                              }
+                                            )
+                                          }
+                                        >
+                                          {param2dataname}
+                                        </span>
+                                      </li>
+                                    )
+                                  )}
+                                </ul>
+                              )} */}
+                                </li>
+                              )
+                            )}
+                        </ul>
+                      )}
                   </li>
                 );
               })}
