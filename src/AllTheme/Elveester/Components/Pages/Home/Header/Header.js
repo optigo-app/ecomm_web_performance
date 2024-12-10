@@ -509,10 +509,10 @@ const [Menu,setMenuId] =useState('')
 const HandleMoveToMenu = (MenuId) => {
   const isContactPage = location.pathname === "/contact-us"; // Check if the user is on the contact page
 
-  if (isContactPage) {
+  // if (isContactPage) {
     // If user is on contact page, navigate to home
     navigation('/');
-  }
+  // }
 
   setMenuId(MenuId); // Set the target menu ID
 };

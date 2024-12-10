@@ -16,7 +16,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
+import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";  
 import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
 import { ColorStoneQualityColorComboAPI } from "../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI";
 import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
@@ -2661,7 +2661,6 @@ const ProductDetail = () => {
                               }}
                             >
                               <img src={ele?.imageSrc} alt={ele?.TitleLine} loading="lazy" />
-                              <p>{ele?.TitleLine}</p>
                             </div>
                           ))}
                         </div>

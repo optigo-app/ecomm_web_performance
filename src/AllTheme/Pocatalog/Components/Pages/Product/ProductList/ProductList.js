@@ -461,23 +461,23 @@ const ProductList = () => {
       images: [],
       loading: true,
     }));
-  
+
     setFinalProductListData(initialProducts);
-  
+
     const timer = setTimeout(() => {
       const updateData = productListData?.map((product) => ({
         ...product,
         images: generateImageList(product),
         loading: false,
       }));
-  
-      setFinalProductListData(updateData); 
-    }, 20); 
-  
+
+      setFinalProductListData(updateData);
+    }, 20);
+
     return () => clearTimeout(timer);
-  
+
   }, [productListData, generateImageList]);
-  
+
 
   // useEffect(() => {
   //   if (loadingIndex >= finalProductListData?.length) return
@@ -984,7 +984,7 @@ const ProductList = () => {
         });
       } else {
         setRolloverImgPd((prev) => {
-          return { [pd?.autocode]: imageNotFound };
+          return { [pd?.autocode]: pd?.images[0] };
         });
       }
     }
@@ -998,10 +998,6 @@ const ProductList = () => {
       if (isImageAvailable) {
         setRolloverImgPd((prev) => {
           return { [pd?.autocode]: pd?.images[0] };
-        });
-      } else {
-        setRolloverImgPd((prev) => {
-          return { [pd?.autocode]: imageNotFound };
         });
       }
     }

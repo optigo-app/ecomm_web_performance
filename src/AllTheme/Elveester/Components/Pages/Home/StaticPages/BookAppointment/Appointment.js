@@ -97,10 +97,18 @@ const Appointment = () => {
                     toast.success("Appointment Booked Successfully");
                     setLoading(false)
                     handleReset();
+                    window.scroll({
+                        top: 0,
+                        behavior: "smooth",
+                    });
                 } else {
                     toast.error("Something went wrong");
                     setLoading(false);
                     handleReset();
+                    window.scroll({
+                        top: 0,
+                        behavior: "smooth",
+                    });
                 }
             })
         } else {

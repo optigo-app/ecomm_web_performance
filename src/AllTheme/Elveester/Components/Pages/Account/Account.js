@@ -152,7 +152,7 @@ export default function Account() {
                                             {accountValidation() && <Tab label="ACCOUNT" className='elvee_fs_pt' {...a11yProps(3)} />}
                                             <Tab label="CHANGE PASSWORD" className='elvee_fs_pt' {...a11yProps(accountValidation() ? 4 : 3)} />
                                             {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                                            { loginUSerDeatil?.IsPLWOn && <Tab label="PLM" className='elvee_fs_pt' {...a11yProps(5)} />}
+                                            { loginUSerDeatil?.IsPLWOn === 1 && <Tab label="PLM" className='elvee_fs_pt' {...a11yProps(5)} />}
                                             <Tab label="Log Out" className='elvee_fs_pt' onClick={handleLogout} />
                                         </Tabs>
                                         {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
@@ -184,7 +184,7 @@ export default function Account() {
                     <Tab icon={<PersonPinIcon titleAccess="Manage Address" />} {...a11yProps(2)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
                     {accountValidation() && ( <Tab icon={<AutoStoriesIcon titleAccess="Accounts" />} {...a11yProps(3)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} /> )}
                     <Tab icon={ <LockResetIcon titleAccess="Change Password" {...a11yProps(accountValidation() ? 4 : 3)} /> } style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
-                    {loginUSerDeatil?.IsPLWOn && ( <Tab icon={<ShieldIcon titleAccess="PLM" />} {...a11yProps(5)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} /> )}
+                    {loginUSerDeatil?.IsPLWOn === 1 && ( <Tab icon={<ShieldIcon titleAccess="PLM" />} {...a11yProps(5)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} /> )}
                 </Tabs>
                 </div>
                         </div>
