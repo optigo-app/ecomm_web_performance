@@ -4,21 +4,24 @@ import { toast } from 'react-toastify'
 import Footer from '../../Home/Footer/Footer';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import 'react-toastify/dist/ReactToastify.css';
+import { BespokeAPI } from '../../../../../../utils/API/Bespoke/BespokeAPI';
 
 export default function ContactUs() {
     const [activeTab, setActiveTab] = useState('M1');
+    const [loading, setLoading] = useState(false);
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
 
     const [formData, setFormData] = useState({
-        fullName: '',
-        companyName: '',
-        emailAddress: '',
-        phoneNumber: '',
-        subject: '',
-        message: ''
+        FullName: '',
+        InQuiryCompanyName: '',
+        EmailId: '',
+        mobileno: '',
+        InQuirySubject: '',
+        Be_In_Message: '',
+        Themeno: '11'
     });
 
     const [errors, setErrors] = useState({});
@@ -38,52 +41,57 @@ export default function ContactUs() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const errors = {};
-        if (!formData.fullName) {
-            errors.fullName = 'Please enter your full name';
+        if (!formData.FullName) {
+            errors.FullName = 'Please enter your full name';
         }
-        if (!formData.companyName) {
-            errors.companyName = 'Please enter your company name';
+        if (!formData.InQuiryCompanyName) {
+            errors.InQuiryCompanyName = 'Please enter your company name';
         }
-        if (!formData.emailAddress) {
-            errors.emailAddress = 'Please enter your email address';
-        } else if (!/\S+@\S+\.\S+/.test(formData.emailAddress)) {
-            errors.emailAddress = 'Please enter a valid email address';
+        if (!formData.EmailId) {
+            errors.EmailId = 'Please enter your email address';
+        } else if (!/\S+@\S+\.\S+/.test(formData.EmailId)) {
+            errors.EmailId = 'Please enter a valid email address';
         }
-        if (!formData.phoneNumber) {
-            errors.phoneNumber = 'Please enter your phone number';
+        if (!formData.mobileno) {
+            errors.mobileno = 'Phone is required';
+        } else if (!/^\d{10}$/.test(formData.mobileno)) {
+            errors.mobileno = 'Phone must be a 10-digit number';
         }
-        if (!formData.subject) {
-            errors.subject = 'Please enter the subject';
+        if (!formData.InQuirySubject) {
+            errors.InQuirySubject = 'Please enter the subject';
         }
-        if (!formData.message) {
-            errors.message = 'Please enter your message';
+        if (!formData.Be_In_Message) {
+            errors.Be_In_Message = 'Please enter your message';
         }
 
         if (Object.keys(errors).length === 0) {
-            console.log('Form submitted:', formData);
-            const combinedValue = JSON.stringify({
-                companyname: `${formData?.companyName}`, subject: `${formData?.subject}`, fullname: `${formData?.fullName}`, emailid: `${(formData?.emailAddress).toLocaleLowerCase()}`, mobileno: `${formData?.phoneNumber}`, message: `${formData?.message}`
-            });
-            const encodedCombinedValue = btoa(combinedValue);
-            console.log(encodedCombinedValue);
-            const body = {
-                "con": "{\"id\":\"\",\"mode\":\"CONTACTUS\"}",
-                "f": "CONTACTUS (handlesubmit)",
-                p: encodedCombinedValue,
-                dp: combinedValue
-            };
-            const response = await CommonAPI(body);
-            if (response) {
-                console.log('res', response);
-                toast.success("Got it! We've received your query. We'll be in touch shortly.")
-            }
+            console.log('formData: ', formData);
+            setLoading(true);
+            await BespokeAPI(formData).then((res) => {
+                if (res?.stat_msg === 'success') {
+                    toast.success("Got it! We've received your query. We'll be in touch shortly.")
+                    setLoading(false);
+                    window.scroll({
+                        top: 0,
+                        behavior: "smooth",
+                    });
+                } else {
+                    toast.error("Something went wrong");
+                    setLoading(false);
+                    window.scroll({
+                        top: 0,
+                        behavior: "smooth",
+                    });
+                }
+            })
             setFormData({
-                fullName: '',
-                companyName: '',
-                emailAddress: '',
-                phoneNumber: '',
-                subject: '',
-                message: ''
+                FullName: '',
+                InQuiryCompanyName: '',
+                EmailId: '',
+                mobileno: '',
+                InQuirySubject: '',
+                Be_In_Message: '',
+                Themeno: '11'
             });
         } else {
             setErrors(errors);
@@ -107,68 +115,68 @@ export default function ContactUs() {
                                     <input
                                         type='text'
                                         className='Fo-contactBox1InputBox'
-                                        name='fullName'
-                                        value={formData.fullName}
+                                        name='FullName'
+                                        value={formData.FullName}
                                         onChange={handleChange}
                                     />
-                                    {errors.fullName && <p className='error'>{errors.fullName}</p>}
+                                    {errors.FullName && <p className='error'>{errors.FullName}</p>}
                                 </div>
                                 <div style={{ marginTop: '25px' }}>
                                     <p className='Fo-contactBox1Title'>COMPANY NAME</p>
                                     <input
                                         type='text'
                                         className='Fo-contactBox1InputBox'
-                                        name='companyName'
-                                        value={formData.companyName}
+                                        name='InQuiryCompanyName'
+                                        value={formData.InQuiryCompanyName}
                                         onChange={handleChange}
                                     />
-                                    {errors.companyName && <p className='error'>{errors.companyName}</p>}
+                                    {errors.InQuiryCompanyName && <p className='error'>{errors.InQuiryCompanyName}</p>}
                                 </div>
                                 <div style={{ marginTop: '25px' }}>
                                     <p className='Fo-contactBox1Title'>EMAIL ADDRESS</p>
                                     <input
                                         type='text'
                                         className='Fo-contactBox1InputBox'
-                                        name='emailAddress'
-                                        value={formData.emailAddress}
+                                        name='EmailId'
+                                        value={formData.EmailId}
                                         onChange={handleChange}
                                     />
-                                    {errors.emailAddress && <p className='error'>{errors.emailAddress}</p>}
+                                    {errors.EmailId && <p className='error'>{errors.EmailId}</p>}
                                 </div>
                                 <div style={{ marginTop: '25px' }}>
                                     <p className='Fo-contactBox1Title'>PHONE NUMBER</p>
                                     <input
                                         type='text'
                                         className='Fo-contactBox1InputBox'
-                                        name='phoneNumber'
-                                        value={formData.phoneNumber}
+                                        name='mobileno'
+                                        value={formData.mobileno}
                                         onChange={handleChange}
                                     />
-                                    {errors.phoneNumber && <p className='error'>{errors.phoneNumber}</p>}
+                                    {errors.mobileno && <p className='error'>{errors.mobileno}</p>}
                                 </div>
                                 <div style={{ marginTop: '25px' }}>
                                     <p className='Fo-contactBox1Title'>SUBJECT</p>
                                     <input
                                         type='text'
                                         className='Fo-contactBox1InputBox'
-                                        name='subject'
-                                        value={formData.subject}
+                                        name='InQuirySubject'
+                                        value={formData.InQuirySubject}
                                         onChange={handleChange}
                                     />
-                                    {errors.subject && <p className='error'>{errors.subject}</p>}
+                                    {errors.InQuirySubject && <p className='error'>{errors.InQuirySubject}</p>}
                                 </div>
                                 <div style={{ marginTop: '25px' }}>
                                     <p className='Fo-contactBox1Title'>MESSAGE</p>
                                     <input
                                         type='text'
                                         className='Fo-contactBox1InputBox'
-                                        name='message'
-                                        value={formData.message}
+                                        name='Be_In_Message'
+                                        value={formData.Be_In_Message}
                                         onChange={handleChange}
                                     />
-                                    {errors.message && <p className='error'>{errors.message}</p>}
+                                    {errors.Be_In_Message && <p className='error'>{errors.Be_In_Message}</p>}
                                 </div>
-                                <button type="submit" className='Fo-contactBox1BtnSub'>SUBMIT</button>
+                                <button type="submit" disabled={loading === true} className='Fo-contactBox1BtnSub'>{loading === true ? 'SUBMITTING' : 'SUBMIT'}</button>
                             </form>
                         </div>
                         <div className='Fo-contactBox2'>

@@ -2974,9 +2974,9 @@ const GivaFilterMenu = ({
           checkedNames.push(checkedOption.Name);
         }
       }
+      setCurrPage(1)
     }
 
-    setCurrPage(1)
 
     return checkedNames;
   }

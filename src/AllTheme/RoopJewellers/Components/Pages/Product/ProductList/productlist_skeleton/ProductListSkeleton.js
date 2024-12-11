@@ -7,6 +7,7 @@ const ProductListSkeleton = ({ fromPage }) => {
     const isMobile = useMediaQuery('(max-width: 767px)');
     const isTablet = useMediaQuery('(min-width: 768px) and (max-width: 1024px)');
     const isDesktop = useMediaQuery('(min-width: 1025px)');
+    const isMAxWIdth600px = useMediaQuery('(max-width: 600px)');
 
     return (
         <div className={fromPage === "Prodlist" ? "skeltonMainDiv_prodlistPage" : 'skeltonMainDiv'}>
@@ -25,15 +26,24 @@ const ProductListSkeleton = ({ fromPage }) => {
                 )}
                 <Grid item xs={12} container spacing={2}>
                     {cardsArray.map((item) => (
-                        <Grid item xs={isMobile ? 6 : isTablet ? 4 : 2.4} key={item}> {/* Responsive column sizes */}
+                        <Grid item xs={6} sm={6} md={4} lg={3} xl={2.4} key={item}> {/* Responsive column sizes */}
                             <Card className={fromPage === "Prodlist" ? "skeltoncards_listpage" : 'skeltoncards'}>
-                                <CardMedia style={{ width: '100%', height: '40vh' }} className='cardMainSkeleton'>
+                                <CardMedia
+                                    className='cardMainSkeleton'
+                                    sx={{
+                                        width: '100%',
+                                        height: '40vh',
+                                    }}
+                                >
                                     <Skeleton className="pSkelton" animation="wave" variant="rect" width={'100%'} height='40vh' />
                                 </CardMedia>
-                                <CardContent>
-                                    <Skeleton className="pSkelton" animation="wave" variant="text" width={'80%'} height={20} style={{ marginBottom: '10px' }} />
-                                    <Skeleton className="pSkelton" animation="wave" variant="text" width={'60%'} height={20} />
-                                </CardContent>
+                                {isMAxWIdth600px && fromPage === "Prodlist" ? "" :
+                                    <CardContent>
+                                        <Skeleton className="pSkelton" animation="wave" variant="text" width={'80%'} height={20} style={{ marginBottom: '10px' }} />
+                                        <Skeleton className="pSkelton" animation="wave" variant="text" width={'60%'} height={20} />
+                                    </CardContent>
+                                }
+
                             </Card>
                         </Grid>
                     ))}
