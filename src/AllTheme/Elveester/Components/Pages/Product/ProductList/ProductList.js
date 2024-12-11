@@ -748,6 +748,10 @@ const ProductList = () => {
     }
   };
 
+  useEffect(() => {
+    handelFilterClearAll()
+  }, [location?.key])
+
   const handleCartandWish = async (e, ele, type) => {
     console.log("event", e.target.checked, ele, type);
 
