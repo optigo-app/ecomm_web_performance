@@ -37,8 +37,12 @@ const Footer = ({ fromPage }) => {
           </div>
           <div className='footerMoreOption'>
             <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p>
-            <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p>
-            <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p>
+            <p className='footerMoreOptionData' style={{
+              textTransform:'uppercase'
+            }} onClick={() => { navigation('/managementTeam'); window.scrollTo(0, 0); }}>Management Team</p>
+            <p className='footerMoreOptionData' style={{
+              textTransform:'uppercase'
+            }} onClick={() => { navigation('/terms-and-conditions'); window.scrollTo(0, 0); }}>Terms & Condition</p>
             <p className='footerMoreOptionData' onClick={() => { navigation('/aboutUs'); window.scrollTo(0, 0); }}>ABOUT US</p>
           </div>
           <div className='footerMoreText'>
