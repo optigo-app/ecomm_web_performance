@@ -508,6 +508,7 @@ useLayoutEffect(() => {
         top: offsetTop - top,
         behavior: 'smooth',
       });
+      setMenuId('')
     }
   };
 
