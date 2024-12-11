@@ -7,6 +7,8 @@ import { Helmet } from "react-helmet";
 import { roop_CartNo, roop_companyLogo, roop_loginState } from "./Components/Recoil/atom";
 import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
+import ManagementTeam from './Components/Pages/static/Management/Management';
+import TermsAndConditions from './Components/Pages/static/TermsPage/TermsPage';
 
 // import Home from "./Components/Pages/Home/Index";
 // import Header from "./Components/Pages/Home/Header/Header";
@@ -175,6 +177,15 @@ const RoopJewellers_App = () => {
           <Route
             path="/LoginOption"
             element={<LoginOption />}
+          />
+           <Route
+            path="/ManagementTeam"
+            element={<ManagementTeam />}
+          />
+           <Route
+            path="/terms-and-conditions"
+            
+            element={<TermsAndConditions />}
           />
           <Route
             path="/ContinueWithEmail"

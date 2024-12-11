@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./productlist.scss";
 import "./GiveFilterMenu.scss";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
@@ -2886,6 +2886,7 @@ const GivaFilterMenu = ({
   setCurrPage,
 }) => {
   const [showMenu, setshowMenu] = useState(-1);
+const menuRef =useRef(null)
   const CustomLabel = ({ text }) => (
     <Typography
       sx={{
@@ -3006,6 +3007,22 @@ const GivaFilterMenu = ({
     { value: "PRICE HIGH TO LOW", label: "Price High To Low" },
     { value: "PRICE LOW TO HIGH", label: "Price Low To High" },
   ];
+  useEffect(() => {
+    // Function to handle outside click
+    const handleOutsideClick = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setshowMenu(-1); // Close the menu if clicked outside
+      }
+    };
+
+    // Add the event listener
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
 
   return (
     <>
@@ -3021,12 +3038,24 @@ const GivaFilterMenu = ({
               <div className="filter_menu_giva_roop">
 
                 <Typography
-                  sx={{ fontSize: "15px", cursor: 'pointer' }}
+                  sx={{ fontSize: "15px", cursor: 'pointer',position:'relative',zIndex:'1' }}
                   className="fmg_menu"
-                  onClick={() => HandleMenu(1)}
+                  // onClick={() => HandleMenu(1)}
                 >
+                 {showMenu === 1 && <div className="span" 
+                  style={{
+                    position:'absolute',
+                    zIndex:'888',
+                    top:'0',
+                    left:'0',
+                    right:'0',
+                    bottom:'0',
+                  }}
+                  >
+                  </div>}
                   <Badge
                     badgeContent={totalSelected}
+                     onClick={() => HandleMenu(1)}
                     sx={{
                       '& .MuiBadge-badge': {
                         color: "#fff",
@@ -3050,8 +3079,10 @@ const GivaFilterMenu = ({
                     onClick={() => HandleMenu(1)}
                   />
                 </Typography>
+                <div ref={menuRef} className="div_check">
+
                 {showMenu === 1 && (
-                  <div className="giva_roop_filter_menu_list_filterM">
+                  <div  className="giva_roop_filter_menu_list_filterM">
                     {filterData?.map((ele) => (
                       <>
                         {!ele?.id?.includes("Range") &&
@@ -3328,8 +3359,10 @@ const GivaFilterMenu = ({
                     ))}
                   </div>
                 )}
+                </div>
               </div>
             )}
+           <div className="div_check" ref={menuRef}>
             {storeInit?.IsMetalCustComb === 1 && metalTypeCombo?.length > 0 && (
               <div className="filter_menu_giva_roop">
                 <Typography
@@ -3384,6 +3417,8 @@ const GivaFilterMenu = ({
                 )}
               </div>
             )}
+            </div>
+           <div className="div_check" ref={menuRef}>
             {storeInit?.IsDiamondCustComb === 1 && diaQcCombo?.length > 0 && (
               <div className="filter_menu__roop">
                 <Typography
@@ -3442,7 +3477,9 @@ const GivaFilterMenu = ({
                   </div>
                 )}
               </div>
-            )}
+          )}
+          </div>
+           <div className="div_check" ref={menuRef}>
             {storeInit?.IsCsCustomization === 1 && csQcCombo?.length > 0 && (
               <div className="filter_menu_giva_roop">
                 <Typography
@@ -3502,6 +3539,8 @@ const GivaFilterMenu = ({
                 )}
               </div>
             )}
+            </div>
+
           </div>
           <div className="flex__roop_right_menu">
             <div className="flex_giva_roop_menu">
@@ -3557,7 +3596,8 @@ const GivaFilterMenu = ({
                 </div>
               )} */}
 
-              {storeInit?.IsMetalCustComb === 1 && (
+           <div className="div_check" ref={menuRef}>
+           {storeInit?.IsMetalCustComb === 1 && (
                 <div className="filter_menu_giva_roop">
                   <Typography
                     sx={{ fontSize: "15px" }}
@@ -3611,6 +3651,7 @@ const GivaFilterMenu = ({
                   </Typography>
                 </div>
               )}
+           </div>
 
             </div>
           </div>

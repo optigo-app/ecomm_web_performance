@@ -17,8 +17,11 @@
     color: white;
     text-decoration: none;
 
+    @media (max-width: 768px) {
+      height: 40px;
+    }
     @media (max-width: 425px) {
-      height: 60px;
+      height: 33px;
     }
   }
 
@@ -28,6 +31,12 @@
     margin: 0px;
     text-align: center;
     font-family: $fontBold !important;
+    @media screen and (max-width:768px) {
+      font-size: 19px;
+    }
+    @media screen and (max-width:425px) {
+      font-size: 16px;
+    }
   }
 
   .roop_Top_header_sub {
