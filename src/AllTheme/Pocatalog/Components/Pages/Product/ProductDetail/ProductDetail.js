@@ -16,7 +16,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";  
+import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
 import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
 import { ColorStoneQualityColorComboAPI } from "../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI";
 import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
@@ -109,9 +109,9 @@ const ProductDetail = () => {
   const SoketData = useRecoilValue(soketProductData);
   const [imageStates, setImageStates] = useState({});
   const [imageSrc, setImageSrc] = useState();
-  console.log('imageSrc: ', imageSrc);
 
   const [stockItemArr, setStockItemArr] = useState([]);
+  console.log('stockItemArr: ', stockItemArr);
   const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
   const [cartArr, setCartArr] = useState({});
   let cookie = Cookies.get("visiterId");
@@ -823,35 +823,35 @@ const ProductDetail = () => {
         });
     };
 
-    const productlistDataFetch20 = async () => {
-      let obj = { mt: decodeobj?.m, dia: decodeobj?.d, cs: decodeobj?.c };
+    // const productlistDataFetch20 = async () => {
+    //   let obj = { mt: decodeobj?.m, dia: decodeobj?.d, cs: decodeobj?.c };
 
-      await ProductListApi(
-        {},
-        1,
-        obj,
-        decodeobj?.pl,
-        cookie,
-        decodeobj?.sb,
-        {},
-        {},
-        {},
-        "",
-        decodeobj?.b,
-        decodeobj?.n
-      )
-        .then((res) => {
-          if (res) {
-            console.log("productList", res);
-            setAlbumView(res?.pdList);
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err));
-    };
+    //   await ProductListApi(
+    //     {},
+    //     1,
+    //     obj,
+    //     decodeobj?.pl,
+    //     cookie,
+    //     decodeobj?.sb,
+    //     {},
+    //     {},
+    //     {},
+    //     "",
+    //     decodeobj?.b,
+    //     decodeobj?.n
+    //   )
+    //     .then((res) => {
+    //       if (res) {
+    //         console.log("productList", res);
+    //         setAlbumView(res?.pdList);
+    //       }
+    //       return res;
+    //     })
+    //     .catch((err) => console.log("err", err));
+    // };
 
     FetchProductData();
-    productlistDataFetch20();
+    // productlistDataFetch20();
 
     window.scroll({
       top: 0,
@@ -962,7 +962,6 @@ const ProductDetail = () => {
   }
 
   const [imagePromise, setImagePromise] = useState(true)
-  console.log('imagePromise: ', imagePromise);
 
   const imageCache = {};  // Caching object to store checked images
 
@@ -975,19 +974,14 @@ const ProductDetail = () => {
     try {
       const result = await checkImage(img);
       imageCache[img] = result;  // Cache the result for future reference
-      setSelectedThumbImg({
-        link: img,
-        type: "img",
-      });
-      setImagePromise(false);
+      if (!isImageload) {
+        setTimeout(() => {
+          setImagePromise(false);
+        }, 500);
+      }
       return result;
     } catch (error) {
       imageCache[img] = imageNotFound;
-      setSelectedThumbImg({
-        link: imageNotFound,
-        type: "img",
-      });
-      setImagePromise(false);
       return imageNotFound;
     }
   }
@@ -1126,7 +1120,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     ProdCardImageFunc();
-  }, [singleProd, location?.key]);
+  }, [singleProd, singleProd1, location?.key]);
 
   useEffect(() => {
     if (isImageload === false) {
@@ -1376,6 +1370,7 @@ const ProductDetail = () => {
       }${productData?.designno}?p=${encodeObj}`
     );
     setProdLoading(true);
+    setIsImageLoad(true)
   };
 
   const handleCustomChange = async (e, type) => {
@@ -1629,7 +1624,7 @@ const ProductDetail = () => {
 
                       <div className="smr_prod_image_Sec">
                         {/* {isImageload && ( */}
-                        {(isImageload) && (
+                        {(isImageload || imagePromise) && (
                           <Skeleton
                             sx={{
                               width: "95%",
@@ -1642,7 +1637,7 @@ const ProductDetail = () => {
 
                         <div
                           className="smr_main_prod_img"
-                          style={{ display: isImageload ? "none" : "block" }}
+                          style={{ display: (isImageload || imagePromise) ? "none" : "block" }}
                         >
                           {selectedThumbImg?.type == "img" ? (
                             <img
@@ -2661,6 +2656,10 @@ const ProductDetail = () => {
                               }}
                             >
                               <img src={ele?.imageSrc} alt={ele?.TitleLine} loading="lazy" />
+                              <div className="procat_design_details_div procat_cart_btn ">
+                                <span>{ele?.designno}</span>
+                                <span>{ele?.TitleLine}</span>
+                              </div>
                             </div>
                           ))}
                         </div>
@@ -2704,6 +2703,10 @@ const ProductDetail = () => {
                                   }}
                                 >
                                   <img src={ele?.imageSrc} alt={ele?.TitleLine} loading="lazy" />
+                                  <div className="procat_design_details_div procat_cart_btn ">
+                                    <span>{ele?.designno}</span>
+                                    <span>{ele?.TitleLine}</span>
+                                  </div>
                                 </div>
                               </SwiperSlide>
                             ))}
@@ -2715,7 +2718,7 @@ const ProductDetail = () => {
                 )}
 
 
-                {stockItemArr?.length > 0 &&
+                {stockItemArr?.length > 0 && stockItemArr?.[0]?.stat_code != 1005 &&
                   storeInit?.IsStockWebsite === 1 && (
                     <div className="smr_stockItem_div">
                       <p className="smr_details_title"> Stock Items </p>
@@ -3108,6 +3111,9 @@ const ProductDetail = () => {
                                     : imageNotFound
                                 }
                                 alt={""}
+                                onError={(e) => {
+                                  e.target.src = imageNotFound;
+                                }}
                               />
                               <div
                                 className="smr_stockutem_shortinfo"

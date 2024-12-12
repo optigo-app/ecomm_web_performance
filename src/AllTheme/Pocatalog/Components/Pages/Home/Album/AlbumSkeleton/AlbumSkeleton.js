@@ -17,8 +17,8 @@ const AlbumSkeleton = ({ fromPage }) => {
                     <Grid
                         item
                         xs={6}        
-                        sm={6}        
-                        md={4}        
+                        sm={4}        
+                        md={3}        
                         lg={2.4}      
                         key={item}
                         className='proCat_album_skle_Main'

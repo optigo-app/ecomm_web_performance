@@ -144,6 +144,15 @@
         transform: translateY(-50%) !important;
     }
 
+    .quotationJobSec {
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        scrollbar-width: thin;
+        ms-overflow-style: none
+    }
+
     @media(max-width: 768px) {
         .QuotationJobAllBtn {
             margin-bottom: 20px !important;
