@@ -1,36 +1,87 @@
 import React, { useEffect, useRef, useState } from "react";
-import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import "./TopSection.modul.scss";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import { MobilSliderImage, SliderItemns } from "../../../Assets/constant/data";
+
+
+const settings = {
+  dots: true,
+  infinite: true, // Ensures infinite looping of slides
+  speed: 1000, // Slide transition speed in milliseconds
+  slidesToShow: 1, // Number of slides to show at once
+  slidesToScroll: 1, // Number of slides to scroll at once
+  arrows: false, // Hide navigation arrows
+  draggable: true, // Enable dragging for mobile users
+  autoplay: true, // Enable autoplay for the slider
+  autoplaySpeed: 3000,
+};
 
 const TopSection = () => {
-  const [loading, setLoading] = useState(false);
-  const [videoStarted, setVideoStarted] = useState(false);
-  const videoRef = useRef(null);
-  const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-
-  const [localData, setLocalData] = useState();
-
+  // const [loading, setLoading] = useState(false);
+  // const [videoStarted, setVideoStarted] = useState(false);
+  // const videoRef = useRef(null);
+  // const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+  const [isMobile, setIsMobile] = useState(false);
+  const slider = useRef(null);
   useEffect(() => {
-    let localData = JSON.parse(sessionStorage.getItem("storeInit"));
-    setLocalData(localData);
-    console.log("localDatalocalData", localData);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
-  const handleVideoLoad = () => {
-    setLoading(false);
-    // Unmute the video once it's loaded
-    setTimeout(() => { }, 0);
+  // const [localData, setLocalData] = useState();
 
-    videoRef.current.controls = false;
-  };
+  // useEffect(() => {
+  //   let localData = JSON.parse(sessionStorage.getItem("storeInit"));
+  //   setLocalData(localData);
+  //   console.log("localDatalocalData", localData);
+  // }, []);
 
-  const handleVideoPlay = () => {
-    setVideoStarted(true);
-  };
+  // const handleVideoLoad = () => {
+  //   setLoading(false);
+  //   setTimeout(() => { }, 0);
+
+  //   videoRef.current.controls = false;
+  // };
+
+  // const handleVideoPlay = () => {
+  //   setVideoStarted(true);
+  // };
 
   return (
     <div className="smr_topVideoMain" role="region" aria-labelledby="top-video-banner">
-      {/* <video
+          <div className="rp_main_slider">
+         <Slider {...settings} ref={slider}>
+        {isMobile
+          ? MobilSliderImage.map((val, i) => (
+              <div className="slide" key={i}>
+                <img src={val?.url || ""} alt={val?.key} />
+              </div>
+            ))
+          : SliderItemns.map((val, i) => (
+              <div className="slide" key={i}>
+                <img src={ val?.url || ""} alt={val?.key} />
+              </div>
+            ))}
+      </Slider>
+    </div>
+    </div>
+  );
+};
+
+export default TopSection;
+
+
+  {/* <video
           ref={videoRef}
           width="500"
           autoPlay
@@ -48,17 +99,12 @@ const TopSection = () => {
         </video> */}
 
       {/* {localData?.Blockno === 3 && ( */}
-      <div id="top-banner-image-rp">
+      {/* <div id="top-banner-image-rp">
         <img
           src={`${storImagePath()}/images/HomePage/Banner/3.jpg`}
           alt="Top banner image showcasing our latest promotions"
           style={{ width: "100%" }}
           loading="lazy"
-        />
-      </div>
+        /> */}
+      {/* </div> */}
       {/* )} */}
-    </div>
-  );
-};
-
-export default TopSection;

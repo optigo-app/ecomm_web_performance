@@ -1,46 +1,46 @@
 import { atom } from "recoil";
 
 export const proCat_companyLogo = atom({
-  key:'companyLogo',
+  key:'poca_companyLogo',
   default:[]
 })
 
 
 export const proCat_companyLogoM = atom({
-  key:'companyLogoM',
+  key:'poca_companyLogoM',
   default:[]
 })
 
 export const proCat_loginState = atom({
-  key: 'loginState',
+  key: 'poca_loginState',
   default: false,
 })
 
 export const proCat_CartCount = atom({
-  key: 'CartCount',
+  key: 'poca_CartCount',
   default: 0
 })
 
 export const proCat_WishCount = atom({
-  key: 'WishCount',
+  key: 'poca_WishCount',
   default: 0
 })
 
 export const proCat_cartB2CDrawer = atom({
-  key: 'cartB2CDrawer',
+  key: 'poca_cartB2CDrawer',
   default: false
 })
 
 export const proCat_DiamondRangeArr = atom({
-  key: 'DiamondRangeArr',
+  key: 'poca_DiamondRangeArr',
   default: []
 })
 export const defaultAddressState = atom({
-  key: 'defaultAddressState',
+  key: 'poca_defaultAddressState',
   default: []
 })
 
 export const soketProductData = atom({
-  key: 'soketProductData',
+  key: 'poca_soketProductData',
   default: []
 })

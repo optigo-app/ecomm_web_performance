@@ -1,41 +1,41 @@
 import { atom } from "recoil";
 
 export const mala_companyLogo = atom({
-  key:'companyLogo',
+  key:'malakan_companyLogo',
   default:[]
 })
 
 export const mala_companyLogoM = atom({
-  key:'mala_companyLogoM',
+  key:'malakan_mala_companyLogoM',
   default:[]
 })
 
 export const mala_loginState = atom({
-  key: 'loginState',
+  key: 'malakan_loginState',
   default: false,
 })
 
 export const mala_CartCount = atom({
-  key: 'CartCount',
+  key: 'malakan_CartCount',
   default: 0
 })
 
 export const mala_WishCount = atom({
-  key: 'WishCount',
+  key: 'malakan_WishCount',
   default: 0
 })
 
 export const mala_cartB2CDrawer = atom({
-  key: 'cartB2CDrawer',
+  key: 'malakan_cartB2CDrawer',
   default: false
 })
 
 export const mala_DiamondRangeArr = atom({
-  key: 'DiamondRangeArr',
+  key: 'malakan_DiamondRangeArr',
   default: []
 })
 
 export const mala_defaultAddressState = atom({
-  key: 'defaultAddressState',
+  key: 'malakan_defaultAddressState',
   default: null,
 });

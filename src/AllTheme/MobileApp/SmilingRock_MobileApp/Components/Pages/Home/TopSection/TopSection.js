@@ -41,7 +41,6 @@ export default function TopSection() {
     setLoading(false);
   };
 
-  console.log('loding--', loading);
   return (
     <div className="smrMA_TopSectionMain">
       <Slider {...settings}>

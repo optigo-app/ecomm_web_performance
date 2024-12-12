@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Footer.modul.scss'
 import { IoLocationOutline } from "react-icons/io5";
-import { IoMdCall } from "react-icons/io";
-import { IoMdMail } from "react-icons/io";
 import { useNavigate } from 'react-router';
 
 const Footer = ({ fromPage }) => {
@@ -25,7 +23,7 @@ const Footer = ({ fromPage }) => {
         <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
           <div className='footerIconMain'>
             {socialMediaData?.map((social, index) => (
-              <div className='footerSocialIcon'>
+              <div className='footerSocialIcon' key={index}>
                 <a key={index} href={`${social?.SLink}`} target="_blank" rel="noopener noreferrer">
                   <img src={social?.SImgPath} alt={social?.SName} style={{ width: '24px', height: '24px', objectFit: 'cover' }}
                     onError={(e) => { e.target.style.display = 'none'; }} />
