@@ -400,7 +400,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    text-transform: uppercase;
+    // text-transform: uppercase;
     font-weight: 600;
     margin-inline: 1rem;
     position: relative;
@@ -787,6 +787,7 @@
       margin: 0px;
       // color: white;
       color: black;
+      font-weight: 500;
       padding: 5px 0px 5px 0px;
       // padding: 5px 0px 5px 15px;
     }

@@ -49,3 +49,16 @@
         padding-top: 0;
     }
 }
+
+.craft_mySwiper {
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: #fff;
+    }
+
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+        color: #f0f0f0;
+    }
+}

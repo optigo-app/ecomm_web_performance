@@ -1051,7 +1051,7 @@ const Header = () => {
                           style={{ cursor: "pointer" }}
                           onClick={() => { navigation("/LoginOption"); setDrawerShowOverlay(false); }}
                         >
-                          LOG IN
+                          Log In
                         </p>
                       </div>
                     )}
@@ -1065,7 +1065,7 @@ const Header = () => {
                           style={{ cursor: "pointer" }}
                           onClick={() => { navigation("/LoginOption"); setDrawerShowOverlay(false); }}
                         >
-                          LOG IN
+                          Log In
                         </p>
                       </div>
                     )}
