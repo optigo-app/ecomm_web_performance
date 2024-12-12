@@ -63,7 +63,7 @@ const Home = () => {
                 let data = JSON.stringify(response?.Data?.rd)
                 sessionStorage.setItem('CurrencyCombo', data)
               }
-            }).catch((err) => console.log(err))
+            }).catch((err) => {return err})
 
 
             MetalColorCombo(response?.Data?.rd[0]?.id).then((response) => {
@@ -71,7 +71,7 @@ const Home = () => {
                 let data = JSON.stringify(response?.Data?.rd)
                 sessionStorage.setItem('MetalColorCombo', data)
               }
-            }).catch((err) => console.log(err))
+            }).catch((err) => {return err})
 
 
             MetalTypeComboAPI(response?.Data?.rd[0]?.id).then((response) => {
@@ -79,7 +79,7 @@ const Home = () => {
                 let data = JSON.stringify(response?.Data?.rd)
                 sessionStorage.setItem('metalTypeCombo', data)
               }
-            }).catch((err) => console.log(err))
+            }).catch((err) => {return err})
 
 
             navigation("/");
@@ -90,7 +90,7 @@ const Home = () => {
             }
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {return err});
     }
 
     const queryParams = new URLSearchParams(window.location.search);
@@ -103,7 +103,7 @@ const Home = () => {
       token !== null &&
       token !== ""
     ) {
-      console.log("islogin")
+      // console.log("islogin")
       handleSubmit();
     }
   }, []);
@@ -148,7 +148,7 @@ const Home = () => {
             }
           }).catch((err) => {
             if (err) {
-              console.log("getCountApiErr", err);
+             {return err}
             }
           })
 
@@ -157,7 +157,7 @@ const Home = () => {
               let data = JSON.stringify(response?.Data?.rd)
               sessionStorage.setItem('CurrencyCombo', data)
             }
-          }).catch((err) => console.log(err))
+          }).catch((err) => {return err})
 
 
           MetalColorCombo(response?.Data?.rd[0]?.id).then((response) => {
@@ -165,7 +165,7 @@ const Home = () => {
               let data = JSON.stringify(response?.Data?.rd)
               sessionStorage.setItem('MetalColorCombo', data)
             }
-          }).catch((err) => console.log(err))
+          }).catch((err) => {return err})
 
 
           MetalTypeComboAPI(response?.Data?.rd[0]?.id).then((response) => {
@@ -173,7 +173,7 @@ const Home = () => {
               let data = JSON.stringify(response?.Data?.rd)
               sessionStorage.setItem('metalTypeCombo', data)
             }
-          }).catch((err) => console.log(err))
+          }).catch((err) => {return err})
 
 
           navigation("/");
@@ -184,7 +184,7 @@ const Home = () => {
           }
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {return err});
   };
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 // BottomTabNavigation.js
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { FaHome, FaUser, FaEnvelope, FaShoppingBag } from 'react-icons/fa';
+import { FaHome, FaUser,  FaShoppingBag } from 'react-icons/fa';
 import { FaShoppingCart } from "react-icons/fa";
 import { useRecoilValue } from 'recoil';
 import { Badge, Button, Tooltip } from '@mui/material';
@@ -83,7 +83,7 @@ const HomeTab = () => {
         </>
         :
         <div style={styles.container}>
-          <NavLink to="/" style={styles.tab} activeClassName="active" onClick={() => handleTabChange("/")}>
+          <NavLink  to="/" style={styles.tab} activeClassName="active" onClick={() => handleTabChange("/")}>
             <Button style={{ display: 'flex', flexDirection: 'column', color: 'rgb(102, 102, 102)' }}>
               <FaHome style={activeTab === "/" ? styles.activeIcon : styles.icon} />
               <span style={activeTab === "/" ? styles.activeText : styles.text}>Home</span>

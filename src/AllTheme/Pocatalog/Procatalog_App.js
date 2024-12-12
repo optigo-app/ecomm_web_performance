@@ -24,7 +24,7 @@ import Register from "./Components/Pages/Auth/Registretion/Register";
 import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile";
 import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
 import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode";
-import AboutUs from "./Components/Pages/aboutUs/AboutUs";
+// import AboutUs from "./Components/Pages/aboutUs/AboutUs";
 import { MetalTypeComboAPI } from "../../utils/API/Combo/MetalTypeComboAPI";
 import { ColorStoneQualityColorComboAPI } from "../../utils/API/Combo/ColorStoneQualityColorComboAPI";
 import { CurrencyComboAPI } from "../../utils/API/Combo/CurrencyComboAPI";
@@ -50,6 +50,9 @@ import {
 } from "../../utils/Glob_Functions/GlobalFunction";
 import Footer from "./Components/Pages/Home/Footer/Footer";
 import ProcatAppChatMenu from "./Components/Pages/Home/ChatMenu/ProcatAppChatMenu";
+import AboutUs from "./Components/Pages/Static/AboutUs/AboutUs";
+import TermsCondition from "./Components/Pages/Static/TermsPolicy/TermsPolicy";
+import PrivacyPolicy from "./Components/Pages/Static/PrivacyPolicy/PrivacyPolicy";
 
 const Procatalog_App = () => {
   const navigation = useNavigate();
@@ -195,6 +198,8 @@ const Procatalog_App = () => {
           <Route path="/FunFact" element={<FunFact />} />
           <Route path="/Lookbook" element={<Lookbook />} />
           <Route path="/aboutUs" element={<AboutUs />} />
+          <Route path="/privacy-policy" element={<TermsCondition />} />
+          <Route path="/terms-and-conditions" element={ <PrivacyPolicy />} />
           <Route
             path="/"
             element={<ProCat_PrivateRoutes isLoginStatus={islogin} />}

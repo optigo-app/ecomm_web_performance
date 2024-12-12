@@ -67,8 +67,8 @@ const BestSellerSection = () => {
     const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
     const { IsB2BWebsite } = storeInit;
-    console.log("IsB2BWebsite", IsB2BWebsite);
-    console.log("loginUserDetail", loginUserDetail)
+    // console.log("IsB2BWebsite", IsB2BWebsite);
+    // console.log("loginUserDetail", loginUserDetail)
     const visiterID = Cookies.get('visiterId');
     let finalID;
     if (IsB2BWebsite == 0) {
@@ -76,9 +76,9 @@ const BestSellerSection = () => {
     } else {
         finalID = loginUserDetail?.id || '0';
     }
-    console.log("finalID", finalID);
-    console.log("loginUserDetail", loginUserDetail);
-    console.log("visiterID", visiterID);
+    // console.log("finalID", finalID);
+    // console.log("loginUserDetail", loginUserDetail);
+    // console.log("visiterID", visiterID);
     
 
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -92,7 +92,7 @@ const BestSellerSection = () => {
         if (response?.Data?.rd) {
             setBestSellerData(response?.Data?.rd);
         }
-    }).catch((err) => console.log(err))
+    }).catch((err) =>{ return err})
 
 }
 
@@ -103,7 +103,7 @@ const BestSellerSection = () => {
             const compressed = Pako.deflate(uint8Array, { to: 'string' });
             return btoa(String.fromCharCode.apply(null, compressed));
         } catch (error) {
-            console.error('Error compressing and encoding:', error);
+            // console.error('Error compressing and encoding:', error);
             return null;
         }
     };

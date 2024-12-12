@@ -1,36 +1,36 @@
 import { atom } from "recoil";
 
 export const PC_AppcompanyLogo = atom({
-    key:'companyLogo',
+    key:'pma_companyLogo',
     default:[]
 })
 
 export const  PC_ApploginState = atom({
-  key: 'loginState',
+  key: 'pma_loginState',
   default: false,
 })
 
 export const  PC_AppCartCount = atom({
-  key: 'CartCount',
+  key: 'pma_CartCount',
   default: 0
 })
 
 export const  PC_AppWishCount = atom({
-  key: 'WishCount',
+  key: 'pma_WishCount',
   default: 0
 })
 
 export const PC_AppdefaultAddressState = atom({
-  key: 'defaultAddressState',
+  key: 'pma_defaultAddressState',
   default: null,
 });
 
 export const PC_AppShowSnackBar = atom({
-  key: 'PC_AppShowSnackBar',
+  key: 'pma_PC_AppShowSnackBar',
   default: false,
 });
 
 export const soketProductData_ProCatApp = atom({
-  key: 'soketProductData',
+  key: 'pma_soketProductData',
   default: []
 })
