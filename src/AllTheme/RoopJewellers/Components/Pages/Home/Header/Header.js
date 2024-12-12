@@ -20,6 +20,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
 import pako from "pako";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { GoHeart } from "react-icons/go";
 import CartDrawer from "../../Cart/CartPageB2c/Cart";
 import useCountdown from "../../CountDownTimer/CountDownTimer";
@@ -261,6 +263,10 @@ const Header = () => {
   };
 
   const handelMenu = (param, param1, param2, event) => {
+    console.log('event: ', event);
+    console.log('param2: ', param2);
+    console.log('param1: ', param1);
+    console.log('param: ', param);
     if (
       event?.ctrlKey || // Ctrl key
       event?.shiftKey || // Shift key
@@ -408,6 +414,27 @@ const Header = () => {
     }
   };
 
+  const clickSearch = () => {
+    if (searchText) {
+      let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+      let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+      let obj = {
+        a: "",
+        b: searchText,
+        m: loginInfo?.MetalId ?? storeInit?.MetalId,
+        d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+        c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+        f: {},
+      };
+
+      let encodeObj = btoa(JSON.stringify(obj));
+      setDrawerShowOverlay(false);
+      navigation(`/p/${searchText}?S=${encodeObj}`);
+      setSearchText("");
+      setSerachShowOverlay(false);
+    }
+  }
+
   // for cart drawer
 
   const toggleCartDrawer = () => {
@@ -478,6 +505,7 @@ const Header = () => {
                     onKeyDown={searchDataFucn}
                   />
                   <IoSearchOutline
+                    onClick={() => clickSearch()}
                     style={{ height: "25px", width: "25px", marginRight: "10px" }}
                   />
                 </div>
@@ -534,7 +562,8 @@ const Header = () => {
                       style={{
                         height: "30px",
                         width: "30px",
-                        color: "white",
+                        color: "black",
+                        // color: "white",
                         cursor: "pointer",
                       }}
                       onClick={toggleDrawerOverlay}
@@ -707,7 +736,8 @@ const Header = () => {
                   <div
                     style={{
                       display: "flex",
-                      border: "1px solid white",
+                      border: "1px solid black",
+                      // border: "1px solid white",
                       alignItems: "center",
                       height: "40px",
                       justifyContent: "center",
@@ -721,7 +751,7 @@ const Header = () => {
                       type="text"
                       placeholder="Search"
                       value={searchText}
-                      autoFocus
+                      // autoFocus
                       onChange={(e) => setSearchText(e.target.value)}
                       className="mobileSideBarSearch"
                       onKeyDown={searchDataFucn}
@@ -731,16 +761,19 @@ const Header = () => {
                         outline: "none",
                         backgroundColor: "transparent",
                         fontWeight: 500,
-                        color: "white",
+                        // color: "white",
+                        color: "black",
                         fontSize: "17px",
                       }}
 
                     />
                     <IoSearchOutline
+                      onClick={() => clickSearch()}
                       style={{
                         height: "20px",
                         cursor: "pointer",
-                        color: "white",
+                        // color: "white",
+                        color: "black",
                         width: "20px",
                         marginInline: "5px",
                       }}
@@ -752,7 +785,8 @@ const Header = () => {
                       <div
                         style={{
                           display: "flex",
-                          border: "1px solid white",
+                          // border: "1px solid white",
+                          border: "1px solid black",
                           alignItems: "center",
                           height: "40px",
                           justifyContent: "center",
@@ -766,7 +800,7 @@ const Header = () => {
                           type="text"
                           placeholder="Search"
                           value={searchText}
-                          autoFocus
+                          // autoFocus
                           onChange={(e) => setSearchText(e.target.value)}
                           className="mobileSideBarSearch"
                           onKeyDown={searchDataFucn}
@@ -776,16 +810,19 @@ const Header = () => {
                             outline: "none",
                             backgroundColor: "transparent",
                             fontWeight: 500,
-                            color: "white",
+                            // color: "white",
+                            color: "black",
                             fontSize: "17px",
                           }}
 
                         />
                         <IoSearchOutline
+                          onClick={() => clickSearch()}
                           style={{
                             height: "20px",
                             cursor: "pointer",
-                            color: "white",
+                            // color: "white",
+                            color: "black",
                             width: "20px",
                             marginInline: "5px",
                           }}
@@ -805,102 +842,112 @@ const Header = () => {
                         <ButtonBase
                           component="div"
                           className="muilistMenutext"
-                          // onClick={() =>
-                          //   handleLoginMenuClick(
-                          //     menuItem.menuname,
-                          //     null,
-                          //     "iconclicked"
-                          //   )
-                          // }
-                          onClick={(e) => {
-                            handelMenu(
-                              { menuname: menuItem?.menuname, key: menuItem?.param0name, value: menuItem?.param0dataname },
-                              {},
-                              {},
-                              e
-                            );
-                          }}
+                          onClick={() =>
+                            handleLoginMenuClick(
+                              menuItem.menuname,
+                              null,
+                              "iconclicked"
+                            )
+                          }
+                          // onClick={(e) => {
+                          //   handelMenu(
+                          //     { menuname: menuItem?.menuname, key: menuItem?.param0name, value: menuItem?.param0dataname },
+                          //     {},
+                          //     {},
+                          //     e
+                          //   );
+                          // }}
                           style={{ width: "100%" }}
                         >
                           <ListItem
                             style={{
                               padding: "5px",
-                              borderBottom: "1px solid white",
+                              borderBottom: "1px solid black",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
                             }}
                           >
                             <p className="roop_menuStaicMobile">
                               {menuItem.menuname}
                             </p>
+                            {selectedMenu === menuItem.menuname ? (
+                              <KeyboardArrowUpIcon style={{ fontSize: '20px', color: 'black' }} />
+                            ) : (
+                              <KeyboardArrowDownIcon style={{ fontSize: '20px', color: 'black' }} />
+                            )}
                           </ListItem>
                         </ButtonBase>
 
-                        {/* {selectedMenu === menuItem.menuname && (
-                        <>
-                          <ButtonBase
-                            component="div"
-                            onClick={() =>
-                              handelMenu({
-                                menuname: menuItem?.menuname,
-                                key: menuItem?.param0name,
-                                value: menuItem?.param0dataname,
-                              })
-                            }
-                            style={{
-                              width: "100%",
-                              display: "flex",
-                              justifyContent: "start",
-                            }}
-                          >
-                            <div
+
+                        {selectedMenu === menuItem.menuname && (
+                          <>
+                            <ButtonBase
+                              component="div"
+                              onClick={() =>
+                                handelMenu({
+                                  menuname: menuItem?.menuname,
+                                  key: menuItem?.param0name,
+                                  value: menuItem?.param0dataname,
+                                })
+                              }
                               style={{
-                                paddingLeft: "10px",
-                                fontSize: "15px",
-                                marginTop: "5px",
+                                width: "100%",
+                                display: "flex",
+                                justifyContent: "start",
                               }}
                             >
-                              <button className="roop_mobile_viewAllBtn">
-                                View All
-                              </button>
-                            </div>
-                          </ButtonBase>
-                          <List className="roop_mobileMenuScroll">
-                            {menuItem.param1.map((subMenuItem) => (
-                              <div key={subMenuItem.param1dataid}>
-                                <ButtonBase
-                                  component="div"
-                                  onClick={() =>
-                                    handelMenu(
-                                      {
-                                        menuname: menuItem?.menuname,
-                                        key: menuItem?.param0name,
-                                        value: menuItem?.param0dataname,
-                                      },
-                                      {
-                                        key: subMenuItem.param1name,
-                                        value: subMenuItem.param1dataname,
-                                      }
-                                    )
-                                  }
-                                  style={{ width: "100%" }}
-                                >
-                                  <p
-                                    style={{
-                                      margin: "0px 0px 0px 15px",
-                                      width: "100%",
-                                      fontWeight: "600",
-                                      color: "white",
-                                    }}
+                              <div
+                                style={{
+                                  paddingLeft: "10px",
+                                  fontSize: "15px",
+                                  marginTop: "5px",
+                                }}
+                              >
+                                <button className="roop_mobile_viewAllBtn">
+                                  View All
+                                </button>
+                              </div>
+                            </ButtonBase>
+                            <List className="roop_mobileMenuScroll">
+                              {menuItem.param1.map((subMenuItem) => (
+                                <div key={subMenuItem.param1dataid}>
+                                  <ButtonBase
+                                    component="div"
+                                    onClick={() =>
+                                      handelMenu(
+                                        {
+                                          menuname: menuItem?.menuname,
+                                          key: menuItem?.param0name,
+                                          value: menuItem?.param0dataname,
+                                        },
+                                        {
+                                          key: subMenuItem.param1name,
+                                          value: subMenuItem.param1dataname,
+                                        }
+                                      )
+                                    }
+                                    style={{ width: "100%" }}
                                   >
-                                    {subMenuItem.param1dataname}
-                                  </p>
-                                </ButtonBase> */}
-                        {/* {selectedSubMenu === subMenuItem.param1dataname && ( */}
-                        {/* {selectedMenu === menuItem.menuname && (
-                                  <> */}
-                        {/* <div style={{ paddingLeft: '10px' }}>
+                                    <p
+                                      style={{
+                                        margin: "0px 0px 0px 15px",
+                                        width: "100%",
+                                        fontWeight: "600",
+                                        color: "black",
+                                        // color: "white",
+                                      }}
+                                    >
+                                      {subMenuItem.param1dataname}
+                                    </p>
+                                  </ButtonBase>
+                                  {/* {selectedSubMenu === subMenuItem.param1dataname && ( */}
+                                  {/* {selectedMenu === menuItem.menuname && (
+                                  <>
+                        <div style={{ paddingLeft: '10px' }}>
                                     <button class="underline-button" onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}>View All</button>
-                                  </div> */}
-                        {/* <List
+                                  </div>
+                        <List
                                       style={{
                                         paddingTop: "0px",
                                         paddingBottom: "0px",
@@ -943,12 +990,12 @@ const Header = () => {
                                       )}
                                     </List>
                                   </>
-                                )}
-                              </div>
-                            ))}
-                          </List>
-                        </>
-                      )} */}
+                                )} */}
+                                </div>
+                              ))}
+                            </List>
+                          </>
+                        )}
                       </div>
                     ))}
                   </List>
@@ -992,7 +1039,7 @@ const Header = () => {
                 )}
 
                 <div>
-                  <p className="roop_menuStaicMobilePage">About us</p>
+                  <p className="roop_menuStaicMobilePageLink">About us</p>
                 </div>
 
                 {IsB2BWebsiteChek === 0 ? (
@@ -1091,7 +1138,7 @@ const Header = () => {
                   loading="lazy"
                   className="roop_logo_header"
                   alt="roop_logo_header-mobile-1200"
-                  />
+                />
               </a>
             </div>
             {/* <div className="roop_Top2_header_div2">
@@ -1111,128 +1158,79 @@ const Header = () => {
              </div>
            </div> */}
             <div className="roop_Top2_header_div2">
-              {menuItems.map((item, index) => {
-                const { menuname, param1 ,param2 } = item;
-                return (
-                  <li
-                  role="menuitem"
-                    className="roop_header_li"
-                    key={index}
-                    label={item.menuname}
-                    onMouseEnter={() => {
-                      handleMouseEnter(index);
-                    }}
-                    onMouseLeave={() => {
-                      handleMouseLeave();
-                    }}
-                    onClick={(e) => {
-                      handelMenu(
-                        { menuname: item?.menuname, key: item?.param0name, value: item?.param0dataname },
-                        {},
-                        {},
-                        e
-                      );
-                    }}
-                  >
-                    <Link
-                      href={`/p/${item?.menuname}/?M=${btoa(`${item?.param0dataname}/${item?.param0name}`)}`}
-                      className="roop_header_link"
+              <ul role="menu" className="roop_header_menu">
+                {menuItems.map((item, index) => {
+                  const { menuname, param1, param2 } = item;
+                  return (
+                    <li
+                      role="menuitem"
+                      className="roop_header_li"
+                      key={index}
+                      label={item.menuname}
+                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseLeave={handleMouseLeave}
                     >
-                      {item.menuname}
-                    </Link>
-                    {param1 &&
-                      param1?.length > 0 &&
-                      param1[0].param1name !== "" && (
+                      <Link
+                        href={`/p/${item?.menuname}/?M=${btoa(`${item?.param0dataname}/${item?.param0name}`)}`}
+                        className="roop_header_link"
+                        onClick={(e) => {
+                          handelMenu(
+                            {
+                              menuname: item.menuname,
+                              key: item?.param0name,
+                              value: item?.param0dataname,
+                            },
+                            {},
+                            {},
+                            e
+                          )
+                        }}
+                      >
+                        {item.menuname}
+                      </Link>
+                      {param1 && param1.length > 0 && param1[0].param1name !== "" && (
                         <ul className="submenu-rp" role="listbox">
-                          {param1[0].param1name === ""
-                            ? " "
-                            : param1?.map(
-                              ({ param1dataname, param1name }, j) => (
-                                <li role="menuitem" key={j} >
-                                  <span
-                                    onClick={() => {
-                                      handelMenu(
-                                        {
-                                          menuname: menuname,
-                                          key: item?.param0name,
-                                          value: item?.param0dataname,
-                                        },
-                                        {
-                                          key: param1name,
-                                          value: param1dataname,
-                                        }
-                                      );
-                                      window.scrollTo({
-                                        behavior: "smooth",
-                                        top: 0,
-                                        left: 0,
-                                      });
-                                    }}
-                                    role="link"
-                                  >
-                                    {param1dataname}
-                                  </span>
-                                  {/* {param2 && (
-                                <ul className="sub_submenu">
-                                  {param2?.map(
-                                    ({ param2dataname, param2name }, j) => (
-                                      <li>
-                                        <span
-                                          onClick={() =>
-                                            handelMenu(
-                                              {
-                                                menuname: menuname,
-                                                key: menuItem?.param0name,
-                                                value: menuItem?.param0dataname,
-                                              },
-                                              {
-                                                key: param1name,
-                                                value: param1dataname,
-                                              },
-                                              {
-                                                key: param2name,
-                                                value: param2dataname,
-                                              }
-                                            )
-                                          }
-                                        >
-                                          {param2dataname}
-                                        </span>
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              )} */}
-                                </li>
-                              )
-                            )}
+                          {param1.map(({ param1dataname, param1name }, j) => (
+                            <li role="menuitem" key={j}>
+                              <span
+                                onClick={(e) => {
+                                  handelMenu(
+                                    {
+                                      menuname: item.menuname,
+                                      key: item?.param0name,
+                                      value: item?.param0dataname,
+                                    },
+                                    {
+                                      key: param1name,
+                                      value: param1dataname,
+                                    },
+                                    {},
+                                    e
+                                  );
+
+                                  window.scrollTo({
+                                    behavior: "smooth",
+                                    top: 0,
+                                    left: 0,
+                                  });
+                                }}
+                                role="link"
+                                className="submenu-link"
+                              >
+                                {param1dataname}
+                              </span>
+                            </li>
+                          ))}
                         </ul>
                       )}
-                  </li>
-                );
-              })}
+                    </li>
+                  );
+                })}
+              </ul>
 
               {IsB2BWebsiteChek === 1 ? (
                 islogin === true ? (
-                  <>
-                    {storeinit?.IsDesignSetInMenu == 1 &&
-                      <li
-                        className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                        style={{ cursor: "pointer" }}
-                        onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
-                      >
-                        <a href="/Lookbook" className="roop_A_linkFixed">
-                          {storeinit?.DesignSetInMenu}
-                        </a>
-                      </li>
-                    }
-                  </>
-                ) : (
-                  ""
-                )
-              ) : (
-                <>
-                  {storeinit?.IsDesignSetInMenu == 1 &&
+                  storeinit?.IsDesignSetInMenu == 1 && (
                     <li
                       className="nav_li_smining_Fixed nav_li_smining_Mobile"
                       style={{ cursor: "pointer" }}
@@ -1242,8 +1240,20 @@ const Header = () => {
                         {storeinit?.DesignSetInMenu}
                       </a>
                     </li>
-                  }
-                </>
+                  )
+                ) : null
+              ) : (
+                storeinit?.IsDesignSetInMenu == 1 && (
+                  <li
+                    className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                    style={{ cursor: "pointer" }}
+                    onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
+                  >
+                    <a href="/Lookbook" className="roop_A_linkFixed">
+                      {storeinit?.DesignSetInMenu}
+                    </a>
+                  </li>
+                )
               )}
             </div>
             <div className="roop_Top2_header_div3">

@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import './Footer.modul.scss'
 import { IoLocationOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router';
+import { useMediaQuery } from '@mui/material';
 
 const Footer = ({ fromPage }) => {
 
   const [socialMediaData, setSocialMediaData] = useState([]);
   const [companyInfoData, setCompanuInfoData] = useState();
+  const maxWidth = useMediaQuery('(max-width:1024px)');
   const navigation = useNavigate();
   useEffect(() => {
     const companyInfoData = JSON.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
@@ -48,7 +50,7 @@ const Footer = ({ fromPage }) => {
               fontWeight: 500,
               marginInline: '0'
             }}>© 2024, optigoapps</p>
-            <div>
+            <div style={{ width: maxWidth ? "100%" : "" }}>
               <p style={{
                 color: '#7d7f85',
                 fontSize: '12px',
