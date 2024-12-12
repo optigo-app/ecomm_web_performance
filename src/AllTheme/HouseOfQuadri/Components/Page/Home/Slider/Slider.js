@@ -53,7 +53,7 @@ const TopSlider = () => {
                 <img src={ val?.url || ""} alt={val?.key} />
               </div>
             ))}
-      </Slider>{" "}
+      </Slider>
       {/* <div className="controller_btn_2">
         <button onClick={() => slider?.current?.slickNext()}>
           <BsChevronCompactRight className="btn_icons" />

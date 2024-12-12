@@ -831,16 +831,17 @@ const ProductList = () => {
         }
         return res;
       })
-      // .then(async (res) => {
-      //   if (res) {
-      //     await GetPriceListApi(value, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
-      //       if (resp) {
-      //         setPriceListData(resp)
-      //       }
-      //     })
-      //   }
-      //   return res
-      // })
+    // {  // .then(async (res) => {
+    //   //   if (res) {
+    //   //     await GetPriceListApi(value, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
+    //   //       if (resp) {
+    //   //         setPriceListData(resp)
+    //   //       }
+    //   //     })
+    //   //   }
+    //   //   return res
+    //   // })
+    //   }
       .catch((err) => console.log("err", err)).finally(() => {
         setTimeout(() => {
           setIsProdLoading(false)
@@ -1047,8 +1048,6 @@ const ProductList = () => {
   };
 
 
-
-  console.log("isSortByDrawerOpen", isSortByDrawerOpen);
 
   const handleSortby = async (ele) => {
     setSortBySelect(ele)

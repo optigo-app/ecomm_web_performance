@@ -837,8 +837,8 @@ const Header = () => {
                     className="roop_ListMenuSiderMobile"
                     sx={{ paddingTop: "0", marginBottom: "0px", marginTop: "15px" }}
                   >
-                    {menuItems.map((menuItem) => (
-                      <div key={menuItem.menuid}>
+                    {menuItems.map((menuItem,index) => (
+                      <div key={menuItem.menuid || index}>
                         <ButtonBase
                           component="div"
                           className="muilistMenutext"
@@ -1884,9 +1884,9 @@ const Header = () => {
             onMouseLeave={handleDropdownClose}
           >
             <div style={{ display: "flex" }}>
-              {menuItems.map((menuItem) => (
+              {menuItems.map((menuItem,index) => (
                 <div
-                  key={menuItem.menuid}
+                  key={menuItem.menuid||index}
                   className="roop_headerOptionSingleDiv"
                   style={{
                     minWidth: "fitContent",
@@ -1934,8 +1934,8 @@ const Header = () => {
                       </div>
                     </ButtonBase> */}
                     <List className="roop_listMain">
-                      {menuItem.param1.map((subMenuItem) => (
-                        <div key={subMenuItem.param1dataid}>
+                      {menuItem.param1.map((subMenuItem,index) => (
+                        <div key={subMenuItem.param1dataid || index}>
                           <ButtonBase
                             component="div"
                             style={{
@@ -1988,8 +1988,9 @@ const Header = () => {
                                 paddingBottom: "0px",
                               }}
                             >
-                              {subMenuItem.param2.map((subSubMenuItem) => (
+                              {subMenuItem.param2.map((subSubMenuItem,index) => (
                                 <div
+                                key={index}
                                   component="div"
                                   style={{ width: "100%" }}
                                   onClick={(e) =>

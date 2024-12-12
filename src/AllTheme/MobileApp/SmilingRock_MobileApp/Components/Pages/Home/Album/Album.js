@@ -66,7 +66,9 @@ const Album = () => {
           setAlbumData(response?.Data?.rd);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        return err ;
+      });
   }
 
   const checkImageAvailability = (url) => {
@@ -97,7 +99,7 @@ const Album = () => {
       const imagePromises = albumData.map(async (album) => {
         if (album.AlbumImageName && album.AlbumImageFol) {
           const imgSrc = `${storeInit?.AlbumImageFol}${album?.AlbumImageFol}/${album?.AlbumImageName}`
-          console.log(imgSrc ,"img src")
+          // console.log(imgSrc ,"img src")
           const validImage = await checkImageAvailability(imgSrc);
           return { ...album, src: validImage, name: album?.AlbumName };
         }

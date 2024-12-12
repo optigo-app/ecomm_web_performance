@@ -1,27 +1,5 @@
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import "./Index.modul.scss";
-// import TopSection from "./TopVideo/TopSection";
-// import TheDifference from "./TheDifference/TheDifference";
-// import PromotionBaner1 from "./PromotionBanner1/PromotionBaner1";
-// import PromotionBaner2 from "./PromotionBanner1/PromotionBaner2";
-// import ShopByCategory from "./ShopByCategory/ShopByCategory";
-// import PromoSetSection from "./BestSellerSection/BestSellerSection";
-// import SustainAbility from "./SustainAbility/SustainAbility";
-// import BottomBanner from "./BottomBanner/BottomBanner";
-// import Footer from "./Footer/Footer";
-// import TrendingView from "./TrandingView/TrendingView";
-// import TrendingView1 from "./TrandingView/TrendingView1";
-// import DesignSet from "./DesignSet/DesignSet1";
-// import DesignSet1 from "./DesignSet/DesignSet2";
-// import Album from "./Album/Album";
-// import Album1 from "./Album/Album1";
-// import NewArrival from "./NewArrival/NewArrival";
-// import NewArrival1 from "./NewArrival/NewArrival1";
-// import BestSellerSection from "./BestSellerSection/BestSellerSection";
-// import BestSellerSection1 from "./BestSellerSection/BestSellerSection1";
-// import BrandsComponent from "./BrandComponent/BrandComponents";
-// import Collection from "./Collection/Collection";
-// import JewellerySet from "./JewellerySet/JewellerySet";
 
 const TopSection = lazy(() => import('./TopVideo/TopSection'));
 const TheDifference = lazy(() => import('./TheDifference/TheDifference'));
@@ -71,27 +49,7 @@ function Home() {
 
   return (
     <>
-      {/* <div className="stam_home_index_main">
-        <div style={{ minHeight: minHeight }}>
-          <div className="stam_home_index_Submain">
-            <TopSection />
-            {localData?.IsHomeAlbum === 1 && <JewellerySet />}
-            {localData?.IsHomeTrending === 1 && <TrendingView1 />}
-            {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
-            <Collection />
-            {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />} */}
-            {/* <TheDifference /> */}
-            {/* <TrendingView1 /> */}
-            {/* <PromotionBaner2 /> */}
-            {/* {localData?.IsHomeAlbum === 1 && <Album1 />} */}
-
-            {/* {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */}
-            {/* <BottomBanner /> */}
-            {/* <PromotionBaner1 /> */}
-            {/* <BrandsComponent /> */}
-          {/* </div> */}
-        {/* </div> */}
-      {/* </div> */}
+     
       <>
  <Suspense fallback={<></>}>
  <div className="stam_home_index_main" aria-labelledby="main-content">
@@ -135,3 +93,26 @@ function Home() {
 }
 
 export default Home;
+
+
+ {/* <div className="stam_home_index_main">
+        <div style={{ minHeight: minHeight }}>
+          <div className="stam_home_index_Submain">
+            <TopSection />
+            {localData?.IsHomeAlbum === 1 && <JewellerySet />}
+            {localData?.IsHomeTrending === 1 && <TrendingView1 />}
+            {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
+            <Collection />
+            {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />} */}
+            {/* <TheDifference /> */}
+            {/* <TrendingView1 /> */}
+            {/* <PromotionBaner2 /> */}
+            {/* {localData?.IsHomeAlbum === 1 && <Album1 />} */}
+
+            {/* {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */}
+            {/* <BottomBanner /> */}
+            {/* <PromotionBaner1 /> */}
+            {/* <BrandsComponent /> */}
+          {/* </div> */}
+        {/* </div> */}
+      {/* </div> */}

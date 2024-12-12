@@ -1,46 +1,46 @@
 import { atom } from "recoil";
 
 export const smr_companyLogo = atom({
-  key: 'smr_companyLogo',
+  key: 'smr_smr_companyLogo',
   default: []
 })
 
 export const smr_companyLogoM = atom({
-  key: 'smr_companyLogoM',
+  key: 'smr_smr_companyLogoM',
   default: []
 })
 
 export const smr_loginState = atom({
-  key: 'smr_loginState',
+  key: 'smr_smr_loginState',
   default: false,
 })
 
 export const CartCount = atom({
-  key: 'CartCount',
+  key: 'smr_CartCount',
   default: 0
 })
 
 export const WishCount = atom({
-  key: 'WishCount',
+  key: 'smr_WishCount',
   default: 0
 })
 
 export const cartB2CDrawer = atom({
-  key: 'cartB2CDrawer',
+  key: 'smr_cartB2CDrawer',
   default: false
 })
 
 export const DiamondRangeArr = atom({
-  key: 'DiamondRangeArr',
+  key: 'smr_DiamondRangeArr',
   default: []
 })
 
 export const homeLoading = atom({
-  key: 'homeLoading',
+  key: 'smr_homeLoading',
   default: true
 })
 
 export const defaultAddressState = atom({
-  key: 'defaultAddressState',
+  key: 'smr_defaultAddressState',
   default: null,
 });

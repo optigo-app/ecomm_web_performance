@@ -31,11 +31,11 @@ export const dt_WishCount = atom({
 })
 
 export const defaultAddressStateDT = atom({
-  key: 'defaultAddressStateDT',
+  key: 'dt_defaultAddressStateDT',
   default: null,
 });
 
 export const lookBookDrawer = atom({
-  key: 'lookBookDrawer',
+  key: 'dt_lookBookDrawer',
   default: false,
 });

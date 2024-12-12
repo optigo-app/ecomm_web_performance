@@ -7,8 +7,7 @@ import { Helmet } from "react-helmet";
 import { roop_CartNo, roop_companyLogo, roop_loginState } from "./Components/Recoil/atom";
 import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
-import ManagementTeam from './Components/Pages/static/Management/Management';
-import TermsAndConditions from './Components/Pages/static/TermsPage/TermsPage';
+
 
 // import Home from "./Components/Pages/Home/Index";
 // import Header from "./Components/Pages/Home/Header/Header";
@@ -69,6 +68,8 @@ const Lookbook = lazy(() => import("./Components/Pages/Home/LookBook/Lookbook"))
 const ScrollToTop = lazy(() => import("../DaimondTine/Components/Pages/ScrollToTop "));
 const StamScrollToTop = lazy(() => import("./Components/Pages/BackToTop/StamScrollToTop"));
 const Footer = lazy(() => import("./Components/Pages/Home/Footer/Footer"));
+const ManagementTeam = lazy(() => import('./Components/Pages/static/Management/Management'));
+const TermsAndConditions = lazy(() => import('./Components/Pages/static/TermsPage/TermsPage'));
 
 
 const RoopJewellers_App = () => {
@@ -94,10 +95,12 @@ const RoopJewellers_App = () => {
           setHtmlContent(jsonData);
         } catch (error) {
           console.error("Error parsing JSON:", error);
+          return ;
         }
       })
       .catch((error) => {
         console.error("Error fetching the file:", error);
+        return ;
       });
   }, []);
 
