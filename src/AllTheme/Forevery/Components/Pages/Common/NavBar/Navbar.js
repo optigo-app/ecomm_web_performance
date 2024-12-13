@@ -41,7 +41,7 @@ import {
 } from "@mui/material";
 import Pako from "pako";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
-import Preloader from "../../../../../../dum/Load";
+import Preloader from "../../Preloader/Load";
 import { RxCross1 } from "react-icons/rx";
 import UseNavbar from "../../../hooks/UseNavbar";
 import MobileNav from "./MobileNavbar";

@@ -1,48 +1,85 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Routes, Route, Outlet, useNavigate } from "react-router-dom";
-import Navbar from "./Components/Page/Home/Navbar/Navbar";
-import Footer from "./Components/Page/Home/Footer/Footer";
-import HomePage from "./Components/Page/Home";
-import CollectionPage from "./Components/Page/Collection/CollectionPage";
-import DynamicCollection from "./Components/Page/Home/CategoryTab/DynamicCollection/DynamicCollection";
-import ProductPage from "./Components/Page/Product/Product";
-import WishlistPage from "./Components/Page/Wishlist/WishlistPage";
-import CartPage from "./Components/Page/Cart/CartPage";
-import LoginOption from "./Components/Page/Auth/LoginOptions/Hoq_LoginOptions";
-import ContinueWithEmail from "./Components/Page/Auth/LoginWithEmail/Hoq_LoginWithEmail";
-import ContimueWithMobile from "./Components/Page/Auth/LoginWithMobile/Hoq_LoginWithMobile";
-import Register from "./Components/Page/Auth/Register/Hoq_Register";
-import LoginWithEmail from "./Components/Page/Auth/EmailLogin/Hoq_EmailLogin";
-import LoginWithEmailCode from "./Components/Page/Auth/LoginwithEmailCode/Hoq_LoginwithEmailCode";
-import LoginWithMobileCode from "./Components/Page/Auth/LoginWithMobileCode/Hoq_LoginWithMobileCode";
-import ForgotPass from "./Components/Page/Auth/ForgetPassword/Hoq_ForgetPassword";
 import { useLocation } from "react-router-dom";
-import ChatMenu from "./Components/Page/Home/ChatMenu/ChatMenu";
-import Delivery from "./Components/Page/OrderFlow/DeliveryPage/Delivery";
-import Payment from "./Components/Page/OrderFlow/PaymentPage/Payment";
-import Confirmation from "./Components/Page/OrderFlow/ConfirmationPage/Confirmation";
-import Account from "./Components/Page/Account/Account";
-import ShippingPage from "./Components/Page/staticPage/shippingpage/ShippingPage";
-import PrivacyPolicy from "./Components/Page/staticPage/privacyPolicy/PrivacyPolicy";
-import ReturnPolicy from "./Components/Page/staticPage/returnPolicy/ReturnPolicy";
-import TermsConditionPage from "./Components/Page/staticPage/TermsCondition/TermsConditions";
-import FaqSection from "./Components/Page/staticPage/FaqSection/FaqSection";
-import ContactForm from "./Components/Page/staticPage/ContactForm/ContactForm";
-import SizeGuide from "./Components/Page/staticPage/SizeGuide/SizeGuide";
-import QualityMatters from "./Components/Page/staticPage/WhyQualityMatters/QualityMatters";
-import Blogs from "./Components/Page/staticPage/blogs/Blogs";
-import OurStory from "./Components/Page/staticPage/OurStory/OurStory";
-import LabGrownDiamond from "./Components/Page/staticPage/LabGrownDiamond/LabGrownDiamond";
-import DiamondEducation from "./Components/Page/staticPage/DiamondEducation/DiamondEducation";
-import QualityCertification from "./Components/Page/staticPage/QualityCertification/QualityCertification";
-import PrivateRoutes from "./PrivateRoutes";
-import { Hoq_companyLogo, Hoq_loginState } from "./Components/Recoil/atom";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
-import Lookbook from "./Components/Page/LookBook/Lookbook";
-import Customization from "./Components/Page/staticPage/customization/Customization";
-import ContactPage from "./Components/Page/Checker";
+import { Hoq_companyLogo, Hoq_loginState } from "./Components/Recoil/atom";
+import PrivateRoutes from "./PrivateRoutes";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+
+// import Navbar from "./Components/Page/Home/Navbar/Navbar";
+// import Footer from "./Components/Page/Home/Footer/Footer";
+// import HomePage from "./Components/Page/Home";
+// import CollectionPage from "./Components/Page/Collection/CollectionPage";
+// import DynamicCollection from "./Components/Page/Home/CategoryTab/DynamicCollection/DynamicCollection";
+// import ProductPage from "./Components/Page/Product/Product";
+// import WishlistPage from "./Components/Page/Wishlist/WishlistPage";
+// import CartPage from "./Components/Page/Cart/CartPage";
+// import LoginOption from "./Components/Page/Auth/LoginOptions/Hoq_LoginOptions";
+// import ContinueWithEmail from "./Components/Page/Auth/LoginWithEmail/Hoq_LoginWithEmail";
+// import ContimueWithMobile from "./Components/Page/Auth/LoginWithMobile/Hoq_LoginWithMobile";
+// import Register from "./Components/Page/Auth/Register/Hoq_Register";
+// import LoginWithEmail from "./Components/Page/Auth/EmailLogin/Hoq_EmailLogin";
+// import LoginWithEmailCode from "./Components/Page/Auth/LoginwithEmailCode/Hoq_LoginwithEmailCode";
+// import LoginWithMobileCode from "./Components/Page/Auth/LoginWithMobileCode/Hoq_LoginWithMobileCode";
+// import ForgotPass from "./Components/Page/Auth/ForgetPassword/Hoq_ForgetPassword";
+// import ChatMenu from "./Components/Page/Home/ChatMenu/ChatMenu";
+// import Delivery from "./Components/Page/OrderFlow/DeliveryPage/Delivery";
+// import Payment from "./Components/Page/OrderFlow/PaymentPage/Payment";
+// import Confirmation from "./Components/Page/OrderFlow/ConfirmationPage/Confirmation";
+// import Account from "./Components/Page/Account/Account";
+// import ShippingPage from "./Components/Page/staticPage/shippingpage/ShippingPage";
+// import PrivacyPolicy from "./Components/Page/staticPage/privacyPolicy/PrivacyPolicy";
+// import ReturnPolicy from "./Components/Page/staticPage/returnPolicy/ReturnPolicy";
+// import TermsConditionPage from "./Components/Page/staticPage/TermsCondition/TermsConditions";
+// import FaqSection from "./Components/Page/staticPage/FaqSection/FaqSection";
+// import ContactForm from "./Components/Page/staticPage/ContactForm/ContactForm";
+// import SizeGuide from "./Components/Page/staticPage/SizeGuide/SizeGuide";
+// import QualityMatters from "./Components/Page/staticPage/WhyQualityMatters/QualityMatters";
+// import Blogs from "./Components/Page/staticPage/blogs/Blogs";
+// import OurStory from "./Components/Page/staticPage/OurStory/OurStory";
+// import LabGrownDiamond from "./Components/Page/staticPage/LabGrownDiamond/LabGrownDiamond";
+// import DiamondEducation from "./Components/Page/staticPage/DiamondEducation/DiamondEducation";
+// import QualityCertification from "./Components/Page/staticPage/QualityCertification/QualityCertification";
+// import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+// import Lookbook from "./Components/Page/LookBook/Lookbook";
+// import Customization from "./Components/Page/staticPage/customization/Customization";
+// import ContactPage from "./Components/Page/Checker";
+
+const Navbar = lazy(() => import("./Components/Page/Home/Navbar/Navbar"));
+const Footer = lazy(() => import("./Components/Page/Home/Footer/Footer"));
+const HomePage = lazy(() => import("./Components/Page/Home"));
+const CollectionPage = lazy(() => import("./Components/Page/Collection/CollectionPage"));
+const DynamicCollection = lazy(() => import("./Components/Page/Home/CategoryTab/DynamicCollection/DynamicCollection"));
+const ProductPage = lazy(() => import("./Components/Page/Product/Product"));
+const WishlistPage = lazy(() => import("./Components/Page/Wishlist/WishlistPage"));
+const CartPage = lazy(() => import("./Components/Page/Cart/CartPage"));
+const LoginOption = lazy(() => import("./Components/Page/Auth/LoginOptions/Hoq_LoginOptions"));
+const ContinueWithEmail = lazy(() => import("./Components/Page/Auth/LoginWithEmail/Hoq_LoginWithEmail"));
+const ContimueWithMobile = lazy(() => import("./Components/Page/Auth/LoginWithMobile/Hoq_LoginWithMobile"));
+const Register = lazy(() => import("./Components/Page/Auth/Register/Hoq_Register"));
+const LoginWithEmail = lazy(() => import("./Components/Page/Auth/EmailLogin/Hoq_EmailLogin"));
+const LoginWithEmailCode = lazy(() => import("./Components/Page/Auth/LoginwithEmailCode/Hoq_LoginwithEmailCode"));
+const LoginWithMobileCode = lazy(() => import("./Components/Page/Auth/LoginWithMobileCode/Hoq_LoginWithMobileCode"));
+const ForgotPass = lazy(() => import("./Components/Page/Auth/ForgetPassword/Hoq_ForgetPassword"));
+const ChatMenu = lazy(() => import("./Components/Page/Home/ChatMenu/ChatMenu"));
+const Delivery = lazy(() => import("./Components/Page/OrderFlow/DeliveryPage/Delivery"));
+const Payment = lazy(() => import("./Components/Page/OrderFlow/PaymentPage/Payment"));
+const Confirmation = lazy(() => import("./Components/Page/OrderFlow/ConfirmationPage/Confirmation"));
+const Account = lazy(() => import("./Components/Page/Account/Account"));
+const ShippingPage = lazy(() => import("./Components/Page/staticPage/shippingpage/ShippingPage"));
+const PrivacyPolicy = lazy(() => import("./Components/Page/staticPage/privacyPolicy/PrivacyPolicy"));
+const TermsConditionPage = lazy(() => import("./Components/Page/staticPage/TermsCondition/TermsConditions"));
+const FaqSection = lazy(() => import("./Components/Page/staticPage/FaqSection/FaqSection"));
+const ContactForm = lazy(() => import("./Components/Page/staticPage/ContactForm/ContactForm"));
+const SizeGuide = lazy(() => import("./Components/Page/staticPage/SizeGuide/SizeGuide"));
+const QualityMatters = lazy(() => import("./Components/Page/staticPage/WhyQualityMatters/QualityMatters"));
+const OurStory = lazy(() => import("./Components/Page/staticPage/OurStory/OurStory"));
+const LabGrownDiamond = lazy(() => import("./Components/Page/staticPage/LabGrownDiamond/LabGrownDiamond"));
+const QualityCertification = lazy(() => import("./Components/Page/staticPage/QualityCertification/QualityCertification"));
+const Lookbook = lazy(() => import("./Components/Page/LookBook/Lookbook"));
+const Customization = lazy(() => import("./Components/Page/staticPage/customization/Customization"));
+const ContactPage = lazy(() => import("./Components/Page/Checker"));
 
 const HouseOfQuadri_App = () => {
   const islogin = useRecoilValue(Hoq_loginState);
@@ -200,10 +237,11 @@ const HouseOfQuadri_App = () => {
 
   return (
     <>
+    <Suspense fallback={<></>}>
       <Navbar StoreData={StoreData} />
       <ChatMenu />
       <Routes>
-        <Route path="/checker" element={<ContactPage />} />
+        {/* <Route path="/checker" element={<ContactPage />} /> */}
         {/* Auth Flow  */}
         <Route path="/LoginOption" element={!islogin && <LoginOption />} />
         <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />
@@ -247,6 +285,7 @@ const HouseOfQuadri_App = () => {
         />
       </Routes>
       <Footer StoreData={StoreData} />
+    </Suspense>
     </>
   );
 };

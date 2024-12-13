@@ -9,7 +9,7 @@
   font-family: $fontRegular !important;
 
   .roop_header_top_line {
-    height: 50px;
+    height: 35px;
     background-color: #d14a61;
     display: flex;
     justify-content: center;
@@ -26,13 +26,13 @@
   }
 
   .roop_header_top_line_text {
-    font-size: 23px;
+    font-size: 20px;
     font-weight: 500;
     margin: 0px;
     text-align: center;
     font-family: $fontBold !important;
     @media screen and (max-width:768px) {
-      font-size: 19px;
+      font-size: 18px;
     }
     @media screen and (max-width:425px) {
       font-size: 16px;
