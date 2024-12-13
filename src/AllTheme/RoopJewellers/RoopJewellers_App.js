@@ -7,6 +7,8 @@ import { Helmet } from "react-helmet";
 import { roop_CartNo, roop_companyLogo, roop_loginState } from "./Components/Recoil/atom";
 import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
+import AboutUsVara from './Components/Pages/static/AboutUs/AboutUsVara';
+import BrandsComponent from './Components/Pages/Home/BrandComponent/BrandComponents';
 
 
 // import Home from "./Components/Pages/Home/Index";
@@ -165,6 +167,11 @@ const RoopJewellers_App = () => {
     }
   }
 
+  
+  const Vaara = 1 ;
+
+  const Vara = Vaara == 0 ? <AboutUs/> : <AboutUsVara/>
+
   return (
     <>
     <Suspense fallback={<></>}>
@@ -222,7 +229,7 @@ const RoopJewellers_App = () => {
           <Route path="/servicePolicy" element={<ServicePolicy />} />
           <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
           <Route path="/FunFact" element={<FunFact />} />
-          <Route path="/aboutUs" element={<AboutUs />} />
+          <Route path="/aboutUs" element={Vara} />
           <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
             <Route path="/p/*" element={<ProductList />} />
             <Route path="/d/*" element={<ProductDetail />} />
@@ -247,6 +254,8 @@ const RoopJewellers_App = () => {
           :
           ''
       }
+        <BrandsComponent/>
+
       <StamScrollToTop />
     </Suspense>
     </>

@@ -135,7 +135,7 @@ function JewellerySet() {
     return () => clearTimeout(timer);
 }, []);
   return (
-    <div className={`roop_jewlSet_Main rls-inducing-div ${isVisible ? 'show' : ''}`} role="region" aria-labelledby="album-gallery">
+    <div className={`roop_jewlSet_Main rls-inducing-div ${isVisible ? 'show' : ''}`} role="region" aria-labelledby="album-gallery" >
       {/* <p className="roop_jewl_title">Discover our carefully curated Jewellery Album</p> */}
       <p className="roop_jewl_title" id="album-gallery">Album</p>
 

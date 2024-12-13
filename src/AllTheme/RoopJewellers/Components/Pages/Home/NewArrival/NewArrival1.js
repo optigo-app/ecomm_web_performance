@@ -114,13 +114,15 @@ const NewArrival = () => {
 
     return (
         <div className='smr_newwArr1MainDiv'>
-            <Typography variant='h4' className='smr_NewArr1Title'>NEW ARRIVAL
-                <Link className='smr_designSetViewmoreBtn'
+           <div className="title_rp">
+           <Typography variant='h4' className='smr_NewArr1Title'>NEW ARRIVAL
+                <Link className='rp_designSetViewmoreBtn'
                  aria-label="View more new arrival products"
                 onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
                     View more
                 </Link>
             </Typography>
+           </div>
             {newArrivalData &&
                 <Grid container spacing={1} className='smr_NewArrival1product-list'>
                     {newArrivalData?.slice(0, 4)?.map((product, index) => (

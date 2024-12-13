@@ -602,7 +602,7 @@ const ProductDetail = () => {
     setSingleProd1({});
     setSingleProd({});
     setIsImageLoad(true);
-    setProdLoading(true)
+    setProdLoading(true);
   };
 
   useEffect(() => {

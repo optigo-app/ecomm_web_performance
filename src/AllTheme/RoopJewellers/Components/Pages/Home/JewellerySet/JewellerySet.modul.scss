@@ -9,14 +9,21 @@
 }
 
 .roop_jewlSet_Main {
-
- 
+ height: auto;
+ overflow: hidden;
+margin-top: 1rem;
+ margin-bottom: -6rem;
+ @media screen and (max-width:1294px) {
+    margin-bottom: -3rem;
+ }
 
     .roop_jewl_title {
-        font-size: 40px;
+        margin-top: 60px;
+        font-size: $fontSize6;
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
         text-align: center;
-        margin-top: 70px;
-        font-family: $fontMedium;
+        margin-bottom: 2rem;
     }
 
     .roop_jewls_main_sub {

@@ -18,7 +18,6 @@ export const SingleProdListAPI = async (singprod, size = "", obj = {}, visiterId
   //     IsFromDesDet:1
   //   };
 
-
   const data = {
     PackageId: `${loginInfo?.PackageId ?? storeinit?.PackageId}`,
     autocode: `${singprod?.a ?? ""}`,
@@ -37,7 +36,7 @@ export const SingleProdListAPI = async (singprod, size = "", obj = {}, visiterId
     CurrencyRate: `${loginInfo?.CurrencyRate ?? storeinit?.CurrencyRate}`,
     Metalid: `${obj?.mt == undefined ? (loginInfo?.MetalId ?? storeinit?.MetalId) : obj?.mt}`,
     DiaQCid: `${obj?.diaQc == undefined ? (loginInfo?.cmboDiaQCid ?? storeinit?.cmboDiaQCid) : obj?.diaQc}`,
-    CsQCid: `${obj?.csQc == undefined ? (loginInfo?.cmboCSQCid ?? storeinit?.cmboCSQCid) : obj?.csQc}`,
+    CsQCid: `${obj?.csQc == undefined ? (loginInfo?.cmboCSQCid ?? storeinit?.cmboCSQCid) : obj?.csQc ?? "0,0"}`,
     // Collectionid: `${filterObj?.collection ?? ""}`,
     // Categoryid: `${filterObj?.category ?? ""}`,
     // SubCategoryid: `${filterObj?.subcategory ?? ""}`,

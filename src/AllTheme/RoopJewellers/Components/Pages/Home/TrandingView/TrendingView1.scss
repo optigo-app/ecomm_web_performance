@@ -4,11 +4,11 @@
     .smr_trending1TitleDiv {
         text-align: center;
         padding-block: 10px;
-        margin-block: 3rem;
+        margin-block: 1rem;
 
-        @media (max-width: 1500px) {
-            margin-block: 2rem;
-        }
+        // @media (max-width: 1500px) {
+        //     margin-block: 2rem;
+        // }
 
         @media (max-width: 1000px) {
             margin-bottom: 0rem;
