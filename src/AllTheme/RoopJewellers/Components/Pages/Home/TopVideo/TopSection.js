@@ -58,7 +58,7 @@ const TopSection = () => {
   // };
 
   return (
-    <div className="smr_topVideoMain" role="region" aria-labelledby="top-video-banner">
+    <div className="roop_topVideoMain" role="region" aria-labelledby="top-video-banner">
           <div className="rp_main_slider">
          <Slider {...settings} ref={slider}>
         {isMobile

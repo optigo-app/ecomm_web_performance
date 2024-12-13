@@ -2297,7 +2297,9 @@ const Lookbook = () => {
                 renderItem={(item) => (
                   <PaginationItem
                     {...item}
-                    disabled={item.page === currentPage}
+                    sx={{
+                      pointerEvents: item.page === currentPage ? 'none' : 'auto',
+                    }}
                   />
                 )}
               // showFirstButton

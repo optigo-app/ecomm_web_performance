@@ -1627,6 +1627,10 @@ const ProductDetail = () => {
                                   width: "35px",
                                   height: "35px",
                                 }}
+                                onError={(e) => {
+                                  e.target.poster = imageNotFound;
+                                  e.target.alt = 'no-image-found';
+                                }}
                               />
                             </div>
                           ))}
@@ -1639,6 +1643,10 @@ const ProductDetail = () => {
                               id="vision360"
                               onClick={() => {
                                 setIsVisionShow(true);
+                              }}
+                              onError={(e) => {
+                                e.target.src = imageNotFound;
+                                e.target.alt = 'no-image-found';
                               }}
                             // onError={()=>{
                             // }}
@@ -2610,7 +2618,7 @@ const ProductDetail = () => {
                 </div>}
 
                 {stockItemArr?.length > 0 &&
-                  storeInit?.IsStockWebsite === 1 && (
+                  storeInit?.IsStockWebsite === 1 && stockItemArr?.[0]?.stat_code != 1005 && (
                     <div className="smr_stockItem_div">
                       <p className="smr_details_title"> Stock Items </p>
                       <div className="smr_stockitem_container">
@@ -2938,7 +2946,7 @@ const ProductDetail = () => {
                   )}
 
                 {storeInit?.IsProductDetailSimilarDesign == 1 &&
-                  SimilarBrandArr?.length > 0 && (
+                  SimilarBrandArr?.length > 0 && SimilarBrandArr?.[0]?.stat_code != 1005 && (
                     <div className="smr_stockItem_div">
                       <p className="smr_details_title"> Similar Designs</p>
                       <div className="smr_stockitem_container">
@@ -2966,6 +2974,10 @@ const ProductDetail = () => {
                                     : imageNotFound
                                 }
                                 alt={""}
+                                onError={(e) => {
+                                  e.target.src = imageNotFound;
+                                  e.target.alt = 'no-image-found';
+                                }}
                               />
                               <div
                                 className="smr_stockutem_shortinfo"
@@ -3018,7 +3030,7 @@ const ProductDetail = () => {
 
                 {storeInit?.IsProductDetailDesignSet === 1 && (
                   <div className="smr_DesignSet_main">
-                    {designSetList?.length > 0 && (
+                    {designSetList?.length > 0 && designSetList?.[0]?.stat_code != 1005 && (
                       <div
                         style={{
                           display: "flex",
@@ -3066,6 +3078,10 @@ const ProductDetail = () => {
                                   }
                                   alt={""}
                                   className="ctl_img"
+                                  onError={(e) => {
+                                    e.target.src = imageNotFound;
+                                    e.target.alt = 'no-image-found';
+                                  }}
                                 />
                               </div>
 

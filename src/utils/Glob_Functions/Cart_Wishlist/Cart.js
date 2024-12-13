@@ -611,6 +611,21 @@ const useCart = () => {
     });
   };
 
+  // const CartCardImageFunc = (pd) => {
+  //   const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
+  //   let primaryImage, secondaryImage;
+  
+  //   if (pd?.ImageCount > 0) {
+  //     primaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1~${mtcCode?.colorcode}.${pd?.ImageExtension}`;
+  //     secondaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1.${pd?.ImageExtension}`;
+  //   } else {
+  //     primaryImage = secondaryImage = imageNotFound; // Fallback image if no valid images are found
+  //   }
+  
+  //   // Return the primary or secondary image directly
+  //   return primaryImage || secondaryImage;
+  // };  
+
   useEffect(() => {
     const initialProducts = cartData?.map(data => ({
       ...data,

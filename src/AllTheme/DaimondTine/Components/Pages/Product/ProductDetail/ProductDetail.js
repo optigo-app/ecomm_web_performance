@@ -1251,7 +1251,9 @@ const ProductDetail = () => {
                       // }
                       ref={imgRef}
                       src={selectedThumbImg?.link}
-                      onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                      onError={(e) => {
+                        e.target.src = imageNotFound
+                      }}
                       alt={""}
                       onLoad={() => setIsImageLoad(false)}
                       className="dt_prod_img"
@@ -1289,6 +1291,9 @@ const ProductDetail = () => {
                               type: "img",
                             });
                             setThumbImgIndex(i);
+                          }}
+                          onError={(e) => {
+                            e.target.src = imageNotFound
                           }}
                         />
                       ))}
@@ -2354,6 +2359,9 @@ const ProductDetail = () => {
                               : imageNotFound
                           }
                           alt={""}
+                          onError={(e) => {
+                            e.target.src = imageNotFound
+                          }}
                         />
                         <div
                           className="smr_stockutem_shortinfo"
@@ -2447,6 +2455,9 @@ const ProductDetail = () => {
                                 :
                                 imageNotFound
                             }
+                            onError={(e) => {
+                              e.target.src = imageNotFound
+                            }}
                             alt={""}
                             className="dt_ctl_img"
                           />

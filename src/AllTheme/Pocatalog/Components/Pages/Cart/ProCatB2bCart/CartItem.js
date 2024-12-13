@@ -171,7 +171,7 @@ const CartItem = ({
                 animation="wave"
                 variant="rect"
                 width={isMobileImage ? "100%" : "90%"}
-                height="100%"
+                height={isMobileImage ? "8rem" : "11rem"}
                 style={{ backgroundColor: "#e8e8e86e" }}
               />
             </CardMedia>
@@ -182,6 +182,10 @@ const CartItem = ({
               alt={item?.TitleLine}
               className='proCat_cartListImage'
               onClick={() => onSelect(item)}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = noImageFound;
+              }}
             />
           )}
 

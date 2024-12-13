@@ -9,11 +9,11 @@
     border-collapse: collapse;
 }
 
-.salesReport *{
+.salesReport * {
     font-size: 12px !important;
 }
 
-.salesReport svg{
+.salesReport svg {
     font-size: 20px !important;
 }
 
@@ -92,32 +92,44 @@
 .footerPaginateSRDT .MuiTablePagination-selectLabel {
     margin-bottom: 0px !important;
 }
+
 .footerPaginateSRDT .MuiTablePagination-displayedRows {
     margin-bottom: 0px !important;
 }
-@media(max-width: 768px){
-    .salesReport .MuiTablePagination-root{
+
+.jobsSalesReport {
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    scrollbar-width: thin;
+    ms-overflow-style: none
+}
+
+@media(max-width: 768px) {
+    .salesReport .MuiTablePagination-root {
         padding-bottom: 0 !important;
         max-height: 50px;
-    } 
+    }
+
     .salesReport .MuiTablePagination-root .MuiTablePagination-toolbar {
         padding: 0 10px;
     }
 
-    .salesReport .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input{
+    .salesReport .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input {
         margin-right: 5px;
     }
 
-    .salesReport .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input div[role="combobox"]{
+    .salesReport .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input div[role="combobox"] {
         padding-left: 0;
         margin-left: -5px;
     }
 
-    .salesReport .MuiTablePagination-root .MuiTablePagination-actions{
+    .salesReport .MuiTablePagination-root .MuiTablePagination-actions {
         margin-left: 5px;
     }
-    
-    .salesReport .MuiTablePagination-root .MuiTablePagination-actions button{
+
+    .salesReport .MuiTablePagination-root .MuiTablePagination-actions button {
         padding-right: 0;
     }
 }
@@ -228,7 +240,7 @@
         overflow: auto !important;
     }
 
-    .salesReporttableWeb table tbody tr td{
+    .salesReporttableWeb table tbody tr td {
         text-align: start !important;
     }
 
@@ -283,4 +295,5 @@
     }
 
 }
+
 // }

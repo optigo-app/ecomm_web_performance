@@ -21,6 +21,7 @@ import {
   FormControlLabel,
   Input,
   Pagination,
+  PaginationItem,
   Skeleton,
   Slider,
   Typography,
@@ -122,8 +123,6 @@ const ProductList = () => {
   const SoketData = useRecoilValue(soketProductData);
   const formatter = new Intl.NumberFormat("en-IN");
   let cookie = Cookies.get("visiterId");
-
-  const [imageAvailability, setImageAvailability] = useState({});
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -393,6 +392,7 @@ const ProductList = () => {
     if (location?.key) {
       setLocationKey(location?.key);
     }
+    setCurrPage(1)
   }, [location?.key]);
 
   // useEffect(() => {
@@ -498,24 +498,6 @@ const ProductList = () => {
   //   const timer = setTimeout(loadNextProductImages, 20)
   //   return () => clearTimeout(timer)
   // }, [loadingIndex, finalProductListData, generateImageList])
-
-  useEffect(() => {
-    const checkAllImages = async () => {
-      let availability = {};
-
-      const checks = finalProductListData.map(async (productData) => {
-        const imageUrl = productData?.images?.[0] || imageNotFound;
-        const isAvailable = await checkImageAvailability(imageUrl);
-        availability[productData?.autocode] = isAvailable;
-      });
-
-      // Wait for all availability checks to complete
-      await Promise.all(checks);
-      setImageAvailability(availability);
-    };
-
-    checkAllImages();
-  }, [finalProductListData]);
 
   // useEffect(()=>{
   //   const finalProdWithSocket = productListData.map((product) => {
@@ -693,9 +675,14 @@ const ProductList = () => {
     }
 
     // if
+    setCurrPage(1)
 
     return output;
   };
+
+  useEffect(() => {
+    setSortBySelect('Recommended')
+  }, [location?.key])
 
   useEffect(() => {
     setAfterCountStatus(true);
@@ -966,54 +953,34 @@ const ProductList = () => {
     );
   };
 
-  function checkImageAvailability(imageUrl) {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => resolve(true);
-      img.onerror = () => resolve(false);
-      img.src = imageUrl;
-    });
-  }
-
-  const handleImgRollover = async (pd) => {
+  const handleImgRollover = (pd) => {
     if (pd?.images?.length >= 1) {
       const imageUrls = [pd.images[1], pd.images[0]];
-      let imageToUse = imageNotFound; // Default image if none is available
+      let imageToUse = imageNotFound;
 
       for (const imageUrl of imageUrls) {
-        try {
-          const isImageAvailable = await checkImageAvailability(imageUrl);
-
-          if (isImageAvailable) {
-            imageToUse = imageUrl;
-            break;
-          }
-        } catch (error) {
-          console.error(`Error checking image: ${imageUrl}`, error);
-        }
+        imageToUse = imageUrl;
+        break;
       }
 
       setRolloverImgPd((prev) => {
         if (prev[pd?.autocode] !== imageToUse) {
           return { [pd?.autocode]: imageToUse };
         }
-        return prev; // No need to update if the image hasn't changed
+        return prev;
       });
     }
   };
 
-
-
-  const handleLeaveImgRolloverImg = async (pd) => {
+  const handleLeaveImgRolloverImg = (pd) => {
     if (pd?.images?.length > 0) {
-      // setRolloverImgPd((prev) => pd?.images[0] )
       const imageUrl = pd?.images[0];
-      const isImageAvailable = await checkImageAvailability(imageUrl);
-      if (isImageAvailable) {
-        setRolloverImgPd((prev) => { return { [pd?.autocode]: imageUrl } })
-      }
+      setRolloverImgPd((prev) => {
+        return { [pd?.autocode]: imageUrl };
+      });
     }
   };
+
 
   const handleBreadcums = (mparams) => {
     let key = Object?.keys(mparams);
@@ -2974,7 +2941,6 @@ const ProductList = () => {
                               <div className="smr_inner_portion">
                                 {finalProductListData?.map((productData, i) => {
                                   const isLoading = productData && productData?.loading === true;
-                                  const isAvailable = imageAvailability[productData?.autocode];
                                   return (
                                     <div className="procat_productCard" >
                                       {isLoading ? (
@@ -2993,28 +2959,26 @@ const ProductList = () => {
                                             // Check if video is available
                                             if (productData?.VideoCount > 0) {
                                               setIsRollOverVideo({
-                                                [productData?.autocode]: true, // Show video
+                                                [productData?.autocode]: true,
                                               });
                                             } else {
-                                              // No video, show the rollover image
                                               handleImgRollover(productData);
                                               setIsRollOverVideo({
-                                                [productData?.autocode]: false, // No video, show image
+                                                [productData?.autocode]: false,
                                               });
                                             }
                                           }}
                                           onClick={() => handleMoveToDetail(productData)}
                                           onMouseLeave={() => {
-                                            handleLeaveImgRolloverImg(productData); // Reset rollover image
+                                            handleLeaveImgRolloverImg(productData);
                                             setIsRollOverVideo({
-                                              [productData?.autocode]: false, // Ensure video is hidden on mouse leave
+                                              [productData?.autocode]: false,
                                             });
                                           }}
                                           className="proCat_ImgandVideoContainer"
                                           style={{ position: "relative" }}
                                         >
                                           {isRollOverVideo[productData?.autocode] ? (
-                                            // Show video if hover is over video-enabled product
                                             <video
                                               src={
                                                 productData?.VideoCount > 0
@@ -3029,16 +2993,15 @@ const ProductList = () => {
                                               }}
                                             />
                                           ) : (
-                                            // Show image if no video or video hover has ended
                                             <img
                                               className="proCat_productListCard_Image"
                                               id={`smr_productListCard_Image${productData?.autocode}`}
                                               src={
                                                 rollOverImgPd[productData?.autocode]
-                                                  ? rollOverImgPd[productData?.autocode] // Rollover image
-                                                  : productData?.images?.[0] // Default image
+                                                  ? rollOverImgPd[productData?.autocode]
+                                                  : productData?.images?.[0]
                                                     ? productData?.images[0]
-                                                    : imageNotFound // Fallback image
+                                                    : imageNotFound
                                               }
                                               alt=""
                                               onError={(e) => {
@@ -3184,6 +3147,14 @@ const ProductList = () => {
                                     page={currPage}
                                     showFirstButton
                                     showLastButton
+                                    renderItem={(item) => (
+                                      <PaginationItem
+                                        {...item}
+                                        sx={{
+                                          pointerEvents: item.page === currPage ? 'none' : 'auto',
+                                        }}
+                                      />
+                                    )}
                                   />
                                 </div>
                               )}

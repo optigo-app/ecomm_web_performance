@@ -211,6 +211,12 @@ const ProductList = () => {
   };
 
   useEffect(() => {
+    setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
+    setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+    setSortBySelect('Recommended')
+  }, [location?.key])
+
+  useEffect(() => {
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     if (location?.key === locationKey) {

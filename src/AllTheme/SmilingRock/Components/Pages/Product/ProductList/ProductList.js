@@ -132,6 +132,11 @@ const ProductList = () => {
 
   }, [])
 
+  useEffect(() => {
+    setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
+    setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+    setSortBySelect('Recommended')
+  }, [location?.key])
 
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
@@ -693,6 +698,10 @@ const ProductList = () => {
 
   useEffect(() => {
     handelFilterClearAll()
+  }, [location?.key])
+
+  useEffect(() => {
+    setSortBySelect("Recommended")
   }, [location?.key])
 
   const handelPageChange = (event, value) => {
@@ -3442,15 +3451,15 @@ const ProductList = () => {
                                         page={currPage}
                                         showFirstButton
                                         showLastButton
-                                                                              disabled={false}
+                                        disabled={false}
                                         renderItem={(item) => (
-                                 <PaginationItem
-                                   {...item}
-                                   sx={{
-                                     pointerEvents: item.page === currPage ? 'none' : 'auto',
-                                   }}
-                                 />
-                               )}
+                                          <PaginationItem
+                                            {...item}
+                                            sx={{
+                                              pointerEvents: item.page === currPage ? 'none' : 'auto',
+                                            }}
+                                          />
+                                        )}
                                       />
                                     </div>
                                   )}
