@@ -172,6 +172,7 @@ const RoopJewellers_App = () => {
 
   const Vara = Vaara == 0 ? <AboutUs/> : <AboutUsVara/>
 
+  console.log(location)
   return (
     <>
     <Suspense fallback={<></>}>
@@ -188,15 +189,7 @@ const RoopJewellers_App = () => {
             path="/LoginOption"
             element={<LoginOption />}
           />
-           <Route
-            path="/ManagementTeam"
-            element={<ManagementTeam />}
-          />
-           <Route
-            path="/terms-and-conditions"
-            
-            element={<TermsAndConditions />}
-          />
+          
           <Route
             path="/ContinueWithEmail"
             element={<ContinueWithEmail />}
@@ -227,9 +220,18 @@ const RoopJewellers_App = () => {
           />
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/servicePolicy" element={<ServicePolicy />} />
-          <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
-          <Route path="/FunFact" element={<FunFact />} />
+          <Route
+            path="/ManagementTeam"
+            element={<ManagementTeam />}
+          />
+           <Route
+            path="/terms-and-conditions"
+            
+            element={<TermsAndConditions />}
+          />
           <Route path="/aboutUs" element={Vara} />
+          {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
+          {/* <Route path="/FunFact" element={<FunFact />} /> */}
           <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
             <Route path="/p/*" element={<ProductList />} />
             <Route path="/d/*" element={<ProductDetail />} />
@@ -253,9 +255,9 @@ const RoopJewellers_App = () => {
           <Footer />
           :
           ''
-      }
-        <BrandsComponent/>
+        }
 
+        {  location.pathname !== "/404" &&           <BrandsComponent/>}
       <StamScrollToTop />
     </Suspense>
     </>

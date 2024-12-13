@@ -75,7 +75,7 @@ const WishlistItems = ({
                     xs={itemsLength <= 2 ? 6 : 6}
                     sm={itemsLength <= 2 ? 4 : 4}
                     md={itemsLength <= 2 ? 4 : 4}
-                    lg={itemsLength <= 2 ? 3 : 3}
+                    lg={itemsLength <= 2 ? 2.4 : 2.4}
                     className="roop_wlListGrid"
                 >
                     <Card className="roop_WlListCard">

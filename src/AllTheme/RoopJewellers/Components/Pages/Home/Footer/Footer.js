@@ -49,7 +49,7 @@ const Footer = ({ fromPage }) => {
               fontSize: '12px',
               fontWeight: 500,
               marginInline: '0'
-            }}>© 2024, optigoapps</p>
+            }}>© 2024, Varajewels</p>
             <div style={{ width: maxWidth ? "100%" : "" }}>
               <p style={{
                 color: '#7d7f85',
