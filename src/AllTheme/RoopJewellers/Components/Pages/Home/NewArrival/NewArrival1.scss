@@ -7,6 +7,16 @@
         font-family: $homePageFontFamily;
         font-size: $fontSize5;
         padding-block: 3%;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        .rp_designSetViewmoreBtn{
+            font-size: 16px;
+            text-decoration: none;
+            color: $titleColor;
+            text-decoration: underline;
+            cursor: pointer;
+        }
     }
 
     .smr_NewArrival1product-list {

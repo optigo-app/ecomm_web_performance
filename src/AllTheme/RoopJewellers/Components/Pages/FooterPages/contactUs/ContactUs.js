@@ -213,12 +213,22 @@ export default function ContactUs() {
                             {/* <p className='Fo-contactBox2Desc'>Our customer service team is available by phone from Monday-Friday 9.30am-6:30pm EST and Saturday 10am-5pm EST.</p>
                             <p className='Fo-contactBox2Desc'>Our office is located at 33W 46th Str, STE#9W, New York, NY 10036</p> */}
 
+{/* <div className="address">
+                                    {activeTab === 'M1' && (
+                                        <div>
+                                            <p></p>
+                                            <p>1st Floor, Dharam Empire, Gotalawadi, Katargam, Surat,
+                                            395004, Gujarat, India </p>
+                                            <p>+91 261 2507700</p>
+                                            <p>demo@gmail.com</p>
+                                        </div>
+                                    )} */}
                             <div>
                                 <div className="tab-buttons">
                                     <button className={activeTab === 'M1' ? 'active' : ''} onClick={() => handleTabClick('M1')}>Main Office Address</button>
                                     {/* <button className={activeTab === 'M3' ? 'active' : ''} onClick={() => handleTabClick('M3')}>Head Office Address</button> */}
                                 </div>
-                                <div className="address">
+                                {/* <div className="address">
                                     {activeTab === 'M1' && (
                                         <div>
                                             <p></p>
@@ -227,18 +237,23 @@ export default function ContactUs() {
                                             <p>+919099887762</p>
                                             <p>hello@optigoapps.com</p>
                                         </div>
+                                    )} */}
+                                    <div className="address">
+                                    {activeTab === 'M1' && (
+                                        <div>
+                                            <p></p>
+                                            <p>1st Floor, Dharam Empire, Gotalawadi, Katargam, Surat,
+                                            395004, Gujarat, India </p>
+                                            <p>+91 261 2507700</p>
+                                            <p>demo@gmail.com</p>
+                                        </div>
                                     )}
 
                                     <div className="map-container">
-                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.1384097684245!2d114.18683082602243!3d22.31060459252037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x340400df5b194c91%3A0x3301447411e931be!2sHeng%20Ngai%20Jewelry%20Centre!5e0!3m2!1sen!2sin!4v1716036679521!5m2!1sen!2sin"
-                                            width="600"
-                                            height="450"
-                                            allowfullscreen=""
-                                            loading="lazy"
-                                            referrerpolicy="no-referrer-when-downgrade"
-                                            className='mapContact'
-                                        >
-                                        </iframe>
+                                                    <iframe 
+                                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4615.472939927215!2d72.83191267600185!3d21.212024381457375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04eee03236c8b%3A0x4315e4376c5980b!2sVara%20jewels!5e1!3m2!1sen!2sin!4v1734064199770!5m2!1sen!2sin" 
+                                                    width="600" height="450" 
+                                                     style={{border:'0'}} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                                     </div>
                                 </div>
                             </div>

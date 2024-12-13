@@ -295,49 +295,8 @@ export default function ThemeRoutes() {
             />
           </Helmet>
         </div>
-      ) : (
-        <div>
-          <Helmet>
-            <title>{title}</title>
-            <meta name="description" content={title} />
-            <link
-              rel="icon"
-              href={`${storImagePath()}/logoIcon/sona/favicon1.png`}
-              type="image/x-icon"
-            />
-            <link
-              rel="apple-touch-icon"
-              sizes="180x180"
-              href={`${storImagePath()}/logoIcon/sona/apple-touch-icon.png`}
-            />
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="192x192"
-              href={`${storImagePath()}/logoIcon/sona/androidCh1.png`}
-            />
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="512x512"
-              href={`${storImagePath()}/logoIcon/sona/androidCh2.png`}
-            />
-            <link
-              rel="mask-icon"
-              href={`${storImagePath()}/logoIcon/sona/apple-touch-icon.png`}
-            />
-            <meta name="msapplication-TileColor" content="#ffffff" />
-            <meta
-              name="msapplication-TileImage"
-              content={`${storImagePath()}/logoIcon/sona/androidCh2.png`}
-            />
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-            />
-          </Helmet>
-        </div>
-      )}
+      ) :         <MetaData2 title={title}/>
+      }
 
       {htmlContent?.rd && htmlContent?.rd.length > 0 && (
         <>
@@ -370,4 +329,49 @@ export default function ThemeRoutes() {
       )}
     </>
   );
+}
+
+
+const MetaData2 = ({title , isHaveSub=false})=>{
+  const MetaPath = isHaveSub ? `logoIcon/sona/` : `logoIcon/`
+  return           <Helmet>
+            <title>{title}</title>
+            <meta name="description" content={title} />
+            <link
+              rel="icon"
+              href={`${storImagePath()}/${MetaPath}favicon1.png`}
+              type="image/x-icon"
+            />
+            <link
+              rel="apple-touch-icon"
+              sizes="180x180"
+              href={`${storImagePath()}/${MetaPath}apple-touch-icon.png`}
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="192x192"
+              href={`${storImagePath()}/${MetaPath}androidCh1.png`}
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="512x512"
+              href={`${storImagePath()}/${MetaPath}androidCh2.png`}
+            />
+            <link
+              rel="mask-icon"
+              href={`${storImagePath()}/${MetaPath}apple-touch-icon.png`}
+            />
+            <meta name="msapplication-TileColor" content="#ffffff" />
+            <meta
+              name="msapplication-TileImage"
+              content={`${storImagePath()}/${MetaPath}androidCh2.png`}
+            />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+            />
+          </Helmet>
+ 
 }

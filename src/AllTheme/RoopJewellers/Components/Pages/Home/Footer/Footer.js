@@ -68,12 +68,12 @@ const Footer = ({ fromPage }) => {
             </div>
             {/* // }}>© 2024,</p> */}
 
-            <p style={{
+            {/* <p style={{
               color: '#7d7f85',
               fontSize: '12px',
               fontWeight: 500,
               cursor: 'pointer'
-            }} onClick={() => navigation('/TermsPolicy')}>Terms & Privacy</p>
+            }} onClick={() => navigation('/TermsPolicy')}>Terms & Privacy</p> */}
           </div>
         </div>
       </div>

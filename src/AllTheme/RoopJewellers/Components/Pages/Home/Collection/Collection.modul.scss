@@ -1,7 +1,6 @@
 @import "../../../scss/Variable.scss";
 
 .roop_collection_main {
-
   .roop_col_title {
     font-size: 40px;
     text-align: center;
@@ -9,10 +8,14 @@
   }
 
   .roop_whyshop_title {
-    font-size: 40px;
+    // font-size: 40px;
+    // text-align: center;
+    margin-top: 70px;
+    // font-family: $fontBold;
+    font-size: $fontSize6;
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
     text-align: center;
-    margin-top: 30px;
-    font-family: $fontBold;
   }
 
   .roop_col_imageMain_div {
@@ -149,8 +152,8 @@
     }
 
     .roop_whyshop_title {
-      margin: 10px 0px 0px 0px !important;
       font-size: 20px !important;
+    margin-top: 40px;
     }
 
     .onhover_show p {

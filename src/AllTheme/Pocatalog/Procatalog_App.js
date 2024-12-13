@@ -53,6 +53,7 @@ import ProcatAppChatMenu from "./Components/Pages/Home/ChatMenu/ProcatAppChatMen
 import AboutUs from "./Components/Pages/Static/AboutUs/AboutUs";
 import TermsCondition from "./Components/Pages/Static/TermsPolicy/TermsPolicy";
 import PrivacyPolicy from "./Components/Pages/Static/PrivacyPolicy/PrivacyPolicy";
+import AboutUs2 from "./Components/Pages/Static/AboutUs/AboutUs2";
 
 const Procatalog_App = () => {
   const navigation = useNavigate();
@@ -196,8 +197,8 @@ const Procatalog_App = () => {
           <Route path="/servicePolicy" element={<ServicePolicy />} />
           <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
           <Route path="/FunFact" element={<FunFact />} />
-          {/* <Route path="/Lookbook" element={<Lookbook />} /> */}
-          <Route path="/aboutUs" element={<AboutUs />} />
+          <Route path="/Lookbook" element={<Lookbook />} />
+          <Route path="/aboutUs" element={<AboutUs2 />} />
           <Route path="/privacy-policy" element={<TermsCondition />} />
           <Route path="/terms-and-conditions" element={ <PrivacyPolicy />} />
           <Route

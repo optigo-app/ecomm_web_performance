@@ -288,8 +288,13 @@ const Payment = () => {
 
             <div className='paddingTopMobileSet'>
                 <div className='smilingPaymentMain'>
-                    <p className="SmiCartListTitle">
-                        <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigate(-1)} />Order Summary
+                    <p className="SmiCartListTitle" style={{
+                        display:'flex',
+                        alignItems:'center',
+                        marginTop:'1rem'
+                    }}>
+                        <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' 
+                        }} onClick={() => navigate(-1)} />Order Summary
                     </p>
                     {!isOrderloding ? (
                         <div className='smilingPaymentMainWeb'>
