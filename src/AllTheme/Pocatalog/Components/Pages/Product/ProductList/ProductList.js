@@ -342,7 +342,6 @@ const ProductList = () => {
         .then(async (res) => {
           let forWardResp1;
           if (res) {
-            await FilterListAPI(productlisttype, cookie);
             await FilterListAPI(productlisttype, cookie)
               .then((res) => {
                 setFilterData(res);
@@ -732,6 +731,9 @@ const ProductList = () => {
           setIsOnlyProdLoading(false);
         });
     }
+    else {
+      setAfterCountStatus(false);
+    }
     // .then(async(res)=>{
     //   if(res){
     //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
@@ -975,20 +977,32 @@ const ProductList = () => {
 
   const handleImgRollover = async (pd) => {
     if (pd?.images?.length >= 1) {
-      const imageUrl = pd?.images[1];
-      const isImageAvailable = await checkImageAvailability(imageUrl);
-      // setRolloverImgPd((prev) => pd?.images[1])
-      if (isImageAvailable) {
-        setRolloverImgPd((prev) => {
-          return { [pd?.autocode]: pd?.images[1] };
-        });
-      } else {
-        setRolloverImgPd((prev) => {
-          return { [pd?.autocode]: pd?.images[0] };
-        });
+      const imageUrls = [pd.images[1], pd.images[0]];
+      let imageToUse = imageNotFound; // Default image if none is available
+
+      for (const imageUrl of imageUrls) {
+        try {
+          const isImageAvailable = await checkImageAvailability(imageUrl);
+
+          if (isImageAvailable) {
+            imageToUse = imageUrl;
+            break;
+          }
+        } catch (error) {
+          console.error(`Error checking image: ${imageUrl}`, error);
+        }
       }
+
+      setRolloverImgPd((prev) => {
+        if (prev[pd?.autocode] !== imageToUse) {
+          return { [pd?.autocode]: imageToUse };
+        }
+        return prev; // No need to update if the image hasn't changed
+      });
     }
   };
+
+
 
   const handleLeaveImgRolloverImg = async (pd) => {
     if (pd?.images?.length > 0) {
@@ -996,9 +1010,7 @@ const ProductList = () => {
       const imageUrl = pd?.images[0];
       const isImageAvailable = await checkImageAvailability(imageUrl);
       if (isImageAvailable) {
-        setRolloverImgPd((prev) => {
-          return { [pd?.autocode]: pd?.images[0] };
-        });
+        setRolloverImgPd((prev) => { return { [pd?.autocode]: imageUrl } })
       }
     }
   };
@@ -2966,10 +2978,7 @@ const ProductList = () => {
                                   return (
                                     <div className="procat_productCard" >
                                       {isLoading ? (
-                                        <CardMedia
-                                          style={{ width: "100%" }}
-                                          className="cardMainSkeleton"
-                                        >
+                                        <CardMedia style={{ width: "100%" }} className="cardMainSkeleton">
                                           <Skeleton
                                             animation="wave"
                                             variant="rect"
@@ -2981,82 +2990,65 @@ const ProductList = () => {
                                       ) : (
                                         <div
                                           onMouseEnter={() => {
-                                            handleImgRollover(productData);
+                                            // Check if video is available
                                             if (productData?.VideoCount > 0) {
                                               setIsRollOverVideo({
-                                                [productData?.autocode]: true,
+                                                [productData?.autocode]: true, // Show video
                                               });
                                             } else {
+                                              // No video, show the rollover image
+                                              handleImgRollover(productData);
                                               setIsRollOverVideo({
-                                                [productData?.autocode]: false,
+                                                [productData?.autocode]: false, // No video, show image
                                               });
                                             }
                                           }}
-                                          onClick={() =>
-                                            handleMoveToDetail(productData)
-                                          }
+                                          onClick={() => handleMoveToDetail(productData)}
                                           onMouseLeave={() => {
-                                            handleLeaveImgRolloverImg(productData);
+                                            handleLeaveImgRolloverImg(productData); // Reset rollover image
                                             setIsRollOverVideo({
-                                              [productData?.autocode]: false,
+                                              [productData?.autocode]: false, // Ensure video is hidden on mouse leave
                                             });
                                           }}
                                           className="proCat_ImgandVideoContainer"
                                           style={{ position: "relative" }}
                                         >
-                                          {isRollOverVideo[productData?.autocode] ==
-                                            true ? (
+                                          {isRollOverVideo[productData?.autocode] ? (
+                                            // Show video if hover is over video-enabled product
                                             <video
-                                              //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
                                               src={
                                                 productData?.VideoCount > 0
-                                                  ? (storeInit?.CDNVPath) +
-                                                  productData?.designno +
-                                                  "~" +
-                                                  1 +
-                                                  "." +
-                                                  productData?.VideoExtension
-                                                  : imageNotFound
+                                                  ? storeInit?.CDNVPath + productData?.designno + "~" + 1 + "." + productData?.VideoExtension
+                                                  : ""
                                               }
                                               loop={true}
                                               autoPlay={true}
                                               className="proCat_productCard_video"
-                                            // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
+                                              onError={(e) => {
+                                                e.target.poster = imageNotFound;
+                                              }}
                                             />
                                           ) : (
+                                            // Show image if no video or video hover has ended
                                             <img
                                               className="proCat_productListCard_Image"
                                               id={`smr_productListCard_Image${productData?.autocode}`}
-                                              // src={productData?.DefaultImageName !== "" ? storeInit?.CDNDesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                                              // src={ ProdCardImageFunc(productData,0)}
                                               src={
-
-                                                // {new code }
-
-
-                                                // || rollOverImgPd[productData?.autocode] || loadedProducts[i]?.src || imageNotFound
-
-                                                // {old code }
                                                 rollOverImgPd[productData?.autocode]
-                                                  ? rollOverImgPd[productData?.autocode]
-                                                  : isAvailable
+                                                  ? rollOverImgPd[productData?.autocode] // Rollover image
+                                                  : productData?.images?.[0] // Default image
                                                     ? productData?.images[0]
-                                                    : imageNotFound
+                                                    : imageNotFound // Fallback image
                                               }
                                               alt=""
-                                            // onClick={() =>
-                                            //   handleMoveToDetail(productData)
-                                            // }
-                                            // onMouseEnter={() => {
-                                            //   handleImgRollover(productData);
-                                            // }}
-                                            // onMouseLeave={() => {
-                                            //   handleLeaveImgRolloverImg(productData);
-                                            // }}
+                                              onError={(e) => {
+                                                e.target.src = imageNotFound;
+                                              }}
                                             />
                                           )}
                                         </div>
                                       )}
+
                                       <div className="proCat_app_product_label">
                                         {productData?.StatusId == 1 ? (
                                           <span className="proCat_app_instock">

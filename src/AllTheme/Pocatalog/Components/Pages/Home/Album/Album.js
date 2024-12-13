@@ -29,6 +29,7 @@ const Album = () => {
   const storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
   const [selectedImage, setSelectedImage] = useState("");
   const [loadedProducts, setLoadedProducts] = useState([])
+  const [isFetching, setIsFetching] = useState(false);
  
   useEffect(() => {
     setImageUrl(storeinit?.AlbumImageFol || "");
@@ -59,6 +60,9 @@ const Album = () => {
         ? (islogin ? (loginUserDetail?.id || "") : visiterID) 
         : (loginUserDetail?.id || "");
   
+      // Only fetch if data is not already being fetched
+      if (isFetching) return;
+  
       if (ALCVAL) {
         sessionStorage.setItem('ALCVALUE', ALCVAL);
         await fetchAndSetAlbumData(ALCVAL, finalID);
@@ -69,13 +73,19 @@ const Album = () => {
     };
   
     fetchAlbumData();
-  }, [islogin]); 
+  }, [islogin, isFetching]);
 
   const fetchAndSetAlbumData = async (value, finalID) => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-    
+  
     if (!storeInit) {
-      setTimeout(() => fetchAndSetAlbumData(value, finalID), 500);
+      if (!isFetching) {
+        setIsFetching(true); // Set fetching flag
+        setTimeout(() => {
+          setIsFetching(false); // Reset flag after timeout
+          fetchAndSetAlbumData(value, finalID);
+        }, 500);
+      }
       return;
     }
   
@@ -90,30 +100,13 @@ const Album = () => {
         const fallbackImages = {};
         for (const data of albums) {
           const fullImageUrl = `${storeInit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
-             // let imageAvailable;
-          // if(data?.AlbumImageName !== ""){
-          //   imageAvailable = await checkImageAvailability(fullImageUrl);
-          // }else{
-          //   imageAvailable = false;
-          // }
+  
           if (![storeInit?.AlbumImageFol, data?.AlbumImageFol, data?.AlbumImageName].every(Boolean) && data?.AlbumDetail) {
             const albumDetails = JSON.parse(data.AlbumDetail);
             if (albumDetails?.length > 0) {
               const fallbackImage = `${storeInit?.CDNDesignImageFol}${albumDetails?.[0]?.Image_Name}`;
               fallbackImages[fullImageUrl] = fallbackImage;
             }
-             // albumDetails.forEach((detail) => {
-            //   if (detail?.Designdetail) {
-            //     const designDetails = JSON.parse(detail.Designdetail);
-            //     designDetails.forEach((design) => {
-            //       if (design.ImageCount > 1) {
-            //         const fallbackImage = `${storeInit?.DesignImageFol}${design.designno}~1.${design.ImageExtension}`;
-            //         fallbackImages[fullImageUrl] = fallbackImage;
-            //       }
-            //     });
-
-            //   }
-            // });
           }
           status[fullImageUrl] = fullImageUrl;
         }
@@ -123,6 +116,8 @@ const Album = () => {
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsFetching(false); // Reset the fetching flag once the fetch completes
     }
   };
   // function checkImageAvailability(imageUrl) {

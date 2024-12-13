@@ -29,7 +29,7 @@ export default function Craftmenship() {
             <Swiper
                 navigation={true}
                 modules={[Pagination, Navigation]}
-                className="mySwiper"
+                className="craft_mySwiper"
             >
                 {sliderData.map((slide, index) => (
                     <SwiperSlide key={index}>
