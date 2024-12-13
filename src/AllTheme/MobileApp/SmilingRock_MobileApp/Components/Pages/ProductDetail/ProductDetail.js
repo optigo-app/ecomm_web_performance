@@ -490,7 +490,7 @@ const ProductDetail = () => {
     }
   }
 
-  console.log("finalSize", colUpdatedPrice())
+  // console.log("finalSize", colUpdatedPrice())
 
 
   const callAllApi = () => {
@@ -674,11 +674,11 @@ const ProductDetail = () => {
       };
 
 
-      // console.log("objjj",obj)
       setProdLoading(true)
 
       setisPriceLoading(true)
-
+      setSingleProd1({})
+      setSingleProd({})
       await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
         .then(async (res) => {
           if (res) {
@@ -765,7 +765,7 @@ const ProductDetail = () => {
 
   }, [location?.key]);
 
-  console.log("location", location);
+  // console.log("location", location);
 
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(
@@ -1013,7 +1013,7 @@ const ProductDetail = () => {
       IsColImg = await checkImageAvailability(colImg)
     }
 
-    console.log("colImg", IsColImg)
+    // console.log("colImg", IsColImg)
 
     if (singleProd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
@@ -1034,7 +1034,7 @@ const ProductDetail = () => {
       finalprodListimg = imageNotFound;
     }
 
-    console.log("SearchData", singleProd?.VideoCount);
+    // console.log("SearchData", singleProd?.VideoCount);
 
     if (singleProd?.VideoCount > 0) {
       for (let i = 1; i <= singleProd?.VideoCount; i++) {
@@ -1063,13 +1063,17 @@ const ProductDetail = () => {
       }
     }
 
-    console.log("SearchData", singleProd);
+    // console.log("SearchData", singleProd);
 
     if (FinalPdImgList?.length > 0) {
       finalprodListimg = FinalPdImgList[0];
       setSelectedThumbImg({ "link": FinalPdImgList[0], "type": 'img' });
       setPdThumbImg(FinalPdImgList);
       setThumbImgIndex(0)
+    }else {
+      setSelectedThumbImg({ link: imageNotFound, type: "img" });
+      setPdThumbImg([]);
+      setThumbImgIndex();
     }
 
     if (pdvideoList?.length > 0) {
@@ -1077,7 +1081,7 @@ const ProductDetail = () => {
     } else {
       setPdVideoArr([]);
     }
-
+  console.log(finalprodListimg,"is image available")
     return finalprodListimg;
   };
 
@@ -1279,7 +1283,10 @@ const ProductDetail = () => {
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
     navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
-
+   setSingleProd1({});
+    setSingleProd({});
+    setIsImageLoad(true);
+    setProdLoading(true)
   }
 
   const SizeSorting = (SizeArr) => {
@@ -1567,7 +1574,12 @@ const ProductDetail = () => {
                                           singleProd?.MetalPurityid
                                       )[0]?.metaltype
                                     } */}
-                                    {singleProd?.MetalTypePurity}
+                                   {
+                                metalTypeCombo?.filter(
+                                  (ele) =>
+                                    ele?.Metalid == singleProd?.MetalPurityid
+                                )[0]?.metaltype
+                              }
                                   </span>
                                 ) : (
                         <select

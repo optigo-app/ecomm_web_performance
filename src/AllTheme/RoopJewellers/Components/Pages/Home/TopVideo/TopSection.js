@@ -9,13 +9,15 @@ import { MobilSliderImage, SliderItemns } from "../../../Assets/constant/data";
 const settings = {
   dots: true,
   infinite: true, // Ensures infinite looping of slides
-  speed: 1000, // Slide transition speed in milliseconds
+  speed: 300, // Slide transition speed in milliseconds
   slidesToShow: 1, // Number of slides to show at once
   slidesToScroll: 1, // Number of slides to scroll at once
   arrows: false, // Hide navigation arrows
   draggable: true, // Enable dragging for mobile users
   autoplay: true, // Enable autoplay for the slider
   autoplaySpeed: 3000,
+  onMousePlay: true, // Enable autoplay on mouse hover
+  pauseOnHover: false, // Pause autoplay on mouse hover
 };
 
 const TopSection = () => {

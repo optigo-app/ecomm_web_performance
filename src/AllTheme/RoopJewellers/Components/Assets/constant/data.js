@@ -30,3 +30,13 @@ export const MobilSliderImage = [
     url: `${storImagePath()}/images/HomePage/slider/33.webp`,
   },
 ];
+
+export const brandLogo = [
+  `${storImagePath()}/images/BRANDS/SJMA.png`,
+  `${storImagePath()}/images/BRANDS/BIS.png`,
+  `${storImagePath()}/images/BRANDS/BVC.png`,
+  `${storImagePath()}/images/BRANDS/GJPEC.png`,
+  `${storImagePath()}/images/BRANDS/IGI.png`,
+  `${storImagePath()}/images/BRANDS/SGCCI.png`,
+  `${storImagePath()}/images/BRANDS/SGL.png`
+];
