@@ -121,6 +121,11 @@ const ProductList = () => {
   //   setMenuData(menuList)
   // },[])
 
+  useEffect(() => {
+    setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
+    setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+  }, [location?.key])
+
 
   useEffect(() => {
 
@@ -1139,6 +1144,10 @@ const ProductList = () => {
       setFilterChecked({});
     }
   };
+
+  useEffect(() => {
+    handelFilterClearAll()
+  }, [location?.key])
 
   useEffect(() => {
     setSortBySelect("Recommended")
@@ -3034,13 +3043,14 @@ const ProductList = () => {
                                         shape="circular"
                                         onChange={handelPageChange}
                                         page={currPage}
-                                        disabled={false} // Don't disable the whole pagination component
                                         showFirstButton
                                         showLastButton
                                         renderItem={(item) => (
                                           <PaginationItem
                                             {...item}
-                                            disabled={item.page === currPage}
+                                            sx={{
+                                              pointerEvents: item.page === currPage ? 'none' : 'auto',
+                                            }}
                                           />
                                         )}
                                       />

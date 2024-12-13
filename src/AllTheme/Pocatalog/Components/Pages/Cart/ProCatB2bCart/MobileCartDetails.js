@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl, CardMedia } from '@mui/material';
 import './proCatMo_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
@@ -78,13 +78,29 @@ const MobileCartDetails = ({
     <Modal open={open} onClose={handleClose} className="proCatMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="proCatMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="proCatMo_Cart-imageDiv">
-          <img
-            src={imageSrc}
-            alt="Cluster Diamond"
-            className='proCatMo_cartImage'
-            onClick={() => handleMoveToDetail(selectedItem)}
-            style={{ border: 'none' }}
-          />
+          {imageSrc === undefined ? (
+            <CardMedia
+              style={{ width: "100%", height: '25rem' }}
+            >
+              <Skeleton
+                animation="wave"
+                variant="rect"
+                width="100%"
+                height="100%"
+              />
+            </CardMedia>
+          ) : (
+            <img
+              src={imageSrc}
+              className='proCatMo_cartImage'
+              onClick={() => handleMoveToDetail(selectedItem)}
+              style={{ border: 'none' }}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = noImageFound;
+              }}
+            />
+          )}
         </div>
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (

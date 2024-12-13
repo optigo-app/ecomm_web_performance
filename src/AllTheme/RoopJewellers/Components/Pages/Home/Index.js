@@ -52,9 +52,9 @@ function Home() {
      
       <>
  <Suspense fallback={<></>}>
- <div className="stam_home_index_main" aria-labelledby="main-content">
+ <div className="roop_home_index_main" aria-labelledby="main-content">
     <div style={{ minHeight: minHeight }} aria-hidden="false">
-      <div className="stam_home_index_Submain" role="main">
+      <div className="roop_home_index_Submain" role="main">
         <TopSection aria-labelledby="top-section" />
         
         {localData?.IsHomeAlbum === 1 && 
@@ -96,9 +96,9 @@ function Home() {
 export default Home;
 
 
- {/* <div className="stam_home_index_main">
+ {/* <div className="roop_home_index_main">
         <div style={{ minHeight: minHeight }}>
-          <div className="stam_home_index_Submain">
+          <div className="roop_home_index_Submain">
             <TopSection />
             {localData?.IsHomeAlbum === 1 && <JewellerySet />}
             {localData?.IsHomeTrending === 1 && <TrendingView1 />}

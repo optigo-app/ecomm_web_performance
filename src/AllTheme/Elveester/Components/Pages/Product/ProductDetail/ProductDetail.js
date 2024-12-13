@@ -1470,7 +1470,7 @@ const ProductDetail = () => {
                       <Skeleton className='elv_prod_det_default_max1000' variant="rectangular" />
                     ) : (
                       <>
-                        <div style={{ width: maxWidth1000 ? "100%" : "" }}>
+                        <div style={{ maxWidth: maxWidth1000 ? "100%" : "" }}>
                           <div className='elv_ProductDet_prod_img_max1000'>
                             {selectedThumbImg || imageSrc ? (
                               selectedThumbImg?.type == "img" ? (
@@ -2498,7 +2498,7 @@ const ProductDetail = () => {
 
 
         <div className='elv_ProductDet_extra_stock_items'>
-          {stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 && (
+          {stockItemArr?.length > 0 && stockItemArr?.[0]?.stat_code != 1005 && storeInit?.IsStockWebsite === 1 && (
             <Stockitems
               stockItemArr={stockItemArr}
               storeInit={storeInit}
@@ -2512,7 +2512,7 @@ const ProductDetail = () => {
 
         <div className='elv_ProductDet_semiliar_design'>
           {storeInit?.IsProductDetailSimilarDesign == 1 &&
-            SimilarBrandArr?.length > 0 && (
+            SimilarBrandArr?.length > 0 && SimilarBrandArr?.[0]?.stat_code != 1005 && (
               <RelatedProduct
                 SimilarBrandArr={SimilarBrandArr}
                 handleMoveToDetail={handleMoveToDetail}
@@ -2523,15 +2523,17 @@ const ProductDetail = () => {
         </div>
         <div className='elv_ProductDet_design_set'>
 
-          {storeInit?.IsProductDetailDesignSet === 1 && (
-            <DesignSet
-              designSetList={designSetList}
-              handleMoveToDetail={handleMoveToDetail}
-              imageNotFound={imageNotFound}
-              loginInfo={loginData}
-              storeInit={storeInit}
-            />
-          )}
+          {storeInit?.IsProductDetailDesignSet === 1 &&
+            designSetList?.length > 0 &&
+            designSetList?.[0]?.stat_code != 1005 && (
+              <DesignSet
+                designSetList={designSetList}
+                handleMoveToDetail={handleMoveToDetail}
+                imageNotFound={imageNotFound}
+                loginInfo={loginData}
+                storeInit={storeInit}
+              />
+            )}
         </div>
       </div >
     </>

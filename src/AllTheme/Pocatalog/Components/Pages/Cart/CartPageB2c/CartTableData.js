@@ -53,6 +53,10 @@ const ExampleComponent = ({
                             className='smr_b2ccartImage'
                             src={cartData?.ImageCount !== 0 ? CartCardImageFunc(cartData) : noImageFound}
                             alt={`cartData images`}
+                            onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = noImageFound;
+                            }}
                         />
                     </td>
                     <td className='smr_b2ccartContentTd'>

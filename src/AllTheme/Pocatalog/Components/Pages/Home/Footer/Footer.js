@@ -21,7 +21,7 @@ const Footer = ({ fromPage }) => {
     const fetchCompanyInfo = () => {
       const storedData = sessionStorage.getItem("CompanyInfoData");
       if (storedData) {
-        const parsedData = JSON.parse(storedData);
+        const parsedData = JSON?.parse(storedData);
         if (!companyInfoData) {
           setCompanyInfoData(parsedData);
           const parsedSocialMediaUrlData = parsedData?.SocialLinkObj

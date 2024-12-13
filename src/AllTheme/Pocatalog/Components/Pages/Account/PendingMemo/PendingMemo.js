@@ -116,86 +116,86 @@ function parseCustomDate(dateString) {
 }
 function descendingComparator(a, b, orderBy) {
   if (!orderBy) return 0; // Add null check for orderBy
-  
+
   if (orderBy === 'EntryDate') {
-      try {
-        const dateA = new Date(a[orderBy].split(' ').reverse().join(' '));
-        const dateB = new Date(b[orderBy].split(' ').reverse().join(' '));
+    try {
+      const dateA = new Date(a[orderBy].split(' ').reverse().join(' '));
+      const dateB = new Date(b[orderBy].split(' ').reverse().join(' '));
 
-        if (dateB < dateA) {
-            return -1;
-        }
-        if (dateB > dateA) {
-            return 1;
-        }
-        return 0;
-          // const dateA = parseCustomDate(a[orderBy]);
-          // const dateB = parseCustomDate(b[orderBy]);
-
-          // if (dateB < dateA) {
-          //     return -1;
-          // }
-          // if (dateB > dateA) {
-          //     return 1;
-          // }
-          // return 0;
-      } catch (error) {
-          console.error('Error parsing date:', error.message);
-          return 0;
+      if (dateB < dateA) {
+        return -1;
       }
-    
-  } else if(orderBy === 'MetalAmount' || 
-            orderBy === "Unit Cost" ||
-            orderBy === 'DiamondAmount' || 
-            orderBy === 'ColorStoneAmount' || 
-            orderBy === 'LabourAmount' || 
-            orderBy === 'OtherAmount' ||
-            orderBy === 'GrossWt' ||
-            orderBy === 'NetWt' ||
-            orderBy === 'DiaPcs' ||
-            orderBy === 'DiaWt' ||
-            orderBy === 'CsPcs' ||
-            orderBy === 'CsWt'
-            ){
-    
+      if (dateB > dateA) {
+        return 1;
+      }
+      return 0;
+      // const dateA = parseCustomDate(a[orderBy]);
+      // const dateB = parseCustomDate(b[orderBy]);
+
+      // if (dateB < dateA) {
+      //     return -1;
+      // }
+      // if (dateB > dateA) {
+      //     return 1;
+      // }
+      // return 0;
+    } catch (error) {
+      console.error('Error parsing date:', error.message);
+      return 0;
+    }
+
+  } else if (orderBy === 'MetalAmount' ||
+    orderBy === "Unit Cost" ||
+    orderBy === 'DiamondAmount' ||
+    orderBy === 'ColorStoneAmount' ||
+    orderBy === 'LabourAmount' ||
+    orderBy === 'OtherAmount' ||
+    orderBy === 'GrossWt' ||
+    orderBy === 'NetWt' ||
+    orderBy === 'DiaPcs' ||
+    orderBy === 'DiaWt' ||
+    orderBy === 'CsPcs' ||
+    orderBy === 'CsWt'
+  ) {
+
     const valueA = parseFloat(a[orderBy]) || 0;
     const valueB = parseFloat(b[orderBy]) || 0;
 
     if (valueB < valueA) {
-        return -1;
+      return -1;
     }
     if (valueB > valueA) {
-        return 1;
+      return 1;
     }
 
     return 0;
 
-  }else if ((orderBy === 'StockDocumentNo') || (orderBy === 'MetalType') || (orderBy === 'SKUNo') || (orderBy === 'designno')) {
+  } else if ((orderBy === 'StockDocumentNo') || (orderBy === 'MetalType') || (orderBy === 'SKUNo') || (orderBy === 'designno')) {
     // Handle sorting for SKU# column
     return customComparator_Col(a[orderBy], b[orderBy]);
-}  else {
-      const valueA = a[orderBy]?.toString()?.toLowerCase() || '';
-      const valueB = b[orderBy]?.toString()?.toLowerCase() || '';
+  } else {
+    const valueA = a[orderBy]?.toString()?.toLowerCase() || '';
+    const valueB = b[orderBy]?.toString()?.toLowerCase() || '';
 
-      if (valueB < valueA) {
-          return -1;
-      }
-      if (valueB > valueA) {
-          return 1;
-      }
-      return 0;
+    if (valueB < valueA) {
+      return -1;
+    }
+    if (valueB > valueA) {
+      return 1;
+    }
+    return 0;
   }
 }
 const customComparator_Col = (a, b) => {
-const regex = /([^\d]+)(\d+)/;
-const [, wordA, numA] = a?.match(regex);
-const [, wordB, numB] = b?.match(regex);
+  const regex = /([^\d]+)(\d+)/;
+  const [, wordA, numA] = a?.match(regex);
+  const [, wordB, numB] = b?.match(regex);
 
-if (wordA !== wordB) {
+  if (wordA !== wordB) {
     return wordA?.localeCompare(wordB);
-}
+  }
 
-return parseInt(numB, 10) - parseInt(numA, 10);
+  return parseInt(numB, 10) - parseInt(numA, 10);
 };
 
 function getComparator(order, orderBy) {
@@ -362,7 +362,7 @@ const SalesReport = () => {
     [order, orderBy, page, rowsPerPage, filterData]
   );
 
-  const handleSearch = ( eve, searchValue, fromDates, toDates, grossWtFrom, grossWtTo ) => { 
+  const handleSearch = (eve, searchValue, fromDates, toDates, grossWtFrom, grossWtTo) => {
     setPage(0);
     let datass = [];
     let count = 0;
@@ -381,78 +381,78 @@ const SalesReport = () => {
 
       let fromdates = `${fromDates?.["$y"]}-${checkMonth(fromDates?.["$M"])}-${fromDates?.["$D"]}`;
       let todates = `${toDates?.["$y"]}-${checkMonth(toDates?.["$M"])}-${toDates?.["$D"]}`;
-  
+
       let cutDate = cutDates;
       const dateString = cutDates.join(' ');
       const formattedDate = moment(dateString).format('YYYY-MM-DD');
 
       cutDate = formattedDate;
-      if(cutDate !== undefined){
+      if (cutDate !== undefined) {
         if (!fromdates?.includes(undefined) && !todates?.includes(undefined)) {
 
-            let fromdat = moment(fromdates);
-            let todat = moment(todates);
-            let cutDat = moment(cutDate);
-            if(moment(fromdat).isSameOrBefore(todat)){
-                const isBetween = cutDat.isBetween(fromdat, todat);
-                if (isBetween || cutDat.isSame(fromdat) || cutDat.isSame(todat)) {
-                    flags.toDate = true;
-                    flags.fromDate = true;
-                }
+          let fromdat = moment(fromdates);
+          let todat = moment(todates);
+          let cutDat = moment(cutDate);
+          if (moment(fromdat).isSameOrBefore(todat)) {
+            const isBetween = cutDat.isBetween(fromdat, todat);
+            if (isBetween || cutDat.isSame(fromdat) || cutDat.isSame(todat)) {
+              flags.toDate = true;
+              flags.fromDate = true;
             }
-            else{
-              setTimeout(() => {
-                resetAllFilters();
-                setFilterData(data);
+          }
+          else {
+            setTimeout(() => {
+              resetAllFilters();
+              setFilterData(data);
             }, 0)
-            }
-            
+          }
+
         } else if (fromdates?.includes(undefined) && !todates?.includes(undefined)) {
-        
-            flags.toDate = true;
-            flags.fromDate = true;
-            count++;
-            Swal.fire({
-              title: "Error !",
-              text: "Enter Valid From Date",
-              icon: "error",
-              confirmButtonText: "ok"
-            });
-            resetAllFilters();
-    
+
+          flags.toDate = true;
+          flags.fromDate = true;
+          count++;
+          Swal.fire({
+            title: "Error !",
+            text: "Enter Valid From Date",
+            icon: "error",
+            confirmButtonText: "ok"
+          });
+          resetAllFilters();
+
         } else if (!fromdates?.includes(undefined) && todates?.includes(undefined)) {
-         
-            flags.toDate = true;
-            flags.fromDate = true;
-            count++;
-            Swal.fire({
-              title: "Error !",
-              text: "Enter Valid Date To",
-              icon: "error",
-              confirmButtonText: "ok"
-            });
-            resetAllFilters();
+
+          flags.toDate = true;
+          flags.fromDate = true;
+          count++;
+          Swal.fire({
+            title: "Error !",
+            text: "Enter Valid Date To",
+            icon: "error",
+            confirmButtonText: "ok"
+          });
+          resetAllFilters();
         } else if (fromdates?.includes(undefined) && todates?.includes(undefined)) {
-            flags.toDate = true;
-            flags.fromDate = true;
+          flags.toDate = true;
+          flags.fromDate = true;
         }
-       } 
+      }
 
 
 
 
-      if ( String(e?.SrNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.EntryDate)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.StockDocumentNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.SKUNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.designno)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.MetalType)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.MetalAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.DiamondAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.ColorStoneAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.LabourAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.OtherAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-          String(e?.UnitCost)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+      if (String(e?.SrNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.EntryDate)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.StockDocumentNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.SKUNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.designno)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.MetalType)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.MetalAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.DiamondAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.ColorStoneAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.LabourAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.OtherAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.UnitCost)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
         String(e?.Category)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
         String(e?.GrossWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
         String(e?.NetWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
@@ -464,7 +464,7 @@ const SalesReport = () => {
       ) {
         flags.searchValue = true;
       }
-      
+
       if (grossWtFrom?.trim() === "" || +grossWtFrom <= e?.GrossWt) {
         flags.grossWtFrom = true;
       }
@@ -496,7 +496,7 @@ const SalesReport = () => {
         flags.toDate === true &&
         flags.grossWtFrom === true &&
         flags.grossWtTo === true &&
-        count === 0 
+        count === 0
       ) {
         let dataObj = createData(
           i + 1,
@@ -523,7 +523,7 @@ const SalesReport = () => {
         );
         datass?.push(dataObj);
       }
-   
+
     });
     if (count === 0) {
       setFilterData(datass);
@@ -550,7 +550,7 @@ const SalesReport = () => {
   const handleChangegrossWt = (eve) => {
     const { name, value } = eve?.target;
     setGrossWtInput({ ...grossWtInput, [name]: value });
-   
+
   };
 
   const fetchData = async () => {
@@ -575,7 +575,7 @@ const SalesReport = () => {
       // };
       // const response = await CommonAPI(body);
       const response = await getSalesReportData(currencyRate, FrontEnd_RegNo, customerid, data);
-      
+
       if (response.Data?.rd) {
         let datass = [];
         let totals = { ...total };
@@ -630,11 +630,11 @@ const SalesReport = () => {
         setData(datass);
         setFilterData(datass);
         setTotal(totals);
-      }else{
+      } else {
         setData([]);
         setFilterData([]);
       }
-      
+
     } catch (error) {
       console.log("Error:", error);
     } finally {
@@ -655,7 +655,7 @@ const SalesReport = () => {
       inputTo.placeholder = "Date To";
     }
   }, []);
-  
+
   const scrollToTop = () => {
     // Find the table container element and set its scrollTop property to 0
     const tableContainer = document.querySelector('.quotationJobSec');
@@ -744,11 +744,11 @@ const SalesReport = () => {
             {NumberWithCommas(total?.TotalAmount, 2)}
           </Typography>
         </Box> */}
-                <Box
+        <Box
           className="salesReporttableWeb"
           sx={{ paddingBottom: "5px", paddingRight: "15px" }}
         >
-          <table style={{minWidth:'850px'}}>
+          <table style={{ minWidth: '850px' }}>
             <tbody>
               <tr>
                 <td>Total Gross Wt</td>
@@ -940,20 +940,20 @@ const SalesReport = () => {
                 if (newValue === null) {
                   setFromDate(null)
                 } else {
-                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                        setFromDate(newValue)
-                    } else {
-                        Swal.fire({
-                            title: "Error !",
-                            text: "Enter Valid Date To",
-                            icon: "error",
-                            confirmButtonText: "ok"
-                        });
-                        resetAllFilters();
-                    }
+                  if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                    setFromDate(newValue)
+                  } else {
+                    Swal.fire({
+                      title: "Error !",
+                      text: "Enter Valid Date To",
+                      icon: "error",
+                      confirmButtonText: "ok"
+                    });
+                    resetAllFilters();
+                  }
                 }
-            }}
-         
+              }}
+
             />
           </LocalizationProvider>
         </Box>
@@ -1068,7 +1068,7 @@ const SalesReport = () => {
       ) : (
         <>
           <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
-            <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
+            <TableContainer sx={{ maxHeight: 580, overflowX: "auto", overflowY: "auto" }} className="memoSeaction">
               <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
                 <EnhancedTableHead
                   numSelected={selected.length}
@@ -1079,7 +1079,7 @@ const SalesReport = () => {
                   rowCount={filterData.length}
                 />
                 <TableBody>
-                  { filterData?.length > 0 ? visibleRows.map((row, index) => {
+                  {filterData?.length > 0 ? visibleRows.map((row, index) => {
                     const labelId = `enhanced-table-checkbox-${index}`;
                     return (
                       <TableRow
@@ -1124,7 +1124,7 @@ const SalesReport = () => {
                         <TableCell align="center">{row.CsWt}</TableCell>
                       </TableRow>
                     );
-                  }) : <TableCell colSpan={10} align="center" style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
+                  }) : <TableCell colSpan={10} align="center" style={{ color: 'grey', fontWeight: 'bold' }}>Data Not Present</TableCell>}
                 </TableBody>
               </Table>
             </TableContainer>
