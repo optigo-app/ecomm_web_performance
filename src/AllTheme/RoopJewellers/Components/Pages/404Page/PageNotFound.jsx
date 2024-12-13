@@ -1,5 +1,5 @@
 import React from 'react';
-import './Styles.css';
+import './errorpage.scss';
 import { useNavigate } from 'react-router-dom';
 
 const ErrorPage = () => {
@@ -10,8 +10,10 @@ const ErrorPage = () => {
   }
 
   return (
-    <div className='main404PageDiv'>
-      <div id="error-page">
+    <div className='main404PageDiv_rp'>
+      <div className="error_container">
+        <div className="error_content">
+            <div id="error-page">
         <div className="content">
           <h2 className="header" data-text="404">
             404
@@ -25,6 +27,8 @@ const ErrorPage = () => {
           <div className="btns" onClick={handleRedirect}>
             <p>Return Home</p>
           </div>
+        </div>
+      </div>
         </div>
       </div>
     </div>

@@ -245,7 +245,7 @@ export default function ContactUs() {
                                             <p>1st Floor, Dharam Empire, Gotalawadi, Katargam, Surat,
                                             395004, Gujarat, India </p>
                                             <p>+91 261 2507700</p>
-                                            <p>demo@gmail.com</p>
+                                            <p> Info@varajewels.com                                            </p>
                                         </div>
                                     )}
 
