@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import './JewellerySet.modul.scss'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
 import { roop_loginState } from '../../../Recoil/atom';
@@ -21,6 +21,8 @@ function JewellerySet() {
   const [isLoading, setIsLoading] = useState(false);
   const [storeInit, setStoreInit] = useState({});
   const [validImages, setValidImages] = useState([]);
+  const [slideHeight, setSlideHeight] = useState(null);
+  const swiperSlideRef = useRef(null);
 
   useEffect(() => {
     setIsLoading(true);
@@ -134,16 +136,50 @@ function JewellerySet() {
 
     return () => clearTimeout(timer);
 }, []);
+
+
+const GenerateWidthBaseOnContent = useCallback(()=>{
+  const length = albumData  && validImages?.length ;
+  let w ; 
+  if (length === 1) {
+     w = '100%';
+  } else if (length === 2) {
+     w = '100%';
+  } else if (length === 3) {
+     w = '100%';
+  } else if (length > 3) {
+     w = '100%';
+  }
+  return {width:w , length : length}
+},[albumData])
+
+useEffect(() => {
+  
+if (swiperSlideRef.current) {
+  setSlideHeight(swiperSlideRef.current.offsetHeight);
+}
+}, [albumData]);
+
+if(albumData?.length === 0){
+  return ;
+}
   return (
     <div className={`roop_jewlSet_Main rls-inducing-div ${isVisible ? 'show' : ''}`} role="region" aria-labelledby="album-gallery" >
       {/* <p className="roop_jewl_title">Discover our carefully curated Jewellery Album</p> */}
       <p className="roop_jewl_title" id="album-gallery">Album</p>
 
-      <div className="roop_jewls_main_sub">
+      <div className="roop_jewls_main_sub"
+       style={{
+        width: GenerateWidthBaseOnContent()?.width,
+    }}
+      >
         <Swiper
           modules={[Navigation]}
           spaceBetween={30}
-          navigation={true}
+          navigation={albumData?.length > 2}
+          style={{
+            width:"100%"
+        }}
           // loop={true}
           breakpoints={{
             768: {

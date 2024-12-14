@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import './TrendingView1.scss';
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -123,6 +123,26 @@ const TrendingView1 = () => {
         navigation(islogin !== 0 ? url : redirectUrl);
     };
 
+    
+const GenerateWidthBaseOnContent = useCallback(()=>{
+    const length = trendingData  && validImages?.length ;
+    let w ; 
+    if (length === 1) {
+       w = '100%';
+    } else if (length === 2) {
+       w = '100%';
+    } else if (length === 3) {
+       w = '100%';
+    } else if (length > 3) {
+       w = '100%';
+    }
+    return {width:w , length : length}
+  },[trendingData])
+  
+
+  if(trendingData?.length === 0){
+    return ;
+  }
 
     return (
         <>
@@ -152,11 +172,18 @@ const TrendingView1 = () => {
             <div className="roop_trendSet_Main">
                 {/* <p className="roop_trend_title">Trending</p> */}
 
-                <div className="roop_trend_main_sub">
+                <div className="roop_trend_main_sub"
+                  style={{
+                    width: GenerateWidthBaseOnContent().width,
+                }}
+                >
                     <Swiper
+                        style={{
+                            width:"100%"
+                        }}
                         modules={[Navigation]}
                         spaceBetween={20}
-                        navigation={true}
+                        navigation={trendingData?.length > 4}
                         // loop={true}
                         breakpoints={{
                             768: {
@@ -181,7 +208,11 @@ const TrendingView1 = () => {
 
                         {validImages?.map((item, index) => {
                             return (
-                                <SwiperSlide key={index}>
+                                <SwiperSlide 
+                                style={{
+                                    width:'100%'
+                                }}
+                                key={index}>
                                     <div className="roop_trend__image_div" >
                                         <img
                                             className="roop_trendImg"

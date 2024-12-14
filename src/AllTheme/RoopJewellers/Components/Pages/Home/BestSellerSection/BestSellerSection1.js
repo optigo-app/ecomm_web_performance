@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import './BestSellerSection1.scss';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
@@ -140,6 +140,26 @@ const ProductGrid = () => {
         navigation(islogin !== 0 ? url : redirectUrl);
     };
 
+        
+const GenerateWidthBaseOnContent = useCallback(()=>{
+    const length = bestSellerData  && validatedData?.length ;
+    let w ; 
+    if (length === 1) {
+       w = '100%';
+    } else if (length === 2) {
+       w = '100%';
+    } else if (length === 3) {
+       w = '100%';
+    } else if (length > 3) {
+       w = '100%';
+    }
+    return {width:w , length : length}
+  },[bestSellerData])
+  
+
+  if(bestSellerData?.length === 0){
+    return ;
+  }
 
     return (
         <>
@@ -150,11 +170,18 @@ const ProductGrid = () => {
                     </div>
                     <div className="roop_bestSellerSet_Main">
 
-                        <div className="roop_bestSeller_main_sub">
+                        <div className="roop_bestSeller_main_sub"
+                          style={{
+                            width: GenerateWidthBaseOnContent().width,
+                        }}
+                        >
                             <Swiper
                                 modules={[Navigation]}
                                 spaceBetween={30}
-                                navigation={true}
+                                navigation={bestSellerData?.length > 4}
+                                style={{
+                                    width:"100%"
+                                }}
                                 // loop={true}
                                 breakpoints={{
                                     768: {
