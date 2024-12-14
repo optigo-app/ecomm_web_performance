@@ -1,205 +1,299 @@
 @import '../../../scss/variable.scss';
 
-.proCat_paymentMainDiv {
-    background-color: $backgroundColor;
 
-    .proCat_paymentSecondMainDiv {
-        background-color: #fff;
-    }
 
+@media (max-width: 1200px) {
     .proCat_PaymentContainer {
-        margin-inline: 4%;
-        padding-top: 4%;
+        margin-inline: 10% !important;
     }
+}
 
-    .proCat_paymentBackbtnDiv {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
 
-        .proCat_paymentBackbtn {
-            width: 32px;
-            height: 32px;
-            color: $titleColor;
-            cursor: pointer;
+.proCat_PaymentContainer {
+    margin-inline: 20%;
+    padding-top: 80px;
+}
+
+@media (max-width: 800px) {
+    .proCat_PaymentContainer {
+        margin-inline: 2% !important;
+    }
+}
+
+.proCat_paymentBackbtnDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+    .proCat_paymentBackbtn {
+        width: 32px;
+        height: 32px;
+        color: $btn1bgColor;
+        cursor: pointer;
+    }
+}
+
+.proCat_paymentDetailMainDiv {
+    display: flex;
+    justify-content: space-around;
+    font-family: $homePageFontFamily;
+    color: $titleColor;
+}
+
+.proCat_paymenttotalpricesummary {
+    display: flex;
+    justify-content: space-between;
+}
+
+.proCat_paymenttotalpricesummary p {
+    padding: 0;
+    margin-bottom: 5px;
+    font-size: $fontSize2;
+}
+
+.proCat_paymenttotalpricesummary p span {
+    font-weight: bold !important;
+}
+
+.proCat_paymentUserName {
+    font-weight: 600;
+}
+
+.proCat_paymentDetailLeftSideContent {
+    h2 {
+        font-size: $fontSize6;
+    }
+}
+
+.proCat_paymentButtonDiv {
+    text-align: center;
+    margin-top: 20px;
+
+    .proCat_payOnAccountBtn {
+        margin-right: 20px;
+        height: 40px;
+        width: 220px;
+        font-family: $primaryFontFamily !important;
+        font-size: $fontSize3;
+        color: $btn1bgColor;
+        background-color: $btn1FontColor;
+        border: 1px solid $btn1FontColor;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+
+        &:hover {
+            color: $btn1bgColor;
+            background-color: $btn1FontColor;
         }
     }
+}
 
+.proCat_backtoTopBtn {
+    font-family: $homePageFontFamily;
+}
+
+.proCat_addorderRemarkbtn {
+    color: $titleColor !important;
+    font-size: $fontSize2 !important;
+    text-transform: capitalize !important;
+}
+
+.proCat_addorderRemark {
+    color: $titleColor !important;
+}
+
+@media (max-width: 600px) {
     .proCat_paymentDetailMainDiv {
-        display: flex;
-        justify-content: space-around;
-        font-family: $primaryFontFamily;
-        color: $titleColor;
-    }
-
-    .proCat_paymenttotalpricesummary {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .proCat_paymenttotalpricesummary p {
-        padding: 0;
-        margin-bottom: 5px;
-        font-size: $fontSize2;
-    }
-
-    .proCat_paymenttotalpricesummary p span {
-        font-weight: bold !important;
-    }
-
-    .proCat_paymentUserName {
-        font-weight: 600;
+        display: block;
     }
 
     .proCat_paymentDetailLeftSideContent {
         h2 {
-            font-size: $fontSize6;
+            font-size: $fontSize5 !important;
         }
     }
 
-    .proCat_order-summary {
-        font-family: $primaryFontFamily;
-        color: $titleColor;
+    .proCat_paymenttotalpricesummary p {
+        margin: 3px !important;
     }
 
-    .proCat_summary-item {
-        display: flex;
-        justify-content: start;
-        margin-bottom: 10px;
-    }
+    .proCat_billingAddress {
+        h3 {
+            font-size: $fontSize4 !important;
+        }
 
-    .proCat_summary-item .proCat_label {
-        min-width: 180px;
-        text-align: left;
-        font-size: $fontSize2;
-    }
-
-    .proCat_summary-item .proCat_value {
-        text-align: left;
-        white-space: nowrap;
-        font-size: $fontSize2;
-        font-weight: bold !important;
+        p {
+            font-size: $fontSize1 !important;
+        }
     }
 
     .proCat_paymentButtonDiv {
-        text-align: center;
-
         .proCat_payOnAccountBtn {
-            margin-right: 20px;
-            height: 40px;
-            width: 180px;
-            font-family: $primaryFontFamily !important;
-            font-size: $fontSize3;
-            color: $btn1hoverFontColor;
-            background-color: $btn1ActivebgColor;
-            border: 1px solid $btn1FontColor;
-            border-radius: 0px !important;
+            width: 100%;
+        }
+    }
+
+    .proCat_shippingAddress {
+        margin-top: 10px;
+        margin-bottom: 40px !important;
+        border-top: 1px solid #cccdce;
+
+        h3 {
+            font-size: $fontSize4 !important;
+        }
+
+        p {
+            font-size: $fontSize1 !important;
+            margin-bottom: 5px !important;
+        }
+    }
+
+    .proCat_paymentBackbtnDiv {
+        .proCat_paymentBackbtn {
+            width: 22px !important;
+            height: 22px !important;
+        }
+    }
+}
+
+.loader {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid $btn1bgColor;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-left: 8px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.proCat_billingAddress p {
+    margin-bottom: 5px;
+    font-size: $fontSize2;
+}
+
+.proCat_billingAddress,
+.proCat_paymentDetailRightSideContent {
+    .payment-options-container {
+        // max-width: 400px;
+        // margin: 0 auto;
+        // padding: 20px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+
+        h4 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            background: #f8f8fb;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 10px;
             cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
+            transition: 0.3s;
+            border: 2px solid transparent;
 
             &:hover {
-                color: $btn1hoverFontColor;
-                background-color: $btn1ActivebgColor;
+                border-color: #ccc;
+            }
+
+            &.selected {
+                background: #98b8d94a;
+                border-color: #98B8D9;
+
+                .radio input {
+                    // border: 2px solid #6e00ff;
+                    border: 2px solid #98B8D9;
+                }
+
+                .radio {
+                    .radio-border {
+                        border: 2px solid #98B8D9;
+                    }
+                }
+            }
+
+            .icon {
+                width: 40px;
+                height: 40px;
+                margin-right: 10px;
+
+                img {
+                    max-width: 100%;
+                    max-height: 100%;
+                    filter: grayscale(1);
+                }
+            }
+
+            .details {
+                flex-grow: 1;
+
+                h5 {
+                    margin: 0;
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #333;
+                }
+
+                p {
+                    margin: 0;
+                    font-size: 14px;
+                    color: #888;
+                }
+            }
+
+            .radio {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .radio-border {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    appearance: none;
+                    width: 30px;
+                    height: 30px;
+                    border: 3px solid #ccc;
+                    border-radius: 50%;
+
+                    input {
+                        appearance: none;
+                        width: 16px;
+                        height: 16px;
+                        border: 2px solid transparent;
+                        border-radius: 50%;
+                        transition: 0.3s;
+
+                        &:checked {
+                            background-color: #98B8D9;
+                            border-color: #98B8D9;
+                        }
+                    }
+                }
             }
         }
     }
 
-    .proCat_backtoTopBtn {
-        font-family: $homePageFontFamily;
-    }
+}
 
-    .proCat_addorderRemarkbtn {
-        color: $titleColor !important;
-        font-size: $fontSize2 !important;
-        text-transform: capitalize !important;
-    }
-
-    .proCat_addorderRemark {
-        color: $titleColor !important;
-    }
-
-    @media (max-width: 600px) {
-        .proCat_paymentDetailMainDiv {
-            display: block;
-        }
-
-        .proCat_paymentDetailLeftSideContent {
-            h2 {
-                font-size: $fontSize5 !important;
-            }
-        }
-
-        .proCat_paymenttotalpricesummary p {
-            margin: 3px !important;
-        }
-
-        .proCat_billingAddress {
-            h3 {
-                font-size: $fontSize4 !important;
-            }
-
-            p {
-                font-size: $fontSize1 !important;
-            }
-        }
-
-        .proCat_paymentButtonDiv {
-            .proCat_payOnAccountBtn {
-                width: 100%;
-            }
-        }
-
-        .proCat_shippingAddress {
-            margin-top: 10px;
-            margin-bottom: 40px !important;
-            border-top: 1px solid #cccdce;
-
-            h3 {
-                font-size: $fontSize4 !important;
-            }
-
-            p {
-                font-size: $fontSize1 !important;
-                margin-bottom: 5px !important;
-            }
-        }
-
-        .proCat_paymentBackbtnDiv {
-            .proCat_paymentBackbtn {
-                width: 22px !important;
-                height: 22px !important;
-            }
-        }
-    }
-
-    .loader {
-        border: 2px solid #f3f3f3;
-        border-top: 2px solid #3498db;
-        border-radius: 50%;
-        width: 12px;
-        height: 12px;
-        animation: spin 1s linear infinite;
-        display: inline-block;
-        margin-left: 8px;
-    }
-
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    .proCat_billingAddress p {
-        margin-bottom: 5px;
-        font-size: $fontSize2;
-    }
-
-    .proCat_shippingAddress p {
-        margin-bottom: 0px;
-    }
+.proCat_shippingAddress p {
+    margin-bottom: 0px;
 }

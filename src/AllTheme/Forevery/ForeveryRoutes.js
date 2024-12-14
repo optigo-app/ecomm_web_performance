@@ -56,7 +56,7 @@ import DiamondPage from "./Components/Pages/Diamond";
 import Diamond from "./Components/Pages/Diamond/Diamond/Diamond";
 import DetailsRoute from "./Components/Pages/Product";
 import FineJewelry from "./Components/Pages/Home/FineJewelry/FineJewelry";
-import Preloader from "../../dum/Load";
+import Preloader from "./Components/Pages/Preloader/Load";
 import Bespokejewelry from "./Components/Pages/staticpages/Bespokejewelry/Bespokejewelry";
 import Test from "./Components/Pages/ReusableComponent/Test";
 import Education from "./Components/Pages/staticpages/Education/Education";

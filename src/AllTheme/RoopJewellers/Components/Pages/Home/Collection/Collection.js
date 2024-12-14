@@ -95,7 +95,7 @@ function Collection() {
     // </div>
     <div className='roop_collection_main'>
   <p className='roop_whyshop_title'>
-    WHY SHOP WITH SONASONS?
+    WHY SHOP WITH VARA?
     {/* Consider changing this if you want to personalize it for SEO or branding */}
   </p>
 

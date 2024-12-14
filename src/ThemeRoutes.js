@@ -55,16 +55,33 @@ import {
   stam_companyLogoM,
 } from "./AllTheme/StamFordJewels/Components/Recoil/atom";
 
-const SmilingRock_MobileApp_App = React.lazy(() => import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App"));
-const HemratnaProcatalog_App = React.lazy(() => import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App"));
-const Procatalog_App = React.lazy(() => import("./AllTheme/Pocatalog/Procatalog_App"));
-const HouseOfQuadri_App = React.lazy(() => import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App"));
-const ForEveryRoutes = React.lazy(() => import("./AllTheme/Forevery/ForeveryRoutes"));
-const Procatalog_MobileApp_App = React.lazy(() => import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App"));
-const StamFordJewels_App = React.lazy(() => import("./AllTheme/StamFordJewels/StamFordJewels_App"));
-const RoopJewellers_App = React.lazy(() => import("./AllTheme/RoopJewellers/RoopJewellers_App"));
-const MalakanJewels_App = React.lazy(() => import("./AllTheme/MalakanJwewls/MalakanJewels_App"));
-
+const SmilingRock_MobileApp_App = React.lazy(() =>
+  import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
+);
+const HemratnaProcatalog_App = React.lazy(() =>
+  import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
+);
+const Procatalog_App = React.lazy(() =>
+  import("./AllTheme/Pocatalog/Procatalog_App")
+);
+const HouseOfQuadri_App = React.lazy(() =>
+  import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
+);
+const ForEveryRoutes = React.lazy(() =>
+  import("./AllTheme/Forevery/ForeveryRoutes")
+);
+const Procatalog_MobileApp_App = React.lazy(() =>
+  import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
+);
+const StamFordJewels_App = React.lazy(() =>
+  import("./AllTheme/StamFordJewels/StamFordJewels_App")
+);
+const RoopJewellers_App = React.lazy(() =>
+  import("./AllTheme/RoopJewellers/RoopJewellers_App")
+);
+const MalakanJewels_App = React.lazy(() =>
+  import("./AllTheme/MalakanJwewls/MalakanJewels_App")
+);
 
 export default function ThemeRoutes() {
   const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo);
@@ -145,7 +162,6 @@ export default function ThemeRoutes() {
     dt_setCompanyTitleLogo(webLogo);
     dt_setCompanyTitleLogoM(mobileLogo);
 
-
     stam_setCompanyTitleLogo(webLogo);
     stam_setCompanyTitleLogoM(mobileLogo);
 
@@ -158,7 +174,7 @@ export default function ThemeRoutes() {
     setTitle(storeinit?.BrowserTitle);
     if (CompanyinfoData) {
       let visiterId = CompanyinfoData?.VisitorId;
-      const existingVisitorId = Cookies.get("visiterId") ?? '';
+      const existingVisitorId = Cookies.get("visiterId") ?? "";
       if (!existingVisitorId) {
         Cookies.set("visiterId", visiterId, { path: "/", expires: 30 });
       } else {
@@ -183,9 +199,7 @@ export default function ThemeRoutes() {
   }, [htmlContent]);
 
   const callAllApi = () => {
-    const storeInit = JSON?.parse(
-      sessionStorage.getItem("storeInit")
-    );
+    const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const loginUserDetail = JSON?.parse(
       sessionStorage.getItem("loginUserDetail")
     );
@@ -257,121 +271,125 @@ export default function ThemeRoutes() {
   return (
     <>
       {storeInitData?.DomainForNo == 2 ? (
-        <div>
-          <Helmet>
-            <title>{title}</title>
-            <meta name="description" content={title} />
-            <link
-              rel="icon"
-              href={storeInitData?.favicon}
-              type="image/x-icon"
-            />
-            <link
-              rel="apple-touch-icon"
-              sizes="180x180"
-              href={storeInitData?.favicon}
-            />
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="192x192"
-              href={storeInitData?.favicon}
-            />
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="512x512"
-              href={storeInitData?.favicon}
-            />
-            <link rel="mask-icon" href={storeInitData?.favicon} />
-            <meta name="msapplication-TileColor" content="#ffffff" />
-            <meta
-              name="msapplication-TileImage"
-              content={storeInitData?.favicon}
-            />
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-            />
-          </Helmet>
-        </div>
-      ) :         <MetaData2 title={title}/>
-      }
+        <MetaData1 storeInitData={storeInitData} title={title} />
+      ) : (
+        <MetaData2 title={title} />
+      )}
 
       {htmlContent?.rd && htmlContent?.rd.length > 0 && (
-        <>
-          <Suspense fallback={<></>}>
-            {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
-
-            {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
-
-            {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
-
-            {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
-
-            {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
-
-            {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
-
-            {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
-
-            {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
-
-            {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
-
-            {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
-
-            {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
-
-            {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
-          </Suspense>
-        </>
+       <Themes htmlContent={htmlContent}/>
       )}
     </>
   );
 }
 
+const MetaData1 = ({ title, storeInitData }) => {
+  return (
+    <>
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={title} />
+        <link rel="icon" href={storeInitData?.favicon} type="image/x-icon" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href={storeInitData?.favicon}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="192x192"
+          href={storeInitData?.favicon}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="512x512"
+          href={storeInitData?.favicon}
+        />
+        <link rel="mask-icon" href={storeInitData?.favicon} />
+        <meta name="msapplication-TileColor" content="#ffffff" />
+        <meta name="msapplication-TileImage" content={storeInitData?.favicon} />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+      </Helmet>
+    </>
+  );
+};
 
-const MetaData2 = ({title , isHaveSub=false})=>{
-  const MetaPath = isHaveSub ? `logoIcon/sona/` : `logoIcon/`
-  return           <Helmet>
-            <title>{title}</title>
-            <meta name="description" content={title} />
-            <link
-              rel="icon"
-              href={`${storImagePath()}/${MetaPath}favicon1.png`}
-              type="image/x-icon"
-            />
-            <link
-              rel="apple-touch-icon"
-              sizes="180x180"
-              href={`${storImagePath()}/${MetaPath}apple-touch-icon.png`}
-            />
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="192x192"
-              href={`${storImagePath()}/${MetaPath}androidCh1.png`}
-            />
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="512x512"
-              href={`${storImagePath()}/${MetaPath}androidCh2.png`}
-            />
-            <link
-              rel="mask-icon"
-              href={`${storImagePath()}/${MetaPath}apple-touch-icon.png`}
-            />
-            <meta name="msapplication-TileColor" content="#ffffff" />
-            <meta
-              name="msapplication-TileImage"
-              content={`${storImagePath()}/${MetaPath}androidCh2.png`}
-            />
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-            />
-          </Helmet>
- 
+const MetaData2 = ({ title, isHaveSub = false }) => {
+  const MetaPath = isHaveSub ? `logoIcon/sona/` : `logoIcon/`;
+  return (
+    <Helmet>
+      <title>{title}</title>
+      <meta name="description" content={title} />
+      <link
+        rel="icon"
+        href={`${storImagePath()}/${MetaPath}favicon1.png`}
+        type="image/x-icon"
+      />
+      <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href={`${storImagePath()}/${MetaPath}apple-touch-icon.png`}
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="192x192"
+        href={`${storImagePath()}/${MetaPath}androidCh1.png`}
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="512x512"
+        href={`${storImagePath()}/${MetaPath}androidCh2.png`}
+      />
+      <link
+        rel="mask-icon"
+        href={`${storImagePath()}/${MetaPath}apple-touch-icon.png`}
+      />
+      <meta name="msapplication-TileColor" content="#ffffff" />
+      <meta
+        name="msapplication-TileImage"
+        content={`${storImagePath()}/${MetaPath}androidCh2.png`}
+      />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      />
+    </Helmet>
+  );
+};
+
+const Themes = ({htmlContent})=>{
+  return  <>
+  <Suspense fallback={<></>}>
+    {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
+
+    {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
+
+    {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
+
+    {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
+
+    {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
+
+    {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
+
+    {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
+
+    {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
+
+    {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
+
+    {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
+
+    {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
+
+    {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
+  </Suspense>
+</>
 }
