@@ -2815,9 +2815,10 @@ const ProductList = () => {
                                       >
                                         In memo
                                       </option>
-                                      <option className="option" value="Bestseller">
+                                      {/* for all not needed removed by priyank bhai */}
+                                      {/* <option className="option" value="Bestseller">
                                         Bestseller
-                                      </option>
+                                      </option> */}
                                       {/* )} */}
                                       <option
                                         className="option"

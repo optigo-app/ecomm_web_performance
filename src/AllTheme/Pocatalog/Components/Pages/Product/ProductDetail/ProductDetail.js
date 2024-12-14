@@ -23,6 +23,7 @@ import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCom
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import {
+  AlmacarinoFlag,
   proCat_CartCount,
   proCat_WishCount,
   soketProductData,
@@ -70,7 +71,7 @@ import { SaveLastViewDesign } from "../../../../../../utils/API/SaveLastViewDesi
 
 const ProductDetail = () => {
   let location = useLocation();
-
+  const Almacarino = useRecoilValue(AlmacarinoFlag);
   const [singleProd, setSingleProd] = useState({});
   const [singleProd1, setSingleProd1] = useState({});
   // const [singleProdPrice, setSingleProdPrice] = useState();
@@ -130,6 +131,7 @@ const ProductDetail = () => {
 
   const maxwidth1023px = useMediaQuery('(max-width: 1023px)')
 
+  console.log(Almacarino,"Almacarino")
 
   useEffect(() => {
     setCSSVariable();
@@ -1776,13 +1778,21 @@ const ProductDetail = () => {
                                 </span>
                               ) : null}
                               <span className="smr_prod_short_key">
-                                Net Wt :{" "}
+                                NWT :{" "}
                                 <span className="smr_prod_short_val">
                                   {(
                                     singleProd1?.Nwt ?? singleProd?.Nwt
                                   )?.toFixed(3)}
                                 </span>
                               </span>
+                              {Almacarino === 1 && <span className="smr_prod_short_key">
+                                GWT :{" "}
+                                <span className="smr_prod_short_val">
+                                  {(
+                                    singleProd1?.Gwt ?? singleProd?.Gwt
+                                  )?.toFixed(3)}
+                                </span>
+                              </span>}
                             </div>
                           </div>
                           {storeInit?.IsProductWebCustomization == 1 &&
@@ -2660,7 +2670,8 @@ const ProductDetail = () => {
                               {/* <div className="procat_design_details_div procat_cart_btn "> */}
                               <div className="procat_design_details_div ">
                                 <span>{ele?.designno}</span>
-                                <span>{ele?.TitleLine}</span>
+                                {/* remove for all pro user by priyank bhai */}
+                                {/* <span>{ele?.TitleLine}</span> */}
                               </div>
                             </div>
                           ))}
@@ -2707,7 +2718,7 @@ const ProductDetail = () => {
                                   <img src={ele?.imageSrc} alt={ele?.TitleLine} loading="lazy" onError={(e) => e.target.src = imageNotFound} />
                                   <div className="procat_design_details_div ">
                                     <span>{ele?.designno}</span>
-                                    <span>{ele?.TitleLine}</span>
+                                    {/* <span>{ele?.TitleLine}</span> */}
                                   </div>
                                 </div>
                               </SwiperSlide>
@@ -2753,7 +2764,7 @@ const ProductDetail = () => {
                                 }}
                               >
                                 <span className="smr_prod_designno">
-                                  {ele?.designno}
+                                  {ele?.designno + '  ' +  '('+ ele?.StockBarcode+ ')'}
                                 </span>
                                 <div className="smr_prod_Allwt">
                                   <div
@@ -2762,13 +2773,15 @@ const ProductDetail = () => {
                                       justifyContent: "center",
                                       alignItems: "center",
                                       flexWrap: "wrap",
-                                      letterSpacing: "1px",
-                                      gap: "3px",
                                     }}
                                   >
                                     <span className="smr_prod_wt">
-                                      <span className="smr_d_keys">NWT:</span>
-                                      <span className="smr_d_val">
+                                      <span className="smr_d_keys" style={{
+                                        fontSize:'12px'
+                                      }}>NWT:</span>
+                                      <span className="smr_d_val" style={{
+                                        fontSize:'12px'
+                                      }}>
                                         {ele?.NetWt}
                                       </span>
                                     </span>
@@ -2776,9 +2789,14 @@ const ProductDetail = () => {
                                     {storeInit?.IsGrossWeight == 1 &&
                                       Number(ele?.GrossWt) !== 0 && (
                                         <>
-                                          <span>|</span>
+                                          <span style={{
+                                            fontSize:'12px',
+                                            padding:'0 2px'
+                                          }}>|</span>
                                           <span className="smr_prod_wt">
-                                            <span className="smr_d_keys">
+                                            <span className="smr_d_keys" style={{
+                                              fontSize:'12px'
+                                            }}>
                                               GWT:
                                             </span>
                                             <span className="smr_d_val">
@@ -2790,12 +2808,20 @@ const ProductDetail = () => {
                                     {storeInit?.IsDiamondWeight == 1 &&
                                       Number(ele?.DiaWt) !== 0 && (
                                         <>
-                                          <span>|</span>
+                                          <span style={{
+                                            fontSize:'12px' ,
+                                            padding:'0 2px'
+
+                                          }}>|</span>
                                           <span className="smr_prod_wt">
-                                            <span className="smr_d_keys">
+                                            <span className="smr_d_keys" style={{
+                                              fontSize:'12px'
+                                            }}>
                                               DWT:
                                             </span>
-                                            <span className="smr_d_val">
+                                            <span className="smr_d_val" style={{
+                                              fontSize:'12px'
+                                            }}>
                                               {ele?.DiaWt}
                                               {storeInit?.IsDiamondPcs === 1
                                                 ? `/${ele?.DiaPcs}`
@@ -2808,12 +2834,20 @@ const ProductDetail = () => {
                                     {storeInit?.IsStoneWeight == 1 &&
                                       Number(ele?.CsWt) !== 0 && (
                                         <>
-                                          <span>|</span>
+                                          <span style={{
+                                            fontSize:'12px' ,
+                                            padding:'0 2px'
+
+                                          }}>|</span>
                                           <span className="smr_prod_wt">
-                                            <span className="smr_d_keys">
+                                            <span className="smr_d_keys" style={{
+                                              fontSize:'12px'
+                                            }}>
                                               CWT:
                                             </span>
-                                            <span className="smr_d_val">
+                                            <span className="smr_d_val" style={{
+                                              fontSize:'12px'
+                                            }}>
                                               {ele?.CsWt}
                                               {storeInit?.IsStonePcs === 1
                                                 ? `/${ele?.CsPcs}`
@@ -2836,9 +2870,13 @@ const ProductDetail = () => {
                                   {storeInit?.IsMetalTypeWithColor == 1
                                     ? `${ele?.metalPurity}-${ele?.MetalColorName}`
                                     : ""}{" "}
-                                  /{" "}
+                                 <span style={{
+                                  padding:"0 4px"
+                                 }}>/</span>
                                   {storeInit?.IsPriceShow == 1 && (
-                                    <div>
+                                    <div style={{
+                                      fontWeight:'600',
+                                                                    }}>
                                       {isPriceloading ? (
                                         ""
                                       ) : (

@@ -44,3 +44,8 @@ export const soketProductData = atom({
   key: 'poca_soketProductData',
   default: []
 })
+
+export const AlmacarinoFlag = atom({
+  key: 'AlmacarinoFlag',
+  default: 1
+})
