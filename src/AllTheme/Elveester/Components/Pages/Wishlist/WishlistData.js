@@ -18,8 +18,6 @@ const WishlistData = ({
   handelMenu
 }) => {
 
-  console.log('itemLength', items?.length);
-
   return (
     <div className="elv_WlListData">
       <>

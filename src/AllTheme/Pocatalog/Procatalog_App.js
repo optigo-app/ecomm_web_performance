@@ -197,7 +197,7 @@ const Procatalog_App = () => {
           <Route path="/servicePolicy" element={<ServicePolicy />} />
           <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
           <Route path="/FunFact" element={<FunFact />} />
-          <Route path="/Lookbook" element={<Lookbook />} />
+          {/* <Route path="/Lookbook" element={<Lookbook />} /> */}
           <Route path="/aboutUs" element={<AboutUs2 />} />
           <Route path="/privacy-policy" element={<TermsCondition />} />
           <Route path="/terms-and-conditions" element={ <PrivacyPolicy />} />

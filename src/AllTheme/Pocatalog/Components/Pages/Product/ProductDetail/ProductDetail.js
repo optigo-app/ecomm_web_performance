@@ -66,6 +66,7 @@ import { GoChevronLeft } from "react-icons/go";
 import { HiOutlineChevronRight } from "react-icons/hi2";
 import { HiOutlineChevronLeft } from "react-icons/hi2";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { SaveLastViewDesign } from "../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -92,6 +93,7 @@ const ProductDetail = () => {
   const [loginInfo, setLoginInfo] = useState();
   const [SizeCombo, setSizeCombo] = useState();
   const [sizeData, setSizeData] = useState();
+  const [saveLastView, setSaveLastView] = useState();
   const [isPriceloading, setisPriceLoading] = useState(false);
   const [isDataFound, setIsDataFound] = useState(false);
   const [metalWiseColorImg, setMetalWiseColorImg] = useState();
@@ -106,6 +108,7 @@ const ProductDetail = () => {
   const [pdVideoArr, setPdVideoArr] = useState([]);
   const [allListDataSlide, setAllListDataSlide] = useState([]);
   const [imageData, setImageData] = useState([]);
+  console.log('imageData: ', imageData);
   const SoketData = useRecoilValue(soketProductData);
   const [imageStates, setImageStates] = useState({});
   const [imageSrc, setImageSrc] = useState();
@@ -182,9 +185,10 @@ const ProductDetail = () => {
       const processedData = await Promise.all(
         finalProdWithPrice?.map(async (ele) => {
           const src = `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`;
+          const isImageAvailable = await checkImageAvailability(src);
           return {
             ...ele,
-            imageSrc: src,
+            imageSrc: isImageAvailable ? src : imageNotFound,
           };
         })
       );
@@ -812,6 +816,10 @@ const ProductDetail = () => {
                 })
                 .catch((err) => console.log("designsetErr", err));
             }
+
+            await SaveLastViewDesign(cookie, resp?.pdList[0]?.autocode, resp?.pdList[0]?.designno).then((res) => {
+              setSaveLastView(res?.Data?.rd)
+            }).catch((err) => console.log("saveLastView", err))
           }
         })
         .catch((err) => console.log("err", err))
@@ -949,7 +957,16 @@ const ProductDetail = () => {
   //   }
 
   // }
-  
+
+  function checkImageAvailability(imageUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = imageUrl;
+    });
+  }
+
   const [imagePromise, setImagePromise] = useState(true)
 
   const imageCache = {};  // Caching object to store checked images
@@ -1020,7 +1037,10 @@ const ProductDetail = () => {
           "." +
           singleProd?.ImageExtension;
 
-        pdImgList.push(imgString);
+        let IsImg = checkImageAvailability(imgString);
+        if (IsImg) {
+          pdImgList.push(imgString);
+        }
       }
 
       if (pdImgList?.length > 0) {
@@ -1030,7 +1050,7 @@ const ProductDetail = () => {
 
     let IsColImg = false;
     if (colImg?.length > 0) {
-      IsColImg = colImg;
+      IsColImg = await checkImageAvailability(colImg);
     }
 
     if (pd?.ImageCount > 0 && !IsColImg) {
@@ -1043,7 +1063,13 @@ const ProductDetail = () => {
           "." +
           pd?.ImageExtension;
 
-        pdImgList.push(imgString);
+        let IsImg = checkImageAvailability(imgString);
+        if (IsImg) {
+          pdImgList.push(imgString);
+        }
+        else {
+          pdImgList.push(imageNotFound);
+        }
       }
     } else {
       finalprodListimg = imageNotFound;
@@ -1068,7 +1094,10 @@ const ProductDetail = () => {
 
     if (pdImgList?.length > 0) {
       for (let i = 0; i < pdImgList?.length; i++) {
-        FinalPdImgList.push(pdImgList[i]);
+        let isImgAvl = await checkImageAvailability(pdImgList[i]);
+        if (isImgAvl) {
+          FinalPdImgList.push(pdImgList[i]);
+        }
       }
     }
 
@@ -1160,7 +1189,13 @@ const ProductDetail = () => {
       "." +
       (singleProd ?? singleProd1)?.ImageExtension;
 
-    setMetalWiseColorImg(imgLink);
+    let isImg = await checkImageAvailability(imgLink);
+
+    if (isImg) {
+      setMetalWiseColorImg(imgLink);
+    } else {
+      setMetalWiseColorImg();
+    }
 
     let pd = singleProd;
     let pdImgListCol = [];
@@ -1197,7 +1232,7 @@ const ProductDetail = () => {
     let isImgCol;
 
     if (pdImgListCol?.length > 0) {
-      isImgCol = pdImgListCol[0];
+      isImgCol = await checkImageAvailability(pdImgListCol[0]);
     }
 
     let FinalPdColImgList = [];
@@ -1451,9 +1486,15 @@ const ProductDetail = () => {
     swiperMainRef?.current.swiper.slideTo(nextIndex);
     const selectedData = nextIndex;
     if (selectedData) {
-      const imageLink = selectedData?.images?.[0];
-      setImageSrc(imageLink);
-      setSelectedThumbImg({ link: imageLink, type: "img" });
+      const imageLink = await checkImageAvailability(selectedData?.images?.[0]);
+      if (imageLink === undefined || imageLink === false) {
+        setImageSrc(imageNotFound)
+        setSelectedThumbImg({ link: imageNotFound, type: "img" });
+      }
+      else {
+        setImageSrc(imageLink);
+        setSelectedThumbImg({ link: imageLink, type: "img" });
+      }
     }
     handleProductDetail(nextIndex);
   };
@@ -1463,13 +1504,18 @@ const ProductDetail = () => {
     swiperMainRef.current.swiper.slideTo(prevIndex);
     const selectedData = prevIndex;
     if (selectedData) {
-      const imageLink = selectedData?.images?.[0];
-      setImageSrc(imageLink);
-      setSelectedThumbImg({ link: imageLink, type: "img" });
+      const imageLink = await checkImageAvailability(selectedData?.images?.[0]);
+      if (imageLink === undefined || imageLink === false) {
+        setImageSrc(imageNotFound)
+        setSelectedThumbImg({ link: imageNotFound, type: "img" });
+      }
+      else {
+        setImageSrc(imageLink);
+        setSelectedThumbImg({ link: imageLink, type: "img" });
+      }
     }
     handleProductDetail(prevIndex);
   };
-
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -1492,7 +1538,8 @@ const ProductDetail = () => {
 
       for (const ele of stockItemArr) {
         const imageUrl = `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`;
-        updatedStates[ele.StockId] = imageUrl;
+        const available = await checkImageAvailability(imageUrl);
+        updatedStates[ele.StockId] = available ? imageUrl : imageNotFound;
       }
 
       setImageStates(updatedStates);
@@ -2610,7 +2657,8 @@ const ProductDetail = () => {
                               }}
                             >
                               <img src={ele?.imageSrc} alt={ele?.TitleLine} loading="lazy" onError={(e) => e.target.src = imageNotFound} />
-                              <div className="procat_design_details_div procat_cart_btn ">
+                              {/* <div className="procat_design_details_div procat_cart_btn "> */}
+                              <div className="procat_design_details_div ">
                                 <span>{ele?.designno}</span>
                                 <span>{ele?.TitleLine}</span>
                               </div>
@@ -2657,7 +2705,7 @@ const ProductDetail = () => {
                                   }}
                                 >
                                   <img src={ele?.imageSrc} alt={ele?.TitleLine} loading="lazy" onError={(e) => e.target.src = imageNotFound} />
-                                  <div className="procat_design_details_div procat_cart_btn ">
+                                  <div className="procat_design_details_div ">
                                     <span>{ele?.designno}</span>
                                     <span>{ele?.TitleLine}</span>
                                   </div>
@@ -3042,10 +3090,10 @@ const ProductDetail = () => {
                     <div className="smr_stockItem_div">
                       <p className="smr_details_title"> Similar Designs</p>
                       <div className="smr_stockitem_container">
-                        <div className="smr_stock_item_card">
+                        <div className="proCat_stock_item_card">
                           {SimilarBrandArr?.map((ele) => (
                             <div
-                              className="smr_stockItemCard"
+                              className="proCat_stockItemCard"
                               onClick={
                                 () =>
                                   // setTimeout(() =>
@@ -3054,7 +3102,7 @@ const ProductDetail = () => {
                               }
                             >
                               <img
-                                className="smr_productCard_Image"
+                                className="proCat_productCard_Image"
                                 src={
                                   ele?.ImageCount > 0
                                     ? storeInit?.CDNDesignImageFol +

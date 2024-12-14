@@ -955,7 +955,7 @@ const ProductDetail = () => {
       for (let i = 0; i < pdImgList?.length; i++) {
         let isImgAvl = await checkImageAvailability(pdImgList[i])
         if (isImgAvl) {
-          FinalPdImgList.push(pdImgList[i])
+        FinalPdImgList.push(pdImgList[i])
         }
       }
     }
@@ -1332,6 +1332,7 @@ const ProductDetail = () => {
                               src={data}
                               autoPlay={true}
                               loop={true}
+                              onError={handleVideoError}
                               className="elv_ProductDet_image_max1400"
                               style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
                             />
@@ -1395,6 +1396,7 @@ const ProductDetail = () => {
                               src={data}
                               autoPlay={true}
                               loop={true}
+                              onError={handleVideoError}
                               // className="elv_prod_thumb_img"
                               style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
                             />
@@ -1554,6 +1556,7 @@ const ProductDetail = () => {
                                   src={data}
                                   autoPlay={true}
                                   loop={true}
+                                  onError={handleVideoError}
                                   className="elv_ProductDet_image_max1000"
                                   style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
                                 />
