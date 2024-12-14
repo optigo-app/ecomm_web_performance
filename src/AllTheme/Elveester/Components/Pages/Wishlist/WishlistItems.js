@@ -26,7 +26,6 @@ const WishlistItems = ({
 }) => {
 
     const [imageSrc, setImageSrc] = useState();
-    console.log('imageSrc: ', imageSrc);
 
     useEffect(() => {
         if (item?.ImageCount !== 0) {
@@ -134,6 +133,7 @@ const WishlistItems = ({
                                 component="img"
                                 image={imageSrc}
                                 alt={item?.TitleLine}
+                                onError={(e) => e.target.src = noImageFound}
                                 className='elv_WlListImage'
                                 onClick={() => handleMoveToDetail(item)}
                             />

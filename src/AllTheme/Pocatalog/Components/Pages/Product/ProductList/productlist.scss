@@ -50,8 +50,9 @@
   display: flex;
   justify-content: start;
   align-items: center;
-  width: 29% !important;
-  padding: 0px 0px 0px 17%;
+  // width: 29% !important;
+  padding: 0px 0px 0px 11%;
+  // padding: 0px 0px 0px 17%;
 }
 
 .proCat_mpty_sorting_div_NoData {
@@ -69,7 +70,7 @@
   margin: 15px 0px 10px 0px;
 }
 
-.proCat_main_sorting_div_proCat_noLength{
+.proCat_main_sorting_div_proCat_noLength {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -233,7 +234,7 @@
   flex-direction: column;
 }
 
-.procat_productList_Nodata{
+.procat_productList_Nodata {
   width: 100%;
   display: flex;
   align-items: baseline;
@@ -281,21 +282,21 @@
 
 .proCat_ImgandVideoContainer {
   border-radius: 8px;
-  min-height: 300px;
+  // min-height: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 
-  @media (max-width: 500px) {
-    height: 20vh;
-    min-height: 250px;
-  }
+  // @media (max-width: 500px) {
+  //   height: 20vh;
+  //   min-height: 250px;
+  // }
 
-  @media (max-width: 375px) {
-    height: 20vh;
-    min-height: 200px;
-  }
+  // @media (max-width: 375px) {
+  //   height: 20vh;
+  //   min-height: 200px;
+  // }
 
   img,
   video {
@@ -337,7 +338,7 @@
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  padding-left: 5px;
+  padding-left: 3px;
 }
 
 .proCat_price {
@@ -345,6 +346,7 @@
   color: $primaryfontcolor;
   margin-left: 5px;
 }
+
 .proCatPriceMobile {
   font-size: 14px;
 }
@@ -359,6 +361,10 @@
   display: flex;
   text-transform: uppercase;
   padding: 0px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 98%;
 }
 
 .proCat_prod_mtcolr_price {
@@ -457,7 +463,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color:#cbe5ff;
+  background-color: #cbe5ff;
   margin-left: 0 !important;
 }
 
@@ -578,6 +584,7 @@
     width: 23.5% !important;
   }
 }
+
 @media screen and (max-width: 1441px) {
   .smr_productCard_noFil {
     width: 32%;
@@ -625,7 +632,7 @@
     padding-inline: 10px;
   }
 
-  .proCat_main_sorting_div_proCat_noLength{
+  .proCat_main_sorting_div_proCat_noLength {
     display: flex !important;
     justify-content: space-between !important;
     padding-inline: 10px;

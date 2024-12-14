@@ -98,6 +98,7 @@ const MobileCartDetails = ({
               className='elvMo_cartImage'
               onClick={() => handleMoveToDetail(selectedItem)}
               style={{ border: 'none' }}
+              onError={(e) => e.target.src = noImageFound}
             />
           )}
         </div>

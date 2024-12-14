@@ -100,7 +100,8 @@
 
 .smr_prod_titleLine {
   text-align: start !important;
-  font-size: 40px;
+  font-size: 30px;
+  // font-size: 40px;
   font-family: $homePageFontFamily;
   font-weight: 400;
   font-style: normal;
@@ -309,7 +310,8 @@
   align-items: center;
   width: 100%;
   flex-direction: column;
-  margin-bottom: 150px;
+  margin-bottom: 130px;
+  margin-top: 50px;
 }
 
 .smr_details_title {
@@ -367,23 +369,31 @@
   width: 100%;
 }
 
-.smr_stock_item_card {
+.proCat_stock_item_card {
   display: flex;
   justify-content: center;
-  width: 94%;
+  width: 100%;
   align-items: center;
   margin-inline: 3%;
   gap: 8px;
   flex-wrap: wrap;
 }
 
-.smr_stockItemCard {
+.proCat_stockItemCard {
   display: flex;
   position: relative;
-  width: 310px;
+  // width: 310px;
+  width: 19%;
   border: 1px solid #e1e1e1;
   text-align: center;
   flex-direction: column;
+}
+
+.proCat_productCard_Image {
+  object-fit: scale-down;
+  background-position: 50%;
+  background-size: cover;
+  width: 100%;
 }
 
 .procat_productCard_Image {
@@ -459,6 +469,7 @@
   padding: 0 10px;
   animation: fadeIn 1s forwards;
   opacity: 0.5;
+  gap: 10px;
 
   @keyframes fadeIn {
     to {
