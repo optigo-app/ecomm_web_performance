@@ -1,222 +1,221 @@
-@import '../../../scss/variable.scss';
+@import "../../../scss/variable.scss";
 
 .rls-inducing-div {
-    display: none;
+  display: none;
 }
 
 .rls-inducing-div.show {
-    display: block;
+  display: block;
 }
 
 .roop_jewlSet_Main {
- height: auto;
- overflow: hidden;
-margin-top: 1rem;
- margin-bottom: -6rem;
- @media screen and (max-width:1294px) {
-    margin-bottom: -3rem;
- }
+  height: auto;
+  overflow: hidden;
+  margin-top: 1rem;
+  margin-bottom: 0rem;
+  @media screen and (max-width: 1294px) {
+    margin-bottom: 0rem;
+  }
 
-    .roop_jewl_title {
-        margin-top: 60px;
-        font-size: $fontSize6;
-        color: $homePageFontColor;
-        font-family: $homePageFontFamily;
-        text-align: center;
-        margin-bottom: 2rem;
+  .roop_jewl_title {
+    margin-top: 30px;
+    font-size: $fontSize6;
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .roop_jewls_main_sub {
+    display: flex;
+    flex-wrap: wrap;
+    // padding-inline: 250px;
+    padding-inline: 10px;
+    // padding-inline: 100px;
+    .swiper-button-prev,
+    .swiper-button-next {
+      background-color: #b7b7b7;
+      color: #fff;
+      padding: 10px;
+      border-radius: 50%;
+      z-index: 12;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:after {
+        font-size: 16px;
+      }
+    }
+    .swiper-button-disabled {
+      opacity: 0.5;
+      cursor: pointer;
+      pointer-events: auto;
+      background-color: #ababab;
+      margin-top: -30px !important;
+    }
+  }
+
+  .roop_jewls__image_div {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    @media screen and (max-width: 1535px) {
+      height: 50vh;
+    }
+    @media screen and (max-width: 1374px) {
+      height: 40vh;
+    }
+    @media screen and (max-width: 1200px) {
+      height: auto;
+    }
+  }
+
+  .roop_jewls__image_div1 {
+    position: relative;
+    width: 50%;
+    padding: 20px 0px 20px 20px;
+  }
+
+  .roop_jewels_bannerImg_div {
+    margin-block: 20px;
+    position: relative;
+    width: 100%;
+  }
+
+  .roop_jewls_Div_name {
+    color: black;
+    position: absolute;
+    font-size: 30px;
+    bottom: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: $fontMedium;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 20px;
     }
 
-    .roop_jewls_main_sub {
-        display: flex;
-        flex-wrap: wrap;
-        // padding-inline: 250px;
-        padding-inline: 10px;
-        // padding-inline: 100px;
-        .swiper-button-prev,
-        .swiper-button-next {
-            background-color: #b7b7b7;
-            color: #fff;
-            padding: 10px;
-            border-radius: 50%;
-            z-index: 12;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    @media screen and (max-width: 800px) {
+      font-size: 15px;
+    }
 
-            &:after {
-                font-size: 16px;
-            }
-        }
-        .swiper-button-disabled {
-            opacity: 0.5;
-            cursor: pointer;
-            pointer-events: auto;
-            background-color: #ababab;
-            margin-top: -30px!important;
-        }
+    @media screen and (max-width: 650px) {
+      bottom: 7%;
+    }
+
+    @media screen and (max-width: 360px) {
+      bottom: 3%;
+    }
+  }
+
+  .roop_jewelImg {
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  @media screen and (max-width: 1400px) {
+    .roop_jewls_main_sub {
+      padding-inline: 70px !important;
+    }
+
+    // .roop_jewl_title {
+    //     margin: 5px !important;
+    // }
+  }
+
+  @media screen and (max-width: 900px) {
+    .roop_jewls_main_sub {
+      padding-inline: 10px !important;
     }
 
     .roop_jewls__image_div {
-        position: relative;
-        width: 100%;
-        // width: 25%;
-        // width: 50%;
-        // padding: 20px 20px 20px 0px;
-
+      padding: 10px 10px 10px 0px !important;
     }
 
     .roop_jewls__image_div1 {
-        position: relative;
-        width: 50%;
-        padding: 20px 0px 20px 20px;
+      padding: 10px 0px 10px 10px !important;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .roop_jewels_bannerImg_div {
+      margin: 0px !important;
+      padding: 5px !important;
     }
 
-    .roop_jewels_bannerImg_div {
-        margin-block: 20px;
-        position: relative;
-        width: 100%;
+    .roop_jewls_main_sub {
+      padding-inline: 0px !important;
+    }
+
+    .roop_jewl_title {
+      font-size: 22px !important;
+      padding-block: 5px;
     }
 
     .roop_jewls_Div_name {
-        color: black;
-        position: absolute;
-        font-size: 30px;
-        bottom: 12%;
-        left: 50%;
-        transform: translateX(-50%);
-        font-family: $fontMedium;
-
-        @media screen and (max-width: 1200px) {
-            font-size: 20px;
-        }
-
-        @media screen and (max-width: 800px) {
-            font-size: 15px;
-        }
-
-        @media screen and (max-width: 650px) {
-            bottom: 7%;
-        }
-
-        @media screen and (max-width: 360px) {
-            bottom: 3%;
-        }
+      font-size: 18px !important;
     }
 
-
-    .roop_jewelImg {
-        width: 100%;
-        object-fit: cover;
-        height: 100%;
-        cursor: pointer;
+    .roop_jewls__image_div {
+      // width: 50% !important;
+      width: 100% !important;
+      padding: 5px !important;
     }
 
-    @media screen and (max-width:1400px) {
-
-        .roop_jewls_main_sub {
-            padding-inline: 70px !important;
-        }
-
-        .roop_jewl_title {
-            font-size: 20px !important;
-            margin: 5px !important;
-        }
+    .roop_jewls__image_div1 {
+      width: 100% !important;
+      padding: 5px !important;
     }
-
-    @media screen and (max-width: 900px) {
-
-        .roop_jewls_main_sub {
-            padding-inline: 10px !important;
-        }
-
-        .roop_jewls__image_div {
-            padding: 10px 10px 10px 0px !important;
-        }
-
-        .roop_jewls__image_div1 {
-            padding: 10px 0px 10px 10px !important;
-        }
-    }
-
-    @media screen and (max-width: 600px) {
-
-        .roop_jewels_bannerImg_div {
-            margin: 0px !important;
-            padding: 5px !important;
-        }
-
-        .roop_jewls_main_sub {
-            padding-inline: 0px !important;
-        }
-
-        .roop_jewl_title {
-            font-size: 22px !important;
-            padding-block: 5px;
-        }
-
-        .roop_jewls_Div_name {
-            font-size: 18px !important;
-        }
-
-        .roop_jewls__image_div {
-            // width: 50% !important;
-            width: 100% !important;
-            padding: 5px !important;
-        }
-
-        .roop_jewls__image_div1 {
-            width: 100% !important;
-            padding: 5px !important;
-        }
-    }
+  }
 }
 
 .roop_album_main_swiper {
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 10px;
+  }
 
-    .swiper-button-next,
-    .swiper-button-prev {
-        color: #fff;
-        background-color: rgba(0, 0, 0, 0.5);
-        border-radius: 50%;
-        padding: 10px;
+  @media (max-width: 900px) {
+    .swiper-button-prev,
+    .swiper-button-next {
+      background-color: #b7b7b7;
+      color: #fff;
+      padding: 10px;
+      border-radius: 50%;
+      z-index: 12;
+      width: 27px;
+      height: 27px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: -30px !important;
+
+      &:after {
+        font-size: 16px;
+      }
     }
+  }
 
-    @media (max-width: 900px) {
+  .swiper-button-disabled {
+    opacity: 0.5;
+    cursor: pointer;
+    pointer-events: auto;
+    background-color: #ababab;
+  }
 
-        .swiper-button-prev,
-        .swiper-button-next {
-            background-color: #b7b7b7;
-            color: #fff;
-            padding: 10px;
-            border-radius: 50%;
-            z-index: 12;
-            width: 27px;
-            height: 27px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: -30px !important;
+  .swiper-pagination-bullet {
+    background-color: #fff;
+  }
 
-            &:after {
-                font-size: 16px;
-            }
-        }
-    }
-
-    .swiper-button-disabled {
-        opacity: 0.5;
-        cursor: pointer;
-        pointer-events: auto;
-        background-color: #ababab;
-    }
-
-    .swiper-pagination-bullet {
-        background-color: #fff;
-    }
-
-    .swiper-pagination-bullet-active {
-        background-color: #007BFF;
-    }
+  .swiper-pagination-bullet-active {
+    background-color: #007bff;
+  }
 }

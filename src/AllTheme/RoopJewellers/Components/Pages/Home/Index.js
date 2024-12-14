@@ -82,7 +82,6 @@ function Home() {
             <BestSellerSection1 />
           </div>
         }
-
       </div>
     </div>
   </div>
