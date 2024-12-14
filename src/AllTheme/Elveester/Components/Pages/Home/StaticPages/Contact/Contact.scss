@@ -42,6 +42,20 @@
     }
   }
 
+  .elvee_input_from {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255) !important;
+    outline: none;
+
+    .for_error-message {
+      margin-top: 3px;
+      margin-bottom: 0;
+      text-align: left;
+      color: red;
+    }
+  }
+
   .elvee_contact-form {
     margin-bottom: 3rem;
     width: 60%;

@@ -1737,7 +1737,7 @@ const ProductList = () => {
                             className="pSkelton"
                           />
                         ) : (
-                          <span>{`Product Found:: ${afterFilterCount}`}</span>
+                          <span>{`Product Found: ${afterFilterCount}`}</span>
                         )}
                       </>
                     )}
@@ -1756,7 +1756,7 @@ const ProductList = () => {
                             className="pSkelton"
                           />
                         ) : (
-                          <span>{`Total Products: ${afterFilterCount}`}</span>
+                          <span>{`Total Products : ${afterFilterCount}`}</span>
                         )}
                       </>
                     )}
@@ -2209,7 +2209,7 @@ const ProductList = () => {
                                 )?.length === 0 ? (
                                   "Filters"
                                 ) : (
-                                  // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
+                                  // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products : ${afterFilterCount}`}</span></span>
                                   <>
                                     {afterCountStatus == true ? (
                                       <Skeleton
@@ -2219,7 +2219,7 @@ const ProductList = () => {
                                         className="pSkelton"
                                       />
                                     ) : (
-                                      <span>{`Product Found:: ${afterFilterCount}`}</span>
+                                      <span>{`Product Found: ${afterFilterCount}`}</span>
                                     )}
                                   </>
                                 )}
@@ -2239,7 +2239,7 @@ const ProductList = () => {
                                         className="pSkelton"
                                       />
                                     ) : (
-                                      <span>{`Total Products: ${afterFilterCount}`}</span>
+                                      <span>{`Total Products : ${afterFilterCount}`}</span>
                                     )}
                                   </>
                                 )}
@@ -2991,6 +2991,8 @@ const ProductList = () => {
                                               onError={(e) => {
                                                 e.target.poster = imageNotFound;
                                               }}
+                                              disablePictureInPicture={true}
+                                              disableRemotePlayback={true}
                                             />
                                           ) : (
                                             <img
@@ -3003,7 +3005,8 @@ const ProductList = () => {
                                                     ? productData?.images[0]
                                                     : imageNotFound
                                               }
-                                              alt=""
+                                              alt={`Product image ${i + 1}`}
+                                              // alt=""
                                               onError={(e) => {
                                                 e.target.src = imageNotFound;
                                               }}
@@ -3031,7 +3034,7 @@ const ProductList = () => {
 
                                       <div className="proCat_prod_card_info">
                                         <span className="proCat1_prod_title_with_no_width">
-                                          {productData?.designno}
+                                          {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
                                         </span>
                                         <p
                                           className="proCatPriceMobile"
@@ -4958,7 +4961,7 @@ export default ProductList;
 //                             className="pSkelton"
 //                           />
 //                         ) : ( */}
-//                         <span>{`Product Found:: ${afterFilterCount}`}</span>
+//                         <span>{`Product Found: ${afterFilterCount}`}</span>
 //                         {/* )} */}
 //                       </>
 //                     )}
@@ -4977,7 +4980,7 @@ export default ProductList;
 //                             className="pSkelton"
 //                           />
 //                         ) : ( */}
-//                         <span>{`Total Products: ${afterFilterCount}`}</span>
+//                         <span>{`Total Products : ${afterFilterCount}`}</span>
 //                         {/* )} */}
 //                       </>
 //                     )}
@@ -5645,7 +5648,7 @@ export default ProductList;
 //                               )?.length === 0 ? (
 //                                 "Filters"
 //                               ) : (
-//                                 // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
+//                                 // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products : ${afterFilterCount}`}</span></span>
 //                                 <>
 //                                   {/* {afterCountStatus == true ? (
 //                                     <Skeleton
@@ -5655,7 +5658,7 @@ export default ProductList;
 //                                       className="pSkelton"
 //                                     />
 //                                   ) : ( */}
-//                                   <span>{`Product Found:: ${afterFilterCount}`}</span>
+//                                   <span>{`Product Found: ${afterFilterCount}`}</span>
 //                                   {/* )} */}
 //                                 </>
 //                               )}
@@ -5675,7 +5678,7 @@ export default ProductList;
 //                                       className="pSkelton"
 //                                     />
 //                                   ) : ( */}
-//                                   <span>{`Total Products: ${afterFilterCount}`}</span>
+//                                   <span>{`Total Products : ${afterFilterCount}`}</span>
 //                                   {/* )} */}
 //                                 </>
 //                               )}

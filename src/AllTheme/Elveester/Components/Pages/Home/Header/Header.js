@@ -238,16 +238,15 @@ const Header = () => {
   const [selectedData, setSelectedData] = useState([]);
 
   useEffect(() => {
+    console.log("useEffect triggered");
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
-    if (storeinit?.IsB2BWebsite === 0) {
+    if (islogin && (
+      storeinit?.IsB2BWebsite === 0 ||
+      (storeinit?.IsB2BWebsite === 1 && isUserLogin === true))
+    ) {
+      console.log("Calling getMenuApi");
       getMenuApi();
-      return;
-    } else if (storeinit?.IsB2BWebsite === 1 && isUserLogin === true) {
-      getMenuApi();
-      return;
-    } else {
-      return;
     }
   }, [islogin]);
 
@@ -484,51 +483,51 @@ const Header = () => {
     });
   }, []);
 
-const location = useLocation();
-const [Menu, setMenuId] = useState('');
+  const location = useLocation();
+  const [Menu, setMenuId] = useState('');
 
-const HandleMoveToMenu = (MenuId) => {
-  navigation('/');
-  setMenuId(MenuId);
-};
-
-useLayoutEffect(() => {
-  const scrollToElement = () => {
-    const targetElement = document.querySelector(`[name='${Menu}']`);
-    
-    if (targetElement) {
-      const rect = targetElement.getBoundingClientRect();
-      const offsetTop = window.pageYOffset + rect.top;
-      let top = 135;
-      if (Menu === 'elveeGiftMainId') {
-        top = 70;
-      }
-
-      window.scrollTo({
-        top: offsetTop - top,
-        behavior: 'smooth',
-      });
-      setMenuId('')
-    }
+  const HandleMoveToMenu = (MenuId) => {
+    navigation('/');
+    setMenuId(MenuId);
   };
 
-  if (Menu !== '') {
-    const timeoutId = setTimeout(() => {
-      scrollToElement();
+  useLayoutEffect(() => {
+    const scrollToElement = () => {
       const targetElement = document.querySelector(`[name='${Menu}']`);
+
       if (targetElement) {
-        const resizeObserver = new ResizeObserver(() => {
-          scrollToElement();
+        const rect = targetElement.getBoundingClientRect();
+        const offsetTop = window.pageYOffset + rect.top;
+        let top = 135;
+        if (Menu === 'elveeGiftMainId') {
+          top = 70;
+        }
+
+        window.scrollTo({
+          top: offsetTop - top,
+          behavior: 'smooth',
         });
-
-        resizeObserver.observe(targetElement);
-        return () => resizeObserver.disconnect();
+        setMenuId('')
       }
-    }, 300);
+    };
 
-    return () => clearTimeout(timeoutId);
-  }
-}, [Menu, location.pathname]); 
+    if (Menu !== '') {
+      const timeoutId = setTimeout(() => {
+        scrollToElement();
+        const targetElement = document.querySelector(`[name='${Menu}']`);
+        if (targetElement) {
+          const resizeObserver = new ResizeObserver(() => {
+            scrollToElement();
+          });
+
+          resizeObserver.observe(targetElement);
+          return () => resizeObserver.disconnect();
+        }
+      }, 300);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [Menu, location.pathname]);
 
 
 
@@ -574,7 +573,7 @@ useLayoutEffect(() => {
                       className="el_whioutL_li"
                       style={{ cursor: "pointer" }}
                       // onClick={() => ScrollToView("brandsComponentID")}
-                      onClick={()=>HandleMoveToMenu('brandsComponentID')}
+                      onClick={() => HandleMoveToMenu('brandsComponentID')}
                     >
                       Our Brands
                     </li>
@@ -582,7 +581,7 @@ useLayoutEffect(() => {
                       className="el_whioutL_li"
                       style={{ cursor: "pointer" }}
                       // onClick={() => ScrollToView("elveeGiftMainId")}
-                      onClick={()=>HandleMoveToMenu('elveeGiftMainId')}
+                      onClick={() => HandleMoveToMenu('elveeGiftMainId')}
                     >
                       Product
                     </li>
@@ -590,7 +589,7 @@ useLayoutEffect(() => {
                       className="el_whioutL_li"
                       style={{ cursor: "pointer" }}
                       // onClick={() => ScrollToView("craftmenshipId")}
-                      onClick={()=>HandleMoveToMenu('craftmenshipId')}
+                      onClick={() => HandleMoveToMenu('craftmenshipId')}
                     >
                       Our Craftsmanship
                     </li>
@@ -612,7 +611,7 @@ useLayoutEffect(() => {
                         className="el_whioutL_li"
                         style={{ cursor: "pointer" }}
                         // onClick={() => ScrollToView("mainGalleryConatinerID")}
-                      onClick={()=>HandleMoveToMenu('mainGalleryConatinerID123')}
+                        onClick={() => HandleMoveToMenu('mainGalleryConatinerID123')}
 
                       >
                         Gallery
@@ -621,7 +620,7 @@ useLayoutEffect(() => {
                         className="el_whioutL_li"
                         style={{ cursor: "pointer" }}
                         // onClick={() => ScrollToView("mainSocialMediaConatinerID")}
-                      onClick={()=>HandleMoveToMenu('mainSocialMediaConatinerID')}
+                        onClick={() => HandleMoveToMenu('mainSocialMediaConatinerID')}
 
                       >
                         Social Media

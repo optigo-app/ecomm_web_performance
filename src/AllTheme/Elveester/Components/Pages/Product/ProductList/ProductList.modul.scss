@@ -17,13 +17,12 @@
     border-radius: 0;
 
     .filter_details_mui {
-      height: 28vh;
-      overflow-y: scroll;
+      // height: 28vh;
+      // overflow-y: scroll;
+      // margin-bottom: 1rem;
+      max-height: 11rem;
+      overflow-y: auto;
       margin-bottom: 1rem;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
     }
 
     &:not(:last-child) {

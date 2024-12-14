@@ -5,7 +5,7 @@ const AboutUs2 = () => {
   return (
     <div className="procatalog_about-us">
       <main className="main-content">
-        <h1>About Us Almacarino</h1>
+        <h1>About Us</h1>
         <section className="brand-story">
           <h2>Brand Story</h2>
 

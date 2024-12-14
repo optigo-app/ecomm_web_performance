@@ -213,7 +213,7 @@ const ProductList = () => {
   useEffect(() => {
     setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
     setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
-    setSortBySelect('Recommended')
+    setTrend('Recommended')
   }, [location?.key])
 
   useEffect(() => {
