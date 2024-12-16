@@ -2809,12 +2809,12 @@ const ProductList = () => {
                                         </option>
                                       )}
                                       {/* {storeInit?.IsStockWebsite == 1 && ( */}
-                                      <option
+                                      {/* <option
                                         className="option"
                                         value="In memo"
                                       >
                                         In memo
-                                      </option>
+                                      </option> */}
                                       {/* for all not needed removed by priyank bhai */}
                                       {/* <option className="option" value="Bestseller">
                                         Bestseller
@@ -2908,15 +2908,15 @@ const ProductList = () => {
                                         </option>
                                       )}
                                       {/* {storeInit?.IsStockWebsite == 1 && ( */}
-                                      <option
+                                      {/* <option
                                         className="option"
                                         value="In memo"
                                       >
                                         In memo
-                                      </option>
-                                      <option className="option" value="Bestseller">
+                                      </option> */}
+                                      {/* <option className="option" value="Bestseller">
                                         Bestseller
-                                      </option>
+                                      </option> */}
                                       {/* )} */}
                                       <option
                                         className="option"

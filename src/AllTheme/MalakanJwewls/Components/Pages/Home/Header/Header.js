@@ -913,6 +913,7 @@ const Header = () => {
           <div className="mala_Top_header_logo_div">
             <a href="/" className="mala_logo_header_webLogo">
               <img
+              
                 src={compnyLogo}
                 loading="lazy"
                 className="mala_logo_header"

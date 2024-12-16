@@ -1,0 +1,85 @@
+// Global Styles for the FAQ section
+.faq-section {
+    width: 100%;
+    padding: 3rem 1rem;
+    background-color: #fff;
+  
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+  
+    .faq-title {
+      font-size: 2.25rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+  
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+  
+    .faq-item {
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 2rem;
+  
+      .faq-question {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #1e293b;
+        
+        .faq-id {
+          color: #007bff;
+          margin-right: 0.5rem;
+        }
+      }
+  
+      .faq-answer {
+        color: #6b7280;
+        line-height: 1.6;
+      }
+    }
+  }
+  
+  // Responsive Styles for smaller screens
+  @media (max-width: 768px) {
+    .faq-title {
+      font-size: 2rem;
+    }
+  
+    .faq-question {
+      font-size: 1.125rem;
+    }
+  
+    .faq-answer {
+      font-size: 0.95rem;
+    }
+  
+    .container {
+      padding: 0 1.5rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .faq-title {
+      font-size: 1.75rem;
+    }
+  
+    .faq-question {
+      font-size: 1rem;
+    }
+  
+    .faq-answer {
+      font-size: 0.875rem;
+    }
+  
+    .container {
+      padding: 0 1rem;
+    }
+  }
+  

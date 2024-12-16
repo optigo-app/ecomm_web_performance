@@ -271,9 +271,9 @@ export default function ThemeRoutes() {
   return (
     <>
       {storeInitData?.DomainForNo == 2 ? (
-        <MetaData1 storeInitData={storeInitData} title={title} />
+        <MetaData1 storeInitData={storeInitData} title={title}  />
       ) : (
-        <MetaData2 title={title} />
+        <MetaData2 title={title} isHaveSub={false} />
       )}
 
       {htmlContent?.rd && htmlContent?.rd.length > 0 && (

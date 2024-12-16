@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import './TrendingView1.scss';
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { Pagination, Navigation } from 'swiper/modules';
+import {  Navigation } from 'swiper/modules';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
@@ -123,6 +123,27 @@ const TrendingView1 = () => {
         navigation(islogin !== 0 ? url : redirectUrl);
     };
 
+    
+    
+const GenerateWidthBaseOnContent = useCallback(()=>{
+    const length = trendingData  && validImages?.length ;
+    let w ; 
+    if (length === 1) {
+       w = '100%';
+    } else if (length === 2) {
+       w = '100%';
+    } else if (length === 3) {
+       w = '100%';
+    } else if (length > 3) {
+       w = '100%';
+    }
+    return {width:w , length : length}
+  },[trendingData])
+  
+
+  if(trendingData?.length === 0){
+    return ;
+  }
 
     return (
         <>
@@ -132,7 +153,7 @@ const TrendingView1 = () => {
                 </div>
                 <div className="stam_trendingProduct-grid">
                     <div className='malakan_leftSideBestTR'>
-                        <img src={`${storImagePath()}/images/HomePage/bg.png`} alt="trendingBanner" />
+                        <img src={`${storImagePath()}/images/HomePage/trend.jpg`} alt="trendingBanner" />
                     </div>
                     {/* <div className='malakan_rightSideTR'> */}
 
@@ -150,12 +171,19 @@ const TrendingView1 = () => {
             <div className="malakan_trendSet_Main">
                 {/* <p className="malakan_trend_title">Trending</p> */}
 
-                <div className="malakan_trend_main_sub">
+                <div className="malakan_trend_main_sub"
+                style={{
+                    width: GenerateWidthBaseOnContent().width
+                }}
+                >
                     <Swiper
                         modules={[Navigation]}
                         spaceBetween={20}
-                        navigation={true}
+                        navigation={trendingData?.length > 4}
                         // loop={true}
+                        style={{
+                            width:'100%'
+                        }}
                         breakpoints={{
                             768: {
                                 slidesPerView: 4,
