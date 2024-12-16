@@ -1,5 +1,4 @@
 import React from 'react'
-import { useRecoilValue } from 'recoil';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import './PromotionBaner1.modul.scss'
 
