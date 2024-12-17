@@ -5,41 +5,8 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import PrivateRoutes from './PrivateRoutes'
 import { storImagePath } from '../../../utils/Glob_Functions/GlobalFunction'
 import { Route, Routes, useLocation } from 'react-router-dom'
+import Support from './Components/Pages/StaticPages/Support'
 
-// import Header from './Components/Pages/Home/Header/Header'
-// import Home from './Components/Pages/Home/Index'
-// import HomeTab from './HomeTab'
-// import CartPage from './Components/Pages/Cart/CartMain'
-// import Wishlist from "./Components/Pages/Wishlist/Wishlist"
-// import Delivery from './Components/Pages/OrderFlow/DeliveryPage/Delivery'
-// import Payment from './Components/Pages/OrderFlow/PaymentPage/Payment'
-// import Confirmation from './Components/Pages/OrderFlow/ConfirmationPage/Confirmation'
-// import WithoutLoginCart from './Components/Pages/Cart/WithoutLoginCart'
-// import ProductList from './Components/Pages/ProductList/ProductList'
-// import ProductDetail from './Components/Pages/ProductDetail/ProductDetail'
-// import Menu from './Components/Pages/MenuPage/Menu'
-// import AccountWothoutLogin from './Components/Pages/AccountWothoutLogin'
-// import Account from './Components/Pages/Account/Account';
-// import AccountLedger from './Components/Pages/Account/AccountLeger/AccountLedger';
-// import YourProfile from './Components/Pages/Account/YourProfile/YourProfile';
-// import OrderHistory from './Components/Pages/Account/AccountOrderHistory/OrderHisoty';
-// import ChangePassword from './Components/Pages/Account/changePassword/ChangePassword';
-// import SearchPage from './Components/Pages/SearchPage/SearchPage'
-// import MobileViewComp from './Components/Pages/Account/MobileViewComps/MobileViewComp';
-// import QuotationQuote from './Components/Pages/Account/QuotationQuote/QuotationQuote';
-// import QuotationJob from './Components/Pages/Account/QuotationJob/QuotationJob';
-// import Sales from './Components/Pages/Account/Sales/Sales';
-// import SalesReport from './Components/Pages/Account/SalesReport/SalesReport';
-// import PendingMemo from './Components/Pages/Account/PendingMemo/PendingMemo';
-// import DesignWiseSalesReport from './Components/Pages/Account/DesignWiseSalesReport/DesignWiseSalesReport';
-// import TermsCondition from './Components/Pages/StaticPages/TermsCondition'
-// import PrivacyPolicy from './Components/Pages/StaticPages/PrivacyPolicy'
-// import DeliveryShipping from './Components/Pages/StaticPages/DeliveryShipping'
-// import Coupons from './Components/Pages/StaticPages/Coupons'
-// import HelpCenter from './Components/Pages/StaticPages/HelpCenter'
-// import ManageAddressMAPP from './Components/Pages/Account/address/ManageAddressMAPP';
-// import Lookbook from './Components/Pages/Home/LookBook/Lookbook'
-// import NewOrderHistoryMapp from './Components/Pages/Account/AccountOrderHistory/NewOrderHistoryMapp';
 
 const Header = React.lazy(() => import('./Components/Pages/Home/Header/Header'));
 const Home = React.lazy(() => import('./Components/Pages/Home/Index'));
@@ -70,7 +37,7 @@ const DesignWiseSalesReport = React.lazy(() => import('./Components/Pages/Accoun
 const TermsCondition = React.lazy(() => import('./Components/Pages/StaticPages/TermsCondition'));
 const PrivacyPolicy = React.lazy(() => import('./Components/Pages/StaticPages/PrivacyPolicy'));
 const DeliveryShipping = React.lazy(() => import('./Components/Pages/StaticPages/DeliveryShipping'));
-const Coupons = React.lazy(() => import('./Components/Pages/StaticPages/Coupons'));
+const Copyright = React.lazy(() => import('./Components/Pages/StaticPages/Coupons'));
 const HelpCenter = React.lazy(() => import('./Components/Pages/StaticPages/HelpCenter'));
 const ManageAddressMAPP = React.lazy(() => import('./Components/Pages/Account/address/ManageAddressMAPP'));
 const Lookbook = React.lazy(() => import('./Components/Pages/Home/LookBook/Lookbook'));
@@ -131,15 +98,16 @@ const SmilingRock_MobileApp_App = () => {
         <Route path="/WithoutLoginCart" element={<WithoutLoginCart />} />
         <Route path="/AccountWothoutLogin" element={<AccountWothoutLogin />} />
         <Route path="/Menu" element={<Menu />} />
-        <Route path="/TermsCondition" element={<TermsCondition />} />
-        <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+        {/* <Route path="/TermsCondition" element={<TermsCondition />} /> */}
         <Route path="/Lookbook" element={<Lookbook />} />
         <Route path="/DeliveryShipping" element={<DeliveryShipping />} />
         {/* <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}> */}
         <Route path="/CartPage" element={<CartPage />} />
         <Route path="/Account" element={<Account />} />
         <Route path="/HelpCenter" element={<HelpCenter />} />
-        <Route path="/Coupons" element={<Coupons />} />
+        <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+        <Route path="/Copyright" element={<Copyright />} />
+        <Route path="/support" element={<Support />} />
         <Route path="/Delivery" element={<Delivery />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/Confirmation" element={<Confirmation />} />

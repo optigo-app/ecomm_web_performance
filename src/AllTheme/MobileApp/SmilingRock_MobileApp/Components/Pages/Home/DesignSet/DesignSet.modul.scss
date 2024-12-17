@@ -4,6 +4,9 @@
   position: relative;
   margin-top: 28px;
   margin-inline: 0px;
+  max-height: 1000px;
+  height: auto;
+  margin-bottom: -2.1rem;
   .smapp_linkingTitle {
     color: $homePageFontColor;
     font-family: $homePageFontFamily;

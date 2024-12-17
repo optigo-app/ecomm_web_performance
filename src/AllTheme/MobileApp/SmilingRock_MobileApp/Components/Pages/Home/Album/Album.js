@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 import { smrMA_homeLoading, smrMA_loginState } from "../../../Recoil/atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import imageNotFound from '../../../Assets/image-not-found.jpg'
-import { HiMiniArrowLeftCircle ,HiMiniArrowRightCircle  } from "react-icons/hi2";
 
 const Album = () => {
 

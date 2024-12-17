@@ -32,8 +32,8 @@ const BestSellerSection = () => {
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,
-        // prevArrow: false, 
-        // nextArrow: false,
+        // prevArrow: false,   
+        // nextArrow: false,   
     };
 
   useEffect(() => {
@@ -290,7 +290,7 @@ const BestSellerSection = () => {
   };
 
     return (
-    <div className='smrMA_bestSallerMain' ref={bestSallerRef}>
+    <div className='smrMA_bestSallerMain'  ref={bestSallerRef}>
       {bestSellerData?.length != 0 &&
           <div className='linkingLoveMain'>
             <div className='linkingLove'>

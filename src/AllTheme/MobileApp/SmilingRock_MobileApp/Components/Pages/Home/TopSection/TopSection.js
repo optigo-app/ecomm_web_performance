@@ -41,7 +41,7 @@ export default function TopSection() {
     setLoading(false);
   };
 
-  return (
+  return (<>
     <div className="smrMA_TopSectionMain">
       <Slider {...settings}>
         {/* onClick={() => naviagtion('/productpage')} */}
@@ -61,10 +61,12 @@ export default function TopSection() {
           <img src={`${storImagePath()}/images/HomePage/topBanner/HomepageMainBannerImage4.webp`} className='homePageSliderImagw' />
         </div>
       </Slider>
-      <div className='gradient_background'>
+  
+    </div>
+    <div className='smr_gradient_background'>
         <p>Grab flat $50 off with code FRI600</p>
       </div>
-    </div>
+  </>
   );
 }
 
