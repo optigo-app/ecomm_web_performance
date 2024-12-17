@@ -85,6 +85,7 @@
 .smilingAddressPopupMain {
     height: 730px;
     width: 570px;
+    overflow-x: hidden;
 }
 
 @media(max-width: 1024px){

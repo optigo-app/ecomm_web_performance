@@ -444,6 +444,7 @@ const ManageAddress = () => {
                     onConfirm={handleDeleteAddressBtn}
                     title="Delete Address"
                     content="Are you sure you want to delete address?"
+                
                 />
                 <Dialog open={open} onClose={handleClose} >
                     <div className='smilingAddressPopupMain'>

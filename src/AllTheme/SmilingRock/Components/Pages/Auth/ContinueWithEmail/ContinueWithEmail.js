@@ -19,6 +19,8 @@ export default function ContinueWithEmail() {
     const redirectSignUpUrl = `/register/${search}`;
     const cancelRedireactUrl = `/LoginOption/${search}`;
 
+    
+
     // const validateEmail = (email) => {
     //     const regex = /^[a-zA-Z][\w@$&#]*@[a-zA-Z]+\.[a-zA-Z]+(\.[a-zA-Z]+)?$/;
     //     return regex.test(email);
@@ -67,7 +69,6 @@ export default function ContinueWithEmail() {
             setEmailError('Please enter a valid email.');
             return;
         }
-
         setIsLoading(true);
         ContinueWithEmailAPI(trimmedEmail).then((response) => {
             setIsLoading(false);

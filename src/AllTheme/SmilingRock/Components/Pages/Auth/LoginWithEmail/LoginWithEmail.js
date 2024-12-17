@@ -368,7 +368,9 @@ export default function LoginWithEmail() {
                             }}
                         />
 
-                        <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
+                        <button className='submitBtnForgot' style={{
+                            fontWeight:'600'
+                        }} onClick={handleSubmit}>Login</button>
                         <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
 
                         <button type='submit' className='SmilingLoginCodeBtn' onClick={handleNavigation}>Login With a Code instead on email</button>
