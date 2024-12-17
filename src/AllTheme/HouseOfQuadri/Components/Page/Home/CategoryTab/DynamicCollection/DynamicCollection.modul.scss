@@ -478,7 +478,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
 
         .C_Card {
           width: 23.6%;
-          // height: 550px;
+          height: 550px;
           position: relative;
           box-shadow: none;
           border-radius: 0.3px;
@@ -549,7 +549,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
           }
           .image {
             width: 100%;
-            // height: 450px;
+            height: 450px;
             overflow: hidden;
             position: relative;
             overflow: hidden;
@@ -561,15 +561,15 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
               position: absolute;
               z-index: 45;
               width: 100%;
-              // height: 100%;
+              height: 100%;
               top: 0;
               display: flex;
               align-items: center;
               justify-content: center;
               video {
                 width: 100%;
-                // height: 100%;
-                // object-fit: cover;
+                height: 100%;
+                object-fit: cover;
                 transition: 0.3s ease-in-out;
               }
             }
@@ -588,7 +588,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
             }
             img {
               width: 100%;
-              // height: 100%;
+              height: 100%;
               object-fit: contain;
               border: transparent;
               outline: none;
@@ -628,7 +628,8 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
               display: flex;
               align-items: center;
               color: #7d7f85;
-              font-size: 15px;
+              font-size: 14px;
+              // font-size: 15px;
               &:has(span) {
                 display: flex;
                 align-items: center;
@@ -732,14 +733,14 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
           transition: 0.5s ease-in;
           .C_Card {
             width: auto;
-            // height: 500px;
+            height: 500px;
             .hoq_plus {
               bottom: 5.5rem;
             }
             .image {
               width: 100%;
               overflow: hidden;
-              // height: 80%;
+              height: 80%;
               position: relative;
               overflow: hidden;
               background-color: rgba(112, 128, 144, 0.096);
@@ -747,22 +748,23 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
                 position: absolute;
                 z-index: 45;
                 width: 100%;
+                height: 100%;
                 // height: 80%;
                 top: 0;
                 video {
                   width: 100%;
-                  // height: 100%;
-                  object-fit: contain;
+                  height: 100%;
+                  object-fit: cover;
                   transition: 0.3s ease-in-out;
                 }
               }
               .rollup_img {
                 width: 100%;
                 height: 100%;
-                // object-fit: cover;
+                object-fit: cover;
                 img {
                   width: 100%;
-                  // height: 100%;
+                  height: 100%;
                   object-fit: contain;
                   border: transparent;
                   outline: none;
@@ -771,7 +773,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
               }
               img {
                 width: 100%;
-                // height: 100%;
+                height: 100%;
                 object-fit: contain;
                 border: transparent;
                 outline: none;
@@ -820,7 +822,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
         .collections_list {
           .C_Card {
             width: auto;
-            // height: 470px;
+            height: 470px;
             transition: 0.5s ease-in;
             .hoq_plus {
               bottom: 5rem;
@@ -856,7 +858,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
         .collections_list {
           .C_Card {
             width: auto;
-            // height: 420px;
+            height: 420px;
             transition: 0.5s ease-in;
             .hoq_plus {
               bottom: 4.3rem;
@@ -866,6 +868,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
               }
               .jewel_parameter {
                 line-height: 12px;
+                font-size: 13px;
                 &:has(span) {
                   display: flex;
                   align-items: center;
@@ -876,7 +879,8 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
                 color: #7d7f85;
                 span {
                   color: #7d7f85;
-                  font-size: 14px;
+                  font-size: 12.5px;
+                  // font-size: 14px;
                 }
               }
             }
@@ -891,14 +895,14 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
         .collections_list {
           .C_Card {
             width: auto;
-            // height: 370px;
+            height: 370px;
             transition: 0.5s ease-in;
             .hoq_plus {
               bottom: 5rem;
             }
             .image {
               overflow: hidden;
-              // height: 75%;
+              height: 75%;
               position: relative;
               overflow: hidden;
               background-color: rgba(112, 128, 144, 0.096);
@@ -906,22 +910,24 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
                 position: absolute;
                 z-index: 45;
                 width: 100%;
+                height: 100%;
                 // height: 75%;
                 top: 0;
                 video {
                   width: 100%;
-                  // height: 100%;
-                  object-fit: contain;
+                  height: 100%;
+                  // object-fit: contain;
+                  object-fit: cover;
                   transition: 0.3s ease-in-out;
                 }
               }
               .rollup_img {
                 width: 100%;
                 height: 100%;
-                // object-fit: cover;
+                object-fit: cover;
                 img {
                   width: 100%;
-                  // height: 100%;
+                  height: 100%;
                   object-fit: contain;
                   border: transparent;
                   outline: none;
@@ -930,7 +936,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
               }
               img {
                 width: 100%;
-                // height: 100%;
+                height: 100%;
                 object-fit: contain;
                 border: transparent;
                 outline: none;
@@ -955,7 +961,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
         .collections_list {
           .C_Card {
             width: auto;
-            // height: 330px;
+            height: 330px;
             transition: 0.5s ease-in;
             .hoq_plus {
               bottom: 4rem;
@@ -1000,14 +1006,14 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
           transition: 0.5s ease-in;
           .C_Card {
             width: auto;
-            // height: 580px;
+            height: 580px;
             .hoq_plus {
               bottom: 5rem;
             }
             .image {
               width: 100%;
               overflow: hidden;
-              // height: 85%;
+              height: 85%;
               position: relative;
               overflow: hidden;
               background-color: rgba(112, 128, 144, 0.096);
@@ -1015,22 +1021,24 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
                 position: absolute;
                 z-index: 45;
                 width: 100%;
+                height: 100%;
                 // height: 85%;
                 top: 0;
                 video {
                   width: 100%;
-                  // height: 100%;
-                  object-fit: contain;
+                  height: 100%;
+                  // object-fit: contain;
+                  object-fit: cover;
                   transition: 0.3s ease-in-out;
                 }
               }
               .rollup_img {
                 width: 100%;
-                // height: 100%;
+                height: 100%;
                 object-fit: contain;
                 img {
                   width: 100%;
-                  // height: 100%;
+                  height: 100%;
                   object-fit: contain;
                   border: transparent;
                   outline: none;
@@ -1039,7 +1047,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
               }
               img {
                 width: 100%;
-                // height: 100%;
+                height: 100%;
                 object-fit: contain;
                 border: transparent;
                 outline: none;
@@ -1055,14 +1063,17 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
             }
             .det {
               h2 {
-                font-size: 21px;
+                // font-size: 21px;
+                font-size: 18px;
               }
               .jewel_parameter {
-                font-size: 16px !important;
+                font-size: 14px !important;
+                line-height: 10px;
                 &:has(span) {
                   display: flex;
                   align-items: center;
                   gap: 5px;
+                  font-size: 12.5px !important;
                   letter-spacing: 0.5px;
                 }
               }
@@ -1070,7 +1081,8 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
                 color: #7d7f85;
                 span {
                   color: #7d7f85;
-                  font-size: 14px;
+                  // font-size: 14px;
+                  font-size: 12px;
                 }
               }
             }
@@ -1085,7 +1097,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
         .collections_list {
           .C_Card {
             width: auto;
-            // height: 520px;
+            height: 520px;
             transition: 0.5s ease-in;
             .hoq_plus {
               bottom: 4.8rem !important;
@@ -1104,14 +1116,14 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
         .collections_list {
           .C_Card {
             width: auto;
-            // height: 440px;
+            height: 440px;
             transition: 0.5s ease-in;
             .hoq_plus {
               bottom: 3.7rem !important;
             }
             .det {
               h2 {
-                font-size: 18px;
+                font-size: 15px !important;
               }
               .jewel_parameter {
                 line-height: 12px;
@@ -1120,6 +1132,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
                   display: flex;
                   align-items: center;
                   letter-spacing: 0.5px;
+                  font-size: 12px !important;
                 }
               }
               .hoq_prod_mtcolr_price {
@@ -1141,7 +1154,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
         .collections_list {
           .C_Card {
             width: auto;
-            // height: 420px;
+            height: 420px;
             transition: 0.5s ease-in;
             .hoq_plus {
               bottom: 3.3rem !important;
@@ -1157,14 +1170,36 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
         .collections_list {
           .C_Card {
             width: auto;
-            // height: 385px;
+            height: 385px;
             transition: 0.5s ease-in;
             .hoq_plus {
               bottom: 4.8rem !important;
             }
+            .det {
+              h2 {
+                font-size: 18px;
+              }
+              .jewel_parameter {
+                line-height: 12px;
+                margin-bottom: -2px;
+                &:has(span) {
+                  display: flex;
+                  align-items: center;
+                  font-size: 12px !important;
+                  letter-spacing: 0.5px;
+                }
+              }
+              .hoq_prod_mtcolr_price {
+                color: #7d7f85;
+                span {
+                  color: #7d7f85;
+                  font-size: 12px;
+                }
+              }
+            }
             .image {
               overflow: hidden;
-              // height: 78%;
+              height: 78%;
               position: relative;
               overflow: hidden;
               background-color: rgba(112, 128, 144, 0.096);
@@ -1172,22 +1207,24 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
                 position: absolute;
                 z-index: 45;
                 width: 100%;
+                height: 100%;
                 // height: 80%;
                 top: 0;
                 video {
                   width: 100%;
-                  // height: 100%;
-                  object-fit: contain;
+                  height: 100%;
+                  // object-fit: contain;
+                  object-fit: cover;
                   transition: 0.3s ease-in-out;
                 }
               }
               .rollup_img {
                 width: 100%;
-                // height: 100%;
+                height: 100%;
                 object-fit: contain;
                 img {
                   width: 100%;
-                  // height: 100%;
+                  height: 100%;
                   object-fit: contain;
                   border: transparent;
                   outline: none;
@@ -1196,7 +1233,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
               }
               img {
                 width: 100%;
-                // height: 100%;
+                height: 100%;
                 object-fit: contain;
                 border: transparent;
                 outline: none;
@@ -1221,14 +1258,14 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
         .collections_list {
           .C_Card {
             width: auto;
-            // height: 390px;
+            height: 390px;
             transition: 0.5s ease-in;
             .hoq_plus {
               bottom: 4.5rem !important;
             }
             .image {
               overflow: hidden;
-              // height: 79%;
+              height: 79%;
               position: relative;
               overflow: hidden;
               background-color: rgba(112, 128, 144, 0.096);
@@ -1237,21 +1274,23 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
                 z-index: 45;
                 width: 100%;
                 // height: 80%;
+                height: 100%;
                 top: 0;
                 video {
                   width: 100%;
-                  // height: 100%;
-                  object-fit: contain;
+                  height: 100%;
+                  // object-fit: contain;
+                  object-fit: cover;
                   transition: 0.3s ease-in-out;
                 }
               }
               .rollup_img {
                 width: 100%;
-                // height: 100%;
+                height: 100%;
                 object-fit: contain;
                 img {
                   width: 100%;
-                  // height: 100%;
+                  height: 100%;
                   object-fit: contain;
                   border: transparent;
                   outline: none;
@@ -1260,7 +1299,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
               }
               img {
                 width: 100%;
-                // height: 100%;
+                height: 100%;
                 object-fit: contain;
                 border: transparent;
                 outline: none;
@@ -1289,14 +1328,14 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
         .collections_list {
           .C_Card {
             width: auto;
-            // height: 350px;
+            height: 350px;
             transition: 0.5s ease-in;
             .hoq_plus {
               bottom: 5.4rem !important;
             }
             .image {
               overflow: hidden;
-              // height: 75%;
+              height: 75%;
               position: relative;
               overflow: hidden;
               background-color: rgba(112, 128, 144, 0.096);
@@ -1304,22 +1343,24 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
                 position: absolute;
                 z-index: 45;
                 width: 100%;
+                height: 100%;
                 // height: 75%;
                 top: 0;
                 video {
                   width: 100%;
-                  // height: 100%;
-                  object-fit: contain;
+                  height: 100%;
+                  // object-fit: contain;
+                  object-fit: cover;
                   transition: 0.3s ease-in-out;
                 }
               }
               .rollup_img {
                 width: 100%;
-                // height: 100%;
+                height: 100%;
                 object-fit: contain;
                 img {
                   width: 100%;
-                  // height: 100%;
+                  height: 100%;
                   object-fit: contain;
                   border: transparent;
                   outline: none;
@@ -1328,7 +1369,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
               }
               img {
                 width: 100%;
-                // height: 100%;
+                height: 100%;
                 object-fit: contain;
                 border: transparent;
                 outline: none;
@@ -1364,11 +1405,33 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
           padding: 2px !important;
           .C_Card {
             width: auto;
-            // height: 340px;
+            height: 340px;
             transition: 0.5s ease-in;
+            .det {
+              h2 {
+                font-size: 18px;
+              }
+              .jewel_parameter {
+                line-height: 12px;
+                margin-bottom: -2px;
+                &:has(span) {
+                  display: flex;
+                  align-items: center;
+                  font-size: 10px !important;
+                  letter-spacing: 0.5px;
+                }
+              }
+              .hoq_prod_mtcolr_price {
+                color: #7d7f85;
+                span {
+                  color: #7d7f85;
+                  font-size: 12px;
+                }
+              }
+            }
             .image {
               overflow: hidden;
-              // height: 70%;
+              height: 70%;
               position: relative;
               overflow: hidden;
               background-color: rgba(112, 128, 144, 0.096);
@@ -1376,22 +1439,24 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
                 position: absolute;
                 z-index: 45;
                 width: 100%;
+                height: 100%;
                 // height: 70%;
                 top: 0;
                 video {
                   width: 100%;
-                  // height: 100%;
-                  object-fit: contain;
+                  height: 100%;
+                  // object-fit: contain;
+                  object-fit: cover;
                   transition: 0.3s ease-in-out;
                 }
               }
               .rollup_img {
                 width: 100%;
-                // height: 100%;
+                height: 100%;
                 object-fit: contain;
                 img {
                   width: 100%;
-                  // height: 100%;
+                  height: 100%;
                   object-fit: contain;
                   border: transparent;
                   outline: none;
@@ -1452,7 +1517,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
             transition: 0.5s ease-in;
             .image {
               overflow: hidden;
-              // height: 70%;
+              height: 70%;
               position: relative;
               overflow: hidden;
               background-color: rgba(112, 128, 144, 0.096);
@@ -1460,18 +1525,20 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
                 position: absolute;
                 z-index: 45;
                 width: 100%;
+                height: 100%;
                 // height: 75%;
                 top: 0;
                 video {
                   width: 100%;
-                  // height: 100%;
-                  object-fit: contain;
+                  height: 100%;
+                  // object-fit: contain;
+                  object-fit: cover;
                   transition: 0.3s ease-in-out;
                 }
               }
               .rollup_img {
                 width: 100%;
-                // height: 100%;
+                height: 100%;
                 object-fit: contain;
                 img {
                   width: 100%;
@@ -1484,7 +1551,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
               }
               img {
                 width: 100%;
-                // height: 100%;
+                height: 100%;
                 object-fit: contain;
                 border: transparent;
                 outline: none;
@@ -1540,13 +1607,13 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
           transition: 0.5s ease-in;
           .C_Card {
             width: auto;
-            // height: 400px;
+            height: 400px;
             .hoq_plus {
               bottom: 3rem !important;
             }
             .image {
               overflow: hidden;
-              // height: 84%;
+              height: 84%;
               position: relative;
               overflow: hidden;
               background-color: rgba(112, 128, 144, 0.096);
@@ -1555,21 +1622,23 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
                 z-index: 45;
                 width: 100%;
                 // height: 84%;
+                height: 100%;
                 top: 0;
                 video {
                   width: 100%;
-                  // height: 100%;
-                  object-fit: contain;
+                  height: 100%;
+                  // object-fit: contain;
+                  object-fit: cover;
                   transition: 0.3s ease-in-out;
                 }
               }
               .rollup_img {
                 width: 100%;
-                // height: 100%;
+                height: 100%;
                 object-fit: contain;
                 img {
                   width: 100%;
-                  // height: 100%;
+                  height: 100%;
                   object-fit: contain;
                   border: transparent;
                   outline: none;
@@ -1578,7 +1647,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
               }
               img {
                 width: 100%;
-                // height: 100%;
+                height: 100%;
                 object-fit: contain;
                 border: transparent;
                 outline: none;

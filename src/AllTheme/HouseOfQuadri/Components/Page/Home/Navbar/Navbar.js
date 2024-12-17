@@ -15,7 +15,7 @@ import { IoIosCall, IoIosLogOut } from "react-icons/io";
 import React, { useEffect, useRef, useState } from "react";
 import { CiMenuFries } from "react-icons/ci";
 import { IoChevronDown, IoClose } from "react-icons/io5";
-import { Navigate, useLocation,Link , useNavigate } from "react-router-dom";
+import { Navigate, useLocation, Link, useNavigate } from "react-router-dom";
 import CartDrawer from "../../Cart/CartPageB2c/Cart";
 import { IoSearchOutline } from "react-icons/io5";
 import { TfiClose } from "react-icons/tfi";
@@ -32,7 +32,7 @@ import MuiLink from '@mui/material/Link';
 import { useRecoilState, useSetRecoilState } from "recoil";
 import Cookies from "js-cookie";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Badge, Drawer, Tooltip,  useMediaQuery } from "@mui/material";
+import { Badge, Drawer, Tooltip, useMediaQuery } from "@mui/material";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Pako from "pako";
 import DummyNav from "./DummyNav";
@@ -73,7 +73,7 @@ const Navbar = () => {
   const is320px = useMediaQuery("(max-width:320px)");
   const is400px = useMediaQuery("(max-width:401px)");
   const [loading, setLoading] = useState(true);
-const [IsCartNo ,setIsCartNo] = useState();
+  const [IsCartNo, setIsCartNo] = useState();
 
   useEffect(() => {
     setisMobileMenu(false);
@@ -214,7 +214,7 @@ const [IsCartNo ,setIsCartNo] = useState();
     setCartOpenState((prevState) => !prevState);
   };
 
-  console.log(IsCartNo,"no")
+  console.log(IsCartNo, "no")
 
   useEffect(() => {
     const uniqueMenuIds = [...new Set(menuData?.map((item) => item?.menuid))];
@@ -409,27 +409,37 @@ const [IsCartNo ,setIsCartNo] = useState();
     }
   };
 
-  useEffect(() => {
-    let storeinit = JSON.parse(sessionStorage?.getItem("storeInit"));
-    let isUserLogin = JSON.parse(sessionStorage?.getItem("LoginUser"));
+  // useEffect(() => {
+  //   let storeinit = JSON.parse(sessionStorage?.getItem("storeInit"));
+  //   let isUserLogin = JSON.parse(sessionStorage?.getItem("LoginUser"));
 
-    if (storeinit?.IsB2BWebsite === 0) {
+  //   if (storeinit?.IsB2BWebsite === 0) {
+  //     getMenuApi();
+  //     return;
+  //   } else if (storeinit?.IsB2BWebsite === 1 && isUserLogin === true) {
+  //     getMenuApi();
+  //     return;
+  //   } else {
+  //     return;
+  //   }
+  // }, [islogin]);
+
+  useEffect(() => {
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+    let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
+    if (islogin && (
+      storeinit?.IsB2BWebsite === 0 ||
+      (storeinit?.IsB2BWebsite === 1 && isUserLogin === true))
+    ) {
       getMenuApi();
-      return;
-    } else if (storeinit?.IsB2BWebsite === 1 && isUserLogin === true) {
-      getMenuApi();
-      return;
-    } else {
-      return;
     }
   }, [islogin]);
 
   return (
     <>
       <div
-        className={`hoq_main_navbar ${isScrolled ? "sticky animate" : "s"}  ${
-          !isMobileMenu ? "hide" : ""
-        }
+        className={`hoq_main_navbar ${isScrolled ? "sticky animate" : "s"}  ${!isMobileMenu ? "hide" : ""
+          }
       ${!isNavbarSticky ? "isScrollTop" : ""}
       `}
       >
@@ -649,11 +659,11 @@ const [IsCartNo ,setIsCartNo] = useState();
                     />
                   </Tooltip> */}
                     <MuiLink
-                    sx={{
-                      cursor:"pointer",
-                      padding :"0",
-                      margin:"0"
-                    }}
+                      sx={{
+                        cursor: "pointer",
+                        padding: "0",
+                        margin: "0"
+                      }}
                       // to={"/cart"}
                       style={{
                         marginRight: "5px",
@@ -685,7 +695,7 @@ const [IsCartNo ,setIsCartNo] = useState();
                           <PiBagSimpleThin
                             size={27}
                             color="grey"
-                            // onClick={() => setshowDrawer(!showDrawer)}   b2c drawer
+                          // onClick={() => setshowDrawer(!showDrawer)}   b2c drawer
                           />
                         </Tooltip>
                       </Badge>
@@ -762,7 +772,7 @@ const [IsCartNo ,setIsCartNo] = useState();
                           <PiBagSimpleThin
                             size={27}
                             color="grey"
-                            // onClick={() => setshowDrawer(!showDrawer)}   b2c drawer
+                          // onClick={() => setshowDrawer(!showDrawer)}   b2c drawer
                           />
                         </Tooltip>
                       </Badge>
@@ -827,35 +837,35 @@ const [IsCartNo ,setIsCartNo] = useState();
                                     {param1[0].param1name === ""
                                       ? "no"
                                       : param1?.map(
-                                          (
-                                            { param1dataname, param1name },
-                                            j
-                                          ) => (
-                                            <li>
-                                              <span
-                                                onClick={() => {
-                                                  handleMenu(
-                                                    {
-                                                      menuname: menuname,
-                                                      key: menuItem?.param0name,
-                                                      value:
-                                                        menuItem?.param0dataname,
-                                                    },
-                                                    {
-                                                      key: param1name,
-                                                      value: param1dataname,
-                                                    }
-                                                  );
-                                                  window.scrollTo({
-                                                    behavior: "smooth",
-                                                    top: 0,
-                                                    left: 0,
-                                                  });
-                                                }}
-                                              >
-                                                {param1dataname}
-                                              </span>
-                                              {/* {param2 && (
+                                        (
+                                          { param1dataname, param1name },
+                                          j
+                                        ) => (
+                                          <li>
+                                            <span
+                                              onClick={() => {
+                                                handleMenu(
+                                                  {
+                                                    menuname: menuname,
+                                                    key: menuItem?.param0name,
+                                                    value:
+                                                      menuItem?.param0dataname,
+                                                  },
+                                                  {
+                                                    key: param1name,
+                                                    value: param1dataname,
+                                                  }
+                                                );
+                                                window.scrollTo({
+                                                  behavior: "smooth",
+                                                  top: 0,
+                                                  left: 0,
+                                                });
+                                              }}
+                                            >
+                                              {param1dataname}
+                                            </span>
+                                            {/* {param2 && (
                                 <ul className="sub_submenu">
                                   {param2?.map(
                                     ({ param2dataname, param2name }, j) => (
@@ -886,9 +896,9 @@ const [IsCartNo ,setIsCartNo] = useState();
                                   )}
                                 </ul>
                               )} */}
-                                            </li>
-                                          )
-                                        )}
+                                          </li>
+                                        )
+                                      )}
                                   </ul>
                                 )}
                             </li>
@@ -1050,7 +1060,7 @@ const NavbarRightSide = ({
                 <Link to={"/cart"}>
                   <PiBagSimpleThin
                     className="Cart_icon icons "
-                    // onClick={() => setshowDrawer(!showDrawer)}   b2c drawer
+                  // onClick={() => setshowDrawer(!showDrawer)}   b2c drawer
                   />
                 </Link>
               </Tooltip>
@@ -1235,31 +1245,31 @@ const NavbarCenter = ({
                               {param1[0].param1name === ""
                                 ? "no"
                                 : param1?.map(
-                                    ({ param1dataname, param1name }, j) => (
-                                      <li>
-                                        <span
-                                          onClick={() => {
-                                            handleMenu(
-                                              {
-                                                menuname: menuname,
-                                                key: menuItem?.param0name,
-                                                value: menuItem?.param0dataname,
-                                              },
-                                              {
-                                                key: param1name,
-                                                value: param1dataname,
-                                              }
-                                            );
-                                            window.scrollTo({
-                                              behavior: "smooth",
-                                              top: 0,
-                                              left: 0,
-                                            });
-                                          }}
-                                        >
-                                          {param1dataname}
-                                        </span>
-                                        {/* {param2 && (
+                                  ({ param1dataname, param1name }, j) => (
+                                    <li>
+                                      <span
+                                        onClick={() => {
+                                          handleMenu(
+                                            {
+                                              menuname: menuname,
+                                              key: menuItem?.param0name,
+                                              value: menuItem?.param0dataname,
+                                            },
+                                            {
+                                              key: param1name,
+                                              value: param1dataname,
+                                            }
+                                          );
+                                          window.scrollTo({
+                                            behavior: "smooth",
+                                            top: 0,
+                                            left: 0,
+                                          });
+                                        }}
+                                      >
+                                        {param1dataname}
+                                      </span>
+                                      {/* {param2 && (
                                 <ul className="sub_submenu">
                                   {param2?.map(
                                     ({ param2dataname, param2name }, j) => (
@@ -1290,9 +1300,9 @@ const NavbarCenter = ({
                                   )}
                                 </ul>
                               )} */}
-                                      </li>
-                                    )
-                                  )}
+                                    </li>
+                                  )
+                                )}
                             </ul>
                           )}
                       </li>
