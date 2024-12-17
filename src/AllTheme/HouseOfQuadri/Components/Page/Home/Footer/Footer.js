@@ -19,16 +19,16 @@ const Footer = ({StoreData}) => {
       try {
         const storeInitData = sessionStorage.getItem("storeInit");
         if (storeInitData) {
-          const parsedStoreInit = JSON.parse(storeInitData);
+          const parsedStoreInit = JSON?.parse(storeInitData);
           const companyInfoDataStr = sessionStorage.getItem("CompanyInfoData");
           if (companyInfoDataStr) {
-            const parsedCompanyInfo = JSON.parse(companyInfoDataStr);
+            const parsedCompanyInfo = JSON?.parse(companyInfoDataStr);
             setCompanuInfoData(parsedCompanyInfo);
 
             const socialLinkStr = parsedCompanyInfo?.SocialLinkObj;
             if (socialLinkStr) {
               try {
-                const parsedSocialMediaData = JSON.parse(socialLinkStr);
+                const parsedSocialMediaData = JSON?.parse(socialLinkStr);
                 setSocialMediaData(parsedSocialMediaData);
               } catch (error) {
                 console.error("Error parsing social media data:", error);

@@ -1166,7 +1166,7 @@ const SalesReport = () => {
       ) : (
         <>
           <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
-            <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
+            <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }} className="jobsSalesReport">
               <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
                 <EnhancedTableHead
                   numSelected={selected.length}

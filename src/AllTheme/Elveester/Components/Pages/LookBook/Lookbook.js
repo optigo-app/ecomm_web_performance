@@ -159,52 +159,98 @@ const Lookbook = () => {
   };
 
   useEffect(() => {
-    let storeinit = JSON?.parse(sessionStorage.getItem("storeInit"));
-    setStoreInit(storeinit);
-
-    let data = JSON?.parse(sessionStorage.getItem("storeInit"));
-    // setImageUrl(data?.DesignSetImageFol);
-    // setImageUrlDesignSet(data?.DesignImageFol);
-    setImageUrl(data?.DesignSetImageFol);
-    setImageUrlDesignSet(data?.CDNDesignImageFol);
-
-    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
-    const { IsB2BWebsite } = storeInit;
-    const visiterID = Cookies.get("visiterId");
-    let finalID;
-    if (IsB2BWebsite == 0) {
-      finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
-    } else {
-      finalID = loginUserDetail?.id || "0";
-    }
+    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
 
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
-      .then((response) => {
-        if (response?.Data?.rd) {
-          setDesignSetListData(response?.Data?.rd);
-          setDstCount(response?.Data?.rd1[0]?.TotalCount)
-          const initialCartItems = response?.Data?.rd.flatMap((slide) =>
-            parseDesignDetails(slide?.Designdetail)
-              .filter((detail) => detail?.IsInCart === 1)
-              .map((detail) => detail.autocode)
-          );
+    setStoreInit(storeInit);
+    setImageUrl(storeInit?.DesignSetImageFol);
+    setImageUrlDesignSet(storeInit?.CDNDesignImageFol);
+
+    const { IsB2BWebsite } = storeInit || {};
+    const visiterID = Cookies.get("visiterId");
+
+    const finalID = IsB2BWebsite === 0
+      ? (islogin === false ? visiterID : loginUserDetail?.id || "0")
+      : loginUserDetail?.id || "0";
+
+    const output = FilterValueWithCheckedOnly();
+
+    if (Object.keys(filterChecked)?.length >= 0) {
+      setIsProdLoading(true); // Start loading state
+      setIsPgLoading(true);
+
+      // API call
+      Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output, currentPage, itemsPerPage)
+        .then((response) => {
+          if (response?.Data?.rd) {
+            setDesignSetListData(response?.Data?.rd);
+            setDstCount(response?.Data?.rd1[0]?.TotalCount);
+
+            // Extract initial cart items
+            const initialCartItems = response?.Data?.rd.flatMap((slide) =>
+              parseDesignDetails(slide?.Designdetail)
+                .filter((detail) => detail?.IsInCart === 1)
+                .map((detail) => detail.autocode)
+            );
+            setCartItems((prevCartItems) => [
+              ...new Set([...prevCartItems, ...initialCartItems]),
+            ]);
+          }
+        })
+        .catch((err) => console.error(err))
+        .finally(() => {
           setIsProdLoading(false);
-          setIsPgLoading(false)
-          setCartItems((prevCartItems) => [
-            ...new Set([...prevCartItems, ...initialCartItems]),
-          ]); // Use Set to avoid duplicates
-        }
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setIsProdLoading(false);
-        setIsPgLoading(false);
-      });
-  }, []);
+          setIsPgLoading(false);
+        });
+    }
+  }, [filterChecked, currentPage, islogin]);
+
+  // useEffect(() => {
+  //   let storeinit = JSON?.parse(sessionStorage.getItem("storeInit"));
+  //   setStoreInit(storeinit);
+
+  //   let data = JSON?.parse(sessionStorage.getItem("storeInit"));
+  //   // setImageUrl(data?.DesignSetImageFol);
+  //   // setImageUrlDesignSet(data?.DesignImageFol);
+  //   setImageUrl(data?.DesignSetImageFol);
+  //   setImageUrlDesignSet(data?.CDNDesignImageFol);
+
+  //   const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+  //   const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
+  //   const { IsB2BWebsite } = storeInit;
+  //   const visiterID = Cookies.get("visiterId");
+  //   let finalID;
+  //   if (IsB2BWebsite == 0) {
+  //     finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
+  //   } else {
+  //     finalID = loginUserDetail?.id || "0";
+  //   }
+
+  //   Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
+  //     .then((response) => {
+  //       if (response?.Data?.rd) {
+  //         setDesignSetListData(response?.Data?.rd);
+  //         setDstCount(response?.Data?.rd1[0]?.TotalCount)
+  //         const initialCartItems = response?.Data?.rd.flatMap((slide) =>
+  //           parseDesignDetails(slide?.Designdetail)
+  //             .filter((detail) => detail?.IsInCart === 1)
+  //             .map((detail) => detail.autocode)
+  //         );
+  //         setIsProdLoading(false);
+  //         setIsPgLoading(false)
+  //         setCartItems((prevCartItems) => [
+  //           ...new Set([...prevCartItems, ...initialCartItems]),
+  //         ]); // Use Set to avoid duplicates
+  //       }
+  //     })
+  //     .catch((err) => console.log(err))
+  //     .finally(() => {
+  //       setIsProdLoading(false);
+  //       setIsPgLoading(false);
+  //     });
+  // }, []);
 
   useEffect(() => {
-    console.log("cartItemscartItemscartItems", filterData);
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
@@ -223,7 +269,8 @@ const Lookbook = () => {
     LookBookAPI(productlisttype, finalID)
       .then((res) => setFilterData(res))
       .catch((err) => console.log("err", err));
-  }, [designSetLstData]);
+    // }, [designSetLstData]);
+  }, []);
 
   const handelFilterClearAll = () => {
     if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
@@ -285,41 +332,41 @@ const Lookbook = () => {
     return output;
   };
 
-  useEffect(() => {
-    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
-    const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
-    const { IsB2BWebsite } = storeInit;
+  // useEffect(() => {
+  //   const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+  //   const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
+  //   const { IsB2BWebsite } = storeInit;
 
-    const visiterID = Cookies.get("visiterId");
-    let finalID;
-    if (IsB2BWebsite == 0) {
-      finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
-    } else {
-      finalID = loginUserDetail?.id || "0";
-    }
+  //   const visiterID = Cookies.get("visiterId");
+  //   let finalID;
+  //   if (IsB2BWebsite == 0) {
+  //     finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
+  //   } else {
+  //     finalID = loginUserDetail?.id || "0";
+  //   }
 
-    let output = FilterValueWithCheckedOnly();
-    if (Object.keys(filterChecked)?.length >= 0) {
-      Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output, currentPage, itemsPerPage)
-        .then((response) => {
-          if (response?.Data?.rd) {
-            setDesignSetListData(response?.Data?.rd);
-            setDstCount(response?.Data?.rd1[0]?.TotalCount)
-            const initialCartItems = response?.Data?.rd.flatMap((slide) =>
-              parseDesignDetails(slide?.Designdetail)
-                .filter((detail) => detail?.IsInCart === 1)
-                .map((detail) => detail.autocode)
-            );
-            setCartItems((prevCartItems) => [
-              ...new Set([...prevCartItems, ...initialCartItems]),
-            ]); // Use Set to avoid duplicates
-            setIsProdLoading(false);
-            setIsPgLoading(false);
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [filterChecked, currentPage]);
+  //   let output = FilterValueWithCheckedOnly();
+  //   if (Object.keys(filterChecked)?.length >= 0) {
+  //     Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output, currentPage, itemsPerPage)
+  //       .then((response) => {
+  //         if (response?.Data?.rd) {
+  //           setDesignSetListData(response?.Data?.rd);
+  //           setDstCount(response?.Data?.rd1[0]?.TotalCount)
+  //           const initialCartItems = response?.Data?.rd.flatMap((slide) =>
+  //             parseDesignDetails(slide?.Designdetail)
+  //               .filter((detail) => detail?.IsInCart === 1)
+  //               .map((detail) => detail.autocode)
+  //           );
+  //           setCartItems((prevCartItems) => [
+  //             ...new Set([...prevCartItems, ...initialCartItems]),
+  //           ]); // Use Set to avoid duplicates
+  //           setIsProdLoading(false);
+  //           setIsPgLoading(false);
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // }, [filterChecked, currentPage]);
 
   const ProdCardImageFunc = (pd) => {
     let finalprodListimg;

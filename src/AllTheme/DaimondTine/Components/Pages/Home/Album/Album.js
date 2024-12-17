@@ -55,7 +55,7 @@ const Album = () => {
               src={imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName}
               className="smr_AlbumImageMain_img"
               onError={(e)=>{
-                e.target.src = noimageFound ;
+                e.target.src = noimageFound;
               }}
             />
             <p className="smr_albumName">{data?.AlbumName}</p>

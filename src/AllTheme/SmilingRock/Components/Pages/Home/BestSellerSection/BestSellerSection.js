@@ -90,9 +90,10 @@ const BestSellerSection = () => {
             bestSellerData.map(async (item) => {
                 const defaultImageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
                 const RollOverImageURL = `${imageUrl}${item?.designno}~2.${item?.ImageExtension}`;
-                const validatedURL1 = await checkImageAvailability(defaultImageURL);
-                const validatedURL2 = await checkImageAvailability(RollOverImageURL);
-                return { ...item, defaultImageURL: validatedURL1, RollOverImageURL: validatedURL2 };
+                // const validatedURL1 = await checkImageAvailability(defaultImageURL);
+                // const validatedURL2 = await checkImageAvailability(RollOverImageURL);
+                // return { ...item, defaultImageURL: validatedURL1, RollOverImageURL: validatedURL2 };
+                return { ...item, defaultImageURL: defaultImageURL, RollOverImageURL: RollOverImageURL };
             })
         );
         setValidatedData(validatedData);

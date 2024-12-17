@@ -9,6 +9,7 @@ $borderColor: rgba(232, 232, 232, 1);
   margin-top: 220px;
   color: white;
   font-family: $rown !important;
+
   @media screen and (max-width: 1200px) {
     margin-top: 80px;
     padding-block: 20px;
@@ -55,8 +56,8 @@ $borderColor: rgba(232, 232, 232, 1);
 
         button {
           font-family: $primaryFontFamily !important;
-          background-color: $btn1hoverColor;
-          color: $btn1hoverFontColor;
+          background-color: #17372F !important;
+          color: white !important;
           font-size: $fontSize2;
           border: none;
           outline: none;
@@ -197,6 +198,7 @@ $borderColor: rgba(232, 232, 232, 1);
               }
 
               &__total-price {
+
                 p,
                 span {
                   color: $titleColor;
@@ -312,6 +314,7 @@ $borderColor: rgba(232, 232, 232, 1);
               }
 
               &__total-price {
+
                 p,
                 span {
                   color: #df647e;
@@ -537,8 +540,8 @@ $borderColor: rgba(232, 232, 232, 1);
 
                 button {
                   font-family: $primaryFontFamily !important;
-                  background-color: $btn1hoverColor;
-                  color: $btn1hoverFontColor;
+                  background-color: #17372F;
+                  color: white;
                   font-size: $fontSize2;
                   border: none;
                   outline: none;
@@ -752,6 +755,7 @@ $borderColor: rgba(232, 232, 232, 1);
 
         .mala3_RightCartList {
           .mala3_cartMain-item {
+
             .mala3_cart-item,
             .mala3_Diacart-item {
               .mala3_cart-item__details {
@@ -827,8 +831,7 @@ $borderColor: rgba(232, 232, 232, 1);
         width: 100% !important;
 
         .mala3_RightCartList {
-          .mala3_tablelable {
-          }
+          .mala3_tablelable {}
 
           .mala3_cart-item {
             .mala3_cart-item__details {
@@ -899,6 +902,7 @@ $borderColor: rgba(232, 232, 232, 1);
                 .mala3_cart-item__details {
                   padding-left: 0;
                   text-align: center;
+
                   h3 {
                     font-size: $fontSize2;
                   }
@@ -906,6 +910,7 @@ $borderColor: rgba(232, 232, 232, 1);
                   p {
                     font-size: $fontSize1;
                   }
+
                   .mala3_weightsContainer,
                   .mala3_qtyDiv {
                     justify-content: center;

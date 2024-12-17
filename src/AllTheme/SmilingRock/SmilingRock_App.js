@@ -40,7 +40,6 @@ import TermsPolicy from './Components/Pages/FooterPages/TermsPolicy/TermsPolicy'
 
 const SmilingRock_App = () => {
   const islogin = useRecoilValue(smr_loginState);
-  console.log('islogin: ', islogin);
   const navigation = useNavigate();
   const setIsLoginState = useSetRecoilState(smr_loginState);
   const location = useLocation();

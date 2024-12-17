@@ -238,14 +238,12 @@ const Header = () => {
   const [selectedData, setSelectedData] = useState([]);
 
   useEffect(() => {
-    console.log("useEffect triggered");
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
     if (islogin && (
       storeinit?.IsB2BWebsite === 0 ||
       (storeinit?.IsB2BWebsite === 1 && isUserLogin === true))
     ) {
-      console.log("Calling getMenuApi");
       getMenuApi();
     }
   }, [islogin]);

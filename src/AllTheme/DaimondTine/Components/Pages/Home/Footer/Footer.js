@@ -12,32 +12,35 @@ export default function Footer() {
   const [companyInfoData, setCompanuInfoData] = useState();
   const [socialMediaData, setSocialMediaData] = useState([]);
   const [email, setEmail] = useState();
+  const [loading, setLoading] = useState(false);
   const [islogin, setIsLogin] = useRecoilState(dt_loginState);
   const [selectedFooteVal, setSelectedVal] = useState(0);
+  const [result, setResult] = useState();
   const navigation = useNavigate();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
-  const handleSubmitNewlater = async () => {
-    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+  const handleSubmitNewlater = () => {
+    setLoading(true);
+    const storeInit = JSON?.parse(sessionStorage.getItem('storeInit'));
     const newslater = storeInit?.newslatter;
-    if (email) {
-      if (newslater) {
-        setEmail("");
-        const requestOptions = {
-          method: "GET",
-          redirect: "follow",
-        };
-        const newsletterUrl = `${newslater}${email}`;
-        fetch(newsletterUrl, requestOptions)
-          .then((response) => response.text())
-          .then((result) => console.log(result))
-          .catch((error) => console.error(error));
-      }
+    if (newslater && email) {
+      const requestOptions = {
+        method: "GET",
+        redirect: "follow"
+      };
+      const newsletterUrl = `${newslater}${email}`;
+      fetch(newsletterUrl)
+        .then((response) => response.text())
+        .then((result) => { setResult(result); setLoading(false) })
+        .catch((error) => setResult(error));
     }
+
   };
+
+  const alreadySubs = 'Already Subscribed.';
 
   const handleNavigte = (navigateUrl) => {
     navigation(navigateUrl);
@@ -112,6 +115,23 @@ export default function Footer() {
                 onChange={handleEmailChange}
                 required
               />
+              {
+                loading ? <span style={{ color: "white" }} className="elv_error_message">Loading...</span> : (
+                  <>
+                    {result && (
+                      <span
+                        className="elv_error_message"
+                        style={{
+                          color: result === alreadySubs ? "#FF0000" : "#04AF70",
+                          marginTop: "0px",
+                          display: "block",
+                        }}
+                      >
+                        {result}
+                      </span>
+                    )}
+                  </>
+                )}
               <button className="FooterSubBtn" onClick={handleSubmitNewlater}>
                 SUBSCRIBE
               </button>
