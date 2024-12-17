@@ -334,7 +334,7 @@ export default function LoginWithEmail() {
                         className='AuthScreenSubTitle'
                     >using {email}</p>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' ,height:"50vh" }}>
                         <TextField
                             autoFocus
                             id="outlined-confirm-password-input"
