@@ -951,7 +951,7 @@ const Header = () => {
               {/* Miora Needed */}
               {/* Kayra Don't */}
               {/* sonasons needs */}
-              <li
+              {/* <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
                 onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
@@ -959,13 +959,13 @@ const Header = () => {
                 <a href="/servicePolicy" className="smr_A_link">
                   SERVICE POLICY
                 </a>
-              </li>
+              </li> */}
               {htmlContent?.rd && htmlContent?.rd.length > 0 &&
                 (
                   htmlContent?.rd[0]?.ExtraMenu == 1 &&
                   <>
                     {/* No Need for sonasons */}
-                    {/* <li
+                    <li
                       className="nav_li_smining nav_li_smining_Mobile"
                       style={{ cursor: "pointer" }}
                       onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
@@ -973,13 +973,13 @@ const Header = () => {
                       <a href="/ExpertAdvice" className="smr_A_link">
                         EXPERT ADVICE
                       </a>
-                    </li> */}
+                    </li>
 
                     {/* Maiora not needed fun facts */}
                     {/* Kayra needed */}
                     {/* No need for sonasons */}
 
-                    {/* <li
+                    <li
                       className="nav_li_smining nav_li_smining_Mobile"
                       style={{ cursor: "pointer" }}
                       onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
@@ -987,7 +987,7 @@ const Header = () => {
                       <a href="/FunFact" className="smr_A_link">
                         FUN FACT
                       </a>
-                    </li> */}
+                    </li>
                   </>
                 )}
               {IsB2BWebsiteChek === 1 ? (
@@ -1294,7 +1294,7 @@ const Header = () => {
                 {/* Miora Needed */}
                 {/* Kayra Don't */}
                 {/* sonasons needs */}
-                <li
+                {/* <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
                   onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
@@ -1302,7 +1302,7 @@ const Header = () => {
                   <a href="/servicePolicy" className="smr_A_linkFixed">
                     SERVICE POLICY
                   </a>
-                </li>
+                </li> */}
 
                 {htmlContent?.rd && htmlContent?.rd.length > 0 &&
                   (
@@ -1310,7 +1310,7 @@ const Header = () => {
                     <>
                       {/* no need for sonasons */}
 
-                      {/* <li
+                      <li
                         className="nav_li_smining_Fixed nav_li_smining_Mobile"
                         style={{ cursor: "pointer" }}
                         onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
@@ -1318,14 +1318,14 @@ const Header = () => {
                         <a href="/ExpertAdvice" className="smr_A_linkFixed">
                           EXPERT ADVICE
                         </a>
-                      </li> */}
+                      </li>
 
 
                       {/* Maiora not needed fun facts */}
                       {/* Kayra needed */}
                       {/* no need for sonasons */}
 
-                      {/* <li
+                      <li
                         className="nav_li_smining_Fixed nav_li_smining_Mobile"
                         style={{ cursor: "pointer" }}
                         onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
@@ -1333,7 +1333,7 @@ const Header = () => {
                         <a href="/FunFact" className="smr_A_linkFixed">
                           FUN FACT
                         </a>
-                      </li> */}
+                      </li>
                     </>
                   )}
                 {IsB2BWebsiteChek === 1 ? (

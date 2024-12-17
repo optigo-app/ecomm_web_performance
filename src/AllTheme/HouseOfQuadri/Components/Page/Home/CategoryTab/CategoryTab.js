@@ -123,7 +123,7 @@ const ShapeCard = ({ img, shape }) => {
   return (
     <div className="s_card">
       <div className="image">
-        <img src={img} alt="" />
+        <img src={img} alt="" onError={(e) => e.target.src = noimage} />
       </div>
       <div className="title">
         <h2>{shape}</h2>
