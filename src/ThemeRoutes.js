@@ -57,30 +57,30 @@ import {
 const SmilingRock_MobileApp_App = React.lazy(() =>
   import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
 );
-// const HemratnaProcatalog_App = React.lazy(() =>
-//   import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
-// );
-// const Procatalog_App = React.lazy(() =>
-//   import("./AllTheme/Pocatalog/Procatalog_App")
-// );
-// const HouseOfQuadri_App = React.lazy(() =>
-//   import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
-// );
-// const ForEveryRoutes = React.lazy(() =>
-//   import("./AllTheme/Forevery/ForeveryRoutes")
-// );
+const HemratnaProcatalog_App = React.lazy(() =>
+  import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
+);
+const Procatalog_App = React.lazy(() =>
+  import("./AllTheme/Pocatalog/Procatalog_App")
+);
+const HouseOfQuadri_App = React.lazy(() =>
+  import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
+);
+const ForEveryRoutes = React.lazy(() =>
+  import("./AllTheme/Forevery/ForeveryRoutes")
+);
 const Procatalog_MobileApp_App = React.lazy(() =>
   import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
 );
-// const StamFordJewels_App = React.lazy(() =>
-//   import("./AllTheme/StamFordJewels/StamFordJewels_App")
-// );
-// const RoopJewellers_App = React.lazy(() =>
-//   import("./AllTheme/RoopJewellers/RoopJewellers_App")
-// );
-// const MalakanJewels_App = React.lazy(() =>
-//   import("./AllTheme/MalakanJwewls/MalakanJewels_App")
-// );
+const StamFordJewels_App = React.lazy(() =>
+  import("./AllTheme/StamFordJewels/StamFordJewels_App")
+);
+const RoopJewellers_App = React.lazy(() =>
+  import("./AllTheme/RoopJewellers/RoopJewellers_App")
+);
+const MalakanJewels_App = React.lazy(() =>
+  import("./AllTheme/MalakanJwewls/MalakanJewels_App")
+);
 
 export default function ThemeRoutes() {
   const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo);

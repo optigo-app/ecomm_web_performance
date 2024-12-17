@@ -76,6 +76,7 @@ export default function ContinueWithEmail() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
+     
             <div className='smling-forgot-main-Color'>
                 <div className='smling-forgot-main'>
                     <p style={{
