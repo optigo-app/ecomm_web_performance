@@ -1098,7 +1098,7 @@ const Lookbook = () => {
                   style={{
                     background: selectedCategories.length !== 0 ? "#7d7f85" : "#ffff",
                     color: selectedCategories.length !== 0 ? "#fff" : "#7d7f85",
-                    marginRight: '20px'
+                    marginRight: '30px'
                   }}
                 >
                   Set View

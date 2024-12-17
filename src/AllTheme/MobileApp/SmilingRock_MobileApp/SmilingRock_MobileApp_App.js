@@ -105,8 +105,8 @@ const SmilingRock_MobileApp_App = () => {
         <Route path="/CartPage" element={<CartPage />} />
         <Route path="/Account" element={<Account />} />
         <Route path="/HelpCenter" element={<HelpCenter />} />
-        <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
-        <Route path="/Copyright" element={<Copyright />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/copyright" element={<Copyright />} />
         <Route path="/support" element={<Support />} />
         <Route path="/Delivery" element={<Delivery />} />
         <Route path="/payment" element={<Payment />} />
