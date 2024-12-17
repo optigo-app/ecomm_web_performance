@@ -25,6 +25,7 @@ const NewArrival = () => {
   const islogin = useRecoilValue(smrMA_loginState);
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const setLoadingHome = useSetRecoilState(smrMA_homeLoading);
+  const [isAPICalled, setIsAPICalled] = useState(false);
 
   const checkImageAvailability = (url) => {
     return new Promise((resolve) => {
@@ -40,9 +41,11 @@ const NewArrival = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && !isAPICalled) {  // Check if API has already been called
+            console.log("called ")
+            setIsAPICalled(true);  // Set flag to true so it doesn't call again
             callAPI();
-            observer.unobserve(entry.target);
+            observer.unobserve(entry.target);  // Stop observing after the first call
           }
         });
       },
@@ -61,7 +64,7 @@ const NewArrival = () => {
       }
     };
 
-  }, []);
+  }, [isAPICalled]);
 
 
   const callAPI = () => {

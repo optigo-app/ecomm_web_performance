@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useRef, useState } from "react";
 import SmilingRock_App from "./AllTheme/SmilingRock/SmilingRock_App";
 import DaimondTine_App from "./AllTheme/DaimondTine/DaimondTine_App";
 import Elveester_App from "./AllTheme/Elveester/Elveester_App";
-// import MobileApp_App from './AllTheme/MobileApp/MobileApp_App'
+import MobileApp_App from './AllTheme/MobileApp/MobileApp_App'
 import { Storeinit } from "./utils/API/Home/Storeinit/Storeinit";
 import { CurrencyComboAPI } from "./utils/API/Combo/CurrencyComboAPI";
 import { MetalColorCombo } from "./utils/API/Combo/MetalColorCombo";
@@ -32,7 +32,7 @@ import {
 } from "./AllTheme/DaimondTine/Components/Recoil/atom";
 import Cookies from "js-cookie";
 import { smrMA_companyLogo } from "./AllTheme/MobileApp/SmilingRock_MobileApp/Components/Recoil/atom";
-// import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
+import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
 import {
   storImagePath,
   storInitDataPath,
@@ -273,7 +273,7 @@ export default function ThemeRoutes() {
       {storeInitData?.DomainForNo == 2 ? (
         <MetaData1 storeInitData={storeInitData} title={title}  />
       ) : (
-        <MetaData2 title={title} isHaveSub={false} />
+        <MetaData2 title={title} />
       )}
 
       {htmlContent?.rd && htmlContent?.rd.length > 0 && (
@@ -321,6 +321,7 @@ const MetaData1 = ({ title, storeInitData }) => {
 
 const MetaData2 = ({ title, isHaveSub = false }) => {
   const MetaPath = isHaveSub ? `logoIcon/sona/` : `logoIcon/`;
+  console.log(MetaPath,"meta")
   return (
     <Helmet>
       <title>{title}</title>
