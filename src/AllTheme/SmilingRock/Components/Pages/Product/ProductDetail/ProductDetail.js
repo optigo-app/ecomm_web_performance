@@ -1583,7 +1583,7 @@ const ProductDetail = () => {
                           />
                         )}
 
-                        <div className="smr_main_thumb_prod_img">
+                        <div className="smr_main_thumb_prod_img" >
                           {(pdThumbImg?.length > 1 ||
                             pdVideoArr?.length > 0 ||
                             storeInit?.IsVision360 == 1) &&

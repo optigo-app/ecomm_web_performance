@@ -1440,14 +1440,15 @@ const ProductList = () => {
     )
   }
 
+
   const DynamicListPageTitleLineFunc = () => {
     if (location?.search.split("=")[0]?.slice(1) == "M") {
-      return menuParams?.menuname
+      return menuParams?.menuname?.replaceAll('%20', '')
     } else {
-      return location?.pathname.split('/')[2]
+      return location?.pathname.split('/')[2]?.replaceAll('%20', "")
     }
   }
-
+  
   const BreadCumsObj = () => {
     let BreadCum = decodeURI(atob(location?.search.slice(3)))?.split('/')
 

@@ -39,6 +39,7 @@ const Header = () => {
   const setCartOpenState = useSetRecoilState(cartB2CDrawer);
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
+  const searchOverlayRef = useRef(null);
 
   const compnyLogo = useRecoilValue(smr_companyLogo);
   const compnyLogoM = useRecoilValue(smr_companyLogoM);
@@ -440,12 +441,29 @@ const Header = () => {
       window.scrollTo(0, 0);
     }
   }
+
+  // useEffect(() => {
+  //   console.log(first)
+  //   const handleClickOutside = (event) => {
+  //     if (searchOverlayRef.current && !searchOverlayRef.current.contains(event.target)) {
+  //       setSerachShowOverlay(false); // Hide overlay if clicked outside
+  //     }
+  //   };
+
+  //   document.addEventListener("click", handleClickOutside);
+  //   // Cleanup the event listener
+  //   return () => {
+  //     document.removeEventListener("click", handleClickOutside);
+  //   };
+  // }, []);
+  // ref={searchOverlayRef}
+
   return (
     <div className="smr_headerMain_div">
       {serachsShowOverlay && (
         <>
-          <div className="smr_smlingSearchoverlay">
-            <div className="smr_smlingTopSerachOver">
+          <div className="smr_smlingSearchoverlay" >
+            <div className="smr_smlingTopSerachOver" >
               <IoSearchOutline
                 style={{ height: "15px", width: "15px", marginRight: "10px" }}
               />
