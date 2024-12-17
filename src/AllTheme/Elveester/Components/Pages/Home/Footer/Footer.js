@@ -63,7 +63,7 @@ const Footer = () => {
 
     const handleSubmitNewlater = () => {
         setLoading(true);
-        const storeInit = JSON?.parse(sessionStorage.getItem('storeInit'));
+        const storeInit = JSON?.parse(sessionStorage?.getItem('storeInit'));
         const newslater = storeInit?.newslatter;
         if (newslater && email) {
             const requestOptions = {

@@ -173,6 +173,7 @@ const DynamicCollection = () => {
       }
     }
 
+    setCurrentPage(1);
     return output;
   };
 
@@ -204,7 +205,7 @@ const DynamicCollection = () => {
           setIsOnlyProdLoading(false);
         });
     }
-  }, [filterChecked]);
+  }, [filterChecked, selectedMetalId, selectedDiaId, selectedCsId]);
 
   useEffect(() => {
     // setCSSVariable();
@@ -648,7 +649,7 @@ const DynamicCollection = () => {
       setIsProdLoading(true);
 
       setprodListType(productlisttype);
-      await ProductListApi({}, currentPage, obj, productlisttype, cookie)
+      await ProductListApi({}, 1, obj, productlisttype, cookie)
         .then((res) => {
           if (res) {
             setproductsPerPage(res?.pdResp?.rd1[0]?.designcount);
@@ -701,10 +702,11 @@ const DynamicCollection = () => {
     };
 
     fetchData();
+    setCurrentPage(1);
     if (location?.key) {
       setLocationKey(location?.key);
     }
-  }, [location?.key, currentPage]);
+  }, [location?.key]);
 
   // Image Hover
   const ImageUrl = (designNo, ext) => {
@@ -2378,13 +2380,13 @@ const C_Card = ({
           <>
             {videoUrl !== undefined ? (
               <div className="rollup_video">
-                <video src={videoUrl} autoPlay muted loop ></video>
+                <video src={videoUrl} autoPlay muted loop onError={(e) => e.target.poster = "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"}></video>
               </div>
             ) : null}
 
             {videoUrl === undefined && rollUpImage !== undefined ? (
               <div className="rollup_img">
-                <img src={rollUpImage} alt="Roll Up Image" />
+                <img src={rollUpImage} alt="Roll Up Image" onError={(e) => e.target.src = "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"} />
               </div>
             ) : null}
           </>

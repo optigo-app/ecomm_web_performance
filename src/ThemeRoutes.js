@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useRef, useState } from "react";
 import SmilingRock_App from "./AllTheme/SmilingRock/SmilingRock_App";
 import DaimondTine_App from "./AllTheme/DaimondTine/DaimondTine_App";
 import Elveester_App from "./AllTheme/Elveester/Elveester_App";
-import MobileApp_App from './AllTheme/MobileApp/MobileApp_App'
+// import MobileApp_App from './AllTheme/MobileApp/MobileApp_App'
 import { Storeinit } from "./utils/API/Home/Storeinit/Storeinit";
 import { CurrencyComboAPI } from "./utils/API/Combo/CurrencyComboAPI";
 import { MetalColorCombo } from "./utils/API/Combo/MetalColorCombo";
@@ -32,7 +32,6 @@ import {
 } from "./AllTheme/DaimondTine/Components/Recoil/atom";
 import Cookies from "js-cookie";
 import { smrMA_companyLogo } from "./AllTheme/MobileApp/SmilingRock_MobileApp/Components/Recoil/atom";
-import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
 import {
   storImagePath,
   storInitDataPath,
@@ -271,13 +270,13 @@ export default function ThemeRoutes() {
   return (
     <>
       {storeInitData?.DomainForNo == 2 ? (
-        <MetaData1 storeInitData={storeInitData} title={title}  />
+        <MetaData1 storeInitData={storeInitData} title={title} />
       ) : (
         <MetaData2 title={title} />
       )}
 
       {htmlContent?.rd && htmlContent?.rd.length > 0 && (
-       <Themes htmlContent={htmlContent}/>
+        <Themes htmlContent={htmlContent} />
       )}
     </>
   );
@@ -321,7 +320,7 @@ const MetaData1 = ({ title, storeInitData }) => {
 
 const MetaData2 = ({ title, isHaveSub = false }) => {
   const MetaPath = isHaveSub ? `logoIcon/sona/` : `logoIcon/`;
-  console.log(MetaPath,"meta")
+  console.log(MetaPath, "meta")
   return (
     <Helmet>
       <title>{title}</title>
@@ -365,32 +364,32 @@ const MetaData2 = ({ title, isHaveSub = false }) => {
   );
 };
 
-const Themes = ({htmlContent})=>{
-  return  <>
-  <Suspense fallback={<></>}>
-    {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
+const Themes = ({ htmlContent }) => {
+  return <>
+    <Suspense fallback={<></>}>
+      {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
 
-    {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
+      {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
 
-    {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
+      {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
-    {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
+      {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 
-    {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
+      {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
-    {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
+      {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
-    {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
+      {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
-    {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
+      {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
 
-    {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
+      {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
 
-    {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
+      {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
 
-    {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
+      {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
 
-    {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
-  </Suspense>
-</>
+      {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
+    </Suspense>
+  </>
 }
