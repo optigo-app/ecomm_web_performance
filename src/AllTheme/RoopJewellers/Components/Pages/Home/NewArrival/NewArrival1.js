@@ -173,6 +173,7 @@ const NewArrival = () => {
                     //     `${imageUrl}${newArrivalData && product?.designno}_1.${newArrivalData && product?.ImageExtension}`
                     //     : noImageFound}
                     alt={product?.TitleLine}
+                    onError={(e) => e.target.src = noImageFound}
                     loading="lazy" // Use lazy loading to optimize performance
                   />
                 </div>

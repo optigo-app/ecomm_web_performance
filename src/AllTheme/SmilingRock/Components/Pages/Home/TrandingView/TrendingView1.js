@@ -129,8 +129,9 @@ const TrendingView1 = () => {
         const validatedData = await Promise.all(
             trandingViewData.map(async (item) => {
                 const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
-                const validatedURL = await checkImageAvailability(imageURL);
-                return { ...item, validatedImageURL: validatedURL };
+                // const validatedURL = await checkImageAvailability(imageURL);
+                // return { ...item, validatedImageURL: validatedURL };
+                return { ...item, validatedImageURL: imageURL };
             })
         );
         setValidatedData(validatedData);
@@ -201,6 +202,9 @@ const TrendingView1 = () => {
                                                 :
                                                 imageNotFound
                                             }
+                                            onError={(e) => {
+                                                e.target.src = imageNotFound
+                                            }}
                                             alt={data.name}
                                         />
                                     </div>

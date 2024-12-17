@@ -109,8 +109,9 @@ const NewArrival = () => {
         const validatedData = await Promise.all(
             newArrivalData.map(async (item) => {
                 const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
-                const validatedURL = await checkImageAvailability(imageURL);
-                return { ...item, validatedImageURL: validatedURL };
+                // const validatedURL = await checkImageAvailability(imageURL);
+                // return { ...item, validatedImageURL: validatedURL };
+                return { ...item, validatedImageURL: imageURL };
             })
         );
         setValidatedData(validatedData);
@@ -192,6 +193,9 @@ const NewArrival = () => {
                                                 // `${imageUrl}${newArrivalData && product?.designno}~1.${newArrivalData && product?.ImageExtension}`
                                                 : imageNotFound}
                                             alt={product?.TitleLine}
+                                            onError={(e) => {
+                                                e.target.src = imageNotFound
+                                            }}
                                         />
                                     </div>
                                     <CardContent className='smr_newarrproduct-info'>

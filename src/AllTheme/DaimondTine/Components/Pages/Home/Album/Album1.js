@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Navigation, Keyboard } from 'swiper/modules';
 import 'swiper/css';
@@ -22,6 +22,7 @@ const Album1 = () => {
     const [albumData, setAlbumData] = useState('');
     const [imageUrl, setImageUrl] = useState();
     const [imageStatus, setImageStatus] = useState({});
+    console.log('imageStatus: ', imageStatus);
     const navigation = useNavigate();
     const islogin = useRecoilValue(dt_loginState);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -130,31 +131,47 @@ const Album1 = () => {
         return txt.value;
     }
 
-    const checkImageAvailability = (imageUrl) => {
-        return new Promise((resolve) => {
-            const img = new Image();
-            img.onload = () => resolve(true);
-            img.onerror = () => resolve(false);
-            img.src = imageUrl;
-        });
-    };
+    // const checkImageAvailability = (imageUrl) => {
+    //     return new Promise((resolve) => {
+    //         const img = new Image();
+    //         img.onload = () => resolve(true);
+    //         img.onerror = () => resolve(false);
+    //         img.src = imageUrl;
+    //     });
+    // };
+
+    // useEffect(() => {
+    //     if (albumData) {
+    //         albumData?.forEach(album => {
+    //             const designs = JSON?.parse(album?.Designdetail) || [];
+    //             designs.forEach(async (design) => {
+    //                 // const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
+    //                 const imageSrc = `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
+    //                 const available = await checkImageAvailability(imageSrc);
+    //                 setImageStatus(prevStatus => ({
+    //                     ...prevStatus,
+    //                     [imageSrc]: available
+    //                 }));
+    //             });
+    //         });
+    //     }
+    // }, [albumData]);
+
 
     useEffect(() => {
         if (albumData) {
-            albumData?.forEach(album => {
+            const newImageStatus = {};
+            albumData.forEach(album => {
                 const designs = JSON?.parse(album?.Designdetail) || [];
-                designs.forEach(async (design) => {
-                    // const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
+                designs.forEach((design) => {
                     const imageSrc = `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
-                    const available = await checkImageAvailability(imageSrc);
-                    setImageStatus(prevStatus => ({
-                        ...prevStatus,
-                        [imageSrc]: available
-                    }));
+                    newImageStatus[imageSrc] = true;
                 });
             });
+            setImageStatus(newImageStatus);
         }
     }, [albumData]);
+
 
     const HandleAlbumMore = (data) => {
         const url = `/p/${encodeURIComponent(selectedAlbum)}/?A=${btoa(`AlbumName=${selectedAlbum}`)}`;
@@ -162,6 +179,35 @@ const Album1 = () => {
         sessionStorage.setItem('redirectURL', url)
         navigation(islogin !== 0 ? url : redirectUrl);
     };
+
+    const [slideHeight, setSlideHeight] = useState(null);
+    const swiperSlideRef = useRef(null);
+
+    const GenerateWidthBaseOnContent = useCallback(() => {
+        const selectedAlbumDetails = albumData?.find((album) => album?.AlbumName === selectedAlbum);
+        const parsedDesignDetails = selectedAlbumDetails?.Designdetail
+            ? JSON.parse(selectedAlbumDetails.Designdetail)
+            : null;
+        const totalDesignDetails = Array.isArray(parsedDesignDetails) ? parsedDesignDetails.length : 0;
+        const length = totalDesignDetails;
+        let w;
+        if (length === 1) {
+            w = '100%';
+        } else if (length === 2) {
+            w = '100%';
+        } else if (length === 3) {
+            w = '100%';
+        } else if (length > 3) {
+            w = '100%';
+        }
+        return { width: w, length: length }
+    }, [selectedAlbum])
+
+    useEffect(() => {
+        if (swiperSlideRef.current) {
+            setSlideHeight(swiperSlideRef.current.offsetHeight);
+        }
+    }, [selectedAlbum, albumData]);
 
     return (
         <div ref={albumRef}>
@@ -195,10 +241,17 @@ const Album1 = () => {
                             ))}
                         </Tabs>
                     </Box>
-                    <div className="Dt_swiper_container">
-                        {albumData?.map((album) =>
+                    <div className="Dt_swiper_container"
+                        style={{
+                            width: GenerateWidthBaseOnContent().width,
+                        }}
+                    >
+                        {albumData && albumData?.map((album) =>
                             album?.AlbumName === selectedAlbum ? (
                                 <Swiper
+                                style={{
+                                    width:"100%"
+                                }}
                                     key={album?.Albumid}
                                     spaceBetween={10}
                                     lazy={true}

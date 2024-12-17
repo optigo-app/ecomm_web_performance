@@ -34,6 +34,7 @@ import {
   Drawer,
   FormControlLabel,
   Input,
+  PaginationItem,
   Skeleton,
   Slider,
   useMediaQuery,
@@ -126,6 +127,13 @@ const DynamicCollection = () => {
     );
     SetColorStoneQualityColorCombo(CsQcCombo);
   }, []);
+
+  useEffect(() => {
+    setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
+    setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+    setSelectedCsId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+    setSortBySelect('Recommended')
+  }, [location?.key])
 
   useEffect(() => {
     let param = JSON.parse(sessionStorage.getItem("menuparams"));
@@ -718,7 +726,7 @@ const DynamicCollection = () => {
         "." +
         VideoExtension
       );
-      
+
     }
   };
   // Bread new comp
@@ -1549,7 +1557,7 @@ const DynamicCollection = () => {
                   </option>
                   <option className="option" value="In Stock">
                     In stock
-                  </option> 
+                  </option>
                   <option className="option" value="PRICE HIGH TO LOW">
                     Price High To Low
                   </option>
@@ -2232,6 +2240,14 @@ const DynamicCollection = () => {
                     )}
                     currentPage={currentPage}
                     onPageChange={handlePageChange}
+                    renderItem={(item) => (
+                      <PaginationItem
+                        {...item}
+                        sx={{
+                          pointerEvents: item.page === currentPage ? 'none' : 'auto',
+                        }}
+                      />
+                    )}
                   />
                 </div>
               )}
@@ -2553,6 +2569,14 @@ const PaginationBar = ({ totalPages, currentPage, onPageChange }) => {
         size={maxwidth464px ? "small" : "large"}
         showFirstButton
         showLastButton
+        renderItem={(item) => (
+          <PaginationItem
+            {...item}
+            sx={{
+              pointerEvents: item.page === currentPage ? 'none' : 'auto',
+            }}
+          />
+        )}
       />
     </div>
   );

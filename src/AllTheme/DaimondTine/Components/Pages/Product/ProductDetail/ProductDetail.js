@@ -650,11 +650,27 @@ const ProductDetail = () => {
 
     const FetchProductData = async () => {
 
+      let obj1 = {
+        mt: logininfoInside?.MetalId ?? storeinitInside?.MetalId,
+        diaQc: diaArr
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+        csQc: csArr
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
+      };
+
       let obj = {
-        mt: metalArr ? metalArr : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
-        diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid),
-        csQc: csArr ? `${csArr?.QualityId},${csArr?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid)
-      }
+        mt: metalArr
+          ? metalArr
+          : logininfoInside?.MetalId ?? storeinitInside?.MetalId,
+        diaQc: diaArr
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+        csQc: csArr
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
+      };
 
       // console.log("objjj",obj)
       setProdLoading(true)
@@ -726,7 +742,7 @@ const ProductDetail = () => {
             }
 
             if (storeinitInside?.IsProductDetailDesignSet === 1) {
-              await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
+              await DesignSetListAPI(obj1, resp?.pdList[0]?.designno, cookie).then((res) => {
                 // console.log("designsetList",res?.Data?.rd[0])
                 setDesignSetList(res?.Data?.rd)
               }).catch((err) => console.log("designsetErr", err))
@@ -1913,7 +1929,7 @@ const ProductDetail = () => {
 
 
           </div>
-          <div className="smr_material_details_portion" style={{ marginBottom: '50px' }}>
+          <div className="dia_material_details_portion" style={{ marginBottom: '50px' }}>
             {(diaList?.length > 0 || csList?.filter((ele) => ele?.D === "MISC")?.length > 0 || csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
               <p className="smr_details_title"> Product Details</p>
             )}

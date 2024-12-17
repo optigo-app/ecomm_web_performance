@@ -49,6 +49,7 @@ import Cookies from "js-cookie";
 import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI";
 import { Helmet } from "react-helmet";
 import axios from "axios";
+import { SaveLastViewDesign } from "../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -69,7 +70,7 @@ const ProductDetail = () => {
   const [pdThumbImg, setPdThumbImg] = useState([]);
   const [isImageload, setIsImageLoad] = useState(true);
   const [selectedThumbImg, setSelectedThumbImg] = useState();
-  console.log('selectedThumbImg: ', selectedThumbImg);
+  const [saveLastView, setSaveLastView] = useState();
   const [decodeUrl, setDecodeUrl] = useState({});
   // const [finalprice, setFinalprice] = useState(0);
   const [addToCartFlag, setAddToCartFlag] = useState(null);
@@ -665,19 +666,27 @@ const ProductDetail = () => {
     }
 
     const FetchProductData = async () => {
+      let obj1 = {
+        mt: logininfoInside?.MetalId ?? storeinitInside?.MetalId,
+        diaQc: diaArr
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+        csQc: csArr
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
+      };
+
       let obj = {
         mt: metalArr
           ? metalArr
           : logininfoInside?.MetalId ?? storeinitInside?.MetalId,
         diaQc: diaArr
-          ? `${diaArr?.QualityId},${diaArr?.ColorId}`
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
           : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
         csQc: csArr
-          ? `${csArr?.QualityId},${csArr?.ColorId}`
-
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
           : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
       };
-      console.log(obj, "res?.Data?.rd")
       // setProdLoading(true);
       setisPriceLoading(true);
       // setp 4
@@ -753,13 +762,16 @@ const ProductDetail = () => {
             }
 
             if (storeinitInside?.IsProductDetailDesignSet === 1) {
-              await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie)
+              await DesignSetListAPI(obj1, resp?.pdList[0]?.designno, cookie)
                 .then((res) => {
-                  console.log(res?.Data?.rd, "res?.Data?.rd")
                   setDesignSetList(res?.Data?.rd);
                 })
                 .catch((err) => console.log("designsetErr", err));
             }
+
+            await SaveLastViewDesign(cookie, resp?.pdList[0]?.autocode, resp?.pdList[0]?.designno).then((res) => {
+              setSaveLastView(res?.Data?.rd)
+            }).catch((err) => console.log("saveLastView", err))
           }
         })
         .catch((err) => console.log("err", err))
@@ -1725,7 +1737,7 @@ const ProductDetail = () => {
                                   </span>
                                 </span> : null}
                               {/* Miora Need Net weight / kayra Don't */}
-                              {KayraCreation === 1 && storeInit?.IsMetalWeight === 1 &&
+                              {KayraCreation === 2 && storeInit?.IsMetalWeight === 1 &&
                                 <span className="smr_prod_short_key">
                                   Net. wt :{" "}
                                   <span className="smr_prod_short_val">
@@ -2501,7 +2513,7 @@ const ProductDetail = () => {
 
 
                 {/* Maiora chnages Need the / in website for other not need right now !! */}
-                {KayraCreation === 1 && <div className="smr_material_details_portion">
+                {KayraCreation === 2 && <div className="smr_material_details_portion">
                   {(diaList?.length > 0 ||
                     csList?.filter((ele) => ele?.D === "MISC")?.length > 0 ||
                     csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
