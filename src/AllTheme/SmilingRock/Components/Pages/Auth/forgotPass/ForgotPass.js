@@ -147,7 +147,7 @@ export default function ForgotPass() {
                         className='AuthScreenSubTitle'
                     >{ }</p>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', height:"40vh", flexDirection: 'column', alignItems: 'center' }}>
                         <TextField
                             autoFocus
                             id="outlined-password-input"
