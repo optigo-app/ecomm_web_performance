@@ -667,7 +667,6 @@ const ProductList = () => {
       }
     }
 
-    // if 
     return output
   }
 
