@@ -1,25 +1,35 @@
 .smrMA_TopSectionMain {
+    overflow: hidden;
+    height: auto;
+    min-height: 200px;  
+    max-height: 600px;  
     .video__el.is-loaded {
         opacity: 1;
         visibility: visible;
     }
 
-    .gradient_background {
-        background: linear-gradient(213deg, #ad9d9d, #ce9169);
-        height: 80px;
-        margin-top: -25px;
-        font-size: 16px;
-        font-weight: 600;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-top: 30px;
-        
-    }
+ 
 
     .homePageSliderImagw {
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+}
+
+.smr_gradient_background {
+    background: linear-gradient(213deg, #ad9d9d, #ce9169);
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.8rem 0;
+    margin-top: -6px;
+    min-height: 85px;  /* Ensure this section has at least 150px height */
+    max-height: 85px;  /* Optional: Set maximum height */
+    
+    p {
+        margin-bottom: 0rem;
     }
 }

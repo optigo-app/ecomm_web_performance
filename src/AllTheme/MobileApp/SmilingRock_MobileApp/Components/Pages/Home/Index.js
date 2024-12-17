@@ -1,25 +1,23 @@
-import React, { useEffect, useState ,lazy, Suspense} from "react";
+import React, { useEffect, useState ,lazy, Suspense, useMemo} from "react";
 import "./Home.modul.scss";
 import { smrMA_CartCount, smrMA_homeLoading, smrMA_loginState, smrMA_WishCount } from "../../Recoil/atom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useLocation, useNavigate } from "react-router-dom";
 import { WebLoginWithMobileToken } from "../../../../../../utils/API/Auth/WebLoginWithMobileToken";
-import { Helmet } from "react-helmet";
-import SustainAbility from "./sustainAbility/SustainAbility";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from 'js-cookie';
 import { CurrencyComboAPI } from "../../../../../../utils/API/Combo/CurrencyComboAPI";
 import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
 
-const TopSection = lazy(() => import('./TopSection/TopSection'));
-const PromotionBaner1 = lazy(() => import('./PromotionBanner1/PromotionBaner1'));
-const TrendingView = lazy(() => import('./TrandingView/TrendingView'));
-const Album = lazy(() => import('./Album/Album'));
-const NewArrival = lazy(() => import('./NewArrival/NewArrival'));
-const BestSellerSection = lazy(() => import('./BestSellerSection/BestSellerSection'));
-const DesignSet = lazy(() => import('./DesignSet/DesignSet'));
-const BottomBanner = lazy(() => import('./BottomBanner/BottomBanner'));
+const TopSection = React.memo(lazy(() => import('./TopSection/TopSection')));
+const PromotionBaner1 = React.memo(lazy(() => import('./PromotionBanner1/PromotionBaner1')));
+const TrendingView = React.memo(lazy(() => import('./TrandingView/TrendingView')));
+const Album = React.memo(lazy(() => import('./Album/Album')));
+const NewArrival = React.memo(lazy(() => import('./NewArrival/NewArrival')));
+const BestSellerSection = React.memo(lazy(() => import('./BestSellerSection/BestSellerSection')));
+const DesignSet = React.memo(lazy(() => import('./DesignSet/DesignSet')));
+const BottomBanner = React.memo(lazy(() => import('./BottomBanner/BottomBanner')));
 
 const Home = () => {
   const [localData, setLocalData] = useState();
@@ -187,10 +185,15 @@ const Home = () => {
       .catch((err) => {return err});
   };
 
+  const memoizedLocalData = useMemo(() => {
+    const data = JSON.parse(sessionStorage.getItem("storeInit"));
+    return data;
+  }, []); 
+
   useEffect(() => {
-    let localData = JSON.parse(sessionStorage.getItem("storeInit"));
-    setLocalData(localData);
-  }, []);
+    setLocalData(memoizedLocalData);
+  }, [memoizedLocalData]);
+
 
   return (
     <div className="smrMA_Home_main">

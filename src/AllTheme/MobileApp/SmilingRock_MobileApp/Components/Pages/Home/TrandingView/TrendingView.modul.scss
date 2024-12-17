@@ -2,6 +2,9 @@
 
 .smrMA_trendingViewTopMain {
   position: relative;
+  max-height: 1000px;
+  height: auto;
+  
 
   .smr_trendingtile {
     color: $homePageFontColor;
