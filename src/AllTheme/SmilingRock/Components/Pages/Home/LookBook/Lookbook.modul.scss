@@ -47,6 +47,15 @@
     min-height: 800px;
     padding-top: 60px;
     position: relative;
+    .smr_lookBookMobileTopLine{
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 0 8px;
+      @media screen and (max-width: 420px) {
+      padding: 0 2px;
+      }
+    }
 
     .lpDiv {
       display: flex;
@@ -74,6 +83,10 @@
     justify-content: center;
     align-items: center;
     font-weight: 500;
+  }
+  .smr_filetr_right_menu{
+    display: flex;
+    margin-right: 8px;
   }
 
 
@@ -610,7 +623,7 @@
   }
 
   .smr_lookbook3thumbMainDiv {
-    margin-bottom: 100px;
+    margin-bottom: 50px;
     padding: 0px 85px;
 
     .mySwiper {

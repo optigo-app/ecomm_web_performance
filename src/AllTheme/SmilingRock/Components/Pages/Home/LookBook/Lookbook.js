@@ -1027,18 +1027,12 @@ const Lookbook = () => {
         <div className="smr1_LookBookSubMainDiv">
           <div
             className="smr_lookBookMobileTopLine"
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              margin: "0px 5px 25px 5px",
-              gap: '20px'
-            }}
           >
             <div className="smr_lookBook_FilterIconeDiv" onClick={handleFilterShow} style={{ fontSize: '12px' }}>
               {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"}
               <FilterListIcon style={{ color: 'white' }} />
             </div>
-            <div style={{ display: 'flex' }}>
+            <div className="smr_filetr_right_menu" >
               <FilterAltIcon
                 fontSize="large"
                 style={{ color: "#c0bbb1" }}
@@ -1094,10 +1088,10 @@ const Lookbook = () => {
             </div>
           </div>
           <div className="smr_SubDiv_LookBookSubMainDiv">
-            <div className="smr_lookbookFilterMain" style={{ transition: "1s ease", backgroundColor: 'white', zIndex: '999', width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: 'absolute', top: '100px', display: isShowfilter ? "block" : "none" }}>
+            <div className="smr_lookbookFilterMain" style={{ zIndex:100 , transition: "1s ease", backgroundColor: 'white',  width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: 'absolute', top: '100px', display: isShowfilter ? "block" : "none" }}>
 
               {filterData?.length > 0 && (
-                <div className="smr1_lookBookFilterSubDiv">
+                <div className="smr1_lookBookFilterSubDiv" >
                   <span className="smr_filter_text">
                     <span>Filters</span>
 

@@ -77,19 +77,27 @@
     object-fit: contain;
     width: 70px;
     border:1px solid #e1e1e1;
-    border-radius:8px;
+    border-radius:4px;
+    margin: auto;
 }
 
+// 12
 .smr_main_thumb_prod_img{
     position: absolute;
     // left:15px;
     // top:20px
-    padding: 35px 0px 0px 15px;
     left:-86px;
-    top:0;
+    padding: 0px 10px;
+    top: 25px;
     display: flex;
     flex-direction: column;
     gap: 5px;
+    max-height: 620px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    @media screen and (max-width:1600px) {
+        left: -64px;
+    }
 }
 
 .smr_prod_shortInfo_inner{

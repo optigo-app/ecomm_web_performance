@@ -41,6 +41,11 @@
         font-weight: 500;
         letter-spacing: 1;
         transition: all 0.5s ease;
+        &:hover{
+            background: transparent;
+            color: #7d7f85;
+            border: 1px solid #7d7f85;
+        }
     }
 
 
