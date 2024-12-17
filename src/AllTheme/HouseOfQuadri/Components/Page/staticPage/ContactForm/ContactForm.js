@@ -2,42 +2,82 @@ import React, { useEffect, useState } from "react";
 import "./ContactForm.scss";
 import { TextField } from "@mui/material";
 import { toast } from "react-toastify";
+import { BespokeAPI } from "../../../../../../utils/API/Bespoke/BespokeAPI";
 const ContactForm = () => {
-  const [form, setform] = useState({
-    name: "",
-    email: "",
-    message: "",
+  const [loading, setLoading] = useState(false);
+
+  const [formData, setFormData] = useState({
+    FullName: '',
+    EmailId: '',
+    Be_In_Message: '',
+    Themeno: '7'
   });
 
-  const HandleContactForm = (e) => {
-    const { name, value } = e?.target;
-    setform((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+    setErrors({
+      ...errors,
+      [name]: ''
+    });
   };
 
-  const handleformsubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-    
-      toast.success(`Submitted Successfully! `);
-      setform({
-        name: "",
-        email: "",
-        message: "",
+    const errors = {};
+    if (!formData.FullName) {
+      errors.FullName = 'Please enter your full name';
+    }
+    if (!formData.EmailId) {
+      errors.EmailId = 'Please enter your email address';
+    } else if (!/\S+@\S+\.\S+/.test(formData.EmailId)) {
+      errors.EmailId = 'Please enter a valid email address';
+    }
+    if (!formData.Be_In_Message) {
+      errors.Be_In_Message = 'Please enter your message';
+    }
+
+    if (Object.keys(errors).length === 0) {
+      setLoading(true);
+      await BespokeAPI(formData).then((res) => {
+        if (res?.stat_msg === 'success') {
+          toast.success("Got it! We've received your query. We'll be in touch shortly.")
+          setLoading(false);
+          window.scroll({
+            top: 0,
+            behavior: "smooth",
+          });
+        } else {
+          toast.error("Something went wrong");
+          setLoading(false);
+          window.scroll({
+            top: 0,
+            behavior: "smooth",
+          });
+        }
+      })
+      setFormData({
+        FullName: '',
+        EmailId: '',
+        Be_In_Message: '',
+        Themeno: '7'
       });
-    } catch (error) {
-      console.log(error);
-      toast.error(`SomeThing Went Wrong! `);
+    } else {
+      setErrors(errors);
     }
   };
-  useEffect(()=>{
+
+  useEffect(() => {
     window.scrollTo({
-      behavior  :"smooth",
-      top : 0
+      behavior: "smooth",
+      top: 0
     })
-  },[])
+  }, [])
 
   return (
     <div className="hoq_contactfrom">
@@ -58,42 +98,41 @@ const ContactForm = () => {
       <div className="contact_from">
         <h1>Contact us</h1>
         <div className="layout">
-          <form onSubmit={handleformsubmit}>
+          <form onSubmit={handleSubmit}>
             <div className="input">
               <div className="box_input">
                 <label htmlFor="name">Name</label>
                 <input
-                  onChange={(e) => HandleContactForm(e)}
-                  type="text"
-                  id="name"
-                  name="name"
-                  required
-                  value={form?.name}
+                  type='text'
+                  name='FullName'
+                  value={formData.FullName}
+                  onChange={handleChange}
                 />
+                {errors.FullName && <p className='error'>{errors.FullName}</p>}
               </div>
               <div className="box_input">
                 <label htmlFor="email">Email</label>
                 <input
-                  onChange={(e) => HandleContactForm(e)}
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  value={form?.email}
+                  type='email'
+                  name='EmailId'
+                  value={formData.EmailId}
+                  onChange={handleChange}
                 />
+                {errors.EmailId && <p className='error'>{errors.EmailId}</p>}
               </div>
             </div>
             <div className="textarea">
               <label htmlFor="msg">Message</label>
               <textarea
-                onChange={(e) => HandleContactForm(e)}
-                value={form?.message}
-                id="msg"
-                name="message"
-              ></textarea>
+                type='text'
+                name='Be_In_Message'
+                value={formData.Be_In_Message}
+                onChange={handleChange}
+              />
+              {errors.Be_In_Message && <p className='error'>{errors.Be_In_Message}</p>}
             </div>
             <div className="btn_form">
-              <button>Send</button>
+              <button type="submit" disabled={loading === true}>{loading === true ? 'Sending' : 'Send'}</button>
             </div>
           </form>
         </div>

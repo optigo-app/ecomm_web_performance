@@ -1411,6 +1411,7 @@ const DynamicCollection = () => {
                   value={selectedMetalId}
                   onChange={(e) => {
                     setSelectedMetalId(e.target.value);
+                    setCurrentPage(1);
                   }}
                 >
                   {metalTypeCombo?.map((metalele) => (
@@ -1451,7 +1452,7 @@ const DynamicCollection = () => {
                   }}
                   className="select"
                   value={selectedDiaId}
-                  onChange={(e) => setSelectedDiaId(e.target.value)}
+                  onChange={(e) => { setSelectedDiaId(e.target.value); setCurrentPage(1) }}
                 >
                   {diamondQualityColorCombo?.map((diaQc) => (
                     <option
@@ -2374,33 +2375,41 @@ const C_Card = ({
         style={{ border: "none" }}
         onMouseOver={() => setisHover(true)}
         onMouseOut={() => setisHover(false)}
-        onMouseLeave={() => setisHover(false)}
       >
-        {isHover && (videoUrl !== undefined || rollUpImage !== undefined) ? (
+        {isHover && (videoUrl || rollUpImage) ? (
           <>
-            {videoUrl !== undefined ? (
+            {videoUrl ? (
               <div className="rollup_video">
-                <video src={videoUrl} autoPlay muted loop onError={(e) => e.target.poster = "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"}></video>
+                <video
+                  src={videoUrl}
+                  autoPlay
+                  muted
+                  loop
+                  onError={(e) => (e.target.poster = "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg")}
+                />
               </div>
             ) : null}
 
-            {videoUrl === undefined && rollUpImage !== undefined ? (
+            {!videoUrl && rollUpImage ? (
               <div className="rollup_img">
-                <img src={rollUpImage} alt="Roll Up Image" onError={(e) => e.target.src = "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"} />
+                <img
+                  src={rollUpImage}
+                  alt="Roll Up Image"
+                  onError={(e) => (e.target.src = "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg")}
+                />
               </div>
             ) : null}
           </>
-        ) : null}
-
-        <img
-          src={img}
-          alt=""
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src =
-              "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-          }}
-        />
+        ) : (
+          <img
+            src={img}
+            alt=""
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+            }}
+          />
+        )}
       </div>
       {/* <div
         className="hoq_cart_and_wishlist_icon"
