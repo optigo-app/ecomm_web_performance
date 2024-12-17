@@ -603,10 +603,11 @@ const Lookbook = () => {
         parseDesignDetails(slide?.Designdetail).map(async (detail) => {
           const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`;
           // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
-          const isAvailable = await checkImageAvailability(designImageUrl);
+          // const isAvailable = await checkImageAvailability(designImageUrl);
           return {
             designno: detail?.designno,
-            src: isAvailable ? designImageUrl : imageNotFound,
+            src: designImageUrl,
+            // src: isAvailable ? designImageUrl : imageNotFound,
           };
         })
       );

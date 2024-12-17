@@ -171,7 +171,6 @@ const ProductList = () => {
     setSelectedCsId(csid);
   }, []);
 
-  console.log("selectedMetalId", selectedMetalId);
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
@@ -246,14 +245,17 @@ const ProductList = () => {
 
   // },[location?.key])
 
+  useEffect(() => {
+    setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
+    setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+    setSelectedCsId(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
+    setSortBySelect('Recommended')
+  }, [location?.key])
+
   const callAllApi = () => {
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
-    let diaQcLocal = JSON.parse(
-      sessionStorage.getItem("diamondQualityColorCombo")
-    );
-    let csQcLocal = JSON.parse(
-      sessionStorage.getItem("ColorStoneQualityColorCombo")
-    );
+    let diaQcLocal = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
+    let csQcLocal = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
     let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
 
     if (!mtTypeLocal || mtTypeLocal?.length === 0) {
@@ -263,10 +265,12 @@ const ProductList = () => {
             let data = response?.Data?.rd;
             sessionStorage.setItem("metalTypeCombo", JSON.stringify(data));
             setMetalTypeCombo(data);
+
           }
         })
         .catch((err) => console.log(err));
-    } else {
+    }
+    else {
       setMetalTypeCombo(mtTypeLocal);
     }
 
@@ -275,15 +279,13 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            sessionStorage.setItem(
-              "diamondQualityColorCombo",
-              JSON.stringify(data)
-            );
+            sessionStorage.setItem("diamondQualityColorCombo", JSON.stringify(data));
             setDiaQcCombo(data);
           }
         })
         .catch((err) => console.log(err));
-    } else {
+    }
+    else {
       setDiaQcCombo(diaQcLocal);
     }
 
@@ -292,15 +294,13 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            sessionStorage.setItem(
-              "ColorStoneQualityColorCombo",
-              JSON.stringify(data)
-            );
+            sessionStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data));
             setCsQcCombo(data);
           }
         })
         .catch((err) => console.log(err));
-    } else {
+    }
+    else {
       setCsQcCombo(csQcLocal);
     }
 
@@ -1042,36 +1042,33 @@ const ProductList = () => {
   const handleImgRollover = async (pd) => {
     if (pd?.images?.length >= 1) {
       const imageUrl = pd?.images[1];
-      const isImageAvailable = await checkImageAvailability(imageUrl);
-      // setRolloverImgPd((prev) => pd?.images[1])
-      if (isImageAvailable) {
+
+      // const isImageAvailable = await checkImageAvailability(imageUrl);
+
+      if (imageUrl) {
         setRolloverImgPd((prev) => {
-          return { [pd?.autocode]: pd?.images[1] };
+          return { [pd?.autocode]: imageUrl };
         });
       } else {
         setRolloverImgPd((prev) => {
-          return { [pd?.autocode]: imageNotFound };
+          return { [pd?.autocode]: pd?.images[0] };
         });
       }
     }
   };
 
+
   const handleLeaveImgRolloverImg = async (pd) => {
     if (pd?.images?.length > 0) {
       // setRolloverImgPd((prev) => pd?.images[0] )
       const imageUrl = pd?.images[0];
-      const isImageAvailable = await checkImageAvailability(imageUrl);
-      if (isImageAvailable) {
-        setRolloverImgPd((prev) => {
-          return { [pd?.autocode]: pd?.images[0] };
-        });
-      } else {
-        setRolloverImgPd((prev) => {
-          return { [pd?.autocode]: imageNotFound };
-        });
+      // const isImageAvailable = await checkImageAvailability(imageUrl);
+      if (imageUrl) {
+        setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[0] } })
       }
     }
   };
+
 
   const handleBreadcums = (mparams) => {
     let key = Object?.keys(mparams);
@@ -2925,6 +2922,9 @@ const ProductList = () => {
                                               loop={true}
                                               autoPlay={true}
                                               className="mala_productCard_video"
+                                              onError={(e) => {
+                                                e.target.poster = imageNotFound
+                                              }}
                                             // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
                                             />
                                           ) : (
@@ -2936,10 +2936,13 @@ const ProductList = () => {
                                               src={
                                                 rollOverImgPd[productData?.autocode]
                                                   ? rollOverImgPd[productData?.autocode]
-                                                  : isAvailable
-                                                    ? productData?.images[0]
-                                                    : isAvailable === undefined ? <ProductCard_Skeleton /> : imageNotFound
+                                                  : productData?.images[0]
+                                                    // ? productData?.images[0]
+                                                    // : isAvailable === undefined ? <ProductCard_Skeleton /> : imageNotFound
                                               }
+                                              onError={(e) => {
+                                                e.target.src = imageNotFound
+                                              }}
                                               // {old}
                                               // src={
                                               //   rollOverImgPd[productData?.autocode]

@@ -73,11 +73,11 @@ const BrandsComponent = () => {
   return (
     <div id="brandsComponentID" className="smr_brandsComponentsDiv">
       {/* For kayra */}
-      {/* <p className="smr_brandsCompoents">Participation In Exhibitions</p> */}
+      <p className="smr_brandsCompoents">Participation In Exhibitions</p>
       {/* For miora */}
       {/* <p className="smr_brandsCompoents">In Affiliation With</p> */}
       {/* For Sonasons */}
-      <p className="smr_brandsCompoents">Introducing our exclusive brands</p>
+      {/* <p className="smr_brandsCompoents">Introducing our exclusive brands</p> */}
       <Marquee
         className="smr_brandsComponentClass"
         gradient={false}
@@ -85,7 +85,7 @@ const BrandsComponent = () => {
         pauseOnHover={true}
       // style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
-        {SonasonslogoElements}
+        {KayralogoElements}
       </Marquee>
     </div>
   );

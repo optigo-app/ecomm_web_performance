@@ -223,6 +223,12 @@ const ProductList = () => {
 
   // },[location?.key])
 
+  useEffect(() => {
+    setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
+    setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+    setSelectedCsId(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
+    setSortBySelect('Recommended')
+  }, [location?.key])
 
   const callAllApi = () => {
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
@@ -939,19 +945,18 @@ const ProductList = () => {
     });
   }
 
+
   const handleImgRollover = async (pd) => {
     if (pd?.images?.length >= 1) {
       const imageUrl = pd?.images[1];
 
-      try {
-        const isImageAvailable = await checkImageAvailability(imageUrl);
+      // const isImageAvailable = await checkImageAvailability(imageUrl);
 
-        if (isImageAvailable) {
-          setRolloverImgPd((prev) => {
-            return { [pd?.autocode]: imageUrl };
-          });
-        }
-      } catch (error) {
+      if (imageUrl) {
+        setRolloverImgPd((prev) => {
+          return { [pd?.autocode]: imageUrl };
+        });
+      } else {
         setRolloverImgPd((prev) => {
           return { [pd?.autocode]: pd?.images[0] };
         });
@@ -964,13 +969,12 @@ const ProductList = () => {
     if (pd?.images?.length > 0) {
       // setRolloverImgPd((prev) => pd?.images[0] )
       const imageUrl = pd?.images[0];
-      const isImageAvailable = await checkImageAvailability(imageUrl);
-      if (isImageAvailable) {
+      // const isImageAvailable = await checkImageAvailability(imageUrl);
+      if (imageUrl) {
         setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[0] } })
       }
     }
   };
-
 
   const handleBreadcums = (mparams) => {
 
@@ -2625,9 +2629,7 @@ const ProductList = () => {
                                                   src={
                                                     rollOverImgPd[productData?.autocode]
                                                       ? rollOverImgPd[productData?.autocode]
-                                                      : isAvailable
-                                                        ? productData?.images[0]
-                                                        : imageNotFound
+                                                      : productData?.images[0]
                                                   }
                                                   onError={(e) => {
                                                     e.target.src = imageNotFound
@@ -3008,22 +3010,22 @@ const GivaFilterMenu = ({
     { value: "PRICE HIGH TO LOW", label: "Price High To Low" },
     { value: "PRICE LOW TO HIGH", label: "Price Low To High" },
   ];
-  useEffect(() => {
-    // Function to handle outside click
-    const handleOutsideClick = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setshowMenu(-1); // Close the menu if clicked outside
-      }
-    };
+  // useEffect(() => {
+  //   // Function to handle outside click
+  //   const handleOutsideClick = (e) => {
+  //     if (menuRef.current && !menuRef.current.contains(e.target)) {
+  //       setshowMenu(-1); // Close the menu if clicked outside
+  //     }
+  //   };
 
-    // Add the event listener
-    document.addEventListener('mousedown', handleOutsideClick);
+  //   // Add the event listener
+  //   document.addEventListener('mousedown', handleOutsideClick);
 
-    // Cleanup the event listener when the component unmounts
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
+  //   // Cleanup the event listener when the component unmounts
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleOutsideClick);
+  //   };
+  // }, []);
 
   return (
     <>
@@ -3041,7 +3043,7 @@ const GivaFilterMenu = ({
                 <Typography
                   sx={{ fontSize: "15px", cursor: 'pointer', position: 'relative', zIndex: '1' }}
                   className="fmg_menu"
-                // onClick={() => HandleMenu(1)}
+                  onClick={() => HandleMenu(1)}
                 >
                   {showMenu === 1 && <div className="span"
                     style={{
@@ -3056,7 +3058,7 @@ const GivaFilterMenu = ({
                   </div>}
                   <Badge
                     badgeContent={totalSelected}
-                    onClick={() => HandleMenu(1)}
+                    // onClick={() => HandleMenu(1)}
                     sx={{
                       '& .MuiBadge-badge': {
                         color: "#fff",
@@ -3076,7 +3078,7 @@ const GivaFilterMenu = ({
                   <ExpandMoreIcon
                     className="fmg_icon"
                     sx={{ cursor: 'pointer' }}
-                    onClickCapture={() => HandleMenu(1)}
+                    // onClickCapture={() => HandleMenu(1)}
                     onClick={() => HandleMenu(1)}
                   />
                 </Typography>
@@ -3375,7 +3377,7 @@ const GivaFilterMenu = ({
                     <ExpandMoreIcon
                       className="fmg_icon"
                       sx={{ cursor: 'pointer' }}
-                      onClickCapture={() => HandleMenu(2)}
+                      // onClickCapture={() => HandleMenu(2)}
                       onClick={() => HandleMenu(2)}
                     />{" "}
                   </Typography>
@@ -3431,7 +3433,7 @@ const GivaFilterMenu = ({
                     <ExpandMoreIcon
                       className="fmg_icon"
                       sx={{ cursor: 'pointer' }}
-                      onClickCapture={() => HandleMenu(3)}
+                      // onClickCapture={() => HandleMenu(3)}
                       onClick={() => HandleMenu(3)}
                     />{" "}
                   </Typography>
@@ -3492,7 +3494,7 @@ const GivaFilterMenu = ({
                     <ExpandMoreIcon
                       className="fmg_icon"
                       sx={{ cursor: 'pointer' }}
-                      onClickCapture={() => HandleMenu(4)}
+                      // onClickCapture={() => HandleMenu(4)}
                       onClick={() => HandleMenu(4)}
                     />{" "}
                   </Typography>
@@ -3743,7 +3745,7 @@ const BreadCumView = ({ BreadCumsObj, handleBreadcums, IsBreadCumShow }) => {
                     [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
                   })
                 }
-                
+
               >
                 {location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname}
               </span>
@@ -3757,7 +3759,7 @@ const BreadCumView = ({ BreadCumsObj, handleBreadcums, IsBreadCumShow }) => {
                     [BreadCumsObj()?.FilterKey1]: BreadCumsObj()?.FilterVal1,
                   })
                 }
-                
+
               >
                 &nbsp;{` / ${BreadCumsObj()?.FilterVal1}`}
               </span>
@@ -3772,7 +3774,7 @@ const BreadCumView = ({ BreadCumsObj, handleBreadcums, IsBreadCumShow }) => {
                     [BreadCumsObj()?.FilterKey2]: BreadCumsObj()?.FilterVal2,
                   })
                 }
-               
+
               >
                 &nbsp;{` / ${BreadCumsObj()?.FilterVal2}`}
               </span>

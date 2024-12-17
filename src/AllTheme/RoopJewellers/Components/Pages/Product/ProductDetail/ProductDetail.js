@@ -42,6 +42,7 @@ import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/D
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import { roop_CartCount, roop_WishCount } from "../../../Recoil/atom";
+import { SaveLastViewDesign } from "../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -76,7 +77,7 @@ const ProductDetail = () => {
   const [designSetList, setDesignSetList] = useState();
 
   const [thumbImgIndex, setThumbImgIndex] = useState()
-
+  const [saveLastView, setSaveLastView] = useState();
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
 
@@ -755,6 +756,9 @@ const ProductDetail = () => {
                 setDesignSetList(res?.Data?.rd)
               }).catch((err) => console.log("designsetErr", err))
             }
+            await SaveLastViewDesign(cookie, resp?.pdList[0]?.autocode, resp?.pdList[0]?.designno).then((res) => {
+              setSaveLastView(res?.Data?.rd)
+            }).catch((err) => console.log("saveLastView", err))
           }
         })
         .catch((err) => console.log("err", err))
@@ -2184,11 +2188,12 @@ const ProductDetail = () => {
                   )}
                 </div>
 
-                {(stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
-                  <div className="smr_stockItem_div">
-                    <p className="roop_details_title"> Stock Items </p>
-                    <div className="smr_stockitem_container">
-                      {/* <div className="smr_stock_item_card">
+                {stockItemArr?.length > 0 &&
+                  storeInit?.IsStockWebsite === 1 && stockItemArr?.[0]?.stat_code != 1005 && (
+                    <div className="smr_stockItem_div">
+                      <p className="roop_details_title"> Stock Items </p>
+                      <div className="smr_stockitem_container">
+                        {/* <div className="smr_stock_item_card">
                   {stockItemArr?.map((ele) => (
                     <div className="smr_stockItemCard">
                       <div className="cart_and_wishlist_icon">
@@ -2314,86 +2319,86 @@ const ProductDetail = () => {
                     </div>
                   ))}
                 </div> */}
-                      <table className="Smr_stockItem_table">
-                        <tr className="Smr_stockItem_table_tr">
-                          <th className="Smr_stockItem_table_td">SrNo</th>
-                          <th className="Smr_stockItem_table_td">Design No</th>
-                          {/* <th className="Smr_stockItem_table_td" >StockBarcode</th> */}
-                          <th className="Smr_stockItem_table_td">Job No</th>
-                          <th
-                            className="Smr_stockItem_table_td"
-                            style={{ textAlign: "center" }}
-                          >
-                            Gross Wt/Net Wt/Dia Wt/CS Wt
-                          </th>
-                          <th className="Smr_stockItem_table_td">
-                            Metal Color-Purity
-                          </th>
-                          <th className="Smr_stockItem_table_td">Price</th>
-                          <th className="Smr_stockItem_table_td">
-                            Add To Cart
-                          </th>
-                        </tr>
-                        {stockItemArr?.map((ele, i) => (
+                        <table className="Smr_stockItem_table">
                           <tr className="Smr_stockItem_table_tr">
-                            <td className="Smr_stockItem_table_td">
-                              <span className="smr_prod_designno">
-                                {ele?.SrNo}
-                              </span>
-                            </td>
-                            <td className="Smr_stockItem_table_td">
-                              <span className="smr_prod_designno">
-                                {ele?.designno}
-                              </span>
-                            </td>
-                            <td className="Smr_stockItem_table_td">
-                              <span className="smr_prod_designno">
-                                {ele?.StockBarcode}
-                              </span>
-                            </td>
-                            {/* <td className="Smr_stockItem_table_td">
+                            <th className="Smr_stockItem_table_td">SrNo</th>
+                            <th className="Smr_stockItem_table_td">Design No</th>
+                            {/* <th className="Smr_stockItem_table_td" >StockBarcode</th> */}
+                            <th className="Smr_stockItem_table_td">Job No</th>
+                            <th
+                              className="Smr_stockItem_table_td"
+                              style={{ textAlign: "center" }}
+                            >
+                              Gross Wt/Net Wt/Dia Wt/CS Wt
+                            </th>
+                            <th className="Smr_stockItem_table_td">
+                              Metal Color-Purity
+                            </th>
+                            <th className="Smr_stockItem_table_td">Price</th>
+                            <th className="Smr_stockItem_table_td">
+                              Add To Cart
+                            </th>
+                          </tr>
+                          {stockItemArr?.map((ele, i) => (
+                            <tr className="Smr_stockItem_table_tr">
+                              <td className="Smr_stockItem_table_td">
+                                <span className="smr_prod_designno">
+                                  {ele?.SrNo}
+                                </span>
+                              </td>
+                              <td className="Smr_stockItem_table_td">
+                                <span className="smr_prod_designno">
+                                  {ele?.designno}
+                                </span>
+                              </td>
+                              <td className="Smr_stockItem_table_td">
+                                <span className="smr_prod_designno">
+                                  {ele?.StockBarcode}
+                                </span>
+                              </td>
+                              {/* <td className="Smr_stockItem_table_td">
                         <span className="smr_prod_designno">
                         {ele?.JobNo}
                         </span>
                       </td> */}
-                            <td className="Smr_stockItem_table_td">
-                              <div className="smr_prod_Allwt">
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    letterSpacing: "1px",
-                                    gap: "3px",
-                                  }}
-                                >
-                                  {storeInit?.IsGrossWeight == 1 &&
-                                    Number(ele?.GrossWt) !== 0 && (
-                                      <>
-                                        <span className="smr_prod_wt">
-                                          <span className="smr_d_keys">
-                                            GWT:
+                              <td className="Smr_stockItem_table_td">
+                                <div className="smr_prod_Allwt">
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      letterSpacing: "1px",
+                                      gap: "3px",
+                                    }}
+                                  >
+                                    {storeInit?.IsGrossWeight == 1 &&
+                                      Number(ele?.GrossWt) !== 0 && (
+                                        <>
+                                          <span className="smr_prod_wt">
+                                            <span className="smr_d_keys">
+                                              GWT:
+                                            </span>
+                                            <span className="smr_d_val">
+                                              {(ele?.GrossWt)?.toFixed(3)}
+                                            </span>
                                           </span>
+                                        </>
+                                      )}
+
+                                    {Number(ele?.NetWt) !== 0 && (
+                                      <>
+                                        <span>|</span>
+                                        <span className="smr_prod_wt">
+                                          <span className="smr_d_keys">NWT:</span>
                                           <span className="smr_d_val">
-                                            {(ele?.GrossWt)?.toFixed(3)}
+                                            {(ele?.NetWt)?.toFixed(3)}
                                           </span>
                                         </span>
                                       </>
                                     )}
 
-                                  {Number(ele?.NetWt) !== 0 && (
-                                    <>
-                                      <span>|</span>
-                                      <span className="smr_prod_wt">
-                                        <span className="smr_d_keys">NWT:</span>
-                                        <span className="smr_d_val">
-                                          {(ele?.NetWt)?.toFixed(3)}
-                                        </span>
-                                      </span>
-                                    </>
-                                  )}
-
-                                  {/* {storeInit?.IsGrossWeight == 1 &&
+                                    {/* {storeInit?.IsGrossWeight == 1 &&
                               Number(ele?.GrossWt) !== 0 && (
                                 <>
                                   <span>|</span>
@@ -2405,113 +2410,113 @@ const ProductDetail = () => {
                                   </span>
                                 </>
                               )} */}
-                                  {storeInit?.IsDiamondWeight == 1 &&
-                                    Number(ele?.DiaWt) !== 0 && (
-                                      <>
-                                        <span>|</span>
-                                        <span className="smr_prod_wt">
-                                          <span className="smr_d_keys">
-                                            DWT:
+                                    {storeInit?.IsDiamondWeight == 1 &&
+                                      Number(ele?.DiaWt) !== 0 && (
+                                        <>
+                                          <span>|</span>
+                                          <span className="smr_prod_wt">
+                                            <span className="smr_d_keys">
+                                              DWT:
+                                            </span>
+                                            <span className="smr_d_val">
+                                              {(ele?.DiaWt)?.toFixed(3)}
+                                              {storeInit?.IsDiamondPcs === 1
+                                                ? `/${ele?.DiaPcs}`
+                                                : null}
+                                            </span>
                                           </span>
-                                          <span className="smr_d_val">
-                                            {(ele?.DiaWt)?.toFixed(3)}
-                                            {storeInit?.IsDiamondPcs === 1
-                                              ? `/${ele?.DiaPcs}`
-                                              : null}
-                                          </span>
-                                        </span>
-                                      </>
-                                    )}
+                                        </>
+                                      )}
 
-                                  {storeInit?.IsStoneWeight == 1 &&
-                                    Number(ele?.CsWt) !== 0 && (
-                                      <>
-                                        <span>|</span>
-                                        <span className="smr_prod_wt">
-                                          <span className="smr_d_keys">
-                                            CWT:
+                                    {storeInit?.IsStoneWeight == 1 &&
+                                      Number(ele?.CsWt) !== 0 && (
+                                        <>
+                                          <span>|</span>
+                                          <span className="smr_prod_wt">
+                                            <span className="smr_d_keys">
+                                              CWT:
+                                            </span>
+                                            <span className="smr_d_val">
+                                              {(ele?.CsWt)?.toFixed(3)}
+                                              {storeInit?.IsStonePcs === 1
+                                                ? `/${ele?.CsPcs}`
+                                                : null}
+                                            </span>
                                           </span>
-                                          <span className="smr_d_val">
-                                            {(ele?.CsWt)?.toFixed(3)}
-                                            {storeInit?.IsStonePcs === 1
-                                              ? `/${ele?.CsPcs}`
-                                              : null}
-                                          </span>
-                                        </span>
-                                      </>
-                                    )}
+                                        </>
+                                      )}
+                                  </div>
                                 </div>
-                              </div>
-                            </td>
-                            <td className="Smr_stockItem_table_td">
-                              {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="smr_stockItem_price_type_mt"> */}
-                              <span>
-                                {ele?.MetalColorName}-{ele?.metaltypename}
-                                {ele?.metalPurity}
-                                {/* {" "}/{" "} */}
-                              </span>
-                              {/* </div> */}
-                            </td>
-                            <td className="Smr_stockItem_table_td">
-                              <span>
-                                <span className="smr_currencyFont">
-                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </td>
+                              <td className="Smr_stockItem_table_td">
+                                {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="smr_stockItem_price_type_mt"> */}
+                                <span>
+                                  {ele?.MetalColorName}-{ele?.metaltypename}
+                                  {ele?.metalPurity}
+                                  {/* {" "}/{" "} */}
                                 </span>
-                                &nbsp;
-                                <span> {
-                                  formatter.format(
-                                    ele?.Amount
-                                  )
-                                }</span>
-                              </span>
-                            </td>
-                            <td
-                              className="Smr_stockItem_table_td"
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                border: 'none'
-                              }}
-                            >
-                              <Checkbox
-                                icon={
-                                  <LocalMallOutlinedIcon
-                                    sx={{
-                                      fontSize: "22px",
-                                      color: "#7d7f85",
-                                      opacity: ".7",
-                                    }}
-                                  />
-                                }
-                                checkedIcon={
-                                  <LocalMallIcon
-                                    sx={{
-                                      fontSize: "22px",
-                                      color: "#009500",
-                                    }}
-                                  />
-                                }
-                                disableRipple={false}
-                                sx={{ padding: "10px" }}
-                                onChange={(e) =>
-                                  handleCartandWish(e, ele, "Cart")
-                                }
-                                checked={
-                                  cartArr[ele?.StockId] ?? ele?.IsInCart === 1
-                                    ? true
-                                    : false
-                                }
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                      </table>
+                                {/* </div> */}
+                              </td>
+                              <td className="Smr_stockItem_table_td">
+                                <span>
+                                  <span className="smr_currencyFont">
+                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                  </span>
+                                  &nbsp;
+                                  <span> {
+                                    formatter.format(
+                                      ele?.Amount
+                                    )
+                                  }</span>
+                                </span>
+                              </td>
+                              <td
+                                className="Smr_stockItem_table_td"
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  border: 'none'
+                                }}
+                              >
+                                <Checkbox
+                                  icon={
+                                    <LocalMallOutlinedIcon
+                                      sx={{
+                                        fontSize: "22px",
+                                        color: "#7d7f85",
+                                        opacity: ".7",
+                                      }}
+                                    />
+                                  }
+                                  checkedIcon={
+                                    <LocalMallIcon
+                                      sx={{
+                                        fontSize: "22px",
+                                        color: "#009500",
+                                      }}
+                                    />
+                                  }
+                                  disableRipple={false}
+                                  sx={{ padding: "10px" }}
+                                  onChange={(e) =>
+                                    handleCartandWish(e, ele, "Cart")
+                                  }
+                                  checked={
+                                    cartArr[ele?.StockId] ?? ele?.IsInCart === 1
+                                      ? true
+                                      : false
+                                  }
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                        </table>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
                 {storeInit?.IsProductDetailSimilarDesign == 1 &&
-                  SimilarBrandArr?.length > 0 && (
+                  SimilarBrandArr?.length > 0 && SimilarBrandArr?.[0]?.stat_code != 1005 && (
                     <div className="smr_stockItem_div">
                       <p className="roop_details_title"> Similar Designs</p>
                       <div className="smr_stockitem_container">
@@ -2587,7 +2592,7 @@ const ProductDetail = () => {
 
                 {storeInit?.IsProductDetailDesignSet === 1 &&
                   <div className="smr_DesignSet_main">
-                    {designSetList?.length > 0 && <div
+                    {designSetList?.length > 0 && designSetList?.[0]?.stat_code != 1005 && <div
                       style={{
                         display: "flex",
                         justifyContent: "center",

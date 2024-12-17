@@ -9,11 +9,11 @@
     border-collapse: collapse;
 }
 
-.salesReport *{
+.salesReport * {
     font-size: 12px !important;
 }
 
-.salesReport svg{
+.salesReport svg {
     font-size: 20px !important;
 }
 
@@ -72,29 +72,39 @@
     margin-bottom: 20px !important;
 }
 
-@media(max-width: 768px){
-    .salesReport .MuiTablePagination-root{
+.jobSalesReport {
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    scrollbar-width: thin;
+    ms-overflow-style: none
+}
+
+@media(max-width: 768px) {
+    .salesReport .MuiTablePagination-root {
         padding-bottom: 0 !important;
         max-height: 50px;
-    } 
+    }
+
     .salesReport .MuiTablePagination-root .MuiTablePagination-toolbar {
         padding: 0 10px;
     }
 
-    .salesReport .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input{
+    .salesReport .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input {
         margin-right: 5px;
     }
 
-    .salesReport .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input div[role="combobox"]{
+    .salesReport .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input div[role="combobox"] {
         padding-left: 0;
         margin-left: -5px;
     }
 
-    .salesReport .MuiTablePagination-root .MuiTablePagination-actions{
+    .salesReport .MuiTablePagination-root .MuiTablePagination-actions {
         margin-left: 5px;
     }
-    
-    .salesReport .MuiTablePagination-root .MuiTablePagination-actions button{
+
+    .salesReport .MuiTablePagination-root .MuiTablePagination-actions button {
         padding-right: 0;
     }
 }
@@ -205,7 +215,7 @@
         overflow: auto !important;
     }
 
-    .salesReporttableWeb table tbody tr td{
+    .salesReporttableWeb table tbody tr td {
         text-align: start !important;
     }
 
@@ -261,41 +271,49 @@
 
 }
 
-@media screen and (max-width:880px){
-    .full_width_SP_table{
+@media screen and (max-width:880px) {
+    .full_width_SP_table {
         width: 100% !important;
         display: flex;
         justify-content: center;
     }
 }
-.grosswt_toggle{
+
+.grosswt_toggle {
     display: none;
 }
-.grosswt_toggle2{
+
+.grosswt_toggle2 {
     display: none;
 }
-@media screen and (min-width:451px) and (max-width:680px){
-    .grosswt_toggle{
+
+@media screen and (min-width:451px) and (max-width:680px) {
+    .grosswt_toggle {
         display: block !important;
     }
-    .mb20_hoq_sp{
+
+    .mb20_hoq_sp {
         margin-bottom: 20px !important;
     }
 }
-@media screen and (max-width:450px){
-    .grosswt_toggle2{
+
+@media screen and (max-width:450px) {
+    .grosswt_toggle2 {
         display: block !important;
     }
-    .mb20_hoq_sp{
+
+    .mb20_hoq_sp {
         margin-bottom: 7px !important;
     }
 }
-@media screen and (max-width:740px){
-    .sptable_hoq{
+
+@media screen and (max-width:740px) {
+    .sptable_hoq {
         width: 100% !important;
         padding-left: 5px;
         padding-right: 5px;
         overflow-x: scroll !important;
     }
 }
+
 // }

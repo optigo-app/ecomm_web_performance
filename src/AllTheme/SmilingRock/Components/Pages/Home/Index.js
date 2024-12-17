@@ -39,21 +39,21 @@ function Home() {
     setCSSVariable();
   }, []);
 
-  useEffect(() => {
-    fetch(`${storInitDataPath()}/StoreInit.json`)
-      .then((response) => response.text())
-      .then((text) => {
-        try {
-          const jsonData = JSON?.parse(text);
-          setHtmlContent(jsonData);
-        } catch (error) {
-          console.error("Error parsing JSON:", error);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching the file:", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(`${storInitDataPath()}/StoreInit.json`)
+  //     .then((response) => response.text())
+  //     .then((text) => {
+  //       try {
+  //         const jsonData = JSON?.parse(text);
+  //         setHtmlContent(jsonData);
+  //       } catch (error) {
+  //         console.error("Error parsing JSON:", error);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching the file:", error);
+  //     });
+  // }, []);
 
   const setCSSVariable = () => {
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
@@ -66,11 +66,13 @@ function Home() {
 
   return (
     <>
-      {htmlContent?.rd && htmlContent?.rd.length > 0 &&
+      {/* {htmlContent?.rd && htmlContent?.rd.length > 0 && */}
+      {localData?.YearCode !== "" &&
         (
           <div className="smiling_home_index_main">
             <div style={{ backgroundColor: "white" }}>
-              {htmlContent?.rd[0]?.Blockno === 1 && (
+              {/* {htmlContent?.rd[0]?.Blockno === 1 && ( */}
+              {localData?.Blockno === 1 && (
                 <div className="smiling_home_index_Submain">
                   <TopSection />
                   <TheDifference />
@@ -86,16 +88,17 @@ function Home() {
               )}
             </div>
             <div style={{ backgroundColor: "white" }}>
-              {htmlContent?.rd[0]?.Blockno === 2 && (
+              {/* {htmlContent?.rd[0]?.Blockno === 2 && ( */}
+              {localData?.Blockno === 2 && (
                 <div className="smiling_home_index_Submain">
                   <TopSection />
                   <TheDifference />
                   <PromotionBaner2 />
-                  {htmlContent?.rd[0]?.IsHomeAlbum === 1 && <Album1 />}
-                  {htmlContent?.rd[0]?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
-                  {htmlContent?.rd[0]?.IsHomeNewArrival === 1 && <NewArrival1 />}
-                  {htmlContent?.rd[0]?.IsHomeTrending === 1 && <TrendingView1 />}
-                  {htmlContent?.rd[0]?.IsHomeDesignSet === 1 && <DesignSet1 />}
+                  {localData?.IsHomeAlbum === 1 && <Album1 />}
+                  {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
+                  {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
+                  {localData?.IsHomeTrending === 1 && <TrendingView1 />}
+                  {localData?.IsHomeDesignSet === 1 && <DesignSet1 />}
                   {isLoadingHome == true ?
                     <div className="smrHome_loader_container">
                       <div className="smrHome_loader"></div>
@@ -121,7 +124,7 @@ function Home() {
                   fontSize: "13px",
                   fontWeight: 500,
                   letterSpacing: "1px",
-                  whiteSpace  :"nowrap"
+                  whiteSpace: "nowrap"
                 }}
                 onClick={() =>
                   window.scrollTo({

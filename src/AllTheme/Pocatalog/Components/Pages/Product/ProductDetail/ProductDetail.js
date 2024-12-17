@@ -131,7 +131,7 @@ const ProductDetail = () => {
 
   const maxwidth1023px = useMediaQuery('(max-width: 1023px)')
 
-  console.log(Almacarino,"Almacarino")
+  console.log(Almacarino, "Almacarino")
 
   useEffect(() => {
     setCSSVariable();
@@ -719,15 +719,25 @@ const ProductDetail = () => {
       //   csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
       // }
 
+      let obj1 = {
+        mt: logininfoInside?.MetalId ?? storeinitInside?.MetalId,
+        diaQc: diaArr
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+        csQc: csArr
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
+      };
+
       let obj = {
         mt: metalArr
           ? metalArr
           : logininfoInside?.MetalId ?? storeinitInside?.MetalId,
         diaQc: diaArr
-          ? `${diaArr?.QualityId},${diaArr?.ColorId}`
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
           : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
         csQc: csArr
-          ? `${csArr?.QualityId},${csArr?.ColorId}`
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
           : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
       };
 
@@ -811,7 +821,7 @@ const ProductDetail = () => {
             }
 
             if (storeinitInside?.IsProductDetailDesignSet === 1) {
-              await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie)
+              await DesignSetListAPI(obj1, resp?.pdList[0]?.designno, cookie)
                 .then((res) => {
                   // console.log("designsetList",res?.Data?.rd[0])
                   setDesignSetList(res?.Data?.rd);
@@ -2764,7 +2774,7 @@ const ProductDetail = () => {
                                 }}
                               >
                                 <span className="smr_prod_designno">
-                                  {ele?.designno + '  ' +  '('+ ele?.StockBarcode+ ')'}
+                                  {ele?.designno + '  ' + '(' + ele?.StockBarcode + ')'}
                                 </span>
                                 <div className="smr_prod_Allwt">
                                   <div
@@ -2777,10 +2787,10 @@ const ProductDetail = () => {
                                   >
                                     <span className="smr_prod_wt">
                                       <span className="smr_d_keys" style={{
-                                        fontSize:'12px'
+                                        fontSize: '12px'
                                       }}>NWT:</span>
                                       <span className="smr_d_val" style={{
-                                        fontSize:'12px'
+                                        fontSize: '12px'
                                       }}>
                                         {ele?.NetWt}
                                       </span>
@@ -2790,12 +2800,12 @@ const ProductDetail = () => {
                                       Number(ele?.GrossWt) !== 0 && (
                                         <>
                                           <span style={{
-                                            fontSize:'12px',
-                                            padding:'0 2px'
+                                            fontSize: '12px',
+                                            padding: '0 2px'
                                           }}>|</span>
                                           <span className="smr_prod_wt">
                                             <span className="smr_d_keys" style={{
-                                              fontSize:'12px'
+                                              fontSize: '12px'
                                             }}>
                                               GWT:
                                             </span>
@@ -2809,18 +2819,18 @@ const ProductDetail = () => {
                                       Number(ele?.DiaWt) !== 0 && (
                                         <>
                                           <span style={{
-                                            fontSize:'12px' ,
-                                            padding:'0 2px'
+                                            fontSize: '12px',
+                                            padding: '0 2px'
 
                                           }}>|</span>
                                           <span className="smr_prod_wt">
                                             <span className="smr_d_keys" style={{
-                                              fontSize:'12px'
+                                              fontSize: '12px'
                                             }}>
                                               DWT:
                                             </span>
                                             <span className="smr_d_val" style={{
-                                              fontSize:'12px'
+                                              fontSize: '12px'
                                             }}>
                                               {ele?.DiaWt}
                                               {storeInit?.IsDiamondPcs === 1
@@ -2835,18 +2845,18 @@ const ProductDetail = () => {
                                       Number(ele?.CsWt) !== 0 && (
                                         <>
                                           <span style={{
-                                            fontSize:'12px' ,
-                                            padding:'0 2px'
+                                            fontSize: '12px',
+                                            padding: '0 2px'
 
                                           }}>|</span>
                                           <span className="smr_prod_wt">
                                             <span className="smr_d_keys" style={{
-                                              fontSize:'12px'
+                                              fontSize: '12px'
                                             }}>
                                               CWT:
                                             </span>
                                             <span className="smr_d_val" style={{
-                                              fontSize:'12px'
+                                              fontSize: '12px'
                                             }}>
                                               {ele?.CsWt}
                                               {storeInit?.IsStonePcs === 1
@@ -2870,13 +2880,13 @@ const ProductDetail = () => {
                                   {storeInit?.IsMetalTypeWithColor == 1
                                     ? `${ele?.metalPurity}-${ele?.MetalColorName}`
                                     : ""}{" "}
-                                 <span style={{
-                                  padding:"0 4px"
-                                 }}>/</span>
+                                  <span style={{
+                                    padding: "0 4px"
+                                  }}>/</span>
                                   {storeInit?.IsPriceShow == 1 && (
                                     <div style={{
-                                      fontWeight:'600',
-                                                                    }}>
+                                      fontWeight: '600',
+                                    }}>
                                       {isPriceloading ? (
                                         ""
                                       ) : (

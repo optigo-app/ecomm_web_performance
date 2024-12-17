@@ -164,8 +164,8 @@ const ProductGrid = () => {
         const validatedData = await Promise.all(
             bestSellerData.map(async (item) => {
                 const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
-                const validatedURL = await checkImageAvailability(imageURL);
-                return { ...item, validatedImageURL: validatedURL };
+                // const validatedURL = await checkImageAvailability(imageURL);
+                return { ...item, validatedImageURL: imageURL };
             })
         );
         setValidatedData(validatedData);
@@ -231,6 +231,9 @@ const ProductGrid = () => {
                                                     imageNotFound
                                                 }
                                                 alt={data.name}
+                                                onError={(e) => {
+                                                    e.target.src = imageNotFound;
+                                                }}
                                             />
                                         </div>
                                         <div className="product-info">

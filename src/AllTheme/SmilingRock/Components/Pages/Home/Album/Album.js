@@ -3,6 +3,7 @@ import "./Album.modul.scss";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { loginState, smr_loginState } from "../../../Recoil/atom";
 import { useRecoilValue } from "recoil";
 
@@ -53,6 +54,9 @@ const Album = () => {
             <img
               src={imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName}
               className="smr_AlbumImageMain_img"
+              onError={(e) => {
+                e.target.src = imageNotFound
+              }}
             />
             <p className="smr_albumName">{data?.AlbumName}</p>
           </div>

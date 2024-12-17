@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import {  Navigation } from 'swiper/modules';
+import { Navigation } from 'swiper/modules';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
@@ -78,8 +78,8 @@ const TrendingView1 = () => {
 
             const imagePromises = trendingData.map(async (trend) => {
                 const imgSrc = `${storeInit?.CDNDesignImageFol}${trend?.designno}~1.${trend?.ImageExtension}`
-                const validImage = await checkImageAvailability(imgSrc);
-                return { ...trend, src: validImage };
+                // const validImage = await checkImageAvailability(imgSrc);
+                return { ...trend, src: imgSrc };
             });
 
             const images = await Promise.all(imagePromises);
@@ -123,27 +123,27 @@ const TrendingView1 = () => {
         navigation(islogin !== 0 ? url : redirectUrl);
     };
 
-    
-    
-const GenerateWidthBaseOnContent = useCallback(()=>{
-    const length = trendingData  && validImages?.length ;
-    let w ; 
-    if (length === 1) {
-       w = '100%';
-    } else if (length === 2) {
-       w = '100%';
-    } else if (length === 3) {
-       w = '100%';
-    } else if (length > 3) {
-       w = '100%';
-    }
-    return {width:w , length : length}
-  },[trendingData])
-  
 
-  if(trendingData?.length === 0){
-    return ;
-  }
+
+    const GenerateWidthBaseOnContent = useCallback(() => {
+        const length = trendingData && validImages?.length;
+        let w;
+        if (length === 1) {
+            w = '100%';
+        } else if (length === 2) {
+            w = '100%';
+        } else if (length === 3) {
+            w = '100%';
+        } else if (length > 3) {
+            w = '100%';
+        }
+        return { width: w, length: length }
+    }, [trendingData])
+
+
+    if (trendingData?.length === 0) {
+        return;
+    }
 
     return (
         <>
@@ -172,9 +172,9 @@ const GenerateWidthBaseOnContent = useCallback(()=>{
                 {/* <p className="malakan_trend_title">Trending</p> */}
 
                 <div className="malakan_trend_main_sub"
-                style={{
-                    width: GenerateWidthBaseOnContent().width
-                }}
+                    style={{
+                        width: GenerateWidthBaseOnContent().width
+                    }}
                 >
                     <Swiper
                         modules={[Navigation]}
@@ -182,7 +182,7 @@ const GenerateWidthBaseOnContent = useCallback(()=>{
                         navigation={trendingData?.length > 4}
                         // loop={true}
                         style={{
-                            width:'100%'
+                            width: '100%'
                         }}
                         breakpoints={{
                             768: {
@@ -214,6 +214,9 @@ const GenerateWidthBaseOnContent = useCallback(()=>{
                                             loading="lazy"
                                             src={item?.src}
                                             alt={item?.name}
+                                            onError={(e) => {
+                                                e.target.src = imageNotFound
+                                            }}
                                             onClick={() => handleNavigate(item?.designno, item?.autocode, item?.TitleLine)}
                                         />
                                         <p className="malakan_trend_Div_name">{item?.name}</p>

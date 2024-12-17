@@ -957,15 +957,13 @@ const ProductList = () => {
     if (pd?.images?.length >= 1) {
       const imageUrl = pd?.images[1];
 
-      try {
-        const isImageAvailable = await checkImageAvailability(imageUrl);
+      // const isImageAvailable = await checkImageAvailability(imageUrl);
 
-        if (isImageAvailable) {
-          setRolloverImgPd((prev) => {
-            return { [pd?.autocode]: imageUrl };
-          });
-        }
-      } catch (error) {
+      if (imageUrl) {
+        setRolloverImgPd((prev) => {
+          return { [pd?.autocode]: imageUrl };
+        });
+      } else {
         setRolloverImgPd((prev) => {
           return { [pd?.autocode]: pd?.images[0] };
         });
@@ -973,12 +971,17 @@ const ProductList = () => {
     }
   };
 
-  const handleLeaveImgRolloverImg = (pd) => {
+
+  const handleLeaveImgRolloverImg = async (pd) => {
     if (pd?.images?.length > 0) {
       // setRolloverImgPd((prev) => pd?.images[0] )
-      setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[0] } })
+      const imageUrl = pd?.images[0];
+      // const isImageAvailable = await checkImageAvailability(imageUrl);
+      if (imageUrl) {
+        setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[0] } })
+      }
     }
-  }
+  };
 
 
   const handleBreadcums = (mparams) => {

@@ -2,181 +2,197 @@
 // .address_Account_mala{
 
 
-    .mala_muiSmilingRocksBtnManage{
-        /* border: 1px solid #7d7f85 !important; */
-        font-family: "PT Sans", sans-serif !important;
-        font-size: 13.5px !important;
-        font-weight: 600 !important;
-        opacity: .8 !important;
-        margin-left: auto !important;
-        display: block !important;
-        background: $accountBgColor !important;
-        color:$primaryfontcolor !important;
-        border-radius: 2px !important;
+.mala_muiSmilingRocksBtnManage {
+    /* border: 1px solid #7d7f85 !important; */
+    background-color: #17372F !important;
+    color: white;
+    font-family: $primaryFontFamily !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    opacity: .8 !important;
+    margin-left: auto !important;
+    display: block !important;
+    border-radius: 2px !important;
+}
+
+// mala_muiSmilingRocksBtnManage
+
+.manageAddressBlock {
+    border: 1px solid #e9e9ed;
+    padding: 15px 15px 65px 15px;
+    position: relative;
+    height: 100%;
+}
+
+
+.mala_muiSmilingRocksBtnManageEdit {
+    /* border: 1px solid #7d7f85 !important; */
+    background-color: #17372F !important;
+    color: white !important;
+    font-family: $primaryFontFamily !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    opacity: .8 !important;
+    padding: 7px 20px 7px 20px !important;
+    border-radius: 2px !important;
+}
+
+.mala_muiSmilingRocksBtnManage:hover,
+.mala_muiSmilingRocksBtnManageEdit:hover {
+    background: #16493d !important;
+    color: white !important;
+    opacity: .8;
+}
+
+.addressMainSec {
+    gap: 2%;
+}
+
+.AddressSec {
+    width: 32%;
+    min-width: 32%;
+    margin-bottom: 2%;
+}
+
+.manageAddressInputRadio {
+    accent-color: #7d7f85;
+    margin-right: 10px;
+    margin-left: 1px;
+}
+
+.loadingBarManage {
+    color: #7d7f85 !important;
+}
+
+.manageAddressDefault {
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+    /* border: 1px solid rgba(0, 0, 0, 0.35); */
+
+}
+
+.mala_smilingDeleveryformSaveBtn {
+    background-color: #17372F !important;
+    color: white !important;
+    font-family: $primaryFontFamily !important;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    margin-inline: 5px;
+    opacity: .8;
+    padding: 6px 10px;
+    width: 100px;
+}
+
+.mala_smilingDeleveryformCansleBtn {
+    background-color: #17372F !important;
+    color: white !important;
+    font-family: $primaryFontFamily !important;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    margin-inline: 5px;
+    opacity: .8;
+    padding: 6px 10px;
+    width: 100px;
+}
+
+.smilingAddressPopupMain {
+    height: 730px;
+    width: 570px;
+}
+
+
+.labgrowRegister_mala {
+    width: 430px !important;
+}
+
+@media(max-width: 1024px) {
+    .AddressSec {
+        width: 49%;
+        min-width: 49%;
+        /* margin-bottom: 1%; */
     }
-    // mala_muiSmilingRocksBtnManage
-    
-    .manageAddressBlock{
-        border: 1px solid #e9e9ed;
-        padding: 15px 15px 65px 15px;
-        position: relative;
-        height: 100%;
+
+}
+
+@media(max-width: 768px) {
+    .manageAddressSec>div {
+        padding: 0 !important;
     }
-    
-    .mala_muiSmilingRocksBtnManageEdit{
-        /* border: 1px solid #7d7f85 !important; */
-        font-family: "PT Sans", sans-serif !important;
-        font-size: 13.5px !important;
-        font-weight: 700 !important;
-        opacity: .8 !important;
-        padding: 7px 20px 7px 20px !important;
-        background: $accountBgColor !important;
-        color:$primaryfontcolor !important;
-        border-radius: 2px !important;
+
+    .savedAddress {
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
     }
-    .mala_muiSmilingRocksBtnManage:hover, .mala_muiSmilingRocksBtnManageEdit:hover{
-        background: $accountBgColor !important;
-        color:$primaryfontcolor !important;
-        opacity: .8;
+
+    .savedAddressManageBtn {
+        padding: 3px 10px !important;
     }
-    
-    .addressMainSec{
-        gap: 2%;
+}
+
+@media(max-width: 576px) {
+    .AddressSec {
+        width: 100%;
+        min-width: 100%;
     }
-    
-    .AddressSec{
-        width: 32%;
-        min-width: 32%;
-        margin-bottom: 2%;
+
+    .addressMainSec {
+        gap: 0;
     }
-    
-    .manageAddressInputRadio{
-        accent-color: #7d7f85;
-        margin-right: 10px;
-        margin-left: 1px;
+
+    .labgrowRegister_mala {
+        width: 400px !important;
     }
-    
-    .loadingBarManage{
-        color: #7d7f85 !important;
+
+}
+
+@media (max-width:431px),
+(max-width:460px),
+(max-width:490px) {
+    .labgrowRegister_mala {
+        width: 75vw !important;
     }
-    
-    .manageAddressDefault{
-        /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
-        /* border: 1px solid rgba(0, 0, 0, 0.35); */
-    
+}
+
+@media(max-width: 320px), (max-width: 360px), (max-width: 430px) {
+    .AddressSec {
+        width: 100%;
+        min-width: 100%;
     }
-    
-    .mala_smilingDeleveryformSaveBtn{
-        background: $accountBgColor !important;
-        color:$primaryfontcolor !important;
-        border: none;
-        border-radius: 5px;
-        font-family: PT Sans, sans-serif !important;
-        font-weight: 600;
-        margin-inline: 5px;
-        opacity: .8;
-        padding: 6px 10px;
-        width: 100px;
+
+    .addressMainSec {
+        gap: 0;
+        width: 100%;
     }
-    .mala_smilingDeleveryformCansleBtn{
-        background: $accountBgColor !important;
-        color:$primaryfontcolor !important;
-        border: none;
-        border-radius: 5px;
-        font-family: PT Sans, sans-serif !important;
-        font-weight: 600;
-        margin-inline: 5px;
-        opacity: .8;
-        padding: 6px 10px;
-        width: 100px;
+
+    .radioGroupAddressAcc {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
     }
+
     .smilingAddressPopupMain {
-        height: 730px;
-        width: 570px;
-    }
-    
-
-    .labgrowRegister_mala{
-        width: 430px !important;
+        height: 80vh !important;
+        width: 100% !important;
+        padding: 10px;
     }
 
-    @media(max-width: 1024px){
-        .AddressSec{
-            width: 49%;
-            min-width: 49%;
-            /* margin-bottom: 1%; */
-        }
-    
+    .labgrowRegister_mala {
+        width: 75vw !important;
     }
-    
-    @media(max-width: 768px){
-        .manageAddressSec > div{    
-            padding: 0 !important;
-        }
-    
-        .savedAddress{
-            padding-top: 5px !important;
-            padding-bottom: 5px !important;
-        }
-    
-        .savedAddressManageBtn{
-            padding: 3px 10px !important;
-        }
-    }
-    
-    @media(max-width: 576px){
-        .AddressSec{
-            width: 100%;
-            min-width: 100%;
-        }
-    
-        .addressMainSec{
-            gap: 0;
-        }
+}
 
-        .labgrowRegister_mala{
-            width: 400px !important;
-        }
+@media screen and (max-width:320px) {
+    .labgrowRegister_mala {
+        width: 75vw !important;
+    }
+}
 
+@media screen and (max-width:1024px) {
+    .none_addTitleAcc {
+        display: none !important;
     }
-    @media (max-width:431px),(max-width:460px),(max-width:490px){
-        .labgrowRegister_mala{
-            width: 75vw !important;
-        }
-    }
-    @media(max-width: 320px), (max-width: 360px), (max-width: 430px){
-        .AddressSec{
-            width: 100%;
-            min-width: 100%;
-        }
-    
-        .addressMainSec{
-            gap: 0;
-            width: 100%;
-        }
-        .radioGroupAddressAcc{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        .smilingAddressPopupMain {
-            height: 80vh !important;
-            width: 100% !important;
-            padding: 10px;
-        }
-        .labgrowRegister_mala{
-            width: 75vw !important;
-        }
-    }
-    @media screen and (max-width:320px){
-        .labgrowRegister_mala{
-            width: 75vw !important;
-        }
-    }
-    @media screen and (max-width:1024px){
-        .none_addTitleAcc{
-            display: none !important;
-        }
-    }
-    // }
+}
+
+// }

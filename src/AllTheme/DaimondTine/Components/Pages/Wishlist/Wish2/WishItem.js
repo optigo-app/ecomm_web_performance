@@ -91,6 +91,9 @@ const WishItem = ({
                     <img
                         src={imageSrc}
                         alt={item?.name}
+                        onError={(e) => {
+                            e.target.src = noImageFound;
+                        }}
                     />
                 )}
                 <div className="product-details">

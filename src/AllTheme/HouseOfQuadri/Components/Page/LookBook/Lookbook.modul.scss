@@ -745,6 +745,7 @@
     min-height: 800px;
     padding-top: 60px;
     position: relative;
+
     .lpDiv {
       display: flex;
       justify-content: center;
@@ -833,8 +834,8 @@
 
       &:hover {
         cursor: pointer;
-      background-color: #ad0000;
-      transition: 0.2s ease-in-out;
+        background-color: #ad0000;
+        transition: 0.2s ease-in-out;
       }
     }
   }
@@ -873,7 +874,8 @@
 
   .hoq1_lookBookFilterSubDiv {
     margin: 10px 10px 0px 10px;
-    .hoq_bg_main_filter{
+
+    .hoq_bg_main_filter {
       height: fit-content;
       background-color: white;
     }
@@ -993,6 +995,13 @@
     height: 15px;
   }
 
+  .swiper-button-disabled {
+    opacity: 0.5;
+    cursor: pointer;
+    pointer-events: auto;
+    // margin-top: -30px !important;
+  }
+
   .swiper-button-next::after,
   .swiper-button-prev::after {
     font-size: 25px;
@@ -1030,9 +1039,9 @@
       font-weight: 600;
       font-size: 13px;
       color: #fff;
-     border: 1px solid #c20000;
-    border-radius: 0px;
-    background: #c20000;
+      border: 1px solid #c20000;
+      border-radius: 0px;
+      background: #c20000;
     }
 
     .hoq_lookBookPriceShow {
