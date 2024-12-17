@@ -73,7 +73,7 @@ const DesignSet2 = () => {
 
     let data = JSON.parse(sessionStorage.getItem('storeInit'));
     setImageUrl(data?.CDNDesignImageFol);
-    setImageUrlDesignSet(data?.DesignImageFol);
+    setImageUrlDesignSet(data?.CDNDesignImageFol);
 
     Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
       .then((response) => {

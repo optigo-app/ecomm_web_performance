@@ -4,11 +4,14 @@ import Payment from "./Payment";
 import MobileFooter from "./MobileFooter";
 import { Link, useNavigate } from "react-router-dom";
 
-const Footer = ({StoreData}) => {
+const Footer = ({ StoreData }) => {
   const [email, setemail] = useState("");
   const [companyInfoData, setCompanuInfoData] = useState(StoreData);
   const [socialMediaData, setSocialMediaData] = useState([]);
   const [selectedFooteVal, setSelectedVal] = useState(0);
+  const [loading1, setLoading1] = useState(false);
+  console.log('loading1: ', loading1);
+  const [result, setResult] = useState();
   const navigation = useNavigate();
   const [loading, setLoading] = useState(true);
 
@@ -59,42 +62,43 @@ const Footer = ({StoreData}) => {
       }
     };
   }, []);
- 
+
 
   const HandleFormSubmit = async (e) => {
+    setLoading1(true);
     e.preventDefault();
     const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
     const newslater = storeInit?.newslatter;
-    if (newslater) {
+    if (newslater && email) {
       const requestOptions = {
         method: "GET",
         redirect: "follow",
       };
       const newsletterUrl = `${newslater}${email}`;
-      await fetch(newsletterUrl, requestOptions)
-        .then((response) => {
-          response.text();
-        })
-        .then((result) =>result)
-        .catch((error) => console.error(error));
+      fetch(newsletterUrl)
+        .then((response) => response.text())
+        .then((result) => { setResult(result); setLoading1(false) })
+        .catch((error) => setResult(error));
     }
   };
   return (
     <div className="hoq_main_footer">
       <footer className="footer">
         <div className="footer-content">
-          <ContactInformation  socialLinkStr={socialMediaData} companyInfoData={companyInfoData}/>
+          <ContactInformation socialLinkStr={socialMediaData} companyInfoData={companyInfoData} />
           <NewsLetter
             onsubmit={HandleFormSubmit}
             email={email}
             setemail={setemail}
+            loading1={loading1}
+            result={result}
           />
           <Policy />
           <About />
         </div>
         <Copyright />
       </footer>
-      <MobileFooter  socialLinkStr={socialMediaData} companyInfoData={companyInfoData}/>
+      <MobileFooter socialLinkStr={socialMediaData} companyInfoData={companyInfoData} />
     </div>
   );
 };
@@ -153,7 +157,8 @@ const Policy = () => {
     </div>
   );
 };
-const NewsLetter = ({ onsubmit, email, setemail }) => {
+const NewsLetter = ({ onsubmit, email, setemail, loading1, result }) => {
+  const alreadySubs = 'Already Subscribed.';
   return (
     <div className="footer-section">
       <h4>NEWSLETTER</h4>
@@ -171,6 +176,23 @@ const NewsLetter = ({ onsubmit, email, setemail }) => {
         />
         <button type="submit">Subscribe</button>
       </form>
+      {
+        loading1 ? <span className="hoq_error_message" style={{ color: 'black' }}>Loading...</span> : (
+          <>
+            {result && (
+              <span
+                className="hoq_error_message"
+                style={{
+                  color: result === alreadySubs ? "#FF0000" : "#04AF70",
+                  marginTop: "0px",
+                  display: "block",
+                }}
+              >
+                {result}
+              </span>
+            )}
+          </>
+        )}
     </div>
   );
 };
@@ -182,14 +204,14 @@ const Copyright = () => {
     </div>
   );
 };
-const ContactInformation = ({socialLinkStr ,companyInfoData}) => {
+const ContactInformation = ({ socialLinkStr, companyInfoData }) => {
   return (
     <div className="footer-section">
       <h4>CONTACT US</h4>
       <p className="add_hoq_new_kl">
-      {companyInfoData?.FrontEndAddress},
+        {companyInfoData?.FrontEndAddress},
         <br />
-        {companyInfoData?.FrontEndCity} 
+        {companyInfoData?.FrontEndCity}
         <br />
         {companyInfoData?.FrontEndZipCode}
       </p>
@@ -199,30 +221,30 @@ const ContactInformation = ({socialLinkStr ,companyInfoData}) => {
         Email:     {companyInfoData?.FrontEndEmail1}
       </p>
       <div className="social-links">
-      {
-        socialLinkStr?.map((val,i)=>{
-          return <React.Fragment key={i}>
-            <Link
-            key={i}
-          to={val?.SLink}
-          style={{ display: "flex", alignItems: "center", gap: "5px" }}
-          target="_blank"
-        >
-          <img src={val?.SImgPath} alt="" width={15} height={15} style={{
-            mixBlendMode  :"darken"
-          }} />
-          {val?.SName}
-        </Link>
-          </React.Fragment>
-        })
-      }
+        {
+          socialLinkStr?.map((val, i) => {
+            return <React.Fragment key={i}>
+              <Link
+                key={i}
+                to={val?.SLink}
+                style={{ display: "flex", alignItems: "center", gap: "5px" }}
+                target="_blank"
+              >
+                <img src={val?.SImgPath} alt="" width={15} height={15} style={{
+                  mixBlendMode: "darken"
+                }} />
+                {val?.SName}
+              </Link>
+            </React.Fragment>
+          })
+        }
       </div>
     </div>
   );
 };
 
 export default Footer;
-  {/* <Link
+{/* <Link
           to="https://www.facebook.com/"
           style={{ display: "flex", alignItems: "center", gap: "5px" }}
           target="_blank"
