@@ -144,7 +144,7 @@ export default function ContinueWithEmail() {
                         className='AuthScreenSubTitle'
                     >We'll check if you have an account, and help create one if you don't.</p>
 
-                    <div style={{ display: 'flex', height:"40vh", flexDirection: 'column', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <TextField
                             autoFocus
                             id="outlined-basic"

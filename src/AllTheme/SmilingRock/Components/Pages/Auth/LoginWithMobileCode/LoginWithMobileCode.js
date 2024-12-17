@@ -107,9 +107,7 @@ export default function LoginWithMobileCode() {
             )}
             <ToastContainer />
             <div style={{ backgroundColor: '#c0bbb1' }}>
-                <div className='smling-forgot-main' style={{
-                    paddingTop:"2rem"
-                }}>
+                <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',
                         paddingBlock: '60px',
@@ -130,7 +128,7 @@ export default function LoginWithMobileCode() {
                         className='AuthScreenSubTitle'
                     >Last step! To secure your account, enter the code we just sent to {mobileNo}.</p>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' ,height:"35vh", marginTop: '20px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' , marginTop: '20px' }}>
                         <TextField
                             autoFocus
                             id="outlined-basic"
