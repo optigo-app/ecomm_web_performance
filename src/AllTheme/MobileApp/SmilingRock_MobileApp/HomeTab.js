@@ -10,7 +10,7 @@ import { smrMA_CartCount, smrMA_loginState } from './Components/Recoil/atom';
 
 
 
-const HomeTab = () => {
+const HomeTab =React.memo(() => {
   const [activeTab, setActiveTab] = useState("/");
   const getCartListCount = useRecoilValue(smrMA_CartCount)
   const islogin = useRecoilValue(smrMA_loginState);
@@ -189,7 +189,7 @@ const HomeTab = () => {
       }
     </>
   );
-};
+});
 
 const styles = {
   container: {

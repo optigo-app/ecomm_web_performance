@@ -44,15 +44,14 @@ const Lookbook = React.lazy(() => import('./Components/Pages/Home/LookBook/Lookb
 const NewOrderHistoryMapp = React.lazy(() => import('./Components/Pages/Account/AccountOrderHistory/NewOrderHistoryMapp'));
 
 
-const SmilingRock_MobileApp_App = () => {
+const SmilingRock_MobileApp_App = React.memo(() => {
 
   const location = useLocation();
-  const smrMA_setCompanyTitleLogo = useSetRecoilState(smrMA_companyLogo)
-
+  const smrMA_setCompanyTitleLogo = useSetRecoilState(smrMA_companyLogo);
   useEffect(() => {
-    let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+    const mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
     smrMA_setCompanyTitleLogo(mobileLogo);
-  });
+  }, [smrMA_setCompanyTitleLogo]);
 
   return (
     <div>
@@ -139,6 +138,7 @@ const SmilingRock_MobileApp_App = () => {
         </Suspense>
     </div>
   )
-}
+});
+
 
 export default SmilingRock_MobileApp_App

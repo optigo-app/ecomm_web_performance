@@ -14,8 +14,7 @@ import Pako from 'pako';
 
 
 
-const Header = () => {
-
+const Header = React.memo(() => {
   const compnyLogo = useRecoilValue(smrMA_companyLogo);
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [searchText, setSearchText] = useState('');
@@ -329,6 +328,7 @@ const Header = () => {
       }
     </div>
   )
-}
+});
+
 
 export default Header
