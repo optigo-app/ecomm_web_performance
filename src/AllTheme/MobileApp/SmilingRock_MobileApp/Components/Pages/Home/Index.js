@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import { CurrencyComboAPI } from "../../../../../../utils/API/Combo/CurrencyComboAPI";
 import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
+import ProductListBanner from "./ProductListBanner/ProductListBanner";
 
 const TopSection = React.memo(lazy(() => import('./TopSection/TopSection')));
 const PromotionBaner1 = React.memo(lazy(() => import('./PromotionBanner1/PromotionBaner1')));
@@ -194,11 +195,11 @@ const Home = () => {
     setLocalData(memoizedLocalData);
   }, [memoizedLocalData]);
 
-
   return (
     <div className="smrMA_Home_main">
             <Suspense fallback={<div></div>}>
       <TopSection />
+      {/* <ProductListBanner/> */}
       {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
       {localData?.IsHomeAlbum === 1 && <Album />}
       <PromotionBaner1 />
@@ -218,5 +219,4 @@ const Home = () => {
     </div>
   );
 };
-
 export default Home;

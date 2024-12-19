@@ -19,7 +19,6 @@ const LoginOption = () => {
     <div className="smr_Loginoption">
       <div className="loginDailog" >
         <div style={{
-        height:"55vh",
         display:"flex",
         alignContent:"center",
         justifyContent:"center",

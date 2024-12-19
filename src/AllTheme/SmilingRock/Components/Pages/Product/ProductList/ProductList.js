@@ -647,7 +647,7 @@ const ProductList = () => {
     // console.log("finalOutput",finalOutput)
 
     setCurrPage(1);
-
+  sessionStorage.setItem('key', JSON.stringify(output))
     return output
   }
 
@@ -1175,47 +1175,106 @@ const ProductList = () => {
 
   // };
 
-  const handleRangeFilterApi = async (Rangeval) => {
-    setAfterCountStatus(true);
-    let output = FilterValueWithCheckedOnly()
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-
-    // let diafilter = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Diamond")[0]?.options)[0]
-    let diafilter1 = JSON.parse(filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0]
-    let diafilter2 = JSON.parse(filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0]
-
-    let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] }
-    let netRange = { netMin: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[0], netMax: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[1] }
-    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
-
-    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
-      .then((res) => {
-        if (res) {
-          setProductListData(res?.pdList);
-          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          setAfterCountStatus(false);
-        }
-        return res;
-      })
-      .catch((err) => console.log("err", err))
-      .finally(() => {
-        setIsOnlyProdLoading(false)
-      })
 
 
-  }
-  const handleRangeFilterApi1 = async (Rangeval1) => {
+//   const handleRangeFilterApi = async (Rangeval) => {
+//     setAfterCountStatus(true);
+//     let output = FilterValueWithCheckedOnly()
+//     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+
+//     // let diafilter = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Diamond")[0]?.options)[0]
+//     let diafilter1 = JSON.parse(filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0]
+//     let diafilter2 = JSON.parse(filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0]
+
+//     let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] }
+//     let netRange = { netMin: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[0], netMax: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[1] }
+//     let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
+// console.log(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange , "data")
+//     await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+//       .then((res) => {
+//         if (res) {
+//           setProductListData(res?.pdList);
+//           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+//           setAfterCountStatus(false);
+//         }
+//         return res;
+//       })
+//       .catch((err) => console.log("err", err))
+//       .finally(() => {
+//         setIsOnlyProdLoading(false)
+//       })
+
+//   }
+
+
+const handleRangeFilterApi = useCallback(async (Rangeval) => {
+  setAfterCountStatus(true);
+  const output = JSON?.parse(sessionStorage.getItem("key")) ?? {};
+  // let output = FilterValueWithCheckedOnly();
+  
+  let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+  // let diafilter = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Diamond")[0]?.options)[0]
+  let diafilter1 = JSON.parse(filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0];
+  let diafilter2 = JSON.parse(filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0];
+
+  console.log("net" ,sliderValue1, "gross" , sliderValue2  ,"Dia" ,Rangeval , "range 1")
+  let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] };
+
+  // let netRange = { 
+  //   netMin: (diafilter1?.Min === sliderValue1[0] || diafilter1?.Max === sliderValue1[1]) ? "" : sliderValue1[0],
+  //   netMax: (diafilter1?.Min === sliderValue1[0] || diafilter1?.Max === sliderValue1[1]) ? "" : sliderValue1[1]
+  // };
+  // let grossRange = { 
+  //   grossMin: (diafilter2?.Min === sliderValue2[0] || diafilter2?.Max === sliderValue2[1]) ? "" : sliderValue2[0],
+  //   grossMax: (diafilter2?.Min === sliderValue2[0] || diafilter2?.Max === sliderValue2[1]) ? "" : sliderValue2[1]
+  // };
+
+  let netRange = { netMin:  sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+  let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
+
+  await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+    .then((res) => {
+      if (res) {
+        setProductListData(res?.pdList);
+        setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+        setAfterCountStatus(false);
+      }
+      return res;
+    })
+    .catch((err) => console.log("err", err))
+    .finally(() => {
+      setIsOnlyProdLoading(false);
+    });
+}, [
+  selectedMetalId, 
+  selectedDiaId, 
+  selectedCsId, 
+  filterData, 
+  sliderValue1, 
+  sliderValue2, 
+  prodListType, 
+  cookie, 
+  sortBySelect
+]);
+
+  const handleRangeFilterApi1 = useCallback(async (Rangeval1) => {
 
     let diafilter = JSON.parse(filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0]
     // let diafilter1 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "NetWt")[0]?.options)[0]
     let diafilter2 = JSON.parse(filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0]
 
-    let output = FilterValueWithCheckedOnly()
+    // let output = FilterValueWithCheckedOnly()
+  const output = JSON?.parse(sessionStorage.getItem("key")) ?? {};
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-    let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[1] }
     let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
-    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
+    // let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[1] }
+    // let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
+    let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
+
+    console.log("net" ,Rangeval1, "gross" , sliderValue2  ,"Dia" ,sliderValue , "range 3")
 
     await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
@@ -1230,20 +1289,38 @@ const ProductList = () => {
         setIsOnlyProdLoading(false)
       })
 
+    }, [
+      selectedMetalId, 
+      selectedDiaId, 
+      selectedCsId, 
+      filterData, 
+      sliderValue1, 
+      sliderValue2, 
+      prodListType, 
+      cookie, 
+      sortBySelect
+    ]);
 
-  }
-  const handleRangeFilterApi2 = async (Rangeval2) => {
-
-    let output = FilterValueWithCheckedOnly()
+  const handleRangeFilterApi2 = useCallback(async (Rangeval2) => {
+    // let output = FilterValueWithCheckedOnly()
+  const output = JSON?.parse(sessionStorage.getItem("key")) ?? {};
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
     let diafilter = JSON.parse(filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0]
     let diafilter1 = JSON.parse(filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0]
     // let diafilter2 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Gross")[0]?.options)[0]
 
-    let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[1] }
-    let netRange = { netMin: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[0], netMax: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[1] }
+    // let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[1] }
+    // let netRange = { netMin: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[0], netMax: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[1] }
+    console.log(diafilter ,diafilter1 ,"sliderValue")
+       
+    let DiaRange = { DiaMin:  sliderValue[0] ?? diafilter?.Min , DiaMax: sliderValue[1] ?? diafilter?.Max }
+    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
     let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] }
+
+    console.log("net" ,netRange, "gross" , grossRange  ,"Dia" ,DiaRange , "range 3")
+
+
 
 
     await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
@@ -1258,7 +1335,17 @@ const ProductList = () => {
       .finally(() => {
         setIsOnlyProdLoading(false)
       })
-  }
+    }, [
+      selectedMetalId, 
+      selectedDiaId, 
+      selectedCsId, 
+      filterData, 
+      sliderValue1, 
+      sliderValue2, 
+      prodListType, 
+      cookie, 
+      sortBySelect
+    ]); 
 
 
 

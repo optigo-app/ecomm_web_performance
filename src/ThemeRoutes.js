@@ -2,7 +2,6 @@ import React, { Suspense, useEffect, useRef, useState } from "react";
 import SmilingRock_App from "./AllTheme/SmilingRock/SmilingRock_App";
 import DaimondTine_App from "./AllTheme/DaimondTine/DaimondTine_App";
 import Elveester_App from "./AllTheme/Elveester/Elveester_App";
-// import MobileApp_App from './AllTheme/MobileApp/MobileApp_App'
 import { Storeinit } from "./utils/API/Home/Storeinit/Storeinit";
 import { CurrencyComboAPI } from "./utils/API/Combo/CurrencyComboAPI";
 import { MetalColorCombo } from "./utils/API/Combo/MetalColorCombo";
@@ -57,30 +56,31 @@ import {
 const SmilingRock_MobileApp_App = React.lazy(() =>
   import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
 );
-const HemratnaProcatalog_App = React.lazy(() =>
-  import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
-);
-const Procatalog_App = React.lazy(() =>
-  import("./AllTheme/Pocatalog/Procatalog_App")
-);
-const HouseOfQuadri_App = React.lazy(() =>
-  import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
-);
-const ForEveryRoutes = React.lazy(() =>
-  import("./AllTheme/Forevery/ForeveryRoutes")
-);
-const Procatalog_MobileApp_App = React.lazy(() =>
-  import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
-);
-const StamFordJewels_App = React.lazy(() =>
-  import("./AllTheme/StamFordJewels/StamFordJewels_App")
-);
-const RoopJewellers_App = React.lazy(() =>
-  import("./AllTheme/RoopJewellers/RoopJewellers_App")
-);
-const MalakanJewels_App = React.lazy(() =>
-  import("./AllTheme/MalakanJwewls/MalakanJewels_App")
-);
+// const HemratnaProcatalog_App = React.lazy(() =>
+//   import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
+// );
+// const Procatalog_App = React.lazy(() =>
+//   import("./AllTheme/Pocatalog/Procatalog_App")
+// );
+// const HouseOfQuadri_App = React.lazy(() =>
+//   import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
+// );
+// const ForEveryRoutes = React.lazy(() =>
+//   import("./AllTheme/Forevery/ForeveryRoutes")
+// );
+// const Procatalog_MobileApp_App = React.lazy(() =>
+//   import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
+// );
+// const StamFordJewels_App = React.lazy(() =>
+//   import("./AllTheme/StamFordJewels/StamFordJewels_App")
+// );
+// const RoopJewellers_App = React.lazy(() =>
+//   import("./AllTheme/RoopJewellers/RoopJewellers_App")
+// );
+// const MalakanJewels_App = React.lazy(() =>
+//   import("./AllTheme/MalakanJwewls/MalakanJewels_App")
+// );
+
 
 export default function ThemeRoutes() {
   const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo);
@@ -193,69 +193,99 @@ export default function ThemeRoutes() {
       hasApiBeenCalled.current = true;
       setTimeout(() => {
         callAllApi();
-      }, 6000);
+      }, 3000);
     }
   }, [htmlContent]);
 
-  const callAllApi = () => {
-    const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
-    const loginUserDetail = JSON?.parse(
-      sessionStorage.getItem("loginUserDetail")
-    );
-    const LoginUser = JSON?.parse(sessionStorage.getItem("LoginUser"));
-    const visiterID = Cookies.get("visiterId");
-    let finalID;
-    if (storeInit?.IsB2BWebsite == 0) {
-      finalID = LoginUser === false ? visiterID : loginUserDetail?.id || "0";
-    } else {
-      finalID = loginUserDetail?.id || "0";
-    }
+  // old version 
+  // const callAllApi = () => {
+  //   const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
+  //   const loginUserDetail = JSON?.parse(
+  //     sessionStorage.getItem("loginUserDetail")
+  //   );
+  //   const LoginUser = JSON?.parse(sessionStorage.getItem("LoginUser"));
+  //   const visiterID = Cookies.get("visiterId");
+  //   let finalID;
+  //   if (storeInit?.IsB2BWebsite == 0) {
+  //     finalID = LoginUser === false ? visiterID : loginUserDetail?.id || "0";
+  //   } else {
+  //     finalID = loginUserDetail?.id || "0";
+  //   }
 
-    MetalTypeComboAPI(finalID)
+  //   MetalTypeComboAPI(finalID)
+  //     .then((response) => {
+  //       if (response?.Data?.rd) {
+  //         let data = JSON.stringify(response?.Data?.rd);
+  //         sessionStorage.setItem("metalTypeCombo", data);
+  //       }
+  //     })
+  //     .catch((err) => console.log(err));
+
+  //   DiamondQualityColorComboAPI(finalID)
+  //     .then((response) => {
+  //       if (response?.Data?.rd) {
+  //         let data = JSON.stringify(response?.Data?.rd);
+  //         sessionStorage.setItem("diamondQualityColorCombo", data);
+  //       }
+  //     })
+  //     .catch((err) => console.log(err));
+
+  //   MetalColorCombo(finalID)
+  //     .then((response) => {
+  //       if (response?.Data?.rd) {
+  //         let data = JSON.stringify(response?.Data?.rd);
+  //         sessionStorage.setItem("MetalColorCombo", data);
+  //       }
+  //     })
+  //     .catch((err) => console.log(err));
+
+  //   ColorStoneQualityColorComboAPI(finalID)
+  //     .then((response) => {
+  //       if (response?.Data?.rd) {
+  //         let data = JSON.stringify(response?.Data?.rd);
+  //         sessionStorage.setItem("ColorStoneQualityColorCombo", data);
+  //       }
+  //     })
+  //     .catch((err) => console.log(err));
+
+  //   CurrencyComboAPI(finalID)
+  //     .then((response) => {
+  //       if (response?.Data?.rd) {
+  //         let data = JSON.stringify(response?.Data?.rd);
+  //         sessionStorage.setItem("CurrencyCombo", data);
+  //       }
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
+
+  // new version
+  const callApiAndStore = (apiFunction, storageKey, finalID) => {
+    apiFunction(finalID)
       .then((response) => {
         if (response?.Data?.rd) {
-          let data = JSON.stringify(response?.Data?.rd);
-          sessionStorage.setItem("metalTypeCombo", data);
-        }
-      })
-      .catch((err) => console.log(err));
-
-    DiamondQualityColorComboAPI(finalID)
-      .then((response) => {
-        if (response?.Data?.rd) {
-          let data = JSON.stringify(response?.Data?.rd);
-          sessionStorage.setItem("diamondQualityColorCombo", data);
-        }
-      })
-      .catch((err) => console.log(err));
-
-    MetalColorCombo(finalID)
-      .then((response) => {
-        if (response?.Data?.rd) {
-          let data = JSON.stringify(response?.Data?.rd);
-          sessionStorage.setItem("MetalColorCombo", data);
-        }
-      })
-      .catch((err) => console.log(err));
-
-    ColorStoneQualityColorComboAPI(finalID)
-      .then((response) => {
-        if (response?.Data?.rd) {
-          let data = JSON.stringify(response?.Data?.rd);
-          sessionStorage.setItem("ColorStoneQualityColorCombo", data);
-        }
-      })
-      .catch((err) => console.log(err));
-
-    CurrencyComboAPI(finalID)
-      .then((response) => {
-        if (response?.Data?.rd) {
-          let data = JSON.stringify(response?.Data?.rd);
-          sessionStorage.setItem("CurrencyCombo", data);
+          sessionStorage.setItem(storageKey, JSON.stringify(response.Data.rd));
         }
       })
       .catch((err) => console.log(err));
   };
+  
+  const callAllApi = () => {
+    const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
+    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+    const LoginUser = JSON?.parse(sessionStorage.getItem("LoginUser"));
+    const visiterID = Cookies.get("visiterId");
+  
+    const finalID = storeInit?.IsB2BWebsite === 0
+      ? (LoginUser === false ? visiterID : loginUserDetail?.id || "0")
+      : loginUserDetail?.id || "0";
+  
+    callApiAndStore(MetalTypeComboAPI, "metalTypeCombo", finalID);
+    callApiAndStore(DiamondQualityColorComboAPI, "diamondQualityColorCombo", finalID);
+    callApiAndStore(MetalColorCombo, "MetalColorCombo", finalID);
+    callApiAndStore(ColorStoneQualityColorComboAPI, "ColorStoneQualityColorCombo", finalID);
+    callApiAndStore(CurrencyComboAPI, "CurrencyCombo", finalID);
+  };
+  
 
   useEffect(() => {
     const storedData = sessionStorage.getItem("storeInit");
@@ -369,11 +399,11 @@ const Themes = ({ htmlContent }) => {
     <Suspense fallback={<></>}>
       {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
 
-      {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
+      {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
+      {/* {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
 
       {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
-      {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 
       {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
@@ -389,7 +419,7 @@ const Themes = ({ htmlContent }) => {
 
       {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
 
-      {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
+      {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />} */}
     </Suspense>
   </>
 }
