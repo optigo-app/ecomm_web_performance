@@ -1,0 +1,66 @@
+@import '../../../scss/variable';
+
+
+.stam_bottom_main_div {
+
+    // background-color: #17372F;
+    background-color: #ffe8d3;
+    margin-top: 2rem;
+
+    .stam_bottom_title {
+        color: black;
+        font-size: 50px;
+        font-family: $primaryFontFamily;
+        text-align: center;
+    }
+
+    .stam_bottom_main_div_sub {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-block: 50px;
+    }
+
+    .stam_bottom_main_div_sub1 {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stam_bottom_title_sub {
+        color: black;
+        font-size: $fontSize5;
+        font-family: $primaryFontFamily;
+        text-align: center;
+    }
+
+    .stam_bottom_btn {
+        height: 50px;
+        width: 160px;
+        font-size: 20px;
+        font-family: $primaryFontFamily;
+        letter-spacing: 1px;
+        background-color: #F6C2B5;
+        color: #17372F;
+        font-weight: 500;
+    }
+
+    .stam_bottom_btn:hover {
+        border: 1px solid #F6C2B5;
+        background-color: transparent;
+        color: #F6C2B5;
+    }
+
+    @media screen and (max-width:1200px) {
+        .stam_bottom_title {
+            font-size: 35px !important;
+        }
+
+        .stam_bottom_main_div_sub1 {
+            width: 90% !important;
+        }
+
+    }
+}

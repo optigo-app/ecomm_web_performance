@@ -1,100 +1,291 @@
 @import "../../../scss/variable";
 
-.stam_album-container {
-    .stam_ablbumtitleDiv {
+// .stam_album-container {
+//     .stam_ablbumtitleDiv {
+//         text-align: center;
+//         padding-block: 3%;
+
+//         .stam_albumtitle {
+//             font-size: 28px;
+//             color: #7d7f85;
+//             font-family: $homePageFontFamily;
+//         }
+//     }
+
+//     .tabs {
+//         display: flex;
+//         justify-content: center;
+//         align-items: center;
+
+//         button {
+//             padding: 4px 20px;
+//             margin: 0 5px;
+//             border: none;
+//             border-radius: 20px;
+//             font-size: $fontSize1;
+//             color: $titleColor;
+//             background: none;
+//             cursor: pointer;
+
+//             &.active {
+//                 background-color: #f5f5f5;
+//                 color: $titleColor;
+//             }
+//         }
+//     }
+
+//     .swiper-container {
+//         margin-top: 20px;
+//         display: flex;
+//         justify-content: center;
+//         align-items: center;
+//         padding: 0 10px;
+//         animation: fadeIn 1s forwards;
+//         opacity: .5;
+
+//         @keyframes fadeIn {
+//             to {
+//                 opacity: 1;
+//             }
+//         }
+
+//         .swiper-slide-custom {
+//             min-width: 320px;
+//         }
+
+//         .design-slide {
+//             display: flex;
+//             flex-direction: column;
+//             align-items: start;
+//             justify-content: start;
+//             padding: 50px;
+//             background-color: #f1f1f1;
+
+//             img {
+//                 width: 100%;
+//                 height: 100%;
+//             }
+//         }
+
+//         .design-info {
+//             margin-top: 10px;
+//             text-align: start;
+
+//             .stam_album1Titleline {
+//                 font-size: $fontSize1;
+//                 color: $titleColor;
+//                 padding: 0;
+//                 margin: 0;
+//                 text-align: start;
+//                 letter-spacing: .5px;
+//                 width: '100%';
+//                 overflow: hidden;
+//                 text-overflow: ellipsis;
+//             }
+
+//             .stam_album1price {
+//                 font-size: $fontSize2;
+//                 font-family: $homePageFontFamily;
+//                 letter-spacing: .5px;
+//                 color: $titleColor;
+//                 font-weight: bold;
+//                 padding: 0;
+//                 margin: 0;
+//                 text-align: start;
+//             }
+//         }
+
+//         .swiper-button-prev,
+//         .swiper-button-next {
+//             background-color: #b7b7b7;
+//             color: #fff;
+//             padding: 10px;
+//             border-radius: 50%;
+//             z-index: 12;
+//             width: 40px;
+//             height: 40px;
+//             display: flex;
+//             align-items: center;
+//             justify-content: center;
+
+//             &:after {
+//                 font-size: 16px;
+//             }
+//         }
+//         .swiper-button-disabled {
+//             opacity: 0.5;
+//             cursor: pointer;
+//             pointer-events: auto;
+//             background-color: #ababab;
+//             margin-top: -30px!important;
+//         }
+//     }
+
+//     @media (max-width: 1200px) {
+//         // .swiper-slide-custom {
+//         //     min-width: 260px !important;
+//         // }
+
+//         .design-slide {
+//             padding: 20px !important;
+//         }
+//     }
+
+//     // @media (max-width: 992px) {
+//     //     .swiper-slide-custom {
+//     //         min-width: 220px !important;
+//     //     }
+
+//     //     .design-slide {
+//     //         padding: 20px !important;
+//     //     }
+//     // }
+
+//     @media (max-width: 768px) {
+//         // .swiper-slide-custom {
+//         //     min-width: 180px !important;
+//         // }
+
+//         // .stam_Albumtab {
+//         //     min-height: 35px !important;
+//         // }
+
+//         .design-slide {
+//             padding: 10px !important;
+//         }
+
+//         // .design-info {
+//         //     .stam_album1price {
+//         //         font-size: $fontSize1 !important;
+//         //     }
+//         // }
+//     }
+
+//     @media (max-width: 576px) {
+//         // .swiper-slide-custom {
+//         //     min-width: 140px !important;
+//         // }
+
+//         // .album-container .tabs button.active {
+//         //     background-color: #f5f5f5;
+//         //     color: #7d7f85;
+//         //     min-height: 35px !important;
+//         // }
+
+//         // .design-slide {
+//         //     padding: 10px !important;
+//         // }
+
+//         // .design-info {
+//         //     .stam_album1price {
+//         //         font-size: $fontSize2 !important;
+//         //     }
+//         // }
+//     }
+// }
+
+.stam-inducing-div {
+    display: none;
+}
+
+.stam-inducing-div.show {
+    display: block;
+}
+
+.stam_jewlSet_Main {
+    height: auto;
+    overflow: hidden;
+    margin-top: 1rem;
+    margin-bottom: 0rem;
+
+    @media screen and (max-width: 1294px) {
+        margin-bottom: 0rem;
+    }
+
+    .stam_jewl_title {
+        margin-top: 30px;
+        font-size: $fontSize6;
+        color: $primaryTextColor;
+        font-family: $homePageFontFamily;
         text-align: center;
-        padding-block: 3%;
-
-        .stam_albumtitle {
-            font-size: 28px;
-            color: #7d7f85;
-            font-family: $homePageFontFamily;
-        }
+        margin-bottom: 0px;
     }
 
-    .tabs {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        button {
-            padding: 4px 20px;
-            margin: 0 5px;
-            border: none;
-            border-radius: 20px;
-            font-size: $fontSize1;
-            color: $titleColor;
-            background: none;
-            cursor: pointer;
-
-            &.active {
-                background-color: #f5f5f5;
-                color: $titleColor;
-            }
-        }
+    .header-container {
+        text-align: center;
+        padding-top: 4.5rem;
+        padding-bottom: 1rem;
+        background-color: #f9f9f9;
     }
 
-    .swiper-container {
-        margin-top: 20px;
+    .header-title {
+        font-family: $homePageFontFamily;
+        font-size: 2.0rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .header-description {
+        font-family: $homePageFontFamily;
+        font-size: 1rem;
+        font-weight: 300;
+        color: #555;
+        line-height: 1.6;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .stam_jewl_title_para {
+        margin-top: 0px;
+        font-size: $fontSize3;
+        color: $primaryTextColor;
+        font-family: $homePageFontFamily;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .stam_jewls_main_sub {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 0 10px;
-        animation: fadeIn 1s forwards;
-        opacity: .5;
+        flex-wrap: wrap;
+        padding-inline: 10px;
+        margin-inline: auto;
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
+        // Default max-width for larger screens
+        max-width: 70%;
+
+        @media (max-width: 1700px) {
+            max-width: 80%;
+        }
+        @media (max-width: 1520px) {
+            max-width: 85%;
         }
 
-        .swiper-slide-custom {
-            min-width: 320px;
+        @media (max-width: 1350px) {
+            max-width: 90%;
         }
 
-        .design-slide {
-            display: flex;
-            flex-direction: column;
-            align-items: start;
-            justify-content: start;
-            padding: 50px;
-            background-color: #f1f1f1;
-
-            img {
-                width: 100%;
-                height: 100%;
-            }
+        @media (max-width: 1080px) {
+            max-width: 75%;
         }
 
-        .design-info {
-            margin-top: 10px;
-            text-align: start;
-
-            .stam_album1Titleline {
-                font-size: $fontSize1;
-                color: $titleColor;
-                padding: 0;
-                margin: 0;
-                text-align: start;
-                letter-spacing: .5px;
-                width: '100%';
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            .stam_album1price {
-                font-size: $fontSize2;
-                font-family: $primaryFontFamily;
-                letter-spacing: .5px;
-                color: $titleColor;
-                font-weight: bold;
-                padding: 0;
-                margin: 0;
-                text-align: start;
-            }
+        @media (max-width: 950px) {
+            max-width: 85%;
         }
 
+        @media (max-width: 720px) {
+            max-width: 90%;
+        }
+
+        @media (max-width: 560px) {
+            max-width: 95%;
+        }
+
+        @media (max-width: 449px) {
+            max-width: 100%;
+        }
+
+        // padding-inline: 100px;
         .swiper-button-prev,
         .swiper-button-next {
             background-color: #b7b7b7;
@@ -112,74 +303,230 @@
                 font-size: 16px;
             }
         }
+
         .swiper-button-disabled {
             opacity: 0.5;
             cursor: pointer;
             pointer-events: auto;
             background-color: #ababab;
-            margin-top: -30px!important;
+            margin-top: -30px !important;
         }
     }
 
-    @media (max-width: 1200px) {
-        // .swiper-slide-custom {
-        //     min-width: 260px !important;
-        // }
 
-        .design-slide {
-            padding: 20px !important;
+    .stam_jewel_div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        .stam_jewls__image_div {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+
+            @media screen and (max-width: 1350px) {
+                width: 220px;
+                height: 220px;
+            }
+
+            @media screen and (max-width: 1080px) {
+                width: 160px;
+                height: 160px;
+            }
+
+            @media screen and (max-width: 649px) {
+                width: 200px;
+                height: 200px;
+            }
+
+            @media screen and (max-width: 449px) {
+                width: 200px;
+                height: 200px;
+            }
+
+            // @media screen and (max-width: 1374px) {
+            //     height: 40vh;
+            // }
+
+            // @media screen and (max-width: 1200px) {
+            //     height: auto;
+            // }
         }
     }
 
-    // @media (max-width: 992px) {
-    //     .swiper-slide-custom {
-    //         min-width: 220px !important;
-    //     }
+    .stam_jewls__image_div1 {
+        position: relative;
+        width: 50%;
+        padding: 20px 0px 20px 20px;
+    }
 
-    //     .design-slide {
-    //         padding: 20px !important;
-    //     }
-    // }
+    .stam_jewels_bannerImg_div {
+        margin-block: 20px;
+        position: relative;
+        width: 100%;
+    }
 
-    @media (max-width: 768px) {
-        // .swiper-slide-custom {
-        //     min-width: 180px !important;
-        // }
+    .stam_jewls_Div_name {
+        color: black;
+        width: 100%;
+        object-fit: cover;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 0.7rem;
+        text-align: center;
+        // padding-right: 34px;
+        font-family: $homePageFontFamily;
 
-        // .stam_Albumtab {
-        //     min-height: 35px !important;
-        // }
-
-        .design-slide {
-            padding: 10px !important;
+        @media screen and (max-width: 800px) {
+            font-size: 15px;
         }
 
-        // .design-info {
-        //     .stam_album1price {
-        //         font-size: $fontSize1 !important;
-        //     }
+        @media screen and (max-width: 650px) {
+            bottom: 7%;
+        }
+
+        @media screen and (max-width: 360px) {
+            bottom: 3%;
+        }
+    }
+
+    .stam_jewelImg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        cursor: pointer;
+
+        &:hover {
+            transform: scale(1.1);
+            transition: all 0.3s ease-in-out;
+        }
+    }
+
+    @media screen and (max-width: 1400px) {
+        .stam_jewls_main_sub {
+            // padding-inline: 70px !important;
+        }
+
+        // .stam_jewl_title {
+        //     margin: 5px !important;
         // }
     }
 
-    @media (max-width: 576px) {
-        // .swiper-slide-custom {
-        //     min-width: 140px !important;
+    @media screen and (max-width: 900px) {
+        .stam_jewls_main_sub {
+            padding-inline: 10px !important;
+        }
+
+        // .stam_jewls__image_div {
+        //     padding: 10px 10px 10px 0px !important;
         // }
 
-        // .album-container .tabs button.active {
-        //     background-color: #f5f5f5;
-        //     color: #7d7f85;
-        //     min-height: 35px !important;
+        .stam_jewls__image_div1 {
+            padding: 10px 0px 10px 10px !important;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .stam_jewels_bannerImg_div {
+            margin: 0px !important;
+            padding: 5px !important;
+        }
+
+        .stam_jewls_main_sub {
+            padding-inline: 0px !important;
+        }
+
+        .stam_jewl_title {
+            font-size: 22px !important;
+            padding-block: 5px;
+        }
+
+        .stam_jewls_Div_name {
+            font-size: 15px !important;
+        }
+
+        // .stam_jewls__image_div {
+        //     // width: 50% !important;
+        //     width: 100% !important;
+        //     padding: 5px !important;
         // }
 
-        // .design-slide {
-        //     padding: 10px !important;
-        // }
+        .stam_jewls__image_div1 {
+            width: 100% !important;
+            padding: 5px !important;
+        }
+    }
+}
 
-        // .design-info {
-        //     .stam_album1price {
-        //         font-size: $fontSize2 !important;
-        //     }
-        // }
+.stam_album_main_swiper {
+
+    // Pagination bullets
+    .swiper-pagination {
+        position: relative;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+
+        .swiper-pagination-bullet {
+            background-color: rgba(129, 129, 129, 0.904) !important;
+            width: 10px !important;
+            height: 10px !important;
+            border-radius: 50% !important;
+            margin: 0 5px !important;
+            transition: background-color 0.3s ease !important;
+
+            &.swiper-pagination-bullet-active {
+                background-color: #007aff !important; // Active bullet color
+            }
+        }
+    }
+
+    // Navigation buttons
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        padding: 10px;
+        transition: all 0.3s ease;
+
+        &:after {
+            font-size: 16px;
+        }
+    }
+
+    @media (max-width: 900px) {
+
+        .swiper-button-prev,
+        .swiper-button-next {
+            background-color: #b7b7b7;
+            color: #fff;
+            width: 27px;
+            height: 27px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -30px;
+
+            &:after {
+                font-size: 14px;
+            }
+        }
+    }
+
+    // Disabled buttons
+    .swiper-button-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background-color: #ababab !important;
     }
 }

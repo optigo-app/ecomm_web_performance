@@ -21,7 +21,7 @@ export default function ContactUs() {
     mobileno: '',
     InQuirySubject: '',
     Be_In_Message: '',
-    Themeno: '12'
+    Themeno: '11'
   });
 
   const [errors, setErrors] = useState({});
@@ -91,7 +91,7 @@ export default function ContactUs() {
         mobileno: '',
         InQuirySubject: '',
         Be_In_Message: '',
-        Themeno: '12'
+        Themeno: '11'
       });
     } else {
       setErrors(errors);

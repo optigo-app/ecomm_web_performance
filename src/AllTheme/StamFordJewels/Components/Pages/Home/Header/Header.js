@@ -124,20 +124,31 @@ const Header = () => {
     setMenuItems(uniqueMenuItems);
   }, [menuData]);
 
+  // useEffect(() => {
+  //   let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+  //   let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
+
+  //   // console.log("callll");
+
+  //   if (storeinit?.IsB2BWebsite === 0) {
+  //     getMenuApi();
+  //     return;
+  //   } else if (storeinit?.IsB2BWebsite === 1 && isUserLogin === true) {
+  //     getMenuApi();
+  //     return;
+  //   } else {
+  //     return;
+  //   }
+  // }, [islogin]);
+
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
-
-    // console.log("callll");
-
-    if (storeinit?.IsB2BWebsite === 0) {
+    if (islogin && (
+      storeinit?.IsB2BWebsite === 0 ||
+      (storeinit?.IsB2BWebsite === 1 && isUserLogin === true))
+    ) {
       getMenuApi();
-      return;
-    } else if (storeinit?.IsB2BWebsite === 1 && isUserLogin === true) {
-      getMenuApi();
-      return;
-    } else {
-      return;
     }
   }, [islogin]);
 
@@ -806,7 +817,7 @@ const Header = () => {
                   borderBottom: "1px solid white",
                   alignItems: "end",
                   marginInline: "15px",
-                  marginBottom :"1.5rem"
+                  marginBottom: "1.5rem"
                 }}
               >
                 <input

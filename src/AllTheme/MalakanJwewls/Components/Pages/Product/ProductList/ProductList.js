@@ -777,7 +777,6 @@ const ProductList = () => {
     setAfterCountStatus(true);
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-    console.log(output, "output");
     //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
     // console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
 
@@ -930,7 +929,7 @@ const ProductList = () => {
 
     if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true);
-      ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect)
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -1132,7 +1131,7 @@ const ProductList = () => {
 
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-
+    setCurrPage(1);
     setIsOnlyProdLoading(true);
 
     let sortby = e.target?.value;
@@ -2937,8 +2936,8 @@ const ProductList = () => {
                                                 rollOverImgPd[productData?.autocode]
                                                   ? rollOverImgPd[productData?.autocode]
                                                   : productData?.images[0]
-                                                    // ? productData?.images[0]
-                                                    // : isAvailable === undefined ? <ProductCard_Skeleton /> : imageNotFound
+                                                // ? productData?.images[0]
+                                                // : isAvailable === undefined ? <ProductCard_Skeleton /> : imageNotFound
                                               }
                                               onError={(e) => {
                                                 e.target.src = imageNotFound
@@ -3745,9 +3744,10 @@ const GivaFilterMenu = ({
                                 style={{
                                   padding: 0,
                                 }}
-                                onChange={(e) =>
-                                  setSelectedMetalId(metalele?.Metalid)
-                                }
+                                onChange={(e) => {
+                                  setSelectedMetalId(metalele?.Metalid);
+                                  setCurrPage(1);
+                                }}
                                 size="small"
                               />
                             }
@@ -3800,6 +3800,7 @@ const GivaFilterMenu = ({
                                   }}
                                   onChange={(e) => {
                                     setSelectedDiaId(`${diaQc?.QualityId},${diaQc?.ColorId}`);
+                                    setCurrPage(1);
                                   }}
                                   size="small"
                                 />
@@ -3851,11 +3852,12 @@ const GivaFilterMenu = ({
                                 style={{
                                   padding: 0,
                                 }}
-                                onChange={(e) =>
+                                onChange={(e) => {
                                   setSelectedCsId(
                                     `${CsQcC?.QualityId},${CsQcC?.ColorId}`
                                   )
-                                }
+                                  setCurrPage(1);
+                                }}
                                 size="small"
                               />
                             }

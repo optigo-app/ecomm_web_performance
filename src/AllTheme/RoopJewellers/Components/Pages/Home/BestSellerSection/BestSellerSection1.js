@@ -94,8 +94,8 @@ const ProductGrid = () => {
         const validatedData = await Promise.all(
             bestSellerData.map(async (item) => {
                 const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
-                const validatedURL = await checkImageAvailability(imageURL);
-                return { ...item, validatedImageURL: validatedURL };
+                // const validatedURL = await checkImageAvailability(imageURL);
+                return { ...item, validatedImageURL: imageURL };
             })
         );
         setValidatedData(validatedData);
@@ -140,26 +140,26 @@ const ProductGrid = () => {
         navigation(islogin !== 0 ? url : redirectUrl);
     };
 
-        
-const GenerateWidthBaseOnContent = useCallback(()=>{
-    const length = bestSellerData  && validatedData?.length ;
-    let w ; 
-    if (length === 1) {
-       w = '100%';
-    } else if (length === 2) {
-       w = '100%';
-    } else if (length === 3) {
-       w = '100%';
-    } else if (length > 3) {
-       w = '100%';
-    }
-    return {width:w , length : length}
-  },[bestSellerData])
-  
 
-  if(bestSellerData?.length === 0){
-    return ;
-  }
+    const GenerateWidthBaseOnContent = useCallback(() => {
+        const length = bestSellerData && validatedData?.length;
+        let w;
+        if (length === 1) {
+            w = '100%';
+        } else if (length === 2) {
+            w = '100%';
+        } else if (length === 3) {
+            w = '100%';
+        } else if (length > 3) {
+            w = '100%';
+        }
+        return { width: w, length: length }
+    }, [bestSellerData])
+
+
+    if (bestSellerData?.length === 0) {
+        return;
+    }
 
     return (
         <>
@@ -171,16 +171,16 @@ const GenerateWidthBaseOnContent = useCallback(()=>{
                     <div className="roop_bestSellerSet_Main">
 
                         <div className="roop_bestSeller_main_sub"
-                          style={{
-                            width: GenerateWidthBaseOnContent().width,
-                        }}
+                            style={{
+                                width: GenerateWidthBaseOnContent().width,
+                            }}
                         >
                             <Swiper
                                 modules={[Navigation]}
                                 spaceBetween={30}
                                 navigation={bestSellerData?.length > 4}
                                 style={{
-                                    width:"100%"
+                                    width: "100%"
                                 }}
                                 // loop={true}
                                 breakpoints={{
@@ -207,10 +207,10 @@ const GenerateWidthBaseOnContent = useCallback(()=>{
                                 {validatedData?.map((data, index) => (
                                     <SwiperSlide key={index}>
                                         <div className="roop_bestSeller__image_div"
-                                         role="link"
-                                         aria-label={`View details for ${data?.TitleLine} - Design No: ${data?.designno}`}
-                                    
-                                        onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
+                                            role="link"
+                                            aria-label={`View details for ${data?.TitleLine} - Design No: ${data?.designno}`}
+
+                                            onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                             <img
                                                 className="roop_bestSellerImg"
                                                 loading="lazy"
@@ -220,6 +220,7 @@ const GenerateWidthBaseOnContent = useCallback(()=>{
                                                     :
                                                     imageNotFound
                                                 }
+                                                onError={(e) => e.target.src = imageNotFound}
                                                 alt={`Best Seller Jewellery: ${data?.TitleLine || 'Design No: ' + data?.designno}`}
                                             />
                                             <div className="product-info">
@@ -283,8 +284,8 @@ const GenerateWidthBaseOnContent = useCallback(()=>{
                                             fontWeight: "500",
                                             textDecoration: "underline",
                                             color: "grey"
-                                        }} className='btn_more_A'  aria-label="View more best sellers"
-                                         onClick={() => HandleBestsellerMore()}>View More</button>
+                                        }} className='btn_more_A' aria-label="View more best sellers"
+                                            onClick={() => HandleBestsellerMore()}>View More</button>
                                     </div>
                                 </SwiperSlide>}
                             </Swiper>

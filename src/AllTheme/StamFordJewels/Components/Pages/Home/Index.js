@@ -21,6 +21,7 @@ import BestSellerSection from "./BestSellerSection/BestSellerSection";
 import BestSellerSection1 from "./BestSellerSection/BestSellerSection1";
 import BrandsComponent from "./BrandComponent/BrandComponents";
 import Collection from "./Collection/Collection";
+import FooterBanner from "./FooterBanner/FooterBanner";
 
 function Home() {
   const [localData, setLocalData] = useState();
@@ -53,17 +54,18 @@ function Home() {
           <div className="stam_home_index_Submain">
             <TopSection />
             <TheDifference />
-            <TrendingView1 />
-            {/* <PromotionBaner2 /> */}
-            {/* {localData?.IsHomeAlbum === 1 && <Album1 />}
-            {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
-            {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
-            {localData?.IsHomeTrending === 1 && <TrendingView1 />}
-            {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */}
-            <BottomBanner />
+            {/* <TrendingView1 /> */}
             <PromotionBaner1 />
-            <Collection />
+            {localData?.IsHomeAlbum === 1 && <Album1 />}
+            {localData?.IsHomeTrending === 1 && <TrendingView1 />}
+            {/* {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
+            {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
+            {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */}
+            {/* <BottomBanner /> */}
+            {/* <PromotionBaner1 /> */}
+            {/* <Collection /> */}
             {/* <BrandsComponent /> */}
+            <FooterBanner />
           </div>
         </div>
       </div>

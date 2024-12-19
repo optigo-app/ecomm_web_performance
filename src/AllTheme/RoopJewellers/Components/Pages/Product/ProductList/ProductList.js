@@ -645,7 +645,6 @@ const ProductList = () => {
       .filter(item => item.type === "Price")
       .map(item => item.value);
 
-
     const output = {};
 
     onlyTrueFilterValue.forEach(item => {
@@ -826,7 +825,7 @@ const ProductList = () => {
 
     if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true)
-      ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect)
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -1034,7 +1033,7 @@ const ProductList = () => {
 
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-
+    setCurrPage(1);
     setIsOnlyProdLoading(true)
 
     let sortby = e.target?.value
@@ -2467,6 +2466,7 @@ const ProductList = () => {
                     IsBreadCumShow={IsBreadCumShow}
                     handleBreadcums={handleBreadcums}
                     setCurrPage={setCurrPage}
+                    currPage={currPage}
                   />
 
                   <div className="roop_mainPortion">
@@ -2886,7 +2886,9 @@ const GivaFilterMenu = ({
   IsBreadCumShow,
   handleBreadcums,
   setCurrPage,
+  currPage,
 }) => {
+  console.log('currPage: ', currPage);
   const [showMenu, setshowMenu] = useState(-1);
   const menuRef = useRef(null)
   const CustomLabel = ({ text }) => (
@@ -2977,9 +2979,16 @@ const GivaFilterMenu = ({
           checkedNames.push(checkedOption.Name);
         }
       }
-      setCurrPage(1)
     }
 
+    // console.log('checkedNames: ', checkedNames);
+
+    // if (checkedNames?.[0] !== "") {
+    //   setCurrPage(currPage)
+    // }
+    // else {
+    setCurrPage(1);
+    // }
 
     return checkedNames;
   }
@@ -3400,9 +3409,10 @@ const GivaFilterMenu = ({
                                   style={{
                                     padding: 0,
                                   }}
-                                  onChange={(e) =>
-                                    setSelectedMetalId(metalele?.Metalid)
-                                  }
+                                  onChange={(e) => {
+                                    setSelectedMetalId(metalele?.Metalid);
+                                    setCurrPage(1);
+                                  }}
                                   size="small"
                                 />
                               }
@@ -3459,11 +3469,12 @@ const GivaFilterMenu = ({
                                   style={{
                                     padding: 0,
                                   }}
-                                  onChange={(e) =>
+                                  onChange={(e) => {
                                     setSelectedDiaId(
                                       `${diaQc?.QualityId},${diaQc?.ColorId}`
-                                    )
-                                  }
+                                    );
+                                    setCurrPage(1);
+                                  }}
                                   size="small"
                                 />
                               }
@@ -3520,11 +3531,12 @@ const GivaFilterMenu = ({
                                   style={{
                                     padding: 0,
                                   }}
-                                  onChange={(e) =>
+                                  onChange={(e) => {
                                     setSelectedCsId(
                                       `${CsQcC?.QualityId},${CsQcC?.ColorId}`
-                                    )
-                                  }
+                                    );
+                                    setCurrPage(1);
+                                  }}
                                   size="small"
                                 />
                               }

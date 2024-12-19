@@ -41,10 +41,11 @@ import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/D
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import { stam_CartCount, stam_WishCount } from "../../../Recoil/atom";
+import { SaveLastViewDesign } from "../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign";
 
 const ProductDetail = () => {
   let location = useLocation();
-
+  const ErrornoiMAGE = '';
   const [singleProd, setSingleProd] = useState({});
   const [singleProd1, setSingleProd1] = useState({});
   // const [singleProdPrice, setSingleProdPrice] = useState();
@@ -52,7 +53,6 @@ const ProductDetail = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
-  console.log('csQcCombo: ', csQcCombo);
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [selectMtType, setSelectMtType] = useState();
   const [selectDiaQc, setSelectDiaQc] = useState();
@@ -61,11 +61,13 @@ const ProductDetail = () => {
   const [pdThumbImg, setPdThumbImg] = useState([]);
   const [isImageload, setIsImageLoad] = useState(true);
   const [selectedThumbImg, setSelectedThumbImg] = useState()
+  console.log('selectedThumbImg: ', selectedThumbImg);
   const [decodeUrl, setDecodeUrl] = useState({});
   // const [finalprice, setFinalprice] = useState(0);
   const [addToCartFlag, setAddToCartFlag] = useState(null);
   const [wishListFlag, setWishListFlag] = useState(null);
   const [loginInfo, setLoginInfo] = useState();
+  const [saveLastView, setSaveLastView] = useState();
   const [SizeCombo, setSizeCombo] = useState();
   const [sizeData, setSizeData] = useState();
   const [isPriceloading, setisPriceLoading] = useState(false)
@@ -87,6 +89,8 @@ const ProductDetail = () => {
   const setWishCountVal = useSetRecoilState(stam_WishCount)
 
   const [pdVideoArr, setPdVideoArr] = useState([]);
+  const [ImagePromise, setImagePromise] = useState(true);
+  console.log('ImagePromise: ', ImagePromise);
 
 
   // console.log("SizeCombo",SizeCombo);
@@ -161,19 +165,17 @@ const ProductDetail = () => {
         return ele?.metaltype == selectMtType
       }) ?? metalTypeCombo;
 
-      const dia =
+    const dia =
       diaQcCombo?.find((ele) => {
         return ele?.Quality == selectDiaQc.split(",")[0] &&
           ele?.color == selectDiaQc.split(",")[1]
       }) ?? diaQcCombo;
 
-      const cs =
+    const cs =
       csQcCombo?.find((ele) => {
         return ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
       }) ?? csQcCombo;
-
-    console.log('cs: ', cs);
 
     let mcArr = metalColorCombo?.filter(
       (ele) => {
@@ -561,17 +563,35 @@ const ProductDetail = () => {
       //   diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid),
       //   csQc: csArr ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid)
       // }
+      let obj1 = {
+        mt: logininfoInside?.MetalId ?? storeinitInside?.MetalId,
+        diaQc: diaArr
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+        csQc: csArr
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
+      };
+
       let obj = {
-        mt: metalArr,
-        diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-        csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`,
+        mt: metalArr
+          ? metalArr
+          : logininfoInside?.MetalId ?? storeinitInside?.MetalId,
+        diaQc: diaArr
+          ? `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+        csQc: csArr
+          ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
+          : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
       };
 
       // console.log("objjj",obj)
       setProdLoading(true)
 
       setisPriceLoading(true)
-
+      // setp 4
+      setSingleProd1({})
+      setSingleProd({})
       await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
         .then(async (res) => {
           if (res) {
@@ -635,11 +655,14 @@ const ProductDetail = () => {
             }
 
             if (storeinitInside?.IsProductDetailDesignSet === 1) {
-              await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
+              await DesignSetListAPI(obj1, resp?.pdList[0]?.designno, cookie).then((res) => {
                 // console.log("designsetList",res?.Data?.rd[0])
                 setDesignSetList(res?.Data?.rd)
               }).catch((err) => console.log("designsetErr", err))
             }
+            await SaveLastViewDesign(cookie, resp?.pdList[0]?.autocode, resp?.pdList[0]?.designno).then((res) => {
+              setSaveLastView(res?.Data?.rd)
+            }).catch((err) => console.log("saveLastView", err))
           }
         })
         .catch((err) => console.log("err", err))
@@ -666,6 +689,42 @@ const ProductDetail = () => {
       img.src = imageUrl;
     });
   }
+  const imageCache = {};  // Caching object to store checked images
+
+  const loadAndCheckImages = async (img) => {
+    if (imageCache[img] !== undefined) {
+      // If the image result is already cached, return the cached result
+      return imageCache[img];
+    }
+
+    try {
+      const result = await checkImage(img);
+      imageCache[img] = result;
+      if (!prodLoading) {
+        setImagePromise(false);
+      }
+      return result;
+    } catch (error) {
+      imageCache[img] = imageNotFound;
+      return imageNotFound;
+    }
+  };
+
+  const checkImage = (imageUrl) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        resolve(imageUrl);  // Image loaded successfully
+      };
+
+      img.onerror = () => {
+        reject(new Error("Image not found"));  // Image not found
+      };
+
+      img.src = imageUrl;
+    });
+  };
+
 
   const ProdCardImageFunc = async () => {
     let finalprodListimg;
@@ -691,13 +750,13 @@ const ProductDetail = () => {
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
-        storeInit?.CDNDesignImageFol +
-        singleProd?.designno +
-        "~" +
-        i +
-        "~" + mcArr?.colorcode +
-        "." +
-        singleProd?.ImageExtension;
+          storeInit?.CDNDesignImageFol +
+          singleProd?.designno +
+          "~" +
+          i +
+          "~" + mcArr?.colorcode +
+          "." +
+          singleProd?.ImageExtension;
 
         let IsImg = checkImageAvailability(imgString)
         if (IsImg) {
@@ -716,17 +775,15 @@ const ProductDetail = () => {
       IsColImg = await checkImageAvailability(colImg)
     }
 
-    console.log("colImg", IsColImg)
-
     if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
-        storeInit?.CDNDesignImageFol +
-        pd?.designno +
-        "~" +
-        i +
-        "." +
-        pd?.ImageExtension;
+          storeInit?.CDNDesignImageFol +
+          pd?.designno +
+          "~" +
+          i +
+          "." +
+          pd?.ImageExtension;
 
         let IsImg = checkImageAvailability(imgString)
         if (IsImg) {
@@ -734,20 +791,18 @@ const ProductDetail = () => {
         }
       }
     } else {
-      finalprodListimg = imageNotFound;
+      finalprodListimg = ErrornoiMAGE;
     }
-
-    console.log("SearchData", pd?.VideoCount);
 
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
         let videoString =
-        (storeInit?.CDNVPath) +
-        pd?.designno +
-        "~" +
-        i +
-        "." +
-        pd?.VideoExtension;
+          (storeInit?.CDNVPath) +
+          pd?.designno +
+          "~" +
+          i +
+          "." +
+          pd?.VideoExtension;
 
         pdvideoList.push(videoString);
       }
@@ -767,13 +822,17 @@ const ProductDetail = () => {
       }
     }
 
-    console.log("SearchData", singleProd);
-
     if (FinalPdImgList?.length > 0) {
       finalprodListimg = FinalPdImgList[0];
       setSelectedThumbImg({ "link": FinalPdImgList[0], "type": 'img' });
       setPdThumbImg(FinalPdImgList);
       setThumbImgIndex(0)
+    }
+    else {
+      // Step 2 
+      setSelectedThumbImg({ link: ErrornoiMAGE, type: "img" });
+      setPdThumbImg();
+      setThumbImgIndex();
     }
 
     if (pdvideoList?.length > 0) {
@@ -801,20 +860,21 @@ const ProductDetail = () => {
     }
 
 
-
-    return finalprodListimg;
+    // return finalprodListimg;
+    const img = await loadAndCheckImages(finalprodListimg);
+    return img;
   };
 
 
   useEffect(() => {
     ProdCardImageFunc();
-  }, [singleProd, location?.key]);
-
+    // setp 3
+  }, [singleProd, singleProd1, location?.key]);
 
   useEffect(() => {
     if (isImageload === false) {
       if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
-        setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+        setSelectedThumbImg({ "link": ErrornoiMAGE, "type": 'img' });
       }
     }
   }, [isImageload])
@@ -864,13 +924,13 @@ const ProductDetail = () => {
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
-        storeInit?.CDNDesignImageFol +
-        singleProd?.designno +
-        "~" +
-        i +
-        "~" + mcArr?.colorcode +
-        "." +
-        singleProd?.ImageExtension;
+          storeInit?.CDNDesignImageFol +
+          singleProd?.designno +
+          "~" +
+          i +
+          "~" + mcArr?.colorcode +
+          "." +
+          singleProd?.ImageExtension;
         pdImgListCol.push(imgString);
       }
     }
@@ -878,12 +938,12 @@ const ProductDetail = () => {
     if (singleProd?.ImageCount > 0) {
       for (let i = 1; i <= singleProd?.ImageCount; i++) {
         let imgString =
-        storeInit?.CDNDesignImageFol +
-        singleProd?.designno +
-        "~" +
-        i +
-        "." +
-        singleProd?.ImageExtension;
+          storeInit?.CDNDesignImageFol +
+          singleProd?.designno +
+          "~" +
+          i +
+          "." +
+          singleProd?.ImageExtension;
         pdImgList.push(imgString);
       }
     }
@@ -903,7 +963,7 @@ const ProductDetail = () => {
         if (isImgAvl) {
           FinalPdColImgList.push(pdImgListCol[i])
         } else {
-          FinalPdColImgList.push(imageNotFound)
+          FinalPdColImgList.push(ErrornoiMAGE)
         }
       }
     }
@@ -1022,7 +1082,12 @@ const ProductDetail = () => {
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
     navigate(`/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
-
+    //Step 1
+    setSingleProd1({});
+    setSingleProd({});
+    setIsImageLoad(true);
+    setProdLoading(true);
+    setImagePromise(true)
   }
 
   const handleCustomChange = async (e, type) => {
@@ -1165,7 +1230,7 @@ const ProductDetail = () => {
                   <div className="stam_prod_image_shortInfo">
                     <div className="stam_prod_image_Sec">
                       {/* {isImageload && ( */}
-                      {isImageload && (
+                      {(isImageload || ImagePromise) && (
                         <Skeleton
                           sx={{
                             width: "95%",
@@ -1179,14 +1244,14 @@ const ProductDetail = () => {
 
                       <div
                         className="stam_main_prod_img"
-                        style={{ display: isImageload ? "none" : "block" }}
+                        style={{ display: (isImageload || ImagePromise) ? "none" : "block" }}
                       >
                         {(selectedThumbImg?.type == "img") ? (
                           <img
                             src={selectedThumbImg?.link}
                             // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                             // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
-                            onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                            onError={(e) => e.target.src = imageNotFound}
                             alt={""}
                             onLoad={() => setIsImageLoad(false)}
                             className="stam_prod_img"
@@ -1204,6 +1269,7 @@ const ProductDetail = () => {
                                 // height: "90%",
                                 borderRadius: "8px",
                               }}
+                              onError={(e) => e.target.poster = imageNotFound}
                             />
                           </div>
                         )}
@@ -1215,6 +1281,7 @@ const ProductDetail = () => {
                                 src={ele}
                                 alt={""}
                                 onLoad={() => setIsImageLoad(false)}
+                                onError={(e) => e.target.src = imageNotFound}
                                 className="stam_prod_thumb_img"
                                 onClick={() => {
                                   setSelectedThumbImg({
@@ -1253,6 +1320,7 @@ const ProductDetail = () => {
                                   width: "35px",
                                   height: "35px",
                                 }}
+                                onError={(e) => e.target.poster = imageNotFound}
                               />
                             </div>
                           ))}
@@ -1270,8 +1338,7 @@ const ProductDetail = () => {
                                     type: "img",
                                   });
                                 }}
-                              // onError={()=>{
-                              // }}
+                                onError={(e) => e.target.src = imageNotFound}
                               />
                             ) :
                               null
@@ -1886,11 +1953,12 @@ const ProductDetail = () => {
                   )}
                 </div>
 
-                {(stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
-                  <div className="stam_stockItem_div">
-                    <p className="stam_details_title"> Stock Items </p>
-                    <div className="stam_stockitem_container">
-                      {/* <div className="stam_stock_item_card">
+                {stockItemArr?.length > 0 &&
+                  storeInit?.IsStockWebsite === 1 && stockItemArr?.[0]?.stat_code != 1005 && (
+                    <div className="stam_stockItem_div">
+                      <p className="stam_details_title"> Stock Items </p>
+                      <div className="stam_stockitem_container">
+                        {/* <div className="stam_stock_item_card">
                   {stockItemArr?.map((ele) => (
                     <div className="stam_stockItemCard">
                       <div className="cart_and_wishlist_icon">
@@ -2016,86 +2084,86 @@ const ProductDetail = () => {
                     </div>
                   ))}
                 </div> */}
-                      <table className="Smr_stockItem_table">
-                        <tr className="Smr_stockItem_table_tr">
-                          <th className="Smr_stockItem_table_td">SrNo</th>
-                          <th className="Smr_stockItem_table_td">Design No</th>
-                          {/* <th className="Smr_stockItem_table_td" >StockBarcode</th> */}
-                          <th className="Smr_stockItem_table_td">Job No</th>
-                          <th
-                            className="Smr_stockItem_table_td"
-                            style={{ textAlign: "center" }}
-                          >
-                            Gross Wt/Net Wt/Dia Wt/CS Wt
-                          </th>
-                          <th className="Smr_stockItem_table_td">
-                            Metal Color-Purity
-                          </th>
-                          <th className="Smr_stockItem_table_td">Price</th>
-                          <th className="Smr_stockItem_table_td">
-                            Add To Cart
-                          </th>
-                        </tr>
-                        {stockItemArr?.map((ele, i) => (
+                        <table className="Smr_stockItem_table">
                           <tr className="Smr_stockItem_table_tr">
-                            <td className="Smr_stockItem_table_td">
-                              <span className="stam_prod_designno">
-                                {ele?.SrNo}
-                              </span>
-                            </td>
-                            <td className="Smr_stockItem_table_td">
-                              <span className="stam_prod_designno">
-                                {ele?.designno}
-                              </span>
-                            </td>
-                            <td className="Smr_stockItem_table_td">
-                              <span className="stam_prod_designno">
-                                {ele?.StockBarcode}
-                              </span>
-                            </td>
-                            {/* <td className="Smr_stockItem_table_td">
+                            <th className="Smr_stockItem_table_td">SrNo</th>
+                            <th className="Smr_stockItem_table_td">Design No</th>
+                            {/* <th className="Smr_stockItem_table_td" >StockBarcode</th> */}
+                            <th className="Smr_stockItem_table_td">Job No</th>
+                            <th
+                              className="Smr_stockItem_table_td"
+                              style={{ textAlign: "center" }}
+                            >
+                              Gross Wt/Net Wt/Dia Wt/CS Wt
+                            </th>
+                            <th className="Smr_stockItem_table_td">
+                              Metal Color-Purity
+                            </th>
+                            <th className="Smr_stockItem_table_td">Price</th>
+                            <th className="Smr_stockItem_table_td">
+                              Add To Cart
+                            </th>
+                          </tr>
+                          {stockItemArr?.map((ele, i) => (
+                            <tr className="Smr_stockItem_table_tr">
+                              <td className="Smr_stockItem_table_td">
+                                <span className="stam_prod_designno">
+                                  {ele?.SrNo}
+                                </span>
+                              </td>
+                              <td className="Smr_stockItem_table_td">
+                                <span className="stam_prod_designno">
+                                  {ele?.designno}
+                                </span>
+                              </td>
+                              <td className="Smr_stockItem_table_td">
+                                <span className="stam_prod_designno">
+                                  {ele?.StockBarcode}
+                                </span>
+                              </td>
+                              {/* <td className="Smr_stockItem_table_td">
                         <span className="stam_prod_designno">
                         {ele?.JobNo}
                         </span>
                       </td> */}
-                            <td className="Smr_stockItem_table_td">
-                              <div className="stam_prod_Allwt">
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    letterSpacing: "1px",
-                                    gap: "3px",
-                                  }}
-                                >
-                                  {storeInit?.IsGrossWeight == 1 &&
-                                    Number(ele?.GrossWt) !== 0 && (
-                                      <>
-                                        <span className="stam_prod_wt">
-                                          <span className="stam_d_keys">
-                                            GWT:
+                              <td className="Smr_stockItem_table_td">
+                                <div className="stam_prod_Allwt">
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      letterSpacing: "1px",
+                                      gap: "3px",
+                                    }}
+                                  >
+                                    {storeInit?.IsGrossWeight == 1 &&
+                                      Number(ele?.GrossWt) !== 0 && (
+                                        <>
+                                          <span className="stam_prod_wt">
+                                            <span className="stam_d_keys">
+                                              GWT:
+                                            </span>
+                                            <span className="stam_d_val">
+                                              {(ele?.GrossWt)?.toFixed(3)}
+                                            </span>
                                           </span>
+                                        </>
+                                      )}
+
+                                    {Number(ele?.NetWt) !== 0 && (
+                                      <>
+                                        <span>|</span>
+                                        <span className="stam_prod_wt">
+                                          <span className="stam_d_keys">NWT:</span>
                                           <span className="stam_d_val">
-                                            {(ele?.GrossWt)?.toFixed(3)}
+                                            {(ele?.NetWt)?.toFixed(3)}
                                           </span>
                                         </span>
                                       </>
                                     )}
 
-                                  {Number(ele?.NetWt) !== 0 && (
-                                    <>
-                                      <span>|</span>
-                                      <span className="stam_prod_wt">
-                                        <span className="stam_d_keys">NWT:</span>
-                                        <span className="stam_d_val">
-                                          {(ele?.NetWt)?.toFixed(3)}
-                                        </span>
-                                      </span>
-                                    </>
-                                  )}
-
-                                  {/* {storeInit?.IsGrossWeight == 1 &&
+                                    {/* {storeInit?.IsGrossWeight == 1 &&
                               Number(ele?.GrossWt) !== 0 && (
                                 <>
                                   <span>|</span>
@@ -2107,113 +2175,113 @@ const ProductDetail = () => {
                                   </span>
                                 </>
                               )} */}
-                                  {storeInit?.IsDiamondWeight == 1 &&
-                                    Number(ele?.DiaWt) !== 0 && (
-                                      <>
-                                        <span>|</span>
-                                        <span className="stam_prod_wt">
-                                          <span className="stam_d_keys">
-                                            DWT:
+                                    {storeInit?.IsDiamondWeight == 1 &&
+                                      Number(ele?.DiaWt) !== 0 && (
+                                        <>
+                                          <span>|</span>
+                                          <span className="stam_prod_wt">
+                                            <span className="stam_d_keys">
+                                              DWT:
+                                            </span>
+                                            <span className="stam_d_val">
+                                              {(ele?.DiaWt)?.toFixed(3)}
+                                              {storeInit?.IsDiamondPcs === 1
+                                                ? `/${ele?.DiaPcs}`
+                                                : null}
+                                            </span>
                                           </span>
-                                          <span className="stam_d_val">
-                                            {(ele?.DiaWt)?.toFixed(3)}
-                                            {storeInit?.IsDiamondPcs === 1
-                                              ? `/${ele?.DiaPcs}`
-                                              : null}
-                                          </span>
-                                        </span>
-                                      </>
-                                    )}
+                                        </>
+                                      )}
 
-                                  {storeInit?.IsStoneWeight == 1 &&
-                                    Number(ele?.CsWt) !== 0 && (
-                                      <>
-                                        <span>|</span>
-                                        <span className="stam_prod_wt">
-                                          <span className="stam_d_keys">
-                                            CWT:
+                                    {storeInit?.IsStoneWeight == 1 &&
+                                      Number(ele?.CsWt) !== 0 && (
+                                        <>
+                                          <span>|</span>
+                                          <span className="stam_prod_wt">
+                                            <span className="stam_d_keys">
+                                              CWT:
+                                            </span>
+                                            <span className="stam_d_val">
+                                              {(ele?.CsWt)?.toFixed(3)}
+                                              {storeInit?.IsStonePcs === 1
+                                                ? `/${ele?.CsPcs}`
+                                                : null}
+                                            </span>
                                           </span>
-                                          <span className="stam_d_val">
-                                            {(ele?.CsWt)?.toFixed(3)}
-                                            {storeInit?.IsStonePcs === 1
-                                              ? `/${ele?.CsPcs}`
-                                              : null}
-                                          </span>
-                                        </span>
-                                      </>
-                                    )}
+                                        </>
+                                      )}
+                                  </div>
                                 </div>
-                              </div>
-                            </td>
-                            <td className="Smr_stockItem_table_td">
-                              {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="stam_stockItem_price_type_mt"> */}
-                              <span>
-                                {ele?.MetalColorName}-{ele?.metaltypename}
-                                {ele?.metalPurity}
-                                {/* {" "}/{" "} */}
-                              </span>
-                              {/* </div> */}
-                            </td>
-                            <td className="Smr_stockItem_table_td">
-                              <span>
-                                <span className="stam_currencyFont">
-                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </td>
+                              <td className="Smr_stockItem_table_td">
+                                {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="stam_stockItem_price_type_mt"> */}
+                                <span>
+                                  {ele?.MetalColorName}-{ele?.metaltypename}
+                                  {ele?.metalPurity}
+                                  {/* {" "}/{" "} */}
                                 </span>
-                                &nbsp;
-                                <span> {
-                                  formatter.format(
-                                    ele?.Amount
-                                  )
-                                }</span>
-                              </span>
-                            </td>
-                            <td
-                              className="Smr_stockItem_table_td"
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                border: 'none'
-                              }}
-                            >
-                              <Checkbox
-                                icon={
-                                  <LocalMallOutlinedIcon
-                                    sx={{
-                                      fontSize: "22px",
-                                      color: "#7d7f85",
-                                      opacity: ".7",
-                                    }}
-                                  />
-                                }
-                                checkedIcon={
-                                  <LocalMallIcon
-                                    sx={{
-                                      fontSize: "22px",
-                                      color: "#009500",
-                                    }}
-                                  />
-                                }
-                                disableRipple={false}
-                                sx={{ padding: "10px" }}
-                                onChange={(e) =>
-                                  handleCartandWish(e, ele, "Cart")
-                                }
-                                checked={
-                                  cartArr[ele?.StockId] ?? ele?.IsInCart === 1
-                                    ? true
-                                    : false
-                                }
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                      </table>
+                                {/* </div> */}
+                              </td>
+                              <td className="Smr_stockItem_table_td">
+                                <span>
+                                  <span className="stam_currencyFont">
+                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                  </span>
+                                  &nbsp;
+                                  <span> {
+                                    formatter.format(
+                                      ele?.Amount
+                                    )
+                                  }</span>
+                                </span>
+                              </td>
+                              <td
+                                className="Smr_stockItem_table_td"
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  border: 'none'
+                                }}
+                              >
+                                <Checkbox
+                                  icon={
+                                    <LocalMallOutlinedIcon
+                                      sx={{
+                                        fontSize: "22px",
+                                        color: "#7d7f85",
+                                        opacity: ".7",
+                                      }}
+                                    />
+                                  }
+                                  checkedIcon={
+                                    <LocalMallIcon
+                                      sx={{
+                                        fontSize: "22px",
+                                        color: "#009500",
+                                      }}
+                                    />
+                                  }
+                                  disableRipple={false}
+                                  sx={{ padding: "10px" }}
+                                  onChange={(e) =>
+                                    handleCartandWish(e, ele, "Cart")
+                                  }
+                                  checked={
+                                    cartArr[ele?.StockId] ?? ele?.IsInCart === 1
+                                      ? true
+                                      : false
+                                  }
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                        </table>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
                 {storeInit?.IsProductDetailSimilarDesign == 1 &&
-                  SimilarBrandArr?.length > 0 && (
+                  SimilarBrandArr?.length > 0 && SimilarBrandArr?.[0]?.stat_code != 1005 && (
                     <div className="stam_stockItem_div">
                       <p className="stam_details_title"> Similar Designs</p>
                       <div className="stam_stockitem_container">
@@ -2235,6 +2303,7 @@ const ProductDetail = () => {
                                     : imageNotFound
                                 }
                                 alt={""}
+                                onError={(e) => e.target.src = imageNotFound}
                               />
                               <div
                                 className="stam_stockutem_shortinfo"
@@ -2284,7 +2353,7 @@ const ProductDetail = () => {
 
                 {storeInit?.IsProductDetailDesignSet === 1 &&
                   <div className="stam_DesignSet_main">
-                    {designSetList?.length > 0 && <div
+                    {designSetList?.length > 0 && designSetList?.[0]?.stat_code != 1005 && <div
                       style={{
                         display: "flex",
                         justifyContent: "center",
@@ -2329,6 +2398,7 @@ const ProductDetail = () => {
                                       imageNotFound
                                   }
                                   alt={""}
+                                  onError={(e) => e.target.src = imageNotFound}
                                   className="ctl_img"
                                 />
                               </div>
@@ -2368,7 +2438,7 @@ const ProductDetail = () => {
                                         <img
                                           src={
                                             ele?.ImageCount > 0
-                                              ? 
+                                              ?
                                               storeInit?.CDNDesignImageFol + ele?.designno + "~" + "1" + "." + ele?.ImageExtension
                                               : imageNotFound
                                           }
@@ -2376,8 +2446,8 @@ const ProductDetail = () => {
                                           // src={
                                           //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
                                           // }
-                                          onError={(e)=>{
-                                            e.target.src = imageNotFound ;
+                                          onError={(e) => {
+                                            e.target.src = imageNotFound;
                                           }}
                                           className="srthelook_img"
                                         />
@@ -2427,7 +2497,7 @@ const ProductDetail = () => {
             )}
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 };

@@ -1,4 +1,3 @@
-
 @import '../../../scss/variable';
 
 
@@ -6,14 +5,16 @@
     background-color: white;
     margin-inline: 6%;
 }
-.daimondsEveryAbout{
-  background-color: white;
-  margin-inline: 6%;  
+
+.daimondsEveryAbout {
+    background-color: white;
+    margin-inline: 6%;
 }
 
 .Fo-contactBoxMain {
     display: flex;
     margin-inline: 10%;
+    margin-bottom: 4rem;
 }
 
 .Fo-contactBox1 {
@@ -55,7 +56,8 @@
 
 .Fo-contactBox1BtnSub {
     height: 60px;
-    width: 300px;
+    max-width: 300px;
+    width: 100%;
     margin-top: 30px;
     border: 0;
     background-color: #7d7f85;
@@ -74,27 +76,27 @@
     font-size: 14px;
 }
 
-.error{
+.error {
     color: red;
 }
 
 .tab-buttons {
     display: flex;
     width: 100%;
-    margin-bottom: 20px ;
-  }
-  
-  .tab-buttons button {
+    margin-bottom: 20px;
+}
+
+.tab-buttons button {
     background: none;
     border: none;
     cursor: pointer;
     padding: 10px;
     margin-right: 10px;
-  }
-  
-  .tab-buttons button.active {
+}
+
+.tab-buttons button.active {
     border-bottom: 2px solid blue;
-  }
+}
 
 @media screen and (min-width:1441px) {
     .mobileHeaderSmining {
@@ -130,11 +132,13 @@
         margin-top: 50px;
         border-right: 0;
     }
+
     .Fo-contactBox1InputBox {
         height: 40px;
         width: 100%;
         border: 1px solid #e1e1e1;
     }
+
     .Fo-contactBox2 {
         width: 100%;
         margin: 10px;
@@ -142,11 +146,11 @@
 
     }
 
-    .mapContact{
-        width: 100%!important;
+    .mapContact {
+        width: 100% !important;
     }
 
-    .stam_contactMain{
-        padding-top: 10px!important;
+    .stam_contactMain {
+        padding-top: 10px !important;
     }
 }

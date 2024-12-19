@@ -810,7 +810,7 @@ const ProductList = () => {
 
     if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true)
-      ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect)
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);

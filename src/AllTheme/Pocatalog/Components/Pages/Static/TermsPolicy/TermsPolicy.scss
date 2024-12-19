@@ -1,52 +1,69 @@
 .privacy-policy-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    @media screen and (max-width:520px) {
-       padding: 2rem 1rem;
-    }
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  @media screen and (max-width:520px) {
+    padding: 2rem 1rem;
   }
-  
-  .privacy-policy-title {
-    font-size: 2.25rem;
-    font-weight: bold;
-    margin-bottom: 2rem;
-    text-align: center;
+}
+
+.privacy-policy-title {
+  font-size: 2.25rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.privacy-policy-date {
+  text-align: center;
+  font-size: 1rem;
+  color: #4A4A4A;
+  margin-bottom: 2rem;
+}
+
+.privacy-policy-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.section-title_alma {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.section_div {
+  text-align: justify;
+  p {
+    font-size: 17px;
   }
-  
-  .privacy-policy-date {
-    text-align: center;
+
+  li {
+    font-size: 17px;
+  }
+}
+
+.info-list {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+
+  li {
+    margin-bottom: 0.5rem;
     font-size: 1rem;
-    color: #4A4A4A;
-    margin-bottom: 2rem;
-  }
-  
-  .privacy-policy-content {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-  
-  .section-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-  
-  .info-list {
-    list-style-type: disc;
-    padding-left: 1.5rem;
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-    
-    li {
-      margin-bottom: 0.5rem;
-      font-size: 1rem;
-      color: #333;
-      
-      strong {
-        font-weight: 700;
-      }
+    color: #333;
+
+    strong {
+      font-weight: 700;
     }
   }
-  
+}

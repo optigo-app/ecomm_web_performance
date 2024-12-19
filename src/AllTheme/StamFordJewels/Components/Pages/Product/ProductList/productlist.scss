@@ -26,32 +26,37 @@
   .stam_prodSorting {
     display: flex;
     //   justify-content: flex-end;
-    font-family: "Rubik", sans-serif;
+    font-family: $primaryFontFamily;
     width: 100%;
   }
 
   .stam_mobile_prodSorting {
     display: flex;
     justify-content: flex-end;
-    font-family: "Rubik", sans-serif;
-    width: 100%;
-    padding: 5px 10px 5px 0px;
+    font-family: $primaryFontFamily;
+    // width: 100%;
+    color: rgba(143, 140, 139, 0.9019607843);
+    padding: 5px 10px 5px 6rem;
+    cursor: pointer;
+    text-decoration: underline;
   }
 
-  .empty_sorting_div {
+  .stam_empty_sorting_div {
     display: flex;
     justify-content: start;
     align-items: center;
     width: 100% !important;
-    padding: 0 18%;
-
+    padding: 0px 6rem;
+    margin-bottom: 10px;
+    color: black;
   }
 
   .stam_main_sorting_div {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 98.3% !important;
+    width: 100% !important;
+    // width: 98.3% !important;
     margin: 0px 0px 10px 0px !important;
     // margin:15px 70px 0px 15px
   }
@@ -61,7 +66,7 @@
     align-items: baseline;
     border-bottom: 1px solid $primaryBorderColor;
     width: auto;
-    //   margin-right: 65px;
+    margin-right: 6rem;
     //   margin-top: 10px;
   }
 
@@ -99,13 +104,13 @@
     display: flex;
   }
 
-  .stam_filter_portion {
-    top: 25px !important;
-    position: sticky !important;
-    width: 25%;
-    font-family: $primaryFontFamily;
-    height: 100%;
-  }
+  // .stam_filter_portion {
+  //   top: 25px !important;
+  //   position: sticky !important;
+  //   width: 25%;
+  //   font-family: $primaryFontFamily;
+  //   height: 100%;
+  // }
 
   .stam_backtotop {
     color: white;
@@ -148,10 +153,12 @@
   }
 
   .stam_productList {
-    width: 75%;
+    width: 100%;
+    // width: 75%;
     display: flex;
     align-items: baseline;
-    margin: 20px 50px 0px 0px;
+    // margin: 20px 50px 0px 0px;
+    margin: 20px 0px 0px 0px;
     flex-direction: column;
     // position: sticky;
     // top: 50px;
@@ -172,6 +179,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-inline: auto;
   }
 
   .stam_breadcums_port {
@@ -179,8 +187,8 @@
     // top: -40px;
     // z-index: 999;
     font-family: $primaryFontFamily;
-    font-size: 0.85rem;
-    color: $primaryfontcolorLight;
+    font-size: 1rem;
+    color: black;
     // margin-left:72px;
     margin-top: 10px;
     cursor: pointer;
@@ -191,11 +199,13 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    // justify-content: end;
+    gap: 10px;
+    justify-content: center;
   }
 
   .stam_productCard {
-    width: 24%;
+    width: 19%;
+    // width: 24%;
     // border: 1px solid $primaryBorderColor;
     text-align: center;
     margin: 2px;
@@ -349,7 +359,7 @@
   }
 
   .stam_prod_datanotfound {
-    font-family: $primaryFontFamilyMedium;
+    font-family: $primaryFontFamily;
     color: $primaryfontcolor;
     font-size: 28px;
   }
@@ -528,7 +538,7 @@
 
     .stam_productList {
       width: 100%;
-      margin: 00px 0px 0px 18px;
+      margin: 00px 0px 0px 0px;
       // display: flex;
       // justify-content: center;
       // align-items: center;
@@ -538,6 +548,11 @@
     // .stam_prodSorting{
     //   display: none;
     // }
+
+
+    .stam_productCard {
+      width: 23%;
+    }
 
     .stam_ImgandVideoContainer {
       height: 312px;
@@ -599,18 +614,32 @@
     }
   }
 
-
-  @media screen and (max-width: 768px) {
+  @media (max-width: 900px) {
     .stam_productCard {
-      width: 49%;
+      width: 31.3%;
     }
-
 
   }
 
-  @media screen and (max-width: 405px) {
+  @media screen and (max-width: 768px) {
     .stam_productCard {
       width: 48%;
+    }
+  }
+
+  @media (max-width: 450px) {
+    .stam_productCard {
+      width: 48%;
+    }
+
+    .stam_inner_portion {
+      gap: 5px;
+    }
+  }
+
+  @media (max-width: 382px) {
+    .stam_productCard {
+      width: 47%;
     }
   }
 
@@ -762,14 +791,14 @@
 
     .stam_productList {
       width: 100%;
-      margin: 0px 0px 0px 7px !important;
+      margin: 0px 0px 0px 0px !important;
     }
   }
 
   @media screen and (max-width:900px) {
     .stam_productList {
       width: 100%;
-      margin: 0px 0px 0px 13px;
+      margin: 0px 0px 0px 0px;
     }
   }
 }
