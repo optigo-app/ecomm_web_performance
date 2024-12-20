@@ -1580,7 +1580,7 @@ const ProductDetail = () => {
                   display: "flex",
                   alignItems: "center",
                 }}
-                className="smr_prodd_datanotfound"
+                className="proCat_prodd_datanotfound"
               >
                 Data not Found!!
               </div>
@@ -1607,7 +1607,7 @@ const ProductDetail = () => {
                   pagination={false}
                   onSlideChange={onSlideChange}
                 >
-                  <div className="smr_prod_detail_main">
+                  <div className="proCat_prod_detail_main">
                     <IoArrowBack
                       style={{
                         height: "35px",
@@ -1618,12 +1618,12 @@ const ProductDetail = () => {
                       }}
                       onClick={() => navigate(-1)}
                     />
-                    <div className="smr_prod_image_shortInfo">
+                    <div className="proCat_prod_image_shortInfo">
                       {/* <div>
                       <span>{"<"}</span>
                     </div> */}
 
-                      <div className="smr_prod_image_Sec">
+                      <div className="proCat_prod_image_Sec">
                         {/* {isImageload && ( */}
                         {(isImageload || imagePromise) && (
                           <Skeleton
@@ -1637,7 +1637,7 @@ const ProductDetail = () => {
                         )}
 
                         <div
-                          className="smr_main_prod_img"
+                          className="proCat_main_prod_img"
                           style={{ display: (isImageload || imagePromise) ? "none" : "block" }}
                         >
                           {selectedThumbImg?.type == "img" ? (
@@ -1650,10 +1650,10 @@ const ProductDetail = () => {
                               }}
                               alt={""}
                               onLoad={() => setIsImageLoad(false)}
-                              className="smr_prod_img"
+                              className="proCat_prod_img"
                             />
                           ) : (
-                            <div className="smr_prod_video">
+                            <div className="proCat_prod_video">
                               <video
                                 src={
                                   pdVideoArr?.length > 0
@@ -1677,7 +1677,7 @@ const ProductDetail = () => {
                             </div>
                           )}
 
-                          <div className="smr_thumb_prod_img">
+                          <div className="proCat_thumb_prod_img">
                             {(pdThumbImg?.length > 1 ||
                               pdVideoArr?.length > 0) &&
                               pdThumbImg?.map((ele, i) => (
@@ -1738,13 +1738,13 @@ const ProductDetail = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="smr_prod_shortInfo">
+                      <div className="proCat_prod_shortInfo">
                         <div className="proCat_prod_shortInfo_inner">
-                          <p className="smr_prod_titleLine">
+                          <p className="proCat_prod_titleLine">
                             {singleProd?.TitleLine}
                           </p>
-                          <div className="smr_prod_summury_info">
-                            <div className="smr_prod_summury_info_inner">
+                          <div className="proCat_prod_summury_info">
+                            <div className="proCat_prod_summury_info_inner">
                               <span className="proCat_single_prod_designno">
                                 {singleProd?.designno}
                                 {prodLoading == false && (
@@ -1765,39 +1765,39 @@ const ProductDetail = () => {
                                   </div>
                                 )}
                               </span>
-                              <span className="smr_prod_short_key">
+                              <span className="proCat_prod_short_key">
                                 Metal Purity :{" "}
-                                <span className="smr_prod_short_val">
+                                <span className="proCat_prod_short_val">
                                   {selectMtType}
                                 </span>
                               </span>
-                              <span className="smr_prod_short_key">
+                              <span className="proCat_prod_short_key">
                                 Metal Color :{" "}
-                                <span className="smr_prod_short_val">
+                                <span className="proCat_prod_short_val">
                                   {metalColorName()}
                                 </span>
                               </span>
                               {storeInit?.IsDiamondCustomization === 1 &&
                                 diaQcCombo?.length > 0 &&
                                 diaList?.length ? (
-                                <span className="smr_prod_short_key">
+                                <span className="proCat_prod_short_key">
                                   Diamond Quality Color :{" "}
-                                  <span className="smr_prod_short_val">
+                                  <span className="proCat_prod_short_val">
                                     {`${selectDiaQc}`}
                                   </span>
                                 </span>
                               ) : null}
-                              <span className="smr_prod_short_key">
+                              <span className="proCat_prod_short_key">
                                 NWT :{" "}
-                                <span className="smr_prod_short_val">
+                                <span className="proCat_prod_short_val">
                                   {(
                                     singleProd1?.Nwt ?? singleProd?.Nwt
                                   )?.toFixed(3)}
                                 </span>
                               </span>
-                              {Almacarino === 1 && <span className="smr_prod_short_key">
+                              {Almacarino === 1 && <span className="proCat_prod_short_key">
                                 GWT :{" "}
-                                <span className="smr_prod_short_val">
+                                <span className="proCat_prod_short_val">
                                   {(
                                     singleProd1?.Gwt ?? singleProd?.Gwt
                                   )?.toFixed(3)}
@@ -1808,8 +1808,8 @@ const ProductDetail = () => {
                           {storeInit?.IsProductWebCustomization == 1 &&
                             metalTypeCombo?.length > 0 &&
                             storeInit?.IsMetalCustomization === 1 && (
-                              <div className="smr_single_prod_customize">
-                                <div className="smr_single_prod_customize_metal">
+                              <div className="proCat_single_prod_customize">
+                                <div className="proCat_single_prod_customize_metal">
                                   <label className="menuItemTimeEleveDeatil">
                                     METAL TYPE:
                                   </label>
@@ -1845,7 +1845,7 @@ const ProductDetail = () => {
                                 </div>
                                 {metalColorCombo?.length > 0 &&
                                   storeInit?.IsMetalTypeWithColor === 1 && (
-                                    <div className="smr_single_prod_customize_outer">
+                                    <div className="proCat_single_prod_customize_outer">
                                       <label className="menuItemTimeEleveDeatil">
                                         METAL COLOR:
                                       </label>
@@ -1882,7 +1882,7 @@ const ProductDetail = () => {
                                 {storeInit?.IsDiamondCustomization === 1 &&
                                   diaQcCombo?.length > 0 &&
                                   diaList?.length ? (
-                                  <div className="smr_single_prod_customize_outer">
+                                  <div className="proCat_single_prod_customize_outer">
                                     <label className="menuItemTimeEleveDeatil">
                                       DIAMOND :
                                     </label>
@@ -1913,7 +1913,7 @@ const ProductDetail = () => {
                                   selectCsQc?.length > 0 &&
                                   csList?.filter((ele) => ele?.D !== "MISC")
                                     ?.length > 0 ? (
-                                  <div className="smr_single_prod_customize_outer">
+                                  <div className="proCat_single_prod_customize_outer">
                                     <label className="menuItemTimeEleveDeatil">
                                       COLOR STONE :
                                     </label>
@@ -1942,7 +1942,7 @@ const ProductDetail = () => {
                                 {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
                                 {SizeSorting(SizeCombo?.rd)?.length > 0 &&
                                   singleProd?.DefaultSize !== "" && (
-                                    <div className="smr_single_prod_customize_outer">
+                                    <div className="proCat_single_prod_customize_outer">
                                       <label className="menuItemTimeEleveDeatil">
                                         SIZE:
                                       </label>
@@ -2043,7 +2043,7 @@ const ProductDetail = () => {
                                       }}
                                     >
                                       <Typography
-                                        className="smr_Price_breakup_label"
+                                        className="proCat_Price_breakup_label"
                                         sx={{
                                           fontFamily: "TT Commons Regular",
                                         }}
@@ -2054,7 +2054,7 @@ const ProductDetail = () => {
                                         <Typography>
                                           {
                                             <span
-                                              className="smr_currencyFont"
+                                              className="proCat_currencyFont"
                                               sx={{
                                                 fontFamily:
                                                   "TT Commons Regular",
@@ -2070,7 +2070,7 @@ const ProductDetail = () => {
                                           sx={{
                                             fontFamily: "TT Commons Regular",
                                           }}
-                                          className="smr_PriceBreakup_Price"
+                                          className="proCat_PriceBreakup_Price"
                                         >
                                           {formatter.format(
                                             (singleProd1?.Metal_Cost
@@ -2094,7 +2094,7 @@ const ProductDetail = () => {
                                       }}
                                     >
                                       <Typography
-                                        className="smr_Price_breakup_label"
+                                        className="proCat_Price_breakup_label"
                                         sx={{
                                           fontFamily: "TT Commons Regular",
                                         }}
@@ -2106,7 +2106,7 @@ const ProductDetail = () => {
                                         <Typography>
                                           {
                                             <span
-                                              className="smr_currencyFont"
+                                              className="proCat_currencyFont"
                                               sx={{
                                                 fontFamily:
                                                   "TT Commons Regular",
@@ -2119,7 +2119,7 @@ const ProductDetail = () => {
                                         </Typography>
                                         &nbsp;
                                         <Typography
-                                          className="smr_PriceBreakup_Price"
+                                          className="proCat_PriceBreakup_Price"
                                           sx={{
                                             fontFamily: "TT Commons Regular",
                                           }}
@@ -2146,7 +2146,7 @@ const ProductDetail = () => {
                                       }}
                                     >
                                       <Typography
-                                        className="smr_Price_breakup_label"
+                                        className="proCat_Price_breakup_label"
                                         sx={{
                                           fontFamily: "TT Commons Regular",
                                         }}
@@ -2158,7 +2158,7 @@ const ProductDetail = () => {
                                         <Typography>
                                           {
                                             <span
-                                              className="smr_currencyFont"
+                                              className="proCat_currencyFont"
                                               sx={{
                                                 fontFamily:
                                                   "TT Commons Regular",
@@ -2171,7 +2171,7 @@ const ProductDetail = () => {
                                         </Typography>
                                         &nbsp;
                                         <Typography
-                                          className="smr_PriceBreakup_Price"
+                                          className="proCat_PriceBreakup_Price"
                                           sx={{
                                             fontFamily: "TT Commons Regular",
                                           }}
@@ -2198,7 +2198,7 @@ const ProductDetail = () => {
                                       }}
                                     >
                                       <Typography
-                                        className="smr_Price_breakup_label"
+                                        className="proCat_Price_breakup_label"
                                         sx={{
                                           fontFamily: "TT Commons Regular",
                                         }}
@@ -2210,7 +2210,7 @@ const ProductDetail = () => {
                                         <Typography>
                                           {
                                             <span
-                                              className="smr_currencyFont"
+                                              className="proCat_currencyFont"
                                               sx={{
                                                 fontFamily:
                                                   "TT Commons Regular",
@@ -2223,7 +2223,7 @@ const ProductDetail = () => {
                                         </Typography>
                                         &nbsp;
                                         <Typography
-                                          className="smr_PriceBreakup_Price"
+                                          className="proCat_PriceBreakup_Price"
                                           sx={{
                                             fontFamily: "TT Commons Regular",
                                           }}
@@ -2250,7 +2250,7 @@ const ProductDetail = () => {
                                       }}
                                     >
                                       <Typography
-                                        className="smr_Price_breakup_label"
+                                        className="proCat_Price_breakup_label"
                                         sx={{
                                           fontFamily: "TT Commons Regular",
                                         }}
@@ -2262,7 +2262,7 @@ const ProductDetail = () => {
                                         <Typography>
                                           {
                                             <span
-                                              className="smr_currencyFont"
+                                              className="proCat_currencyFont"
                                               sx={{
                                                 fontFamily:
                                                   "TT Commons Regular",
@@ -2275,7 +2275,7 @@ const ProductDetail = () => {
                                         </Typography>
                                         &nbsp;
                                         <Typography
-                                          className="smr_PriceBreakup_Price"
+                                          className="proCat_PriceBreakup_Price"
                                           sx={{
                                             fontFamily: "TT Commons Regular",
                                           }}
@@ -2318,7 +2318,7 @@ const ProductDetail = () => {
                                       }}
                                     >
                                       <Typography
-                                        className="smr_Price_breakup_label"
+                                        className="proCat_Price_breakup_label"
                                         sx={{
                                           fontFamily: "TT Commons Regular",
                                         }}
@@ -2330,7 +2330,7 @@ const ProductDetail = () => {
                                         <Typography>
                                           {
                                             <span
-                                              className="smr_currencyFont"
+                                              className="proCat_currencyFont"
                                               sx={{
                                                 fontFamily:
                                                   "TT Commons Regular",
@@ -2343,7 +2343,7 @@ const ProductDetail = () => {
                                         </Typography>
                                         &nbsp;
                                         <Typography
-                                          className="smr_PriceBreakup_Price"
+                                          className="proCat_PriceBreakup_Price"
                                           sx={{
                                             fontFamily: "TT Commons Regular",
                                           }}
@@ -2379,11 +2379,11 @@ const ProductDetail = () => {
                             )}
 
                           {storeInit?.IsPriceShow == 1 && (
-                            <div className="smr_price_portion">
+                            <div className="proCat_price_portion">
                               {isPriceloading ? (
                                 ""
                               ) : (
-                                <span className="smr_currencyFont">
+                                <span className="proCat_currencyFont">
                                   {loginInfo?.CurrencyCode ??
                                     storeInit?.CurrencyCode}
                                 </span>
@@ -2508,12 +2508,12 @@ const ProductDetail = () => {
                 </Swiper>
 
 
-                <div className="smr_material_details_portion">
+                <div className="proCat_material_details_portion">
                   {diaList?.length > 0 && (
-                    <p className="smr_details_title"> Product Details</p>
+                    <p className="proCat_details_title"> Product Details</p>
                   )}
                   {diaList?.length > 0 && (
-                    <div className="smr_material_details_portion_inner">
+                    <div className="proCat_material_details_portion_inner">
                       <ul style={{ margin: "0px 0px 3px 0px" }}>
                         <li
                           style={{ fontWeight: 600 }}
@@ -2527,18 +2527,18 @@ const ProductDetail = () => {
                           )
                           .toFixed(3)}ct)`}</li>
                       </ul>
-                      <ul className="smr_mt_detail_title_ul">
-                        <li className="smr_proDeatilList">Shape</li>
-                        <li className="smr_proDeatilList">Clarity</li>
-                        <li className="smr_proDeatilList">Color</li>
-                        <li className="smr_proDeatilList">Pcs / Wt</li>
+                      <ul className="proCat_mt_detail_title_ul">
+                        <li className="proCat_proDeatilList">Shape</li>
+                        <li className="proCat_proDeatilList">Clarity</li>
+                        <li className="proCat_proDeatilList">Color</li>
+                        <li className="proCat_proDeatilList">Pcs / Wt</li>
                       </ul>
                       {diaList?.map((data) => (
-                        <ul className="smr_mt_detail_title_ul">
-                          <li className="smr_proDeatilList1">{data?.F}</li>
-                          <li className="smr_proDeatilList1">{data?.H}</li>
-                          <li className="smr_proDeatilList1">{data?.J}</li>
-                          <li className="smr_proDeatilList1">
+                        <ul className="proCat_mt_detail_title_ul">
+                          <li className="proCat_proDeatilList1">{data?.F}</li>
+                          <li className="proCat_proDeatilList1">{data?.H}</li>
+                          <li className="proCat_proDeatilList1">{data?.J}</li>
+                          <li className="proCat_proDeatilList1">
                             {data.M}&nbsp;/&nbsp;{data?.N?.toFixed(3)}
                           </li>
                         </ul>
@@ -2547,7 +2547,7 @@ const ProductDetail = () => {
                   )}
 
                   {/* {csList?.length > 0 && (
-                    <div className="smr_material_details_portion_inner">
+                    <div className="proCat_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
                           style={{ fontWeight: 600 }}
@@ -2561,18 +2561,18 @@ const ProductDetail = () => {
                           )
                           .toFixed(3)}ct)`}</li>
                       </ul>
-                      <ul className="smr_mt_detail_title_ul">
-                        <li className="smr_proDeatilList">Shape</li>
-                        <li className="smr_proDeatilList">Clarity</li>
-                        <li className="smr_proDeatilList">Color</li>
-                        <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                      <ul className="proCat_mt_detail_title_ul">
+                        <li className="proCat_proDeatilList">Shape</li>
+                        <li className="proCat_proDeatilList">Clarity</li>
+                        <li className="proCat_proDeatilList">Color</li>
+                        <li className="proCat_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
                       </ul>
                       {csList?.map((data) => (
-                        <ul className="smr_mt_detail_title_ul">
-                          <li className="smr_proDeatilList1">{data?.F}</li>
-                          <li className="smr_proDeatilList1">{data?.H}</li>
-                          <li className="smr_proDeatilList1">{data?.J}</li>
-                          <li className="smr_proDeatilList1">
+                        <ul className="proCat_mt_detail_title_ul">
+                          <li className="proCat_proDeatilList1">{data?.F}</li>
+                          <li className="proCat_proDeatilList1">{data?.H}</li>
+                          <li className="proCat_proDeatilList1">{data?.J}</li>
+                          <li className="proCat_proDeatilList1">
                             {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
                           </li>
                         </ul>
@@ -2581,7 +2581,7 @@ const ProductDetail = () => {
                   )} */}
 
                   {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
-                    <div className="smr_material_details_portion_inner">
+                    <div className="proCat_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
                           style={{ fontWeight: 600 }}
@@ -2598,22 +2598,22 @@ const ProductDetail = () => {
                             )
                             .toFixed(3)}ct)`}</li>
                       </ul>
-                      <ul className="smr_mt_detail_title_ul">
-                        <li className="smr_proDeatilList">Shape</li>
-                        <li className="smr_proDeatilList">Clarity</li>
-                        <li className="smr_proDeatilList">Color</li>
-                        <li className="smr_proDeatilList">
+                      <ul className="proCat_mt_detail_title_ul">
+                        <li className="proCat_proDeatilList">Shape</li>
+                        <li className="proCat_proDeatilList">Clarity</li>
+                        <li className="proCat_proDeatilList">Color</li>
+                        <li className="proCat_proDeatilList">
                           Pcs&nbsp;/&nbsp;Wt
                         </li>
                       </ul>
                       {csList
                         ?.filter((ele) => ele?.D !== "MISC")
                         ?.map((data) => (
-                          <ul className="smr_mt_detail_title_ul">
-                            <li className="smr_proDeatilList1">{data?.F}</li>
-                            <li className="smr_proDeatilList1">{data?.H}</li>
-                            <li className="smr_proDeatilList1">{data?.J}</li>
-                            <li className="smr_proDeatilList1">
+                          <ul className="proCat_mt_detail_title_ul">
+                            <li className="proCat_proDeatilList1">{data?.F}</li>
+                            <li className="proCat_proDeatilList1">{data?.H}</li>
+                            <li className="proCat_proDeatilList1">{data?.J}</li>
+                            <li className="proCat_proDeatilList1">
                               {data.M}&nbsp;/&nbsp;{data?.N?.toFixed(3)}
                             </li>
                           </ul>
@@ -2622,7 +2622,7 @@ const ProductDetail = () => {
                   )}
 
                   {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
-                    <div className="smr_material_details_portion_inner">
+                    <div className="proCat_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li style={{ fontWeight: 600 }}>{`MISC Detail (${csList
                           ?.filter((ele) => ele?.D === "MISC")
@@ -2637,22 +2637,22 @@ const ProductDetail = () => {
                             )
                             .toFixed(3)}gm)`}</li>
                       </ul>
-                      <ul className="smr_mt_detail_title_ul">
-                        <li className="smr_proDeatilList">Shape</li>
-                        <li className="smr_proDeatilList">Clarity</li>
-                        <li className="smr_proDeatilList">Color</li>
-                        <li className="smr_proDeatilList">
+                      <ul className="proCat_mt_detail_title_ul">
+                        <li className="proCat_proDeatilList">Shape</li>
+                        <li className="proCat_proDeatilList">Clarity</li>
+                        <li className="proCat_proDeatilList">Color</li>
+                        <li className="proCat_proDeatilList">
                           Pcs&nbsp;/&nbsp;Wt
                         </li>
                       </ul>
                       {csList
                         ?.filter((ele) => ele?.D === "MISC")
                         ?.map((data) => (
-                          <ul className="smr_mt_detail_title_ul">
-                            <li className="smr_proDeatilList1">{data?.F}</li>
-                            <li className="smr_proDeatilList1">{data?.H}</li>
-                            <li className="smr_proDeatilList1">{data?.J}</li>
-                            <li className="smr_proDeatilList1">
+                          <ul className="proCat_mt_detail_title_ul">
+                            <li className="proCat_proDeatilList1">{data?.F}</li>
+                            <li className="proCat_proDeatilList1">{data?.H}</li>
+                            <li className="proCat_proDeatilList1">{data?.J}</li>
+                            <li className="proCat_proDeatilList1">
                               {data.M}&nbsp;/&nbsp;{data?.N?.toFixed(3)}
                             </li>
                           </ul>
@@ -2665,8 +2665,8 @@ const ProductDetail = () => {
                   <>
                     {(imageData?.length < 5 && !maxwidth1023px) ? (
                       <div className="proCat_moreProduct_cardContainer">
-                        <p className="smr_details_title">More Products</p>
-                        <div className="smr_swiper_container">
+                        <p className="proCat_details_title">More Products</p>
+                        <div className="proCat_swiper_container">
                           {imageData?.map((ele) => (
                             <div
                               key={ele?.autocode}
@@ -2689,8 +2689,8 @@ const ProductDetail = () => {
                       </div>
                     ) : (
                       <div className="proCat_moreProduct_swiperMainDiv">
-                        <p className="smr_details_title">More Products</p>
-                        <div className="smr_swiper_container">
+                        <p className="proCat_details_title">More Products</p>
+                        <div className="proCat_swiper_container">
                           <Swiper
                             spaceBetween={10}
                             lazy={true}
@@ -2743,12 +2743,12 @@ const ProductDetail = () => {
 
                 {stockItemArr?.length > 0 && stockItemArr?.[0]?.stat_code != 1005 &&
                   storeInit?.IsStockWebsite === 1 && (
-                    <div className="smr_stockItem_div">
-                      <p className="smr_details_title"> Stock Items </p>
-                      <div className="smr_stockitem_container">
-                        <div className="smr_stock_item_card">
+                    <div className="proCat_stockItem_div">
+                      <p className="proCat_details_title"> Stock Items </p>
+                      <div className="proCat_stockitem_container">
+                        <div className="proCat_stock_item_card">
                           {stockItemArr?.map((ele) => (
-                            <div className="smr_stockItemCard">
+                            <div className="proCat_stockItemCard">
                               <div className="cart_and_wishlist_icon">
                               </div>
                               <img
@@ -2766,17 +2766,17 @@ const ProductDetail = () => {
                                 onError={(e) => e.target.src = imageNotFound}
                               />
                               <div
-                                className="smr_stockutem_shortinfo"
+                                className="proCat_stockutem_shortinfo"
                                 style={{
                                   display: "flex",
                                   flexDirection: "column",
                                   gap: "5px",
                                 }}
                               >
-                                <span className="smr_prod_designno">
+                                <span className="proCat_prod_designno">
                                   {ele?.designno + '  ' + '(' + ele?.StockBarcode + ')'}
                                 </span>
-                                <div className="smr_prod_Allwt">
+                                <div className="proCat_prod_Allwt">
                                   <div
                                     style={{
                                       display: "flex",
@@ -2785,11 +2785,11 @@ const ProductDetail = () => {
                                       flexWrap: "wrap",
                                     }}
                                   >
-                                    <span className="smr_prod_wt">
-                                      <span className="smr_d_keys" style={{
+                                    <span className="proCat_prod_wt">
+                                      <span className="proCat_d_keys" style={{
                                         fontSize: '12px'
                                       }}>NWT:</span>
-                                      <span className="smr_d_val" style={{
+                                      <span className="proCat_d_val" style={{
                                         fontSize: '12px'
                                       }}>
                                         {ele?.NetWt}
@@ -2803,13 +2803,13 @@ const ProductDetail = () => {
                                             fontSize: '12px',
                                             padding: '0 2px'
                                           }}>|</span>
-                                          <span className="smr_prod_wt">
-                                            <span className="smr_d_keys" style={{
+                                          <span className="proCat_prod_wt">
+                                            <span className="proCat_d_keys" style={{
                                               fontSize: '12px'
                                             }}>
                                               GWT:
                                             </span>
-                                            <span className="smr_d_val">
+                                            <span className="proCat_d_val">
                                               {ele?.GrossWt}
                                             </span>
                                           </span>
@@ -2823,13 +2823,13 @@ const ProductDetail = () => {
                                             padding: '0 2px'
 
                                           }}>|</span>
-                                          <span className="smr_prod_wt">
-                                            <span className="smr_d_keys" style={{
+                                          <span className="proCat_prod_wt">
+                                            <span className="proCat_d_keys" style={{
                                               fontSize: '12px'
                                             }}>
                                               DWT:
                                             </span>
-                                            <span className="smr_d_val" style={{
+                                            <span className="proCat_d_val" style={{
                                               fontSize: '12px'
                                             }}>
                                               {ele?.DiaWt}
@@ -2849,13 +2849,13 @@ const ProductDetail = () => {
                                             padding: '0 2px'
 
                                           }}>|</span>
-                                          <span className="smr_prod_wt">
-                                            <span className="smr_d_keys" style={{
+                                          <span className="proCat_prod_wt">
+                                            <span className="proCat_d_keys" style={{
                                               fontSize: '12px'
                                             }}>
                                               CWT:
                                             </span>
-                                            <span className="smr_d_val" style={{
+                                            <span className="proCat_d_val" style={{
                                               fontSize: '12px'
                                             }}>
                                               {ele?.CsWt}
@@ -2890,7 +2890,7 @@ const ProductDetail = () => {
                                       {isPriceloading ? (
                                         ""
                                       ) : (
-                                        <span className="smr_currencyFont">
+                                        <span className="proCat_currencyFont">
                                           {loginInfo?.CurrencyCode ??
                                             storeInit?.CurrencyCode}
                                         </span>
@@ -2978,22 +2978,22 @@ const ProductDetail = () => {
                           {stockItemArr?.map((ele, i) => (
                             <tr className="Smr_stockItem_table_tr">
                               <td className="Smr_stockItem_table_td">
-                                <span className="smr_prod_designno">
+                                <span className="proCat_prod_designno">
                                   {ele?.SrNo}
                                 </span>
                               </td>
                               <td className="Smr_stockItem_table_td">
-                                <span className="smr_prod_designno">
+                                <span className="proCat_prod_designno">
                                   {ele?.designno}
                                 </span>
                               </td>
                               <td className="Smr_stockItem_table_td">
-                                <span className="smr_prod_designno">
+                                <span className="proCat_prod_designno">
                                   {ele?.StockBarcode}
                                 </span>
                               </td>
                               <td className="Smr_stockItem_table_td">
-                                <div className="smr_prod_Allwt">
+                                <div className="proCat_prod_Allwt">
                                   <div
                                     style={{
                                       display: "flex",
@@ -3006,11 +3006,11 @@ const ProductDetail = () => {
                                     {storeInit?.IsGrossWeight == 1 &&
                                       Number(ele?.GrossWt) !== 0 && (
                                         <>
-                                          <span className="smr_prod_wt">
-                                            <span className="smr_d_keys">
+                                          <span className="proCat_prod_wt">
+                                            <span className="proCat_d_keys">
                                               GWT:
                                             </span>
-                                            <span className="smr_d_val">
+                                            <span className="proCat_d_val">
                                               {(ele?.GrossWt)?.toFixed(3)}
                                             </span>
                                           </span>
@@ -3020,9 +3020,9 @@ const ProductDetail = () => {
                                     {Number(ele?.NetWt) !== 0 && (
                                       <>
                                         <span>|</span>
-                                        <span className="smr_prod_wt">
-                                          <span className="smr_d_keys">NWT:</span>
-                                          <span className="smr_d_val">
+                                        <span className="proCat_prod_wt">
+                                          <span className="proCat_d_keys">NWT:</span>
+                                          <span className="proCat_d_val">
                                             {(ele?.NetWt)?.toFixed(3)}
                                           </span>
                                         </span>
@@ -3032,11 +3032,11 @@ const ProductDetail = () => {
                                       Number(ele?.DiaWt) !== 0 && (
                                         <>
                                           <span>|</span>
-                                          <span className="smr_prod_wt">
-                                            <span className="smr_d_keys">
+                                          <span className="proCat_prod_wt">
+                                            <span className="proCat_d_keys">
                                               DWT:
                                             </span>
-                                            <span className="smr_d_val">
+                                            <span className="proCat_d_val">
                                               {(ele?.DiaWt)?.toFixed(3)}
                                               {storeInit?.IsDiamondPcs === 1
                                                 ? `/${ele?.DiaPcs}`
@@ -3050,11 +3050,11 @@ const ProductDetail = () => {
                                       Number(ele?.CsWt) !== 0 && (
                                         <>
                                           <span>|</span>
-                                          <span className="smr_prod_wt">
-                                            <span className="smr_d_keys">
+                                          <span className="proCat_prod_wt">
+                                            <span className="proCat_d_keys">
                                               CWT:
                                             </span>
-                                            <span className="smr_d_val">
+                                            <span className="proCat_d_val">
                                               {(ele?.CsWt)?.toFixed(3)}
                                               {storeInit?.IsStonePcs === 1
                                                 ? `/${ele?.CsPcs}`
@@ -3075,7 +3075,7 @@ const ProductDetail = () => {
                               {storeInit?.IsPriceShow != 0 &&
                                 <td className="Smr_stockItem_table_td">
                                   <span>
-                                    <span className="smr_currencyFont">
+                                    <span className="proCat_currencyFont">
                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>
                                     &nbsp;
@@ -3135,9 +3135,9 @@ const ProductDetail = () => {
 
                 {storeInit?.IsProductDetailSimilarDesign == 1 &&
                   SimilarBrandArr?.length > 0 && SimilarBrandArr?.[0]?.stat_code != 1005 && (
-                    <div className="smr_stockItem_div">
-                      <p className="smr_details_title"> Similar Designs</p>
-                      <div className="smr_stockitem_container">
+                    <div className="proCat_stockItem_div">
+                      <p className="proCat_details_title"> Similar Designs</p>
+                      <div className="proCat_stockitem_container">
                         <div className="proCat_stock_item_card">
                           {SimilarBrandArr?.map((ele) => (
                             <div
@@ -3167,7 +3167,7 @@ const ProductDetail = () => {
                                 }}
                               />
                               <div
-                                className="smr_stockutem_shortinfo"
+                                className="proCat_stockutem_shortinfo"
                                 style={{
                                   display: "flex",
                                   flexDirection: "column",
@@ -3176,7 +3176,7 @@ const ProductDetail = () => {
                                 }}
                               >
                                 <span
-                                  className="smr_prod_designno"
+                                  className="proCat_prod_designno"
                                   style={{ fontSize: "14px" }}
                                 >
                                   {ele?.designno}
@@ -3191,10 +3191,10 @@ const ProductDetail = () => {
                                       width: "100%",
                                       fontSize: "16px",
                                     }}
-                                    className="smr_stockItem_price_type_mt"
+                                    className="proCat_stockItem_price_type_mt"
                                   >
                                     <spam>
-                                      <span className="smr_currencyFont">
+                                      <span className="proCat_currencyFont">
                                         {loginInfo?.CurrencyCode ??
                                           storeInit?.CurrencyCode}
                                       </span>
@@ -5102,13 +5102,13 @@ export default ProductDetail;
 //                   display: "flex",
 //                   alignItems: "center",
 //                 }}
-//                 className="smr_prodd_datanotfound"
+//                 className="proCat_prodd_datanotfound"
 //               >
 //                 Data not Found!!
 //               </div>
 //             ) : (
 //               <>
-//                 <div className="smr_prod_detail_main">
+//                 <div className="proCat_prod_detail_main">
 //                   <IoArrowBack
 //                     style={{
 //                       height: "35px",
@@ -5119,12 +5119,12 @@ export default ProductDetail;
 //                     }}
 //                     onClick={() => navigate(-1)}
 //                   />
-//                   <div className="smr_prod_image_shortInfo">
+//                   <div className="proCat_prod_image_shortInfo">
 //                     {/* <div>
 //                       <span>{"<"}</span>
 //                     </div> */}
 
-//                     <div className="smr_prod_image_Sec">
+//                     <div className="proCat_prod_image_Sec">
 //                       {/* {isImageload && ( */}
 //                       {isImageload && (
 //                         <Skeleton
@@ -5138,7 +5138,7 @@ export default ProductDetail;
 //                       )}
 
 //                       <div
-//                         className="smr_main_prod_img"
+//                         className="proCat_main_prod_img"
 //                         style={{ display: isImageload ? "none" : "block" }}
 //                       >
 //                         {(selectedThumbImg?.type == "img") ? (
@@ -5149,10 +5149,10 @@ export default ProductDetail;
 //                             onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
 //                             alt={""}
 //                             onLoad={() => setIsImageLoad(false)}
-//                             className="smr_prod_img"
+//                             className="proCat_prod_img"
 //                           />
 //                         ) : (
-//                           <div className="smr_prod_video">
+//                           <div className="proCat_prod_video">
 //                             <video
 //                               src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
 //                               loop={true}
@@ -5168,7 +5168,7 @@ export default ProductDetail;
 //                           </div>
 //                         )}
 
-//                         <div className="smr_thumb_prod_img">
+//                         <div className="proCat_thumb_prod_img">
 //                           {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
 //                             pdThumbImg?.map((ele, i) => (
 //                               <img
@@ -5214,44 +5214,44 @@ export default ProductDetail;
 //                               />
 //                             </div>
 //                           ))}
-//                           {/* <div className="smr_thumb_prod_img">
+//                           {/* <div className="proCat_thumb_prod_img">
 
 //                       </div> */}
 //                         </div>
 //                       </div>
 //                     </div>
-//                     <div className="smr_prod_shortInfo">
+//                     <div className="proCat_prod_shortInfo">
 //                       <div className="proCat_prod_shortInfo_inner">
-//                         <p className="smr_prod_titleLine">
+//                         <p className="proCat_prod_titleLine">
 //                           {singleProd?.TitleLine}
 //                         </p>
-//                         <div className="smr_prod_summury_info">
-//                           <div className="smr_prod_summury_info_inner">
-//                             <span className="smr_single_prod_designno">
+//                         <div className="proCat_prod_summury_info">
+//                           <div className="proCat_prod_summury_info_inner">
+//                             <span className="proCat_single_prod_designno">
 //                               {singleProd?.designno}
 //                             </span>
-//                             <span className="smr_prod_short_key">
+//                             <span className="proCat_prod_short_key">
 //                               Metal Purity :{" "}
-//                               <span className="smr_prod_short_val">
+//                               <span className="proCat_prod_short_val">
 //                                 {selectMtType}
 //                               </span>
 //                             </span>
-//                             <span className="smr_prod_short_key">
+//                             <span className="proCat_prod_short_key">
 //                               Metal Color :{" "}
-//                               <span className="smr_prod_short_val">
+//                               <span className="proCat_prod_short_val">
 //                                 {metalColorName()}
 //                               </span>
 //                             </span>
 //                             {(storeInit?.IsDiamondCustomization === 1 &&
-//                               diaQcCombo?.length > 0 && diaList?.length) ? <span className="smr_prod_short_key">
+//                               diaQcCombo?.length > 0 && diaList?.length) ? <span className="proCat_prod_short_key">
 //                               Diamond Quality Color :{" "}
-//                               <span className="smr_prod_short_val">
+//                               <span className="proCat_prod_short_val">
 //                                 {`${selectDiaQc}`}
 //                               </span>
 //                             </span> : null}
-//                             <span className="smr_prod_short_key">
+//                             <span className="proCat_prod_short_key">
 //                               Net Wt :{" "}
-//                               <span className="smr_prod_short_val">
+//                               <span className="proCat_prod_short_val">
 //                                 {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
 //                               </span>
 //                             </span>
@@ -5259,8 +5259,8 @@ export default ProductDetail;
 //                         </div>
 //                         {storeInit?.IsProductWebCustomization == 1 &&
 //                           metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
-//                             <div className="smr_single_prod_customize">
-//                               <div className="smr_single_prod_customize_metal">
+//                             <div className="proCat_single_prod_customize">
+//                               <div className="proCat_single_prod_customize_metal">
 //                                 <label className="menuItemTimeEleveDeatil">
 //                                   METAL TYPE:
 //                                 </label>
@@ -5295,7 +5295,7 @@ export default ProductDetail;
 //                                 )}
 //                               </div>
 //                               {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
-//                                 <div className="smr_single_prod_customize_outer">
+//                                 <div className="proCat_single_prod_customize_outer">
 //                                   <label className="menuItemTimeEleveDeatil">
 //                                     METAL COLOR:
 //                                   </label>
@@ -5330,7 +5330,7 @@ export default ProductDetail;
 //                               )}
 //                               {(storeInit?.IsDiamondCustomization === 1 &&
 //                                 diaQcCombo?.length > 0 && diaList?.length) ? (
-//                                 <div className="smr_single_prod_customize_outer">
+//                                 <div className="proCat_single_prod_customize_outer">
 //                                   <label className="menuItemTimeEleveDeatil">
 //                                     DIAMOND :
 //                                   </label>
@@ -5361,7 +5361,7 @@ export default ProductDetail;
 //                               ) : null}
 //                               {(storeInit?.IsCsCustomization === 1 &&
 //                                 selectCsQc?.length > 0 && csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) ? (
-//                                 <div className="smr_single_prod_customize_outer">
+//                                 <div className="proCat_single_prod_customize_outer">
 //                                   <label className="menuItemTimeEleveDeatil">
 //                                     COLOR STONE :
 //                                   </label>
@@ -5388,7 +5388,7 @@ export default ProductDetail;
 //                               ) : null}
 //                               {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
 //                               {SizeSorting(SizeCombo?.rd)?.length > 0 && singleProd?.DefaultSize !== "" && (
-//                                 <div className="smr_single_prod_customize_outer">
+//                                 <div className="proCat_single_prod_customize_outer">
 //                                   <label className="menuItemTimeEleveDeatil">
 //                                     SIZE:
 //                                   </label>
@@ -5472,73 +5472,73 @@ export default ProductDetail;
 //                               }}
 //                             >
 //                               {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-//                                 <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
+//                                 <Typography className="proCat_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
 //                                 <span style={{ display: 'flex' }}>
 //                                   <Typography>
 //                                     {
-//                                       <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+//                                       <span className="proCat_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
 //                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
 //                                       </span>
 //                                     }
 //                                   </Typography>
 //                                   &nbsp;
-//                                   <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+//                                   <Typography sx={{ fontFamily: "TT Commons Regular" }} className="proCat_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
 //                                 </span>
 //                               </div> : null}
 
 //                               {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-//                                 <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
+//                                 <Typography className="proCat_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
 
 //                                 <span style={{ display: 'flex' }}>
 //                                   <Typography>{
-//                                     <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+//                                     <span className="proCat_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
 //                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
 //                                     </span>
 //                                   }</Typography>
 //                                   &nbsp;
-//                                   <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+//                                   <Typography className="proCat_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
 //                                 </span>
 //                               </div> : null}
 
 //                               {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-//                                 <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
+//                                 <Typography className="proCat_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
 
 //                                 <span style={{ display: 'flex' }}>
 //                                   <Typography>{
-//                                     <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+//                                     <span className="proCat_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
 //                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
 //                                     </span>
 //                                   }</Typography>
 //                                   &nbsp;
-//                                   <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+//                                   <Typography className="proCat_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
 //                                 </span>
 //                               </div> : null}
 
 //                               {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-//                                 <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
+//                                 <Typography className="proCat_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
 
 //                                 <span style={{ display: 'flex' }}>
 //                                   <Typography>{
-//                                     <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+//                                     <span className="proCat_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
 //                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
 //                                     </span>
 //                                   }</Typography>
 //                                   &nbsp;
-//                                   <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+//                                   <Typography className="proCat_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
 //                                 </span>
 //                               </div> : null}
 
 //                               {(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-//                                 <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
+//                                 <Typography className="proCat_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
 
 //                                 <span style={{ display: 'flex' }}>
 //                                   <Typography>{
-//                                     <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+//                                     <span className="proCat_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
 //                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
 //                                     </span>
 //                                   }</Typography>
 //                                   &nbsp;
-//                                   <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+//                                   <Typography className="proCat_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
 //                                 </span>
 //                               </div> : null}
 
@@ -5553,16 +5553,16 @@ export default ProductDetail;
 
 //                                 ) !== 0 ?
 //                                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-//                                     <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
+//                                     <Typography className="proCat_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
 
 //                                     <span style={{ display: 'flex' }}>
 //                                       <Typography>{
-//                                         <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+//                                         <span className="proCat_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
 //                                           {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
 //                                         </span>
 //                                       }</Typography>
 //                                       &nbsp;
-//                                       <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
+//                                       <Typography className="proCat_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
 //                                         formatter.format((
 
 //                                           (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
@@ -5585,11 +5585,11 @@ export default ProductDetail;
 
 //                         {
 //                           storeInit?.IsPriceShow == 1 && (
-//                             <div className="smr_price_portion">
+//                             <div className="proCat_price_portion">
 //                               {isPriceloading ? (
 //                                 ""
 //                               ) : (
-//                                 <span className="smr_currencyFont">
+//                                 <span className="proCat_currencyFont">
 //                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
 //                                 </span>
 //                               )}
@@ -5624,7 +5624,7 @@ export default ProductDetail;
 //                                 onClick={() => handleCart(!addToCartFlag)}
 //                               >
 //                                 <span
-//                                   className="smr_addtocart_btn_txt"
+//                                   className="proCat_addtocart_btn_txt"
 //                                   style={{ color: !addToCartFlag ? "" : "white" }}
 //                                 >
 //                                   {!addToCartFlag
@@ -5666,12 +5666,12 @@ export default ProductDetail;
 //                   </div>
 //                 </div>
 
-//                 <div className="smr_material_details_portion">
+//                 <div className="proCat_material_details_portion">
 //                   {diaList?.length > 0 && (
-//                     <p className="smr_details_title"> Product Details</p>
+//                     <p className="proCat_details_title"> Product Details</p>
 //                   )}
 //                   {diaList?.length > 0 && (
-//                     <div className="smr_material_details_portion_inner">
+//                     <div className="proCat_material_details_portion_inner">
 //                       <ul style={{ margin: "0px 0px 3px 0px" }}>
 //                         <li
 //                           style={{ fontWeight: 600 }}
@@ -5685,18 +5685,18 @@ export default ProductDetail;
 //                           )
 //                           .toFixed(3)}ct)`}</li>
 //                       </ul>
-//                       <ul className="smr_mt_detail_title_ul">
-//                         <li className="smr_proDeatilList">Shape</li>
-//                         <li className="smr_proDeatilList">Clarity</li>
-//                         <li className="smr_proDeatilList">Color</li>
-//                         <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+//                       <ul className="proCat_mt_detail_title_ul">
+//                         <li className="proCat_proDeatilList">Shape</li>
+//                         <li className="proCat_proDeatilList">Clarity</li>
+//                         <li className="proCat_proDeatilList">Color</li>
+//                         <li className="proCat_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
 //                       </ul>
 //                       {diaList?.map((data) => (
-//                         <ul className="smr_mt_detail_title_ul">
-//                           <li className="smr_proDeatilList1">{data?.F}</li>
-//                           <li className="smr_proDeatilList1">{data?.H}</li>
-//                           <li className="smr_proDeatilList1">{data?.J}</li>
-//                           <li className="smr_proDeatilList1">
+//                         <ul className="proCat_mt_detail_title_ul">
+//                           <li className="proCat_proDeatilList1">{data?.F}</li>
+//                           <li className="proCat_proDeatilList1">{data?.H}</li>
+//                           <li className="proCat_proDeatilList1">{data?.J}</li>
+//                           <li className="proCat_proDeatilList1">
 //                             {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
 //                           </li>
 //                         </ul>
@@ -5705,7 +5705,7 @@ export default ProductDetail;
 //                   )}
 
 //                   {/* {csList?.length > 0 && (
-//                     <div className="smr_material_details_portion_inner">
+//                     <div className="proCat_material_details_portion_inner">
 //                       <ul style={{ margin: "10px 0px 3px 0px" }}>
 //                         <li
 //                           style={{ fontWeight: 600 }}
@@ -5719,18 +5719,18 @@ export default ProductDetail;
 //                           )
 //                           .toFixed(3)}ct)`}</li>
 //                       </ul>
-//                       <ul className="smr_mt_detail_title_ul">
-//                         <li className="smr_proDeatilList">Shape</li>
-//                         <li className="smr_proDeatilList">Clarity</li>
-//                         <li className="smr_proDeatilList">Color</li>
-//                         <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+//                       <ul className="proCat_mt_detail_title_ul">
+//                         <li className="proCat_proDeatilList">Shape</li>
+//                         <li className="proCat_proDeatilList">Clarity</li>
+//                         <li className="proCat_proDeatilList">Color</li>
+//                         <li className="proCat_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
 //                       </ul>
 //                       {csList?.map((data) => (
-//                         <ul className="smr_mt_detail_title_ul">
-//                           <li className="smr_proDeatilList1">{data?.F}</li>
-//                           <li className="smr_proDeatilList1">{data?.H}</li>
-//                           <li className="smr_proDeatilList1">{data?.J}</li>
-//                           <li className="smr_proDeatilList1">
+//                         <ul className="proCat_mt_detail_title_ul">
+//                           <li className="proCat_proDeatilList1">{data?.F}</li>
+//                           <li className="proCat_proDeatilList1">{data?.H}</li>
+//                           <li className="proCat_proDeatilList1">{data?.J}</li>
+//                           <li className="proCat_proDeatilList1">
 //                             {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
 //                           </li>
 //                         </ul>
@@ -5739,7 +5739,7 @@ export default ProductDetail;
 //                   )} */}
 
 //                   {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
-//                     <div className="smr_material_details_portion_inner">
+//                     <div className="proCat_material_details_portion_inner">
 //                       <ul style={{ margin: "10px 0px 3px 0px" }}>
 //                         <li
 //                           style={{ fontWeight: 600 }}
@@ -5753,18 +5753,18 @@ export default ProductDetail;
 //                           )
 //                           .toFixed(3)}ct)`}</li>
 //                       </ul>
-//                       <ul className="smr_mt_detail_title_ul">
-//                         <li className="smr_proDeatilList">Shape</li>
-//                         <li className="smr_proDeatilList">Clarity</li>
-//                         <li className="smr_proDeatilList">Color</li>
-//                         <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+//                       <ul className="proCat_mt_detail_title_ul">
+//                         <li className="proCat_proDeatilList">Shape</li>
+//                         <li className="proCat_proDeatilList">Clarity</li>
+//                         <li className="proCat_proDeatilList">Color</li>
+//                         <li className="proCat_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
 //                       </ul>
 //                       {csList?.filter((ele) => ele?.D !== "MISC")?.map((data) => (
-//                         <ul className="smr_mt_detail_title_ul">
-//                           <li className="smr_proDeatilList1">{data?.F}</li>
-//                           <li className="smr_proDeatilList1">{data?.H}</li>
-//                           <li className="smr_proDeatilList1">{data?.J}</li>
-//                           <li className="smr_proDeatilList1">
+//                         <ul className="proCat_mt_detail_title_ul">
+//                           <li className="proCat_proDeatilList1">{data?.F}</li>
+//                           <li className="proCat_proDeatilList1">{data?.H}</li>
+//                           <li className="proCat_proDeatilList1">{data?.J}</li>
+//                           <li className="proCat_proDeatilList1">
 //                             {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
 //                           </li>
 //                         </ul>
@@ -5773,7 +5773,7 @@ export default ProductDetail;
 //                   )}
 
 //                   {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
-//                     <div className="smr_material_details_portion_inner">
+//                     <div className="proCat_material_details_portion_inner">
 //                       <ul style={{ margin: "10px 0px 3px 0px" }}>
 //                         <li
 //                           style={{ fontWeight: 600 }}
@@ -5787,18 +5787,18 @@ export default ProductDetail;
 //                           )
 //                           .toFixed(3)}gm)`}</li>
 //                       </ul>
-//                       <ul className="smr_mt_detail_title_ul">
-//                         <li className="smr_proDeatilList">Shape</li>
-//                         <li className="smr_proDeatilList">Clarity</li>
-//                         <li className="smr_proDeatilList">Color</li>
-//                         <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+//                       <ul className="proCat_mt_detail_title_ul">
+//                         <li className="proCat_proDeatilList">Shape</li>
+//                         <li className="proCat_proDeatilList">Clarity</li>
+//                         <li className="proCat_proDeatilList">Color</li>
+//                         <li className="proCat_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
 //                       </ul>
 //                       {csList?.filter((ele) => ele?.D === "MISC")?.map((data) => (
-//                         <ul className="smr_mt_detail_title_ul">
-//                           <li className="smr_proDeatilList1">{data?.F}</li>
-//                           <li className="smr_proDeatilList1">{data?.H}</li>
-//                           <li className="smr_proDeatilList1">{data?.J}</li>
-//                           <li className="smr_proDeatilList1">
+//                         <ul className="proCat_mt_detail_title_ul">
+//                           <li className="proCat_proDeatilList1">{data?.F}</li>
+//                           <li className="proCat_proDeatilList1">{data?.H}</li>
+//                           <li className="proCat_proDeatilList1">{data?.J}</li>
+//                           <li className="proCat_proDeatilList1">
 //                             {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
 //                           </li>
 //                         </ul>
@@ -5807,8 +5807,8 @@ export default ProductDetail;
 //                   )}
 //                 </div>
 
-//                 <p className="smr_details_title" style={{fontSize:'20px',marginLeft:'40px',textAlign:'center'}}> MORE PRODUCTS</p>
-//                 <div className="smr_swiper_container">
+//                 <p className="proCat_details_title" style={{fontSize:'20px',marginLeft:'40px',textAlign:'center'}}> MORE PRODUCTS</p>
+//                 <div className="proCat_swiper_container">
 //                     <Swiper
 //                         spaceBetween={10}
 //                         lazy={true}
@@ -5848,12 +5848,12 @@ export default ProductDetail;
 //                 </div>
 
 //                 {(stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
-//                   <div className="smr_stockItem_div">
-//                     <p className="smr_details_title"> Stock Items </p>
-//                     <div className="smr_stockitem_container">
-//                       <div className="smr_stock_item_card">
+//                   <div className="proCat_stockItem_div">
+//                     <p className="proCat_details_title"> Stock Items </p>
+//                     <div className="proCat_stockitem_container">
+//                       <div className="proCat_stock_item_card">
 //                         {stockItemArr?.map((ele) => (
-//                           <div className="smr_stockItemCard">
+//                           <div className="proCat_stockItemCard">
 //                             <div className="cart_and_wishlist_icon">
 //                               <Checkbox
 //                                 icon={
@@ -5893,11 +5893,11 @@ export default ProductDetail;
 //                               }
 //                               alt={""}
 //                             />
-//                             <div className="smr_stockutem_shortinfo" style={{ display: 'flex', flexDirection: 'column', gap: '5px', paddingBottom: '5px' }}>
-//                               <span className="smr_prod_designno">
+//                             <div className="proCat_stockutem_shortinfo" style={{ display: 'flex', flexDirection: 'column', gap: '5px', paddingBottom: '5px' }}>
+//                               <span className="proCat_prod_designno">
 //                                 {ele?.designno}({ele?.StockBarcode})
 //                               </span>
-//                               <div className="smr_prod_Allwt">
+//                               <div className="proCat_prod_Allwt">
 //                                 <div
 //                                   style={{
 //                                     display: "flex",
@@ -5907,18 +5907,18 @@ export default ProductDetail;
 //                                     gap: "3px",
 //                                   }}
 //                                 >
-//                                   <span className="smr_prod_wt">
-//                                     <span className="smr_d_keys">NWT:</span>
-//                                     <span className="smr_d_val">{ele?.NetWt}</span>
+//                                   <span className="proCat_prod_wt">
+//                                     <span className="proCat_d_keys">NWT:</span>
+//                                     <span className="proCat_d_val">{ele?.NetWt}</span>
 //                                   </span>
 
 //                                   {storeInit?.IsGrossWeight == 1 &&
 //                                     Number(ele?.GrossWt) !== 0 && (
 //                                       <>
 //                                         <span>|</span>
-//                                         <span className="smr_prod_wt">
-//                                           <span className="smr_d_keys">GWT:</span>
-//                                           <span className="smr_d_val">
+//                                         <span className="proCat_prod_wt">
+//                                           <span className="proCat_d_keys">GWT:</span>
+//                                           <span className="proCat_d_val">
 //                                             {ele?.GrossWt}
 //                                           </span>
 //                                         </span>
@@ -5928,9 +5928,9 @@ export default ProductDetail;
 //                                     Number(ele?.DiaWt) !== 0 && (
 //                                       <>
 //                                         <span>|</span>
-//                                         <span className="smr_prod_wt">
-//                                           <span className="smr_d_keys">DWT:</span>
-//                                           <span className="smr_d_val">
+//                                         <span className="proCat_prod_wt">
+//                                           <span className="proCat_d_keys">DWT:</span>
+//                                           <span className="proCat_d_val">
 //                                             {ele?.DiaWt}
 //                                             {storeInit?.IsDiamondPcs === 1
 //                                               ? `/${ele?.DiaPcs}`
@@ -5944,9 +5944,9 @@ export default ProductDetail;
 //                                     Number(ele?.CsWt) !== 0 && (
 //                                       <>
 //                                         <span >|</span>
-//                                         <span className="smr_prod_wt">
-//                                           <span className="smr_d_keys">CWT:</span>
-//                                           <span className="smr_d_val">
+//                                         <span className="proCat_prod_wt">
+//                                           <span className="proCat_d_keys">CWT:</span>
+//                                           <span className="proCat_d_val">
 //                                             {ele?.CsWt}
 //                                             {storeInit?.IsStonePcs === 1
 //                                               ? `/${ele?.CsPcs}`
@@ -5958,7 +5958,7 @@ export default ProductDetail;
 //                                 </div>
 //                               </div>
 
-//                               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }} className="smr_stockItem_price_type_mt">
+//                               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }} className="proCat_stockItem_price_type_mt">
 //                                 {storeInit?.IsMetalTypeWithColor == 1 ? `${ele?.MetalColorName}-${ele?.metaltypename}${ele?.metalPurity}` : ""}
 //                                 {" "}/{" "}
 //                                 {
@@ -5967,7 +5967,7 @@ export default ProductDetail;
 //                                       {isPriceloading ? (
 //                                         ""
 //                                       ) : (
-//                                         <span className="smr_currencyFont">
+//                                         <span className="proCat_currencyFont">
 //                                           {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
 //                                         </span>
 //                                       )}
@@ -6011,22 +6011,22 @@ export default ProductDetail;
 //                           {stockItemArr?.map((ele, i) => (
 //                             <tr className="Smr_stockItem_table_tr">
 //                               <td className="Smr_stockItem_table_td">
-//                                 <span className="smr_prod_designno">
+//                                 <span className="proCat_prod_designno">
 //                                   {ele?.SrNo}
 //                                 </span>
 //                               </td>
 //                               <td className="Smr_stockItem_table_td">
-//                                 <span className="smr_prod_designno">
+//                                 <span className="proCat_prod_designno">
 //                                   {ele?.designno}
 //                                 </span>
 //                               </td>
 //                               <td className="Smr_stockItem_table_td">
-//                                 <span className="smr_prod_designno">
+//                                 <span className="proCat_prod_designno">
 //                                   {ele?.StockBarcode}
 //                                 </span>
 //                               </td>
 //                               <td className="Smr_stockItem_table_td">
-//                                 <div className="smr_prod_Allwt">
+//                                 <div className="proCat_prod_Allwt">
 //                                   <div
 //                                     style={{
 //                                       display: "flex",
@@ -6039,11 +6039,11 @@ export default ProductDetail;
 //                                     {storeInit?.IsGrossWeight == 1 &&
 //                                       Number(ele?.GrossWt) !== 0 && (
 //                                         <>
-//                                           <span className="smr_prod_wt">
-//                                             <span className="smr_d_keys">
+//                                           <span className="proCat_prod_wt">
+//                                             <span className="proCat_d_keys">
 //                                               GWT:
 //                                             </span>
-//                                             <span className="smr_d_val">
+//                                             <span className="proCat_d_val">
 //                                               {(ele?.GrossWt)?.toFixed(3)}
 //                                             </span>
 //                                           </span>
@@ -6053,9 +6053,9 @@ export default ProductDetail;
 //                                     {Number(ele?.NetWt) !== 0 && (
 //                                       <>
 //                                         <span>|</span>
-//                                         <span className="smr_prod_wt">
-//                                           <span className="smr_d_keys">NWT:</span>
-//                                           <span className="smr_d_val">
+//                                         <span className="proCat_prod_wt">
+//                                           <span className="proCat_d_keys">NWT:</span>
+//                                           <span className="proCat_d_val">
 //                                             {(ele?.NetWt)?.toFixed(3)}
 //                                           </span>
 //                                         </span>
@@ -6065,11 +6065,11 @@ export default ProductDetail;
 //                                       Number(ele?.DiaWt) !== 0 && (
 //                                         <>
 //                                           <span>|</span>
-//                                           <span className="smr_prod_wt">
-//                                             <span className="smr_d_keys">
+//                                           <span className="proCat_prod_wt">
+//                                             <span className="proCat_d_keys">
 //                                               DWT:
 //                                             </span>
-//                                             <span className="smr_d_val">
+//                                             <span className="proCat_d_val">
 //                                               {(ele?.DiaWt)?.toFixed(3)}
 //                                               {storeInit?.IsDiamondPcs === 1
 //                                                 ? `/${ele?.DiaPcs}`
@@ -6083,11 +6083,11 @@ export default ProductDetail;
 //                                       Number(ele?.CsWt) !== 0 && (
 //                                         <>
 //                                           <span>|</span>
-//                                           <span className="smr_prod_wt">
-//                                             <span className="smr_d_keys">
+//                                           <span className="proCat_prod_wt">
+//                                             <span className="proCat_d_keys">
 //                                               CWT:
 //                                             </span>
-//                                             <span className="smr_d_val">
+//                                             <span className="proCat_d_val">
 //                                               {(ele?.CsWt)?.toFixed(3)}
 //                                               {storeInit?.IsStonePcs === 1
 //                                                 ? `/${ele?.CsPcs}`
@@ -6108,7 +6108,7 @@ export default ProductDetail;
 //                               {storeInit?.IsPriceShow != 0 &&
 //                                 <td className="Smr_stockItem_table_td">
 //                                   <span>
-//                                     <span className="smr_currencyFont">
+//                                     <span className="proCat_currencyFont">
 //                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
 //                                     </span>
 //                                     &nbsp;
@@ -6168,13 +6168,13 @@ export default ProductDetail;
 
 //                 {storeInit?.IsProductDetailSimilarDesign == 1 &&
 //                   SimilarBrandArr?.length > 0 && (
-//                     <div className="smr_stockItem_div">
-//                       <p className="smr_details_title"> Similar Designs</p>
-//                       <div className="smr_stockitem_container">
-//                         <div className="smr_stock_item_card">
+//                     <div className="proCat_stockItem_div">
+//                       <p className="proCat_details_title"> Similar Designs</p>
+//                       <div className="proCat_stockitem_container">
+//                         <div className="proCat_stock_item_card">
 //                           {SimilarBrandArr?.map((ele) => (
 //                             <div
-//                               className="smr_stockItemCard"
+//                               className="proCat_stockItemCard"
 //                               onClick={() =>
 //                                 // setTimeout(() =>
 //                                 handleMoveToDetail(ele)
@@ -6182,7 +6182,7 @@ export default ProductDetail;
 //                               }
 //                             >
 //                               <img
-//                                 className="smr_productCard_Image"
+//                                 className="proCat_productCard_Image"
 //                                 src={
 //                                   ele?.ImageCount > 0
 //                                     ? storeInit?.CDNDesignImageFol +
@@ -6196,7 +6196,7 @@ export default ProductDetail;
 //                                 alt={""}
 //                               />
 //                               <div
-//                                 className="smr_stockutem_shortinfo"
+//                                 className="proCat_stockutem_shortinfo"
 //                                 style={{
 //                                   display: "flex",
 //                                   flexDirection: "column",
@@ -6205,7 +6205,7 @@ export default ProductDetail;
 //                                 }}
 //                               >
 //                                 <span
-//                                   className="smr_prod_designno"
+//                                   className="proCat_prod_designno"
 //                                   style={{ fontSize: "14px" }}
 //                                 >
 //                                   {ele?.designno}
@@ -6219,10 +6219,10 @@ export default ProductDetail;
 //                                     width: "100%",
 //                                     fontSize: "16px",
 //                                   }}
-//                                   className="smr_stockItem_price_type_mt"
+//                                   className="proCat_stockItem_price_type_mt"
 //                                 >
 //                                   <spam>
-//                                     <span className="smr_currencyFont">
+//                                     <span className="proCat_currencyFont">
 //                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
 //                                     </span>
 //                                     &nbsp;
@@ -6242,7 +6242,7 @@ export default ProductDetail;
 //                   )}
 
 //                 {storeInit?.IsProductDetailDesignSet === 1 &&
-//                   <div className="smr_DesignSet_main">
+//                   <div className="proCat_DesignSet_main">
 //                     {designSetList?.length > 0 && <div
 //                       style={{
 //                         display: "flex",
@@ -6262,7 +6262,7 @@ export default ProductDetail;
 //                       </p>
 //                     </div>}
 
-//                     <div className="smr_Swiper_designSet" >
+//                     <div className="proCat_Swiper_designSet" >
 //                       <Swiper
 //                         modules={[Navigation, Pagination, Scrollbar]}
 //                         // spaceBetween={50}
@@ -6274,7 +6274,7 @@ export default ProductDetail;
 //                         {designSetList?.map((designSetList) => (
 //                           <SwiperSlide>
 //                             <div className="compeletethelook_cont">
-//                               <div className="smr_ctlImg_containe">
+//                               <div className="proCat_ctlImg_containe">
 //                                 <img
 //                                   // src={
 //                                   //   "https://cdn.accentuate.io/3245609615460/4121939443812/99-v1581576944425.jpg?2048x1950"
@@ -6356,7 +6356,7 @@ export default ProductDetail;
 //                                             {ele?.designno} - {ele?.CategoryName}
 //                                             <br />
 //                                             {storeInit?.IsPriceShow == 1 &&
-//                                               <span className="smr_currencyFont">
+//                                               <span className="proCat_currencyFont">
 //                                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
 //                                               </span>
 //                                             }
