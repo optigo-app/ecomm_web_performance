@@ -94,6 +94,10 @@
     .smilingAddressPopupMain_Procat {
         height: 730px;
         width: 570px;
+        overflow-x: hidden;
+        @media screen and (max-width: 768px) {
+            width: 100% !important;
+        }
     }
 
     .labgrowRegister_Procat {
@@ -172,6 +176,19 @@
 .smilingAddressPopupMain_Procat {
     height: 730px;
     width: 570px;
+    overflow-x: hidden;
+    @media screen and (max-width: 768px) {
+        width: 450px !important;
+    }
+    @media screen and (max-width: 530px) {
+        width: 400px !important;
+    }
+    @media screen and (max-width: 465px) {
+        width: 320px !important;
+    }
+    @media screen and (max-width: 394px) {
+        width: 100% !important;
+    }
 }
 
 
