@@ -4,11 +4,11 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, D
 
 export default function AddressForm({ open, handleClose, handleCancel, handleInputChange, handleSubmit, formData, errors, isEditMode }) {
     return (
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open} onClose={handleClose} className='proCat_DeliverMainDiv'>
             <form onSubmit={handleSubmit}>
                 <DialogTitle className='proCat_dialogTitle'>{isEditMode ? 'Edit Shipping Address' : 'Add Shipping Address'}</DialogTitle>
                 <Divider/>
-                <DialogContent>
+                <DialogContent >
                     <TextField
                         label="First Name"
                         value={formData.firstName}

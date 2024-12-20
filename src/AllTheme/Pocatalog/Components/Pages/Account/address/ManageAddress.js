@@ -434,8 +434,12 @@ const ManageAddress = () => {
                     title="Delete Address"
                     content="Are you sure you want to delete address?"
                 />
-                <Dialog open={open} onClose={handleClose} >
-                    <div className='smilingAddressPopupMain_Procat'>
+                <Dialog open={open} onClose={handleClose} sx={{
+                    overflowX:"hidden"
+                }}>
+                    <div className='smilingAddressPopupMain_Procat' style={{
+                    overflowX:"hidden "
+                }}>
                         <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>{isEditMode ? 'Edit' : 'Add'} Shipping Info</DialogTitle>
                         <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', overflowX: "hidden" }}>
                             <TextField
