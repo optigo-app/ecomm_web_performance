@@ -5,6 +5,7 @@ import Footer from '../../Home/Footer/Footer';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import 'react-toastify/dist/ReactToastify.css';
 import { BespokeAPI } from '../../../../../../utils/API/Bespoke/BespokeAPI';
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 export default function ContactUs() {
     const [activeTab, setActiveTab] = useState('M1');
@@ -14,6 +15,17 @@ export default function ContactUs() {
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
+
+    useEffect(() => {
+        fetch(`${storImagePath()}/html/SonasonsContactPage.html`)  /* for sonsons only  */
+            .then((response) => response.text())
+            .then((html) => {
+                setHtmlContent(html);
+            })
+            .catch((error) => {
+                console.error('Error fetching the HTML file:', error);
+            });
+    }, []);
 
     useEffect(() => {
         window.scrollTo({
@@ -187,6 +199,7 @@ export default function ContactUs() {
                             </form>
                         </div>
                         <div className='Fo-contactBox2'>
+                            <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
                             {/* <p className='Fo-contactBox2Title'>Have questions?</p>
 
                             <p style={{
@@ -220,10 +233,9 @@ export default function ContactUs() {
                             {/* <p className='Fo-contactBox2Desc'>Our customer service team is available by phone from Monday-Friday 9.30am-6:30pm EST and Saturday 10am-5pm EST.</p>
                             <p className='Fo-contactBox2Desc'>Our office is located at 33W 46th Str, STE#9W, New York, NY 10036</p> */}
 
-                            <div>
+                            {/* <div>
                                 <div className="tab-buttons">
                                     <button className={activeTab === 'M1' ? 'active' : ''} onClick={() => handleTabClick('M1')}>Main Office Address</button>
-                                    {/* <button className={activeTab === 'M3' ? 'active' : ''} onClick={() => handleTabClick('M3')}>Head Office Address</button> */}
                                 </div>
                                 <div className="address">
                                     {activeTab === 'M1' && (
@@ -236,8 +248,9 @@ export default function ContactUs() {
                                         </div>
                                     )}
 
-                                    {/* <div className="map-container">
-                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.1384097684245!2d114.18683082602243!3d22.31060459252037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x340400df5b194c91%3A0x3301447411e931be!2sHeng%20Ngai%20Jewelry%20Centre!5e0!3m2!1sen!2sin!4v1716036679521!5m2!1sen!2sin"
+                                    <div className="map-container">
+                                        <iframe
+                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3720.2828242419437!2d72.8191344!3d21.1809209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e438cc948fb%3A0x5712a989b70ef3a2!2sOrail%20Services%20-%20OptigoApps!5e0!3m2!1sen!2sin!4v1734596370112!5m2!1sen!2sin"
                                             width="600"
                                             height="450"
                                             allowfullscreen=""
@@ -246,9 +259,9 @@ export default function ContactUs() {
                                             className='mapContact'
                                         >
                                         </iframe>
-                                    </div> */}
+                                    </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

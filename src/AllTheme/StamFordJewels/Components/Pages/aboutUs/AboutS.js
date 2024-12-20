@@ -99,7 +99,7 @@ export default function AboutUs() {
       });
   }, []);
 
-  const banner = `${storImagePath()}/images/HomePage/Aboutus/about1.jpeg`;
+  const banner = `${storImagePath()}/images/HomePage/Aboutus/about1.jpg`;
 
   return (
     <div className="stam_contactMain_about">

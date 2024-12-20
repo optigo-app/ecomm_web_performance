@@ -56,30 +56,30 @@ import {
 const SmilingRock_MobileApp_App = React.lazy(() =>
   import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
 );
-// const HemratnaProcatalog_App = React.lazy(() =>
-//   import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
-// );
-// const Procatalog_App = React.lazy(() =>
-//   import("./AllTheme/Pocatalog/Procatalog_App")
-// );
-// const HouseOfQuadri_App = React.lazy(() =>
-//   import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
-// );
-// const ForEveryRoutes = React.lazy(() =>
-//   import("./AllTheme/Forevery/ForeveryRoutes")
-// );
-// const Procatalog_MobileApp_App = React.lazy(() =>
-//   import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
-// );
-// const StamFordJewels_App = React.lazy(() =>
-//   import("./AllTheme/StamFordJewels/StamFordJewels_App")
-// );
-// const RoopJewellers_App = React.lazy(() =>
-//   import("./AllTheme/RoopJewellers/RoopJewellers_App")
-// );
-// const MalakanJewels_App = React.lazy(() =>
-//   import("./AllTheme/MalakanJwewls/MalakanJewels_App")
-// );
+const HemratnaProcatalog_App = React.lazy(() =>
+  import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
+);
+const Procatalog_App = React.lazy(() =>
+  import("./AllTheme/Pocatalog/Procatalog_App")
+);
+const HouseOfQuadri_App = React.lazy(() =>
+  import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
+);
+const ForEveryRoutes = React.lazy(() =>
+  import("./AllTheme/Forevery/ForeveryRoutes")
+);
+const Procatalog_MobileApp_App = React.lazy(() =>
+  import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
+);
+const StamFordJewels_App = React.lazy(() =>
+  import("./AllTheme/StamFordJewels/StamFordJewels_App")
+);
+const RoopJewellers_App = React.lazy(() =>
+  import("./AllTheme/RoopJewellers/RoopJewellers_App")
+);
+const MalakanJewels_App = React.lazy(() =>
+  import("./AllTheme/MalakanJwewls/MalakanJewels_App")
+);
 
 
 export default function ThemeRoutes() {
@@ -268,24 +268,24 @@ export default function ThemeRoutes() {
       })
       .catch((err) => console.log(err));
   };
-  
+
   const callAllApi = () => {
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const LoginUser = JSON?.parse(sessionStorage.getItem("LoginUser"));
     const visiterID = Cookies.get("visiterId");
-  
+
     const finalID = storeInit?.IsB2BWebsite === 0
       ? (LoginUser === false ? visiterID : loginUserDetail?.id || "0")
       : loginUserDetail?.id || "0";
-  
+
     callApiAndStore(MetalTypeComboAPI, "metalTypeCombo", finalID);
     callApiAndStore(DiamondQualityColorComboAPI, "diamondQualityColorCombo", finalID);
     callApiAndStore(MetalColorCombo, "MetalColorCombo", finalID);
     callApiAndStore(ColorStoneQualityColorComboAPI, "ColorStoneQualityColorCombo", finalID);
     callApiAndStore(CurrencyComboAPI, "CurrencyCombo", finalID);
   };
-  
+
 
   useEffect(() => {
     const storedData = sessionStorage.getItem("storeInit");
@@ -399,11 +399,11 @@ const Themes = ({ htmlContent }) => {
     <Suspense fallback={<></>}>
       {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
 
-      {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
-      {/* {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
+      {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
 
       {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
+      {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 
       {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
@@ -419,7 +419,7 @@ const Themes = ({ htmlContent }) => {
 
       {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
 
-      {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />} */}
+      {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
     </Suspense>
   </>
 }

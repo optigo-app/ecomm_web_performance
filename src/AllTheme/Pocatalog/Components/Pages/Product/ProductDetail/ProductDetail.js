@@ -1685,7 +1685,7 @@ const ProductDetail = () => {
                                   src={ele}
                                   alt={""}
                                   onLoad={() => setIsImageLoad(false)}
-                                  className="smr_prod_thumb_img"
+                                  className="proCat_prod_thumb_img"
                                   onClick={() => {
                                     setSelectedThumbImg({
                                       link: ele,
@@ -1718,7 +1718,7 @@ const ProductDetail = () => {
                                   src={data}
                                   autoPlay={true}
                                   loop={true}
-                                  className="smr_prod_thumb_img"
+                                  className="proCat_prod_thumb_img"
                                   style={{ height: "70px", objectFit: "cover" }}
                                   onError={(e) => {
                                     e.target.poster = imageNotFound;
@@ -5175,7 +5175,7 @@ export default ProductDetail;
 //                                 src={ele}
 //                                 alt={""}
 //                                 onLoad={() => setIsImageLoad(false)}
-//                                 className="smr_prod_thumb_img"
+//                                 className="proCat_prod_thumb_img"
 //                                 onClick={() => {
 //                                   setSelectedThumbImg({
 //                                     link: ele,
@@ -5201,7 +5201,7 @@ export default ProductDetail;
 //                                 src={data}
 //                                 autoPlay={true}
 //                                 loop={true}
-//                                 className="smr_prod_thumb_img"
+//                                 className="proCat_prod_thumb_img"
 //                                 style={{ height: "70px", objectFit: "cover" }}
 //                               />
 //                               <IoIosPlayCircle

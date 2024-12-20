@@ -100,16 +100,13 @@ const Header = () => {
     useEffect(() => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
-        if (storeinit?.IsB2BWebsite == 0) {
-            getMenuApi();
-            return;
-        } else if (storeinit?.IsB2BWebsite == 1 && isUserLogin == true) {
-            getMenuApi();
-            return;
-        } else {
-            return;
+        if (
+          storeinit?.IsB2BWebsite === 0 ||
+          (storeinit?.IsB2BWebsite === 1 && isUserLogin === true)) {
+          getMenuApi();
         }
-    }, [islogin]);
+      }, [islogin]);
+
 
     useEffect(() => {
         const handleScroll = () => {

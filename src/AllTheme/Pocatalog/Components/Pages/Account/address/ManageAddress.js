@@ -437,7 +437,7 @@ const ManageAddress = () => {
                 <Dialog open={open} onClose={handleClose} >
                     <div className='smilingAddressPopupMain_Procat'>
                         <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>{isEditMode ? 'Edit' : 'Add'} Shipping Info</DialogTitle>
-                        <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', overflowX: "hidden" }}>
                             <TextField
                                 id="firstName"
                                 label="First Name"
@@ -526,10 +526,10 @@ const ManageAddress = () => {
                                 error={!!errors.mobileNo}
                                 helperText={errors.mobileNo || ''}
                             />
-                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px', width: "100%" }}>
                                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px', marginBottom: '30px' }}>
                                     <button type="submit" className='smilingDeleveryformSaveBtn'>{isEditMode ? 'Edit' : 'Add'}</button>
-                                    <button onClick={handleClose} className='smilingDeleveryformCansleBtn'>
+                                    <button onClick={handleClose} className='smilingDeleveryformCansleBtn_proCat'>
                                         Cancel
                                     </button>
                                 </div>

@@ -20,9 +20,9 @@
 .Fo-contactBox1 {
 
     width: 50%;
-    padding-left: 230px;
-    margin-top: 50px;
     border-right: 1px solid #e1e1e1;
+    display: flex;
+    justify-content: center;
 }
 
 .Fo-contactBox1Title {
@@ -42,8 +42,8 @@
 }
 
 .Fo-contactBox2 {
-    width: 35%;
-    margin: 60px 130px 130px 130px;
+    width: 50%;
+    margin: 0px;
 }
 
 .Fo-contactBox2Title {
@@ -56,8 +56,7 @@
 
 .Fo-contactBox1BtnSub {
     height: 60px;
-    max-width: 300px;
-    width: 100%;
+    width: 300px;
     margin-top: 30px;
     border: 0;
     background-color: #7d7f85;
@@ -113,8 +112,20 @@
     .Fo-contactBox2 {
         width: 40%;
         margin: 0px;
-        margin-top: 15%;
+        // margin-top: 15%;
         margin-left: 100px;
+    }
+}
+
+@media screen and (max-width:1200px) {
+    .Fo-contactMain {
+        margin-inline: 2% !important;
+    }
+}
+
+@media screen and (max-width:800px) {
+    .Fo-contactMain {
+        margin-inline: 1% !important;
     }
 }
 

@@ -152,7 +152,12 @@ const TrendingView1 = () => {
                 </div>
                 <div className="stam_trendingProduct-grid">
                     <div className='smr_leftSideBestTR'>
-                        <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trendingBanner.png`}
+
+                        {/* For shinjini */}
+                        <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`}
+
+                            // for vara 
+                            // <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trendingBanner.png`}
                             alt="Trending Jewellery Collection Banner"
                         />
                     </div>

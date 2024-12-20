@@ -2144,6 +2144,105 @@ const ProductList = () => {
                         checked={isDrawerOpen}
                         onChange={(e) => setIsDrawerOpen(e.target.value)}
                       />
+                      <div className="stam_empty_sorting_div">
+                        <span
+                          className="stam_breadcums_port "
+                          // style={{ marginLeft: "72px" }}
+                          onClick={() => {
+                            navigate("/");
+                          }}
+                        >
+                          {"Home /"}{" "}
+                        </span>
+
+                        {location?.search.charAt(1) == "A" && (
+                          <div
+                            className="stam_breadcums_port"
+                            style={{ marginLeft: "3px" }}
+                          >
+                            <span>{"Album"}</span>
+                          </div>
+                        )}
+
+                        {location?.search.charAt(1) == "T" && (
+                          <div
+                            className="stam_breadcums_port"
+                            style={{ marginLeft: "3px" }}
+                          >
+                            <span>{"Trending"}</span>
+                          </div>
+                        )}
+
+                        {location?.search.charAt(1) == "B" && (
+                          <div
+                            className="stam_breadcums_port"
+                            style={{ marginLeft: "3px" }}
+                          >
+                            <span>{"Best Seller"}</span>
+                          </div>
+                        )}
+
+                        {location?.search.charAt(1) == "N" && (
+                          <div
+                            className="stam_breadcums_port"
+                            style={{ marginLeft: "3px" }}
+                          >
+                            <span>{"New Arrival"}</span>
+                          </div>
+                        )}
+
+                        {IsBreadCumShow && (
+                          <div
+                            className="stam_breadcums_port"
+                            style={{ marginLeft: "3px" }}
+                          >
+                            {BreadCumsObj()?.menuname && (
+                              <span
+                                onClick={() =>
+                                  handleBreadcums({
+                                    [BreadCumsObj()?.FilterKey]:
+                                      BreadCumsObj()?.FilterVal,
+                                  })
+                                }
+                              >
+                                {BreadCumsObj()?.menuname}
+                              </span>
+                            )}
+
+                            {BreadCumsObj()?.FilterVal1 && (
+                              <span
+                                onClick={() =>
+                                  handleBreadcums({
+                                    [BreadCumsObj()?.FilterKey]:
+                                      BreadCumsObj()?.FilterVal,
+                                    [BreadCumsObj()?.FilterKey1]:
+                                      BreadCumsObj()?.FilterVal1,
+                                  })
+                                }
+                              >
+                                {` / ${BreadCumsObj()?.FilterVal1}`}
+                              </span>
+                            )}
+
+                            {BreadCumsObj()?.FilterVal2 && (
+                              <span
+                                onClick={() =>
+                                  handleBreadcums({
+                                    [BreadCumsObj()?.FilterKey]:
+                                      BreadCumsObj()?.FilterVal,
+                                    [BreadCumsObj()?.FilterKey1]:
+                                      BreadCumsObj()?.FilterVal1,
+                                    [BreadCumsObj()?.FilterKey2]:
+                                      BreadCumsObj()?.FilterVal2,
+                                  })
+                                }
+                              >
+                                {` / ${BreadCumsObj()?.FilterVal2}`}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   ) : (
                     null
@@ -2787,105 +2886,107 @@ const ProductList = () => {
                           <ProductListSkeleton fromPage={"Prodlist"} className="pSkelton" />
                         ) : (
                           <>
-                            <div className="stam_empty_sorting_div">
-                              <span
-                                className="stam_breadcums_port "
-                                // style={{ marginLeft: "72px" }}
-                                onClick={() => {
-                                  navigate("/");
-                                }}
-                              >
-                                {"Home /"}{" "}
-                              </span>
-
-                              {location?.search.charAt(1) == "A" && (
-                                <div
-                                  className="stam_breadcums_port"
-                                  style={{ marginLeft: "3px" }}
+                            {minwidth1201px && (
+                              <div className="stam_empty_sorting_div">
+                                <span
+                                  className="stam_breadcums_port "
+                                  // style={{ marginLeft: "72px" }}
+                                  onClick={() => {
+                                    navigate("/");
+                                  }}
                                 >
-                                  <span>{"Album"}</span>
-                                </div>
-                              )}
+                                  {"Home /"}{" "}
+                                </span>
 
-                              {location?.search.charAt(1) == "T" && (
-                                <div
-                                  className="stam_breadcums_port"
-                                  style={{ marginLeft: "3px" }}
-                                >
-                                  <span>{"Trending"}</span>
-                                </div>
-                              )}
+                                {location?.search.charAt(1) == "A" && (
+                                  <div
+                                    className="stam_breadcums_port"
+                                    style={{ marginLeft: "3px" }}
+                                  >
+                                    <span>{"Album"}</span>
+                                  </div>
+                                )}
 
-                              {location?.search.charAt(1) == "B" && (
-                                <div
-                                  className="stam_breadcums_port"
-                                  style={{ marginLeft: "3px" }}
-                                >
-                                  <span>{"Best Seller"}</span>
-                                </div>
-                              )}
+                                {location?.search.charAt(1) == "T" && (
+                                  <div
+                                    className="stam_breadcums_port"
+                                    style={{ marginLeft: "3px" }}
+                                  >
+                                    <span>{"Trending"}</span>
+                                  </div>
+                                )}
 
-                              {location?.search.charAt(1) == "N" && (
-                                <div
-                                  className="stam_breadcums_port"
-                                  style={{ marginLeft: "3px" }}
-                                >
-                                  <span>{"New Arrival"}</span>
-                                </div>
-                              )}
+                                {location?.search.charAt(1) == "B" && (
+                                  <div
+                                    className="stam_breadcums_port"
+                                    style={{ marginLeft: "3px" }}
+                                  >
+                                    <span>{"Best Seller"}</span>
+                                  </div>
+                                )}
 
-                              {IsBreadCumShow && (
-                                <div
-                                  className="stam_breadcums_port"
-                                  style={{ marginLeft: "3px" }}
-                                >
-                                  {BreadCumsObj()?.menuname && (
-                                    <span
-                                      onClick={() =>
-                                        handleBreadcums({
-                                          [BreadCumsObj()?.FilterKey]:
-                                            BreadCumsObj()?.FilterVal,
-                                        })
-                                      }
-                                    >
-                                      {BreadCumsObj()?.menuname}
-                                    </span>
-                                  )}
+                                {location?.search.charAt(1) == "N" && (
+                                  <div
+                                    className="stam_breadcums_port"
+                                    style={{ marginLeft: "3px" }}
+                                  >
+                                    <span>{"New Arrival"}</span>
+                                  </div>
+                                )}
 
-                                  {BreadCumsObj()?.FilterVal1 && (
-                                    <span
-                                      onClick={() =>
-                                        handleBreadcums({
-                                          [BreadCumsObj()?.FilterKey]:
-                                            BreadCumsObj()?.FilterVal,
-                                          [BreadCumsObj()?.FilterKey1]:
-                                            BreadCumsObj()?.FilterVal1,
-                                        })
-                                      }
-                                    >
-                                      {` / ${BreadCumsObj()?.FilterVal1}`}
-                                    </span>
-                                  )}
+                                {IsBreadCumShow && (
+                                  <div
+                                    className="stam_breadcums_port"
+                                    style={{ marginLeft: "3px" }}
+                                  >
+                                    {BreadCumsObj()?.menuname && (
+                                      <span
+                                        onClick={() =>
+                                          handleBreadcums({
+                                            [BreadCumsObj()?.FilterKey]:
+                                              BreadCumsObj()?.FilterVal,
+                                          })
+                                        }
+                                      >
+                                        {BreadCumsObj()?.menuname}
+                                      </span>
+                                    )}
 
-                                  {BreadCumsObj()?.FilterVal2 && (
-                                    <span
-                                      onClick={() =>
-                                        handleBreadcums({
-                                          [BreadCumsObj()?.FilterKey]:
-                                            BreadCumsObj()?.FilterVal,
-                                          [BreadCumsObj()?.FilterKey1]:
-                                            BreadCumsObj()?.FilterVal1,
-                                          [BreadCumsObj()?.FilterKey2]:
-                                            BreadCumsObj()?.FilterVal2,
-                                        })
-                                      }
-                                    >
-                                      {` / ${BreadCumsObj()?.FilterVal2}`}
-                                    </span>
-                                  )}
-                                </div>
-                              )}
-                            </div>
+                                    {BreadCumsObj()?.FilterVal1 && (
+                                      <span
+                                        onClick={() =>
+                                          handleBreadcums({
+                                            [BreadCumsObj()?.FilterKey]:
+                                              BreadCumsObj()?.FilterVal,
+                                            [BreadCumsObj()?.FilterKey1]:
+                                              BreadCumsObj()?.FilterVal1,
+                                          })
+                                        }
+                                      >
+                                        {` / ${BreadCumsObj()?.FilterVal1}`}
+                                      </span>
+                                    )}
+
+                                    {BreadCumsObj()?.FilterVal2 && (
+                                      <span
+                                        onClick={() =>
+                                          handleBreadcums({
+                                            [BreadCumsObj()?.FilterKey]:
+                                              BreadCumsObj()?.FilterVal,
+                                            [BreadCumsObj()?.FilterKey1]:
+                                              BreadCumsObj()?.FilterVal1,
+                                            [BreadCumsObj()?.FilterKey2]:
+                                              BreadCumsObj()?.FilterVal2,
+                                          })
+                                        }
+                                      >
+                                        {` / ${BreadCumsObj()?.FilterVal2}`}
+                                      </span>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            )}
                             <div className="stam_main_sorting_div">
                               <div className="stam_mobile_prodSorting" onClick={(e) => setIsDrawerOpen(true)}>
                                 <span>Filters</span>
@@ -3154,9 +3255,9 @@ const ProductList = () => {
                                             className={
                                               (productData?.TitleLine?.length > 30)
                                                 ?
-                                                "smr1_prod_title_with_width"
+                                                "stam_prod_title_with_width"
                                                 :
-                                                "smr1_prod_title_with_no_width"
+                                                "stam_prod_title_with_no_width"
                                             }
                                           >
                                             {/* {productData?.TitleLine?.length > 0 &&

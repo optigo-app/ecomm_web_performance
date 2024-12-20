@@ -116,18 +116,15 @@ const Navbar = () => {
   const compnyLogoM = useRecoilValue(for_companyLogoM);
 
   useEffect(() => {
-    let storeinit = JSON.parse(sessionStorage?.getItem("storeInit"));
-    let isUserLogin = JSON.parse(sessionStorage?.getItem("LoginUser"));
-    if (storeinit?.IsB2BWebsite === 0) {
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+    let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
+    if (
+      storeinit?.IsB2BWebsite === 0 ||
+      (storeinit?.IsB2BWebsite === 1 && isUserLogin === true)) {
       getMenuApi();
-      return;
-    } else if (storeinit?.IsB2BWebsite === 1 && isUserLogin === true) {
-      getMenuApi();
-      return;
-    } else {
-      return;
     }
   }, [islogin]);
+
 
   useEffect(() => {
     const uniqueMenuIds = [...new Set(menuData?.map((item) => item?.menuid))];
@@ -675,7 +672,7 @@ const NavbarLeft = ({
                   setshowMenu(false);
                 }
               }}
-              // }}
+            // }}
             >
               {val?.disabled ? (
                 <div
@@ -1385,11 +1382,10 @@ const ThirdNavMenu = ({ data }) => {
                           }
                         >
                           <Link
-                            to={`/p/${menuItem?.param0dataname}/${
-                              subMenuItem.param1dataname
-                            }/?M=${btoa(
-                              `${menuItem?.param0dataname},${subMenuItem?.param1dataname}/${menuItem?.param0name},${subMenuItem?.param1name}`
-                            )}`}
+                            to={`/p/${menuItem?.param0dataname}/${subMenuItem.param1dataname
+                              }/?M=${btoa(
+                                `${menuItem?.param0dataname},${subMenuItem?.param1dataname}/${menuItem?.param0name},${subMenuItem?.param1name}`
+                              )}`}
                           >
                             {subMenuItem.param1dataname}
                           </Link>
@@ -1412,7 +1408,7 @@ const ThirdNavMenu = ({ data }) => {
           <div className="second_section">
             <div
               className="images"
-              // style={{ backgroundImage: `url(${BespokeBannerImage})` }}
+            // style={{ backgroundImage: `url(${BespokeBannerImage})` }}
             >
               <img
                 src={BespokeBannerImage}

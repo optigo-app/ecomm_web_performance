@@ -1,0 +1,145 @@
+@import '../../../scss/variable.scss';
+
+.sonasons {
+    &-banner {
+        position: relative;
+        height: 220px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+
+        @media screen and (max-width: 768px) {
+            height: 200px;
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    }
+
+    &-terms {
+        min-height: 100vh;
+        background-color: #17372F;
+        //   background-color: #ffffff;
+    }
+
+    &-main {
+        margin: 0 auto;
+        width: 60%;
+        padding: 2rem;
+
+        @media screen and (max-width: 1400px) {
+            width: 85%;
+        }
+
+        @media screen and (max-width: 1000px) {
+            width: 85%;
+        }
+
+        @media screen and (max-width: 768px) {
+            width: 95%;
+        }
+    }
+
+    &-title {
+        //   color: #333;
+        margin-bottom: 2rem;
+        font-size: 48px;
+        font-weight: 800;
+        color: #f6c2b5;
+        font-family: $primaryFontFamilyMedium;
+        text-decoration: underline;
+    }
+
+    &-introduction {
+        //   color: #666;
+        color: white;
+        line-height: 1.75;
+        margin-bottom: 2rem;
+        text-wrap: pretty;
+        text-align: justify;
+        font-family: $primaryFontFamilyMedium;
+    }
+
+    &-section {
+        margin-bottom: 3rem;
+
+        &-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            // color:rgb(215, 178, 86);
+            color: rgb(211, 211, 211);
+            font-family: $primaryFontFamilyMedium;
+        }
+
+        &-content {
+            margin-bottom: 1.5rem;
+            font-family: $primaryFontFamilyMedium;
+        }
+    }
+
+    &-subtitle {
+        font-size: 1.125rem;
+        color: whitesmoke;
+        //   color: #444;
+        margin-bottom: 1rem;
+        font-weight: 500;
+        text-wrap: pretty;
+        text-align: justify;
+        font-family: $primaryFontFamilyMedium;
+    }
+
+    &-text {
+        color: white;
+        //   color: #666;
+        line-height: 1.75;
+        margin-bottom: 1rem;
+        text-wrap: pretty;
+        text-align: justify;
+        font-family: $primaryFontFamilyMedium;
+    }
+
+    &-conclusion {
+        color: white;
+        //   color: #666;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #eaeaea;
+        text-wrap: pretty;
+        text-align: justify;
+        font-family: $primaryFontFamilyMedium;
+    }
+}
+
+@media (max-width: 768px) {
+    .sonasons {
+        &-main {
+            padding: 1rem;
+        }
+
+        &-title {
+            font-size: 1.65rem;
+            margin-bottom: 1.5rem;
+        }
+
+        &-section {
+            margin-bottom: 2rem;
+
+            &-title {
+                font-size: 1.25rem;
+            }
+        }
+
+        &-subtitle {
+            font-size: 1rem;
+        }
+    }
+}

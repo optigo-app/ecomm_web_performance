@@ -1,18 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ContactUs.modul.scss";
 import { toast } from "react-toastify";
 import Footer from "../../Home/Footer/Footer";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import "react-toastify/dist/ReactToastify.css";
 import { BespokeAPI } from "../../../../../../utils/API/Bespoke/BespokeAPI";
+import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 export default function ContactUs() {
   const [activeTab, setActiveTab] = useState("M1");
+  const [htmlContent, setHtmlContent] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
+  useEffect(() => {
+    fetch(`${storImagePath()}/html/SonasonsContactPage.html`)  /* for sonsons only  */
+    // fetch(`${storImagePath()}/html/ShreeDiaConatct.html`)  /* for shree diamonds only */
+      .then((response) => response.text())
+      .then((html) => {
+        setHtmlContent(html);
+      })
+      .catch((error) => {
+        console.error('Error fetching the HTML file:', error);
+      });
+  }, []);
 
   const [formData, setFormData] = useState({
     FullName: '',
@@ -192,6 +206,8 @@ export default function ContactUs() {
               </form>
             </div>
             <div className="Fo-contactBox2">
+              <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+
               {/* <p className='Fo-contactBox2Title'>Have questions?</p>
 
                             <p style={{
@@ -224,59 +240,6 @@ export default function ContactUs() {
                             <p className='Fo-contactBox2Title'>Call us at xxx-xxx-xxxx</p> */}
               {/* <p className='Fo-contactBox2Desc'>Our customer service team is available by phone from Monday-Friday 9.30am-6:30pm EST and Saturday 10am-5pm EST.</p>
                             <p className='Fo-contactBox2Desc'>Our office is located at 33W 46th Str, STE#9W, New York, NY 10036</p> */}
-
-              <div>
-                <div className="tab-buttons">
-                  <button
-                    style={{ color: "white" }}
-                    className={activeTab === "M1" ? "active" : ""}
-                    onClick={() => handleTabClick("M1")}
-                  >
-                    Main Office Address
-                  </button>
-                  {/* <button className={activeTab === 'M3' ? 'active' : ''} onClick={() => handleTabClick('M3')}>Head Office Address</button> */}
-                </div>
-                <div className="address">
-                  {activeTab === "M1" && (
-                    // <div>
-                    //     <p></p>
-                    //     <p>D-Block G20, ITC( International Trade Centre),
-                    //         Majura Gate, Ring Road, </p>
-                    //     <p>+919099887762</p>
-                    //     <p>hello@optigoapps.com</p>
-                    // </div>
-                    <div>
-                      <p>
-                        30-DHAMAWALA, PALTAN BAZAR OPP BATA STORE, DEHRADUN (UK)
-                        248001.
-                      </p>
-                      <p>+91-983-712-1598</p>
-                      <p>shreediamondandjewels@gmail.com</p>
-                    </div>
-                  )}
-
-                  <div className="map-container">
-                    {/* <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.1384097684245!2d114.18683082602243!3d22.31060459252037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x340400df5b194c91%3A0x3301447411e931be!2sHeng%20Ngai%20Jewelry%20Centre!5e0!3m2!1sen!2sin!4v1716036679521!5m2!1sen!2sin"
-                                            width="600"
-                                            height="450"
-                                            allowfullscreen=""
-                                            loading="lazy"
-                                            referrerpolicy="no-referrer-when-downgrade"
-                                            className='mapContact'
-                                        >
-                                        </iframe> */}
-                    <iframe
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3444.0999508738973!2d78.0363794!3d30.319674700000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390929874c67e52d%3A0xd71b60faffffeef!2z8J2XpvCdl7XwnZe_8J2XsvCdl7Ig8J2Xl_Cdl7bwnZeu8J2XuvCdl7zwnZe78J2XsSAtIEJlc3QgRGlhbW9uZCBKZXdlbGxlcnkgU2hvd3Jvb20gLyBUb3AgRGlhbW9uZCBKZXdlbGxlcnkgU3RvcmUgaW4gRGVocmFkdW4!5e0!3m2!1sen!2sin!4v1704533681429!5m2!1sen!2sin"
-                      width="600"
-                      height="450"
-                      style={{ border: '0' }}
-                      allowfullscreen=""
-                      loading="lazy"
-                      referrerpolicy="no-referrer-when-downgrade"
-                    ></iframe>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

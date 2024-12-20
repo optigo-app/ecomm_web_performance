@@ -1,18 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './ContactUs.modul.scss'
 import { toast } from 'react-toastify'
 import Footer from '../../Home/Footer/Footer';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import 'react-toastify/dist/ReactToastify.css';
 import { BespokeAPI } from '../../../../../../utils/API/Bespoke/BespokeAPI';
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 export default function ContactUs() {
     const [activeTab, setActiveTab] = useState('M1');
+    const [htmlContent, setHtmlContent] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
+
+    useEffect(() => {
+        // fetch(`${storImagePath()}/html/VaraContactPage.html`)  /* for vara only  */
+        fetch(`${storImagePath()}/html/SonasonsContactPage.html`)  /* for sonsons only  */
+            .then((response) => response.text())
+            .then((html) => {
+                setHtmlContent(html);
+            })
+            .catch((error) => {
+                console.error('Error fetching the HTML file:', error);
+            });
+    }, []);
 
     const [formData, setFormData] = useState({
         FullName: '',
@@ -180,6 +194,7 @@ export default function ContactUs() {
                             </form>
                         </div>
                         <div className='Fo-contactBox2'>
+                            <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
                             {/* <p className='Fo-contactBox2Title'>Have questions?</p>
 
                             <p style={{
@@ -213,50 +228,6 @@ export default function ContactUs() {
                             {/* <p className='Fo-contactBox2Desc'>Our customer service team is available by phone from Monday-Friday 9.30am-6:30pm EST and Saturday 10am-5pm EST.</p>
                             <p className='Fo-contactBox2Desc'>Our office is located at 33W 46th Str, STE#9W, New York, NY 10036</p> */}
 
-{/* <div className="address">
-                                    {activeTab === 'M1' && (
-                                        <div>
-                                            <p></p>
-                                            <p>1st Floor, Dharam Empire, Gotalawadi, Katargam, Surat,
-                                            395004, Gujarat, India </p>
-                                            <p>+91 261 2507700</p>
-                                            <p>demo@gmail.com</p>
-                                        </div>
-                                    )} */}
-                            <div>
-                                <div className="tab-buttons">
-                                    <button className={activeTab === 'M1' ? 'active' : ''} onClick={() => handleTabClick('M1')}>Main Office Address</button>
-                                    {/* <button className={activeTab === 'M3' ? 'active' : ''} onClick={() => handleTabClick('M3')}>Head Office Address</button> */}
-                                </div>
-                                {/* <div className="address">
-                                    {activeTab === 'M1' && (
-                                        <div>
-                                            <p></p>
-                                            <p>D-Block G20, ITC( International Trade Centre),
-                                                Majura Gate, Ring Road, </p>
-                                            <p>+919099887762</p>
-                                            <p>hello@optigoapps.com</p>
-                                        </div>
-                                    )} */}
-                                    <div className="address">
-                                    {activeTab === 'M1' && (
-                                        <div>
-                                            <p></p>
-                                            <p>1st Floor, Dharam Empire, Gotalawadi, Katargam, Surat,
-                                            395004, Gujarat, India </p>
-                                            <p>+91 261 2507700</p>
-                                            <p> Info@varajewels.com                                            </p>
-                                        </div>
-                                    )}
-
-                                    <div className="map-container">
-                                                    <iframe 
-                                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4615.472939927215!2d72.83191267600185!3d21.212024381457375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04eee03236c8b%3A0x4315e4376c5980b!2sVara%20jewels!5e1!3m2!1sen!2sin!4v1734064199770!5m2!1sen!2sin" 
-                                                    width="600" height="450" 
-                                                     style={{border:'0'}} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

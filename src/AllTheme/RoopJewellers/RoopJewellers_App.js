@@ -9,6 +9,8 @@ import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import AboutUsVara from './Components/Pages/static/AboutUs/AboutUsVara';
 import BrandsComponent from './Components/Pages/Home/BrandComponent/BrandComponents';
+import PrivacyPolicy from './Components/Pages/static/PrivacyPolicy/PrivacyPolicy';
+import AXboutUs from './Components/Pages/aboutUs/AQbout';
 
 
 // import Home from "./Components/Pages/Home/Index";
@@ -220,6 +222,7 @@ const RoopJewellers_App = () => {
           />
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/servicePolicy" element={<ServicePolicy />} />
+          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route
             path="/ManagementTeam"
             element={<ManagementTeam />}
@@ -229,7 +232,11 @@ const RoopJewellers_App = () => {
             
             element={<TermsAndConditions />}
           />
-          <Route path="/aboutUs" element={Vara} />
+          {/* For sonasons and vara */}
+          {/* <Route path="/aboutUs" element={Vara} /> */}
+
+          {/* For shinjini */}
+          <Route path="/aboutUs" element={<AXboutUs />} />
           {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
           {/* <Route path="/FunFact" element={<FunFact />} /> */}
           <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
@@ -257,7 +264,8 @@ const RoopJewellers_App = () => {
           ''
         }
 
-        {  location.pathname !== "/404" &&           <BrandsComponent/>}
+        {/* For vara */}
+        {/* {  location.pathname !== "/404" &&           <BrandsComponent/>} */}
       <StamScrollToTop />
     </Suspense>
     </>
