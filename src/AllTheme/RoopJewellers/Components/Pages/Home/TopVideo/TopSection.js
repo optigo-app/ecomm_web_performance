@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { MobilSliderImage, SliderItemns } from "../../../Assets/constant/data";
+import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 
 const settings = {
@@ -61,21 +62,28 @@ const TopSection = () => {
 
   return (
     <div className="roop_topVideoMain" role="region" aria-labelledby="top-video-banner">
-          <div className="rp_main_slider">
-         <Slider {...settings} ref={slider}>
-        {isMobile
-          ? MobilSliderImage.map((val, i) => (
+      <div className="rp_main_slider">
+        {/* for vara */}
+        {/* <Slider {...settings} ref={slider}>
+          {isMobile
+            ? MobilSliderImage.map((val, i) => (
               <div className="slide" key={i}>
                 <img src={val?.url || ""} alt={val?.key} />
               </div>
             ))
-          : SliderItemns.map((val, i) => (
+            : SliderItemns.map((val, i) => (
               <div className="slide" key={i}>
-                <img src={ val?.url || ""} alt={val?.key} />
+                <img src={val?.url || ""} alt={val?.key} />
               </div>
             ))}
-      </Slider>
-    </div>
+        </Slider> */}
+
+
+        {/* for shinjini */}
+        < div className="slide">
+          <img src={`${storImagePath()}/images/HomePage/TopSection/home1.jpg`} alt={"TopBanner"} />
+        </div>
+      </div>
     </div>
   );
 };
@@ -83,7 +91,8 @@ const TopSection = () => {
 export default TopSection;
 
 
-  {/* <video
+/* for sonasons */
+{/* <video
           ref={videoRef}
           width="500"
           autoPlay
@@ -100,13 +109,13 @@ export default TopSection;
           />
         </video> */}
 
-      {/* {localData?.Blockno === 3 && ( */}
-      {/* <div id="top-banner-image-rp">
+{/* {localData?.Blockno === 3 && ( */ }
+{/* <div id="top-banner-image-rp">
         <img
           src={`${storImagePath()}/images/HomePage/Banner/3.jpg`}
           alt="Top banner image showcasing our latest promotions"
           style={{ width: "100%" }}
           loading="lazy"
         /> */}
-      {/* </div> */}
-      {/* )} */}
+{/* </div> */ }
+{/* )} */ }

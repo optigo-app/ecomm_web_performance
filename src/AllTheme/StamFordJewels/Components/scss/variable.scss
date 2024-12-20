@@ -40,27 +40,16 @@ $fontSize6: 28px;
 $fontSize7: 35px;
 $fontSize8: 40px;
 
+// Main Background Color
+$HomeBgColor: #fff2e6;
+
 //borderColor
 $primaryBorderColor: #e1e1e1;
 $primaryBorderColor2: #42424233;
 
+// text color
+$primaryTextColor: #000;
+$primaryTextColor2: #fc6a03;
+
 //account background color
 $accountBgColor: #fff2e6;
-
-@font-face {
-  font-family: "TT Commons Regular";
-  src: url("../fonts/TT Commons Regular.otf");
-  // format('truetype');
-}
-
-@font-face {
-  font-family: "TT Commons Medium";
-  src: url("../fonts/TT Commons Medium.otf");
-  // format('truetype');
-}
-
-@font-face {
-  font-family: "TT Commons Bold";
-  src: url("../fonts/TT Commons Bold.otf");
-  // format('truetype');
-}

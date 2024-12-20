@@ -78,8 +78,8 @@ const TrendingView1 = () => {
 
             const imagePromises = trendingData.map(async (trend) => {
                 const imgSrc = `${storeInit?.CDNDesignImageFol}${trend?.designno}~1.${trend?.ImageExtension}`
-                const validImage = await checkImageAvailability(imgSrc);
-                return { ...trend, src: validImage };
+                // const validImage = await checkImageAvailability(imgSrc);
+                return { ...trend, src: imgSrc };
             });
 
             const images = await Promise.all(imagePromises);
@@ -123,26 +123,26 @@ const TrendingView1 = () => {
         navigation(islogin !== 0 ? url : redirectUrl);
     };
 
-    
-const GenerateWidthBaseOnContent = useCallback(()=>{
-    const length = trendingData  && validImages?.length ;
-    let w ; 
-    if (length === 1) {
-       w = '100%';
-    } else if (length === 2) {
-       w = '100%';
-    } else if (length === 3) {
-       w = '100%';
-    } else if (length > 3) {
-       w = '100%';
-    }
-    return {width:w , length : length}
-  },[trendingData])
-  
 
-  if(trendingData?.length === 0){
-    return ;
-  }
+    const GenerateWidthBaseOnContent = useCallback(() => {
+        const length = trendingData && validImages?.length;
+        let w;
+        if (length === 1) {
+            w = '100%';
+        } else if (length === 2) {
+            w = '100%';
+        } else if (length === 3) {
+            w = '100%';
+        } else if (length > 3) {
+            w = '100%';
+        }
+        return { width: w, length: length }
+    }, [trendingData])
+
+
+    if (trendingData?.length === 0) {
+        return;
+    }
 
     return (
         <>
@@ -152,9 +152,14 @@ const GenerateWidthBaseOnContent = useCallback(()=>{
                 </div>
                 <div className="stam_trendingProduct-grid">
                     <div className='smr_leftSideBestTR'>
-                        <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trendingBanner.png`} 
-                                  alt="Trending Jewellery Collection Banner"
-                                  />
+
+                        {/* For shinjini */}
+                        <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`}
+
+                            // for vara 
+                            // <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trendingBanner.png`}
+                            alt="Trending Jewellery Collection Banner"
+                        />
                     </div>
                     {/* <div className='smr_rightSideTR'> */}
 
@@ -173,13 +178,13 @@ const GenerateWidthBaseOnContent = useCallback(()=>{
                 {/* <p className="roop_trend_title">Trending</p> */}
 
                 <div className="roop_trend_main_sub"
-                  style={{
-                    width: GenerateWidthBaseOnContent().width,
-                }}
+                    style={{
+                        width: GenerateWidthBaseOnContent().width,
+                    }}
                 >
                     <Swiper
                         style={{
-                            width:"100%"
+                            width: "100%"
                         }}
                         modules={[Navigation]}
                         spaceBetween={20}
@@ -208,19 +213,20 @@ const GenerateWidthBaseOnContent = useCallback(()=>{
 
                         {validImages?.map((item, index) => {
                             return (
-                                <SwiperSlide 
-                                style={{
-                                    width:'100%'
-                                }}
-                                key={index}>
+                                <SwiperSlide
+                                    style={{
+                                        width: '100%'
+                                    }}
+                                    key={index}>
                                     <div className="roop_trend__image_div" >
                                         <img
                                             className="roop_trendImg"
                                             loading="lazy"
                                             src={item?.src}
                                             alt={item?.name}
+                                            onError={(e) => e.target.src = imageNotFound}
                                             onClick={() => handleNavigate(item?.designno, item?.autocode, item?.TitleLine)}
-                                            aria-label={`View details of ${item?.name}`} 
+                                            aria-label={`View details of ${item?.name}`}
                                         />
                                         <p className="roop_trend_Div_name">{item?.name}</p>
                                         <div className="product-info">
@@ -285,8 +291,8 @@ const GenerateWidthBaseOnContent = useCallback(()=>{
                                     fontWeight: "500",
                                     textDecoration: "underline",
                                     color: "grey"
-                                }}                 aria-label="View more trending products"
-                                className='btn_more_A' onClick={() => HandleTrendingMore()}>View More</button>
+                                }} aria-label="View more trending products"
+                                    className='btn_more_A' onClick={() => HandleTrendingMore()}>View More</button>
                             </div>
                         </SwiperSlide>}
                     </Swiper>

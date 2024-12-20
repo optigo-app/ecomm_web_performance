@@ -141,19 +141,13 @@ const Header = () => {
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
-
-    // console.log("callll");
-
-    if (storeinit?.IsB2BWebsite === 0) {
+    if (
+      storeinit?.IsB2BWebsite === 0 ||
+      (storeinit?.IsB2BWebsite === 1 && isUserLogin === true)) {
       getMenuApi();
-      return;
-    } else if (storeinit?.IsB2BWebsite === 1 && isUserLogin === true) {
-      getMenuApi();
-      return;
-    } else {
-      return;
     }
   }, [islogin]);
+
 
   useEffect(() => {
     fetchData();

@@ -8,9 +8,12 @@ const ContactForm = () => {
 
   const [formData, setFormData] = useState({
     FullName: '',
+    InQuiryCompanyName: '',
     EmailId: '',
+    mobileno: '',
+    InQuirySubject: '',
     Be_In_Message: '',
-    Themeno: '7'
+    Themeno: '11'
   });
 
   const [errors, setErrors] = useState({});
@@ -33,10 +36,21 @@ const ContactForm = () => {
     if (!formData.FullName) {
       errors.FullName = 'Please enter your full name';
     }
+    if (!formData.InQuiryCompanyName) {
+      errors.InQuiryCompanyName = 'Please enter your company name';
+    }
     if (!formData.EmailId) {
       errors.EmailId = 'Please enter your email address';
     } else if (!/\S+@\S+\.\S+/.test(formData.EmailId)) {
       errors.EmailId = 'Please enter a valid email address';
+    }
+    if (!formData.mobileno) {
+      errors.mobileno = 'Phone is required';
+    } else if (!/^\d{10}$/.test(formData.mobileno)) {
+      errors.mobileno = 'Phone must be a 10-digit number';
+    }
+    if (!formData.InQuirySubject) {
+      errors.InQuirySubject = 'Please enter the subject';
     }
     if (!formData.Be_In_Message) {
       errors.Be_In_Message = 'Please enter your message';
@@ -63,9 +77,12 @@ const ContactForm = () => {
       })
       setFormData({
         FullName: '',
+        InQuiryCompanyName: '',
         EmailId: '',
+        mobileno: '',
+        InQuirySubject: '',
         Be_In_Message: '',
-        Themeno: '7'
+        Themeno: '11'
       });
     } else {
       setErrors(errors);
@@ -111,6 +128,18 @@ const ContactForm = () => {
                 {errors.FullName && <p className='error'>{errors.FullName}</p>}
               </div>
               <div className="box_input">
+                <label htmlFor="name">Company Name</label>
+                <input
+                  type='text'
+                  name='InQuiryCompanyName'
+                  value={formData.InQuiryCompanyName}
+                  onChange={handleChange}
+                />
+                {errors.InQuiryCompanyName && <p className='error'>{errors.InQuiryCompanyName}</p>}
+              </div>
+            </div>
+            <div className="input">
+              <div className="box_input">
                 <label htmlFor="email">Email</label>
                 <input
                   type='email'
@@ -119,6 +148,28 @@ const ContactForm = () => {
                   onChange={handleChange}
                 />
                 {errors.EmailId && <p className='error'>{errors.EmailId}</p>}
+              </div>
+              <div className="box_input">
+                <label htmlFor="mobile">Phone Number</label>
+                <input
+                  type='number'
+                  name='mobileno'
+                  value={formData.mobileno}
+                  onChange={handleChange}
+                />
+                {errors.mobileno && <p className='error'>{errors.mobileno}</p>}
+              </div>
+            </div>
+            <div className="input-last">
+              <div className="box_input">
+                <label htmlFor="subject">Subject</label>
+                <input
+                  type='text'
+                  name='InQuirySubject'
+                  value={formData.InQuirySubject}
+                  onChange={handleChange}
+                />
+                {errors.InQuirySubject && <p className='error'>{errors.InQuirySubject}</p>}
               </div>
             </div>
             <div className="textarea">
@@ -131,6 +182,7 @@ const ContactForm = () => {
               />
               {errors.Be_In_Message && <p className='error'>{errors.Be_In_Message}</p>}
             </div>
+
             <div className="btn_form">
               <button type="submit" disabled={loading === true}>{loading === true ? 'Sending' : 'Send'}</button>
             </div>

@@ -67,17 +67,17 @@ function JewellerySet() {
     });
   };
 
-  const findValidImage = async (designDetails) => {
-    const imageChecks = designDetails.map((design) => {
-      const imageUrl = `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
-      return checkImageAvailability(imageUrl).then((isAvailable) =>
-        isAvailable ? imageUrl : null
-      );
-    });
+  // const findValidImage = async (designDetails) => {
+  //   const imageChecks = designDetails.map((design) => {
+  //     const imageUrl = `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
+  //     return checkImageAvailability(imageUrl).then((isAvailable) =>
+  //       isAvailable ? imageUrl : null
+  //     );
+  //   });
 
-    const images = await Promise.all(imageChecks);
-    return images.find((url) => url !== null) || imageNotFound;
-  };
+  //   const images = await Promise.all(imageChecks);
+  //   return images.find((url) => url !== null) || imageNotFound;
+  // };
 
   useEffect(() => {
     const getValidImages = async () => {
@@ -87,7 +87,7 @@ function JewellerySet() {
         if (album.AlbumImageName && album.AlbumImageFol) {
           const imgSrc = `${storeInit?.AlbumImageFol}${album?.AlbumImageFol}/${album?.AlbumImageName}`
           const validImage = await checkImageAvailability(imgSrc);
-          return { ...album, src: validImage, name: album?.AlbumName };
+          return { ...album, src: imgSrc, name: album?.AlbumName };
         }
         else {
           return { ...album, src: imageNotFound, name: album?.AlbumName };
@@ -128,58 +128,58 @@ function JewellerySet() {
   };
 
   const [isVisible, setIsVisible] = useState(false);
-  
+
   useEffect(() => {
     const timer = setTimeout(() => {
-        setIsVisible(true); 
-    }, 2000); 
+      setIsVisible(true);
+    }, 2000);
 
     return () => clearTimeout(timer);
-}, []);
+  }, []);
 
 
-const GenerateWidthBaseOnContent = useCallback(()=>{
-  const length = albumData  && validImages?.length ;
-  let w ; 
-  if (length === 1) {
-     w = '100%';
-  } else if (length === 2) {
-     w = '100%';
-  } else if (length === 3) {
-     w = '100%';
-  } else if (length > 3) {
-     w = '100%';
+  const GenerateWidthBaseOnContent = useCallback(() => {
+    const length = albumData && validImages?.length;
+    let w;
+    if (length === 1) {
+      w = '100%';
+    } else if (length === 2) {
+      w = '100%';
+    } else if (length === 3) {
+      w = '100%';
+    } else if (length > 3) {
+      w = '100%';
+    }
+    return { width: w, length: length }
+  }, [albumData])
+
+  useEffect(() => {
+
+    if (swiperSlideRef.current) {
+      setSlideHeight(swiperSlideRef.current.offsetHeight);
+    }
+  }, [albumData]);
+
+  if (albumData?.length === 0) {
+    return;
   }
-  return {width:w , length : length}
-},[albumData])
-
-useEffect(() => {
-  
-if (swiperSlideRef.current) {
-  setSlideHeight(swiperSlideRef.current.offsetHeight);
-}
-}, [albumData]);
-
-if(albumData?.length === 0){
-  return ;
-}
   return (
     <div className={`roop_jewlSet_Main rls-inducing-div ${isVisible ? 'show' : ''}`} role="region" aria-labelledby="album-gallery" >
       {/* <p className="roop_jewl_title">Discover our carefully curated Jewellery Album</p> */}
       <p className="roop_jewl_title" id="album-gallery">Album</p>
 
       <div className="roop_jewls_main_sub"
-       style={{
-        width: GenerateWidthBaseOnContent()?.width,
-    }}
+        style={{
+          width: GenerateWidthBaseOnContent()?.width,
+        }}
       >
         <Swiper
           modules={[Navigation]}
           spaceBetween={30}
           navigation={albumData?.length > 2}
           style={{
-            width:"100%"
-        }}
+            width: "100%"
+          }}
           // loop={true}
           breakpoints={{
             768: {
@@ -201,7 +201,7 @@ if(albumData?.length === 0){
                 <img
                   className="roop_jewelImg"
                   loading="lazy"
-                  src={item?.src} 
+                  src={item?.src}
                   alt={item?.name ?? 'Jewellery Item'}  // Ensure alt text is descriptive
                   onClick={() => handleNavigate(item)}
                   aria-label={`Navigate to details of ${item?.name}`}  // Accessibility for clicking

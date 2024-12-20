@@ -13,7 +13,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { stam_CartCount, stam_WishCount } from "../../Recoil/atom";
-import { useMediaQuery } from "@mui/material";
+import { Skeleton, useMediaQuery } from "@mui/material";
 
 const WishlistItems = ({
     item,
@@ -29,7 +29,7 @@ const WishlistItems = ({
     handleWishlistToCart,
     handleMoveToDetail,
 }) => {
-    const [imageSrc, setImageSrc] = useState(noImageFound);
+    const [imageSrc, setImageSrc] = useState();
 
     const setWishCountVal = useSetRecoilState(stam_WishCount);
     const setCartCountVal = useSetRecoilState(stam_CartCount);
@@ -81,13 +81,36 @@ const WishlistItems = ({
                 >
                     <Card className="stam_WlListCard">
                         <div className="cardContent">
-                            <CardMedia
-                                component="img"
-                                image={imageSrc}
-                                alt={item?.TitleLine}
-                                className="stam_WlListImage"
-                                onClick={() => handleMoveToDetail(item)}
-                            />
+                            {imageSrc === undefined ? (
+                                <CardMedia
+                                    style={{ width: "100%" }}
+                                    className="roop_WlListImage"
+                                >
+                                    <Skeleton
+                                        animation="wave"
+                                        variant="rect"
+                                        width="100%"
+                                        height={280}
+                                        sx={{
+                                            backgroundColor: "#e8e8e86e",
+                                            '@media (max-width: 600px)': {
+                                                height: 200,
+                                            },
+                                            '@media (max-width: 960px)': {
+                                                height: 240,
+                                            }
+                                        }}
+                                    />
+                                </CardMedia>
+                            ) : (
+                                <CardMedia
+                                    component="img"
+                                    image={imageSrc}
+                                    alt={item?.TitleLine}
+                                    className="stam_WlListImage"
+                                    onClick={() => handleMoveToDetail(item)}
+                                />
+                            )}
                             <CardContent className="stam_cardContent">
                                 <div className="cardText">
                                     <Typography
@@ -161,7 +184,7 @@ const WishlistItems = ({
                                             </>
                                         }
                                         {/* <span className="stam_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}
-                                        {mobileView && <br/>}
+                                        {mobileView && <br />}
                                         <span className="stam_currencyFont">
                                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>{" "}

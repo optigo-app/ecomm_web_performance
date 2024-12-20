@@ -205,7 +205,7 @@ const DynamicCollection = () => {
           setIsOnlyProdLoading(false);
         });
     }
-  }, [filterChecked, selectedMetalId, selectedDiaId, selectedCsId]);
+  }, [filterChecked]);
 
   useEffect(() => {
     // setCSSVariable();
@@ -948,7 +948,7 @@ const DynamicCollection = () => {
       setIsProdLoading(true);
       ProductListApi(
         output,
-        currentPage,
+        1,
         obj,
         prodListType,
         cookie,

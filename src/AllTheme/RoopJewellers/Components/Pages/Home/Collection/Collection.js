@@ -95,7 +95,12 @@ function Collection() {
     // </div>
     <div className='roop_collection_main'>
   <p className='roop_whyshop_title'>
-    WHY SHOP WITH VARA?
+    
+    {/* For Shinjini */}
+    WHY SHOP WITH SHINJINI JEWELS?
+
+    {/* For Vara */}
+    {/* WHY SHOP WITH VARA? */}
     {/* Consider changing this if you want to personalize it for SEO or branding */}
   </p>
 

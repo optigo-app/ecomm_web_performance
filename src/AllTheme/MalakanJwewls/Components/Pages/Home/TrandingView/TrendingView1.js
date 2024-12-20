@@ -153,7 +153,8 @@ const TrendingView1 = () => {
                 </div>
                 <div className="stam_trendingProduct-grid">
                     <div className='malakan_leftSideBestTR'>
-                        <img src={`${storImagePath()}/images/HomePage/trend.jpg`} alt="trendingBanner" />
+                        <img src={`${storImagePath()}/images/HomePage/bg1.png`} alt="trendingBanner" />
+                        {/* <img src={`${storImagePath()}/images/HomePage/trend.jpg`} alt="trendingBanner" /> */}
                     </div>
                     {/* <div className='malakan_rightSideTR'> */}
 

@@ -36,6 +36,8 @@ import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
 import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
 import Footer from "./Components/Pages/Home/Footer/Footer";
 import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
+import TermsPolicy from "./Components/Pages/FooterPages/TermsPolicy/TermsPolicy";
+import PrivacyPolicy from "./Components/Pages/FooterPages/PrivacyPolicy/PrivacyPolicy";
 
 const StamFordJewels_App = () => {
   const islogin = useRecoilValue(stam_loginState);
@@ -50,28 +52,18 @@ const StamFordJewels_App = () => {
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(stam_companyLogo);
   const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(stam_companyLogoM);
   const [htmlContent, setHtmlContent] = useState("");
+  console.log('htmlContent: ', htmlContent);
 
   useEffect(() => {
-    fetch(`${storImagePath()}/Store_Init.txt`)
-      .then((response) => response.text())
-      .then((text) => {
-        try {
-          const jsonData = JSON.parse(text);
-          setHtmlContent(jsonData);
-        } catch (error) {
-          console.error("Error parsing JSON:", error);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching the file:", error);
-      });
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    setHtmlContent(storeInit);
   }, []);
 
   useEffect(() => {
     if (htmlContent) {
       setLocalData((prevData) => ({
         ...prevData,
-        Headerno: htmlContent?.rd[0]?.Headerno,
+        Headerno: htmlContent?.Headerno,
         BrowserTitle: htmlContent.BrowserTitle,
       }));
     }
@@ -178,9 +170,11 @@ const StamFordJewels_App = () => {
           />
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/servicePolicy" element={<ServicePolicy />} />
+          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
           <Route path="/FunFact" element={<FunFact />} />
           <Route path="/aboutUs" element={<AboutUs />} />
+          <Route path="/TermsPolicy" element={<TermsPolicy />} />
           <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
             <Route path="/p/*" element={<ProductList />} />
             <Route path="/d/*" element={<ProductDetail />} />

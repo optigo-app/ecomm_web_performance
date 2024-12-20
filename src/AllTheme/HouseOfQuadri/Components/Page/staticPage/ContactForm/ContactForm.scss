@@ -9,13 +9,17 @@
   text-align: center;
   flex-direction: column;
   padding: 75px 0;
+
   .details {
     width: 60%;
     display: flex;
+
     h1 {
       padding: 10px 0;
     }
+
     flex-direction: column;
+
     p,
     span,
     address {
@@ -23,37 +27,68 @@
       font-family: $fontDmSans;
     }
   }
+
   .contact_from {
     padding: 20px 12px;
     width: 46%;
+
     .layout {
       height: auto;
+
       form {
         display: flex;
         width: 100%;
         flex-direction: column;
         gap: 10px;
         margin-top: 25px;
+
         .input {
           display: flex;
           width: 100%;
           gap: 8px;
+
           .box_input {
-            width: 100%;
+            // width: 100%;
+            width: 50%;
             display: flex;
             flex-direction: column;
             align-items: start;
-            input{
+
+            @media (max-width: 768px) {
+              width: 100%;
+            }
+
+            input {
               width: 100%;
               padding: 8px 8px;
             }
           }
         }
+
+        .input-last {
+          display: flex;
+          width: 100%;
+          gap: 8px;
+
+          .box_input {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+
+            input {
+              width: 100%;
+              padding: 8px 8px;
+            }
+          }
+        }
+
         .textarea {
           display: flex;
-            font-family: $fontTenorSans;
-            align-items: start;
+          font-family: $fontTenorSans;
+          align-items: start;
           flex-direction: column;
+
           textarea {
             width: 100%;
             border-radius: 3px;
@@ -62,15 +97,18 @@
             border: none;
             border: 1px solid rgb(184, 184, 184);
             padding: 10px;
-            &:focus{
+
+            &:focus {
               outline: 1px solid black;
               border: 1px solid black;
             }
           }
         }
+
         .btn_form {
           width: 100%;
           padding: 20px 0;
+
           button {
             padding: 10px 45px;
             border-radius: 3px;
@@ -86,11 +124,12 @@
       }
     }
   }
+
   @media (max-width: 1200px) {
     .details {
       width: 80%;
     }
-    
+
     .contact_from {
       width: 50%;
     }
@@ -118,6 +157,7 @@
       .layout {
         form {
           .input {
+            width: 100%;
             flex-direction: column;
           }
 

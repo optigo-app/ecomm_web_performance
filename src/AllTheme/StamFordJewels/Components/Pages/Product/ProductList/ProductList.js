@@ -8,7 +8,7 @@ import { findMetal, findMetalColor, findMetalType, formatter } from "../../../..
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import {
-  Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Skeleton, Slider,
+  Accordion, AccordionDetails, AccordionSummary, Box, Button, CardMedia, Checkbox, Drawer, FormControlLabel, Input, Pagination, PaginationItem, Skeleton, Slider,
   Typography, useMediaQuery
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -34,11 +34,6 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { Helmet } from "react-helmet";
 import { stam_CartCount, stam_DiamondRangeArr, stam_WishCount } from "../../../Recoil/atom";
-
-
-
-
-
 
 
 const ProductList = () => {
@@ -95,6 +90,7 @@ const ProductList = () => {
   const [locationKey, setLocationKey] = useState()
   const [prodListType, setprodListType] = useState();
 
+  const [imageAvailability, setImageAvailability] = useState({});
   const [sortBySelect, setSortBySelect] = useState();
 
   const [totalProductCount, setTotalProductCount] = useState();
@@ -223,6 +219,13 @@ const ProductList = () => {
 
   // },[location?.key])
 
+
+  useEffect(() => {
+    setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
+    setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+    setSelectedCsId(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
+    setSortBySelect('Recommended')
+  }, [location?.key])
 
   const callAllApi = () => {
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
@@ -663,50 +666,35 @@ const ProductList = () => {
       }
     }
 
-    // if 
-
+    setCurrPage(1);
     return output
   }
 
   useEffect(() => {
     setAfterCountStatus(true);
-    let output = FilterValueWithCheckedOnly()
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    const output = FilterValueWithCheckedOnly();
 
-    //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
-    // console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
+    const obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
     if (location?.key === locationKey) {
-      setIsOnlyProdLoading(true)
+      setIsOnlyProdLoading(true);
+
       ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-            setAfterCountStatus(false);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
           }
-          return res;
         })
-        //  .then( async(res) => {
-        //    if (res) {
-        //      await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-        //        if(resp){
-        //          setPriceListData(resp)  
-        //        }
-        //      })
-        //    }
-        //    return res
-        //  })
-        .catch((err) => console.log("err", err)).finally(() => { setIsOnlyProdLoading(false) })
+        .catch((err) => {
+          console.error("API Error:", err);
+        })
+        .finally(() => {
+          setAfterCountStatus(false);
+          setIsOnlyProdLoading(false);
+        });
     }
-    // .then(async(res)=>{
-    //   if(res){
-    //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
-    //   }
-    // })
-    // }
-
-  }, [filterChecked])
+  }, [filterChecked]);
 
 
   const handelFilterClearAll = () => {
@@ -825,7 +813,7 @@ const ProductList = () => {
 
     if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true)
-      ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect)
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -998,8 +986,9 @@ const ProductList = () => {
     setIsOnlyProdLoading(true)
 
     let sortby = e.target?.value
+    setCurrPage(1);
 
-    await ProductListApi(output, currPage, obj, prodListType, cookie, sortby)
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortby)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -1426,6 +1415,18 @@ const ProductList = () => {
   //   console.log("breadcum",BreadCumsObj())
   // },[location?.key])
 
+  useEffect(() => {
+    if (!finalProductListData?.length) return;
+
+    const availability = finalProductListData.reduce((acc, productData) => {
+      const autocode = productData?.autocode;
+      acc[autocode] = true; // Assume all images are available
+      return acc;
+    }, {});
+
+    setImageAvailability(availability);
+  }, [finalProductListData]);
+
   return (
     <>
       <Helmet>
@@ -1502,6 +1503,7 @@ const ProductList = () => {
                   value={selectedMetalId}
                   onChange={(e) => {
                     setSelectedMetalId(e.target.value);
+                    setCurrPage(1)
                   }}
                 >
                   {metalTypeCombo?.map((metalele) => (
@@ -1538,7 +1540,7 @@ const ProductList = () => {
                     }}
                     className="select"
                     value={selectedDiaId}
-                    onChange={(e) => setSelectedDiaId(e.target.value)}
+                    onChange={(e) => { setSelectedDiaId(e.target.value); setCurrPage(1) }}
                   >
                     {diaQcCombo?.map((diaQc) => (
                       <option
@@ -1576,7 +1578,7 @@ const ProductList = () => {
                     }}
                     className="select"
                     value={selectedCsId}
-                    onChange={(e) => setSelectedCsId(e.target.value)}
+                    onChange={(e) => { setSelectedCsId(e.target.value); setCurrPage(1) }}
                   >
                     {csQcCombo?.map((csCombo) => (
                       <option
@@ -2142,6 +2144,105 @@ const ProductList = () => {
                         checked={isDrawerOpen}
                         onChange={(e) => setIsDrawerOpen(e.target.value)}
                       />
+                      <div className="stam_empty_sorting_div">
+                        <span
+                          className="stam_breadcums_port "
+                          // style={{ marginLeft: "72px" }}
+                          onClick={() => {
+                            navigate("/");
+                          }}
+                        >
+                          {"Home /"}{" "}
+                        </span>
+
+                        {location?.search.charAt(1) == "A" && (
+                          <div
+                            className="stam_breadcums_port"
+                            style={{ marginLeft: "3px" }}
+                          >
+                            <span>{"Album"}</span>
+                          </div>
+                        )}
+
+                        {location?.search.charAt(1) == "T" && (
+                          <div
+                            className="stam_breadcums_port"
+                            style={{ marginLeft: "3px" }}
+                          >
+                            <span>{"Trending"}</span>
+                          </div>
+                        )}
+
+                        {location?.search.charAt(1) == "B" && (
+                          <div
+                            className="stam_breadcums_port"
+                            style={{ marginLeft: "3px" }}
+                          >
+                            <span>{"Best Seller"}</span>
+                          </div>
+                        )}
+
+                        {location?.search.charAt(1) == "N" && (
+                          <div
+                            className="stam_breadcums_port"
+                            style={{ marginLeft: "3px" }}
+                          >
+                            <span>{"New Arrival"}</span>
+                          </div>
+                        )}
+
+                        {IsBreadCumShow && (
+                          <div
+                            className="stam_breadcums_port"
+                            style={{ marginLeft: "3px" }}
+                          >
+                            {BreadCumsObj()?.menuname && (
+                              <span
+                                onClick={() =>
+                                  handleBreadcums({
+                                    [BreadCumsObj()?.FilterKey]:
+                                      BreadCumsObj()?.FilterVal,
+                                  })
+                                }
+                              >
+                                {BreadCumsObj()?.menuname}
+                              </span>
+                            )}
+
+                            {BreadCumsObj()?.FilterVal1 && (
+                              <span
+                                onClick={() =>
+                                  handleBreadcums({
+                                    [BreadCumsObj()?.FilterKey]:
+                                      BreadCumsObj()?.FilterVal,
+                                    [BreadCumsObj()?.FilterKey1]:
+                                      BreadCumsObj()?.FilterVal1,
+                                  })
+                                }
+                              >
+                                {` / ${BreadCumsObj()?.FilterVal1}`}
+                              </span>
+                            )}
+
+                            {BreadCumsObj()?.FilterVal2 && (
+                              <span
+                                onClick={() =>
+                                  handleBreadcums({
+                                    [BreadCumsObj()?.FilterKey]:
+                                      BreadCumsObj()?.FilterVal,
+                                    [BreadCumsObj()?.FilterKey1]:
+                                      BreadCumsObj()?.FilterVal1,
+                                    [BreadCumsObj()?.FilterKey2]:
+                                      BreadCumsObj()?.FilterVal2,
+                                  })
+                                }
+                              >
+                                {` / ${BreadCumsObj()?.FilterVal2}`}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   ) : (
                     null
@@ -2366,107 +2467,8 @@ const ProductList = () => {
 
                   <div className="stam_mainPortion">
                     <div className="stam_filter_portion" style={{ marginTop: '20px' }}>
-                      <div className="empty_sorting_div">
-                        <span
-                          className="stam_breadcums_port "
-                          // style={{ marginLeft: "72px" }}
-                          onClick={() => {
-                            navigate("/");
-                          }}
-                        >
-                          {"Home >"}{" "}
-                        </span>
 
-                        {location?.search.charAt(1) == "A" && (
-                          <div
-                            className="stam_breadcums_port"
-                            style={{ marginLeft: "3px" }}
-                          >
-                            <span>{"Album"}</span>
-                          </div>
-                        )}
-
-                        {location?.search.charAt(1) == "T" && (
-                          <div
-                            className="stam_breadcums_port"
-                            style={{ marginLeft: "3px" }}
-                          >
-                            <span>{"Trending"}</span>
-                          </div>
-                        )}
-
-                        {location?.search.charAt(1) == "B" && (
-                          <div
-                            className="stam_breadcums_port"
-                            style={{ marginLeft: "3px" }}
-                          >
-                            <span>{"Best Seller"}</span>
-                          </div>
-                        )}
-
-                        {location?.search.charAt(1) == "N" && (
-                          <div
-                            className="stam_breadcums_port"
-                            style={{ marginLeft: "3px" }}
-                          >
-                            <span>{"New Arrival"}</span>
-                          </div>
-                        )}
-
-                        {IsBreadCumShow && (
-                          <div
-                            className="stam_breadcums_port"
-                            style={{ marginLeft: "3px" }}
-                          >
-                            {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
-                            {BreadCumsObj()?.menuname && (
-                              <span
-                                onClick={() =>
-                                  handleBreadcums({
-                                    [BreadCumsObj()?.FilterKey]:
-                                      BreadCumsObj()?.FilterVal,
-                                  })
-                                }
-                              >
-                                {BreadCumsObj()?.menuname}
-                              </span>
-                            )}
-
-                            {BreadCumsObj()?.FilterVal1 && (
-                              <span
-                                onClick={() =>
-                                  handleBreadcums({
-                                    [BreadCumsObj()?.FilterKey]:
-                                      BreadCumsObj()?.FilterVal,
-                                    [BreadCumsObj()?.FilterKey1]:
-                                      BreadCumsObj()?.FilterVal1,
-                                  })
-                                }
-                              >
-                                {` > ${BreadCumsObj()?.FilterVal1}`}
-                              </span>
-                            )}
-
-                            {BreadCumsObj()?.FilterVal2 && (
-                              <span
-                                onClick={() =>
-                                  handleBreadcums({
-                                    [BreadCumsObj()?.FilterKey]:
-                                      BreadCumsObj()?.FilterVal,
-                                    [BreadCumsObj()?.FilterKey1]:
-                                      BreadCumsObj()?.FilterVal1,
-                                    [BreadCumsObj()?.FilterKey2]:
-                                      BreadCumsObj()?.FilterVal2,
-                                  })
-                                }
-                              >
-                                {` > ${BreadCumsObj()?.FilterVal2}`}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                      {filterData?.length > 0 && (
+                      {/* {filterData?.length > 0 && (
                         <div className="stam_filter_portion_outter">
                           <span className="stam_filter_text">
                             <span>
@@ -2474,7 +2476,6 @@ const ProductList = () => {
                                 (ele) => ele.checked
                               )?.length === 0
                                 ? "Filters"
-                                // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
                                 : <>{afterCountStatus == true ? (
                                   <Skeleton
                                     variant="rounded"
@@ -2529,8 +2530,6 @@ const ProductList = () => {
                                           background: "none",
                                         },
                                       }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
                                     >
                                       <AccordionSummary
                                         expandIcon={
@@ -2548,12 +2547,9 @@ const ProductList = () => {
                                             padding: 0,
                                           },
                                         }}
-                                        // className="filtercategoryLable"
                                         onClick={() => handleScrollHeight()}
                                       >
-                                        {/* <span> */}
                                         {ele.Fil_DisName}
-                                        {/* </span> */}
                                       </AccordionSummary>
                                       <AccordionDetails
                                         sx={{
@@ -2576,23 +2572,10 @@ const ProductList = () => {
                                               }}
                                               key={opt?.id}
                                             >
-                                              {/* <small
-                                        style={{
-                                          fontFamily: "TT Commons, sans-serif",
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
                                               <FormControlLabel
                                                 control={
                                                   <Checkbox
                                                     name={`${ele?.id}${opt?.id}`}
-                                                    // checked={
-                                                    //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                                    //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                                    //     : false
-                                                    // }
                                                     checked={
                                                       filterChecked[
                                                         `${ele?.id}${opt?.id}`
@@ -2617,13 +2600,6 @@ const ProductList = () => {
                                                     size="small"
                                                   />
                                                 }
-                                                // sx={{
-                                                //   display: "flex",
-                                                //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                                //   width: "100%",
-                                                //   flexDirection: "row-reverse", // Align items to the right
-                                                //   fontFamily:'TT Commons Regular'
-                                                // }}
                                                 className="stam_mui_checkbox_label"
                                                 label={opt.Name}
                                               />
@@ -2649,8 +2625,6 @@ const ProductList = () => {
                                         background: "none",
                                       },
                                     }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
@@ -2666,12 +2640,9 @@ const ProductList = () => {
                                           padding: 0,
                                         },
                                       }}
-                                      // className="filtercategoryLable"
                                       onClick={() => handleScrollHeight()}
                                     >
-                                      {/* <span> */}
                                       {ele.Fil_DisName}
-                                      {/* </span> */}
                                     </AccordionSummary>
                                     <AccordionDetails
                                       sx={{
@@ -2694,23 +2665,10 @@ const ProductList = () => {
                                             }}
                                             key={i}
                                           >
-                                            {/* <small
-                                        style={{
-                                          fontFamily: "TT Commons, sans-serif",
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
                                             <FormControlLabel
                                               control={
                                                 <Checkbox
                                                   name={`Price${i}${i}`}
-                                                  // checked={
-                                                  //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                                  //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                                  //     : false
-                                                  // }
                                                   checked={
                                                     filterChecked[`Price${i}${i}`]
                                                       ?.checked === undefined
@@ -2734,13 +2692,6 @@ const ProductList = () => {
                                                   size="small"
                                                 />
                                               }
-                                              // sx={{
-                                              //   display: "flex",
-                                              //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                              //   width: "100%",
-                                              //   flexDirection: "row-reverse", // Align items to the right
-                                              //   fontFamily:'TT Commons Regular'
-                                              // }}
                                               className="stam_mui_checkbox_label"
                                               label={
                                                 opt?.Minval == 0
@@ -2773,8 +2724,6 @@ const ProductList = () => {
                                         background: "none",
                                       },
                                     }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
@@ -2790,11 +2739,8 @@ const ProductList = () => {
                                           padding: 0,
                                         },
                                       }}
-                                    // className="filtercategoryLable"
                                     >
-                                      {/* <span> */}
                                       {ele.Fil_DisName}
-                                      {/* </span> */}
                                     </AccordionSummary>
                                     <AccordionDetails
                                       sx={{
@@ -2806,7 +2752,6 @@ const ProductList = () => {
                                         overflow: "auto",
                                       }}
                                     >
-                                      {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                                       <Box sx={{ width: 203, height: 88 }}>
                                         {RangeFilterView(ele)}
                                       </Box>
@@ -2829,8 +2774,6 @@ const ProductList = () => {
                                         background: "none",
                                       },
                                     }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
@@ -2846,12 +2789,9 @@ const ProductList = () => {
                                           padding: 0,
                                         },
                                       }}
-                                      // className="filtercategoryLable"
                                       onClick={() => handleScrollHeight()}
                                     >
-                                      {/* <span> */}
                                       {ele.Fil_DisName}
-                                      {/* </span> */}
                                     </AccordionSummary>
                                     <AccordionDetails
                                       sx={{
@@ -2863,7 +2803,6 @@ const ProductList = () => {
                                         overflow: "auto",
                                       }}
                                     >
-                                      {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                                       <Box sx={{ width: 204, height: 88 }}>
                                         {RangeFilterView1(ele)}
                                       </Box>
@@ -2886,8 +2825,6 @@ const ProductList = () => {
                                         background: "none",
                                       },
                                     }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
@@ -2903,12 +2840,9 @@ const ProductList = () => {
                                           padding: 0,
                                         },
                                       }}
-                                      // className="filtercategoryLable"
                                       onClick={() => handleScrollHeight()}
                                     >
-                                      {/* <span> */}
                                       {ele.Fil_DisName}
-                                      {/* </span> */}
                                     </AccordionSummary>
                                     <AccordionDetails
                                       sx={{
@@ -2930,7 +2864,7 @@ const ProductList = () => {
                             ))}
                           </div>
                         </div>
-                      )}
+                      )} */}
                     </div>
                     {filterProdListEmpty ? (
                       <div
@@ -2952,7 +2886,111 @@ const ProductList = () => {
                           <ProductListSkeleton fromPage={"Prodlist"} className="pSkelton" />
                         ) : (
                           <>
+                            {minwidth1201px && (
+                              <div className="stam_empty_sorting_div">
+                                <span
+                                  className="stam_breadcums_port "
+                                  // style={{ marginLeft: "72px" }}
+                                  onClick={() => {
+                                    navigate("/");
+                                  }}
+                                >
+                                  {"Home /"}{" "}
+                                </span>
+
+                                {location?.search.charAt(1) == "A" && (
+                                  <div
+                                    className="stam_breadcums_port"
+                                    style={{ marginLeft: "3px" }}
+                                  >
+                                    <span>{"Album"}</span>
+                                  </div>
+                                )}
+
+                                {location?.search.charAt(1) == "T" && (
+                                  <div
+                                    className="stam_breadcums_port"
+                                    style={{ marginLeft: "3px" }}
+                                  >
+                                    <span>{"Trending"}</span>
+                                  </div>
+                                )}
+
+                                {location?.search.charAt(1) == "B" && (
+                                  <div
+                                    className="stam_breadcums_port"
+                                    style={{ marginLeft: "3px" }}
+                                  >
+                                    <span>{"Best Seller"}</span>
+                                  </div>
+                                )}
+
+                                {location?.search.charAt(1) == "N" && (
+                                  <div
+                                    className="stam_breadcums_port"
+                                    style={{ marginLeft: "3px" }}
+                                  >
+                                    <span>{"New Arrival"}</span>
+                                  </div>
+                                )}
+
+                                {IsBreadCumShow && (
+                                  <div
+                                    className="stam_breadcums_port"
+                                    style={{ marginLeft: "3px" }}
+                                  >
+                                    {BreadCumsObj()?.menuname && (
+                                      <span
+                                        onClick={() =>
+                                          handleBreadcums({
+                                            [BreadCumsObj()?.FilterKey]:
+                                              BreadCumsObj()?.FilterVal,
+                                          })
+                                        }
+                                      >
+                                        {BreadCumsObj()?.menuname}
+                                      </span>
+                                    )}
+
+                                    {BreadCumsObj()?.FilterVal1 && (
+                                      <span
+                                        onClick={() =>
+                                          handleBreadcums({
+                                            [BreadCumsObj()?.FilterKey]:
+                                              BreadCumsObj()?.FilterVal,
+                                            [BreadCumsObj()?.FilterKey1]:
+                                              BreadCumsObj()?.FilterVal1,
+                                          })
+                                        }
+                                      >
+                                        {` / ${BreadCumsObj()?.FilterVal1}`}
+                                      </span>
+                                    )}
+
+                                    {BreadCumsObj()?.FilterVal2 && (
+                                      <span
+                                        onClick={() =>
+                                          handleBreadcums({
+                                            [BreadCumsObj()?.FilterKey]:
+                                              BreadCumsObj()?.FilterVal,
+                                            [BreadCumsObj()?.FilterKey1]:
+                                              BreadCumsObj()?.FilterVal1,
+                                            [BreadCumsObj()?.FilterKey2]:
+                                              BreadCumsObj()?.FilterVal2,
+                                          })
+                                        }
+                                      >
+                                        {` / ${BreadCumsObj()?.FilterVal2}`}
+                                      </span>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            )}
                             <div className="stam_main_sorting_div">
+                              <div className="stam_mobile_prodSorting" onClick={(e) => setIsDrawerOpen(true)}>
+                                <span>Filters</span>
+                              </div>
                               {storeInit?.IsMetalCustComb === 1 && <div className="stam_metal_custom">
                                 <label className="label">Metal:&nbsp;</label>
                                 <select
@@ -3060,117 +3098,119 @@ const ProductList = () => {
                             <div className="stam_outer_portion" id="stam_outer_portion">
                               {/* <div className="stam_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                               <div className="stam_inner_portion">
-                                {finalProductListData?.map((productData, i) => (
-                                  <div className="stam_productCard">
-                                    <div className="cart_and_wishlist_icon">
-                                      {/* <Button className="stam_cart-icon"> */}
-                                      <Checkbox
-                                        icon={
-                                          <LocalMallOutlinedIcon
-                                            sx={{
-                                              fontSize: "22px",
-                                              color: "#7d7f85",
-                                              opacity: ".7",
-                                            }}
-                                          />
-                                        }
-                                        checkedIcon={
-                                          <LocalMallIcon
-                                            sx={{
-                                              fontSize: "22px",
-                                              color: "#009500",
-                                            }}
-                                          />
-                                        }
-                                        disableRipple={false}
-                                        sx={{ padding: "10px" }}
-                                        onChange={(e) =>
-                                          handleCartandWish(e, productData, "Cart")
-                                        }
-                                        checked={
-                                          cartArr[productData?.autocode] ??
-                                            productData?.IsInCart === 1
-                                            ? true
-                                            : false
-                                        }
-                                      />
-                                      {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
-                                      {/* </Button> */}
-                                      {/* <Button className="stam_wish-icon"> */}
-                                      <Checkbox
-                                        icon={
-                                          <StarBorderIcon
-                                            sx={{
-                                              fontSize: "22px",
-                                              color: "#7d7f85",
-                                              opacity: ".7",
-                                            }}
-                                          />
-                                        }
-                                        checkedIcon={
-                                          <StarIcon
-                                            sx={{
-                                              fontSize: "22px",
-                                              color: "#ffd200",
-                                            }}
-                                          />
-                                        }
-                                        disableRipple={false}
-                                        sx={{ padding: "10px" }}
-                                        onChange={(e) =>
-                                          handleCartandWish(e, productData, "Wish")
-                                        }
-                                        // checked={productData?.IsInWish}
-                                        checked={
-                                          wishArr[productData?.autocode] ??
-                                            productData?.IsInWish === 1
-                                            ? true
-                                            : false
-                                        }
-                                      // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
-                                      // onChange={(e) => handelWishList(e, products)}
-                                      />
-                                      {/* </Button> */}
-                                    </div>
+                                {finalProductListData?.map((productData, i) => {
+                                  const isAvailable = imageAvailability[productData?.autocode];
+                                  return (
+                                    <div className="stam_productCard">
+                                      <div className="cart_and_wishlist_icon">
+                                        {/* <Button className="stam_cart-icon"> */}
+                                        <Checkbox
+                                          icon={
+                                            <LocalMallOutlinedIcon
+                                              sx={{
+                                                fontSize: "22px",
+                                                color: "#7d7f85",
+                                                opacity: ".7",
+                                              }}
+                                            />
+                                          }
+                                          checkedIcon={
+                                            <LocalMallIcon
+                                              sx={{
+                                                fontSize: "22px",
+                                                color: "#009500",
+                                              }}
+                                            />
+                                          }
+                                          disableRipple={false}
+                                          sx={{ padding: "10px" }}
+                                          onChange={(e) =>
+                                            handleCartandWish(e, productData, "Cart")
+                                          }
+                                          checked={
+                                            cartArr[productData?.autocode] ??
+                                              productData?.IsInCart === 1
+                                              ? true
+                                              : false
+                                          }
+                                        />
+                                        {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
+                                        {/* </Button> */}
+                                        {/* <Button className="stam_wish-icon"> */}
+                                        <Checkbox
+                                          icon={
+                                            <StarBorderIcon
+                                              sx={{
+                                                fontSize: "22px",
+                                                color: "#7d7f85",
+                                                opacity: ".7",
+                                              }}
+                                            />
+                                          }
+                                          checkedIcon={
+                                            <StarIcon
+                                              sx={{
+                                                fontSize: "22px",
+                                                color: "#ffd200",
+                                              }}
+                                            />
+                                          }
+                                          disableRipple={false}
+                                          sx={{ padding: "10px" }}
+                                          onChange={(e) =>
+                                            handleCartandWish(e, productData, "Wish")
+                                          }
+                                          // checked={productData?.IsInWish}
+                                          checked={
+                                            wishArr[productData?.autocode] ??
+                                              productData?.IsInWish === 1
+                                              ? true
+                                              : false
+                                          }
+                                        // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
+                                        // onChange={(e) => handelWishList(e, products)}
+                                        />
+                                        {/* </Button> */}
+                                      </div>
 
-                                    <div className="smrWeb_app_product_label">
-                                      {productData?.IsInReadyStock == 1 && <span className="smrWeb_app_instock">In Stock</span>}
-                                      {productData?.IsBestSeller == 1 && <span className="smrWeb_app_bestSeller">Best Seller</span>}
-                                      {productData?.IsTrending == 1 && <span className="smrWeb_app_intrending">Trending</span>}
-                                      {productData?.IsNewArrival == 1 && <span className="smrWeb_app_newarrival">New</span>}
-                                    </div>
-                                    <div
-                                      onMouseEnter={() => {
-                                        handleImgRollover(productData);
-                                        if (productData?.VideoCount > 0) {
-                                          setIsRollOverVideo({ [productData?.autocode]: true })
-                                        } else {
+                                      <div className="smrWeb_app_product_label">
+                                        {productData?.IsInReadyStock == 1 && <span className="smrWeb_app_instock">In Stock</span>}
+                                        {productData?.IsBestSeller == 1 && <span className="smrWeb_app_bestSeller">Best Seller</span>}
+                                        {productData?.IsTrending == 1 && <span className="smrWeb_app_intrending">Trending</span>}
+                                        {productData?.IsNewArrival == 1 && <span className="smrWeb_app_newarrival">New</span>}
+                                      </div>
+                                      <div
+                                        onMouseEnter={() => {
+                                          handleImgRollover(productData);
+                                          if (productData?.VideoCount > 0) {
+                                            setIsRollOverVideo({ [productData?.autocode]: true })
+                                          } else {
+                                            setIsRollOverVideo({ [productData?.autocode]: false })
+                                          }
+                                        }}
+
+                                        onClick={() =>
+                                          handleMoveToDetail(productData)
+                                        }
+
+                                        onMouseLeave={() => {
+                                          handleLeaveImgRolloverImg(productData);
                                           setIsRollOverVideo({ [productData?.autocode]: false })
-                                        }
-                                      }}
-
-                                      onClick={() =>
-                                        handleMoveToDetail(productData)
-                                      }
-
-                                      onMouseLeave={() => {
-                                        handleLeaveImgRolloverImg(productData);
-                                        setIsRollOverVideo({ [productData?.autocode]: false })
-                                      }}
-                                      className="stam_ImgandVideoContainer"
-                                    >
-                                      {
-                                        isRollOverVideo[productData?.autocode] == true ?
-                                          <video
-                                            //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
-                                            // src={productData?.VideoCount > 0 ?
-                                            //   (storeInit?.DesignImageFol).slice(0, -13) +
-                                            //   "video/" +
-                                            //   productData?.designno +
-                                            //   "_" +
-                                            //   1 +
-                                            //   "." +
-                                            //   productData?.VideoExtension : ""}
+                                        }}
+                                        className="stam_ImgandVideoContainer"
+                                      >
+                                        {
+                                          isRollOverVideo[productData?.autocode] == true ?
+                                            <video
+                                              //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
+                                              // src={productData?.VideoCount > 0 ?
+                                              //   (storeInit?.DesignImageFol).slice(0, -13) +
+                                              //   "video/" +
+                                              //   productData?.designno +
+                                              //   "_" +
+                                              //   1 +
+                                              //   "." +
+                                              //   productData?.VideoExtension : ""}
 
                                               src={productData?.VideoCount > 0 ?
                                                 (storeInit?.CDNVPath) +
@@ -3179,155 +3219,147 @@ const ProductList = () => {
                                                 1 +
                                                 "." +
                                                 productData?.VideoExtension : ""}
-                                            loop={true}
-                                            autoPlay={true}
-                                            onError={(e)=>{
-                                              e.target.poster = imageNotFound ;
-                                            }}
-                                            className="stam_productCard_video"
-                                          // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
-                                          />
-                                          :
-                                          <img
-                                            className="stam_productListCard_Image"
-                                            id={`stam_productListCard_Image${productData?.autocode}`}
-                                            // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                                            // src={ ProdCardImageFunc(productData,0)}
-                                            src={
-                                              rollOverImgPd[productData?.autocode]
-                                                ? rollOverImgPd[productData?.autocode]
-                                                : productData?.images?.length > 0
-                                                  ? productData?.images[0]
-                                                  : imageNotFound
+                                              loop={true}
+                                              autoPlay={true}
+                                              onError={(e) => {
+                                                e.target.poster = imageNotFound;
+                                              }}
+                                              className="stam_productCard_video"
+                                            // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
+                                            />
+                                            :
+                                            <>
+                                              {isAvailable === undefined
+                                                ? <CardMedia style={{ width: '100%', height: '100%' }} className='roop_productCard_cardMainSkeleton'>
+                                                  <Skeleton animation="wave" variant="rect" width={'100%'} height='100%' style={{ backgroundColor: '#e8e8e86e' }} />
+                                                </CardMedia> :
+                                                <img
+                                                  className="stam_productListCard_Image"
+                                                  id={`stam_productListCard_Image${productData?.autocode}`}
+                                                  src={
+                                                    rollOverImgPd[productData?.autocode]
+                                                      ? rollOverImgPd[productData?.autocode]
+                                                      : productData?.images[0]
+                                                  }
+                                                  alt=""
+                                                  onError={(e) => {
+                                                    e.target.src = imageNotFound;
+                                                  }}
+                                                />}
+                                            </>
+                                        }
+                                      </div>
+                                      <div className="stam_prod_card_info">
+                                        <div className="stam_prod_Title">
+                                          <span
+                                            className={
+                                              (productData?.TitleLine?.length > 30)
+                                                ?
+                                                "stam_prod_title_with_width"
+                                                :
+                                                "stam_prod_title_with_no_width"
                                             }
-                                            alt=""
-                                            onError={(e)=>{
-                                              e.target.src = imageNotFound ;
-                                            }}
-                                          // onClick={() =>
-                                          //   handleMoveToDetail(productData)
-                                          // }
-                                          // onMouseEnter={() => {
-                                          //   handleImgRollover(productData);
-                                          // }}
-                                          // onMouseLeave={() => {
-                                          //   handleLeaveImgRolloverImg(productData);
-                                          // }}
-                                          />
-
-                                      }
-                                    </div>
-                                    <div className="stam_prod_card_info">
-                                      <div className="stam_prod_Title">
-                                        <span
-                                          className={
-                                            (productData?.TitleLine?.length > 30)
-                                              ?
-                                              "smr1_prod_title_with_width"
-                                              :
-                                              "smr1_prod_title_with_no_width"
-                                          }
-                                        >
-                                          {/* {productData?.TitleLine?.length > 0 &&
+                                          >
+                                            {/* {productData?.TitleLine?.length > 0 &&
                                             "-"}
                                           {productData?.TitleLine}{" "} */}
-                                          {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
-                                        </span>
-                                        {/* <span className="stam_prod_designno">
+                                            {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
+                                          </span>
+                                          {/* <span className="stam_prod_designno">
                                           {productData?.designno}
                                         </span> */}
-                                      </div>
-                                      <div className="stam_prod_Allwt">
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            letterSpacing: maxwidth590px
-                                              ? "0px"
-                                              : "0.4px",
-                                            // gap:maxwidth1674px ? '0px':'3px',
-                                            flexWrap: "wrap",
-                                          }}
-                                        >
-                                          {/* <span className="stam_por"> */}
-
-                                          {storeInit?.IsGrossWeight == 1 &&
-                                            Number(productData?.Gwt) !== 0 && (
-                                              <span className="stam_prod_wt">
-                                                <span className="stam_main_keys">
-                                                  GWT:
-                                                </span>
-                                                <span className="stam_main_val">
-                                                  {(productData?.Gwt)?.toFixed(3)}
-                                                </span>
-                                              </span>
-                                            )}
-                                          {Number(productData?.Nwt) !== 0 && (
-                                            <>
-                                              <span className="stm_prod_span">|</span>
-                                              <span className="stam_prod_wt">
-                                                <span className="stam_main_keys">NWT:</span>
-                                                <span className="stam_main_val">
-                                                  {(productData?.Nwt)?.toFixed(3)}
-                                                </span>
-                                              </span>
-                                            </>
-                                          )}
-                                          {/* </span> */}
-                                          {/* <span className="stam_por"> */}
-                                          {storeInit?.IsDiamondWeight == 1 &&
-                                            Number(productData?.Dwt) !== 0 && (
-                                              <>
-                                                <span className="stm_prod_span">|</span>
-                                                <span className="stam_prod_wt">
-                                                  <span className="stam_main_keys">
-                                                    DWT:
-                                                  </span>
-                                                  <span className="stam_main_val">
-                                                    {(productData?.Dwt)?.toFixed(3)}
-                                                    {storeInit?.IsDiamondPcs === 1
-                                                      ? `/${productData?.Dpcs}`
-                                                      : null}
-                                                  </span>
-                                                </span>
-                                              </>
-                                            )}
-                                          {storeInit?.IsStoneWeight == 1 &&
-                                            Number(productData?.CSwt) !== 0 && (
-                                              <>
-                                                <span className="stm_prod_span">|</span>
-                                                <span className="stam_prod_wt">
-                                                  <span className="stam_main_keys">
-                                                    CWT:
-                                                  </span>
-                                                  <span className="stam_main_val">
-                                                    {(productData?.CSwt)?.toFixed(3)}
-                                                    {storeInit?.IsStonePcs === 1
-                                                      ? `/${productData?.CSpcs}`
-                                                      : null}
-                                                  </span>
-                                                </span>
-                                              </>
-                                            )}
-                                          {/* </span> */}
                                         </div>
-                                      </div>
-                                      <div className="stam_prod_mtcolr_price">
-                                        <span className="stam_prod_metal_col">
-                                          {findMetalColor(
-                                            productData?.MetalColorid
-                                          )?.[0]?.metalcolorname.toUpperCase()}
-                                          -
-                                          {
-                                            findMetalType(
-                                              productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
-                                            )[0]?.metaltype
-                                          }
-                                        </span>
-                                        <span>/</span>
-                                        <span className="stam_price">
-                                          {/*  <span
+                                        <div className="stam_prod_Allwt">
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              justifyContent: "center",
+                                              alignItems: "center",
+                                              letterSpacing: maxwidth590px
+                                                ? "0px"
+                                                : "0.4px",
+                                              // gap:maxwidth1674px ? '0px':'3px',
+                                              flexWrap: "wrap",
+                                            }}
+                                          >
+                                            {/* <span className="stam_por"> */}
+
+                                            {storeInit?.IsGrossWeight == 1 &&
+                                              Number(productData?.Gwt) !== 0 && (
+                                                <span className="stam_prod_wt">
+                                                  <span className="stam_main_keys">
+                                                    GWT:
+                                                  </span>
+                                                  <span className="stam_main_val">
+                                                    {(productData?.Gwt)?.toFixed(3)}
+                                                  </span>
+                                                </span>
+                                              )}
+                                            {Number(productData?.Nwt) !== 0 && (
+                                              <>
+                                                <span className="stm_prod_span">|</span>
+                                                <span className="stam_prod_wt">
+                                                  <span className="stam_main_keys">NWT:</span>
+                                                  <span className="stam_main_val">
+                                                    {(productData?.Nwt)?.toFixed(3)}
+                                                  </span>
+                                                </span>
+                                              </>
+                                            )}
+                                            {/* </span> */}
+                                            {/* <span className="stam_por"> */}
+                                            {storeInit?.IsDiamondWeight == 1 &&
+                                              Number(productData?.Dwt) !== 0 && (
+                                                <>
+                                                  <span className="stm_prod_span">|</span>
+                                                  <span className="stam_prod_wt">
+                                                    <span className="stam_main_keys">
+                                                      DWT:
+                                                    </span>
+                                                    <span className="stam_main_val">
+                                                      {(productData?.Dwt)?.toFixed(3)}
+                                                      {storeInit?.IsDiamondPcs === 1
+                                                        ? `/${productData?.Dpcs}`
+                                                        : null}
+                                                    </span>
+                                                  </span>
+                                                </>
+                                              )}
+                                            {storeInit?.IsStoneWeight == 1 &&
+                                              Number(productData?.CSwt) !== 0 && (
+                                                <>
+                                                  <span className="stm_prod_span">|</span>
+                                                  <span className="stam_prod_wt">
+                                                    <span className="stam_main_keys">
+                                                      CWT:
+                                                    </span>
+                                                    <span className="stam_main_val">
+                                                      {(productData?.CSwt)?.toFixed(3)}
+                                                      {storeInit?.IsStonePcs === 1
+                                                        ? `/${productData?.CSpcs}`
+                                                        : null}
+                                                    </span>
+                                                  </span>
+                                                </>
+                                              )}
+                                            {/* </span> */}
+                                          </div>
+                                        </div>
+                                        <div className="stam_prod_mtcolr_price">
+                                          <span className="stam_prod_metal_col">
+                                            {findMetalColor(
+                                              productData?.MetalColorid
+                                            )?.[0]?.metalcolorname.toUpperCase()}
+                                            -
+                                            {
+                                              findMetalType(
+                                                productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
+                                              )[0]?.metaltype
+                                            }
+                                          </span>
+                                          <span>/</span>
+                                          <span className="stam_price">
+                                            {/*  <span
                                         className="stam_currencyFont"
                                         dangerouslySetInnerHTML={{
                                           __html: decodeEntities(
@@ -3335,26 +3367,27 @@ const ProductList = () => {
                                           ),
                                         }}
                                       /> */}
-                                          <span className="stam_currencyFont" style={{ fontWeight: '600' }}>
-                                            {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                          </span>
-                                          <span className="stam_pricePort">
-                                            {/* {productData?.ismrpbase === 1
+                                            <span className="stam_currencyFont" style={{ fontWeight: '600' }}>
+                                              {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>
+                                            <span className="stam_pricePort">
+                                              {/* {productData?.ismrpbase === 1
                                               ? productData?.mrpbaseprice
                                               : PriceWithMarkupFunction(
                                                 productData?.markup,
                                                 productData?.price,
                                                 storeInit?.CurrencyRate
                                               )?.toFixed(2)} */}
-                                            {formatter(
-                                              productData?.UnitCostWithMarkUp
-                                            )}
+                                              {formatter(
+                                                productData?.UnitCostWithMarkUp
+                                              )}
+                                            </span>
                                           </span>
-                                        </span>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                ))}
+                                  )
+                                })}
                               </div>
                             </div>
                             {storeInit?.IsProductListPagination == 1 &&
@@ -3376,7 +3409,14 @@ const ProductList = () => {
                                     page={currPage}
                                     showFirstButton
                                     showLastButton
-
+                                    renderItem={(item) => (
+                                      <PaginationItem
+                                        {...item}
+                                        sx={{
+                                          pointerEvents: item.page === currPage ? 'none' : 'auto',
+                                        }}
+                                      />
+                                    )}
                                   />
                                 </div>
                               )}

@@ -25,8 +25,8 @@ const Footer = ({ fromPage }) => {
         <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
           <div className='footerIconMain'>
             {socialMediaData?.map((social, index) => (
-              <div className='footerSocialIcon' key={index}>
-                <a key={index} href={`${social?.SLink}`} target="_blank" rel="noopener noreferrer">
+              <div className='footerSocialIcon' key={index} onClick={() => window.open(`${social?.SLink}`, '_blank')}>
+                <a key={index} rel="noopener noreferrer">
                   <img src={social?.SImgPath} alt={social?.SName} style={{ width: '24px', height: '24px', objectFit: 'cover' }}
                     onError={(e) => { e.target.style.display = 'none'; }} />
                 </a>
@@ -35,11 +35,14 @@ const Footer = ({ fromPage }) => {
           </div>
           <div className='footerMoreOption'>
             <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p>
+            {/* For vara */}
+            {/* <p className='footerMoreOptionData' style={{textTransform:'uppercase'}} onClick={() => { navigation('/managementTeam'); window.scrollTo(0, 0); }}>Management Team</p> */}
+
+            {/* For sonasons and shinjini */}
+            <p className='footerMoreOptionData' style={{ textTransform: 'uppercase' }} onClick={() => { navigation('/privacyPolicy'); window.scrollTo(0, 0); }}>Privacy Policy</p>
+
             <p className='footerMoreOptionData' style={{
-              textTransform:'uppercase'
-            }} onClick={() => { navigation('/managementTeam'); window.scrollTo(0, 0); }}>Management Team</p>
-            <p className='footerMoreOptionData' style={{
-              textTransform:'uppercase'
+              textTransform: 'uppercase'
             }} onClick={() => { navigation('/terms-and-conditions'); window.scrollTo(0, 0); }}>Terms & Condition</p>
             <p className='footerMoreOptionData' onClick={() => { navigation('/aboutUs'); window.scrollTo(0, 0); }}>ABOUT US</p>
           </div>
@@ -49,7 +52,10 @@ const Footer = ({ fromPage }) => {
               fontSize: '12px',
               fontWeight: 500,
               marginInline: '0'
-            }}>© 2024, Varajewels</p>
+            }}>© 2024, Shinjini</p>
+
+            {/* vara  */}
+            {/* }}>© 2024, Varajewels</p> */}
             <div style={{ width: maxWidth ? "100%" : "" }}>
               <p style={{
                 color: '#7d7f85',

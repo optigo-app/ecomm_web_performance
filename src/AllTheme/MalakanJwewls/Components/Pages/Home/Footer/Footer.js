@@ -13,7 +13,8 @@ const Footer = ({ fromPage }) => {
   const [localData, setLocalData] = useState();
   const compnyLogo = useRecoilValue(mala_companyLogo);
   const [companyInfoData, setcompanyInfoData] = useState(null);
-  let footerLogo = `${storImagePath()}/images/HomePage/sdj.png`;
+  // let footerLogo = `${storImagePath()}/images/HomePage/sdj.png`;
+  let footerLogo = `${storImagePath()}/images/HomePage/sonasons1.png`;
 
   useEffect(() => {
     const localD = JSON.parse(sessionStorage?.getItem("storeInit"));
@@ -83,7 +84,7 @@ const Footer = ({ fromPage }) => {
             </p>
           </div>
 
-          <div className="footer_menu_malkan">
+          {/* <div className="footer_menu_malkan">
             <p
               onClick={() => {
                 navigation("/servicePolicy");
@@ -91,6 +92,16 @@ const Footer = ({ fromPage }) => {
               }}
             >
               SERVICE POLICY
+            </p>
+          </div> */}
+          <div className="footer_menu_malkan">
+            <p
+              onClick={() => {
+                navigation("/privacyPolicy");
+                window.scrollTo(0, 0);
+              }}
+            >
+              PRIVACY POLICY
             </p>
           </div>
           <div className="footer_menu_malkan">
@@ -153,7 +164,8 @@ const Footer = ({ fromPage }) => {
 </div>
         </div>
       </div>
-      <p className="mala_footer_bottom_line">©2024 Shree Diamond</p>
+      <p className="mala_footer_bottom_line">©2024 Sonsons</p>
+      {/* <p className="mala_footer_bottom_line">©2024 Shree Diamond</p> */}
     </footer>
   );
 };

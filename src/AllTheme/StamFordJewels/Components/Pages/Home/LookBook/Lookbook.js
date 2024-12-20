@@ -12,6 +12,7 @@ import {
   FormControlLabel,
   IconButton,
   Modal,
+  PaginationItem,
   styled,
   ToggleButton,
   ToggleButtonGroup,
@@ -2119,8 +2120,8 @@ const Lookbook = () => {
                                                         : ""
                                                     )
                                                   }
-                                                  onError={(e)=>{
-                                                    e.target.src  = imageNotFound ;
+                                                  onError={(e) => {
+                                                    e.target.src = imageNotFound;
                                                   }}
                                                 />
                                               </div>
@@ -2386,8 +2387,16 @@ const Lookbook = () => {
           shape="circular"
           onChange={handelPageChange}
           page={currentPage}
-        // showFirstButton
-        // showLastButton
+          // showFirstButton
+          // showLastButton
+          renderItem={(item) => (
+            <PaginationItem
+              {...item}
+              sx={{
+                pointerEvents: item.page === currentPage ? 'none' : 'auto',
+              }}
+            />
+          )}
         />
       </div>
     </div>

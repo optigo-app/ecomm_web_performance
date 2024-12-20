@@ -41,7 +41,7 @@
         display: flex;
         justify-content: left;
         align-items: center;
-        width: 80%;
+        width: 100%;
         flex-direction: row;
     }
 
@@ -79,7 +79,7 @@
         width: 100px;
     }
 
-    .smilingDeleveryformCansleBtn {
+    .smilingDeleveryformCansleBtn_proCat {
         background: #f6efe6;
         border: none;
         border-radius: 5px;
@@ -97,7 +97,7 @@
     }
 
     .labgrowRegister_Procat {
-        width: 430px;
+        width: 80% !important;
     }
 
     @media(max-width: 1024px) {
@@ -167,4 +167,26 @@
         }
     }
 
+}
+
+.smilingAddressPopupMain_Procat {
+    height: 730px;
+    width: 570px;
+}
+
+
+.labgrowRegister_Procat {
+    width: 80% !important;
+}
+
+.smilingDeleveryformCansleBtn_proCat {
+    background: #f6efe6;
+    border: none;
+    border-radius: 5px;
+    color: rgba(31, 25, 25, .7);
+    font-weight: 600;
+    margin-inline: 5px;
+    opacity: .8;
+    padding: 6px 10px;
+    width: 100px;
 }

@@ -396,7 +396,7 @@ const Payment = () => {
                         onRemarkChange={handleRemarkChangeInternal}
                         onSave={handleSaveInternal}
                     />
-                    <Footer />
+                    {/* <Footer /> */}
                 </div>
             ) :
                 <Box

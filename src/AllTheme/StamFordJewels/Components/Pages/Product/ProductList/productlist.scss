@@ -26,32 +26,48 @@
   .stam_prodSorting {
     display: flex;
     //   justify-content: flex-end;
-    font-family: "Rubik", sans-serif;
+    font-family: $primaryFontFamily;
     width: 100%;
   }
 
   .stam_mobile_prodSorting {
     display: flex;
-    justify-content: flex-end;
-    font-family: "Rubik", sans-serif;
-    width: 100%;
-    padding: 5px 10px 5px 0px;
+    justify-content: space-between;
+    // justify-content: flex-end;
+    font-family: $primaryFontFamily;
+    // width: 100%;
+    color: rgba(143, 140, 139, 0.9019607843);
+    padding: 5px 10px 5px 6rem;
+    flex-direction: row-reverse;
+    cursor: pointer;
+    text-decoration: underline;
+
+    @media (max-width: 1200px) {
+      padding: 5px 10px 5px 1rem;
+    }
   }
 
-  .empty_sorting_div {
+  .stam_empty_sorting_div {
     display: flex;
     justify-content: start;
     align-items: center;
     width: 100% !important;
-    padding: 0 18%;
+    padding: 0px 6rem;
+    margin-bottom: 10px;
+    color: black;
 
+    @media (max-width: 1200px) {
+      padding: 0px 0rem;
+      width: 0;
+    }
   }
 
   .stam_main_sorting_div {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 98.3% !important;
+    width: 100% !important;
+    // width: 98.3% !important;
     margin: 0px 0px 10px 0px !important;
     // margin:15px 70px 0px 15px
   }
@@ -61,7 +77,7 @@
     align-items: baseline;
     border-bottom: 1px solid $primaryBorderColor;
     width: auto;
-    //   margin-right: 65px;
+    margin-right: 6rem;
     //   margin-top: 10px;
   }
 
@@ -99,13 +115,13 @@
     display: flex;
   }
 
-  .stam_filter_portion {
-    top: 25px !important;
-    position: sticky !important;
-    width: 25%;
-    font-family: $primaryFontFamily;
-    height: 100%;
-  }
+  // .stam_filter_portion {
+  //   top: 25px !important;
+  //   position: sticky !important;
+  //   width: 25%;
+  //   font-family: $primaryFontFamily;
+  //   height: 100%;
+  // }
 
   .stam_backtotop {
     color: white;
@@ -148,10 +164,12 @@
   }
 
   .stam_productList {
-    width: 75%;
+    width: 100%;
+    // width: 75%;
     display: flex;
     align-items: baseline;
-    margin: 20px 50px 0px 0px;
+    // margin: 20px 50px 0px 0px;
+    margin: 20px 0px 0px 0px;
     flex-direction: column;
     // position: sticky;
     // top: 50px;
@@ -172,6 +190,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-inline: auto;
   }
 
   .stam_breadcums_port {
@@ -179,11 +198,15 @@
     // top: -40px;
     // z-index: 999;
     font-family: $primaryFontFamily;
-    font-size: 0.85rem;
-    color: $primaryfontcolorLight;
+    font-size: 1rem;
+    color: black;
     // margin-left:72px;
     margin-top: 10px;
     cursor: pointer;
+
+    @media (max-width: 500px) {
+      font-size: 13px
+    }
   }
 
   .stam_inner_portion {
@@ -191,11 +214,13 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    // justify-content: end;
+    gap: 10px;
+    justify-content: center;
   }
 
   .stam_productCard {
-    width: 24%;
+    width: 19%;
+    // width: 24%;
     // border: 1px solid $primaryBorderColor;
     text-align: center;
     margin: 2px;
@@ -229,7 +254,8 @@
 
   .stam_prod_card_info {
     height: 90px;
-    margin-bottom: 10px;
+    // margin-bottom: 10px;
+    background-color: $HomeBgColor;
   }
 
   .stam_prod_Title {
@@ -237,11 +263,19 @@
     align-items: center;
     justify-content: center;
     flex-direction: row-reverse;
+    margin-bottom: 3px;
+    padding-top: 10px;
+
+    @media (max-width: 500px) {
+      padding-top: 5px;
+    }
+
+    ;
   }
 
-  .smr1_prod_title_with_width {
+  .stam_prod_title_with_width {
     font-size: 14px;
-    text-transform: uppercase;
+    // text-transform: uppercase;
     font-weight: 400;
     cursor: pointer;
     text-overflow: ellipsis;
@@ -259,9 +293,9 @@
     letter-spacing: 0.5px;
   }
 
-  .smr1_prod_title_with_no_width {
+  .stam_prod_title_with_no_width {
     font-size: 14px;
-    text-transform: uppercase;
+    // text-transform: uppercase;
     font-weight: 400;
     cursor: pointer;
     text-overflow: ellipsis;
@@ -288,6 +322,7 @@
     justify-content: center;
     align-items: center;
     gap: 3px;
+    margin-bottom: 2px;
 
     .stm_prod_span {
       font-size: 14px;
@@ -349,7 +384,7 @@
   }
 
   .stam_prod_datanotfound {
-    font-family: $primaryFontFamilyMedium;
+    font-family: $primaryFontFamily;
     color: $primaryfontcolor;
     font-size: 28px;
   }
@@ -517,6 +552,26 @@
     }
   }
 
+  @media (max-width: 1500px) {
+    .stam_productCard {
+      width: 23%;
+    }
+  }
+
+  @media (min-width: 900px) and (max-width: 1300px) {
+    .stam_prod_title_with_no_width {
+      font-size: 12px;
+      word-wrap: break-word;
+      // white-space: normal;
+    }
+
+    .stam_prod_title_with_width {
+      font-size: 12px;
+      word-wrap: break-word;
+      // white-space: normal;
+    }
+  }
+
   @media screen and (max-width: 1200px) {
     .stam_filter_portion_outter {
       display: none;
@@ -528,7 +583,7 @@
 
     .stam_productList {
       width: 100%;
-      margin: 00px 0px 0px 18px;
+      margin: 00px 0px 0px 0px;
       // display: flex;
       // justify-content: center;
       // align-items: center;
@@ -566,7 +621,7 @@
 
 
   @media screen and (max-width: 1042px) {
-    .smr1_prod_title_with_width {
+    .stam_prod_title_with_width {
       font-size: 12px;
     }
 
@@ -586,7 +641,7 @@
       font-size: 12px !important;
     }
 
-    .smr1_prod_title_with_no_width {
+    .stam_prod_title_with_no_width {
       font-size: 12px;
     }
 
@@ -599,18 +654,32 @@
     }
   }
 
-
-  @media screen and (max-width: 768px) {
+  @media (max-width: 900px) {
     .stam_productCard {
-      width: 49%;
+      width: 31.3%;
     }
-
 
   }
 
-  @media screen and (max-width: 405px) {
+  @media screen and (max-width: 768px) {
     .stam_productCard {
       width: 48%;
+    }
+  }
+
+  @media (max-width: 450px) {
+    .stam_productCard {
+      width: 48%;
+    }
+
+    .stam_inner_portion {
+      gap: 5px;
+    }
+  }
+
+  @media (max-width: 382px) {
+    .stam_productCard {
+      width: 47%;
     }
   }
 
@@ -632,7 +701,7 @@
       min-height: 250px;
     }
 
-    .smr1_prod_title_with_width {
+    .stam_prod_title_with_width {
       font-size: 10px;
     }
 
@@ -652,7 +721,7 @@
       font-size: 10px !important;
     }
 
-    .smr1_prod_title_with_no_width {
+    .stam_prod_title_with_no_width {
       font-size: 10px;
     }
 
@@ -667,8 +736,20 @@
   }
 
   @media screen and (max-width:560px) {
-    .smr1_prod_title_with_width {
+    .stam_prod_title_with_width {
       display: none;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .stam_prod_title_with_no_width {
+      font-size: 11px;
+      word-wrap: break-word;
+      white-space: normal;
+    }
+
+    .stam_prod_mtcolr_price {
+      font-size: 8px;
     }
   }
 
@@ -762,14 +843,14 @@
 
     .stam_productList {
       width: 100%;
-      margin: 0px 0px 0px 7px !important;
+      margin: 0px 0px 0px 0px !important;
     }
   }
 
   @media screen and (max-width:900px) {
     .stam_productList {
       width: 100%;
-      margin: 0px 0px 0px 13px;
+      margin: 0px 0px 0px 0px;
     }
   }
 }

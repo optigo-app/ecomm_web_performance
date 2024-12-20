@@ -18,7 +18,7 @@
           padding: 1.2rem 0;
           text-transform: uppercase;
           h2 {
-            font-size: 62px;
+            font-size: 48px;
             font-weight: 800;
             color: #f6c2b5;
             font-family: $primaryFontFamilyMedium;
@@ -45,11 +45,10 @@
 }
 
 .Fo-contactBox1 {
-
     width: 50%;
-    padding-left: 230px;
-    margin-top: 50px;
     border-right: 1px solid #e1e1e1;
+    display: flex;
+    justify-content: center;
 }
 
 .Fo-contactBox1Title {
@@ -69,8 +68,8 @@
 }
 
 .Fo-contactBox2 {
-    width: 35%;
-    margin: 60px 130px 130px 130px;
+    width: 50%;
+    margin: 0px;
 }
 
 .Fo-contactBox2Title {
@@ -139,8 +138,20 @@
     .Fo-contactBox2 {
         width: 40%;
         margin: 0px;
-        margin-top: 15%;
+        // margin-top: 15%;
         margin-left: 100px;
+    }
+}
+
+@media screen and (max-width:1200px) {
+    .Fo-contactMain {
+        margin-inline: 2% !important;
+    }
+}
+
+@media screen and (max-width:800px) {
+    .Fo-contactMain {
+        margin-inline: 1% !important;
     }
 }
 

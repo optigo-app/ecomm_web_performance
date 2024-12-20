@@ -5,6 +5,7 @@ import { useSetRecoilState } from 'recoil';
 import Cookies from "js-cookie";
 import moment from 'moment';
 import { stam_CartCount } from '../../../Recoil/atom';
+import { CardMedia, Skeleton } from '@mui/material';
 
 const ExampleComponent = ({
     cartData,
@@ -18,7 +19,7 @@ const ExampleComponent = ({
     onRemove
 
 }) => {
-    const [imageSrc, setImageSrc] = useState(noImageFound);
+    const [imageSrc, setImageSrc] = useState();
     const setCartCountVal = useSetRecoilState(stam_CartCount)
     const [storeInitData, setStoreInitData] = useState();
     const visiterId = Cookies.get('visiterId');
@@ -69,11 +70,36 @@ const ExampleComponent = ({
             <tbody>
                 <tr key={cartData.id} className="stam_B2C-cartData-row">
                     <td className='stam_b2cCartImagetd'>
-                        <img
-                            className='stam_b2ccartImage'
-                            src={imageSrc}
-                            alt={`cartData images`}
-                        />
+                        {imageSrc === undefined ? (
+                            <CardMedia
+                                sx={{
+                                    width: "10rem",
+                                    height: "9rem",
+                                    '@media (max-width: 1350px)': {
+                                        width: "9rem",
+                                    },
+                                    '@media (max-width: 840px)': {
+                                        width: "10rem",
+                                    },
+                                    '@media (max-width: 650px)': {
+                                        width: "9rem",
+                                    },
+                                }}
+                            >
+                                <Skeleton
+                                    animation="wave"
+                                    variant="rect"
+                                    width="100%"
+                                    height="100%"
+                                />
+                            </CardMedia>
+                        ) : (
+                            <img
+                                className='stam_b2ccartImage'
+                                src={imageSrc}
+                                alt={`cartData images`}
+                            />
+                        )}
                     </td>
                     <td className='stam_b2ccartContentTd'>
                         <p className='stam_b2ccartContentTitle' title="Titleline">{cartData?.TitleLine}</p>

@@ -24,7 +24,8 @@ export default function ContactUs() {
     }, []);
 
     useEffect(() => {
-        fetch(`${storImagePath()}/html/contactPage.html`)
+        // fetch(`${storImagePath()}/html/contactPage.html`)  /*  for kayra only */
+        fetch(`${storImagePath()}/html/SonasonsContactPage.html`)  /* for sonsons only  */
             // fetch(`${storImagePath()}/html/MairocontactPage.html`)  /* for mairo only */
             .then((response) => response.text())
             .then((html) => {
@@ -42,7 +43,7 @@ export default function ContactUs() {
         mobileno: '',
         InQuirySubject: '',
         Be_In_Message: '',
-        Themeno: '1'
+        Themeno: '11'
     });
 
     const [errors, setErrors] = useState({});
@@ -112,7 +113,7 @@ export default function ContactUs() {
                 mobileno: '',
                 InQuirySubject: '',
                 Be_In_Message: '',
-                Themeno: '1'
+                Themeno: '11'
             });
         } else {
             setErrors(errors);
@@ -202,6 +203,8 @@ export default function ContactUs() {
                         </div>
                         <div className='smr_Fo_contactBox2_main'>
                             <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+
+                            {/*Kayra Map  */}
                             {/* <div>
                                 <div className="tab-buttons">
                                     <button className='active' onClick={() => handleTabClick('M1')}>Main Office Address</button>

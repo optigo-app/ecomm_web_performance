@@ -164,19 +164,13 @@ const Header = () => {
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
-
-    // console.log("callll");
-
-    if (storeinit?.IsB2BWebsite === 0) {
+    if (
+      storeinit?.IsB2BWebsite === 0 ||
+      (storeinit?.IsB2BWebsite === 1 && isUserLogin === true)) {
       getMenuApi();
-      return;
-    } else if (storeinit?.IsB2BWebsite === 1 && isUserLogin === true) {
-      getMenuApi();
-      return;
-    } else {
-      return;
     }
   }, [islogin]);
+
 
   useEffect(() => {
     fetchData();
@@ -837,7 +831,7 @@ const Header = () => {
                     className="roop_ListMenuSiderMobile"
                     sx={{ paddingTop: "0", marginBottom: "0px", marginTop: "15px" }}
                   >
-                    {menuItems.map((menuItem,index) => (
+                    {menuItems.map((menuItem, index) => (
                       <div key={menuItem.menuid || index}>
                         <ButtonBase
                           component="div"
@@ -1125,7 +1119,11 @@ const Header = () => {
       <div className="roop_Top_header">
         <div className="roop_header_top_line">
           <p className="roop_header_top_line_text" aria-labelledby="title">
-            Welcome To Vara Jewels Offical Website
+            {/* For Vara */}
+            {/* Welcome To Vara Jewels Offical Website */}
+
+            {/* For Shinjini */}
+            {/* Welcome To Shinjini Jewels Offical Website */}
             {/* Welcome To Roop Jewellers's Offical Website */}
           </p>
         </div>
@@ -1884,9 +1882,9 @@ const Header = () => {
             onMouseLeave={handleDropdownClose}
           >
             <div style={{ display: "flex" }}>
-              {menuItems.map((menuItem,index) => (
+              {menuItems.map((menuItem, index) => (
                 <div
-                  key={menuItem.menuid||index}
+                  key={menuItem.menuid || index}
                   className="roop_headerOptionSingleDiv"
                   style={{
                     minWidth: "fitContent",
@@ -1934,7 +1932,7 @@ const Header = () => {
                       </div>
                     </ButtonBase> */}
                     <List className="roop_listMain">
-                      {menuItem.param1.map((subMenuItem,index) => (
+                      {menuItem.param1.map((subMenuItem, index) => (
                         <div key={subMenuItem.param1dataid || index}>
                           <ButtonBase
                             component="div"
@@ -1988,9 +1986,9 @@ const Header = () => {
                                 paddingBottom: "0px",
                               }}
                             >
-                              {subMenuItem.param2.map((subSubMenuItem,index) => (
+                              {subMenuItem.param2.map((subSubMenuItem, index) => (
                                 <div
-                                key={index}
+                                  key={index}
                                   component="div"
                                   style={{ width: "100%" }}
                                   onClick={(e) =>
