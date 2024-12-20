@@ -86,6 +86,9 @@ const SmilingRock_MobileApp_App = React.memo(() => {
         location.pathname === "/TermsCondition" ||
         location.pathname === "/HelpCenter" ||
         location.pathname === "/Coupons" ||
+        location.pathname === "/privacy-policy" ||
+        location.pathname === "/copyright" ||
+        location.pathname === "/support" ||
         location.pathname === "/Lookbook" ||
         location.pathname === "/CurrentVersion") ?
         null : <Header />}

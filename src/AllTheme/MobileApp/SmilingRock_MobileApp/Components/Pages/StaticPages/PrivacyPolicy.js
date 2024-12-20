@@ -24,10 +24,10 @@ const PrivacyPolicy = () => {
 
     return (
         <div className='smrMA_static_tremMain'>
-            <p className="SmiCartListTitleN" style={{}}>
+            <p className="SmiCartListTitleN" style={{ height:'70px', zIndex:'9999999999999'}}>
                 <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigation(-1)} />Privacy Policy
             </p>
-            <div style={{ marginInline: '2%', marginTop: '10px', paddingBottom: '80px', minHeight: '400px' , paddingTop: '60px'}}>
+            <div style={{ marginInline: '2%', marginTop: '10px', paddingBottom: '80px' ,paddingTop:"100px", minHeight: '400px',}}>
                 <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
             </div>
         </div>
