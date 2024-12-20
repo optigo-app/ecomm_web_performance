@@ -405,9 +405,8 @@ const Themes = ({ htmlContent }) => {
 
       {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 
-      {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
+      {/* {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />} */}
 
-      {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
       {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
@@ -419,6 +418,7 @@ const Themes = ({ htmlContent }) => {
 
       {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
 
+      {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
       {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
     </Suspense>
   </>

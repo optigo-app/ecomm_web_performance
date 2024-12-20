@@ -37,6 +37,8 @@ import { storImagePath, storInitDataPath } from "../../utils/Glob_Functions/Glob
 import DWSRprintComp from "./Components/Pages/Account/DWSRprintComp/DWSRprintComp";
 import PaymentFailure from "../../utils/PaymentSuccessFail/PaymentFailure";
 import TermsPolicy from './Components/Pages/FooterPages/TermsPolicy/TermsPolicy'
+import Bespoke from "./Components/Pages/Home/Bespokejewelry/Index";
+import Wrapper from "./Components/Pages/Home/Appointment/Wrapper";
 
 const SmilingRock_App = () => {
   const islogin = useRecoilValue(smr_loginState);
@@ -238,6 +240,9 @@ const SmilingRock_App = () => {
         {/* sonasons needed */}
         <Route path="/servicePolicy" element={<ServicePolicy />} />
         <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
+        <Route path="/bespoke-jewelry" element={<Bespoke />} />
+        <Route path="/appointment" element={<Wrapper />} />
+        
 
         {/* Maiora not needed fun facts */}
         {/* Kayra needed */}

@@ -26,30 +26,30 @@ export default function AccountWothoutLogin() {
 
             <div className='mainTerms'>
                 <p className='titleContion' style={{margin: '10px 0px 5px 0px', }}>Feeadback & Information</p>
-                <div style={{ display: 'flex', alignItems: 'center' ,height:'50px', justifyContent: 'space-between', paddingInline: '15px'}} onClick={() => navigation('/TermsCondition')}>
+                <div style={{ display: 'flex', alignItems: 'center' ,height:'50px', justifyContent: 'space-between', paddingInline: '15px'}} onClick={() => navigation('/privacy-policy')}>
                     <div style={{display: 'flex', alignItems: 'center'}}>
                         <FaBook />
-                        <p className='titleTerms'>Terms & Condition</p>
+                        <p className='titleTerms'>Privacy  Policy</p>
                     </div>
                     <div>
                         <MdOutlineNavigateNext style={{height: '25px', width: '25px'}}/>
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center' ,height:'50px', justifyContent: 'space-between', paddingInline: '15px'}} onClick={() => navigation('/PrivacyPolicy')}>
+                <div style={{ display: 'flex', alignItems: 'center' ,height:'50px', justifyContent: 'space-between', paddingInline: '15px'}} onClick={() => navigation('/copyright')}>
                     <div style={{display: 'flex', alignItems: 'center'}}>
                         <MdOutlinePrivacyTip />
-                        <p className='titleTerms'>Privacy Policy</p>
+                        <p className='titleTerms'>Copyright</p>
                     </div>
                     <div>
                         <MdOutlineNavigateNext style={{height: '25px', width: '25px'}}/>
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center' ,height:'50px', justifyContent: 'space-between', paddingInline: '15px'}} onClick={() => navigation('/DeliveryShipping')}>
+                <div style={{ display: 'flex', alignItems: 'center' ,height:'50px', justifyContent: 'space-between', paddingInline: '15px'}} onClick={() => navigation('/support')}>
                     <div style={{display: 'flex', alignItems: 'center'}}>
                         <FaShoppingBag />
-                        <p className='titleTerms'>Delivery Shipping</p>
+                        <p className='titleTerms'>Support</p>
                     </div>
                     <div>
                         <MdOutlineNavigateNext style={{height: '25px', width: '25px'}}/>

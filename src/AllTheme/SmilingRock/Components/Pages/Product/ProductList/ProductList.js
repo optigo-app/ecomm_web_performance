@@ -34,6 +34,7 @@ import Cookies from 'js-cookie'
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { Helmet } from "react-helmet";
+import debounce from 'lodash.debounce';  // Import lodash debounce
 
 
 
@@ -43,6 +44,7 @@ import { Helmet } from "react-helmet";
 
 const ProductList = () => {
 
+  
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
@@ -80,6 +82,7 @@ const ProductList = () => {
   const [currPage, setCurrPage] = useState(1);
   const [cartArr, setCartArr] = useState({})
   const [wishArr, setWishArr] = useState({})
+  const [RangeFilterShow, setRangeFilterShow] = useState(false)
   const [menuParams, setMenuParams] = useState({})
   const [filterProdListEmpty, setFilterProdListEmpty] = useState(false)
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
@@ -380,7 +383,12 @@ const ProductList = () => {
       setIsProdLoading(true)
       //  if(location?.state?.SearchVal === undefined){ 
       setprodListType(productlisttype)
-      await ProductListApi({}, 1, obj, productlisttype, cookie)
+      let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+      let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
+      let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
+  
+      // await ProductListApi({}, 1, obj, productlisttype,sortBySelect , cookie ,DiaRange, netRange ,grossRange)
+      await ProductListApi({}, 1, obj, productlisttype, cookie,sortBySelect )
         .then((res) => {
           if (res) {
             // console.log("productList", res);
@@ -659,7 +667,11 @@ const ProductList = () => {
     //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
     if (location?.key === locationKey) {
       setIsOnlyProdLoading(true)
-      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
+      let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+      let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
+      let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
+      
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect,DiaRange, netRange ,grossRange)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -690,11 +702,25 @@ const ProductList = () => {
   }, [filterChecked])
 
 
-  const handelFilterClearAll = () => {
-    // setAfterCountStatus(true);
-    if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { setFilterChecked({}) }
-    setAccExpanded(false)
+  const handelFilterClearAll = () => {      
+    // setAfterCountStatus(true);      
+    if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { 
+      setFilterChecked({})
+     
+      setAccExpanded(false) 
+    } 
+     let diafilter = filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0] : [];
+      let diafilter1 = filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0] : [];
+      let diafilter2 = filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0] : [];
+      setSliderValue([diafilter?.Min, diafilter?.Max])
+      setSliderValue1([diafilter1?.Min, diafilter1?.Max])
+      setSliderValue2([diafilter2?.Min, diafilter2?.Max])
+      // setRangeFilterShow(false)
+    
+    // new steps clear all range 
+   
   }
+
 
   useEffect(() => {
     handelFilterClearAll()
@@ -718,7 +744,11 @@ const ProductList = () => {
         behavior: 'smooth'
       })
     }, 100)
-    ProductListApi(output, value, obj, prodListType, cookie, sortBySelect)
+    let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
+    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
+
+    ProductListApi(output, value, obj, prodListType, cookie, sortBySelect,DiaRange, netRange ,grossRange)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -810,7 +840,11 @@ const ProductList = () => {
 
     if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true)
-      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
+      let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+      let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
+      let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
+  
+      ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect, DiaRange, netRange ,grossRange)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -1046,9 +1080,13 @@ const ProductList = () => {
 
     setIsOnlyProdLoading(true)
 
-    let sortby = e.target?.value
+    let sortby = e.target?.value ;
+    let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
+    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
 
-    await ProductListApi(output, 1, obj, prodListType, cookie, sortby)
+
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortby, DiaRange, netRange ,grossRange)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -1207,7 +1245,7 @@ const ProductList = () => {
 //   }
 
 
-const handleRangeFilterApi = useCallback(async (Rangeval) => {
+   const handleRangeFilterApi = useCallback(async (Rangeval) => {
   setAfterCountStatus(true);
   const output = JSON?.parse(sessionStorage.getItem("key")) ?? {};
   // let output = FilterValueWithCheckedOnly();
@@ -1230,10 +1268,10 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
   //   grossMax: (diafilter2?.Min === sliderValue2[0] || diafilter2?.Max === sliderValue2[1]) ? "" : sliderValue2[1]
   // };
 
-  let netRange = { netMin:  sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
-  let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
+  let netRange = { netMin:  sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" } 
+  let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""} 
 
-  await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+  await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange ,grossRange)
     .then((res) => {
       if (res) {
         setProductListData(res?.pdList);
@@ -1256,9 +1294,9 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
   prodListType, 
   cookie, 
   sortBySelect
-]);
+   ]);
 
-  const handleRangeFilterApi1 = useCallback(async (Rangeval1) => {
+   const handleRangeFilterApi1 = useCallback(async (Rangeval1) => {
 
     let diafilter = JSON.parse(filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0]
     // let diafilter1 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "NetWt")[0]?.options)[0]
@@ -1301,7 +1339,7 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
       sortBySelect
     ]);
 
-  const handleRangeFilterApi2 = useCallback(async (Rangeval2) => {
+   const handleRangeFilterApi2 = useCallback(async (Rangeval2) => {
     // let output = FilterValueWithCheckedOnly()
   const output = JSON?.parse(sessionStorage.getItem("key")) ?? {};
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
@@ -1351,14 +1389,17 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
 
   const handleSliderChange = (event, newValue) => {
     setSliderValue(newValue);
+    // setRangeFilterShow(true)
     handleRangeFilterApi(newValue)
   };
   const handleSliderChange1 = (event, newValue) => {
     setSliderValue1(newValue);
+    // setRangeFilterShow(true)
     handleRangeFilterApi1(newValue)
   };
   const handleSliderChange2 = (event, newValue) => {
     setSliderValue2(newValue);
+    // setRangeFilterShow(true)
     handleRangeFilterApi2(newValue)
   };
 
@@ -1398,7 +1439,11 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
               min={JSON?.parse(ele?.options)[0]?.Min}
               max={JSON?.parse(ele?.options)[0]?.Max}
               step={0.001}
-              sx={{ marginTop: "25px" }}
+              sx={{
+                marginTop: "25px",
+                transition: "all 0.2s ease-out", // Smooth transition on value change
+              }}
+              disableSwap
             />
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
@@ -1411,8 +1456,11 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
-                "aria-labelledby": "range-slider"
+                "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+                                 sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
             />
             <Input
               value={sliderValue[1]}
@@ -1423,8 +1471,12 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
-                "aria-labelledby": "range-slider"
+                "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+                          sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+
             />
           </div>
         </div>
@@ -1432,26 +1484,29 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
     )
   }
   const RangeFilterView1 = (ele) => {
-    // console.log("netwt",ele)
     return (
       <>
         <div>
           <div>
             <Slider
               value={sliderValue1}
-              onChange={() => (event, newValue) => setSliderValue1(newValue)}
+              onChange={(event, newValue) => setSliderValue1(newValue)}
               onChangeCommitted={handleSliderChange1}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
               max={JSON?.parse(ele?.options)[0]?.Max}
               step={0.001}
-              sx={{ marginTop: "25px" }}
+              sx={{
+                marginTop: "25px",
+                transition: "all 0.2s ease-out", // Smooth transition on value change
+              }}
+              disableSwap
             />
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
             <Input
-              value={sliderValue1[0]}
+              value={sliderValue1[0]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange1(0)}
               inputProps={{
@@ -1459,11 +1514,15 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
-                "aria-labelledby": "range-slider"
+                "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+
             />
             <Input
-              value={sliderValue1[1]}
+              value={sliderValue1[1]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange1(1)}
               inputProps={{
@@ -1471,8 +1530,12 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
-                "aria-labelledby": "range-slider"
+                "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+
             />
           </div>
         </div>
@@ -1493,7 +1556,11 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
               min={JSON?.parse(ele?.options)[0]?.Min}
               max={JSON?.parse(ele?.options)[0]?.Max}
               step={0.001}
-              sx={{ marginTop: "25px" }}
+              sx={{
+                marginTop: "25px",
+                transition: "all 0.2s ease-out", // Smooth transition on value change
+              }}
+              disableSwap
             />
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
@@ -1506,8 +1573,12 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
-                "aria-labelledby": "range-slider"
+                "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+
             />
             <Input
               value={sliderValue2[1]}
@@ -1518,15 +1589,18 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
-                "aria-labelledby": "range-slider"
+                "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+
             />
           </div>
         </div>
       </>
     )
   }
-
 
   const DynamicListPageTitleLineFunc = () => {
     if (location?.search.split("=")[0]?.slice(1) == "M") {
@@ -1596,6 +1670,8 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
 
     checkAllImages();
   }, [finalProductListData]);
+
+  console.log(RangeFilterShow , "RangeFilterShow")
 
   return (
     <>
@@ -1816,7 +1892,7 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
               <div className="smr_mobile_filter_portion_outter">
                 <span className="smr_filter_text">
                   <span>
-                    {Object.values(filterChecked)?.filter((ele) => ele.checked)
+                    {RangeFilterShow || Object.values(filterChecked)?.filter((ele) => ele.checked)
                       ?.length === 0
                       // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
                       ? "Filters"
@@ -1837,7 +1913,7 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
                   <span
                     onClick={() => handelFilterClearAll()}
                   >
-                    {Object.values(filterChecked).filter((ele) => ele.checked)
+                    {RangeFilterShow || Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0
                       ? "Clear All"
                       : <>{afterCountStatus == true ? (
@@ -2588,7 +2664,8 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
                                       })
                                     }
                                   >
-                                    {BreadCumsObj()?.menuname}
+                                    {/* {BreadCumsObj()?.menuname} */}
+                                    {location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname}
                                   </span>
                                 )}
 
@@ -2630,7 +2707,7 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
                             <div className="smr_filter_portion_outter">
                               <span className="smr_filter_text">
                                 <span>
-                                  {Object.values(filterChecked).filter(
+                                  {RangeFilterShow ||  Object.values(filterChecked).filter(
                                     (ele) => ele.checked
                                   )?.length === 0
                                     ? "Filters"
@@ -2650,7 +2727,7 @@ const handleRangeFilterApi = useCallback(async (Rangeval) => {
                                 <span
                                   onClick={() => handelFilterClearAll()}
                                 >
-                                  {Object.values(filterChecked).filter(
+                                  {RangeFilterShow ||  Object.values(filterChecked).filter(
                                     (ele) => ele.checked
                                   )?.length > 0
                                     ? "Clear All"

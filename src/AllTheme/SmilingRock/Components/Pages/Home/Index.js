@@ -23,6 +23,7 @@ import BrandsComponent from "./BrandComponent/BrandComponents";
 import { storImagePath, storInitDataPath } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { useRecoilValue } from "recoil";
 import { homeLoading } from "../../Recoil/atom";
+import NewsletterSignup from "./SubscribeNewsLater/NewsletterSignup";
 
 function Home() {
   const [localData, setLocalData] = useState();
@@ -83,6 +84,7 @@ function Home() {
                   {localData?.IsHomeTrending === 1 && <TrendingView />}
                   {localData?.IsHomeDesignSet === 1 && <DesignSet />}
                   <BottomBanner />
+                  <NewsletterSignup/>
                   <Footer />
                 </div>
               )}
@@ -107,6 +109,7 @@ function Home() {
                     <>
                       <BottomBanner />
                       <BrandsComponent />
+                    <NewsletterSignup/>
                       <Footer />
                     </>
                   }
