@@ -114,7 +114,7 @@
         }
 
         .submitBtnForgot {
-            width: 50%;
+            width: 90%;
             height: 50px !important;
 
         }
@@ -126,6 +126,15 @@
         
         .submitBtnForgot {
             width: 90%;
+            height: 40px !important;
+        }
+    }
+
+    @media screen and (max-width: 425px) {
+
+        
+        .submitBtnForgot {
+            width: 100%;
             height: 40px !important;
         }
     }

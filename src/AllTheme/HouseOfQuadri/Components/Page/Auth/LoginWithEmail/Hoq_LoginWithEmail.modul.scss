@@ -17,7 +17,7 @@
     margin: 10px;
   }
 
-  .submitBtnForgot {
+  .hoq_submitBtnForgot {
     height: 60px;
     width: 420px;
     color: white;
@@ -26,32 +26,33 @@
     border: 0;
     margin-top: 10px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     letter-spacing: 1;
     transition: all 0.5s ease;
   }
 
-  .submitBtnForgot:hover {
+  .hoq_submitBtnForgot:hover {
     background-color:transparent;
     color: #7d7f85;
     border: 1px solid #7d7f85;
   }
 
-  .cancleForgot {
+  .hoq_cancleForgot {
     color: #7d7f85;
-    font-size: 12px;
+    width: 420px;
+    font-size: 13px;
     margin-top: 25px;
     font-weight: 500;
     letter-spacing: 1px;
-
+    font-family: $fontDmSans;
     position: relative;
     text-decoration: none;
     transition: color 0.3s;
     cursor: pointer;
   }
 
-  .cancleForgot::before {
+  .hoq_cancleForgot::before {
     content: "";
     position: absolute;
     width: 0;
@@ -62,7 +63,7 @@
     transition: width 0.3s ease;
   }
 
-  .cancleForgot:hover::before {
+  .hoq_cancleForgot:hover::before {
     width: 100%;
   }
 
@@ -91,14 +92,23 @@
       width: 90%;
     }
 
-    .submitBtnForgot {
-      width: 50%;
+    .hoq_submitBtnForgot {
+      width: 90%;
+      height: 50px !important;
+    }
+    .hoq_cancleForgot {
+      width: 90%;
       height: 50px !important;
     }
   }
 
   @media screen and (max-width: 500px) {
-    .submitBtnForgot {
+    .hoq_submitBtnForgot {
+      width: 90%;
+      height: 40px !important;
+    }
+
+    .hoq_cancleForgot {
       width: 90%;
       height: 40px !important;
     }

@@ -117,7 +117,7 @@ export default function ContactUs() {
         <div className='rp_stam_contactMain' >
             <div className='Fo-contactMain'>
                 <div>
-                    <p style={{ fontSize: '40px', margin: '0px', paddingTop: '30px', textAlign: 'center', fontWeight: '600', color: "#d14a61" }}>Contact Us</p>
+                    <p style={{ fontSize: '40px', margin: '0px', paddingTop: '60px', textAlign: 'center', fontWeight: '600', color: "#d14a61" }}>Contact Us</p>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <p style={{ width: '500px', textAlign: 'center', fontSize: '15px' }}>Have a comment, suggestion or question? Feel free to reach out to us and we’ll getback to you as soon as possible.</p>
                     </div>

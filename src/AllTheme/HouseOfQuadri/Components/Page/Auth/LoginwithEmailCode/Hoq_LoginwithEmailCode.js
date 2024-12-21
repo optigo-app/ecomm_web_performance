@@ -241,7 +241,7 @@ export default function LoginWithEmailCode() {
               helperText={errors.mobileNo}
             />
 
-            <button className="submitBtnForgot" onClick={handleSubmit}>
+            <button className="hoq_submitBtnForgot" onClick={handleSubmit}>
               Login
             </button>
             <p style={{ marginTop: "10px" }}>
