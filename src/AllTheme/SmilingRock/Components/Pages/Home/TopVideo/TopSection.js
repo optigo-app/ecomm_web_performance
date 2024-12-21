@@ -28,7 +28,23 @@ const TopSection = () => {
 
   return (
     <div className="smr_topVideoMain" style={{ minHeight: "550px" }}>
-      {localData?.Blockno === 2 && (
+        <video
+          ref={videoRef}
+          width="500"
+          autoPlay
+          muted
+          controls={!videoStarted}
+          loop
+          style={{ height: "auto", width: "100%" }}
+          onLoadedData={handleVideoLoad}
+          onPlay={handleVideoPlay}
+        >
+          <source
+            src={`${storImagePath()}/images/HomePage/TopSection/HomepageMainBannerVideo.mp4`}
+            type="video/mp4"
+          />
+        </video>
+      {/* {localData?.Blockno === 2 && (
         <div>
           <img
             src={`${storImagePath()}/images/HomePage/Banner/HomeBanner.png`}
@@ -54,7 +70,7 @@ const TopSection = () => {
             type="video/mp4"
           />
         </video>
-      }
+      } */}
       {/* 
 {localData?.Blockno === 1 && storeInit?.IsPLW == 1 ? (
         <div>

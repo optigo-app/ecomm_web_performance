@@ -253,14 +253,14 @@ const SmilingRock_App = () => {
         <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
           <Route path="/p/*" element={<ProductList />} />
           <Route path="/d/*" element={<ProductDetail />} />
-          <Route path="/cartPage" element={<Cart />} />
-          <Route path="/myWishList" element={<Wishlist />} />
-          <Route path="/Delivery" element={<Delivery />} />
-          <Route path="/Payment" element={<Payment />} />
-          <Route path="/Confirmation" element={<Confirmation />} />
-          <Route path="/account" element={<Account />} />
-          {/* <Route path="/accountdwsr" element={<DWSRprintComp />} /> */}
-        </Route>
+          <Route path="/cartPage" element={<Cart />} /> 
+          <Route path="/myWishList" element={<Wishlist />} /> 
+          <Route path="/Delivery" element={<Delivery />} /> 
+          <Route path="/Payment" element={<Payment />} /> 
+          <Route path="/Confirmation" element={<Confirmation />} /> 
+          <Route path="/account" element={<Account />} /> 
+          {/* <Route path="/accountdwsr" element={<DWSRprintComp />} /> */} 
+        </Route> 
         <Route path="/accountdwsr" element={<DWSRprintComp />} />
         <Route path="/Lookbook" element={<Lookbook />} />
         <Route path="/paymentFailure" element={<PaymentFailure />} />

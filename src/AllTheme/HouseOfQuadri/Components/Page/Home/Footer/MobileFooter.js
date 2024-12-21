@@ -11,69 +11,90 @@ import { Link, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
-const MobileFooter = ({ socialLinkStr, companyInfoData }) => {
+const MobileFooter = ({ socialLinkStr, companyInfoData  : StoreData }) => {
   const [email, setemail] = useState("");
   const navigation = useNavigate();
   const ismobile = useMediaQuery('(max-width:502px)')
-  // const [companyInfoData, setCompanuInfoData] = useState();
-  // const [socialMediaData, setSocialMediaData] = useState([]);
+  const [companyInfoData, setCompanuInfoData] = useState(StoreData);
+  const [socialMediaData, setSocialMediaData] = useState([]);
   const [selectedFooteVal, setSelectedVal] = useState(0);
+  const [loading1, setLoading1] = useState(false);
+  const [result, setResult] = useState();
+  const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   let storeInit;
-  //   let companyInfoData;
+ 
+  useEffect(() => {
+    let interval;
+    const fetchData = () => {
+      try {
+        const storeInitData = sessionStorage.getItem("storeInit");
+        if (storeInitData) {
+          const parsedStoreInit = JSON?.parse(storeInitData);
+          const companyInfoDataStr = sessionStorage.getItem("CompanyInfoData");
+          if (companyInfoDataStr) {
+            const parsedCompanyInfo = JSON?.parse(companyInfoDataStr);
+            setCompanuInfoData(parsedCompanyInfo);
 
-  //   setTimeout(() => {
-  //     try {
-  //       const storeInitData = sessionStorage?.getItem("storeInit");
-  //       if (storeInitData) {
-  //         storeInit = JSON.parse(storeInitData);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error parsing storeInit:", error);
-  //     }
+            const socialLinkStr = parsedCompanyInfo?.SocialLinkObj;
+            if (socialLinkStr) {
+              try {
+                const parsedSocialMediaData = JSON?.parse(socialLinkStr);
+                setSocialMediaData(parsedSocialMediaData);
+              } catch (error) {
+                console.error("Error parsing social media data:", error);
+              }
+            }
+          }
 
-  //     try {
-  //       const companyInfoDataStr = sessionStorage?.getItem("CompanyInfoData");
-  //       if (companyInfoDataStr) {
-  //         companyInfoData = JSON.parse(companyInfoDataStr);
-  //         setCompanuInfoData(companyInfoData);
+          setLoading(false);
+          clearInterval(interval); // Clear the interval once data is found
+        }
+      } catch (error) {
+        console.error("Error parsing data from sessionStorage:", error);
+        setLoading(false);
+        clearInterval(interval); // Clear the interval in case of error
+      }
+    };
 
-  //         const socialLinkStr = companyInfoData?.SocialLinkObj;
-  //         if (socialLinkStr) {
-  //           try {
-  //             const parsedSocialMediaUrlData = JSON.parse(socialLinkStr);
-  //             setSocialMediaData(parsedSocialMediaUrlData);
-  //           } catch (error) {
-  //             console.error("Error parsing social media data:", error);
-  //           }
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error("Error parsing CompanyInfoData:", error);
-  //     }
-  //   }, 500);
-  // }, []);
+    // Initial fetch
+    fetchData();
+
+    // Set up interval for continuous checking
+    interval = setInterval(fetchData, 1000);
+
+    // Cleanup function to clear interval on unmount
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, []);
+
+
   const HandleFormSubmit = async (e) => {
+    setLoading1(true);
     e.preventDefault();
-    // const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
-    // const newslater = storeInit?.newslatter;
-    // if (newslater) {
-    //   const requestOptions = {
-    //     method: "GET",
-    //     redirect: "follow",
-    //   };
-    //   const newsletterUrl = `${newslater}${email}`;
-    //   console.log("newsletterUrl: ", newsletterUrl);
-    //   await fetch(newsletterUrl, requestOptions)
-    //     .then((response) => {
-    //       response.text();
-    //       console.log(response);
-    //     })
-    //     .then((result) => console.log(result))
-    //     .catch((error) => console.error(error));
+    const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
+    const newslater = storeInit?.newslatter;
+    if (newslater && email) {
+      const requestOptions = {
+        method: "GET",
+        redirect: "follow",
+      };
+      const newsletterUrl = `${newslater}${email}`;
+      fetch(newsletterUrl)
+        .then((response) => response.text())
+        .then((result) => { setResult(result); setLoading1(false) ; setTimeout(() => {
+          setResult(""); // Clear the result after 3000 ms
+          setemail('')
+        }, 3000); })
+        .catch((error) => setResult(error));
+    }
   };
-  // };
+
+ 
+  const alreadySubs = 'Already Subscribed.';
+
   return (
     <>
       <div className="mobile_footer">
@@ -171,11 +192,29 @@ const MobileFooter = ({ socialLinkStr, companyInfoData }) => {
                     value={email}
                     name="email"
                     onChange={(e) => setemail(e.target.value)}
+
                   />
                   <button type="submit" className="mail">
                     <GrMailOption size={24} color="grey" />
                   </button>
                 </form>
+                {
+        loading1 ? <span className="hoq_error_message" style={{ color: 'black' }}>Loading...</span> : (
+          <>
+            {result && (
+              <span
+                className="hoq_error_message"
+                style={{
+                  color: result === alreadySubs ? "#FF0000" : "#04AF70",
+                  marginTop: "0px",
+                  display: "block",
+                }}
+              >
+                {result}
+              </span>
+            )}
+          </>
+        )}
               </div>
             </AccordionDetails>
           </Accordion>
@@ -239,6 +278,12 @@ const MobileFooter = ({ socialLinkStr, companyInfoData }) => {
                   <li>
                     <Link to="/our-story">Our Story</Link>
                   </li>
+                  <li>
+          <Link to="/bespoke-jewelry">Bespoke Jewellery</Link>
+        </li>  
+           <li>
+          <Link to="/appointment">Appointment</Link>
+        </li>
                   <li>
                     <Link to="/size-guide">Size Guide</Link>
                   </li>

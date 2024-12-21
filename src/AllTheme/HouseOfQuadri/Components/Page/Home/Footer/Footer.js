@@ -77,10 +77,16 @@ const Footer = ({ StoreData }) => {
       const newsletterUrl = `${newslater}${email}`;
       fetch(newsletterUrl)
         .then((response) => response.text())
-        .then((result) => { setResult(result); setLoading1(false) })
+        .then((result) => { setResult(result); setLoading1(false) ; setTimeout(() => {
+          setResult(""); // Clear the result after 3000 ms
+          setemail('')
+
+        }, 3000); })
         .catch((error) => setResult(error));
     }
   };
+
+
   return (
     <div className="hoq_main_footer">
       <footer className="footer">
@@ -115,6 +121,12 @@ const About = () => {
           <Link to="/our-story">Our Story</Link>
         </li>
         <li>
+          <Link to="/bespoke-jewelry">Bespoke Jewellery</Link>
+        </li>  
+           <li>
+          <Link to="/appointment">Appointment</Link>
+        </li>
+        <li>
           <Link to="/size-guide">Size Guide</Link>
         </li>
         <li>
@@ -124,7 +136,7 @@ const About = () => {
           <Link to="/diamond-education">Diamond Education</Link>
         </li> */}
         <li>
-          <Link to="/quality-certification">Quality & Certification</Link>
+          <Link to="/quality-certification">Quality & Certification</Link>  
         </li>
       </ul>
     </div>

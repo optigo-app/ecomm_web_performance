@@ -6,6 +6,8 @@ import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import { Hoq_companyLogo, Hoq_loginState } from "./Components/Recoil/atom";
 import PrivateRoutes from "./PrivateRoutes";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import Bespoke from "./Components/Page/Home/Bespokejewelry/Index";
+import AppointMent from "./Components/Page/Home/Appointment/Wrapper";
 
 // import Navbar from "./Components/Page/Home/Navbar/Navbar";
 // import Footer from "./Components/Page/Home/Footer/Footer";
@@ -268,6 +270,8 @@ const HouseOfQuadri_App = () => {
         {/* static Page */}
         <Route path="/Shipping-Policy" element={<ShippingPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/bespoke-jewelry" element={<Bespoke />} />
+        <Route path="/appointment" element={<AppointMent />} />
         {/* <Route path="/return-exchange-policy" element={<ReturnPolicy />} /> */}
         <Route path="/terms-conditions" element={<TermsConditionPage />} />
         <Route path="/faq" element={<FaqSection />} />
