@@ -97,4 +97,12 @@
         }
 
     }
+
+    @media (max-width: 430px) {
+        .createBtnRegister {
+            width: 100%;
+            height: 50px !important;
+        }
+
+    }
 }

@@ -22,10 +22,10 @@ const settings = {
 };
 
 const TopSection = () => {
-  // const [loading, setLoading] = useState(false);
-  // const [videoStarted, setVideoStarted] = useState(false);
-  // const videoRef = useRef(null);
-  // const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+  const [loading, setLoading] = useState(false);
+  const [videoStarted, setVideoStarted] = useState(false);
+  const videoRef = useRef(null);
+  const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
   const [isMobile, setIsMobile] = useState(false);
   const slider = useRef(null);
   useEffect(() => {
@@ -41,24 +41,24 @@ const TopSection = () => {
     };
   }, []);
 
-  // const [localData, setLocalData] = useState();
+  const [localData, setLocalData] = useState();
 
-  // useEffect(() => {
-  //   let localData = JSON.parse(sessionStorage.getItem("storeInit"));
-  //   setLocalData(localData);
-  //   console.log("localDatalocalData", localData);
-  // }, []);
+  useEffect(() => {
+    let localData = JSON.parse(sessionStorage.getItem("storeInit"));
+    setLocalData(localData);
+    console.log("localDatalocalData", localData);
+  }, []);
 
-  // const handleVideoLoad = () => {
-  //   setLoading(false);
-  //   setTimeout(() => { }, 0);
+  const handleVideoLoad = () => {
+    setLoading(false);
+    setTimeout(() => { }, 0);
 
-  //   videoRef.current.controls = false;
-  // };
+    videoRef.current.controls = false;
+  };
 
-  // const handleVideoPlay = () => {
-  //   setVideoStarted(true);
-  // };
+  const handleVideoPlay = () => {
+    setVideoStarted(true);
+  };
 
   return (
     <div className="roop_topVideoMain" role="region" aria-labelledby="top-video-banner">
@@ -80,25 +80,18 @@ const TopSection = () => {
 
 
         {/* for shinjini */}
-        < div className="slide">
+        {/* < div className="slide">
           <img src={`${storImagePath()}/images/HomePage/TopSection/home1.jpg`} alt={"TopBanner"} />
-        </div>
-      </div>
-    </div>
-  );
-};
+        </div> */}
 
-export default TopSection;
-
-
-/* for sonasons */
-{/* <video
+        {/* Sonasons */}
+        <video
           ref={videoRef}
           width="500"
           autoPlay
           muted
-          controls={!videoStarted}
           loop
+          controls={!videoStarted}
           style={{ height: "auto", width: "100%" }}
           onLoadedData={handleVideoLoad}
           onPlay={handleVideoPlay}
@@ -107,15 +100,23 @@ export default TopSection;
             src={`${storImagePath()}/images/HomePage/TopSection/topVideo.mp4`}
             type="video/mp4"
           />
-        </video> */}
+        </video>
 
-{/* {localData?.Blockno === 3 && ( */ }
-{/* <div id="top-banner-image-rp">
-        <img
-          src={`${storImagePath()}/images/HomePage/Banner/3.jpg`}
-          alt="Top banner image showcasing our latest promotions"
-          style={{ width: "100%" }}
-          loading="lazy"
-        /> */}
-{/* </div> */ }
-{/* )} */ }
+        {localData?.Blockno === 3 && (
+          <div id="top-banner-image-rp">
+            <img
+              src={`${storImagePath()}/images/HomePage/Banner/3.jpg`}
+              alt="Top banner image showcasing our latest promotions"
+              style={{ width: "100%" }}
+              loading="lazy"
+            />
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+};
+
+export default TopSection;
+

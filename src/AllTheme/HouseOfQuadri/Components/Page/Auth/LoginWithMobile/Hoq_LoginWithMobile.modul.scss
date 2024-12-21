@@ -16,7 +16,7 @@
         margin: 10px;
     }
 
-    .submitBtnForgot {
+    .hoq_submitBtnForgot {
         height: 60px;
         width: 420px;
         color: white;
@@ -25,13 +25,13 @@
         margin-top: 10px;
         font-size: 13px;
         cursor: pointer;
-        font-weight: 500;
+        font-weight: 600;
         letter-spacing: 1;
         border-radius: 4px;
         transition: all 0.5s ease;
     }
 
-    .submitBtnForgot:hover {
+    .hoq_submitBtnForgot:hover {
         background-color: white;
         color: #7d7f85;
         border: 1px solid #7d7f85;
@@ -97,8 +97,8 @@
             width: 90%;
         }
 
-        .submitBtnForgot {
-            width: 50%;
+        .hoq_submitBtnForgot {
+            width: 90%;
             height: 50px !important;
 
         }
@@ -107,7 +107,7 @@
 
     @media screen and (max-width: 500px) {
 
-        .submitBtnForgot {
+        .hoq_submitBtnForgot {
             width: 90%;
             height: 40px !important;
         }

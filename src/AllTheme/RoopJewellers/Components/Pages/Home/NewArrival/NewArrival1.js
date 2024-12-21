@@ -131,9 +131,9 @@ const NewArrival = () => {
     return;
   }
   return (
-    <div className="smr_newwArr1MainDiv">
+    <div className="roop_newwArr1MainDiv">
       <div className="title_rp">
-        <Typography variant="h4" className="smr_NewArr1Title">
+        <Typography variant="h4" className="roop_NewArr1Title">
           NEW ARRIVAL
           <Link
             className="rp_designSetViewmoreBtn"
@@ -145,14 +145,14 @@ const NewArrival = () => {
         </Typography>
       </div>
       {newArrivalData && (
-        <Grid container spacing={1} className="smr_NewArrival1product-list">
+        <Grid container spacing={1} className="roop_NewArrival1product-list">
           {newArrivalData?.slice(0, 4)?.map((product, index) => (
             <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
               <Card
                 aria-label={`View details of ${
                   product?.TitleLine || "product"
                 } - ${product?.designno}`}
-                className="smr_NewArrproduct-card"
+                className="roop_NewArrproduct-card"
                 onClick={() =>
                   handleNavigation(
                     product?.designno,
@@ -161,10 +161,10 @@ const NewArrival = () => {
                   )
                 }
               >
-                <div className="smr_newArr1Image">
+                <div className="roop_newArr1Image">
                   <CardMedia
                     component="img"
-                    className="smr_newArrImage"
+                    className="roop_newArrImage"
                     // image="https://www.bringitonline.in/uploads/2/2/4/5/22456530/female-diamond-necklace-jewellery-photoshoot-jewellery-photography-jewellery-photographers-jewellery-model-shoot-jewellery-product-shoot-bringitonline_orig.jpeg"
                     image={
                       product?.ImageCount >= 1 ? product?.src : noImageFound
@@ -177,25 +177,25 @@ const NewArrival = () => {
                     loading="lazy" // Use lazy loading to optimize performance
                   />
                 </div>
-                <CardContent className="smr_newarrproduct-info">
-                  <Typography variant="h6" className="smr_newArrTitle">
+                <CardContent className="roop_newarrproduct-info">
+                  <Typography variant="h6" className="roop_newArrTitle">
                     {product?.TitleLine != "" && product?.TitleLine + " - "}
                     {product?.designno}
                   </Typography>
                   <Typography variant="body2">
                     {storeInit?.IsGrossWeight == 1 && (
                       <>
-                        <span className="smr_lb3detailDT">GWT: </span>
-                        <span className="smr_lb3detailDT">
+                        <span className="roop_lb3detailDT">GWT: </span>
+                        <span className="roop_lb3detailDT">
                           {(product?.Gwt || 0)?.toFixed(3)}
                         </span>
                       </>
                     )}
                     {storeInit?.IsGrossWeight == 1 && (
                       <>
-                        <span className="smr_lb3pipe"> | </span>
-                        <span className="smr_lb3detailDT">NWT : </span>
-                        <span className="smr_lb3detailDT">
+                        <span className="roop_lb3pipe"> | </span>
+                        <span className="roop_lb3detailDT">NWT : </span>
+                        <span className="roop_lb3detailDT">
                           {(product?.Nwt || 0)?.toFixed(3)}
                         </span>
                       </>
@@ -204,9 +204,9 @@ const NewArrival = () => {
                       <>
                         {(product?.Dwt != "0" || product?.Dpcs != "0") && (
                           <>
-                            <span className="smr_lb3pipe"> | </span>
-                            <span className="smr_lb3detailDT">DWT: </span>
-                            <span className="smr_lb3detailDT">
+                            <span className="roop_lb3pipe"> | </span>
+                            <span className="roop_lb3detailDT">DWT: </span>
+                            <span className="roop_lb3detailDT">
                               {(product?.Dwt || 0)?.toFixed(3)} /{" "}
                               {product?.Dpcs || 0}
                             </span>
@@ -218,9 +218,9 @@ const NewArrival = () => {
                       <>
                         {(product?.CSwt != "0" || product?.CSpcs != "0") && (
                           <>
-                            <span className="smr_lb3pipe"> | </span>
-                            <span className="smr_lb3detailDT">CWT: </span>
-                            <span className="smr_lb3detailDT">
+                            <span className="roop_lb3pipe"> | </span>
+                            <span className="roop_lb3detailDT">CWT: </span>
+                            <span className="roop_lb3detailDT">
                               {(product?.CSwt || 0)?.toFixed(3)} /{" "}
                               {product?.CSpcs || 0}
                             </span>
@@ -229,9 +229,9 @@ const NewArrival = () => {
                       </>
                     )}
                   </Typography>
-                  <p className="smr_newArrPrice">
+                  <p className="roop_newArrPrice">
                     <span
-                      className="smr_currencyFont"
+                      className="roop_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
                           islogin

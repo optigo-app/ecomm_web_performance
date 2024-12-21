@@ -1,16 +1,18 @@
 @import '../../../scss/variable';
 
-.smr_newwArr1MainDiv {
-    .smr_NewArr1Title {
+.roop_newwArr1MainDiv {
+    margin-top: 3rem;
+    .roop_NewArr1Title {
         text-align: center;
         color: $titleColor;
         font-family: $homePageFontFamily;
         font-size: $fontSize5;
-        padding-block: 3%;
+        padding-block: 1%;
         display: flex;
         flex-direction: column;
         text-align: center;
-        .rp_designSetViewmoreBtn{
+
+        .rp_designSetViewmoreBtn {
             font-size: 16px;
             text-decoration: none;
             color: $titleColor;
@@ -19,7 +21,7 @@
         }
     }
 
-    .smr_NewArrival1product-list {
+    .roop_NewArrival1product-list {
         padding: 0px 10px;
         display: flex;
         flex-wrap: wrap;
@@ -27,7 +29,7 @@
         align-items: stretch;
     }
 
-    .smr_NewArrproduct-card {
+    .roop_NewArrproduct-card {
         background: #fff;
         border: none;
         border-radius: 5px;
@@ -40,11 +42,11 @@
             box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 0px 1px;
         }
 
-        .smr_newArr1Image {
+        .roop_newArr1Image {
             padding: 50px;
             background-color: #f1f1f1;
 
-            .smr_newArrImage {
+            .roop_newArrImage {
                 max-width: 100%;
                 height: auto;
                 display: block;
@@ -52,10 +54,10 @@
         }
 
 
-        .smr_newarrproduct-info {
+        .roop_newarrproduct-info {
             padding: 0px 10px;
 
-            .smr_newArrPrice {
+            .roop_newArrPrice {
                 font-size: $fontSize2 !important;
                 color: $titleColor !important;
                 font-family: $primaryFontFamily;
@@ -63,7 +65,7 @@
                 letter-spacing: .5px;
             }
 
-            .smr_newArrTitle {
+            .roop_newArrTitle {
                 font-size: $fontSize2;
                 color: $titleColor;
                 font-family: $primaryFontFamily;
@@ -81,22 +83,23 @@
     }
 
     @media (max-width: 768px) {
-        .smr_newwArr1MainDiv {
-            .smr_NewArr1Title {
+        .roop_newwArr1MainDiv {
+            .roop_NewArr1Title {
                 padding-block: 6%;
             }
         }
 
-        .smr_NewArrproduct-card {
-            .smr_newArr1Image {
+        .roop_NewArrproduct-card {
+            .roop_newArr1Image {
                 padding: 10px !important;
             }
         }
 
-        .smr_newarrproduct-info {
-            .smr_newArrTitle{
+        .roop_newarrproduct-info {
+            .roop_newArrTitle {
                 font-size: $fontSize1 !important;
             }
+
             p {
                 font-size: $fontSize0 !important;
                 letter-spacing: .1px;

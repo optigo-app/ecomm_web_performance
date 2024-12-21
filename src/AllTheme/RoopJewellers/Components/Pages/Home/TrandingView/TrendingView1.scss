@@ -1,6 +1,11 @@
 @import '../../../scss/variable';
 
 .roop_mainTrending1Div {
+    margin-top: 3rem;
+
+    @media (max-width: 1200px) {
+        margin-top: -3rem;
+    }
     .smr_trending1TitleDiv {
         text-align: center;
         padding-block: 10px;

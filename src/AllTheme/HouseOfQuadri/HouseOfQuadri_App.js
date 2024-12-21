@@ -245,7 +245,7 @@ const HouseOfQuadri_App = () => {
         {/* Auth Flow  */}
         <Route path="/LoginOption" element={!islogin && <LoginOption />} />
         <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />
-        <Route path="/ContimueWithMobile" element={<ContimueWithMobile />} />
+        <Route path="/ContinueWithMobile" element={<ContimueWithMobile />} />
         <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
         <Route path="/Register" element={<Register />} />
         <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />

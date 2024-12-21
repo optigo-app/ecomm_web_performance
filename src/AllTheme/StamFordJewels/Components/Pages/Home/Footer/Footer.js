@@ -171,13 +171,23 @@ const Footer = ({ fromPage }) => {
           <div className="footer_menu_malkan">
             <p
               onClick={() => {
+                navigation("/privacyPolicy");
+                window.scrollTo(0, 0);
+              }}
+            >
+              PRIVACY POLICY
+            </p>
+          </div>
+          {/* <div className="footer_menu_malkan">
+            <p
+              onClick={() => {
                 navigation("/servicePolicy");
                 window.scrollTo(0, 0);
               }}
             >
               SERVICE POLICY
             </p>
-          </div>
+          </div> */}
           <div className="footer_menu_malkan">
             <p
               onClick={() => {

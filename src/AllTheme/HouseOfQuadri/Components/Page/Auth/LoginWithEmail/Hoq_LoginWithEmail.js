@@ -104,16 +104,16 @@ export default function ContinueWithEmail() {
 
   return (
     <div className="Hoq_continuemail">
-        <ToastContainer  style={{
-                zIndex : 999999
-            }}/>
+      <ToastContainer style={{
+        zIndex: 999999
+      }} />
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className="loadingBarManage" />
         </div>
       )}
       <div >
-        <form onSubmit={(e)=>{handleSubmit() ; e.preventDefault()}} className="smling-forgot-main">
+        <form onSubmit={(e) => { handleSubmit(); e.preventDefault() }} className="smling-forgot-main">
           <p
             style={{
               textAlign: "center",
@@ -176,13 +176,14 @@ export default function ContinueWithEmail() {
 
             <button
               type="submit"
-              className="submitBtnForgot"
-              // onClick={handleSubmit}
+              className="hoq_submitBtnForgot"
+            // onClick={handleSubmit}
             >
               SUBMIT
             </button>
             <Button
-            // type="submit"
+              // type="submit"
+              className="hoq_cancleForgot"
               style={{ marginTop: "10px", color: "gray" }}
               onClick={() => navigation(cancelRedireactUrl)}
             >

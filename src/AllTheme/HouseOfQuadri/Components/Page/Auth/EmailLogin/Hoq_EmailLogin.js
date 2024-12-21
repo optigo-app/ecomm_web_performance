@@ -389,7 +389,7 @@ export default function LoginWithEmail() {
               }}
             />
 
-            <button className="submitBtnForgot" onClick={handleSubmit}>
+            <button className="hoq_submitBtnForgot" onClick={handleSubmit}>
               Login
             </button>
             <Button
@@ -401,7 +401,7 @@ export default function LoginWithEmail() {
 
             <button
               type="submit"
-              className="SmilingLoginCodeBtn"
+              className="hoq_SmilingLoginCodeBtn"
               onClick={handleNavigation}
             >
               Login With a Code instead on email
