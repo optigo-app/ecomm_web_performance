@@ -123,7 +123,7 @@ export default function ForgotPass() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ backgroundColor: '#c0bbb1' }}>
+            <div>
                 <div className='smr_forgotSubDiv'>
                     <p style={{
                         textAlign: 'center',
@@ -211,7 +211,7 @@ export default function ForgotPass() {
                         <button className='createBtnRegister' onClick={handleSubmit}>Change Password</button>
                         <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/')}>CANCEL</Button>
                     </div>
-                    <Footer />
+                    {/* <Footer /> */}
 
                 </div>
             </div>

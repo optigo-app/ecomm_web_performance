@@ -165,7 +165,7 @@ export default function ContimueWithMobile() {
               helperText={errors.mobileNo}
             />
 
-            <button className="submitBtnForgot" onClick={handleSubmit}>
+            <button className="hoq_submitBtnForgot" onClick={handleSubmit}>
               SUBMIT
             </button>
             <Button

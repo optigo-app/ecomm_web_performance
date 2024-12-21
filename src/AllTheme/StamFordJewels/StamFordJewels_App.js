@@ -145,7 +145,7 @@ const StamFordJewels_App = () => {
             element={<ContinueWithEmail />}
           />
           <Route
-            path="/ContimueWithMobile"
+            path="/ContinueWithMobile"
             element={<ContimueWithMobile />}
           />
           <Route
@@ -169,7 +169,7 @@ const StamFordJewels_App = () => {
             element={<Register />}
           />
           <Route path="/ContactUs" element={<ContactUs />} />
-          <Route path="/servicePolicy" element={<ServicePolicy />} />
+          {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
           <Route path="/FunFact" element={<FunFact />} />

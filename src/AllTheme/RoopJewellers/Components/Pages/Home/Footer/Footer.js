@@ -52,7 +52,10 @@ const Footer = ({ fromPage }) => {
               fontSize: '12px',
               fontWeight: 500,
               marginInline: '0'
-            }}>© 2024, Shinjini</p>
+            }}>© 2024, Sonasons</p>
+
+            {/* For shinjini */}
+            {/* }}>© 2024, Shinjini</p> */}
 
             {/* vara  */}
             {/* }}>© 2024, Varajewels</p> */}
