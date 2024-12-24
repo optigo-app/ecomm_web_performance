@@ -5,7 +5,7 @@
     .smiling_Top_header {
         height: 110px;
         background-color: $bgColor;
-        h1,span,h3,li,a{
+        h1,span,h3,li{
         color: $menuColor !important;
         font-weight: 500;
         }
@@ -342,12 +342,13 @@
     }
 
     .badgeColor .MuiBadge-badge {
-        background-color: #c0bbb1 !important;
+        background-color: $badgecolor !important;
+        color: $badgetxtcolor !important;
     }
 
     .badgeColorFix .MuiBadge-badge {
-        background-color: white !important;
-        color: #c0bbb1 !important;
+        background-color:  $badgecolor  !important;
+        color: $badgetxtcolor !important;
         margin-left: 10px !important;
 
     }

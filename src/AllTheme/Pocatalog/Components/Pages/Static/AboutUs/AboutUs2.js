@@ -1,37 +1,70 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './AboutUs2.scss'
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const AboutUs2 = () => {
+  const [htmlContent, sethtmlContent] = useState(null);
+
+
+  useEffect(() => {
+   const FetchHtml = async()=>{
+    try {
+      const res = await   fetch(`${storImagePath()}/html/aboutUs.html`)
+      const html = await res.text();
+      sethtmlContent(html);
+    } catch (error) {
+      return error
+    }
+   }
+   FetchHtml();
+  }, [htmlContent])
+  
   return (
+    <div className='procatalog_wra_About'>
+        <Banner/>
     <div className="procatalog_about-us">
-      <main className="main-content">
-        <h1>About Us</h1>
+      {/* <main className="main-content">
         <section className="brand-story">
-          {/* Almacarino About us */}
           <div className='story-section'>
-            <p>With a seven year track record of a wholesale jewellery manufacturer, Amy
-              Gold & Diamonds is now making the big entrance into the Luxury Lifestyle
-              Market with ALMA CARINO FINE JEWELLERY due to increasing and popular
-              demand from customers for unique and diverse designer jewellery. Alma
-              Carino is the newest jewellery design and collaborative effort of Amy Gold &
-              Diamonds. Remarkable piece of jewellery boasts of class, luxury, elegance and
-              sparkling studded gem stones.
+            <p>Welcome to Alma Carino Fine Jewellery, the signature brand of Beyond Demands Retails LLP. We are a premium jewellery company dedicated to crafting exquisite designs that blend timeless elegance with contemporary sophistication.
             </p>
-            <p>This New Brands offers luxurious 9K,14K and 18K jewellery and an affordable
-              price mostly targeted for all classy people. Hence, the designs are mostly the
-              western kind coupling different colors and making the jewellery as attractive
-              and astonishing as possible. Alma Carino makes itself the people’s brand with
-              a buy back policy, easy accessibility along with many other attractive offers.
+            <p>At Alma Carino, we believe jewellery is more than just an accessory—it is a statement of individuality and a celebration of life’s most cherished moments. Our collections showcase a harmonious balance of artistry, innovation, and quality, using only the finest materials and expert craftsmanship.
             </p>
-            <p>Alma Carino designs jewellery in tune with class and quality resulting in
-              enchanting designs and unique collections that truly makes a personal statement wherever you go. Coupled with traditional and contemporary designs,
-              Alma Carino makes sure that they reflect the taste and temperament of the
-              person who wears it. Created with a personal touch and extensive attention-to-detail catered by the designers and artisans, Amy Gold and Diamonds
-              is truly a “Gift from the Heart” as their tagline states and for Alma carino it is
-              “every heart deserves a unique gift”
+            <p>As a part of Beyond Demands Retails LLP, we are committed to delivering exceptional value and outstanding customer experiences. Whether you are seeking a timeless piece for yourself or a bespoke gift for a loved one, Alma Carino Fine Jewellery offers designs that resonate with elegance and style.
+            </p>
+            <p>
+            Thank you for choosing us as your trusted jeweller. We look forward to being a part of your journey in celebrating beauty, milestones, and memories.
             </p>
           </div>
-          {/* <h2>Brand Story</h2>
+        
+        </section>
+      </main> */}
+      <div dangerouslySetInnerHTML={{
+        __html  : htmlContent
+      }}/>
+    </div>
+    </div>
+  )
+}
+
+export default AboutUs2
+
+
+const Banner = ({ title = "About Us" }) => {
+  return (
+    <>
+      <div
+        className="procatalog-banner-ab"
+      >
+        <h1>{title}</h1>
+      </div>
+    </>
+  );
+};
+
+
+
+  {/* <h2>Brand Story</h2>
 
           <div className="story-section">
             <h3>Initial Foray</h3>
@@ -98,10 +131,3 @@ const AboutUs2 = () => {
               corporis .
             </p>
           </div> */}
-        </section>
-      </main>
-    </div>
-  )
-}
-
-export default AboutUs2

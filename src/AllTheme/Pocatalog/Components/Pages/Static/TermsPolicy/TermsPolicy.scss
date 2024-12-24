@@ -1,3 +1,38 @@
+
+
+.policy_Warper{
+  width: 88%;
+  background-color: white;
+  margin: 0 auto;
+  @media screen and (max-width: 1200px) { 
+    width: 98%;
+  }
+  
+
+.procatalog-banner-Pp {
+  position: relative;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: whitesmoke;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  @media screen and (max-width: 768px) {
+    height: 200px;
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+  @media screen and (max-width: 420px) {
+    height: 120px;
+  }
+}
+
 .privacy-policy-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -66,4 +101,5 @@
       font-weight: 700;
     }
   }
+}
 }

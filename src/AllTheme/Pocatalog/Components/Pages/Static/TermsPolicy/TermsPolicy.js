@@ -1,12 +1,32 @@
+import { useEffect, useState } from 'react';
 import './TermsPolicy.scss'
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const TermsPolicy = () => {
-  return (
-    <div className="privacy-policy-container">
-      <h1 className="privacy-policy-title">Privacy Policy</h1>
+  const [htmlContent, sethtmlContent] = useState(null);
 
-      <div className="privacy-policy-content">
-        {/* Almacariona Privacy policy */}
+
+  useEffect(() => {
+   const FetchHtml = async()=>{
+    try {
+      const res = await   fetch(`${storImagePath()}/html/PrivacyPolicy.html`)
+      const html = await res.text();
+      sethtmlContent(html);
+    } catch (error) {
+      return error
+    }
+   }
+   FetchHtml();
+  }, [htmlContent])
+  
+  return (
+    <div className='policy_Warper'>
+  <Banner/>
+    <div className="privacy-policy-container"
+    dangerouslySetInnerHTML={{__html: htmlContent}}
+    >
+
+      {/* <div className="privacy-policy-content">
         <section className='section_div'>
           <h2 className="section-title_alma" style={{ marginTop: '3rem' }}>Privacy Policy for Beyond Demands Demands Luxury Retail LLP</h2>
           <p>At ALMA CARINO FINE JEWELLERY, accessible from alma-carino.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by ALMA CARINO FINE JEWELLERY and how we use it.</p>
@@ -93,11 +113,42 @@ const TermsPolicy = () => {
           <p>Another part of our priority is adding protection for children while using the internet. We encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity.</p>
           <p>ALMA CARINO FINE JEWELLERY does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records.</p>
         </section>
-      </div>
+      </div> */}
     </div>
+    </div>
+  )
+}
+
+export default TermsPolicy;
 
 
-    /*
+
+const Banner = ({ title = "Privacy Policy" }) => {
+  return (
+    <>
+      <div
+        className="procatalog-banner-Pp"
+      >
+        <h1>{title}</h1>
+      </div>
+    </>
+  );
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /*
       <div className="privacy-policy-container">
         <h1 className="privacy-policy-title">Privacy Policy</h1>
         <p className="privacy-policy-date">Last updated: {new Date().toLocaleDateString()}</p>
@@ -166,7 +217,3 @@ const TermsPolicy = () => {
         </div>
       </div>
     */
-  )
-}
-
-export default TermsPolicy
