@@ -1,7 +1,8 @@
-.smr_continuemail {
-  @import "../../../scss/variable.scss";
+@import "../../../scss/variable.scss";
 
-  background-color: $backgroundColor;
+.smr_continuemail {
+
+  background-color: $bgColor;
 
   .css-1wc848c-MuiFormHelperText-root {
     margin-right: 0px !important;

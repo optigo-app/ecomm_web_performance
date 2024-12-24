@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { smrMA_homeLoading, smrMA_loginState } from '../../../Recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const ProductListBanner = () => {
   const [storeInit, setStoreInit] = useState({});
@@ -53,18 +54,57 @@ const ProdCardImageFunc = (pd) => {
     return finalprodListimg;
 };
 
+
+const StaticImageGeneration = (src)=>{
+  return storImagePath()+`/mapp/`+ src ;
+}
+
+const StaticImage = [
+    {"src": "1.webp"},
+    {"src": "2.webp"},
+    {"src": "3.webp"},
+    {"src": "4.webp"},
+    {"src": "5.webp"},
+    {"src": "6.webp"},
+    {"src": "7.webp"},
+    {"src": "8.webp"},
+    {"src": "9.webp"}
+  ]
+  
+
   return (
     <div className='smr_ProductListBanner'>
-        {designSetList?.map((val,i)=>{
-            return <div className='pp-dd-card'>
-                 <img
-                                className="image"
-                                loading="lazy"
-                                src={ProdCardImageFunc(val)}
-                                alt={`Slide ${i}`}
-                            />
-            </div>
-        })}
+      {/* Preloading the first few images for better LCP performance */}
+      {/* {StaticImage.slice(0, 4).map((val, i) => (
+        <link
+          key={i}
+          rel="preload"
+          href={StaticImageGeneration(val.src)}
+          as="image"
+          type="image/webp"
+          imagesrcset={StaticImageGeneration(val.src)}
+        />
+      ))} */}
+
+      {/* Mapping through the StaticImage array */}
+      {StaticImage.map((val, i) => (
+        <div key={i} className='pp-dd-card'>
+          <img
+            className="image"
+            loading={"lazy"} // Eager loading first 4 images for LCP
+            src={StaticImageGeneration(val.src) || ProdCardImageFunc(val)}
+            alt={`Slide ${i}`}
+            width="100%" // Make sure the width and height are responsive for layout stability
+            height="auto"
+            style={{
+                minHeight: '200px',  // Set a reasonable minimum height to avoid CLS
+                maxHeight: '500px',  // Set a maximum height to prevent images from stretching too far
+                objectFit: 'cover',  // Ensures the image fills the container without distorting
+                display: 'block',  // Ensures the image doesn't cause inline layout issues
+              }}
+          />
+        </div>
+      ))}
     </div>
   );
 };

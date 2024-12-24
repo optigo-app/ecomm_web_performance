@@ -38,8 +38,11 @@ const ServicePolicy = () => {
           <Footer />
         </div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px', backgroundColor: "#C0BBB1", color: "white" }}>
-        <p style={{ margin: '0px', fontWeight: 500, cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
+      <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px', }}>
+        <p 
+          className="backtotop_Smr"
+        
+        style={{ margin: '0px', fontWeight: 500, cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
       </div>
     </div>
   )

@@ -1670,7 +1670,6 @@ const Lookbook = () => {
               paddingBlock: "30px",
               margin: "0px",
               textAlign: "center",
-              color: "white",
               cursor: "pointer",
               fontSize: "13px",
               fontWeight: 500,
