@@ -1,4 +1,12 @@
 .main_warrpper_pro{
+  width: 88%;
+  background-color: white;
+  margin: 0 auto;
+  @media screen and (max-width: 1200px) { 
+    width: 98%;
+  }
+  
+
     .procatalog { 
         &-banner {
             position: relative;
@@ -19,6 +27,9 @@
                 font-size: 1.5rem;
               }
             }
+            @media screen and (max-width: 420px) {
+              height: 120px;
+            }
           }
         &-terms {
           min-height: 100vh;
@@ -29,6 +40,8 @@
             margin: 0 auto;
             width: 72%;
           padding: 2rem;
+          display: flex;
+          flex-direction: column;
           @media screen and (max-width: 1400px) {
             width: 85%;
           }
