@@ -1122,6 +1122,9 @@ const Header = () => {
             {/* For Vara */}
             {/* Welcome To Vara Jewels Offical Website */}
 
+            {/* For Sonsosons */}
+            Welcome To Sonasons Offical Website
+
             {/* For Shinjini */}
             {/* Welcome To Shinjini Jewels Offical Website */}
             {/* Welcome To Roop Jewellers's Offical Website */}

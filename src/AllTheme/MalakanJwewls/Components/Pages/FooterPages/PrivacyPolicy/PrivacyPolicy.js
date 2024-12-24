@@ -106,6 +106,112 @@ const privacyData = {
     }
 };
 
+const LoremData = {
+    introduction: {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vehicula velit sit amet eros volutpat, id feugiat risus facilisis. Nam consequat, ipsum a dapibus volutpat, metus risus feugiat purus, sed accumsan dui felis vel justo. Nullam tincidunt augue a neque laoreet, sed varius odio placerat. Sed sollicitudin, felis eget lacinia tincidunt, ipsum leo laoreet odio, at dictum elit dui ac velit."
+    },
+    sections: [
+        {
+            title: "Information We Collect",
+            content: [
+                {
+                    subtitle: "Personal Identification Information:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus laoreet ultricies sem. Integer tincidunt augue ac velit luctus, id bibendum enim ultricies. Donec vehicula ante euismod ipsum laoreet, euismod elementum odio aliquam."
+                },
+                {
+                    subtitle: "Usage Data:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt justo a ligula mollis, ac vestibulum nulla volutpat. Etiam interdum, magna eu malesuada malesuada, orci orci volutpat risus, ut convallis arcu leo in urna."
+                },
+                {
+                    subtitle: "Cookies and Tracking Technologies:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut felis quam. Suspendisse vel purus ultricies, tincidunt neque sed, tempor turpis. Fusce molestie ipsum ut ex scelerisque, at tincidunt mi facilisis."
+                }
+            ]
+        },
+        {
+            title: "How We Use Your Information",
+            content: [
+                {
+                    subtitle: "Order Processing:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam auctor suscipit ipsum, in vehicula odio lacinia vel. Nulla facilisi. Phasellus tempor sapien id urna auctor, ac maximus risus rutrum."
+                },
+                {
+                    subtitle: "Customer Service:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum purus sit amet tortor fermentum, ac pretium augue volutpat. Morbi vitae sapien leo. Mauris sit amet dui vel leo gravida auctor."
+                },
+                {
+                    subtitle: "Marketing Communications:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nunc vehicula, hendrerit ligula sed, cursus odio. In non felis ut purus tincidunt efficitur. Ut euismod neque id urna pharetra."
+                },
+                {
+                    subtitle: "Website Improvement:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat volutpat. Mauris ultricies urna at libero tincidunt, ac fermentum augue tempus. Proin at libero a metus elementum malesuada."
+                }
+            ]
+        },
+        {
+            title: "Data Protection and Security",
+            content: [
+                {
+                    subtitle: "How We Protect Your Data:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras malesuada eros et velit posuere, a interdum enim malesuada. Vivamus non sollicitudin nulla, eget viverra eros. Nulla venenatis mauris velit, eget tincidunt urna condimentum ac."
+                },
+                {
+                    subtitle: "Data Sharing:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac velit metus. Sed auctor orci id neque fringilla, non interdum elit venenatis. Aliquam erat volutpat. Cras viverra ut nisi ac egestas."
+                }
+            ]
+        },
+        {
+            title: "Your Rights",
+            content: [
+                {
+                    subtitle: "Access and Correction:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac dui vel felis euismod dapibus. Etiam faucibus metus ac lorem pharetra maximus. Fusce in purus hendrerit, hendrerit ipsum sed, sollicitudin ligula."
+                },
+                {
+                    subtitle: "Opt-out of Marketing Communications:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in dolor sit amet arcu convallis ullamcorper. Ut placerat lectus et enim euismod, eget iaculis elit tempor. Cras ut nunc eu turpis posuere vehicula."
+                },
+                {
+                    subtitle: "Data Deletion:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a tincidunt magna. Suspendisse potenti. Curabitur tempus neque ut nibh consectetur, in varius lorem volutpat. Nulla facilisi. Integer convallis nisl at ex lobortis, sit amet euismod neque condimentum."
+                }
+            ]
+        },
+        {
+            title: "Cookies and Tracking Technologies",
+            content: [
+                {
+                    subtitle: "Cookies:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec risus nisl. Aenean condimentum, odio ac fermentum volutpat, mauris tortor gravida sapien, eget suscipit lectus justo ut orci."
+                },
+                {
+                    subtitle: "Other Tracking Technologies:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor, turpis ac sollicitudin varius, metus augue vestibulum dolor, at elementum dui neque vel ante. Nulla egestas mollis malesuada."
+                }
+            ]
+        },
+        {
+            title: "Changes to This Privacy Policy",
+            content: [
+                {
+                    subtitle: "Policy Updates:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget orci eu ante maximus auctor et vitae ipsum. Sed vel fermentum arcu. Sed eu ex gravida, viverra nunc eget, mollis lorem."
+                },
+                {
+                    subtitle: "Continued Use:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus condimentum sem nec libero ullamcorper, in sodales dui pharetra. Morbi euismod dolor sit amet ex vehicula, nec scelerisque velit venenatis."
+                }
+            ]
+        }
+    ],
+    conclusion: {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec purus at velit laoreet ullamcorper. Sed suscipit, nulla vitae cursus ullamcorper, augue tortor maximus purus, sit amet venenatis metus erat eu purus."
+    }
+};
+
+
 
 export default function PrivacyPolicy() {
     return (
@@ -115,9 +221,9 @@ export default function PrivacyPolicy() {
                 <h1 className="sonasons-title">Privacy Policy</h1>
 
                 <div className="sonasons-content">
-                    <p className="sonasons-introduction">{privacyData.introduction.text}</p>
+                    <p className="sonasons-introduction">{LoremData.introduction.text}</p>
 
-                    {privacyData.sections.map((section, index) => (
+                    {LoremData.sections.map((section, index) => (
                         <section key={index} className="sonasons-section">
                             <h2 className="sonasons-section-title">{section.title}</h2>
                             {section.content.map((item, itemIndex) => (
@@ -129,7 +235,7 @@ export default function PrivacyPolicy() {
                         </section>
                     ))}
 
-                    <p className="sonasons-conclusion">{privacyData.conclusion.text}</p>
+                    <p className="sonasons-conclusion">{LoremData.conclusion.text}</p>
                 </div>
             </main>
         </div>

@@ -159,7 +159,7 @@ const SmilingRock_App = () => {
   return (
     <>
       <Helmet>
-        <title>{localData?.BrowserTitle}</title>
+        {/* <title>{localData?.BrowserTitle}</title> */}
       </Helmet>
       {!location.pathname.startsWith('/accountdwsr') && <div>
         {localData?.Headerno == 1 && <Header />}

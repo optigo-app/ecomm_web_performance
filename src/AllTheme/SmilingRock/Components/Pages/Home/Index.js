@@ -84,7 +84,7 @@ function Home() {
                   {localData?.IsHomeTrending === 1 && <TrendingView />}
                   {localData?.IsHomeDesignSet === 1 && <DesignSet />}
                   <BottomBanner />
-                  <NewsletterSignup/>
+                  {/* <NewsletterSignup/> */}
                   <Footer />
                 </div>
               )}
@@ -109,7 +109,7 @@ function Home() {
                     <>
                       <BottomBanner />
                       <BrandsComponent />
-                    <NewsletterSignup/>
+                    {/* <NewsletterSignup/> */}
                       <Footer />
                     </>
                   }

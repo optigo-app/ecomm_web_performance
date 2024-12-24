@@ -1,92 +1,125 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import './TheDifference.modul.scss'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
-import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion';
 
 const TheDifference = () => {
-    const navigate = useNavigate();
-    const [htmlContent, setHtmlContent] = useState('');
+  return (
+    <div className="smilingPAgeMain" style={{ paddingBlock: '8%' }}>
+      <motion.p
+        className="smilingTitle"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 0.4,
+          ease: 'easeIn',
+        }}
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        The Sonasons Difference
+      </motion.p>
 
-    useEffect(() => {
-        // fetch(`${storImagePath()}/html/sonasonsTheDifference.html`)  /*for sonasons */
-            fetch(`${storImagePath()}/html/smrTheDeffrence.html`)  /*for kayara */
-            // fetch(`${storImagePath()}/html/MdJewells.html`)   /*for maiora */
-            .then((response) => response.text())
-            .then((html) => {
-                setHtmlContent(html);
-                setTimeout(() => {
-                    const learnMoreElements = document.querySelectorAll('.smr_learnMore');
-                    learnMoreElements.forEach((element) => {
-                        element.addEventListener('click', handleLearnMoreClick);
-                    });
-                }, 0);
-            })
-            .catch((error) => {
-                console.error('Error fetching the HTML file:', error);
-            });
+      <div className="smr_smilingRock">
+        {/* First Image */}
+        <motion.div
+          className="smr_smilingRockBox"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{
+            duration: 0.4,
+            ease: 'easeIn',
+            delay: 0.2, // Delay for the first image
+          }}
+        >
+          <div className="smr_diffrence_box1_main">
+            <img
+              className="smr_deffrence_img"
+              src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference1.webp`}
+              alt="Natural Diamond & jewellery"
+            />
+          </div>
+          <div className="smr_diffrence_box2_main">
+            <p className="smr_smilingBoxName">Natural Diamond & jewellery</p>
+          </div>
+        </motion.div>
 
-        return () => {
-            const learnMoreElements = document.querySelectorAll('.smr_learnMore');
-            learnMoreElements.forEach((element) => {
-                element.removeEventListener('click', handleLearnMoreClick);
-            });
-        };
-    }, []);
+        {/* Second Image */}
+        <motion.div
+          className="smr_smilingRockBox"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{
+            duration: 0.4,
+            ease: 'easeIn',
+            delay: 0.4, // Delay for the second image
+          }}
+        >
+          <div className="smr_diffrence_box1_main">
+            <img
+              className="smr_deffrence_img"
+              src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference2.webp`}
+              alt="1% of each purchase goes to your choice of charity"
+            />
+          </div>
+          <div className="smr_diffrence_box2_main">
+            <p className="smr_smilingBoxName">
+              1% of each purchase goes to your choice of charity
+            </p>
+          </div>
+        </motion.div>
 
-    const handleLearnMoreClick = () => {
-        navigate('/natural-diamond');
-    };
+        {/* Third Image */}
+        <motion.div
+          className="smr_smilingRockBox"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{
+            duration: 0.4,
+            ease: 'easeIn',
+            delay: 0.6, // Delay for the third image
+          }}
+        >
+          <div className="smr_diffrence_box1_main">
+            <img
+              className="smr_deffrence_img"
+              src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference3.webp`}
+              alt="Laser inscribed diamonds with Sonasons logo"
+            />
+          </div>
+          <div className="smr_diffrence_box2_main">
+            <p className="smr_smilingBoxName">Laser inscribed diamonds with Sonasons logo</p>
+          </div>
+        </motion.div>
 
+        {/* Fourth Image */}
+        <motion.div
+          className="smr_smilingRockBox"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{
+            duration: 0.4,
+            ease: 'easeIn',
+            delay: 0.8, // Delay for the fourth image
+          }}
+        >
+          <div className="smr_diffrence_box1_main">
+            <img
+              className="smr_deffrence_img"
+              src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference4.webp`}
+              alt="ECG+ Certified Brand Butterfly Mark"
+            />
+          </div>
+          <div className="smr_diffrence_box2_main">
+            <p className="smr_smilingBoxName">ECG+ Certified Brand Butterfly Mark</p>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
 
-    return (
-        <div style={{ marginBlock: '10px' }}>
-            {/* <p className='smilingTitle'>The KayraCreation Difference</p> */}
-            <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-            {/* <div className='smilingRock'>
-                <div className='smilingRockBox'>
-                    <div className='smilingRockBoxSub1'>
-                        <img className="simple-card__img " src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference1.webp`} alt="" />
-                    </div>
-                    <div className='smilingRockBoxSub2'>
-                        <p className='smilingBoxName'>Natural Diamond & jewellery</p>
-                        <p className='learnMore' onClick={() => navigate('/natural-diamond')}>LEARN MORE</p>
-                    </div>
-                </div>
-                <div className='smilingRockBox'>
-                    <div className='smilingRockBoxSub1'>
-                        <img class="simple-card__img " src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference2.webp`} alt="" />
-                    </div>
-                    <div className='smilingRockBoxSub2'>
-
-                        <p className='smilingBoxName'>1% of each purchase goes to your choice of charity</p>
-                        <p className='learnMore'>LEARN MORE</p>
-                    </div>
-
-                </div>
-                <div className='smilingRockBox'>
-                    <div className='smilingRockBoxSub1'>
-                        <img class="simple-card__img " src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference3.webp`} alt="" />
-                    </div>
-                    <div className='smilingRockBoxSub2'>
-
-                        <p className='smilingBoxName'>Laser inscribed diamonds with Sonasons logo</p>
-                        <p className='learnMore'>LEARN MORE</p>
-                    </div>
-
-                </div>
-                <div className='smilingRockBox'>
-                    <div className='smilingRockBoxSub1'>
-                        <img class="simple-card__img " src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference4.webp`} alt="" />
-                    </div>
-                    <div className='smilingRockBoxSub2'>
-                        <p className='smilingBoxName'>ECG+ Certified Brand Butterfly Mark</p>
-                        <p className='learnMore'>LEARN MORE</p>
-                    </div>
-
-                </div>
-            </div> */}
-        </div>
-    )
-}
-
-export default TheDifference
+export default TheDifference;

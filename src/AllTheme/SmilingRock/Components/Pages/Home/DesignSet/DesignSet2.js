@@ -11,6 +11,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
 import Cookies from 'js-cookie';
+import { motion } from 'framer-motion';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { homeLoading, loginState, smr_loginState } from '../../../Recoil/atom';
 import { Link } from '@mui/material';
@@ -219,7 +220,9 @@ const DesignSet2 = () => {
                   </div>
                 )}
                 {/* <p className="smr_lb3designList_title">{slide?.designsetno}</p> */}
-                <div className="subimgpart">
+                <div
+                  className='subimgpart'
+                >
                   <div className="card">
                     <Swiper
                       className="swiper_w"
@@ -253,7 +256,7 @@ const DesignSet2 = () => {
                                   />
                                 </div>
                               </div>
-                              <div className="fs1 centerall">{detail?.designno} {detail?.TitleLine &&" - "} {detail?.TitleLine != "" && detail?.TitleLine }</div>
+                              <div className="fs1 centerall">{detail?.designno} {detail?.TitleLine && " - "} {detail?.TitleLine != "" && detail?.TitleLine}</div>
                               <div className="fs2 centerall">
                                 <p>
                                   <span

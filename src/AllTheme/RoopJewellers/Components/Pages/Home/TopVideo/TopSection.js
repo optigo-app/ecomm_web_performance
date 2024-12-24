@@ -85,7 +85,7 @@ const TopSection = () => {
         </div> */}
 
         {/* Sonasons */}
-        <video
+        {/* <video
           ref={videoRef}
           width="500"
           autoPlay
@@ -100,9 +100,9 @@ const TopSection = () => {
             src={`${storImagePath()}/images/HomePage/TopSection/topVideo.mp4`}
             type="video/mp4"
           />
-        </video>
+        </video> */}
 
-        {localData?.Blockno === 3 && (
+        {/* {localData?.Blockno === 3 && ( */}
           <div id="top-banner-image-rp">
             <img
               src={`${storImagePath()}/images/HomePage/Banner/3.jpg`}
@@ -111,7 +111,7 @@ const TopSection = () => {
               loading="lazy"
             />
           </div>
-        )}
+        {/* )} */}
 
       </div>
     </div>

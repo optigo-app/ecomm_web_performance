@@ -214,7 +214,18 @@ export default function AboutS() {
     <div className='satm_about_mainDiv'>
       <div className='daimondsEveryAbout'>
         <div className='smr_daimondsEveryAbout_sub' style={{ paddingBottom: '80px', minHeight: '400px' }}>
-          {/* Old sonasons about us */}
+          <div className='stam_aboutus_div'>
+            <div className='stam_aboutus_image_div'>
+              <img src={`${storImagePath()}/images/HomePage/Aboutus/ab2.webp`} alt="" />
+            </div>
+            <div className='stam_aboutus_desc_div'>
+              <div className='stam_aboutus_desc'>
+                <h1 className='stam_desc_header'>Abouts us</h1>
+                <span>Sample Headline</span>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio magni doloribus amet! Esse tenetur, quos architecto corrupti quis similique ipsa rem, vero optio laudantium quae quidem in perspiciatis maiores vel possimus velit voluptas hic et. Laboriosam velit libero quidem minus accusantium, at quia nulla exercitationem, odio totam iure ipsam ducimus.</p>
+              </div>
+            </div>
+          </div>
           <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
         </div>
       </div>

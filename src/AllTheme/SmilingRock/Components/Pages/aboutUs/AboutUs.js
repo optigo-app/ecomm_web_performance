@@ -45,8 +45,8 @@ export default function AboutUs() {
             <div className='daimondsEveryAbout'>
                 <div className='smr_daimondsEveryAbout_sub' style={{ paddingBottom: '80px', minHeight: '400px' }}>
                 {/* Old sonasons about us */}
-                    {/* <div dangerouslySetInnerHTML={{ __html: htmlContent }} /> */}
-                    <div className="stam_about_l">
+                    <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+                    {/* <div className="stam_about_l">
                         <div className="bgimage_banner_stam">
                             <img src={AboutBanner} alt="" />
                         </div>
@@ -91,12 +91,7 @@ export default function AboutUs() {
                                 </div>
                             })}
                         </div>
-                        {/* <div className="bgimage_banner_stam_last" >
-                            <img src={AboutLastBanner} alt="" style={{
-                                objectFit: "cover"
-                            }} />
-                        </div> */}
-                    </div>
+                    </div> */}
                 </div>
                 <Footer />
             </div>
