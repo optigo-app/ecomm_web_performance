@@ -72,12 +72,18 @@ const Footer = ({ fromPage }) => {
                       <>
                         {/* no need in sonasons */}
 
-                        <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p>
+                        {/* <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p> */}
+                        {/* no need in sonasons */}
+                        <p className='footerMoreOptionData' onClick={() => { navigation('/terms-and-conditions'); window.scrollTo(0, 0); }}>TERMS & CONDITIONS</p>
+                        {/* no need in sonasons */}
+                        <p className='footerMoreOptionData' onClick={() => { navigation('/privacyPolicy'); window.scrollTo(0, 0); }}>PRIVACY POLICY</p>
+                        {/* no need in sonasons */}
+                        <p className='footerMoreOptionData' onClick={() => { navigation('/aboutUs'); window.scrollTo(0, 0); }}>ABOUT US</p>
 
                         {/* Maiora not needed */}
                         {/* Kayra needed */}
                         {/* no need in sonasons */}
-                        <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p>
+                        {/* <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p> */}
                       </>
                     )}
                 </div>
@@ -113,12 +119,18 @@ const Footer = ({ fromPage }) => {
                       <>
 
                         {/* no need in sonasons */}
-                        <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p>
+                        {/* <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p> */}
+                        {/* no need in sonasons */}
+                        <p className='footerMoreOptionData' onClick={() => { navigation('/terms-and-conditions'); window.scrollTo(0, 0); }}>TERMS & CONDITIONS</p>
+                        {/* no need in sonasons */}
+                        <p className='footerMoreOptionData' onClick={() => { navigation('/privacyPolicy'); window.scrollTo(0, 0); }}>PRIVACY POLICY</p>
+                        {/* no need in sonasons */}
+                        <p className='footerMoreOptionData' onClick={() => { navigation('/aboutUs'); window.scrollTo(0, 0); }}>ABOUT US</p>
 
                         {/* Maiora not needed */}
                         {/* Kayra needed */}
                         {/* no need in sonasons */}
-                        <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p>
+                        {/* <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p> */}
                       </>
                     )}
                   {/* <p className='footerMoreOptionData' onClick={() => navigation('/TermsPolicy')}>TERMS & PRIVACY</p> */}

@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from 'react'
 import './AboutUs.modul.scss'
 import { storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
@@ -6,6 +8,25 @@ import Footer from '../Home/Footer/Footer';
 export default function AboutUs() {
 
     const [htmlContent, setHtmlContent] = useState('');
+    const data = [
+        {
+            title: "Crafting Timeless Elegance",
+            desc: "At [Your Brand Name], we believe that jewelry is more than just an accessory—it's a statement of individuality and grace. Our collections are carefully designed and crafted by skilled artisans, ensuring each piece embodies the perfect balance of beauty and craftsmanship. From the selection of the finest materials to the intricate details of every design, we create jewelry that tells a story and lasts a lifetime.",
+            img: `${storImagePath()}/about/2.png`,
+        },
+        {
+            title: "Our Commitment to Quality",
+            desc: "Every piece of jewelry we create is a reflection of our dedication to quality. We source only the finest gemstones and precious metals, ensuring that each item meets the highest standards of excellence. Whether it’s a sparkling diamond ring or a delicate gold necklace, our commitment to quality ensures that every creation exudes luxury and sophistication.",
+            img: `${storImagePath()}/about/4.png`,
+        },
+        {
+            title: "Designed for Every Moment",
+            desc: "Our jewelry is designed to complement every aspect of life—from everyday elegance to the most special occasions. Each collection is crafted with a blend of modern trends and timeless sophistication, making it easy to find a piece that’s perfect for you or a loved one. Celebrate life’s most precious moments with jewelry that speaks to the heart and soul.",
+            img: `${storImagePath()}/about/4.png`,
+        },
+    ];
+    const AboutBanner = `${storImagePath()}/about/1.png`;
+    const AboutLastBanner = `${storImagePath()}/about/22.jpg`;
 
     useEffect(() => {
         // fetch(`${storImagePath()}/html/About.html`) c:\Users\User\Downloads\favicon_io (1)\MaioraAbout.html
@@ -23,7 +44,59 @@ export default function AboutUs() {
         <div className='smr_about_mainDiv'>
             <div className='daimondsEveryAbout'>
                 <div className='smr_daimondsEveryAbout_sub' style={{ paddingBottom: '80px', minHeight: '400px' }}>
-                    <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+                {/* Old sonasons about us */}
+                    {/* <div dangerouslySetInnerHTML={{ __html: htmlContent }} /> */}
+                    <div className="stam_about_l">
+                        <div className="bgimage_banner_stam">
+                            <img src={AboutBanner} alt="" />
+                        </div>
+                        <div className="desc_stam_ford_p">
+                            <p>
+                                Lorem, ipsum dolor sit amet dolorum iure id veniam asperiores
+                                dignissimos quas. Lorem ipsum dolor sit amet consectetur adipisicing
+                                elit. Praesentium, debitis? Lorem ipsum dolor amet consectetur.{" "}
+                            </p>
+                        </div>
+                        <div className="grid_layout_stam_about">
+                            {data?.map(({ desc, img, title, left }, idx) => {
+                                return <div className="stam_grid_card">
+                                    <div className="left_stam_banner">
+                                        <img src={img} alt="" />
+                                    </div>
+                                    <div className="right_det_stam">
+                                        <h1>{title}</h1>
+                                        <p>{desc}</p>
+                                    </div>
+                                </div>;
+                            })}
+                        </div>
+                        <div className="card_list_stamford">
+                            {Array.from({ length: 4 }).map((val, i) => {
+                                return <div class="stam_card">
+                                    <div className="details_Stame">
+                                        <h2>Lorem ipsum dolor.</h2>
+                                        <ul>
+                                            <span>Lorem ipsum dolor sit amet.</span>
+                                            <span>Lorem ipsum dolor sit amet.</span>
+                                            <span>Lorem ipsum dolor sit amet.</span>
+                                            <span>Lorem ipsum dolor sit amet.</span>
+                                            <span>Lorem ipsum dolor sit amet.</span>
+                                            <span>Lorem ipsum dolor sit amet.</span>
+                                            <span>Lorem ipsum dolor sit amet.</span>
+                                            <span>Lorem ipsum dolor sit amet.</span>
+                                            <span>Lorem ipsum dolor sit amet.</span>
+                                            <span>Lorem ipsum dolor sit amet.</span>
+                                        </ul>
+                                    </div>
+                                </div>
+                            })}
+                        </div>
+                        {/* <div className="bgimage_banner_stam_last" >
+                            <img src={AboutLastBanner} alt="" style={{
+                                objectFit: "cover"
+                            }} />
+                        </div> */}
+                    </div>
                 </div>
                 <Footer />
             </div>

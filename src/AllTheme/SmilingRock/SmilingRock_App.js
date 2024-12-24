@@ -39,6 +39,9 @@ import PaymentFailure from "../../utils/PaymentSuccessFail/PaymentFailure";
 import TermsPolicy from './Components/Pages/FooterPages/TermsPolicy/TermsPolicy'
 import Bespoke from "./Components/Pages/Home/Bespokejewelry/Index";
 import Wrapper from "./Components/Pages/Home/Appointment/Wrapper";
+import { TermsData } from "./Components/Pages/FooterPages/TermsPolicy/Terms";
+import PrivacyPolicy from "./Components/Pages/FooterPages/PrivacyPolicy/PrivacyPolicy";
+import TermsAndConditions from "./Components/Pages/FooterPages/TermsPage/TermsPage";
 
 const SmilingRock_App = () => {
   const islogin = useRecoilValue(smr_loginState);
@@ -304,7 +307,13 @@ const SmilingRock_App = () => {
         <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
         <Route path="/bespoke-jewelry" element={<Bespoke />} />
         <Route path="/appointment" element={<Wrapper />} />
-        
+        <Route
+          path="/terms-and-conditions"
+
+          element={<TermsAndConditions />}
+        />
+        <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+
 
         {/* Maiora not needed fun facts */}
         {/* Kayra needed */}
