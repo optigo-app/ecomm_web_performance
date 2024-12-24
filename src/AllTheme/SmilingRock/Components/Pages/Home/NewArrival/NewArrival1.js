@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { homeLoading, loginState, smr_loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
+import { motion } from 'framer-motion';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 
@@ -172,8 +173,18 @@ const NewArrival = () => {
 
     return (
         <div ref={newArrivalRef}>
+
             {validatedData?.length != 0 &&
-                <div className='smr_newwArr1MainDiv'>
+                <motion.div
+                    className='smr_newwArr1MainDiv'
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{
+                        duration: 0.5,
+                        ease: 'easeIn',
+                    }}
+                    viewport={{ once: true, amount: 0.2 }}
+                >
                     <Typography variant='h4' className='smrN_NewArr1Title'>NEW ARRIVAL
                         <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
                             View more
@@ -255,10 +266,9 @@ const NewArrival = () => {
                             </Grid>
                         ))}
                     </Grid>
-                </div>
+                </motion.div>
             }
         </div>
-
     );
 }
 

@@ -221,7 +221,7 @@ const SmilingRock_App = () => {
   return (
     <div div className="ggg">
       <Helmet>
-        <title>{localData?.BrowserTitle}</title>
+        {/* <title>{localData?.BrowserTitle}</title> */}
       </Helmet>
       {!location.pathname.startsWith('/accountdwsr') && <div>
         {localData?.Headerno == 1 && <Header />}

@@ -8,6 +8,7 @@ import pako from "pako";
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { homeLoading, loginState, smr_loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
+import { motion } from 'framer-motion';
 
 
 
@@ -193,7 +194,18 @@ const TrendingView1 = () => {
                         </div>
                         <div className='smr_rightSideTR'>
                             {validatedData?.slice(0, 4).map((data, index) => (
-                                <div key={index} className="product-card">
+                                <motion.div
+                                    key={index}
+                                    className="product-card"
+                                    initial={{ opacity: 0, y: 30 }} // Initial state before animation
+                                    whileInView={{ opacity: 1, y: 0 }} // Final state after animation
+                                    transition={{
+                                        duration: 1, // Animation duration
+                                        ease: 'easeInOut', // Animation easing function
+                                        delay: index * 0.2, // Sequential delay (based on the index)
+                                    }}
+                                    viewport={{ once: true, amount: 0.2 }}
+                                >
                                     <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                         <img
                                             src={data?.ImageCount >= 1 ?
@@ -251,7 +263,7 @@ const TrendingView1 = () => {
                                             </span>&nbsp;
                                             <span>{formatter(data?.UnitCostWithMarkUp)}</span></p>
                                     </div>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
 

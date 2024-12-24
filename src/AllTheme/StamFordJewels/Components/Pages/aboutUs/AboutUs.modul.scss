@@ -364,6 +364,7 @@
 
 
 @import "./../../scss/variable.scss";
+
 .satm_about_mainDiv {
   .Head_about_page_smr {
     font-family: $homePageFontFamily;
@@ -385,8 +386,64 @@
   }
 
   .smr_daimondsEveryAbout_sub {
-    // margin-inline: 16%;
-    // padding-top: 50px;
+    margin-inline: 16%;
+    padding-top: 50px;
+  }
+
+  .stam_aboutus_div {
+    display: flex;
+    flex: 1;
+
+    @media (max-width: 850px) {
+      flex-direction: column;
+    }
+
+    .stam_aboutus_image_div {
+      display: flex;
+      flex: 1;
+      justify-content: center;
+
+      img {
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        
+        @media (max-width: 500px) {
+          width: 250px;
+          height: 250px;
+        }
+      }
+    }
+
+    .stam_aboutus_desc_div {
+      display: flex;
+      flex: 1;
+      font-family: $primaryFontFamily;
+
+      .stam_aboutus_desc {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: flex-start;
+
+        h1 {
+          font-size: 35px;
+          font-weight: 600;
+        }
+
+        span {
+          font-size: 20px;
+          font-weight: 600;
+        }
+
+        p {
+          font-size: 15px;
+          margin-left: 0px;
+          text-align: justify;
+        }
+      }
+
+    }
   }
 
   .smiling-About-container2 {
@@ -410,8 +467,12 @@
   }
 
   .daimondsEveryAbout {
-    margin-inline: 6%;
+    margin-inline: 12%;
     background-color: white;
+
+    @media (max-width: 1422px) {
+      margin-inline: 0;
+    }
   }
 
   .about-daimondBoxMain {
@@ -474,7 +535,7 @@
     }
 
     .daimondsEveryAbout {
-      margin-inline: 2%;
+      margin-inline: 0;
       word-break: break-word !important;
     }
 

@@ -126,18 +126,18 @@ const About = () => {
            <li>
           <Link to="/appointment">Appointment</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/size-guide">Size Guide</Link>
-        </li>
-        <li>
+        </li> */}
+        {/* <li>
           <Link to="/lab-grown-diamond">Lab Grown Diamond</Link>
-        </li>
+        </li> */}
         {/* <li>
           <Link to="/diamond-education">Diamond Education</Link>
         </li> */}
-        <li>
+        {/* <li>
           <Link to="/quality-certification">Quality & Certification</Link>  
-        </li>
+        </li> */}
       </ul>
     </div>
   );
@@ -150,18 +150,18 @@ const Policy = () => {
         <li>
           <Link to="/Privacy-Policy">Privacy Policy</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/Shipping-Policy">Shipping Policy</Link>
-        </li>
+        </li> */}
         {/* <li>
           <Link to="/Return-Exchange-Policy">Return & Exchange Policy</Link>
         </li> */}
         <li>
           <Link to="/Terms-Conditions">Terms & Conditions</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/faq">FAQs</Link>
-        </li>
+        </li> */}
         <li>
           <Link to="/contacts">Contact</Link>
         </li>
