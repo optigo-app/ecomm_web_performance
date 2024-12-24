@@ -11,6 +11,7 @@ import { homeLoading, loginState, smr_loginState } from "../../../Recoil/atom";
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import Pako from 'pako';
+import { motion } from 'framer-motion';
 import { Box, Link, Tab, Tabs, tabsClasses, useMediaQuery } from '@mui/material';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import AlbumSkeletonCards from './album1Skelton';
@@ -124,25 +125,25 @@ const Album1 = () => {
         return txt.value;
     }
 
-    const GenerateWidthBaseOnContent = useCallback(()=>{
-            const selectedAlbumDetails = albumData?.find((album) => album?.AlbumName === selectedAlbum);
-            const parsedDesignDetails = selectedAlbumDetails?.Designdetail 
-            ? JSON.parse(selectedAlbumDetails.Designdetail) 
+    const GenerateWidthBaseOnContent = useCallback(() => {
+        const selectedAlbumDetails = albumData?.find((album) => album?.AlbumName === selectedAlbum);
+        const parsedDesignDetails = selectedAlbumDetails?.Designdetail
+            ? JSON.parse(selectedAlbumDetails.Designdetail)
             : null;
-            const totalDesignDetails = Array.isArray(parsedDesignDetails) ? parsedDesignDetails.length : 0;
-            const length = totalDesignDetails ;
-            let w ; 
-            if (length === 1) {
-               w = '100%';
-            } else if (length === 2) {
-               w = '100%';
-            } else if (length === 3) {
-               w = '100%';
-            } else if (length > 3) {
-               w = '100%';
-            }
-            return {width:w , length : length}
-    },[selectedAlbum])
+        const totalDesignDetails = Array.isArray(parsedDesignDetails) ? parsedDesignDetails.length : 0;
+        const length = totalDesignDetails;
+        let w;
+        if (length === 1) {
+            w = '100%';
+        } else if (length === 2) {
+            w = '100%';
+        } else if (length === 3) {
+            w = '100%';
+        } else if (length > 3) {
+            w = '100%';
+        }
+        return { width: w, length: length }
+    }, [selectedAlbum])
 
     useEffect(() => {
         if (swiperSlideRef.current) {
@@ -161,134 +162,138 @@ const Album1 = () => {
     return (
         <>
             {!isloding ? (
-                <div ref={albumRef}>
-                    {albumData?.length != 0 &&
-                        <div className="smr_album-container" >
-                            <div className='smr_ablbumtitleDiv'>
-                                <span className='smr_albumtitle'>ALBUM</span>
-                                {/* <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/AlbumName/?A=${btoa('AlbumName')}`)}>
+                // <div >
+                    <div
+                        ref={albumRef}
+                    >
+                        {albumData?.length != 0 &&
+                            <div className="smr_album-container" >
+                                <div className='smr_ablbumtitleDiv'>
+                                    <span className='smr_albumtitle'>ALBUM</span>
+                                    {/* <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/AlbumName/?A=${btoa('AlbumName')}`)}>
                     View more
-                </Link> */}
-                            </div>
-                            <Box className="tabs"
-                                sx={{
-                                    flexGrow: 1,
-                                    maxWidth: "100%",
-                                }}>
-                                <Tabs
-                                    value={selectedAlbum}
-                                    onChange={handleChangeTab}
-                                    variant="scrollable"
-                                    scrollButtons="auto"
-                                    aria-label="scrollable auto tabs example"
-                                    TabIndicatorProps={{
-                                        style: { display: 'none' }
-                                    }}
-                                    className='smr_Albumtabs'
-                                >
-                                    {albumData?.map((album) => (
-                                        <Tab
-                                            key={album?.Albumid}
-                                            label={album?.AlbumName}
-                                            value={album?.AlbumName}
-                                            className={selectedAlbum === album?.AlbumName ? 'active smr_Albumtab' : 'smr_Albumtab'}
-                                        />
-                                    ))}
-                                </Tabs>
-                            </Box>
-                            <div className="smr_swiper_container"
-                                style={{
-                                    width: GenerateWidthBaseOnContent().width,
-                                }}
-                            >
-                                {albumData && albumData?.map((album) =>
-                                    album?.AlbumName === selectedAlbum ? (
-                                        <Swiper
-                                        style={{
-                                            width:"100%"
+                  </Link> */}
+                                </div>
+                                <Box className="tabs"
+                                    sx={{
+                                        flexGrow: 1,
+                                        maxWidth: "100%",
+                                    }}>
+                                    <Tabs
+                                        value={selectedAlbum}
+                                        onChange={handleChangeTab}
+                                        variant="scrollable"
+                                        scrollButtons="auto"
+                                        aria-label="scrollable auto tabs example"
+                                        TabIndicatorProps={{
+                                            style: { display: 'none' }
                                         }}
-                                            key={album?.Albumid}
-                                            spaceBetween={10}
-                                            slidesPerView={4}
-                                            breakpoints={{
-                                                1024: {
-                                                    slidesPerView: 4,
-                                                },
-                                                768: {
-                                                    slidesPerView: 2,
-                                                },
-                                                0: {
-                                                    slidesPerView: 2,
-                                                }
-                                            }}
-                                            lazy={true}
-                                            navigation={true}
-                                            // navigation={!isMobileScreen && (JSON?.parse(album?.Designdetail).length > 4 ? true : false)}
-                                            modules={[Keyboard, FreeMode, Navigation]}
-                                            keyboard={{ enabled: true }}
-                                        // pagination={false}
-                                        >
-                                            {album &&  JSON?.parse(album?.Designdetail)?.map((design,index) => (
-                                                <SwiperSlide
+                                        className='smr_Albumtabs'
+                                    >
+                                        {albumData?.map((album) => (
+                                            <Tab
+                                                key={album?.Albumid}
+                                                label={album?.AlbumName}
+                                                value={album?.AlbumName}
+                                                className={selectedAlbum === album?.AlbumName ? 'active smr_Albumtab' : 'smr_Albumtab'}
+                                            />
+                                        ))}
+                                    </Tabs>
+                                </Box>
+                                <div className="smr_swiper_container"
+                                    style={{
+                                        width: GenerateWidthBaseOnContent().width,
+                                    }}
+                                >
+                                    {albumData && albumData?.map((album) =>
+                                        album?.AlbumName === selectedAlbum ? (
+                                            <Swiper
                                                 style={{
-                                                    width:'300px'
+                                                    width: "100%"
                                                 }}
-                                                    ref={index === 0 ? swiperSlideRef : null}
-                                                    key={design?.autocode} className="swiper-slide-custom">
-                                                    <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
-                                                        <img
-                                                            src={
-                                                                design?.ImageCount > 0
-                                                                    ? `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`
-                                                                    : imageNotFound
-                                                            }
-                                                            alt={design?.TitleLine}
-                                                            loading="lazy"
-                                                            onError={(e) => {
-                                                                e.target.src = imageNotFound;
-                                                                e.target.alt = "no-image-found"
-                                                            }}
-                                                        />
-                                                    </div>
-                                                    <div className="design-info">
-                                                        <p className='smr_album1price'>
-                                                            <span
-                                                                className="smr_currencyFont"
-                                                                dangerouslySetInnerHTML={{
-                                                                    __html: decodeEntities(
-                                                                        islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
-                                                                    ),
+                                                key={album?.Albumid}
+                                                spaceBetween={10}
+                                                slidesPerView={4}
+                                                breakpoints={{
+                                                    1024: {
+                                                        slidesPerView: 4,
+                                                    },
+                                                    768: {
+                                                        slidesPerView: 2,
+                                                    },
+                                                    0: {
+                                                        slidesPerView: 2,
+                                                    }
+                                                }}
+                                                lazy={true}
+                                                navigation={true}
+                                                // navigation={!isMobileScreen && (JSON?.parse(album?.Designdetail).length > 4 ? true : false)}
+                                                modules={[Keyboard, FreeMode, Navigation]}
+                                                keyboard={{ enabled: true }}
+                                            // pagination={false}
+                                            >
+                                                {album && JSON?.parse(album?.Designdetail)?.map((design, index) => (
+                                                    <SwiperSlide
+                                                        style={{
+                                                            width: '300px'
+                                                        }}
+                                                        ref={index === 0 ? swiperSlideRef : null}
+                                                        key={design?.autocode} className="swiper-slide-custom">
+                                                        <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
+                                                            <img
+                                                                src={
+                                                                    design?.ImageCount > 0
+                                                                        ? `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`
+                                                                        : imageNotFound
+                                                                }
+                                                                alt={design?.TitleLine}
+                                                                loading="lazy"
+                                                                onError={(e) => {
+                                                                    e.target.src = imageNotFound;
+                                                                    e.target.alt = "no-image-found"
                                                                 }}
-                                                            /> {formatter(design?.UnitCostWithMarkUp)}
-                                                        </p>
+                                                            />
+                                                        </div>
+                                                        <div className="design-info">
+                                                            <p className='smr_album1price'>
+                                                                <span
+                                                                    className="smr_currencyFont"
+                                                                    dangerouslySetInnerHTML={{
+                                                                        __html: decodeEntities(
+                                                                            islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
+                                                                        ),
+                                                                    }}
+                                                                /> {formatter(design?.UnitCostWithMarkUp)}
+                                                            </p>
+                                                        </div>
+                                                    </SwiperSlide>
+                                                ))}
+                                                {GenerateWidthBaseOnContent().length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
+                                                    width: "25%",
+                                                    height: "auto",
+                                                    borderRadius: "4px",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center"
+                                                }}>
+                                                    <div className="data_album">
+                                                        <button style={{
+                                                            border: "none",
+                                                            backgroundColor: "transparent",
+                                                            fontWeight: "500",
+                                                            textDecoration: "underline",
+                                                            color: "grey"
+                                                        }} className='btn_more_A' onClick={() => HandleAlbumMore()}>View More</button>
                                                     </div>
-                                                </SwiperSlide>
-                                            ))}
-                                            {GenerateWidthBaseOnContent().length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
-                                                width: "25%",
-                                                height: "auto",
-                                                borderRadius: "4px",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center"
-                                            }}>
-                                                <div className="data_album">
-                                                    <button style={{
-                                                        border: "none",
-                                                        backgroundColor: "transparent",
-                                                        fontWeight: "500",
-                                                        textDecoration: "underline",
-                                                        color: "grey"
-                                                    }} className='btn_more_A' onClick={() => HandleAlbumMore()}>View More</button>
-                                                </div>
-                                            </SwiperSlide>}
-                                        </Swiper>
-                                    ) : null
-                                )}
+                                                </SwiperSlide>}
+                                            </Swiper>
+                                        ) : null
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    }
-                </div>
+                        }
+                    </div>
+                // {/* </div> */}
             ) :
                 <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '20px' }}>
                     <AlbumSkeletonCards />

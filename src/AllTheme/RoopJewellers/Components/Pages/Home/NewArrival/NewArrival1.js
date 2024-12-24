@@ -97,8 +97,7 @@ const NewArrival = () => {
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
     navigation(
-      `/d/${titleLine.replace(/\s+/g, `_`)}${
-        titleLine?.length > 0 ? "_" : ""
+      `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
       }${designNo}?p=${encodeObj}`
     );
   };
@@ -132,121 +131,123 @@ const NewArrival = () => {
   }
   return (
     <div className="roop_newwArr1MainDiv">
-      <div className="title_rp">
-        <Typography variant="h4" className="roop_NewArr1Title">
-          NEW ARRIVAL
-          <Link
-            className="rp_designSetViewmoreBtn"
-            aria-label="View more new arrival products"
-            onClick={() => navigation(`/p/NewArrival/?N=${btoa("NewArrival")}`)}
-          >
-            View more
-          </Link>
-        </Typography>
-      </div>
-      {newArrivalData && (
-        <Grid container spacing={1} className="roop_NewArrival1product-list">
-          {newArrivalData?.slice(0, 4)?.map((product, index) => (
-            <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
-              <Card
-                aria-label={`View details of ${
-                  product?.TitleLine || "product"
-                } - ${product?.designno}`}
-                className="roop_NewArrproduct-card"
-                onClick={() =>
-                  handleNavigation(
-                    product?.designno,
-                    product?.autocode,
-                    product?.TitleLine
-                  )
-                }
+      {newArrivalData?.length != 0 && (
+        <>
+          <div className="title_rp">
+            <Typography variant="h4" className="roop_NewArr1Title">
+              NEW ARRIVAL
+              <Link
+                className="rp_designSetViewmoreBtn"
+                aria-label="View more new arrival products"
+                onClick={() => navigation(`/p/NewArrival/?N=${btoa("NewArrival")}`)}
               >
-                <div className="roop_newArr1Image">
-                  <CardMedia
-                    component="img"
-                    className="roop_newArrImage"
-                    // image="https://www.bringitonline.in/uploads/2/2/4/5/22456530/female-diamond-necklace-jewellery-photoshoot-jewellery-photography-jewellery-photographers-jewellery-model-shoot-jewellery-product-shoot-bringitonline_orig.jpeg"
-                    image={
-                      product?.ImageCount >= 1 ? product?.src : noImageFound
-                    }
-                    // image={product?.ImageCount >= 1 ?
-                    //     `${imageUrl}${newArrivalData && product?.designno}_1.${newArrivalData && product?.ImageExtension}`
-                    //     : noImageFound}
-                    alt={product?.TitleLine}
-                    onError={(e) => e.target.src = noImageFound}
-                    loading="lazy" // Use lazy loading to optimize performance
-                  />
-                </div>
-                <CardContent className="roop_newarrproduct-info">
-                  <Typography variant="h6" className="roop_newArrTitle">
-                    {product?.TitleLine != "" && product?.TitleLine + " - "}
-                    {product?.designno}
-                  </Typography>
-                  <Typography variant="body2">
-                    {storeInit?.IsGrossWeight == 1 && (
-                      <>
-                        <span className="roop_lb3detailDT">GWT: </span>
-                        <span className="roop_lb3detailDT">
-                          {(product?.Gwt || 0)?.toFixed(3)}
-                        </span>
-                      </>
-                    )}
-                    {storeInit?.IsGrossWeight == 1 && (
-                      <>
-                        <span className="roop_lb3pipe"> | </span>
-                        <span className="roop_lb3detailDT">NWT : </span>
-                        <span className="roop_lb3detailDT">
-                          {(product?.Nwt || 0)?.toFixed(3)}
-                        </span>
-                      </>
-                    )}
-                    {storeInit?.IsGrossWeight == 1 && (
-                      <>
-                        {(product?.Dwt != "0" || product?.Dpcs != "0") && (
-                          <>
-                            <span className="roop_lb3pipe"> | </span>
-                            <span className="roop_lb3detailDT">DWT: </span>
-                            <span className="roop_lb3detailDT">
-                              {(product?.Dwt || 0)?.toFixed(3)} /{" "}
-                              {product?.Dpcs || 0}
-                            </span>
-                          </>
-                        )}
-                      </>
-                    )}
-                    {storeInit?.IsGrossWeight == 1 && (
-                      <>
-                        {(product?.CSwt != "0" || product?.CSpcs != "0") && (
-                          <>
-                            <span className="roop_lb3pipe"> | </span>
-                            <span className="roop_lb3detailDT">CWT: </span>
-                            <span className="roop_lb3detailDT">
-                              {(product?.CSwt || 0)?.toFixed(3)} /{" "}
-                              {product?.CSpcs || 0}
-                            </span>
-                          </>
-                        )}
-                      </>
-                    )}
-                  </Typography>
-                  <p className="roop_newArrPrice">
-                    <span
-                      className="roop_currencyFont"
-                      dangerouslySetInnerHTML={{
-                        __html: decodeEntities(
-                          islogin
-                            ? loginUserDetail?.CurrencyCode
-                            : storeInit?.CurrencyCode
-                        ),
-                      }}
-                    />{" "}
-                    {formatter(product?.UnitCostWithMarkUp)}
-                  </p>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+                View more
+              </Link>
+            </Typography>
+          </div>
+
+          <Grid container spacing={1} className="roop_NewArrival1product-list">
+            {newArrivalData?.slice(0, 4)?.map((product, index) => (
+              <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
+                <Card
+                  aria-label={`View details of ${product?.TitleLine || "product"
+                    } - ${product?.designno}`}
+                  className="roop_NewArrproduct-card"
+                  onClick={() =>
+                    handleNavigation(
+                      product?.designno,
+                      product?.autocode,
+                      product?.TitleLine
+                    )
+                  }
+                >
+                  <div className="roop_newArr1Image">
+                    <CardMedia
+                      component="img"
+                      className="roop_newArrImage"
+                      // image="https://www.bringitonline.in/uploads/2/2/4/5/22456530/female-diamond-necklace-jewellery-photoshoot-jewellery-photography-jewellery-photographers-jewellery-model-shoot-jewellery-product-shoot-bringitonline_orig.jpeg"
+                      image={
+                        product?.ImageCount >= 1 ? product?.src : noImageFound
+                      }
+                      // image={product?.ImageCount >= 1 ?
+                      //     `${imageUrl}${newArrivalData && product?.designno}_1.${newArrivalData && product?.ImageExtension}`
+                      //     : noImageFound}
+                      alt={product?.TitleLine}
+                      onError={(e) => e.target.src = noImageFound}
+                      loading="lazy" // Use lazy loading to optimize performance
+                    />
+                  </div>
+                  <CardContent className="roop_newarrproduct-info">
+                    <Typography variant="h6" className="roop_newArrTitle">
+                      {product?.TitleLine != "" && product?.TitleLine + " - "}
+                      {product?.designno}
+                    </Typography>
+                    <Typography variant="body2">
+                      {storeInit?.IsGrossWeight == 1 && (
+                        <>
+                          <span className="roop_lb3detailDT">GWT: </span>
+                          <span className="roop_lb3detailDT">
+                            {(product?.Gwt || 0)?.toFixed(3)}
+                          </span>
+                        </>
+                      )}
+                      {storeInit?.IsGrossWeight == 1 && (
+                        <>
+                          <span className="roop_lb3pipe"> | </span>
+                          <span className="roop_lb3detailDT">NWT : </span>
+                          <span className="roop_lb3detailDT">
+                            {(product?.Nwt || 0)?.toFixed(3)}
+                          </span>
+                        </>
+                      )}
+                      {storeInit?.IsGrossWeight == 1 && (
+                        <>
+                          {(product?.Dwt != "0" || product?.Dpcs != "0") && (
+                            <>
+                              <span className="roop_lb3pipe"> | </span>
+                              <span className="roop_lb3detailDT">DWT: </span>
+                              <span className="roop_lb3detailDT">
+                                {(product?.Dwt || 0)?.toFixed(3)} /{" "}
+                                {product?.Dpcs || 0}
+                              </span>
+                            </>
+                          )}
+                        </>
+                      )}
+                      {storeInit?.IsGrossWeight == 1 && (
+                        <>
+                          {(product?.CSwt != "0" || product?.CSpcs != "0") && (
+                            <>
+                              <span className="roop_lb3pipe"> | </span>
+                              <span className="roop_lb3detailDT">CWT: </span>
+                              <span className="roop_lb3detailDT">
+                                {(product?.CSwt || 0)?.toFixed(3)} /{" "}
+                                {product?.CSpcs || 0}
+                              </span>
+                            </>
+                          )}
+                        </>
+                      )}
+                    </Typography>
+                    <p className="roop_newArrPrice">
+                      <span
+                        className="roop_currencyFont"
+                        dangerouslySetInnerHTML={{
+                          __html: decodeEntities(
+                            islogin
+                              ? loginUserDetail?.CurrencyCode
+                              : storeInit?.CurrencyCode
+                          ),
+                        }}
+                      />{" "}
+                      {formatter(product?.UnitCostWithMarkUp)}
+                    </p>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </>
       )}
     </div>
   );
