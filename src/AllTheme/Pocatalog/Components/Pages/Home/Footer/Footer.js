@@ -157,9 +157,11 @@ const Footer = ({ fromPage }) => {
                 </p>
               )}
               <div className="footerIconMain new-link-proc">
-                <NavLink to={"terms-and-conditions"}>Terms and Policy</NavLink>
+                <NavLink to={"terms-and-conditions"}>Terms and Condition</NavLink>
                 <NavLink to={"privacy-policy"}>Privacy and Policy</NavLink>
                 <NavLink to={"aboutUs"}>About Us</NavLink>
+                <NavLink to={"refund-policy"}>Refund  Policy</NavLink>
+                <NavLink to={"shipping-policy"}>Shipping Policy</NavLink>
                 {/* {socialMediaData?.map((social, index) => (
                   <div className='footerSocialIcon'>
                     <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">

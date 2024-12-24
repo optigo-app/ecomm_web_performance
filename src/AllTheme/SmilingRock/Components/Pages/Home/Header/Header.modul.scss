@@ -4,10 +4,11 @@
 
     .smiling_Top_header {
         height: 110px;
-        background-color: $backgroundColor;
-        // h1,span,h3,li,a{
-        // color: black !important;
-        // }
+        background-color: $bgColor;
+        h1,span,h3,li,a{
+        color: $menuColor !important;
+        font-weight: 500;
+        }
     }
 
     .smiling_Top_header_sub {

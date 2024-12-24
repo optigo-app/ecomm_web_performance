@@ -1,6 +1,8 @@
+@import '../../../scss/variable.scss';
+
 .smr_funfact_FooterTopMain {
 
-    background-color: #c0bbb1;
+    background-color: $bgColor !important;
 
     .smr_funfact_FooterTopMain_sub {
         background-color: white;

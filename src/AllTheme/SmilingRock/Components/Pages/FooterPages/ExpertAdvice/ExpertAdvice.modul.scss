@@ -1,6 +1,8 @@
+@import '../../../scss/variable.scss';
+
 .smr_Expert_FooterTopMain {
 
-    background-color: #c0bbb1;
+    background-color: $bgColor;
 
     .container {
         margin-inline: 6%;

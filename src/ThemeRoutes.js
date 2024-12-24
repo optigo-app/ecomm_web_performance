@@ -53,15 +53,15 @@ import {
   stam_companyLogoM,
 } from "./AllTheme/StamFordJewels/Components/Recoil/atom";
 
-// const SmilingRock_MobileApp_App = React.lazy(() =>
-//   import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
-// );
+const SmilingRock_MobileApp_App = React.lazy(() =>
+  import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
+);
 // const HemratnaProcatalog_App = React.lazy(() =>
 //   import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
 // );
-// const Procatalog_App = React.lazy(() =>
-//   import("./AllTheme/Pocatalog/Procatalog_App")
-// );
+const Procatalog_App = React.lazy(() =>
+  import("./AllTheme/Pocatalog/Procatalog_App")
+);
 // const HouseOfQuadri_App = React.lazy(() =>
 //   import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
 // );
@@ -403,11 +403,11 @@ const Themes = ({ htmlContent }) => {
 
       {/* {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />} */}
 
-      {/* {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />} */}
+      {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 
       {/* {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />} */}
 
-      {/* {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}  */}
+      {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />} 
 
       {/* {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />} */}
 

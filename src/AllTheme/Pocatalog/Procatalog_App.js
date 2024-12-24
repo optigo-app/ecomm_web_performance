@@ -54,6 +54,8 @@ import AboutUs from "./Components/Pages/Static/AboutUs/AboutUs";
 import TermsCondition from "./Components/Pages/Static/TermsPolicy/TermsPolicy";
 import PrivacyPolicy from "./Components/Pages/Static/PrivacyPolicy/PrivacyPolicy";
 import AboutUs2 from "./Components/Pages/Static/AboutUs/AboutUs2";
+import RefundPolicy from "./Components/Pages/Static/RefundPolicy/RefundPolicy";
+import ShippingPolicy from "./Components/Pages/Static/ShippingPolicy/ShippingPolicy";
 
 const Procatalog_App = () => {
   const navigation = useNavigate();
@@ -201,6 +203,9 @@ const Procatalog_App = () => {
           <Route path="/aboutUs" element={<AboutUs2 />} />
           <Route path="/privacy-policy" element={<TermsCondition />} />
           <Route path="/terms-and-conditions" element={ <PrivacyPolicy />} />
+          <Route path="/refund-policy" element={ <RefundPolicy />} />
+          <Route path="/shipping-policy" element={ <ShippingPolicy />} />
+          
           <Route
             path="/"
             element={<ProCat_PrivateRoutes isLoginStatus={islogin} />}

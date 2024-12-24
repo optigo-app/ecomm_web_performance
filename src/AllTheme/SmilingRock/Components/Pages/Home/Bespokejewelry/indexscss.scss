@@ -1,7 +1,9 @@
 
+@import "../../../scss/variable.scss";
+
 .smr_funfact_FooterTopMain {
 
-    background-color: #c0bbb1;
+    background-color: $bgColor;
     padding-bottom: 4.5rem;
 
     .smr_funfact_FooterTopMain_sub {

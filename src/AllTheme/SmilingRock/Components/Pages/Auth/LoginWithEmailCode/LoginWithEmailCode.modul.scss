@@ -1,5 +1,7 @@
+@import "../../../scss/variable.scss";
+
 .smr_loginwithemailCode {
-   
+   background-color: $bgColor;
     .fg_opt_div{
         .MuiBox-root{ 
             @media screen and (max-width:500px) {

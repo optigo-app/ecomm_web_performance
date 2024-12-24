@@ -123,7 +123,8 @@ export default function ForgotPass() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ backgroundColor: '#c0bbb1' }}>
+            <div >
+            {/* style={{ backgroundColor: '#c0bbb1' }} */}
                 <div className='smr_forgotSubDiv'>
                     <p style={{
                         textAlign: 'center',
@@ -216,7 +217,10 @@ export default function ForgotPass() {
                 </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
+                <p 
+          className="backtotop_Smr"
+                
+                style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
             </div>
         </div>
     )
