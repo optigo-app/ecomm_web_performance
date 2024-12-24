@@ -155,6 +155,8 @@ const Wishlist = () => {
         }}
       >
         <p
+          className="backtotop_Smr"
+
           style={{
             margin: "0px",
             fontWeight: 500,

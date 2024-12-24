@@ -120,8 +120,11 @@ function TermsPolicy() {
             <Footer />
           </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' ,backgroundColor:"#C0BBB1" ,color:"white" }}>
+        <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px'  }}>
           <p
+
+className="backtotop_Smr"
+
             style={{
               margin: "0px",
               fontWeight: 500,

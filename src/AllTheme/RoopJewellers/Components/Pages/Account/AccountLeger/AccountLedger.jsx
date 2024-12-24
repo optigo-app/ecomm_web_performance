@@ -746,6 +746,8 @@ const AccountLedger = () => {
                                     }
                                     {
                                         filterArray?.length > 0 ? filterArray?.map((e) => {
+                                            console.log(e);
+                                            
                                             let doneIcon = null;
                                             let closeIcon = null;
 
@@ -761,8 +763,8 @@ const AccountLedger = () => {
                                                         e === 'Data Not Present' ? <tr style={{ fontFamily: "Spectral-Regular" }}><td colSpan={14} align='center'>Data Not Present</td></tr> : <tr className='border_Acc' key={e?.id} style={{ fontFamily: "Spectral-Regular" }}>
                                                             <td className='border_end_acc p_1_acc text_center_acc'>{e?.IsDebit === 0 ? '' : e?.EntryDate}</td>
                                                             <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'>{e?.IsDebit === 0 ? '' : e?.particular}</td>
-                                                            {/* <td className='border_end_acc p_1_acc text_start_acc ps_1_acc text-primary text-decoration-underline' style={{cursor:'pointer'}} onClick={() => window.open("http://localhost:3000/accountledgerdebit")}>{e?.IsDebit === 0 ? '' : e?.referenceno === '' ? e?.voucherno : e?.referenceno}</td> */}
-                                                            <td className='border_end_acc p_1_acc text_start_acc ps_1_acc' style={{ cursor: 'pointer' }} >{e?.IsDebit === 0 ? '' : e?.referenceno === '' ? e?.voucherno : e?.referenceno}</td>
+                                                            <td className={`border_end_acc p_1_acc text_start_acc ps_1_acc ${e?.PrintUrl === '' ? '' : 'text-primary text-decoration-underline' }  `} style={{cursor:'pointer'}} onClick={() => e?.PrintUrl === '' ? '' : window.open(atob(e?.PrintUrl))}>{e?.IsDebit === 0 ? '' : e?.referenceno === '' ? e?.voucherno : e?.referenceno}</td>
+                                                            {/* <td className='border_end_acc p_1_acc text_start_acc ps_1_acc' style={{ cursor: 'pointer' }} >{e?.IsDebit === 0 ? '' : e?.referenceno === '' ? e?.voucherno : e?.referenceno}</td> */}
                                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.metalctw === 0 ? '' : e?.metalctw)}</td>
                                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.diamondctw === 0 ? '' : e?.diamondctw)}</td>
 
@@ -770,8 +772,8 @@ const AccountLedger = () => {
                                                             <td className='border_end_acc p_1_acc text_center_acc'></td>
                                                             <td className='border_end_acc p_1_acc text_center_acc'>{e?.IsDebit === 0 ? e?.EntryDate : ''}</td>
                                                             <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'>{e?.IsDebit === 0 ? e?.particular : ''}</td>
-                                                            {/* <td className='border_end_acc p_1_acc text_start_acc ps_1_acc text-primary text-decoration-underline' onClick={() => window.open("http://localhost:3000/accountledgercredit")} style={{cursor:'pointer'}}>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td> */}
-                                                            <td className='border_end_acc p_1_acc text_start_acc ps_1_acc ' style={{ cursor: 'pointer' }}>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td>
+                                                            <td className={`border_end_acc p_1_acc text_start_acc ps_1_acc ${e?.PrintUrl === '' ? '' : 'text-primary text-decoration-underline'}`} onClick={() => e?.PrintUrl === '' ? '' : window.open(atob(e?.PrintUrl))} style={{cursor:'pointer'}}>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td>
+                                                            {/* <td className='border_end_acc p_1_acc text_start_acc ps_1_acc ' style={{ cursor: 'pointer' }}>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td> */}
                                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? (e?.metalctw === 0 ? '' : e?.metalctw) : ''}</td>
                                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? (e?.diamondctw === 0 ? '' : e?.diamondctw) : ''}</td>
 

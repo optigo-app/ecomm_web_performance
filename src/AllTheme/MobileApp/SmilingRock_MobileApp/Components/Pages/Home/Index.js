@@ -197,15 +197,16 @@ const Home = () => {
 
   return (
     <div className="smrMA_Home_main">
+      {/* <ProductListBanner/> */}
             <Suspense fallback={<div></div>}>
       <TopSection />
-      {/* <ProductListBanner/> */}
       {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
       {localData?.IsHomeAlbum === 1 && <Album />}
       <PromotionBaner1 />
       {localData?.IsHomeNewArrival === 1 && <NewArrival />}
       {localData?.IsHomeTrending === 1 && <TrendingView />}
       {localData?.IsHomeDesignSet === 1 && <DesignSet />}
+      </Suspense>
       {/* {isLoadingHome == true ?
         <div className="smrMA_Home_loader">
           <div className="smrMA_Home_loader_container"></div>
@@ -215,7 +216,6 @@ const Home = () => {
           <SustainAbility />
         </>
       } */}
-      </Suspense>
     </div>
   );
 };

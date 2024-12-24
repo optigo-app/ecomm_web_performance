@@ -39,6 +39,11 @@ $fontSize8: 40px;
 $primaryBorderColor: #e1e1e1;
 $primaryBorderColor2: #42424233;
 
+// $bgColor: #c0bbb1;  // Light gray background
+$bgColor: white;  // Light gray background
+$textColor:#1B1212; // Dark gray text color
+$menuColor : #7D7F85 ;
+
 @font-face {
   font-family: "TT Commons Regular";
   src: url("../fonts/TT Commons Regular.otf");

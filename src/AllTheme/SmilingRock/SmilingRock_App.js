@@ -156,8 +156,70 @@ const SmilingRock_App = () => {
     }
   }
 
+  
+  // useEffect(() => {
+  //   const cookieValue = Cookies.get("userLoginCookie");
+  
+  //   // Check if user is not logged in and there's a cookie value to log in
+  //   if (cookieValue && islogin === false) {
+  //     LoginWithEmailAPI("", "", "", "", cookieValue)
+  //       .then((response) => {
+  //         if (response?.Data?.rd[0]?.stat === 1) {
+  //           // Successful login
+  //           Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
+  //           setIsLoginState(true); // Update the login state
+  //           sessionStorage.setItem("LoginUser", true);
+  //           sessionStorage.setItem("loginUserDetail", JSON.stringify(response.Data.rd[0]));
+            
+  //           // Redirect based on user intention or path before login
+  //           if (redirectEmailUrl) {
+  //             navigation(redirectEmailUrl);
+  //           } else if (location.pathname.startsWith('/accountdwsr')) {
+  //             navigation("/accountdwsr");
+  //           } else if (sessionStorage.getItem("previousUrl")) {
+  //             // If the user was trying to access a page before login, go back there
+  //             navigation(sessionStorage.getItem("previousUrl"));
+  //           } else {
+  //             // Default to home page if no previous URL is saved
+  //             navigation("/");
+  //           }
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  
+  //   // Save the current URL before login if it's not the home page
+  //   if (!islogin) {
+  //     if (location.pathname !== "/") {
+  //       sessionStorage.setItem("previousUrl", location.pathname);
+  //     }
+  //   }
+  
+  //   // Set local data from session storage
+  //   let localD = JSON.parse(sessionStorage.getItem("storeInit"));
+  //   setLocalData(localD);
+  // }, [islogin, location.pathname, redirectEmailUrl, navigation]);
+
+
+  // if (islogin === true) {
+  //   const restrictedPaths = [
+  //     '/LoginOption',
+  //     '/ContinueWithEmail',
+  //     '/ContinueWithMobile',
+  //     '/LoginWithEmailCode',
+  //     '/LoginWithMobileCode',
+  //     '/ForgotPass',
+  //     '/LoginWithEmail',
+  //     '/register'
+  //   ];
+
+  //   if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
+  //     return navigation("/");
+  //   }
+  // }
+
   return (
-    <>
+    <div div className="ggg">
       <Helmet>
         {/* <title>{localData?.BrowserTitle}</title> */}
       </Helmet>
@@ -275,7 +337,7 @@ const SmilingRock_App = () => {
         <Route path="/paymentFailure" element={<PaymentFailure />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-    </>
+    </div>
   );
 };
 
