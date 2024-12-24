@@ -53,33 +53,33 @@ import {
   stam_companyLogoM,
 } from "./AllTheme/StamFordJewels/Components/Recoil/atom";
 
-const SmilingRock_MobileApp_App = React.lazy(() =>
-  import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
-);
-const HemratnaProcatalog_App = React.lazy(() =>
-  import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
-);
-const Procatalog_App = React.lazy(() =>
-  import("./AllTheme/Pocatalog/Procatalog_App")
-);
-const HouseOfQuadri_App = React.lazy(() =>
-  import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
-);
-const ForEveryRoutes = React.lazy(() =>
-  import("./AllTheme/Forevery/ForeveryRoutes")
-);
-const Procatalog_MobileApp_App = React.lazy(() =>
-  import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
-);
-const StamFordJewels_App = React.lazy(() =>
-  import("./AllTheme/StamFordJewels/StamFordJewels_App")
-);
-const RoopJewellers_App = React.lazy(() =>
-  import("./AllTheme/RoopJewellers/RoopJewellers_App")
-);
-const MalakanJewels_App = React.lazy(() =>
-  import("./AllTheme/MalakanJwewls/MalakanJewels_App")
-);
+// const SmilingRock_MobileApp_App = React.lazy(() =>
+//   import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
+// );
+// const HemratnaProcatalog_App = React.lazy(() =>
+//   import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
+// );
+// const Procatalog_App = React.lazy(() =>
+//   import("./AllTheme/Pocatalog/Procatalog_App")
+// );
+// const HouseOfQuadri_App = React.lazy(() =>
+//   import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
+// );
+// const ForEveryRoutes = React.lazy(() =>
+//   import("./AllTheme/Forevery/ForeveryRoutes")
+// );
+// const Procatalog_MobileApp_App = React.lazy(() =>
+//   import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
+// );
+// const StamFordJewels_App = React.lazy(() =>
+//   import("./AllTheme/StamFordJewels/StamFordJewels_App")
+// );
+// const RoopJewellers_App = React.lazy(() =>
+//   import("./AllTheme/RoopJewellers/RoopJewellers_App")
+// );
+// const MalakanJewels_App = React.lazy(() =>
+//   import("./AllTheme/MalakanJwewls/MalakanJewels_App")
+// );
 
 
 export default function ThemeRoutes() {
@@ -399,7 +399,7 @@ const Themes = ({ htmlContent }) => {
     <Suspense fallback={<></>}>
       {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
 
-      {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
+      {/* {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
 
       {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
@@ -419,7 +419,7 @@ const Themes = ({ htmlContent }) => {
 
       {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
 
-      {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
+      {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />} */}
     </Suspense>
   </>
 }
