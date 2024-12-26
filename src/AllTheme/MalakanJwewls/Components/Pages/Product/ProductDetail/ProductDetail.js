@@ -76,6 +76,7 @@ const ProductDetail = () => {
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
   const [prodLoading, setProdLoading] = useState(false)
+  console.log('prodLoading: ', prodLoading);
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -927,19 +928,20 @@ const ProductDetail = () => {
       // If the image result is already cached, return the cached result
       return imageCache[img];
     }
-
+  
     try {
-      const result = await checkImage(img); // check the image
-      imageCache[img] = result;  // Cache the result for future reference
-      if (!prodLoading) {
+      const result = await checkImage(img);
+      imageCache[img] = result;  
+      return result; 
+    } catch (error) {
+      imageCache[img] = NOimage;  
+      return NOimage;
+    } finally {
+      if (!isImageload && !prodLoading) {
         setTimeout(() => {
           setImagePromise(false);
         }, 500);
       }
-      return result; // Ensure you return the result from the try block
-    } catch (error) {
-      imageCache[img] = NOimage;  // Cache the fallback result in case of an error
-      return NOimage; // Return the fallback image
     }
   };
 
@@ -1025,7 +1027,7 @@ const ProductDetail = () => {
         }
       }
     } else {
-      finalprodListimg = ErrornoiMAGE;
+      finalprodListimg = NOimage;
     }
 
     if (pd?.VideoCount > 0) {
@@ -1063,7 +1065,7 @@ const ProductDetail = () => {
       setThumbImgIndex(0)
     } else {
       // step 2 
-      setSelectedThumbImg({ link: ErrornoiMAGE, type: "img" });
+      setSelectedThumbImg({ link: NOimage, type: "img" });
       setPdThumbImg();
       setThumbImgIndex();
     }
@@ -1116,7 +1118,7 @@ const ProductDetail = () => {
   useEffect(() => {
     if (isImageload === false) {
       if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
-        setSelectedThumbImg({ "link": ErrornoiMAGE, "type": 'img' });
+        setSelectedThumbImg({ "link": NOimage, "type": 'img' });
       }
     }
   }, [isImageload])
@@ -1205,7 +1207,7 @@ const ProductDetail = () => {
         if (isImgAvl) {
           FinalPdColImgList.push(pdImgListCol[i])
         } else {
-          FinalPdColImgList.push(ErrornoiMAGE)
+          FinalPdColImgList.push(NOimage)
         }
       }
     }
@@ -1536,7 +1538,7 @@ const ProductDetail = () => {
                         ) : (
                           <div className="mala_prod_video">
                             <video
-                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : ErrornoiMAGE}
+                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : NOimage}
                               loop={true}
                               autoPlay={true}
                               style={{

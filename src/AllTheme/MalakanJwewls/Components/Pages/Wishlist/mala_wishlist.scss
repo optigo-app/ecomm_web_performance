@@ -89,7 +89,7 @@
             // text-decoration-color: $titleColor !important;
 
             font-family: $primaryFontFamily !important;
-            background-color: $btn1hoverColor;
+            background-color: $backgroundColor;
             color: $btn1hoverFontColor;
             font-size: $fontSize2;
             border: none;
@@ -102,7 +102,7 @@
             transition: background-color 0.3s;
 
             &:hover {
-                background-color: #666;
+                background-color: $hoverbackgroundColor;
             }
 
 
@@ -114,7 +114,7 @@
 
         .mala_WlAddToCartBtn {
             font-family: $primaryFontFamily !important;
-            background-color: $btn1hoverColor;
+            background-color: $backgroundColor;
             color: $btn1hoverFontColor;
             font-size: $fontSize2;
             border: none;
@@ -127,7 +127,7 @@
             transition: background-color 0.3s;
 
             &:hover {
-                background-color: #666;
+                background-color: $hoverbackgroundColor;
             }
 
 

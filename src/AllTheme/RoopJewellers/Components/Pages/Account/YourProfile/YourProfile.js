@@ -180,7 +180,7 @@ export default function YourProfile() {
                         )}
                     </div>}
                     {<div>
-                        <button onClick={handleEdit} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
+                        <button onClick={handleEdit} className='roop_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
                     </div>}
                 </div>
 
@@ -285,7 +285,7 @@ export default function YourProfile() {
                             )}
 
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
-                                <button type='submit' className='rp_smilingDeleveryformSaveBtn' >Save</button>
+                                <button type='submit' className='roop_smilingDeleveryformSaveBtn' >Save</button>
                                 <button onClick={() => handleCancel()} className='rp_smilingDeleveryformCansleBtn' >Cancel</button>
                             </div>
                         </form>

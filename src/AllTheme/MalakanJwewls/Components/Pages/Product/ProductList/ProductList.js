@@ -647,33 +647,43 @@ const ProductList = () => {
   useEffect(() => {
     const initialProducts = productListData?.map(product => ({
       ...product,
-      images: [],
-      loading: true
-    }))
-    setFinalProductListData(initialProducts)
-    setLoadingIndex(0)
-  }, [productListData])
+      images: generateImageList(product), 
+      loading: false 
+    }));
 
-  useEffect(() => {
-    if (loadingIndex >= finalProductListData?.length) return
+    setFinalProductListData(initialProducts);  
+  }, [productListData, generateImageList])
 
-    const loadNextProductImages = () => {
-      setFinalProductListData(prevData => {
-        const newData = [...prevData]
-        newData[loadingIndex] = {
-          ...newData[loadingIndex],
-          images: generateImageList(newData[loadingIndex]),
-          loading: false
-        }
-        return newData
-      })
+  // useEffect(() => {
+  //   const initialProducts = productListData?.map(product => ({
+  //     ...product,
+  //     images: [],
+  //     loading: true
+  //   }))
+  //   setFinalProductListData(initialProducts)
+  //   setLoadingIndex(0)
+  // }, [productListData])
 
-      setLoadingIndex(prevIndex => prevIndex + 1)
-    }
+  // useEffect(() => {
+  //   if (loadingIndex >= finalProductListData?.length) return
 
-    const timer = setTimeout(loadNextProductImages, 15)
-    return () => clearTimeout(timer)
-  }, [loadingIndex, finalProductListData, generateImageList])
+  //   const loadNextProductImages = () => {
+  //     setFinalProductListData(prevData => {
+  //       const newData = [...prevData]
+  //       newData[loadingIndex] = {
+  //         ...newData[loadingIndex],
+  //         images: generateImageList(newData[loadingIndex]),
+  //         loading: false
+  //       }
+  //       return newData
+  //     })
+
+  //     setLoadingIndex(prevIndex => prevIndex + 1)
+  //   }
+
+  //   const timer = setTimeout(loadNextProductImages, 0)
+  //   return () => clearTimeout(timer)
+  // }, [loadingIndex, finalProductListData, generateImageList])
 
 
 

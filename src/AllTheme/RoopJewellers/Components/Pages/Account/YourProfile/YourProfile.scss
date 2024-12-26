@@ -64,27 +64,26 @@
         }
     }
 
-    .smr_SmilingAddEditAddrwess {
+    .roop_SmilingAddEditAddrwess {
         height: 40px;
         width: 160px;
         font-family: $fontRegular !important;
-        font-weight: 700 !important;
+        font-weight: 600 !important;
         opacity: .9;
-        background: #f6efe6 !important;
-        color: rgba(31, 25, 25, 0.7) !important;
+        background: $btnprimarycolor !important;
+        color: $btn1bgColor !important;
         border: none;
-        font-weight: 500;
     }
 
-    .smr_SmilingAddEditAddrwess:hover {
-        background-color: #fff !important;
+    .roop_SmilingAddEditAddrwess:hover {
+        background-color: $btn1hoverColor !important;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
 }
 
-.rp_smilingDeleveryformSaveBtn {
-    background: $btnprimarycolor;
+.roop_smilingDeleveryformSaveBtn {
+    background: $btnprimarycolor !important;
     border: none;
     border-radius: 5px;
     color: #fff;

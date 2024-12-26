@@ -2,10 +2,33 @@
 
 .smr_about_mainDiv {
   font-family: "Calibri";
-  background-color: $bgColor;
+  background-color: $bgColor !important;
 
   .Head_about_page_smr {
     font-family: $homePageFontFamily;
+  }
+
+  .smr-banner {
+    position: relative;
+    height: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+
+    @media screen and (max-width: 768px) {
+      height: 200px;
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
   }
 
   .smiling-About-container {

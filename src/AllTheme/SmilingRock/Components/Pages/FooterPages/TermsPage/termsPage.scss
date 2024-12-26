@@ -127,7 +127,7 @@
 
 /* shinjini css */
 
-.shinjini {
+.smr {
   &-banner {
     position: relative;
     height: 220px;
@@ -158,20 +158,8 @@
 
   &-main {
     margin: 0 auto;
-    width: 60%;
+    width: 100%;
     padding: 2rem;
-
-    @media screen and (max-width: 1400px) {
-      width: 85%;
-    }
-
-    @media screen and (max-width: 1000px) {
-      width: 85%;
-    }
-
-    @media screen and (max-width: 768px) {
-      width: 95%;
-    }
   }
 
   &-title {

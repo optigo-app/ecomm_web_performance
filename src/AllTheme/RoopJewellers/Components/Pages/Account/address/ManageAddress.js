@@ -352,19 +352,9 @@ const ManageAddress = () => {
         <div className='address_Account_RPJ'>
             <ToastContainer />
             <div>
-                <p style={{
-                    textAlign: 'center',
-                    padding: "15px 15px",
-                    marginTop: '30px',
-                    fontSize: '20px',
-                    background: '#f6efe6',
-                    color: "rgba(31, 25, 25, 0.7)",
-                    fontFamily: "Spectral-Regular",
-                    fontWeight: "700",
-                    opacity: '.8'
-                }} className='savedAddress'>Saved Addresses</p>
+                <p className='roop_savedAddress'>Saved Addresses</p>
                 <Box sx={{ paddingLeft: "15px" }}>
-                    <Button className='muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ fontFamily: "Spectral-Regular", background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={() => handleOpen('', null, 'add')}>ADD NEW ADDRESS</Button></Box>
+                    <Button className='muiSmilingRocksBtnManage roop_savedAddressManageBtn' variant="contained" onClick={() => handleOpen('', null, 'add')}>ADD NEW ADDRESS</Button></Box>
                 <RadioGroup
                     aria-labelledby="demo-controlled-radio-buttons-group"
                     name="controlled-radio-buttons-group"
@@ -414,7 +404,7 @@ const ManageAddress = () => {
                                             </Box>
 
                                             <Box className="addresDetailsTg addresDetailsBtn" sx={{ borderTop: "1px solid rgba(0, 0, 0, 0.04) !important", display: "flex", flexWrap: "wrap", paddingTop: "20px", position: 'absolute', bottom: 0, left: "15px", width: "calc( 100% - 30px)", }}>
-                                                <Button className='muiSmilingRocksBtnManageEdit' variant="contained"
+                                                <Button className='roop_muiSmilingRocksBtnManageEdit' variant="contained"
                                                     sx={{
                                                         background: "#7d7f85", maxHeight: "30px", minWidth: "max-content",
                                                         maxWidth: "max-content", padding: "6px 10px", fontSize: "0.9rem", marginBottom: "10px", borderRadius: "0",

@@ -490,12 +490,12 @@ const Header = () => {
               }}
             >
               <div className="mala_mobileHeader_top_div1"
-                  
+
               >
                 <IoClose
                   size={38}
                   color="#F6C2B5"
-                  style={{marginLeft:"8px"}}
+                  style={{ marginLeft: "8px" }}
                   cursor={'pointer'}
                   onClick={toggleDrawerOverlay}
                 />
@@ -569,7 +569,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage"); setDrawerShowOverlay(false); }}
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -907,7 +907,7 @@ const Header = () => {
           <div className="mala_Top_header_logo_div">
             <a href="/" className="mala_logo_header_webLogo">
               <img
-              
+
                 src={compnyLogo}
                 loading="lazy"
                 className="mala_logo_header"
@@ -1038,7 +1038,7 @@ const Header = () => {
                       {storeinit?.IsDesignSetInMenu == 1 &&
                         <li
                           className="nav_li_smining nav_li_smining_Mobile"
-                          style={{ cursor: "pointer" ,textTransform:"uppercase" }}
+                          style={{ cursor: "pointer", textTransform: "uppercase" }}
                           onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                         >
                           {/* <a href="/Lookbook" className="stam_A_link"> */}
@@ -1056,7 +1056,7 @@ const Header = () => {
                     {storeinit?.IsDesignSetInMenu == 1 &&
                       <li
                         className="nav_li_smining nav_li_smining_Mobile"
-                        style={{ cursor: "pointer" ,textTransform:"uppercase" }}
+                        style={{ cursor: "pointer", textTransform: "uppercase" }}
                         onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                       >
                         {/* <a href="/Lookbook" className="stam_A_link"> */}
@@ -1147,7 +1147,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage"); setDrawerShowOverlay(false); }}
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -1208,7 +1208,7 @@ const Header = () => {
                       >
                         <Tooltip title="Cart">
                           <li
-                            onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                            onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage"); setDrawerShowOverlay(false); }}
                             className="nav_li_smining_Icone"
                           >
                             <ShoppingCartOutlinedIcon
