@@ -33,11 +33,13 @@ const TopSection = () => {
           width="500"
           autoPlay
           muted
-          controls={!videoStarted}
+          controls={false}
           loop
           style={{ height: "auto", width: "100%" }}
           onLoadedData={handleVideoLoad}
           onPlay={handleVideoPlay}
+          poster={`${storImagePath()}/images/HomePage/TopSection/poster.png`}
+          // controls={!videoStarted}
         >
           <source
             src={`${storImagePath()}/images/HomePage/TopSection/HomepageMainBannerVideo.mp4`}
