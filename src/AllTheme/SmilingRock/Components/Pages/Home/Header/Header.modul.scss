@@ -342,12 +342,13 @@
     }
 
     .badgeColor .MuiBadge-badge {
-        background-color: #c0bbb1 !important;
+        background-color: $badgecolor !important;
+        color: $badgetxtcolor !important;
     }
 
     .badgeColorFix .MuiBadge-badge {
-        background-color: white !important;
-        color: #c0bbb1 !important;
+        background-color:  $badgecolor  !important;
+        color: $badgetxtcolor !important;
         margin-left: 10px !important;
 
     }

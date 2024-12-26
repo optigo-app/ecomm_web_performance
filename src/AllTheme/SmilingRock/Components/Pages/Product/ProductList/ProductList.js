@@ -388,7 +388,7 @@ const ProductList = () => {
       let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
   
       // await ProductListApi({}, 1, obj, productlisttype,sortBySelect , cookie ,DiaRange, netRange ,grossRange)
-      await ProductListApi({}, 1, obj, productlisttype, cookie,sortBySelect )
+      await ProductListApi({}, 1, obj, productlisttype, cookie, sortBySelect )
         .then((res) => {
           if (res) {
             // console.log("productList", res);
@@ -843,8 +843,8 @@ const ProductList = () => {
       let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
       let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
       let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
-  
-      ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect, DiaRange, netRange ,grossRange)
+      // DiaRange, netRange ,grossRange
+      ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);

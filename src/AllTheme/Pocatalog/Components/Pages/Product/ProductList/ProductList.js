@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import "./productlist.scss";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -874,7 +874,8 @@ const ProductList = () => {
       let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
       let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
   
-      ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect, DiaRange, netRange ,grossRange)
+      // , DiaRange, netRange ,grossRange
+      ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -3299,7 +3300,7 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default memo(ProductList);
 
 // import React, { useEffect, useState } from "react";
 // import "./productlist.scss";

@@ -1,8 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './PrivacyPolicy.scss'
+import { getDomainName, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 
 export default function PrivacyPolicy() {
+  const [htmlContent, sethtmlContent] = useState(null);
+
+
+  useEffect(() => {
+   const FetchHtml = async()=>{
+    try {
+      
+      const filename = await getDomainName();
+      const res = await   fetch(`${storImagePath()}/html/${filename}/TermsPolicy.html`)
+      const html = await res.text();
+      sethtmlContent(html);
+    } catch (error) {
+      return error
+    }
+   }
+   FetchHtml();
+  }, [htmlContent])
+
+  return (
+    <div className="main_warrpper_pro">
+      <div className='procatalog-terms'>
+        <Banner />
+        <main className="procatalog-main"
+        dangerouslySetInnerHTML={{__html: htmlContent}}
+        >
+          {/* <div className="procatalog-content-p">
+
+            {termsData.sections.map((section, index) => (
+              <section key={index} className="procatalog-section">
+                <h2 className="procatalog-section-title">{section.title}</h2>
+                {section.content.map((item, itemIndex) => (
+                  <div key={itemIndex} className="procatalog-section-content">
+                    <h3 className="procatalog-subtitle">{item.subtitle}</h3>
+                    <p className="procatalog-text">{item.text}</p>
+                  </div>
+                ))}
+              </section>
+            ))}
+
+            <p className="procatalog-conclusion">{termsData.conclusion.text}</p>
+          </div> */}
+        </main>
+      </div>
+    </div>
+
+
+  )
+}
 
   /*const termsData = {
     introduction: {
@@ -60,83 +109,71 @@ export default function PrivacyPolicy() {
   }*/
 
   // Almacarino Terms and Conditions
-  const termsData = {
-    sections: [
-      {
-        title: "GOLD JEWELLERY",
-        content: [
-          {
-            text: "1.Repair warranty upto one year from the date of purchase."
-          },
-          {
-            text: "2.Stone Exchange Value upto 80%(depends on condition of stone)"
-          },
-          {
-            text: "3.Goods once sold will be treated as Sales Returnif returned unused within 7 days."
-          },
-          {
-            text: "4.For outside Purchase Gold Exchange/Sales will attract Wastage of 7%."
-          },
-          {
-            text: "5.0.00% Deduction of Wastage for ALMA Gold Product Exchange."
-          },
-          {
-            text: "6.Refund Process if any will be done through Bank Transfer within 3 days of Receipt."
-          },
-        ]
-      },
-      {
-        title: "SILVER JEWELLERY",
-        content: [
-          {
-            text: "1.Repair warranty upto one year from the date of purchase."
-          },
-          {
-            text: "2.Silver Exchange Value WILL BE 30.% on the purchase Value."
-          },
-          {
-            text: "3.Refund option is not available."
-          },
-        ]
-      },
-      {
-        title: "STONE JEWELLERY",
-        content: [
-          {
-            text: "1.Return/Refund/Exchange options are not available."
-          },
-        ]
-      },
-    ],
-    conclusion: {
-      text: "NB.The company reserves right to modify the above Terms&conditions without prior notice."
-    }
-  }
+  // const termsData = {
+  //   sections: [
+  //     {
+  //       title: "GOLD JEWELLERY",
+  //       content: [
+  //         {
+  //           text: "1.Repair warranty upto one year from the date of purchase."
+  //         },
+  //         {
+  //           text: "2.Stone Exchange Value upto 80%(depends on condition of stone)"
+  //         },
+  //         {
+  //           text: "3.Goods once sold will be treated as Sales Returnif returned unused within 7 days."
+  //         },
+  //         {
+  //           text: "4.For outside Purchase Gold Exchange/Sales will attract Wastage of 7%."
+  //         },
+  //         {
+  //           text: "5.0.00% Deduction of Wastage for ALMA Gold Product Exchange."
+  //         },
+  //         {
+  //           text: "6.Refund Process if any will be done through Bank Transfer within 3 days of Receipt."
+  //         },
+  //       ]
+  //     },
+  //     {
+  //       title: "SILVER JEWELLERY",
+  //       content: [
+  //         {
+  //           text: "1.Repair warranty upto one year from the date of purchase."
+  //         },
+  //         {
+  //           text: "2.Silver Exchange Value WILL BE 30.% on the purchase Value."
+  //         },
+  //         {
+  //           text: "3.Refund option is not available."
+  //         },
+  //       ]
+  //     },
+  //     {
+  //       title: "STONE JEWELLERY",
+  //       content: [
+  //         {
+  //           text: "1.Return/Refund/Exchange options are not available."
+  //         },
+  //       ]
+  //     },
+  //   ],
+  //   conclusion: {
+  //     text: "NB.The company reserves right to modify the above Terms&conditions without prior notice."
+  //   }
+  // }
 
+
+const Banner = ({ title = "Terms and Conditions" }) => {
   return (
-    <div className="main_warrpper_pro">
-      <div className='procatalog-terms'>
-        <Banner />
-        <main className="procatalog-main">
-          <div className="procatalog-content-p">
-
-            {termsData.sections.map((section, index) => (
-              <section key={index} className="procatalog-section">
-                <h2 className="procatalog-section-title">{section.title}</h2>
-                {section.content.map((item, itemIndex) => (
-                  <div key={itemIndex} className="procatalog-section-content">
-                    <h3 className="procatalog-subtitle">{item.subtitle}</h3>
-                    <p className="procatalog-text">{item.text}</p>
-                  </div>
-                ))}
-              </section>
-            ))}
-
-            <p className="procatalog-conclusion">{termsData.conclusion.text}</p>
-          </div>
-        </main>
+    <>
+      <div
+        className="procatalog-banner"
+      >
+        <h1>{title}</h1>
       </div>
-    </div>
+    </>
+  );
+};
 
 
     /*
@@ -165,18 +202,3 @@ export default function PrivacyPolicy() {
         </div>
         </div>
     */
-  )
-}
-
-
-const Banner = ({ title = "Terms and Conditions" }) => {
-  return (
-    <>
-      <div
-        className="procatalog-banner"
-      >
-        <h1>{title}</h1>
-      </div>
-    </>
-  );
-};

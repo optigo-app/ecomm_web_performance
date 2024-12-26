@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, Suspense, useEffect, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Home from "./Components/Pages/Home/Index";
 import Header from "./Components/Pages/Home/Header/Header";
@@ -13,8 +13,16 @@ import {
   proCat_companyLogoM,
   proCat_loginState,
 } from "./Components/Recoil/atom";
+import { Helmet } from "react-helmet";
 import { Storeinit } from "../../utils/API/Home/Storeinit/Storeinit";
-import ProductList from "./Components/Pages/Product/ProductList/ProductList";
+import { MetalTypeComboAPI } from "../../utils/API/Combo/MetalTypeComboAPI";
+import { ColorStoneQualityColorComboAPI } from "../../utils/API/Combo/ColorStoneQualityColorComboAPI";
+import { CurrencyComboAPI } from "../../utils/API/Combo/CurrencyComboAPI";
+import { DiamondQualityColorComboAPI } from "../../utils/API/Combo/DiamondQualityColorComboAPI";
+import { MetalColorCombo } from "../../utils/API/Combo/MetalColorCombo";
+// import ProductList from "./Components/Pages/Product/ProductList/ProductList";
+
+// import AboutUs from "./Components/Pages/aboutUs/AboutUs";
 import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
 import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
 import ServicePolicy from "./Components/Pages/FooterPages/servicePolicy/ServicePolicy";
@@ -24,30 +32,15 @@ import Register from "./Components/Pages/Auth/Registretion/Register";
 import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile";
 import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
 import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode";
-// import AboutUs from "./Components/Pages/aboutUs/AboutUs";
-import { MetalTypeComboAPI } from "../../utils/API/Combo/MetalTypeComboAPI";
-import { ColorStoneQualityColorComboAPI } from "../../utils/API/Combo/ColorStoneQualityColorComboAPI";
-import { CurrencyComboAPI } from "../../utils/API/Combo/CurrencyComboAPI";
-import { DiamondQualityColorComboAPI } from "../../utils/API/Combo/DiamondQualityColorComboAPI";
-import { MetalColorCombo } from "../../utils/API/Combo/MetalColorCombo";
 import Wishlist from "./Components/Pages/Wishlist/Wishlist";
 import PageNotFound from "./Components/Pages/404Page/PageNotFound";
-import { Helmet } from "react-helmet";
 import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
 import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
 import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
 import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
 import Header2 from "./Components/Pages/Home/Header/Header2";
 import Account from "./Components/Pages/Account/Account";
-import Cookies from "js-cookie";
-import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
-import ProCat_PrivateRoutes from "./ProCat_PrivateRoutes";
-import ConnectionManager from "../../utils/SoketConnection/ConnectionManager";
-import {
-  storImagePath,
-  storInitDataPath,
-} from "../../utils/Glob_Functions/GlobalFunction";
 import Footer from "./Components/Pages/Home/Footer/Footer";
 import ProcatAppChatMenu from "./Components/Pages/Home/ChatMenu/ProcatAppChatMenu";
 import AboutUs from "./Components/Pages/Static/AboutUs/AboutUs";
@@ -56,6 +49,14 @@ import PrivacyPolicy from "./Components/Pages/Static/PrivacyPolicy/PrivacyPolicy
 import AboutUs2 from "./Components/Pages/Static/AboutUs/AboutUs2";
 import RefundPolicy from "./Components/Pages/Static/RefundPolicy/RefundPolicy";
 import ShippingPolicy from "./Components/Pages/Static/ShippingPolicy/ShippingPolicy";
+import ConnectionManager from "../../utils/SoketConnection/ConnectionManager";
+import Cookies from "js-cookie";
+import ProCat_PrivateRoutes from "./ProCat_PrivateRoutes";
+import {   storImagePath,  storInitDataPath,} from "../../utils/Glob_Functions/GlobalFunction";
+import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
+
+
+const ProductList = React.lazy(() => import("./Components/Pages/Product/ProductList/ProductList"));
 
 const Procatalog_App = () => {
   const navigation = useNavigate();
@@ -202,15 +203,15 @@ const Procatalog_App = () => {
           {/* <Route path="/Lookbook" element={<Lookbook />} /> */}
           <Route path="/aboutUs" element={<AboutUs2 />} />
           <Route path="/privacy-policy" element={<TermsCondition />} />
-          <Route path="/terms-and-conditions" element={ <PrivacyPolicy />} />
-          <Route path="/refund-policy" element={ <RefundPolicy />} />
-          <Route path="/shipping-policy" element={ <ShippingPolicy />} />
-          
+          <Route path="/terms-and-conditions" element={<PrivacyPolicy />} />
+          <Route path="/refund-policy" element={<RefundPolicy />} />
+          <Route path="/shipping-policy" element={<ShippingPolicy />} />
+
           <Route
             path="/"
             element={<ProCat_PrivateRoutes isLoginStatus={islogin} />}
           >
-            <Route path="/p/*" element={<ProductList />} />
+            <Route path="/p/*" element={<Suspense fallback={<></>}><ProductList /></Suspense>} />
             <Route path="/d/*" element={<ProductDetail />} />
             <Route path="/cartPage" element={<Cart />} />
             <Route path="/myWishList" element={<Wishlist />} />
@@ -250,4 +251,4 @@ const Procatalog_App = () => {
   );
 };
 
-export default Procatalog_App;
+export default memo(Procatalog_App);
