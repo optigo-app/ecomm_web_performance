@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+</head>
+<style >
+  *{
+    margin: 0;
+    padding: 0;
+  }
+.container-Loader {
+  width: 100%;
+  height: 100svh;
+  background-color: #EDE1D5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s ease-in-out;
+  .loader-smp {
+    width: 6px;
+    height: 36px;
+    border-radius: 4px;
+    display: block;
+    background-color: currentColor;
+    margin: 20px auto;
+    position: relative;
+    color: #f2f2f2;
+    animation: animloader 0.3s 0.3s linear infinite alternate;
+    transition: 0.3s ease-in;
+  }
+
+  .loader-smp::after,
+  .loader-smp::before {
+    content: "";
+    width: 6px;
+    height: 36px;
+    border-radius: 4px;
+    background: currentColor;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 15px;
+    animation: animloader 0.3s 0.45s linear infinite alternate;
+  }
+
+  .loader-smp::before {
+    left: -15px;
+    animation-delay: 0s;
+  }
+
+  @keyframes animloader {
+    0% {
+      height: 36px;
+    }
+
+    100% {
+      height: 6px;
+    }
+  }
+}
+.image_banner_sm {
+      width: 100%;
+      height: 100svh;
+      display: none;
+      transition: height 0.2s ease-in;
+      animation: slideInFromBottom 0.2s ease-in-out forwards;
+      img {
+      width: 100%;
+      object-fit: cover;
+      height: 100%;
+      transition: 0.3s ease-in-out;
+    }
+    }
+        @keyframes slideInFromBottom {
+      0% {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    #root {
+      display: none;
+      animation: slideDownAndFadeIn 1.2s ease-in forwards;
+    }
+</style>
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <div class="image_banner_sm">
+    <img src="https://i.ibb.co/948dFvb/Untitled-design-3.png" alt="">
+  </div>
+  <div class="container-Loader">
+    <div class="loader-smp">
+  </div>
+
+</body>
+<!-- <script  src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
+<script defer>
+        document.querySelector('#root').style.display = 'none';
+        document.querySelector('.image_banner_sm').style.display = 'none';
+  window.onload = function () {
+    setTimeout(function () {
+        document.querySelector('.container-Loader').style.display = 'none';
+        document.querySelector('.image_banner_sm').style.display = 'block';
+      }, 2000);   
+      setTimeout(() => {
+        document.querySelector('.image_banner_sm').style.display = 'none';
+        document.querySelector('#root').style.display = 'block';
+      }, 5000);
+    setTimeout(function () {
+      var script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.type = 'text/javascript';
+      document.body.appendChild(script);
+    }, 6000);
+
+    setTimeout(function () {
+      const head = document.head;
+      const link = document.createElement('link');
+      link.href = "https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rosarivo:ital@0;1&family=Arizonia&family=Lato:wght@300;400&family=Montserrat:wght@400;500&family=Playfair+Display&family=Tenor+Sans&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Nunito:wght@200..1000&family=Cedarville+Cursive&display=swap";
+      link.rel = "stylesheet";
+      head.appendChild(link);
+      const link6 = document.createElement('link');
+      link6.href = "https://db.onlinewebfonts.com/c/8c6cc8824a468b33768701915664b3e9?family=FreightDisp+Pro+Medium";
+      link6.rel = "stylesheet";
+      head.appendChild(link6);
+    }, 10000);
+   
+  };
+
+
+</script>
+
+</html>

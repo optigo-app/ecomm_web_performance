@@ -6,6 +6,7 @@ import PrivateRoutes from './PrivateRoutes'
 import { storImagePath } from '../../../utils/Glob_Functions/GlobalFunction'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Support from './Components/Pages/StaticPages/Support'
+import Loader from './Components/Pages/Loading/Loader'
 
 
 const Header = React.lazy(() => import('./Components/Pages/Home/Header/Header'));
@@ -55,7 +56,7 @@ const SmilingRock_MobileApp_App = React.memo(() => {
 
   return (
     <div>
-      <Suspense fallback={<></>}>
+      <Suspense fallback={<><Loader/></>}>
       <ToastContainer />
       {(location.pathname === "/accountledgertable" ||
         location.pathname === "/accountledgerexcel" ||

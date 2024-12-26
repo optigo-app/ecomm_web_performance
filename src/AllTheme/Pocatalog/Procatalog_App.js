@@ -1,5 +1,11 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { memo, Suspense, useEffect, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import Home from "./Components/Pages/Home/Index";
+import Header from "./Components/Pages/Home/Header/Header";
+import Cart from "./Components/Pages/Cart/CartMain";
+import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
+import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
+import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   companyLogo,
@@ -14,80 +20,43 @@ import { ColorStoneQualityColorComboAPI } from "../../utils/API/Combo/ColorStone
 import { CurrencyComboAPI } from "../../utils/API/Combo/CurrencyComboAPI";
 import { DiamondQualityColorComboAPI } from "../../utils/API/Combo/DiamondQualityColorComboAPI";
 import { MetalColorCombo } from "../../utils/API/Combo/MetalColorCombo";
+// import ProductList from "./Components/Pages/Product/ProductList/ProductList";
+
+// import AboutUs from "./Components/Pages/aboutUs/AboutUs";
+import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
+import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
+import ServicePolicy from "./Components/Pages/FooterPages/servicePolicy/ServicePolicy";
+import ExpertAdvice from "./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice";
+import FunFact from "./Components/Pages/FooterPages/FunFact/FunFact";
+import Register from "./Components/Pages/Auth/Registretion/Register";
+import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile";
+import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
+import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode";
+import Wishlist from "./Components/Pages/Wishlist/Wishlist";
+import PageNotFound from "./Components/Pages/404Page/PageNotFound";
+import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
+import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
+import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
+import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
+import Header2 from "./Components/Pages/Home/Header/Header2";
+import Account from "./Components/Pages/Account/Account";
+import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
+import Footer from "./Components/Pages/Home/Footer/Footer";
+import ProcatAppChatMenu from "./Components/Pages/Home/ChatMenu/ProcatAppChatMenu";
+import AboutUs from "./Components/Pages/Static/AboutUs/AboutUs";
+import TermsCondition from "./Components/Pages/Static/TermsPolicy/TermsPolicy";
+import PrivacyPolicy from "./Components/Pages/Static/PrivacyPolicy/PrivacyPolicy";
+import AboutUs2 from "./Components/Pages/Static/AboutUs/AboutUs2";
+import RefundPolicy from "./Components/Pages/Static/RefundPolicy/RefundPolicy";
+import ShippingPolicy from "./Components/Pages/Static/ShippingPolicy/ShippingPolicy";
 import ConnectionManager from "../../utils/SoketConnection/ConnectionManager";
 import Cookies from "js-cookie";
 import ProCat_PrivateRoutes from "./ProCat_PrivateRoutes";
 import {   storImagePath,  storInitDataPath,} from "../../utils/Glob_Functions/GlobalFunction";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
-// import AboutUs from "./Components/Pages/aboutUs/AboutUs";
-
-// import Home from "./Components/Pages/Home/Index";
-// import Header from "./Components/Pages/Home/Header/Header";
-// import Cart from "./Components/Pages/Cart/CartMain";
-// import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
-// import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
-// import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
-// import ProductList from "./Components/Pages/Product/ProductList/ProductList";
-// import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
-// import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
-// import ServicePolicy from "./Components/Pages/FooterPages/servicePolicy/ServicePolicy";
-// import ExpertAdvice from "./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice";
-// import FunFact from "./Components/Pages/FooterPages/FunFact/FunFact";
-// import Register from "./Components/Pages/Auth/Registretion/Register";
-// import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile";
-// import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
-// import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode";
-// import Wishlist from "./Components/Pages/Wishlist/Wishlist";
-// import PageNotFound from "./Components/Pages/404Page/PageNotFound";
-// import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
-// import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
-// import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
-// import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
-// import Header2 from "./Components/Pages/Home/Header/Header2";
-// import Account from "./Components/Pages/Account/Account";
-// import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
-// import Footer from "./Components/Pages/Home/Footer/Footer";
-// import ProcatAppChatMenu from "./Components/Pages/Home/ChatMenu/ProcatAppChatMenu";
-// import AboutUs from "./Components/Pages/Static/AboutUs/AboutUs";
-// import TermsCondition from "./Components/Pages/Static/TermsPolicy/TermsPolicy";
-// import PrivacyPolicy from "./Components/Pages/Static/PrivacyPolicy/PrivacyPolicy";
-// import AboutUs2 from "./Components/Pages/Static/AboutUs/AboutUs2";
-// import RefundPolicy from "./Components/Pages/Static/RefundPolicy/RefundPolicy";
-// import ShippingPolicy from "./Components/Pages/Static/ShippingPolicy/ShippingPolicy";
-
-const Home = lazy(() => import("./Components/Pages/Home/Index"));
-const Header = lazy(() => import("./Components/Pages/Home/Header/Header"));
-const Cart = lazy(() => import("./Components/Pages/Cart/CartMain"));
-const LoginOption = lazy(() => import("./Components/Pages/Auth/LoginOption/LoginOption"));
-const ContinueWithEmail = lazy(() => import("./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail"));
-const LoginWithEmail = lazy(() => import("./Components/Pages/Auth/LoginWithEmail/LoginWithEmail"));
-const ProductList = lazy(() => import("./Components/Pages/Product/ProductList/ProductList"));
-const ProductDetail = lazy(() => import("./Components/Pages/Product/ProductDetail/ProductDetail"));
-const ContactUs = lazy(() => import("./Components/Pages/FooterPages/contactUs/ContactUs"));
-const ServicePolicy = lazy(() => import("./Components/Pages/FooterPages/servicePolicy/ServicePolicy"));
-const ExpertAdvice = lazy(() => import("./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice"));
-const FunFact = lazy(() => import("./Components/Pages/FooterPages/FunFact/FunFact"));
-const Register = lazy(() => import("./Components/Pages/Auth/Registretion/Register"));
-const ContimueWithMobile = lazy(() => import("./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile"));
-const LoginWithEmailCode = lazy(() => import("./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode"));
-const LoginWithMobileCode = lazy(() => import("./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode"));
-const Wishlist = lazy(() => import("./Components/Pages/Wishlist/Wishlist"));
-const PageNotFound = lazy(() => import("./Components/Pages/404Page/PageNotFound"));
-const Delivery = lazy(() => import("./Components/Pages/OrderFlow/DeliveryPage/Delivery"));
-const Payment = lazy(() => import("./Components/Pages/OrderFlow/PaymentPage/Payment"));
-const Confirmation = lazy(() => import("./Components/Pages/OrderFlow/ConfirmationPage/Confirmation"));
-const ForgotPass = lazy(() => import("./Components/Pages/Auth/forgotPass/ForgotPass"));
-const Header2 = lazy(() => import("./Components/Pages/Home/Header/Header2"));
-const Account = lazy(() => import("./Components/Pages/Account/Account"));
-const Footer = lazy(() => import("./Components/Pages/Home/Footer/Footer"));
-const ProcatAppChatMenu = lazy(() => import("./Components/Pages/Home/ChatMenu/ProcatAppChatMenu"));
-const AboutUs2 = lazy(() => import("./Components/Pages/Static/AboutUs/AboutUs2"));
-const TermsCondition = lazy(() => import("./Components/Pages/Static/TermsPolicy/TermsPolicy"));
-const PrivacyPolicy = lazy(() => import("./Components/Pages/Static/PrivacyPolicy/PrivacyPolicy"));
-const RefundPolicy = lazy(() => import("./Components/Pages/Static/RefundPolicy/RefundPolicy"));
-const ShippingPolicy = lazy(() => import("./Components/Pages/Static/ShippingPolicy/ShippingPolicy"));
 
 
+const ProductList = React.lazy(() => import("./Components/Pages/Product/ProductList/ProductList"));
 
 const Procatalog_App = () => {
   const navigation = useNavigate();
@@ -209,7 +178,6 @@ const Procatalog_App = () => {
 
   return (
     <div className="setFullThemeBack">
-      <Suspense fallback={<></>}>
       {localData?.Headerno === 1 && <Header />}
       {localData?.Headerno === 2 && <Header2 />}
       <ConnectionManager />
@@ -243,7 +211,7 @@ const Procatalog_App = () => {
             path="/"
             element={<ProCat_PrivateRoutes isLoginStatus={islogin} />}
           >
-            <Route path="/p/*" element={<ProductList />} />
+            <Route path="/p/*" element={<Suspense fallback={<></>}><ProductList /></Suspense>} />
             <Route path="/d/*" element={<ProductDetail />} />
             <Route path="/cartPage" element={<Cart />} />
             <Route path="/myWishList" element={<Wishlist />} />
@@ -279,9 +247,8 @@ const Procatalog_App = () => {
           BACK TO TOP
         </p>
       </div>
-      </Suspense>
     </div>
   );
 };
 
-export default Procatalog_App;
+export default memo(Procatalog_App);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './TermsPolicy.scss'
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { getDomainName, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const TermsPolicy = () => {
   const [htmlContent, sethtmlContent] = useState(null);
@@ -9,7 +9,8 @@ const TermsPolicy = () => {
   useEffect(() => {
    const FetchHtml = async()=>{
     try {
-      const res = await   fetch(`${storImagePath()}/html/PrivacyPolicy.html`)
+      const filename = await getDomainName();
+      const res = await   fetch(`${storImagePath()}/html/${filename}/PrivacyPolicy.html`)
       const html = await res.text();
       sethtmlContent(html);
     } catch (error) {

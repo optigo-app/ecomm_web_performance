@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './ShippingPolicy.scss'
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { getDomainName, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 
 export default function ShippingPolicy() {
@@ -102,7 +102,8 @@ export default function ShippingPolicy() {
   useEffect(() => {
    const FetchHtml = async()=>{
     try {
-      const res = await   fetch(`${storImagePath()}/html/ShippingPolicy.html`)
+      const filename = await getDomainName();
+      const res = await   fetch(`${storImagePath()}/html/${filename}/ShippingPolicy.html`)
       const html = await res.text();
       sethtmlContent(html);
     } catch (error) {
