@@ -23,6 +23,11 @@
     padding-top: 15%;
     padding-bottom: 5%;
 
+    @media (max-width: 425px) {
+    margin-inline: 5%;
+      
+    }
+
     @media screen and (max-width: 1700px) {
       padding-top: 18%;
     }
@@ -63,7 +68,7 @@
       font-family: $homePageFontFamily !important;
       font-size: $fontSize3;
       color: $btn1hoverFontColor;
-      background-color: $btn1ActivebgColor;
+      background-color: $backgroundColor;
       border: 1px solid $btn1FontColor;
       border-radius: 0px !important;
       cursor: pointer;
@@ -71,7 +76,7 @@
 
       &:hover {
         color: $btn1hoverFontColor;
-        background-color: $btn1ActivebgColor;
+        background-color: $hoverbackgroundColor;
       }
     }
   }
@@ -142,57 +147,23 @@
     text-transform: capitalize;
   }
 
-  .mala_AddressBtnGroup {
+}
+
+.mala_AddressBtnGroup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (max-width: 425px) {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .mala_AddNewAddrbtn {
-      margin-right: 20px;
-      height: 40px;
-      width: 150px;
-      font-family: $homePageFontFamily !important;
-      font-size: $fontSize3;
-      color: $btn1FontColor;
-      background-color: $btn1bgColor;
-      border: 1px solid $btn1FontColor;
-      border-radius: 0px !important;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s;
-
-      &:hover {
-        color: $btn1hoverFontColor;
-        background-color: $btn1ActivebgColor;
-      }
-    }
+    width: 100%;
+    flex-direction: column;
+    gap: 10px !important;
+    justify-content: center !important;
+    align-items: center !important;
   }
 
-  .mala_dialogTitle {
-    color: $titleColor;
-    font-weight: 500 !important;
-    text-align: center;
-  }
-
-  .mala_AddNewAddrModalbtn {
-    margin-right: 20px;
-    height: 40px;
-    width: 150px;
-    font-family: $homePageFontFamily !important;
-    font-size: $fontSize3;
-    color: $btn1hoverFontColor;
-    background-color: $btn1ActivebgColor;
-    border: 1px solid $btn1FontColor;
-    border-radius: 0px !important;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-
-    &:hover {
-      color: $btn1hoverFontColor;
-      background-color: $btn1ActivebgColor;
-    }
-  }
-
-  .mala_Cancelbtn {
+  .mala_AddNewAddrbtn {
     margin-right: 20px;
     height: 40px;
     width: 150px;
@@ -207,24 +178,84 @@
 
     &:hover {
       color: $btn1hoverFontColor;
-      background-color: $btn1ActivebgColor;
+      background-color: $hoverbackgroundColor;
     }
   }
+}
 
-  .mala_editDeleteBtngroup {
+.mala_dialogTitle {
+  color: $titleColor;
+  font-weight: 500 !important;
+  text-align: center;
+}
+
+.mala_AddNewAddrModalbtn {
+  margin-right: 20px;
+  height: 40px;
+  width: 50%;
+  font-family: $homePageFontFamily !important;
+  font-size: $fontSize3;
+  color: $btn1hoverFontColor;
+  background-color: $backgroundColor;
+  border: 1px solid $btn1FontColor;
+  border-radius: 0px !important;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+
+  @media (max-width: 425px) {
+    width: 90% !important;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-bottom: 10px;
+    margin-right: 0 !important;
+    justify-content: center;
+  }
 
-    .mala_editIcon {
-      font-size: 20px;
-      color: $titleColor;
-    }
+  &:hover {
+    color: $btn1hoverFontColor;
+    background-color: $hoverbackgroundColor;
+  }
+}
 
-    .mala_DeleteIcon {
-      font-size: 20px;
-      color: $titleColor
-    }
+.mala_Cancelbtn {
+  margin-right: 20px;
+  height: 40px;
+  width: 50%;
+  font-family: $homePageFontFamily !important;
+  font-size: $fontSize3;
+  color: #fff;
+  padding: 8px 15px;
+  background-color: $backgroundColor;
+  border: 1px solid $btn1FontColor;
+  border-radius: 0px !important;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+
+  @media (max-width: 425px) {
+    width: 90% !important;
+    display: flex;
+    margin-right: 0 !important;
+    justify-content: center;
+  }
+
+  &:hover {
+    color: #fff;
+    background-color: $hoverbackgroundColor;
+  }
+}
+
+.mala_editDeleteBtngroup {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 10px;
+
+  .mala_editIcon {
+    font-size: 20px;
+    color: $titleColor;
+  }
+
+  .mala_DeleteIcon {
+    font-size: 20px;
+    color: $titleColor
   }
 }

@@ -30,7 +30,8 @@ export default function AboutUs() {
 
     useEffect(() => {
         // fetch(`${storImagePath()}/html/About.html`) c:\Users\User\Downloads\favicon_io (1)\MaioraAbout.html
-        fetch(`${storImagePath()}/html/MaioraAbout.html`)
+        fetch(`${storImagePath()}/html/sonasonsAbout.html`)
+        // fetch(`${storImagePath()}/html/MaioraAbout.html`)
             .then((response) => response.text())
             .then((html) => {
                 setHtmlContent(html);
@@ -43,6 +44,7 @@ export default function AboutUs() {
     return (
         <div className='smr_about_mainDiv'>
             <div className='daimondsEveryAbout'>
+                {/* <Banner /> */}
                 <div className='smr_daimondsEveryAbout_sub' style={{ paddingBottom: '80px', minHeight: '400px' }}>
                 {/* Old sonasons about us */}
                     <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
@@ -106,6 +108,23 @@ export default function AboutUs() {
         </div>
     )
 }
+
+const Banner = ({ title = "About us" }) => {
+    const Image = `url(${storImagePath() + "/images/HomePage/Aboutus/Banner.jpg"
+      })`;
+    return (
+      <>
+        <div
+          className="smr-banner"
+          style={{
+            backgroundImage: Image,
+          }}
+        >
+          {/* <h1>{title}</h1> */}
+        </div>
+      </>
+    );
+  };
 
 
 {/* <div>

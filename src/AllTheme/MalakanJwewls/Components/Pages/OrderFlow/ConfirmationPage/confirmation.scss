@@ -55,7 +55,7 @@
         font-family: $homePageFontFamily !important;
         font-size: $fontSize3;
         color: $btn1hoverFontColor;
-        background-color: $btn1ActivebgColor;
+        background-color: $backgroundColor;
         border: 1px solid $btn1FontColor;
         border-radius: 6px;
         cursor: pointer;
@@ -63,7 +63,7 @@
 
         &:hover {
             color: $btn1hoverFontColor;
-            background-color: $btn1ActivebgColor;
+            background-color: $hoverbackgroundColor;
         }
     }
 

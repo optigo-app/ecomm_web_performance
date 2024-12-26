@@ -153,13 +153,16 @@ const TrendingView1 = () => {
                 <div className="stam_trendingProduct-grid">
                     <div className='smr_leftSideBestTR'>
 
-                        {/* For shinjini */}
-                        <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`}
+                        {/* For shinjini*/}
+                        {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} /> */}
 
-                            // for vara 
-                            // <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trendingBanner.png`}
+                        {/* For sonasons, pacific*/}
+                        <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} />
+
+                        {/* // for vara  */}
+                        {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trendingBanner.png`}
                             alt="Trending Jewellery Collection Banner"
-                        />
+                        /> */}
                     </div>
                     {/* <div className='smr_rightSideTR'> */}
 

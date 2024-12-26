@@ -58,7 +58,7 @@ const VaratermsData = {
 
 const ShinjinitermsData = {
   introduction: {
-    text: "Before using our website located at https://shinjinijewels.com and any associated websites linked to it, please take a moment to read and understand these Terms and Conditions carefully. You accept the below TERMS AND CONDITIONS by using our website."
+    text: "Before using our website located at https://www.shinjinijewels.com and any associated websites linked to it, please take a moment to read and understand these Terms and Conditions carefully. You accept the below TERMS AND CONDITIONS by using our website."
   },
   sections: [
     {
@@ -370,93 +370,250 @@ const SonasonstermsData = {
   }
 }
 
+const Dummydata = {
+  introduction: {
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse euismod justo nec arcu auctor, in cursus nunc faucibus."
+  },
+  sections: [
+    {
+      title: "Product Information",
+      content: [
+        {
+          subtitle: "Product Availability:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla gravida nulla id risus efficitur, eget cursus metus eleifend."
+        },
+        {
+          subtitle: "Product Accuracy:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vehicula eu ligula nec dapibus."
+        }
+      ]
+    },
+    {
+      title: "Ordering and Payment",
+      content: [
+        {
+          subtitle: "Order Placement:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet mauris nec lorem posuere luctus."
+        },
+        {
+          subtitle: "Pricing:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat volutpat."
+        },
+        {
+          subtitle: "Payment Methods:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at nisi nec erat bibendum feugiat."
+        }
+      ]
+    },
+    {
+      title: "Shipping and Delivery",
+      content: [
+        {
+          subtitle: "Shipping Method:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac erat non lectus feugiat tincidunt."
+        },
+        {
+          subtitle: "International Shipping:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet consequat ante, et tempus velit."
+        },
+        {
+          subtitle: "Shipping Costs:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat volutpat."
+        },
+        {
+          subtitle: "Lost or Damaged Items:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec felis ut lectus venenatis facilisis."
+        }
+      ]
+    },
+    {
+      title: "Returns and Exchanges",
+      content: [
+        {
+          subtitle: "Return Policy:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec bibendum, nulla eu tempor sagittis, arcu justo feugiat mi."
+        },
+        {
+          subtitle: "Exchange Policy:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet velit a lorem facilisis convallis."
+        },
+        {
+          subtitle: "Refunds:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer consectetur dui in magna sollicitudin tempor."
+        }
+      ]
+    },
+    {
+      title: "Warranty",
+      content: [
+        {
+          subtitle: "Limited Warranty:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet, nulla eu posuere tempor, eros odio dictum est."
+        },
+        {
+          subtitle: "Exclusions:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut nisl malesuada, cursus sapien et, varius nulla."
+        }
+      ]
+    },
+    {
+      title: "Intellectual Property",
+      content: [
+        {
+          subtitle: "Copyright and Trademarks:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis bibendum nisl libero, et placerat libero suscipit a."
+        },
+        {
+          subtitle: "Product Design:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed suscipit odio nec velit suscipit, ac sodales odio aliquet."
+        }
+      ]
+    },
+    {
+      title: "Customer Responsibilities",
+      content: [
+        {
+          subtitle: "Account Security:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Phasellus vehicula risus eget turpis dictum."
+        },
+        {
+          subtitle: "Accuracy of Information:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mollis feugiat odio ut maximus."
+        }
+      ]
+    },
+    {
+      title: "Privacy and Data Protection",
+      content: [
+        {
+          subtitle: "Personal Data:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at vulputate risus, eu feugiat ligula."
+        },
+        {
+          subtitle: "Third-Party Services:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a metus ac leo fermentum tristique."
+        }
+      ]
+    },
+    {
+      title: "Limitation of Liability",
+      content: [
+        {
+          subtitle: "No Liability for Loss:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat augue sed justo varius, ac vehicula augue tincidunt."
+        },
+        {
+          subtitle: "Limitation of Damages:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam bibendum purus sed felis varius tincidunt."
+        }
+      ]
+    },
+    {
+      title: "Governing Law and Dispute Resolution",
+      content: [
+        {
+          subtitle: "Governing Law:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac ligula sed neque sollicitudin aliquam."
+        },
+        {
+          subtitle: "Dispute Resolution:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed placerat sem at libero iaculis fermentum."
+        }
+      ]
+    }
+  ],
+  conclusion: {
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin in urna vel libero consectetur fringilla. Aenean convallis ante ut lorem sagittis, a fringilla nunc fermentum."
+  }
+};
+
+
 
 export default function TermsAndConditions() {
-  const Shinjini = 2;
+  const Shinjini = 1;
   const termsData = Shinjini === 1 ? ShinjinitermsData : SonasonstermsData;
   return (
-    <div className="shinjini-terms">
-      <Banner />
-      <main className="shinjini-main">
-        <h1 className="shinjini-title">Terms and Conditions</h1>
+    // <div className="shinjini-terms">
+    //   <Banner />
+    //   <main className="shinjini-main">
+    //     <h1 className="shinjini-title">Terms and Conditions</h1>
 
-        <div className="shinjini-content">
-          <p className="shinjini-introduction">{termsData.introduction.text}</p>
-
-          {termsData.sections.map((section, index) => (
-            <section key={index} className="shinjini-section">
-              <h2 className="shinjini-section-title">{section.title}</h2>
-              {section.content.map((item, itemIndex) => (
-                <div key={itemIndex} className="shinjini-section-content">
-                  <h3 className="shinjini-subtitle">{item.subtitle}</h3>
-                  <p className="shinjini-text">{item.text}</p>
-                </div>
-              ))}
-            </section>
-          ))}
-
-          <p className="shinjini-conclusion">{termsData.conclusion.text}</p>
-        </div>
-      </main>
-    </div>
-    // <div className="vaara-terms">
-    //     <Banner/>
-    //   <main className="vaara-main">
-    //     <h1 className="vaara-title">Terms and Conditions</h1>
-
-    //     <div className="vaara-content">
-    //       <p className="vaara-introduction">{termsData.introduction.text}</p>
+    //     <div className="shinjini-content">
+    //       <p className="shinjini-introduction">{termsData.introduction.text}</p>
 
     //       {termsData.sections.map((section, index) => (
-    //         <section key={index} className="vaara-section">
-    //           <h2 className="vaara-section-title">{section.title}</h2>
+    //         <section key={index} className="shinjini-section">
+    //           <h2 className="shinjini-section-title">{section.title}</h2>
     //           {section.content.map((item, itemIndex) => (
-    //             <div key={itemIndex} className="vaara-section-content">
-    //               <h3 className="vaara-subtitle">{item.subtitle}</h3>
-    //               <p className="vaara-text">{item.text}</p>
+    //             <div key={itemIndex} className="shinjini-section-content">
+    //               <h3 className="shinjini-subtitle">{item.subtitle}</h3>
+    //               <p className="shinjini-text">{item.text}</p>
     //             </div>
     //           ))}
     //         </section>
     //       ))}
 
-    //       <p className="vaara-conclusion">{termsData.conclusion.text}</p>
+    //       <p className="shinjini-conclusion">{termsData.conclusion.text}</p>
     //     </div>
     //   </main>
     // </div>
+    <div className="vaara-terms">
+        <Banner/>
+      <main className="vaara-main">
+        <h1 className="vaara-title">Terms and Conditions</h1>
+
+        <div className="vaara-content">
+          <p className="vaara-introduction">{termsData.introduction.text}</p>
+
+          {termsData.sections.map((section, index) => (
+            <section key={index} className="vaara-section">
+              <h2 className="vaara-section-title">{section.title}</h2>
+              {section.content.map((item, itemIndex) => (
+                <div key={itemIndex} className="vaara-section-content">
+                  <h3 className="vaara-subtitle">{item.subtitle}</h3>
+                  <p className="vaara-text">{item.text}</p>
+                </div>
+              ))}
+            </section>
+          ))}
+
+          <p className="vaara-conclusion">{termsData.conclusion.text}</p>
+        </div>
+      </main>
+    </div>
   )
 }
 
 
-const Banner = ({ title = "Terms and Conditions" }) => {
-  const Image = `url(${storImagePath() + "/images/HomePage/Terms/Banner.jpg"
-    })`;
-  return (
-    <>
-      <div
-        className="shinjini-banner"
-        style={{
-          backgroundImage: Image,
-        }}
-      >
-        <h1>{title}</h1>
-      </div>
-    </>
-  );
-};
 // const Banner = ({ title = "Terms and Conditions" }) => {
-//     const Image = `url(${
-//       storImagePath() + "/images/1tnc.png"
-//     })`;
-//     return (
-//       <>
-//         <div
-//           className="vaara-banner"
-//           style={{
-//             backgroundImage: Image,
-//           }}
-//         >
-//           <h1>{title}</h1>
-//         </div>
-//       </>
-//     );
-//   };
+//   const Image = `url(${storImagePath() + "/images/HomePage/Terms/Banner.jpg"})`;
+//   return (
+//     <>
+//       <div
+//         className="shinjini-banner"
+//         style={{
+//           backgroundImage: Image,
+//         }}
+//       >
+//         <h1>{title}</h1>
+//       </div>
+//     </>
+//   );
+// };
+const Banner = ({ title = "Terms and Conditions" }) => {
+    const Image = `url(${
+      storImagePath() + "/images/1tnc.png"
+    })`;
+    return (
+      <>
+        <div
+          className="vaara-banner"
+          style={{
+            backgroundImage: Image,
+          }}
+        >
+          <h1>{title}</h1>
+        </div>
+      </>
+    );
+  };

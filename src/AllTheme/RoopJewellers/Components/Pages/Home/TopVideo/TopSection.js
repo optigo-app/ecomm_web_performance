@@ -80,9 +80,9 @@ const TopSection = () => {
 
 
         {/* for shinjini */}
-        {/* < div className="slide">
+        < div className="slide">
           <img src={`${storImagePath()}/images/HomePage/TopSection/home1.jpg`} alt={"TopBanner"} />
-        </div> */}
+        </div>
 
         {/* Sonasons */}
         {/* <video
@@ -103,15 +103,14 @@ const TopSection = () => {
         </video> */}
 
         {/* {localData?.Blockno === 3 && ( */}
-          <div id="top-banner-image-rp">
-            <img
-              src={`${storImagePath()}/images/HomePage/Banner/3.jpg`}
-              alt="Top banner image showcasing our latest promotions"
-              style={{ width: "100%" }}
-              loading="lazy"
-            />
-          </div>
-        {/* )} */}
+        {/* <div id="top-banner-image-rp">
+          <img
+            src={`${storImagePath()}/images/HomePage/Banner/3.jpg`}
+            alt="Top banner image showcasing our latest promotions"
+            style={{ width: "100%" }}
+            loading="lazy"
+          />
+        </div> */}
 
       </div>
     </div>

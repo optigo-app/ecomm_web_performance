@@ -38,7 +38,7 @@ const Footer = ({ fromPage }) => {
             {/* For vara */}
             {/* <p className='footerMoreOptionData' style={{textTransform:'uppercase'}} onClick={() => { navigation('/managementTeam'); window.scrollTo(0, 0); }}>Management Team</p> */}
 
-            {/* For sonasons and shinjini */}
+            {/* For sonasons ,shinjini, Pacific */}
             <p className='footerMoreOptionData' style={{ textTransform: 'uppercase' }} onClick={() => { navigation('/privacyPolicy'); window.scrollTo(0, 0); }}>Privacy Policy</p>
 
             <p className='footerMoreOptionData' style={{
@@ -52,7 +52,13 @@ const Footer = ({ fromPage }) => {
               fontSize: '12px',
               fontWeight: 500,
               marginInline: '0'
-            }}>© 2024, Sonasons</p>
+            }}>© 2024, Shinjini Jewels</p>
+
+              {/*  pacific diamonds */}
+            {/* }}>© 2024, Pacific Diamonds</p> */}
+
+            {/* For Vara */}
+            {/* }}>© 2024, Varajewels</p> */}
 
             {/* For shinjini */}
             {/* }}>© 2024, Shinjini</p> */}

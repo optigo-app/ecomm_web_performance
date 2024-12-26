@@ -115,27 +115,27 @@ export default function PrivacyPolicy() {
         <div className='smr_about_mainDiv'>
             <div className='daimondsEveryAbout'>
                 <div className='smr_daimondsEveryAbout_sub' style={{ paddingBottom: '80px', minHeight: '400px' }}>
-                    <div className="shinjini-terms">
+                    <div className="smrPr-terms">
                         {/* <Banner /> */}
-                        <main className="shinjini-main">
-                            <h1 className="shinjini-title">Privacy Policy</h1>
+                        <main className="smrPr-main">
+                            <h1 className="smrPr-title">Privacy Policy</h1>
 
-                            <div className="shinjini-content">
-                                <p className="shinjini-introduction">{privacyData.introduction.text}</p>
+                            <div className="smrPr-content">
+                                <p className="smrPr-introduction">{privacyData.introduction.text}</p>
 
                                 {privacyData.sections.map((section, index) => (
-                                    <section key={index} className="shinjini-section">
-                                        <h2 className="shinjini-section-title">{section.title}</h2>
+                                    <section key={index} className="smrPr-section">
+                                        <h2 className="smrPr-section-title">{section.title}</h2>
                                         {section.content.map((item, itemIndex) => (
-                                            <div key={itemIndex} className="shinjini-section-content">
-                                                <h3 className="shinjini-subtitle">{item.subtitle}</h3>
-                                                <p className="shinjini-text">{item.text}</p>
+                                            <div key={itemIndex} className="smrPr-section-content">
+                                                <h3 className="smrPr-subtitle">{item.subtitle}</h3>
+                                                <p className="smrPr-text">{item.text}</p>
                                             </div>
                                         ))}
                                     </section>
                                 ))}
 
-                                <p className="shinjini-conclusion">{privacyData.conclusion.text}</p>
+                                <p className="smrPr-conclusion">{privacyData.conclusion.text}</p>
                             </div>
                         </main>
                     </div>
@@ -159,7 +159,7 @@ const Banner = ({ title = "Privacy Policy" }) => {
     return (
         <>
             <div
-                className="shinjini-banner"
+                className="smrPr-banner"
                 style={{
                     backgroundImage: Image,
                 }}

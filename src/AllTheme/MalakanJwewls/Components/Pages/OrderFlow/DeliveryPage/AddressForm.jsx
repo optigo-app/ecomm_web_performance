@@ -122,24 +122,24 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                     }}
                     >
                     <button type='submit'
-                    style={{
-                        border:"1px solid transparent",
-                        padding:"8px 15px",
-                        background:"#17372F",
-                        color:"#fff",
-                        borderRadius:"4px",
-                        flex:"1"
-                    }}
+                    // style={{
+                    //     border:"1px solid transparent",
+                    //     padding:"8px 15px",
+                    //     background:"#17372F",
+                    //     color:"#fff",
+                    //     borderRadius:"4px",
+                    //     flex:"1"
+                    // }}
                     className='mala_AddNewAddrModalbtn'>{isEditMode ? 'Save Changes' : 'Add Address'}</button>
                     <button type='button'
-                    style={{
-                        border:"1px solid black",
-                        padding:"8px 15px",
-                        background:"#fff",
-                        color:"black",
-                        borderRadius:"4px",
-                        flex:"1"
-                    }}
+                    // style={{
+                    //     border:"1px solid black",
+                    //     padding:"8px 15px",
+                    //     background:"#fff",
+                    //     color:"black",
+                    //     borderRadius:"4px",
+                    //     flex:"1"
+                    // }}
                     className='mala_Cancelbtn' onClick={handleCancel}>Cancel</button>
                     </div>
                 </DialogActions>

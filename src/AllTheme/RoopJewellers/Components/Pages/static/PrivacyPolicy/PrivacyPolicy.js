@@ -211,9 +211,115 @@ const SonasonsprivacyData = {
     }
 };
 
+const Dummydata = {
+    introduction: {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque aliquet, lorem a auctor iaculis, purus ipsum interdum lectus, sit amet tincidunt felis sapien ac ipsum."
+    },
+    sections: [
+        {
+            title: "Information We Collect",
+            content: [
+                {
+                    subtitle: "Personal Identification Information:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fringilla quam ut dolor pretium, id aliquam odio vestibulum."
+                },
+                {
+                    subtitle: "Usage Data:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in malesuada enim, a bibendum leo. Curabitur vitae neque magna."
+                },
+                {
+                    subtitle: "Cookies and Tracking Technologies:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus sapien vel ex ullamcorper, at tempus mauris convallis."
+                }
+            ]
+        },
+        {
+            title: "How We Use Your Information",
+            content: [
+                {
+                    subtitle: "Order Processing:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nec justo vel orci pretium vehicula ac non odio."
+                },
+                {
+                    subtitle: "Customer Service:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut maximus malesuada velit, non mollis ligula varius eget."
+                },
+                {
+                    subtitle: "Marketing Communications:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Sed dapibus justo nec elit lacinia, nec dignissim enim interdum."
+                },
+                {
+                    subtitle: "Website Improvement:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nec libero at libero varius laoreet at id arcu."
+                }
+            ]
+        },
+        {
+            title: "Data Protection and Security",
+            content: [
+                {
+                    subtitle: "How We Protect Your Data:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus consectetur orci eu arcu egestas, nec sollicitudin nulla vulputate."
+                },
+                {
+                    subtitle: "Data Sharing:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean gravida orci et mauris ultricies, at facilisis orci bibendum."
+                }
+            ]
+        },
+        {
+            title: "Your Rights",
+            content: [
+                {
+                    subtitle: "Access and Correction:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum libero eu purus fermentum, ac tempus nisl volutpat."
+                },
+                {
+                    subtitle: "Opt-out of Marketing Communications:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam at quam vel velit lobortis feugiat id a ante."
+                },
+                {
+                    subtitle: "Data Deletion:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat volutpat. Nunc vitae ipsum sit amet odio tempor gravida."
+                }
+            ]
+        },
+        {
+            title: "Cookies and Tracking Technologies",
+            content: [
+                {
+                    subtitle: "Cookies:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ut est vel nunc condimentum laoreet et at urna."
+                },
+                {
+                    subtitle: "Other Tracking Technologies:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac orci suscipit, tincidunt ante ac, pretium sapien."
+                }
+            ]
+        },
+        {
+            title: "Changes to This Privacy Policy",
+            content: [
+                {
+                    subtitle: "Policy Updates:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue erat sed velit tempor, id feugiat urna iaculis."
+                },
+                {
+                    subtitle: "Continued Use:",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce scelerisque sem non nisi condimentum, et hendrerit libero pretium."
+                }
+            ]
+        }
+    ],
+    conclusion: {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat volutpat. Morbi euismod venenatis sapien, ac feugiat urna fringilla ac."
+    }
+};
+
+
 
 export default function PrivacyPolicy() {
-    const Shinjini = 2;
+    const Shinjini = 1;
     const privacyData = Shinjini === 1 ? ShinjiniprivacyData : SonasonsprivacyData
     return (
         <div className="shinjini-terms">

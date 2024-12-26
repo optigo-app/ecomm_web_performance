@@ -238,7 +238,7 @@ export default function ChangePassword() {
                         }}
                     />
 
-                    <button className='ForgotPassBtn' onClick={handleSubmit}>Change Password</button>
+                    <button className='roop_ForgotPassBtn' onClick={handleSubmit}>Change Password</button>
                 </div>
             </div>
 

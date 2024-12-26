@@ -42,8 +42,12 @@ import Wrapper from "./Components/Pages/Home/Appointment/Wrapper";
 import { TermsData } from "./Components/Pages/FooterPages/TermsPolicy/Terms";
 import PrivacyPolicy from "./Components/Pages/FooterPages/PrivacyPolicy/PrivacyPolicy";
 import TermsAndConditions from "./Components/Pages/FooterPages/TermsPage/TermsPage";
+import usePromotionalBanner from "./Components/hook/usePromotionBanner";
+import PromotionalBanner from "./Components/Pages/Home/PromotionBanner/PromotionBanner";
 
 const SmilingRock_App = () => {
+  const { openPromotionalBanner, handleCloseBanner } =
+    usePromotionalBanner();
   const islogin = useRecoilValue(smr_loginState);
   const navigation = useNavigate();
   const setIsLoginState = useSetRecoilState(smr_loginState);
@@ -156,10 +160,10 @@ const SmilingRock_App = () => {
     }
   }
 
-  
+
   // useEffect(() => {
   //   const cookieValue = Cookies.get("userLoginCookie");
-  
+
   //   // Check if user is not logged in and there's a cookie value to log in
   //   if (cookieValue && islogin === false) {
   //     LoginWithEmailAPI("", "", "", "", cookieValue)
@@ -170,7 +174,7 @@ const SmilingRock_App = () => {
   //           setIsLoginState(true); // Update the login state
   //           sessionStorage.setItem("LoginUser", true);
   //           sessionStorage.setItem("loginUserDetail", JSON.stringify(response.Data.rd[0]));
-            
+
   //           // Redirect based on user intention or path before login
   //           if (redirectEmailUrl) {
   //             navigation(redirectEmailUrl);
@@ -187,14 +191,14 @@ const SmilingRock_App = () => {
   //       })
   //       .catch((err) => console.log(err));
   //   }
-  
+
   //   // Save the current URL before login if it's not the home page
   //   if (!islogin) {
   //     if (location.pathname !== "/") {
   //       sessionStorage.setItem("previousUrl", location.pathname);
   //     }
   //   }
-  
+
   //   // Set local data from session storage
   //   let localD = JSON.parse(sessionStorage.getItem("storeInit"));
   //   setLocalData(localD);
@@ -223,6 +227,9 @@ const SmilingRock_App = () => {
       <Helmet>
         {/* <title>{localData?.BrowserTitle}</title> */}
       </Helmet>
+      {openPromotionalBanner && (
+        <PromotionalBanner onClose={handleCloseBanner} />
+      )}
       {!location.pathname.startsWith('/accountdwsr') && <div>
         {localData?.Headerno == 1 && <Header />}
         {localData?.Headerno == 2 && <Header2 />}
@@ -324,14 +331,14 @@ const SmilingRock_App = () => {
         <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
           <Route path="/p/*" element={<ProductList />} />
           <Route path="/d/*" element={<ProductDetail />} />
-          <Route path="/cartPage" element={<Cart />} /> 
-          <Route path="/myWishList" element={<Wishlist />} /> 
-          <Route path="/Delivery" element={<Delivery />} /> 
-          <Route path="/Payment" element={<Payment />} /> 
-          <Route path="/Confirmation" element={<Confirmation />} /> 
-          <Route path="/account" element={<Account />} /> 
-          {/* <Route path="/accountdwsr" element={<DWSRprintComp />} /> */} 
-        </Route> 
+          <Route path="/cartPage" element={<Cart />} />
+          <Route path="/myWishList" element={<Wishlist />} />
+          <Route path="/Delivery" element={<Delivery />} />
+          <Route path="/Payment" element={<Payment />} />
+          <Route path="/Confirmation" element={<Confirmation />} />
+          <Route path="/account" element={<Account />} />
+          {/* <Route path="/accountdwsr" element={<DWSRprintComp />} /> */}
+        </Route>
         <Route path="/accountdwsr" element={<DWSRprintComp />} />
         <Route path="/Lookbook" element={<Lookbook />} />
         <Route path="/paymentFailure" element={<PaymentFailure />} />
