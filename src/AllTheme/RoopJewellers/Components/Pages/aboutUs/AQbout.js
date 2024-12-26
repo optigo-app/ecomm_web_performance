@@ -141,8 +141,78 @@ const SonasonsAbout = {
   }
 };
 
+const Dummydata = {
+  introduction: {
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed volutpat ligula ut erat vehicula, in pretium nunc interdum. Cras eget risus non odio efficitur bibendum sit amet sed orci."
+  },
+  sections: [
+    {
+      title: "Our Story",
+      content: [
+        {
+          subtitle: "The Beginning:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus venenatis dui ac ante placerat, at aliquam libero pretium. Nulla facilisi. Cras non orci sed libero iaculis scelerisque."
+        },
+        {
+          subtitle: "Our Reputation:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec facilisis mauris, ac consequat neque. Nunc bibendum, magna ac dictum malesuada, ex metus pretium nunc, at consectetur ante eros ac urna."
+        }
+      ]
+    },
+    {
+      title: "Our Vision",
+      content: [
+        {
+          subtitle: "Our Goal:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In euismod, ipsum in fermentum cursus, erat augue pretium lectus, id tincidunt lorem felis sed ante."
+        }
+      ]
+    },
+    {
+      title: "Our Craftsmanship",
+      content: [
+        {
+          subtitle: "Meticulous Crafting:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer facilisis tempor lectus at posuere. Ut ac felis id augue vulputate luctus ac sed risus."
+        }
+      ]
+    },
+    {
+      title: "Sustainability and Ethics",
+      content: [
+        {
+          subtitle: "Our Commitment:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis purus ut risus varius, sit amet tincidunt erat tristique. Cras eleifend ligula at malesuada maximus."
+        }
+      ]
+    },
+    {
+      title: "Why Choose Us?",
+      content: [
+        {
+          subtitle: "What Sets Us Apart:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet libero ac ligula scelerisque convallis. Vivamus egestas justo sed libero pellentesque, a mollis sem dignissim."
+        }
+      ]
+    },
+    {
+      title: "Join the Sonasons Jewels Family",
+      content: [
+        {
+          subtitle: "Explore Our Collections:",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at libero ante. Sed interdum odio in leo tempus, id tincidunt orci laoreet."
+        }
+      ]
+    }
+  ],
+  conclusion: {
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tincidunt nulla at leo feugiat convallis. Curabitur vitae risus nisl."
+  }
+};
+
+
 export default function AXboutUs() {
-  const Shinjini = 2;
+  const Shinjini = 1;
   const aboutData = Shinjini === 1 ? ShinjiniAbout : SonasonsAbout
   return (
     // sonasons changes

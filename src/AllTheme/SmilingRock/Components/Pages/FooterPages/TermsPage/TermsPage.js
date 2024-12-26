@@ -167,27 +167,27 @@ export default function TermsAndConditions() {
     <div className='smr_about_mainDiv'>
       <div className='daimondsEveryAbout'>
         <div className='smr_daimondsEveryAbout_sub' style={{ paddingBottom: '80px', minHeight: '400px' }}>
-          <div className="shinjini-terms">
+          <div className="smr-terms">
             {/* <Banner /> */}
-            <main className="shinjini-main">
-              <h1 className="shinjini-title">Terms and Conditions</h1>
+            <main className="smr-main">
+              <h1 className="smr-title">Terms and Conditions</h1>
 
-              <div className="shinjini-content">
-                <p className="shinjini-introduction">{termsData.introduction.text}</p>
+              <div className="smr-content">
+                <p className="smr-introduction">{termsData.introduction.text}</p>
 
                 {termsData.sections.map((section, index) => (
-                  <section key={index} className="shinjini-section">
-                    <h2 className="shinjini-section-title">{section.title}</h2>
+                  <section key={index} className="smr-section">
+                    <h2 className="smr-section-title">{section.title}</h2>
                     {section.content.map((item, itemIndex) => (
-                      <div key={itemIndex} className="shinjini-section-content">
-                        <h3 className="shinjini-subtitle">{item.subtitle}</h3>
-                        <p className="shinjini-text">{item.text}</p>
+                      <div key={itemIndex} className="smr-section-content">
+                        <h3 className="smr-subtitle">{item.subtitle}</h3>
+                        <p className="smr-text">{item.text}</p>
                       </div>
                     ))}
                   </section>
                 ))}
 
-                <p className="shinjini-conclusion">{termsData.conclusion.text}</p>
+                <p className="smr-conclusion">{termsData.conclusion.text}</p>
               </div>
             </main>
           </div>

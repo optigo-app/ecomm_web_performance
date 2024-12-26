@@ -1127,21 +1127,21 @@ const Lookbook = () => {
                 className="mala_lookBookMobileFilter"
                 onClick={() => setIsShowFilter(!isShowfilter)}
               />
-              {isCategoryPresent && <HtmlTooltip
+              {/* {isCategoryPresent && <HtmlTooltip
                 title={<CustomTooltipContent categories={selectedCategories} />}
-              >
+              > */}
                 <button
                   onClick={handleOpen}
                   className="mala_lookBookSelectViewBtn"
                   style={{
-                    background: selectedCategories.length !== 0 ? "#7d7f85" : "#ffff",
-                    color: selectedCategories.length !== 0 ? "#fff" : "#7d7f85",
+                    background: selectedCategories.length !== 0 ? "#17372F" : "#ffff",
+                    color: selectedCategories.length !== 0 ? "#fff" : "#17372F",
                     marginRight: '20px'
                   }}
                 >
                   Set View
                 </button>
-              </HtmlTooltip>}
+              {/* </HtmlTooltip>} */}
               <div className="lb-switch-field">
                 <input
                   type="radio"
