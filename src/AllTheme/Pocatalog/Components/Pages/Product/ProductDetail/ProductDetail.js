@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import "./Productdetail.scss";
 import Footer from "../../Home/Footer/Footer";
 import { useAsyncError, useLocation, useNavigate } from "react-router-dom";
@@ -3223,7 +3223,7 @@ const ProductDetail = () => {
   );
 };
 
-export default ProductDetail;
+export default memo(ProductDetail);
 
 
 

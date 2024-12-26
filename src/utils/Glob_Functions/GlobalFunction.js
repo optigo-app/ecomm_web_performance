@@ -1,13 +1,32 @@
 export function storImagePath() {
-  let statiPath = `${window?.location?.protocol}//${(window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.pro' : window.location.hostname}`
+  let statiPath = `${window?.location?.protocol}//${(window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.web' : window.location.hostname}`
   return `${statiPath}/WebSiteStaticImage`
   // return `${statiPath}/Website_Store/WebSiteStaticImage`
   // return `${storeinit?.UploadLogicalPath}/${storeinit?.ukey}/${storeinit?.ufcc}`
 }
 
+export const getDomainName = async () => {
+  try {
+    const { hostname } = window.location;
+    if (!hostname) {
+      throw new Error("Hostname is not available.");
+    }
+    const domainMap = {
+      'almacarino.procatalog.in': 'almacarino',
+      'localhost': 'default',
+    };
+    return domainMap[hostname] || 'default';
+  } catch (error) {
+    console.error('Error in getDomainName:', error);
+    return 'default';
+  }
+};
+
+
+
 export function storInitDataPath() {
   let hostName = (window.location.hostname === 'localhost' || window.location.hostname === 'zen')
-    ? 'fgstore.pro'
+    ? 'fgstore.web'
     : window.location.hostname;
   if (hostName.startsWith('www.')) {
     hostName = hostName.substring(4);

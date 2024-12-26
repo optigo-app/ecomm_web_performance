@@ -158,7 +158,7 @@ const Footer = ({ fromPage }) => {
               )}
               <div className="footerIconMain new-link-proc">
                 <NavLink to={"terms-and-conditions"}>Terms and Condition</NavLink>
-                <NavLink to={"privacy-policy"}>Privacy and Policy</NavLink>
+                <NavLink to={"privacy-policy"}>Privacy Policy</NavLink>
                 <NavLink to={"aboutUs"}>About Us</NavLink>
                 <NavLink to={"refund-policy"}>Refund  Policy</NavLink>
                 <NavLink to={"shipping-policy"}>Shipping Policy</NavLink>

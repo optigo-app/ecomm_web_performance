@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './AboutUs2.scss'
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { getDomainName, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { useLocation } from 'react-router-dom';
 
 const AboutUs2 = () => {
   const [htmlContent, sethtmlContent] = useState(null);
 
-
   useEffect(() => {
    const FetchHtml = async()=>{
     try {
-      const res = await   fetch(`${storImagePath()}/html/aboutUs.html`)
+      const filename = await getDomainName();
+      const res = await   fetch(`${storImagePath()}/html/${filename}/aboutUs.html`)
       const html = await res.text();
       sethtmlContent(html);
     } catch (error) {
@@ -18,6 +19,7 @@ const AboutUs2 = () => {
    }
    FetchHtml();
   }, [htmlContent])
+  
   
   return (
     <div className='procatalog_wra_About'>

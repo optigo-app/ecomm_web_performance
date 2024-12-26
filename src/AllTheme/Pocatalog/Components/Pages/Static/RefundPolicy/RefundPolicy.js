@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './RefundPolicy.scss'
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { getDomainName, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 
 export default function RefundPolicy() {
@@ -12,7 +12,8 @@ export default function RefundPolicy() {
   useEffect(() => {
    const FetchHtml = async()=>{
     try {
-      const res = await   fetch(`${storImagePath()}/html/refundpolicy.html`)
+     const filename = await getDomainName();
+      const res = await   fetch(`${storImagePath()}/html/${filename}/refundpolicy.html`)
       const html = await res.text();
       sethtmlContent(html);
     } catch (error) {
