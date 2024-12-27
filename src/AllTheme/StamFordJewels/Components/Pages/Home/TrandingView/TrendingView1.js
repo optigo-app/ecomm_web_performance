@@ -167,23 +167,23 @@ const TrendingView1 = () => {
                         breakpoints={{
                             1200: {
                                 slidesPerView: 5,
-                                spaceBetween: 15
+                                spaceBetween: 10
                             },
                             768: {
                                 slidesPerView: 4,
-                                spaceBetween: 20
+                                spaceBetween: 5
                             },
                             500: {
                                 slidesPerView: 3,
-                                spaceBetween: 10
+                                spaceBetween: 5
                             },
                             400: {
                                 slidesPerView: 2,
-                                spaceBetween: 10
+                                spaceBetween: 5
                             },
                             0: {
                                 slidesPerView: 1,
-                                spaceBetween: 10
+                                spaceBetween: 5
                             },
                         }}
                         className='stam_trend_main_swiper'
@@ -209,41 +209,43 @@ const TrendingView1 = () => {
                                         <p className="stam_trend_Div_name">{item?.name}</p>
                                         <div className="product-info">
                                             <h3>{item?.designno} {item?.TitleLine && " - "} {item?.TitleLine != "" && item?.TitleLine}</h3>
-                                            {storeInit?.IsGrossWeight == 1 &&
-                                                <>
-                                                    <span className='stam_btdetailDT'>GWT: </span>
-                                                    <span className='stam_btdetailDT'>{(item?.Gwt || 0)?.toFixed(3)}</span>
-                                                </>
-                                            }
-                                            {Number(item?.Nwt) !== 0 && (
-                                                <>
-                                                    <span className='stam_btpipe'>|</span>
-                                                    <span className='stam_btdetailDT'>NWT : </span>
-                                                    <span className='stam_btdetailDT'>{(item?.Nwt || 0)?.toFixed(3)}</span>
-                                                </>
-                                            )}
-                                            {storeInit?.IsDiamondWeight == 1 &&
-                                                <>
-                                                    {(item?.Dwt != "0" || item?.Dpcs != "0") &&
-                                                        <>
-                                                            <span className='stam_btpipe'>|</span>
-                                                            <span className='stam_btdetailDT'>DWT: </span>
-                                                            <span className='stam_btdetailDT'>{(item?.Dwt || 0)?.toFixed(3)}/{(item?.Dpcs || 0)}</span>
-                                                        </>
-                                                    }
-                                                </>
-                                            }
-                                            {storeInit?.IsStoneWeight == 1 &&
-                                                <>
-                                                    {(item?.CSwt != "0" || item?.CSpcs != "0") &&
-                                                        <>
-                                                            <span className='stam_btpipe'>|</span>
-                                                            <span className='stam_btdetailDT'>CWT: </span>
-                                                            <span className='stam_btdetailDT'>{(item?.CSwt || 0)?.toFixed(3)}/{(item?.CSpcs || 0)}</span>
-                                                        </>
-                                                    }
-                                                </>
-                                            }
+                                            <div className='prod_info_data'>
+                                                {storeInit?.IsGrossWeight == 1 &&
+                                                    <>
+                                                        <span className='stam_btdetailDT'>GWT: </span>
+                                                        <span className='stam_btdetailDT'>{(item?.Gwt || 0)?.toFixed(3)}</span>
+                                                    </>
+                                                }
+                                                {Number(item?.Nwt) !== 0 && (
+                                                    <>
+                                                        <span className='stam_btpipe'>|</span>
+                                                        <span className='stam_btdetailDT'>NWT : </span>
+                                                        <span className='stam_btdetailDT'>{(item?.Nwt || 0)?.toFixed(3)}</span>
+                                                    </>
+                                                )}
+                                                {storeInit?.IsDiamondWeight == 1 &&
+                                                    <>
+                                                        {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                                                            <>
+                                                                <span className='stam_btpipe'>|</span>
+                                                                <span className='stam_btdetailDT'>DWT: </span>
+                                                                <span className='stam_btdetailDT'>{(item?.Dwt || 0)?.toFixed(3)}/{(item?.Dpcs || 0)}</span>
+                                                            </>
+                                                        }
+                                                    </>
+                                                }
+                                                {storeInit?.IsStoneWeight == 1 &&
+                                                    <>
+                                                        {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                                                            <>
+                                                                <span className='stam_btpipe'>|</span>
+                                                                <span className='stam_btdetailDT'>CWT: </span>
+                                                                <span className='stam_btdetailDT'>{(item?.CSwt || 0)?.toFixed(3)}/{(item?.CSpcs || 0)}</span>
+                                                            </>
+                                                        }
+                                                    </>
+                                                }
+                                            </div>
                                             <p>
                                                 <span className="stam_currencyFont">
                                                     {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}

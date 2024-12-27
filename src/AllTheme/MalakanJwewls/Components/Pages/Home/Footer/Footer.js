@@ -14,7 +14,7 @@ const Footer = ({ fromPage }) => {
   const compnyLogo = useRecoilValue(mala_companyLogo);
   const [companyInfoData, setcompanyInfoData] = useState(null);
   // let footerLogo = `${storImagePath()}/images/HomePage/sdj.png`;
-  let footerLogo = `${storImagePath()}/images/HomePage/sonasons1.png`;
+  let footerLogo = `${storImagePath()}/logoIcon/webLogo.png`;
 
   useEffect(() => {
     const localD = JSON.parse(sessionStorage?.getItem("storeInit"));

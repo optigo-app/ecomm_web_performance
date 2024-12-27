@@ -61,7 +61,6 @@ const ProductDetail = () => {
   const [pdThumbImg, setPdThumbImg] = useState([]);
   const [isImageload, setIsImageLoad] = useState(true);
   const [selectedThumbImg, setSelectedThumbImg] = useState()
-  console.log('selectedThumbImg: ', selectedThumbImg);
   const [decodeUrl, setDecodeUrl] = useState({});
   // const [finalprice, setFinalprice] = useState(0);
   const [addToCartFlag, setAddToCartFlag] = useState(null);
@@ -90,7 +89,6 @@ const ProductDetail = () => {
 
   const [pdVideoArr, setPdVideoArr] = useState([]);
   const [ImagePromise, setImagePromise] = useState(true);
-  console.log('ImagePromise: ', ImagePromise);
 
 
   // console.log("SizeCombo",SizeCombo);
@@ -159,47 +157,54 @@ const ProductDetail = () => {
     setAddToCartFlag(isincart);
   }, [singleProd]);
 
-  const handleCart = async (cartflag) => {
-    const metal =
-      metalTypeCombo?.find((ele) => {
-        return ele?.metaltype == selectMtType
-      }) ?? metalTypeCombo;
+  const handleCart = (cartflag) => {
+    let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+    let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    const dia =
-      diaQcCombo?.find((ele) => {
-        return ele?.Quality == selectDiaQc.split(",")[0] &&
-          ele?.color == selectDiaQc.split(",")[1]
-      }) ?? diaQcCombo;
+    let metal = metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType);
+    let dia = diaQcCombo?.filter(
+      (ele) =>
+        ele?.Quality == selectDiaQc.split(",")[0] &&
+        ele?.color == selectDiaQc.split(",")[1]
+    );
+    let cs = csQcCombo?.filter(
+      (ele) =>
+        ele?.Quality == selectCsQc.split(",")[0] &&
+        ele?.color == selectCsQc.split(",")[1]
+    );
 
-    const cs =
-      csQcCombo?.find((ele) => {
-        return ele?.Quality == selectCsQc.split(",")[0] &&
-          ele?.color == selectCsQc.split(",")[1]
-      }) ?? csQcCombo;
-
-    let mcArr = metalColorCombo?.filter(
-      (ele) => {
-        if (selectMtColor) {
-          return ele?.colorcode == selectMtColor
-        }
-        else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
-      })[0];
+    let mcArr = metalColorCombo?.filter((ele) => {
+      if (selectMtColor) {
+        return ele?.colorcode == selectMtColor;
+      } else {
+        return (
+          ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
+        );
+      }
+    })[0];
 
     let prodObj = {
       autocode: singleProd?.autocode,
-      Metalid: metal?.Metalid,
+      Metalid: metal?.length
+        ? metal[0]?.Metalid
+        : logininfoInside?.MetalId ?? storeinitInside?.MetalId,
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId ?? 0},${dia?.ColorId ?? 0}`,
-      CsQCid: `${cs?.QualityId ?? 0},${cs?.ColorId ?? 0}`,
+      DiaQCid: dia?.length
+        ? `${dia[0]?.QualityId},${dia[0]?.ColorId}`
+        : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+      CsQCid: cs?.length
+        ? `${cs[0]?.QualityId},${cs[0]?.ColorId}`
+        : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
-      UnitCostWithmarkup: singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
+      UnitCostWithmarkup:
+        singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
       Remark: "",
     };
 
     if (cartflag) {
-      await CartAndWishListAPI("Cart", prodObj, cookie)
+      CartAndWishListAPI("Cart", prodObj, cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
           let wishC = res?.Data?.rd[0]?.Wishlistcount;
@@ -208,11 +213,10 @@ const ProductDetail = () => {
         })
         .catch((err) => console.log("err", err))
         .finally(() => {
-          // console.log("addtocart re", cartflag);
           setAddToCartFlag(cartflag);
         });
     } else {
-      await RemoveCartAndWishAPI("Cart", singleProd?.autocode, cookie)
+      RemoveCartAndWishAPI("Cart", singleProd?.autocode, cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
           let wishC = res?.Data?.rd[0]?.Wishlistcount;
@@ -221,7 +225,6 @@ const ProductDetail = () => {
         })
         .catch((err) => console.log("err", err))
         .finally(() => {
-          // console.log("rremovve add", cartflag);
           setAddToCartFlag(cartflag);
         });
     }
@@ -230,40 +233,56 @@ const ProductDetail = () => {
   const handleWishList = (e, ele) => {
     setWishListFlag(e?.target?.checked);
 
-    let metal =
-      metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)[0] ??
-      metalTypeCombo[0];
-    let dia =
-      diaQcCombo?.filter(
-        (ele) =>
-          ele?.Quality == selectDiaQc.split(",")[0] &&
-          ele?.color == selectDiaQc.split(",")[1]
-      )[0] ?? diaQcCombo[0];
-    let cs =
-      csQcCombo?.filter(
-        (ele) =>
-          ele?.Quality == selectCsQc.split(",")[0] &&
-          ele?.color == selectCsQc.split(",")[1]
-      )[0] ?? csQcCombo[0];
+    let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+    let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    let mcArr = metalColorCombo?.filter(
-      (ele) => {
-        if (selectMtColor) {
-          return ele?.colorcode == selectMtColor
-        }
-        else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
-      })[0];
+    let metal = metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType);
+
+    let dia = diaQcCombo?.filter(
+      (ele) =>
+        ele?.Quality == selectDiaQc.split(",")[0] &&
+        ele?.color == selectDiaQc.split(",")[1]
+    );
+
+    let cs = csQcCombo?.filter(
+      (ele) =>
+        ele?.Quality == selectCsQc.split(",")[0] &&
+        ele?.color == selectCsQc.split(",")[1]
+    );
+
+    let mcArr = metalColorCombo?.filter((ele) => {
+      if (selectMtColor) {
+        return ele?.colorcode == selectMtColor;
+      } else {
+        return (
+          ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
+        );
+      }
+    })[0];
+
+    // let obj = {
+    //   mt: metalArr ? metalArr : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
+    //   diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid) ,
+    //   csQc: csArr ? `${csArr?.QualityId},${csArr?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid)
+    // }
 
     let prodObj = {
       autocode: singleProd?.autocode,
-      Metalid: metal?.Metalid,
+      Metalid: metal?.length
+        ? metal[0]?.Metalid
+        : logininfoInside?.MetalId ?? storeinitInside?.MetalId,
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId ?? 0},${dia?.ColorId ?? 0}`,
-      CsQCid: `${cs?.QualityId ?? 0},${cs?.ColorId ?? 0}`,
-      Size: sizeData ?? (singleProd1?.DefaultSize ?? singleProd?.DefaultSize),
+      DiaQCid: dia?.length
+        ? `${dia[0]?.QualityId},${dia[0]?.ColorId}`
+        : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+      CsQCid: cs?.length
+        ? `${cs[0]?.QualityId},${cs[0]?.ColorId}`
+        : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
+      Size: sizeData ?? singleProd1?.DefaultSize ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
-      UnitCostWithmarkup: singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
+      UnitCostWithmarkup:
+        singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
       Remark: "",
     };
 
@@ -356,7 +375,6 @@ const ProductDetail = () => {
         setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
 
         setSelectCsQc(`${csArr?.Quality},${csArr?.color}`);
-
 
 
         // let InitialSize = (singleProd && singleProd.DefaultSize !== "")
@@ -513,6 +531,7 @@ const ProductDetail = () => {
     let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let decodeobj = decodeAndDecompress(navVal);
+    console.log('decodeobj: ', decodeobj);
 
     if (decodeobj) {
       setDecodeUrl(decodeobj);
@@ -1015,14 +1034,14 @@ const ProductDetail = () => {
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
-      "StockId": ele?.StockId,
+      StockId: ele?.StockId,
       // "autocode": ele?.autocode,
       // "Metalid": ele?.MetalPurityid,
       // "MetalColorId": ele?.MetalColorid,
       // "DiaQCid": loginInfo?.cmboDiaQCid,
       // "CsQCid": loginInfo?.cmboCSQCid,
       // "Size": ele?.Size,
-      "Unitcost": ele?.Amount,
+      Unitcost: ele?.Amount,
       // "UnitCostWithmarkup": ele?.Amount,
       // "Remark": ""
     }
@@ -1201,8 +1220,6 @@ const ProductDetail = () => {
     return SizeSorted
 
   }
-
-  console.log("ColorStone_Cost", singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost);
 
   return (
     <>
@@ -1858,7 +1875,7 @@ const ProductDetail = () => {
                         >{`Diamond Detail (${diaList?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}  ${diaList
+                        )}/${diaList
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
@@ -1869,7 +1886,7 @@ const ProductDetail = () => {
                         <li className="stam_proDeatilList">Shape</li>
                         <li className="stam_proDeatilList">Clarity</li>
                         <li className="stam_proDeatilList">Color</li>
-                        <li className="stam_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                        <li className="stam_proDeatilList">Pcs&nbsp;/&nbsp;Wt</li>
                       </ul>
                       {diaList?.map((data) => (
                         <ul className="stam_mt_detail_title_ul">
@@ -1877,7 +1894,7 @@ const ProductDetail = () => {
                           <li className="stam_proDeatilList1">{data?.H}</li>
                           <li className="stam_proDeatilList1">{data?.J}</li>
                           <li className="stam_proDeatilList1">
-                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
+                            {data.M}&nbsp;/&nbsp;{(data?.N)?.toFixed(3)}
                           </li>
                         </ul>
                       ))}
@@ -1892,7 +1909,7 @@ const ProductDetail = () => {
                         >{`ColorStone Detail (${csList?.filter((ele) => ele?.D !== "MISC")?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}  ${csList?.filter((ele) => ele?.D !== "MISC")
+                        )}/${csList?.filter((ele) => ele?.D !== "MISC")
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
@@ -1903,7 +1920,7 @@ const ProductDetail = () => {
                         <li className="stam_proDeatilList">Shape</li>
                         <li className="stam_proDeatilList">Clarity</li>
                         <li className="stam_proDeatilList">Color</li>
-                        <li className="stam_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                        <li className="stam_proDeatilList">Pcs&nbsp;/&nbsp;Wt</li>
                       </ul>
                       {csList?.filter((ele) => ele?.D !== "MISC")?.map((data) => (
                         <ul className="stam_mt_detail_title_ul">
@@ -1911,7 +1928,7 @@ const ProductDetail = () => {
                           <li className="stam_proDeatilList1">{data?.H}</li>
                           <li className="stam_proDeatilList1">{data?.J}</li>
                           <li className="stam_proDeatilList1">
-                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
+                            {data.M}&nbsp;/&nbsp;{(data?.N)?.toFixed(3)}
                           </li>
                         </ul>
                       ))}
@@ -1926,7 +1943,7 @@ const ProductDetail = () => {
                         >{`MISC Detail (${csList?.filter((ele) => ele?.D === "MISC")?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}  ${csList?.filter((ele) => ele?.D === "MISC")
+                        )}/${csList?.filter((ele) => ele?.D === "MISC")
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
@@ -1937,7 +1954,7 @@ const ProductDetail = () => {
                         <li className="stam_proDeatilList">Shape</li>
                         <li className="stam_proDeatilList">Clarity</li>
                         <li className="stam_proDeatilList">Color</li>
-                        <li className="stam_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                        <li className="stam_proDeatilList">Pcs / Wt</li>
                       </ul>
                       {csList?.filter((ele) => ele?.D === "MISC")?.map((data) => (
                         <ul className="stam_mt_detail_title_ul">
@@ -1945,7 +1962,7 @@ const ProductDetail = () => {
                           <li className="stam_proDeatilList1">{data?.H}</li>
                           <li className="stam_proDeatilList1">{data?.J}</li>
                           <li className="stam_proDeatilList1">
-                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
+                            {data.M}&nbsp;/&nbsp;{(data?.N)?.toFixed(3)}
                           </li>
                         </ul>
                       ))}

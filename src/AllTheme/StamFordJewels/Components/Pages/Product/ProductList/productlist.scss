@@ -303,11 +303,9 @@
     white-space: nowrap;
     padding: 0 5px;
     min-height: 19.5px;
-    /* width:300px; */
+    width: 100%;
     // margin: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
     letter-spacing: 0.5px;
   }
 
@@ -318,11 +316,13 @@
   }
 
   .stam_prod_Allwt {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+   text-align: center;
     gap: 3px;
+    width: 100%;
     margin-bottom: 2px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 
     .stm_prod_span {
       font-size: 14px;
@@ -561,7 +561,7 @@
   @media (min-width: 900px) and (max-width: 1300px) {
     .stam_prod_title_with_no_width {
       font-size: 12px;
-      word-wrap: break-word;
+      // word-wrap: break-word;
       // white-space: normal;
     }
 
@@ -744,8 +744,8 @@
   @media (max-width: 500px) {
     .stam_prod_title_with_no_width {
       font-size: 11px;
-      word-wrap: break-word;
-      white-space: normal;
+      // word-wrap: break-word;
+      // white-space: normal;
     }
 
     .stam_prod_mtcolr_price {
@@ -811,10 +811,6 @@
   }
 
   @media screen and (max-width:590px) {
-    .stam_prod_Allwt {
-      height: 30px;
-    }
-
     .stam_main_keys {
       font-size: 9px !important;
     }

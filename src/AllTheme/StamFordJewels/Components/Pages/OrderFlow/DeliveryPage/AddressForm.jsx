@@ -4,7 +4,7 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, D
 
 export default function AddressForm({ open, handleClose, handleCancel, handleInputChange, handleSubmit, formData, errors, isEditMode }) {
     return (
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open} onClose={handleClose} className='stam_DeliverMainDiv'>
             <form onSubmit={handleSubmit}>
                 <DialogTitle className='stam_dialogTitle'>{isEditMode ? 'Edit Shipping Address' : 'Add Shipping Address'}</DialogTitle>
                 <Divider/>

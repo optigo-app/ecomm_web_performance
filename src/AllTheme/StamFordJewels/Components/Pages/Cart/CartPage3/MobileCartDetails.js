@@ -94,7 +94,7 @@ const MobileCartDetails = ({
             <img
               src={imageSrc}
               alt="Cluster Diamond"
-              className='smr3Mo_cartImage'
+              className='stam3Mo_cartImage'
               onClick={() => handleMoveToDetail(selectedItem)}
               style={{ border: 'none' }}
             />
