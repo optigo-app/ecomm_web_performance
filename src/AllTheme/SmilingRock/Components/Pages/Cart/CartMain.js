@@ -28,7 +28,9 @@ const CartMain = () => {
     }, []);
 
     return (
-        <div>
+        <div style={{
+            marginBottom:"3rem"
+        }}>
             {cartComponent}
         </div>
     );

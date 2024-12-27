@@ -3,10 +3,14 @@
 .smr_newwArr1MainDiv {
     .smrN_NewArr1Title {
         text-align: center;
-        color: $titleColor;
-        font-family: $homePageFontFamily;
-        font-size: 28px;
+        // color: $titleColor;
+        // font-family: $homePageFontFamily;
+        // font-size: 28px;
         padding-block: 2%;
+        color: $textColor;
+        font-size: 27px;
+        font-family: $Pratafonts;
+        font-weight: 500 !important;
     }
 
     .smr_NewArrival1product-list {

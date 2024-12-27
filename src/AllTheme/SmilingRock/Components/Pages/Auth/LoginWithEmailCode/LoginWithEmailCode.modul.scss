@@ -2,6 +2,9 @@
 
 .smr_loginwithemailCode {
    background-color: $bgColor;
+   height: 70vh;
+   display: grid;
+   align-content: center;
     .fg_opt_div{
         .MuiBox-root{ 
             @media screen and (max-width:500px) {

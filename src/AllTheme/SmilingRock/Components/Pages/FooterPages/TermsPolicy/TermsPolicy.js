@@ -117,10 +117,10 @@ function TermsPolicy() {
                 );
               })}
             </div>
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px'  }}>
+        {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px'  }}>
           <p
 
 className="backtotop_Smr"
@@ -135,7 +135,7 @@ className="backtotop_Smr"
           >
             BACK TO TOP
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

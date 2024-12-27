@@ -2,7 +2,10 @@
 
 .smr_registerMain {
     background-color: $bgColor;
-
+    display: grid;
+    align-content: center;
+    margin-bottom: 4rem;
+    
     .css-1wc848c-MuiFormHelperText-root {
         margin-right: 0px !important;
         margin-left: 0px !important;

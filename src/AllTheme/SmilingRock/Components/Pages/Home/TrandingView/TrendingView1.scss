@@ -6,10 +6,15 @@
         padding-block: 3%;
 
         .smr_trending1Title {
-            font-size: 28px;
-            color: $homePageFontColor;
-            font-family: $homePageFontFamily;
+            // font-size: 28px;
+            // color: $homePageFontColor;
+            // font-family: $homePageFontFamily;
+            color: $textColor;
+            font-size: 27px;
+            font-family: $Pratafonts;
+            font-weight: 500 !important;
         }
+        
     }
 
     @media (max-width: 1200px) {

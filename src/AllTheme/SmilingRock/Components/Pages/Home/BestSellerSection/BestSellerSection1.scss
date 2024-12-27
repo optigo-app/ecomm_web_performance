@@ -6,9 +6,13 @@
         padding-block: 2%;
 
         .smr_bestseler1Title {
-            font-size: $fontSize6;
-            color: $homePageFontColor;
-            font-family: $homePageFontFamily;
+            // font-size: $fontSize6;
+            // color: $homePageFontColor;
+            // font-family: $homePageFontFamily;
+            color: $textColor;
+            font-size: 27px;
+            font-family: $Pratafonts;
+            font-weight: 500 !important;
         }
     }
 

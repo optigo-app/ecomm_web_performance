@@ -25,9 +25,13 @@
     }
 
     .linkingTitle {
-        color: $homePageFontColor;
-        font-family: $homePageFontFamily;
-        font-size: $fontSize5;
+        // color: $homePageFontColor;
+        // font-family: $homePageFontFamily;
+        // font-size: $fontSize5;
+        color: $textColor;
+        font-size: 27px;
+        font-family: $Pratafonts;
+        font-weight: 500 !important;
         text-align: center;
         margin: 0;
         padding: 0;

@@ -42,7 +42,7 @@ const TopSection = () => {
           // controls={!videoStarted}
         >
           <source
-            src={`${storImagePath()}/images/HomePage/TopSection/HomepageMainBannerVideo.mp4`}
+            src={`${storImagePath()}/images/HomePage/TopSection/HomepageMainBannerVideo_2.mp4`}
             type="video/mp4"
           />
         </video>

@@ -1,14 +1,16 @@
 @import "../../../scss/variable";
 
-.smr_album-container {
+.smr_album-container{
+    font-family: $Pfonts !important;
     .smr_ablbumtitleDiv {
         text-align: center;
         padding-block: 2%;
 
         .smr_albumtitle {
             font-size: 28px;
-            color: #7d7f85;
-            font-family: $homePageFontFamily;
+            color: $textColor;
+            font-family: $Pratafonts;
+            font-weight: 500 !important;
         }
     }
 
@@ -26,7 +28,7 @@
             color: $titleColor;
             background: none;
             cursor: pointer;
-
+    font-family: $Pfonts !important;
             &.active {
                 background-color: #f5f5f5;
                 color: $titleColor;

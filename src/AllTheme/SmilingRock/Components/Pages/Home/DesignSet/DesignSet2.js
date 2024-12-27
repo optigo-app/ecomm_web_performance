@@ -173,7 +173,7 @@ const DesignSet2 = () => {
               <p className='smr1_desognSetTitle'>COMPLETE YOUR LOOK
                 <span onClick={(e) => handleNavigate(e)}>
                   <a href="/Lookbook" className='smr_designSetViewmoreBtn'>
-                    VIEW MORE
+                    View More
                   </a>
                 </span>
               </p>
