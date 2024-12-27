@@ -20,10 +20,15 @@ import NewArrival1 from "./NewArrival/NewArrival1";
 import BestSellerSection from "./BestSellerSection/BestSellerSection";
 import BestSellerSection1 from "./BestSellerSection/BestSellerSection1";
 import BrandsComponent from "./BrandComponent/BrandComponents";
-import { storImagePath, storInitDataPath } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import {
+  storImagePath,
+  storInitDataPath,
+} from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { useRecoilValue } from "recoil";
 import { homeLoading } from "../../Recoil/atom";
 import NewsletterSignup from "./SubscribeNewsLater/NewsletterSignup";
+import BespokeBanner from "./Bespokejewelry/BespokeBanner/BespokeBanner";
+import AppointmentBanner from "./Appointment/AppointmentBanner/AppointmentBanner";
 
 function Home() {
   const [localData, setLocalData] = useState();
@@ -68,91 +73,134 @@ function Home() {
   return (
     <>
       {/* {htmlContent?.rd && htmlContent?.rd.length > 0 && */}
-      {localData?.YearCode !== "" &&
-        (
-          <div className="smiling_home_index_main">
-            <div style={{ backgroundColor: "white" }}>
-              {/* {htmlContent?.rd[0]?.Blockno === 1 && ( */}
-              {localData?.Blockno === 1 && (
-                <div className="smiling_home_index_Submain">
-                  <TopSection />
-                  <TheDifference />
-                  <PromotionBaner1 />
-                  {localData?.IsHomeAlbum === 1 && <Album />}
-                  {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
-                  {localData?.IsHomeNewArrival === 1 && <NewArrival />}
-                  {localData?.IsHomeTrending === 1 && <TrendingView />}
-                  {localData?.IsHomeDesignSet === 1 && <DesignSet />}
-                  <BottomBanner />
-                  {/* <NewsletterSignup/> */}
-                  <Footer />
+      {localData?.YearCode !== "" && (
+        <div className="smiling_home_index_main">
+          <div>
+            {/* style={{ backgroundColor: "white" }} */}
+            {/* {htmlContent?.rd[0]?.Blockno === 1 && ( */}
+            {localData?.Blockno === 1 && (
+              <div className="smiling_home_index_Submain">
+                <div className="custom_padding_inline">
+                  <TopSection />{" "}
                 </div>
-              )}
-            </div>
-            <div style={{ backgroundColor: "white" }}>
-              {/* {htmlContent?.rd[0]?.Blockno === 2 && ( */}
-              {localData?.Blockno === 2 && (
-                <div className="smiling_home_index_Submain">
-                  <TopSection />
+                <div className="custom_padding_inline">
+                  <TheDifference />{" "}
+                </div>
+                {/* <div className="custom_padding_inline">
+                  <PromotionBaner1 />{" "}
+                </div> */}
+                <BespokeBanner />
+                <div className="custom_padding_inline">
+                  {localData?.IsHomeAlbum === 1 && <Album />}{" "}
+                </div>
+                <div className="custom_padding_inline">
+                  {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}{" "}
+                </div>
+                <div className="custom_padding_inline">
+                  {localData?.IsHomeNewArrival === 1 && <NewArrival />}{" "}
+                </div>
+                <div className="custom_padding_inline">
+                  {" "}
+                  {localData?.IsHomeTrending === 1 && <TrendingView />}{" "}
+                </div>
+                <AppointmentBanner />
+                <div className="custom_padding_inline">
+                  {localData?.IsHomeDesignSet === 1 && <DesignSet />}{" "}
+                </div>
+                <div className="custom_padding_inline">
+                  <BottomBanner />{" "}
+                </div>
+                <div className="custom_padding_inline">
+                  <NewsletterSignup />{" "}
+                </div>
+                {/* <Footer /> */}
+              </div>
+            )}
+          </div>
+          <div>
+            {/* style={{ backgroundColor: "white" }} */}
+            {/* {htmlContent?.rd[0]?.Blockno === 2 && ( */}
+            {localData?.Blockno === 2 && (
+              <div className="smiling_home_index_Submain">
+                {/* <TopSection />
                   <TheDifference />
                   <PromotionBaner2 />
                   {localData?.IsHomeAlbum === 1 && <Album1 />}
                   {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
                   {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
                   {localData?.IsHomeTrending === 1 && <TrendingView1 />}
-                  {localData?.IsHomeDesignSet === 1 && <DesignSet1 />}
-                  {isLoadingHome == true ?
-                    <div className="smrHome_loader_container">
-                      <div className="smrHome_loader"></div>
-                    </div>
-                    :
-                    <>
-                      <BottomBanner />
-                      <BrandsComponent />
-                    {/* <NewsletterSignup/> */}
-                      <Footer />
-                    </>
-                  }
+                  {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */}
+                <div className="custom_padding_inline">
+                  <TopSection />
                 </div>
-              )}
-            </div>
-            <div>
-              <p
 
-          className="backtotop_Smr"
+                <div className="custom_padding_inline">
+                  <TheDifference />
+                </div>
 
-                style={{
-                  paddingBlock: "30px",
-                  margin: "0px",
-                  textAlign: "center",
-                  color: "white",
-                  cursor: "pointer",
-                  fontSize: "13px",
-                  fontWeight: 500,
-                  letterSpacing: "1px",
-                  whiteSpace: "nowrap"
-                }}
-                onClick={() =>
-                  window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                  })
-                }
-              >
-                BACK TO TOP
-              </p>
-            </div>
+                {/* <div className="custom_padding_inline">
+                  <PromotionBaner2 />
+                </div> */}
+                <BespokeBanner />
+
+                {localData?.IsHomeAlbum === 1 && (
+                  <div className="custom_padding_inline">
+                    <Album1 />
+                  </div>
+                )}
+                {localData?.IsHomeBestSeller === 1 && (
+                  <div className="custom_padding_inline">
+                    <BestSellerSection1 />
+                  </div>
+                )}
+
+                {localData?.IsHomeNewArrival === 1 && (
+                  <div className="custom_padding_inline">
+                    <NewArrival1 />
+                  </div>
+                )}
+
+                {localData?.IsHomeTrending === 1 && (
+                  <div className="custom_padding_inline">
+                    <TrendingView1 />
+                  </div>
+                )}
+
+                <AppointmentBanner />
+                {localData?.IsHomeDesignSet === 1 && (
+                  <div className="custom_padding_inline">
+                    <DesignSet1 />
+                  </div>
+                )}
+
+                {isLoadingHome == true ? (
+                  <div className="smrHome_loader_container">
+                    <div className="smrHome_loader"></div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="custom_padding_inline">
+                      <BottomBanner />
+                    </div>
+                    <div className="custom_padding_inline">
+                      <BrandsComponent />{" "}
+                    </div>
+                    <div className="custom_padding_inline">
+                      <NewsletterSignup />{" "}
+                    </div>
+                    {/* <Footer /> */}
+                  </>
+                )}
+              </div>
+            )}
           </div>
-        )}
+        </div>
+      )}
     </>
   );
 }
 
 export default Home;
-
-
-
-
 
 // import React, { useEffect, useState } from "react";
 // import "./Index.modul.scss";
@@ -225,7 +273,8 @@ export default Home;
 //     <>
 //       {htmlContent?.rd && htmlContent?.rd.length > 0 && (
 //         <div className="smiling_home_index_main">
-//           <div style={{ backgroundColor: "white" }}>
+//           <div >
+// style={{ backgroundColor: "white" }}
 //             {/* <div style={{ minHeight: minHeight, backgroundColor: "white" }}> */}
 //             {htmlContent?.rd[0]?.Blockno == 1 && (
 //               <div className="smiling_home_index_Submain">

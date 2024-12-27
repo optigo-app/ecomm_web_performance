@@ -17,12 +17,19 @@ $btn1hoverFontColor: #fff;
 $primaryfontcolorLight: #7d7f856e;
 
 //fontFamily
-$homePageFontFamily: "FreightDispProMedium-Regular,Times New Roman,serif";
+$homePageFontFamily: "Poppins", serif;
+// $homePageFontFamily: "FreightDispProMedium-Regular,Times New Roman,serif";
 // $primaryFontFamily:"Rubik", sans-serif;
-$primaryFontFamily: "TT Commons Regular";
+$primaryFontFamily: "Poppins", serif;
+// $primaryFontFamily: "TT Commons Regular";
 // $primaryFontFamily:"Roboto", sans-serif;
-$primaryFontFamilyMedium: "TT Commons Medium";
+$primaryFontFamilyMedium: "Poppins", serif;
+// $primaryFontFamilyMedium: "TT Commons Medium";
 // $primaryFontFamilyMedium:"Roboto", sans-serif;
+$Pfonts : "Poppins", serif;
+$Pratafonts : "Prata", serif;
+
+
 
 //fontSize
 $fontSize0: 10px;
@@ -45,6 +52,8 @@ $textColor:#1B1212; // Dark gray text color
 $menuColor : #7D7F85 ;
 $badgecolor : black ;
 $badgetxtcolor : white ;
+$footerbg:black ;
+$footertextcolor:white ;
 
 @font-face {
   font-family: "TT Commons Regular";

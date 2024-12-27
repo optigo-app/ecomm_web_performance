@@ -3196,10 +3196,10 @@ const ProductDetail = () => {
                 )}
               </>
             )}
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </div>
-        <div
+        {/* <div
           className="smr_prodDetail_backtotop"
           onClick={() => {
             window.scroll({
@@ -3209,7 +3209,7 @@ const ProductDetail = () => {
           }}
         >
           BACK TO TOP
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -77,10 +77,10 @@ const LoginOption = () => {
             Policy.
           </p>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
 
-      <div
+      {/* <div
         style={{
           display: "flex",
           justifyContent: "center",
@@ -101,7 +101,7 @@ const LoginOption = () => {
         >
           BACK TO TOP
         </p>
-      </div>
+      </div> */}
     </div>
   );
 };

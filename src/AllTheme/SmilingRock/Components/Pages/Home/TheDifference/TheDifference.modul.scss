@@ -1,4 +1,4 @@
-// @import '../../../scss/variable';
+@import '../../../scss/variable.scss';
 
 
 // .smilingPAgeMain {
@@ -168,8 +168,11 @@
 
 .smilingTitle {
     text-align: center;
-    font-size: 24px;
+    font-size: 27px;
     margin-bottom: 50px;
+    color: $textColor;
+    font-family: $Pratafonts;
+    font-weight: 500 !important;
   }
   
   .smr_smilingRock {
@@ -199,7 +202,7 @@
     margin: 0;
     font-size: 14px;
     color: #5f5f5f;
-    font-family: 'Nunito', sans-serif;
+    font-family: $Pfonts;
     max-height: 80px;
     height: 40px;
     overflow: hidden;
@@ -222,7 +225,7 @@
   .smr_learnMore,
   .smr_learnMore_N {
     margin-top: 10px;
-    font-family: 'Nunito', sans-serif;
+    font-family: $Pfonts;
     font-size: 12px;
     cursor: pointer;
     width: fit-content;

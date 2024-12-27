@@ -140,14 +140,14 @@ export default function PrivacyPolicy() {
                         </main>
                     </div>
                 </div>
-                <Footer />
+                {/* <Footer /> */}
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+            {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
                 <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
                 })}>BACK TO TOP</p>
-            </div>
+            </div> */}
         </div>
     )
 }

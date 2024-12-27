@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Home from "./Components/Pages/Home/Index";
 import Header from "./Components/Pages/Home/Header/Header";
@@ -7,7 +7,14 @@ import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
 import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
 import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { companyLogo, companyLogoM, loginState, smr_companyLogo, smr_companyLogoM, smr_loginState } from "./Components/Recoil/atom";
+import {
+  companyLogo,
+  companyLogoM,
+  loginState,
+  smr_companyLogo,
+  smr_companyLogoM,
+  smr_loginState,
+} from "./Components/Recoil/atom";
 import ProductList from "./Components/Pages/Product/ProductList/ProductList";
 import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
 import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
@@ -33,10 +40,13 @@ import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import NatualDiamond from "./Components/Pages/naturalDiamond/NaturalDiamond";
-import { storImagePath, storInitDataPath } from "../../utils/Glob_Functions/GlobalFunction";
+import {
+  storImagePath,
+  storInitDataPath,
+} from "../../utils/Glob_Functions/GlobalFunction";
 import DWSRprintComp from "./Components/Pages/Account/DWSRprintComp/DWSRprintComp";
 import PaymentFailure from "../../utils/PaymentSuccessFail/PaymentFailure";
-import TermsPolicy from './Components/Pages/FooterPages/TermsPolicy/TermsPolicy'
+import TermsPolicy from "./Components/Pages/FooterPages/TermsPolicy/TermsPolicy";
 import Bespoke from "./Components/Pages/Home/Bespokejewelry/Index";
 import Wrapper from "./Components/Pages/Home/Appointment/Wrapper";
 import { TermsData } from "./Components/Pages/FooterPages/TermsPolicy/Terms";
@@ -44,10 +54,10 @@ import PrivacyPolicy from "./Components/Pages/FooterPages/PrivacyPolicy/PrivacyP
 import TermsAndConditions from "./Components/Pages/FooterPages/TermsPage/TermsPage";
 import usePromotionalBanner from "./Components/hook/usePromotionBanner";
 import PromotionalBanner from "./Components/Pages/Home/PromotionBanner/PromotionBanner";
+import FooterNew from "./Components/Pages/Home/Footer/New/FooterNew";
 
 const SmilingRock_App = () => {
-  const { openPromotionalBanner, handleCloseBanner } =
-    usePromotionalBanner();
+  const { openPromotionalBanner, handleCloseBanner } = usePromotionalBanner();
   const islogin = useRecoilValue(smr_loginState);
   const navigation = useNavigate();
   const setIsLoginState = useSetRecoilState(smr_loginState);
@@ -55,8 +65,10 @@ const SmilingRock_App = () => {
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(smr_companyLogo);
-  const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(smr_companyLogoM);
+  const [companyTitleLogo, setCompanyTitleLogo] =
+    useRecoilState(smr_companyLogo);
+  const [companyTitleLogoM, setCompanyTitleLogoM] =
+    useRecoilState(smr_companyLogoM);
   const [htmlContent, setHtmlContent] = useState("");
   const [localData, setLocalData] = useState();
 
@@ -68,7 +80,6 @@ const SmilingRock_App = () => {
       backgroundColor
     );
   };
-
 
   useEffect(() => {
     fetch(`${storInitDataPath()}/StoreInit.json`)
@@ -117,93 +128,30 @@ const SmilingRock_App = () => {
     // }
   });
 
-  useEffect(() => {
-    const cookieValue = Cookies.get("userLoginCookie");
-    if (cookieValue && islogin == false) {
-      LoginWithEmailAPI("", "", "", "", cookieValue)
-        .then((response) => {
-          if (response?.Data?.rd[0]?.stat === 1) {
-            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
-            setIsLoginState(true);
-            sessionStorage.setItem("LoginUser", true);
-            sessionStorage.setItem("loginUserDetail", JSON.stringify(response.Data.rd[0]));
-            if (redirectEmailUrl) {
-              navigation(redirectEmailUrl);
-            } else if (location.pathname.startsWith('/accountdwsr')) {
-              navigation("/accountdwsr");
-            } else {
-              navigation("/");
-            }
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-    let localD = JSON.parse(sessionStorage.getItem("storeInit"));
-    setLocalData(localD);
-  }, []);
-
-
-  if (islogin === true) {
-    const restrictedPaths = [
-      '/LoginOption',
-      '/ContinueWithEmail',
-      '/ContinueWithMobile',
-      '/LoginWithEmailCode',
-      '/LoginWithMobileCode',
-      '/ForgotPass',
-      '/LoginWithEmail',
-      '/register'
-    ];
-
-    if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
-      return navigation("/");
-    }
-  }
-
-
   // useEffect(() => {
   //   const cookieValue = Cookies.get("userLoginCookie");
-
-  //   // Check if user is not logged in and there's a cookie value to log in
-  //   if (cookieValue && islogin === false) {
+  //   if (cookieValue && islogin == false) {
   //     LoginWithEmailAPI("", "", "", "", cookieValue)
   //       .then((response) => {
   //         if (response?.Data?.rd[0]?.stat === 1) {
-  //           // Successful login
   //           Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
-  //           setIsLoginState(true); // Update the login state
+  //           setIsLoginState(true);
   //           sessionStorage.setItem("LoginUser", true);
   //           sessionStorage.setItem("loginUserDetail", JSON.stringify(response.Data.rd[0]));
-
-  //           // Redirect based on user intention or path before login
   //           if (redirectEmailUrl) {
   //             navigation(redirectEmailUrl);
   //           } else if (location.pathname.startsWith('/accountdwsr')) {
   //             navigation("/accountdwsr");
-  //           } else if (sessionStorage.getItem("previousUrl")) {
-  //             // If the user was trying to access a page before login, go back there
-  //             navigation(sessionStorage.getItem("previousUrl"));
   //           } else {
-  //             // Default to home page if no previous URL is saved
   //             navigation("/");
   //           }
   //         }
   //       })
   //       .catch((err) => console.log(err));
   //   }
-
-  //   // Save the current URL before login if it's not the home page
-  //   if (!islogin) {
-  //     if (location.pathname !== "/") {
-  //       sessionStorage.setItem("previousUrl", location.pathname);
-  //     }
-  //   }
-
-  //   // Set local data from session storage
   //   let localD = JSON.parse(sessionStorage.getItem("storeInit"));
   //   setLocalData(localD);
-  // }, [islogin, location.pathname, redirectEmailUrl, navigation]);
-
+  // }, []);
 
   // if (islogin === true) {
   //   const restrictedPaths = [
@@ -222,18 +170,75 @@ const SmilingRock_App = () => {
   //   }
   // }
 
+  useEffect(() => {
+    const cookieValue = Cookies.get("userLoginCookie");
+    if (cookieValue && islogin === false) {
+      LoginWithEmailAPI("", "", "", "", cookieValue)
+        .then((response) => {
+          if (response?.Data?.rd[0]?.stat === 1) {
+            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
+            setIsLoginState(true);
+            sessionStorage.setItem("LoginUser", true);
+            sessionStorage.setItem(
+              "loginUserDetail",
+              JSON.stringify(response.Data.rd[0])
+            );
+            if (redirectEmailUrl) {
+              navigation(redirectEmailUrl);
+            } else if (location.pathname.startsWith("/accountdwsr")) {
+              navigation("/accountdwsr");
+            } else if (sessionStorage.getItem("previousUrl")) {
+              navigation(sessionStorage.getItem("previousUrl"));
+            } else {
+              navigation("/");
+            }
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+
+    if (!islogin) {
+      if (location.pathname !== "/") {
+        sessionStorage.setItem("previousUrl", location.pathname);
+      }
+    }
+
+    let localD = JSON.parse(sessionStorage.getItem("storeInit"));
+    setLocalData(localD);
+  }, [islogin, location.pathname, redirectEmailUrl, navigation]);
+
+  if (islogin === true) {
+    const restrictedPaths = [
+      "/LoginOption",
+      "/ContinueWithEmail",
+      "/ContinueWithMobile",
+      "/LoginWithEmailCode",
+      "/LoginWithMobileCode",
+      "/ForgotPass",
+      "/LoginWithEmail",
+      "/register",
+    ];
+
+    if (restrictedPaths?.some((path) => location.pathname.startsWith(path))) {
+      return navigation("/");
+    }
+  }
+
   return (
     <div div className="ggg">
-      <Helmet>
-        {/* <title>{localData?.BrowserTitle}</title> */}
-      </Helmet>
+      <Helmet>{/* <title>{localData?.BrowserTitle}</title> */}</Helmet>
       {openPromotionalBanner && (
-        <PromotionalBanner onClose={handleCloseBanner} />
+        <PromotionalBanner
+          disablescreen={openPromotionalBanner}
+          onClose={handleCloseBanner}
+        />
       )}
-      {!location.pathname.startsWith('/accountdwsr') && <div>
-        {localData?.Headerno == 1 && <Header />}
-        {localData?.Headerno == 2 && <Header2 />}
-      </div>}
+      {!location.pathname.startsWith("/accountdwsr") && (
+        <div>
+          {localData?.Headerno == 1 && <Header />}
+          {localData?.Headerno == 2 && <Header2 />}
+        </div>
+      )}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
@@ -314,13 +319,8 @@ const SmilingRock_App = () => {
         <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
         <Route path="/bespoke-jewelry" element={<Bespoke />} />
         <Route path="/appointment" element={<Wrapper />} />
-        <Route
-          path="/terms-and-conditions"
-
-          element={<TermsAndConditions />}
-        />
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-
 
         {/* Maiora not needed fun facts */}
         {/* Kayra needed */}
@@ -344,8 +344,9 @@ const SmilingRock_App = () => {
         <Route path="/paymentFailure" element={<PaymentFailure />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
+      <FooterNew />
     </div>
   );
 };
 
-export default SmilingRock_App;
+export default memo(SmilingRock_App);

@@ -3,6 +3,9 @@
 .smr_loginEmail {
 
   background-color: $bgColor;
+  height: 70vh;
+  display: grid;
+  align-content: center;
   .go_pass_fg{
     margin-top: 0.8rem;
   }

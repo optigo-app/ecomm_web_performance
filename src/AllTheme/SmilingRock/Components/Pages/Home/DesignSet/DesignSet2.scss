@@ -14,12 +14,20 @@
     }
 
     .smr1_desognSetTitle {
-        color: $homePageFontColor;
-        font-family: $homePageFontFamily;
+        // color: $homePageFontColor;
+        // font-family: $homePageFontFamily;
         font-size: 28px;
         text-align: center;
         margin: 0px;
+         color: $textColor;
+    font-size: 27px;
+    font-family: $Pratafonts !important;
+    font-weight: 500 !important;
         margin-block: 2%;
+        a{
+            font-weight: 300 !important;
+            font-size: 14px !important;
+        }
     }
 
     .card {
