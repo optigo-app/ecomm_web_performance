@@ -116,8 +116,11 @@
 
 .smr_noWishlistData {
     text-align: center;
-    height: 100%;
-    margin-block: 125px;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 
     .smr_title {
         color: $titleColor;

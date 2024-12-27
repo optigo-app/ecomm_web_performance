@@ -1,8 +1,9 @@
+@import '../../../scss/variable.scss';
+
 .smr_about_mainDiv {
   font-family: "Calibri";
-  background-color: #c0bbb1;
-
-  .smrPr {
+  background-color: $bgColor;
+.shinjini {
     &-banner {
       position: relative;
       height: 220px;

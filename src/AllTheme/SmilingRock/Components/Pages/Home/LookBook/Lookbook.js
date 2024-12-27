@@ -2329,7 +2329,7 @@ const Lookbook = () => {
           </div>
         </div>
       )}
-      <div>
+      {/* <div>
         <p
           className="backtotop_Smr"
 
@@ -2352,7 +2352,7 @@ const Lookbook = () => {
         >
           BACK TO TOP
         </p>
-      </div>
+      </div> */}
     </div>
   );
 };

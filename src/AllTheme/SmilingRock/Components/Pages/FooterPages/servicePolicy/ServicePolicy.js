@@ -35,15 +35,15 @@ const ServicePolicy = () => {
         <div className='service_Wrraper_main'
         >
           <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px', }}>
+      {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px', }}>
         <p 
           className="backtotop_Smr"
         
         style={{ margin: '0px', fontWeight: 500, cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
-      </div>
+      </div> */}
     </div>
   )
 }

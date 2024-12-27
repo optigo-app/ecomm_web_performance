@@ -6,15 +6,19 @@
     align-items: center;
 }
 .smr_brandsCompoents{
-    color: $titleColor !important;
+    // color: $titleColor !important;
+    // font-family: $homePageFontFamily;
+    // font-size: $fontSize5 !important;
+    color: $textColor;
+    font-size: 27px;
+    font-family: $Pratafonts !important;
+    font-weight: 500 !important;
     text-align: center;
-    font-size: $fontSize5 !important;
     text-transform: capitalize;
     line-height: 2px;
     margin: 0;
     padding: 0;
     padding-block: 3%;
-    font-family: $homePageFontFamily;
     margin-bottom: 2rem;  /* cghanges */
 }
 .AffiliationComponents{

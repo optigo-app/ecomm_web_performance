@@ -1,0 +1,130 @@
+
+@import "../../../../scss/variable.scss";
+
+.smr_footer-container {
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(134, 134, 134, 0.5); /* Light box shadow on top */
+font-family: $Pfonts ;
+// Pratafonts;
+
+.footer-content {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Left: Logo Section */
+.footer-logo {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.footer-logo-img {
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Center: Navigation Links */
+.footer-nav {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.footer-nav-link {
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  color: black;
+  position: relative;
+  &::before{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    content: '';
+    background-color: rgba(0, 0, 0, 0.925);
+    transition: 0.3s ease-in-out;
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+  &:hover{
+    &::before{
+      width: 100%;
+    }
+  }
+}
+
+
+/* Right: Social Media Icons */
+.footer-social-media {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.social-icon {
+  display: block;
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s ease;
+}
+
+.social-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.social-icon:hover {
+  transform: scale(1.2);
+}
+
+/* Copyright Section */
+.footer-copy {
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 20px;
+  color: grey;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-nav {
+    margin-top: 20px;
+    flex-direction: column;
+  }
+
+  .footer-social-media {
+    margin-top: 20px;
+    justify-content: center;
+  }
+
+  .footer-logo {
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+}
+}

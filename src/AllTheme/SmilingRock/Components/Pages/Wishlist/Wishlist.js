@@ -145,9 +145,9 @@ const Wishlist = () => {
           content="Are you sure you want to remove all Items?"
         />
 
-        <Footer />
+        {/* <Footer /> */}
       </div>
-      <div
+      {/* <div
         style={{
           display: "flex",
           justifyContent: "center",
@@ -167,7 +167,7 @@ const Wishlist = () => {
         >
           BACK TO TOP
         </p>
-      </div>
+      </div> */}
     </div>
   );
 };

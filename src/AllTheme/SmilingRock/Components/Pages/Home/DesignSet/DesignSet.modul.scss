@@ -16,10 +16,14 @@
   }
 
   .smr_desognSetTitle {
-    color: $homePageFontColor;
-    font-family: $homePageFontFamily;
-    font-size: $fontSize5;
+    // color: $homePageFontColor;
+    // font-family: $homePageFontFamily;
+    // font-size: $fontSize5;
     text-align: center;
+    color: $textColor;
+    font-size: 27px;
+    font-family: $Pratafonts !important;
+    font-weight: 500 !important;
   }
 
   .smr_designSetMainDiv {

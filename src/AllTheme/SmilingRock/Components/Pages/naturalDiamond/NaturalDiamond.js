@@ -21,9 +21,9 @@ const NatualDiamond = () => {
                 <div style={{ marginInline: '6%', minHeight: '400px' }}>
                     <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
                 </div>
-                <Footer />
+                {/* <Footer /> */}
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+            {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
                 <p
           className="backtotop_Smr"
                 
@@ -31,7 +31,7 @@ const NatualDiamond = () => {
                     top: 0,
                     behavior: 'smooth'
                 })}>BACK TO TOP</p>
-            </div>
+            </div> */}
         </div>
     )
 }

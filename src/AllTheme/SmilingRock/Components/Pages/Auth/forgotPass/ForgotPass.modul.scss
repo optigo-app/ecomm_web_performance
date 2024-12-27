@@ -2,6 +2,9 @@
 
 .smr_forgotMain {
 background-color: $bgColor;
+ height: 70vh;
+display: grid;
+align-content: center;
     .smling-forgot-main {
         margin-inline: 6%;
         background-color: white;

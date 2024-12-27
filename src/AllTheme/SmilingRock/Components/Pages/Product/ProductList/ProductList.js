@@ -3651,7 +3651,7 @@ const ProductList = () => {
                 </>
               )}
 
-              <Footer fromPage={"ProdList"} />
+              {/* <Footer fromPage={"ProdList"} /> */}
             </div>
           </div>
           {/* <div className="smr_backtotop">
@@ -3659,14 +3659,14 @@ const ProductList = () => {
         </div> */}
         </div>
       </div>
-      <div className="smr_backtotop" onClick={() => {
+      {/* <div className="smr_backtotop" onClick={() => {
         window.scroll({
           top: 0,
           behavior: "auto",
         });
       }}>
         BACK TO TOP
-      </div>
+      </div> */}
     </>
   );
 };
