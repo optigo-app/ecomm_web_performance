@@ -55,11 +55,30 @@
 
     @media screen and (max-width:1200px) {
         .stam_bottom_title {
-            font-size: 35px !important;
+            font-size: 30px !important;
         }
 
         .stam_bottom_main_div_sub1 {
             width: 90% !important;
+            
+            .stam_bottom_title_sub{
+                font-size: 20px !important;
+            }
+        }
+
+    }
+
+    @media screen and (max-width:700px) {
+        .stam_bottom_title {
+            font-size: 25px !important;
+        }
+
+        .stam_bottom_main_div_sub1 {
+            width: 90% !important;
+            
+            .stam_bottom_title_sub{
+                font-size: 15px !important;
+            }
         }
 
     }

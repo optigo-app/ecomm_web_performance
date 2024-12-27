@@ -407,7 +407,7 @@ const Themes = ({ htmlContent }) => {
 
       {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
-      {/* {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
+      {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
       {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 

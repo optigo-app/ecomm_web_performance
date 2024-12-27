@@ -350,7 +350,7 @@ const ManageAddress = () => {
 
     return (
         <>
-        <ToastContainer />
+        {/* <ToastContainer /> */}
             <div className='address_Account_SMR'>
             <p style={{
                     textAlign: 'center',

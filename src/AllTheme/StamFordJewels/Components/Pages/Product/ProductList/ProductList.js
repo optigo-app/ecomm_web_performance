@@ -141,9 +141,6 @@ const ProductList = () => {
 
   }, [])
 
-
-  console.log("selectedMetalId", selectedMetalId)
-
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
   // console.log("rollOverImgPd",rollOverImgPd).
@@ -1389,25 +1386,25 @@ const ProductList = () => {
   }
 
   const BreadCumsObj = () => {
-    let BreadCum = decodeURI(atob(location?.search.slice(3))).split('/')
+    let BreadCum = decodeURI(atob(location?.search?.slice(3)))?.split('/')
 
-    const values = BreadCum[0].split(',');
-    const labels = BreadCum[1].split(',');
+    const values = BreadCum[0]?.split(',');
+    const labels = BreadCum[1]?.split(',');
 
-    const updatedBreadCum = labels.reduce((acc, label, index) => {
+    const updatedBreadCum = labels?.reduce((acc, label, index) => {
       acc[label] = values[index] || '';
       return acc;
     }, {});
 
-    const result = Object.entries(updatedBreadCum).reduce((acc, [key, value], index) => {
-      acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
+    const result = Object?.entries(updatedBreadCum)?.reduce((acc, [key, value], index) => {
+      acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0)?.toUpperCase() + key?.slice(1);
       acc[`FilterVal${index === 0 ? '' : index}`] = value;
       return acc;
     }, {});
 
     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
 
-    result.menuname = decodeURI(location?.pathname).slice(3).slice(0, -1).split("/")[0]
+    result.menuname = decodeURI(location?.pathname)?.slice(3)?.slice(0, -1)?.split("/")[0]
 
     return result
   }
@@ -2160,7 +2157,8 @@ const ProductList = () => {
                             className="stam_breadcums_port"
                             style={{ marginLeft: "3px" }}
                           >
-                            <span>{"Album"}</span>
+                            {location?.pathname?.split("/")[2]?.replaceAll('%20', '')}
+                            {/* <span>{"Album"}</span> */}
                           </div>
                         )}
 
@@ -2182,12 +2180,21 @@ const ProductList = () => {
                           </div>
                         )}
 
-                        {location?.search.charAt(1) == "N" && (
+                        {location?.search?.charAt(1) == "N" && (
                           <div
                             className="stam_breadcums_port"
                             style={{ marginLeft: "3px" }}
                           >
                             <span>{"New Arrival"}</span>
+                          </div>
+                        )}
+
+                        {location?.search?.charAt(1) == "S" && (
+                          <div
+                            className="stam_breadcums_port"
+                            style={{ marginLeft: "3px", textTransform: "uppercase" }}
+                          >
+                            <span>{decodeURIComponent(location?.pathname?.split("/")[2])}</span>
                           </div>
                         )}
 
@@ -2871,7 +2878,7 @@ const ProductList = () => {
                         style={{
                           display: "flex",
                           justifyContent: "center",
-                          width: "75%",
+                          width: "100%",
                           alignItems: "center",
                           height: "500px",
                         }}
@@ -2903,7 +2910,8 @@ const ProductList = () => {
                                     className="stam_breadcums_port"
                                     style={{ marginLeft: "3px" }}
                                   >
-                                    <span>{"Album"}</span>
+                                    {location?.pathname?.split("/")[2]?.replaceAll('%20', '')}
+                                    {/* <span>{"Album"}</span> */}
                                   </div>
                                 )}
 
@@ -2925,12 +2933,21 @@ const ProductList = () => {
                                   </div>
                                 )}
 
-                                {location?.search.charAt(1) == "N" && (
+                                {location?.search?.charAt(1) == "N" && (
                                   <div
                                     className="stam_breadcums_port"
                                     style={{ marginLeft: "3px" }}
                                   >
                                     <span>{"New Arrival"}</span>
+                                  </div>
+                                )}
+
+                                {location?.search?.charAt(1) == "S" && (
+                                  <div
+                                    className="stam_breadcums_port"
+                                    style={{ marginLeft: "3px", textTransform: "uppercase" }}
+                                  >
+                                    <span>{decodeURIComponent(location?.pathname?.split("/")[2])}</span>
                                   </div>
                                 )}
 
@@ -2991,109 +3008,114 @@ const ProductList = () => {
                               <div className="stam_mobile_prodSorting" onClick={(e) => setIsDrawerOpen(true)}>
                                 <span>Filters</span>
                               </div>
-                              {storeInit?.IsMetalCustComb === 1 && <div className="stam_metal_custom">
-                                <label className="label">Metal:&nbsp;</label>
-                                <select
-                                  className="select"
-                                  value={selectedMetalId}
-                                  onChange={(e) => setSelectedMetalId(e.target.value)}
-                                >
-                                  {metalTypeCombo?.map((metalele, i) => (
-                                    <option
-                                      className="option"
-                                      key={i}
-                                      value={metalele?.Metalid}
+                              {!isDrawerOpen && (
+                                <>
+                                  {storeInit?.IsMetalCustComb === 1 && <div className="stam_metal_custom">
+                                    <label className="label">Metal:&nbsp;</label>
+                                    <select
+                                      className="select"
+                                      value={selectedMetalId}
+                                      onChange={(e) => setSelectedMetalId(e.target.value)}
                                     >
-                                      {metalele?.metaltype.toUpperCase()}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                              }
-                              {storeInit?.IsDiamondCustComb === 1 && (
-                                <div className="stam_dia_custom">
-                                  <label className="label">Diamond:&nbsp;</label>
-                                  <select
-                                    className="select"
-                                    value={selectedDiaId}
-                                    onChange={(e) => setSelectedDiaId(e.target.value)}
-                                  >
-                                    {diaQcCombo?.map((diaQc, i) => (
-                                      <option
-                                        className="option"
-                                        key={i}
-                                        value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                                      {metalTypeCombo?.map((metalele, i) => (
+                                        <option
+                                          className="option"
+                                          key={i}
+                                          value={metalele?.Metalid}
+                                        >
+                                          {metalele?.metaltype.toUpperCase()}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                  }
+                                  {storeInit?.IsDiamondCustComb === 1 && (
+                                    <div className="stam_dia_custom">
+                                      <label className="label">Diamond:&nbsp;</label>
+                                      <select
+                                        className="select"
+                                        value={selectedDiaId}
+                                        onChange={(e) => setSelectedDiaId(e.target.value)}
                                       >
-                                        {" "}
-                                        {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
+                                        {diaQcCombo?.map((diaQc, i) => (
+                                          <option
+                                            className="option"
+                                            key={i}
+                                            value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                                          >
+                                            {" "}
+                                            {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    </div>
+                                  )}
+
+                                  {storeInit?.IsCsCustomization === 1 && (
+                                    <div className="stam_cs_custom">
+                                      <label className="label">Color Stone:&nbsp;</label>
+                                      <select
+                                        className="select"
+                                        value={selectedCsId}
+                                        onChange={(e) => setSelectedCsId(e.target.value)}
+                                      >
+                                        {csQcCombo?.map((csCombo, i) => (
+                                          <option
+                                            className="option"
+                                            key={i}
+                                            value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
+                                          >
+                                            {" "}
+                                            {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    </div>
+                                  )}
+
+                                  <div className="stam_sorting_custom">
+                                    <div className="container">
+                                      <label className="label">Sort By:&nbsp;</label>
+                                      <select
+                                        className="select"
+                                        value={sortBySelect}
+                                        onChange={(e) => handleSortby(e)}
+                                      >
+                                        <option className="option" value="Recommended">
+                                          Recommended
+                                        </option>
+                                        <option className="option" value="New">
+                                          New
+                                        </option>
+                                        <option className="option" value="Trending">
+                                          Trending
+                                        </option>
+                                        <option className="option" value="Bestseller">
+                                          Bestseller
+                                        </option>
+                                        {storeInit?.IsStockWebsite == 1 &&
+                                          <option className="option" value="In Stock">
+                                            In stock
+                                          </option>
+                                        }
+                                        <option
+                                          className="option"
+                                          value="PRICE HIGH TO LOW"
+                                        >
+                                          Price High To Low
+                                        </option>
+                                        <option
+                                          className="option"
+                                          value="PRICE LOW TO HIGH"
+                                        >
+                                          Price Low To High
+                                        </option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </>
                               )}
 
-                              {storeInit?.IsCsCustomization === 1 && (
-                                <div className="stam_cs_custom">
-                                  <label className="label">Color Stone:&nbsp;</label>
-                                  <select
-                                    className="select"
-                                    value={selectedCsId}
-                                    onChange={(e) => setSelectedCsId(e.target.value)}
-                                  >
-                                    {csQcCombo?.map((csCombo, i) => (
-                                      <option
-                                        className="option"
-                                        key={i}
-                                        value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
-                                      >
-                                        {" "}
-                                        {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-
-                              <div className="stam_sorting_custom">
-                                <div className="container">
-                                  <label className="label">Sort By:&nbsp;</label>
-                                  <select
-                                    className="select"
-                                    value={sortBySelect}
-                                    onChange={(e) => handleSortby(e)}
-                                  >
-                                    <option className="option" value="Recommended">
-                                      Recommended
-                                    </option>
-                                    <option className="option" value="New">
-                                      New
-                                    </option>
-                                    <option className="option" value="Trending">
-                                      Trending
-                                    </option>
-                                    <option className="option" value="Bestseller">
-                                      Bestseller
-                                    </option>
-                                    {storeInit?.IsStockWebsite == 1 &&
-                                      <option className="option" value="In Stock">
-                                        In stock
-                                      </option>
-                                    }
-                                    <option
-                                      className="option"
-                                      value="PRICE HIGH TO LOW"
-                                    >
-                                      Price High To Low
-                                    </option>
-                                    <option
-                                      className="option"
-                                      value="PRICE LOW TO HIGH"
-                                    >
-                                      Price Low To High
-                                    </option>
-                                  </select>
-                                </div>
-                              </div>
                             </div>
                             <div className="stam_outer_portion" id="stam_outer_portion">
                               {/* <div className="stam_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
@@ -3279,7 +3301,10 @@ const ProductList = () => {
                                                 ? "0px"
                                                 : "0.4px",
                                               // gap:maxwidth1674px ? '0px':'3px',
-                                              flexWrap: "wrap",
+                                              textOverflow: 'ellipsis',
+                                              overflow: 'hidden',
+                                              whiteSpace: 'nowrap',
+                                              width: "100%"
                                             }}
                                           >
                                             {/* <span className="stam_por"> */}

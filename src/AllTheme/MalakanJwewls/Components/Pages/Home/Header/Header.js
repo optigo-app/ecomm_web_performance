@@ -916,7 +916,7 @@ const Header = () => {
 
             <a href="/" className="mala_logo_header_Mobile">
               <img
-                src={`https://malakan.com/wp-content/uploads/2023/04/malakan-logo-header.png` || compnyLogoM}
+                src={compnyLogoM}
                 loading="lazy"
                 className="mala_logo_header"
               />

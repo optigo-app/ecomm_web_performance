@@ -1,7 +1,8 @@
 @import '../../../scss/variable.scss';
 
 .stam_DeliverMainDiv {
-margin-top: 0 !important;
+  margin-top: 0 !important;
+
   .stam_secondMaindivAdd {
     margin-inline: 6%;
     background-color: #fff;
@@ -107,8 +108,13 @@ margin-top: 0 !important;
   }
 
   .stam_AddressBtnGroup {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+
     .stam_AddNewAddrbtn {
-      margin-right: 20px;
+      margin-left: 20px;
       height: 40px;
       width: 150px;
       font-family: $homePageFontFamily !important;
@@ -134,9 +140,9 @@ margin-top: 0 !important;
   }
 
   .stam_AddNewAddrModalbtn {
-    margin-right: 20px;
+    margin-left: 20px;
     height: 40px;
-    width: 150px;
+    width: 43%;
     font-family: $homePageFontFamily !important;
     font-size: $fontSize3;
     color: $btn1hoverFontColor;
@@ -145,6 +151,11 @@ margin-top: 0 !important;
     border-radius: 0px !important;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
+
+    @media (max-width: 400px) {
+      font-size: $fontSize2;
+      width: 40%;
+    }
 
     &:hover {
       color: $btn1hoverFontColor;
@@ -155,7 +166,7 @@ margin-top: 0 !important;
   .stam_Cancelbtn {
     margin-right: 20px;
     height: 40px;
-    width: 150px;
+    width: 43%;
     font-family: $homePageFontFamily !important;
     font-size: $fontSize3;
     color: $btn1FontColor;
@@ -164,6 +175,11 @@ margin-top: 0 !important;
     border-radius: 0px !important;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
+
+    @media (max-width: 400px) {
+      font-size: $fontSize2;
+      width: 40%;
+    }
 
     &:hover {
       color: $btn1hoverFontColor;

@@ -15,7 +15,7 @@ import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
 import { green } from '@mui/material/colors';
 import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
 import Cookies from "js-cookie";
 import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
@@ -168,6 +168,7 @@ const CartPage = () => {
 
   return (
     <div className='stam3_MainBGDiv'>
+      <ToastContainer />
       {isMobileScreen &&
         <div className="stam3_cart-title">Cart</div>
       }

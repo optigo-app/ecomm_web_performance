@@ -31,7 +31,7 @@ const CartDetails = ({
   decodeEntities,
   handleMoveToDetail
 }) => {
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   useEffect(() => {
     if (selectedItem?.ImageCount > 0) {
       CartCardImageFunc(selectedItem).then((src) => {
@@ -50,7 +50,6 @@ const CartDetails = ({
         {imageSrc === undefined ? (
           <CardMedia
             width="100%"
-            height={400}
             sx={{
               width: "100%",
               height: "400px !important",
@@ -79,6 +78,7 @@ const CartDetails = ({
           <img
             src={imageSrc}
             alt="image"
+            // style={{ cursor: selectedItem?.StockNo !== "" ? "default" : "pointer"}}
             className='stam3_cartDetailImage'
             onClick={() => handleMoveToDetail(selectedItem)}
           />
