@@ -141,9 +141,6 @@ const ProductList = () => {
 
   }, [])
 
-
-  console.log("selectedMetalId", selectedMetalId)
-
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
   // console.log("rollOverImgPd",rollOverImgPd).
@@ -1389,25 +1386,30 @@ const ProductList = () => {
   }
 
   const BreadCumsObj = () => {
-    let BreadCum = decodeURI(atob(location?.search.slice(3))).split('/')
+    let BreadCum = decodeURI(atob(location?.search?.slice(3))).split('/')
 
-    const values = BreadCum[0].split(',');
-    const labels = BreadCum[1].split(',');
+    const values = BreadCum?.[0]?.split(',');
+    const labels = BreadCum?.[1]?.split(',');
 
-    const updatedBreadCum = labels.reduce((acc, label, index) => {
+    const updatedBreadCum = labels?.reduce((acc, label, index) => {
       acc[label] = values[index] || '';
       return acc;
     }, {});
 
-    const result = Object.entries(updatedBreadCum).reduce((acc, [key, value], index) => {
-      acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
+    const result = Object?.entries(updatedBreadCum ?? {})?.reduce((acc, [key, value], index) => {
+      acc[`FilterKey${index === 0 ? '' : index}`] = key?.charAt(0)?.toUpperCase() + key?.slice(1);
       acc[`FilterVal${index === 0 ? '' : index}`] = value;
       return acc;
     }, {});
 
+    console.log('result: ', result);
     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
 
-    result.menuname = decodeURI(location?.pathname).slice(3).slice(0, -1).split("/")[0]
+    if (result) {
+      result.menuname = decodeURI(location?.pathname)?.slice(3)?.slice(0, -1)?.split("/")[0]
+    } else {
+      result = {}
+    }
 
     return result
   }
@@ -2160,7 +2162,8 @@ const ProductList = () => {
                             className="stam_breadcums_port"
                             style={{ marginLeft: "3px" }}
                           >
-                            <span>{"Album"}</span>
+                            {location?.pathname?.split("/")[2]?.replaceAll('%20', '')}
+                            {/* <span>{"Album"}</span> */}
                           </div>
                         )}
 
@@ -2182,12 +2185,21 @@ const ProductList = () => {
                           </div>
                         )}
 
-                        {location?.search.charAt(1) == "N" && (
+                        {location?.search?.charAt(1) == "N" && (
                           <div
                             className="stam_breadcums_port"
                             style={{ marginLeft: "3px" }}
                           >
                             <span>{"New Arrival"}</span>
+                          </div>
+                        )}
+
+                        {location?.search?.charAt(1) == "S" && (
+                          <div
+                            className="stam_breadcums_port"
+                            style={{ marginLeft: "3px", textTransform: "uppercase" }}
+                          >
+                            <span>{decodeURIComponent(location?.pathname?.split("/")[2])}</span>
                           </div>
                         )}
 
@@ -2871,7 +2883,7 @@ const ProductList = () => {
                         style={{
                           display: "flex",
                           justifyContent: "center",
-                          width: "75%",
+                          width: "100%",
                           alignItems: "center",
                           height: "500px",
                         }}
@@ -2903,7 +2915,8 @@ const ProductList = () => {
                                     className="stam_breadcums_port"
                                     style={{ marginLeft: "3px" }}
                                   >
-                                    <span>{"Album"}</span>
+                                    {location?.pathname?.split("/")[2]?.replaceAll('%20', '')}
+                                    {/* <span>{"Album"}</span> */}
                                   </div>
                                 )}
 
@@ -2925,12 +2938,21 @@ const ProductList = () => {
                                   </div>
                                 )}
 
-                                {location?.search.charAt(1) == "N" && (
+                                {location?.search?.charAt(1) == "N" && (
                                   <div
                                     className="stam_breadcums_port"
                                     style={{ marginLeft: "3px" }}
                                   >
                                     <span>{"New Arrival"}</span>
+                                  </div>
+                                )}
+
+                                {location?.search?.charAt(1) == "S" && (
+                                  <div
+                                    className="stam_breadcums_port"
+                                    style={{ marginLeft: "3px", textTransform: "uppercase" }}
+                                  >
+                                    <span>{decodeURIComponent(location?.pathname?.split("/")[2])}</span>
                                   </div>
                                 )}
 
@@ -2991,109 +3013,114 @@ const ProductList = () => {
                               <div className="stam_mobile_prodSorting" onClick={(e) => setIsDrawerOpen(true)}>
                                 <span>Filters</span>
                               </div>
-                              {storeInit?.IsMetalCustComb === 1 && <div className="stam_metal_custom">
-                                <label className="label">Metal:&nbsp;</label>
-                                <select
-                                  className="select"
-                                  value={selectedMetalId}
-                                  onChange={(e) => setSelectedMetalId(e.target.value)}
-                                >
-                                  {metalTypeCombo?.map((metalele, i) => (
-                                    <option
-                                      className="option"
-                                      key={i}
-                                      value={metalele?.Metalid}
+                              {!isDrawerOpen && (
+                                <>
+                                  {storeInit?.IsMetalCustComb === 1 && <div className="stam_metal_custom">
+                                    <label className="label">Metal:&nbsp;</label>
+                                    <select
+                                      className="select"
+                                      value={selectedMetalId}
+                                      onChange={(e) => setSelectedMetalId(e.target.value)}
                                     >
-                                      {metalele?.metaltype.toUpperCase()}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                              }
-                              {storeInit?.IsDiamondCustComb === 1 && (
-                                <div className="stam_dia_custom">
-                                  <label className="label">Diamond:&nbsp;</label>
-                                  <select
-                                    className="select"
-                                    value={selectedDiaId}
-                                    onChange={(e) => setSelectedDiaId(e.target.value)}
-                                  >
-                                    {diaQcCombo?.map((diaQc, i) => (
-                                      <option
-                                        className="option"
-                                        key={i}
-                                        value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                                      {metalTypeCombo?.map((metalele, i) => (
+                                        <option
+                                          className="option"
+                                          key={i}
+                                          value={metalele?.Metalid}
+                                        >
+                                          {metalele?.metaltype.toUpperCase()}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                  }
+                                  {storeInit?.IsDiamondCustComb === 1 && (
+                                    <div className="stam_dia_custom">
+                                      <label className="label">Diamond:&nbsp;</label>
+                                      <select
+                                        className="select"
+                                        value={selectedDiaId}
+                                        onChange={(e) => setSelectedDiaId(e.target.value)}
                                       >
-                                        {" "}
-                                        {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
+                                        {diaQcCombo?.map((diaQc, i) => (
+                                          <option
+                                            className="option"
+                                            key={i}
+                                            value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                                          >
+                                            {" "}
+                                            {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    </div>
+                                  )}
+
+                                  {storeInit?.IsCsCustomization === 1 && (
+                                    <div className="stam_cs_custom">
+                                      <label className="label">Color Stone:&nbsp;</label>
+                                      <select
+                                        className="select"
+                                        value={selectedCsId}
+                                        onChange={(e) => setSelectedCsId(e.target.value)}
+                                      >
+                                        {csQcCombo?.map((csCombo, i) => (
+                                          <option
+                                            className="option"
+                                            key={i}
+                                            value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
+                                          >
+                                            {" "}
+                                            {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    </div>
+                                  )}
+
+                                  <div className="stam_sorting_custom">
+                                    <div className="container">
+                                      <label className="label">Sort By:&nbsp;</label>
+                                      <select
+                                        className="select"
+                                        value={sortBySelect}
+                                        onChange={(e) => handleSortby(e)}
+                                      >
+                                        <option className="option" value="Recommended">
+                                          Recommended
+                                        </option>
+                                        <option className="option" value="New">
+                                          New
+                                        </option>
+                                        <option className="option" value="Trending">
+                                          Trending
+                                        </option>
+                                        <option className="option" value="Bestseller">
+                                          Bestseller
+                                        </option>
+                                        {storeInit?.IsStockWebsite == 1 &&
+                                          <option className="option" value="In Stock">
+                                            In stock
+                                          </option>
+                                        }
+                                        <option
+                                          className="option"
+                                          value="PRICE HIGH TO LOW"
+                                        >
+                                          Price High To Low
+                                        </option>
+                                        <option
+                                          className="option"
+                                          value="PRICE LOW TO HIGH"
+                                        >
+                                          Price Low To High
+                                        </option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </>
                               )}
 
-                              {storeInit?.IsCsCustomization === 1 && (
-                                <div className="stam_cs_custom">
-                                  <label className="label">Color Stone:&nbsp;</label>
-                                  <select
-                                    className="select"
-                                    value={selectedCsId}
-                                    onChange={(e) => setSelectedCsId(e.target.value)}
-                                  >
-                                    {csQcCombo?.map((csCombo, i) => (
-                                      <option
-                                        className="option"
-                                        key={i}
-                                        value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
-                                      >
-                                        {" "}
-                                        {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-
-                              <div className="stam_sorting_custom">
-                                <div className="container">
-                                  <label className="label">Sort By:&nbsp;</label>
-                                  <select
-                                    className="select"
-                                    value={sortBySelect}
-                                    onChange={(e) => handleSortby(e)}
-                                  >
-                                    <option className="option" value="Recommended">
-                                      Recommended
-                                    </option>
-                                    <option className="option" value="New">
-                                      New
-                                    </option>
-                                    <option className="option" value="Trending">
-                                      Trending
-                                    </option>
-                                    <option className="option" value="Bestseller">
-                                      Bestseller
-                                    </option>
-                                    {storeInit?.IsStockWebsite == 1 &&
-                                      <option className="option" value="In Stock">
-                                        In stock
-                                      </option>
-                                    }
-                                    <option
-                                      className="option"
-                                      value="PRICE HIGH TO LOW"
-                                    >
-                                      Price High To Low
-                                    </option>
-                                    <option
-                                      className="option"
-                                      value="PRICE LOW TO HIGH"
-                                    >
-                                      Price Low To High
-                                    </option>
-                                  </select>
-                                </div>
-                              </div>
                             </div>
                             <div className="stam_outer_portion" id="stam_outer_portion">
                               {/* <div className="stam_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
@@ -3252,13 +3279,14 @@ const ProductList = () => {
                                       <div className="stam_prod_card_info">
                                         <div className="stam_prod_Title">
                                           <span
-                                            className={
-                                              (productData?.TitleLine?.length > 30)
-                                                ?
-                                                "stam_prod_title_with_width"
-                                                :
-                                                "stam_prod_title_with_no_width"
-                                            }
+                                            className="stam_prod_title_with_no_width"
+                                            // className={
+                                            //   (productData?.TitleLine?.length > 30)
+                                            //     ?
+                                            //     "stam_prod_title_with_width"
+                                            //     :
+                                            //     "stam_prod_title_with_no_width"
+                                            // }
                                           >
                                             {/* {productData?.TitleLine?.length > 0 &&
                                             "-"}
@@ -3269,82 +3297,95 @@ const ProductList = () => {
                                           {productData?.designno}
                                         </span> */}
                                         </div>
-                                        <div className="stam_prod_Allwt">
+                                        {/* <div className="stam_prod_Allwt">
                                           <div
                                             style={{
                                               display: "flex",
                                               justifyContent: "center",
                                               alignItems: "center",
-                                              letterSpacing: maxwidth590px
-                                                ? "0px"
-                                                : "0.4px",
-                                              // gap:maxwidth1674px ? '0px':'3px',
-                                              flexWrap: "wrap",
+                                              letterSpacing: maxwidth590px ? "0px" : "0.4px",
                                             }}
                                           >
-                                            {/* <span className="stam_por"> */}
-
-                                            {storeInit?.IsGrossWeight == 1 &&
-                                              Number(productData?.Gwt) !== 0 && (
-                                                <span className="stam_prod_wt">
-                                                  <span className="stam_main_keys">
-                                                    GWT:
-                                                  </span>
-                                                  <span className="stam_main_val">
-                                                    {(productData?.Gwt)?.toFixed(3)}
-                                                  </span>
-                                                </span>
-                                              )}
+                                            {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
+                                              <span className="stam_prod_wt">
+                                                <span className="stam_main_keys">GWT:</span>
+                                                <span className="stam_main_val">{(productData?.Gwt)?.toFixed(3)}</span>
+                                              </span>
+                                            )}
                                             {Number(productData?.Nwt) !== 0 && (
                                               <>
                                                 <span className="stm_prod_span">|</span>
                                                 <span className="stam_prod_wt">
                                                   <span className="stam_main_keys">NWT:</span>
+                                                  <span className="stam_main_val">{(productData?.Nwt)?.toFixed(3)}</span>
+                                                </span>
+                                              </>
+                                            )}
+                                            {storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0 && (
+                                              <>
+                                                <span className="stm_prod_span">|</span>
+                                                <span className="stam_prod_wt">
+                                                  <span className="stam_main_keys">DWT:</span>
                                                   <span className="stam_main_val">
-                                                    {(productData?.Nwt)?.toFixed(3)}
+                                                    {(productData?.Dwt)?.toFixed(3)}
+                                                    {storeInit?.IsDiamondPcs === 1 ? `/${productData?.Dpcs}` : null}
                                                   </span>
                                                 </span>
                                               </>
                                             )}
-                                            {/* </span> */}
-                                            {/* <span className="stam_por"> */}
-                                            {storeInit?.IsDiamondWeight == 1 &&
-                                              Number(productData?.Dwt) !== 0 && (
-                                                <>
-                                                  <span className="stm_prod_span">|</span>
-                                                  <span className="stam_prod_wt">
-                                                    <span className="stam_main_keys">
-                                                      DWT:
-                                                    </span>
-                                                    <span className="stam_main_val">
-                                                      {(productData?.Dwt)?.toFixed(3)}
-                                                      {storeInit?.IsDiamondPcs === 1
-                                                        ? `/${productData?.Dpcs}`
-                                                        : null}
-                                                    </span>
+                                            {storeInit?.IsStoneWeight == 1 && Number(productData?.CSwt) !== 0 && (
+                                              <>
+                                                <span className="stm_prod_span">|</span>
+                                                <span className="stam_prod_wt">
+                                                  <span className="stam_main_keys">CWT:</span>
+                                                  <span className="stam_main_val">
+                                                    {(productData?.CSwt)?.toFixed(3)}
+                                                    {storeInit?.IsStonePcs === 1 ? `/${productData?.CSpcs}` : null}
                                                   </span>
-                                                </>
-                                              )}
-                                            {storeInit?.IsStoneWeight == 1 &&
-                                              Number(productData?.CSwt) !== 0 && (
-                                                <>
-                                                  <span className="stm_prod_span">|</span>
-                                                  <span className="stam_prod_wt">
-                                                    <span className="stam_main_keys">
-                                                      CWT:
-                                                    </span>
-                                                    <span className="stam_main_val">
-                                                      {(productData?.CSwt)?.toFixed(3)}
-                                                      {storeInit?.IsStonePcs === 1
-                                                        ? `/${productData?.CSpcs}`
-                                                        : null}
-                                                    </span>
-                                                  </span>
-                                                </>
-                                              )}
-                                            {/* </span> */}
+                                                </span>
+                                              </>
+                                            )}
                                           </div>
+                                        </div> */}
+
+                                        <div className='prod_info_data'>
+                                          {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
+                                            <>
+                                              <span className='stam_btdetailDT'>GWT: </span>
+                                              <span className='stam_btdetailDT'>{(productData?.Gwt || 0)?.toFixed(3)}</span>
+                                            </>
+                                          )}
+                                          {Number(productData?.Nwt) !== 0 && (
+                                            <>
+                                              <span className='stam_btpipe'>|</span>
+                                              <span className='stam_btdetailDT'>NWT: </span>
+                                              <span className='stam_btdetailDT'>{(productData?.Nwt || 0)?.toFixed(3)}</span>
+                                            </>
+                                          )}
+                                          {storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0 && (
+                                            <>
+                                              {(productData?.Dwt != "0" || productData?.Dpcs != "0") &&
+                                                <>
+                                                  <span className='stam_btpipe'>|</span>
+                                                  <span className='stam_btdetailDT'>DWT: </span>
+                                                  <span className='stam_btdetailDT'>{(productData?.Dwt || 0)?.toFixed(3)}/{(productData?.Dpcs || 0)}</span>
+                                                </>
+                                              }
+                                            </>
+                                          )}
+                                          {storeInit?.IsStoneWeight == 1 && Number(productData?.CSwt) !== 0 && (
+                                            <>
+                                              {(productData?.CSwt != "0" || productData?.CSpcs != "0") &&
+                                                <>
+                                                  <span className='stam_btpipe'>|</span>
+                                                  <span className='stam_btdetailDT'>CWT: </span>
+                                                  <span className='stam_btdetailDT'>{(productData?.CSwt || 0)?.toFixed(3)}/{(productData?.CSpcs || 0)}</span>
+                                                </>
+                                              }
+                                            </>
+                                          )}
                                         </div>
+
                                         <div className="stam_prod_mtcolr_price">
                                           <span className="stam_prod_metal_col">
                                             {findMetalColor(

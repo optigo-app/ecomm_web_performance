@@ -2694,7 +2694,8 @@ const BreadcrumbMenu = ({
 
         {location?.search.charAt(1) == "A" && (
           <div className="hoq_breadcums_port" style={{ marginLeft: "3px" }}>
-            <span>{"Album"}</span>
+            {/* <span>{"Album"}</span> */}
+            <span>{location?.pathname?.split("/")[2]?.replaceAll('%20', '')}</span>
           </div>
         )}
 

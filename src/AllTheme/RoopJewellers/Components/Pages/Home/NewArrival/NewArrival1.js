@@ -191,7 +191,7 @@ const NewArrival = () => {
                           </span>
                         </>
                       )}
-                      {storeInit?.IsGrossWeight == 1 && (
+                      {Number(product?.Nwt) !== 0 && (
                         <>
                           <span className="roop_lb3pipe"> | </span>
                           <span className="roop_lb3detailDT">NWT : </span>
@@ -200,7 +200,7 @@ const NewArrival = () => {
                           </span>
                         </>
                       )}
-                      {storeInit?.IsGrossWeight == 1 && (
+                      {storeInit?.IsDiamondWeight == 1 && (
                         <>
                           {(product?.Dwt != "0" || product?.Dpcs != "0") && (
                             <>
@@ -214,7 +214,7 @@ const NewArrival = () => {
                           )}
                         </>
                       )}
-                      {storeInit?.IsGrossWeight == 1 && (
+                      {storeInit?.IsStoneWeight == 1 && (
                         <>
                           {(product?.CSwt != "0" || product?.CSpcs != "0") && (
                             <>

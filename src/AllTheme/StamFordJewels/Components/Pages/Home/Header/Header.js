@@ -381,9 +381,34 @@ const Header = () => {
         let encodeObj = btoa(JSON.stringify(obj))
         navigation(`/p/${searchText}?S=${encodeObj}`);
         setSearchText("")
+        setDrawerShowOverlay(false);
+        toggleOverlay();
+        setSerachShowOverlay(false);
       }
     }
   };
+
+  const clickSearch = () => {
+    if (searchText) {
+      let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+      let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+      let obj = {
+        a: "",
+        b: searchText,
+        m: loginInfo?.MetalId ?? storeInit?.MetalId,
+        d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+        c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+        f: {},
+      };
+
+      let encodeObj = btoa(JSON.stringify(obj));
+      setDrawerShowOverlay(false);
+      navigation(`/p/${searchText}?S=${encodeObj}`);
+      setSearchText("");
+      setSerachShowOverlay(false);
+    }
+  }
+
 
   const toggleCartDrawer = () => {
     setIsCartOpen((prevState) => !prevState);
@@ -484,6 +509,7 @@ const Header = () => {
                 margin: "20px 10px 0px 10px",
                 display: "flex",
                 justifyContent: "space-between",
+                minHeight: "13%",
               }}
             >
               <div className="stam_mobileHeader_top_div1">
@@ -525,19 +551,20 @@ const Header = () => {
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
-                      className="badgeColorFix stam_mobileHideIcone"
+                      className="badgeColorFix"
                       style={{ marginInline: "15px" }}
                     >
                       <Tooltip title="WishList">
                         <li
                           className="nav_li_smining_Icone"
-                          onClick={() => navigation("/myWishList")}
+                          onClick={() => { navigation("/myWishList"); toggleDrawerOverlay() }}
                         >
                           <PiStarThin
                             style={{
-                              height: "20px",
+                              height: "30px",
+                              fontWeight: "700",
                               cursor: "pointer",
-                              width: "20px",
+                              width: "30px",
                             }}
                           />
                         </li>
@@ -566,7 +593,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage"); toggleDrawerOverlay() }}
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -733,7 +760,7 @@ const Header = () => {
             </div>
 
             <div>
-              <p
+              {/* <p
                 className="stam_menuStaicMobilePageLink"
                 style={{ marginTop: "10px" }}
                 onClick={() => {
@@ -742,7 +769,7 @@ const Header = () => {
                 }}
               >
                 WishList
-              </p>
+              </p> */}
             </div>
 
             {IsB2BWebsiteChek === 1 ? (
@@ -834,8 +861,11 @@ const Header = () => {
                     fontSize: "17px",
                   }}
                   className="mobileSideBarSearch"
+                  onChange={(e) => setSearchText(e.target.value)}
+                  onKeyDown={searchDataFucn}
                 />
                 <IoSearchOutline
+                  onClick={() => clickSearch()}
                   style={{
                     height: "20px",
                     cursor: "pointer",
@@ -919,7 +949,7 @@ const Header = () => {
                 </li>
               )}
 
-              <li
+              {/* <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
                 onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
@@ -927,7 +957,7 @@ const Header = () => {
                 <a href="/servicePolicy" className="stam_A_link">
                   SERVICE POLICY
                 </a>
-              </li>
+              </li> */}
 
               {IsB2BWebsiteChek === 1 ? (
                 islogin === true ? (
@@ -1034,13 +1064,13 @@ const Header = () => {
                     <Tooltip title="WishList">
                       <li
                         className="nav_li_smining_Icone"
-                        onClick={() => navigation("/myWishList")}
+                        onClick={() => {navigation("/myWishList")}}
                       >
                         <PiStarThin
                           style={{
-                            height: "20px",
+                            height: "30px",
                             cursor: "pointer",
-                            width: "20px",
+                            width: "30px",
                           }}
                         />
                       </li>
@@ -1068,7 +1098,7 @@ const Header = () => {
                   >
                     <Tooltip title="Cart">
                       <li
-                        onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                        onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage")}}
                         className="nav_li_smining_Icone"
                       >
                         <ShoppingCartOutlinedIcon
@@ -1125,7 +1155,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage") }}
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -1258,7 +1288,7 @@ const Header = () => {
                   </>
                 )}
 
-                <li
+                {/* <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
                   onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
@@ -1266,7 +1296,7 @@ const Header = () => {
                   <a href="/servicePolicy" className="stam_A_linkFixed">
                     SERVICE POLICY
                   </a>
-                </li>
+                </li> */}
               </ul>
             </div>
 
@@ -1376,7 +1406,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage") }}
                           className="nav_li_smining_Fixed_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -1433,7 +1463,7 @@ const Header = () => {
                       >
                         <Tooltip title="Cart">
                           <li
-                            onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                            onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage")}}
                             className="nav_li_smining_Fixed_Icone"
                           >
                             <ShoppingCartOutlinedIcon

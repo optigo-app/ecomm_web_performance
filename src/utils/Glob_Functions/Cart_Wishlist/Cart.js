@@ -673,20 +673,37 @@ const useCart = () => {
   };
 
   const handleMoveToDetail = (cartData) => {
-    let obj = {
-      a: cartData?.autocode,
-      b: cartData?.designno,
-      m: cartData?.metaltypeid,
-      d: diaIDData,
-      c: colorStoneID,
-      f: {},
-      g: [["", ""], ["", "", ""]],
+    const logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const createAndNavigate = (obj) => {
+      const encodedObj = compressAndEncode(JSON.stringify(obj));
+      navigate(`/d/${cartData?.TitleLine ? cartData?.TitleLine.replace(/\s+/g, `_`) + (cartData?.TitleLine?.length > 0 ? "_" : "") : ""}${cartData?.designno}?p=${encodedObj}`);
     }
-    compressAndEncode(JSON.stringify(obj))
-    let encodeObj = compressAndEncode(JSON.stringify(obj))
-
-    navigate(`/d/${cartData?.TitleLine?.replace(/\s+/g, `_`)}${cartData?.TitleLine?.length > 0 ? "_" : ""}${cartData?.designno}?p=${encodeObj}`)
-  }
+  
+    if (cartData?.StockNo !== "") {
+      let obj = {
+        a: cartData?.autocode,
+        b: cartData?.designno,
+        m: logindata?.MetalId,
+        d: logindata?.cmboDiaQCid,
+        c: logindata?.cmboCSQCid,
+        f: {},
+        g: [["", ""], ["", "", ""]],
+      };
+      createAndNavigate(obj);
+    } else {
+      let obj = {
+        a: cartData?.autocode,
+        b: cartData?.designno,
+        m: cartData?.metaltypeid,
+        d: diaIDData,
+        c: colorStoneID,
+        f: {},
+        g: [["", ""], ["", "", ""]],
+      };
+      createAndNavigate(obj);
+    }
+  };
+  
 
   // browse our collection
   const handelMenu = () => {

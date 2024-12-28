@@ -5,6 +5,7 @@ $borderColor: rgba(232, 232, 232, 1);
 .stam3_MainBGDiv {
   font-family: $primaryFontFamily;
   margin-top: 40px;
+
   @media screen and (max-width: 320px) {
     overflow: hidden;
   }
@@ -13,6 +14,7 @@ $borderColor: rgba(232, 232, 232, 1);
     color: $titleColor;
     font-size: $fontSize6;
     text-align: center;
+
     @media screen and (max-width: 768px) {
       margin-bottom: 1rem;
     }
@@ -152,7 +154,7 @@ $borderColor: rgba(232, 232, 232, 1);
                 .stam3_weightsContainer {
                   display: flex;
                   flex-wrap: wrap;
-             
+
                 }
 
                 .stam3_diamondSKUNO {
@@ -161,7 +163,7 @@ $borderColor: rgba(232, 232, 232, 1);
 
                 .stam3_weightPair {
                   display: flex;
-                  align-items: center;  
+                  align-items: center;
                   justify-content: center;
                   align-items: center;
                   color: $titleColor;
@@ -198,6 +200,7 @@ $borderColor: rgba(232, 232, 232, 1);
               }
 
               &__total-price {
+
                 p,
                 span {
                   color: $titleColor;
@@ -313,6 +316,7 @@ $borderColor: rgba(232, 232, 232, 1);
               }
 
               &__total-price {
+
                 p,
                 span {
                   color: #df647e;
@@ -661,6 +665,10 @@ $borderColor: rgba(232, 232, 232, 1);
                 .stam3_cart-item__details {
                   h3 {
                     font-size: $fontSize2;
+                    text-overflow: ellipsis !important;
+                    overflow: hidden !important;
+                    white-space: nowrap !important;
+                    width: 100%;
                   }
 
                   .stam3_weightsContainer {
@@ -753,6 +761,7 @@ $borderColor: rgba(232, 232, 232, 1);
 
         .stam3_RightCartList {
           .stam3_cartMain-item {
+
             .stam3_cart-item,
             .stam3_Diacart-item {
               .stam3_cart-item__details {
@@ -828,8 +837,7 @@ $borderColor: rgba(232, 232, 232, 1);
         width: 100% !important;
 
         .stam3_RightCartList {
-          .stam3_tablelable {
-          }
+          .stam3_tablelable {}
 
           .stam3_cart-item {
             .stam3_cart-item__details {
@@ -900,6 +908,7 @@ $borderColor: rgba(232, 232, 232, 1);
                 .stam3_cart-item__details {
                   padding-left: 0;
                   text-align: center;
+                  width: 100%;
 
                   h3 {
                     font-size: $fontSize2;
@@ -913,6 +922,9 @@ $borderColor: rgba(232, 232, 232, 1);
                   .stam3_qtyDiv {
                     justify-content: center;
                     align-items: center;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
                   }
 
                   .stam3_qtyDiv_qty {

@@ -9,6 +9,7 @@ import { Grid } from '@mui/material';
 import Footer from "../../Home/Footer/Footer"
 import SkeletonLoader from './AddressSkelton';
 import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
+import { ToastContainer } from 'react-toastify';
 
 const AddressManagement = () => {
     const {
@@ -42,6 +43,7 @@ const AddressManagement = () => {
 
     return (
         <div className='stam_DeliverMainDiv'>
+            <ToastContainer />
             <div className='stam_secondMaindivAdd'>
                 <div className='stam_addMainDiv'>
                     <div className='stam_TitleDetailMainDiv'>

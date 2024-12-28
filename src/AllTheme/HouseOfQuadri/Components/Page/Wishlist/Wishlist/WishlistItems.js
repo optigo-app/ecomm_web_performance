@@ -112,7 +112,7 @@ const WishlistItems = ({
                     <span className="hoq_pipe"> | </span>{" "}
                   </>
                 )}
-                <span className="hoq_wishDT">NWT : </span>
+                <span className="hoq_wishDT">NWT: </span>
                 <span className="hoq_wishDT">
                   {(item?.Nwt || 0).toFixed(3)}{" "}
                 </span>

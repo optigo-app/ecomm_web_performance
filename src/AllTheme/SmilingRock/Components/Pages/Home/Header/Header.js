@@ -406,9 +406,33 @@ const Header = () => {
         navigation(`/p/${searchText}?S=${encodeObj}`);
         toggleOverlay();
         setSearchText("")
+        setSerachShowOverlay(false);
+        setDrawerShowOverlay(false);
       }
     }
   };
+
+  const clickSearch = () => {
+    if (searchText) {
+      let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+      let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+      let obj = {
+        a: "",
+        b: searchText,
+        m: loginInfo?.MetalId ?? storeInit?.MetalId,
+        d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+        c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+        f: {},
+      };
+
+      let encodeObj = btoa(JSON.stringify(obj));
+      setDrawerShowOverlay(false);
+      navigation(`/p/${searchText}?S=${encodeObj}`);
+      setSearchText("");
+      setSerachShowOverlay(false);
+    }
+  }
+
 
 
   const toggleCartDrawer = () => {
@@ -465,6 +489,7 @@ const Header = () => {
           <div className="smr_smlingSearchoverlay" >
             <div className="smr_smlingTopSerachOver" >
               <IoSearchOutline
+               onClick={() => clickSearch()}
                 style={{ height: "15px", width: "15px", marginRight: "10px" }}
               />
               <input
@@ -586,7 +611,7 @@ const Header = () => {
                         </li>
                       </Tooltip>
                     </Badge>
-                    <li
+                    {/* <li
                       className="nav_li_smining_Icone smr_mobileHideIcone"
                       onClick={toggleOverlay}
                       style={{}}
@@ -598,7 +623,7 @@ const Header = () => {
                           width: "20px",
                         }}
                       />
-                    </li>
+                    </li> */}
                     <Badge
                       badgeContent={cartCountNum}
                       max={1000}
@@ -871,6 +896,7 @@ const Header = () => {
                 <input
                   type="text"
                   placeholder="Search"
+                  value={searchText}
                   style={{
                     width: "100%",
                     borderBottom: "1px solid white",
@@ -882,9 +908,12 @@ const Header = () => {
                     color: "white",
                     fontSize: "17px",
                   }}
+                  onChange={(e) => setSearchText(e.target.value)}
                   className="mobileSideBarSearch"
+                  onKeyDown={searchDataFucn}
                 />
                 <IoSearchOutline
+                 onClick={() => clickSearch()}
                   style={{
                     height: "20px",
                     cursor: "pointer",

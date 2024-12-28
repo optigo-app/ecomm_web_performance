@@ -71,7 +71,7 @@ const Navbar = () => {
     Hoq_MobilecompanyLogo
   );
   const is320px = useMediaQuery("(max-width:320px)");
-  const is400px = useMediaQuery("(max-width:401px)");
+  const is500px = useMediaQuery("(max-width:500px)");
   const [loading, setLoading] = useState(true);
   const [IsCartNo, setIsCartNo] = useState();
 
@@ -590,7 +590,7 @@ const Navbar = () => {
             <div className="logo">
               <Link to={"/"}>
                 <img
-                  src={is400px ? MobileLogoNew : DeskTopLogo}
+                  src={is500px ? MobileLogoNew : DeskTopLogo}
                   alt=""
                   onClick={() =>
                     window.scrollTo({ behavior: "smooth", top: 0, left: 0 })
@@ -1178,7 +1178,7 @@ const NavbarCenter = ({
   handleMenu,
   logo,
   islogin,
-  is400px,
+  is500px,
   MobileLogo,
 }) => {
   const isOpen = true;

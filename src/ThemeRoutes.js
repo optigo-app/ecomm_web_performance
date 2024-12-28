@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import SmilingRock_App from "./AllTheme/SmilingRock/SmilingRock_App";
-// import DaimondTine_App from "./AllTheme/DaimondTine/DaimondTine_App";
-// import Elveester_App from "./AllTheme/Elveester/Elveester_App";
+import DaimondTine_App from "./AllTheme/DaimondTine/DaimondTine_App";
+import Elveester_App from "./AllTheme/Elveester/Elveester_App";
 import { Storeinit } from "./utils/API/Home/Storeinit/Storeinit";
 import { CurrencyComboAPI } from "./utils/API/Combo/CurrencyComboAPI";
 import { MetalColorCombo } from "./utils/API/Combo/MetalColorCombo";

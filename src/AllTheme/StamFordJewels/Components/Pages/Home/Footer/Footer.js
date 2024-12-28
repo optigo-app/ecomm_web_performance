@@ -97,6 +97,7 @@ const Footer = ({ fromPage }) => {
   const [localData, setLocalData] = useState();
   const compnyLogo = useRecoilValue(stam_companyLogo);
   const [companyInfoData, setcompanyInfoData] = useState(null);
+  // const maxWidth
   // let footerLogo = `${storImagePath()}/images/HomePage/sdj.png`;
   let footerLogo = `${storImagePath()}/images/HomePage/Footer/CompanyLogo.png`;
 
@@ -221,14 +222,14 @@ const Footer = ({ fromPage }) => {
             ))}
           </div>
           <div className="stamkan-main_foo">
-            <p className="malkan-footerOfficeDesc">
-              <IoLocationOutline size={20} />
+            <div className="malkan-footerOfficeDesc1">
+              <IoLocationOutline className="location_footer_icon" style={{marginTop: "3px"}} size={20} />
               <span className="fooetr_address_malkan">
                 {companyInfoData?.FrontEndAddress}, {" "}
                 {companyInfoData?.FrontEndCity} -{" "}
                 {companyInfoData?.FrontEndZipCode}
               </span>
-            </p>
+            </div>
             <p className="malkan-footerOfficeDesc">
               <IoMdCall size={20} />
               <span>
