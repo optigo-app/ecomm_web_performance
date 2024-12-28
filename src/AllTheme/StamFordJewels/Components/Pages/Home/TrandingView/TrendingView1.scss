@@ -338,6 +338,10 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+
+      @media (max-width: 1000px) {
+        font-size: 11px;
+      }
     }
 
     .prod_info_data{
@@ -364,6 +368,10 @@
       font-family: $primaryFontFamily;
       color: $titleColor;
       letter-spacing: .5px;
+
+      @media (max-width: 1000px) {
+        font-size: 11px;
+      }
     }
 
     .stam_btpipe {

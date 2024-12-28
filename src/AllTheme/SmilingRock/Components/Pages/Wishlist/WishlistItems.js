@@ -133,7 +133,7 @@ const WishlistItems = ({
                     {storeInit?.IsMetalWeight == 1 && (
                       <>
                         <span className="smr_pipes"> | </span>
-                        <span className="smr_wishDT">NWT : </span>
+                        <span className="smr_wishDT">NWT: </span>
                         <span className="smr_wishDT">
                           {(item?.Nwt || 0).toFixed(3)}
                         </span>
