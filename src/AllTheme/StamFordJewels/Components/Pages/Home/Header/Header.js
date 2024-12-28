@@ -509,6 +509,7 @@ const Header = () => {
                 margin: "20px 10px 0px 10px",
                 display: "flex",
                 justifyContent: "space-between",
+                minHeight: "13%",
               }}
             >
               <div className="stam_mobileHeader_top_div1">
@@ -1063,13 +1064,13 @@ const Header = () => {
                     <Tooltip title="WishList">
                       <li
                         className="nav_li_smining_Icone"
-                        onClick={() => navigation("/myWishList")}
+                        onClick={() => {navigation("/myWishList")}}
                       >
                         <PiStarThin
                           style={{
-                            height: "20px",
+                            height: "30px",
                             cursor: "pointer",
-                            width: "20px",
+                            width: "30px",
                           }}
                         />
                       </li>
@@ -1097,7 +1098,7 @@ const Header = () => {
                   >
                     <Tooltip title="Cart">
                       <li
-                        onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage"); toggleDrawerOverlay() }}
+                        onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage")}}
                         className="nav_li_smining_Icone"
                       >
                         <ShoppingCartOutlinedIcon
@@ -1154,7 +1155,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage"); toggleDrawerOverlay() }}
+                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage") }}
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -1405,7 +1406,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage"); toggleDrawerOverlay() }}
+                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage") }}
                           className="nav_li_smining_Fixed_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -1462,7 +1463,7 @@ const Header = () => {
                       >
                         <Tooltip title="Cart">
                           <li
-                            onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage"); toggleDrawerOverlay() }}
+                            onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage")}}
                             className="nav_li_smining_Fixed_Icone"
                           >
                             <ShoppingCartOutlinedIcon

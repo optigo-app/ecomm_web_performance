@@ -2137,12 +2137,12 @@ const ProductDetail = () => {
                                   <Checkbox
                                     icon={
                                       <FavoriteBorderIcon
-                                        sx={{ fontSize: "25px", color: "#7d7f85" }}
+                                        sx={{ fontSize: "25px", color: "#17372F" }}
                                       />
                                     }
                                     checkedIcon={
                                       <FavoriteIcon
-                                        sx={{ fontSize: "25px", color: "#7d7f85" }}
+                                        sx={{ fontSize: "25px", color: "#17372F" }}
                                       />
                                     }
                                     disableRipple={true}

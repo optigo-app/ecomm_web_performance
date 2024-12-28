@@ -288,7 +288,7 @@
         /* Set default color */
         display: flex;
         /* Use flexbox for better alignment */
-        align-items: center;
+        align-items: flex-start;
         /* Vertically center the icons and text */
         margin-bottom: 8px;
         /* Space between each item */
@@ -312,6 +312,58 @@
             text-decoration: underline;
             /* Underline on hover */
           }
+        }
+      }
+
+      .malkan-footerOfficeDesc1 {
+        margin: 0 5px;
+        font-size: 14px;
+        color: #333;
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 8px;
+
+        .fooetr_address_malkan {
+          max-width: 250px;
+
+          @media screen and (min-width: 767px) and (max-width: 1000px) {
+              font-size: 12px;
+          }
+        }
+        .location_footer_icon{
+          margin-right: 8px;
+        }
+
+        & a {
+          color: black;
+          /* Link color */
+          text-decoration: none;
+
+          /* Remove underline from links */
+          &:hover {
+            text-decoration: underline;
+            /* Underline on hover */
+          }
+        }
+
+        @media screen and (min-width: 767px) and (max-width: 1000px) {
+          .location_footer_icon {
+            width: 100px !important;
+            height: 25px !important;
+            margin-bottom: 1rem;
+            margin-right: 0;
+          }
+        }
+        @media (max-width: 768px) {
+          .location_footer_icon {
+            width: 25px !important;
+            height: 25px !important;
+            margin-bottom: 1rem;
+          }
+        }
+
+        @media screen and (min-width: 767px) and (max-width: 1000px) {
+          margin: 0;
         }
       }
     }

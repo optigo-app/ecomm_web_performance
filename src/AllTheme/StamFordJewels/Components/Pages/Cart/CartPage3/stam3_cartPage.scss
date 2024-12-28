@@ -665,6 +665,10 @@ $borderColor: rgba(232, 232, 232, 1);
                 .stam3_cart-item__details {
                   h3 {
                     font-size: $fontSize2;
+                    text-overflow: ellipsis !important;
+                    overflow: hidden !important;
+                    white-space: nowrap !important;
+                    width: 100%;
                   }
 
                   .stam3_weightsContainer {
@@ -904,12 +908,10 @@ $borderColor: rgba(232, 232, 232, 1);
                 .stam3_cart-item__details {
                   padding-left: 0;
                   text-align: center;
+                  width: 100%;
 
                   h3 {
                     font-size: $fontSize2;
-                    text-overflow: ellipsis;
-                    overflow: hidden;
-                    white-space: nowrap;
                   }
 
                   p {

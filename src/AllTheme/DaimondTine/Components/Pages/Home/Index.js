@@ -43,31 +43,32 @@ function Home() {
 
 
 
-  return (<Demo/>
-    // <>
-    //   {htmlContent?.rd && htmlContent?.rd.length > 0 && (
-    //     <div>
-    //       <Suspense fallback={<div></div>}>
-    //         <TopSection />
-    //         {htmlContent?.rd[0]?.IsHomeAlbum === 1 && <Album1 />}
-    //         {htmlContent?.rd[0]?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
-    //         {htmlContent?.rd[0]?.IsHomeNewArrival === 1 && <NewArrival />}
-    //         {htmlContent?.rd[0]?.IsHomeTrending === 1 && <TrendingView1 />}
-    //         {htmlContent?.rd[0]?.IsHomeDesignSet === 1 && <DesignSet2 />}
-    //         {isLoadingHome ? (
-    //           <div className="dat_Home_loader_container">
-    //             <div className="dt_Home_loader"></div>
-    //           </div>
-    //         ) : (
-    //           <>
-    //             <SocialMedia />
-    //             <Footer />
-    //           </>
-    //         )}
-    //       </Suspense>
-    //     </div>
-    //   )}
-    // </>
+  return (
+  // <Demo/>
+    <>
+      {htmlContent?.rd && htmlContent?.rd.length > 0 && (
+        <div>
+          <Suspense fallback={<div></div>}>
+            <TopSection />
+            {htmlContent?.rd[0]?.IsHomeAlbum === 1 && <Album1 />}
+            {htmlContent?.rd[0]?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
+            {htmlContent?.rd[0]?.IsHomeNewArrival === 1 && <NewArrival />}
+            {htmlContent?.rd[0]?.IsHomeTrending === 1 && <TrendingView1 />}
+            {htmlContent?.rd[0]?.IsHomeDesignSet === 1 && <DesignSet2 />}
+            {isLoadingHome ? (
+              <div className="dat_Home_loader_container">
+                <div className="dt_Home_loader"></div>
+              </div>
+            ) : (
+              <>
+                <SocialMedia />
+                <Footer />
+              </>
+            )}
+          </Suspense>
+        </div>
+      )}
+    </>
   )
 }
 

@@ -109,7 +109,8 @@
 
 .smr_prod_titleLine {
     text-align: start !important;
-    font-size: 35px;
+    font-size: 27px;
+    // font-size: 35px;
     font-family: $homePageFontFamily;
     font-weight: 400;
     font-style: normal;
@@ -758,7 +759,7 @@
 
 @media screen and (max-width:425px) {
     .smr_prod_titleLine {
-        font-size: 30px;
+        font-size: 22px;
     }
 
     .smr_prod_shortInfo_inner {
