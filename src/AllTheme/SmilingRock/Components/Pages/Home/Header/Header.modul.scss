@@ -247,9 +247,9 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 100%;
+        width: 80%;
         height: 150%;
-        background-color: rgba(192, 187, 177, 1.8);
+        background-color: $sliderbar;
         z-index: 999999999999;
         transition: all 0.9s ease-in-out;
     }
@@ -265,6 +265,7 @@
         background-color: rgba(0, 0, 0, 0.40);
         display: flex;
         z-index: 999;
+        font-family: $Pfonts;
     }
 
     .smr_smlingTopSerachOver {
@@ -275,6 +276,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        @media screen and (max-width:768px) {
+      margin: 10px 5px;
+      padding: 0 15px;
+        }
     }
 
     .smr_serachinputBoxOverly {
@@ -470,7 +475,7 @@
 
         .srm_MobileSiderBarMain {
             height: 100%;
-            width: 100%;
+            width: 95%;
             overflow: scroll;
         }
 
@@ -485,6 +490,9 @@
         .nav_ul_shop_menu_Mobile {
             padding: 0px;
             margin: 0px !important;
+            .muIconeMobileHeader{
+                color: $menuColor;
+            }
         }
 
         .smr_menuStaicMobile {

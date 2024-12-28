@@ -6,6 +6,15 @@ import { smrMA_loginState } from "../../../Recoil/atom";
 import { storImagePath } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 import './TopSection.modul.scss'
 
+
+
+const imagePaths = [
+  '/images/HomePage/topBanner/HomepageMainBannerImage1.webp',
+  '/images/HomePage/topBanner/HomepageMainBannerImage2.webp',
+  '/images/HomePage/topBanner/HomepageMainBannerImage3.webp',
+  '/images/HomePage/topBanner/HomepageMainBannerImage4.webp'
+];
+
 export default function TopSection() {
   const islogin = useRecoilValue(smrMA_loginState);
   const [loading, setLoading] = useState(true);
@@ -44,8 +53,25 @@ export default function TopSection() {
   return (<>
     <div className="smrMA_TopSectionMain">
       <Slider {...settings}>
-        {/* onClick={() => naviagtion('/productpage')} */}
-        <div className='homePageSliderImagwMain'>
+        
+{imagePaths.map((path, index) => (
+        <div key={index} className='homePageSliderImagwMain'>
+          <img src={`${storImagePath()}${path}`} className='homePageSliderImagw' alt={`Banner ${index + 1}`} />
+        </div>
+      ))}
+      </Slider>
+  
+    </div>
+    <div className='smr_gradient_background'>
+        <p>Grab flat $50 off with code FRI600</p>
+      </div>
+  </>
+  );
+}
+
+
+{/* onClick={() => naviagtion('/productpage')} */}
+        {/* <div className='homePageSliderImagwMain'>
           <img src={`${storImagePath()}/images/HomePage/topBanner/HomepageMainBannerImage1.webp`} className='homePageSliderImagw' />
         </div>
 
@@ -59,16 +85,7 @@ export default function TopSection() {
 
         <div className='homePageSliderImagwMain'>
           <img src={`${storImagePath()}/images/HomePage/topBanner/HomepageMainBannerImage4.webp`} className='homePageSliderImagw' />
-        </div>
-      </Slider>
-  
-    </div>
-    <div className='smr_gradient_background'>
-        <p>Grab flat $50 off with code FRI600</p>
-      </div>
-  </>
-  );
-}
+        </div> */}
 
 
 

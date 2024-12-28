@@ -18,7 +18,7 @@ const settings = {
   cssEase: "linear",
 };
 
-const TopSlider = () => {
+const TopSlider = ({data}) => {
   const [isMobile, setIsMobile] = useState(false);
   const slider = useRef(null);
   useEffect(() => {
@@ -34,6 +34,8 @@ const TopSlider = () => {
     };
   }, []);
 
+  console.log(data)
+
   return (
     <div className="hoq_main_slider">
       {/* <div className="controller_btn">
@@ -43,14 +45,14 @@ const TopSlider = () => {
       </div> */}
       <Slider {...settings} ref={slider}>
         {isMobile
-          ? MobilSliderImage.map((val, i) => (
+          ? data?.image?.slice(0,3)?.map((val, i) => (
               <div className="slide" key={i}>
-                <img src={val?.url || ""} alt={val?.key} />
+                <img src={val || ""} alt={val+i} />
               </div>
             ))
-          : SliderItemns.map((val, i) => (
+          : data?.image?.slice(0,3)?.map((val, i) => (
               <div className="slide" key={i}>
-                <img src={ val?.url || ""} alt={val?.key} />
+                <img src={ val || ""} alt={val+i} />
               </div>
             ))}
       </Slider>

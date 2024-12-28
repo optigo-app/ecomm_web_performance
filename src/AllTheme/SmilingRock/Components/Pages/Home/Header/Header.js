@@ -865,6 +865,7 @@ const Header = () => {
                   borderBottom: "1px solid white",
                   alignItems: "end",
                   marginInline: "15px",
+                  marginBottom:"25px"
                 }}
               >
                 <input
@@ -875,7 +876,7 @@ const Header = () => {
                     borderBottom: "1px solid white",
                     border: "none",
                     outline: "none",
-                    backgroundColor: "rgba(192, 187, 177, 1.8)",
+                    backgroundColor: "transparent",
                     marginTop: "15px",
                     fontWeight: 500,
                     color: "white",
@@ -1028,7 +1029,7 @@ const Header = () => {
             </ul>
             <ul className="nav_ul_shop_menu_Mobile">
               <MenuIcon
-                style={{ fontSize: "35px", color: "white" }}
+                style={{ fontSize: "35px"}}
                 className="muIconeMobileHeader"
                 onClick={toggleDrawerOverlay}
               />
@@ -1374,7 +1375,7 @@ const Header = () => {
 
                 <ul className="nav_ul_shop_menu_Mobile">
                   <MenuIcon
-                    style={{ fontSize: "35px", color: "#7d7f85" }}
+                    style={{ fontSize: "35px"}}
                     className="muIconeMobileHeader"
                     onClick={toggleDrawerOverlay}
                   />

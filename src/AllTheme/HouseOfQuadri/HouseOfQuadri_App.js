@@ -93,8 +93,7 @@ const HouseOfQuadri_App = () => {
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-  const [companyTitleLogo, setCompanyTitleLogo] =
-    useRecoilState(Hoq_companyLogo);
+  const [companyTitleLogo, setCompanyTitleLogo] =    useRecoilState(Hoq_companyLogo);
   const [loading, setLoading] = useState(true);
 
   // useEffect(() => {

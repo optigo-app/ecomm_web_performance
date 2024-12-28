@@ -38,7 +38,7 @@ const TopSection = () => {
           style={{ height: "auto", width: "100%" }}
           onLoadedData={handleVideoLoad}
           onPlay={handleVideoPlay}
-          poster={`${storImagePath()}/images/HomePage/TopSection/poster.png`}
+          // poster={`${storImagePath()}/images/HomePage/TopSection/poster.png`}
           // controls={!videoStarted}
         >
           <source

@@ -77,6 +77,10 @@ const ShopBanner = () => {
     setMore(!More)
  }
 
+ if (albumList?.length === 0) {
+  return;
+}
+
     return (
       <div className="mala_BottomBannerMain">
       <CategoryGrid More={More} AlbumShowMore={AlbumShowMore} Toglefun={Toglefun} data={albumList} imageUrl={imageUrl} title='Album'/>

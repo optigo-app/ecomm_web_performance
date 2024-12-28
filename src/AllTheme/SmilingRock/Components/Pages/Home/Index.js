@@ -74,7 +74,9 @@ function Home() {
     <>
       {/* {htmlContent?.rd && htmlContent?.rd.length > 0 && */}
       {localData?.YearCode !== "" && (
-        <div className="smiling_home_index_main">
+        <div className="smiling_home_index_main" style={{
+          overflow: "hidden",
+        }}>
           <div>
             {/* style={{ backgroundColor: "white" }} */}
             {/* {htmlContent?.rd[0]?.Blockno === 1 && ( */}
