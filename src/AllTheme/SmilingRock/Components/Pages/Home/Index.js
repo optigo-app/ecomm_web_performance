@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import useHomeBannerImages from './../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
 import "./Index.modul.scss";
 import TopSection from "./TopVideo/TopSection";
 import TheDifference from "./TheDifference/TheDifference";
@@ -31,10 +32,11 @@ import BespokeBanner from "./Bespokejewelry/BespokeBanner/BespokeBanner";
 import AppointmentBanner from "./Appointment/AppointmentBanner/AppointmentBanner";
 
 function Home() {
-  const [localData, setLocalData] = useState();
-  const [minHeight, setMinHeight] = useState("0px");
-  const [htmlContent, setHtmlContent] = useState("");
-  const isLoadingHome = useRecoilValue(homeLoading);
+  const [localData, setLocalData] = useState(); 
+  const [minHeight, setMinHeight] = useState("0px"); 
+  const [htmlContent, setHtmlContent] = useState(""); 
+  const isLoadingHome = useRecoilValue(homeLoading); 
+  const banner = useHomeBannerImages();
 
   useEffect(() => {
     let localData = JSON?.parse(sessionStorage.getItem("storeInit"));
@@ -70,18 +72,21 @@ function Home() {
     );
   };
 
+
   return (
     <>
       {/* {htmlContent?.rd && htmlContent?.rd.length > 0 && */}
       {localData?.YearCode !== "" && (
-        <div className="smiling_home_index_main">
+        <div className="smiling_home_index_main" style={{
+          overflow: "hidden",
+        }}>
           <div>
             {/* style={{ backgroundColor: "white" }} */}
             {/* {htmlContent?.rd[0]?.Blockno === 1 && ( */}
             {localData?.Blockno === 1 && (
               <div className="smiling_home_index_Submain">
-                <div className="custom_padding_inline">
-                  <TopSection />{" "}
+                <div className="custom_padding_inline" style={{marginTop:"1rem"}}>
+                  <TopSection data={banner?.mainBanner} />{" "}
                 </div>
                 <div className="custom_padding_inline">
                   <TheDifference />{" "}
@@ -100,7 +105,6 @@ function Home() {
                   {localData?.IsHomeNewArrival === 1 && <NewArrival />}{" "}
                 </div>
                 <div className="custom_padding_inline">
-                  {" "}
                   {localData?.IsHomeTrending === 1 && <TrendingView />}{" "}
                 </div>
                 <AppointmentBanner />
@@ -122,7 +126,7 @@ function Home() {
             {/* {htmlContent?.rd[0]?.Blockno === 2 && ( */}
             {localData?.Blockno === 2 && (
               <div className="smiling_home_index_Submain">
-                {/* <TopSection />
+                {/* <TopSection data={banner?.mainBanner} />
                   <TheDifference />
                   <PromotionBaner2 />
                   {localData?.IsHomeAlbum === 1 && <Album1 />}
@@ -130,8 +134,8 @@ function Home() {
                   {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
                   {localData?.IsHomeTrending === 1 && <TrendingView1 />}
                   {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */}
-                <div className="custom_padding_inline">
-                  <TopSection />
+                <div className="custom_padding_inline" style={{marginTop:"1rem"}}>
+                  <TopSection data={banner?.mainBanner} />
                 </div>
 
                 <div className="custom_padding_inline">
@@ -150,7 +154,7 @@ function Home() {
                 )}
                 {localData?.IsHomeBestSeller === 1 && (
                   <div className="custom_padding_inline">
-                    <BestSellerSection1 />
+                    <BestSellerSection1  data={banner?.bestsellerBanner}/>
                   </div>
                 )}
 
@@ -162,14 +166,14 @@ function Home() {
 
                 {localData?.IsHomeTrending === 1 && (
                   <div className="custom_padding_inline">
-                    <TrendingView1 />
+                    <TrendingView1 data={banner?.trendingBanner} />
                   </div>
                 )}
 
                 <AppointmentBanner />
                 {localData?.IsHomeDesignSet === 1 && (
                   <div className="custom_padding_inline">
-                    <DesignSet1 />
+                    <DesignSet1 data={banner?.lookbookBanner}  />
                   </div>
                 )}
 

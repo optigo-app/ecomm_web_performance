@@ -3,6 +3,7 @@
 $cartUpdateBtncolor: #b1b1b1;
 
 .smr_MainBGDiv {
+  font-family: $Pfonts;
   .cartMainPageDiv {
     background-color: #fff;
     margin-inline: 6%;
@@ -93,8 +94,8 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_place-order-btn {
       font-family: $primaryFontFamily !important;
-      background-color: $btn1hoverColor;
-      color: $btn1hoverFontColor;
+      background: $btnBg  !important;
+      color: $btncolor !important;
       font-size: $fontSize2;
       border: none;
       outline: none;
@@ -516,8 +517,8 @@ $cartUpdateBtncolor: #b1b1b1;
       height: 40px;
       width: 100px;
       // padding: 15px;
-      background-color: $cartUpdateBtncolor;
-      color: white;
+      background: $btnBg  !important;
+      color: $btncolor !important;
       border: none;
       border-radius: 0px;
       font-size: $fontSize3;

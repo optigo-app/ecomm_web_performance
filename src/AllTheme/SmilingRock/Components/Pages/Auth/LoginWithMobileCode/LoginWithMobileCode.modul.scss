@@ -5,6 +5,12 @@
   height: 70vh;
   display: grid;
   align-content: center;
+  font-family: $Pfonts;
+
+  .AuthScreenMainTitle {
+    font-family: $Pratafonts;
+  }
+
   .css-1wc848c-MuiFormHelperText-root {
     margin-right: 0px !important;
     margin-left: 0px !important;
@@ -28,8 +34,8 @@
   .createBtnRegister {
     height: 60px;
     width: 420px;
-    color: white;
-    background-color: #7d7f85;
+    background-color: $authbtnbg;
+      color: $authbtncolor;
     border: 0;
     margin-top: 10px;
     font-size: 13px;
@@ -74,8 +80,8 @@
   .submitBtnForgot_for {
     height: 60px;
     width: 420px;
-    color: white;
-    background-color: #7d7f85;
+    background-color: $authbtnbg;
+      color: $authbtncolor;
     border: 0;
     margin-top: 10px;
     font-size: 13px;

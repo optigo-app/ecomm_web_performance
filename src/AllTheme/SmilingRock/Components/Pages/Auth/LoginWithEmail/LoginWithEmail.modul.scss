@@ -6,9 +6,15 @@
   height: 70vh;
   display: grid;
   align-content: center;
+  font-family: $Pfonts;
+
   .go_pass_fg{
     margin-top: 0.8rem;
   }
+
+    .AuthScreenMainTitle {
+        font-family: $Pratafonts;
+      }
     #outlined-confirm-password-input::-ms-reveal {
         display: none !important;
     }
@@ -21,8 +27,8 @@
     .SmilingLoginCodeBtn {
         height: 60px;
         width: 420px;
-        color: white;
-        background-color: #7d7f85;
+        background-color: $authbtnbg;
+        color: $authbtncolor;;
         border: 0;
         margin-top: 10px;
         font-size: 13px;
@@ -35,8 +41,8 @@
     .submitBtnForgot {
         height: 60px;
         width: 420px;
-        color: white;
-        background-color: #7d7f85;
+        background-color: $authbtnbg;
+        color: $authbtncolor;
         border: 0;
         margin-top: 10px;
         font-size: 13px;

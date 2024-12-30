@@ -76,11 +76,11 @@ const ShopBanner = () => {
       setAlbumShowMore(6)
     }
     setMore(!More)
-  }
+ }
 
-  if (albumList?.length === 0) {
-    return;
-  }
+ if (albumList?.length === 0) {
+  return;
+}
 
   return (
     <div className="mala_BottomBannerMain">

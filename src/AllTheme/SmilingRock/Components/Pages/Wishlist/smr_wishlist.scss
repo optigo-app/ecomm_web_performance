@@ -88,8 +88,8 @@
 
         .smr_WlAddToCartBtn {
             font-family: $primaryFontFamily !important;
-            background-color: $btn1hoverColor;
-            color: $btn1hoverFontColor;
+            background: $btnBg  !important;
+            color: $btncolor !important;
             font-size: $fontSize2;
             border: none;
             outline: none;
@@ -133,11 +133,11 @@
     }
 
     .smr_browseOurCollectionbtn {
-        background-color: #7d7f85;
-        border: none;
-        color: #fff;
+        background: $btnBg  !important;
+        color: $btncolor !important;
         font-size: 15px;
         font-weight: 500;
+        border: none;
         height: 50px;
         outline: none;
         width: 220px;
@@ -251,8 +251,8 @@
         cursor: pointer;
 
         &:hover {
-            color: $btn1hoverFontColor;
-            background-color: $btn1ActivebgColor;
+            background: $btnBg  !important;
+        color: $btncolor !important;
         }
     }
 }

@@ -115,7 +115,7 @@ export default function LoginWithMobileCode() {
                         marginTop: '0px',
                         fontSize: '40px',
                         color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                       
                     }}
                         className='AuthScreenMainTitle'
                     >Login With Code</p>
@@ -124,7 +124,7 @@ export default function LoginWithMobileCode() {
                         marginTop: '-80px',
                         fontSize: '15px',
                         color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                       
                     }}
                         className='AuthScreenSubTitle'
                     >Last step! To secure your account, enter the code we just sent to {mobileNo}.</p>

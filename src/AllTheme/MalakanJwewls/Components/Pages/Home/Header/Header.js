@@ -916,7 +916,7 @@ const Header = () => {
 
             <a href="/" className="mala_logo_header_Mobile">
               <img
-                src={compnyLogoM}
+                src={ compnyLogoM}
                 loading="lazy"
                 className="mala_logo_header"
               />

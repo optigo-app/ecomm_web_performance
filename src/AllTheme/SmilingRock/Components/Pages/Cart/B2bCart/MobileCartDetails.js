@@ -67,10 +67,10 @@ const MobileCartDetails = ({
   useEffect(() => {
     if (selectedItem?.ImageCount > 0) {
       CartCardImageFunc(selectedItem).then((src) => {
-        setImageSrc(undefined);
+        setImageSrc(src);
       });
     } else {
-      setImageSrc(undefined);
+      setImageSrc(noImageFound);
     }
   }, [selectedItem]);
 

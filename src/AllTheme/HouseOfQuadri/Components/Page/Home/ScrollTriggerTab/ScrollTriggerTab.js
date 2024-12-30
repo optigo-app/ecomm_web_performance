@@ -3,7 +3,7 @@ import "./ScrollTriggerTab.modul.scss";
 import { ScrollImageList } from "../../../Constants/ScrollImageList";
 import { Link } from "react-router-dom";
 
-const ScrollTriggerTab = () => {
+const ScrollTriggerTab = ({data}) => {
   useEffect(() => {
     const handleScrollAnimations = () => {
       const cards = document.querySelectorAll(".ScrollImageCard");
@@ -28,8 +28,8 @@ const ScrollTriggerTab = () => {
   return (
     <>
       <div className="hoq_main_ScrollTriggerTab">
-        {ScrollImageList.map((val, i) => {
-          return <ScrollImageCard key={i} img={val?.img} details={val} />;
+        {ScrollImageList.slice(0,3).map((val, i) => {
+          return <ScrollImageCard key={i} img={data?.image[i]} details={val} />;
         })}
       </div>
     </>

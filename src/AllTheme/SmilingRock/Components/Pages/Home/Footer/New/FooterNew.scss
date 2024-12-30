@@ -8,8 +8,11 @@
   align-items: center;
   flex-direction: column;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(134, 134, 134, 0.5); /* Light box shadow on top */
+  box-shadow:       inset 0px 11px 8px -10px #9b9b9b3f,
+  inset 0px -0 8px -10px #CCC; 
 font-family: $Pfonts ;
+background-color:   $navbarbg;
+color :  $navbarcolor;
 // Pratafonts;
 
 .footer-content {
@@ -48,7 +51,9 @@ font-family: $Pfonts ;
   cursor: pointer;
   text-decoration: none;
   transition: color 0.3s ease;
-  color: black;
+  // color: $menuColor;
+  color: $footertextcolor;
+
   position: relative;
   &::before{
     position: absolute;
@@ -57,7 +62,7 @@ font-family: $Pfonts ;
     width: 0%;
     height: 2px;
     content: '';
-    background-color: rgba(0, 0, 0, 0.925);
+    background-color:#9596996e;
     transition: 0.3s ease-in-out;
     @media screen and (max-width: 768px) {
       display: none;
@@ -102,7 +107,6 @@ font-family: $Pfonts ;
   text-align: center;
   font-size: 14px;
   margin-top: 20px;
-  color: grey;
 }
 
 /* Media Queries for Responsiveness */

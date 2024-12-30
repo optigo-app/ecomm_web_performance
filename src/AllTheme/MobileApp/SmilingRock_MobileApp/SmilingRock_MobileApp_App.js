@@ -7,6 +7,7 @@ import { storImagePath } from '../../../utils/Glob_Functions/GlobalFunction'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Support from './Components/Pages/StaticPages/Support'
 import Loader from './Components/Pages/Loading/Loader'
+import AccountDelete from './Components/Pages/StaticPages/AccountDelete'
 
 
 const Header = React.lazy(() => import('./Components/Pages/Home/Header/Header'));
@@ -109,6 +110,7 @@ const SmilingRock_MobileApp_App = React.memo(() => {
         <Route path="/Account" element={<Account />} />
         <Route path="/HelpCenter" element={<HelpCenter />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/account-delete" element={<AccountDelete />} />
         <Route path="/copyright" element={<Copyright />} />
         <Route path="/support" element={<Support />} />
         <Route path="/Delivery" element={<Delivery />} />

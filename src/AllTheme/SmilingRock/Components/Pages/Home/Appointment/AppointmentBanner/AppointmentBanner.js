@@ -9,7 +9,7 @@ import { storImagePath } from "../../../../../../../utils/Glob_Functions/GlobalF
 
 const AppointmentBanner = () => {
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-250px" });
+  const isInView = useInView(sectionRef, { once: true, margin: "-600px" });
   const Navigate = useNavigate();
   const Banner = storImagePath() + `/Appointment/appointment.jpg`;
 
