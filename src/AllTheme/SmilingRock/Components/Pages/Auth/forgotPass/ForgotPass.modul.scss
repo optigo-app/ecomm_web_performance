@@ -5,6 +5,8 @@ background-color: $bgColor;
  height: 70vh;
 display: grid;
 align-content: center;
+font-family: $Pfonts;
+
     .smling-forgot-main {
         margin-inline: 6%;
         background-color: white;
@@ -14,12 +16,14 @@ align-content: center;
         width: 420px;
         margin: 10px;
     }
-
+    .AuthScreenMainTitle {
+        font-family: $Pratafonts;
+      }
     .submitBtnForgot {
         height: 60px;
         width: 420px;
-        color: white;
-        background-color: #7d7f85;
+        background-color: $authbtnbg;
+        color: $authbtncolor;
         border: 0;
         margin-top: 10px;
         font-size: 13px;

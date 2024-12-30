@@ -132,7 +132,7 @@ export default function ForgotPass() {
                         margin: '0px',
                         fontSize: '40px',
                         color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                     
                     }}
 
                         className='AuthScreenMainTitle'
@@ -142,7 +142,7 @@ export default function ForgotPass() {
                         marginTop: '-60px',
                         fontSize: '15px',
                         color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                     
                     }}
 
                         className='AuthScreenSubTitle'

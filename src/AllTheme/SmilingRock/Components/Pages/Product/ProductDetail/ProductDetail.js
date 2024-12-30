@@ -2434,7 +2434,7 @@ const ProductDetail = () => {
                                   <span
                                     className="smr_addtocart_btn_txt"
                                     style={{
-                                      color: !addToCartFlag ? "" : "white",
+                                      color: !addToCartFlag ? "white" : "white",
                                     }}
                                   >
                                     {!addToCartFlag
@@ -2448,7 +2448,7 @@ const ProductDetail = () => {
                                       <StarBorderIcon
                                         sx={{
                                           fontSize: "25px",
-                                          color: "#7d7f85",
+                                          color: "#fff",
                                         }}
                                       />
                                     }
@@ -2456,7 +2456,7 @@ const ProductDetail = () => {
                                       <StarIcon
                                         sx={{
                                           fontSize: "25px",
-                                          color: "#7d7f85",
+                                          color: "#fff",
                                         }}
                                       />
                                     }

@@ -64,7 +64,7 @@ const useHomeBannerImages = () => {
             `${storImagePath()}/Banner/Homepagemainbanner2.png`,
             `${storImagePath()}/Banner/Homepagemainbanner3.png`,
           ],
-          video: [`${storImagePath()}/Banner/Homepagemainbanner1.mp4`],
+          video: [`${storImagePath()}/Banner/homepagemainvideo.mp4`],
         },
         middleBanner: {
           image: [
@@ -122,7 +122,7 @@ const useHomeBannerImages = () => {
         },
         lookbookBanner: {
           image: [
-            `${storImagePath()}/Banner/lookbookbanner.png`,
+            `${storImagePath()}/Banner/lookbookbanner1.png`,
             `${storImagePath()}/Banner/lookbookbanner.png`,
           ],
           video: [],

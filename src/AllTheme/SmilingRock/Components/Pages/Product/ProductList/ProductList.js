@@ -38,10 +38,6 @@ import debounce from 'lodash.debounce';  // Import lodash debounce
 
 
 
-
-
-
-
 const ProductList = () => {
 
   
@@ -1891,7 +1887,7 @@ const ProductList = () => {
             {filterData?.length > 0 && (
               <div className="smr_mobile_filter_portion_outter">
                 <span className="smr_filter_text">
-                  <span>
+                  <span className="filter_Span">
                     {RangeFilterShow || Object.values(filterChecked)?.filter((ele) => ele.checked)
                       ?.length === 0
                       // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
@@ -1905,13 +1901,14 @@ const ProductList = () => {
                           className="pSkelton"
                         />
                       ) :
-                        <span>{`Product Found: ${afterFilterCount}`}</span>
+                        <span className="filter_Span">{`Product Found: ${afterFilterCount}`}</span>
                       }
                       </>
                     }
                   </span>
                   <span
                     onClick={() => handelFilterClearAll()}
+                    className="filter_Span"
                   >
                     {RangeFilterShow || Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0
@@ -1924,7 +1921,7 @@ const ProductList = () => {
                           className="pSkelton"
                         />
                       ) :
-                        <span>{`Total Products: ${afterFilterCount}`}</span>
+                        <span className="filter_Span">{`Total Products: ${afterFilterCount}`}</span>
                       }
                       </>
                     }
@@ -2706,7 +2703,7 @@ const ProductList = () => {
                           {filterData?.length > 0 && (
                             <div className="smr_filter_portion_outter">
                               <span className="smr_filter_text">
-                                <span>
+                                <span className="filter_Span">
                                   {RangeFilterShow ||  Object.values(filterChecked).filter(
                                     (ele) => ele.checked
                                   )?.length === 0
@@ -2720,11 +2717,11 @@ const ProductList = () => {
                                         className="pSkelton"
                                       />
                                     ) :
-                                      <span>{`Product Found: ${afterFilterCount}`}</span>
+                                      <span className="filter_Span">{`Product Found: ${afterFilterCount}`}</span>
                                     }
                                     </>}
                                 </span>
-                                <span
+                                <span className="filter_Span"
                                   onClick={() => handelFilterClearAll()}
                                 >
                                   {RangeFilterShow ||  Object.values(filterChecked).filter(
@@ -2740,7 +2737,7 @@ const ProductList = () => {
                                         className="pSkelton"
                                       />
                                     ) :
-                                      <span>{`Total Products: ${afterFilterCount}`}</span>
+                                      <span className="filter_Span">{`Total Products: ${afterFilterCount}`}</span>
                                     }
                                     </>
                                   }

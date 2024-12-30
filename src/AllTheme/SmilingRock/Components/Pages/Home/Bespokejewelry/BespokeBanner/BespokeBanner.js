@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const BespokeBanner = () => {
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const isInView = useInView(sectionRef, { once: true, margin: "-500px" });
   const naviagate = useNavigate();
   const textVariants = {
     hidden: { opacity: 0, x: -100 },

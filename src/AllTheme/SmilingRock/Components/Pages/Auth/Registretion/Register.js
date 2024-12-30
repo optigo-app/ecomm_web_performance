@@ -256,7 +256,7 @@ export default function Register() {
             paddingTop: '5%',
             fontSize: '40px',
             color: '#7d7f85',
-            fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+          
           }}
             className='AuthScreenRegisterMainTitle'
           >Register</p>

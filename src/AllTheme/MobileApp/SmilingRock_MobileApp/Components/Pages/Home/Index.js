@@ -94,6 +94,7 @@ const Home = () => {
 
     const queryParams = new URLSearchParams(window.location.search);
     const ismobile = queryParams.get("ismobile");
+    const authtoken = queryParams.get("Authorization");
     const token = queryParams.get("token");
     if (
       ismobile === "1" &&
@@ -102,6 +103,8 @@ const Home = () => {
       token !== null &&
       token !== ""
     ) {
+      sessionStorage.setItem("AuthToken", JSON.stringify(authtoken));
+      // console.log("ismobile")
       // console.log("islogin")
       handleSubmit();
     }

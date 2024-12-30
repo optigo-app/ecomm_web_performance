@@ -4,9 +4,10 @@
 
     .smiling_Top_header {
         height: 110px;
-        background-color: $bgColor;
+        background-color: $navbarbg
+        ;
         h1,span,h3,li,a{
-        color: $menuColor !important;
+        // color: $navbarcolor !important;
         font-weight: 500;
         }
     }
@@ -135,12 +136,16 @@
 
     .Smining-Top-Header-fixed-main {
         width: 100%;
-        background-color: white;
+        background-color: $navbarbg;
         display: flex;
         align-items: center;
         text-align: center;
         transform: translateY(-200px);
         height: 60px;
+        h1,span,h3,li,a{
+            color: $navbarcolor !important;
+            font-weight: 500;
+            }
     }
 
     .Smining-Top-Header-fixed-main.fixed {

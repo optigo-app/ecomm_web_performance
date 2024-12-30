@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import "./TopSection.modul.scss";
 
-const TopSection = () => {
+const TopSection = ({data}) => {
   const [loading, setLoading] = useState(false);
   const [videoStarted, setVideoStarted] = useState(false);
   const videoRef = useRef(null);
@@ -26,6 +26,8 @@ const TopSection = () => {
     setVideoStarted(true);
   };
 
+
+
   return (
     <div className="smr_topVideoMain" style={{ minHeight: "550px" }}>
         <video
@@ -42,7 +44,7 @@ const TopSection = () => {
           // controls={!videoStarted}
         >
           <source
-            src={`${storImagePath()}/images/HomePage/TopSection/HomepageMainBannerVideo_2.mp4`}
+            src={data?.video[0]}
             type="video/mp4"
           />
         </video>

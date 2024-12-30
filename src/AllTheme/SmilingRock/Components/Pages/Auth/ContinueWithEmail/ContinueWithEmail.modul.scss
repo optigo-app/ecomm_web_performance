@@ -6,6 +6,7 @@
   height: 70vh;
   display: grid;
   align-content: center;
+  font-family: $Pfonts;
 
   .css-1wc848c-MuiFormHelperText-root {
     margin-right: 0px !important;
@@ -16,7 +17,9 @@
     margin-inline: 6%;
     background-color: white;
   }
-
+  .AuthScreenMainTitle {
+    font-family: $Pratafonts;
+  }
   .smr_continuEmailBox {
     width: 420px;
     margin: 10px;
@@ -25,8 +28,8 @@
   .submitBtnForgot {
     height: 60px;
     width: 420px;
-    color: white;
-    background-color: #7d7f85;
+     background-color: $authbtnbg;
+    color: $authbtncolor;
     border: 0;
     margin-top: 10px;
     font-size: 13px;

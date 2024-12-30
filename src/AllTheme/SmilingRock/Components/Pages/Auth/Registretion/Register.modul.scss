@@ -5,6 +5,8 @@
     display: grid;
     align-content: center;
     margin-bottom: 4rem;
+    font-family: $Pfonts;
+
     
     .css-1wc848c-MuiFormHelperText-root {
         margin-right: 0px !important;
@@ -22,11 +24,14 @@
         margin: 10px;
     }
 
+    .AuthScreenRegisterMainTitle{
+            font-family: $Pratafonts;
+    }
     .createBtnRegister {
         height: 60px;
         width: 420px;
-        color: white;
-        background-color: #7d7f85;
+        background-color: $authbtnbg;
+      color: $authbtncolor;
         border: 0;
         margin-top: 10px;
         font-size: 13px;

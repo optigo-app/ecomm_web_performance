@@ -29,9 +29,9 @@
     width: 150px;
     font-family: $homePageFontFamily !important;
     font-size: $fontSize3;
-    color: $btn1hoverFontColor;
-    background-color: $btn1ActivebgColor;
-    border: 1px solid $btn1FontColor;
+    background-color: $btnBg !important;
+    color: $btncolor !important;
+    border:  none;
     border-radius: 0px !important;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
@@ -113,20 +113,20 @@
   .smr_AddNewAddrbtn {
     margin-right: 20px;
     height: 40px;
-    width: 150px;
     font-family: $homePageFontFamily !important;
     font-size: $fontSize3;
-    color: $btn1FontColor;
-    background-color: $btn1bgColor;
-    border: 1px solid $btn1FontColor;
+    color: $btncolor !important;
+    padding: 0 15px;
+    background-color: $btnBg;
+    border: none;
     border-radius: 0px !important;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 
-    &:hover {
-      color: $btn1hoverFontColor;
-      background-color: $btn1ActivebgColor;
-    }
+    // &:hover {
+    //   color: $btn1hoverFontColor;
+    //   background-color: $btn1ActivebgColor;
+    // }
   }
 }
 
@@ -142,17 +142,18 @@
     width: 150px;
     font-family: $homePageFontFamily !important;
     font-size: $fontSize3;
-    color: $btn1hoverFontColor;
-    background-color: $btn1ActivebgColor;
-    border: 1px solid $btn1FontColor;
+    color: $btncolor ;
+    background-color: $btnBg;
+    // border: 1px solid $btn1FontColor;
+    border: none;
     border-radius: 0px !important;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 
-    &:hover {
-      color: $btn1hoverFontColor;
-      background-color: $btn1ActivebgColor;
-    }
+    // &:hover {
+    //   color: $btn1hoverFontColor;
+    //   background-color: $btn1ActivebgColor;
+    // }
 }
 .smr_Cancelbtn{
   margin-right: 20px;
@@ -160,17 +161,18 @@
   width: 150px;
   font-family: $homePageFontFamily !important;
   font-size: $fontSize3;
-  color: $btn1FontColor;
-  background-color: $btn1bgColor;
-  border: 1px solid $btn1FontColor;
+  color: $btncolor ;
+    background-color: $btnBg;
+  // border: 1px solid $btn1FontColor;
+  border: none;
   border-radius: 0px !important;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 
-  &:hover {
-    color: $btn1hoverFontColor;
-    background-color: $btn1ActivebgColor;
-  }
+  // &:hover {
+  //   color: $btn1hoverFontColor;
+  //   background-color: $btn1ActivebgColor;
+  // }
 }
 
 .smr_editDeleteBtngroup{
