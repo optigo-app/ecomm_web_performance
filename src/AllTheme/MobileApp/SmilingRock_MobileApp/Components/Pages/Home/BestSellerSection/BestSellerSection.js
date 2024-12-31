@@ -12,7 +12,7 @@ import { smrMA_homeLoading, smrMA_loginState } from '../../../Recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 
-const BestSellerSection = () => {
+const BestSellerSection = ({data}) => {
 
     const bestSallerRef = useRef(null);
     const [imageUrl, setImageUrl] = useState();
@@ -301,7 +301,8 @@ const BestSellerSection = () => {
             </Slider>
           </div>
           <div className='linkingLoveImage'>
-            <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.webp`} className='linkingLoveImageDesign' />
+            {/* <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.webp`} className='linkingLoveImageDesign' /> */}
+            <img src={data?.image?.[0]} className='linkingLoveImageDesign' />
           </div>
         </div>
       }

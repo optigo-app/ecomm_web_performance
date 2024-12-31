@@ -119,15 +119,23 @@ export default function Account() {
     window.location.reload();
   };
 
-  const HandleDeleteAccount = async() => {
+  const HandleDeleteAccount = async () => {
     // eslint-disable-next-line no-restricted-globals
     if (confirm("Are you sure you want to delete your account?") === true) {
-      const res =   await DeleteAccount();
-      navigation("/");
-      setIsLoginState(false);
-      sessionStorage.setItem("LoginUser", false);
-      sessionStorage.clear();
-      window.location.reload();
+      try {
+        const res = await DeleteAccount();
+        if (res?.status === 200) {
+          setIsLoginState(false);
+          sessionStorage.setItem("LoginUser", false);
+          sessionStorage.clear();
+          navigation("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 100);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       return;
     }
