@@ -195,7 +195,8 @@
     }
 
     .mala_promo_secton2_img {
-        max-width: 400px;
+        width: 100%;
+        // max-width: 400px;
     }
 
     .mala_promo_section2 {
@@ -429,7 +430,7 @@
         .mala_promo_secton2_img {
             max-width: none !important;
             width: 100% !important;
-            padding: 20px;
+            padding-block: 20px;
         }
 
         .mala_promo2_main2_2_p {

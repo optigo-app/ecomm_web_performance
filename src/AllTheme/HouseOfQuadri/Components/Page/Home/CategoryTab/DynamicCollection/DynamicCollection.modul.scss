@@ -622,13 +622,17 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
               -webkit-box-orient: vertical;
               overflow: hidden;
               padding: 2px 10px;
+
+              @media (max-width: 1100px) {
+                font-size: 15px;
+              }
             }
             .jewel_parameter {
               margin-top: -8px;
               display: flex;
               align-items: center;
               color: #7d7f85;
-              font-size: 14px;
+              font-size: 11px;
               // font-size: 15px;
               &:has(span) {
                 display: flex;
@@ -868,7 +872,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
               }
               .jewel_parameter {
                 line-height: 12px;
-                font-size: 13px;
+                font-size: 10px;
                 &:has(span) {
                   display: flex;
                   align-items: center;
@@ -1013,7 +1017,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
             .image {
               width: 100%;
               overflow: hidden;
-              height: 85%;
+              height: 80%;
               position: relative;
               overflow: hidden;
               background-color: rgba(112, 128, 144, 0.096);
@@ -1064,7 +1068,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
             .det {
               h2 {
                 // font-size: 21px;
-                font-size: 18px;
+                font-size: 15px;
               }
               .jewel_parameter {
                 font-size: 14px !important;
@@ -1132,7 +1136,7 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
                   display: flex;
                   align-items: center;
                   letter-spacing: 0.5px;
-                  font-size: 12px !important;
+                  font-size: 10px !important;
                 }
               }
               .hoq_prod_mtcolr_price {

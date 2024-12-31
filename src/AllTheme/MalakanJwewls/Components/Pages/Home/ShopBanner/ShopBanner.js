@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import './ShopBanner.modul.scss'
+import React, { useState, useEffect } from 'react';
+import './ShopBanner.modul.scss';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { LiaChevronCircleRightSolid } from "react-icons/lia";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
@@ -12,15 +12,13 @@ import noimagefound from './../../../Assets/image-not-found.jpg';
 import { FiChevronRight } from "react-icons/fi";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa6";
 
-
 const ShopBanner = () => {
   const [storeInit, setStoreInit] = useState();
   const islogin = useRecoilValue(mala_loginState);
   const [imageUrl, setImageUrl] = useState();
   const [albumList, setAlbumList] = useState([]);
-  const [albumList2, setAlbumList2] = useState([]);
-  const [More, setMore] = useState(false)
-  const [AlbumShowMore, setAlbumShowMore] = useState(6)
+  const [More, setMore] = useState(false);
+  const [AlbumShowMore, setAlbumShowMore] = useState(6); // Start with 6 items initially
   const navigation = useNavigate();
 
   const apiCall = () => {
@@ -66,41 +64,51 @@ const ShopBanner = () => {
   useEffect(() => {
     apiCall();
   }, []);
-  // {albumList && albumList?.slice(0,4)?.map((data, i) 
 
-  // img={GenrateImage(data)} title={data?.AlbumName} />;
   const Toglefun = () => {
     if (More) {
-      setAlbumShowMore(12)
+      setAlbumShowMore(6); // Show only the first 6 items when "Show Less" is clicked
     } else {
-      setAlbumShowMore(6)
+      setAlbumShowMore(albumList.length); // Show all items when "Show More" is clicked
     }
-    setMore(!More)
- }
+    setMore(!More); // Toggle the state to switch between "Show More" and "Show Less"
+  };
 
- if (albumList?.length === 0) {
-  return;
-}
+  if (albumList?.length === 0) {
+    return null;
+  }
 
   return (
     <div className="mala_BottomBannerMain">
-      <CategoryGrid More={More} AlbumShowMore={AlbumShowMore} Toglefun={Toglefun} data={albumList} imageUrl={imageUrl} title='Album' />
+      <CategoryGrid
+        More={More}
+        AlbumShowMore={AlbumShowMore}
+        Toglefun={Toglefun}
+        data={albumList}
+        imageUrl={imageUrl}
+        title="Album"
+      />
     </div>
   );
-}
+};
 
 export default ShopBanner;
 
-
-export const CategoryGrid = ({ AlbumShowMore, More, Toglefun, title = "Find Your Forever Ring", data, imageUrl }) => {
-  console.log(data.length, "data.length")
+export const CategoryGrid = ({
+  AlbumShowMore,
+  More,
+  Toglefun,
+  title = "Find Your Forever Ring",
+  data,
+  imageUrl,
+}) => {
   const navigation = useNavigate();
 
   const GenrateImage = (data) => {
     let Image;
-    Image = imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName
+    Image = imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName;
     return Image;
-  }
+  };
 
   const handleNavigate = (name) => {
     navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`);
@@ -114,7 +122,7 @@ export const CategoryGrid = ({ AlbumShowMore, More, Toglefun, title = "Find Your
     } else {
       return 0;
     }
-  }
+  };
 
   return (
     <>
@@ -132,40 +140,35 @@ export const CategoryGrid = ({ AlbumShowMore, More, Toglefun, title = "Find Your
                   </div>
 
                   <div className="view_colllec_malakan">
-                    <span>View The Album  <FiChevronRight /></span>
+                    <span>
+                      View The Album <FiChevronRight />
+                    </span>
                   </div>
                 </div>
                 <div className="title" onClick={() => handleNavigate(val?.AlbumName)}>
-                  <h1> {val?.AlbumName}</h1>
+                  <h1>{val?.AlbumName}</h1>
                 </div>
-                <img src={GenrateImage(val)}
+                <img
+                  src={GenrateImage(val)}
                   onError={(e) => {
                     e.target.src = noimagefound;
                     e.target.alt = "no-image-found";
                   }}
-                  loading="lazy" alt="" />
+                  loading="lazy"
+                  alt=""
+                />
               </div>
             );
           })}
         </div>
-        {data?.length > 6 && <div className="show_mlore_btn_malaakan">
-          <button onClick={Toglefun}>Show {!More ? "Less" : "More"} {More ? <FaChevronUp /> : <FaChevronDown />} </button>
-        </div>}
+        {data?.length > 6 && (
+          <div className="show_mlore_btn_malaakan">
+            <button onClick={Toglefun}>
+              Show {More ? "Less" : "More"} {More ? <FaChevronUp /> : <FaChevronDown />}
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
 };
-
-// FaChevronDown
-
-
-const BannerPost = ({ text, color, bg }) => {
-  return <div className='malkan_BannerPost'
-    style={{
-      color: color,
-      backgroundColor: bg
-    }}
-  >
-    {text}  <LiaChevronCircleRightSolid size={70} className='icon_malkan' />
-  </div>
-}

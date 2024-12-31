@@ -4,7 +4,7 @@
 
 .mala_muiSmilingRocksBtnManage {
     /* border: 1px solid #7d7f85 !important; */
-    background-color: #17372F !important;
+    background-color: $backgroundColor !important;
     color: white;
     font-family: $primaryFontFamily !important;
     font-size: 13.5px !important;
@@ -27,7 +27,7 @@
 
 .mala_muiSmilingRocksBtnManageEdit {
     /* border: 1px solid #7d7f85 !important; */
-    background-color: #17372F !important;
+    background-color: $backgroundColor !important;
     color: white !important;
     font-family: $primaryFontFamily !important;
     font-size: 13.5px !important;
@@ -39,7 +39,7 @@
 
 .mala_muiSmilingRocksBtnManage:hover,
 .mala_muiSmilingRocksBtnManageEdit:hover {
-    background: #16493d !important;
+    background: $hoverbackgroundColor !important;
     color: white !important;
     opacity: .8;
 }
@@ -71,7 +71,7 @@
 }
 
 .mala_smilingDeleveryformSaveBtn {
-    background-color: #17372F !important;
+    background-color: $backgroundColor !important;
     color: white !important;
     font-family: $primaryFontFamily !important;
     border: none;
@@ -84,7 +84,7 @@
 }
 
 .mala_smilingDeleveryformCansleBtn {
-    background-color: #17372F !important;
+    background-color: $backgroundColor !important;
     color: white !important;
     font-family: $primaryFontFamily !important;
     border: none;

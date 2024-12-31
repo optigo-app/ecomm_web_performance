@@ -12,6 +12,7 @@ import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import noImageFound from "../../../Assets/noImageFound.jpg";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { Skeleton } from "@mui/material";
 
 const WishlistItems = ({
   item,
@@ -31,18 +32,18 @@ const WishlistItems = ({
   const setCartCountVal = useSetRecoilState(Hoq_CartCount);
   const visiterId = Cookies.get("visiterId");
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
 
   const handleWishlistToCartFun = async (item) => {
     const returnValue = await handleWishlistToCart(item);
     if (returnValue?.msg == "success") {
-      toast.success(<Toast/>,{
-        hideProgressBar: true, 
+      toast.success(<Toast />, {
+        hideProgressBar: true,
         style: {
           borderRadius: "4px",
-          padding : '-2px 45px' , 
-          boxShadow : `rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px`,
-          border  :"2px solid white"
+          padding: '-2px 45px',
+          boxShadow: `rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px`,
+          border: "2px solid white"
         },
       })
       GetCountAPI(visiterId).then((res) => {
@@ -83,13 +84,36 @@ const WishlistItems = ({
     >
       <Card className="hoq_WlListCard" square sx={{ border: "none" }}>
         <div className="cardContent">
-          <CardMedia
-            component="img"
-            image={imageSrc}
-            alt={item?.TitleLine}
-            className="hoq_WlListImage"
-            onClick={() => handleMoveToDetail(item)}
-          />
+          {imageSrc === undefined ? (
+            <CardMedia
+              style={{ width: "100%" }}
+              className="hoq_WlListImage"
+            >
+              <Skeleton
+                animation="wave"
+                variant="rect"
+                width="100%"
+                height={280}
+                sx={{
+                  backgroundColor: "#e8e8e86e",
+                  '@media (max-width: 960px)': {
+                    height: "240px !important",
+                  },
+                  '@media (max-width: 600px)': {
+                    height: "150px !important",
+                  },
+                }}
+              />
+            </CardMedia>
+          ) : (
+            <CardMedia
+              component="img"
+              image={imageSrc}
+              alt={item?.TitleLine}
+              className="hoq_WlListImage"
+              onClick={() => handleMoveToDetail(item)}
+            />
+          )}
           <CardContent
             className="hoq_cardContent"
             sx={{
@@ -98,7 +122,7 @@ const WishlistItems = ({
           >
             <div className="cardText">
               <Typography variant="body2" className="hoq_card-ContentData">
-                {item?.TitleLine != "" && item?.TitleLine} {(item?.TitleLine && item?.designno ) && '-'}
+                {item?.TitleLine != "" && item?.TitleLine} {(item?.TitleLine && item?.designno) && '-'}
                 {item?.designno != "" && item?.designno}
               </Typography>
               <Typography variant="body2" className="hoq_card-ContentData-1">
@@ -117,7 +141,7 @@ const WishlistItems = ({
                   {(item?.Nwt || 0).toFixed(3)}{" "}
                 </span>
 
-                { StoreInit?.IsDiamondWeight == 1 && (item?.Dwt != "0" || item?.Dpcs != "0") && (
+                {StoreInit?.IsDiamondWeight == 1 && (item?.Dwt != "0" || item?.Dpcs != "0") && (
                   <>
                     {" "}
                     <span className="hoq_pipe"> | </span>
@@ -152,17 +176,17 @@ const WishlistItems = ({
                 )}
                 {StoreInit?.IsPriceShow && <>
                   {" / "}
-                <span
-                  className="hoq_currencyFont"
-                  dangerouslySetInnerHTML={{
-                    __html: decodeEntities(
-                      loginUserDetail?.CurrencyCode ?? StoreInit?.CurrencyCode
-                    ),
-                  }}
-                />
-                {item?.UnitCost !== "" && (
-                  <span>{(item?.FinalCost).toLocaleString("en-IN")}</span>
-                )}
+                  <span
+                    className="hoq_currencyFont"
+                    dangerouslySetInnerHTML={{
+                      __html: decodeEntities(
+                        loginUserDetail?.CurrencyCode ?? StoreInit?.CurrencyCode
+                      ),
+                    }}
+                  />
+                  {item?.UnitCost !== "" && (
+                    <span>{(item?.FinalCost).toLocaleString("en-IN")}</span>
+                  )}
                 </>}
               </Typography>
             </div>

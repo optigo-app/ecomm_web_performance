@@ -69,7 +69,7 @@
       font-size: $fontSize3;
       color: $btn1hoverFontColor;
       background-color: $backgroundColor;
-      border: 1px solid $btn1FontColor;
+      border: 1px solid $backgroundColor;
       border-radius: 0px !important;
       cursor: pointer;
       transition: background-color 0.3s, color 0.3s;
@@ -197,7 +197,7 @@
   font-size: $fontSize3;
   color: $btn1hoverFontColor;
   background-color: $backgroundColor;
-  border: 1px solid $btn1FontColor;
+  border: 1px solid $backgroundColor;
   border-radius: 0px !important;
   padding: 8px 15px;
   cursor: pointer;
@@ -225,7 +225,7 @@
   color: #fff;
   padding: 8px 15px;
   background-color: $backgroundColor;
-  border: 1px solid $btn1FontColor;
+  border: 1px solid $backgroundColor;
   border-radius: 0px !important;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;

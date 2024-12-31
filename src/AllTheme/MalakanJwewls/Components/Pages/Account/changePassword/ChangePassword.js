@@ -34,6 +34,7 @@ export default function ChangePassword() {
 
     }, []); // 
 
+
     const validatePassword = (value) => {
         const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[^\w\d\s]).{8,}$/;
         return passwordRegex.test(value);
@@ -48,7 +49,6 @@ export default function ChangePassword() {
             setPasswordError('');
         }
     };
-
 
     const handleTogglePasswordVisibility = (fieldName) => {
         if (fieldName === 'password') {
@@ -76,6 +76,7 @@ export default function ChangePassword() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
         const { errors, isValid } = validateChangePassword({ oldPassword, password, confirmPassword });
 
         if (isValid) {
@@ -105,6 +106,7 @@ export default function ChangePassword() {
 
                 // console.log(body);
                 // const response = await CommonAPI(body);
+
                 if(passwordError === ''){
 
                     const response = await handleChangePassword(hashedOldPassword, hashedPassword, hashedConfirmPassword, FrontEnd_RegNo, customerID, email);
@@ -152,7 +154,9 @@ export default function ChangePassword() {
                     className='labgrowRegister'
                     style={{ margin: '15px' }}
                     value={oldPassword}
-                    onChange={(e) => handlePasswordInputChangeAcc(e, 'oldPassword', { setOldPassword, setPassword, setConfirmPassword }, errors, setErrors)}
+                    onChange={(e) =>
+                        handlePasswordInputChangeAcc(e, 'oldPassword', { password, confirmPassword, oldPassword, setPassword, setConfirmPassword, setOldPassword }, setErrors)
+                    }
                     error={!!errors.oldPassword}
                     helperText={errors.oldPassword}
                     InputProps={{
@@ -179,7 +183,9 @@ export default function ChangePassword() {
                     className='labgrowRegister'
                     style={{ margin: '15px' }}
                     value={password}
-                    onChange={handlePasswordChange}
+                    onChange={(e) =>
+                        handlePasswordInputChangeAcc(e, 'password', { password, confirmPassword, oldPassword, setPassword, setConfirmPassword, setOldPassword }, setErrors)
+                    }
                     error={!!passwordError}
                     helperText={passwordError}
                     InputProps={{
@@ -206,7 +212,9 @@ export default function ChangePassword() {
                     className='labgrowRegister'
                     style={{ margin: '15px' }}
                     value={confirmPassword}
-                    onChange={(e) => handlePasswordInputChangeAcc(e, 'confirmPassword', { setPassword, setConfirmPassword, setOldPassword }, errors, setErrors)}
+                    onChange={(e) =>
+                        handlePasswordInputChangeAcc(e, 'confirmPassword', { password, confirmPassword, oldPassword, setPassword, setConfirmPassword, setOldPassword }, setErrors)
+                    }
                     error={!!errors.confirmPassword}
                     helperText={errors.confirmPassword}
                     InputProps={{ // Set InputProps for icon

@@ -64,7 +64,7 @@ const TopSection = () => {
     <div className="roop_topVideoMain" role="region" aria-labelledby="top-video-banner">
       <div className="rp_main_slider">
         {/* for vara */}
-        {/* <Slider {...settings} ref={slider}>
+        <Slider {...settings} ref={slider}>
           {isMobile
             ? MobilSliderImage.map((val, i) => (
               <div className="slide" key={i}>
@@ -76,13 +76,13 @@ const TopSection = () => {
                 <img src={val?.url || ""} alt={val?.key} />
               </div>
             ))}
-        </Slider> */}
+        </Slider>
 
 
         {/* for shinjini */}
-        < div className="slide">
+        {/* < div className="slide">
           <img src={`${storImagePath()}/images/HomePage/TopSection/home1.jpg`} alt={"TopBanner"} />
-        </div>
+        </div> */}
 
         {/* Sonasons */}
         {/* <video

@@ -127,7 +127,7 @@ const WishlistItems = ({
                                         </span>
 
                                         <span className="mala_pipes"> | </span>
-                                        <span className="mala_wishDT">NWT : </span>
+                                        <span className="mala_wishDT">NWT: </span>
                                         <span className="mala_wishDT">
                                             {(item?.Nwt || 0).toFixed(3)}
                                         </span>
@@ -178,7 +178,7 @@ const WishlistItems = ({
                                     className="mala_Wl-Cartbtn"
                                     onClick={() => handleWishlistToCartFun(item)}
                                 >
-                                    {item?.IsInCart != 1 ? "Add to cart +" : "in cart"}
+                                    {item?.IsInCart != 1 ? "Add to cart +" : "Remove from cart"}
                                 </button>
                             </div>
                         </div>
@@ -213,7 +213,7 @@ const WishlistItems = ({
                                     className="mala_Wl-Cartbtn"
                                     onClick={() => handleWishlistToCartFun(item)}
                                 >
-                                    {item?.IsInCart != 1 ? "Add to cart +" : "in cart"}
+                                    {item?.IsInCart != 1 ? "Add to cart +" : "Remove from cart"}
                                 </button>
                             </div>
                         </div>

@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import './JewellerySet.modul.scss'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
-import { roop_loginState } from '../../../Recoil/atom';
+import { roop_album_length, roop_loginState } from '../../../Recoil/atom';
 import imageNotFound from '../../../Assets/image-not-found.jpg';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -23,6 +23,8 @@ function JewellerySet() {
   const [validImages, setValidImages] = useState([]);
   const [slideHeight, setSlideHeight] = useState(null);
   const swiperSlideRef = useRef(null);
+  const setAlbumLength = useSetRecoilState(roop_album_length);
+  console.log('setAlbumLength: ', setAlbumLength);
 
   useEffect(() => {
     setIsLoading(true);
@@ -46,6 +48,7 @@ function JewellerySet() {
       .then((response) => {
         if (response?.Data?.rd) {
           setAlbumData(response.Data.rd);
+          setAlbumLength(response.Data.rd?.length)
         } else {
           console.log("No album data found", response);
         }

@@ -46,6 +46,7 @@ const Header = () => {
   const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
   const IsCartNo = storeinit?.CartNo;
   const location = useLocation();
+  console.log('location: ', location);
 
 
   let navigate = useNavigate();
@@ -386,6 +387,27 @@ const Header = () => {
     }
   };
 
+  const clickSearch = () => {
+    if (searchText) {
+      let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+      let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+      let obj = {
+        a: "",
+        b: searchText,
+        m: loginInfo?.MetalId ?? storeInit?.MetalId,
+        d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+        c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+        f: {},
+      };
+
+      let encodeObj = btoa(JSON.stringify(obj));
+      setDrawerShowOverlay(false);
+      navigation(`/p/${searchText}?S=${encodeObj}`);
+      setSearchText("");
+      setSerachShowOverlay(false);
+    }
+  }
+
   // for cart drawer
 
   const toggleCartDrawer = () => {
@@ -494,7 +516,7 @@ const Header = () => {
               >
                 <IoClose
                   size={38}
-                  color="#F6C2B5"
+                  className="mala_close_icon"
                   style={{ marginLeft: "8px" }}
                   cursor={'pointer'}
                   onClick={toggleDrawerOverlay}
@@ -590,15 +612,14 @@ const Header = () => {
                   <input
                     type="text"
                     placeholder="Search"
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
                     className="mobileSideBarSearch"
+                    onKeyDown={searchDataFucn}
                   />
                   <IoSearchOutline
-                    style={{
-                      height: "20px",
-                      cursor: "pointer",
-                      color: "white",
-                      width: "20px",
-                    }}
+                    onClick={() => clickSearch()}
+                    className="mala_mobile_search"
                   />
                 </div>
               )}
@@ -621,10 +642,7 @@ const Header = () => {
                       style={{ width: "100%" }}
                     >
                       <ListItem
-                        style={{
-                          padding: "5px",
-                          borderBottom: "1px solid white",
-                        }}
+                        className="mala_mobile_list_bar"
                       >
                         <p className="mala_menuStaicMobile">
                           {menuItem.menuname}
@@ -685,7 +703,7 @@ const Header = () => {
                                   style={{
                                     margin: "0px 0px 0px 15px",
                                     width: "100%",
-                                    color: "white",
+                                    // color: "white",
                                   }}
                                 >
                                   {subMenuItem.param1dataname}
@@ -819,7 +837,7 @@ const Header = () => {
             {IsB2BWebsiteChek === 1 ? (
               islogin === true ? (
                 <>
-                  {storeinit?.IsDesignSetInMenu == 1 &&
+                  {/* {storeinit?.IsDesignSetInMenu == 1 &&
                     <p
                       className="mala_menuStaicMobilePageLink"
                       style={{ marginTop: "10px" }}
@@ -829,16 +847,15 @@ const Header = () => {
                       }}
                     >
                       {storeinit?.DesignSetInMenu}
-                      {/* LOOKBOOK */}
                     </p>
-                  }
+                  } */}
                 </>
               ) : (
                 ""
               )
             ) : (
               <>
-                {storeinit?.IsDesignSetInMenu == 1 &&
+                {/* {storeinit?.IsDesignSetInMenu == 1 &&
                   <p
                     className="mala_menuStaicMobilePageLink"
                     style={{ marginTop: "10px" }}
@@ -848,9 +865,8 @@ const Header = () => {
                     }}
                   >
                     {storeinit?.DesignSetInMenu}
-                    {/* LOOKBOOK */}
                   </p>
-                }
+                } */}
               </>
             )}
 
@@ -924,7 +940,7 @@ const Header = () => {
 
             <li className="nav_ul_shop_menu_Mobile">
               <MenuIcon
-                style={{ fontSize: "45px", color: "#F6C2B5" }}
+                style={{ fontSize: "45px" }}
                 className="muIconeMobileHeader"
                 onClick={toggleDrawerOverlay}
               />
@@ -969,12 +985,12 @@ const Header = () => {
                 {IsB2BWebsiteChek == 1 ? (
                   islogin == true ? (
                     <li
-                      className="nav_li_smining nav_li_smining_shop"
+                      className="nav_li_smining_shop"
                       onMouseEnter={handleDropdownOpen}
                       onMouseLeave={handleDropdownClose}
                     >
                       <span
-                        className="nav_li_smining"
+                        className="nav_li_smining_shop"
                         style={{
                           display: "flex",
                           alignItems: "center",
@@ -992,7 +1008,7 @@ const Header = () => {
                   )
                 ) : (
                   <li
-                    className="nav_li_smining nav_li_smining_shop"
+                    className="nav_li_smining"
                     onMouseEnter={handleDropdownOpen}
                     onMouseLeave={handleDropdownClose}
                   >
@@ -1035,36 +1051,30 @@ const Header = () => {
                 {IsB2BWebsiteChek === 1 ? (
                   islogin === true ? (
                     <>
-                      {storeinit?.IsDesignSetInMenu == 1 &&
+                      {/* {storeinit?.IsDesignSetInMenu == 1 &&
                         <li
                           className="nav_li_smining nav_li_smining_Mobile"
                           style={{ cursor: "pointer", textTransform: "uppercase" }}
                           onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                         >
-                          {/* <a href="/Lookbook" className="stam_A_link"> */}
                           {storeinit?.DesignSetInMenu}
-                          {/* LOOKBOOK */}
-                          {/* </a> */}
                         </li>
-                      }
+                      } */}
                     </>
                   ) : (
                     ""
                   )
                 ) : (
                   <>
-                    {storeinit?.IsDesignSetInMenu == 1 &&
+                    {/* {storeinit?.IsDesignSetInMenu == 1 &&
                       <li
                         className="nav_li_smining nav_li_smining_Mobile"
                         style={{ cursor: "pointer", textTransform: "uppercase" }}
                         onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                       >
-                        {/* <a href="/Lookbook" className="stam_A_link"> */}
                         {storeinit?.DesignSetInMenu}
-                        {/* LOOKBOOK */}
-                        {/* </a> */}
                       </li>
-                    }
+                    } */}
                   </>
                 )}
 
@@ -1104,7 +1114,6 @@ const Header = () => {
                     <li
                       className="nav_li_smining_Icone mala_mobileHideIcone"
                       onClick={toggleOverlay}
-                      style={{}}
                     >
                       <IoSearchOutline
                         style={{
@@ -1164,7 +1173,6 @@ const Header = () => {
                       <li
                         className="nav_li_smining_Icone mala_mobileHideIcone"
                         onClick={toggleOverlay}
-                        style={{}}
                       >
                         <IoSearchOutline
                           className="malkan_logo_nav"

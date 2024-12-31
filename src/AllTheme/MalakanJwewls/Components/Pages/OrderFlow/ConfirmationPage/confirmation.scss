@@ -56,7 +56,7 @@
         font-size: $fontSize3;
         color: $btn1hoverFontColor;
         background-color: $backgroundColor;
-        border: 1px solid $btn1FontColor;
+        border: 1px solid $backgroundColor;
         border-radius: 6px;
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
@@ -86,8 +86,8 @@
             font-family: $homePageFontFamily !important;
             font-size: $fontSize3;
             color: $btn1hoverFontColor;
-            background-color: $btn1ActivebgColor;
-            border: 1px solid $btn1FontColor;
+            background-color: $backgroundColor;
+            border: 1px solid $backgroundColor;
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.3s ease;

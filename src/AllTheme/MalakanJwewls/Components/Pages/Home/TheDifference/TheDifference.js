@@ -7,6 +7,9 @@ const TheDifference = ({ data }) => {
     video1: `${storImagePath()}/images/HomePage/a1.mp4`,
     video2: `${storImagePath()}/images/HomePage/a2.mp4`,
   };
+    const ImgSrc = {
+        img: `${storImagePath()}/images/HomePage/CRAFTMANSHIP.jpg`,
+    };
 
   return (
     <div className="malkana-containerrr">

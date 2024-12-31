@@ -25,7 +25,7 @@
 
     &-terms {
         min-height: 100vh;
-        background-color: #17372F;
+        background-color: $backgroundColor;
         //   background-color: #ffffff;
     }
 
@@ -52,7 +52,8 @@
         margin-bottom: 2rem;
         font-size: 48px;
         font-weight: 800;
-        color: #f6c2b5;
+        color: $homePageTopTextColor;
+        // color: #f6c2b5;
         font-family: $rown;
     }
 
@@ -71,11 +72,11 @@
 
         &-title {
             font-size: 1.5rem;
-            color: #333;
+            // color: #333;
+            color: $homePageTopTextColor;
             margin-bottom: 1.5rem;
-            font-weight: 500;
-            // color:rgb(215, 178, 86);
-            color: rgb(211, 211, 211);
+            font-weight: 700;
+            // color: rgb(211, 211, 211);
             font-family: $rown;
         }
 
