@@ -17,7 +17,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { smrMA_homeLoading, smrMA_loginState } from '../../../Recoil/atom';
 
 
-const TrendingView = () => {
+const TrendingView = ({data}) => {
 
     const trendingRef = useRef(null);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -213,7 +213,8 @@ const TrendingView = () => {
         <div className='smrMA_trendingViewTopMain' ref={trendingRef}>
             <div className='smr_trendingViewTopMain_div'>
                 <div className='smr_trendingViewTopMain_Imgdiv'>
-                    <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.webp`} className='linkingLoveImageDesign' />
+                    {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.webp`} className='linkingLoveImageDesign' /> */}
+                    <img src={data?.image?.[0]} className='linkingLoveImageDesign' />
                 </div>
                 <div className='smr_trendingViewTopMain_Sliderdiv'>
                     <p className='linkingTitle'>Trending View</p>

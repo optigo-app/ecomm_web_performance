@@ -63,6 +63,7 @@ const useHomeBannerImages = () => {
             `${storImagePath()}/Banner/Homepagemainbanner1.png`,
             `${storImagePath()}/Banner/Homepagemainbanner2.png`,
             `${storImagePath()}/Banner/Homepagemainbanner3.png`,
+            `${storImagePath()}/Banner/Homepagemainbanner4.png`,
           ],
           video: [`${storImagePath()}/Banner/homepagemainvideo.mp4`],
         },

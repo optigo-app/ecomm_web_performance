@@ -1,5 +1,10 @@
 @import "../../../scss/variable.scss";
 
+input:-webkit-autofill {
+    background-color: #f1f1f1 !important;
+    color: #000 !important;
+  }
+
 .smr_registerMain {
     background-color: $bgColor;
     display: grid;

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from "js-cookie";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 
-const PromotionBaner1 = () => {
+const PromotionBaner1 = ({data}) => {
 
 
     const islogin = useRecoilValue(smrMA_loginState);
@@ -53,7 +53,8 @@ const PromotionBaner1 = () => {
                 <div className='smrMA_PromoMain'>
 
                     <div className='FestiveMainImage'>
-                        <img src={`${storImagePath()}/images/HomePage/NewArrival/banner2.webp`} style={{ width: '100%', minHeight: '450px' }} className='smr_promotion1' alt={"#promoBanner1"} />
+                        {/* <img src={`${storImagePath()}/images/HomePage/NewArrival/banner2.webp`} style={{ width: '100%', minHeight: '450px' }} className='smr_promotion1' alt={"#promoBanner1"} /> */}
+                        <img src={data?.image?.[0]} style={{ width: '100%', minHeight: '450px' }} className='smr_promotion1' alt={"#promoBanner1"} />
                         {/* {islogin === true && <div className='festiveBox'>
                     <p className='smilingFestiMainTitle1' style={{ color: 'gray' }}>LAB GROWN DIAMONDS</p>
                     <p className='smilingFestiMainTitle2' style={{ color: 'gray', fontSize: '40px', margin: '0px' }}>Festive Finds!</p>

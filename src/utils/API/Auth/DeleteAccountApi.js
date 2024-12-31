@@ -20,7 +20,7 @@ export const DeleteAccount = async () => {
         "domain": `https://apptstore.orail.co.in` || window.location.hostname,
       },
     });
-    return response?.data;
+    return {...response?.data , status: response?.status};
   } catch (error) {
     console.error("error is..", error);
   }

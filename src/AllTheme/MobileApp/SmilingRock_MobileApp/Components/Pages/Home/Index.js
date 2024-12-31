@@ -10,6 +10,7 @@ import { CurrencyComboAPI } from "../../../../../../utils/API/Combo/CurrencyComb
 import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
 import ProductListBanner from "./ProductListBanner/ProductListBanner";
+import useHomeBannerImages from './../../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
 
 const TopSection = React.memo(lazy(() => import('./TopSection/TopSection')));
 const PromotionBaner1 = React.memo(lazy(() => import('./PromotionBanner1/PromotionBaner1')));
@@ -30,7 +31,9 @@ const Home = () => {
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const isLoadingHome = useRecoilValue(smrMA_homeLoading);
   const [cartCountNum, setCartCountNum] = useRecoilState(smrMA_CartCount)
-  const [wishCountNum, setWishCountNum] = useRecoilState(smrMA_WishCount)
+  const [wishCountNum, setWishCountNum] = useRecoilState(smrMA_WishCount);
+  const banner = useHomeBannerImages();
+
 
   useEffect(() => {
     const UserToken = localStorage.getItem('userLoginTokenApp');
@@ -202,12 +205,12 @@ const Home = () => {
     <div className="smrMA_Home_main">
       {/* <ProductListBanner/> */}
             <Suspense fallback={<div></div>}>
-      <TopSection />
-      {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
-      {localData?.IsHomeAlbum === 1 && <Album />}
-      <PromotionBaner1 />
+      <TopSection data={banner?.mainBanner}/>
+      {localData?.IsHomeBestSeller === 1 && <BestSellerSection  data={banner?.bestsellerBanner}/>}
+      {localData?.IsHomeAlbum === 1 && <Album  />}
+      <PromotionBaner1 data={banner?.newArrivalBanner}/>
       {localData?.IsHomeNewArrival === 1 && <NewArrival />}
-      {localData?.IsHomeTrending === 1 && <TrendingView />}
+      {localData?.IsHomeTrending === 1 && <TrendingView  data={banner?.trendingBanner}/>}
       {localData?.IsHomeDesignSet === 1 && <DesignSet />}
       </Suspense>
       {/* {isLoadingHome == true ?
