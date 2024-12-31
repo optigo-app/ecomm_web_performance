@@ -14,7 +14,7 @@ import { mala_loginState } from '../../../Recoil/atom';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import Pako from 'pako';
 
-const TrendingView1 = () => {
+const TrendingView1 = ({data}) => {
 
     const trandingViewData = [
         '/images/HomePage/TrendingViewBanner/tranding1.png',
@@ -153,7 +153,8 @@ const TrendingView1 = () => {
                 </div>
                 <div className="stam_trendingProduct-grid">
                     <div className='malakan_leftSideBestTR'>
-                        <img src={`${storImagePath()}/images/HomePage/bg1.png`} alt="trendingBanner" />
+                        {/* <img src={`${storImagePath()}/images/HomePage/bg1.png`} alt="trendingBanner" /> */}
+                        <img src={data?.image?.[0]} alt="trendingBanner" />
                         {/* <img src={`${storImagePath()}/images/HomePage/trend.jpg`} alt="trendingBanner" /> */}
                     </div>
                     {/* <div className='malakan_rightSideTR'> */}

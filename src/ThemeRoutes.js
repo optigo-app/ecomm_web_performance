@@ -77,9 +77,9 @@ const SmilingRock_MobileApp_App = React.lazy(() =>
 // const RoopJewellers_App = React.lazy(() =>
 //   import("./AllTheme/RoopJewellers/RoopJewellers_App")
 // );
-// const MalakanJewels_App = React.lazy(() =>
-//   import("./AllTheme/MalakanJwewls/MalakanJewels_App")
-// );
+const MalakanJewels_App = React.lazy(() =>
+  import("./AllTheme/MalakanJwewls/MalakanJewels_App")
+);
 
 export default function ThemeRoutes() {
   const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo);
@@ -431,9 +431,9 @@ const Themes = ({ htmlContent }) => {
 
           {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
 
-          {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
+          {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}  */}
 
-          {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />} */}
+          {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
         </Suspense>
         </>
   );

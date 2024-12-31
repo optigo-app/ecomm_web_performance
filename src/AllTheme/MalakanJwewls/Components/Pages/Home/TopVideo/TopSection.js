@@ -2,10 +2,11 @@ import React from "react";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import "./TopSection.modul.scss";
 
-const TopSection = () => {
+const TopSection = ({data}) => {
+  console.log(data)
   const style = {
     // backgroundImage: `url(${storImagePath()}/images/HomePage/TopSection/topBanner.jpg)`,
-    backgroundImage: `url(${storImagePath()}/images/HomePage/TopSection/top.png)`,
+    backgroundImage: `url(${data?.image?.[0]})`,
   };
   return (
     <div className="mala_topVideoMain"

@@ -119,7 +119,7 @@ const useHomeBannerImages = () => {
             `${storImagePath()}/Banner/bottombanner1.png`,
             `${storImagePath()}/Banner/bottombanner2.png`,
           ],
-          video: [],
+          video: [`${storImagePath()}/Banner/bottombannerVideo1.mp4`,],
         },
         lookbookBanner: {
           image: [
