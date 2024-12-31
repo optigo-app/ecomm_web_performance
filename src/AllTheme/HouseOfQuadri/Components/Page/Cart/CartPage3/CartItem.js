@@ -6,7 +6,7 @@ import { green } from '@mui/material/colors';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Checkbox, FormControlLabel, Grid, Radio, RadioGroup, useMediaQuery } from '@mui/material';
+import { Checkbox, FormControlLabel, Grid, Radio, RadioGroup, Skeleton, useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
 import RemarkModal from './RemarkModal';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
@@ -41,7 +41,7 @@ const CartItem = ({
   handleCancel,
   openHandleUpdateCartModal
 }) => {
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item?.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
@@ -124,10 +124,50 @@ const CartItem = ({
       >
         <div className="Hoq3_cart-item">
           <div className="Hoq3_cart-item__image">
-            <img src={imageSrc} alt='Product-image' />
+            {imageSrc === undefined ? (
+              <CardMedia
+                width="85%"
+                height={150}
+                sx={{
+                  width: "85%",
+                  height: "150px !important",
+                  '@media (max-width: 1000px)': {
+                    width: "100%",
+                    height: "100px !important",
+                  },
+                  '@media (max-width: 650px)': {
+                    width: "15rem",
+                    height: "200px !important",
+                  },
+                  '@media (max-width: 525px)': {
+                    width: "12rem",
+                    height: "200px !important",
+                  },
+                  '@media (max-width: 425px)': {
+                    width: "20rem",
+                    height: "200px !important",
+                  },
+                  '@media (max-width: 345px)': {
+                    width: "18rem",
+                    height: "200px !important",
+                  },
+                }}
+              >
+                <Skeleton
+                  animation="wave"
+                  variant="rect"
+                  width="100%"
+                  height="100%"
+                />
+              </CardMedia>
+            ) : (
+              <img src={imageSrc} alt='Product-image' />
+            )}
           </div>
           <div className="Hoq3_cart-item__details">
-            <h3>{item?.designno != "" && item?.designno}
+            <h3>
+              {item?.designno != "" && item?.designno}
+              {(item?.StockNo != "" && item?.StockNo != null) && ` (${item?.StockNo})`}
               {(item?.TitleLine != "" && item?.TitleLine != null) && " - " + item?.TitleLine}
             </h3>
             <p>{item?.productDescription}</p>

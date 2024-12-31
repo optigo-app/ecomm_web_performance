@@ -647,11 +647,11 @@ const ProductList = () => {
   useEffect(() => {
     const initialProducts = productListData?.map(product => ({
       ...product,
-      images: generateImageList(product), 
-      loading: false 
+      images: generateImageList(product),
+      loading: false
     }));
 
-    setFinalProductListData(initialProducts);  
+    setFinalProductListData(initialProducts);
   }, [productListData, generateImageList])
 
   // useEffect(() => {
@@ -3151,7 +3151,8 @@ const ProductList = () => {
                                                 checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1}
                                               />
                                             }
-                                            label={<span className={`fmg_mal1_prodBtn_proBtn_text`}>{isChecked ? "In Cart" : "Add to Cart"}</span>}
+                                            label={<span className={`fmg_mal1_prodBtn_proBtn_text`}>{isChecked ? "Remove from Cart" : "Add to Cart"}</span>}
+                                          // label={<span className={`fmg_mal1_prodBtn_proBtn_text`}>{isChecked ? "In Cart" : "Add to Cart"}</span>}
                                           />
                                         </div>
                                       </div>
@@ -3374,11 +3375,11 @@ const GivaFilterMenu = ({
 
         if (checkedOption) {
           checkedNames.push(checkedOption.Name);
+          setCurrPage(1);
         }
       }
     }
 
-    setCurrPage(1);
 
     return checkedNames;
   }
@@ -3428,7 +3429,7 @@ const GivaFilterMenu = ({
                   className="fmg_menu"
                   onClick={() => HandleMenu(1)}
                 >
-                  <Badge badgeContent={totalSelected} color="success"
+                  <Badge className="badgeColorFix" badgeContent={totalSelected} color="primary"
                     anchorOrigin={{
                       vertical: 'top',  // Adjust this as needed (top/bottom)
                       horizontal: 'right', // Move to the left side
@@ -4026,7 +4027,8 @@ const BreadCumView = ({ BreadCumsObj, handleBreadcums, IsBreadCumShow }) => {
             className="mala_breadcums_port_fmg"
             style={{ marginLeft: "3px" }}
           >
-            <span>{"Album"}</span>
+            <span>{location?.pathname?.split("/")[2]?.replaceAll('%20', '')}</span>
+            {/* <span>{"Album"}</span> */}
           </div>
         )}
 

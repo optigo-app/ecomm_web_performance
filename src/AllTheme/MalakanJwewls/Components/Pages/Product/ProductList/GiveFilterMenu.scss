@@ -31,7 +31,7 @@
         cursor: pointer !important;
 
         &:hover {
-          color: #17372f;
+          color: $backgroundColor;
           font-weight: 700;
           transition: 0.3s ease-in-out;
         }
@@ -59,7 +59,7 @@
     margin-top: -0.3rem;
 
     .fmg_remove_All {
-      background-color: #17372fd7;
+      background-color: $backgroundColor;
       color: white;
       padding: 2px 8px;
       border-radius: 15px;
@@ -95,7 +95,7 @@
     padding: 0.4rem 0;
 
     .sel_fmg_filter_badge {
-      background-color: #17372fd7;
+      background-color: $backgroundColor;
       cursor: pointer;
       color: #fff;
       padding: 3px 11px;
@@ -107,7 +107,7 @@
       gap: 0.5rem;
 
       &:hover {
-        background-color: #17372f;
+        background-color: $hoverbackgroundColor;
       }
 
       button {
@@ -138,6 +138,12 @@
       font-family: $primaryFontFamilyMedium !important;
     }
 
+    .badgeColorFix .MuiBadge-badge {
+      background-color: $backgroundColor !important;
+      color: white !important;
+      margin-left: 10px !important;
+    }
+
     .fmg_icon {
       color: rgba(77, 77, 77, 0.966);
       font-size: 21px;
@@ -166,6 +172,12 @@
         font-size: 19.5px;
         font-weight: 300;
         font-family: $primaryFontFamilyMedium !important;
+      }
+
+      .badgeColorFix .MuiBadge-badge {
+        background-color: $backgroundColor !important;
+        color: white !important;
+        margin-left: 10px !important;
       }
 
       .fmg_icon {

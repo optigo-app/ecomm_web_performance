@@ -955,7 +955,7 @@ const ProductDetail = () => {
       for (let i = 0; i < pdImgList?.length; i++) {
         let isImgAvl = await checkImageAvailability(pdImgList[i])
         if (isImgAvl) {
-        FinalPdImgList.push(pdImgList[i])
+          FinalPdImgList.push(pdImgList[i])
         }
       }
     }
@@ -1580,8 +1580,13 @@ const ProductDetail = () => {
                       <div className='elv_Product_prod_desc_data_max1000'>
                         <h1 className='elv_ProductDet_prod_title_max1000'>{singleProd?.TitleLine}</h1>
                         <div className='elv_ProductDet_det_max1000'>
-                          <h5 className='elv_ProductDet_prod_code_Coll'>{getCollName}</h5>
+                          {/* <h5 className='elv_ProductDet_prod_code_Coll'>{`Collection/${getCollName}`}</h5> */}
                           <span className='elv_ProductDet_prod_code_max1000'>{singleProd?.designno}</span>
+                          <div class="collection-breadcrumb">
+                            <span class="text-muted-foreground">Collection</span>
+                            <span class="separator">-</span>
+                            <span class="text-timeless">{getCollName}</span>
+                          </div>
                           <div className='elv_productDet_metal_style_max1000'>
                             <div className='elv_ProductDet_prod_text_div_max1000'>
                               <span>Metal Purity : </span> <span className='elv_ProductDet_text_max1000' style={{ textTransform: 'uppercase' }}>{singleProd?.IsMrpBase === 1 ? singleProd?.MetalTypePurity : metalType}</span>
@@ -2024,8 +2029,12 @@ const ProductDetail = () => {
                     <div className='elv_Product_prod_desc_data'>
                       <h1 className='elv_ProductDet_prod_title'>{singleProd?.TitleLine}</h1>
                       <div className='elv_ProductDet_det'>
-                        <h5 className='elv_ProductDet_prod_code_Coll'>{getCollName}</h5>
                         <span className='elv_ProductDet_prod_code'>{singleProd?.designno}</span>
+                        <div class="collection-breadcrumb">
+                          <span class="text-muted-foreground">Collection</span>
+                          <span class="separator">-</span>
+                          <span class="text-timeless">{getCollName}</span>
+                        </div>
                         <div className='elv_productDet_metal_style'>
                           {singleProd?.MetalTypePurity !== "" &&
                             metalType ? (
@@ -2564,7 +2573,7 @@ const TableComponentsDia = ({ list, details }) => {
       <ul class='elv_ProductDet_diaDet'>
         <li>
           <div>
-            <span>{details}</span> <span>({pcsTotalVal[0]?.total}&nbsp;{wtTotalVal[0]?.total}ct)</span>
+          <span>{details}</span> <span>({pcsTotalVal[0]?.total}<span style={{marginInline: '2px'}}>/</span>{wtTotalVal[0]?.total}ct)</span>
           </div>
         </li>
       </ul>
@@ -2625,11 +2634,11 @@ const TableComponentsMISC = ({ list, details }) => {
           <div>
             {details.includes('MISC') ? (
               <>
-                <span>{details}</span> <span>({pcsTotalVal1[0]?.total}&nbsp;{wtTotalVal1[0]?.total}gm)</span>
+                <span>{details}</span> <span>({pcsTotalVal1[0]?.total}<span style={{marginInline: '2px'}}>/</span>{wtTotalVal1[0]?.total}gm)</span>
               </>
             ) : (
               <>
-                <span>{details}</span> <span>({pcsTotalVal[0]?.total}&nbsp;{wtTotalVal[0]?.total}ct)</span>
+                <span>{details}</span> <span>({pcsTotalVal[0]?.total}<span style={{marginInline: '2px'}}>/</span>{wtTotalVal[0]?.total}ct)</span>
               </>
             )}
           </div>

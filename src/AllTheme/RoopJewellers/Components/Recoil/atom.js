@@ -49,3 +49,8 @@ export const lookBookDrawer = atom({
   key: 'rp_jewels_lookBookDrawer',
   default: false,
 });
+
+export const roop_album_length = atom({
+  key: 'album_length',
+  default: 0,
+});

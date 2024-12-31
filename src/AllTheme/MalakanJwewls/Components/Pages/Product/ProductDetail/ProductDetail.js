@@ -928,13 +928,13 @@ const ProductDetail = () => {
       // If the image result is already cached, return the cached result
       return imageCache[img];
     }
-  
+
     try {
       const result = await checkImage(img);
-      imageCache[img] = result;  
-      return result; 
+      imageCache[img] = result;
+      return result;
     } catch (error) {
-      imageCache[img] = NOimage;  
+      imageCache[img] = NOimage;
       return NOimage;
     } finally {
       if (!isImageload && !prodLoading) {
@@ -2137,12 +2137,12 @@ const ProductDetail = () => {
                                   <Checkbox
                                     icon={
                                       <FavoriteBorderIcon
-                                        sx={{ fontSize: "25px", color: "#17372F" }}
+                                        className="mala_wishlist_icon"
                                       />
                                     }
                                     checkedIcon={
                                       <FavoriteIcon
-                                        sx={{ fontSize: "25px", color: "#17372F" }}
+                                        className="mala_wishlist_icon"
                                       />
                                     }
                                     disableRipple={true}

@@ -153,8 +153,9 @@ const TrendingView1 = () => {
                 </div>
                 <div className="stam_trendingProduct-grid">
                     <div className='malakan_leftSideBestTR'>
+                        {/* privaa */}
+                        {/* <img src={`${storImagePath()}/images/HomePage/bg1.jpg`} alt="trendingBanner" /> */}
                         <img src={`${storImagePath()}/images/HomePage/bg1.png`} alt="trendingBanner" />
-                        {/* <img src={`${storImagePath()}/images/HomePage/trend.jpg`} alt="trendingBanner" /> */}
                     </div>
                     {/* <div className='malakan_rightSideTR'> */}
 
@@ -192,7 +193,7 @@ const TrendingView1 = () => {
                             },
                             500: {
                                 slidesPerView: 3,
-                                spaceBetween: 20
+                                spaceBetween: 10
                             },
                             400: {
                                 slidesPerView: 2,

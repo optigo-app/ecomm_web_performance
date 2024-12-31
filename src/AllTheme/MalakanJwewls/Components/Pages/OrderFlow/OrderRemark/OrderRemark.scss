@@ -14,7 +14,7 @@
   
       .mala_remarksave-btn {
         background-color: $backgroundColor;
-        border: 1px solid $titleColor;
+        border: 1px solid $backgroundColor;
         border-radius: 0 !important;
         color: #fff;
         cursor: pointer;
@@ -44,6 +44,7 @@
   
         &:hover {
           background-color: $backgroundColor;
+          border: 1px solid $backgroundColor;
           color: #fff;
         }
       }

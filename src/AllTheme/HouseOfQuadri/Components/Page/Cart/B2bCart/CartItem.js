@@ -10,6 +10,7 @@ import {
   Grid,
   Radio,
   RadioGroup,
+  Skeleton,
   useMediaQuery,
 } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -43,7 +44,7 @@ const CartItem = ({
   openHandleUpdateCartModal,
 }) => {
   const visiterId = Cookies.get("visiterId");
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item.Remarks || "");
   const [isSelectedItems, setIsSelectedItems] = useState();
@@ -140,10 +141,10 @@ const CartItem = ({
     isLargeScreen && itemLength <= 3
       ? "390px"
       : isMediumScreen && itemLength <= 3
-      ? "330px"
-      : isMobileScreen && itemLength == 1
-      ? "300px"
-      : "100%";
+        ? "330px"
+        : isMobileScreen && itemLength == 1
+          ? "300px"
+          : "100%";
 
   return (
     <Grid
@@ -186,13 +187,32 @@ const CartItem = ({
             position: "relative",
           }}
         >
-          <CardMedia
-            component="img"
-            image={imageSrc}
-            alt={item?.TitleLine}
-            className="hoq_cartListImage"
-            onClick={() => onSelect(item)}
-          />
+          {imageSrc === undefined ? (
+            <CardMedia
+              sx={{
+                width: "13rem",
+                height: "11rem",
+                '@media (max-width: 570px)': {
+                  width: "100%",
+                },
+              }}
+            >
+              <Skeleton
+                animation="wave"
+                variant="rect"
+                width="100%"
+                height="100%"
+              />
+            </CardMedia>
+          ) : (
+            <CardMedia
+              component="img"
+              image={imageSrc}
+              alt={item?.TitleLine}
+              className="hoq_cartListImage"
+              onClick={() => onSelect(item)}
+            />
+          )}
           <div className="hoq_rightContentDataDiv">
             <CardContent
               className="hoq_cartcontentData"
@@ -210,48 +230,48 @@ const CartItem = ({
                 }}
               >
                 {Number(item?.Nwt) !== 0 && (
-                    <Typography variant="body2" className='hoq_card-ContentsData'>
-                      NWT: {(item?.Nwt || 0).toFixed(3)}{' '}
-                    </Typography>
-                  )}
-                 {storeInitData?.IsStoneWeight == 1 &&
-                    <>
-                      {(item?.CSwt != "0" || item?.CSpcs != "0") &&
-                        <>
-                          <Typography variant="body2" className='hoq_card-ContentsData'>
-                            CWT: {(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0)}{' '}
-                          </Typography>
-                        </>
-                      }
-                    </>
-                  }
+                  <Typography variant="body2" className='hoq_card-ContentsData'>
+                    NWT: {(item?.Nwt || 0).toFixed(3)}{' '}
+                  </Typography>
+                )}
+                {storeInitData?.IsStoneWeight == 1 &&
+                  <>
+                    {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                      <>
+                        <Typography variant="body2" className='hoq_card-ContentsData'>
+                          CWT: {(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0)}{' '}
+                        </Typography>
+                      </>
+                    }
+                  </>
+                }
                 {storeInitData?.IsGrossWeight == 1 &&
-                    <Typography variant="body2" className='hoq_card-ContentsData'>
-                      GWT: {(item?.Gwt || 0).toFixed(3)}
-                    </Typography>
-                  }
-                 {storeInitData?.IsDiamondWeight == 1 &&
-                    <>
-                      {(item?.Dwt != "0" || item?.Dpcs != "0") &&
-                        <>
-                          <Typography variant="body2" className='hoq_card-ContentsData'>
-                            DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}
-                          </Typography>
-                        </>
-                      }
-                    </>
-                  }
+                  <Typography variant="body2" className='hoq_card-ContentsData'>
+                    GWT: {(item?.Gwt || 0).toFixed(3)}
+                  </Typography>
+                }
+                {storeInitData?.IsDiamondWeight == 1 &&
+                  <>
+                    {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                      <>
+                        <Typography variant="body2" className='hoq_card-ContentsData'>
+                          DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}
+                        </Typography>
+                      </>
+                    }
+                  </>
+                }
               </div>
               {item?.StockNo != "" && (
                 <span className="hoq_DesignNoTExt">{item?.StockNo}</span>
               )}
-              { storeInitData?.IsPriceShow == 1 &&  <Box className="hoq_PriceBox">
+              {storeInitData?.IsPriceShow == 1 && <Box className="hoq_PriceBox">
                 <>
-                  {storeInitData?.IsPriceShow == 1 && ( 
+                  {storeInitData?.IsPriceShow == 1 && (
                     <span className="hoq_currencyFontPrice">
                       <span
                         className="hoq_currencyFont"
-                        style={{paddingRight  :"0.2rem"}}
+                        style={{ paddingRight: "0.2rem" }}
                         dangerouslySetInnerHTML={{
                           __html: decodeEntities(loginUserDetail?.CurrencyCode),
                         }}

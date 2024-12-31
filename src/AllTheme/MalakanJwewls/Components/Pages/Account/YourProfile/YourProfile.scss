@@ -14,19 +14,19 @@
 
 
     .mala_SmilingAddEditAddrwess {
-        background-color: #17372F;
+        background-color: $backgroundColor;
         color: white;
         font-family: $primaryFontFamily !important;
     }
 
     .malaP_smilingDeleveryformSaveBtn {
-        background-color: #17372F;
+        background-color: $backgroundColor;
         color: white;
         font-family: $primaryFontFamily !important;
     }
 
     .malaP_smilingDeleveryformCansleBtn {
-        background-color: #17372F;
+        background-color: $backgroundColor;
         color: white;
         font-family: $primaryFontFamily !important;
     }
@@ -106,7 +106,7 @@
 .malaP_smilingDeleveryformSaveBtn {
     // background: $accountBgColor !important;
     // color:$primaryfontcolor !important;
-    background-color: #17372F;
+    background-color: $backgroundColor;
     color: white;
     font-family: $primaryFontFamily !important;
     border: none;
@@ -121,7 +121,7 @@
 .malaP_smilingDeleveryformCansleBtn {
     border: none;
     border-radius: 5px;
-    background-color: #17372F;
+    background-color: $backgroundColor;
     color: white;
     font-family: $primaryFontFamily !important;
     font-weight: 600;

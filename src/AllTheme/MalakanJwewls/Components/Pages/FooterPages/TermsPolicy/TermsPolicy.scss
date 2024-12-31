@@ -1,23 +1,29 @@
 @import "../../../scss/variable.scss";
+
 .malkan_contactMain {
   width: 100%;
   height: 100%;
   margin-top: 220px;
-  background-color: #17372f;
+  background-color: $backgroundColor;
   font-family: $rown;
+
   @media screen and (max-width: 1200px) {
     margin-top: 80px;
   }
+
   .content_malkana {
     .title {
       width: 100%;
       padding: 1.2rem 0;
       text-transform: uppercase;
+
       h2 {
         font-size: 48px;
         font-weight: 800;
-        color: #f6c2b5;
+        color: $homePageTopTextColor;
+        // color: #f6c2b5;
         font-family: $rown;
+
         @media screen and (max-width: 504px) {
           font-size: 42px;
           margin-top: 2rem;
@@ -26,6 +32,7 @@
     }
 
   }
+
   .malkan_sp-service-policy {
     display: flex;
     flex-direction: column;
@@ -33,15 +40,20 @@
     max-width: 1200px;
     padding: 3rem 50px;
     color: white;
+
     @media screen and (max-width: 768px) {
       padding: 2rem 33px;
     }
+
     @media screen and (max-width: 560px) {
       padding: 2rem 20px;
     }
   }
+
   .malkan_sp-service-policy__subtitle {
     padding: 0.5rem 0;
+    color: $homePageTopTextColor;
+    font-weight: 600;
   }
-  
+
 }

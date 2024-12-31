@@ -113,7 +113,7 @@
 
     .mala_prod_titleLine {
         text-align: start !important;
-        font-size: 35px;
+        font-size: 27px;
         font-family: $homePageFontFamily;
         font-weight: 400;
         font-style: normal;
@@ -218,7 +218,7 @@
     }
 
     .mala_AddToCart_btn {
-        border: 1px solid #7d7f85;
+        border: 1px solid $backgroundColor;
         width: 80%;
         height: 30%;
         display: flex;
@@ -227,11 +227,11 @@
         min-height: 49px;
         cursor: pointer;
         color: #fff !important;
-        background-color: #17372F;
+        background-color: $backgroundColor;
     }
 
     .mala_AddToCart_btn_afterCart {
-        border: 1px solid #17372F;
+        border: 1px solid $backgroundColor;
         width: 80%;
         height: 30%;
         display: flex;
@@ -240,7 +240,7 @@
         min-height: 49px;
         cursor: pointer;
         color: white;
-        background-color: #17372F;
+        background-color: $backgroundColor;
     }
 
     .mala_addtocart_btn_txt {
@@ -260,6 +260,11 @@
         padding: 0.4%;
         border-radius: 2px;
         background-color: white;
+    }
+
+    .mala_wishlist_icon {
+        font-size: "25px";
+        color: $backgroundColor;
     }
 
     .mala_proDeatilList {
@@ -760,7 +765,7 @@
 
     @media screen and (max-width:425px) {
         .mala_prod_titleLine {
-            font-size: 30px;
+            font-size: 22px;
         }
 
         .mala_prod_shortInfo_inner {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './LoginOption.modul.scss'
 import { useNavigate, useLocation } from 'react-router';
 
@@ -16,6 +16,13 @@ const LoginOption = () => {
     const redirectEmailUrl = `/ContinueWithEmail/${search}`;
 
     const redirectMobileUrl = `/ContimueWithMobile/${search}`;
+
+    useEffect(() => {
+        window.scroll({
+            top: 0,
+            behavior: "smooth"
+        })
+    }, [])
 
     return (
         <div className='stam_Loginoption'>

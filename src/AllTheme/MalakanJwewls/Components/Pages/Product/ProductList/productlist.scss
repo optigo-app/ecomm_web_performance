@@ -17,7 +17,7 @@
   height: 100%;
   width: 100%;
   margin-top: 220px;
-  background-color: #17372f;
+  background-color: $backgroundColor;
   color: white;
   font-family: $rown !important;
 
@@ -272,7 +272,7 @@
     margin-bottom: 10px;
 
     .fmg_mal1_prodBtn {
-      background: #094234e3;
+      background: $productListingBgColor;
       color: white !important;
       font-weight: 500;
       padding: 6px 0;
@@ -285,7 +285,7 @@
       }
 
       &:hover {
-        background: #17372f;
+        background: $backgroundColor;
       }
 
       .fmg_mal1_prodBtn_proBtn_text {

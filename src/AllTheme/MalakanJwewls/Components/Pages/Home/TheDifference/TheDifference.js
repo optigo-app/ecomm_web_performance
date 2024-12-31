@@ -8,6 +8,9 @@ const TheDifference = () => {
         video1: `${storImagePath()}/images/HomePage/a1.mp4`,
         video2: `${storImagePath()}/images/HomePage/a2.mp4`,
     };
+    const ImgSrc = {
+        img: `${storImagePath()}/images/HomePage/CRAFTMANSHIP.jpg`,
+    };
 
     return (
         <div className="malkana-containerrr">
@@ -16,16 +19,17 @@ const TheDifference = () => {
             </h1>
             
             <div className="malkana-videoContainer">
-                <video 
-                    autoPlay 
-                    loop 
-                    muted 
-                    playsInline
-                    className="malkana-video"
-                >
-                    <source src={VideoSrc?.video1} type="video/mp4" />
-                    Your browser does not support the video tag.
-                </video>
+                    <video 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline
+                        className="malkana-video"
+                    >
+                        <source src={VideoSrc?.video1} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                    {/* <img className="malkana-video" src={ImgSrc?.img} alt="" /> */}
             </div>
 
             <p className="malkana-description">

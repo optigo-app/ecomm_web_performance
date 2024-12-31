@@ -349,9 +349,9 @@
       font-family: $primaryFontFamily;
       color: $titleColor;
       letter-spacing: .5px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      // white-space: nowrap;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
     }
 
     p {
@@ -554,7 +554,7 @@
     }
 
     @media (max-width: 760px) {
-      bottom: 30px !important;
+      bottom: 25px !important;
     }
 
     .swiper-pagination-bullet {

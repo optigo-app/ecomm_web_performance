@@ -3,7 +3,7 @@
 
 .mala_bottom_main_div {
 
-    background-color: #17372F;
+    background-color: $backgroundColor;
     margin-top: 2rem;
 
     .mala_bottom_title {
@@ -11,6 +11,10 @@
         font-size: 60px;
         font-family: $primaryFontFamily;
         text-align: center;
+    }
+
+    .mala_bottom_main_img{
+        width: 100%;
     }
 
     .mala_bottom_main_div_sub {

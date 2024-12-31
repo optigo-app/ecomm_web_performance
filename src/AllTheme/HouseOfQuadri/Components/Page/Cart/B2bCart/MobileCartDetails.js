@@ -271,6 +271,7 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  CardMedia,
 } from "@mui/material";
 import "./mob.scss";
 import QuantitySelector from "./QuantitySelector";
@@ -312,7 +313,7 @@ const MobileCartDetails = ({
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
 
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -366,13 +367,40 @@ const MobileCartDetails = ({
         style={{ background: "#fff", padding: "20px", position: "relative" }}
       >
         <div className="hoq_Cart-imageDiv">
-          <img
-            src={imageSrc}
-            alt="Cluster Diamond"
-            className="hoq_cartImage"
-            onClick={() => handleMoveToDetail(selectedItem)}
-            style={{ border: "none" }}
-          />
+          {imageSrc === undefined ? (
+            <CardMedia
+              className="dtMo_cart-image"
+              width="100%"
+              height={400}
+              sx={{
+                width: "100%",
+                height: "400px !important",
+                '@media (max-width: 570px)': {
+                  width: "100%",
+                  height: "300px !important",
+                },
+                '@media (max-width: 400px)': {
+                  width: "100%",
+                  height: "200px !important",
+                },
+              }}
+            >
+              <Skeleton
+                animation="wave"
+                variant="rect"
+                width="100%"
+                height="100%"
+              />
+            </CardMedia>
+          ) : (
+            <img
+              src={imageSrc}
+              alt="Cluster Diamond"
+              className="hoq_cartImage"
+              onClick={() => handleMoveToDetail(selectedItem)}
+              style={{ border: "none" }}
+            />
+          )}
         </div>
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (

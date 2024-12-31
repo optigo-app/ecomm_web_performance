@@ -708,9 +708,9 @@ const Lookbook = () => {
                   width: "30px",
                   height: "30px",
                   color: "rgba(143, 140, 139, 0.9019607843)",
-                  cursor:'pointer'
+                  cursor: 'pointer'
                 }}
-                onClick={() =>  setIsShowFilter(false)}
+                onClick={() => setIsShowFilter(false)}
               />
             </div>
             <span className="mala_filter_text">
@@ -1116,31 +1116,29 @@ const Lookbook = () => {
               gap: '20px'
             }}
           >
-       {filterData?.length > 0 &&      <div className="mala_lookBook_FilterIconeDiv" onClick={()=> setIsShowFilter(!isShowfilter)} style={{ fontSize: '12px' }}>
+            {filterData?.length > 0 && <div className="mala_lookBook_FilterIconeDiv" onClick={() => setIsShowFilter(!isShowfilter)} style={{ fontSize: '12px' }}>
               {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"}
               <FilterListIcon style={{ color: 'white' }} />
             </div>}
             <div style={{ display: 'flex' }}>
               <FilterAltIcon
                 fontSize="large"
-                style={{ color: "#c0bbb1",cursor:'pointer' }}
+                style={{ color: "#c0bbb1", cursor: 'pointer' }}
                 className="mala_lookBookMobileFilter"
                 onClick={() => setIsShowFilter(!isShowfilter)}
               />
               {/* {isCategoryPresent && <HtmlTooltip
                 title={<CustomTooltipContent categories={selectedCategories} />}
               > */}
-                <button
-                  onClick={handleOpen}
-                  className="mala_lookBookSelectViewBtn"
-                  style={{
-                    background: selectedCategories.length !== 0 ? "#17372F" : "#ffff",
-                    color: selectedCategories.length !== 0 ? "#fff" : "#17372F",
-                    marginRight: '20px'
-                  }}
-                >
-                  Set View
-                </button>
+              <button
+                onClick={handleOpen}
+                className={`mala_lookBookSelectViewBtn ${selectedCategories.length !== 0 ? 'selected' : 'unselected'}`}
+                style={{
+                  marginRight: '20px',
+                }}
+              >
+                Set View
+              </button>
               {/* </HtmlTooltip>} */}
               <div className="lb-switch-field">
                 <input
@@ -1176,7 +1174,7 @@ const Lookbook = () => {
             </div>
           </div>
           <div className="mala_SubDiv_LookBookSubMainDiv">
-           
+
             <div className="mala_Main_lookBookImgDiv" style={{ transition: "1s ease", width: '100%' }}>
 
               {selectedValue == 2 && (
@@ -1239,7 +1237,7 @@ const Lookbook = () => {
                                 justifyContent: "space-between",
                                 alignItems: 'center',
                                 margin: "5px",
-                                color:"gray"
+                                color: "gray"
                               }}
                             >
                               <p className="mala_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
@@ -1454,7 +1452,7 @@ const Lookbook = () => {
                                     width: "100%",
                                     padding: "0px 15px",
                                     margin: "5px",
-                                    color:'gray'
+                                    color: 'gray'
                                   }}
                                 >
                                   <p className="mala_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>

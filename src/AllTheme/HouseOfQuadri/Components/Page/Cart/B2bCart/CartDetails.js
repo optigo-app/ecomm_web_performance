@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./hoq_cartPage.scss";
 import Customization from "./Customization";
 import noImageFound from "../../../Assets/noImageFound.jpg";
+import { CardMedia, Skeleton } from "@mui/material";
 
 const CartDetails = ({
   ispriceloding,
@@ -30,7 +31,7 @@ const CartDetails = ({
   handleMoveToDetail,
 }) => {
 
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   useEffect(() => {
     if (selectedItem?.ImageCount > 0) {
       CartCardImageFunc(selectedItem).then((src) => {
@@ -45,12 +46,42 @@ const CartDetails = ({
     <div className="hoq_cart-container">
       <div className="hoq_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='hoq_cartImage' /> */}
-        <img
-          src={imageSrc}
-          alt="image"
-          className="hoq_cartDetailImage"
-          onClick={() => handleMoveToDetail(selectedItem)}
-        />
+        {imageSrc === undefined ? (
+          <CardMedia
+            width="100%"
+            height={400}
+            sx={{
+              width: "100%",
+              height: "400px !important",
+              '@media (max-width: 1750px)': {
+                width: "100%",
+                height: "350px !important",
+              },
+              '@media (max-width: 1500px)': {
+                width: "100%",
+                height: "300px !important",
+              },
+              '@media (max-width: 1100px)': {
+                width: "100%",
+                height: "250px !important",
+              },
+            }}
+          >
+            <Skeleton
+              animation="wave"
+              variant="rect"
+              width="100%"
+              height="100%"
+            />
+          </CardMedia>
+        ) : (
+          <img
+            src={imageSrc}
+            alt="image"
+            className="hoq_cartDetailImage"
+            onClick={() => handleMoveToDetail(selectedItem)}
+          />
+        )}
       </div>
       <Customization
         ispriceloding={ispriceloding}
