@@ -172,10 +172,10 @@
 
 
         .smrMo_cartUpdate-button {
-            background-color: #b1b1b1;
+            background: $btnBg  !important;
+            color: $btncolor !important;
             border: none;
             border-radius: 5px;
-            color: #fff;
             cursor: pointer;
             display: block;
             font-size: 16px;

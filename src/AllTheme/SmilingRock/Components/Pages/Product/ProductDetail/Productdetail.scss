@@ -4,6 +4,7 @@
     background-color: $bgColor;
     height: 100%;
     width: 100%;
+    font-family: $Pfonts;
 }
 
 .smr_prodDetail_outerContain {
@@ -214,7 +215,7 @@
 }
 
 .smr_AddToCart_btn {
-    border: 1px solid #7d7f85;
+    border: 1px solid $btnBg;
     width: 80%;
     height: 30%;
     display: flex;
@@ -222,12 +223,12 @@
     align-items: center;
     min-height: 49px;
     cursor: pointer;
-    color: #7d7f85;
-    background-color: white;
+    color: $btncolor;
+    background-color: $btnBg;
 }
 
 .smr_AddToCart_btn_afterCart {
-    border: 1px solid #7d7f85;
+    border: 1px solid $btnBg;
     width: 80%;
     height: 30%;
     display: flex;
@@ -235,8 +236,8 @@
     align-items: center;
     min-height: 49px;
     cursor: pointer;
-    color: white;
-    background-color: #7d7f85;
+    color: $btncolor;
+    background-color: $btnBg;
 }
 
 .smr_addtocart_btn_txt {
@@ -248,14 +249,14 @@
 }
 
 .Smr_wishlistcont {
-    border: 1px solid #7d7f85;
+    border: 1px solid $btnBg;
     width: 20%;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0.4%;
     border-radius: 2px;
-    background-color: white;
+    background-color: $btnBg;
 }
 
 .smr_proDeatilList {
@@ -290,7 +291,8 @@
     align-items: center;
     width: 100%;
     flex-direction: column;
-    margin-bottom: 150px;
+    margin-bottom: 120px;
+    margin-top: 4rem;
 }
 
 .smr_details_title {
@@ -684,6 +686,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 120px;
 }
 
 

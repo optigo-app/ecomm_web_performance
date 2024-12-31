@@ -320,7 +320,7 @@ export default function LoginWithEmail() {
                         marginTop: '0px',
                         fontSize: '40px',
                         color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                      
                     }}
                         className='AuthScreenMainTitle'
                     >Login With Password</p>
@@ -329,7 +329,7 @@ export default function LoginWithEmail() {
                         marginTop: '-80px',
                         fontSize: '15px',
                         color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                      
                     }}
                         className='AuthScreenSubTitle'
                     >using {email}</p>

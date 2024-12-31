@@ -128,67 +128,20 @@ const SmilingRock_App = () => {
     // }
   });
 
-  // useEffect(() => {
-  //   const cookieValue = Cookies.get("userLoginCookie");
-  //   if (cookieValue && islogin == false) {
-  //     LoginWithEmailAPI("", "", "", "", cookieValue)
-  //       .then((response) => {
-  //         if (response?.Data?.rd[0]?.stat === 1) {
-  //           Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
-  //           setIsLoginState(true);
-  //           sessionStorage.setItem("LoginUser", true);
-  //           sessionStorage.setItem("loginUserDetail", JSON.stringify(response.Data.rd[0]));
-  //           if (redirectEmailUrl) {
-  //             navigation(redirectEmailUrl);
-  //           } else if (location.pathname.startsWith('/accountdwsr')) {
-  //             navigation("/accountdwsr");
-  //           } else {
-  //             navigation("/");
-  //           }
-  //         }
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  //   let localD = JSON.parse(sessionStorage.getItem("storeInit"));
-  //   setLocalData(localD);
-  // }, []);
-
-  // if (islogin === true) {
-  //   const restrictedPaths = [
-  //     '/LoginOption',
-  //     '/ContinueWithEmail',
-  //     '/ContinueWithMobile',
-  //     '/LoginWithEmailCode',
-  //     '/LoginWithMobileCode',
-  //     '/ForgotPass',
-  //     '/LoginWithEmail',
-  //     '/register'
-  //   ];
-
-  //   if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
-  //     return navigation("/");
-  //   }
-  // }
-
   useEffect(() => {
     const cookieValue = Cookies.get("userLoginCookie");
-    if (cookieValue && islogin === false) {
+    if (cookieValue && islogin == false) {
       LoginWithEmailAPI("", "", "", "", cookieValue)
         .then((response) => {
           if (response?.Data?.rd[0]?.stat === 1) {
             Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
             setIsLoginState(true);
             sessionStorage.setItem("LoginUser", true);
-            sessionStorage.setItem(
-              "loginUserDetail",
-              JSON.stringify(response.Data.rd[0])
-            );
+            sessionStorage.setItem("loginUserDetail", JSON.stringify(response.Data.rd[0]));
             if (redirectEmailUrl) {
               navigation(redirectEmailUrl);
-            } else if (location.pathname.startsWith("/accountdwsr")) {
+            } else if (location.pathname.startsWith('/accountdwsr')) {
               navigation("/accountdwsr");
-            } else if (sessionStorage.getItem("previousUrl")) {
-              navigation(sessionStorage.getItem("previousUrl"));
             } else {
               navigation("/");
             }
@@ -196,33 +149,80 @@ const SmilingRock_App = () => {
         })
         .catch((err) => console.log(err));
     }
-
-    if (!islogin) {
-      if (location.pathname !== "/") {
-        sessionStorage.setItem("previousUrl", location.pathname);
-      }
-    }
-
     let localD = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localD);
-  }, [islogin, location.pathname, redirectEmailUrl, navigation]);
+  }, []);
 
   if (islogin === true) {
     const restrictedPaths = [
-      "/LoginOption",
-      "/ContinueWithEmail",
-      "/ContinueWithMobile",
-      "/LoginWithEmailCode",
-      "/LoginWithMobileCode",
-      "/ForgotPass",
-      "/LoginWithEmail",
-      "/register",
+      '/LoginOption',
+      '/ContinueWithEmail',
+      '/ContinueWithMobile',
+      '/LoginWithEmailCode',
+      '/LoginWithMobileCode',
+      '/ForgotPass',
+      '/LoginWithEmail',
+      '/register'
     ];
 
-    if (restrictedPaths?.some((path) => location.pathname.startsWith(path))) {
+    if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
       return navigation("/");
     }
   }
+
+  // useEffect(() => {
+  //   const cookieValue = Cookies.get("userLoginCookie");
+  //   if (cookieValue && islogin === false) {
+  //     LoginWithEmailAPI("", "", "", "", cookieValue)
+  //       .then((response) => {
+  //         if (response?.Data?.rd[0]?.stat === 1) {
+  //           Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
+  //           setIsLoginState(true);
+  //           sessionStorage.setItem("LoginUser", true);
+  //           sessionStorage.setItem(
+  //             "loginUserDetail",
+  //             JSON.stringify(response.Data.rd[0])
+  //           );
+  //           if (redirectEmailUrl) {
+  //             navigation(redirectEmailUrl);
+  //           } else if (location.pathname.startsWith("/accountdwsr")) {
+  //             navigation("/accountdwsr");
+  //           } else if (sessionStorage.getItem("previousUrl")) {
+  //             navigation(sessionStorage.getItem("previousUrl"));
+  //           } else {
+  //             navigation("/");
+  //           }
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+
+  //   if (!islogin) {
+  //     if (location.pathname !== "/") {
+  //       sessionStorage.setItem("previousUrl", location.pathname);
+  //     }
+  //   }
+
+  //   let localD = JSON.parse(sessionStorage.getItem("storeInit"));
+  //   setLocalData(localD);
+  // }, [islogin, location.pathname, redirectEmailUrl, navigation]);
+
+  // if (islogin === true) {
+  //   const restrictedPaths = [
+  //     "/LoginOption",
+  //     "/ContinueWithEmail",
+  //     "/ContinueWithMobile",
+  //     "/LoginWithEmailCode",
+  //     "/LoginWithMobileCode",
+  //     "/ForgotPass",
+  //     "/LoginWithEmail",
+  //     "/register",
+  //   ];
+
+  //   if (restrictedPaths?.some((path) => location.pathname.startsWith(path))) {
+  //     return navigation("/");
+  //   }
+  // }
 
   return (
     <div div className="ggg">

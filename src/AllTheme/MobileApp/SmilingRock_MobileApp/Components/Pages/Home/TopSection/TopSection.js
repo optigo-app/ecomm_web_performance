@@ -1,12 +1,18 @@
-
 import React, { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import Slider from "react-slick";
 import { smrMA_loginState } from "../../../Recoil/atom";
 import { storImagePath } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
-import './TopSection.modul.scss'
+import "./TopSection.modul.scss";
 
-export default function TopSection() {
+const imagePaths = [
+  "/images/HomePage/topBanner/HomepageMainBannerImage1.webp",
+  "/images/HomePage/topBanner/HomepageMainBannerImage2.webp",
+  "/images/HomePage/topBanner/HomepageMainBannerImage3.webp",
+  "/images/HomePage/topBanner/HomepageMainBannerImage4.webp",
+];
+
+export default function TopSection({ data }) {
   const islogin = useRecoilValue(smrMA_loginState);
   const [loading, setLoading] = useState(true);
   const [isLoginStatus, setIsloginStatus] = useState();
@@ -21,16 +27,15 @@ export default function TopSection() {
     arrows: false,
     autoplay: true, // Enable autoplay
     autoplaySpeed: 3000,
-    // prevArrow: false, 
+    // prevArrow: false,
     // nextArrow: false,
-
   };
 
   useEffect(() => {
     if (islogin) {
-      setIsloginStatus(islogin)
+      setIsloginStatus(islogin);
     }
-  }, [])
+  }, []);
 
   const handleVideoLoad = () => {
     setLoading(false);
@@ -41,11 +46,34 @@ export default function TopSection() {
     setLoading(false);
   };
 
-  return (<>
-    <div className="smrMA_TopSectionMain">
-      <Slider {...settings}>
-        {/* onClick={() => naviagtion('/productpage')} */}
-        <div className='homePageSliderImagwMain'>
+  return (
+    <>
+      <div className="smrMA_TopSectionMain">
+        <Slider {...settings}>
+          {/* {imagePaths.map((path, index) => ( */}
+          {data?.image?.slice(0, 4).map((path, index) => (
+            <div key={index} className="homePageSliderImagwMain">
+              <img
+                src={path}
+                className="homePageSliderImagw"
+                alt={`Banner ${index + 1}`}
+              />
+            </div>
+          ))}
+        </Slider>
+      </div>
+      <div className="smr_gradient_background">
+        <p>Grab flat $50 off with code FRI600</p>
+      </div>
+    </>
+  );
+}
+
+{
+  /* onClick={() => naviagtion('/productpage')} */
+}
+{
+  /* <div className='homePageSliderImagwMain'>
           <img src={`${storImagePath()}/images/HomePage/topBanner/HomepageMainBannerImage1.webp`} className='homePageSliderImagw' />
         </div>
 
@@ -59,18 +87,8 @@ export default function TopSection() {
 
         <div className='homePageSliderImagwMain'>
           <img src={`${storImagePath()}/images/HomePage/topBanner/HomepageMainBannerImage4.webp`} className='homePageSliderImagw' />
-        </div>
-      </Slider>
-  
-    </div>
-    <div className='smr_gradient_background'>
-        <p>Grab flat $50 off with code FRI600</p>
-      </div>
-  </>
-  );
+        </div> */
 }
-
-
 
 // import React, { useEffect, useRef, useState } from 'react'
 // import './TopSection.modul.scss'

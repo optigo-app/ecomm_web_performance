@@ -4,11 +4,11 @@ import { Button, CircularProgress, IconButton, InputAdornment, TextField } from 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
-import { useSetRecoilState } from 'recoil';
-import Footer from '../../Home/Footer/Footer';
 import { RegisterAPI } from '../../../../../../utils/API/Auth/RegisterAPI';
-import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
-import { loginState } from '../../../Recoil/atom';
+// import { useSetRecoilState } from 'recoil';
+// import Footer from ' ../../Home/Footer/Footer';
+// import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
+// import { loginState } from '../../../Recoil/atom';
 
 
 export default function Register() {
@@ -33,8 +33,8 @@ export default function Register() {
   const confirmPasswordRef = useRef(null);
 
   const search = location?.search
-  const updatedSearch = search.replace('?LoginRedirect=', '');
-  const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+  // const updatedSearch = search.replace('?LoginRedirect=', '');
+  // const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const cancelRedireactUrl = `/LoginOption/${search}`;
   const singupRedirectUrl = `/LoginOption/${search}`;
   const handleKeyDown = (event, nextRef) => {
@@ -149,6 +149,7 @@ export default function Register() {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const errors = {};
     if (!firstName.trim()) {
       errors.firstName = 'First Name is required';
@@ -256,15 +257,16 @@ export default function Register() {
             paddingTop: '5%',
             fontSize: '40px',
             color: '#7d7f85',
-            fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+          
           }}
             className='AuthScreenRegisterMainTitle'
           >Register</p>
 
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <form noValidate style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} onSubmit={handleSubmit}>
             <TextField
+              name="user-firstName"
               autoFocus
-              id="outlined-basic"
+              id="outlined-basic firstName"
               label="First Name"
               variant="outlined"
               className='labgrowRegister'
@@ -278,7 +280,8 @@ export default function Register() {
             />
 
             <TextField
-              id="outlined-basic"
+              name="user-lastName"
+              id="outlined-basic lastName"
               label="Last Name"
               variant="outlined"
               className='labgrowRegister'
@@ -292,10 +295,11 @@ export default function Register() {
             />
 
             <TextField
-              id="outlined-basic"
+              name="user-mobileNo"
+              id="outlined-basic mobileNo"
               label="Mobile No."
               variant="outlined"
-              autoComplete='off'
+              autoComplete="new-mobileNo" // Explicitly telling the browser not to autocomplete this field
               className='labgrowRegister'
               style={{ margin: '15px' }}
               value={mobileNo}
@@ -307,7 +311,8 @@ export default function Register() {
             />
 
             <TextField
-              id="outlined-basic"
+              name="user-email"
+              id="outlined-basic email"
               label="Email"
               autoComplete="smr_registerEmail"
               variant="outlined"
@@ -322,11 +327,12 @@ export default function Register() {
             />
 
             <TextField
-              id="outlined-password-input"
+              name="user-password"
+              id="outlined-password-input password"
               label="Password"
               type={showPassword ? 'text' : 'password'}
               className='labgrowRegister'
-              autoComplete='off'
+              autoComplete="new-password" // Explicitly telling the browser not to autocomplete this field
               style={{ margin: '15px' }}
               value={password}
               onChange={handlePasswordChange}
@@ -351,12 +357,13 @@ export default function Register() {
             />
 
             <TextField
-              id="outlined-confirm-password-input"
+              name="user-confirmPassword"
+              id="outlined-confirm-password-input  confirmPassword"
               label="Confirm Password"
               type={showConfirmPassword ? 'text' : 'password'}
               className='labgrowRegister'
               style={{ margin: '15px' }}
-              autoComplete='off'
+              autoComplete="new-password"  // Avoid autofill by browsers for password
               value={confirmPassword}
               inputRef={confirmPasswordRef}
               onKeyDown={(event) => {
@@ -383,14 +390,14 @@ export default function Register() {
               }}
             />
 
-            <button className='createBtnRegister' onClick={handleSubmit}>CREATE ACCOUNT</button>
+            <button type='submit' className='createBtnRegister' >CREATE ACCOUNT</button>
 
             {/* <div style={{ display: 'flex', marginTop: '10px' }}>
               <input type='checkbox' />
               <p style={{ margin: '5px' }}>Subscribe to our newsletter</p>
             </div> */}
             <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>BACK</Button>
-          </div>
+          </form>
           {/* <Footer /> */}
         </div>
       </div>

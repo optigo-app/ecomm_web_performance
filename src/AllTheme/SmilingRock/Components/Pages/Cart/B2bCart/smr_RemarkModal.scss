@@ -21,8 +21,8 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
     .smr_remarksave-btn {
-        background-color: $cartUpdateBtncolor;
-        color: $btn1hoverFontColor;
+        background: $btnBg  !important;
+        color: $btncolor !important;
 
         &:hover {
             background-color: $btn1hoverColor;

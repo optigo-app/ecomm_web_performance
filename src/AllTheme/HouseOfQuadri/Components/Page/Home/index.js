@@ -1,4 +1,5 @@
-import React, { useEffect, useState, lazy, Suspense } from "react";
+import React, { useEffect,  lazy, Suspense } from "react";
+import useHomeBannerImages from './../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
 import "./index.modul.scss";
 
 const TopSlider = lazy(() => import("./Slider/Slider"));
@@ -16,6 +17,7 @@ const InfoSection = lazy(() => import("./InfoSection/InfoSection"));
 
 const HomePage = () => {
   const data = JSON.parse(sessionStorage.getItem("storeInit"));
+  const banners = useHomeBannerImages();
 
   useEffect(() => {
     window.scrollTo({
@@ -27,7 +29,7 @@ const HomePage = () => {
   return (
     <div className="hoq_main_homepage">
       <Suspense fallback={<div></div>}>
-        <TopSlider />
+        <TopSlider data={banners?.mainBanner} />
         {data?.IsHomeNewArrival === 1 && <TabSection />}
         {data?.IsHomeDesignSet === 1 && <Collection />}
         <FeaturedBrand />
@@ -35,8 +37,8 @@ const HomePage = () => {
         {data?.IsHomeAlbum === 1 && <CategoryTab />}
         {data?.IsHomeBestSeller === 1 && <ReadyToShip />}
         <ImageBannerTab />
-        <ScrollTriggerTab />
-        <SocialTab />
+        <ScrollTriggerTab data={banners?.middleBanner} />
+        <SocialTab data={banners?.socialMediaBanner2} />
         <InfoSection />
         <FaqSection />
       </Suspense>

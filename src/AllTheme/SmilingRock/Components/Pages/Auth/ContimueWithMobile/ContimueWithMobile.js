@@ -108,7 +108,6 @@ export default function ContimueWithMobile() {
                         marginTop: '0px',
                         fontSize: '40px',
                         color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
                     }}
                         className='AuthScreenMainTitle'
                     >Continue With Mobile</p>
@@ -117,7 +116,6 @@ export default function ContimueWithMobile() {
                         marginTop: '-60px',
                         fontSize: '15px',
                         color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
                     }}
                         className='AuthScreenSubTitle'
                     >We'll check if you have an account, and help create one if you don't.</p>

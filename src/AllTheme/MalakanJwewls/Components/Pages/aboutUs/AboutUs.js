@@ -56,8 +56,8 @@ export default function AboutUs() {
     },
   ];
 
-  // const banner = `${storImagePath()}/images/static/about1.jpeg`;
-  const banner = `${storImagePath()}/images/static/about2.jpg`;
+  const banner = `${storImagePath()}/images/static/about1.jpeg`;
+  // const banner = `${storImagePath()}/images/static/about2.jpg`;
 
   return (
 
@@ -156,7 +156,7 @@ export default function AboutUs() {
                 alt="People working on laptops"
                 className="malkan_sp-hero__image"
               />
-               <div className="malkan_sp-hero__overlay">
+               {/* <div className="malkan_sp-hero__overlay">
                 <div className="text-center">
                   <h1 className="malkan_sp-hero__title">
                     It's not our work life, it's our life's work.
@@ -168,12 +168,11 @@ export default function AboutUs() {
                     <FaPlay className="malkan_sp-hero__icon" />
                   </button>
                 </div>
-              </div> 
+              </div>  */}
               </section>
 
               <section className="malkan_sp-dna">
                 <h2 className="malkan_sp-dna__title">
-                  Our DNA
                  WELCOME TO SHREE DIAMOND</h2> 
                 <p className="malkan_sp-dna__description">
                   There are a lot of agencies that do what we do. They share the
@@ -192,7 +191,7 @@ export default function AboutUs() {
                 </p>
               </section>
   
-              <section className="malkan_sp-values">
+              {/* <section className="malkan_sp-values">
                 <h2 className="malkan_sp-values__title">PXPL Values</h2>
                 <p className="malkan_sp-values__description">
                   This is the fabric of our culture and the framework for all
@@ -229,10 +228,57 @@ export default function AboutUs() {
                     </div>
                   ))}
                 </div>
-              </section>
+              </section> */}
             </div>
           </div>
         </main>
       </div>
 
-*/
+  );
+}
+
+
+
+
+
+// <div className="malkan_contactMain_about">
+    //   <main className="malkan_sp-service-policy">
+    //     <div className="content_malkana">
+    //       <div className="title">
+    //         <h2>{"About Us"}</h2>
+    //       </div>
+
+    //       <div className="malkan_sp-about-us">
+    //         <section className="malkan_sp-hero">
+    //           <img
+    //             src={banner}
+    //             alt="People working on laptops"
+    //             className="malkan_sp-hero__image"
+    //           />
+    //         </section>
+
+    //         <section className="malkan_sp-dna">
+    //           <h2 className="malkan_sp-dna__title">{aboutData?.[0]?.title}</h2>
+    //           <p className="malkan_sp-dna__description">
+    //             {aboutData[0].description}
+    //           </p>
+    //         </section>
+
+    //         <section className="malkan_sp-values">
+    //           <h2 className="malkan_sp-values__title">{aboutData?.[1]?.title}</h2>
+    //           <p className="malkan_sp-values__description">
+    //             {aboutData[1].description}
+    //           </p>
+    //           <div className="malkan_sp-values__list">
+    //             {valuesData.map((value, index) => (
+    //               <div key={index} className="malkan_sp-value">
+    //                 <h3 className="malkan_sp-value__title">{value.title}</h3>
+    //                 <p className="malkan_sp-value__description">{value.description}</p>
+    //               </div>
+    //             ))}
+    //           </div>
+    //         </section>
+    //       </div>
+    //     </div>
+    //   </main>
+    // </div>

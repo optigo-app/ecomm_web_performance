@@ -181,7 +181,7 @@ const Procatalog_App = () => {
       {localData?.Headerno === 1 && <Header />}
       {localData?.Headerno === 2 && <Header2 />}
       <ConnectionManager />
-      <ProcatAppChatMenu />
+      {/* <ProcatAppChatMenu /> */}
       <div className="proCatMinHeightSet">
         <Routes>
           <Route path="/" element={<Home />} />

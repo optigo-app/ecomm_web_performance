@@ -71,14 +71,12 @@
       height: 2.4rem;
     }
     .btn_for_new{
-      background: #e6dbc5;
+      background: $btnBg ;
+      color: $btncolor;
       border: none;
-      color: rgb(68, 68, 68);
       &:hover{
-        background-color: #e7dabe;
         transition: 0.2s ease-in-out;
       }
-      font-weight: 500;
     }
   }
 

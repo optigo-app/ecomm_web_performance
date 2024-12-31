@@ -18,7 +18,7 @@ import { Link } from '@mui/material';
 import gradientColors from "../LookBook/color.json"
 import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
-const DesignSet2 = () => {
+const DesignSet2 = ({data}) => {
 
   const designSetRef = useRef(null);
   const navigate = useNavigate();
@@ -199,7 +199,8 @@ const DesignSet2 = () => {
                   <img
                     // src={ProdCardImageFunc(slide)}
                     // src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-26.jpg?height=1366&v=1638651514&width=2048"
-                    src={`${storImagePath()}/images/HomePage/DesignSetBanner/BottomBannerDesignSet1.png`}
+                    // src={`${storImagePath()}/images/HomePage/DesignSetBanner/BottomBannerDesignSet1.png`}
+                    src={data?.image[0]} 
                     alt=""
                     className="imgBG"
                   />

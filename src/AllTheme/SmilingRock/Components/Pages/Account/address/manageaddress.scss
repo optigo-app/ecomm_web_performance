@@ -1,15 +1,26 @@
-// .address_Account_SMR{
+@import '../../../scss/variable.scss';
+.address_Account_SMR{
+font-family: $Pfonts;
 
+    .savedAddress{
+        text-align: center;
+        padding: 15px;
+        margin-top: 30px;
+        font-size: 20px;
+        background: $btnBg !important;
+        color: $btncolor !important;
+    }
+}
 
 .muiSmilingRocksBtnManage{
     /* border: 1px solid #7d7f85 !important; */
     font-size: 13.5px !important;
     font-weight: 600 !important;
-    opacity: .8 !important;
+    // opacity: .8 !important;
     margin-left: auto !important;
     display: block !important;
-    background: #f6efe6 !important;
-    color: rgba(31, 25, 25, 0.7) !important;
+    background: $btnBg !important;
+    color: $btncolor !important;
 }
 
 .manageAddressBlock{
@@ -23,16 +34,16 @@
     /* border: 1px solid #7d7f85 !important; */
     font-size: 13.5px !important;
     font-weight: 700 !important;
-    opacity: .8 !important;
+    // opacity: .8 !important;
     padding: 7px 20px 7px 20px !important;
-    background: rgb(246,239,230) !important;
-    color: rgba(31, 25, 25, 0.7) !important;
+    background: $btnBg !important;
+    color: $btncolor !important;
 }
-.muiSmilingRocksBtnManage:hover, .muiSmilingRocksBtnManageEdit:hover{
-    background: #fff !important;
-    color: #1f1919;
-    opacity: .8;
-}
+// .muiSmilingRocksBtnManage:hover, .muiSmilingRocksBtnManageEdit:hover{
+//     background: #fff !important;
+//     color: #1f1919;
+//     // opacity: .8;
+// }
 
 .addressMainSec{
     gap: 2%;
@@ -61,10 +72,10 @@
 // }
 
 .smilingDeleveryformSaveBtn{
-    background: #f6efe6;
+    background: $btnBg !important;
+    color: $btncolor !important;
     border: none;
     border-radius: 5px;
-    color: rgba(31, 25, 25, .7);
     font-weight: 600;
     margin-inline: 5px;
     opacity: .8;
@@ -72,10 +83,10 @@
     width: 100px;
 }
 .smilingDeleveryformCansleBtn_SMR{
-    background: #f6efe6;
     border: none;
     border-radius: 5px;
-    color: rgba(31, 25, 25, .7);
+    background: $btnBg !important;
+    color: $btncolor !important;
     font-weight: 600;
     margin-inline: 5px;
     opacity: .8;

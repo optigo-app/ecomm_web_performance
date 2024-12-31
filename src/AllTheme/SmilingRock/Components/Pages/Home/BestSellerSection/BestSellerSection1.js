@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import { motion } from 'framer-motion';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 
-const ProductGrid = () => {
+const ProductGrid = ({data}) => {
 
     const bestSallerRef = useRef(null);
     const [imageUrl, setImageUrl] = useState();
@@ -296,7 +296,8 @@ const ProductGrid = () => {
                             </div>
                             <div className='smr_rightSideBestSeler'>
                                 {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" /> */}
-                                <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.png`} alt="modalimages" />
+                                {/* <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.png`} alt="modalimages" /> */}
+                                <img src={data?.image[0]} alt="modalimages" />
                                 <div className="smr_lookbookImageRightDT">
                                     {/*    not need for maiora  */}
                                     {/* <p>SHORESIDE COLLECTION</p>
