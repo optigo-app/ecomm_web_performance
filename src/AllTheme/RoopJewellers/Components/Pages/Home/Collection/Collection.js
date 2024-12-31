@@ -97,13 +97,13 @@ function Collection() {
       <p className='roop_whyshop_title'>
 
         {/* For Shinjini */}
-        WHY SHOP WITH SHINJINI JEWELS?
+        {/* Why shop with Shinjini? */}
 
         {/* For Sonasons */}
         {/* WHY SHOP WITH SONASONS? */}
 
         {/* For Vara */}
-        {/* WHY SHOP WITH VARA? */}
+        Why shop with Vara?
 
         {/* For Pacific */}
         {/* WHY SHOP WITH PACIFIC? */}
@@ -120,10 +120,10 @@ function Collection() {
               src={`${storImagePath()}/images/HomePage/Shop/shop1.png`}
               alt="Certified jewellery, ensuring top-notch quality and craftsmanship"
             />
-            <h5 className='roop_shop_title'>QUALITY CERTIFIED JEWELLERY</h5>
+            <h5 className='roop_shop_title'>Quality Certified Jewellery</h5>
           </div>
           <div className="onhover_show">
-            <h5>QUALITY CERTIFIED JEWELLERY</h5>
+            <h5>Quality Certified Jewellery</h5>
             <p>Indulge in Quality Certified Jewellery, a testament to the excellence of our craftsmanship.</p>
           </div>
         </div>
@@ -137,10 +137,10 @@ function Collection() {
               src={`${storImagePath()}/images/HomePage/Shop/shop2.png`}
               alt="Traditional retail space offering a wide variety of jewellery options"
             />
-            <h5>TRADITIONAL RETAIL SPACE</h5>
+            <h5>Traditional Retail Space</h5>
           </div>
           <div className="onhover_show">
-            <h5>TRADITIONAL RETAIL SPACE</h5>
+            <h5>Traditional Retail Space</h5>
             <p>Experience the best of both worlds with our traditional retail space offering an extensive range of fine jewellery.</p>
           </div>
         </div>
@@ -154,10 +154,10 @@ function Collection() {
               src={`${storImagePath()}/images/HomePage/Shop/shop3.png`}
               alt="Peace of mind promise with every purchase"
             />
-            <h5>PEACE OF MIND PROMISE</h5>
+            <h5>Peace of mind promise</h5>
           </div>
           <div className="onhover_show">
-            <h5>PEACE OF MIND PROMISE</h5>
+            <h5>Peace of mind promise</h5>
             <p>Our Peace of Mind Promise ensures complete satisfaction and peace with every jewellery purchase.</p>
           </div>
         </div>
@@ -171,10 +171,10 @@ function Collection() {
               src={`${storImagePath()}/images/HomePage/Shop/shop4.png`}
               alt="Risk-free assurance for all jewellery purchases"
             />
-            <h5>RISK-FREE ASSURANCE</h5>
+            <h5>Risk-free Assurance</h5>
           </div>
           <div className="onhover_show">
-            <h5>RISK-FREE ASSURANCE</h5>
+            <h5>Risk-free Assurance</h5>
             <p>Enjoy the confidence of Risk-Free Assurance on all your jewellery purchases with us.</p>
           </div>
         </div>

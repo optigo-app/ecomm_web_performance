@@ -1263,37 +1263,63 @@ const DynamicCollection = () => {
       }));
     }
   };
-  const BreadCumsObj = () => {
-    let BreadCum = decodeURI(atob(location?.search.slice(3))).split("/");
+  // const BreadCumsObj = () => {
+  //   let BreadCum = decodeURI(atob(location?.search.slice(3))).split("/");
 
-    const values = BreadCum[0].split(",");
-    const labels = BreadCum[1].split(",");
+  //   const values = BreadCum[0].split(",");
+  //   const labels = BreadCum[1].split(",");
 
-    const updatedBreadCum = labels.reduce((acc, label, index) => {
-      acc[label] = values[index] || "";
+  //   const updatedBreadCum = labels.reduce((acc, label, index) => {
+  //     acc[label] = values[index] || "";
+  //     return acc;
+  //   }, {});
+
+  //   const result = Object.entries(updatedBreadCum).reduce(
+  //     (acc, [key, value], index) => {
+  //       acc[`FilterKey${index === 0 ? "" : index}`] =
+  //         key.charAt(0).toUpperCase() + key.slice(1);
+  //       acc[`FilterVal${index === 0 ? "" : index}`] = value;
+  //       return acc;
+  //     },
+  //     {}
+  //   );
+
+
+  //   // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
+
+  //   result.menuname = decodeURI(location?.pathname)
+  //     .slice(3)
+  //     .slice(0, -1)
+  //     .split("/")[0];
+
+  //   return result;
+  // };
+
+   const BreadCumsObj = () => {
+    let BreadCum = decodeURI(atob(location?.search?.slice(3))).split('/')
+
+    const values = BreadCum?.[0]?.split(',');
+    const labels = BreadCum?.[1]?.split(',');
+
+    const updatedBreadCum = labels?.reduce((acc, label, index) => {
+      acc[label] = values[index] || '';
       return acc;
     }, {});
 
-    const result = Object.entries(updatedBreadCum).reduce(
-      (acc, [key, value], index) => {
-        acc[`FilterKey${index === 0 ? "" : index}`] =
-          key.charAt(0).toUpperCase() + key.slice(1);
-        acc[`FilterVal${index === 0 ? "" : index}`] = value;
-        return acc;
-      },
-      {}
-    );
+    const result = Object?.entries(updatedBreadCum ?? {})?.reduce((acc, [key, value], index) => {
+      acc[`FilterKey${index === 0 ? '' : index}`] = key?.charAt(0)?.toUpperCase() + key?.slice(1);
+      acc[`FilterVal${index === 0 ? '' : index}`] = value;
+      return acc;
+    }, {});
 
+    if (result) {
+      result.menuname = decodeURI(location?.pathname)?.slice(3)?.slice(0, -1)?.split("/")[0]
+    } else {
+      result = {}
+    }
 
-    // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
-
-    result.menuname = decodeURI(location?.pathname)
-      .slice(3)
-      .slice(0, -1)
-      .split("/")[0];
-
-    return result;
-  };
+    return result
+  }
 
   useEffect(() => {
     callAllApi();

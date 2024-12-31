@@ -38,10 +38,22 @@ $borderColor: rgba(232, 232, 232, 1);
         text-align: left;
 
         .mala3_ReomoveAllCartbtn {
-          color: $titleColor;
+          color: white;
           font-size: $fontSize2;
-          text-decoration-color: $titleColor;
           cursor: pointer;
+          font-family: $primaryFontFamily !important;
+          background-color: $backgroundColor !important;
+          border: none;
+          outline: none;
+          height: 45px;
+          border-radius: 0px;
+          width: 130px;
+          font-weight: 500;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: $hoverbackgroundColor;
+          }
         }
       }
 
@@ -56,7 +68,7 @@ $borderColor: rgba(232, 232, 232, 1);
 
         button {
           font-family: $primaryFontFamily !important;
-          background-color: #17372F !important;
+          background-color: $backgroundColor !important;
           color: white !important;
           font-size: $fontSize2;
           border: none;
@@ -70,7 +82,7 @@ $borderColor: rgba(232, 232, 232, 1);
           transition: background-color 0.3s;
 
           &:hover {
-            background-color: #666;
+            background-color: $hoverbackgroundColor;
           }
         }
       }
@@ -540,7 +552,7 @@ $borderColor: rgba(232, 232, 232, 1);
 
                 button {
                   font-family: $primaryFontFamily !important;
-                  background-color: #17372F;
+                  background-color: $backgroundColor;
                   color: white;
                   font-size: $fontSize2;
                   border: none;
@@ -553,7 +565,7 @@ $borderColor: rgba(232, 232, 232, 1);
                   transition: background-color 0.3s;
 
                   &:hover {
-                    background-color: #666;
+                    background-color: $hoverbackgroundColor;
                   }
                 }
               }

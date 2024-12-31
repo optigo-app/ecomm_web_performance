@@ -9,10 +9,11 @@ import { Pagination, Navigation } from 'swiper/modules';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { roop_loginState } from '../../../Recoil/atom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { roop_album_length, roop_loginState } from '../../../Recoil/atom';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import Pako from 'pako';
+import { useMediaQuery } from '@mui/material';
 
 const TrendingView1 = () => {
 
@@ -29,6 +30,10 @@ const TrendingView1 = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [storeInit, setStoreInit] = useState({});
     const [validImages, setValidImages] = useState([]);
+    const maxWidth1200px = useMediaQuery('(max-width:1200px)');
+
+    const [albumLength, setAlbumLength] = useRecoilState(roop_album_length);
+    console.log('albumLength: ', albumLength);
 
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     useEffect(() => {
@@ -146,7 +151,7 @@ const TrendingView1 = () => {
 
     return (
         <>
-            <div className='roop_mainTrending1Div'>
+            <div className='roop_mainTrending1Div' style={{ marginTop: maxWidth1200px && albumLength > 0 ? '-3rem' : "2rem" }}>
                 <div className='smr_trending1TitleDiv'>
                     <span className='smr_trending1Title' id='smr_Trending'>Trending</span>
                 </div>
@@ -157,12 +162,12 @@ const TrendingView1 = () => {
                         {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} /> */}
 
                         {/* For sonasons, pacific*/}
-                        <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} />
+                        {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} /> */}
 
                         {/* // for vara  */}
-                        {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trendingBanner.png`}
+                        <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trendingBanner.png`}
                             alt="Trending Jewellery Collection Banner"
-                        /> */}
+                        />
                     </div>
                     {/* <div className='smr_rightSideTR'> */}
 

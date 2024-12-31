@@ -36,10 +36,10 @@ const Footer = ({ fromPage }) => {
           <div className='footerMoreOption'>
             <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p>
             {/* For vara */}
-            {/* <p className='footerMoreOptionData' style={{textTransform:'uppercase'}} onClick={() => { navigation('/managementTeam'); window.scrollTo(0, 0); }}>Management Team</p> */}
+            <p className='footerMoreOptionData' style={{textTransform:'uppercase'}} onClick={() => { navigation('/managementTeam'); window.scrollTo(0, 0); }}>Management Team</p>
 
             {/* For sonasons ,shinjini, Pacific */}
-            <p className='footerMoreOptionData' style={{ textTransform: 'uppercase' }} onClick={() => { navigation('/privacyPolicy'); window.scrollTo(0, 0); }}>Privacy Policy</p>
+            {/* <p className='footerMoreOptionData' style={{ textTransform: 'uppercase' }} onClick={() => { navigation('/privacyPolicy'); window.scrollTo(0, 0); }}>Privacy Policy</p> */}
 
             <p className='footerMoreOptionData' style={{
               textTransform: 'uppercase'
@@ -52,9 +52,9 @@ const Footer = ({ fromPage }) => {
               fontSize: '12px',
               fontWeight: 500,
               marginInline: '0'
-            }}>© 2024, Shinjini Jewels</p>
+            }}>© 2024, Varajewels</p>
 
-              {/*  pacific diamonds */}
+            {/*  pacific diamonds */}
             {/* }}>© 2024, Pacific Diamonds</p> */}
 
             {/* For Vara */}
@@ -65,7 +65,9 @@ const Footer = ({ fromPage }) => {
 
             {/* vara  */}
             {/* }}>© 2024, Varajewels</p> */}
-            <div style={{ width: maxWidth ? "100%" : "" }}>
+            <div
+              className='roop_footerCompData'
+              style={{ width: maxWidth ? "100%" : "" }}>
               <p style={{
                 color: '#7d7f85',
                 fontSize: '12px',
@@ -73,9 +75,9 @@ const Footer = ({ fromPage }) => {
                 marginInline: '15px',
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center',
+                alignItems: 'flex-start',
               }}>
-                <IoLocationOutline style={{ minWidth: '18px', width: 'fit-content', height: 'fit-content' }} />
+                <IoLocationOutline style={{ minWidth: '18px', width: 'fit-content', height: 'fit-content'}} />
                 <span>
                   {companyInfoData?.FrontEndAddress}, {companyInfoData?.FrontEndCity} - {companyInfoData?.FrontEndZipCode}
                 </span>

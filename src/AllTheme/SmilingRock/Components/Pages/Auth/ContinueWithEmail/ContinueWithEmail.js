@@ -19,7 +19,7 @@ export default function ContinueWithEmail() {
     const redirectSignUpUrl = `/register/${search}`;
     const cancelRedireactUrl = `/LoginOption/${search}`;
 
-    
+
 
     // const validateEmail = (email) => {
     //     const regex = /^[a-zA-Z][\w@$&#]*@[a-zA-Z]+\.[a-zA-Z]+(\.[a-zA-Z]+)?$/;
@@ -28,7 +28,7 @@ export default function ContinueWithEmail() {
 
     useEffect(() => {
         setCSSVariable();
-    },[])
+    }, [])
     const validateEmail = (email) => {
         // const regex = /^[a-zA-Z][\w@$&#]*@[a-zA-Z]+\.[a-zA-Z]+(\.[a-zA-Z]+)?$/;
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -52,10 +52,10 @@ export default function ContinueWithEmail() {
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
         document.documentElement.style.setProperty(
-          "--background-color",
-          backgroundColor
+            "--background-color",
+            backgroundColor
         );
-      };
+    };
 
 
 

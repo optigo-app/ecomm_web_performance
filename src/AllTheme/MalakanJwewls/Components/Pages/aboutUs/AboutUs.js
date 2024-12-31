@@ -60,6 +60,39 @@ export default function AboutUs() {
   const banner = `${storImagePath()}/images/static/about2.jpg`;
 
   return (
+
+    // Kamalika Jewellers 
+
+    // <div className="malkan_contactMain_about">
+    //   <main className="malkan_sp-service-policy">
+    //     <div className="content_malkana">
+    //       <div className="title">
+    //         <h2>{"About Us"}</h2>
+    //       </div>
+
+    //       <div className="malkan_sp-about-us">
+    //         <section className="malkan_sp-hero">
+    //           <img
+    //             src={banner}
+    //             alt="People working on laptops"
+    //             className="malkan_sp-hero__image"
+    //           />
+    //         </section>
+
+    //         <section className="malkan_sp-dna">
+    //           <h2 className="malkan_sp-dna__title">
+    //             WELCOME TO KAMALIKA JEWELLERS</h2>
+    //           <p className="malkan_sp-dna__description">
+    //             Kamalika Jewellers, beacon of elegance and innovation in the realm of jewellery, was founded in 2008 by Mr. Bharat Bhushan Aggarwal , an visionary and industrialist. From its humble beginning  to open first office in Surat in 2008, the brand has evolved into at triumvirate of excellence with three offices in Surat , Jaipur , Ludhiana (fountain chowk). We provide customized jewellery to fit clients taste, in everchanging designing world we create modern designs which are relevant and timeless. Destined to be cherished by generations to come. Every piece is truly breathing design, manufactured by fascinating craftsmanship and is high on quality and purity. Our prime focus is  imaginative integration of customer choice, keeping rich Indian traditions and cultural heritage intact.Offering 100% buy back guarantee with hallmarked of 22kt , 18kt and 14kt gold purities with competitive price matching international standard and we are committed to customer satisfaction.
+    //           </p>
+    //             <strong style={{fontSize: "20px"}}>Bharat Bhushan Aggarwal</strong>
+    //         </section>
+    //       </div>
+    //     </div>
+    //   </main>
+    // </div>
+
+
     <div className="malkan_contactMain_about">
       <main className="malkan_sp-service-policy">
         <div className="content_malkana">
@@ -101,6 +134,9 @@ export default function AboutUs() {
         </div>
       </main>
     </div>
+
+
+
   );
 }
 

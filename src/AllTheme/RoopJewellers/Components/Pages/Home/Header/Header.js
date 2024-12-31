@@ -546,7 +546,7 @@ const Header = () => {
               <div className="roop_MobileSiderBarMain">
                 <div
                   style={{
-                    margin: "20px 10px 0px 10px",
+                    margin: "20px 10px 10px 10px",
                     display: "flex",
                     justifyContent: "space-between",
                   }}
@@ -1120,7 +1120,7 @@ const Header = () => {
         <div className="roop_header_top_line">
           <p className="roop_header_top_line_text" aria-labelledby="title">
             {/* For Vara */}
-            {/* Welcome To Vara Jewels Offical Website */}
+            Welcome To Vara Jewels Offical Website
 
             {/* For Sonsosons */}
             {/* Welcome To Sonasons Offical Website */}
@@ -1129,7 +1129,7 @@ const Header = () => {
             {/* Welcome To Pacific Diamonds Offical Website */}
 
             {/* For Shinjini */}
-            Welcome To Shinjini Jewels Offical Website
+            {/* Welcome To Shinjini Jewels Offical Website */}
             {/* Welcome To Roop Jewellers's Offical Website */}
           </p>
         </div>

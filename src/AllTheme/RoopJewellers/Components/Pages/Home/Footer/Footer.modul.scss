@@ -14,6 +14,7 @@
   .footerIconMain {
     display: flex;
     width: 33.33%;
+    align-items: center;
   }
 
   .footerMoreOption {
@@ -85,9 +86,19 @@
     width: 100%;
   }
 
+  .roop_footerCompData{
+    max-width: 50% !important;
+
+    @media (max-width: 1024px) {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+  }
+
   @media screen and (max-width: 1700px) {
     .footerIconMain {
       width: 25% !important;
+      align-items: center;
 
       @media screen and (max-width:768px) {
         width: 100% !important;

@@ -3,9 +3,9 @@
 .roop_mainTrending1Div {
     margin-top: 3rem;
 
-    @media (max-width: 1200px) {
-        margin-top: -3rem;
-    }
+    // @media (max-width: 1200px) {
+    //     margin-top: -3rem;
+    // }
     .smr_trending1TitleDiv {
         text-align: center;
         padding-block: 10px;
@@ -404,7 +404,7 @@
     @media screen and (max-width:1400px) {
 
         .roop_trend_main_sub {
-            padding-inline: 70px !important;
+            padding-inline: 10px !important;
         }
 
         .roop_trend_title {
@@ -420,7 +420,7 @@
         }
 
         .roop_trend__image_div {
-            padding: 10px 10px 10px 0px !important;
+            // padding: 10px 10px 10px 0px !important;
         }
 
         .roop_trend__image_div1 {
@@ -451,7 +451,7 @@
         .roop_trend__image_div {
             // width: 50% !important;
             width: 100% !important;
-            padding: 5px !important;
+            // padding: 5px !important;
         }
 
         .roop_trend__image_div1 {

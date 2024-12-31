@@ -2977,18 +2977,10 @@ const GivaFilterMenu = ({
 
         if (checkedOption) {
           checkedNames.push(checkedOption.Name);
+          setCurrPage(1);
         }
       }
     }
-
-    // console.log('checkedNames: ', checkedNames);
-
-    // if (checkedNames?.[0] !== "") {
-    //   setCurrPage(currPage)
-    // }
-    // else {
-    setCurrPage(1);
-    // }
 
     return checkedNames;
   }
