@@ -165,6 +165,8 @@ const CartPage = () => {
     }
   }
 
+  
+
   return (
     <div className='smr_MainBGDiv'>
       <div className='cartMainPageDiv'>

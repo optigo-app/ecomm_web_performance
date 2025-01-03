@@ -279,6 +279,7 @@ export default function ThemeRoutes() {
   // };
 
   // new version
+  
   const callApiAndStore = (apiFunction, storageKey, finalID) => {
     apiFunction(finalID)
       .then((response) => {
@@ -318,6 +319,7 @@ export default function ThemeRoutes() {
     );
     callApiAndStore(CurrencyComboAPI, "CurrencyCombo", finalID);
   };
+
 
   useEffect(() => {
     const storedData = sessionStorage.getItem("storeInit");
@@ -456,7 +458,7 @@ const Themes = ({ htmlContent }) => {
       <Suspense fallback={<></>}>
         {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
 
-        {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
+        {/* {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />} */}
         {/* {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />} */}
 
         {/* {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}  */}
