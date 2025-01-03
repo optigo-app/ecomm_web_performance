@@ -153,76 +153,102 @@ const SmilingRock_App = () => {
     setLocalData(localD);
   }, []);
 
-  if (islogin === true) {
-    const restrictedPaths = [
-      '/LoginOption',
-      '/ContinueWithEmail',
-      '/ContinueWithMobile',
-      '/LoginWithEmailCode',
-      '/LoginWithMobileCode',
-      '/ForgotPass',
-      '/LoginWithEmail',
-      '/register'
-    ];
 
-    if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
-      return navigation("/");
-    }
-  }
-
+  //paymaster
   // useEffect(() => {
-  //   const cookieValue = Cookies.get("userLoginCookie");
-  //   if (cookieValue && islogin === false) {
-  //     LoginWithEmailAPI("", "", "", "", cookieValue)
-  //       .then((response) => {
-  //         if (response?.Data?.rd[0]?.stat === 1) {
-  //           Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
-  //           setIsLoginState(true);
-  //           sessionStorage.setItem("LoginUser", true);
-  //           sessionStorage.setItem(
-  //             "loginUserDetail",
-  //             JSON.stringify(response.Data.rd[0])
-  //           );
-  //           if (redirectEmailUrl) {
-  //             navigation(redirectEmailUrl);
-  //           } else if (location.pathname.startsWith("/accountdwsr")) {
-  //             navigation("/accountdwsr");
-  //           } else if (sessionStorage.getItem("previousUrl")) {
-  //             navigation(sessionStorage.getItem("previousUrl"));
-  //           } else {
-  //             navigation("/");
-  //           }
-  //         }
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
+  //   const fetchData = async () => {
+  //     try {
+  //       const storedPayMaster = sessionStorage.getItem('payMaster');
 
-  //   if (!islogin) {
-  //     if (location.pathname !== "/") {
-  //       sessionStorage.setItem("previousUrl", location.pathname);
+  //       if (storedPayMaster) {
+  //         console.log('payMaster from session storage: ', JSON.parse(storedPayMaster));
+  //       } else {
+  //         const payMaster = await fetchPayMaster();
+  //         const res = payMaster?.Data?.rd;
+  //         console.log('payMaster from API: ', res);
+  //         sessionStorage.setItem('payMaster', JSON.stringify(res));
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching or retrieving payMaster:', error);
   //     }
-  //   }
+  //   };
+  //   const timer = setTimeout(() => {
+  //     fetchData();
+  //   }, 3000);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
-  //   let localD = JSON.parse(sessionStorage.getItem("storeInit"));
-  //   setLocalData(localD);
-  // }, [islogin, location.pathname, redirectEmailUrl, navigation]);
 
   // if (islogin === true) {
   //   const restrictedPaths = [
-  //     "/LoginOption",
-  //     "/ContinueWithEmail",
-  //     "/ContinueWithMobile",
-  //     "/LoginWithEmailCode",
-  //     "/LoginWithMobileCode",
-  //     "/ForgotPass",
-  //     "/LoginWithEmail",
-  //     "/register",
+  //     '/LoginOption',
+  //     '/ContinueWithEmail',
+  //     '/ContinueWithMobile',
+  //     '/LoginWithEmailCode',
+  //     '/LoginWithMobileCode',
+  //     '/ForgotPass',
+  //     '/LoginWithEmail',
+  //     '/register'
   //   ];
 
-  //   if (restrictedPaths?.some((path) => location.pathname.startsWith(path))) {
+  //   if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
   //     return navigation("/");
   //   }
   // }
+
+  useEffect(() => {
+    const cookieValue = Cookies.get("userLoginCookie");
+    if (cookieValue && islogin === false) {
+      LoginWithEmailAPI("", "", "", "", cookieValue)
+        .then((response) => {
+          if (response?.Data?.rd[0]?.stat === 1) {
+            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
+            setIsLoginState(true);
+            sessionStorage.setItem("LoginUser", true);
+            sessionStorage.setItem(
+              "loginUserDetail",
+              JSON.stringify(response.Data.rd[0])
+            );
+            if (redirectEmailUrl) {
+              navigation(redirectEmailUrl);
+            } else if (location.pathname.startsWith("/accountdwsr")) {
+              navigation("/accountdwsr");
+            } else if (sessionStorage.getItem("previousUrl")) {
+              navigation(sessionStorage.getItem("previousUrl"));
+            } else {
+              navigation("/");
+            }
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+
+    if (!islogin) {
+      if (location.pathname !== "/") {
+        sessionStorage.setItem("previousUrl", location.pathname);
+      }
+    }
+
+    let localD = JSON.parse(sessionStorage.getItem("storeInit"));
+    setLocalData(localD);
+  }, [islogin, location.pathname, redirectEmailUrl, navigation]);
+
+  if (islogin === true) {
+    const restrictedPaths = [
+      "/LoginOption",
+      "/ContinueWithEmail",
+      "/ContinueWithMobile",
+      "/LoginWithEmailCode",
+      "/LoginWithMobileCode",
+      "/ForgotPass",
+      "/LoginWithEmail",
+      "/register",
+    ];
+
+    if (restrictedPaths?.some((path) => location.pathname.startsWith(path))) {
+      return navigation("/");
+    }
+  }
 
   return (
     <div div className="ggg">
