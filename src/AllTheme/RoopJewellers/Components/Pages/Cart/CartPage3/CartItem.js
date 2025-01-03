@@ -181,7 +181,7 @@ const CartItem = ({
                     <div className="roop3_weightPair">
                       <span className="roop3_pipe">|</span>
                       <span className="roop3_weightLabel">Dwt:</span>
-                      <span className="roop3_weightValue">{(item?.Dwt || 0)?.toFixed(3)} / {(item?.Dpcs || 0)}</span>
+                      <span className="roop3_weightValue">{(item?.Dwt || 0)?.toFixed(3)}/{(item?.Dpcs || 0)}</span>
                     </div>
                   }
                 </>
@@ -192,7 +192,7 @@ const CartItem = ({
                     <div className="roop3_weightPair">
                       <span className="roop3_pipe">|</span>
                       <span className="roop3_weightLabel">Cwt:</span>
-                      <span className="roop3_weightValue">{(item?.CSwt || 0)?.toFixed(3)} / {(item?.CSpcs || 0)}{' '}</span>
+                      <span className="roop3_weightValue">{(item?.CSwt || 0)?.toFixed(3)}/{(item?.CSpcs || 0)}{' '}</span>
                     </div>
                   }
                 </>

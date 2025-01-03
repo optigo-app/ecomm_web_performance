@@ -5,7 +5,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 // import { productListApiCall } from '../../../../Utils/API/ProductListAPI';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import './LoginWithEmail.modul.scss'
 // import { DesignSet } from '../../../../Utils/API/DesignSet';
 // import { GetCount } from '../../../../Utils/API/GetCount';
@@ -307,7 +307,6 @@ export default function LoginWithEmail() {
     }
     return (
         <div className='mala_loginEmail'>
-             
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
@@ -319,7 +318,7 @@ export default function LoginWithEmail() {
                         textAlign: 'center',
                         padding: '0px',
                         margin: '0px',
-                        fontSize: '40px',
+                        fontSize: '32px',
                         color: '#fff',
              
                     }}
@@ -374,7 +373,7 @@ export default function LoginWithEmail() {
                         <Button style={{ marginTop: '10px', color: 'white',fontFamily:'Rowan1' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
 
                         <button type='submit' className='SmilingLoginCodeBtn' onClick={handleNavigation}>Login With a Code instead on email</button>
-                        <p style={{ textAlign: 'center' }}>Go passwordless! we'll send you an email.</p>
+                        <p style={{ textAlign: 'center', marginTop: "1rem" }}>Go passwordless! we'll send you an email.</p>
 
                         <p style={{ color: '#fff', cursor: 'pointer',textDecoration:"underline" }} onClick={handleForgotPassword}>Forgot Password ?</p>
                     </div>

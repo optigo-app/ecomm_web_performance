@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './YourProfile.scss';
 import { TextField, Modal,  CircularProgress } from '@mui/material';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../utils/API/AccountTabs/YourProfile';
 import { Hoq_defaultAddressState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
@@ -106,7 +106,6 @@ export default function YourProfile() {
     return (
         <div className='yourProfile_Account_HOQ'>
         <div className='hoq_yourProfile'>
-       
 
             {isLoading && (
                 <div className="loader-overlay" style={{zIndex:10000}}>

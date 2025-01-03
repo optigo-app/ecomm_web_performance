@@ -113,7 +113,7 @@ const Wishlist = () => {
                 {!isMobileScreen &&
                   <div className="stam_Wl-title">My Wishlist</div>
                 }
-                <button className="stam_WlAddToCartBtn" onClick={handleAddtoCartAllfun}>ADD TO CART ALL</button>
+                <button className="stam_WlAddToCartBtn" onClick={handleAddtoCartAllfun}>ADD ALL TO CART</button>
               </div>
             </>
           }

@@ -124,6 +124,7 @@ const Payment = () => {
             })
 
         } else {
+            setIsloding(false);
             toast.error('Something went wrong!')
         }
     }

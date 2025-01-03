@@ -20,6 +20,7 @@ import { formatter, storImagePath } from '../../../../../utils/Glob_Functions/Gl
 import { handleOrderRemark } from '../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import MobileCartDetails from './MobileCartDetails';
 import ConfirmationDialog from '../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
+import {  } from 'react-toastify';
 
 const CartPage = () => {
   const {

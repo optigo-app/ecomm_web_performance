@@ -27,7 +27,7 @@ const DesignSet2 = ({data}) => {
   const islogin = useRecoilValue(dt_loginState);
   const [swiper, setSwiper] = useState(null);
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
-  const setLoadingHome =  useSetRecoilState(dt_homeLoading);
+  const setLoadingHome = useSetRecoilState(dt_homeLoading);
 
   useEffect(() => {
     setLoadingHome(true);
@@ -131,7 +131,7 @@ const DesignSet2 = ({data}) => {
     GoogleAnalytics.event({
       action: "Navigate to Product Detail",
       category: `Product Interaction Through Design Set Section`,
-      label: designNo || titleLine ,
+      label: designNo || titleLine,
       value: loginUserDetail?.firstname ?? 'User Not Login',
     });
     let obj = {
@@ -190,6 +190,13 @@ const DesignSet2 = ({data}) => {
     if (swiper !== null) {
       swiper.slideNext();
     }
+  };
+
+  const ShowButton = () => {
+    const results = designSetList?.slice(0, 1)?.map((slide, index) => {
+      return parseDesignDetails(slide?.Designdetail);
+    });
+    return results[0]?.length > 1;
   };
   return (
     <>
@@ -272,8 +279,8 @@ const DesignSet2 = ({data}) => {
                                         detail?.TitleLine ? detail?.TitleLine : ""
                                       )
                                     }
-                                    onError={(e)=>{
-                                      e.target.src = imageNotFound ;
+                                    onError={(e) => {
+                                      e.target.src = imageNotFound;
                                     }}
                                     className="cardimg"
 
@@ -300,10 +307,12 @@ const DesignSet2 = ({data}) => {
                       )}
                     </Swiper>
                   </div>
-                  <div className="btnflex">
-                    <button className="btncst" onClick={handlePrevious}>&lt;</button>
-                    <button className="btncst" onClick={handleNext}>&gt;</button>
-                  </div>
+                  {ShowButton() && (
+                    <div className="btnflex">
+                      <button className="btncst" onClick={handlePrevious}>&lt;</button>
+                      <button className="btncst" onClick={handleNext}>&gt;</button>
+                    </div>
+                  )}
                 </div>
               </div>
               // </SwiperSlide>

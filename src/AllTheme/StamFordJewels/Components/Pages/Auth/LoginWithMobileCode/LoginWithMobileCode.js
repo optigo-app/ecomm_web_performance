@@ -5,7 +5,7 @@ import './LoginWithMobileCode.modul.scss';
 import { useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
-import { toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import Cookies from 'js-cookie';
 import { stam_loginState } from '../../../Recoil/atom';

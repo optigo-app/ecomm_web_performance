@@ -67,7 +67,7 @@
     margin: 0px;
     padding: 0px;
     gap: 40px;
-    font-weight: 900;
+    // font-weight: 900;
     // gap: 60px;
   }
 
@@ -75,12 +75,12 @@
     color: $menuTextColor;
     // color: white;
     font-size: $fontSize3;
-    font-weight: 600;
+    // font-weight: 600;
     letter-spacing: 1px;
     position: relative;
     display: inline-block;
     height: 50px;
-    font-family: $rown;
+    font-family: $primaryFontFamily;
     display: flex;
     align-items: center;
 
@@ -96,7 +96,7 @@
     right: 0;
     width: 0%;
     height: 1px;
-    font-family: $rown;
+    font-family: $primaryFontFamily;
     background-color: $homePageTopTextColor;
     transition: width 0.3s ease-out;
   }
@@ -128,13 +128,13 @@
   .nav_li_smining {
     color: $menuTextColor;
     // color: white;
-    font-size: $fontSize3;
-    font-weight: 600;
+    font-size: $fontSize2;
+    font-weight: 500;
     letter-spacing: 1px;
     position: relative;
     display: inline-block;
     height: 50px;
-    font-family: $rown;
+    font-family: $primaryFontFamily;
     display: flex;
     align-items: center;
 
@@ -150,7 +150,7 @@
     right: 0;
     width: 0%;
     height: 1px;
-    font-family: $rown;
+    font-family: $primaryFontFamily;
     background-color: $homePageTopTextColor;
     transition: width 0.3s ease-out;
   }
@@ -239,7 +239,8 @@
   .stam_A_link {
     text-decoration: none;
     color: $menuTextColor !important;
-    font-family: $rown;
+    font-family: $primaryFontFamily;
+    font-weight: 500;
     // color: white;
 
     &:hover {
@@ -288,14 +289,14 @@
 
   .muilistMenutext {
     font-family: $primaryFontFamily;
-    font-size: 15px !important;
+    font-size: 12px !important;
     font-weight: 600;
     margin: 5px 5px 5px 0px;
     text-decoration: underline;
   }
 
   .mala_menuSubTitle {
-    font-size: 13px;
+    font-size: 11px;
     font-family: $primaryFontFamily;
     text-decoration: none;
     color: $menuTextColor;
@@ -307,7 +308,7 @@
 
   .muilist2ndSubMenutext {
     font-family: $primaryFontFamily;
-    font-size: 12px;
+    font-size: 11px;
     margin: 5px;
     cursor: pointer;
   }
@@ -469,8 +470,8 @@
   .malkan_sec_menu {
     color: $menuTextColor;
     // color: white;
-    font-size: 15px;
-    font-family: $rown !important;
+    font-size: 12px;
+    font-family: $primaryFontFamily !important;
     font-weight: 500;
     letter-spacing: 1px;
   }
@@ -481,8 +482,8 @@
     color: $menuTextColor;
     // color: white;
     text-decoration: underline;
-    font-size: 15px;
-    font-family: $rown !important;
+    font-size: 12px;
+    font-family: $primaryFontFamily !important;
     font-weight: 500;
     letter-spacing: 1px;
   }
@@ -492,7 +493,8 @@
     padding-block: 5px;
     color: $menuTextColor;
     // color: #f6f6f6;
-    font-family: $rown;
+    font-size: 12px;
+    font-family: $primaryFontFamily;
   }
 
   .mala_mobile_list_bar {
@@ -510,7 +512,7 @@
   .mlakna_mob_search {
     display: flex;
     border-bottom: 1px solid white;
-    font-family: $rown ;
+    font-family: $primaryFontFamily ;
     border: 1px solid $menuTextColor;
     padding: 12px 8px;
     display: flex;
@@ -689,7 +691,7 @@
       color: $menuTextColor;
       // color: white;
       padding: 5px 0px 5px 15px;
-      font-family: $rown !important;
+      font-family: $primaryFontFamily !important;
       font-weight: 800;
       letter-spacing: 1px;
     }
@@ -700,7 +702,7 @@
       color: $menuTextColor;
       // color: white;
       padding: 5px 0px 5px 20px;
-      font-family: $rown;
+      font-family: $primaryFontFamily;
       letter-spacing: 1px;
     }
 
@@ -710,8 +712,9 @@
       // color: white;
       font-weight: 800;
       padding: 5px 0px 5px 20px;
-      font-family: $rown;
+      font-family: $primaryFontFamily;
       letter-spacing: 1px;
+      font-size: $fontSize2;
     }
 
     .mala_ListMenuSiderMobile {

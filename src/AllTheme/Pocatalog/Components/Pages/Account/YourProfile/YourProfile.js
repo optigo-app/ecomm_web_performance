@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './YourProfile.scss';
 import { TextField, Modal,  CircularProgress } from '@mui/material';
 import {  toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../utils/API/AccountTabs/YourProfile';
 import { defaultAddressState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
@@ -140,7 +141,6 @@ export default function YourProfile() {
     return (
         <div className='yourProfile_Account_PCJ'>
             <div className='smr_yourProfile' style={{zIndex:100000}}>
-                 
 
                 {isLoading && (
                     <div className="loader-overlay">
@@ -217,7 +217,7 @@ export default function YourProfile() {
                         )}
                     </div>}
                     { <div>
-                        <button onClick={handleEdit} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
+                        <button onClick={handleEdit} className='proCat_SmilingAddEditAddrwess btnColorProCatProduct' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
                     </div>}
                 </div>
 
@@ -286,8 +286,8 @@ export default function YourProfile() {
                                 </>
                             )}
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
-                            <button type='submit' className='smilingDeleveryformSaveBtn' style={{  marginInline: '5px' }}>Save</button>
-                            <button onClick={() => handleCancel()} className='smilingDeleveryformCansleBtn_ProCat' >Cancel</button>
+                            <button type='submit' className='smilingDeleveryformSaveBtn btnColorProCatProduct' style={{  marginInline: '5px' }}>Save</button>
+                            <button onClick={() => handleCancel()} className='smilingDeleveryformCansleBtn_ProCat btnColorProCatProduct' >Cancel</button>
                         </div>
                         </form>
                     </div>

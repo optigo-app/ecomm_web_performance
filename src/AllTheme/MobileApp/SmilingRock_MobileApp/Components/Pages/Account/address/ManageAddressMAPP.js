@@ -4,6 +4,7 @@ import "./manageaddressMapp.scss";
 import { Box, Button, CircularProgress, Dialog, DialogTitle, RadioGroup, Snackbar, TextField, Typography } from '@mui/material';
 import StayPrimaryPortraitIcon from '@mui/icons-material/StayPrimaryPortrait';
 import {  toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../../utils/API/AccountTabs/manageAddress';
 import { useSetRecoilState } from 'recoil';
@@ -365,7 +366,6 @@ const ManageAddressMAPP = () => {
 
     return (
         <div className='address_Account_SMRM'>
-         
         <div className="sticky-header">
             <MobViewHeader title="Manage Address" />
         </div>

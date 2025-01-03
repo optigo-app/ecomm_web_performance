@@ -1408,15 +1408,15 @@ const ProductDetail = () => {
                   display: "flex",
                   alignItems: "center",
                 }}
-                className="smr_prodd_datanotfound"
+                className="roop_prodd_datanotfound"
               >
                 Data not Found!!
               </div>
             ) : (
               <>
-                <div className="smr_prod_detail_main">
-                  <div className="smr_prod_image_shortInfo">
-                    <div className="smr_prod_image_Sec">
+                <div className="roop_prod_detail_main">
+                  <div className="roop_prod_image_shortInfo">
+                    <div className="roop_prod_image_Sec">
                       {/* {isImageload && ( */}
                       {isImageload ? (
                         <Skeleton
@@ -1430,7 +1430,7 @@ const ProductDetail = () => {
                         />
                       ) : (
                         <div
-                          className="smr_main_prod_img"
+                          className="roop_main_prod_img"
                           style={{ display: isImageload ? "none" : "block" }}
                         >
                           {(selectedThumbImg?.type == "img") ? (
@@ -1441,10 +1441,10 @@ const ProductDetail = () => {
                               onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
                               alt={""}
                               onLoad={() => setIsImageLoad(false)}
-                              className="smr_prod_img"
+                              className="roop_prod_img"
                             />
                           ) : (
-                            <div className="smr_prod_video">
+                            <div className="roop_prod_video">
                               <video
                                 src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                                 loop={true}
@@ -1460,14 +1460,14 @@ const ProductDetail = () => {
                             </div>
                           )}
 
-                          <div className="smr_main_thumb_prod_img">
+                          <div className="roop_main_thumb_prod_img">
                             {((pdThumbImg?.length > 1 || pdVideoArr?.length > 0) || storeInit?.IsVision360 == 1) &&
                               pdThumbImg?.map((ele, i) => (
                                 <img
                                   src={ele}
                                   alt={""}
                                   onLoad={() => setIsImageLoad(false)}
-                                  className="smr_prod_thumb_img"
+                                  className="roop_prod_thumb_img"
                                   onClick={() => {
                                     setSelectedThumbImg({
                                       link: ele,
@@ -1495,7 +1495,7 @@ const ProductDetail = () => {
                                   src={data}
                                   autoPlay={true}
                                   loop={true}
-                                  className="smr_prod_thumb_img"
+                                  className="roop_prod_thumb_img"
                                   style={{ height: "70px", objectFit: "cover" }}
                                 />
                                 <IoIosPlayCircle
@@ -1514,7 +1514,7 @@ const ProductDetail = () => {
                                   src={visionArround}
                                   alt={""}
                                   onLoad={() => setIsImageLoad(false)}
-                                  className="smr_prod_thumb_img"
+                                  className="roop_prod_thumb_img"
                                   id="vision360"
                                   onClick={() => {
                                     setSelectedThumbImg({
@@ -1528,7 +1528,7 @@ const ProductDetail = () => {
                               ) :
                                 null
                             }
-                            {/* <div className="smr_thumb_prod_img">
+                            {/* <div className="roop_thumb_prod_img">
                       
                       </div> */}
                           </div>
@@ -1537,7 +1537,7 @@ const ProductDetail = () => {
 
 
                     </div>
-                    <div className="smr_prod_shortInfo">
+                    <div className="roop_prod_shortInfo">
                       {/* {!isImageload || !prodLoading ?
                         <Skeleton
                           variant="rounded"
@@ -1547,40 +1547,40 @@ const ProductDetail = () => {
                           className="pSkelton"
                         />
                         :  */}
-                      <div className="smr_prod_shortInfo_inner">
-                        <p className="smr_prod_titleLine">
+                      <div className="roop_prod_shortInfo_inner">
+                        <p className="roop_prod_titleLine">
                           {singleProd?.TitleLine}
                         </p>
 
-                        <div className="smr_prod_summury_info">
-                          <div className="smr_prod_summury_info_inner">
-                            <span className="smr_single_prod_designno">
+                        <div className="roop_prod_summury_info">
+                          <div className="roop_prod_summury_info_inner">
+                            <span className="roop_single_prod_designno">
                               {singleProd?.designno}
                             </span>
-                            {(singleProd?.MetalTypePurity !== "" && selectMtType) ? <span className="smr_prod_short_key">
+                            {(singleProd?.MetalTypePurity !== "" && selectMtType) ? <span className="roop_prod_short_key">
                               Metal Purity :{" "}
-                              <span className="smr_prod_short_val">
-                                {singleProd?.IsMrpBase === 1 ? singleProd?.MetalTypePurity : selectMtType}
+                              <span className="roop_prod_short_val">
+                                {singleProd?.IrooppBase === 1 ? singleProd?.MetalTypePurity : selectMtType}
                               </span>
                             </span> : null}
-                            <span className="smr_prod_short_key">
+                            <span className="roop_prod_short_key">
                               Metal Color :{" "}
-                              <span className="smr_prod_short_val">
+                              <span className="roop_prod_short_val">
                                 {JSON.parse(sessionStorage.getItem("MetalColorCombo"))?.filter(
                                   (ele) => ele?.colorcode == selectMtColor
                                 )[0]?.metalcolorname}
                               </span>
                             </span>
                             {(storeInit?.IsDiamondCustomization === 1 &&
-                              diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? <span className="smr_prod_short_key">
+                              diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? <span className="roop_prod_short_key">
                               Diamond Quality Color :{" "}
-                              <span className="smr_prod_short_val">
-                                {singleProd?.IsMrpBase === 1 ? singleProd?.DiaQuaCol : `${selectDiaQc}`}
+                              <span className="roop_prod_short_val">
+                                {singleProd?.IrooppBase === 1 ? singleProd?.DiaQuaCol : `${selectDiaQc}`}
                               </span>
                             </span> : null}
-                            <span className="smr_prod_short_key">
+                            <span className="roop_prod_short_key">
                               Net Wt :{" "}
-                              <span className="smr_prod_short_val">
+                              <span className="roop_prod_short_val">
                                 {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
                               </span>
                             </span>
@@ -1631,13 +1631,13 @@ const ProductDetail = () => {
 
                         {storeInit?.IsProductWebCustomization == 1 &&
                           (
-                            <div className="smr_single_prod_customize">
+                            <div className="roop_single_prod_customize">
                               {metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1
-                                && (<div className="smr_single_prod_customize_metal">
+                                && (<div className="roop_single_prod_customize_metal">
                                   <label className="menuItemTimeEleveDeatil">
                                     METAL TYPE:
                                   </label>
-                                  {singleProd?.IsMrpBase == 1 ? (
+                                  {singleProd?.IrooppBase == 1 ? (
                                     <span className="menuitemSelectoreMain">
                                       {/* {
                                       metalTypeCombo?.filter(
@@ -1669,11 +1669,11 @@ const ProductDetail = () => {
                                   )}
                                 </div>)}
                               {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
-                                <div className="smr_single_prod_customize_outer">
+                                <div className="roop_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     METAL COLOR:
                                   </label>
-                                  {singleProd?.IsMrpBase == 1 ? (
+                                  {singleProd?.IrooppBase == 1 ? (
                                     <span className="menuitemSelectoreMain">
                                       {
                                         metalColorCombo?.filter(
@@ -1704,12 +1704,12 @@ const ProductDetail = () => {
                               )}
                               {(storeInit?.IsDiamondCustomization === 1 &&
                                 diaQcCombo?.length > 0 && diaList?.length) ? (
-                                <div className="smr_single_prod_customize_outer">
+                                <div className="roop_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     DIAMOND :
                                   </label>
                                   {
-                                    singleProd?.IsMrpBase == 1 ? (
+                                    singleProd?.IrooppBase == 1 ? (
                                       <span className="menuitemSelectoreMain">
                                         {singleProd?.DiaQuaCol}
                                       </span>
@@ -1736,12 +1736,12 @@ const ProductDetail = () => {
                               ) : null}
                               {(storeInit?.IsCsCustomization === 1 &&
                                 selectCsQc?.length > 0 && csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) ? (
-                                <div className="smr_single_prod_customize_outer">
+                                <div className="roop_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     COLOR STONE :
                                   </label>
                                   {
-                                    singleProd?.IsMrpBase == 1 ? (
+                                    singleProd?.IrooppBase == 1 ? (
                                       <span className="menuitemSelectoreMain">
                                         {singleProd?.CsQuaCol}
                                       </span>
@@ -1771,11 +1771,11 @@ const ProductDetail = () => {
                               }
                               {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
                               {SizeSorting(SizeCombo?.rd)?.length > 0 && singleProd?.DefaultSize !== "" && (
-                                <div className="smr_single_prod_customize_outer">
+                                <div className="roop_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     SIZE:
                                   </label>
-                                  {singleProd?.IsMrpBase == 1 ? (
+                                  {singleProd?.IrooppBase == 1 ? (
                                     <span className="menuitemSelectoreMain">
                                       {singleProd?.DefaultSize}
                                     </span>
@@ -1808,7 +1808,7 @@ const ProductDetail = () => {
                             </div>
                           )}
 
-                        {storeInit?.IsPriceBreakUp == 1 && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 &&
+                        {storeInit?.IsPriceBreakUp == 1 && singleProd1?.IrooppBase !== 1 && singleProd?.IrooppBase !== 1 &&
                           (
                             <Accordion
                               elevation={0}
@@ -1876,73 +1876,73 @@ const ProductDetail = () => {
 
 
                                 {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Metal</Typography>
+                                  <Typography className="roop_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Metal</Typography>
                                   <span style={{ display: 'flex' }}>
                                     <Typography>
                                       {
-                                        <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
+                                        <span className="roop_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
                                           {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }
                                     </Typography>
                                     &nbsp;
-                                    <Typography sx={{ fontFamily: "Spectral-Regular !important" }} className="smr_PriceBreakup_Price">{formatter.format(Math.round(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost))}</Typography>
+                                    <Typography sx={{ fontFamily: "Spectral-Regular !important" }} className="roop_PriceBreakup_Price">{formatter.format(Math.round(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Diamond </Typography>
+                                  <Typography className="roop_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Diamond </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
+                                      <span className="roop_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format(Math.round(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost))}</Typography>
+                                    <Typography className="roop_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format(Math.round(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Stone </Typography>
+                                  <Typography className="roop_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Stone </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
+                                      <span className="roop_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format(Math.round(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost))}</Typography>
+                                    <Typography className="roop_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format(Math.round(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>MISC </Typography>
+                                  <Typography className="roop_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>MISC </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
+                                      <span className="roop_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format(Math.round(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost))}</Typography>
+                                    <Typography className="roop_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format(Math.round(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Labour </Typography>
+                                  <Typography className="roop_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Labour </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
+                                      <span className="roop_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format(Math.round(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost))}</Typography>
+                                    <Typography className="roop_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format(Math.round(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost))}</Typography>
                                   </span>
                                 </div> : null}
 
@@ -1959,16 +1959,16 @@ const ProductDetail = () => {
                                   ) !== 0 ?
 
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                      <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Other </Typography>
+                                      <Typography className="roop_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Other </Typography>
 
                                       <span style={{ display: 'flex' }}>
                                         <Typography>{
-                                          <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
+                                          <span className="roop_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
                                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                           </span>
                                         }</Typography>
                                         &nbsp;
-                                        <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{
+                                        <Typography className="roop_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{
                                           formatter.format(Math.round(
 
                                             (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
@@ -1991,11 +1991,11 @@ const ProductDetail = () => {
                           )}
 
                         {storeInit?.IsPriceShow === 1 &&
-                          (<div className="smr_price_portion">
+                          (<div className="roop_price_portion">
                             {isPriceloading ? (
                               ""
                             ) : (
-                              <span className="smr_currencyFont">
+                              <span className="roop_currencyFont">
                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                               </span>
                             )}
@@ -2026,17 +2026,17 @@ const ProductDetail = () => {
                         {prodLoading ? null :
                           <div className="roop_cartWish_div">
 
-                            <div className="Smr_CartAndWish_portion">
+                            <div className="roop_CartAndWish_portion">
                               <button
                                 className={
                                   !addToCartFlag
-                                    ? "smr_AddToCart_btn"
-                                    : "smr_AddToCart_btn_afterCart"
+                                    ? "roop_AddToCart_btn"
+                                    : "roop_AddToCart_btn_afterCart"
                                 }
                                 onClick={() => handleCart(!addToCartFlag)}
                               >
                                 <span
-                                  className="smr_addtocart_btn_txt"
+                                  className="roop_addtocart_btn_txt"
                                   style={{ color: !addToCartFlag ? "" : "white" }}
                                 >
                                   {!addToCartFlag
@@ -2044,7 +2044,7 @@ const ProductDetail = () => {
                                     : "REMOVE FROM CART"}
                                 </span>
                               </button>
-                              <div className="Smr_wishlistcont">
+                              <div className="roop_wishlistcont">
                                 <Checkbox
                                   icon={
                                     <GoHeart
@@ -2081,12 +2081,12 @@ const ProductDetail = () => {
                   </div>
                 </div>
 
-                <div className="smr_material_details_portion">
+                <div className="roop_material_details_portion">
                   {(diaList?.length > 0 || csList?.filter((ele) => ele?.D === "MISC")?.length > 0 || csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
                     <p className="roop_details_title"> Product Details</p>
                   )}
                   {diaList?.length > 0 && (
-                    <div className="smr_material_details_portion_inner">
+                    <div className="roop_material_details_portion_inner">
                       <ul style={{ margin: "0px 0px 3px 0px" }}>
                         <li style={{ fontWeight: 600, fontFamily: "Spectral-Bold" }}>
                           {`Diamond Detail (${diaList?.reduce(
@@ -2100,18 +2100,18 @@ const ProductDetail = () => {
                             .toFixed(3)} ct)`}
                         </li>
                       </ul>
-                      <ul className="smr_mt_detail_title_ul">
-                        <li className="smr_proDeatilList">Shape</li>
-                        <li className="smr_proDeatilList">Clarity</li>
-                        <li className="smr_proDeatilList">Color</li>
-                        <li className="smr_proDeatilList">Pcs&nbsp;/&nbsp;Wt</li>
+                      <ul className="roop_mt_detail_title_ul">
+                        <li className="roop_proDeatilList">Shape</li>
+                        <li className="roop_proDeatilList">Clarity</li>
+                        <li className="roop_proDeatilList">Color</li>
+                        <li className="roop_proDeatilList">Pcs&nbsp;/&nbsp;Wt</li>
                       </ul>
                       {diaList?.map((data) => (
-                        <ul className="smr_mt_detail_title_ul">
-                          <li className="smr_proDeatilList1">{data?.F}</li>
-                          <li className="smr_proDeatilList1">{data?.H}</li>
-                          <li className="smr_proDeatilList1">{data?.J}</li>
-                          <li className="smr_proDeatilList1">
+                        <ul className="roop_mt_detail_title_ul">
+                          <li className="roop_proDeatilList1">{data?.F}</li>
+                          <li className="roop_proDeatilList1">{data?.H}</li>
+                          <li className="roop_proDeatilList1">{data?.J}</li>
+                          <li className="roop_proDeatilList1">
                             {`${data.M} /`}&nbsp;{(data?.N)?.toFixed(3)}
                           </li>
                         </ul>
@@ -2120,7 +2120,7 @@ const ProductDetail = () => {
                   )}
                   {/* {console.log("csListcsList",csList?.filter((ele)=>ele?.D === "MISC"))} */}
                   {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
-                    <div className="smr_material_details_portion_inner">
+                    <div className="roop_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
                           style={{ fontWeight: 600, fontFamily: "Spectral-Bold" }}
@@ -2134,18 +2134,18 @@ const ProductDetail = () => {
                           )
                           .toFixed(3)}ct)`}</li>
                       </ul>
-                      <ul className="smr_mt_detail_title_ul">
-                        <li className="smr_proDeatilList">Shape</li>
-                        <li className="smr_proDeatilList">Clarity</li>
-                        <li className="smr_proDeatilList">Color</li>
-                        <li className="smr_proDeatilList">Pcs&nbsp;/&nbsp;Wt</li>
+                      <ul className="roop_mt_detail_title_ul">
+                        <li className="roop_proDeatilList">Shape</li>
+                        <li className="roop_proDeatilList">Clarity</li>
+                        <li className="roop_proDeatilList">Color</li>
+                        <li className="roop_proDeatilList">Pcs&nbsp;/&nbsp;Wt</li>
                       </ul>
                       {csList?.filter((ele) => ele?.D !== "MISC")?.map((data) => (
-                        <ul className="smr_mt_detail_title_ul">
-                          <li className="smr_proDeatilList1">{data?.F}</li>
-                          <li className="smr_proDeatilList1">{data?.H}</li>
-                          <li className="smr_proDeatilList1">{data?.J}</li>
-                          <li className="smr_proDeatilList1">
+                        <ul className="roop_mt_detail_title_ul">
+                          <li className="roop_proDeatilList1">{data?.F}</li>
+                          <li className="roop_proDeatilList1">{data?.H}</li>
+                          <li className="roop_proDeatilList1">{data?.J}</li>
+                          <li className="roop_proDeatilList1">
                             {`${data.M} /`}&nbsp;{(data?.N)?.toFixed(3)}
                           </li>
                         </ul>
@@ -2154,7 +2154,7 @@ const ProductDetail = () => {
                   )}
 
                   {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
-                    <div className="smr_material_details_portion_inner">
+                    <div className="roop_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
                           style={{ fontWeight: 600, fontFamily: "Spectral-Bold" }}
@@ -2168,18 +2168,18 @@ const ProductDetail = () => {
                           )
                           .toFixed(3)}gm)`}</li>
                       </ul>
-                      <ul className="smr_mt_detail_title_ul">
-                        <li className="smr_proDeatilList">Shape</li>
-                        <li className="smr_proDeatilList">Clarity</li>
-                        <li className="smr_proDeatilList">Color</li>
-                        <li className="smr_proDeatilList">Pcs&nbsp;/&nbsp;Wt</li>
+                      <ul className="roop_mt_detail_title_ul">
+                        <li className="roop_proDeatilList">Shape</li>
+                        <li className="roop_proDeatilList">Clarity</li>
+                        <li className="roop_proDeatilList">Color</li>
+                        <li className="roop_proDeatilList">Pcs&nbsp;/&nbsp;Wt</li>
                       </ul>
                       {csList?.filter((ele) => ele?.D === "MISC")?.map((data) => (
-                        <ul className="smr_mt_detail_title_ul">
-                          <li className="smr_proDeatilList1">{data?.F}</li>
-                          <li className="smr_proDeatilList1">{data?.H}</li>
-                          <li className="smr_proDeatilList1">{data?.J}</li>
-                          <li className="smr_proDeatilList1">
+                        <ul className="roop_mt_detail_title_ul">
+                          <li className="roop_proDeatilList1">{data?.F}</li>
+                          <li className="roop_proDeatilList1">{data?.H}</li>
+                          <li className="roop_proDeatilList1">{data?.J}</li>
+                          <li className="roop_proDeatilList1">
                             {`${data.M} /`}&nbsp;{(data?.N)?.toFixed(3)}
                           </li>
                         </ul>
@@ -2190,12 +2190,12 @@ const ProductDetail = () => {
 
                 {stockItemArr?.length > 0 &&
                   storeInit?.IsStockWebsite === 1 && stockItemArr?.[0]?.stat_code != 1005 && (
-                    <div className="smr_stockItem_div">
+                    <div className="roop_stockItem_div">
                       <p className="roop_details_title"> Stock Items </p>
-                      <div className="smr_stockitem_container">
-                        {/* <div className="smr_stock_item_card">
+                      <div className="roop_stockitem_container">
+                        {/* <div className="roop_stock_item_card">
                   {stockItemArr?.map((ele) => (
-                    <div className="smr_stockItemCard">
+                    <div className="roop_stockItemCard">
                       <div className="cart_and_wishlist_icon">
                         <Checkbox
                           icon={
@@ -2224,7 +2224,7 @@ const ProductDetail = () => {
 
                       </div>
                       <img
-                        className="smr_productCard_Image"
+                        className="roop_productCard_Image"
                         src={
                           storeInit?.DesignImageFol +
                           ele?.designno +
@@ -2235,11 +2235,11 @@ const ProductDetail = () => {
                         }
                         alt={""}
                       />
-                      <div className="smr_stockutem_shortinfo" style={{display:'flex',flexDirection:'column',gap:'5px',paddingBottom:'5px'}}>
-                      <span className="smr_prod_designno">
+                      <div className="roop_stockutem_shortinfo" style={{display:'flex',flexDirection:'column',gap:'5px',paddingBottom:'5px'}}>
+                      <span className="roop_prod_designno">
                         {ele?.designno}
                       </span>
-                      <div className="smr_prod_Allwt">
+                      <div className="roop_prod_Allwt">
                         <div
                           style={{
                             display: "flex",
@@ -2249,18 +2249,18 @@ const ProductDetail = () => {
                             gap: "3px",
                           }}
                         >
-                          <span className="smr_prod_wt">
-                            <span className="smr_d_keys">NWT:</span>
-                            <span className="smr_d_val">{ele?.NetWt}</span>
+                          <span className="roop_prod_wt">
+                            <span className="roop_d_keys">NWT:</span>
+                            <span className="roop_d_val">{ele?.NetWt}</span>
                           </span>
 
                           {storeInit?.IsGrossWeight == 1 &&
                             Number(ele?.GrossWt) !== 0 && (
                               <>
                                 <span>|</span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_d_keys">GWT:</span>
-                                  <span className="smr_d_val">
+                                <span className="roop_prod_wt">
+                                  <span className="roop_d_keys">GWT:</span>
+                                  <span className="roop_d_val">
                                     {ele?.GrossWt}
                                   </span>
                                 </span>
@@ -2270,9 +2270,9 @@ const ProductDetail = () => {
                             Number(ele?.DiaWt) !== 0 && (
                               <>
                                 <span>|</span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_d_keys">DWT:</span>
-                                  <span className="smr_d_val">
+                                <span className="roop_prod_wt">
+                                  <span className="roop_d_keys">DWT:</span>
+                                  <span className="roop_d_val">
                                     {ele?.DiaWt}
                                     {storeInit?.IsDiamondPcs === 1
                                       ? `/${ele?.DiaPcs}`
@@ -2286,9 +2286,9 @@ const ProductDetail = () => {
                             Number(ele?.CsWt) !== 0 && (
                               <>
                                 <span >|</span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_d_keys">CWT:</span>
-                                  <span className="smr_d_val">
+                                <span className="roop_prod_wt">
+                                  <span className="roop_d_keys">CWT:</span>
+                                  <span className="roop_d_val">
                                     {ele?.CsWt}
                                     {storeInit?.IsStonePcs === 1
                                       ? `/${ele?.CsPcs}`
@@ -2300,12 +2300,12 @@ const ProductDetail = () => {
                         </div>
                       </div>
 
-                      <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="smr_stockItem_price_type_mt">
+                      <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="roop_stockItem_price_type_mt">
                           <span>
                             {ele?.MetalColorName}-{ele?.metaltypename}{ele?.metalPurity} 
                             {" "}/{" "}
                             <span
-                                className="smr_currencyFont"
+                                className="roop_currencyFont"
                                 dangerouslySetInnerHTML={{
                                   __html: decodeEntities(
                                     storeInit?.Currencysymbol
@@ -2319,50 +2319,50 @@ const ProductDetail = () => {
                     </div>
                   ))}
                 </div> */}
-                        <table className="Smr_stockItem_table">
-                          <tr className="Smr_stockItem_table_tr">
-                            <th className="Smr_stockItem_table_td">SrNo</th>
-                            <th className="Smr_stockItem_table_td">Design No</th>
-                            {/* <th className="Smr_stockItem_table_td" >StockBarcode</th> */}
-                            <th className="Smr_stockItem_table_td">Job No</th>
+                        <table className="roop_stockItem_table">
+                          <tr className="roop_stockItem_table_tr">
+                            <th className="roop_stockItem_table_td">SrNo</th>
+                            <th className="roop_stockItem_table_td">Design No</th>
+                            {/* <th className="roop_stockItem_table_td" >StockBarcode</th> */}
+                            <th className="roop_stockItem_table_td">Job No</th>
                             <th
-                              className="Smr_stockItem_table_td"
+                              className="roop_stockItem_table_td"
                               style={{ textAlign: "center" }}
                             >
                               Gross Wt/Net Wt/Dia Wt/CS Wt
                             </th>
-                            <th className="Smr_stockItem_table_td">
+                            <th className="roop_stockItem_table_td">
                               Metal Color-Purity
                             </th>
-                            <th className="Smr_stockItem_table_td">Price</th>
-                            <th className="Smr_stockItem_table_td">
+                            <th className="roop_stockItem_table_td">Price</th>
+                            <th className="roop_stockItem_table_td">
                               Add To Cart
                             </th>
                           </tr>
                           {stockItemArr?.map((ele, i) => (
-                            <tr className="Smr_stockItem_table_tr">
-                              <td className="Smr_stockItem_table_td">
-                                <span className="smr_prod_designno">
+                            <tr className="roop_stockItem_table_tr">
+                              <td className="roop_stockItem_table_td">
+                                <span className="roop_prod_designno">
                                   {ele?.SrNo}
                                 </span>
                               </td>
-                              <td className="Smr_stockItem_table_td">
-                                <span className="smr_prod_designno">
+                              <td className="roop_stockItem_table_td">
+                                <span className="roop_prod_designno">
                                   {ele?.designno}
                                 </span>
                               </td>
-                              <td className="Smr_stockItem_table_td">
-                                <span className="smr_prod_designno">
+                              <td className="roop_stockItem_table_td">
+                                <span className="roop_prod_designno">
                                   {ele?.StockBarcode}
                                 </span>
                               </td>
-                              {/* <td className="Smr_stockItem_table_td">
-                        <span className="smr_prod_designno">
+                              {/* <td className="roop_stockItem_table_td">
+                        <span className="roop_prod_designno">
                         {ele?.JobNo}
                         </span>
                       </td> */}
-                              <td className="Smr_stockItem_table_td">
-                                <div className="smr_prod_Allwt">
+                              <td className="roop_stockItem_table_td">
+                                <div className="roop_prod_Allwt">
                                   <div
                                     style={{
                                       display: "flex",
@@ -2375,11 +2375,11 @@ const ProductDetail = () => {
                                     {storeInit?.IsGrossWeight == 1 &&
                                       Number(ele?.GrossWt) !== 0 && (
                                         <>
-                                          <span className="smr_prod_wt">
-                                            <span className="smr_d_keys">
+                                          <span className="roop_prod_wt">
+                                            <span className="roop_d_keys">
                                               GWT:
                                             </span>
-                                            <span className="smr_d_val">
+                                            <span className="roop_d_val">
                                               {(ele?.GrossWt)?.toFixed(3)}
                                             </span>
                                           </span>
@@ -2389,9 +2389,9 @@ const ProductDetail = () => {
                                     {Number(ele?.NetWt) !== 0 && (
                                       <>
                                         <span>|</span>
-                                        <span className="smr_prod_wt">
-                                          <span className="smr_d_keys">NWT:</span>
-                                          <span className="smr_d_val">
+                                        <span className="roop_prod_wt">
+                                          <span className="roop_d_keys">NWT:</span>
+                                          <span className="roop_d_val">
                                             {(ele?.NetWt)?.toFixed(3)}
                                           </span>
                                         </span>
@@ -2402,9 +2402,9 @@ const ProductDetail = () => {
                               Number(ele?.GrossWt) !== 0 && (
                                 <>
                                   <span>|</span>
-                                  <span className="smr_prod_wt">
-                                    <span className="smr_d_keys">GWT:</span>
-                                    <span className="smr_d_val">
+                                  <span className="roop_prod_wt">
+                                    <span className="roop_d_keys">GWT:</span>
+                                    <span className="roop_d_val">
                                       {ele?.GrossWt}
                                     </span>
                                   </span>
@@ -2414,11 +2414,11 @@ const ProductDetail = () => {
                                       Number(ele?.DiaWt) !== 0 && (
                                         <>
                                           <span>|</span>
-                                          <span className="smr_prod_wt">
-                                            <span className="smr_d_keys">
+                                          <span className="roop_prod_wt">
+                                            <span className="roop_d_keys">
                                               DWT:
                                             </span>
-                                            <span className="smr_d_val">
+                                            <span className="roop_d_val">
                                               {(ele?.DiaWt)?.toFixed(3)}
                                               {storeInit?.IsDiamondPcs === 1
                                                 ? `/${ele?.DiaPcs}`
@@ -2432,11 +2432,11 @@ const ProductDetail = () => {
                                       Number(ele?.CsWt) !== 0 && (
                                         <>
                                           <span>|</span>
-                                          <span className="smr_prod_wt">
-                                            <span className="smr_d_keys">
+                                          <span className="roop_prod_wt">
+                                            <span className="roop_d_keys">
                                               CWT:
                                             </span>
-                                            <span className="smr_d_val">
+                                            <span className="roop_d_val">
                                               {(ele?.CsWt)?.toFixed(3)}
                                               {storeInit?.IsStonePcs === 1
                                                 ? `/${ele?.CsPcs}`
@@ -2448,8 +2448,8 @@ const ProductDetail = () => {
                                   </div>
                                 </div>
                               </td>
-                              <td className="Smr_stockItem_table_td">
-                                {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="smr_stockItem_price_type_mt"> */}
+                              <td className="roop_stockItem_table_td">
+                                {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="roop_stockItem_price_type_mt"> */}
                                 <span>
                                   {ele?.MetalColorName}-{ele?.metaltypename}
                                   {ele?.metalPurity}
@@ -2457,9 +2457,9 @@ const ProductDetail = () => {
                                 </span>
                                 {/* </div> */}
                               </td>
-                              <td className="Smr_stockItem_table_td">
+                              <td className="roop_stockItem_table_td">
                                 <span>
-                                  <span className="smr_currencyFont">
+                                  <span className="roop_currencyFont">
                                     {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                   </span>
                                   &nbsp;
@@ -2471,7 +2471,7 @@ const ProductDetail = () => {
                                 </span>
                               </td>
                               <td
-                                className="Smr_stockItem_table_td"
+                                className="roop_stockItem_table_td"
                                 style={{
                                   display: "flex",
                                   justifyContent: "center",
@@ -2517,17 +2517,17 @@ const ProductDetail = () => {
 
                 {storeInit?.IsProductDetailSimilarDesign == 1 &&
                   SimilarBrandArr?.length > 0 && SimilarBrandArr?.[0]?.stat_code != 1005 && (
-                    <div className="smr_stockItem_div">
+                    <div className="roop_stockItem_div">
                       <p className="roop_details_title"> Similar Designs</p>
-                      <div className="smr_stockitem_container">
-                        <div className="smr_stock_item_card">
+                      <div className="roop_stockitem_container">
+                        <div className="roop_stock_item_card">
                           {SimilarBrandArr?.map((ele) => {
                             const imageUrl =
                               storeInit?.CDNDesignImageFol + ele?.designno + "~" + "1" + "." + ele?.ImageExtension;
                             const isAvailable = imageAvailability[ele?.designno];
                             return (
                               <div
-                                className="smr_stockItemCard"
+                                className="roop_stockItemCard"
                                 onClick={() =>
                                   // setTimeout(() => 
                                   handleMoveToDetail(ele)
@@ -2535,7 +2535,7 @@ const ProductDetail = () => {
                                 }
                               >
                                 <img
-                                  className="smr_productCard_Image"
+                                  className="roop_productCard_Image"
                                   src={
                                     ele?.ImageCount > 0 && isAvailable
                                       ? imageUrl
@@ -2544,7 +2544,7 @@ const ProductDetail = () => {
                                   alt={""}
                                 />
                                 <div
-                                  className="smr_stockutem_shortinfo"
+                                  className="roop_stockutem_shortinfo"
                                   style={{
                                     display: "flex",
                                     flexDirection: "column",
@@ -2553,7 +2553,7 @@ const ProductDetail = () => {
                                   }}
                                 >
                                   <span
-                                    className="smr_prod_designno"
+                                    className="roop_prod_designno"
                                     style={{ fontSize: "14px" }}
                                   >
                                     {ele?.designno}
@@ -2567,10 +2567,10 @@ const ProductDetail = () => {
                                       width: "100%",
                                       fontSize: "16px",
                                     }}
-                                    className="smr_stockItem_price_type_mt"
+                                    className="roop_stockItem_price_type_mt"
                                   >
                                     <spam>
-                                      <span className="smr_currencyFont">
+                                      <span className="roop_currencyFont">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                       &nbsp;
@@ -2591,7 +2591,7 @@ const ProductDetail = () => {
                   )}
 
                 {storeInit?.IsProductDetailDesignSet === 1 &&
-                  <div className="smr_DesignSet_main">
+                  <div className="roop_DesignSet_main">
                     {designSetList?.length > 0 && designSetList?.[0]?.stat_code != 1005 && <div
                       style={{
                         display: "flex",
@@ -2612,7 +2612,7 @@ const ProductDetail = () => {
                       </p>
                     </div>}
 
-                    <div className="smr_Swiper_designSet" >
+                    <div className="roop_Swiper_designSet" >
                       <Swiper
                         modules={[Navigation, Pagination, Scrollbar]}
                         // spaceBetween={50}
@@ -2624,7 +2624,7 @@ const ProductDetail = () => {
                         {designSetList?.map((designSetList) => (
                           <SwiperSlide>
                             <div className="compeletethelook_cont">
-                              <div className="smr_ctlImg_containe">
+                              <div className="roop_ctlImg_containe">
                                 <img
                                   // src={
                                   //   "https://cdn.accentuate.io/3245609615460/4121939443812/99-v1581576944425.jpg?2048x1950"
@@ -2705,7 +2705,7 @@ const ProductDetail = () => {
                                               {ele?.designno} - {ele?.CategoryName}
                                               <br />
                                               {
-                                                <span className="smr_currencyFont">
+                                                <span className="roop_currencyFont">
                                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                 </span>
                                               }

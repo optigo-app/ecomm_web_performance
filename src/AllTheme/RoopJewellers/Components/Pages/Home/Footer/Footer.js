@@ -36,10 +36,10 @@ const Footer = ({ fromPage }) => {
           <div className='footerMoreOption'>
             <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p>
             {/* For vara */}
-            <p className='footerMoreOptionData' style={{textTransform:'uppercase'}} onClick={() => { navigation('/managementTeam'); window.scrollTo(0, 0); }}>Management Team</p>
+            {/* <p className='footerMoreOptionData' style={{textTransform:'uppercase'}} onClick={() => { navigation('/managementTeam'); window.scrollTo(0, 0); }}>Management Team</p> */}
 
-            {/* For sonasons ,shinjini, Pacific */}
-            {/* <p className='footerMoreOptionData' style={{ textTransform: 'uppercase' }} onClick={() => { navigation('/privacyPolicy'); window.scrollTo(0, 0); }}>Privacy Policy</p> */}
+            {/* For sonasons ,shinjini, Pacific, ojasvi */}
+            <p className='footerMoreOptionData' style={{ textTransform: 'uppercase' }} onClick={() => { navigation('/privacyPolicy'); window.scrollTo(0, 0); }}>Privacy Policy</p>
 
             <p className='footerMoreOptionData' style={{
               textTransform: 'uppercase'
@@ -52,7 +52,7 @@ const Footer = ({ fromPage }) => {
               fontSize: '12px',
               fontWeight: 500,
               marginInline: '0'
-            }}>© 2024, Varajewels</p>
+            }}>© 2024, Sonasons</p>
 
             {/*  pacific diamonds */}
             {/* }}>© 2024, Pacific Diamonds</p> */}
@@ -62,6 +62,9 @@ const Footer = ({ fromPage }) => {
 
             {/* For shinjini */}
             {/* }}>© 2024, Shinjini</p> */}
+
+            {/* For ojasvi */}
+            {/* }}>© 2024, Ojasvijewels</p> */}
 
             {/* vara  */}
             {/* }}>© 2024, Varajewels</p> */}

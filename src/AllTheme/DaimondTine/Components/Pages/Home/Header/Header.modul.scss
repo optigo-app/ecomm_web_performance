@@ -334,7 +334,7 @@
     border-radius: 5px;
   }
 
-  @media screen and (min-width:426px) {
+  @media screen and (min-width:501px) {
     .dt_mobileView_div2_mobile {
       display: none !important;
       display: flex;
@@ -343,7 +343,7 @@
     }
   }
 
-  @media screen and (max-width: 425px) {
+  @media screen and (max-width: 500px) {
     .dt_mobileView_div2 {
       display: none !important;
     }

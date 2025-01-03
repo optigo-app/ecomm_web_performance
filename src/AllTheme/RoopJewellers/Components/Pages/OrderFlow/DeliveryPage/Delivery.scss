@@ -4,7 +4,7 @@
 
   font-family: $fontRegular !important;
 
-  .smr_secondMaindivAdd {
+  .roop_secondMaindivAdd {
     margin-inline: 6%;
     background-color: #fff;
 
@@ -13,21 +13,21 @@
     }
   }
 
-  .smr_addMainDiv {
+  .roop_addMainDiv {
     margin-inline: 10%;
     padding-top: 8%;
   }
 
-  .smr_getAddrMainDiv {
+  .roop_getAddrMainDiv {
     margin-bottom: 40px;
   }
 
-  .smr_TitleDetailMainDiv {
+  .roop_TitleDetailMainDiv {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    .smr_ContinueOrderbtn {
+    .roop_ContinueOrderbtn {
       height: 40px;
       width: 150px;
       font-family: $fontRegular !important;
@@ -46,7 +46,7 @@
     }
   }
 
-  .smr_addressTextFields {
+  .roop_addressTextFields {
     margin-bottom: 18px !important;
     font-family: $fontRegular !important;
     color: $titleColor !important;
@@ -56,23 +56,23 @@
     }
   }
 
-  .smr_deliveryTitle {
+  .roop_deliveryTitle {
     color: $titleColor;
     font-family: $fontRegular !important;
   }
 
-  .smr_deliverydesc {
+  .roop_deliverydesc {
     color: $titleColor;
     font-family: $fontRegular !important;
   }
 
-  .smr_AddrCard {
+  .roop_AddrCard {
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
     padding: 20px 20px 0px 20px !important;
     border-radius: 0px !important;
   }
 
-  .smr_ActiveAddrCard {
+  .roop_ActiveAddrCard {
     padding: 20px 20px 0px 20px !important;
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
     background: #f5f4f4 !important;
@@ -81,7 +81,7 @@
   }
 
 
-  .smr_defualt_addrSelected {
+  .roop_defualt_addrSelected {
     padding: 3px 10px;
     font-family: $fontRegular !important;
     font-size: $fontSize3;
@@ -96,24 +96,24 @@
     transition: background-color 0.3s, color 0.3s;
   }
 
-  .smr_defualt_addrSelectedHide {
+  .roop_defualt_addrSelectedHide {
     display: none !important;
   }
 
-  .smr_addrTypoTitle {
+  .roop_addrTypoTitle {
     color: $titleColor;
    font-family: $fontRegular !important;
     text-transform: capitalize;
   }
 
-  .smr_addrTypo {
+  .roop_addrTypo {
     color: $titleColor;
    font-family: $fontRegular !important;
     text-transform: capitalize;
   }
 
-  .smr_AddressBtnGroup {
-    .smr_AddNewAddrbtn {
+  .roop_AddressBtnGroup {
+    .roop_AddNewAddrbtn {
       margin-right: 20px;
       height: 40px;
       width: 150px;
@@ -134,13 +134,13 @@
     }
   }
 
-  .smr_dialogTitle {
+  .roop_dialogTitle {
     color: $titleColor;
     font-weight: 500 !important;
     text-align: center;
   }
 
-  .smr_AddNewAddrModalbtn {
+  .roop_AddNewAddrModalbtn {
     margin-right: 20px;
     height: 40px;
     width: 150px;
@@ -159,7 +159,7 @@
     }
   }
 
-  .smr_Cancelbtn {
+  .roop_Cancelbtn {
     margin-right: 20px;
     height: 40px;
     width: 150px;
@@ -178,18 +178,18 @@
     }
   }
 
-  .smr_editDeleteBtngroup {
+  .roop_editDeleteBtngroup {
     display: flex;
     justify-content: space-around;
     align-items: center;
     margin-bottom: 10px;
 
-    .smr_editIcon {
+    .roop_editIcon {
       font-size: 20px;
       color: $titleColor;
     }
 
-    .smr_DeleteIcon {
+    .roop_DeleteIcon {
       font-size: 20px;
       color: $titleColor
     }

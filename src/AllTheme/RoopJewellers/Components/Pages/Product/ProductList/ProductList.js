@@ -67,6 +67,7 @@ const ProductList = () => {
   let maxwidth590px = useMediaQuery('(max-width:590px)')
   let maxwidth464px = useMediaQuery('(max-width:464px)')
   let maxwidth425px = useMediaQuery('(max-width:425px)')
+  let maxwidth375px = useMediaQuery('(max-width:375px)')
 
   const [productListData, setProductListData] = useState([]);
   const [priceListData, setPriceListData] = useState([]);
@@ -1456,7 +1457,6 @@ const ProductList = () => {
       return acc;
     }, {});
 
-    console.log('result: ', result);
     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
 
     if (result) {
@@ -2672,7 +2672,7 @@ const ProductList = () => {
                                           </span>
 
                                         </div>
-                                        <div style={{ display: !maxwidth425px ? "none" : "block" }}>
+                                        {/* <div style={{ display: !maxwidth425px ? "none" : "block" }}>
                                           <span className="roop_price">
                                             <span className="roop_currencyFont">
                                               {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
@@ -2683,21 +2683,17 @@ const ProductList = () => {
                                               )}
                                             </span>
                                           </span>
-                                        </div>
+                                        </div> */}
                                         <div className="roop_prod_Allwt">
                                           <div
+                                            className="roop_prod_div"
                                             style={{
-                                              display: "flex",
                                               letterSpacing: maxwidth590px
                                                 ? "0px"
                                                 : "1px",
-                                              justifyContent: 'space-between',
-                                              width: "90%",
-                                              marginInline: "auto",
-                                              alignItems: 'center',
                                             }}
                                           >
-                                            <div style={{ display: 'flex', flexDirection: maxwidth425px ? "row" : "column", justifyContent: maxwidth425px ? 'space-between' : "", width: maxwidth425px ? '100%' : "" }}>
+                                            <div className="roop_prod_wt_div">
                                               {storeInit?.IsGrossWeight == 1 &&
                                                 Number(productData?.Gwt) !== 0 && (
                                                   <span className="roop_prod_wt">
@@ -2720,7 +2716,7 @@ const ProductList = () => {
                                                 </>
                                               )}
                                             </div>
-                                            <div style={{ display: maxwidth425px ? "none" : "block" }}>
+                                            <div className="roop_prod_wt_div">
                                               <span className="roop_price">
                                                 <span className="roop_currencyFont">
                                                   {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
@@ -2731,6 +2727,17 @@ const ProductList = () => {
                                                   )}
                                                 </span>
                                               </span>
+                                              {storeInit?.IsDiamondWeight == 1 &&
+                                                Number(productData?.Dwt) !== 0 && (
+                                                  <span className="roop_prod_wt">
+                                                    <span className="roop_main_keys">
+                                                      DWT:
+                                                    </span>
+                                                    <span className="roop_main_val">
+                                                      {productData?.Dwt?.toFixed(3)}{storeInit?.IsDiamondPcs === 1 ? `/${productData?.Dpcs}` : null}
+                                                    </span>
+                                                  </span>
+                                                )}
                                             </div>
                                             {/* </span> */}
                                             {/* <span className="roop_por"> */}
@@ -2792,13 +2799,13 @@ const ProductList = () => {
                                         <FormControlLabel
                                           control={
                                             <Checkbox
-                                              icon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
-                                              checkedIcon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
+                                              icon={<BsHandbag style={{ color: '#fff', fontSize: maxwidth375px ? '15px' : '17px' }} />}
+                                              checkedIcon={<BsHandbag style={{ color: '#fff', fontSize: maxwidth375px ? '15px' : '17px' }} />}
                                               checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1}
                                               onChange={(e) => handleCartandWish(e, productData, "Cart")}
                                             />
                                           }
-                                          label={<span className={`roop_proBtn_text`}>{isChecked ? "In Cart" : "Add to Cart"}</span>}
+                                          label={<span className={`roop_proBtn_text`}>{isChecked ? "Remove from Cart" : "Add to Cart"}</span>}
                                           className="roop_prodBtn"
                                         />
                                       </div>
@@ -2850,7 +2857,7 @@ const ProductList = () => {
               BACK TO TOP
         </div> */}
         </div>
-      </div>
+      </div >
     </>
   );
 };
@@ -2888,7 +2895,6 @@ const GivaFilterMenu = ({
   setCurrPage,
   currPage,
 }) => {
-  console.log('currPage: ', currPage);
   const [showMenu, setshowMenu] = useState(-1);
   const menuRef = useRef(null)
   const CustomLabel = ({ text }) => (

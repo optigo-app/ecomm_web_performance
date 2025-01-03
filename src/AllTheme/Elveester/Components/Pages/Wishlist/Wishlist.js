@@ -187,7 +187,7 @@ const Wishlist = () => {
             {wishlistData.length ? (
               <div className='elv_wishlist_buttons'>
                 <button className='elv_wishlist_clearAll_btn' onClick={handleRemoveAllDialog}>Clear all</button>
-                <button className='elv_wishlist_atcall_btn' onClick={handleAddtoCartAllfun}>add to cart all</button>
+                <button className='elv_wishlist_atcall_btn' onClick={handleAddtoCartAllfun}>add all to cart</button>
               </div>
             ) : ('')}
 

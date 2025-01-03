@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './YourProfile.scss';
 import { TextField, Modal, CircularProgress, Snackbar } from '@mui/material';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../../utils/API/AccountTabs/YourProfile';
 import MobViewHeader from '../MobViewHeader/MobViewHeader';
 import { PC_AppdefaultAddressState } from '../../../Recoil/atom';
@@ -117,7 +117,6 @@ export default function YourProfile() {
 
     return (
         <div className='yourProfile_Account_PCMJ'>
-            {/*   */}
 
             {isLoading && (
                 <div className="loader-overlay" style={{ zIndex: 10000 }}>

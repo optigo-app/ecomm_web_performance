@@ -46,7 +46,6 @@ const Header = () => {
   const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
   const IsCartNo = storeinit?.CartNo;
   const location = useLocation();
-  console.log('location: ', location);
 
 
   let navigate = useNavigate();

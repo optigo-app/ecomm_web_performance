@@ -6,6 +6,7 @@ import CryptoJS from 'crypto-js';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 // import { productListApiCall } from '../../../../Utils/API/ProductListAPI';
 import {  toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import './LoginWithEmail.modul.scss'
 // import { DesignSet } from '../../../../Utils/API/DesignSet';
 // import { GetCount } from '../../../../Utils/API/GetCount';
@@ -299,7 +300,6 @@ export default function LoginWithEmail() {
     }
     return (
         <div className='proCat_loginEmail'>
-             
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />

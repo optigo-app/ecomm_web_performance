@@ -41,7 +41,7 @@ const Header = () => {
   const inputRef = useRef(null);
   const isTabletResponsive = useMediaQuery('(max-width:1000px)');
   const isDesktopResp = useMediaQuery('(max-width:1650px)');
-  const isMobile = useMediaQuery('(max-width:425px)');
+  const isMobile = useMediaQuery('(max-width:500px)');
   const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
 
 

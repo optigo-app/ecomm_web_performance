@@ -27,13 +27,12 @@
         height: 60px;
         width: 420px;
         color: white;
-        background-color: #7d7f85;
         border: 0;
         margin-top: 10px;
         font-size: 13px;
         font-weight: 500;
         letter-spacing: 1;
-        background-color: #fda994;
+        background-color: $authButtonsBgColor;
         color: #17372f;
         font-family: $primaryFontFamilyMedium;
         cursor: pointer;
@@ -42,7 +41,7 @@
         border-radius: 3px;
 
         &:hover {
-            background-color: #ff8e72;
+            background-color: $authButtonsBgColorHover;
         }
     }
 
@@ -51,14 +50,13 @@
         height: 60px;
         width: 420px;
         color: white;
-        background-color: #7d7f85;
         border: 0;
         margin-top: 10px;
         font-size: 13px;
         cursor: pointer;
         font-weight: 500;
         letter-spacing: 1;
-        background-color: #fda994;
+        background-color: $authButtonsBgColor;
         color: #17372f;
         font-family: $primaryFontFamilyMedium;
         cursor: pointer;
@@ -67,7 +65,7 @@
         border-radius: 3px;
 
         &:hover {
-            background-color: #ff8e72;
+            background-color: $authButtonsBgColorHover;
         }
     }
 
@@ -86,7 +84,7 @@
     @media screen and (max-width: 950px) {
         .AuthScreenMainTitle {
             font-size: 25px !important;
-            padding-bottom: 50px !important;
+            padding-bottom: 15px !important;
         }
     }
 
@@ -123,7 +121,7 @@
         }
 
         .AuthScreenSubTitle {
-            margin-top: -35px !important;
+            margin-top: -15px !important;
         }
     }
 }

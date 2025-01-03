@@ -64,7 +64,6 @@ function Wishlist() {
 
   return (
     <div className='dt_MainWishDiv'>
-
       <div
         className="bg-imageCart"
         style={{

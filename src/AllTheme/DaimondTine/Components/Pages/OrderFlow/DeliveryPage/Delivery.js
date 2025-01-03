@@ -35,7 +35,6 @@ const AddressManagement = () => {
 
     return (
         <div className='dt_DeliverMainDiv'>
-       
             <div className='dt_secondMaindivAdd'>
                 <div className='dt_addMainDiv'>
                     <div className='dt_TitleDetailMainDiv'>

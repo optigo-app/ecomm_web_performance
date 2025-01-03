@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './YourProfile.scss';
 import { TextField, Modal, CircularProgress } from '@mui/material';
 import {  toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../utils/API/AccountTabs/YourProfile';
 import { mala_defaultAddressState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
@@ -106,7 +107,7 @@ export default function YourProfile() {
     return (
         <div className='yourProfile_Account_mala'>
             <div className='mala_yourProfile'>
-              
+      
 
                 {isLoading && (
                     <div className="loader-overlay" style={{ zIndex: 10000 }}>

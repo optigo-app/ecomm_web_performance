@@ -103,7 +103,7 @@ const Wishlist = () => {
                   CLEAR ALL
                 </Link>
                 {/* <button className='dt_WlClearAllBtn' onClick={handleRemoveAll}>CLEAR ALL</button> */}
-                <button className="dt_WlAddToCartBtn" onClick={handleAddtoCartAllfun}>ADD TO CART ALL</button>
+                <button className="dt_WlAddToCartBtn" onClick={handleAddtoCartAllfun}>ADD ALL TO CART</button>
                 {/* <button className='dt_WlBtn'>SHOW PRODUCT LIST</button> */}
               </div>
             </>

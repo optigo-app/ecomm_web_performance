@@ -31,7 +31,7 @@ const CartDetails = ({
   decodeEntities,
   handleMoveToDetail
 }) => {
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   useEffect(() => {
     if (selectedItem?.ImageCount > 0) {
       CartCardImageFunc(selectedItem).then((src) => {

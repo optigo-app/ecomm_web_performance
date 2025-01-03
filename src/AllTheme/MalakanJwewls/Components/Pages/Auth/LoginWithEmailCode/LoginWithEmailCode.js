@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './LoginWithEmailCode.modul.scss';
 import CryptoJS from 'crypto-js';
 import {  toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { LoginWithEmailCodeAPI } from '../../../../../../utils/API/Auth/LoginWithEmailCodeAPI';
 import Footer from '../../Home/Footer/Footer';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
@@ -167,7 +168,6 @@ export default function LoginWithEmailCode() {
 
     return (
         <div className='mala_loginwithemailCode'>
-             
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
@@ -179,7 +179,7 @@ export default function LoginWithEmailCode() {
                         textAlign: 'center',
                         padding: '0px',
                         margin: '0px',
-                        fontSize: '40px',
+                        fontSize: '32px',
                         color: '#fff',
                     }}
                         className='AuthScreenMainTitle'

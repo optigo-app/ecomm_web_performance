@@ -13,7 +13,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { roop_CartCount, roop_WishCount } from "../../Recoil/atom";
-import { Skeleton } from "@mui/material";
+import { Skeleton, useMediaQuery } from "@mui/material";
 
 const WishlistItems = ({
     item,
@@ -30,6 +30,9 @@ const WishlistItems = ({
     handleMoveToDetail,
 }) => {
     const [imageSrc, setImageSrc] = useState();
+    let maxwidth1350px = useMediaQuery('(max-width:1350px)')
+    let maxwidth600px = useMediaQuery('(max-width:600px)')
+    let maxwidth375px = useMediaQuery('(max-width:375px)')
 
     const setWishCountVal = useSetRecoilState(roop_WishCount);
     const setCartCountVal = useSetRecoilState(roop_CartCount);
@@ -137,7 +140,7 @@ const WishlistItems = ({
                                             {storeInit?.IsMetalWeight == 1 &&
                                                 <>
                                                     <div className="roop_prod_wt_wl">
-                                                        <span className="roop_wishDT">NWT : </span>
+                                                        <span className="roop_wishDT">NWT: </span>
                                                         <span className="roop_wishDT">
                                                             {(item?.Nwt || 0).toFixed(3)}
                                                         </span>
@@ -145,31 +148,40 @@ const WishlistItems = ({
                                                 </>
                                             }
                                         </div>
-                                        <div className="roop_wish_price">
-                                            {storeInit?.IsPriceShow == 1 &&
+                                        <div style={{
+                                            display: "flex",
+                                             height: !item?.Dwt || Number(item?.Dwt) === 0
+                                                ? (maxwidth1350px ? "35px" : maxwidth600px ? "25px" : maxwidth375px ? "30px" : "40px")
+                                                : ""
+                                            , flexDirection: "column", gap: '1.3px', justifyContent: "flex-start",
+                                        }}>
+                                            <div className="roop_wish_price">
+                                                {storeInit?.IsPriceShow == 1 &&
+                                                    <>
+                                                        <span className="roop_currencyFont">
+                                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                        </span>{" "}
+                                                        <span>{formatter(item?.FinalCost)}</span>
+                                                    </>
+                                                }
+                                            </div>
+                                            {storeInit?.IsDiamondWeight == 1 &&
                                                 <>
-                                                    <span className="roop_currencyFont">
-                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                                    </span>{" "}
-                                                    <span>{formatter(item?.FinalCost)}</span>
+                                                    {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                                                        <>
+                                                            <div className="roop_prod_wt_wl">
+                                                                {/* <span className="roop_pipes"> | </span> */}
+                                                                <span className="roop_wishDT">DWT: </span>
+                                                                <span>
+                                                                    {(item?.Dwt || 0).toFixed(3)}/{(item?.Dpcs || 0)}
+                                                                </span>
+                                                            </div>
+                                                        </>
+                                                    }
                                                 </>
                                             }
                                         </div>
-                                        {/* {storeInit?.IsDiamondWeight == 1 &&
-                                            <>
-                                                {(item?.Dwt != "0" || item?.Dpcs != "0") &&
-                                                    <>
-                                                        <span className="roop_pipes"> | </span>
-                                                        <span className="roop_wishDT">DWT: </span>
-                                                        <span>
-                                                            {(item?.Dwt || 0).toFixed(3)} /
-                                                            {(item?.Dpcs || 0)}
-                                                        </span>
-                                                    </>
-                                                }
-                                            </>
-                                        }
-                                        {storeInit?.IsStoneWeight == 1 &&
+                                        {/* {storeInit?.IsStoneWeight == 1 &&
                                             <>
                                                 {(item?.CSwt != "0" || item?.CSpcs != "0") &&
                                                     <>
@@ -222,7 +234,7 @@ const WishlistItems = ({
                                     className="roop_Wl-Cartbtn"
                                     onClick={() => handleWishlistToCartFun(item)}
                                 >
-                                    {item?.IsInCart != 1 ? "Add to cart +" : "in cart"}
+                                    {item?.IsInCart != 1 ? "Add to cart +" : "Remove from cart"}
                                 </button>
                             </div>
                         </div>

@@ -22,7 +22,8 @@
     }
 
     .loginDiTile {
-        font-size: 30px;
+        font-size: 22px;
+        // font-size: 30px;
         font-weight: 600;
         text-align: center;
         color: #fff;
@@ -32,7 +33,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #fda994;
+        background-color: $authButtonsBgColor;
         color: #17372f ;
         margin-inline: 7px;
         font-family: $primaryFontFamilyMedium;
@@ -43,7 +44,7 @@
         margin-top: 30px;
         transition: 0.2s ease-in;
         &:hover{
-            background-color: #ff8e72;
+            background-color: $authButtonsBgColorHover;
         }
     }
 
@@ -51,7 +52,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #fda994;
+        background-color: $authButtonsBgColor;
         color:#17372f;
         margin-inline: 7px;
         font-family: $primaryFontFamilyMedium;
@@ -61,7 +62,7 @@
         width: 25%;
         transition: 0.2s ease-in;
         &:hover{
-            background-color: #ff8e72;
+            background-color: $authButtonsBgColorHover;
         }
     }
 
@@ -97,7 +98,7 @@
         }
 
         .loginDiTile {
-            font-size: 25px;
+            font-size: 22px;
         }
 
     }

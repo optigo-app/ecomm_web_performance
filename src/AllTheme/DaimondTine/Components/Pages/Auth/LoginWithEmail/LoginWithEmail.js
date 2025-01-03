@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import './LoginWithEmail.modull.scss'
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import { dt_CartCount, dt_loginState, dt_WishCount } from '../../../Recoil/atom';
@@ -162,7 +162,6 @@ export default function LoginWithEmail() {
     }
     return (
         <div className='dt_loginWithEmail' style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
-             
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />

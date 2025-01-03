@@ -113,7 +113,7 @@
 
     .mala_prod_titleLine {
         text-align: start !important;
-        font-size: 27px;
+        font-size: 22px;
         font-family: $homePageFontFamily;
         font-weight: 400;
         font-style: normal;
@@ -136,14 +136,14 @@
     }
 
     .mala_single_prod_designno {
-        font-size: 16px;
+        font-size: $fontSize2;
         font-weight: 600;
         letter-spacing: 2px;
         color: $primaryfontcolor2;
     }
 
     .mala_prod_short_key {
-        font-size: 14px;
+        font-size: 13px;
         color: $primaryfontcolor2;
     }
 
@@ -178,7 +178,7 @@
     }
 
     .menuItemTimeEleveDeatil {
-        font-size: 13px;
+        font-size: 11px;
         color: $primaryfontcolor;
         letter-spacing: 1px;
         font-family: $primaryFontFamily;
@@ -187,7 +187,7 @@
     .menuitemSelectoreMain {
         border: none;
         outline: none;
-        font-size: 15px;
+        font-size: 13px;
         color: $primaryfontcolor2;
         font-family: $primaryFontFamily !important;
         // font-weight: bold;
@@ -278,7 +278,7 @@
     .mala_proDeatilList1 {
         width: 25%;
         color: #808080;
-        font-size: 14px;
+        font-size: 13px;
         font-family: $primaryFontFamily;
     }
 
@@ -299,7 +299,8 @@
         align-items: center;
         width: 100%;
         flex-direction: column;
-        margin-bottom: 150px;
+        margin-bottom: 80px;
+        // margin-bottom: 150px;
     }
 
     .mala_details_title {
@@ -318,6 +319,7 @@
         text-decoration: none;
         list-style: none;
         margin: 0px 0px 3px;
+        font-size: 14px;
     }
 
     .cart_and_wishlist_icon {
@@ -333,6 +335,13 @@
         width: 100%;
         display: flex;
         justify-content: center;
+
+        @media (max-width: 790px) {
+            display: block;
+            overflow-x: scroll;
+            width: 100%;
+            scrollbar-width: thin;
+        }
     }
 
     .mala_stock_item_card {
@@ -382,19 +391,20 @@
     }
 
     .mala_d_keys {
-        font-size: 13px;
+        font-size: 10px;
     }
 
     .mala_d_val {
-        font-size: 13px;
+        font-size: 10px;
         font-weight: 400;
     }
 
     .mala_prod_designno {
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 400;
         padding: 0px 5px;
         color: $primaryfontcolor2;
+        font-family: $primaryFontFamily;
     }
 
     .mala_stockItem_price_type_mt {
@@ -415,6 +425,7 @@
         text-align: left;
         padding: 8px;
         color: #7d7f85;
+        font-size: $fontSize1;
     }
 
     // .Smr_stockItem_table_tr:nth-child(even){
@@ -434,16 +445,23 @@
 
     .mala_Price_breakup_label {
         width: 70px;
+        font-size: 14px;
         color: #7d7f85;
         font-family: $primaryFontFamily;
     }
 
     .mala_currencyFont {
         font-family: $primaryFontFamily;
+        font-size: 13px;
+    }
+
+    .mala_currencyFont_total {
+        font-family: $primaryFontFamily;
     }
 
     .mala_PriceBreakup_Price {
         font-family: $primaryFontFamily;
+        font-size: 14px;
     }
 
     .mala_prodDetail_backtotop {

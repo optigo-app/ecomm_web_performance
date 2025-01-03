@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "./manageaddress.scss";
 import { Box, Button, CircularProgress, Dialog, DialogTitle, RadioGroup, TextField, Typography, useMediaQuery } from '@mui/material';
 import StayPrimaryPortraitIcon from '@mui/icons-material/StayPrimaryPortrait';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
 import { useSetRecoilState } from 'recoil';
@@ -351,7 +351,6 @@ const ManageAddress = () => {
 
     return (
         <div className='address_Account_elvee'>
-         
             <div className='manage_address_elvee_fs'>
             <HeadTitleAcc title="Saved Addresses" />
             <p style={{
@@ -891,7 +890,6 @@ const ManageAddress = () => {
 
 //     return (
 //         <>
-//          
 //             <div>
 //             <p style={{
 //                     textAlign: 'center',

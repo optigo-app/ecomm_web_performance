@@ -33,10 +33,10 @@ function Home() {
 
   return (
     <>
-      <div className="stam_home_index_main">
+      <div className="mala_home_index_main">
         <div style={{ minHeight: minHeight }}>
-          <div className="stam_home_index_Submain">
-            <TopSection data={banner?.mainBanner} />
+          <div className="mala_home_index_Submain">
+            <TopSection />
             <ShopBanner />
             <PromotionBaner2 data={banner?.middleBanner} />
             <TrendingView1 data={banner?.trendingBanner} />

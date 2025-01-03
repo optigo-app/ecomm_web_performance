@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './YourProfile.scss';
 import { TextField, Modal,  CircularProgress } from '@mui/material';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../utils/API/AccountTabs/YourProfile';
 import { defaultAddressState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
@@ -102,8 +102,7 @@ export default function YourProfile() {
 
     return (
         <div className='yourProfile_Account_Elvee'>
-            <div className='smr_yourProfile elvee_profile'>
-                 
+            <div className='elv_yourProfile elvee_profile'>
 
                 {isLoading && (
                     <div className="loader-overlay" style={{zIndex:10000}}>
@@ -181,7 +180,7 @@ export default function YourProfile() {
                         )}
                     </div>}
                     {   <div>
-                        <button onClick={handleEdit} className='SmilingAddEditAddrwess ' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
+                        <button onClick={handleEdit} className='elv_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
                     </div>}
                 </div>
 
@@ -258,7 +257,7 @@ export default function YourProfile() {
                                 </>
                             )}
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
-                            <button type='submit' className='smilingDeleveryformSaveBtn ' >Save</button>
+                            <button type='submit' className='elv_smilingDeleveryformSaveBtn ' >Save</button>
                             <button onClick={() => handleCancel()} className='smilingDeleveryformCansleBtn_elvee ' >Cancel</button>
                         </div>
                         </form>

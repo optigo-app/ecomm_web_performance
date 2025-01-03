@@ -3,12 +3,11 @@
 $borderColor: rgba(232, 232, 232, 1);
 
 .mala3_MainBGDiv {
-  font-family: $primaryFontFamily;
   // margin-top: 140px;
   font-family: $primaryFontFamily;
   margin-top: 220px;
   color: white;
-  font-family: $rown !important;
+  // font-family: $rown !important;
 
   @media screen and (max-width: 1200px) {
     margin-top: 80px;
@@ -50,6 +49,10 @@ $borderColor: rgba(232, 232, 232, 1);
           width: 130px;
           font-weight: 500;
           transition: background-color 0.3s;
+
+          @media (max-width: 1100px) {
+            height: 34px;
+          }
 
           &:hover {
             background-color: $hoverbackgroundColor;
@@ -103,7 +106,7 @@ $borderColor: rgba(232, 232, 232, 1);
             align-items: center;
 
             p {
-              font-size: $fontSize4;
+              font-size: $fontSize3;
               color: $titleColor;
             }
           }
@@ -142,7 +145,7 @@ $borderColor: rgba(232, 232, 232, 1);
 
                 h3 {
                   margin: 0;
-                  font-size: $fontSize3;
+                  font-size: $fontSize2;
                   font-weight: 600px;
                 }
 
@@ -179,7 +182,7 @@ $borderColor: rgba(232, 232, 232, 1);
                   justify-content: center;
                   align-items: center;
                   color: $titleColor;
-                  font-size: $fontSize2;
+                  font-size: $fontSize1;
 
                   .mala3_pipe {
                     margin-inline: 4px;
@@ -199,7 +202,7 @@ $borderColor: rgba(232, 232, 232, 1);
 
                 p {
                   margin: 0;
-                  font-size: $fontSize4;
+                  font-size: $fontSize3;
                   color: $titleColor;
                   font-weight: 700;
                 }
@@ -231,7 +234,7 @@ $borderColor: rgba(232, 232, 232, 1);
                   border-radius: 50%;
                   opacity: 0.5;
                   cursor: pointer;
-                  padding: 0px 8px;
+                  padding: 0px 5px;
                 }
               }
             }
@@ -523,7 +526,7 @@ $borderColor: rgba(232, 232, 232, 1);
                   display: flex;
                   justify-content: space-between;
                   align-items: center;
-                  font-size: $fontSize3;
+                  font-size: $fontSize2;
 
                   label {
                     color: $titleColor;
@@ -540,7 +543,7 @@ $borderColor: rgba(232, 232, 232, 1);
                   span {
                     color: $titleColor;
                     font-weight: bold;
-                    font-size: $fontSize4;
+                    font-size: $fontSize3;
                   }
                 }
               }
@@ -687,7 +690,7 @@ $borderColor: rgba(232, 232, 232, 1);
                 .mala3_cart-item__price,
                 .mala3_cart-item__total-price {
                   p {
-                    font-size: $fontSize3;
+                    font-size: $fontSize2;
                   }
                 }
               }
@@ -1013,7 +1016,7 @@ $borderColor: rgba(232, 232, 232, 1);
 
                 .mala3_cart-item__details {
                   h3 {
-                    font-size: $fontSize2;
+                    font-size: $fontSize1;
                   }
 
                   p {

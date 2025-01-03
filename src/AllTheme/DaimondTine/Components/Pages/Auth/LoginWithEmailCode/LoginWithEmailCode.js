@@ -3,6 +3,7 @@ import { Button, CircularProgress, IconButton, InputAdornment, TextField } from 
 import { useLocation, useNavigate } from 'react-router-dom';
 import './LoginWithEmailCode.modul.scss';
 import {  toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import Footer from '../../Home/Footer/Footer';
 import { LoginWithEmailCodeAPI } from '../../../../../../utils/API/Auth/LoginWithEmailCodeAPI';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
@@ -180,7 +181,6 @@ export default function LoginWithEmailCode() {
 
     return (
         <div className='dt_loginWithEmailCodeMain' style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
-             
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />

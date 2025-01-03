@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import './changepassword.scss'
 import { handleChangePassword } from '../../../../../../utils/API/AccountTabs/changePassword';
 import {  toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { handlePasswordInputChangeAcc, validateChangePassword } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import HeadTitleAcc from '../HeadTitleAcc';
 
@@ -133,7 +134,6 @@ export default function ChangePassword() {
 
     return (
         <div className='changePassword_Account_HOQ'>
-   
         <div>
             {isLoading && (
                 <div className="loader-overlay">

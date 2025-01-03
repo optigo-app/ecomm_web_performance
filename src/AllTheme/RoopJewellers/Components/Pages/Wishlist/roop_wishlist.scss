@@ -171,11 +171,11 @@
         // justify-content: center !important;
         // align-items: center !important;
         opacity: 1;
-        
+
         transition: opacity .5s ease;
 
         @media (max-width: 1600px) {
-            padding-inline: 0;
+            // padding-inline: 0;
         }
     }
 
@@ -298,11 +298,22 @@
     font-size: 16px !important;
     font-family: $fontRegular !important;
     font-weight: 800;
+
+
+    @media (max-width: 1350px) {
+        margin: 0;
+        display: flex;
+        font-size: 12px !important;
+        gap: 3px;
+        align-items: center;
+        justify-content: flex-start;
+    }
 }
 
 .roop_prod_wt_wl {
     display: flex;
     gap: 2px;
+    justify-content: flex-start;
     font-size: $fontSize2 !important;
 }
 
@@ -372,11 +383,11 @@
         }
 
         .cardText p {
-            font-size: $fontSize0 !important;
+            font-size: $fontSize1 !important;
         }
 
         .cardText p span {
-            font-size: $fontSize0 !important;
+            font-size: $fontSize1 !important;
         }
     }
 }
@@ -404,11 +415,11 @@
         }
 
         .cardText p {
-            font-size: $fontSize0 !important;
+            font-size: $fontSize1 !important;
         }
 
         .cardText p span {
-            font-size: $fontSize0 !important;
+            font-size: $fontSize1 !important;
         }
     }
 }
