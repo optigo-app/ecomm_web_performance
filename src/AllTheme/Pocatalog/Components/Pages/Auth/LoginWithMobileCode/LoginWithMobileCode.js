@@ -7,6 +7,7 @@ import Footer from '../../Home/Footer/Footer';
 import { proCat_CartCount, proCat_loginState, proCat_WishCount } from '../../../Recoil/atom';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
 import {  toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import Cookies from 'js-cookie';
 import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';

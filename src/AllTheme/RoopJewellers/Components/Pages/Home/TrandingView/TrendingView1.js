@@ -15,7 +15,7 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API
 import Pako from 'pako';
 import { useMediaQuery } from '@mui/material';
 
-const TrendingView1 = () => {
+const TrendingView1 = ({data}) => {
 
     const trandingViewData = [
         '/images/HomePage/TrendingViewBanner/tranding1.png',
@@ -165,7 +165,7 @@ const TrendingView1 = () => {
                         <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} />
 
                         {/* // for vara  */}
-                        {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trendingBanner.png`}
+                        <img src={data?.image?.[0]}
                             alt="Trending Jewellery Collection Banner"
                         /> */}
                     </div>

@@ -243,10 +243,12 @@ export default function Register() {
               className='AuthScreenMainTitle'
             >Register</p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <form noValidate 
+            onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <TextField
+               name="user-firstName"
                 autoFocus
-                id="outlined-basic"
+                id="outlined-basic firstName"
                 label="First Name"
                 variant="outlined"
                 className='labgrowRegister'
@@ -261,7 +263,8 @@ export default function Register() {
               />
 
               <TextField
-                id="outlined-basic"
+                 name="user-lastName"
+              id="outlined-basic lastName"
                 label="Last Name"
                 variant="outlined"
                 className='labgrowRegister'
@@ -276,10 +279,12 @@ export default function Register() {
               />
 
               <TextField
-                id="outlined-basic"
+                 name="user-mobileNo"
+              id="outlined-basic mobileNo"
                 label="Mobile No."
                 variant="outlined"
                 className='labgrowRegister'
+                autoComplete="new-mobileNo" // Explicitly telling the browser not to autocomplete this field
                 style={{ margin: '15px' }}
                 value={mobileNo}
                 inputRef={mobileNoRef}
@@ -290,7 +295,8 @@ export default function Register() {
               />
 
               <TextField
-                id="outlined-basic"
+                  name="user-email"
+              id="outlined-basic email"
                 label="Email"
                 autoComplete="ne-Email"
                 variant="outlined"
@@ -305,9 +311,10 @@ export default function Register() {
               />
 
               <TextField
-                id="outlined-password-input"
+                id="outlined-password-input"               name="user-password"
+
                 label="Password"
-                autoComplete="enter-NewPass-Word"
+                autoComplete="enter-NewPass-Word-12"
                 type={showPassword ? 'text' : 'password'}
                 className='labgrowRegister'
                 style={{ margin: '15px' }}
@@ -334,7 +341,9 @@ export default function Register() {
               />
 
               <TextField
-                id="outlined-confirm-password-input"
+                            name="user-confirmPassword"
+
+                id="outlined-confirm-password-input Pass12"
                 label="Confirm Password"
                 autoComplete="Enetr-NewConfirm-Pass"
                 type={showConfirmPassword ? 'text' : 'password'}
@@ -366,14 +375,14 @@ export default function Register() {
                 }}
               />
 
-              <button className='submitBtnForgot1 btn-bg-elvee' onClick={handleSubmit}>CREATE ACCOUNT</button>
+              <button type='submit' className='submitBtnForgot1 btn-bg-elvee' >CREATE ACCOUNT</button>
 
               {/* <div style={{ display: 'flex', marginTop: '10px' }}>
               <input type='checkbox' />
               <p style={{ margin: '5px' }}>Subscribe to our newsletter</p>
             </div> */}
               <button className='submitBtnForgot1 ' onClick={() => navigation('/LoginOption')}>BACK TO LOGIN</button>
-            </div>
+            </form>
           </div>
         </div>
       </div>

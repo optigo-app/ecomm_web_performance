@@ -3,7 +3,7 @@ import "./PromotionalBanner.scss";
 import { storImagePath } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { IoClose } from "react-icons/io5";
 
-const PromotionalBanner = ({ onClose }) => {
+const PromotionalBanner = ({ onClose ,img }) => {
   const imgCol = {
     logo: `${storImagePath()}/Forevery/promotion/logo.png`,
     banner: `${storImagePath()}/Forevery/promotion/offer.webp`,
@@ -39,7 +39,8 @@ const PromotionalBanner = ({ onClose }) => {
         <div
           class="for-col-image"
           style={{
-            backgroundImage: `url(${imgCol?.banner})`,
+            backgroundImage: `url(${img?.[0]})`,
+            // backgroundImage: `url(${imgCol?.banner})`,
           }}
         >
           {/* <img src={imgCol?.banner} alt=""/> */}

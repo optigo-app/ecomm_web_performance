@@ -21,7 +21,7 @@ const settings = {
   pauseOnHover: false, // Pause autoplay on mouse hover
 };
 
-const TopSection = () => {
+const TopSection = ({data}) => {
   const [loading, setLoading] = useState(false);
   const [videoStarted, setVideoStarted] = useState(false);
   const videoRef = useRef(null);
@@ -60,20 +60,21 @@ const TopSection = () => {
     setVideoStarted(true);
   };
 
+  console.log(data,"data")
   return (
     <div className="roop_topVideoMain" role="region" aria-labelledby="top-video-banner">
       <div className="rp_main_slider">
         {/* for vara */}
         {/* <Slider {...settings} ref={slider}>
           {isMobile
-            ? MobilSliderImage.map((val, i) => (
+            ? data?.image?.slice(0,3).map((val, i) => (
               <div className="slide" key={i}>
-                <img src={val?.url || ""} alt={val?.key} />
+                <img src={val} alt={val?.key} />
               </div>
             ))
-            : SliderItemns.map((val, i) => (
+            : data?.image?.slice(0,3).map((val, i) => (
               <div className="slide" key={i}>
-                <img src={val?.url || ""} alt={val?.key} />
+                <img src={val} alt={val?.key} />
               </div>
             ))}
         </Slider> */}

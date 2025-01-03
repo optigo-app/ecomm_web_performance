@@ -52,34 +52,35 @@ import {
   stam_companyLogo,
   stam_companyLogoM,
 } from "./AllTheme/StamFordJewels/Components/Recoil/atom";
+import { fetchPayMaster } from "./utils/API/OrderFlow/Paymaster";
 
-const SmilingRock_MobileApp_App = React.lazy(() =>
-  import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
-);
-const HemratnaProcatalog_App = React.lazy(() =>
-  import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
-);
-const Procatalog_App = React.lazy(() =>
-  import("./AllTheme/Pocatalog/Procatalog_App")
-);
+// const SmilingRock_MobileApp_App = React.lazy(() =>
+//   import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
+// );
+// const HemratnaProcatalog_App = React.lazy(() =>
+//   import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
+// );
+// const Procatalog_App = React.lazy(() =>
+//   import("./AllTheme/Pocatalog/Procatalog_App")
+// );
 const HouseOfQuadri_App = React.lazy(() =>
   import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
 );
-const ForEveryRoutes = React.lazy(() =>
-  import("./AllTheme/Forevery/ForeveryRoutes")
-);
-const Procatalog_MobileApp_App = React.lazy(() =>
-  import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
-);
-const StamFordJewels_App = React.lazy(() =>
-  import("./AllTheme/StamFordJewels/StamFordJewels_App")
-);
-const RoopJewellers_App = React.lazy(() =>
-  import("./AllTheme/RoopJewellers/RoopJewellers_App")
-);
-const MalakanJewels_App = React.lazy(() =>
-  import("./AllTheme/MalakanJwewls/MalakanJewels_App")
-);
+// const ForEveryRoutes = React.lazy(() =>
+//   import("./AllTheme/Forevery/ForeveryRoutes")
+// );
+// const Procatalog_MobileApp_App = React.lazy(() =>
+//   import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
+// );
+// const StamFordJewels_App = React.lazy(() =>
+//   import("./AllTheme/StamFordJewels/StamFordJewels_App")
+// );
+// const RoopJewellers_App = React.lazy(() =>
+//   import("./AllTheme/RoopJewellers/RoopJewellers_App")
+// );
+// // const MalakanJewels_App = React.lazy(() =>
+// //   import("./AllTheme/MalakanJwewls/MalakanJewels_App")
+// // );
 
 export default function ThemeRoutes() {
   const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo);
@@ -113,16 +114,34 @@ export default function ThemeRoutes() {
   const [storeInitData, setStoreInitData] = useState();
   const hasApiBeenCalled = useRef(false);
 
-  useEffect(() => {
-    console.log("call store init data");
+  const fetchWithRetry = (url, retries = 3, delay = 1000) => {
+    return new Promise((resolve, reject) => {
+      const attemptFetch = (n) => {
+        fetch(url)
+          .then((response) => response.text())
+          .then(resolve)
+          .catch((error) => {
+            if (n === 0) {
+              reject(error); // Give up after all retries
+            } else {
+              setTimeout(() => attemptFetch(n - 1), delay); // Retry after delay
+            }
+          });
+      };
+      attemptFetch(retries); // Start the first attempt with the given retry count
+    });
+  };
 
-    fetch(`${storInitDataPath()}/StoreInit.json`)
-      .then((response) => response.text())
+  useEffect(() => {
+   const path = `${storInitDataPath()}/StoreInit.json`;
+
+    // Fetch with retry logic
+    fetchWithRetry(path, 3, 1000)
       .then((text) => {
         try {
           const jsonData = JSON?.parse(text);
-          setHtmlContent(jsonData);
           if (jsonData) {
+            setHtmlContent(jsonData);
             sessionStorage.setItem("storeInit", JSON.stringify(jsonData.rd[0]));
             sessionStorage.setItem(
               "myAccountFlags",
@@ -260,6 +279,7 @@ export default function ThemeRoutes() {
   // };
 
   // new version
+  
   const callApiAndStore = (apiFunction, storageKey, finalID) => {
     apiFunction(finalID)
       .then((response) => {
@@ -300,6 +320,7 @@ export default function ThemeRoutes() {
     callApiAndStore(CurrencyComboAPI, "CurrencyCombo", finalID);
   };
 
+
   useEffect(() => {
     const storedData = sessionStorage.getItem("storeInit");
     const data = storedData ? JSON.parse(storedData) : null;
@@ -309,6 +330,30 @@ export default function ThemeRoutes() {
       setStoreInitData(data);
     }
   }, [htmlContent]);
+
+    //paymaster
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const storedPayMaster = sessionStorage.getItem('payMaster');
+  
+          if (storedPayMaster) {
+            console.log('payMaster from session storage: ', JSON.parse(storedPayMaster));
+          } else {
+            const payMaster = await fetchPayMaster();
+            const res = payMaster?.Data?.rd;
+            console.log('payMaster from API: ', res);
+            sessionStorage.setItem('payMaster', JSON.stringify(res));
+          }
+        } catch (error) {
+          console.error('Error fetching or retrieving payMaster:', error);
+        }
+      };
+      const timer = setTimeout(() => {
+        fetchData();
+      }, 5000);
+      return () => clearTimeout(timer);
+    }, []);
 
   return (
     <>
@@ -410,6 +455,8 @@ const MetaData2 = ({ title, isHaveSub = false }) => {
 const Themes = ({ htmlContent }) => {
   return (
     <>
+      <Suspense fallback={<></>}>
+        {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
       <Suspense fallback={<></>}>
         {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
 

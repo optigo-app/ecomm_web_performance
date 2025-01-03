@@ -55,6 +55,14 @@ const useHomeBannerImages = () => {
           image: [],
           video: [],
         },
+        popup: {
+          image: [],
+          video: [],
+        },
+        navbarMenu  :{
+          image: [],
+          video: [],
+        }
       });
   useEffect(() => {
     const bannerData = {
@@ -65,7 +73,7 @@ const useHomeBannerImages = () => {
             `${storImagePath()}/Banner/Homepagemainbanner3.png`,
             `${storImagePath()}/Banner/Homepagemainbanner4.png`,
           ],
-          video: [`${storImagePath()}/Banner/homepagemainvideo.mp4`],
+          video: [`${storImagePath()}/Banner/homepagemainvideo.mp4`,`${storImagePath()}/Banner/homepagemainvideo2.mp4`],
         },
         middleBanner: {
           image: [
@@ -73,7 +81,10 @@ const useHomeBannerImages = () => {
             `${storImagePath()}/Banner/middlebanner2.png`,
             `${storImagePath()}/Banner/middlebanner3.png`,
           ],
-          video: [`${storImagePath()}/Banner/middlebanner1.mp4`],
+          video: [`${storImagePath()}/Banner/middlebanner1.mp4`,
+            `${storImagePath()}/Banner/middlebanner2.mp4`,
+            `${storImagePath()}/Banner/middlebanner3.mp4` 
+          ],
         },
         brandlogo: { // Corrected
           image: [
@@ -90,6 +101,7 @@ const useHomeBannerImages = () => {
             `${storImagePath()}/Banner/socialmediabanner2.png`,
             `${storImagePath()}/Banner/socialmediabanner3.png`,
             `${storImagePath()}/Banner/socialmediabanner4.png`,
+            `${storImagePath()}/Banner/socialmediabanner5.png`,
           ],
           video: [],
         },
@@ -119,7 +131,7 @@ const useHomeBannerImages = () => {
             `${storImagePath()}/Banner/bottombanner1.png`,
             `${storImagePath()}/Banner/bottombanner2.png`,
           ],
-          video: [],
+          video: [`${storImagePath()}/Banner/bottombannerVideo1.mp4`,],
         },
         lookbookBanner: {
           image: [
@@ -130,8 +142,11 @@ const useHomeBannerImages = () => {
         },
         promotionalBanner: {
           image: [
-            `${storImagePath()}/Banner/promotionalbanner.png`,
-            `${storImagePath()}/Banner/promotionalbanner.png`,
+            `${storImagePath()}/Banner/promotionalbanner1.png`,
+            `${storImagePath()}/Banner/promotionalbanner2.png`,
+            `${storImagePath()}/Banner/promotionalbanner3.png`,
+            `${storImagePath()}/Banner/promotionalbanner4.png`,
+            `${storImagePath()}/Banner/promotionalbanner5.png`,
           ],
           video: [],
         },
@@ -161,6 +176,21 @@ const useHomeBannerImages = () => {
           ],
           video: [],
         },
+        popup: {
+          image: [
+            `${storImagePath()}/Banner/popup.png`,
+          ],
+          video: [],
+        },
+        navbarMenu :{
+          image: [
+            `${storImagePath()}/Banner/navbarMenu1.png`,
+            `${storImagePath()}/Banner/navbarMenu2.png`,
+            `${storImagePath()}/Banner/navbarMenu3.png`,
+            `${storImagePath()}/Banner/navbarMenu4.png`,
+          ],
+          video: [],
+        }
       };
       setBanners(bannerData);
     }, []); 

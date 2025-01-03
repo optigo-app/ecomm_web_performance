@@ -262,7 +262,8 @@ export default function Register() {
             className='AuthScreenRegisterMainTitle'
           >Register</p>
 
-          <form noValidate style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} onSubmit={handleSubmit}>
+          <form noValidate style={{ display: 'flex', flexDirection: 'column', 
+            alignItems: 'center' }} onSubmit={handleSubmit}>
             <TextField
               name="user-firstName"
               autoFocus

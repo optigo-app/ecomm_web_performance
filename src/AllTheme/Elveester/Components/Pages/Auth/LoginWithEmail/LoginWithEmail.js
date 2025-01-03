@@ -5,6 +5,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import {  toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import './LoginWithEmail.modul.scss'
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import { ForgotPasswordEmailAPI } from '../../../../../../utils/API/Auth/ForgotPasswordEmailAPI';

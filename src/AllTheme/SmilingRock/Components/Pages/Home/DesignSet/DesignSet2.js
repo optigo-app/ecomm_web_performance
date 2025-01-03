@@ -1,30 +1,32 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./DesignSet2.scss";
 import bgImg from "../../../Assets/full.jpg";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
-import imageNotFound from '../../../Assets/image-not-found.jpg';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import Pako from 'pako';
-import Cookies from 'js-cookie';
-import { motion } from 'framer-motion';
-import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { homeLoading, loginState, smr_loginState } from '../../../Recoil/atom';
-import { Link } from '@mui/material';
-import gradientColors from "../LookBook/color.json"
-import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
+import imageNotFound from "../../../Assets/image-not-found.jpg";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import Pako from "pako";
+import Cookies from "js-cookie";
+import { motion } from "framer-motion";
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
+import { homeLoading, loginState, smr_loginState } from "../../../Recoil/atom";
+import { Link } from "@mui/material";
+import gradientColors from "../LookBook/color.json";
+import {
+  formatter,
+  storImagePath,
+} from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
-const DesignSet2 = ({data}) => {
-
+const DesignSet2 = ({ data }) => {
   const designSetRef = useRef(null);
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState();
   const [designSetList, setDesignSetList] = useState([]);
-  const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [storeInit, setStoreInit] = useState({});
   const islogin = useRecoilValue(smr_loginState);
   const [swiper, setSwiper] = useState(null);
@@ -59,20 +61,22 @@ const DesignSet2 = ({data}) => {
   }, []);
 
   const callAPI = () => {
-    const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
-    const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-    const visiterID = Cookies.get('visiterId');
+    const loginUserDetail = JSON.parse(
+      sessionStorage.getItem("loginUserDetail")
+    );
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const visiterID = Cookies.get("visiterId");
     let finalID;
     if (storeInit?.IsB2BWebsite == 0) {
-      finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+      finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
     } else {
-      finalID = loginUserDetail?.id || '0';
+      finalID = loginUserDetail?.id || "0";
     }
 
-    let storeinit = JSON.parse(sessionStorage.getItem('storeInit'));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
 
-    let data = JSON.parse(sessionStorage.getItem('storeInit'));
+    let data = JSON.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.CDNDesignImageFol);
     setImageUrlDesignSet(data?.CDNDesignImageFol);
 
@@ -84,12 +88,13 @@ const DesignSet2 = ({data}) => {
         }
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   const ProdCardImageFunc = (pd) => {
     let finalprodListimg;
     if (pd?.DefaultImageName) {
-      finalprodListimg = imageUrl + pd?.designsetuniqueno + '/' + pd?.DefaultImageName;
+      finalprodListimg =
+        imageUrl + pd?.designsetuniqueno + "/" + pd?.DefaultImageName;
     } else {
       finalprodListimg = imageNotFound;
     }
@@ -114,10 +119,10 @@ const DesignSet2 = ({data}) => {
   const compressAndEncode = (inputString) => {
     try {
       const uint8Array = new TextEncoder().encode(inputString);
-      const compressed = Pako.deflate(uint8Array, { to: 'string' });
+      const compressed = Pako.deflate(uint8Array, { to: "string" });
       return btoa(String.fromCharCode.apply(null, compressed));
     } catch (error) {
-      console.error('Error compressing and encoding:', error);
+      console.error("Error compressing and encoding:", error);
       return null;
     }
   };
@@ -132,11 +137,15 @@ const DesignSet2 = ({data}) => {
       f: {},
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
-    navigate(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+    navigate(
+      `/d/${titleLine?.replace(/\s+/g, `_`)}${
+        titleLine?.length > 0 ? "_" : ""
+      }${designNo}?p=${encodeObj}`
+    );
   };
 
   const decodeEntities = (html) => {
-    var txt = document.createElement('textarea');
+    var txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
   };
@@ -157,22 +166,29 @@ const DesignSet2 = ({data}) => {
     if (islogin) {
       if (e.button === 0 && !e.metaKey && !e.ctrlKey) {
         e.preventDefault();
-        navigate('/Lookbook');
+        navigate("/Lookbook");
       }
     } else {
-      navigate('/LoginOption');
+      navigate("/LoginOption");
     }
   };
 
+  const ShowButton = () => {
+    const results = designSetList?.slice(0, 1)?.map((slide, index) => {
+      return parseDesignDetails(slide?.Designdetail);
+    });
+    return results[0]?.length > 1;
+  };
   return (
     <>
       <div className="smr_DesignSet2MainDiv" ref={designSetRef}>
         {designSetList?.length !== 0 && (
           <>
-            <div className='smr_DesignSetTitleDiv'>
-              <p className='smr1_desognSetTitle'>COMPLETE YOUR LOOK
+            <div className="smr_DesignSetTitleDiv">
+              <p className="smr1_desognSetTitle">
+                COMPLETE YOUR LOOK
                 <span onClick={(e) => handleNavigate(e)}>
-                  <a href="/Lookbook" className='smr_designSetViewmoreBtn'>
+                  <a href="/Lookbook" className="smr_designSetViewmoreBtn">
                     View More
                   </a>
                 </span>
@@ -191,7 +207,7 @@ const DesignSet2 = ({data}) => {
               // <SwiperSlide key={`slide-${index}`}>
               <div
                 style={{
-                  position: 'relative',
+                  position: "relative",
                 }}
                 className="maindiv"
               >
@@ -200,7 +216,7 @@ const DesignSet2 = ({data}) => {
                     // src={ProdCardImageFunc(slide)}
                     // src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-26.jpg?height=1366&v=1638651514&width=2048"
                     // src={`${storImagePath()}/images/HomePage/DesignSetBanner/BottomBannerDesignSet1.png`}
-                    src={data?.image[0]} 
+                    src={data?.image[0]}
                     alt=""
                     className="imgBG"
                   />
@@ -217,13 +233,18 @@ const DesignSet2 = ({data}) => {
                     }}
                     className="imgBG"
                   >
-                    <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                    <p
+                      style={{
+                        fontSize: "30px",
+                        color: getRandomBgColor(index).color,
+                      }}
+                    >
+                      {slide?.designsetno}
+                    </p>
                   </div>
                 )}
                 {/* <p className="smr_lb3designList_title">{slide?.designsetno}</p> */}
-                <div
-                  className='subimgpart'
-                >
+                <div className="subimgpart">
                   <div className="card">
                     <Swiper
                       className="swiper_w"
@@ -234,43 +255,53 @@ const DesignSet2 = ({data}) => {
                     >
                       {slide?.Designdetail && (
                         <>
-                          {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
-                            <SwiperSlide key={`detail-${detail?.id}`}>
-                              <div className="centerall">
-                                <div className="smr_ds2ImageDiv">
-                                  <img
-                                    loading="lazy"
-                                    src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
-                                    alt={`Sub image ${subIndex} for slide ${index}`}
-                                    onClick={() =>
-                                      handleNavigation(
-                                        detail?.designno,
-                                        detail?.autocode,
-                                        detail?.TitleLine ? detail?.TitleLine : ""
-                                      )
-                                    }
-                                    onError={(e) => {
-                                      e.target.src = imageNotFound;
-                                      e.target.alt = "no-image-found";
-                                    }}
-                                    className="cardimg"
-                                  />
+                          {parseDesignDetails(slide?.Designdetail)?.map(
+                            (detail, subIndex) => (
+                              <SwiperSlide key={`detail-${detail?.id}`}>
+                                <div className="centerall">
+                                  <div className="smr_ds2ImageDiv">
+                                    <img
+                                      loading="lazy"
+                                      src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
+                                      alt={`Sub image ${subIndex} for slide ${index}`}
+                                      onClick={() =>
+                                        handleNavigation(
+                                          detail?.designno,
+                                          detail?.autocode,
+                                          detail?.TitleLine
+                                            ? detail?.TitleLine
+                                            : ""
+                                        )
+                                      }
+                                      onError={(e) => {
+                                        e.target.src = imageNotFound;
+                                        e.target.alt = "no-image-found";
+                                      }}
+                                      className="cardimg"
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="fs1 centerall">{detail?.designno} {detail?.TitleLine && " - "} {detail?.TitleLine != "" && detail?.TitleLine}</div>
-                              <div className="fs2 centerall">
-                                <p>
-                                  <span
-                                    className="smr_currencyFont"
-                                    dangerouslySetInnerHTML={{
-                                      __html: decodeEntities(
-                                        islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
-                                      ),
-                                    }}
-                                  /> {formatter(detail?.UnitCostWithMarkUp)}
-                                </p>
-                              </div>
-                              {/* <div className="fs3 centerall"
+                                <div className="fs1 centerall">
+                                  {detail?.designno}{" "}
+                                  {detail?.TitleLine && " - "}{" "}
+                                  {detail?.TitleLine != "" && detail?.TitleLine}
+                                </div>
+                                <div className="fs2 centerall">
+                                  <p>
+                                    <span
+                                      className="smr_currencyFont"
+                                      dangerouslySetInnerHTML={{
+                                        __html: decodeEntities(
+                                          islogin
+                                            ? loginUserDetail?.CurrencyCode
+                                            : storeInit?.CurrencyCode
+                                        ),
+                                      }}
+                                    />{" "}
+                                    {formatter(detail?.UnitCostWithMarkUp)}
+                                  </p>
+                                </div>
+                                {/* <div className="fs3 centerall"
                                 onClick={() =>
                                   handleNavigation(
                                     detail?.designno,
@@ -278,27 +309,31 @@ const DesignSet2 = ({data}) => {
                                     detail?.TitleLine ? detail?.TitleLine : ""
                                   )
                                 }>View Details</div> */}
-                            </SwiperSlide>
-                          ))}
+                              </SwiperSlide>
+                            )
+                          )}
                         </>
                       )}
                     </Swiper>
                   </div>
+                  {ShowButton() && (
                   <div className="btnflex">
-                    <button className="btncst" onClick={handlePrevious}>&lt;</button>
-                    <button className="btncst" onClick={handleNext}>&gt;</button>
+                    <button className="btncst" onClick={handlePrevious}>
+                      &lt;
+                    </button>
+                    <button className="btncst" onClick={handleNext}>
+                      &gt;
+                    </button>
                   </div>
+                )}
                 </div>
               </div>
               // </SwiperSlide>
             ))}
             {/* </Swiper> */}
-
           </>
         )}
-
       </div>
-
     </>
   );
 };

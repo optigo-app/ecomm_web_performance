@@ -1,6 +1,7 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const handlePaymentAPI = async (visiterId, islogin) => {
+    console.log('islogin: ', islogin);
     try {
         const selectedAddressId = sessionStorage.getItem('selectedAddressId');
         let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));

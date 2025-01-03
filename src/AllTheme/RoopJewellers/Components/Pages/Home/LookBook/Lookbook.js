@@ -966,7 +966,9 @@ const Lookbook = () => {
           }}
           className="roop_lookBookCategoryPoupuBox"
         >
-          <div onClick={handleClose} className="roop_lookSubCtSaveBtn">
+          <div onClick={handleClose} className="roop_lookSubCtSaveBtn"
+         
+          >
             <IoClose
               style={{ height: "25px", width: "25px", color: "#000000ab" }}
             />
@@ -1001,8 +1003,9 @@ const Lookbook = () => {
                   <AccordionDetails
                     sx={{
                       display: "flex",
-                      alignItems: "center",
+                      alignItems: "start",
                       width: "100%",
+                      flexDirection: "column",
                       flexDirection: "column",
                       justifyContent: "space-between",
                       '& .MuiFormControlLabel-label': {

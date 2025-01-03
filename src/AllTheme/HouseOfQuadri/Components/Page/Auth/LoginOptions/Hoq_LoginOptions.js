@@ -13,7 +13,7 @@ const LoginOption = () => {
   const search = location?.search;
   const redirectEmailUrl = `/ContinueWithEmail/${search}`;
 
-  const redirectMobileUrl = `/ContimueWithMobile/${search}`;
+  const redirectMobileUrl = `/ContinueWithMobile/${search}`;
 
   const LoginMail = () => {
     try {

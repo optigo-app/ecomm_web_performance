@@ -1709,7 +1709,7 @@ const Header = () => {
                               <p
                                 style={{
                                   margin: "0px 0px 0px 6px",
-                                  fontWeight: 500,
+                                  fontWeight: 650,
                                 }}
                               >
                                 {subMenuItem.param1dataname}
@@ -1773,7 +1773,9 @@ const Header = () => {
                                   // }
                                   >
                                     {/* <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}> */}
-                                    <p className="muilist2ndSubMenutext">
+                                    <p className="muilist2ndSubMenutext" style={{
+                                      color:"#a9a9a9"
+                                    }}>
                                       {subSubMenuItem.param2dataname}
                                     </p>
                                     {/* </ListItem> */}

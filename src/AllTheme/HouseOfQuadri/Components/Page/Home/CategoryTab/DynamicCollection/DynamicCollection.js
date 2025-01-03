@@ -18,7 +18,7 @@ import { MdOutlineFilterListOff } from "react-icons/md";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { IoChevronForward } from "react-icons/io5";
-
+import Stories from 'react-insta-stories';
 import {
   findMetalColor,
   findMetalType,
@@ -59,7 +59,8 @@ import { CiHeart } from "react-icons/ci";
 import { CartAndWishListAPI } from "../../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { Hoq_CartCount, Hoq_WishCount } from "../../../../Recoil/atom";
 import { RemoveCartAndWishAPI } from "../../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
-
+import imagnotfound from './../../../../Assets/noImageFound.jpg';
+import { ProductListConfig, ReactStoriesConfig } from "../../../../Config/ReactStoriesConfig";
 const DynamicCollection = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const location = useLocation();
@@ -1355,6 +1356,7 @@ const DynamicCollection = () => {
     </Typography>
   );
 
+
   return (
     <>
       <div className="hoq_dynamic_Collections">
@@ -2226,6 +2228,7 @@ const DynamicCollection = () => {
                 {productListData.map((val, i) => (
                   <C_Card
                     key={i}
+                    index={i}
                     img={ImageUrl(val?.designno, val?.ImageExtension)}
                     videoUrl={VideoUrl(1, val?.designno, val?.VideoExtension)}
                     rollUpImage={RollUpImageUrl2(
@@ -2303,6 +2306,7 @@ const Banner = () => {
 };
 const C_Card = ({
   img,
+  index,
   title,
   videoUrl,
   rollUpImage,
@@ -2321,7 +2325,14 @@ const C_Card = ({
 
   const [isHover, setisHover] = useState(false);
   const [isPlusClicked, SetisPlusClicked] = useState(false);
+  const [resetKey, setResetKey] = useState(0); // A key to reset the story component
+  const selectedProduct = ProductListConfig && ProductListConfig?.find(product => product?.designNo === designo);
 
+  const handleMouseEnter = () => {
+    setResetKey(prevKey => prevKey + 1); // Update the key to force re-initialization of the component
+  };
+
+  console.log(process.env.NODE_ENV,"env")
   return (
     <div className="C_Card" onMouseLeave={() => SetisPlusClicked(false)}>
       <div className="hoq_product_label">
@@ -2394,14 +2405,16 @@ const C_Card = ({
               : false
           }
         />
-      </div>
-      <div
+        </div>
+        <div
         onClick={() => handleMoveToDetail(productData)}
         className="image"
         style={{ border: "none" }}
         onMouseOver={() => setisHover(true)}
         onMouseOut={() => setisHover(false)}
-      >
+        onMouseEnter={handleMouseEnter}
+        >
+        {selectedProduct  && <StoryLine resetKey={resetKey} selectedProduct={selectedProduct} />}
         {isHover && (videoUrl || rollUpImage) ? (
           <>
             {videoUrl ? (
@@ -2432,72 +2445,12 @@ const C_Card = ({
             alt=""
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+              e.target.src = imagnotfound;
             }}
           />
         )}
       </div>
-      {/* <div
-        className="hoq_cart_and_wishlist_icon"
-        style={{
-          bottom: isPlusClicked ? "9.5rem" : "",
-          opacity: isPlusClicked ? "" : "0.2",
-        }}
-      >
-        <Checkbox
-          icon={
-            <h1 style={{ fontSize: "0.9rem", margin: 0, fontWeight: "600" }}>
-              <IoBagHandleOutline color="green" size={"20px"} /> Add To Cart
-            </h1>
-          }
-          checkedIcon={
-            <h1 style={{ fontSize: "0.9rem", margin: 0, fontWeight: "600" }}>
-              {" "}
-              <IoBagHandleOutline color="green" size={"20px"} /> Added In Cart
-            </h1>
-          }
-          disableRipple={false}
-          sx={{
-            padding: "10px",
-            fontSize: "0.5rem",
-            padding: "10px 15px",
-            borderRadius: "1px",
-          }}
-          className="cart"
-          // onChange={(e) => handleCartandWish(e, productData, "Cart")}
-          // checked={
-          //   cartArr[productData?.autocode] ?? productData?.IsInCart === 1
-          //     ? true
-          //     : false
-          // }
-        />
-        <Checkbox
-          icon={
-            <h1 style={{ fontSize: "0.9rem", margin: 0, fontWeight: "600" }}>
-              <CiHeart size={"24px"}   /> Wishlist
-            </h1>
-          }
-          checkedIcon={
-            <h1 style={{ fontSize: "0.9rem", margin: 0, fontWeight: "600" }}>
-              <FaHeart size={"20px"} color="red" /> Wishlist
-            </h1>
-          }
-          disableRipple={false}
-          sx={{
-            padding: "10px",
-            fontSize: "0.5rem",
-            padding: "10px 15px",
-            borderRadius: "1px",
-          }}
-          className="wishlist"
-          // onChange={(e) => handleCartandWish(e, productData, "Wish")}
-          // checked={
-          //   wishArr[productData?.autocode] ?? productData?.IsInWish === 1
-          //     ? true
-          //     : false
-          // }
-        />
-      </div> */}
+   
       <div className="det">
         <h2 className="">
           {!title?.length > 0 ? designo : designo + "-" + title}
@@ -2561,7 +2514,9 @@ const C_Card = ({
               {findMetalColor(
                 productData?.MetalColorid
               )?.[0]?.metalcolorname?.toUpperCase()}
-              -
+              {findMetalColor(
+                productData?.MetalColorid
+              )?.[0]?.metalcolorname && "-"}
               {
                 findMetalType(
                   productData?.IsMrpBase == 1
@@ -2751,7 +2706,7 @@ const BreadcrumbMenu = ({
         {IsBreadCumShow && (
           <div className="hoq_breadcums_port" style={{ marginLeft: "3px" }}>
             {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
-            {BreadCumsObj()?.menuname && (
+            {/* {BreadCumsObj()?.menuname && (
               <span
                 onClick={() =>
                   handleBreadcums({
@@ -2761,8 +2716,18 @@ const BreadcrumbMenu = ({
               >
                 {BreadCumsObj()?.menuname}
               </span>
+            )} */}
+            {BreadCumsObj()?.menuname && (
+              <span
+                onClick={() =>
+                  handleBreadcums({
+                    [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+                  })
+                }
+              >
+                {location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname}
+              </span>
             )}
-
             {BreadCumsObj()?.FilterVal1 && (
               <span
                 onClick={() =>
@@ -2796,3 +2761,95 @@ const BreadcrumbMenu = ({
     </>
   );
 };
+const StoryLine = ({resetKey,selectedProduct})=>{
+  return <>
+    <div className="story-diamond"
+        style={{
+        position:"absolute",
+        top:"0",
+        bottom:"0",
+        overflow:"hidden" ,
+        zIndex:"9999" ,
+        height:"100%",
+        width:"100%" ,
+        backgroundColor:"red !important",
+      }}
+      >
+      <Stories
+      key={resetKey}
+      {...ReactStoriesConfig}
+      stories={selectedProduct?.images?.map((url) => ({ url }))}
+      />
+      </div>
+  </>
+}
+
+
+
+
+
+
+
+
+
+   {/* <div
+        className="hoq_cart_and_wishlist_icon"
+        style={{
+          bottom: isPlusClicked ? "9.5rem" : "",
+          opacity: isPlusClicked ? "" : "0.2",
+        }}
+      >
+        <Checkbox
+          icon={
+            <h1 style={{ fontSize: "0.9rem", margin: 0, fontWeight: "600" }}>
+              <IoBagHandleOutline color="green" size={"20px"} /> Add To Cart
+            </h1>
+          }
+          checkedIcon={
+            <h1 style={{ fontSize: "0.9rem", margin: 0, fontWeight: "600" }}>
+              {" "}
+              <IoBagHandleOutline color="green" size={"20px"} /> Added In Cart
+            </h1>
+          }
+          disableRipple={false}
+          sx={{
+            padding: "10px",
+            fontSize: "0.5rem",
+            padding: "10px 15px",
+            borderRadius: "1px",
+          }}
+          className="cart"
+          // onChange={(e) => handleCartandWish(e, productData, "Cart")}
+          // checked={
+          //   cartArr[productData?.autocode] ?? productData?.IsInCart === 1
+          //     ? true
+          //     : false
+          // }
+        />
+        <Checkbox
+          icon={
+            <h1 style={{ fontSize: "0.9rem", margin: 0, fontWeight: "600" }}>
+              <CiHeart size={"24px"}   /> Wishlist
+            </h1>
+          }
+          checkedIcon={
+            <h1 style={{ fontSize: "0.9rem", margin: 0, fontWeight: "600" }}>
+              <FaHeart size={"20px"} color="red" /> Wishlist
+            </h1>
+          }
+          disableRipple={false}
+          sx={{
+            padding: "10px",
+            fontSize: "0.5rem",
+            padding: "10px 15px",
+            borderRadius: "1px",
+          }}
+          className="wishlist"
+          // onChange={(e) => handleCartandWish(e, productData, "Wish")}
+          // checked={
+          //   wishArr[productData?.autocode] ?? productData?.IsInWish === 1
+          //     ? true
+          //     : false
+          // }
+        />
+      </div> */}

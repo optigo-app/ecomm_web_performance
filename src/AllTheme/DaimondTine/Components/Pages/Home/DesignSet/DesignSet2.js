@@ -17,7 +17,7 @@ import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions
 import { dt_homeLoading, dt_loginState } from "../../../Recoil/atom";
 import GoogleAnalytics from 'react-ga4';
 
-const DesignSet2 = () => {
+const DesignSet2 = ({data}) => {
   const designSetRef = useRef(null);
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState();
@@ -231,7 +231,8 @@ const DesignSet2 = () => {
                   <img
                     // src={ProdCardImageFunc(slide)}
                     // src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-26.jpg?height=1366&v=1638651514&width=2048"
-                    src={`${storImagePath()}/images/HomePage/DesignSet/BottomBannerDesignSet1.webp`}
+                    // src={`${storImagePath()}/images/HomePage/DesignSet/BottomBannerDesignSet1.webp`}
+                    src={data?.image?.[0]}
                     alt=""
                     className="imgBG"
                   />
