@@ -32,7 +32,8 @@ const SonasliderData = [
     },
 ];
 
-const TopSection = () => {
+const TopSection = ({data ,promoBanner}) => {
+    console.log(promoBanner,"promoBanner")
     return (
         <div className='dt_topSectionMain'>
             <Swiper
@@ -45,14 +46,16 @@ const TopSection = () => {
                 }}
                 modules={[Autoplay]}
             >
-                {sliderData.map((slide, index) => (
+                {data?.image?.slice(0,3).map((slide, index) => (
                     <SwiperSlide key={index}>
-                        <img src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} className='dt_topSectionImg' style={{ width: '100%', height: '100%', minHeight: '700px', maxHeight: "800px", objectFit: 'cover' }} loading='eager' />
+                        {/* <img src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} className='dt_topSectionImg' style={{ width: '100%', height: '100%', minHeight: '700px', maxHeight: "800px", objectFit: 'cover' }} loading='eager' /> */}
+                        <img src={slide} alt={`Slide ${index}`} className='dt_topSectionImg' style={{ width: '100%', height: '100%', minHeight: '700px', maxHeight: "800px", objectFit: 'cover' }} loading='eager' />
                     </SwiperSlide>
                 ))}
             </Swiper>
             <div className="dt_imageContainer">
-                <img src={`${storImagePath()}/images/HomePage/Banner/PromoBanner1.webp`} className="dt_centeredImg" alt="Diamondtine Banner" />
+                {/* <img src={`${storImagePath()}/images/HomePage/Banner/PromoBanner1.webp`} className="dt_centeredImg" alt="Diamondtine Banner" /> */}
+                <img src={promoBanner} className="dt_centeredImg" alt="Diamondtine Banner" />
             </div>
         </div>
     )

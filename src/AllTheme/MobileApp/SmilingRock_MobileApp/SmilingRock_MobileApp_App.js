@@ -1,5 +1,4 @@
 import React, { Suspense, useEffect } from 'react'
-import { ToastContainer } from 'react-toastify'
 import { smrMA_companyLogo, smrMA_loginState } from './Components/Recoil/atom'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import PrivateRoutes from './PrivateRoutes'
@@ -58,7 +57,7 @@ const SmilingRock_MobileApp_App = React.memo(() => {
   return (
     <div>
       <Suspense fallback={<><Loader/></>}>
-      <ToastContainer />
+       
       {(location.pathname === "/accountledgertable" ||
         location.pathname === "/accountledgerexcel" ||
         location.pathname === "/accountledgerdebit" ||

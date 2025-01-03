@@ -11,7 +11,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import CryptoJS from "crypto-js";
 import { useRecoilState, useSetRecoilState } from "recoil";
 // import { productListApiCall } from '../../../../Utils/API/ProductListAPI';
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import "./Hoq_EmailLogin.modul.scss";
 // import { DesignSet } from '../../../../Utils/API/DesignSet';
 // import { GetCount } from '../../../../Utils/API/GetCount';
@@ -310,9 +310,7 @@ export default function LoginWithEmail() {
   };
   return (
     <div className="Hoq_loginEmail">
-       <ToastContainer  style={{
-                zIndex : 999999
-            }}/>
+     
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className="loadingBarManage" />

@@ -4,14 +4,15 @@ import btnstyle from "../../../../scss/Button.module.scss";
 import { useNavigate } from "react-router-dom";
 
 const historyImage = `${storImagePath()}/Forevery/81.webp`;
-const HistoryPage = () => {
+const HistoryPage = ({data}) => {
   const navigate = useNavigate()
   return (
     <div className="for_HistoryPage">
       <div
         className="history_img"
         style={{
-          backgroundImage: `url(${historyImage})`,
+          // backgroundImage: `url(${historyImage})`,
+          backgroundImage: `url(${data?.image?.[0]})`,
         }}
       >
         <div className="details">
@@ -37,19 +38,20 @@ const HistoryPage = () => {
           </div>
         </div>
       </div>
-      <MobilePage />
+      <MobilePage img={data?.image?.[0]}/>
     </div>
   );
 };
 
 export default HistoryPage;
 
-const MobilePage = () => {
+const MobilePage = ({img}) => {
   return (
     <>
       <div className="m-h-pages">
         <div className="image">
-          <img src={historyImage} alt="" />
+          {/* <img src={historyImage} alt="" /> */}
+          <img src={img} alt="" />
         </div>
         <div className="title">
           <h1>Uncovering the Legacy of “Forevery”</h1>

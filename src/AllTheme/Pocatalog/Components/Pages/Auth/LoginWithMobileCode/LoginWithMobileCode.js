@@ -6,7 +6,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
 import { proCat_CartCount, proCat_loginState, proCat_WishCount } from '../../../Recoil/atom';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import Cookies from 'js-cookie';
 import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
@@ -149,7 +149,7 @@ export default function LoginWithMobileCode() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <ToastContainer />
+             
             <div>
                 <div className='smling-forgot-main'>
                     <p style={{

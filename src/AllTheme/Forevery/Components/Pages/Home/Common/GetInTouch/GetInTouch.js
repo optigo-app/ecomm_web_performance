@@ -4,7 +4,7 @@ import btnstyle from "../../../../scss/Button.module.scss";
 import { useNavigate } from "react-router-dom";
 const historyImage = `${storImagePath()}/Forevery/82.webp`;
 
-const GetInTouch = () => {
+const GetInTouch = ({data}) => {
   const navigate = useNavigate();
 
   return (
@@ -12,7 +12,8 @@ const GetInTouch = () => {
       <main className="main_warapper">
         <div
           className="image_overlay_getin"
-          style={{ background: `url(${historyImage})` }}
+          // style={{ background: `url(${historyImage})` }}
+          style={{ background: `url(${data?.image?.[1]})` }}
         ></div>
         <div className="image_backward_details">
           <div className="store-content ">
@@ -50,19 +51,20 @@ const GetInTouch = () => {
           </div>
         </div>
       </main>
-      <MobileView />
+      <MobileView img={data?.image?.[1]} />
     </div>
   );
 };
 
 export default GetInTouch;
 
-const MobileView = () => {
+const MobileView = ({img}) => {
   return (
     <>
       <div className="mobile-view-page">
         <div className="image">
-          <img src={historyImage} alt="" />
+          {/* <img src={historyImage} alt="" /> */}
+          <img src={img} alt="" />
         </div>
         <div className="store-content ">
           <p className="for_get_title">

@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import "./Index.modul.scss";
+import useHomeBannerImages from "../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner";
 
 const TopSection = lazy(() => import('./TopVideo/TopSection'));
 const TheDifference = lazy(() => import('./TheDifference/TheDifference'));
@@ -28,6 +29,7 @@ const JewellerySet = lazy(() => import('./JewellerySet/JewellerySet'));
 function Home() {
   const [localData, setLocalData] = useState();
   const [minHeight, setMinHeight] = useState("800px");
+  const banner = useHomeBannerImages();
 
   useEffect(() => {
     let localData = JSON?.parse(sessionStorage.getItem("storeInit"));
@@ -55,7 +57,7 @@ function Home() {
  <div className="roop_home_index_main" aria-labelledby="main-content">
     <div style={{ minHeight: minHeight }} aria-hidden="false">
       <div className="roop_home_index_Submain" role="main">
-        <TopSection aria-labelledby="top-section" />
+        <TopSection aria-labelledby="top-section" data={banner?.mainBanner} />
         
         {localData?.IsHomeAlbum === 1 && 
           <div id="home-album-section" role="region" aria-labelledby="home-album-title">
@@ -65,7 +67,7 @@ function Home() {
         
         {localData?.IsHomeTrending === 1 && 
           <div id="home-trending-section" role="region" aria-labelledby="home-trending-title">
-            <TrendingView1 />
+            <TrendingView1 data={banner?.trendingBanner} />
           </div>
         }
         

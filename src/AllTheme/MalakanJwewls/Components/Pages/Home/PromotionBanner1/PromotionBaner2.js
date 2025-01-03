@@ -2,7 +2,7 @@ import React from 'react'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import './PromotionBaner1.modul.scss'
 
-const PromotionBaner1 = () => {
+const PromotionBaner1 = ({data}) => {
 
 
 
@@ -15,12 +15,14 @@ const PromotionBaner1 = () => {
             {/* <button className='mala_promo_section2_div1_btn'>CREATE</button> */}
             {/* </div>
                 <div className='mala_promo_section2_div2'>
-                    <img src={`${storImagePath()}/images/HomePage/Banner/ring.jpg`} className='mala_promo_secton2_img' />
-                </div>
-            </div> */}
+                    {/* <img src={`${storImagePath()}/images/HomePage/Banner/ring.jpg`} className='mala_promo_secton2_img' /> */}
+                    {/* <img src={data?.image?.[0]} className='mala_promo_secton2_img' />
+                </div> */}
+            {/* </div> */} 
 
 
-            <img src={`${storImagePath()}/images/HomePage/BespokeBanner/bespokemiddlebanner.png`} className='mala_promo_secton2_img' />
+            {/* <img src={`${storImagePath()}/images/HomePage/BespokeBanner/bespokemiddlebanner.png`} className='mala_promo_secton2_img' /> */}
+            <img src={data?.image?.[0]} className='mala_promo_secton2_img' />
         </div>
     )
 }

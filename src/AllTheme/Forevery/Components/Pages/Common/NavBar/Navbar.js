@@ -46,6 +46,7 @@ import { RxCross1 } from "react-icons/rx";
 import UseNavbar from "../../../hooks/UseNavbar";
 import MobileNav from "./MobileNavbar";
 import { RiMenu2Line } from "react-icons/ri";
+import useHomeBannerImages from "../../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner";
 
 const styleHref = {
   textDecoration: "none",
@@ -57,7 +58,7 @@ const LetterImage = `${storImagePath()}/Forevery/letter-diamond-menu-banner.png`
 const BespokeImage = `${storImagePath()}/Forevery/collections/bespoke-header.webp`;
 
 const BespokeBannerImage = `${storImagePath()}/Forevery/bespoke.jpg`;
-console.log(BespokeBannerImage, "hi");
+
 
 // \\evo\My_Share\4Nidhi\website\forevery\bespoke photo.jpg
 const Navbar = () => {
@@ -853,6 +854,8 @@ const FirstNavMenu = ({
 
   const [showModal, setShowModal] = useState(false);
   const [checkIndex, setCheckIndex] = useState();
+  const banner = useHomeBannerImages();
+
 
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
   const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
@@ -1127,7 +1130,8 @@ const FirstNavMenu = ({
           </div>
         </div>
         <div className="for_third_col">
-          <img src={commonImage} alt="" />
+          {/* <img src={commonImage} alt="" /> */}
+          <img src={banner?.navbarMenu?.image?.[0]} alt="" />
         </div>
       </div>
       <Modal
@@ -1144,6 +1148,8 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const [showModal, setShowModal] = useState(false);
   const [shape, setShape] = useState();
   const Navigate = useNavigate();
+  const banner = useHomeBannerImages();
+
 
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
   const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
@@ -1241,7 +1247,8 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         </div>
       </div>
       <div className="for_third_col">
-        <img src={commonImage} alt="" />
+        {/* <img src={commonImage} alt="" /> */}
+        <img src={banner?.navbarMenu?.image?.[0]} alt="" />
       </div>
       <Modal
         open={showModal}
@@ -1256,6 +1263,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
 const ThirdNavMenu = ({ data }) => {
   const Navigate = useNavigate();
   const [menuItems, setMenuItems] = useRecoilState(for_NavbarItems);
+  const banner = useHomeBannerImages();
 
   const handelMenu = (param, param1, param2, event) => {
     if (
@@ -1411,9 +1419,11 @@ const ThirdNavMenu = ({ data }) => {
             // style={{ backgroundImage: `url(${BespokeBannerImage})` }}
             >
               <img
-                src={BespokeBannerImage}
+                // src={BespokeBannerImage}
+                src={banner?.navbarMenu?.image?.[1]} 
                 alt=""
                 onClick={() => {
+                  
                   Navigate(`/bespoke-jewelry`);
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
@@ -1452,6 +1462,8 @@ const ThirdNavMenu = ({ data }) => {
   );
 };
 const FourNavMenu = ({ data }) => {
+  const banner = useHomeBannerImages();
+
   return (
     <>
       <div className="Fourth_Nav_first_Menu">
@@ -1504,7 +1516,9 @@ const FourNavMenu = ({ data }) => {
           </div>
         </div>
         <div className="for_third_col">
-          <img src={commonImage} alt="" />
+          {/* <img src={commonImage} alt="" /> */}
+          <img src={banner?.navbarMenu?.image?.[0]} alt="" />
+
         </div>
       </div>
     </>

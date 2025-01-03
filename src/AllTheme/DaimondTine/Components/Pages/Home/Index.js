@@ -3,6 +3,7 @@ import { storImagePath, storInitDataPath } from '../../../../../utils/Glob_Funct
 import './Index.modul.scss'
 import { useRecoilValue } from 'recoil';
 import { dt_homeLoading } from '../../Recoil/atom';
+import useHomeBannerImages from './../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
 
 // Lazy load components
 const TopSection = lazy(() => import('./TopSection/TopSection'));
@@ -15,9 +16,12 @@ const TrendingView1 = lazy(() => import('./TrandingView/TrendingView1'));
 const DesignSet2 = lazy(() => import('./DesignSet/DesignSet2'));
 const Demo = lazy(() => import('./Demo'));
 function Home() {
+
   const [localData, setLocalData] = useState();
   const [htmlContent, setHtmlContent] = useState("");
   const isLoadingHome = useRecoilValue(dt_homeLoading);
+  const banner = useHomeBannerImages();
+
 
 
   useEffect(() => {
@@ -49,19 +53,19 @@ function Home() {
       {htmlContent?.rd && htmlContent?.rd.length > 0 && (
         <div>
           <Suspense fallback={<div></div>}>
-            <TopSection />
+            <TopSection data={banner?.mainBanner} promoBanner={banner?.middleBanner?.image?.[0]}/>
             {htmlContent?.rd[0]?.IsHomeAlbum === 1 && <Album1 />}
-            {htmlContent?.rd[0]?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
+            {htmlContent?.rd[0]?.IsHomeBestSeller === 1 && <BestSellerSection1 data={banner?.bestsellerBanner} />}
             {htmlContent?.rd[0]?.IsHomeNewArrival === 1 && <NewArrival />}
-            {htmlContent?.rd[0]?.IsHomeTrending === 1 && <TrendingView1 />}
-            {htmlContent?.rd[0]?.IsHomeDesignSet === 1 && <DesignSet2 />}
+            {htmlContent?.rd[0]?.IsHomeTrending === 1 && <TrendingView1 data={banner?.trendingBanner} />}
+            {htmlContent?.rd[0]?.IsHomeDesignSet === 1 && <DesignSet2  data={banner?.lookbookBanner}/>}
             {isLoadingHome ? (
               <div className="dat_Home_loader_container">
                 <div className="dt_Home_loader"></div>
               </div>
             ) : (
               <>
-                <SocialMedia />
+                <SocialMedia  data={banner?.socialMediaBanner2} />
                 <Footer />
               </>
             )}

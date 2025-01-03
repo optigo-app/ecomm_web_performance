@@ -129,6 +129,7 @@ export default function Account() {
     return (
         <div className='account_AccountTab_SMR'>
         <div className=' accountPagTabSection'>
+            
             <div>
                 <div className='Smiling-AccountMain'>
                     <div className='sticky-header_web_sm'>

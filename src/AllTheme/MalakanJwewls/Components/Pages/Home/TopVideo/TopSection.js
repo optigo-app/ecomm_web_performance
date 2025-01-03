@@ -3,11 +3,12 @@ import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunc
 import { motion } from "framer-motion";
 import "./TopSection.modul.scss";
 
-const TopSection = () => {
+const TopSection = ({data}) => {
+  console.log(data)
   const [isLoaded, setIsLoaded] = useState(false);
 
   const style = {
-    backgroundImage: `url(${storImagePath()}/images/HomePage/TopSection/top.png)`,
+    backgroundImage: `url(${data?.image?.[0]})`,
   };
 
   const fadeFromLeft = {

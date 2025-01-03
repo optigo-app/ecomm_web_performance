@@ -2,8 +2,8 @@ import React from "react";
 import "./LabgrownDiamondInfo.scss";
 import { storImagePath } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 
-const bgImage = `${storImagePath()}/Forevery/home/labgrownBanner/142.webp`;
-const LabgrownDiamondInfo = () => {
+// const bgImage = `${storImagePath()}/Forevery/home/labgrownBanner/142.webp`;
+const LabgrownDiamondInfo = ({data}) => {
   return (
     <>
       <div className="for_LabgrownDiamondInfo">
@@ -14,7 +14,8 @@ const LabgrownDiamondInfo = () => {
           // }}
         >
           <div className="banner-wrap ">
-            <img className="bg-img-for" src={bgImage} alt="" />
+            {/* <img className="bg-img-for" src={bgImage} alt="" /> */}
+            <img className="bg-img-for" src={data?.image?.[0]} alt="" />
             <div className="main_wrap_title">
               <div className="title_head">Lab Grown Diamonds</div>
               <p className="paragraph">
@@ -86,14 +87,14 @@ const LabgrownDiamondInfo = () => {
           </div>
         </section>
       </div>
-      <MobileInfo />
+      <MobileInfo bgImage={data?.image?.[0]}/>
     </>
   );
 };
 
 export default LabgrownDiamondInfo;
 
-const MobileInfo = () => {
+const MobileInfo = ({bgImage}) => {
   return (
     <>
       <div className="mobile_info_for">

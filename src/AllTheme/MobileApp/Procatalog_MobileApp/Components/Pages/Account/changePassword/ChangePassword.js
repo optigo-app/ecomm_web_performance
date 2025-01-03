@@ -5,7 +5,7 @@ import { Box, CircularProgress, IconButton, InputAdornment, Tab, Tabs, TextField
 import { useNavigate } from 'react-router-dom';
 import './changepassword.scss'
 import { handleChangePassword } from '../../../../../../../utils/API/AccountTabs/changePassword';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import MobViewHeader from "../MobViewHeader/MobViewHeader";
 import { handlePasswordInputChangeAcc, validateChangePassword } from '../../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 export default function ChangePassword() {
@@ -132,7 +132,7 @@ export default function ChangePassword() {
 
     return (
         <div className='changePassword_Account_PCMJ'>
-        <ToastContainer />
+         
 
         <div className='sticky-header'>
             <MobViewHeader title="Change Your Password" />

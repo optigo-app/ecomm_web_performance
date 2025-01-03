@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import './changepassword.scss'
 import { handleChangePassword } from '../../../../../../utils/API/AccountTabs/changePassword';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { handlePasswordInputChangeAcc, validateChangePassword } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 
 export default function ChangePassword() {
@@ -134,7 +134,7 @@ export default function ChangePassword() {
 
     return (
         <div className='changePassword_PCJ'>
-        <ToastContainer />
+         
         <div>
             {isLoading && (
                 <div className="loader-overlay">

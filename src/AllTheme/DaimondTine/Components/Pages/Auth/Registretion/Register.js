@@ -156,7 +156,7 @@ export default function Register() {
   };
 
   const handleSubmit = async (e) => {
-    e?.preventDefault();
+    e.preventDefault();
 
     const errors = {};
     if (!firstName.trim()) {
@@ -246,9 +246,11 @@ export default function Register() {
             className='AuthScreenRegisterMainTitle'
           >Register</p>
 
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <form noValidate style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} 
+          onSubmit={handleSubmit}>
             <TextField
               autoFocus
+               name="user-firstName"
               id="outlined-basic"
               label="First Name"
               variant="outlined"
@@ -264,6 +266,7 @@ export default function Register() {
             />
 
             <TextField
+               name="user-lastName"
               id="outlined-basic"
               label="Last Name"
               variant="outlined"
@@ -279,11 +282,13 @@ export default function Register() {
             />
 
             <TextField
-              id="outlined-basic"
-              label="Mobile No."
+                          name="user-mobileNo"
+              id="outlined-basic mobileNo"
+              label="Mobile No"
               variant="outlined"
               className='dt_register_labgrowRegister'
               style={{ margin: '15px' }}
+              autoComplete="new-mobileNo" // Explicitly telling the browser not to autocomplete this field
               value={mobileNo}
               inputRef={mobileNoRef}
               onKeyDown={(e) => handleKeyDown(e, emailRef)}
@@ -293,7 +298,8 @@ export default function Register() {
             />
 
             <TextField
-              id="outlined-basic"
+                          name="user-email"
+              id="outlined-basic email"
               label="Email"
               autoComplete="ne-Email"
               variant="outlined"
@@ -308,7 +314,8 @@ export default function Register() {
             />
 
             <TextField
-              id="outlined-password-input"
+                          name="user-password"
+              id="outlined-password-input password"
               label="Password"
               autoComplete="enter-NewPass-Word"
               type={showPassword ? 'text' : 'password'}
@@ -337,9 +344,10 @@ export default function Register() {
             />
 
             <TextField
-              id="outlined-confirm-password-input"
+                           name="user-confirmPassword"
+              id="outlined-confirm-password-input  confirmPassword"
               label="Confirm Password"
-              autoComplete="Enetr-NewConfirm-Pass"
+              autoComplete="new-password" // Explicitly telling the browser not to autocomplete this field
               type={showConfirmPassword ? 'text' : 'password'}
               className='dt_register_labgrowRegister'
               style={{ margin: '15px' }}
@@ -369,14 +377,14 @@ export default function Register() {
               }}
             />
 
-            <button className='submitBtnForgot' onClick={handleSubmit}>CREATE ACCOUNT</button>
+            <button type='submit' className='submitBtnForgot' >CREATE ACCOUNT</button>
 
             {/* <div style={{ display: 'flex', marginTop: '10px' }}>
               <input type='checkbox' />
               <p style={{ margin: '5px' }}>Subscribe to our newsletter</p>
             </div> */}
             <Button style={{ marginTop: '10px', color: 'gray', marginBottom: '20px' }} onClick={() => navigation('/LoginOption')}>BACK</Button>
-          </div>
+          </form>
         </div>
       </div>
       <Footer />

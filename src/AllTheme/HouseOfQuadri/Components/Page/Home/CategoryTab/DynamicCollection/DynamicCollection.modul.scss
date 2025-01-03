@@ -557,6 +557,29 @@ $settedcOLOR: rgba(112, 128, 144, 0.096);
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: 0.3s ease-in-out;
+              .story-diamond{
+                  z-index: 100 !important;
+                  opacity: 0;
+                  visibility: hidden;  // Hidden by default
+                  opacity: 0;
+                  transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;  // Smooth fade-in and delay for visibility
+                  pointer-events: none;  // Avoid interaction when hidden
+              
+                  img{
+                    width: 100%;
+                    background-color: unset !important;
+                  }
+              }
+              &:hover{
+                  transition: 0.3s ease-in-out;
+                  .story-diamond{
+                    visibility: visible;  // Make it visible on hover
+                    opacity: 1;  // Fade in the .story-diamond
+                    transition: opacity 0.3s ease-in-out, visibility 0s linear 0s;  // Smooth opacity fade and immediate visibility change
+                  }  
+              }
+          
             .rollup_video {
               position: absolute;
               z-index: 45;

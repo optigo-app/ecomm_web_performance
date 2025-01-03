@@ -3,7 +3,7 @@ import "./Hoq_LoginWithMobile.modul.scss";
 import React, { useState } from "react";
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import { ContimueWithMobileAPI } from "../../../../../../utils/API/Auth/ContimueWithMobileAPI";
 
 export default function ContimueWithMobile() {
@@ -105,9 +105,7 @@ export default function ContimueWithMobile() {
 
   return (
     <div className="Hoq_continuMobile">
-      <ToastContainer  style={{
-                zIndex : 999999
-            }}/>
+  
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className="loadingBarManage" />

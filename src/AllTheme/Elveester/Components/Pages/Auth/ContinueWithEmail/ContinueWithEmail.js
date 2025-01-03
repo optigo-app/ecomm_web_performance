@@ -3,7 +3,6 @@ import './ContinueWithEmail.modul.scss';
 import { Button, CircularProgress, TextField } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { ToastContainer } from 'react-toastify';
 import { ContinueWithEmailAPI } from '../../../../../../utils/API/Auth/ContinueWithEmailAPI';
 
 export default function ContinueWithEmail() {
@@ -71,7 +70,6 @@ export default function ContinueWithEmail() {
 
     return (
         <div className='el_ContinueEmailMain' style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
-            <ToastContainer style={{ zIndex: '11111111111' }} />
 
             {isLoading && (
                 <div className="loader-overlay">
