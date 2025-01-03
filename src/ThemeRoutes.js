@@ -52,6 +52,7 @@ import {
   stam_companyLogo,
   stam_companyLogoM,
 } from "./AllTheme/StamFordJewels/Components/Recoil/atom";
+import { fetchPayMaster } from "./utils/API/OrderFlow/Paymaster";
 
 const SmilingRock_MobileApp_App = React.lazy(() =>
   import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
@@ -62,9 +63,9 @@ const SmilingRock_MobileApp_App = React.lazy(() =>
 // const Procatalog_App = React.lazy(() =>
 //   import("./AllTheme/Pocatalog/Procatalog_App")
 // );
-// const HouseOfQuadri_App = React.lazy(() =>
-//   import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
-// );
+const HouseOfQuadri_App = React.lazy(() =>
+  import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
+);
 // const ForEveryRoutes = React.lazy(() =>
 //   import("./AllTheme/Forevery/ForeveryRoutes")
 // );
@@ -310,6 +311,30 @@ export default function ThemeRoutes() {
     }
   }, [htmlContent]);
 
+    //paymaster
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const storedPayMaster = sessionStorage.getItem('payMaster');
+  
+          if (storedPayMaster) {
+            console.log('payMaster from session storage: ', JSON.parse(storedPayMaster));
+          } else {
+            const payMaster = await fetchPayMaster();
+            const res = payMaster?.Data?.rd;
+            console.log('payMaster from API: ', res);
+            sessionStorage.setItem('payMaster', JSON.stringify(res));
+          }
+        } catch (error) {
+          console.error('Error fetching or retrieving payMaster:', error);
+        }
+      };
+      const timer = setTimeout(() => {
+        fetchData();
+      }, 5000);
+      return () => clearTimeout(timer);
+    }, []);
+
   return (
     <>
       {storeInitData?.DomainForNo == 2 ? (
@@ -411,7 +436,7 @@ const Themes = ({ htmlContent }) => {
   return (
     <>
          <Suspense fallback={<></>}>
-          {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
+          {/* {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />} */}
 
           {/* {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />} */} 
           {/* {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
@@ -423,9 +448,9 @@ const Themes = ({ htmlContent }) => {
 
           {/* {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />} */}
 
-          {/* {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
+          {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
-          {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
+          {/*{htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
 
           {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />} 
 

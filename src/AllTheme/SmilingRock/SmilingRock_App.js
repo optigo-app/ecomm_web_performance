@@ -154,31 +154,6 @@ const SmilingRock_App = () => {
   }, []);
 
 
-  //paymaster
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const storedPayMaster = sessionStorage.getItem('payMaster');
-
-  //       if (storedPayMaster) {
-  //         console.log('payMaster from session storage: ', JSON.parse(storedPayMaster));
-  //       } else {
-  //         const payMaster = await fetchPayMaster();
-  //         const res = payMaster?.Data?.rd;
-  //         console.log('payMaster from API: ', res);
-  //         sessionStorage.setItem('payMaster', JSON.stringify(res));
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching or retrieving payMaster:', error);
-  //     }
-  //   };
-  //   const timer = setTimeout(() => {
-  //     fetchData();
-  //   }, 3000);
-  //   return () => clearTimeout(timer);
-  // }, []);
-
-
   // if (islogin === true) {
   //   const restrictedPaths = [
   //     '/LoginOption',

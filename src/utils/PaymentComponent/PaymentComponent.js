@@ -230,29 +230,33 @@ export default function PaymentComponent() {
                                         <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
                                             Where should we deliver?
                                         </Typography>
-                                        <Paper
-                                            elevation={0}
-                                            sx={{
-                                                bgcolor: 'background.default',
-                                                p: 2,
-                                                borderRadius: 2,
-                                                mb: 2,
-                                            }}
-                                        >
-                                            <Typography variant="body1" fontWeight="bold" sx={{ textTransform: 'capitalize' }}>
-                                                {`${selectedAddrData?.shippingfirstname || ''} ${selectedAddrData?.shippinglastname || ''}`}
+                                        {!isPloding ? (
+                                            <Paper
+                                                elevation={0}
+                                                sx={{
+                                                    bgcolor: '#f5f5f5',
+                                                    p: 2,
+                                                    borderRadius: 2,
+                                                    mb: 2,
+                                                }}
+                                            >
+                                                <Typography variant="body1" fontWeight="bold" sx={{ textTransform: 'capitalize' }}>
+                                                    {`${selectedAddrData?.shippingfirstname || ''} ${selectedAddrData?.shippinglastname || ''}`}
 
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary" >
-                                                {selectedAddrData?.street}
-                                                <br />
-                                                {selectedAddrData?.city}-{selectedAddrData?.zip}
-                                                <br />
-                                                {selectedAddrData?.state}
-                                                <br />
-                                                {selectedAddrData?.shippingmobile}
-                                            </Typography>
-                                        </Paper>
+                                                </Typography>
+                                                <Typography variant="body2" color="text.secondary" >
+                                                    {selectedAddrData?.street}
+                                                    <br />
+                                                    {selectedAddrData?.city}-{selectedAddrData?.zip}
+                                                    <br />
+                                                    {selectedAddrData?.state}
+                                                    <br />
+                                                    {selectedAddrData?.shippingmobile}
+                                                </Typography>
+                                            </Paper>
+                                        ) :
+                                            <Skeleton variant="image" height="120px" width='100%' />
+                                        }
                                         <>
                                             <Link
                                                 className="proCat_addorderRemarkbtn"
@@ -269,7 +273,7 @@ export default function PaymentComponent() {
                                                 <Paper
                                                     elevation={0}
                                                     sx={{
-                                                        bgcolor: 'background.default',
+                                                        bgcolor: '#f5f5f5',
                                                         p: 2,
                                                         borderRadius: 2,
                                                         mb: 2,
