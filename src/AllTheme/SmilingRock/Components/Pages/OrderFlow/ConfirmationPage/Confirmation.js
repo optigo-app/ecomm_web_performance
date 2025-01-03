@@ -5,26 +5,42 @@ import ThankYouImage from "../../../Assets/thankyou.svg"
 import { useNavigate } from 'react-router-dom';
 import { FaPrint } from 'react-icons/fa';
 import { handelOpenMenu } from '../../../../../../utils/Glob_Functions/Cart_Wishlist/handleOpenMenu';
+import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import { useSetRecoilState } from 'recoil';
+import { CartCount } from '../../../Recoil/atom'
 
 const Confirmation = () => {
     const navigate = useNavigate();
     const [orderNo, setOrderNo] = useState();
     const [storeInit, setStoreInit] = useState();
+    const setCartCountVal = useSetRecoilState(CartCount); 
+    
+    // for cart count
+    useEffect(() => {
+        const fetchCartCount = async () => {
+            try {
+                const cartCount = await GetCountAPI();
+                setCartCountVal(cartCount?.cartcount);
+            } catch (error) {
+                console.error("Error fetching cart count:", error);
+            }
+        };
+    
+        fetchCartCount();
+    }, []);
+
 
     const setCSSVariable = () => {
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
         document.documentElement.style.setProperty(
-          "--background-color",
-          backgroundColor
+            "--background-color",
+            backgroundColor
         );
-      };
-    
+    };
 
     useEffect(() => {
-
         setCSSVariable();
-        
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeInit);
         let orderNo = sessionStorage.getItem('orderNumber')
@@ -40,7 +56,7 @@ const Confirmation = () => {
         }
         sessionStorage.removeItem("TotalPriceData");
     }
-    
+
     function scrollToTop() {
         window.scrollTo({
             top: 0,

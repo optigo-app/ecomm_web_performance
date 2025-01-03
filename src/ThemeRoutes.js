@@ -52,6 +52,7 @@ import {
   stam_companyLogo,
   stam_companyLogoM,
 } from "./AllTheme/StamFordJewels/Components/Recoil/atom";
+import { fetchPayMaster } from "./utils/API/OrderFlow/Paymaster";
 
 // const SmilingRock_MobileApp_App = React.lazy(() =>
 //   import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
@@ -327,6 +328,30 @@ export default function ThemeRoutes() {
       setStoreInitData(data);
     }
   }, [htmlContent]);
+
+    //paymaster
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const storedPayMaster = sessionStorage.getItem('payMaster');
+  
+          if (storedPayMaster) {
+            console.log('payMaster from session storage: ', JSON.parse(storedPayMaster));
+          } else {
+            const payMaster = await fetchPayMaster();
+            const res = payMaster?.Data?.rd;
+            console.log('payMaster from API: ', res);
+            sessionStorage.setItem('payMaster', JSON.stringify(res));
+          }
+        } catch (error) {
+          console.error('Error fetching or retrieving payMaster:', error);
+        }
+      };
+      const timer = setTimeout(() => {
+        fetchData();
+      }, 5000);
+      return () => clearTimeout(timer);
+    }, []);
 
   return (
     <>
