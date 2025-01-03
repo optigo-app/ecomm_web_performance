@@ -209,7 +209,7 @@ const TrendingView1 = () => {
 
                         {validImages?.map((item, index) => {
                             return (
-                                <SwiperSlide key={index}>
+                                <SwiperSlide key={index} className='mala_trend_slider'>
                                     <div className="malakan_trend__image_div" >
                                         <img
                                             className="malakan_trendImg"

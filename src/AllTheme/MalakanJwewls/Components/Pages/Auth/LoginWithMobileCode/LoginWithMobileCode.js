@@ -113,7 +113,7 @@ export default function LoginWithMobileCode() {
                         textAlign: 'center',
                         padding: '0px',
                         margin: '0px',
-                        fontSize: '40px',
+                        fontSize: '32px',
                         color: '#fff',
                     }}
                         className='AuthScreenMainTitle'

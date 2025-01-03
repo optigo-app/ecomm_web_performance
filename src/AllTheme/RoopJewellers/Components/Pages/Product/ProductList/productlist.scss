@@ -304,7 +304,7 @@
     height: 8.5rem;
 
     @media screen and (max-width: 560px) {
-      height: 6.5rem;
+      height: 5.5rem;
     }
   }
 
@@ -474,8 +474,8 @@
 
   .roop_price {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     color: $primaryfontcolor;
     gap: 2px;
     font-family: $fontRegular;
@@ -485,7 +485,7 @@
 
     .roop_currencyFont {
       font-weight: bolder;
-      font-size: 14px;
+      // font-size: 14px;
 
       @media (max-width: 375px) {
         font-size: 11px;

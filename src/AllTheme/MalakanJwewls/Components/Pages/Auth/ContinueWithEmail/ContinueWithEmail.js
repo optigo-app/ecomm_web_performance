@@ -138,7 +138,7 @@ export default function ContinueWithEmail() {
               textAlign: "center",
               padding: "0px",
               margin: "0px",
-              fontSize: "40px",
+              fontSize: "32px",
               color: "#fff",
             }}
             className="AuthScreenMainTitle"
@@ -149,7 +149,7 @@ export default function ContinueWithEmail() {
             style={{
               textAlign: "center",
               margin: "0px",
-              fontSize: "15px",
+              fontSize: "13px",
               color: "#fff",
             }}
             className="AuthScreenSubTitle"

@@ -42,9 +42,9 @@ const TopSection = () => {
         animate={isLoaded ? "visible" : "hidden"}
         variants={fadeFromLeft}
       >
-        <h1>Made</h1>
-        <h1>Without</h1>
-        <h1>Rules</h1>
+        <h1>Shine</h1>
+        <h1>With</h1>
+        <h1>Elegance</h1>
       </motion.div>
     </div>
   );

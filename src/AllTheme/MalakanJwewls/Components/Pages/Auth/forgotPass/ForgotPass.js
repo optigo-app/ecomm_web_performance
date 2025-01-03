@@ -130,7 +130,7 @@ export default function ForgotPass() {
                         textAlign: 'center',
                         padding: '60px',
                         margin: '0px',
-                        fontSize: '40px',
+                        fontSize: '32px',
                         color: '#fff',
                     }}
 

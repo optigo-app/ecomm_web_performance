@@ -1,15 +1,19 @@
 @import "../../../scss/variable";
 
-@mixin Truncate($lines: 1, $font-size: 13px, $font-weight: 400 ,$height : auto) {
+@mixin Truncate($lines: 1, $font-size: 13px, $font-weight: 400, $height : auto) {
   font-size: $font-size;
   font-weight: $font-weight;
   width: 100%;
-  height:$height ;
+  height: $height ;
   display: -webkit-box;
   text-align: center;
   -webkit-line-clamp: $lines;
   -webkit-box-orient: vertical;
   overflow: hidden;
+
+  @media (max-width: 600px) {
+    font-size: 10px;
+  }
 }
 
 
@@ -290,6 +294,7 @@
 
       .fmg_mal1_prodBtn_proBtn_text {
         color: white !important;
+        font-size: $fontSize2;
       }
     }
   }
@@ -303,10 +308,9 @@
     flex-direction: row-reverse;
   }
 
-  .titleline_malakan{
-    @include  Truncate(1);
+  .titleline_malakan {
+    @include Truncate(1, 12px);
     padding: 0 5px;
-    
   }
 
   .smr1_prod_title_with_width {
@@ -392,18 +396,18 @@
   }
 
   .mala_main_keys {
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .mala_main_val {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 400;
   }
 
   .mala_prod_mtcolr_price {
     display: flex;
     justify-content: center;
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 500;
     gap: 3px;
     font-family: $primaryFontFamily;
@@ -417,7 +421,7 @@
     justify-content: center;
     color: $primaryfontcolor;
     gap: 2px;
-    font-size: 14px;
+    font-size: 12px;
     // font-weight: 600;
 
     // .mala_currencyFont{
@@ -494,7 +498,7 @@
     color: white;
     text-transform: uppercase;
     width: 70px;
-    font-size: 10px;
+    font-size: 9px;
   }
 
   .smrWeb_app_bestSeller {
@@ -509,7 +513,7 @@
     color: white;
     text-transform: uppercase;
     width: 70px;
-    font-size: 10px;
+    font-size: 9px;
   }
 
   .mala_intrending {
@@ -539,7 +543,7 @@
     color: white;
     text-transform: uppercase;
     width: 70px;
-    font-size: 10px;
+    font-size: 9px;
   }
 
 
@@ -555,7 +559,7 @@
     color: white;
     text-transform: uppercase;
     width: 70px;
-    font-size: 10px;
+    font-size: 9px;
   }
 
   // .mala_shorcutCustomization{
@@ -736,11 +740,11 @@
     }
 
     .mala_price {
-      font-size: 10px;
+      font-size: 8px;
     }
 
     .mala_prod_mtcolr_price {
-      font-size: 10px;
+      font-size: 8px;
     }
 
     .mala_prod_designno {
@@ -752,11 +756,11 @@
     }
 
     .mala_main_keys {
-      font-size: 9px !important;
+      font-size: 10px !important;
     }
 
     .mala_main_val {
-      font-size: 9px !important;
+      font-size: 10px !important;
     }
 
   }
@@ -794,6 +798,25 @@
 
     .mala_main_val {
       font-size: 9px !important;
+    }
+  }
+
+  @media screen and (max-width:450px) {
+    .mala_prod_Allwt {
+      height: 30px;
+      line-height: 15px;
+    }
+
+    .fmg_mal1_prodBtn_proBtn_text {
+      font-size: 10.5px !important;
+    }
+
+    .mala_main_keys {
+      font-size: 8px !important;
+    }
+
+    .mala_main_val {
+      font-size: 8px !important;
     }
   }
 

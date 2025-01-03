@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import SmilingRock_App from "./AllTheme/SmilingRock/SmilingRock_App";
-// import DaimondTine_App from "./AllTheme/DaimondTine/DaimondTine_App";
-// import Elveester_App from "./AllTheme/Elveester/Elveester_App";
+import DaimondTine_App from "./AllTheme/DaimondTine/DaimondTine_App";
+import Elveester_App from "./AllTheme/Elveester/Elveester_App";
 import { Storeinit } from "./utils/API/Home/Storeinit/Storeinit";
 import { CurrencyComboAPI } from "./utils/API/Combo/CurrencyComboAPI";
 import { MetalColorCombo } from "./utils/API/Combo/MetalColorCombo";
@@ -56,30 +56,30 @@ import {
 const SmilingRock_MobileApp_App = React.lazy(() =>
   import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
 );
-// const HemratnaProcatalog_App = React.lazy(() =>
-//   import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
-// );
-// const Procatalog_App = React.lazy(() =>
-//   import("./AllTheme/Pocatalog/Procatalog_App")
-// );
-// const HouseOfQuadri_App = React.lazy(() =>
-//   import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
-// );
-// const ForEveryRoutes = React.lazy(() =>
-//   import("./AllTheme/Forevery/ForeveryRoutes")
-// );
-// const Procatalog_MobileApp_App = React.lazy(() =>
-//   import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
-// );
-// const StamFordJewels_App = React.lazy(() =>
-//   import("./AllTheme/StamFordJewels/StamFordJewels_App")
-// );
-// const RoopJewellers_App = React.lazy(() =>
-//   import("./AllTheme/RoopJewellers/RoopJewellers_App")
-// );
-// const MalakanJewels_App = React.lazy(() =>
-//   import("./AllTheme/MalakanJwewls/MalakanJewels_App")
-// );
+const HemratnaProcatalog_App = React.lazy(() =>
+  import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
+);
+const Procatalog_App = React.lazy(() =>
+  import("./AllTheme/Pocatalog/Procatalog_App")
+);
+const HouseOfQuadri_App = React.lazy(() =>
+  import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
+);
+const ForEveryRoutes = React.lazy(() =>
+  import("./AllTheme/Forevery/ForeveryRoutes")
+);
+const Procatalog_MobileApp_App = React.lazy(() =>
+  import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
+);
+const StamFordJewels_App = React.lazy(() =>
+  import("./AllTheme/StamFordJewels/StamFordJewels_App")
+);
+const RoopJewellers_App = React.lazy(() =>
+  import("./AllTheme/RoopJewellers/RoopJewellers_App")
+);
+const MalakanJewels_App = React.lazy(() =>
+  import("./AllTheme/MalakanJwewls/MalakanJewels_App")
+);
 
 export default function ThemeRoutes() {
   const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo);
@@ -410,31 +410,31 @@ const MetaData2 = ({ title, isHaveSub = false }) => {
 const Themes = ({ htmlContent }) => {
   return (
     <>
-         <Suspense fallback={<></>}>
-          {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
+      <Suspense fallback={<></>}>
+        {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
 
-          {/* {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />} */} 
-          {/* {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
+        {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
+        {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 
-          {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
+        {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
 
-          {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />} */}
+        {/* {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />} */}
 
-          {/* {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />} */}
+        {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
-          {/* {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
+        {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
-          {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
+        {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
 
-          {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />} 
+        {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
 
-          {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
+        {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
 
-          {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
+        {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
 
-          {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />} */}
-        </Suspense>
-        </>
+        {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
+      </Suspense>
+    </>
   );
 };

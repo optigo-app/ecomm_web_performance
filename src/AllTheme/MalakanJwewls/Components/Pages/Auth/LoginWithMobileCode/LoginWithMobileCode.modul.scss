@@ -120,7 +120,7 @@
         }
 
         .AuthScreenSubTitle {
-            margin-top: -60px !important;
+            margin-top: -50px !important;
         }
     }
 
@@ -147,12 +147,19 @@
 
 
         .submitBtnForgot {
-            width: 100%;
+            width: 90%;
             height: 40px !important;
         }
 
         .AuthScreenSubTitle {
             margin-top: -35px !important;
+        }
+    }
+
+    @media screen and (max-width: 430px) {
+        .submitBtnForgot {
+            width: 100%;
+            height: 40px !important;
         }
     }
 }

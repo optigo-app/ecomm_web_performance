@@ -31,9 +31,9 @@ function Home() {
 
   return (
     <>
-      <div className="stam_home_index_main">
+      <div className="mala_home_index_main">
         <div style={{ minHeight: minHeight }}>
-          <div className="stam_home_index_Submain">
+          <div className="mala_home_index_Submain">
             <TopSection />
             <ShopBanner />
             <PromotionBaner2 />

@@ -319,7 +319,7 @@ export default function LoginWithEmail() {
                         textAlign: 'center',
                         padding: '0px',
                         margin: '0px',
-                        fontSize: '40px',
+                        fontSize: '32px',
                         color: '#fff',
              
                     }}
@@ -374,7 +374,7 @@ export default function LoginWithEmail() {
                         <Button style={{ marginTop: '10px', color: 'white',fontFamily:'Rowan1' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
 
                         <button type='submit' className='SmilingLoginCodeBtn' onClick={handleNavigation}>Login With a Code instead on email</button>
-                        <p style={{ textAlign: 'center' }}>Go passwordless! we'll send you an email.</p>
+                        <p style={{ textAlign: 'center', marginTop: "1rem" }}>Go passwordless! we'll send you an email.</p>
 
                         <p style={{ color: '#fff', cursor: 'pointer',textDecoration:"underline" }} onClick={handleForgotPassword}>Forgot Password ?</p>
                     </div>

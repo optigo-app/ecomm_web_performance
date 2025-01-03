@@ -146,4 +146,16 @@
         }
 
     }
+
+    @media screen and (max-width: 400px) {
+        .AuthScreenMainTitle {
+            font-size: 25px !important;
+            padding-bottom: 50px !important;
+            padding-inline: 20px !important;
+        }
+
+        .AuthScreenSubTitle{
+            margin-top: -60px!important;
+        }
+    }
 }

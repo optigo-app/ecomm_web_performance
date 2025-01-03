@@ -9,6 +9,7 @@ import AddressCard from './AddressCard';
 import DeleteDialog from './DeleteDialog';
 import { OrderFlowCrumbs } from '../../Cart/OrderFlowCrumbs';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { ToastContainer } from 'react-toastify';
 
 const Delivery = () => {
     const {
@@ -89,6 +90,7 @@ const Delivery = () => {
     return (
         <>
             <div className="elv_delivery_Main_div">
+                <ToastContainer />
                 <div className="elv_delivery_lists_div">
                     <div className="elv_delivery_lists_header">
                         <div className="elv_delivery_lists_header_breadcrumb">

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Button, CircularProgress, TextField } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import Footer from '../../Home/Footer/Footer';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
 import './ContimueWithMobile.modul.scss'
 import {MuiInputPlaceholder} from '../style'
@@ -107,7 +106,8 @@ export default function ContimueWithMobile() {
                         textAlign: 'center',
                         padding: '0px',
                         margin: '0px',
-                        fontSize: '40px',
+                        fontSize: '32px',
+                        paddingBottom: "10px",
                         color: '#fff',
                     }}
                         className='AuthScreenMainTitle'
@@ -115,7 +115,7 @@ export default function ContimueWithMobile() {
                     <p style={{
                         textAlign: 'center',
                         margin: '0px',
-                        fontSize: '15px',
+                        fontSize: '13px',
                         color: '#fff',
                     }}
                         className='AuthScreenSubTitle'

@@ -951,7 +951,7 @@ const Lookbook = () => {
         onClose={handleClose}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
-        className="smrlookBookPopuMain"
+        className="rooplookBookPopuMain"
       >
         <Box
           sx={{
@@ -1003,7 +1003,7 @@ const Lookbook = () => {
                       display: "flex",
                       alignItems: "center",
                       width: "100%",
-                      flexDirection: "row-reverse",
+                      flexDirection: "column",
                       justifyContent: "space-between",
                       '& .MuiFormControlLabel-label': {
                         fontFamily: 'Spectral-Regular', // Apply Spectral-Regular font to the label
@@ -1017,6 +1017,7 @@ const Lookbook = () => {
                           alignItems: "center",
                           justifyContent: "space-between",
                           gap: "12px",
+                          width: "100%"
                         }}
                         key={opt?.id}
                       >
@@ -1044,6 +1045,12 @@ const Lookbook = () => {
                               size="small"
                             />
                           }
+                          sx={{
+                            display: "flex !important",
+                            justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                            width: "100% !important",
+                            flexDirection: "row-reverse !important", // Align items to the right
+                          }}
                           className="roop_mui_checkbox_label_rp"
                           label={opt.Name}
                         />
@@ -1066,7 +1073,7 @@ const Lookbook = () => {
         </div>
       ) : (
 
-        <div className="smr1_LookBookSubMainDiv">
+        <div className="roop1_LookBookSubMainDiv">
           <div className="roop_lookBookMobileTopLine">
             <div className="roop_lookBook_FilterIconeDiv" onClick={() => setIsDrawerOpen1(true)} style={{ fontSize: '12px' }}>
               {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"}
@@ -1618,6 +1625,7 @@ const Lookbook = () => {
                                               detail?.TitleLine ? detail?.TitleLine : ""
                                             )
                                           }
+                                          onError={(e) => e.target.src = imageNotFound}
                                         />
                                         <div style={{ display: "flex", justifyContent: "center", marginBottom: "5px" }}>
                                           {cartItems.includes(detail?.autocode) ? (
@@ -1845,6 +1853,7 @@ const Lookbook = () => {
                                                   : ""
                                               )
                                             }
+                                            onError={(e) => e.target.src = imageNotFound}
                                           />
                                           <div
                                             style={{
@@ -1922,6 +1931,7 @@ const Lookbook = () => {
                                                       : ""
                                                   )
                                                 }
+                                                onError={(e) => e.target.src = imageNotFound}
                                               />
                                               <div
                                                 style={{
@@ -1997,8 +2007,8 @@ const Lookbook = () => {
                             {filteredDesignSetLstData?.map((slide, index) => (
                               <SwiperSlide key={index}>
                                 <div>
-                                  <div className="smr1_lb3compeletethelook_cont">
-                                    <div className="smr1_lb3ctlImg_containe">
+                                  <div className="roop1_lb3compeletethelook_cont">
+                                    <div className="roop1_lb3ctlImg_containe">
                                       {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                         <img
                                           src={ProdCardImageFunc(slide)}
@@ -2089,6 +2099,7 @@ const Lookbook = () => {
                                                         : imageNotFound
                                                     }
                                                     alt=""
+                                                    onError={(e) => e.target.src = imageNotFound}
                                                     className="roop_lb3srthelook_img"
                                                     onClick={() =>
                                                       handleNavigation(

@@ -42,17 +42,17 @@ const AddressManagement = () => {
 
     return (
         <div className='roop_DeliverMainDiv'>
-            <div className='smr_secondMaindivAdd'>
-                <div className='smr_addMainDiv'>
-                    <div className='smr_TitleDetailMainDiv'>
+            <div className='roop_secondMaindivAdd'>
+                <div className='roop_addMainDiv'>
+                    <div className='roop_TitleDetailMainDiv'>
                         <div>
-                        <h1 className='smr_deliveryTitle'>Delivery</h1>
-                        <p className='smr_deliverydesc'>Order Will be delivered to selected address</p>
+                        <h1 className='roop_deliveryTitle'>Delivery</h1>
+                        <p className='roop_deliverydesc'>Order Will be delivered to selected address</p>
                         </div>
-                        <button className='smr_ContinueOrderbtn' onClick={() => proceedToOrder(navigate)}>Continue</button>
+                        <button className='roop_ContinueOrderbtn' onClick={() => proceedToOrder(navigate)}>Continue</button>
                     </div>
                     {!isLoading ? (
-                        <div className='smr_getAddrMainDiv'>
+                        <div className='roop_getAddrMainDiv'>
                             <Grid container spacing={2}>
                                 {addressData?.map((data, index) => (
                                     <React.Fragment key={data.id} >
@@ -93,8 +93,8 @@ const AddressManagement = () => {
                         title="Confirm"
                         content="Are you sure you want to remove this address?"
                     />
-                    <div className='smr_AddressBtnGroup'>
-                        <button className='smr_AddNewAddrbtn' onClick={() => handleOpen(null)}>Add New Address</button>
+                    <div className='roop_AddressBtnGroup'>
+                        <button className='roop_AddNewAddrbtn' onClick={() => handleOpen(null)}>Add New Address</button>
                     </div>
                 </div>
             </div>

@@ -52,6 +52,7 @@ const usePromotionalBanner = () => {
 
   const handleCloseBanner = () => {
     setOpenPromotionalBanner(false);
+    sessionStorage.setItem("promotionalBannerClosed", "true"); 
     resetTimer(); 
   };
 
@@ -61,21 +62,25 @@ const usePromotionalBanner = () => {
     }
 
     const newTimer = setTimeout(() => {
-      setOpenPromotionalBanner(true);
-  }, 3 * 60 * 1000);
+      if (!sessionStorage.getItem("promotionalBannerClosed")) {
+        setOpenPromotionalBanner(true); 
+      }
+    }, 5 * 60 * 1000); // 5 minutes timer
 
     setTimer(newTimer);
   };
 
   useEffect(() => {
-    resetTimer();
+    if (!sessionStorage.getItem("promotionalBannerClosed")) {
+      resetTimer();
+    }
 
     return () => {
       if (timer) {
         clearTimeout(timer);
       }
     };
-  }, []); 
+  }, []);
 
   return {
     openPromotionalBanner,
@@ -84,3 +89,4 @@ const usePromotionalBanner = () => {
 };
 
 export default usePromotionalBanner;
+

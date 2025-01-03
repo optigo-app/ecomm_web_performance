@@ -17,6 +17,7 @@
   .mala_footer_bottom_line {
     margin-top: 3rem;
     text-align: center;
+    font-size: $fontSize2;
   }
 
   .footerBottomMain {
@@ -71,10 +72,12 @@
       }
 
       p {
-        font-size: 14px;
+        font-size: 11px;
         margin: 0;
+        font-weight: 500;
         padding: 0;
         cursor: pointer;
+        letter-spacing: 1.5px;
       }
     }
 
@@ -121,7 +124,7 @@
 
       .malkan-footerOfficeDesc {
         margin: 0 5px;
-        font-size: 14px;
+        font-size: 12px;
         color: #333;
         display: flex;
         align-items: flex-start;

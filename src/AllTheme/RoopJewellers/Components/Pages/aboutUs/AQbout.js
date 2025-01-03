@@ -299,9 +299,9 @@ export default function AXboutUs() {
         <h1 className="shinjini-title">About us</h1>
 
         <div className="shinjini-content">
-          <p className="shinjini-introduction">{aboutData.introduction.text}</p>
+          <p className="shinjini-introduction">{Dummydata.introduction.text}</p>
 
-          {aboutData.sections.map((section, index) => (
+          {Dummydata.sections.map((section, index) => (
             <section key={index} className="shinjini-section">
               <h2 className="shinjini-section-title">{section.title}</h2>
               {section.content.map((item, itemIndex) => (
@@ -313,7 +313,7 @@ export default function AXboutUs() {
             </section>
           ))}
 
-          <p className="shinjini-conclusion">{aboutData.conclusion.text}</p>
+          <p className="shinjini-conclusion">{Dummydata.conclusion.text}</p>
         </div>
       </main>
     </div>

@@ -1760,7 +1760,7 @@ const ProductList = () => {
         <Drawer
           sx={{
             zIndex: 9999999,
-            fontFamily: "Rowan5",
+            fontFamily: "Baskerville",
             "& .MuiBackdrop-root": {
               backgroundColor: "rgba(0, 0, 0, 0.2)",
               backdropFilter: "blur(4px)",
@@ -1800,7 +1800,7 @@ const ProductList = () => {
                 color: "#7f7d85",
                 fontSize: "16px",
                 marginTop: "12px",
-                fontFamily: "Rowan5",
+                fontFamily: "Baskerville",
               }}
             >
               Customization
@@ -2102,7 +2102,7 @@ const ProductList = () => {
                                       justifyContent: "space-between",
                                       flexDirection: "row-reverse",
                                       width: "100%",
-                                      fontFamily: "Rowan5",
+                                      fontFamily: "Baskerville",
                                     }}
                                     control={
                                       <Checkbox
@@ -2221,7 +2221,7 @@ const ProductList = () => {
                                     justifyContent: "space-between",
                                     flexDirection: "row-reverse",
                                     width: "100%",
-                                    fontFamily: "Rowan5",
+                                    fontFamily: "Baskerville",
                                   }}
                                   control={
                                     <Checkbox
@@ -3016,7 +3016,7 @@ const ProductList = () => {
                                               <>
                                                 <span
                                                   style={{
-                                                    fontSize: "13px",
+                                                    fontSize: "11px",
                                                     marginInline: "5px",
                                                   }}
                                                 >
@@ -3039,7 +3039,7 @@ const ProductList = () => {
                                                 <>
                                                   <span
                                                     style={{
-                                                      fontSize: "13px",
+                                                      fontSize: "11px",
                                                       marginInline: "5px",
                                                     }}
                                                   >
@@ -3066,7 +3066,7 @@ const ProductList = () => {
                                                 <>
                                                   <span
                                                     style={{
-                                                      fontSize: "13px",
+                                                      fontSize: "11px",
                                                       marginInline: "5px",
                                                     }}
                                                   >
@@ -3292,7 +3292,7 @@ const GivaFilterMenu = ({
   const CustomLabel = ({ text }) => (
     <Typography
       sx={{
-        fontFamily: "Rowan5 , sans-serif !important",
+        fontFamily: "Baskerville , sans-serif !important",
         textWrap: "nowrap",
         letterSpacing: "0.5px",
         color: "#303030d2",
@@ -3950,7 +3950,7 @@ const GivaFilterMenu = ({
                       className="giva_roop_options_flex"
                       style={{
                         cursor: "pointer",
-                        fontSize: "15px",
+                        fontSize: "12px",
                         padding: "5px",
                         borderRadius: "5px",
                         border: "none",

@@ -17,7 +17,7 @@
     .malakan_trending1Title {
       font-size: 3rem;
       color: #01332a;
-      font-family: "Rowan5";
+      font-family: $rown;
     }
   }
 
@@ -313,6 +313,10 @@
         font-size: $fontSize0 !important;
       }
     }
+  }
+
+  .mala_trend_slider{
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
 
   .malakan_trend__image_div {
