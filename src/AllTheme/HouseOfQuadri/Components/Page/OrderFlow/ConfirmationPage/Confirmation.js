@@ -4,11 +4,32 @@ import "./confirmation.scss";
 // import confirmImg from '../../../Assets/confirm.svg'
 import { useLocation, useNavigate } from "react-router-dom";
 import odrerconfirmed from "../../../Assets/thankyou.svg";
+import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
+import { useSetRecoilState } from "recoil";
+import { Hoq_CartCount } from "../../../Recoil/atom";
 // import  OrderIMG  from '../../../Assets/order.svg'
 const Confirmation = () => {
   const navigate = useNavigate();
   const [orderNo, setOrderNo] = useState();
   const location = useLocation();
+  const setCartCountVal = useSetRecoilState(Hoq_CartCount); 
+
+   // for cart count
+   useEffect(() => {
+    const fetchCartCount = async () => {
+        try {
+            const cartCount = await GetCountAPI();
+            setCartCountVal(cartCount?.cartcount);
+        } catch (error) {
+            console.error("Error fetching cart count:", error);
+        }
+    };
+
+    fetchCartCount();
+}, []);
+
+
+
   useEffect(() => {
     let orderNo = sessionStorage.getItem("orderNumber");
     setOrderNo(orderNo);

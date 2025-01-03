@@ -15,9 +15,8 @@ const Confirmation = () => {
     const [storeInit, setStoreInit] = useState();
     const setCartCountVal = useSetRecoilState(CartCount); 
     
-    
+    // for cart count
     useEffect(() => {
-        console.log('fun is running......')
         const fetchCartCount = async () => {
             try {
                 const cartCount = await GetCountAPI();
