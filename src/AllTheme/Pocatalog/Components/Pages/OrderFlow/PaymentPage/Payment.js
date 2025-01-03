@@ -3,7 +3,7 @@ import "./Payment.scss";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Footer from '../../Home/Footer/Footer';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { useRecoilValue, useSetRecoilState } from 'recoil';

@@ -11,7 +11,6 @@ import WishItem from './WishItem';
 import Usewishlist from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import ResponsiveWishUi from './ResponsiveWishUi';
-import { ToastContainer } from 'react-toastify';
 
 function Wishlist() {
   const {
@@ -65,10 +64,6 @@ function Wishlist() {
 
   return (
     <div className='dt_MainWishDiv'>
-      <ToastContainer
-            autoClose={2000}
-            style={{ zIndex: "99999999999999" }}
-          />
       <div
         className="bg-imageCart"
         style={{

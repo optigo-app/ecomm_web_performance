@@ -102,7 +102,7 @@ const WishlistItems = (
                                 <span className='dt_wishDT'>{(item?.Gwt || 0).toFixed(3)}</span>
 
                                 <span className='dt_pipes'> | </span>
-                                <span className='dt_wishDT'>NWT : </span>
+                                <span className='dt_wishDT'>NWT: </span>
                                 <span className='dt_wishDT'>{(item?.Nwt || 0).toFixed(3)}{' '}</span>
                                 <span className='dt_pipes'> | </span>
                                 <span className='dt_wishDT'>DWT: </span>

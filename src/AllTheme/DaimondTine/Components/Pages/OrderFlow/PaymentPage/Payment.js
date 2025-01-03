@@ -3,7 +3,7 @@ import "./Payment.scss";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Footer from '../../Home/Footer/Footer';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -145,7 +145,7 @@ const Payment = () => {
                         amount: Math.round(parseFloat(taxAmmountData?.TotalAmountWithTax) * 100),
                         currency: loginInfo?.CurrencyCode ?? "",
                         name: storeInit?.companyname ?? "Company",
-                        image:"https://cdnfs.optigoapps.com/content-global3/diamondtin5643NL1BPEHKUDJMT/companylogo/preview_logo/favicon.ico",
+                        image: "https://cdnfs.optigoapps.com/content-global3/diamondtin5643NL1BPEHKUDJMT/companylogo/preview_logo/favicon.ico",
                         order_id: orderId ?? "",
                         prefill: {
                             name: `${razorPayData?.addressData?.shippingfirstname} ${razorPayData?.addressData?.shippinglastname}`,
@@ -175,7 +175,7 @@ const Payment = () => {
                                         const orderNumber = paymentResponse.Data?.rd[0]?.orderno;
                                         sessionStorage.setItem('orderNumber', orderNumber);
                                     }
-                                    
+
                                     const cartCount = await GetCountAPI();
                                     setCartCountVal(cartCount?.cartcount);
                                     paymentId = paymentResponse?.razorpay_payment_id;
@@ -191,7 +191,7 @@ const Payment = () => {
                         },
                         modal: {
                             ondismiss: function () {
-                                console.log("Pause the payment; you exit the Razorpay app.");               
+                                console.log("Pause the payment; you exit the Razorpay app.");
                             },
                         },
                         theme: {
@@ -254,6 +254,7 @@ const Payment = () => {
 
     return (
         <div className='dt_paymentMainDiv'>
+       
             {!isloder ? (
                 <div className='dt_paymentSecondMainDiv'>
                     <div className='dt_PaymentContainer'>
@@ -412,8 +413,8 @@ const Payment = () => {
                             color: "#fff",
                             backgroundColor: "rgba(211, 211, 211, 0.4)",
                             zIndex: (theme) => theme.zIndex.drawer + 8,
-                            opacity:"1 !important",
-                            visibility:"visible !important"
+                            opacity: "1 !important",
+                            visibility: "visible !important"
                         }}
                         open={isloder}
                     >

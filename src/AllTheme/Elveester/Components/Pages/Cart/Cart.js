@@ -20,7 +20,7 @@ import { formatter, storImagePath } from '../../../../../utils/Glob_Functions/Gl
 import { handleOrderRemark } from '../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import MobileCartDetails from './MobileCartDetails';
 import ConfirmationDialog from '../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
-import { ToastContainer } from 'react-toastify';
+import {  } from 'react-toastify';
 
 const CartPage = () => {
   const {
@@ -223,7 +223,6 @@ const CartPage = () => {
         </div>
       )}
       <div className="elv_Productlists_Main_div">
-        <ToastContainer autoClose={1000} />
         <div className="elv_Productlists_lists_div">
           <div className="elv_Productlists_lists_header">
             <div className="elv_Productlists_lists_header_breadcrumb">

@@ -2893,8 +2893,8 @@ const Product_Card = ({
           >
             <div
               className="elv_image_prod"
-              onMouseEnter={() => setIsHover(true)}
-              onMouseLeave={() => setIsHover(false)}
+              onMouseOver={() => setIsHover(true)}
+              onMouseOut={() => setIsHover(false)}
             >
               <div className="elvWeb_app_product_label">
                 {productData?.IsInReadyStock == 1 && (

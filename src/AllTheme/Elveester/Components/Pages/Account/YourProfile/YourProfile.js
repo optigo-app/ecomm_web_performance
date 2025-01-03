@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './YourProfile.scss';
 import { TextField, Modal,  CircularProgress } from '@mui/material';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../utils/API/AccountTabs/YourProfile';
 import { defaultAddressState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
@@ -103,7 +103,6 @@ export default function YourProfile() {
     return (
         <div className='yourProfile_Account_Elvee'>
             <div className='elv_yourProfile elvee_profile'>
-                <ToastContainer />
 
                 {isLoading && (
                     <div className="loader-overlay" style={{zIndex:10000}}>

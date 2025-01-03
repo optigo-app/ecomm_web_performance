@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Button, CircularProgress, Box } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { LoginWithEmailCodeAPI } from '../../../../../../utils/API/Auth/LoginWithEmailCodeAPI';
 import Footer from '../../Home/Footer/Footer';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
@@ -109,7 +109,6 @@ export default function LoginWithEmailCode() {
 
     return (
         <div className='smr_loginwithemailCode' style={{  paddingTop: '10px' }}>
-            <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
@@ -166,7 +165,6 @@ export default function LoginWithEmailCode() {
 // import { useLocation, useNavigate } from 'react-router-dom';
 // import './LoginWithEmailCode.modul.scss';
 // import CryptoJS from 'crypto-js';
-// import { ToastContainer, toast } from 'react-toastify';
 // import { LoginWithEmailCodeAPI } from '../../../../../../utils/API/Auth/LoginWithEmailCodeAPI';
 // import Footer from '../../Home/Footer/Footer';
 // import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
@@ -278,7 +276,6 @@ export default function LoginWithEmailCode() {
 
 //     return (
 //         <div className='smr_loginwithemailCode' style={{ backgroundColor: '#c0bbb1', paddingTop: '10px' }}>
-//             <ToastContainer />
 //             {isLoading && (
 //                 <div className="loader-overlay">
 //                     <CircularProgress className='loadingBarManage' />

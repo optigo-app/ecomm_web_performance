@@ -6,7 +6,7 @@ import { useSetRecoilState } from 'recoil';
 import { el_loginState } from '../../../Recoil/atom';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 export default function LoginWithMobileCode() {
     const [errors, setErrors] = useState({});
@@ -95,7 +95,6 @@ export default function LoginWithMobileCode() {
 
     return (
         <div className='el_LoginWithMobileCodeMain' style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
-            <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />

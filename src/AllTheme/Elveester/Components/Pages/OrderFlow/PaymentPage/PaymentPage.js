@@ -8,7 +8,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { el_CartCount, el_loginState } from '../../../Recoil/atom';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from "js-cookie";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { Box, Skeleton } from '@mui/material';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { fetchEstimateTax } from '../../../../../../utils/API/OrderFlow/GetTax';
@@ -196,7 +196,6 @@ const PaymentPage = () => {
                     </div>
                 )}
                 <div className="elv_payment_Main_div">
-                    <ToastContainer />
                     <div className="elv_payment_lists_div">
                         <div className="elv_payment_lists_header">
                             <div className="elv_payment_lists_header_breadcrumb">

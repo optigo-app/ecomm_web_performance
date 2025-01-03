@@ -52,7 +52,7 @@ const Footer = ({ fromPage }) => {
               fontSize: '12px',
               fontWeight: 500,
               marginInline: '0'
-            }}>© 2024, Ojasvijewels</p>
+            }}>© 2024, Sonasons</p>
 
             {/*  pacific diamonds */}
             {/* }}>© 2024, Pacific Diamonds</p> */}

@@ -12,7 +12,7 @@ import { mala_CartCount, mala_WishCount } from "../../Recoil/atom";
 import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
 import { useMediaQuery } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import ConfirmationDialog from "../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog";
 
 const Wishlist = () => {
@@ -94,7 +94,6 @@ const Wishlist = () => {
 
   return (
     <div className="mala_MainWishlist_Div">
-      <ToastContainer />
       <div className="mala_wishlist_sub">
         <div className="WlBtnGroupMainDiv">
           {isMobileScreen &&

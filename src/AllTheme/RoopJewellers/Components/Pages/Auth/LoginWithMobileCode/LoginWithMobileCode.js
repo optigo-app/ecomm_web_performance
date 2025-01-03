@@ -5,7 +5,7 @@ import './LoginWithMobileCode.modul.scss';
 import { useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import Cookies from 'js-cookie';
 import { roop_loginState } from '../../../Recoil/atom';
@@ -105,7 +105,6 @@ export default function LoginWithMobileCode() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <ToastContainer />
             <div>
                 <div className='smling-forgot-main'>
                     <p className='AuthScreenMainTitle'

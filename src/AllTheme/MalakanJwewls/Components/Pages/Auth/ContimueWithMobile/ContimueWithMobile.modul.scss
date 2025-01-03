@@ -42,7 +42,7 @@
         cursor: pointer;
         font-weight: 500;
         letter-spacing: 1;
-        background-color: #fda994;
+        background-color: $authButtonsBgColor;
         color: #17372f;
         font-family: $primaryFontFamilyMedium;
         cursor: pointer;
@@ -51,7 +51,7 @@
         border-radius: 3px;
 
         &:hover {
-            background-color: #ff8e72;
+            background-color: $authButtonsBgColorHover;
         }
     }
 

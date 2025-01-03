@@ -5,7 +5,7 @@ import { Box, CircularProgress, IconButton, InputAdornment, Tab, Tabs, TextField
 import { useNavigate } from 'react-router-dom';
 import './changepassword.scss'
 import { handleChangePassword } from '../../../../../../utils/API/AccountTabs/changePassword';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 export default function ChangePassword() {
 
@@ -168,7 +168,6 @@ export default function ChangePassword() {
 
     return (
         <div className='changePassword_Account_FE'>
-        <ToastContainer />
         <div>
             {isLoading && (
                 <div className="loader-overlay">

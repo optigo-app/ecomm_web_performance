@@ -56,8 +56,8 @@ export default function AboutUs() {
     },
   ];
 
-  const banner = `${storImagePath()}/images/static/about1.jpeg`;
-  // const banner = `${storImagePath()}/images/static/about2.jpg`;
+  // const banner = `${storImagePath()}/images/static/about1.jpeg`;
+  const banner = `${storImagePath()}/images/static/about2.jpg`;
 
   return (
     <div className="malkan_contactMain_about">

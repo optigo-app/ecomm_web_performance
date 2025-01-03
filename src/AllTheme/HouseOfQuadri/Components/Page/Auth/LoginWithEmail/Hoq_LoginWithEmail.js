@@ -3,7 +3,6 @@ import "./Hoq_LoginWithEmail.modul.scss";
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
 import { ContinueWithEmailAPI } from "../../../../../../utils/API/Auth/ContinueWithEmailAPI";
 
 export default function ContinueWithEmail() {
@@ -104,9 +103,6 @@ export default function ContinueWithEmail() {
 
   return (
     <div className="Hoq_continuemail">
-      <ToastContainer style={{
-        zIndex: 999999
-      }} />
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className="loadingBarManage" />

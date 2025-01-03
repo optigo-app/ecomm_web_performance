@@ -170,11 +170,16 @@
       position: relative;
       justify-content: flex-end;
 
+      .filter_menu_giva{
+        cursor: pointer;
+      }
+
       .fmg_menu {
         color: rgba(48, 48, 48, 0.822);
         font-size: 17px;
         // font-size: 19.5px;
         font-weight: 300;
+        cursor: pointer;
         font-family: $primaryFontFamilyMedium !important;
       }
 

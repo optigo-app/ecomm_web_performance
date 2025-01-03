@@ -1628,7 +1628,7 @@ const ProductList = () => {
     if (location?.search.split("=")[0]?.slice(1) == "M") {
       return menuParams?.menuname;
     } else {
-      return location?.pathname.split("/")[2];
+      return location?.pathname?.split("/")[2]?.replaceAll('%20', '');
     }
   };
 
@@ -3016,7 +3016,7 @@ const ProductList = () => {
                                               <>
                                                 <span
                                                   style={{
-                                                    fontSize: "11px",
+                                                    fontSize: "8px",
                                                     marginInline: "5px",
                                                   }}
                                                 >
@@ -3039,7 +3039,7 @@ const ProductList = () => {
                                                 <>
                                                   <span
                                                     style={{
-                                                      fontSize: "11px",
+                                                      fontSize: "8px",
                                                       marginInline: "5px",
                                                     }}
                                                   >
@@ -3066,7 +3066,7 @@ const ProductList = () => {
                                                 <>
                                                   <span
                                                     style={{
-                                                      fontSize: "11px",
+                                                      fontSize: "8px",
                                                       marginInline: "5px",
                                                     }}
                                                   >
@@ -3725,7 +3725,7 @@ const GivaFilterMenu = ({
             {storeInit?.IsMetalCustComb === 1 && metalTypeCombo?.length > 0 && (
               <div className="filter_menu_giva">
                 <Typography
-                  sx={{ fontSize: "15px" }}
+                  sx={{ fontSize: "15px", cursor: "pointer" }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(2)}
                 >
@@ -3778,7 +3778,7 @@ const GivaFilterMenu = ({
             {storeInit?.IsDiamondCustComb === 1 && diaQcCombo?.length > 0 && (
               <div className="filter_menu_giva">
                 <Typography
-                  sx={{ fontSize: "15px" }}
+                  sx={{ fontSize: "15px", cursor: "pointer" }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(3)}
                 >

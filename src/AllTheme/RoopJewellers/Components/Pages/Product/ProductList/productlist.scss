@@ -253,7 +253,7 @@
     margin-top: 10px;
     cursor: pointer;
   }
-  
+
   .roop_productCard {
     display: flex;
     flex-direction: column; // Arrange children in a column
@@ -414,6 +414,22 @@
     margin-inline: 2px;
     justify-content: center;
     margin-block: 0.6rem;
+
+    .roop_prod_div {
+      display: flex, ;
+      justify-content: space-between;
+      width: 90%;
+      margin-inline: auto;
+      align-items: center;
+    }
+
+    .roop_prod_wt_div {
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-self: flex-start;
+    }
   }
 
   .roop_por {
@@ -468,7 +484,7 @@
     color: white;
 
     @media (max-width: 375px) {
-      font-size: 15px !important;
+      font-size: 12.5px !important;
     }
   }
 

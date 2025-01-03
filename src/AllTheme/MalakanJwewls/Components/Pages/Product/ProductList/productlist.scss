@@ -10,6 +10,7 @@
   -webkit-line-clamp: $lines;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  margin-bottom: 4px;
 
   @media (max-width: 600px) {
     font-size: 10px;
@@ -197,7 +198,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 99%;
   }
 
   .mala_breadcums_port {
@@ -309,7 +310,7 @@
   }
 
   .titleline_malakan {
-    @include Truncate(1, 12px);
+    @include Truncate(1, 11.5px);
     padding: 0 5px;
   }
 
@@ -396,22 +397,22 @@
   }
 
   .mala_main_keys {
-    font-size: 10px;
+    font-size: 9.4px;
   }
 
   .mala_main_val {
-    font-size: 10px;
+    font-size: 9.4px;
     font-weight: 400;
   }
 
   .mala_prod_mtcolr_price {
     display: flex;
     justify-content: center;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 500;
     gap: 3px;
     font-family: $primaryFontFamily;
-    padding: 2px;
+    margin-block: 2px;
     align-items: baseline;
   }
 
@@ -696,11 +697,11 @@
     }
 
     .mala_main_keys {
-      font-size: 11px !important;
+      font-size: 9.4px !important;
     }
 
     .mala_main_val {
-      font-size: 11px !important;
+      font-size: 9.4px !important;
     }
   }
 
@@ -756,11 +757,11 @@
     }
 
     .mala_main_keys {
-      font-size: 10px !important;
+      font-size: 9px !important;
     }
 
     .mala_main_val {
-      font-size: 10px !important;
+      font-size: 9px !important;
     }
 
   }
@@ -773,11 +774,11 @@
 
   @media screen and (max-width:1860px) {
     .mala_main_keys {
-      font-size: 10px !important;
+      font-size: 9.4px !important;
     }
 
     .mala_main_val {
-      font-size: 10px !important;
+      font-size: 9.4px !important;
     }
   }
 
@@ -793,11 +794,11 @@
     }
 
     .mala_main_keys {
-      font-size: 9px !important;
+      font-size: 8px !important;
     }
 
     .mala_main_val {
-      font-size: 9px !important;
+      font-size: 8px !important;
     }
   }
 

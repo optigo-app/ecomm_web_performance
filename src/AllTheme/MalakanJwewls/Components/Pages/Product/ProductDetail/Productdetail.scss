@@ -299,7 +299,8 @@
         align-items: center;
         width: 100%;
         flex-direction: column;
-        margin-bottom: 150px;
+        margin-bottom: 80px;
+        // margin-bottom: 150px;
     }
 
     .mala_details_title {
@@ -334,6 +335,13 @@
         width: 100%;
         display: flex;
         justify-content: center;
+
+        @media (max-width: 790px) {
+            display: block;
+            overflow-x: scroll;
+            width: 100%;
+            scrollbar-width: thin;
+        }
     }
 
     .mala_stock_item_card {
@@ -383,16 +391,16 @@
     }
 
     .mala_d_keys {
-        font-size: 13px;
+        font-size: 10px;
     }
 
     .mala_d_val {
-        font-size: 13px;
+        font-size: 10px;
         font-weight: 400;
     }
 
     .mala_prod_designno {
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 400;
         padding: 0px 5px;
         color: $primaryfontcolor2;
@@ -417,6 +425,7 @@
         text-align: left;
         padding: 8px;
         color: #7d7f85;
+        font-size: $fontSize1;
     }
 
     // .Smr_stockItem_table_tr:nth-child(even){

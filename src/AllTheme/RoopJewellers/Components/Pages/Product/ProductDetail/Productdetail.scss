@@ -387,11 +387,12 @@
         justify-content: center;
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: 790PX) {
         .roop_stockitem_container {
             display: block;
             width: 100%;
             overflow-x: scroll;
+            scrollbar-width: thin;
             -webkit-overflow-scrolling: touch;
         }
     }

@@ -100,13 +100,13 @@ function Collection() {
         {/* Why shop with Shinjini? */}
 
         {/* For Sonasons */}
-        {/* WHY SHOP WITH SONASONS? */}
+        Why Shop With Sonasons?
 
         {/* For Vara */}
         {/* Why shop with Vara? */}
 
         {/* For Ojasvi */}
-        Why shop with Ojasvi?
+        {/* Why shop with Ojasvi? */}
 
         {/* For Pacific */}
         {/* WHY SHOP WITH PACIFIC? */}

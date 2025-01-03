@@ -51,27 +51,23 @@
     }
 }
 
-.smr_SmilingAddEditAddrwess {
+.proCat_SmilingAddEditAddrwess {
     height: 40px;
     width: 160px;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
     opacity: .9;
-    background: #f6efe6 !important;
-    color: rgba(31, 25, 25, 0.7) !important;
     border: none;
     font-weight: 500;
 }
 
-.smr_SmilingAddEditAddrwess:hover {
-    background-color: #fff !important;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+// .proCat_SmilingAddEditAddrwess:hover {
+//     background-color: #fff !important;
+//     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+// }
 
 .smilingDeleveryformCansleBtn_ProCat {
-    background: #f6efe6 !important;
     border: none;
     border-radius: 5px;
-    color: rgba(31, 25, 25, .7);
     font-weight: 600;
     margin-inline: 5px;
     opacity: .8;
