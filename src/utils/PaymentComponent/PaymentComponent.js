@@ -26,7 +26,7 @@ import OrderRemarkModal from '../Glob_Functions/OrderRemark/OrderRemark';
 import EnhancedPaymentDialog from './PaymentDialog';
 // import './Payment.scss'
 
-export default function PaymentComponent() {
+export default function PaymentComponent({ bgcolor }) {
     const {
         handlePay,
         handleSaveInternal,
@@ -292,7 +292,11 @@ export default function PaymentComponent() {
                                     variant="contained"
                                     size="large"
                                     fullWidth
-                                    sx={{ py: 1.5, fontSize: '1.1rem' }}
+                                    sx={{
+                                        py: 1.5, fontSize: '1.1rem'
+                                        , bgcolor: bgcolor ? bgcolor : ''
+
+                                    }}
                                     onClick={handlePay}
                                     className='proCat_payOnAccountBtn'
                                     disabled={isloding}
