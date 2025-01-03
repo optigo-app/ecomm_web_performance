@@ -22,10 +22,12 @@ import BestSellerSection1 from "./BestSellerSection/BestSellerSection1";
 import BrandsComponent from "./BrandComponent/BrandComponents";
 import Collection from "./Collection/Collection";
 import FooterBanner from "./FooterBanner/FooterBanner";
+import useHomeBannerImages from "../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner";
 
 function Home() {
   const [localData, setLocalData] = useState();
   const [minHeight, setMinHeight] = useState("800px");
+  const banner = useHomeBannerImages();
 
   useEffect(() => {
     let localData = JSON?.parse(sessionStorage.getItem("storeInit"));
@@ -52,12 +54,12 @@ function Home() {
       <div className="stam_home_index_main">
         <div style={{ minHeight: minHeight }}>
           <div className="stam_home_index_Submain">
-            <TopSection />
+            <TopSection data={banner?.mainBanner} />
             <TheDifference />
             {/* <TrendingView1 /> */}
-            <PromotionBaner1 />
+            <PromotionBaner1 data={banner?.middleBanner}/>
             {localData?.IsHomeAlbum === 1 && <Album1 />}
-            {localData?.IsHomeTrending === 1 && <TrendingView1 />}
+            {localData?.IsHomeTrending === 1 && <TrendingView1  data={banner?.trendingBanner}/>}
             {/* {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
             {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
             {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */}

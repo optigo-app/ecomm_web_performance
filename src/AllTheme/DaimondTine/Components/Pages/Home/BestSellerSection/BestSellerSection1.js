@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 import GoogleAnalytics from 'react-ga4';
 
-const BestSellerSection1 = () => {
+const BestSellerSection1 = ({data}) => {
     const bestSallerRef = useRef(null);
     const [imageUrl, setImageUrl] = useState();
     const [bestSellerData, setBestSellerData] = useState('')
@@ -280,7 +280,8 @@ const BestSellerSection1 = () => {
                         </div>
                         <div className='smr_rightSideBestSeler'>
                             {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" /> */}
-                            <img src={`${storImagePath()}/images/HomePage/Banner/bestsellar.webp`} alt="modalimages" />
+                            {/* <img src={`${storImagePath()}/images/HomePage/Banner/bestsellar.webp`} alt="modalimages" /> */}
+                            <img src={data?.image?.[0]} alt="modalimages" />
                             <div className="smr_lookbookImageRightDT">
                                 <p>SHORESIDE COLLECTION</p>
                                 <h2>FOR LOVE OF SUN & SEA</h2>

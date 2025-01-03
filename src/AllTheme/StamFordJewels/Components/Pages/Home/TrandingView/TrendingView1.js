@@ -13,7 +13,7 @@ import { stam_loginState } from '../../../Recoil/atom';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import Pako from 'pako';
 
-const TrendingView1 = () => {
+const TrendingView1 = ({data}) => {
 
     const trandingViewData = [
         '/images/HomePage/TrendingViewBanner/tranding1.png',
@@ -140,7 +140,7 @@ const TrendingView1 = () => {
                 <div className="stam_trendingProduct-grid">
                     <div className='stam_leftSideBestTR'>
                         {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trendingBanner.png`} */}
-                        <img src={`${storImagePath()}/images/HomePage/sectionBanner/Banner3.jpg`}
+                        <img src={data?.image?.[0]}
                             alt="Trending Jewellery Collection Banner"
                         />
                     </div>

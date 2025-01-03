@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import { AiFillInstagram } from 'react-icons/ai';
 import GoogleAnalytics from 'react-ga4';
 
-const SocialMedia = () => {
+const SocialMedia = ({data}) => {
 
     const photos = [
         {
@@ -61,11 +61,12 @@ const SocialMedia = () => {
             <p className='smr_bestseler1Title'>Follow Us On Instagram</p>
             <div className='dt_SocialmediawidgetsComponentsCard'>
                 <div className="dt_instagram_gallery">
-                    {photos?.map((photo, index) => (
+                    {data?.image?.slice(0,5)?.map((photo, index) => (
                         <div key={index} className="dt_instagram_photo" onClick={() =>{ window.open(DomainConnect);
                             HandleGoogleAn(index+1)
                         }}>
-                            <img src={storImagePath() + photo?.image} alt={`Instagram Photo ${index + 1}`} loading='lazy' />
+                            {/* <img src={storImagePath() + photo?.image} alt={`Instagram Photo ${index + 1}`} loading='lazy' /> */}
+                            <img src={photo} alt={`Instagram Photo ${index + 1}`} loading='lazy' />
                             <div className="dt_socialMedioverlay"></div>
                         </div>
                     ))}

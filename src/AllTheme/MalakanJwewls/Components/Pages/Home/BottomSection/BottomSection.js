@@ -2,7 +2,7 @@ import React from "react";
 import "./BottomSection.modul.scss";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
-function BottomSection() {
+function BottomSection({data}) {
   return (
     <div className="mala_bottom_main_div">
       {/* <div className="mala_bottom_main_div_sub">
@@ -16,7 +16,7 @@ function BottomSection() {
       {/* </div>
       </div> */}
 
-      <img src={`${storImagePath()}/images/HomePage/BottomBanner/bottomBanner.jpg`} className='mala_bottom_main_img' />
+<img src={data?.image?.[0]} className='mala_bottom_main_img' />
     </div>
   );
 }

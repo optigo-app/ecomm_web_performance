@@ -193,6 +193,7 @@ export default function Register() {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const errors = {};
     if (!firstName.trim()) {
       errors.firstName = "First Name is required";
@@ -319,7 +320,7 @@ export default function Register() {
             Register
           </p>
 
-          <div
+          <form noValidate onSubmit={handleSubmit}
             style={{
               display: "flex",
               flexDirection: "column",
@@ -330,6 +331,7 @@ export default function Register() {
               autoFocus
               id="outlined-basic"
               label="First Name"
+                            name="First Name"
               variant="outlined"
               className="labgrowRegister"
               style={{ margin: "15px" }}
@@ -345,6 +347,7 @@ export default function Register() {
             <TextField
               id="outlined-basic"
               label="Last Name"
+                            name="Last Name"
               variant="outlined"
               className="labgrowRegister"
               style={{ margin: "15px" }}
@@ -360,6 +363,7 @@ export default function Register() {
             <TextField
               id="outlined-basic"
               label="Mobile No."
+                            name="Mobile No."
               variant="outlined"
               className="labgrowRegister"
               style={{ margin: "15px" }}
@@ -374,6 +378,7 @@ export default function Register() {
             <TextField
               id="outlined-basic"
               label="Email"
+                       name="Email"
               autoComplete="ne-Email"
               variant="outlined"
               className="labgrowRegister"
@@ -389,6 +394,7 @@ export default function Register() {
             <TextField
               id="outlined-password-input"
               label="Password"
+                       name="Password"
               autoComplete="enter-NewPass-Word"
               type={showPassword ? "text" : "password"}
               className="labgrowRegister"
@@ -418,6 +424,7 @@ export default function Register() {
             <TextField
               id="outlined-confirm-password-input"
               label="Confirm Password"
+                            name="Confirm Password"
               autoComplete="Enetr-NewConfirm-Pass"
               type={showConfirmPassword ? "text" : "password"}
               className="labgrowRegister"
@@ -453,7 +460,7 @@ export default function Register() {
               }}
             />
 
-            <button className="createBtnRegister" onClick={handleSubmit}>
+            <button className="createBtnRegister"type="submit">
               CREATE ACCOUNT
             </button>
 
@@ -467,7 +474,7 @@ export default function Register() {
             >
               BACK
             </Button>
-          </div>
+          </form>
         </div>
       </div>
       <div

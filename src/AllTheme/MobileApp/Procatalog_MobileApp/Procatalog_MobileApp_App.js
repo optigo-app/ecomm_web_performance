@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { ToastContainer } from 'react-toastify'
 import Header from './Components/Pages/Home/Header/Header'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Home from './Components/Pages/Home/Index'
@@ -68,7 +67,7 @@ const Procatalog_MobileApp_App = () => {
   return (
     <div>
       <ConnectionManager />
-      <ToastContainer />
+       
       {(location.pathname === "/accountledgertable" ||
         location.pathname === "/accountledgerexcel" ||
         location.pathname === "/accountledgerdebit" ||

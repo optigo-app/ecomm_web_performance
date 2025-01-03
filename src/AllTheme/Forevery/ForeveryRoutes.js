@@ -70,10 +70,12 @@ import ZaraStyleSlider from "./Components/Pages/AZara";
 import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
 import PromotionalBanner from "./Components/Pages/PromotionalBanner/PromotionalBanner";
 import usePromotionalBanner from "./Components/hooks/usePromotionalBanner";
+import useHomeBannerImages from "../../utils/Glob_Functions/ThemesBanner/ThemesBanner";
 
 const ForEveryRoutes = () => {
   const { openPromotionalBanner, handleCloseBanner } =
     usePromotionalBanner();
+    const banner = useHomeBannerImages();
   const islogin = useRecoilValue(for_loginState);
   const [localData, setLocalData] = useState();
   const navigation = useNavigate();
@@ -100,7 +102,6 @@ const ForEveryRoutes = () => {
     );
   };
 
-  console.log(navHeight, "stste");
 
   // useEffect(() => {
   //   let data = sessionStorage.getItem("storeInit");
@@ -177,8 +178,7 @@ const ForEveryRoutes = () => {
     }
   }
 
-  console.log(openPromotionalBanner, "openPromotionalBanner")
-
+  
   return (
     <>
       <Helmet>
@@ -187,7 +187,7 @@ const ForEveryRoutes = () => {
       <div>
         <Preloader />
         {openPromotionalBanner && (
-          <PromotionalBanner onClose={handleCloseBanner} />
+          <PromotionalBanner img={banner?.popup?.image} onClose={handleCloseBanner} />
         )}
         <TopBar />
         <Navbar />

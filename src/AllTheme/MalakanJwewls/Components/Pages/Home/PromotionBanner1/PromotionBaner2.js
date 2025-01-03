@@ -16,12 +16,13 @@ const PromotionBaner1 = ({data}) => {
             {/* </div>
                 <div className='mala_promo_section2_div2'>
                     {/* <img src={`${storImagePath()}/images/HomePage/Banner/ring.jpg`} className='mala_promo_secton2_img' /> */}
-                    <img src={data?.image?.[0]} className='mala_promo_secton2_img' />
-                </div>
-            </div> */}
+                    {/* <img src={data?.image?.[0]} className='mala_promo_secton2_img' />
+                </div> */}
+            {/* </div> */} 
 
 
-            <img src={`${storImagePath()}/images/HomePage/BespokeBanner/bespokemiddlebanner.png`} className='mala_promo_secton2_img' />
+            {/* <img src={`${storImagePath()}/images/HomePage/BespokeBanner/bespokemiddlebanner.png`} className='mala_promo_secton2_img' /> */}
+            <img src={data?.image?.[0]} className='mala_promo_secton2_img' />
         </div>
     )
 }

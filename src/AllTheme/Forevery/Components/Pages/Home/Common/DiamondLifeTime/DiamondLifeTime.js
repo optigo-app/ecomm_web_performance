@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import "./DiamondLifeTime.scss";
 import { storImagePath } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 
-const DiamondLifeTime = () => {
+const DiamondLifeTime = ({data}) => {
   const videoRef = useRef(null);
   const Video = [
     `${storImagePath()}/Forevery/lr.mp4`,
@@ -35,30 +35,31 @@ const DiamondLifeTime = () => {
     };
   }, []);
 
+
   return (
     <div className="for_DiamondLifeTime">
       <div className="for_DiamondLifeTime_video">
         <video
           className="for_desktop"
           width="100%"
-          src={Video[0]}
+          src={data?.video?.[0]}
           ref={videoRef}
           autoPlay={true}
           muted={true}
           loop={true}
           playsInline={true}
-          poster={VideoBanner[0]}
+          // poster={VideoBanner[0]}
         ></video>
         <video
           className="for_Mobile"
           width="100%"
-          src={Video[1]}
+          src={data?.video?.[1]}
           ref={videoRef}
           autoPlay={true}
           muted={true}
           loop={true}
           playsInline={true}
-          poster={VideoBanner[1]}
+          // poster={VideoBanner[1]}
         ></video>
       </div>
     </div>

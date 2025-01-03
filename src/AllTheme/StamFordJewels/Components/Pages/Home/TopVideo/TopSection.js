@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import "./TopSection.modul.scss";
 
-const TopSection = () => {
+const TopSection = ({data}) => {
   const [loading, setLoading] = useState(false);
   const [videoStarted, setVideoStarted] = useState(false);
   const videoRef = useRef(null);
@@ -35,16 +35,17 @@ const TopSection = () => {
           width="500"
           autoPlay
           muted
-          controls={!videoStarted}
-          // loop
+          // controls={!videoStarted}
+          loop
           style={{ height: "auto", width: "100%" }}
           onLoadedData={handleVideoLoad}
           onPlay={handleVideoPlay}
+          src={data?.video?.[0]}
         >
-          <source
+          {/* <source
             src={`${storImagePath()}/images/HomePage/TopSection/topVideo.mp4`}
             type="video/mp4"
-          />
+          /> */}
         </video>
 
       {/* {localData?.Blockno === 3 && (

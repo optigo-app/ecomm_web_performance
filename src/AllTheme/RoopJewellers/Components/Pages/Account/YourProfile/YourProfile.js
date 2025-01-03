@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './YourProfile.scss';
 import { TextField, Modal, CircularProgress } from '@mui/material';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../utils/API/AccountTabs/YourProfile';
 import { useRecoilValue } from 'recoil';
 import { getAddressData } from '../../../../../../utils/API/AccountTabs/manageAddress';
@@ -101,7 +101,7 @@ export default function YourProfile() {
     return (
         <div className='yourProfile_Account_RPJ'>
             <div className='smr_yourProfile'>
-                <ToastContainer />
+                 
 
                 {isLoading && (
                     <div className="loader-overlay" style={{ zIndex: 100000 }}>

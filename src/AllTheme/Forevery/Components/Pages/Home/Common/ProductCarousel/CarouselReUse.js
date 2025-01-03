@@ -16,7 +16,7 @@ import Pako from "pako";
 import btnstyle from "../../../../scss/Button.module.scss";
 import { FaChevronDown } from "react-icons/fa";
 
-const NewArrivalCarousel = ({ showmore = false }) => {
+const NewArrivalCarousel = ({ showmore = false ,data}) => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const navigation = useNavigate();
   const [storeInit, setStoreInit] = useState({});
@@ -131,7 +131,8 @@ const NewArrivalCarousel = ({ showmore = false }) => {
   return (
     <div className="for_ProductCarousel">
       <div className="for_ProductCarousel_banner_image">
-        <img src={BannerImage} alt="" />
+        {/* <img src={BannerImage} alt="" /> */}
+        <img src={data?.image?.[0]} alt="" />
       </div>
       <div className="heading">
         <span>Explore Our New Jewellery</span>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "./manageaddress.scss";
 import { Box, Button, CircularProgress, Dialog, DialogTitle, RadioGroup, TextField, Typography } from '@mui/material';
 import StayPrimaryPortraitIcon from '@mui/icons-material/StayPrimaryPortrait';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
 import { useSetRecoilState } from 'recoil';
@@ -338,7 +338,7 @@ const ManageAddress = () => {
 
     return (
         <div className='address_Account_PCJ'>
-            <ToastContainer />
+             
             <div>
                 <p style={{
                     textAlign: 'center',

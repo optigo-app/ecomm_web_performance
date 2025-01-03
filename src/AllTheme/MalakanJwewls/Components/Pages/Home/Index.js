@@ -41,7 +41,7 @@ function Home() {
             <PromotionBaner2 data={banner?.middleBanner} />
             <TrendingView1 data={banner?.trendingBanner} />
             <TheDifference data={banner?.bottomBanner} />
-            <BottomSection />
+            <BottomSection data={banner?.bottomBanner}/>
           </div>
         </div>
       </div>

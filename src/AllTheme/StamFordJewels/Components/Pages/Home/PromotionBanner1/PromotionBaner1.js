@@ -4,14 +4,15 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 import './PromotionBaner1.modul.scss'
 import { stam_loginState } from '../../../Recoil/atom';
 
-const PromotionBaner1 = () => {
+const PromotionBaner1 = ({data}) => {
 
 
     const islogin = useRecoilValue(stam_loginState);
 
     return (
         <div className='stam_Banner_main'>
-            <img src={`${storImagePath()}/images/HomePage/sectionBanner/Banner1.jpg`} style={{ width: '100%', objectFit: 'contain' }} className='stam_promotion1' alt={"#promoBanner1"} />
+            {/* <img src={`${storImagePath()}/images/HomePage/sectionBanner/Banner1.jpg`} style={{ width: '100%', objectFit: 'contain' }} className='stam_promotion1' alt={"#promoBanner1"} /> */}
+            <img src={data?.image?.[0]} style={{ width: '100%', objectFit: 'contain' }} className='stam_promotion1' alt={"#promoBanner1"} />
             {/* <img src={`${storImagePath()}/images/BannerImage/PromoBanner2.webp`} style={{ width: '100%', minHeight: '450px' }} className='stam_promotion1' alt={"#promoBanner1"} /> */}
             {/* {islogin === true && <div className='festiveBox'>
                 <p className='smilingFestiMainTitle1' style={{ color: 'gray' }}>LAB GROWN DIAMONDS</p>

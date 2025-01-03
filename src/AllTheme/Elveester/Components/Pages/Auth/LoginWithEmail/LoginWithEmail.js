@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import './LoginWithEmail.modul.scss'
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import { ForgotPasswordEmailAPI } from '../../../../../../utils/API/Auth/ForgotPasswordEmailAPI';
@@ -114,7 +114,7 @@ export default function LoginWithEmail() {
     }
     return (
         <div className='el_LoginMain' style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
-            <ToastContainer />
+             
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
