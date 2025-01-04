@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import B2bCart from "./B2bCart/Cart";
 import B2cCart from "./CartPageB2c/Cart";
 import CartPage3 from "./CartPage3/Cart";
+import PrintPageCard from './PrintCartPage';
 
 const CartMain = () => {
     const [cartComponent, setCartComponent] = useState(null);
@@ -32,6 +33,7 @@ const CartMain = () => {
             marginBottom:"3rem"
         }}>
             {cartComponent}
+            <PrintPageCard />
         </div>
     );
 };
