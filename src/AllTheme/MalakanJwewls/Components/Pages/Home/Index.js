@@ -36,7 +36,7 @@ function Home() {
       <div className="mala_home_index_main">
         <div style={{ minHeight: minHeight }}>
           <div className="mala_home_index_Submain">
-            <TopSection />
+            <TopSection data={banner?.mainBanner} />
             <ShopBanner />
             <PromotionBaner2 data={banner?.middleBanner} />
             <TrendingView1 data={banner?.trendingBanner} />
