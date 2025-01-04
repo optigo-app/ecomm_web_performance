@@ -7,7 +7,6 @@ import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import './changepassword.scss'
 import { handleChangePassword } from '../../../../../../utils/API/AccountTabs/changePassword';
 import {  toast } from 'react-toastify';
-import {  toast } from 'react-toastify';
 import { handlePasswordInputChangeAcc, validateChangePassword } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 
 export default function ChangePassword() {

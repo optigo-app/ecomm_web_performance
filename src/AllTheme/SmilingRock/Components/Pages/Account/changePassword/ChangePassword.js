@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import './changepassword.scss'
 import { handleChangePassword } from '../../../../../../utils/API/AccountTabs/changePassword';
 import {  toast } from 'react-toastify';
-import {  toast } from 'react-toastify';
 import { handlePasswordChangeAcc, handlePasswordInputChangeAcc, validateChangePassword } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 
 export default function ChangePassword() {

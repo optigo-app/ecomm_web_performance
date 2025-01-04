@@ -3,7 +3,6 @@ import "./ContinueWithEmail.modul.scss";
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import {  } from "react-toastify";
 import Footer from "../../Home/Footer/Footer";
 import { ContinueWithEmailAPI } from "../../../../../../utils/API/Auth/ContinueWithEmailAPI";
 import btnstyle from '../../../scss/Button.module.scss'
