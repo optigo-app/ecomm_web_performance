@@ -41,7 +41,13 @@ var BrandsContent = [
 ];
 
 
-const PromoComponent2 = () => {
+
+
+const PromoComponent2 = ({ banner }) => {
+    const updatedBrandsContent = BrandsContent.map((item, index) => ({
+        ...item,
+        image: banner?.image?.[index] || item.image,
+    }));
     return (
         <div className='elv_promo_div'>
             <Swiper
@@ -54,7 +60,7 @@ const PromoComponent2 = () => {
                 }}
                 modules={[Autoplay]}
             >
-                {BrandsContent.map((item, index) => (
+                {updatedBrandsContent.map((item, index) => (
                     <SwiperSlide key={index}>
                         <div className='promo-daimondBoxMain'>
                             <div className='promo-daimondBox1'>
@@ -62,7 +68,8 @@ const PromoComponent2 = () => {
                                 <p className='promo_dia_title_desc_1'>{item.description}</p>
                             </div>
                             <div className='promo-daimondBox2'>
-                                <img loading="lazy" src={storImagePath() + item.image} className='promo-daimondBox2-image' alt={`Item ${index + 1}`} />
+                                <img loading="lazy" src={item?.image} className='promo-daimondBox2-image' alt={`Item ${index + 1}`} />
+                                {/* <img loading="lazy" src={storImagePath() + item.image} className='promo-daimondBox2-image' alt={`Item ${index + 1}`} /> */}
                             </div>
                         </div>
                     </SwiperSlide>

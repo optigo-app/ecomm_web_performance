@@ -4,8 +4,11 @@ import { Box, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import CompanyData from '../../ComapnayData/CompanyData';
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
+import useHomeBannerImages from '../../../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
 
 const AboutUs = () => {
+    const { aboutusBanner } = useHomeBannerImages();
+
     const [value, setValue] = useState('1');
 
     const handleChange = (event, newValue) => {
@@ -23,7 +26,8 @@ const AboutUs = () => {
     return (
         <div className="elv_aboutus_maindiv">
             <div className="elv_aboutus_div">
-                <img className='elv_aboutus_mainImg' src={`${storImagePath()}/images/HomePage/AboutUs/AboutUsMainBannerImg.jpg`} alt="aboutus.jpg" />
+                <img className='elv_aboutus_mainImg' src={aboutusBanner?.image?.[0]} alt="aboutus.jpg" />
+                {/* <img className='elv_aboutus_mainImg' src={`${storImagePath()}/images/HomePage/AboutUs/AboutUsMainBannerImg.jpg`} alt="aboutus.jpg" /> */}
                 <div className='elv_aboutus_details_div'>
                     <h2 className='elv_aboutus_head_title'>ABOUT US</h2>
                     <div className='elv_aboutus_details'>
@@ -90,7 +94,8 @@ const AboutUs = () => {
                         </div>
                         <div className="elv_aboutus_details_rightside">
                             <div style={{ marginRight: '5%' }}>
-                                <img className='elv_aboutus_sec_img' src={`${storImagePath()}/images/HomePage/AboutUs/AboutUsVisitngImg.jpg`} alt="" />
+                                <img className='elv_aboutus_sec_img' src={aboutusBanner?.image?.[1]} alt="" />
+                                {/* <img className='elv_aboutus_sec_img' src={`${storImagePath()}/images/HomePage/AboutUs/AboutUsVisitngImg.jpg`} alt="" /> */}
                             </div>
                         </div>
                     </div>

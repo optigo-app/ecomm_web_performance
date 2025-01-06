@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Suspense } from 'react';
 import './Terms.modul.scss';
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
+import useHomeBannerImages from '../../../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
 
 const Terms = () => {
-
+    const { termsBanner } = useHomeBannerImages();
     const [firstImageLaod, setFirstImageLoad] = useState(false);
 
     const termsArr = [
@@ -26,12 +27,14 @@ const Terms = () => {
             <div className="elv_terms_div">
                 <div className='elv_terms_image_div'>
                     <Suspense fallback="">
-                        <img className='elv_terms_image_1' src={`${storImagePath()}/images/HomePage/Terms-and-Condtions/TermConditionMainBanner.jpg`} alt="terms.jpg" onLoad={() => setFirstImageLoad(true)} />
+                        <img className='elv_terms_image_1' src={termsBanner?.image?.[0]} alt="terms.jpg" onLoad={() => setFirstImageLoad(true)} />
+                        {/* <img className='elv_terms_image_1' src={`${storImagePath()}/images/HomePage/Terms-and-Condtions/TermConditionMainBanner.jpg`} alt="terms.jpg" onLoad={() => setFirstImageLoad(true)} /> */}
                     </Suspense>
                     {firstImageLaod && (
                         <div>
                             <Suspense fallback="">
-                                <img className='elv_terms_image_2' src={`${storImagePath()}/images/HomePage/Terms-and-Condtions/trans-logo.png`} alt="" />
+                                <img className='elv_terms_image_2' src={termsBanner?.image?.[1]} alt="" />
+                                {/* <img className='elv_terms_image_2' src={`${storImagePath()}/images/HomePage/Terms-and-Condtions/trans-logo.png`} alt="" /> */}
                             </Suspense>
                         </div>
                     )}
