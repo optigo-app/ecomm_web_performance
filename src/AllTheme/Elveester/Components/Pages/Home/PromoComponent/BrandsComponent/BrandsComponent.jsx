@@ -2,17 +2,15 @@ import React from 'react'
 import './Styles.scss'
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction'
 
-const BrandsComponent = () => {
+const BrandsComponent = ({ banner }) => {
+    console.log('banner: ', banner);
     return (
-        <div id='brandsComponentID'  name={'brandsComponentID'} >
+        <div id='brandsComponentID' name={'brandsComponentID'} >
             <Title />
             <div className='brandsComponentClass'>
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo06.png`}/>
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo05.png`} />
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo04.png`} />
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo02.png`} />
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo03.png`} />
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo01.png`} />
+                {banner?.image?.map((image, index) => (
+                    <img key={index} className='affilitionImg' loading="lazy" src={image} />
+                ))}
                 {/* <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo05.png`} style={{ width: '10%', objectFit: 'cover', marginRight:'90px' }} />
                 <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo06.png`} style={{ width: '10%', objectFit: 'cover', marginRight: '90px' }} />
                 <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo04.png`} style={{ width: '10%', objectFit: 'cover', marginRight: '90px' }} />

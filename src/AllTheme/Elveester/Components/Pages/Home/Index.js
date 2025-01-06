@@ -12,28 +12,30 @@ import CompanyData from './ComapnayData/CompanyData';
 import AffiliationData from './PromoComponent/BrandsComponent/AffiliationData';
 import SocialMediaSection from './SocialMediaSection/SocialMediaSection';
 import Exhibition from './ExhibitionBanner/Exhibition';
+import useHomeBannerImages from '../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
 
 function Home() {
+  const banner = useHomeBannerImages();
 
   const isLogin = useRecoilValue(el_loginState);
 
   return (
     <div>
       {isLogin ?
-        <TopSection />
+        <TopSection banner={banner?.mainBanner} />
         :
         <>
-          <TopSection />
-          <PromoComponent1 />
-          <Exhibition />
-          <BrandsComponent />
-          <PromoComponent2 />
-          <Collection />
-          <Craftmenship />
-          <GaleryView />
+          <TopSection banner={banner?.mainBanner} />
+          <PromoComponent1 banner={banner?.middleBanner} />
+          <Exhibition banner={banner?.middleBanner} />
+          <BrandsComponent banner={banner?.brandlogo} />
+          <PromoComponent2 banner={banner?.collectionBanner} />
+          <Collection banner={banner?.categoryBanner} />
+          <Craftmenship banner={banner?.promotionalBanner} />
+          <GaleryView banner={banner?.photoGallery} />
           <CompanyData />
-          <AffiliationData />
-          <SocialMediaSection />
+          <AffiliationData banner={banner?.affiliation} />
+          <SocialMediaSection banner={banner?.socialMediaBanner2} />
         </>
       }
     </div>

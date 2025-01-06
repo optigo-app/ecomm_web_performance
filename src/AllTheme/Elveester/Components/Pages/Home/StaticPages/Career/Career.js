@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './Career.scss'
 import { IoMdArrowDropdown } from "react-icons/io";
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
+import useHomeBannerImages from '../../../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
 
 const Career = () => {
+    const { careerBanner } = useHomeBannerImages();
     const [showfrom, setfromshow] = useState(false);
     const careerDetails = [
         { title: 'Lorem Ipsum', desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin porttitor congue magna, id mollis mi sollicitudin in. Fusce facilisis, felis vel viverra placerat, felis neque lacinia urna, a tempor risus nulla in lorem." },
@@ -48,7 +50,8 @@ const Career = () => {
         // </div>
         <div className="elev_career_page">
             <div className="elvee_banner_i">
-                <img src={`${storImagePath()}/images/HomePage/Careers/Career.jpg`} alt="" />
+                <img src={careerBanner?.image?.[0]} alt="" />
+                {/* <img src={`${storImagePath()}/images/HomePage/Careers/Career.jpg`} alt="" /> */}
             </div>
             <div className="elev_career_content">
                 <h1>CAREER</h1>
@@ -63,7 +66,8 @@ const Career = () => {
             </div>
             <div className="elvee_join_team_section">
                 <img
-                    src="https://i.ibb.co/7Cw2sc2/Joint-Team.jpg"
+                    src={careerBanner?.image?.[1]}
+                    // src="https://i.ibb.co/7Cw2sc2/Joint-Team.jpg"
                     alt="Team meeting"
                     className="team-meeting-photo"
                 />

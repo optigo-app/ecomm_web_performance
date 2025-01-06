@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react'
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import './History.modul.scss';
+import useHomeBannerImages from '../../../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
 
 const History = () => {
+    const { historyBanner } = useHomeBannerImages();
+
     const historyData = [
         { year: '2017', description: 'Elvee was established', active: false },
         { year: '2019', description: 'Promise Brand Was established', active: true },
@@ -21,7 +24,8 @@ const History = () => {
     return (
         <div className="elv_history_maindiv">
             <div className="elv_history_div">
-                <img className='elv_history_mainImg' src={`${storImagePath()}/images/HomePage/History/HistoryMainBanner.jpg`} alt="aboutus.png" />
+                <img className='elv_history_mainImg' src={historyBanner?.image?.[0]} alt="aboutus.png" />
+                {/* <img className='elv_history_mainImg' src={`${storImagePath()}/images/HomePage/History/HistoryMainBanner.jpg`} alt="aboutus.png" /> */}
                 <div className='elv_history_details_div'>
                     <h3 className='elv_history_head_title'>our history</h3>
                     <div className='elv_history_details'>
@@ -52,7 +56,8 @@ const History = () => {
                         </div>
                         <div className="elv_history_journey_2">
                             <div>
-                                <img className='elv_history_jor_img' src={`${storImagePath()}/images/HomePage/History/HistorySubBanner1.jpg`} alt="" />
+                                <img className='elv_history_jor_img' src={historyBanner?.image?.[1]} alt="" />
+                                {/* <img className='elv_history_jor_img' src={`${storImagePath()}/images/HomePage/History/HistorySubBanner1.jpg`} alt="" /> */}
                             </div>
                         </div>
                     </div>

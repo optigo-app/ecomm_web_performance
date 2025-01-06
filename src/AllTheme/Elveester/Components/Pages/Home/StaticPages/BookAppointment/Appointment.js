@@ -8,8 +8,11 @@ import { ImClock2 } from "react-icons/im";
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import { BookAppointment } from '../../../../../../../utils/API/BookAppointment/BookAppointment';
 import { toast } from 'react-toastify';
+import useHomeBannerImages from '../../../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
 
 const Appointment = () => {
+    const { appointmentBanner } = useHomeBannerImages();
+
     const [selectedbox, setselectedbox] = useState({
         id: "",
         name: "",
@@ -155,15 +158,26 @@ const Appointment = () => {
     }, []);
 
 
+    // const appointment = [
+    //     { src: `${storImagePath()}/images/HomePage/Appointment/Collection.jpg`, alt: "Collection" },
+    //     { src: `${storImagePath()}/images/HomePage/Appointment/Engagement_Ring.jpg`, alt: "Engagement Ring" },
+    //     { src: `${storImagePath()}/images/HomePage/Appointment/Fine_Jewellery.jpg`, alt: "Fine Jewellery" },
+    //     { src: `${storImagePath()}/images/HomePage/Appointment/Gold_Jewellery.jpg`, alt: "Gold Jewellery" },
+    //     { src: `${storImagePath()}/images/HomePage/Appointment/High_Jewellery.jpg`, alt: "High Jewellery" },
+    //     { src: `${storImagePath()}/images/HomePage/Appointment/Men's_Jewellery.jpg`, alt: "Men's Jewellery" },
+    //     { src: `${storImagePath()}/images/HomePage/Appointment/Wedding_Ring.jpg`, alt: "Wedding Ring" },
+    //     { src: `${storImagePath()}/images/HomePage/Appointment/Others.jpg`, alt: "Others" },
+    // ];
+
     const appointment = [
-        { src: `${storImagePath()}/images/HomePage/Appointment/Collection.jpg`, alt: "Collection" },
-        { src: `${storImagePath()}/images/HomePage/Appointment/Engagement_Ring.jpg`, alt: "Engagement Ring" },
-        { src: `${storImagePath()}/images/HomePage/Appointment/Fine_Jewellery.jpg`, alt: "Fine Jewellery" },
-        { src: `${storImagePath()}/images/HomePage/Appointment/Gold_Jewellery.jpg`, alt: "Gold Jewellery" },
-        { src: `${storImagePath()}/images/HomePage/Appointment/High_Jewellery.jpg`, alt: "High Jewellery" },
-        { src: `${storImagePath()}/images/HomePage/Appointment/Men's_Jewellery.jpg`, alt: "Men's Jewellery" },
-        { src: `${storImagePath()}/images/HomePage/Appointment/Wedding_Ring.jpg`, alt: "Wedding Ring" },
-        { src: `${storImagePath()}/images/HomePage/Appointment/Others.jpg`, alt: "Others" },
+        { src: `${appointmentBanner?.image?.[1]}`, alt: "Collection" },
+        { src: `${appointmentBanner?.image?.[2]}`, alt: "Engagement Ring" },
+        { src: `${appointmentBanner?.image?.[3]}`, alt: "Fine Jewellery" },
+        { src: `${appointmentBanner?.image?.[4]}`, alt: "Gold Jewellery" },
+        { src: `${appointmentBanner?.image?.[5]}`, alt: "High Jewellery" },
+        { src: `${appointmentBanner?.image?.[6]}`, alt: "Men's Jewellery" },
+        { src: `${appointmentBanner?.image?.[7]}`, alt: "Wedding Ring" },
+        { src: `${appointmentBanner?.image?.[8]}`, alt: "Others" },
     ];
 
     return (
@@ -175,7 +189,8 @@ const Appointment = () => {
                     </p>
                 </div>
                 <div className="image">
-                    <img src={`${storImagePath()}/images/HomePage/Appointment/Book_Appointment.jpg`} alt="aa" />
+                    <img src={appointmentBanner?.image?.[0]} alt="aa" />
+                    {/* <img src={`${storImagePath()}/images/HomePage/Appointment/Book_Appointment.jpg`} alt="aa" /> */}
                 </div>
             </div>
             <div className="grid_col_2_elvee">

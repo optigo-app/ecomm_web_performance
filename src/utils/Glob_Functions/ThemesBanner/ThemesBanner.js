@@ -62,7 +62,47 @@ const useHomeBannerImages = () => {
         navbarMenu  :{
           image: [],
           video: [],
-        }
+        },
+        categoryBanner: {
+          image: [],
+          video:[],
+        },
+        aboutusBanner: {
+          image: [],
+          video:[],
+        },
+        careerBanner: {
+          image: [],
+          video:[],
+        },
+        historyBanner: {
+          image: [],
+          video:[],
+        },
+        contactusBanner: {
+          image: [],
+          video:[],
+        },
+        termsBanner: {
+          image: [],
+          video:[],
+        },
+        servicesBanner: {
+          image: [],
+          video:[],
+        },
+        appointmentBanner: {
+          image: [],
+          video:[],
+        },
+        customizeBanner: {
+          image: [],
+          video:[],
+        },
+        faqBanner: {
+          image: [],
+          video:[],
+        },
       });
   useEffect(() => {
     const bannerData = {
@@ -92,6 +132,8 @@ const useHomeBannerImages = () => {
             `${storImagePath()}/Banner/brandlogo2.png`,
             `${storImagePath()}/Banner/brandlogo3.png`,
             `${storImagePath()}/Banner/brandlogo4.png`,
+            `${storImagePath()}/Banner/brandlogo5.png`,
+            `${storImagePath()}/Banner/brandlogo6.png`,
           ],
           video: [],
         },
@@ -155,6 +197,9 @@ const useHomeBannerImages = () => {
             `${storImagePath()}/Banner/collectionbanner1.png`,
             `${storImagePath()}/Banner/collectionbanner2.png`,
             `${storImagePath()}/Banner/collectionbanner3.png`,
+            `${storImagePath()}/Banner/collectionbanner4.png`,
+            `${storImagePath()}/Banner/collectionbanner5.png`,
+            `${storImagePath()}/Banner/collectionbanner6.png`,
           ],
           video: [],
         },
@@ -163,6 +208,15 @@ const useHomeBannerImages = () => {
             `${storImagePath()}/Banner/Affiliation1.png`,
             `${storImagePath()}/Banner/Affiliation2.png`,
             `${storImagePath()}/Banner/Affiliation3.png`,
+            `${storImagePath()}/Banner/Affiliation4.png`,
+            `${storImagePath()}/Banner/Affiliation5.png`,
+            `${storImagePath()}/Banner/Affiliation6.png`,
+            `${storImagePath()}/Banner/Affiliation7.png`,
+            `${storImagePath()}/Banner/Affiliation8.png`,
+            `${storImagePath()}/Banner/Affiliation9.png`,
+            `${storImagePath()}/Banner/Affiliation10.png`,
+            `${storImagePath()}/Banner/Affiliation11.png`,
+            `${storImagePath()}/Banner/Affiliation12.png`,
           ],
           video: [],
         },
@@ -173,6 +227,11 @@ const useHomeBannerImages = () => {
             `${storImagePath()}/Banner/photogallery3.png`,
             `${storImagePath()}/Banner/photogallery4.png`,
             `${storImagePath()}/Banner/photogallery5.png`,
+            `${storImagePath()}/Banner/photogallery6.png`,
+            `${storImagePath()}/Banner/photogallery7.png`,
+            `${storImagePath()}/Banner/photogallery8.png`,
+            `${storImagePath()}/Banner/photogallery9.png`,
+            `${storImagePath()}/Banner/photogallery10.png`,
           ],
           video: [],
         },
@@ -190,7 +249,87 @@ const useHomeBannerImages = () => {
             `${storImagePath()}/Banner/navbarMenu4.png`,
           ],
           video: [],
-        }
+        },
+        categoryBanner :{
+          image: [
+            `${storImagePath()}/Banner/categorybanner01.png`,
+            `${storImagePath()}/Banner/categorybanner02.png`,
+            `${storImagePath()}/Banner/categorybanner03.png`,
+            `${storImagePath()}/Banner/categorybanner04.png`,
+          ],
+          video: [],
+        },
+        aboutusBanner :{
+          image: [
+            `${storImagePath()}/Banner/aboutusBanner1.png`,
+            `${storImagePath()}/Banner/aboutusBanner2.png`,
+          ],
+          video: [],
+        },
+        careerBanner :{
+          image: [
+            `${storImagePath()}/Banner/careerBanner1.png`,
+            `${storImagePath()}/Banner/careerBanner2.png`,
+          ],
+          video: [],
+        },
+        historyBanner :{
+          image: [
+            `${storImagePath()}/Banner/historyBanner1.png`,
+            `${storImagePath()}/Banner/historyBanner2.png`,
+          ],
+          video: [],
+        },
+        contactusBanner :{
+          image: [
+            `${storImagePath()}/Banner/contactBanner1.png`,
+          ],
+          video: [],
+        },
+        termsBanner :{
+          image: [
+            `${storImagePath()}/Banner/termsBanner1.png`,
+            `${storImagePath()}/Banner/termsBanner2.png`,
+          ],
+          video: [],
+        },
+        servicesBanner :{
+          image: [
+            `${storImagePath()}/Banner/servicesBanner1.png`,
+            `${storImagePath()}/Banner/servicesBanner2.png`,
+            `${storImagePath()}/Banner/servicesBanner3.png`,
+            `${storImagePath()}/Banner/servicesBanner4.png`,
+          ],
+          video: [],
+        },
+        appointmentBanner :{
+          image: [
+            `${storImagePath()}/Banner/appointBanner1.png`,
+            `${storImagePath()}/Banner/appointBanner2.png`,
+            `${storImagePath()}/Banner/appointBanner3.png`,
+            `${storImagePath()}/Banner/appointBanner4.png`,
+            `${storImagePath()}/Banner/appointBanner5.png`,
+            `${storImagePath()}/Banner/appointBanner6.png`,
+            `${storImagePath()}/Banner/appointBanner7.png`,
+            `${storImagePath()}/Banner/appointBanner8.png`,
+            `${storImagePath()}/Banner/appointBanner9.png`,
+          ],
+          video: [],
+        },
+        customizeBanner :{
+          image: [
+            `${storImagePath()}/Banner/customizeBanner1.png`,
+            `${storImagePath()}/Banner/customizeBanner2.png`,
+            `${storImagePath()}/Banner/customizeBanner3.png`,
+          ],
+          video: [],
+        },
+        faqBanner :{
+          image: [
+            `${storImagePath()}/Banner/faqBanner1.png`,
+          ],
+          video: [],
+        },
       };
       setBanners(bannerData);
     }, []); 

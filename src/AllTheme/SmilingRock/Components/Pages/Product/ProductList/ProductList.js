@@ -840,7 +840,7 @@ const ProductList = () => {
       let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
       let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
       // DiaRange, netRange ,grossRange
-      ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect)
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);

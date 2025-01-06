@@ -2,12 +2,13 @@ import React from 'react'
 import './Exhibition.modul.scss'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
-const Exhibition = () => {
+const Exhibition = ({ banner }) => {
     return (
         <div id='elv_exhib_banner_div' >
             <Title />
             <div className='elv_exhib_banner'>
-                <img className='elv_exh_banner' loading="lazy" src={`${storImagePath()}/images/HomePage/Exhibition/Banner/Banner.jpg`} />
+                <img className='elv_exh_banner' loading="lazy" src={banner?.image?.[1]} />
+                {/* <img className='elv_exh_banner' loading="lazy" src={`${storImagePath()}/images/HomePage/Exhibition/Banner/Banner.jpg`} /> */}
             </div>
         </div>
     )
