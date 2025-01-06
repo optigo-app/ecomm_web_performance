@@ -25,6 +25,9 @@ import {
 } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import { MdAutoDelete } from "react-icons/md";
 import { DeleteAccount } from "../../../../../../utils/API/Auth/DeleteAccountApi";
+import { MdEditDocument } from "react-icons/md";
+import { MdOutlinePrivacyTip } from "react-icons/md";
+import { BiCopyright } from "react-icons/bi";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -215,9 +218,9 @@ export default function Account() {
             >
               <div
                 className="boxMainTopSection"
-                onClick={() => naviagation("/Coupons")}
+                onClick={() => naviagation("/privacy-policy")}
               >
-                <IoGiftOutline style={{ marginLeft: "15px" }} />
+                <MdOutlinePrivacyTip style={{ marginLeft: "15px" }} />
                 <p
                   style={{
                     margin: "0px 0px 0px 10px",
@@ -225,10 +228,10 @@ export default function Account() {
                     fontSize: "15px",
                   }}
                 >
-                  Coupons
+                  Privacy Policy
                 </p>
               </div>
-              <div
+              {/* <div
                 className="boxMainTopSection"
                 style={{ marginRight: "0px" }}
                 onClick={() => naviagation("/HelpCenter")}
@@ -243,8 +246,26 @@ export default function Account() {
                 >
                   Help Center
                 </p>
+              </div> */}
+                    <div
+                className="boxMainTopSection"
+                style={{ marginRight: "0px" }}
+                onClick={() => naviagation("/support")}
+              >
+                <FaHeadset style={{ marginLeft: "15px" }} />
+                <p
+                  style={{
+                    margin: "0px 0px 0px 10px",
+                    fontWeight: 600,
+                    fontSize: "15px",
+                  }}
+                >
+                  Support
+                </p>
               </div>
+              
             </div>
+            
           </div>
         </div>
         <div className="smlingMA-AccountTabMain">
@@ -293,7 +314,12 @@ export default function Account() {
               <p className="menuMainAccountTitle">Delete Your Account</p>
               <MdAutoDelete />
             </div>
-
+            <div className="menuMainAccount"
+            onClick={() => naviagation("/copyright")}
+            >
+              <p className="menuMainAccountTitle">Copyright</p>
+              <BiCopyright />
+            </div>
             <div
               style={{
                 display: "flex",

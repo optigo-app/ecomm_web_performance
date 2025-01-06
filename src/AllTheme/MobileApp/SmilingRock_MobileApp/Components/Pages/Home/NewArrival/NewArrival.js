@@ -94,7 +94,7 @@ const NewArrival = () => {
             response.Data.rd.map(async (item) => {
               const imgURL = `${storeinit?.CDNDesignImageFol}${item.designno}~1.${item.ImageExtension}`;
               const imageAvailable = await checkImageAvailability(imgURL);
-              return { ...item, src: imageAvailable };
+              return { ...item, src: imageAvailable  , imageAvailable : imageAvailable ? true : false };
             })
           );
           setNewArrivalData(itemsWithImageCheck);
@@ -145,6 +145,9 @@ const NewArrival = () => {
     slidesPerView: 3,
   };
 
+  useEffect(() => {
+   console.log(newArrivalData, "newArrivalData")
+  }, [newArrivalData])
 
   return (
     <div style={{ marginBottom: newArrivalData?.length == 0 && '5px' }} ref={newArrivalRef}>
@@ -153,38 +156,38 @@ const NewArrival = () => {
           <Swiper {...swiperParams}
             className="smaMA_newArrivalBoxcMain"
           >
-            {newArrivalData?.map((item, index) => (
-              <SwiperSlide
-                key={index}
-                style={{ maxWidth: "18rem", marginInline: "auto" }}
-                className="smaMA_newArrivalBoxcMainSub"
+            {newArrivalData?.map((item, index) => {
+              return <SwiperSlide
+              key={index}
+              style={{ maxWidth: "18rem", marginInline: "auto" }}
+              className="smaMA_newArrivalBoxcMainSub"
+            >
+              <div
+                className="smr_newArrialDiv1"
+                onClick={() =>
+                  handleNavigation(
+                    item.designno,
+                    item.autocode,
+                    item.TitleLine
+                  )
+                }
               >
-                <div
-                  className="smr_newArrialDiv1"
-                  onClick={() =>
-                    handleNavigation(
-                      item.designno,
-                      item.autocode,
-                      item.TitleLine
-                    )
-                  }
-                >
-                  <img
-                    src={item.imageAvailable
-                      ? `${item?.src}`
-                      // ? `${imageUrl}${item.designno}_1.${item.ImageExtension}`
-                      : notfound}
-                    className="smilingMainImages"
-                    alt={item.TitleLine}
-                  />
-                  <p className="ring1Desc">{item.designno}</p>
-                  <p className='smr_nwArrivalTitle'>
-                    <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
-                    {formatter(item.UnitCostWithMarkUp)}
-                  </p>
-                </div>
-              </SwiperSlide>
-            ))}
+                <img
+                  src={item.imageAvailable
+                    ? `${item?.src}`
+                    // ? `${imageUrl}${item.designno}_1.${item.ImageExtension}`
+                    : notfound}
+                  className="smilingMainImages"
+                  alt={item.TitleLine}
+                />
+                <p className="ring1Desc">{item.designno}</p>
+                <p className='smr_nwArrivalTitle'>
+                  <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
+                  {formatter(item.UnitCostWithMarkUp)}
+                </p>
+              </div>
+            </SwiperSlide>
+            })}
           </Swiper>
         </div>
       }

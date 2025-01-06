@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { IoArrowBack } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import './TermsCondition.modul.scss'
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
+import { getDomainName, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
 
 const Coupons = () => {
 
@@ -12,7 +12,10 @@ const Coupons = () => {
     const [htmlContent, setHtmlContent] = useState('');
 
     useEffect(() => {
-        fetch(`${storImagePath()}/html/MA_Copyright.html`)
+
+        const FetchApi = async () => {
+            const filename = await getDomainName();
+            fetch(`${storImagePath()}/html/${filename}/MA_Copyright.html`)
             .then((response) => response.text())
             .then((html) => {
                 setHtmlContent(html);
@@ -20,7 +23,9 @@ const Coupons = () => {
             .catch((error) => {
                 console.error('Error fetching the HTML file:', error);
             });
-    }, []);
+        }
+        FetchApi()
+          }, []);
 
     return (
         <div className='smrMA_static_tremMain'>
