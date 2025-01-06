@@ -114,7 +114,6 @@ export default function LoginWithEmail() {
     }
     return (
         <div className='el_LoginMain' style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
-             
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />

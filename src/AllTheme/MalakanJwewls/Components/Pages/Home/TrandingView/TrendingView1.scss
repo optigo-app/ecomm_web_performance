@@ -17,7 +17,7 @@
     .malakan_trending1Title {
       font-size: 3rem;
       color: #01332a;
-      font-family: "Rowan5";
+      font-family: $rown;
     }
   }
 
@@ -162,6 +162,7 @@
     }
 
     @media (max-width: 992px) {
+
       .malakan_leftSideBestTR,
       .malakan_rightSideTR {
         width: 100%;
@@ -315,6 +316,10 @@
     }
   }
 
+  .mala_trend_slider {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
   .malakan_trend__image_div {
     position: relative;
     width: 100%;
@@ -425,6 +430,9 @@
 }
 
 .malakan_trend_main_swiper {
+  padding-bottom: 10px;
+  height: auto;
+
   .swiper-button-next,
   .swiper-button-prev {
     color: #fff;
@@ -432,12 +440,14 @@
     border-radius: 50%;
     padding: 22px;
   }
+
   .swiper-button-prev::after,
-    .swiper-button-next::after{
- font-size: unset;
-    }
+  .swiper-button-next::after {
+    font-size: unset;
+  }
 
   @media (max-width: 900px) {
+
     .swiper-button-prev,
     .swiper-button-next {
       background-color: #b7b7b7;

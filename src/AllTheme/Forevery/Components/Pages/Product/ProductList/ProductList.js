@@ -1829,7 +1829,7 @@ const Product_Card = ({
                 />
               </>
             }
-            label={<span className={`for_productList_cart_title`}>{isChecked ? "In Cart" : "Add to Cart"}</span>}
+            label={<span className={`for_productList_cart_title`}>{isChecked ? "Remove from Cart" : "Add to Cart"}</span>}
             className="for_productList_listinig_ATC_div"
           />
         </div>

@@ -105,7 +105,6 @@ export default function LoginWithMobileCode() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-             
             <div>
                 <div className='smling-forgot-main'>
                     <p className='AuthScreenMainTitle'

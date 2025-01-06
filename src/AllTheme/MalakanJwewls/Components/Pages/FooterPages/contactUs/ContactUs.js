@@ -19,8 +19,8 @@ export default function ContactUs() {
   useEffect(() => {
     // fetch(`${storImagePath()}/html/PrivaaContactPage.html`)  /* for Privaa only  */
       // fetch(`${storImagePath()}/html/KamalikaContactPage.html`)  /* for Kamalika only  */
-      fetch(`${storImagePath()}/html/SonasonsContactPage.html`)  /* for sonsons only  */
-      // fetch(`${storImagePath()}/html/ShreeDiaConatct.html`)  /* for shree diamonds only */
+      // fetch(`${storImagePath()}/html/SonasonsContactPage.html`)  /* for sonsons only  */
+      fetch(`${storImagePath()}/html/ShreeDiaConatct.html`)  /* for shree diamonds only */
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);

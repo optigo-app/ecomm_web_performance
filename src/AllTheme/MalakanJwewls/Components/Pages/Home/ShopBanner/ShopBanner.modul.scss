@@ -39,10 +39,10 @@
 
       h1 {
         text-transform: uppercase;
-        font-weight: 700;
+        font-weight: 500;
         font-size: 3rem;
         color: #01332a;
-        font-family: "Rowan1";
+        font-family: $rown;
       }
     }
 
@@ -68,6 +68,7 @@
         height: 100%;
         overflow: hidden;
         position: relative;
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
         @media screen and (max-width: 768px) {
           max-height: 300px;
@@ -179,7 +180,7 @@
       outline: none;
       cursor: pointer;
       font-size: 18px;
-      font-weight: 600;
+      font-weight: 500;
       background-color: transparent;
       cursor: pointer;
     }

@@ -103,7 +103,6 @@ export default function YourProfile() {
     return (
         <div className='yourProfile_Account_DT'>
             <div className='smr_yourProfile'>
-                 
 
                 {isLoading && (
                     <div className="loader-overlay" style={{zIndex:10000}}>

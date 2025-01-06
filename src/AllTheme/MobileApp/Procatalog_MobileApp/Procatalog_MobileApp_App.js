@@ -67,7 +67,6 @@ const Procatalog_MobileApp_App = () => {
   return (
     <div>
       <ConnectionManager />
-       
       {(location.pathname === "/accountledgertable" ||
         location.pathname === "/accountledgerexcel" ||
         location.pathname === "/accountledgerdebit" ||

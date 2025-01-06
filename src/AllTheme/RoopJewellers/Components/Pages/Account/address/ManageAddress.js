@@ -350,7 +350,6 @@ const ManageAddress = () => {
 
     return (
         <div className='address_Account_RPJ'>
-             
             <div>
                 <p className='roop_savedAddress'>Saved Addresses</p>
                 <Box sx={{ paddingLeft: "15px" }}>

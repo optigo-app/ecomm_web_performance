@@ -365,7 +365,6 @@ const ManageAddressMAPP = () => {
 
     return (
         <div className='address_Account_PCMJ'>
-         
         <div className="sticky-header">
             <MobViewHeader title="Manage Address" />
         </div>

@@ -21,14 +21,14 @@
         width: 100%;
     }
 
-    .smr_prod_detail_main {
+    .roop_prod_detail_main {
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
-    .smr_prod_image_shortInfo {
+    .roop_prod_image_shortInfo {
         width: 100%;
         display: flex;
 
@@ -37,7 +37,7 @@
         }
     }
 
-    .smr_prod_image_Sec {
+    .roop_prod_image_Sec {
         width: 60%;
         display: flex;
         justify-content: center;
@@ -47,13 +47,13 @@
         // }
     }
 
-    .smr_prod_shortInfo {
+    .roop_prod_shortInfo {
         width: 40%;
         display: flex;
         justify-content: center;
     }
 
-    .smr_main_prod_img {
+    .roop_main_prod_img {
         display: flex;
         // flex-direction: row-reverse;
         width: 80%;
@@ -74,7 +74,7 @@
         }
     }
 
-    .smr_prod_img {
+    .roop_prod_img {
         position: inherit;
         width: 100%;
         object-fit: scale-down;
@@ -97,27 +97,27 @@
         }
     }
 
-    .smr_prod_video {
+    .roop_prod_video {
         position: absolute;
         height: 100%;
         width: 100%;
         left: 35px;
     }
 
-    .smr_prod_video {
+    .roop_prod_video {
         position: inherit;
         width: 100%;
         object-fit: scale-down;
     }
 
-    .smr_prod_thumb_img {
+    .roop_prod_thumb_img {
         object-fit: contain;
         width: 70px;
         border: 1px solid #e1e1e1;
         border-radius: 8px;
     }
 
-    .smr_main_thumb_prod_img {
+    .roop_main_thumb_prod_img {
         position: absolute;
         // left:15px;
         // top:20px
@@ -135,7 +135,7 @@
         }
     }
 
-    .smr_prod_shortInfo_inner {
+    .roop_prod_shortInfo_inner {
         // margin: 50px 100px 0px;
         // width: 60%;
         margin: 50px 0px 0px 50px;
@@ -143,7 +143,7 @@
         // margin-top: 100px;
     }
 
-    .smr_prod_titleLine {
+    .roop_prod_titleLine {
         text-align: start !important;
         // font-size: 35px;
         font-size: 25px;
@@ -154,7 +154,7 @@
         margin-bottom: 3px;
     }
 
-    .smr_prod_summury_info {
+    .roop_prod_summury_info {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -163,12 +163,12 @@
         padding-bottom: 12px;
     }
 
-    .smr_prod_summury_info_inner {
+    .roop_prod_summury_info_inner {
         display: flex;
         flex-direction: column;
     }
 
-    .smr_single_prod_designno {
+    .roop_single_prod_designno {
         font-size: 16px;
         font-weight: 600;
         letter-spacing: 2px;
@@ -176,26 +176,26 @@
         font-family: $fontRegular !important;
     }
 
-    .smr_prod_short_key {
+    .roop_prod_short_key {
         font-size: 15px;
         color: $primaryfontcolor2;
         font-family: $fontRegular !important;
     }
 
-    .smr_prod_short_val {
+    .roop_prod_short_val {
         font-size: 15px;
         font-family: $fontMedium !important;
         letter-spacing: 2px;
     }
 
-    .smr_single_prod_customize {
+    .roop_single_prod_customize {
         display: flex;
         flex-wrap: wrap;
         width: 100%;
         margin-top: 12px;
     }
 
-    .smr_single_prod_customize_metal {
+    .roop_single_prod_customize_metal {
         display: flex;
         flex-direction: column;
         width: 95%;
@@ -203,7 +203,7 @@
         gap: 5px;
     }
 
-    .smr_single_prod_customize_outer {
+    .roop_single_prod_customize_outer {
         display: flex;
         flex-direction: column;
         width: 95%;
@@ -232,7 +232,7 @@
         // background-color: white;
     }
 
-    .smr_price_portion {
+    .roop_price_portion {
         font-size: 24px;
         display: flex;
         letter-spacing: 2.2px;
@@ -248,7 +248,7 @@
         font-family: $primaryFontFamilyMedium !important;
     }
 
-    .Smr_CartAndWish_portion {
+    .roop_CartAndWish_portion {
         display: flex;
         gap: 12px;
         flex-direction: row;
@@ -257,7 +257,7 @@
         margin-top: 20px;
     }
 
-    .smr_AddToCart_btn {
+    .roop_AddToCart_btn {
         border: 1px solid $btnprimarycolor;
         width: 80%;
         height: 30%;
@@ -272,11 +272,11 @@
         transition: background-color 0.3s;
     }
 
-    .smr_AddToCart_btn:hover {
+    .roop_AddToCart_btn:hover {
         background-color: #e54e68;
     }
 
-    .smr_AddToCart_btn_afterCart {
+    .roop_AddToCart_btn_afterCart {
         border: 1px solid $btnprimarycolor;
         width: 80%;
         height: 30%;
@@ -291,11 +291,11 @@
         transition: background-color 0.3s;
     }
 
-    .smr_AddToCart_btn_afterCart:hover {
+    .roop_AddToCart_btn_afterCart:hover {
         background-color: #e54e68;
     }
 
-    .smr_addtocart_btn_txt {
+    .roop_addtocart_btn_txt {
         font-family: $fontMedium;
         font-size: 15px;
         letter-spacing: 1.5px;
@@ -303,7 +303,7 @@
         color: $btn1hoverFontColor;
     }
 
-    .Smr_wishlistcont {
+    .roop_wishlistcont {
         border: 1px solid #7d7f85;
         width: 20%;
         display: flex;
@@ -315,7 +315,7 @@
         background-color: white;
     }
 
-    .smr_proDeatilList {
+    .roop_proDeatilList {
         width: 25%;
         font-weight: 600;
         color: $primaryfontcolor2;
@@ -323,7 +323,7 @@
         font-family: $fontMedium;
     }
 
-    .smr_proDeatilList1 {
+    .roop_proDeatilList1 {
         width: 25%;
         color: #808080;
         font-size: 14px;
@@ -331,7 +331,7 @@
     }
 
 
-    .smr_material_details_portion {
+    .roop_material_details_portion {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -345,7 +345,7 @@
         }
     }
 
-    .smr_stockItem_div {
+    .roop_stockItem_div {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -361,11 +361,11 @@
         text-align: center;
     }
 
-    .smr_material_details_portion_inner {
+    .roop_material_details_portion_inner {
         width: 60%;
     }
 
-    .smr_mt_detail_title_ul {
+    .roop_mt_detail_title_ul {
         display: flex;
         text-decoration: none;
         list-style: none;
@@ -381,22 +381,23 @@
         flex-direction: row-reverse;
     }
 
-    .smr_stockitem_container {
+    .roop_stockitem_container {
         width: 100%;
         display: flex;
         justify-content: center;
     }
 
-    @media (max-width: 500px) {
-        .smr_stockitem_container {
+    @media (max-width: 790PX) {
+        .roop_stockitem_container {
             display: block;
             width: 100%;
             overflow-x: scroll;
+            scrollbar-width: thin;
             -webkit-overflow-scrolling: touch;
         }
     }
 
-    .smr_stock_item_card {
+    .roop_stock_item_card {
         display: flex;
         justify-content: center;
         width: 94%;
@@ -406,7 +407,7 @@
         flex-wrap: wrap;
     }
 
-    .smr_stockItemCard {
+    .roop_stockItemCard {
         display: flex;
         position: relative;
         width: 310px;
@@ -415,7 +416,7 @@
         flex-direction: column;
     }
 
-    .smr_productCard_Image {
+    .roop_productCard_Image {
         object-fit: contain;
         // background-position: 50%;
         background-size: cover;
@@ -424,16 +425,16 @@
         width: 100%;
     }
 
-    .smr_stockutem_shortinfo {
+    .roop_stockutem_shortinfo {
         background-color: $btnprimarycolor;
 
-        .smr_prod_designno,
-        .smr_stockItem_price_type_mt {
+        .roop_prod_designno,
+        .roop_stockItem_price_type_mt {
             color: #fff;
         }
     }
 
-    .smr_prod_Allwt {
+    .roop_prod_Allwt {
         display: flex;
         // flex-direction: row;
         justify-content: center;
@@ -444,23 +445,23 @@
         color: $primaryfontcolor2;
     }
 
-    .smr_prod_wt {
+    .roop_prod_wt {
         display: flex;
         gap: 2px;
         font-family: $primaryFontFamily;
 
     }
 
-    .smr_d_keys {
+    .roop_d_keys {
         font-size: 13px;
     }
 
-    .smr_d_val {
+    .roop_d_val {
         font-size: 13px;
         font-weight: 400;
     }
 
-    .smr_prod_designno {
+    .roop_prod_designno {
         font-size: 14px;
         font-weight: 400;
         padding: 0px 5px;
@@ -468,20 +469,20 @@
         font-family: $fontRegular !important;
     }
 
-    .smr_stockItem_price_type_mt {
+    .roop_stockItem_price_type_mt {
         color: $primaryfontcolor;
         font-size: 14px;
         font-family: $fontRegular;
     }
 
-    .smr_prodd_datanotfound {
+    .roop_prodd_datanotfound {
         font-family: $fontMedium;
         color: $primaryfontcolor;
         font-size: 42px;
     }
 
-    .Smr_stockItem_table_tr,
-    .Smr_stockItem_table_td {
+    .roop_stockItem_table_tr,
+    .roop_stockItem_table_td {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
@@ -489,11 +490,11 @@
         font-size: 16px;
     }
 
-    // .Smr_stockItem_table_tr:nth-child(even){
+    // .roop_stockItem_table_tr:nth-child(even){
     //     background-color: #dddddd;
     // }
 
-    .Smr_stockItem_table {
+    .roop_stockItem_table {
         border-collapse: collapse;
         width: 80%;
         font-family: $primaryFontFamily;
@@ -501,7 +502,7 @@
 
 
         @media screen and (max-width: 768px) {
-            .Smr_stockItem_table {
+            .roop_stockItem_table {
                 display: block;
                 width: 100%;
                 padding: 0;
@@ -510,25 +511,25 @@
         }
     }
 
-    .smr_Swiper_designSet {
+    .roop_Swiper_designSet {
         max-width: 1600px;
     }
 
-    .smr_Price_breakup_label {
+    .roop_Price_breakup_label {
         width: 70px;
         color: #7d7f85;
         font-family: $primaryFontFamily;
     }
 
-    .smr_currencyFont {
+    .roop_currencyFont {
         font-family: $fontRegular !important;
     }
 
-    .smr_PriceBreakup_Price {
+    .roop_PriceBreakup_Price {
         font-family: $primaryFontFamily;
     }
 
-    .smr_prodDetail_backtotop {
+    .roop_prodDetail_backtotop {
         color: white;
         font-family: $primaryFontFamily;
         display: flex;
@@ -541,13 +542,13 @@
     }
 
     @media screen and (max-width:1820px) {
-        .smr_Swiper_designSet {
+        .roop_Swiper_designSet {
             max-width: 1400px;
         }
     }
 
     @media screen and (max-width:1590px) {
-        .smr_Swiper_designSet {
+        .roop_Swiper_designSet {
             max-width: 1200px;
         }
 
@@ -557,13 +558,13 @@
     }
 
     @media screen and (max-width:1364px) {
-        .smr_Swiper_designSet {
+        .roop_Swiper_designSet {
             max-width: 1100px;
         }
     }
 
     @media screen and (max-width:1121px) {
-        .smr_Swiper_designSet {
+        .roop_Swiper_designSet {
             max-width: 900px;
         }
 
@@ -572,7 +573,7 @@
             flex-direction: column !important;
         }
 
-        .smr_ctlImg_containe {
+        .roop_ctlImg_containe {
             width: 600px !important;
             height: 600px !important;
         }
@@ -594,7 +595,7 @@
     }
 
     @media screen and (max-width:917px) {
-        .smr_Swiper_designSet {
+        .roop_Swiper_designSet {
             max-width: 600px;
         }
 
@@ -603,7 +604,7 @@
             flex-direction: column !important;
         }
 
-        .smr_lb3ctlImg_containe {
+        .roop_lb3ctlImg_containe {
             width: 300px !important;
             height: 300px !important;
             // height: 100% !important;
@@ -633,7 +634,7 @@
     }
 
     @media screen and (max-width:612px) {
-        .smr_Swiper_designSet {
+        .roop_Swiper_designSet {
             max-width: 100%;
             // max-width: 360px;
         }
@@ -643,7 +644,7 @@
             flex-direction: column !important;
         }
 
-        .smr_ctlImg_containe {
+        .roop_ctlImg_containe {
             width: 300px !important;
             height: 300px !important;
             // height: 100% !important;
@@ -759,7 +760,7 @@
         font-family: $fontMedium !important;
     }
 
-    .smr_ctlImg_containe {
+    .roop_ctlImg_containe {
         width: 951px;
         height: 632px;
     }
@@ -772,7 +773,7 @@
         margin-bottom: -100px;
     }
 
-    .smr_DesignSet_main {
+    .roop_DesignSet_main {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -787,21 +788,21 @@
 
 
     @media screen and (max-width:1200px) {
-        .smr_prod_image_shortInfo {
+        .roop_prod_image_shortInfo {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 
-        .smr_prod_video {
+        .roop_prod_video {
             position: relative;
             left: 0;
             margin-bottom: 35px;
             height: 80%;
         }
 
-        // .smr_main_thumb_prod_img{
+        // .roop_main_thumb_prod_img{
         // /* position: absolute; */
         // /* padding: 35px 0px 0px 15px; */
         // // left: -71px;
@@ -812,7 +813,7 @@
         // justify-content: center;
         // align-items: center;
         // }
-        .smr_main_thumb_prod_img {
+        .roop_main_thumb_prod_img {
             display: flex;
             gap: 5px;
             position: relative;
@@ -826,31 +827,31 @@
             scrollbar-width: thin;
         }
 
-        .smr_prod_image_Sec {
+        .roop_prod_image_Sec {
             width: 75%;
             // width: 100%;
         }
 
-        .smr_prod_shortInfo {
+        .roop_prod_shortInfo {
             width: 100%
         }
 
-        .smr_material_details_portion {
+        .roop_material_details_portion {
             margin-top: 15px;
         }
 
-        .smr_material_details_portion_inner {
+        .roop_material_details_portion_inner {
             width: 100%;
         }
 
-        .smr_prod_shortInfo_inner {
+        .roop_prod_shortInfo_inner {
             margin: 0;
             width: 80%
         }
     }
 
     @media screen and (max-width:1400px) {
-        .smr_prod_shortInfo_inner {
+        .roop_prod_shortInfo_inner {
             margin: 80px 50px 0px;
             // margin: 70px 50px 0px;
             width: 80%;
@@ -858,18 +859,18 @@
     }
 
     @media screen and (max-width: 768px) {
-        .smr_prod_image_Sec {
+        .roop_prod_image_Sec {
             width: 100%;
         }
     }
 
     @media screen and (max-width:425px) {
-        .smr_prod_titleLine {
+        .roop_prod_titleLine {
             // font-size: 30px;
             font-size: 20px;
         }
 
-        .smr_prod_shortInfo_inner {
+        .roop_prod_shortInfo_inner {
             width: 100%;
             margin: 70px 20px;
         }
@@ -877,7 +878,7 @@
 
 
     @media screen and (max-width: 350px) {
-        .smr_prod_shortInfo {
+        .roop_prod_shortInfo {
             width: 100%;
             padding-inline: 4%;
         }

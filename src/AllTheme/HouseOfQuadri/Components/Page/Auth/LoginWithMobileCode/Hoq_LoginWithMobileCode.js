@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { Hoq_loginState } from '../../../Recoil/atom';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 
 
@@ -103,7 +103,6 @@ export default function LoginWithMobileCode() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-          
             <div >
                 <div className='smling-forgot-main'>
                     <p style={{

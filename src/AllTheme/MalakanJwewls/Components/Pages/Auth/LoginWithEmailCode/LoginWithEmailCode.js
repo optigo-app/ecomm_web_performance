@@ -167,7 +167,6 @@ export default function LoginWithEmailCode() {
 
     return (
         <div className='mala_loginwithemailCode'>
-             
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
@@ -179,7 +178,7 @@ export default function LoginWithEmailCode() {
                         textAlign: 'center',
                         padding: '0px',
                         margin: '0px',
-                        fontSize: '40px',
+                        fontSize: '32px',
                         color: '#fff',
                     }}
                         className='AuthScreenMainTitle'

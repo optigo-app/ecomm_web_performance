@@ -489,7 +489,9 @@ const Album = () => {
           </div>
         </Box>
       </Modal>
-      <p className="proCat_albumTitle">ALBUMS</p>
+      {albumData?.length !== 0 && (
+        <>
+   <p className="proCat_albumTitle">ALBUMS</p>
       <div className="proCat_albumALL_div" style={{ minHeight: !albumData.length && '600px' }}>
         {albumData.map((data, index) => {
         //  const imgSrc =  ImageMaking(index,data)
@@ -589,6 +591,9 @@ const Album = () => {
               })
             }
       </div>
+        </>
+      )}
+     
     </div>
   );
 };

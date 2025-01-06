@@ -133,7 +133,6 @@ export default function ChangePassword() {
 
     return (
         <div className='changePassword_Account_HOQ'>
-   
         <div>
             {isLoading && (
                 <div className="loader-overlay">

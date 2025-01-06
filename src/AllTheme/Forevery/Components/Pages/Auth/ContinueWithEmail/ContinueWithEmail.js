@@ -124,7 +124,6 @@ export default function ContinueWithEmail() {
 
   return (
     <div className="for_continuemail" style={{ backgroundColor: "white" }}>
-       
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className="loadingBarManage" />

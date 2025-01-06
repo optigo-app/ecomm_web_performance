@@ -305,7 +305,6 @@ export default function LoginWithEmail() {
     }
     return (
         <div className='for_loginEmail' style={{ backgroundColor: "white" }}>
-             
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />

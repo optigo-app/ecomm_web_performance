@@ -223,24 +223,24 @@ const RoopJewellers_App = () => {
           <Route path="/ContactUs" element={<ContactUs />} />
           {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
 
-          {/* For sonsons, shinjini, pacific */}
-          {/* <Route path="/privacyPolicy" element={<PrivacyPolicy />} /> */}
+          {/* For sonsons, shinjini, pacific, ojasvi */}
+          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
 
           {/* For vara */}
-          <Route
+          {/* <Route
             path="/ManagementTeam"
             element={<ManagementTeam />}
-          />
+          /> */}
            <Route
             path="/terms-and-conditions"
             
             element={<TermsAndConditions />}
           />
           {/* For sonasons and vara */}
-          <Route path="/aboutUs" element={Vara} />
+          {/* <Route path="/aboutUs" element={Vara} /> */}
 
-          {/* For shinjini, Pacific */}
-          {/* <Route path="/aboutUs" element={<AXboutUs />} /> */}
+          {/* For shinjini, Pacific, ojasvi */}
+          <Route path="/aboutUs" element={<AXboutUs />} />
           {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
           {/* <Route path="/FunFact" element={<FunFact />} /> */}
           <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>

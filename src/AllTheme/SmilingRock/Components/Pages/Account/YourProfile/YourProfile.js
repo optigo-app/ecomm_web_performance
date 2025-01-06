@@ -101,7 +101,6 @@ export default function YourProfile() {
     return (
         <div className='yourProfile_Account_SMR'>
         <div className='  smr_yourProfile'>
-            {/*   */}
 
             {isLoading && (
                 <div className="loader-overlay" style={{zIndex:100000}}>

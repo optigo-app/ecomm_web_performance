@@ -86,12 +86,55 @@ const MalakanJewels_App = () => {
     mala_setCompanyTitleLogoM(mobileLogo);
   });
 
+  // useEffect(() => {
+  //   const cookieValue = Cookies.get("userLoginCookie");
+  //   if (cookieValue) {
+  //     LoginWithEmailAPI("", "", "", "", cookieValue)
+  //       .then((response) => {
+  //         if (response.Data.rd[0].stat === 1) {
+  //           Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
+  //           setIsLoginState(true);
+  //           sessionStorage.setItem("LoginUser", true);
+  //           sessionStorage.setItem(
+  //             "loginUserDetail",
+  //             JSON.stringify(response.Data.rd[0])
+  //           );
+  //           if (redirectEmailUrl) {
+  //             navigation(redirectEmailUrl);
+  //           } else {
+  //             navigation("/");
+  //           }
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  //   let localD = JSON.parse(sessionStorage.getItem("storeInit"));
+  //   setLocalData(localD);
+  // }, []);
+
+
+  // if (islogin === true) {
+  //   const restrictedPaths = [
+  //     '/LoginOption',
+  //     '/ContinueWithEmail',
+  //     '/ContinueWithMobile',
+  //     '/LoginWithEmailCode',
+  //     '/LoginWithMobileCode',
+  //     '/ForgotPass',
+  //     '/LoginWithEmail',
+  //     '/register'
+  //   ];
+  //   if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
+  //     return navigation("/");
+  //   }
+  // }
+
   useEffect(() => {
     const cookieValue = Cookies.get("userLoginCookie");
-    if (cookieValue) {
+    if (cookieValue && islogin === false) {
       LoginWithEmailAPI("", "", "", "", cookieValue)
         .then((response) => {
-          if (response.Data.rd[0].stat === 1) {
+          if (response?.Data?.rd[0]?.stat === 1) {
             Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
             setIsLoginState(true);
             sessionStorage.setItem("LoginUser", true);
@@ -101,6 +144,10 @@ const MalakanJewels_App = () => {
             );
             if (redirectEmailUrl) {
               navigation(redirectEmailUrl);
+            } else if (location.pathname.startsWith("/accountdwsr")) {
+              navigation("/accountdwsr");
+            } else if (sessionStorage.getItem("previousUrl")) {
+              navigation(sessionStorage.getItem("previousUrl"));
             } else {
               navigation("/");
             }
@@ -108,23 +155,30 @@ const MalakanJewels_App = () => {
         })
         .catch((err) => console.log(err));
     }
+
+    if (!islogin) {
+      if (location.pathname !== "/") {
+        sessionStorage.setItem("previousUrl", location.pathname);
+      }
+    }
+
     let localD = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localD);
-  }, []);
-
+  }, [islogin, location.pathname, redirectEmailUrl, navigation]);
 
   if (islogin === true) {
     const restrictedPaths = [
-      '/LoginOption',
-      '/ContinueWithEmail',
-      '/ContinueWithMobile',
-      '/LoginWithEmailCode',
-      '/LoginWithMobileCode',
-      '/ForgotPass',
-      '/LoginWithEmail',
-      '/register'
+      "/LoginOption",
+      "/ContinueWithEmail",
+      "/ContinueWithMobile",
+      "/LoginWithEmailCode",
+      "/LoginWithMobileCode",
+      "/ForgotPass",
+      "/LoginWithEmail",
+      "/register",
     ];
-    if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
+
+    if (restrictedPaths?.some((path) => location.pathname.startsWith(path))) {
       return navigation("/");
     }
   }
@@ -172,7 +226,7 @@ const MalakanJewels_App = () => {
             element={<Register />}
           />
           <Route path="/ContactUs" element={<ContactUs />} />
-          <Route path="/servicePolicy" element={<ServicePolicy />} />
+          {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/TermsPolicy" element={<TermsPolicy />} />
           <Route path="/ExpertAdvice" element={<ExpertAdvice />} />

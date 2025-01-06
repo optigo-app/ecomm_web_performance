@@ -134,7 +134,6 @@ export default function ChangePassword() {
 
     return (
         <div className='changePassword_Account_SMR'>
-         
         <div>
             {isLoading && (
                 <div className="loader-overlay">

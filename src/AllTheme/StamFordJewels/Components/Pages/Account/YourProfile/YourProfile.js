@@ -107,6 +107,7 @@ export default function YourProfile() {
         <div className='yourProfile_Account_stam'>
         <div className='stam_yourProfile'>
          
+
             {isLoading && (
                 <div className="loader-overlay" style={{zIndex:10000}}>
                     <CircularProgress className='loadingBarManage' />

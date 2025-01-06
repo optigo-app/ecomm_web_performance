@@ -1933,7 +1933,7 @@ const ProductDetail = () => {
                                 // className="filtercategoryLable"
 
                                 >
-                                  <Typography sx={{ fontSize: '18px', fontFamily: "Rowan1" }}>Price Breakup</Typography>
+                                  <Typography sx={{ fontSize: '14px', fontFamily: "Baskerville" }}>Price Breakup</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails
                                   sx={{
@@ -1966,7 +1966,7 @@ const ProductDetail = () => {
 
                                   {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <Typography className="mala_Price_breakup_label">Metal</Typography>
-                                    <span style={{ display: 'flex' }}>
+                                    <span style={{ display: 'flex', alignItems: "center" }}>
                                       <Typography>
                                         {
                                           <span className="mala_currencyFont">
@@ -1982,7 +1982,7 @@ const ProductDetail = () => {
                                   {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <Typography className="mala_Price_breakup_label">Diamond </Typography>
 
-                                    <span style={{ display: 'flex' }}>
+                                    <span style={{ display: 'flex', alignItems: "center" }}>
                                       <Typography>{
                                         <span className="mala_currencyFont">
                                           {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
@@ -1996,7 +1996,7 @@ const ProductDetail = () => {
                                   {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <Typography className="mala_Price_breakup_label">Stone </Typography>
 
-                                    <span style={{ display: 'flex' }}>
+                                    <span style={{ display: 'flex', alignItems: "center" }}>
                                       <Typography>{
                                         <span className="mala_currencyFont">
                                           {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
@@ -2010,7 +2010,7 @@ const ProductDetail = () => {
                                   {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <Typography className="mala_Price_breakup_label">MISC </Typography>
 
-                                    <span style={{ display: 'flex' }}>
+                                    <span style={{ display: 'flex', alignItems: "center" }}>
                                       <Typography>{
                                         <span className="mala_currencyFont">
                                           {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
@@ -2024,7 +2024,7 @@ const ProductDetail = () => {
                                   {(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <Typography className="mala_Price_breakup_label">Labour </Typography>
 
-                                    <span style={{ display: 'flex' }}>
+                                    <span style={{ display: 'flex', alignItems: "center" }}>
                                       <Typography>{
                                         <span className="mala_currencyFont">
                                           {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
@@ -2050,7 +2050,7 @@ const ProductDetail = () => {
                                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <Typography className="mala_Price_breakup_label">Other </Typography>
 
-                                        <span style={{ display: 'flex' }}>
+                                        <span style={{ display: 'flex', alignItems: "center" }}>
                                           <Typography>{
                                             <span className="mala_currencyFont">
                                               {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
@@ -2084,7 +2084,7 @@ const ProductDetail = () => {
                               {isPriceloading ? (
                                 ""
                               ) : (
-                                <span className="mala_currencyFont">
+                                <span className="mala_currencyFont_total">
                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                 </span>
                               )}
@@ -2174,7 +2174,7 @@ const ProductDetail = () => {
                     <div className="mala_material_details_portion_inner">
                       <ul style={{ margin: "0px 0px 3px 0px" }}>
                         <li
-                          style={{ fontWeight: 600, color: '#7d7f85' }}
+                          style={{ fontWeight: 600, color: '#7d7f85', fontSize: "15px" }}
                         >{`Diamond Detail (${diaList?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
@@ -2208,7 +2208,7 @@ const ProductDetail = () => {
                     <div className="mala_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
-                          style={{ fontWeight: 600, color: '#7d7f85' }}
+                          style={{ fontWeight: 600, color: '#7d7f85', fontSize: "15px" }}
                         >{`ColorStone Detail (${csList?.filter((ele) => ele?.D !== "MISC")?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
@@ -2242,7 +2242,7 @@ const ProductDetail = () => {
                     <div className="mala_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
-                          style={{ fontWeight: 600, color: '#7d7f85' }}
+                          style={{ fontWeight: 600, color: '#7d7f85', fontSize: "15px" }}
                         >{`MISC Detail (${csList?.filter((ele) => ele?.D === "MISC")?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
@@ -2658,7 +2658,7 @@ const ProductDetail = () => {
                                     className="mala_stockItem_price_type_mt"
                                   >
                                     <spam>
-                                      <span className="mala_currencyFont">
+                                      <span className="mala_currencyFont_total">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                       &nbsp;

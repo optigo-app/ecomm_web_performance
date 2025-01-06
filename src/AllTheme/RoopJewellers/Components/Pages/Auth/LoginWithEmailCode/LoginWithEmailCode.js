@@ -166,7 +166,6 @@ export default function LoginWithEmailCode() {
 
     return (
         <div className='roop_loginwithemailCode'>
-             
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />

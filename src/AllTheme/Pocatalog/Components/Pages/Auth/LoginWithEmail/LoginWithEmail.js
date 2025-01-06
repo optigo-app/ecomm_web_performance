@@ -299,7 +299,6 @@ export default function LoginWithEmail() {
     }
     return (
         <div className='proCat_loginEmail'>
-             
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />

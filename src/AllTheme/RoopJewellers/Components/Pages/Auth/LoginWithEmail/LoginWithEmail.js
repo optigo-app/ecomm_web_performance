@@ -306,7 +306,6 @@ export default function LoginWithEmail() {
     }
     return (
         <div className='stam_loginEmail'>
-             
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />

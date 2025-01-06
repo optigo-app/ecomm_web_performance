@@ -348,7 +348,6 @@ const ManageAddress = () => {
 
     return (
         <div className='address_Account_HOQ'>
-
             <div>
                 <HeadTitleAcc title="Saved Addresses" />
             <p style={{

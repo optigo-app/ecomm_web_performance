@@ -161,13 +161,13 @@ const TrendingView1 = ({data}) => {
                         {/* For shinjini*/}
                         {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} /> */}
 
-                        {/* For sonasons, pacific*/}
-                        {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} /> */}
+                        {/* For sonasons, pacific, ojasvi */}
+                        <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} />
 
                         {/* // for vara  */}
-                        <img src={data?.image?.[0]}
+                        {/* <img src={data?.image?.[0]}
                             alt="Trending Jewellery Collection Banner"
-                        />
+                        /> */} 
                     </div>
                     {/* <div className='smr_rightSideTR'> */}
 

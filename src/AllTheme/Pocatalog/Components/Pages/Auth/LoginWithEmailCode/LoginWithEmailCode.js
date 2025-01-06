@@ -176,7 +176,6 @@ export default function LoginWithEmailCode() {
 
     return (
         <div className='proCat_loginwithemailCode' style={{ paddingTop: '10px' }}>
-             
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />

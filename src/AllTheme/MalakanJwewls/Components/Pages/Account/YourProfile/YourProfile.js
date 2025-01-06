@@ -106,7 +106,7 @@ export default function YourProfile() {
     return (
         <div className='yourProfile_Account_mala'>
             <div className='mala_yourProfile'>
-              
+      
 
                 {isLoading && (
                     <div className="loader-overlay" style={{ zIndex: 10000 }}>

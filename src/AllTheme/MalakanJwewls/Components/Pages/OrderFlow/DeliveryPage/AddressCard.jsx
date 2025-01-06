@@ -36,7 +36,7 @@ const AddressCard = ({ address, index, handleOpen, handleDeleteClick, handleDefa
                 style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 
                 <CardContent onClick={() => handleDefaultSelection(address)} style={{ flex: '1 0 auto' ,color:"black" }}>
-                    <Typography className='mala_addrTypoTitle' variant="h5" component="h2">
+                    <Typography className='mala_addrTypoTitle' variant="h5" component="h5">
                         {shippingfirstname} {shippinglastname}
                     </Typography>
                     <Typography className='mala_addrTypo'>{street}</Typography>

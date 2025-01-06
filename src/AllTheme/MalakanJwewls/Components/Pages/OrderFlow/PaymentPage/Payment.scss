@@ -70,9 +70,27 @@
     font-weight: 600;
 }
 
+.mala_shippingAddress {
+    p{
+        font-size: $fontSize2;
+    }
+}
+
 .mala_paymentDetailLeftSideContent {
     h2 {
-        font-size: $fontSize6;
+        font-size: $fontSize5;
+    }
+
+    .mala_billingAddress{
+        h3{
+            font-size: $fontSize4;
+        }
+    }
+}
+
+.mala_paymentDetailRightSideContent{
+    h3{
+        font-size: $fontSize5;
     }
 }
 
@@ -90,13 +108,13 @@
 .mala_summary-item .mala_label {
     min-width: 180px;
     text-align: left;
-    font-size: $fontSize2;
+    font-size: $fontSize1;
 }
 
 .mala_summary-item .mala_value {
     text-align: left;
     white-space: nowrap;
-    font-size: $fontSize2;
+    font-size: $fontSize1;
     font-weight: bold !important;
 }
 
@@ -109,7 +127,7 @@
         height: 40px;
         width: 180px;
         font-family: $primaryFontFamily !important;
-        font-size: $fontSize3;
+        font-size: $fontSize2;
         color: $btn1hoverFontColor;
         background-color: $backgroundColor;
         border: 1px solid $backgroundColor;

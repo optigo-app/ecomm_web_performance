@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { Link } from "react-router-dom";
+import './OurStory.scss';
 import { useMediaQuery } from "@mui/material";
 export default function OurStory() {
   const [htmlContent, setHtmlContent] = useState("");
@@ -17,22 +18,22 @@ export default function OurStory() {
       });
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
-      behavior  :"smooth",
-      top : 0
+      behavior: "smooth",
+      top: 0
     })
-  },[])
+  }, [])
   return (
-    <div className="hoq_privacyPolicy">
+    <div className="hoq_ourStory">
       <div>
         <div
-    style={{
-      padding : "0 15px",
-      width  : MediaQuery768 ? "95%"  :"70%",
-      margin : "0 auto"
-    }}
-dangerouslySetInnerHTML={{ __html: htmlContent }}
+          style={{
+            padding: "0 15px",
+            width: MediaQuery768 ? "95%" : "70%",
+            margin: "0 auto"
+          }}
+          dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
       </div>
       <div className="back-to-home">

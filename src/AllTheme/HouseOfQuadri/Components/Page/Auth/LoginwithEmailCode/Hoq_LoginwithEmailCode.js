@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { LoginWithEmailCodeAPI } from "../../../../../../utils/API/Auth/LoginWithEmailCodeAPI";
 import { LoginWithEmailAPI } from "../../../../../../utils/API/Auth/LoginWithEmailAPI";
 import { useSetRecoilState } from "recoil";
@@ -180,7 +180,6 @@ export default function LoginWithEmailCode() {
 
   return (
     <div className="Hoq_loginwithemailCode" style={{ paddingTop: "10px" }}>
-  
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className="loadingBarManage" />

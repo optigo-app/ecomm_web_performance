@@ -103,7 +103,6 @@ export default function ContinueWithEmail() {
 
   return (
     <div className="Hoq_continuemail">
-    
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className="loadingBarManage" />

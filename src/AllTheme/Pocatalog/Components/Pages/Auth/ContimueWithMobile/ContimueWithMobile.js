@@ -94,7 +94,6 @@ export default function ContimueWithMobile() {
 
     return (
         <div className='proCat_continuMobile'>
-             
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />

@@ -497,7 +497,6 @@ const ManageAddress = () => {
 
     return (
         <div className='address_Account_FE'>
-         
             <div >
             <p style={{
                     textAlign: 'center',

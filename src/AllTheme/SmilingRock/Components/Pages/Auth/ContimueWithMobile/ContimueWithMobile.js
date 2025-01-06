@@ -94,7 +94,6 @@ export default function ContimueWithMobile() {
 
     return (
         <div className='smr_continuMobile'>
-             
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />

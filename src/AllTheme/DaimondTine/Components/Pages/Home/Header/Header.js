@@ -101,11 +101,11 @@ const Header = () => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
         if (
-          storeinit?.IsB2BWebsite === 0 ||
-          (storeinit?.IsB2BWebsite === 1 && isUserLogin === true)) {
-          getMenuApi();
+            storeinit?.IsB2BWebsite === 0 ||
+            (storeinit?.IsB2BWebsite === 1 && isUserLogin === true)) {
+            getMenuApi();
         }
-      }, [islogin]);
+    }, [islogin]);
 
 
     useEffect(() => {
@@ -409,6 +409,26 @@ const Header = () => {
             }
         }
     };
+
+    const clickSearch = () => {
+        if (searchText) {
+          let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+          let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+          let obj = {
+            a: "",
+            b: searchText,
+            m: loginInfo?.MetalId ?? storeInit?.MetalId,
+            d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+            c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+            f: {},
+          };
+    
+          let encodeObj = btoa(JSON.stringify(obj));
+          setDrawerOpen(false);
+          navigate(`/p/${searchText}?S=${encodeObj}`);
+          setSearchText("");
+        }
+      }
 
 
     return (
@@ -765,20 +785,20 @@ const Header = () => {
                     }
                 </div>
                 <div className="dt_mobileView_div2"
-                style={{
-                    display: 'flex',
-    alignItems: 'center',
-                }}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                    }}
                 >
                     <a href="/">
                         {titleImg && <img src={titleImg} className="dt_mobileView_div2_logo" />}
                     </a>
                 </div>
                 <div className="dt_mobileView_div2_mobile"
-                style={{
-                    display: 'flex',
-    alignItems: 'center',
-                }}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                    }}
                 >
                     <a href="/">
                         {titleImgM && <img src={titleImgM} className="dt_mobileView_div2_logo" />}
@@ -986,9 +1006,9 @@ const Header = () => {
                             </ul>
                         </div>
 
-                        <div style={{ padding: '0px 0px 5px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
+                        <div style={{ padding: '0px 0px 5px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '20px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
                             <div className="dt_headermainDiv1">
-                                <VscSearch fontSize='20px' style={{ height: "20px", width: "20px", marginRight: "10px" }} />
+                                <VscSearch onClick={() => clickSearch()} fontSize='20px' style={{ height: "20px", width: "20px", marginRight: "10px" }} />
                                 <input
                                     type="text"
                                     placeholder="Search..."

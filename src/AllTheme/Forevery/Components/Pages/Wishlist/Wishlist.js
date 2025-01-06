@@ -168,7 +168,7 @@ const Wishlist = () => {
         {(wishlistData?.length != 0 || diamondWishData?.length != 0) &&
           <div className="for_wishlistRemoveBtndiv">
             <button onClick={handleRemoveAllDialog}>Remove All</button>
-            <button onClick={handleAddtoCartAllfun}>Add to Cart All</button>
+            <button onClick={handleAddtoCartAllfun}>Add All to Cart</button>
           </div>
         }
         {/* {!isWLLoading && (

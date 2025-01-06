@@ -759,7 +759,7 @@ const ProductList = () => {
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
             <Input
-              value={sliderValue[0].toFixed(3)}
+              value={sliderValue[0]?.toFixed(3)}
               margin="none"
               onChange={handleInputChange(0)}
               inputProps={{
@@ -771,7 +771,7 @@ const ProductList = () => {
               }}
             />
             <Input
-              value={sliderValue[1].toFixed(3)}
+              value={sliderValue[1]?.toFixed(3)}
               margin="none"
               onChange={handleInputChange(1)}
               inputProps={{
@@ -807,7 +807,7 @@ const ProductList = () => {
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
             <Input
-              value={sliderValue1[0].toFixed(3)}
+              value={sliderValue1[0]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange1(0)}
               inputProps={{
@@ -819,7 +819,7 @@ const ProductList = () => {
               }}
             />
             <Input
-              value={sliderValue1[1].toFixed(3)}
+              value={sliderValue1[1]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange1(1)}
               inputProps={{
@@ -854,7 +854,7 @@ const ProductList = () => {
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
             <Input
-              value={sliderValue2[0].toFixed(3)}
+              value={sliderValue2[0]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange2(0)}
               inputProps={{
@@ -866,7 +866,7 @@ const ProductList = () => {
               }}
             />
             <Input
-              value={sliderValue2[1].toFixed(3)}
+              value={sliderValue2[1]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange2(1)}
               inputProps={{

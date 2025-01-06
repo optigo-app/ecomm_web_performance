@@ -9,6 +9,26 @@
   src: url("../fonts/Rowan5.otf");
 }
 
+@font-face {
+  font-family: "Playfair Display";
+  src: url("../fonts/PlayfairDisplay.ttf");
+}
+
+@font-face {
+  font-family: "CrimsonText";
+  src: url("../fonts/CrimsonText-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Red Hat Text";
+  src: url("../fonts/RedHatText.ttf");
+}
+
+@font-face {
+  font-family: "Baskerville";
+  src: url("../fonts/LibreBaskerville-Regular.ttf");
+}
+
 // Background colors
 $backgroundColor: var(--background-color);
 $btn1bgColor: #fff;
@@ -27,12 +47,16 @@ $btn1hoverFontColor: #fff;
 $primaryfontcolorLight: #7d7f856e;
 
 // Font family
-$homePageFontFamily: "Rowan5";
-$primaryFontFamily: "Rowan5";
-$primaryFontFamilyMedium: "Rowan5";
-$rown: "Rowan1";
+// $homePageFontFamily: "Rowan5";
+// $primaryFontFamily: "Rowan5";
+// $primaryFontFamilyMedium: "Rowan5";
+// $rown: "Rowan1";
+$homePageFontFamily: "Baskerville";
+$primaryFontFamily: "Baskerville";
+$primaryFontFamilyMedium: "Baskerville";
+$rown: "Playfair Display";
 
-$themeColor :'#F6C2B5' ;
+$themeColor :'#F6C2B5';
 
 // Font size
 $fontSize0: 9px;
@@ -51,25 +75,35 @@ $fontSize10: 64px;
 $primaryBorderColor: #e1e1e1;
 $primaryBorderColor2: #D2CBC3;
 
-// privaa
-$backgroundColor: #D2CBC3;
-$hoverbackgroundColor: #D3CCC4;
+// Authbuttons
+$authButtonsBgColor: #fff;
+$authButtonsBgColorHover: #EAEAEA;
 
-$menuBgColor: #D3CCC4;
+$malaMainBackColor: #e3e3e326;
+
+$backgroundColor: #808992;
+$hoverbackgroundColor: #90969f;
+// privaa
+// $backgroundColor: #D2CBC3; light brown
+// $hoverbackgroundColor: #D3CCC4; light brown
+
+$menuBgColor: #90969f;
+// $menuBgColor: #D3CCC4;  // light brown
 
 // Account background color
 $accountBgColor: #e9e9e9;
 
 // Home page Top section Text Color
-$homePageTopTextColor: #6a6969;
+$homePageTopTextColor: #EAEAEA;
+// $homePageTopTextColor: #6a6969;  // gray
 
-$menuTextColor: #6a6969;
-$hoverTextColor: #fff; 
+$menuTextColor: #EAEAEA;
+// $menuTextColor: #6a6969; // gray
+$hoverTextColor: #fff;
 
 // Product Listing page background color
-$productListingBgColor: #D2CBC3;
+$productListingBgColor: #808992;
+// $productListingBgColor: #D2CBC3;  // light brown
 
 // Default address selected color
 $defaultAddrSelectedColor: blue;
-
-

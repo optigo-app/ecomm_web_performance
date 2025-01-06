@@ -65,7 +65,7 @@ const TopSection = ({data}) => {
     <div className="roop_topVideoMain" role="region" aria-labelledby="top-video-banner">
       <div className="rp_main_slider">
         {/* for vara */}
-        <Slider {...settings} ref={slider}>
+        {/* <Slider {...settings} ref={slider}>
           {isMobile
             ? data?.image?.slice(0,3).map((val, i) => (
               <div className="slide" key={i}>
@@ -77,7 +77,7 @@ const TopSection = ({data}) => {
                 <img src={val} alt={val?.key} />
               </div>
             ))}
-        </Slider>
+        </Slider> */}
 
 
         {/* for shinjini */}
@@ -104,14 +104,15 @@ const TopSection = ({data}) => {
         </video> */}
 
         {/* {localData?.Blockno === 3 && ( */}
-        {/* <div id="top-banner-image-rp">
+        {/* for sonasons, ojasvi */}
+        <div id="top-banner-image-rp">
           <img
             src={`${storImagePath()}/images/HomePage/Banner/3.jpg`}
             alt="Top banner image showcasing our latest promotions"
             style={{ width: "100%" }}
             loading="lazy"
           />
-        </div> */}
+        </div>
 
       </div>
     </div>

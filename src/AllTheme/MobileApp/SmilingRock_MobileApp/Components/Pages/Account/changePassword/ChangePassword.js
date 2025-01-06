@@ -133,7 +133,6 @@ export default function ChangePassword() {
 
     return (
         <div className='changePassword_Account_SMRM'>
-         
 
         <div className='sticky-header'>
             <MobViewHeader title="Change Your Password" />

@@ -6,7 +6,7 @@ import { useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
 import { for_loginState } from '../../../Recoil/atom';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import Cookies from 'js-cookie';
 
@@ -113,7 +113,6 @@ export default function LoginWithMobileCode() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-             
             <div style={{ backgroundColor: '#fff' }}>
                 <div className='for-forgot-main'>
                     <p style={{
