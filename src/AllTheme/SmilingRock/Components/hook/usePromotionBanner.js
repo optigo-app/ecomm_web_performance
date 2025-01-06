@@ -62,7 +62,7 @@ const usePromotionalBanner = () => {
 
     const newTimer = setTimeout(() => {
       setOpenPromotionalBanner(true);
-  }, 3 * 60 * 1000);
+  }, 5 * 60 * 1000);
 
     setTimer(newTimer);
   };

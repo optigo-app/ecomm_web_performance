@@ -91,6 +91,7 @@ const SmilingRock_MobileApp_App = React.memo(() => {
         location.pathname === "/copyright" ||
         location.pathname === "/support" ||
         location.pathname === "/Lookbook" ||
+        location.pathname === "/Coupons" ||
         location.pathname === "/account-delete" ||
         location.pathname === "/CurrentVersion") ?
         null : <Header />}
@@ -114,6 +115,7 @@ const SmilingRock_MobileApp_App = React.memo(() => {
         <Route path="/Delivery" element={<Delivery />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/Confirmation" element={<Confirmation />} />
+        <Route path="/Coupons" element={<Confirmation />} />
         <Route path="/myWishList" element={<Wishlist />} />
         <Route path="/p/*" element={<ProductList />} />
         <Route path="/d/*" element={<ProductDetail />} />
