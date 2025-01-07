@@ -12,25 +12,33 @@ const NewsletterSignup = () => {
   };
 
   const handleSubmit = () => {
-    setLoading(true)
+    setLoading(true); 
     if (email) {
       fetch(
         `http://www.orail.co.in/demo/icontact/standard/Ajax/SendMailToSubscriber.aspx?officeid=1&groupid=1468&emailid=${email}`
       )
         .then((response) => response.text())
-        .then((result) => { setResult(result); setLoading(false) })
-        .catch((error) => setResult(error));
+        .then((result) => {
+          setResult(result); 
+        })
+        .catch((error) => {
+          setResult(error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } else {
       alert("Please enter your email.");
+      setLoading(false); 
     }
   };
-
+  
   const alreadySubs = 'Already Subscribed.';
 
   return (
     <div className="smr_newsletter-signup">
       <div className="icon">
-       <TbMailFast size={65}/>
+        <TbMailFast size={65} />
       </div>
       <h2>Deals are delivered to your Inbox.</h2>
       <p className="sub-text">

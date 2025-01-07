@@ -52,7 +52,7 @@ import ShippingPolicy from "./Components/Pages/Static/ShippingPolicy/ShippingPol
 import ConnectionManager from "../../utils/SoketConnection/ConnectionManager";
 import Cookies from "js-cookie";
 import ProCat_PrivateRoutes from "./ProCat_PrivateRoutes";
-import {   storImagePath,  storInitDataPath,} from "../../utils/Glob_Functions/GlobalFunction";
+import { storImagePath, storInitDataPath, } from "../../utils/Glob_Functions/GlobalFunction";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 
 
@@ -62,6 +62,7 @@ const Procatalog_App = () => {
   const navigation = useNavigate();
   const setIsLoginState = useSetRecoilState(proCat_loginState);
   const location = useLocation();
+  console.log('location: ', location?.pathname);
   const islogin = useRecoilValue(proCat_loginState);
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
@@ -128,21 +129,12 @@ const Procatalog_App = () => {
 
   useEffect(() => {
     const cookieValue = Cookies.get("userLoginCookie");
-    if (cookieValue) {
+    if (cookieValue && islogin === false) {
       LoginWithEmailAPI("", "", "", "", cookieValue)
         .then((response) => {
-          if (response.Data.rd[0].stat === 1) {
-            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token, {
-              path: "/",
-              expires: 30,
-            });
+          if (response?.Data?.rd[0]?.stat === 1) {
+            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
             setIsLoginState(true);
-            // sessionStorage.setItem("LoginUser", true);
-            // sessionStorage.setItem(
-            //   "loginUserDetail",
-            //   JSON.stringify(response.Data.rd[0])
-            // );
-
             sessionStorage.setItem("LoginUser", true);
             sessionStorage.setItem(
               "loginUserDetail",
@@ -150,14 +142,28 @@ const Procatalog_App = () => {
             );
             if (redirectEmailUrl) {
               navigation(redirectEmailUrl);
-            } else {
+            } else if (location.pathname.startsWith("/accountdwsr")) {
+              navigation("/accountdwsr");
+            } else if (location?.pathname === sessionStorage.getItem("previousUrl")) {
+              navigation(sessionStorage.getItem("previousUrl"));
+            }
+            else {
               navigation("/");
             }
           }
         })
         .catch((err) => console.log(err));
     }
-  }, []);
+
+    if (!islogin) {
+      if (location.pathname !== "/") {
+        sessionStorage.setItem("previousUrl", location.pathname);
+      }
+    }
+
+    let localD = JSON.parse(sessionStorage.getItem("storeInit"));
+    setLocalData(localD);
+  }, [islogin, location.pathname, redirectEmailUrl, navigation]);
 
   if (islogin === true) {
     const restrictedPaths = [

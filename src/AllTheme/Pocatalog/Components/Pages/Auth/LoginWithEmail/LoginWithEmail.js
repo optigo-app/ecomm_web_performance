@@ -5,7 +5,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 // import { productListApiCall } from '../../../../Utils/API/ProductListAPI';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import './LoginWithEmail.modul.scss'
 // import { DesignSet } from '../../../../Utils/API/DesignSet';
 // import { GetCount } from '../../../../Utils/API/GetCount';
@@ -142,7 +142,9 @@ export default function LoginWithEmail() {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
                 const visiterID = Cookies.get('visiterId');
-                Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
+
+                console.log('responseresponse', response?.Data?.rd[0]?.Token);
+                Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token);
                 sessionStorage.setItem('registerEmail', email)
                 setIsLoginState(true)
                 sessionStorage.setItem('LoginUser', true)
@@ -186,7 +188,6 @@ export default function LoginWithEmail() {
                     navigation(redirectEmailUrl);
                 } else {
                     navigation('/')
-                    window.location.reload();
                 }
 
                 // pdDataCalling()
@@ -196,6 +197,7 @@ export default function LoginWithEmail() {
 
                 // handelCurrencyData()
                 // getAllProdData()
+                window.location.reload();
             } else {
                 if (response.Data.rd[0].stat_msg == "User Time Off") {
                     errors.confirmPassword = 'User Time Off'
@@ -248,6 +250,7 @@ export default function LoginWithEmail() {
         //     setIsLoading(false);
         // }
     };
+    
 
 
     const handleTogglePasswordVisibility = (fieldName) => {

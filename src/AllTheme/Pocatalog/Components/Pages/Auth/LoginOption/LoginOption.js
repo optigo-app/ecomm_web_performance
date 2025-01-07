@@ -15,7 +15,6 @@ const LoginOption = () => {
 
     const search = location?.search
 
-    console.log('locationlocationlocation', location);
     const redirectEmailUrl = `/ContinueWithEmail/${search}`;
     const redirectMobileUrl = `/ContimueWithMobile/${search}`;
 

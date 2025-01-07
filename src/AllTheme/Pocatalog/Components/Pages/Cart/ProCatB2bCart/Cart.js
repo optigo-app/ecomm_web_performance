@@ -101,7 +101,7 @@ const CartPage = () => {
   //   window.scrollTo(0, 0);
   // };
 
-  const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
+  const redirectUrl = `/loginOption/?LoginRedirect=/cartPage`;
   const handlePlaceOrder = () => {
     let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     let priceData = cartData?.reduce(

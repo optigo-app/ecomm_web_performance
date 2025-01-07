@@ -143,6 +143,7 @@ const Header = () => {
     navigation("/");
     setislogin(false);
     Cookies.remove("userLoginCookie");
+    window.sessionStorage.clear();
     window.location.reload();
     sessionStorage.setItem("LoginUser", false);
     sessionStorage.removeItem("loginUserDetail");

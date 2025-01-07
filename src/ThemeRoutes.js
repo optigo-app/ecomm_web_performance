@@ -2,6 +2,8 @@ import React, { Suspense, useEffect, useRef, useState } from "react";
 import SmilingRock_App from "./AllTheme/SmilingRock/SmilingRock_App";
 import DaimondTine_App from "./AllTheme/DaimondTine/DaimondTine_App";
 import Elveester_App from "./AllTheme/Elveester/Elveester_App";
+import DaimondTine_App from "./AllTheme/DaimondTine/DaimondTine_App";
+import Elveester_App from "./AllTheme/Elveester/Elveester_App";
 import { Storeinit } from "./utils/API/Home/Storeinit/Storeinit";
 import { CurrencyComboAPI } from "./utils/API/Combo/CurrencyComboAPI";
 import { MetalColorCombo } from "./utils/API/Combo/MetalColorCombo";
@@ -133,7 +135,7 @@ export default function ThemeRoutes() {
   };
 
   useEffect(() => {
-   const path = `${storInitDataPath()}/StoreInit.json`;
+    const path = `${storInitDataPath()}/StoreInit.json`;
 
     // Fetch with retry logic
     fetchWithRetry(path, 3, 1000)
@@ -279,7 +281,7 @@ export default function ThemeRoutes() {
   // };
 
   // new version
-  
+
   const callApiAndStore = (apiFunction, storageKey, finalID) => {
     apiFunction(finalID)
       .then((response) => {
@@ -331,29 +333,29 @@ export default function ThemeRoutes() {
     }
   }, [htmlContent]);
 
-    //paymaster
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const storedPayMaster = sessionStorage.getItem('payMaster');
-  
-          if (storedPayMaster) {
-            console.log('payMaster from session storage: ', JSON.parse(storedPayMaster));
-          } else {
-            const payMaster = await fetchPayMaster();
-            const res = payMaster?.Data?.rd;
-            console.log('payMaster from API: ', res);
-            sessionStorage.setItem('payMaster', JSON.stringify(res));
-          }
-        } catch (error) {
-          console.error('Error fetching or retrieving payMaster:', error);
+  //paymaster
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const storedPayMaster = sessionStorage.getItem('payMaster');
+
+        if (storedPayMaster) {
+          console.log('payMaster from session storage: ', JSON.parse(storedPayMaster));
+        } else {
+          const payMaster = await fetchPayMaster();
+          const res = payMaster?.Data?.rd;
+          console.log('payMaster from API: ', res);
+          sessionStorage.setItem('payMaster', JSON.stringify(res));
         }
-      };
-      const timer = setTimeout(() => {
-        fetchData();
-      }, 5000);
-      return () => clearTimeout(timer);
-    }, []);
+      } catch (error) {
+        console.error('Error fetching or retrieving payMaster:', error);
+      }
+    };
+    const timer = setTimeout(() => {
+      fetchData();
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
@@ -458,17 +460,17 @@ const Themes = ({ htmlContent }) => {
         <Suspense fallback={<></>}>
     {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
 
-    {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
+        {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
 
     {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
-    {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
+        {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />} 
 
-{   htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />} 
+        {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
-     {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
-
-     {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
+        {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
+        
+        {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />} 
 
     {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
 
