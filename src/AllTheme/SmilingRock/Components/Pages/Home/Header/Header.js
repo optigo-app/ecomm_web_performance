@@ -2036,6 +2036,7 @@ const TopNavBar = ({ menuItems = [], handelMenu = () => {} }) => {
     setSelectedData(menuItems[index] || []);
     document.body.style.overflow = "hidden";
   };
+
   const handleMouseLeave = (index) => {
     setExpandedMenu(null);
     setHoveredIndex(null);
@@ -2209,14 +2210,7 @@ const TopNavBar = ({ menuItems = [], handelMenu = () => {} }) => {
   );
 };
 
-const HoverMenu = ({
-  selectedData,
-  handelMenu,
-  expandedMenu,
-  hoveredIndex,
-  handleMouseEnter,
-  handleMouseLeave,
-}) => {
+const HoverMenu = ({  selectedData,  handelMenu,  expandedMenu,  hoveredIndex,  handleMouseEnter,  handleMouseLeave,}) => {
   const SliderbannerImages = [
     storImagePath() + "/1.png",
     storImagePath() + "/2.png",
