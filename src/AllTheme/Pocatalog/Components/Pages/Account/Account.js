@@ -30,6 +30,11 @@ function CustomTabPanel(props) {
         a11yProps(1)
     }, [])
 
+    useEffect(() => {
+        if (value === index) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, [value, index]);
 
     return (
         <div
@@ -85,6 +90,15 @@ export default function Account() {
         setValue(newValue);
     };
 
+    const handleTabchange = ()=>{
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    useEffect(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [value]);
+    
+
     const handleChangeSub = (event, newValue) => {
         setValue1(newValue);
     }
@@ -114,18 +128,20 @@ export default function Account() {
         sessionStorage.removeItem("selectedAddressId");
     };
 
+  
+
     return (
         <div className='accountTab_Account_PCJ'>
             <div className='accountPagTabSection'>
                 <div>
-                    <div className='Smiling-AccountMain'>
+                    <div className='Smiling-AccountMain-pro'>
 
                         {/* <p className='SmilingAccountTitle youraccountpagesec'>Your Account</p> */}
                         <div className='sticky_header_web_sm_procat'>
                             <p className='SmilingAccountTitle youraccountpagesecSMR '>Your Account</p>
                             <div className='smlingAccountTabWebView_Procat yourAccount d_none_acc' >
                                 <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
-                                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
+                                    <Tabs value={value} onClick={handleTabchange} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
                                         <Tab label="Your Profile" {...a11yProps(0)} />
                                         <Tab label="ORDER HISTORY" {...a11yProps(1)} />
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
@@ -140,7 +156,7 @@ export default function Account() {
                             </div>
                             <div className='smlingAccountTabMobileView_Procat YourAccountPageTabs yourAccount'>
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                                    <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
+                                    <Tabs value={value} orientation="vertical" onClick={handleTabchange} onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
                                         <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
                                         <Tab label="ORDER HISTORY" {...a11yProps(1)} />
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
