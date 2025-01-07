@@ -5,7 +5,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 // import { productListApiCall } from '../../../../Utils/API/ProductListAPI';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import './LoginWithEmail.modul.scss'
 // import { DesignSet } from '../../../../Utils/API/DesignSet';
 // import { GetCount } from '../../../../Utils/API/GetCount';
@@ -213,7 +213,15 @@ export default function LoginWithEmail() {
                 // getAllProdData()
                 window.location.reload();
             } else {
-                errors.confirmPassword = 'Password is Invalid'
+                if (response.Data.rd[0].stat_msg == "User Time Off") {
+                    errors.confirmPassword = 'User Time Off'
+                } else if (response.Data.rd[0].stat_msg == 'User Login Off') {
+                    errors.confirmPassword = 'User Login Off'
+                } else if (response.Data.rd[0].stat_msg == 'User Not Active') {
+                    errors.confirmPassword = 'User Not Active'
+                } else {
+                    errors.confirmPassword = 'Password is Invalid'
+                }
             }
         }).catch((err) => console.log(err))
 
