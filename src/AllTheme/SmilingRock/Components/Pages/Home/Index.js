@@ -85,7 +85,7 @@ function Home() {
             {/* {htmlContent?.rd[0]?.Blockno === 1 && ( */}
             {localData?.Blockno === 1 && (
               <div className="smiling_home_index_Submain">
-                <div className="custom_padding_inline" style={{marginTop:"1rem"}}>
+                <div className="custom_padding_inline">
                   <TopSection data={banner?.mainBanner} />{" "}
                 </div>
                 <div className="custom_padding_inline">
@@ -134,9 +134,9 @@ function Home() {
                   {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
                   {localData?.IsHomeTrending === 1 && <TrendingView1 />}
                   {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */}
-                <div className="custom_padding_inline" style={{marginTop:"1rem"}}>
+                {/* <div className="custom_padding_inline" style={{marginTop:"1rem"}}> */}
                   <TopSection data={banner?.mainBanner} />
-                </div>
+                {/* </div> */}
 
                 <div className="custom_padding_inline">
                   <TheDifference />

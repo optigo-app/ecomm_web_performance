@@ -57,7 +57,6 @@ const Header = () => {
   const [htmlContent, setHtmlContent] = useState("");
   const location = useLocation();
 
-
   let navigate = useNavigate();
   let cookie = Cookies.get("visiterId");
 
@@ -172,11 +171,11 @@ const Header = () => {
     let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
     if (
       storeinit?.IsB2BWebsite === 0 ||
-      (storeinit?.IsB2BWebsite === 1 && isUserLogin === true)) {
+      (storeinit?.IsB2BWebsite === 1 && isUserLogin === true)
+    ) {
       getMenuApi();
     }
   }, [islogin]);
-
 
   useEffect(() => {
     fetchData();
@@ -200,7 +199,9 @@ const Header = () => {
   };
 
   const getMenuApi = async () => {
-    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const loginUserDetail = JSON.parse(
+      sessionStorage.getItem("loginUserDetail")
+    );
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get("visiterId");
@@ -262,12 +263,10 @@ const Header = () => {
   };
 
   const handelMenu = (param, param1, param2, event) => {
-
-
     if (
-      event?.ctrlKey ||     // Ctrl key
-      event?.shiftKey ||    // Shift key
-      event?.metaKey ||     // Meta key (Command key on macOS)
+      event?.ctrlKey || // Ctrl key
+      event?.shiftKey || // Shift key
+      event?.metaKey || // Meta key (Command key on macOS)
       (event?.button && event?.button === 1) // Middle mouse button
     ) {
       // Let the default behavior of the <a> tag handle the new tab opening
@@ -329,8 +328,6 @@ const Header = () => {
       navigate(url);
     }
   };
-
-
 
   //mobileMenu.................
   const [selectedMenu, setSelectedMenu] = useState(null);
@@ -402,10 +399,10 @@ const Header = () => {
           f: {},
         };
 
-        let encodeObj = btoa(JSON.stringify(obj))
+        let encodeObj = btoa(JSON.stringify(obj));
         navigation(`/p/${searchText}?S=${encodeObj}`);
         toggleOverlay();
-        setSearchText("")
+        setSearchText("");
         setSerachShowOverlay(false);
         setDrawerShowOverlay(false);
       }
@@ -431,9 +428,7 @@ const Header = () => {
       setSearchText("");
       setSerachShowOverlay(false);
     }
-  }
-
-
+  };
 
   const toggleCartDrawer = () => {
     setIsCartOpen((prevState) => !prevState);
@@ -442,14 +437,13 @@ const Header = () => {
     setCartOpenState((prevState) => !prevState);
   };
 
-  const handleContextMenu = (e) => { };
+  const handleContextMenu = (e) => {};
 
   const handleMouseDown = (e) => {
     // console.log("rrrrrrrrrrrrrrrrrrr", e);
     if (e.button === 1) {
     }
   };
-
 
   const hanldeStaticPageNavigation = (event, path) => {
     if (
@@ -464,7 +458,7 @@ const Header = () => {
       navigation(path);
       window.scrollTo(0, 0);
     }
-  }
+  };
 
   // useEffect(() => {
   //   console.log(first)
@@ -486,10 +480,10 @@ const Header = () => {
     <div className="smr_headerMain_div">
       {serachsShowOverlay && (
         <>
-          <div className="smr_smlingSearchoverlay" >
-            <div className="smr_smlingTopSerachOver" >
+          <div className="smr_smlingSearchoverlay">
+            <div className="smr_smlingTopSerachOver">
               <IoSearchOutline
-               onClick={() => clickSearch()}
+                onClick={() => clickSearch()}
                 style={{ height: "15px", width: "15px", marginRight: "10px" }}
               />
               <input
@@ -514,8 +508,9 @@ const Header = () => {
           </div>
 
           <div
-            className={`smr_smlingSearchoverlayNew ${isHeaderFixedDropShow ? "fixed" : ""
-              }`}
+            className={`smr_smlingSearchoverlayNew ${
+              isHeaderFixedDropShow ? "fixed" : ""
+            }`}
           >
             <div className="smr_smlingTopSerachOver-Fixed">
               <IoSearchOutline
@@ -634,7 +629,11 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={IsCartNo == 2 ? toggleCartDrawer : () => navigate("/cartPage")}
+                          onClick={
+                            IsCartNo == 2
+                              ? toggleCartDrawer
+                              : () => navigate("/cartPage")
+                          }
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -797,13 +796,17 @@ const Header = () => {
               </List>
             </div>
             <div>
-              <p className="smr_menuStaicMobilePage"
+              <p
+                className="smr_menuStaicMobilePage"
                 onClick={() => {
                   setDrawerShowOverlay(false);
                   navigation("/aboutUs");
-                }}>About us</p>
+                }}
+              >
+                About us
+              </p>
             </div>
-            {islogin &&
+            {islogin && (
               <div>
                 <p
                   className="smr_menuStaicMobilePageLink"
@@ -816,12 +819,12 @@ const Header = () => {
                   WishList
                 </p>
               </div>
-            }
+            )}
 
             {IsB2BWebsiteChek == 1 ? (
               islogin ? (
                 <>
-                  {storeinit?.IsDesignSetInMenu == 1 &&
+                  {storeinit?.IsDesignSetInMenu == 1 && (
                     <p
                       className="smr_menuStaicMobilePageLink"
                       style={{ marginTop: "10px" }}
@@ -833,14 +836,14 @@ const Header = () => {
                       {storeinit?.DesignSetInMenu}
                       {/* LOOKBOOK */}
                     </p>
-                  }
+                  )}
                 </>
               ) : (
                 ""
               )
             ) : (
               <>
-                {storeinit?.IsDesignSetInMenu == 1 &&
+                {storeinit?.IsDesignSetInMenu == 1 && (
                   <p
                     className="smr_menuStaicMobilePageLink"
                     style={{ marginTop: "10px" }}
@@ -852,12 +855,12 @@ const Header = () => {
                     {storeinit?.DesignSetInMenu}
                     {/* LOOKBOOK */}
                   </p>
-                }
+                )}
               </>
             )}
 
-            {
-              islogin && <div>
+            {islogin && (
+              <div>
                 <p
                   className="smr_menuStaicMobilePageLink"
                   onClick={() => {
@@ -868,7 +871,7 @@ const Header = () => {
                   Account
                 </p>
               </div>
-            }
+            )}
 
             {islogin && (
               <div>
@@ -881,7 +884,8 @@ const Header = () => {
                 >
                   Log Out
                 </p>
-              </div>)}
+              </div>
+            )}
 
             {islogin && (
               <div
@@ -890,7 +894,7 @@ const Header = () => {
                   borderBottom: "1px solid white",
                   alignItems: "end",
                   marginInline: "15px",
-                  marginBottom:"25px"
+                  marginBottom: "25px",
                 }}
               >
                 <input
@@ -913,7 +917,7 @@ const Header = () => {
                   onKeyDown={searchDataFucn}
                 />
                 <IoSearchOutline
-                 onClick={() => clickSearch()}
+                  onClick={() => clickSearch()}
                   style={{
                     height: "20px",
                     cursor: "pointer",
@@ -931,8 +935,9 @@ const Header = () => {
       <div className="smiling_Top_header">
         <div className="smiling_Top_header_sub">
           <div className="smiling_Top_header_div1">
+              {/* Here is Navbar Shop Menu  */}
             <ul className="nav_ul_shop">
-              {IsB2BWebsiteChek == 1 ? (
+              {/* {IsB2BWebsiteChek == 1 ? (
                 islogin == true ? (
                   <li
                     className="nav_li_smining nav_li_smining_shop"
@@ -976,7 +981,7 @@ const Header = () => {
                     />
                   </span>
                 </li>
-              )}
+              )} */}
 
               {/* Miora Needed */}
               {/* Kayra Don't */}
@@ -990,9 +995,9 @@ const Header = () => {
                   SERVICE POLICY
                 </a>
               </li> */}
-              {htmlContent?.rd && htmlContent?.rd.length > 0 &&
-                (
-                  htmlContent?.rd[0]?.ExtraMenu == 1 &&
+              {htmlContent?.rd &&
+                htmlContent?.rd.length > 0 &&
+                htmlContent?.rd[0]?.ExtraMenu == 1 && (
                   <>
                     {/* No Need for sonasons */}
                     {/* <li
@@ -1023,42 +1028,46 @@ const Header = () => {
               {IsB2BWebsiteChek === 1 ? (
                 islogin === true ? (
                   <>
-                    {storeinit?.IsDesignSetInMenu == 1 &&
+                    {storeinit?.IsDesignSetInMenu == 1 && (
                       <li
                         className="nav_li_smining nav_li_smining_Mobile"
                         style={{ cursor: "pointer" }}
-                        onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
+                        onClick={(event) =>
+                          hanldeStaticPageNavigation(event, "/Lookbook")
+                        }
                       >
                         {/* <a href="/Lookbook" className="smr_A_link"> */}
                         {storeinit?.DesignSetInMenu}
                         {/* LOOKBOOK */}
                         {/* </a> */}
                       </li>
-                    }
+                    )}
                   </>
                 ) : (
                   ""
                 )
               ) : (
                 <>
-                  {storeinit?.IsDesignSetInMenu == 1 &&
+                  {storeinit?.IsDesignSetInMenu == 1 && (
                     <li
                       className="nav_li_smining nav_li_smining_Mobile"
                       style={{ cursor: "pointer" }}
-                      onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
+                      onClick={(event) =>
+                        hanldeStaticPageNavigation(event, "/Lookbook")
+                      }
                     >
                       {/* <a href="/Lookbook" className="smr_A_link"> */}
                       {storeinit?.DesignSetInMenu}
                       {/* LOOKBOOK */}
                       {/* </a> */}
                     </li>
-                  }
+                  )}
                 </>
               )}
             </ul>
             <ul className="nav_ul_shop_menu_Mobile">
               <MenuIcon
-                style={{ fontSize: "35px"}}
+                style={{ fontSize: "35px" }}
                 className="muIconeMobileHeader"
                 onClick={toggleDrawerOverlay}
               />
@@ -1087,7 +1096,9 @@ const Header = () => {
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
-                onClick={(event) => hanldeStaticPageNavigation(event, "/aboutUs")}
+                onClick={(event) =>
+                  hanldeStaticPageNavigation(event, "/aboutUs")
+                }
               >
                 <a href="/aboutUs" className="smr_A_link">
                   ABOUT US
@@ -1098,8 +1109,8 @@ const Header = () => {
                   ""
                 ) : (
                   <>
-                    {
-                      islogin && <li
+                    {islogin && (
+                      <li
                         className="nav_li_smining nav_li_smining_Mobile"
                         style={{ cursor: "pointer" }}
                         onClick={() => navigation("/account")}
@@ -1108,15 +1119,15 @@ const Header = () => {
                         ACCOUNT
                         {/* </a> */}
                       </li>
-                    }
+                    )}
                   </>
                 )
               ) : islogin && storeinit?.IsPLW ? (
                 ""
               ) : (
                 <>
-                  {
-                    (islogin === true) && <li
+                  {islogin === true && (
+                    <li
                       className="nav_li_smining nav_li_smining_Mobile"
                       style={{ cursor: "pointer" }}
                       onClick={() => navigation("/account")}
@@ -1125,7 +1136,7 @@ const Header = () => {
                       ACCOUNT
                       {/* </a> */}
                     </li>
-                  }
+                  )}
                 </>
               )}
               {islogin ? (
@@ -1192,7 +1203,11 @@ const Header = () => {
                   >
                     <Tooltip title="Cart">
                       <li
-                        onClick={IsCartNo == 2 ? toggleCartDrawer : () => navigate("/cartPage")}
+                        onClick={
+                          IsCartNo == 2
+                            ? toggleCartDrawer
+                            : () => navigate("/cartPage")
+                        }
                         className="nav_li_smining_Icone"
                       >
                         <ShoppingCartOutlinedIcon
@@ -1249,7 +1264,11 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={IsCartNo == 2 ? toggleCartDrawer : () => navigate("/cartPage")}
+                          onClick={
+                            IsCartNo == 2
+                              ? toggleCartDrawer
+                              : () => navigate("/cartPage")
+                          }
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -1264,16 +1283,16 @@ const Header = () => {
             </ul>
           </div>
         </div>
-
         <div
-          className={`Smining-Top-Header-fixed-main ${isHeaderFixed ? "fixed" : ""
-            }  ${serachsShowOverlay ? "searchoverly" : ""}`}
+          className={`Smining-Top-Header-fixed-main ${
+            isHeaderFixed ? "fixed" : ""
+          }  ${serachsShowOverlay ? "searchoverly" : ""}`}
         >
           <div className="smiling_Top_header_sub" style={{ width: "100%" }}>
             <div className="smiling_Top_header_div1">
               <ul className="nav_ul_shop">
                 {/* {islogin && */}
-                {IsB2BWebsiteChek == 1 ? (
+                {/* {IsB2BWebsiteChek == 1 ? (
                   islogin == true ? (
                     <li
                       className="nav_li_smining_Fixed nav_li_smining_shop"
@@ -1319,7 +1338,7 @@ const Header = () => {
                       />
                     </span>
                   </li>
-                )}
+                )} */}
 
                 {/* Miora Needed */}
                 {/* Kayra Don't */}
@@ -1334,9 +1353,9 @@ const Header = () => {
                   </a>
                 </li> */}
 
-                {htmlContent?.rd && htmlContent?.rd.length > 0 &&
-                  (
-                    htmlContent?.rd[0]?.ExtraMenu == 1 &&
+                {htmlContent?.rd &&
+                  htmlContent?.rd.length > 0 &&
+                  htmlContent?.rd[0]?.ExtraMenu == 1 && (
                     <>
                       {/* no need for sonasons */}
 
@@ -1349,7 +1368,6 @@ const Header = () => {
                           EXPERT ADVICE
                         </a>
                       </li> */}
-
 
                       {/* Maiora not needed fun facts */}
                       {/* Kayra needed */}
@@ -1369,42 +1387,46 @@ const Header = () => {
                 {IsB2BWebsiteChek === 1 ? (
                   islogin === true ? (
                     <>
-                      {storeinit?.IsDesignSetInMenu == 1 &&
+                      {storeinit?.IsDesignSetInMenu == 1 && (
                         <li
                           className="nav_li_smining_Fixed nav_li_smining_Mobile"
                           style={{ cursor: "pointer" }}
-                          onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
+                          onClick={(event) =>
+                            hanldeStaticPageNavigation(event, "/Lookbook")
+                          }
                         >
                           <a href="/Lookbook" className="smr_A_linkFixed">
                             {storeinit?.DesignSetInMenu}
                             {/* LOOKBOOK */}
                           </a>
                         </li>
-                      }
+                      )}
                     </>
                   ) : (
                     ""
                   )
                 ) : (
                   <>
-                    {storeinit?.IsDesignSetInMenu == 1 &&
+                    {storeinit?.IsDesignSetInMenu == 1 && (
                       <li
                         className="nav_li_smining_Fixed nav_li_smining_Mobile"
                         style={{ cursor: "pointer" }}
-                        onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
+                        onClick={(event) =>
+                          hanldeStaticPageNavigation(event, "/Lookbook")
+                        }
                       >
                         <a href="/Lookbook" className="smr_A_linkFixed">
                           {storeinit?.DesignSetInMenu}
                           {/* LOOKBOOK */}
                         </a>
                       </li>
-                    }
+                    )}
                   </>
                 )}
 
                 <ul className="nav_ul_shop_menu_Mobile">
                   <MenuIcon
-                    style={{ fontSize: "35px"}}
+                    style={{ fontSize: "35px" }}
                     className="muIconeMobileHeader"
                     onClick={toggleDrawerOverlay}
                   />
@@ -1436,7 +1458,9 @@ const Header = () => {
                 <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
-                  onClick={(event) => hanldeStaticPageNavigation(event, "/aboutUs")}
+                  onClick={(event) =>
+                    hanldeStaticPageNavigation(event, "/aboutUs")
+                  }
                 >
                   <a href="/aboutUs" className="smr_A_linkFixed">
                     ABOUT US
@@ -1445,8 +1469,8 @@ const Header = () => {
 
                 {storeinit?.IsPLW == 0 && IsB2BWebsiteChek == 0 ? (
                   <>
-                    {
-                      (islogin === true) && <li
+                    {islogin === true && (
+                      <li
                         className="nav_li_smining_Fixed nav_li_smining_Mobile"
                         style={{ cursor: "pointer" }}
                         // onClick={() => navigation("/LoginOption")}
@@ -1456,7 +1480,7 @@ const Header = () => {
                         ACCOUNT
                         {/* </a> */}
                       </li>
-                    }
+                    )}
                   </>
                 ) : (
                   islogin && (
@@ -1537,7 +1561,11 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={IsCartNo == 2 ? toggleCartDrawer : () => navigate("/cartPage")}
+                          onClick={
+                            IsCartNo == 2
+                              ? toggleCartDrawer
+                              : () => navigate("/cartPage")
+                          }
                           className="nav_li_smining_Fixed_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -1594,7 +1622,11 @@ const Header = () => {
                       >
                         <Tooltip title="Cart">
                           <li
-                            onClick={IsCartNo == 2 ? toggleCartDrawer : () => navigate("/cartPage")}
+                            onClick={
+                              IsCartNo == 2
+                                ? toggleCartDrawer
+                                : () => navigate("/cartPage")
+                            }
                             className="nav_li_smining_Fixed_Icone"
                           >
                             <ShoppingCartOutlinedIcon
@@ -1614,8 +1646,9 @@ const Header = () => {
         <div
           onMouseEnter={handleDropdownOpen}
           onMouseLeave={handleDropdownClose}
-          className={`shop-dropdown ${isDropdownOpen ? "open" : ""} ${isHeaderFixed ? "fixed" : ""
-            }`}
+          className={`shop-dropdown ${isDropdownOpen ? "open" : ""} ${
+            isHeaderFixed ? "fixed" : ""
+          }`}
           style={{ backgroundColor: isHeaderFixed && "transparent" }}
         >
           <div
@@ -1633,49 +1666,210 @@ const Header = () => {
             onMouseEnter={handleDropdownOpen}
             onMouseLeave={handleDropdownClose}
           >
-            <div style={{ display: "flex" }}>
-              {menuItems.map((menuItem) => (
-                <div
-                  key={menuItem.menuid}
-                  className="smr_headerOptionSingleDiv"
-                  style={{
-                    minWidth: "fitContent",
-                    borderRight: "1px solid lightgray",
-                    paddingLeft: "25px",
-                  }}
+            {/* <NewMenuBar handelMenu={handelMenu} menuItems={menuItems} /> */}
+            {/* <OldMenuBar handelMenu={handelMenu} menuItems={menuItems}/> */}
+          </div>
+        </div>
+      </div>
+      <TopNavBar menuItems={menuItems} handelMenu={handelMenu} />
+      {IsCartNo == 2 && <CartDrawer open={isCartOpen} />}
+    </div>
+  );
+};
+
+export default Header;
+
+const NewMenuBar = ({ menuItems = [], handelMenu = () => {} }) => {
+  const SliderbannerImages = [
+    storImagePath() + "/1.png",
+    storImagePath() + "/2.png",
+  ];
+  return (
+    <>
+      <div className="smr_new_menu_">
+        <div className="smr_left_side_menu_list">
+          {menuItems?.map((menuItem) => (
+            <div key={menuItem.menuid} className="smr_menu_level_0">
+              <div
+                // component="div"
+                onClick={(e) =>
+                  handelMenu(
+                    {
+                      menuname: menuItem?.menuname,
+                      key: menuItem?.param0name,
+                      value: menuItem?.param0dataname,
+                    },
+                    {},
+                    {},
+                    e
+                  )
+                }
+              >
+                <a
+                  className="smr_menu_level_0_title"
+                  href={`/p/${menuItem?.menuname}/?M=${btoa(
+                    `${menuItem?.param0dataname}/${menuItem?.param0name}`
+                  )}`}
                 >
-                  <ButtonBase
-                    component="div"
-                    onClick={(e) =>
+                  {menuItem.menuname}
+                </a>
+              </div>
+              <>
+                <div className="smr_menu_level_1">
+                  {menuItem.param1.map((subMenuItem) => (
+                    <div key={subMenuItem.param1dataid}>
+                      <div
+                        onClick={(e) =>
+                          handelMenu(
+                            {
+                              menuname: menuItem?.menuname,
+                              key: menuItem?.param0name,
+                              value: menuItem?.param0dataname,
+                            },
+                            {
+                              key: subMenuItem.param1name,
+                              value: subMenuItem.param1dataname,
+                            },
+                            {},
+                            e
+                          )
+                        }
+                      >
+                        <a
+                          className="smr_menu_level_1_title"
+                          href={`/p/${menuItem?.menuname}/${
+                            menuItem?.param0dataname
+                          }/${subMenuItem.param1dataname}/?M=${btoa(
+                            `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
+                          )}`}
+                        >
+                          {subMenuItem.param1dataname}
+                        </a>
+                      </div>
+                      <>
+                        <div className="smr_menu_level_2">
+                          {subMenuItem.param2.map((subSubMenuItem) => (
+                            <div
+                              component="div"
+                              onClick={(e) =>
+                                handelMenu(
+                                  {
+                                    menuname: menuItem?.menuname,
+                                    key: menuItem?.param0name,
+                                    value: menuItem?.param0dataname,
+                                  },
+                                  {
+                                    key: subMenuItem.param1name,
+                                    value: subMenuItem.param1dataname,
+                                  },
+                                  {
+                                    key: subSubMenuItem.param2name,
+                                    value: subSubMenuItem.param2dataname,
+                                  },
+                                  e
+                                )
+                              }
+                            >
+                              <a
+                                className="smr_menu_level_2_title"
+                                href={`/p/${menuItem?.menuname}/${
+                                  menuItem?.param0dataname
+                                }/${subMenuItem.param1dataname}/${
+                                  subSubMenuItem.param2dataname
+                                }/?M=${btoa(
+                                  `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
+                                )}`}
+                              >
+                                {" "}
+                                <p>{subSubMenuItem.param2dataname}</p>
+                              </a>
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    </div>
+                  ))}
+                  <button
+                    className="smr_underline_button"
+                    onClick={() =>
                       handelMenu({
                         menuname: menuItem?.menuname,
                         key: menuItem?.param0name,
                         value: menuItem?.param0dataname,
-                      },
-                        {},
-                        {},
-                        e
-                      )
+                      })
                     }
                   >
-                    <a
-                      href={`/p/${menuItem?.menuname}/?M=${btoa(
-                        `${menuItem?.param0dataname}/${menuItem?.param0name}`
-                      )}`}
-                      className="smr_menuSubTitle"
-                    // onClick={() =>
-                    //   handelMenu({
-                    //     menuname: menuItem?.menuname,
-                    //     key: menuItem?.param0name,
-                    //     value: menuItem?.param0dataname,
-                    //   })
-                    // }
-                    >
-                      <p className="muilistMenutext">{menuItem.menuname}</p>
-                    </a>
-                  </ButtonBase>
-                  <>
-                    {/* <ButtonBase
+                    view all
+                  </button>
+                </div>
+              </>
+            </div>
+          ))}
+        </div>
+        <div className="smr_right_side_banner">
+          {SliderbannerImages?.map((image, index) => {
+            return (
+              <div className="image_box_s">
+                <img src={image} alt="image" className="image_s" />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </>
+  );
+};
+
+const OldMenuBar = ({ menuItems = [], handelMenu = () => {} }) => {
+  if (menuItems?.length == 0) {
+    return;
+  }
+  return (
+    <>
+      <div style={{ display: "flex" }}>
+        {menuItems?.map((menuItem) => (
+          <div
+            key={menuItem.menuid}
+            className="smr_headerOptionSingleDiv"
+            style={{
+              minWidth: "fitContent",
+              borderRight: "1px solid lightgray",
+              paddingLeft: "25px",
+            }}
+          >
+            <ButtonBase
+              component="div"
+              onClick={(e) =>
+                handelMenu(
+                  {
+                    menuname: menuItem?.menuname,
+                    key: menuItem?.param0name,
+                    value: menuItem?.param0dataname,
+                  },
+                  {},
+                  {},
+                  e
+                )
+              }
+            >
+              <a
+                href={`/p/${menuItem?.menuname}/?M=${btoa(
+                  `${menuItem?.param0dataname}/${menuItem?.param0name}`
+                )}`}
+                className="smr_menuSubTitle"
+                // onClick={() =>
+                //   handelMenu({
+                //     menuname: menuItem?.menuname,
+                //     key: menuItem?.param0name,
+                //     value: menuItem?.param0dataname,
+                //   })
+                // }
+              >
+                <p className="muilistMenutext">{menuItem.menuname}</p>
+              </a>
+            </ButtonBase>
+            <>
+              {/* <ButtonBase
                       component="div"
                       style={{ display: 'flex', justifyContent: 'start' }}
                     >
@@ -1683,111 +1877,317 @@ const Header = () => {
                         <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
                       </div>
                     </ButtonBase> */}
-                    <div className="smr_listMain">
-                      {menuItem.param1.map((subMenuItem) => (
-                        <div key={subMenuItem.param1dataid}>
-                          <ButtonBase
-                            component="div"
-                            style={{
-                              width: "100%",
-                              display: "flex",
-                              justifyContent: "start",
-                              height: "25px",
-                            }}
-                            onClick={(e) => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, {}, e)}
-                          >
-                            {/* <a href='#' className='smr_menuSubTitle'> */}
-                            <a
-                              href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname}/${subMenuItem.param1dataname
-                                }/?M=${btoa(
-                                  `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
-                                )}`}
-                              className="smr_menuSubTitle"
+              <div className="smr_listMain">
+                {menuItem.param1.map((subMenuItem) => (
+                  <div key={subMenuItem.param1dataid}>
+                    <ButtonBase
+                      component="div"
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "start",
+                        height: "25px",
+                      }}
+                      onClick={(e) =>
+                        handelMenu(
+                          {
+                            menuname: menuItem?.menuname,
+                            key: menuItem?.param0name,
+                            value: menuItem?.param0dataname,
+                          },
+                          {
+                            key: subMenuItem.param1name,
+                            value: subMenuItem.param1dataname,
+                          },
+                          {},
+                          e
+                        )
+                      }
+                    >
+                      {/* <a href='#' className='smr_menuSubTitle'> */}
+                      <a
+                        href={`/p/${menuItem?.menuname}/${
+                          menuItem?.param0dataname
+                        }/${subMenuItem.param1dataname}/?M=${btoa(
+                          `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
+                        )}`}
+                        className="smr_menuSubTitle"
 
-                            // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
+                        // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
+                      >
+                        <p
+                          style={{
+                            margin: "0px 0px 0px 6px",
+                            fontWeight: 650,
+                          }}
+                        >
+                          {subMenuItem.param1dataname}
+                        </p>
+                      </a>
+                      {/* </a> */}
+                    </ButtonBase>
+                    <>
+                      <List
+                        style={{
+                          paddingTop: "0px",
+                          paddingBottom: "0px",
+                        }}
+                      >
+                        {subMenuItem.param2.map((subSubMenuItem) => (
+                          <div
+                            component="div"
+                            style={{ width: "100%" }}
+                            onClick={(e) =>
+                              handelMenu(
+                                {
+                                  menuname: menuItem?.menuname,
+                                  key: menuItem?.param0name,
+                                  value: menuItem?.param0dataname,
+                                },
+                                {
+                                  key: subMenuItem.param1name,
+                                  value: subMenuItem.param1dataname,
+                                },
+                                {
+                                  key: subSubMenuItem.param2name,
+                                  value: subSubMenuItem.param2dataname,
+                                },
+                                e
+                              )
+                            }
+                          >
+                            <a
+                              href={`/p/${menuItem?.menuname}/${
+                                menuItem?.param0dataname
+                              }/${subMenuItem.param1dataname}/${
+                                subSubMenuItem.param2dataname
+                              }/?M=${btoa(
+                                `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
+                              )}`}
+                              className="smr_menuSubTitle"
+                              // onClick={() =>
+                              //   handelMenu(
+                              //     {
+                              //       menuname: menuItem?.menuname,
+                              //       key: menuItem?.param0name,
+                              //       value: menuItem?.param0dataname,
+                              //     },
+                              //     {
+                              //       key: subMenuItem.param1name,
+                              //       value: subMenuItem.param1dataname,
+                              //     },
+                              //     {
+                              //       key: subSubMenuItem.param2name,
+                              //       value: subSubMenuItem.param2dataname,
+                              //     }
+                              //   )
+                              // }
                             >
+                              {/* <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}> */}
                               <p
+                                className="muilist2ndSubMenutext"
                                 style={{
-                                  margin: "0px 0px 0px 6px",
-                                  fontWeight: 650,
+                                  color: "#a9a9a9",
                                 }}
                               >
-                                {subMenuItem.param1dataname}
+                                {subSubMenuItem.param2dataname}
                               </p>
+                              {/* </ListItem> */}
                             </a>
-                            {/* </a> */}
-                          </ButtonBase>
-                          <>
-                            <List
-                              style={{
-                                paddingTop: "0px",
-                                paddingBottom: "0px",
-                              }}
+                          </div>
+                        ))}
+                      </List>
+                    </>
+                  </div>
+                ))}
+                <button
+                  className="smr_underline_button"
+                  onClick={() =>
+                    handelMenu({
+                      menuname: menuItem?.menuname,
+                      key: menuItem?.param0name,
+                      value: menuItem?.param0dataname,
+                    })
+                  }
+                >
+                  view all
+                </button>
+              </div>
+            </>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+};
+
+const TopNavBar = ({ menuItems = [], handelMenu = () => {} }) => {
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [expandedMenu, setExpandedMenu] = useState(null);
+  const [selectedData, setSelectedData] = useState([]);
+
+  if (menuItems?.length == 0) {
+    return;
+  }
+
+  const handleMouseEnter = (index, param) => {
+    setHoveredIndex(index);
+    setExpandedMenu(index);
+    setSelectedData(menuItems[index] || []);
+    document.body.style.overflow = "hidden";
+  };
+
+  const handleMouseLeave = (index) => {
+    setExpandedMenu(null);
+    setHoveredIndex(null);
+    document.body.style.overflow = "auto";
+  };
+
+  return (
+    <>
+      <div className="TopNavBar">
+        <div className="smr_flat_view_menu">
+          <HoverMenu
+            handleMouseEnter={handleMouseEnter}
+            handleMouseLeave={handleMouseLeave}
+            expandedMenu={expandedMenu}
+            hoveredIndex={hoveredIndex}
+            selectedData={selectedData}
+            handelMenu={handelMenu}
+          />
+          {menuItems?.map((menuItem, index) => (
+            <div
+              key={menuItem.menuid}
+              className="menu_list_Smr"
+                       onMouseEnter={() => {
+                handleMouseEnter(index, menuItem);
+              }}
+              onMouseLeave={() => {
+                handleMouseLeave();
+              }}
+            >
+              <div
+                // component="div"
+                onClick={(e) =>
+                  handelMenu(
+                    {
+                      menuname: menuItem?.menuname,
+                      key: menuItem?.param0name,
+                      value: menuItem?.param0dataname,
+                    },
+                    {},
+                    {},
+                    e
+                  )
+                }
+              >
+                <a
+                  className="menu_list_Smr_0_title"
+                  href={`/p/${menuItem?.menuname}/?M=${btoa(
+                    `${menuItem?.param0dataname}/${menuItem?.param0name}`
+                  )}`}
+                >
+                  {menuItem.menuname}
+                </a>
+              </div>
+
+              {menuItem?.param1[0].param1dataname !== "" && (
+                <div className="child_menu_hover" hidden>
+                  <div className="smr_menu_menu">
+                    {menuItem.param1.map((subMenuItem) => {
+                      if (
+                        menuItem?.param1 &&
+                        menuItem?.param1?.length > 0 &&
+                        menuItem?.param1[0].param1name === ""
+                      ) {
+                        return;
+                      }
+                      return (
+                        <div key={subMenuItem.param1dataid}>
+                          <div
+                            className="l"
+                            onClick={(e) =>
+                              handelMenu(
+                                {
+                                  menuname: menuItem?.menuname,
+                                  key: menuItem?.param0name,
+                                  value: menuItem?.param0dataname,
+                                },
+                                {
+                                  key: subMenuItem.param1name,
+                                  value: subMenuItem.param1dataname,
+                                },
+                                {},
+                                e
+                              )
+                            }
+                          >
+                            <a
+                              className="smr_menu_title_1"
+                              href={`/p/${menuItem?.menuname}/${
+                                menuItem?.param0dataname
+                              }/${subMenuItem.param1dataname}/?M=${btoa(
+                                `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
+                              )}`}
                             >
-                              {subMenuItem.param2.map((subSubMenuItem) => (
-                                <div
-                                  component="div"
-                                  style={{ width: "100%" }}
-                                  onClick={(e) =>
-                                    handelMenu(
-                                      {
-                                        menuname: menuItem?.menuname,
-                                        key: menuItem?.param0name,
-                                        value: menuItem?.param0dataname,
-                                      },
-                                      {
-                                        key: subMenuItem.param1name,
-                                        value: subMenuItem.param1dataname,
-                                      },
-                                      {
-                                        key: subSubMenuItem.param2name,
-                                        value: subSubMenuItem.param2dataname,
-                                      },
-                                      e
-                                    )
-                                  }
-                                >
-                                  <a
-                                    href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname}/${subMenuItem.param1dataname
-                                      }/${subSubMenuItem.param2dataname
+                              {subMenuItem.param1dataname}
+                            </a>
+                          </div>
+                          <>
+                            <div className="smr_menu_level1">
+                              {subMenuItem.param2.map((subSubMenuItem) => {
+                                if (
+                                  subMenuItem?.param2 &&
+                                  subMenuItem?.param2?.length > 0 &&
+                                  subMenuItem?.param2[0].param2name === ""
+                                ) {
+                                  return;
+                                }
+                                return (
+                                  <div
+                                    component="div"
+                                    onClick={(e) =>
+                                      handelMenu(
+                                        {
+                                          menuname: menuItem?.menuname,
+                                          key: menuItem?.param0name,
+                                          value: menuItem?.param0dataname,
+                                        },
+                                        {
+                                          key: subMenuItem.param1name,
+                                          value: subMenuItem.param1dataname,
+                                        },
+                                        {
+                                          key: subSubMenuItem.param2name,
+                                          value: subSubMenuItem.param2dataname,
+                                        },
+                                        e
+                                      )
+                                    }
+                                  >
+                                    <a
+                                      className="smr_menu_title_2"
+                                      href={`/p/${menuItem?.menuname}/${
+                                        menuItem?.param0dataname
+                                      }/${subMenuItem.param1dataname}/${
+                                        subSubMenuItem.param2dataname
                                       }/?M=${btoa(
                                         `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
                                       )}`}
-                                    className="smr_menuSubTitle"
-                                  // onClick={() =>
-                                  //   handelMenu(
-                                  //     {
-                                  //       menuname: menuItem?.menuname,
-                                  //       key: menuItem?.param0name,
-                                  //       value: menuItem?.param0dataname,
-                                  //     },
-                                  //     {
-                                  //       key: subMenuItem.param1name,
-                                  //       value: subMenuItem.param1dataname,
-                                  //     },
-                                  //     {
-                                  //       key: subSubMenuItem.param2name,
-                                  //       value: subSubMenuItem.param2dataname,
-                                  //     }
-                                  //   )
-                                  // }
-                                  >
-                                    {/* <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}> */}
-                                    <p className="muilist2ndSubMenutext" style={{
-                                      color:"#a9a9a9"
-                                    }}>
+                                    >
                                       {subSubMenuItem.param2dataname}
-                                    </p>
-                                    {/* </ListItem> */}
-                                  </a>
-                                </div>
-                              ))}
-                            </List>
+                                    </a>
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </>
                         </div>
-                      ))}
+                      );
+                    })}
+                    {menuItem?.param1[0].param1dataname !== "" && (
                       <button
-                        className="smr_underline_button"
+                        className="smr_view_more_button"
                         onClick={() =>
                           handelMenu({
                             menuname: menuItem?.menuname,
@@ -1798,19 +2198,148 @@ const Header = () => {
                       >
                         view all
                       </button>
-                    </div>
-                  </>
+                    )}
+                  </div>
                 </div>
-              ))}
+              )}
             </div>
-          </div>
+          ))}
         </div>
       </div>
-      {IsCartNo == 2 &&
-        <CartDrawer open={isCartOpen} />
-      }
-    </div>
+    </>
   );
 };
 
-export default Header;
+const HoverMenu = ({  selectedData,  handelMenu,  expandedMenu,  hoveredIndex,  handleMouseEnter,  handleMouseLeave,}) => {
+  const SliderbannerImages = [
+    storImagePath() + "/1.png",
+    storImagePath() + "/2.png",
+  ];
+
+  if (expandedMenu === null || expandedMenu === undefined || selectedData?.param1[0].param1dataname === "" ) {
+    return;
+  }
+  
+  return (
+    <>
+      <div
+        className="new_hover_banner"
+        onMouseEnter={() => handleMouseEnter(hoveredIndex)}
+        onMouseLeave={handleMouseLeave}
+        onClick={() => handleMouseLeave()}
+      >
+        <div className="smr_left_list">
+          <div
+          className="smr_menu_level_list"          >
+            {selectedData?.param1?.map((param1Item, param1Index) => {
+              return (
+                <div key={param1Index}>
+                  <span
+                    className="level1MenuData"
+                    key={param1Index}
+                    onClick={(e) => {
+                      handelMenu(
+                        {
+                          menuname: selectedData?.menuname,
+                          key: selectedData?.param0name,
+                          value: selectedData?.param0dataname,
+                        },
+                        {
+                          key: param1Item.param1name,
+                          value: param1Item.param1dataname,
+                        },
+                        {},
+                        e
+                      );
+                      handleMouseLeave();
+                    }}
+                  >
+                    <a
+                      href={`/p/${selectedData?.param0dataname}/${
+                        param1Item.param1dataname
+                      }/?M=${btoa(
+                        `${selectedData?.param0dataname},${param1Item?.param1dataname}/${selectedData?.param0name},${param1Item?.param1name}`
+                      )}`}
+                      style={{ color: "black", textDecoration: "none" }}
+                    >
+                      {param1Item?.param1dataname}
+                    </a>
+                  </span>
+                  <div
+                  className="level2menudata"
+                    style={{
+                      height: "25vh",
+                      display: "flex",
+                      flexWrap: "wrap",
+                      flexDirection: "column",
+                      marginLeft: "15px",
+                    }}
+                  >
+                    {param1Item?.param2?.map((param2Item, param2Index) => {
+                      return (
+                        <p
+                          className="level2menuData"
+                          key={param2Index}
+                          onClick={(e) => {
+                            handelMenu(
+                              {
+                                menuname: selectedData?.menuname,
+                                key: selectedData?.param0name,
+                                value: selectedData?.param0dataname,
+                              },
+                              {
+                                key: param1Item?.param1name,
+                                value: param1Item?.param1dataname,
+                              },
+                              {
+                                key: param2Item?.param2name,
+                                value: param2Item?.param2dataname,
+                              },
+                              e
+                            );
+                            handleMouseLeave();
+                          }}
+                          style={{
+                            fontSize: "14px",
+                            margin: "3px 15px 3px 0px",
+                            // fontFamily: '"PT Sans", sans-serif',
+                            letterSpacing: 0.4,
+                            textAlign: "start",
+                            cursor: "pointer",
+                            textTransform: "capitalize",
+                            paddingRight: "15px",
+                          }}
+                        >
+                          <a
+                            href={`/p/${selectedData?.param0dataname}/${
+                              param1Item.param1dataname
+                            }/${param2Item.param2dataname}/?M=${btoa(
+                              `${selectedData?.param0dataname},${param1Item.param1dataname},${param2Item.param2dataname}/${selectedData?.param0name},${param1Item.param1name},${param2Item.param2name}`
+                            )}`}
+                            style={{ color: "black", textDecoration: "none" }}
+                          >
+                            {param2Item?.param2dataname}
+                          </a>
+                        </p>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="smr_right_side_banner">
+          {SliderbannerImages?.map((image, index) => {
+            return (
+              <div className="image_box_s">
+                <img src={image} alt="image" className="image_s" />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </>
+  );
+};

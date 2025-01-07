@@ -531,7 +531,12 @@
   }
 
   .empty_sorting_div{
-    padding: 0 14%;
+    padding: 0 12%;
+    display: flex;
+    align-items: start;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .smr_ImgandVideoContainer{
