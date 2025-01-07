@@ -30,7 +30,12 @@ const sliderData = [
   },
 ];
 
-export default function SocialMediaSection() {
+export default function SocialMediaSection({ banner }) {
+  const updatedata = sliderData?.map((item, index) => ({
+    ...item,
+    imageUrl: banner?.image?.[index] || item?.imageUrl
+  }));
+
   return (
     <div className='mainSocialMediaConatiner' id='mainSocialMediaConatinerID' name='mainSocialMediaConatinerID'>
       <div className='elv_socialMed_div'>
@@ -63,12 +68,13 @@ export default function SocialMediaSection() {
         // pagination={{ clickable: true }}
         className="social_mySwiper"
       >
-        {sliderData.map((slide, index) => (
+        {updatedata.map((slide, index) => (
           <div style={{ background: 'red' }}>
             <SwiperSlide key={index} style={{ marginRight: '0px', padding: '30px 20px 0px 19px' }}>
               <Link to={slide?.link}>
                 <div style={{ position: 'relative' }}>
-                  <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ objectFit: 'contain', width: '100%', padding: '0px' }} />
+                  <img loading="lazy" src={slide?.imageUrl} alt={`Slide ${index}`} style={{ objectFit: 'contain', width: '100%', padding: '0px' }} />
+                  {/* <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ objectFit: 'contain', width: '100%', padding: '0px' }} /> */}
                 </div>
                 <div className='elv_social_div'>
                   <img src={slide?.icon} className='elv_social_icon' height={25} width={25} alt="icons.png" />

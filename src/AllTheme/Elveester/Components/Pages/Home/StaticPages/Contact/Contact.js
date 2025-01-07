@@ -3,6 +3,7 @@ import './Contact.scss';
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import { BespokeAPI } from '../../../../../../../utils/API/Bespoke/BespokeAPI';
 import { toast } from 'react-toastify';
+import useHomeBannerImages from '../../../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
 
 // const CountryCode = [
 //     {
@@ -1130,9 +1131,12 @@ export default function ContactPage() {
         })
     }, [])
 
+    const { contactusBanner } = useHomeBannerImages();
+
     return (
         <div className="elvee_container">
-            <img src={`${storImagePath()}/images/HomePage/Contact/ContactBanner.jpg`} alt="Contact icons" className="elvee_contact-img" />
+            <img src={contactusBanner?.image?.[0]} alt="Contact icons" className="elvee_contact-img" />
+            {/* <img src={`${storImagePath()}/images/HomePage/Contact/ContactBanner.jpg`} alt="Contact icons" className="elvee_contact-img" /> */}
 
             <h1 className="elvee_heading-main">CONTACT US</h1>
 

@@ -7,14 +7,16 @@ import ReactPlayer from 'react-player';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import CountdownTimer from '../CountdownTimer/CountdownUI';
 
-const TopSection = () => {
+const TopSection = ({ banner }) => {
     const islogin = useRecoilValue(el_loginState);
     const [loading, setLoading] = useState(true);
     const [videoStarted, setVideoStarted] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
 
-    const checkVideo = `${storImagePath()}/images/HomePage/MainBanner/videos/HomepageMainBannerVideo.mp4`;
-    const checkImag = `${storImagePath()}/images/HomePage/MainBanner/HomepageMainBannerVideo.png`;
+    const checkVideo = banner?.video?.[0];
+    const checkImag = banner?.image?.[0];
+    // const checkVideo = `${storImagePath()}/images/HomePage/MainBanner/videos/HomepageMainBannerVideo.mp4`;
+    // const checkImag = `${storImagePath()}/images/HomePage/MainBanner/HomepageMainBannerVideo.png`;
 
     useEffect(() => {
         window.scroll({
@@ -40,7 +42,7 @@ const TopSection = () => {
     const handleImageError = () => {
         setImageLoaded(false);
     };
-  
+
     return (
         <div>
             {!islogin ? (

@@ -51,7 +51,7 @@ const sliderData = [
   // },
 ];
 
-export default function GaleryView() {
+export default function GaleryView({ banner }) {
   return (
     <div className='el_mainGalleryConatinerID' id='mainGalleryConatinerID' name='mainGalleryConatinerID123'>
       <div className='elv_gallery_div'>
@@ -84,9 +84,10 @@ export default function GaleryView() {
         modules={[Pagination]}
         className="mySwiper"
       >
-        {sliderData.map((slide, index) => (
+        {banner?.image?.map((slide, index) => (
           <SwiperSlide key={index} style={{ marginRight: '0px', padding: '20px' }}>
-            <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ objectFit: 'contain', width: '100%' }} />
+            <img loading="lazy" src={slide} alt={`Slide ${index}`} style={{ objectFit: 'contain', width: '100%' }} />
+            {/* <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ objectFit: 'contain', width: '100%' }} /> */}
           </SwiperSlide>
         ))}
       </Swiper>

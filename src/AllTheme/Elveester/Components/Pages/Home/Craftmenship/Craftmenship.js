@@ -19,7 +19,7 @@ const sliderData = [
     },
 ];
 
-export default function Craftmenship() {
+export default function Craftmenship({ banner }) {
     return (
         <div className='el_craftmenshipId_main' name='craftmenshipId' id="craftmenshipId">
             <div className='elv_craftman_div'>
@@ -31,9 +31,10 @@ export default function Craftmenship() {
                 modules={[Pagination, Navigation]}
                 className="craft_mySwiper"
             >
-                {sliderData.map((slide, index) => (
+                {banner?.image?.map((slide, index) => (
                     <SwiperSlide key={index}>
-                        <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ width: '100%', height: '70vh', objectFit: 'cover' }} />
+                        <img loading="lazy" src={slide} alt={`Slide ${index}`} style={{ width: '100%', height: '70vh', objectFit: 'cover' }} />
+                        {/* <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ width: '100%', height: '70vh', objectFit: 'cover' }} /> */}
                     </SwiperSlide>
                 ))}
             </Swiper>

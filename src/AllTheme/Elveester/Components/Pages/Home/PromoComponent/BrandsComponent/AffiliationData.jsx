@@ -10,7 +10,7 @@ import { Autoplay, Pagination } from 'swiper/modules';
 
 SwiperCore.use([Pagination]);
 
-const AffiliationData = () => {
+const AffiliationData = ({ banner }) => {
 
     const sliderData = [
         {
@@ -122,10 +122,11 @@ const AffiliationData = () => {
                     modules={[Autoplay]}
                     className="affli_swiper"
                 >
-                    {sliderData.map((slide, index) => (
+                    {banner?.image?.map((slide, index) => (
                         <SwiperSlide key={index} className="affiliation-slide">
                             <img
-                                src={storImagePath() + slide?.imageUrl}
+                                src={slide}
+                                // src={storImagePath() + slide?.imageUrl}
                                 alt={`Slide ${index}`}
                                 className="affiliation-image"
                             />
