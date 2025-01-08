@@ -2025,6 +2025,8 @@ const TopNavBar = ({ menuItems = [], handelMenu = () => {} }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [expandedMenu, setExpandedMenu] = useState(null);
   const [selectedData, setSelectedData] = useState([]);
+  const menuRef = useRef(null);
+  const timeoutRef = useRef(null); // To hold the timeout reference
 
   if (menuItems?.length == 0) {
     return;
@@ -2037,15 +2039,30 @@ const TopNavBar = ({ menuItems = [], handelMenu = () => {} }) => {
     document.body.style.overflow = "hidden";
   };
 
-  const handleMouseLeave = (index) => {
-    setExpandedMenu(null);
-    setHoveredIndex(null);
-    document.body.style.overflow = "auto";
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setHoveredIndex(null);
+      setExpandedMenu(null);
+      setSelectedData([]);
+      document.body.style.overflow = "auto";
+    }, 100); 
+  };
+
+  const handleMouseLeaveWithDelay = (e) => {
+    e.stopPropagation(); 
+      setExpandedMenu(null);
+      setSelectedData([]);
+      document.body.style.overflow = "auto";
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current); 
+      }
   };
 
   return (
     <>
-      <div className="TopNavBar">
+      <div className="TopNavBar"
+           onMouseLeave={handleMouseLeaveWithDelay} // Handle mouse leave from the parent container
+      >
         <div className="smr_flat_view_menu">
           <HoverMenu
             handleMouseEnter={handleMouseEnter}
@@ -2062,9 +2079,9 @@ const TopNavBar = ({ menuItems = [], handelMenu = () => {} }) => {
                        onMouseEnter={() => {
                 handleMouseEnter(index, menuItem);
               }}
-              onMouseLeave={() => {
-                handleMouseLeave();
-              }}
+              // onMouseLeave={() => {
+              //   handleMouseLeave();
+              // }}
             >
               <div
                 // component="div"

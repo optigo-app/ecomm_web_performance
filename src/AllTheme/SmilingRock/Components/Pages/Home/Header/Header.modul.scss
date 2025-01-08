@@ -4,6 +4,7 @@
 .smr_headerMain_div {
   .TopNavBar {
     width: 100%;
+    transition: 0.3s ease-in-out;
     @media screen and (max-width: 1200px) {
       display: none;
     }
@@ -40,8 +41,10 @@
             text-transform: uppercase;
             max-width: 70rem;
             overflow-x: auto;
-            scrollbar-width: thin;
-            -ms-overflow-style: none;
+            // scrollbar-width: thin;
+            // -ms-overflow-style: none;
+           
+            
             @media screen and (max-width:1600px) {
               max-width: 60rem;
             }
@@ -62,6 +65,28 @@
               cursor: pointer;
              
             }
+          }
+          .smr_menu_level_list::-webkit-scrollbar {
+            width: 12px !important;
+            height: 5px;
+            background-color: transparent !important;
+          }
+          
+          /* Track */
+          .smr_menu_level_list::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px rgba(128, 128, 128, 0.116) !important; 
+            border-radius: 8px !important;
+          }
+           
+          /* Handle */
+          .smr_menu_level_list::-webkit-scrollbar-thumb {
+            background: rgba(153, 153, 153, 0.829) !important; 
+            border-radius: 25px !important;
+          }
+          
+          /* Handle on hover */
+          .smr_menu_level_list::-webkit-scrollbar-thumb:hover {
+            background: #b4b4b4c4 !important; 
           }
         
         }
