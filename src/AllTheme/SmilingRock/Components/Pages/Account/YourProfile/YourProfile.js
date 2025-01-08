@@ -103,8 +103,15 @@ export default function YourProfile() {
         <div className='  smr_yourProfile'>
 
             {isLoading && (
-                <div className="loader-overlay" style={{zIndex:100000}}>
-                    <CircularProgress className='loadingBarManage' />
+                <div className="loader-overlay"   style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    height: "80vh",
+                    width: "100%",
+                    alignItems: "center",
+                    zIndex:100000
+                  }}>
+                    <CircularProgress className='loadingBarManage'  />
                 </div>
             )}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>

@@ -2607,9 +2607,12 @@ const ProductList = () => {
                                                 {findMetalColor(
                                                   productData?.MetalColorid
                                                 )?.[0]?.metalcolorname.toUpperCase()}
-                                                {findMetalColor(
-                                                  productData?.MetalColorid
-                                                )?.[0]?.metalcolorname.toUpperCase() && '-'}
+                                             
+{findMetalColor(productData?.MetalColorid)?.[0]?.metalcolorname && findMetalType(
+productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
+)[0]?.metaltype
+? " - "
+: ""}
                                                 {
                                                   findMetalType(selectedMetalId ?? productData?.MetalPurityid)[0]
                                                     ?.metaltype

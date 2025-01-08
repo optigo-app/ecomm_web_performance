@@ -1161,6 +1161,7 @@ const ProductDetail = () => {
     setSingleProd1({});
     setSingleProd({});
     setIsImageLoad(true);
+    setWishListFlag(null);
   };
 
   const handleCartandWish = (e, ele, type) => {

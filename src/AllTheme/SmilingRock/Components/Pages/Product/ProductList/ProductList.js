@@ -3549,7 +3549,9 @@ const ProductList = () => {
                                                   {/* {productData?.TitleLine?.length > 0 &&
                                             "-"}
                                           {productData?.TitleLine}{" "} */}
-                                                  {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
+                                                  {productData?.designno}  {productData?.TitleLine && productData?.designno
+    ? " - " 
+    : ""} {productData?.TitleLine}
                                                 </span>
                                                 {/* <span className="smr_prod_designno">
                                           {productData?.designno}
@@ -3636,7 +3638,11 @@ const ProductList = () => {
                                                   {findMetalColor(
                                                     productData?.MetalColorid
                                                   )?.[0]?.metalcolorname.toUpperCase()}
-                                                  -
+                                                {findMetalColor(productData?.MetalColorid)?.[0]?.metalcolorname && findMetalType(
+    productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
+  )[0]?.metaltype
+    ? " - " 
+    : ""}
                                                   {
                                                     findMetalType(
                                                       productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)

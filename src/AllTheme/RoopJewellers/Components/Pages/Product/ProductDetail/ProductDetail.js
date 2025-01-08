@@ -604,6 +604,7 @@ const ProductDetail = () => {
     setSingleProd({});
     setIsImageLoad(true);
     setProdLoading(true);
+    setWishListFlag(null)
   };
 
   useEffect(() => {

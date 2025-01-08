@@ -1806,7 +1806,9 @@ const ProductDetail = () => {
                 <div className="for_ProductDet_title_main_div">
                   <div className="for_ProductDet_title_div">
                     <div className="for_ProductDet_title">
-                      <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span>
+                      <span>{singleProd?.designno}  {singleProd?.TitleLine && singleProd?.designno
+? " - "
+: ""} {singleProd?.TitleLine}</span>
                     </div>
                     {/* <div className="for_ProductDet_rating_div">
                       <div className="">

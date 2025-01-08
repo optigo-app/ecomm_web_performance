@@ -2,7 +2,7 @@ export function storImagePath() {
   let statiPath = `${window?.location?.protocol}//${
     window.location.hostname === "localhost" ||
     window.location.hostname === "zen"
-      ? "fgstore.web"
+      ? "fgstore.pro"
       : window.location.hostname
   }`;
   return `${statiPath}/WebSiteStaticImage`;
@@ -32,7 +32,7 @@ export function storInitDataPath() {
   let hostName =
     window.location.hostname === "localhost" ||
     window.location.hostname === "zen"
-      ? "fgstore.web"
+      ? "fgstore.pro"
       : window.location.hostname;
   if (hostName.startsWith("www.")) {
     hostName = hostName.substring(4);
@@ -106,4 +106,11 @@ export const downloadExcelLedgerData = () => {
       const button = document.getElementById('test-table-xls-button');
       button.click();
     }, 500);
+  }
+
+export const handleScrollTop = () => {
+  window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+  });
 }

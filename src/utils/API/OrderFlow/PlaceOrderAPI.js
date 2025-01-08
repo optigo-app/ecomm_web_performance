@@ -1,6 +1,6 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const handlePaymentAPI = async (visiterId, islogin) => {
+export const handlePaymentAPI = async (visiterId, islogin ,mode) => {
     console.log('islogin: ', islogin);
     try {
         const selectedAddressId = sessionStorage.getItem('selectedAddressId');
@@ -24,7 +24,7 @@ export const handlePaymentAPI = async (visiterId, islogin) => {
 
         const combinedValue = JSON.stringify({
             addrid: `${selctedid.id}`,
-            PaymentMethod: 'Cash on Delivery',
+            PaymentMethod:  mode ?? 'Cash on Delivery',
             Istempaddress: '',
             addrType: 'select',
             OrderPlacedFrom: "1",
