@@ -2663,7 +2663,7 @@ const ProductDetail = () => {
 
                 {imageData?.length > 0 && (
                   <>
-                    {(imageData?.length < 5 && !maxwidth1023px) ? (
+                    {(imageData?.length <= 5 && !maxwidth1023px) ? (
                       <div className="proCat_moreProduct_cardContainer">
                         <p className="proCat_details_title">More Products</p>
                         <div className="proCat_swiper_container">
@@ -2694,19 +2694,19 @@ const ProductDetail = () => {
                           <Swiper
                             spaceBetween={10}
                             lazy={true}
-                            navigation={true}
+                            navigation={imageData?.length > 3} 
                             breakpoints={{
                               1440: {
-                                slidesPerView: 6,
+                                slidesPerView: imageData?.length >= 6 ? 6 : imageData?.length, 
                               },
                               1024: {
-                                slidesPerView: 4,
+                                slidesPerView: imageData?.length >= 4 ? 4 : imageData?.length, 
                               },
                               768: {
-                                slidesPerView: 2,
+                                slidesPerView: imageData?.length >= 2 ? 2 : imageData?.length, 
                               },
                               0: {
-                                slidesPerView: 2,
+                                slidesPerView: imageData?.length >= 2 ? 2 : imageData?.length, 
                               },
                             }}
                             modules={[Keyboard, FreeMode, Navigation]}
@@ -2725,15 +2725,20 @@ const ProductDetail = () => {
                                     border: singleProd?.designno === ele?.designno ? "1px solid #d8a4a4" : "",
                                   }}
                                 >
-                                  <img src={ele?.imageSrc} alt={ele?.TitleLine} loading="lazy" onError={(e) => e.target.src = imageNotFound} />
-                                  <div className="procat_design_details_div ">
+                                  <img
+                                    src={ele?.imageSrc}
+                                    alt={ele?.TitleLine}
+                                    loading="lazy"
+                                    onError={(e) => e.target.src = imageNotFound}
+                                  />
+                                  <div className="procat_design_details_div">
                                     <span>{ele?.designno}</span>
-                                    {/* <span>{ele?.TitleLine}</span> */}
                                   </div>
                                 </div>
                               </SwiperSlide>
                             ))}
                           </Swiper>
+
                         </div>
                       </div>
                     )}
