@@ -1385,6 +1385,7 @@ const ProductDetail = () => {
     setIsImageLoad(true);
     setProdLoading(true);
     setShowNoImage(false);
+    setWishListFlag(null)
   };
 
   const SizeSorting = (SizeArr) => {

@@ -1318,6 +1318,7 @@ const ProductDetail = () => {
     setIsImageLoad(true);
     setProdLoading(true);
     setImagePromise(true);
+    setWishListFlag(null)
   };
 
   const handleCustomChange = async (e, type) => {

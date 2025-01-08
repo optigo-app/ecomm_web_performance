@@ -1091,7 +1091,8 @@ const ProductDetail = () => {
     setSingleProd1({});
     setSingleProd({});
     setIsImageLoad(true);
-    setProdLoading(true)
+    setProdLoading(true);
+    setWishListFlag(null);
   };
 
   const handleCustomChange = async (e, type) => {
