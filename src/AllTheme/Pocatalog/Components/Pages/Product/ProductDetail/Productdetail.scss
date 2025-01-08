@@ -419,6 +419,7 @@
 .proCat_prod_wt {
   display: flex;
   gap: 2px;
+  align-items: center;
   font-family: $primaryFontFamily;
 }
 
@@ -453,6 +454,14 @@
   font-size: 15px;
   font-weight: 500;
   font-family: $primaryFontFamily;
+}
+
+.procat_cart_btn {
+  display: flex !important;
+  justify-content: center;
+  align-items: center !important;
+  background-color: #98B8D9 !important;
+  margin-inline: 0 !important;
 }
 
 .proCat_prodd_datanotfound {
