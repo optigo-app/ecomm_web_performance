@@ -15,7 +15,9 @@ import { useRef } from 'react';
 import { getAccountLedgerData } from '../../../../../../utils/API/AccountTabs/accountLedger';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, CircularProgress, useMediaQuery } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+import AccountLedgerExcel from '../../../../../RoopJewellers/Components/Pages/Account/AccountLeger/AccountLedgerExcel';
+import { downloadExcelLedgerData } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import excelExport from "../../../../../../utils/assets/Image/excel.png";
 const AccountLedger = () => {
 
     const isSmallScreen = useMediaQuery('(max-width:500px)');
@@ -493,6 +495,7 @@ const AccountLedger = () => {
         // console.log(dataObject, dataObject?.PrintUrl, args);
         window.open(dataObject?.PrintUrl, "_blank");
     }
+    
 
   return (
     <div className='ledger_Account_SMR'>
@@ -624,6 +627,8 @@ const AccountLedger = () => {
     
                         <div className='mx_1_acc ms_4_acc mb_2_acc'>
                         </div>
+                        <div style={{paddingBottom:'35px'}}><img src={excelExport} onClick={() => downloadExcelLedgerData()} style={{height:'40px', width:'40px', objectFit:'contain', cursor:'pointer'}} alt='#excelExport' title='Download Excel' /></div>
+
                         </div>}
                         
                     </div>
@@ -712,6 +717,8 @@ const AccountLedger = () => {
                                             <SearchIcon sx={{ color: "#fff !important", cursor:'pointer' }} />
                                         </Button>
                                     </Box>
+                            <div style={{ display:'flex', justifyContent:'center', alignItems:'center'}}><img src={excelExport} onClick={() => downloadExcelLedgerData()} style={{height:'40px', cursor:'pointer', width:'40px', objectFit:'contain', cursor:'pointer'}} alt='#excelExport' /></div>
+
                                 </div>
                                 <Box  className=" center_acc w_all_acc">
                         
@@ -770,7 +777,8 @@ const AccountLedger = () => {
                               ))
                             }&nbsp;
 
-                            {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr' ) }</span></div>
+                            {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr' ) }</span>
+                        </div>
                     </div>
                 </div>
                 <div className='text_secondary_acc fs_al d_flex_Acc justify_content_between align_items_start p_2_acc my_3_acc mt_0_acc balance_not_none'>
@@ -805,6 +813,27 @@ const AccountLedger = () => {
                 </div>
                 {
                     loaderAC ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", paddingBottom: "30px" }}><CircularProgress className='loadingBarManage' /></Box> : <div  style={{margin:'8px', overflow:'auto'}}>
+                        <div>
+                                <AccountLedgerExcel 
+                                    
+                                    filterArray={filterArray} 
+
+                                    credit_curr_diff={credit_curr_diff} 
+                                    credit_amt_diff={credit_amt_diff} 
+                                    credit_mg_diff={credit_mg_diff} 
+                                    credit_dia_diff={credit_dia_diff}
+
+                                    debit_curr_diff={debit_curr_diff}
+                                    debit_amt_diff={debit_amt_diff}
+                                    debit_mg_diff={debit_mg_diff}
+                                    debit_dia_diff={debit_dia_diff}
+
+                                    resultTotal={resultTotal}
+
+                                    currencySymbol={currencySymbol}
+
+                                 />
+                            </div>
                     <table className='w_100_acc'>
                         <thead className='w_100_acc border_Acc'>
                             <tr className='w_100_acc border_bottom_acc fs_td' style={{width:'100%'}}>

@@ -15,6 +15,8 @@ import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
 import { useRef } from 'react';
 import { getAccountLedgerData } from '../../../../../../utils/API/AccountTabs/accountLedger';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import AccountLedgerExcel from './AccountLedgerExcel';
 
 const AccountLedger = () => {
 
@@ -690,7 +692,20 @@ const AccountLedger = () => {
                         </div>
                     </div>
                     {
-                        loaderAC ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", paddingBottom: "30px" }}><CircularProgress className='loadingBarManage' /></Box> : <div style={{ margin: '8px', overflow: 'auto' }}>
+                        loaderAC ? 
+                        <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", paddingBottom: "30px" }}><CircularProgress className='loadingBarManage' /></Box>
+                         : <div style={{ margin: '8px', overflow: 'auto' }}>
+                            <ReactHTMLTableToExcel
+                                id="test-table-xls-button"
+                                className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
+                                table="table-to-xls"
+                                filename={`AccountLedger_${Date.now()}`}
+                                sheet="tablexls"
+                                buttonText="Download as XLS"
+                            />
+                            <div>
+                                <AccountLedgerExcel />
+                            </div>
                             <table className='w_100_acc'>
                                 <thead className='w_100_acc border_Acc'>
                                     <tr className='w_100_acc border_bottom_acc fs_td' style={{ width: '100%', fontFamily: "Spectral-Regular" }}>
@@ -767,7 +782,6 @@ const AccountLedger = () => {
                                                             {/* <td className='border_end_acc p_1_acc text_start_acc ps_1_acc' style={{ cursor: 'pointer' }} >{e?.IsDebit === 0 ? '' : e?.referenceno === '' ? e?.voucherno : e?.referenceno}</td> */}
                                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.metalctw === 0 ? '' : e?.metalctw)}</td>
                                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.diamondctw === 0 ? '' : e?.diamondctw)}</td>
-
                                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{ minWidth: '100px' }}> {e?.IsDebit !== 0 && <span dangerouslySetInnerHTML={{ __html: e?.CurrSymbol }}></span>} {e?.IsDebit === 0 ? '' : ` ${formatAmount(e?.Currency) === 'NaN' ? '' : formatAmount(e?.Currency)} `}</td>
                                                             <td className='border_end_acc p_1_acc text_center_acc'></td>
                                                             <td className='border_end_acc p_1_acc text_center_acc'>{e?.IsDebit === 0 ? e?.EntryDate : ''}</td>
