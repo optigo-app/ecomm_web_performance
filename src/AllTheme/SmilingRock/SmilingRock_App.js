@@ -188,21 +188,24 @@ const SmilingRock_App = () => {
               navigation(redirectEmailUrl);
             } else if (location.pathname.startsWith("/accountdwsr")) {
               navigation("/accountdwsr");
-            } else if (sessionStorage.getItem("previousUrl")) {
-              navigation(sessionStorage.getItem("previousUrl"));
             } else {
               navigation("/");
             }
+            // else if (sessionStorage.getItem("previousUrl")) {
+            //   navigation(sessionStorage.getItem("previousUrl"));
+            // } else {
+            //   navigation("/");
+            // }
           }
         })
         .catch((err) => console.log(err));
     }
 
-    if (!islogin) {
-      if (location.pathname !== "/") {
-        sessionStorage.setItem("previousUrl", location.pathname);
-      }
-    }
+    // if (!islogin) {
+    //   if (location.pathname !== "/") {
+    //     sessionStorage.setItem("previousUrl", location.pathname);
+    //   }
+    // }
 
     let localD = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localD);
