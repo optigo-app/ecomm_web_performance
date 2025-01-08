@@ -2,6 +2,199 @@
 
 
 .smr_headerMain_div {
+  // .TopNavBar {
+  //   width: 100%;
+  //   transition: 0.3s ease-in-out;
+  //   @media screen and (max-width: 1200px) {
+  //     display: none;
+  //   }
+  //   .smr_flat_view_menu {
+  //     background-color: $navbarbg;
+  //     width: 100%;
+  //     height: 100%;
+  //     padding-inline: 6%;
+  //     height: 40px;
+  //     display: flex;
+  //     align-items: center;
+  //     justify-content: center;
+  //     z-index: 788;
+  //     gap: 1rem;
+  //     position: relative;
+  //     .new_hover_banner {
+  //       width: 100%;
+  //       position: absolute;
+  //       top: 40px;
+  //       left: 0;
+  //       right: 0;
+  //       height: 40vh;
+  //       background-color: #fff;
+  //       display: flex;
+  //       padding: 40px;
+  //       box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+       
+  //       .smr_left_list {
+  //         flex: 1;
+  //         .smr_menu_level_list{
+  //           width: 100%;
+  //           display: flex;
+  //           gap: 60px;
+  //           text-transform: uppercase;
+  //           max-width: 70rem;
+  //           overflow-x: auto;
+  //           // scrollbar-width: thin;
+  //           // -ms-overflow-style: none;
+           
+            
+  //           @media screen and (max-width:1600px) {
+  //             max-width: 60rem;
+  //           }
+  //           @media screen and (max-width:1400px) {
+  //             max-width: 50rem;
+  //           }
+  //           @media screen and (max-width:1336px) {
+  //             max-width: 45rem;
+  //           }
+  //           .level1MenuData{
+  //             font-size: 14px;
+  //             text-decoration: underline;
+  //             margin-bottom: 10px;
+  //             color: black;
+  //             text-align: start;
+  //             letter-spacing: 1;
+  //             font-weight: 500;
+  //             cursor: pointer;
+             
+  //           }
+  //         }
+  //         .smr_menu_level_list::-webkit-scrollbar {
+  //           width: 12px !important;
+  //           height: 5px;
+  //           background-color: transparent !important;
+  //         }
+          
+  //         /* Track */
+  //         .smr_menu_level_list::-webkit-scrollbar-track {
+  //           box-shadow: inset 0 0 5px rgba(128, 128, 128, 0.116) !important; 
+  //           border-radius: 8px !important;
+  //         }
+           
+  //         /* Handle */
+  //         .smr_menu_level_list::-webkit-scrollbar-thumb {
+  //           background: rgba(153, 153, 153, 0.829) !important; 
+  //           border-radius: 25px !important;
+  //         }
+          
+  //         /* Handle on hover */
+  //         .smr_menu_level_list::-webkit-scrollbar-thumb:hover {
+  //           background: #b4b4b4c4 !important; 
+  //         }
+        
+  //       }
+  //       .smr_right_side_banner {
+  //         flex: 0.6;
+  //         display: flex;
+  //         gap: 2rem;
+  //         .image_box_s {
+  //           margin-top: 1rem;
+  //           width: 50%;
+  //           max-height: 250px;
+  //           min-height: 220px;
+  //           img {
+  //             width: 100%;
+  //             height: 100%;
+  //             object-fit: cover;
+  //           }
+  //         }
+  //       }
+  //     }
+  //     .menu_list_Smr {
+  //       display: flex;
+  //       align-items: center;
+  //       justify-content: center;
+  //       gap: 1rem;
+  //       padding: 15px 15px;
+  //       position: relative;
+  //    @media screen and (max-width:1390px) {
+  //     padding: 12px 15px;
+  //     gap: 0.6rem;
+  //         }
+  //       &:hover {
+  //         transition: 0.3s ease-in-out;
+  //         .child_menu_hover {
+  //           display: flex;
+  //           flex-wrap: wrap;
+  //           transition: 0.3s ease-in-out;
+  //         }
+  //       }
+  //       .menu_list_Smr_0_title {
+  //         font-size: 16px;
+  //         font-weight: 600;
+  //         color: $navbarcolor;
+  //         text-transform: uppercase;
+  //         text-decoration: none;
+  //         @media screen and (max-width:1390px) {
+  //           font-size: 14px;
+  //         }
+  //       }
+  //       .child_menu_hover {
+  //         transition: 0.3s ease-in-out;
+  //         position: absolute;
+  //         top: 50px;
+  //         left: 0;
+  //         right: 0;
+  //         z-index: 4646;
+  //         background-color: #fff;
+  //         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  //         display: none;
+  //         width: 300px;
+  //         min-height: auto;
+  //         height: auto;
+  //         padding: 10px;
+  //         .smr_menu_menu {
+  //           display: grid;
+  //           grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+  //           width: 100%;
+  //           gap: 0.4rem;
+  //           .smr_view_more_button {
+  //             background-color: transparent;
+  //             border: none;
+  //             outline: none;
+  //             cursor: pointer;
+  //             border: 1px solid rgb(218, 216, 216);
+  //             width: 100%;
+  //             height: 25px;
+  //             font-size: 13px;
+  //             text-transform: capitalize;
+  //           }
+  //           .smr_menu_title_1 {
+  //             font-size: 15.5px;
+  //             font-weight: 600;
+  //             color: rgb(20, 20, 20);
+  //             text-transform: capitalize;
+  //             text-decoration: none;
+  //             margin: unset;
+  //             padding: unset;
+  //             cursor: pointer;
+  //             line-height: 15px;
+  //           }
+  //           .smr_menu_level1 {
+  //             .smr_menu_title_2 {
+  //               font-size: 13.8px;
+  //               font-weight: 600;
+  //               color: rgb(116, 116, 116);
+  //               text-transform: capitalize;
+  //               text-decoration: none;
+  //               margin: unset;
+  //               padding: unset;
+  //               cursor: pointer;
+  //               line-height: 15px;
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
   .TopNavBar {
     width: 100%;
     transition: 0.3s ease-in-out;
@@ -29,32 +222,32 @@
         height: 40vh;
         background-color: #fff;
         display: flex;
-        padding: 40px;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-       
+        box-shadow: rgba(0, 0, 0  , 0.24) 0px 3px 8px;
+        overflow: hidden;
+
         .smr_left_list {
           flex: 1;
-          .smr_menu_level_list{
+          padding: 40px 0 40px 40px; // Top, right, bottom, left 
+          .smr_menu_level_list {
             width: 100%;
             display: flex;
             gap: 60px;
             text-transform: uppercase;
-            max-width: 70rem;
+            max-width: 68rem;
             overflow-x: auto;
             // scrollbar-width: thin;
             // -ms-overflow-style: none;
-           
-            
-            @media screen and (max-width:1600px) {
+
+            @media screen and (max-width: 1600px) {
               max-width: 60rem;
             }
-            @media screen and (max-width:1400px) {
+            @media screen and (max-width: 1400px) {
               max-width: 50rem;
             }
-            @media screen and (max-width:1336px) {
+            @media screen and (max-width: 1336px) {
               max-width: 45rem;
             }
-            .level1MenuData{
+            .level1MenuData {
               font-size: 14px;
               text-decoration: underline;
               margin-bottom: 10px;
@@ -63,7 +256,7 @@
               letter-spacing: 1;
               font-weight: 500;
               cursor: pointer;
-             
+              white-space: nowrap;
             }
           }
           .smr_menu_level_list::-webkit-scrollbar {
@@ -71,38 +264,37 @@
             height: 5px;
             background-color: transparent !important;
           }
-          
+
           /* Track */
           .smr_menu_level_list::-webkit-scrollbar-track {
-            box-shadow: inset 0 0 5px rgba(128, 128, 128, 0.116) !important; 
+            box-shadow: inset 0 0 5px rgba(128, 128, 128, 0.116) !important;
             border-radius: 8px !important;
           }
-           
+
           /* Handle */
           .smr_menu_level_list::-webkit-scrollbar-thumb {
-            background: rgba(153, 153, 153, 0.829) !important; 
+            background: rgba(153, 153, 153, 0.829) !important;
             border-radius: 25px !important;
           }
-          
+
           /* Handle on hover */
           .smr_menu_level_list::-webkit-scrollbar-thumb:hover {
-            background: #b4b4b4c4 !important; 
+            background: #b4b4b4c4 !important;
           }
-        
         }
         .smr_right_side_banner {
           flex: 0.6;
+          height: 40vh;
           display: flex;
-          gap: 2rem;
+          align-items: center;
+          gap: 1rem;
+          padding: 45px;
           .image_box_s {
-            margin-top: 1rem;
             width: 50%;
-            max-height: 250px;
-            min-height: 220px;
             img {
               width: 100%;
               height: 100%;
-              object-fit: cover;
+              object-fit: contain;
             }
           }
         }
@@ -114,10 +306,10 @@
         gap: 1rem;
         padding: 15px 15px;
         position: relative;
-     @media screen and (max-width:1390px) {
-      padding: 12px 15px;
-      gap: 0.6rem;
-          }
+        @media screen and (max-width: 1390px) {
+          padding: 12px 15px;
+          gap: 0.6rem;
+        }
         &:hover {
           transition: 0.3s ease-in-out;
           .child_menu_hover {
@@ -129,10 +321,27 @@
         .menu_list_Smr_0_title {
           font-size: 16px;
           font-weight: 600;
-          color: $navbarcolor;
+          color: white;
           text-transform: uppercase;
           text-decoration: none;
-          @media screen and (max-width:1390px) {
+          position: relative;
+          &::after {
+            content: "";
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0%;
+            background-color: #fff;
+            height: 2px;
+            border-radius: 8px;
+            transition: 0.3s ease-in-out;
+          }
+          &:hover{
+            &::after {
+              width: 100%;
+            }
+          }
+          @media screen and (max-width: 1390px) {
             font-size: 14px;
           }
         }

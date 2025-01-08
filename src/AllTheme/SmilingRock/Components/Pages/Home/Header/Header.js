@@ -1679,6 +1679,7 @@ const Header = () => {
 
 export default Header;
 
+
 const NewMenuBar = ({ menuItems = [], handelMenu = () => {} }) => {
   const SliderbannerImages = [
     storImagePath() + "/1.png",
@@ -2289,7 +2290,7 @@ const HoverMenu = ({  selectedData,  handelMenu,  expandedMenu,  hoveredIndex,  
                       display: "flex",
                       flexWrap: "wrap",
                       flexDirection: "column",
-                      marginLeft: "15px",
+                      marginLeft: "0",
                     }}
                   >
                     {param1Item?.param2?.map((param2Item, param2Index) => {
@@ -2318,13 +2319,14 @@ const HoverMenu = ({  selectedData,  handelMenu,  expandedMenu,  hoveredIndex,  
                           }}
                           style={{
                             fontSize: "14px",
-                            margin: "3px 15px 3px 0px",
+                            margin: "3px 15px 0px 0px",
                             // fontFamily: '"PT Sans", sans-serif',
                             letterSpacing: 0.4,
                             textAlign: "start",
                             cursor: "pointer",
                             textTransform: "capitalize",
                             paddingRight: "15px",
+                            whiteSpace:"nowrap"
                           }}
                         >
                           <a

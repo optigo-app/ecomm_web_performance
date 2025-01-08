@@ -319,6 +319,9 @@ const NewOrderHistory = () => {
               display: "flex",
               justifyContent: "center",
               paddingTop: "10px",
+              height: "80vh",
+              width: "100%",
+              alignItems: "center",
             }}
           >
             <CircularProgress className="loadingBarManage" />

@@ -634,7 +634,8 @@ const ProductDetail = () => {
     setSingleProd({});
     setIsImageLoad(true);
     setImagePromise(true);
-    setProdLoading(true)
+    setProdLoading(true);
+    setWishListFlag(null)
   };
 
   useEffect(() => {

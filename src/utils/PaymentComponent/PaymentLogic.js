@@ -217,7 +217,8 @@ const usePaymentLogic = () => {
             const verificationResponse = await handleVerifySignature(razorpayData);
             const vstatus = verificationResponse?.Data?.signature[0]?.state;
             if (vstatus === 1) {
-                const paymentResponse = await handlePaymentAPI(visiterId, islogin);
+                  let mode = 'pay with Razorpay'
+                const paymentResponse = await handlePaymentAPI(visiterId, islogin,mode);
                 if (paymentResponse?.Data?.rd?.[0]?.stat === 1) {
                     const orderNumber = paymentResponse.Data?.rd[0]?.orderno;
                     sessionStorage.setItem('orderNumber', orderNumber);
@@ -239,7 +240,8 @@ const usePaymentLogic = () => {
     const handleOfflinePayment = async (visiterId, islogin) => {
         try {
             setSelectedMode(2)
-            const paymentResponse = await handlePaymentAPI(visiterId, islogin);
+              let mode = 'Cash on Delivery'
+            const paymentResponse = await handlePaymentAPI(visiterId, islogin,mode);
             if (paymentResponse?.Data?.rd?.[0]?.stat === 1) {
                 const orderNumber = paymentResponse.Data?.rd[0]?.orderno;
                 sessionStorage.setItem('orderNumber', orderNumber);

@@ -6,6 +6,7 @@ import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import 'react-toastify/dist/ReactToastify.css';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { BespokeAPI } from '../../../../../../utils/API/Bespoke/BespokeAPI';
+import ContactUs2 from './new/Contact';
 
 export default function ContactUs() {
     const [activeTab, setActiveTab] = useState('M1');
@@ -119,7 +120,7 @@ export default function ContactUs() {
             setErrors(errors);
         }
     };
-
+// return (<><ContactUs2/></>)
 
     return (
         <div className='smr_contactMain_div' >
@@ -207,7 +208,7 @@ export default function ContactUs() {
                             {/*Kayra Map  */}
                             {/* <div>
                                 <div className="tab-buttons">
-                                    <button className='active' onClick={() => handleTabClick('M1')}>Main Office Address</button>
+                                    <button className='active' onClick={() => handleTabClick('M1')}>Main Office Ad  dress</button>
                                 </div>
                                 <div className="address">
                                     <div>
