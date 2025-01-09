@@ -8,21 +8,21 @@
   @if $border-color ==#e06e6e {
     background: #ff7d7d !important;
     // background: linear-gradient(30deg, #ec8a55 0, #fcede2 55%, #fcede2 60%, #ec8a55 100%) !important;
-    border: 0px solid darken($border-color, 20%);
+    border: 1px solid darken($border-color, 20%) !important;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
 
   @else if $border-color ==#848484 {
     background: #c9c4c4 !important;
     // background: linear-gradient(30deg, #b3b2af 0, #f7f7f7 55%, #f7f7f7 60%, #b3b2af 100%) !important;
-    border: 0px solid darken($border-color, 20%);
+    border: 1px solid darken($border-color, 20%) !important;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
 
   @else if $border-color ==#c9a63a {
     background: #ffda6c !important;
     // background: linear-gradient(30deg, #e1b94f 0, #fcf1d5 55%, #fcf1d5 60%, #e1b94f 100%) !important;
-    border: 0px solid darken($border-color, 20%);
+    border: 1px solid darken($border-color, 20%) !important;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
 
@@ -39,7 +39,7 @@
 
 @mixin metal-type-style-clicked($border-color) {
   @include metal-type-style($border-color);
-  transform: scale(1.3); // Scales the clicked div
+  transform: scale(1.2); // Scales the clicked div
   z-index: 100000; // Ensures the clicked div is above others
 }
 
@@ -255,21 +255,22 @@
 .smr_productCard_banner {
   width: 66%; // Banner will take up 2/3 of the width of the container
   text-align: center;
-  // height: 12%;
+  height: 0;
   color: $primaryfontcolor;
   position: relative;
   z-index: 0;
   font-family: $primaryFontFamily;
   box-sizing: border-box;
 
-  img {
+  img,
+  video {
     height: 504px;
     width: 100%;
     object-fit: inherit;
   }
 }
 
-.smr_productList_metaltype_div {
+.smr_productList_metaltype_Maindiv {
   bottom: 7rem;
   right: 0rem;
   display: flex;
@@ -279,32 +280,123 @@
   width: 60px;
   flex-direction: column;
   align-items: center;
-  z-index: 100;
-
-  .smr_metaltype_gold {
-    @include metal-type-style(#c9a63a);
-  }
-
-  .smr_metaltype_gold_clicked {
-    @include metal-type-style-clicked(#c9a63a)
-  }
-
-  .smr_metaltype_white {
-    @include metal-type-style(#848484);
-  }
-
-  .smr_metaltype_white_clicked {
-    @include metal-type-style-clicked(#848484)
-  }
-
-  .smr_metaltype_rose {
-    @include metal-type-style(#e06e6e);
-  }
-
-  .smr_metaltype_rose_clicked {
-    @include metal-type-style-clicked(#e06e6e)
-  }
+  z-index: 1000;
 }
+
+.smr_productList_metaltype_div {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.smr_productList_metaltype_div .image {
+  width: 47%;
+  display: block;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-inline: auto;
+}
+
+.metal-buttons-container {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: bottom 0.3s ease, opacity 0.3s ease;
+  z-index: 100;
+}
+
+.metal-buttons-container button {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.smr_productList_metaltype_div:hover .metal-buttons-container {
+  bottom: 0;
+  position: relative;
+  opacity: 1;
+  pointer-events: all;
+}
+
+.smr_productList_metaltype_div:hover {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  height: 8.5rem;
+  gap: 11px;
+}
+
+.smr_metaltype_gold {
+  @include metal-type-style(#c9a63a);
+}
+
+.smr_metaltype_gold_clicked {
+  @include metal-type-style-clicked(#c9a63a);
+}
+
+.smr_metaltype_white {
+  @include metal-type-style(#848484);
+}
+
+.smr_metaltype_white_clicked {
+  @include metal-type-style-clicked(#848484);
+}
+
+.smr_metaltype_rose {
+  @include metal-type-style(#e06e6e);
+}
+
+.smr_metaltype_rose_clicked {
+  @include metal-type-style-clicked(#e06e6e);
+}
+
+// .smr_productList_metaltype_div {
+//   bottom: 7rem;
+//   right: 0rem;
+//   display: flex;
+//   gap: 10px;
+//   justify-content: center;
+//   position: absolute;
+//   width: 60px;
+//   flex-direction: column;
+//   align-items: center;
+//   z-index: 100;
+
+//   .smr_metaltype_gold {
+//     @include metal-type-style(#c9a63a);
+//   }
+
+//   .smr_metaltype_gold_clicked {
+//     @include metal-type-style-clicked(#c9a63a)
+//   }
+
+//   .smr_metaltype_white {
+//     @include metal-type-style(#848484);
+//   }
+
+//   .smr_metaltype_white_clicked {
+//     @include metal-type-style-clicked(#848484)
+//   }
+
+//   .smr_metaltype_rose {
+//     @include metal-type-style(#e06e6e);
+//   }
+
+//   .smr_metaltype_rose_clicked {
+//     @include metal-type-style-clicked(#e06e6e)
+//   }
+// }
 
 .cart_and_wishlist_icon {
   position: absolute;
@@ -652,7 +744,9 @@
   }
 
   .smr_productCard_banner {
-    img {
+
+    img,
+    video {
       height: 442px;
     }
   }
@@ -691,7 +785,9 @@
   }
 
   .smr_productCard_banner {
-    img {
+
+    img,
+    video {
       height: 404px;
     }
   }
@@ -759,9 +855,10 @@
 
   .smr_productCard_banner {
     width: 49%;
-    height: 9%;
+    height: 3%;
 
-    img {
+    img,
+    video {
       height: 404px;
     }
   }
@@ -776,7 +873,10 @@
   }
 
   .smr_productCard_banner {
-    img {
+
+    img,
+    video {
+      object-fit: cover;
       height: 342px;
     }
   }
@@ -875,7 +975,9 @@
   }
 
   .smr_productCard_banner {
-    img {
+
+    img,
+    video {
       height: 292px;
     }
   }
