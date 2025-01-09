@@ -25,6 +25,7 @@ import ManageAddress from './ManageAddress/ManageAddress';
 import Plm from './PLM/PLM';
 import NewOrderHistoryDT from './OrderHistory/NewOrderHistoryDT';
 import PendingMemo from './PendingMemo/PendingMemo';
+import { handleScrollTop } from '../../../../../utils/Glob_Functions/GlobalFunction';
 
 
 function CustomTabPanel(props) {
@@ -119,7 +120,7 @@ export default function Account() {
                             <p className='SmilingAccountTitle youraccountpagesec'>Your Account</p>
                                 <div className='smlingAccountTabWebView'>
                                     <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
-                                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >  
+                                        <Tabs value={value} onChange={handleChange} onClick={handleScrollTop} aria-label="basic tabs example"  >  
                                             <Tab label="Your Profile" {...a11yProps(0)} />
                                             <Tab label="ORDER HISTORY" {...a11yProps(1)} />
                                             <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
@@ -132,7 +133,7 @@ export default function Account() {
                                 </div>
                                 <div className='smlingAccountTabMobileView YourAccountPageTabs'>
                                     <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                                        <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   
+                                        <Tabs value={value} orientation="vertical" onClick={handleScrollTop} onChange={handleChange} sx={{ width: '100%' }} >   
                                             <Tab label="Your Profile" className='tabPanel_DT' {...a11yProps(0)} sx={{  width: '90%', borderColor: 'divider', padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start' }} />
                                             <Tab label="ORDER HISTORY" {...a11yProps(1)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start' }} />
                                             <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start' }} />

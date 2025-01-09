@@ -66,9 +66,9 @@ const Procatalog_App = React.lazy(() =>
 // const HouseOfQuadri_App = React.lazy(() =>
 //   import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
 // );
-// const ForEveryRoutes = React.lazy(() =>
-//   import("./AllTheme/Forevery/ForeveryRoutes")
-// );
+const ForEveryRoutes = React.lazy(() =>
+  import("./AllTheme/Forevery/ForeveryRoutes")
+);
 // const Procatalog_MobileApp_App = React.lazy(() =>
 //   import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
 // );
@@ -458,7 +458,8 @@ const Themes = ({ htmlContent }) => {
       <Suspense fallback={<></>}>
         {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
 
-        {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
+        {/* {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />} */}
+        {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
         {/* {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />} */}
 
         {/* {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
@@ -470,7 +471,6 @@ const Themes = ({ htmlContent }) => {
 
         {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
-        {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
 
         {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
 

@@ -79,6 +79,8 @@ const ProductCarousel = ({ showmore = false }) => {
     validateImageURLs();
   }, [TrendingProductlist]);
 
+  
+
   const handleMoveToDetail = (designNo, autoCode, titleLine) => {
     let obj = {
       a: autoCode,
@@ -108,14 +110,21 @@ const ProductCarousel = ({ showmore = false }) => {
   };
   const NoImageFound = `${storImagePath()}/Forevery/noimage.jpg`;
 
+  if(TrendingProductlist?.length === 0){
+    return ;
+  }
+
   return (
     <div className="for_ProductCarousel">
       <div className="heading">
         <span>Our Best Selling</span>
         <h2>Top Trending Collections</h2>
       </div>
-      <div className="for_carousel">
+      <div className="for_carousel"      >
         <Swiper
+          style={{
+            width: "100%"
+        }}
           slidesPerView={4}
           freeMode={true}
           spaceBetween={10}
@@ -175,7 +184,9 @@ const ProductCarousel = ({ showmore = false }) => {
         >
           {validatedData?.map((data, i) => {
             return (
-              <SwiperSlide>
+              <SwiperSlide   style={{
+                width: '100%'
+            }}>
                 <ProductCard
                   title={
                     !data?.TitleLine?.length > 0
