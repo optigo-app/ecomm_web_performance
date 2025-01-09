@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react'
 import  ReactHTMLTableToExcel  from 'react-html-table-to-excel';
 import { formatAmount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
-const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, credit_mg_diff, credit_dia_diff, debit_curr_diff, debit_amt_diff, debit_mg_diff, debit_dia_diff, resultTotal, currencySymbol}) => {
+const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, credit_mg_diff, credit_dia_diff, debit_curr_diff, debit_amt_diff, debit_mg_diff, debit_dia_diff, resultTotal, currencySymbol, currencyRate}) => {
 
-    console.log("filter array",filterArray);
-    console.log("result total",resultTotal);
-    console.log("credit",credit_amt_diff, credit_curr_diff, credit_dia_diff, credit_mg_diff);
-    console.log("debit",debit_amt_diff, debit_curr_diff, debit_dia_diff, debit_mg_diff);
-    console.log("symbol", currencySymbol);
+
     
     
 
@@ -96,14 +92,20 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
         <th  align='center'>VOUCHER</th>
         <th  align='center'>METAL</th>
         <th  align='center'>DIAM.</th>
+        <th  align='center'>AMOUNT</th>
         <th  align='center'>CURRENCY</th>
+        <th  align='center'>CURRENCY RATE</th>
+        <th  align='center'>CONVERTED AMOUNT</th>
         <th  align='center'>VERIFIED</th>
         <th  align='center'>DATE</th>
         <th  align='center' colSpan={2}>PARTICULAR</th>
         <th  align='center'>VOUCHER</th>
         <th  align='center'>METAL</th>
         <th  align='center'>DIAM.</th>
+        <th  align='center'>AMOUNT</th>
         <th  align='center'>CURRENCY</th>
+        <th  align='center'>CURRENCY RATE</th>
+        <th  align='center'>CONVERTED AMOUNT</th>
         <th  align='center'>VERIFIED</th>
       </tr>
         {
@@ -120,15 +122,17 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                                             <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'></td>
                                             <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{ (Math.abs(debit_mg_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(debit_mg_diff))?.toFixed(3)}</td>
                                             <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(debit_dia_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(debit_dia_diff))?.toFixed(3)}</td>
-
                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}>{Math.abs(debit_curr_diff) === 0.00 ? '' : formatAmount(Math.abs(debit_curr_diff))}</td>
+                                            <td></td>
+                                            <td></td>
                                             <td className='border_end_acc p_1_acc text_center_acc'></td>
                                             <td className='border_end_acc p_1_acc text_center_acc'></td>
                                             <td className='border_end_acc p_1_acc text_start_acc ps_1_acc' align='center'>Opening</td>
                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'></td>
                                             <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(credit_mg_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(credit_mg_diff))?.toFixed(3)}</td>
                                             <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(credit_dia_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(credit_dia_diff))?.toFixed(3)}</td>
-                  
+                                            <td></td>
+                                            <td></td>
                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}>{Math.abs(credit_curr_diff) === 0.00 ? '' : formatAmount(Math.abs(credit_curr_diff))}</td>
                                             <td className=' p_1_acc text_center_acc'></td>
                                         </tr> 
@@ -142,15 +146,21 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                     <td  align='center'>{e?.IsDebit === 0 ? '' : e?.referenceno === '' ? e?.voucherno : e?.referenceno}</td>
                     <td  align='center'>{e?.IsDebit === 0 ? '' : (e?.metalctw === 0 ? '' : e?.metalctw)}</td>
                     <td  align='center'>{e?.IsDebit === 0 ? '' : (e?.diamondctw === 0 ? '' : e?.diamondctw)}</td>
-                    <td  align='center'>{ e?.IsDebit !== 0 && <span dangerouslySetInnerHTML={{__html: e?.CurrencyCode}}></span>} {e?.IsDebit === 0 ? '' : ` ${formatAmount(e?.Currency) === 'NaN' ? '' : formatAmount(e?.Currency)} `}</td>
-                    <td  align='center'></td>
+                    <td  align='center'>{e?.IsDebit === 0 ? '' : ` ${(e?.Currency) === 'NaN' ? '' : (e?.Currency)} `}</td>
+                    <td  align='center'>{ e?.IsDebit !== 0 && <span dangerouslySetInnerHTML={{__html: e?.CurrencyCode}}></span>}</td>
+                    <td  align='center'>{ e?.IsDebit === 0 ? '' : e?.CurrRate }</td>
+                    <td  align='center'>{e?.IsDebit === 0 ? '' : ` ${(e?.Currency / e?.CurrRate) === 'NaN' ? '' : ((e?.Currency / e?.CurrRate))} `}</td>
+                    <td  align='center'>{e?.IsDVerified === 0 &&  ''}{e?.IsDVerified === 1 &&  'VERIFIED'}{e?.IsDVerified === 2 &&  'REJECTED'}</td>
                     <td  align='center'>{e?.IsDebit === 0 ? e?.EntryDate : ''}</td>
                     <td  align='center' colSpan={2}>{e?.IsDebit === 0 ? e?.particular : ''}</td>
                     <td  align='center'>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td>
                     <td  align='center'>{e?.IsDebit === 0 ? (e?.metalctw === 0 ? '' : e?.metalctw) : ''}</td>
                     <td  align='center'>{e?.IsDebit === 0 ? (e?.diamondctw === 0 ? '' : e?.diamondctw) : ''}</td>
-                    <td  align='center'> { e?.IsDebit === 0 && <span dangerouslySetInnerHTML={{__html: e?.CurrencyCode}}></span>} {e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? '' : formatAmount(e?.Currency)}`  : ''}</td>
-                    <td  align='center'>{e.IsVerified === 0 ? 'VERIFIED' : ''}</td>
+                    <td  align='center'>{e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? '' : (e?.Currency)}`  : ''}</td>
+                    <td  align='center'>{ e?.IsDebit === 0 && <span dangerouslySetInnerHTML={{__html: e?.CurrencyCode}}></span>}</td>
+                    <td  align='center'>{ e?.IsDebit === 0 ? e?.CurrRate : ''}</td>
+                    <td  align='center'>{e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? '' : ((e?.Currency / e?.CurrRate))}`  : ''}</td>
+                    <td  align='center'>{e?.IsVerified === 0 &&  ''}{e?.IsVerified === 1 &&  'VERIFIED'}{e?.IsVerified === 2 &&  'REJECTED'}</td>
                 </tr>
 
             </React.Fragment>
@@ -163,17 +173,54 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                         <th  align='center'>{((Math.abs(debit_mg_diff) + resultTotal?.debit_metalgold))?.toFixed(3) === '0.000' ? '' : (( (Math.abs(debit_mg_diff) + resultTotal?.debit_metalgold))?.toFixed(3) === 'NaN' ? '0.00' : ( (Math.abs(debit_mg_diff) + resultTotal?.debit_metalgold))?.toFixed(3))}</th>
                         <th  align='center'>{((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt))?.toFixed(3) === '0.000' ? '' : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt))?.toFixed(3) === 'NaN' ? '0.00' : ((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt))?.toFixed(3))}</th>
                         <th  align='center'>
-                            {formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === '0.00' ? '' :  <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>}&nbsp;{formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === '0.00' ? '' : (formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === 'NaN' ? '0.00' : formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)))}
+                            
+                            { 
+                              ((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === '0.00' ? '' : 
+                            (((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === 'NaN' ? '0.00' : 
+                              ((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)))
+                            }
                         </th>
-                        <th  align='center'></th>
+                        <th  align='center'>
+                            {formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === '0.00' ? '' :  <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>}
+                            &nbsp;
+                            {/* {formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === '0.00' ? '' : (formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === 'NaN' ? '0.00' : formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)))} */}
+                        </th>
+                        <th></th>
+                        <th  align='center'>
+                            {((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === '0.00' ? '' : 
+                            (((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === 'NaN' ? '0.00' : 
+                            (((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) / currencyRate)))}
+                        </th>
                         <th  align='center'></th>
                         <th  align='center' colSpan={2}></th>
                         <th  align='center'></th>
                         <th  align='center'>{((Math.abs(credit_mg_diff) + resultTotal?.credit_metalgold))?.toFixed(3) === '0.000' ? '' : (((Math.abs(credit_mg_diff) + resultTotal?.credit_metalgold))?.toFixed(3) === 'NaN' ? '0.00' : ((Math.abs(credit_mg_diff) + resultTotal?.credit_metalgold))?.toFixed(3))}</th>
                         <th  align='center'>{((Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3) === '0.000' ? '' : (((Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3) === 'NaN' ? '0.00' : ((Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3))}</th>
-                        <th  align='center'>{formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>}
+                        <th  align='center'>
+                        <th></th>
+                          {/* {formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>} */}
                         &nbsp;
-                        {formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : ((formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === 'NaN' ? '0.00' : formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))))}
+                        {
+                          formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : 
+                          ((formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === 'NaN' ? '0.00' : 
+                          formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
+                          ))
+                        }
+                        </th>
+                        <th  align='center'>
+                          {formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>}
+                        {/* &nbsp;
+                        {formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : ((formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === 'NaN' ? '0.00' : formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))))} */}
+                        </th>
+                        <th></th>
+                        <th  align='center'>
+                          {/* {formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>}
+                        &nbsp; */}
+                        {
+                        formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : 
+                        ((formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === 'NaN' ? '0.00' : 
+                        formatAmount(((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency) / currencyRate))))
+                        }
                         </th>
                         <th  align='center'></th>
                     </tr>

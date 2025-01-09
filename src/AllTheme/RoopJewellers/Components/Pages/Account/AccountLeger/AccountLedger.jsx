@@ -17,11 +17,13 @@ import { useRef } from 'react';
 import { getAccountLedgerData } from '../../../../../../utils/API/AccountTabs/accountLedger';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import AccountLedgerExcel from './AccountLedgerExcel';
-
+import { downloadExcelLedgerData } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import excelExport from "../../../../../../utils/assets/Image/excel.png";
 const AccountLedger = () => {
 
     const [resultArray, setResultArray] = useState([]);
     const [currencySymbol, setCurrencySymbol] = useState('');
+    const [currencyRate, setCurrencyRate] = useState(1);
     const [filterArray, setFilterArray] = useState([]);
     const [loaderAC, setLoaderAC] = useState(false);
     const [userName, setUserName] = useState('');
@@ -67,6 +69,7 @@ const AccountLedger = () => {
             const response = await getAccountLedgerData(storeinit, loginInfo, UserEmail);
 
             setCurrencySymbol(response?.CurrencySymbol);
+            setCurrencyRate(response?.CurrencyRate);
 
             if (response?.response2?.Status === '200') {
 
@@ -622,6 +625,7 @@ const AccountLedger = () => {
 
                                     <div className='mx_1_acc ms_4_acc mb_2_acc'>
                                     </div>
+                                    <div style={{paddingBottom:'35px'}}><img src={excelExport} onClick={() => downloadExcelLedgerData()} style={{height:'40px', width:'40px', objectFit:'contain', cursor:'pointer'}} alt='#excelExport' title='Download Excel' /></div>
                                 </div>
                             }
                         </div>
@@ -695,16 +699,27 @@ const AccountLedger = () => {
                         loaderAC ? 
                         <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", paddingBottom: "30px" }}><CircularProgress className='loadingBarManage' /></Box>
                          : <div style={{ margin: '8px', overflow: 'auto' }}>
-                            <ReactHTMLTableToExcel
-                                id="test-table-xls-button"
-                                className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
-                                table="table-to-xls"
-                                filename={`AccountLedger_${Date.now()}`}
-                                sheet="tablexls"
-                                buttonText="Download as XLS"
-                            />
-                            <div>
-                                <AccountLedgerExcel />
+                                                    <div>
+                                <AccountLedgerExcel 
+                                    
+                                    filterArray={filterArray} 
+
+                                    credit_curr_diff={credit_curr_diff} 
+                                    credit_amt_diff={credit_amt_diff} 
+                                    credit_mg_diff={credit_mg_diff} 
+                                    credit_dia_diff={credit_dia_diff}
+
+                                    debit_curr_diff={debit_curr_diff}
+                                    debit_amt_diff={debit_amt_diff}
+                                    debit_mg_diff={debit_mg_diff}
+                                    debit_dia_diff={debit_dia_diff}
+
+                                    resultTotal={resultTotal}
+
+                                    currencySymbol={currencySymbol}
+                                    currencyRate={currencyRate}
+
+                                 />
                             </div>
                             <table className='w_100_acc'>
                                 <thead className='w_100_acc border_Acc'>
@@ -761,16 +776,27 @@ const AccountLedger = () => {
                                     }
                                     {
                                         filterArray?.length > 0 ? filterArray?.map((e) => {
-                                            console.log(e);
+                                            
                                             
                                             let doneIcon = null;
                                             let closeIcon = null;
+                                            let d_doneIcon = null;
+                                            let d_closeIcon = null;
 
-                                            if (e.IsVerified === 0) {
-                                                doneIcon = <DoneIcon sx={{ color: 'green' }} />;
-                                            } else if (e.IsVerified === 1) {
-                                                closeIcon = <CloseIcon sx={{ color: 'red' }} />;
-                                            }
+                                        if (e.IsVerified === 0) {
+                                            doneIcon = '';
+                                        } else if (e.IsVerified === 1) {
+                                            closeIcon = <DoneIcon sx={{ color: 'green' }} />;
+                                        } else if (e.IsVerified === 2) {
+                                            closeIcon = <CloseIcon sx={{ color: 'red' }} />;
+                                        } 
+                                        if (e.IsDVerified === 0) {
+                                            d_doneIcon = '';
+                                        } else if (e.IsDVerified === 1) {
+                                            d_closeIcon = <DoneIcon sx={{ color: 'green' }} />;
+                                        } else if (e.IsDVerified === 2) {
+                                            d_closeIcon = <CloseIcon sx={{ color: 'red' }} />;
+                                        }
 
                                             return (
                                                 <>
@@ -783,7 +809,7 @@ const AccountLedger = () => {
                                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.metalctw === 0 ? '' : e?.metalctw)}</td>
                                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.diamondctw === 0 ? '' : e?.diamondctw)}</td>
                                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{ minWidth: '100px' }}> {e?.IsDebit !== 0 && <span dangerouslySetInnerHTML={{ __html: e?.CurrSymbol }}></span>} {e?.IsDebit === 0 ? '' : ` ${formatAmount(e?.Currency) === 'NaN' ? '' : formatAmount(e?.Currency)} `}</td>
-                                                            <td className='border_end_acc p_1_acc text_center_acc'></td>
+                                                            <td className='border_end_acc p_1_acc text_center_acc'>{d_doneIcon}{d_closeIcon}</td>
                                                             <td className='border_end_acc p_1_acc text_center_acc'>{e?.IsDebit === 0 ? e?.EntryDate : ''}</td>
                                                             <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'>{e?.IsDebit === 0 ? e?.particular : ''}</td>
                                                             <td className={`border_end_acc p_1_acc text_start_acc ps_1_acc ${e?.PrintUrl === '' ? '' : 'text-primary text-decoration-underline'}`} onClick={() => e?.PrintUrl === '' ? '' : window.open(atob(e?.PrintUrl))} style={{cursor:'pointer'}}>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td>
