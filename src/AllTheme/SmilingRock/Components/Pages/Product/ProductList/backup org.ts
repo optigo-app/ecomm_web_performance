@@ -19,10 +19,9 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { CartCount, DiamondRangeArr, MetalColor_Image, WishCount } from "../../../Recoil/atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { CartCount, DiamondRangeArr, WishCount } from "../../../Recoil/atom";
 import pako from "pako";
-import colorPicker from '../../../Assets/color-picker.svg';
 import { SearchProduct } from "../../../../../../utils/API/SearchProduct/SearchProduct";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
 import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
@@ -82,6 +81,7 @@ const ProductList = () => {
   const [wishArr, setWishArr] = useState({})
   const [RangeFilterShow, setRangeFilterShow] = useState(false)
   const [menuParams, setMenuParams] = useState({})
+  console.log('menuParams: ', menuParams?.menuname === "Amber");
   const [filterProdListEmpty, setFilterProdListEmpty] = useState(false)
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
@@ -104,8 +104,6 @@ const ProductList = () => {
   const [sliderValue2, setSliderValue2] = useState([]);
   const [isRollOverVideo, setIsRollOverVideo] = useState({});
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
-  const [selectMetalColor, setSelectMetalColor] = useState(null);
-  const [imageMap, setImageMap] = useState({});
   const [afterCountStatus, setAfterCountStatus] = useState(false);
   let cookie = Cookies.get('visiterId')
 
@@ -142,35 +140,6 @@ const ProductList = () => {
     setSortBySelect('Recommended')
   }, [location?.key])
 
-  const [imageColor, setImageColor] = useRecoilState(MetalColor_Image);
-  const getSessImgColor = JSON.parse(sessionStorage.getItem('imgColorCode'));
-  const getSessCartWishImgColor = JSON?.parse(sessionStorage.getItem('cartWishImgColor')) ?? undefined;
-
-  const activeColorCode = getSessImgColor || getSessCartWishImgColor;
-
-  useEffect(() => {
-    if ((activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null)) {
-      // if (!activeColorCode) {
-      setImageColor("");
-      sessionStorage.removeItem("imgColorCode");
-      sessionStorage.removeItem("cartWishImgColor");
-      setSelectedMetalColor(null);
-    }
-  }, [location?.search])
-
-  useEffect(() => {
-    if (selectedMetalColor !== null) {
-      setImageColor(selectedMetalColor);
-      sessionStorage.setItem("imgColorCode", JSON.stringify(selectedMetalColor));
-    } else {
-      sessionStorage.removeItem("imgColorCode");
-      setImageColor("");
-    }
-  }, [selectedMetalColor])
-
-  let getDesignImageFol = storeInit?.CDNDesignImageFol;
-  const getDesignVideoFol = storeInit?.CDNVPath;
-
   const metalColorType = [
     {
       id: 1,
@@ -185,134 +154,6 @@ const ProductList = () => {
       metal: 'rose'
     },
   ]
-  const handleMetalColor = (index, autocode) => {
-    setSelectMetalColor((prev) => {
-      const updated = { ...prev };
-      if (updated?.[autocode] === index) {
-        delete updated[autocode];  // Remove the autocode if the color is deselected
-      } else {
-        updated[autocode] = index;  // Otherwise, set the new color
-      }
-      return updated;
-    });
-  };
-
-  const handleClick = (metalColorId, autocode) => {
-    setSelectedMetalColor((prev) => {
-      const updated = { ...prev };
-      if (updated?.[autocode] === metalColorId) {
-        delete updated[autocode];
-      } else {
-        updated[autocode] = metalColorId;
-      }
-      return updated;
-    });
-    // handleMetalColor(metalColorId, autocode);
-  };
-  const getDynamicYellowImage = (item, designno, extension) => {
-    const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
-    const colorImagePath = `${baseImagePath}~Yellow.${extension}`;
-    const defaultImagePath = `${baseImagePath}.${extension}`;
-  
-    // First check for the color-specific path
-    if (item?.ImageCount > 0 && colorImagePath) {
-      return colorImagePath;
-    }
-  
-    // Fallback to the base image path if the color image is not available
-    return defaultImagePath;
-  };
-  
-  const getDynamicWhiteImage = (item, designno, extension) => {
-    const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
-    const colorImagePath = `${baseImagePath}~White.${extension}`;
-    const defaultImagePath = `${baseImagePath}.${extension}`;
-  
-    if (item?.ImageCount > 0 && colorImagePath) {
-      return colorImagePath;
-    }
-  
-    return defaultImagePath;
-  };
-  
-  const getDynamicRoseImage = (item, designno, extension) => {
-    const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
-    const colorImagePath = `${baseImagePath}~Rose.${extension}`;
-    const defaultImagePath = `${baseImagePath}.${extension}`;
-  
-    if (item?.ImageCount > 0 && colorImagePath) {
-      return colorImagePath;
-    }
-  
-    return defaultImagePath;
-  };
-  
-  const getDynamicRollYellowImage = (item, designno, extension) => {
-    const baseImagePath = `${getDesignImageFol}${designno}~${2}`;
-    const colorImagePath = `${baseImagePath}~Yellow.${extension}`;
-    const defaultImagePath = `${getDesignImageFol}${designno}~${1}.${extension}`;
-  
-    if (item?.ImageCount > 0 && colorImagePath) {
-      return colorImagePath;
-    }
-  
-    return defaultImagePath;
-  };
-  
-  const getDynamicRollWhiteImage = (item, designno, extension) => {
-    const baseImagePath = `${getDesignImageFol}${designno}~${2}`;
-    const colorImagePath = `${baseImagePath}~White.${extension}`;
-    const defaultImagePath = `${getDesignImageFol}${designno}~${1}.${extension}`;
-  
-    if (item?.ImageCount > 0 && colorImagePath) {
-      return colorImagePath;
-    }
-  
-    return defaultImagePath;
-  };
-  
-  const getDynamicRollRoseImage = (item, designno, extension) => {
-    const baseImagePath = `${getDesignImageFol}${designno}~${2}`;
-    const colorImagePath = `${baseImagePath}~Rose.${extension}`;
-    const defaultImagePath = `${getDesignImageFol}${designno}~${1}.${extension}`;
-  
-    if (item?.ImageCount > 0 && colorImagePath) {
-      return colorImagePath;
-    }
-  
-    return defaultImagePath;
-  };
-  
-
-
-  useEffect(() => {
-    const loadImages = async () => {
-      const loadedImages = {};
-      await Promise.all(productListData.map(async (item) => {
-        const yellowImage = await getDynamicYellowImage(item, item.designno, item.ImageExtension);
-        const whiteImage = await getDynamicWhiteImage(item, item.designno, item.ImageExtension);
-        const roseImage = await getDynamicRoseImage(item, item.designno, item.ImageExtension);
-        const yellowRollImage = await getDynamicRollYellowImage(item, item?.designno, item?.ImageExtension);
-        const whiteRollImage = await getDynamicRollWhiteImage(item, item?.designno, item?.ImageExtension);
-        const roseRollImage = await getDynamicRollRoseImage(item, item?.designno, item?.ImageExtension);
-
-        // Store images in an object keyed by design number
-        loadedImages[item.designno] = {
-          yellowImage,
-          whiteImage,
-          roseImage,
-          yellowRollImage,
-          whiteRollImage,
-          roseRollImage
-        };
-      }));
-      setImageMap(loadedImages);
-    };
-
-    if (productListData.length > 0) {
-      loadImages();
-    }
-  }, [productListData]);
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
@@ -550,6 +391,8 @@ const ProductList = () => {
         productlisttype = AlbumVar.split("=")[1]
       }
 
+      console.log("URLVal", productlisttype);
+
       setIsProdLoading(true)
       //  if(location?.state?.SearchVal === undefined){ 
       setprodListType(productlisttype)
@@ -625,46 +468,30 @@ const ProductList = () => {
   }, [location?.key])
 
   useEffect(() => {
-    const finalProdWithPrice = productListData.map(async (product) => {
+    const finalProdWithPrice = productListData.map((product) => {
       let pdImgList = [];
 
-      // Fetch images for yellow, white, and rose colors, including rollover images
-      const yellowImage = await getDynamicYellowImage(product, product.designno, product.ImageExtension);
-      const whiteImage = await getDynamicWhiteImage(product, product.designno, product.ImageExtension);
-      const roseImage = await getDynamicRoseImage(product, product.designno, product.ImageExtension);
-
-      const yellowRollImage = await getDynamicRollYellowImage(product, product?.designno, product?.ImageExtension);
-      const whiteRollImage = await getDynamicRollWhiteImage(product, product?.designno, product?.ImageExtension);
-      const roseRollImage = await getDynamicRollRoseImage(product, product?.designno, product?.ImageExtension);
-
-      // Add dynamic images for each color inside the images array
       if (product?.ImageCount > 0) {
         for (let i = 1; i <= product?.ImageCount; i++) {
-          let imgString = storeInit?.CDNDesignImageFol + product?.designno + "~" + i + "." + product?.ImageExtension;
-          pdImgList.push(imgString);
+          let imgString = storeInit?.CDNDesignImageFol + product?.designno + "~" + i + "." + product?.ImageExtension
+          pdImgList.push(imgString)
         }
-      } else {
-        pdImgList.push(imageNotFound);
+      }
+      else {
+        pdImgList.push(imageNotFound)
       }
 
-      // Add color-specific images along with their rollover images to the images array
-      pdImgList.push({ color: "yellow", image: yellowImage, rollover: yellowRollImage });
-      pdImgList.push({ color: "white", image: whiteImage, rollover: whiteRollImage });
-      pdImgList.push({ color: "rose", image: roseImage, rollover: roseRollImage });
+      let images = pdImgList;
 
       return {
         ...product,
-        images: pdImgList
+        images
       };
     });
 
-    // Wait for all asynchronous calls to finish before updating the state
-    Promise.all(finalProdWithPrice).then((finalData) => {
-      setFinalProductListData(finalData);
-    });
+    // console.log("finalProdWithPrice", finalProdWithPrice?.filter((ele)=>ele?.ImageCount > 0));
+    setFinalProductListData(finalProdWithPrice);
   }, [productListData]);
-
-
   // useEffect(() => {
   //   const finalProdWithPrice = productListData.map((product) => {
   //     const newPriceData = priceListData?.rd?.find(
@@ -1173,97 +1000,32 @@ const ProductList = () => {
   //     setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[1] } })
   //   }
   // }
-  // const handleImgRollover = async (pd) => {
-  //   if (pd?.images?.length >= 1) {
-  //     const imageUrl = pd?.images[1];
-
-  //     // const isImageAvailable = await checkImageAvailability(imageUrl);
-
-  //     if (imageUrl) {
-  //       setRolloverImgPd((prev) => {
-  //         return { [pd?.autocode]: imageUrl };
-  //       });
-  //     } else {
-  //       setRolloverImgPd((prev) => {
-  //         return { [pd?.autocode]: pd?.images[0] };
-  //       });
-  //     }
-  //   }
-  // };
-
-  const handleImgRollover = async (pd,yellowRollImage,whiteRollImage,roseRollImage) => {
+  const handleImgRollover = async (pd) => {
     if (pd?.images?.length >= 1) {
-      // Checking for the rollover image based on color
-      const color = selectedMetalColor?.[pd?.autocode];
-  
-      let imageUrl;
-      switch (color) {
-        case 1:
-          imageUrl = yellowRollImage;  // Yellow color rollover image
-          break;
-        case 2:
-          imageUrl = whiteRollImage;  // White color rollover image
-          break;
-        case 3:
-          imageUrl = roseRollImage;  // Rose color rollover image
-          break;
-        default:
-          imageUrl = pd?.images[1];  // Default to second image if no color is selected
-          break;
+      const imageUrl = pd?.images[1];
+
+      // const isImageAvailable = await checkImageAvailability(imageUrl);
+
+      if (imageUrl) {
+        setRolloverImgPd((prev) => {
+          return { [pd?.autocode]: imageUrl };
+        });
+      } else {
+        setRolloverImgPd((prev) => {
+          return { [pd?.autocode]: pd?.images[0] };
+        });
       }
-  
-      // Set the rollover image in the state
-      setRolloverImgPd((prev) => {
-        return { [pd?.autocode]: imageUrl || pd?.images[0] };  // Fallback to first image if no rollover image
-      });
     }
   };
 
 
-  const handleLeaveImgRolloverImg = async (pd, yellowImage, whiteImage, roseImage) => {
-  const handleLeaveImgRolloverImg = async (pd, yellowImage, whiteImage, roseImage) => {
+  const handleLeaveImgRolloverImg = async (pd) => {
     if (pd?.images?.length > 0) {
       // setRolloverImgPd((prev) => pd?.images[0] )
-      // const imageUrl = pd?.images[0];
-      const color = selectedMetalColor?.[pd?.autocode];
-
-      let imageUrl;
-      switch (color) {
-        case 1:
-          imageUrl = yellowImage;  // Yellow color rollover image
-          break;
-        case 2:
-          imageUrl = whiteImage;  // White color rollover image
-          break;
-        case 3:
-          imageUrl = roseImage;  // Rose color rollover image
-          break;
-        default:
-          imageUrl = pd?.images[1];  // Default to second image if no color is selected
-          break;
-      }
-      // const imageUrl = pd?.images[0];
-      const color = selectedMetalColor?.[pd?.autocode];
-
-      let imageUrl;
-      switch (color) {
-        case 1:
-          imageUrl = yellowImage;  // Yellow color rollover image
-          break;
-        case 2:
-          imageUrl = whiteImage;  // White color rollover image
-          break;
-        case 3:
-          imageUrl = roseImage;  // Rose color rollover image
-          break;
-        default:
-          imageUrl = pd?.images[1];  // Default to second image if no color is selected
-          break;
-      }
+      const imageUrl = pd?.images[0];
       // const isImageAvailable = await checkImageAvailability(imageUrl);
       if (imageUrl) {
-        setRolloverImgPd((prev) => { return { [pd?.autocode]: imageUrl || pd?.images[0] } })
-        setRolloverImgPd((prev) => { return { [pd?.autocode]: imageUrl || pd?.images[0] } })
+        setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[0] } })
       }
     }
   };
@@ -1562,6 +1324,8 @@ const ProductList = () => {
     // let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
     let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
     let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
+
+    console.log("net", Rangeval1, "gross", sliderValue2, "Dia", sliderValue, "range 3")
 
     await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
@@ -1919,6 +1683,8 @@ const ProductList = () => {
 
     checkAllImages();
   }, [finalProductListData]);
+
+  console.log(RangeFilterShow, "RangeFilterShow")
 
   return (
     <>
@@ -3555,85 +3321,57 @@ const ProductList = () => {
                                   {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                                   <div className="smr_inner_portion">
                                     {finalProductListData?.map((productData, i) => {
-                                      const images = imageMap[productData.designno] || {};
-                                      const yellowImage = images?.yellowImage;
-                                      const whiteImage = images?.whiteImage;
-                                      const roseImage = images?.roseImage;
-                                      const yellowRollImage = images?.yellowRollImage;
-                                      const whiteRollImage = images?.whiteRollImage;
-                                      const roseRollImage = images?.roseRollImage;
                                       const isLoading = productData && productData?.loading === true;
                                       return (
                                         <>
                                           {
                                             i === 6 && (
-                                              <>
+                                              <div className="smr_productCard_banner" style={{ gridColumn: "span 2" }}>
                                                 {/* <img src="https://png.pngtree.com/template/20240229/ourmid/pngtree-jewelry-social-media-and-instagram-post-template-vector-image_2010320.jpg" alt="" /> */}
                                                 {menuParams?.menuname === "Glossy" && (
-                                                  <div className="smr_productCard_banner">
-                                                    <img src={`${storImagePath()}/images/HomePage/ProductListing/static3.jpg`} alt="" />
-                                                  </div>
+                                                  <img src={`${storImagePath()}/images/HomePage/ProductListing/static3.jpg`} alt="" />
                                                 )}
                                                 {menuParams?.menuname === "Amber" && (
-                                                  <div className="smr_productCard_banner">
-                                                    <video
+                                                  <video
+                                                    width="500"
+                                                    autoPlay
+                                                    muted
+                                                    controls={false}
+                                                    loop
+                                                    style={{ height: "auto", width: "100%" }}
+                                                  >
+                                                    <source
+                                                      // src={`http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4`}
                                                       src={`${storImagePath()}/images/HomePage/ProductListing/staticv1.mp4`}
-                                                      autoPlay
-                                                      muted
-                                                      controls={false}
-                                                      loop
-                                                    >
-                                                    </video>
-                                                  </div>
+                                                      type="video/mp4"
+                                                    />
+                                                  </video>
                                                 )}
-                                                {menuParams?.menuname === "Ruby" && (
-                                                  <div className="smr_productCard_banner">
-                                                    <video
-                                                      src={`${storImagePath()}/images/HomePage/ProductListing/staticv2(1).mp4`}
-                                                      autoPlay
-                                                      muted
-                                                      controls={false}
-                                                      loop
-                                                    >
-                                                    </video>
-                                                  </div>
-                                                )}
-                                              </>
+                                              </div>
                                             )
                                           }
                                           {i === 14 && (
-                                            <>
+                                            <div className="smr_productCard_banner" style={{ gridColumn: "span 2" }}>
                                               {menuParams?.menuname === "Glossy" && (
-                                                <div className="smr_productCard_banner">
-                                                  <img
-                                                    src={`${storImagePath()}/images/HomePage/ProductListing/static4.jpg`}
-                                                    alt="Banner 2"
-                                                  />
-                                                </div>
+                                                <img src={`${storImagePath()}/images/HomePage/ProductListing/static4.jpg`} alt="Banner 2" />
                                               )}
                                               {menuParams?.menuname === "Amber" && (
-                                                <div className="smr_productCard_banner">
-                                                  <video
-                                                    src={`${storImagePath()}/images/HomePage/ProductListing/staticv1(1).mp4`}
-                                                    autoPlay
-                                                    muted
-                                                    controls={false}
-                                                    loop
+                                                <video
+                                                  width="500"
+                                                  autoPlay
+                                                  muted
+                                                  controls={false}
+                                                  loop
+                                                  style={{ height: "auto", width: "100%" }}
+                                                >
+                                                  <source
+                                                    // src={`http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4`}
+                                                    src={`${storImagePath()}/images/HomePage/ProductListing/staticv1.mp4`}
+                                                    type="video/mp4"
                                                   />
-                                                </div>
+                                                </video>
                                               )}
-                                              {menuParams?.menuname === "Ruby" && (
-                                                <div className="smr_productCard_banner">
-                                                  <video
-                                                    src={`${storImagePath()}/images/HomePage/ProductListing/staticv2.mp4`}
-                                                    autoPlay
-                                                    muted
-                                                    controls={false}
-                                                    loop
-                                                  />
-                                                </div>
-                                              )}
-                                            </>
+                                            </div>
                                           )}
                                           <div className="smr_productCard">
                                             <div className="cart_and_wishlist_icon">
@@ -3727,86 +3465,75 @@ const ProductList = () => {
                                                   style={{ backgroundColor: "#e8e8e86e" }}
                                                 />
                                               </CardMedia> :
-                                              <>
-                                                <div
-                                                  onMouseEnter={() => {
-                                                    handleImgRollover(productData, yellowRollImage,whiteRollImage,roseRollImage);
-                                                  onMouseMove={(e) => {
-                                                    handleImgRollover(productData, yellowRollImage,whiteRollImage,roseRollImage);
-                                                    if (productData?.VideoCount > 0) {
-                                                      setIsRollOverVideo({ [productData?.autocode]: true });
-                                                    } else {
-                                                      setIsRollOverVideo({ [productData?.autocode]: false });
-                                                    }
-                                                  }}
-                                                  
-                                                  onMouseLeave={() => {
-                                                    handleLeaveImgRolloverImg(productData,yellowImage,whiteImage,roseImage);
+                                              <div
+                                                onMouseEnter={() => {
+                                                  handleImgRollover(productData);
+                                                  if (productData?.VideoCount > 0) {
+                                                    setIsRollOverVideo({ [productData?.autocode]: true });
+                                                  } else {
                                                     setIsRollOverVideo({ [productData?.autocode]: false });
-                                                  }}
-                                                  className="smr_ImgandVideoContainer"
-                                                >
-                                                  {
-                                                    isRollOverVideo[productData?.autocode] === true ?
-                                                      (
-                                                        <video
-                                                          src={productData?.VideoCount > 0 ?
-                                                            `${storeInit?.CDNVPath}${productData?.designno}~1.${productData?.VideoExtension}`
-                                                            : ""}
-                                                          loop={true}
-                                                          autoPlay={true}
-                                                          muted
-                                                          playsInline
-                                                          className="smr_productCard_video"
-                                                          onError={(e) => {
-                                                            e.target.poster = imageNotFound; // Default image when video fails to load
-                                                          }}
-                                                          onClick={() => handleMoveToDetail(productData)}
-                                                        />
-                                                      ) : (
-                                                        <img
-                                                          className="smr_productListCard_Image"
-                                                          id={`smr_productListCard_Image${productData?.autocode}`}
-                                                          src={
-                                                            rollOverImgPd[productData?.autocode]
-                                                              ? rollOverImgPd[productData?.autocode]
-                                                              :
-                                                              selectedMetalColor?.[productData?.autocode] === 1 ? yellowImage :
-                                                                selectedMetalColor?.[productData?.autocode] === 2 ? whiteImage :
-                                                                  selectedMetalColor?.[productData?.autocode] === 3 ? roseImage :
-                                                                    productData?.images?.[0]
-                                                          }
-                                                          onError={(e) => {
-                                                            e.target.src = imageNotFound;
-                                                          }}
-                                                          alt=""
-                                                          onClick={() => handleMoveToDetail(productData)}
-                                                        />
-
-                                                      )
                                                   }
-                                                  <div className="smr_productList_metaltype_Maindiv">
-                                                    <div className="smr_productList_metaltype_div">
-                                                      <img src={colorPicker} alt="" className="image" />
-                                                      <div className="metal-buttons-container">
-                                                        {metalColorType?.map((item) => (
-                                                          <button
-                                                            key={item?.id}
-                                                            className={
-                                                              selectedMetalColor?.[productData?.autocode] === item?.id
-                                                                ? `smr_metaltype_${item?.metal}_clicked`
-                                                                : `smr_metaltype_${item?.metal}`
-                                                            }
-                                                            type="button"
-                                                            onClick={() => handleClick(item?.id, productData?.autocode)} 
-                                                          >
-                                                          </button>
-                                                        ))}
-                                                      </div>
-                                                    </div>
-                                                  </div>
+                                                }}
+                                                onClick={() => handleMoveToDetail(productData)}
+                                                onMouseLeave={() => {
+                                                  handleLeaveImgRolloverImg(productData);
+                                                  setIsRollOverVideo({ [productData?.autocode]: false });
+                                                }}
+                                                className="smr_ImgandVideoContainer"
+                                              >
+                                                {
+                                                  isRollOverVideo[productData?.autocode] === true ?
+                                                    (
+                                                      <video
+                                                        src={productData?.VideoCount > 0 ?
+                                                          `${storeInit?.CDNVPath}${productData?.designno}~1.${productData?.VideoExtension}`
+                                                          : ""}
+                                                        loop={true}
+                                                        autoPlay={true}
+                                                        muted
+                                                        playsInline
+                                                        className="smr_productCard_video"
+                                                        onError={(e) => {
+                                                          e.target.poster = imageNotFound; // Default image when video fails to load
+                                                        }}
+                                                      />
+                                                    ) : (
+                                                      <img
+                                                        className="smr_productListCard_Image"
+                                                        id={`smr_productListCard_Image${productData?.autocode}`}
+                                                        src={
+                                                          rollOverImgPd[
+                                                            productData?.autocode
+                                                          ]
+                                                            ? rollOverImgPd[
+                                                            productData?.autocode
+                                                            ]
+                                                            : productData?.images?.length >
+                                                              0
+                                                              ? productData?.images[0]
+                                                              : imageNotFound
+                                                        }
+                                                        onError={(e) => {
+                                                          e.target.src = imageNotFound; // Fallback in case image is not available
+                                                        }}
+                                                        alt=""
+                                                      />
+                                                    )
+                                                }
+                                                <div className="smr_productList_metaltype_div">
+                                                  {metalColorType?.map((item) => (
+                                                    <button
+                                                      className={selectedMetalColor === item?.id ? `smr_metaltype_${item?.metal}_clicked` : `smr_metaltype_${item?.metal}`}
+                                                      key={item?.id}
+                                                      type="button"
+                                                    // disabled={yellowImage === undefined}
+                                                    // onClick={() => handleClick(item?.id)}
+                                                    >
+                                                      {""}
+                                                    </button>
+                                                  ))}
                                                 </div>
-                                              </>
+                                              </div>
                                             }
                                             <div className="smr_prod_card_info">
                                               <div className="smr_prod_Title">
@@ -3822,7 +3549,9 @@ const ProductList = () => {
                                                   {/* {productData?.TitleLine?.length > 0 &&
                                             "-"}
                                           {productData?.TitleLine}{" "} */}
-                                                  {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
+                                                  {productData?.designno}  {productData?.TitleLine && productData?.designno
+    ? " - " 
+    : ""} {productData?.TitleLine}
                                                 </span>
                                                 {/* <span className="smr_prod_designno">
                                           {productData?.designno}
@@ -3909,7 +3638,11 @@ const ProductList = () => {
                                                   {findMetalColor(
                                                     productData?.MetalColorid
                                                   )?.[0]?.metalcolorname.toUpperCase()}
-                                                  -
+                                                {findMetalColor(productData?.MetalColorid)?.[0]?.metalcolorname && findMetalType(
+    productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
+  )[0]?.metaltype
+    ? " - " 
+    : ""}
                                                   {
                                                     findMetalType(
                                                       productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
@@ -3948,7 +3681,7 @@ const ProductList = () => {
                                         </>
                                       )
                                     })}
-                                  </div >
+                                  </div>
                                 </div>
                                 {storeInit?.IsProductListPagination == 1 &&
                                   Math.ceil(afterFilterCount / storeInit.PageSize)

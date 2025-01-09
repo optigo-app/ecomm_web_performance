@@ -72,6 +72,9 @@ const ShoptheCollections = () => {
   useEffect(() => {
     apiCall();
   }, []);
+  if(albumList?.length === 0){
+    return ;
+  }
   
 
   return (

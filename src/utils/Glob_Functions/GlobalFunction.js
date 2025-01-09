@@ -96,6 +96,18 @@ export function findCsQcId(param) {
 export const formatter = new Intl.NumberFormat("en-IN")?.format;
 
 
+
+
+
+
+
+export const downloadExcelLedgerData = () => {
+  setTimeout(() => {
+      const button = document.getElementById('test-table-xls-button');
+      button.click();
+    }, 500);
+  }
+
 export const handleScrollTop = () => {
   window.scrollTo({
       top: 0,

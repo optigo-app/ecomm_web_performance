@@ -35,6 +35,7 @@ import { accountDetailPages, accountValidation } from '../../../../../utils/Glob
 import Plm from './PLM/Plm';
 import Cookies from 'js-cookie';
 import NewOrderHistoryElvee from './AccountOrderHistory/NewOrderHistoryElvee';
+import {handleScrollTop} from '../../../../../utils/Glob_Functions/GlobalFunction'
 
 
 function CustomTabPanel(props) {
@@ -145,7 +146,7 @@ export default function Account() {
                             <p className='SmilingAccountTitle youraccountpagesec elvee_fs_pt'>Your Account</p>
                             <div className='smlingAccountTabWebView_elvee yourAccount d_none_acc_elvee'>
                                     <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
-                                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
+                                        <Tabs value={value} onChange={handleChange } onClick={handleScrollTop}  aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
                                             <Tab label="Your Profile" className='elvee_fs_pt' {...a11yProps(0)} />
                                             <Tab label="ORDER HISTORY" className='elvee_fs_pt' {...a11yProps(1)} />
                                             <Tab label="MANAGE ADDRESSES" className='elvee_fs_pt' {...a11yProps(2)} />
@@ -173,7 +174,7 @@ export default function Account() {
                                 
                             </div> */}
                             <div className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount iconsTabAcc_elvee" style={{paddingTop:'1%', display: "flex", alignItems: "center", justifyContent: "center"}}>
-                <Tabs value={value} orientation="horizontal" variant="scrollable" onChange={handleChange} className='elvee_fs_pt' TabIndicatorProps={{ style: { backgroundColor: "black",
+                <Tabs value={value} orientation="horizontal" variant="scrollable"   onClick={handleScrollTop} onChange={handleChange} className='elvee_fs_pt' TabIndicatorProps={{ style: { backgroundColor: "black",
                         marginTop: "5px", // This changes the underline color to black
                         display: "flex", alignItems: "center", justifyContent: "center",
                     },
@@ -210,7 +211,8 @@ export default function Account() {
 
                                 {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage" style={{ padding: '0px' }}>
                                     <Box sx={{ borderBottom: 1, borderColor: 'divider', padding: '0px !important' }}>
-                                        <Tabs value={value1} className='accountTabSection' variant="scrollable" onChange={handleChangeSub} aria-label="basic tabs example"
+                                        <Tabs value={value1} className='accountTabSection' variant="scrimport { handleScrollTop } from './../../../../../utils/Glob_Functions/GlobalFunction';
+ollable" onChange={handleChangeSub} aria-label="basic tabs example"
                                             sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
                                             {
                                                 accountInner?.map((e, i) => {

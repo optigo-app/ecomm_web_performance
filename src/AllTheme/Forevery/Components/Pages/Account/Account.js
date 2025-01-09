@@ -25,6 +25,7 @@ import Plm from './PLM/Plm';
 import Cookies from 'js-cookie';
 import NewOrderHistoryF from './AccountOrderHistory/NewOrderHistoryF';
 import useNavbar from '../../hooks/UseNavbar';
+import { handleScrollTop } from './../../../../../utils/Glob_Functions/GlobalFunction';
 
 
 function CustomTabPanel(props) {
@@ -137,7 +138,7 @@ export default function Account() {
                         <p className='SmilingAccountTitle youraccountpagesecSMR'>Your Account</p>
                         <div className='smlingAccountTabWebView  ' >
                                     <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
-                                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
+                                        <Tabs value={value} onChange={handleChange} onClick={handleScrollTop} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
                                             <Tab label="Your Profile" {...a11yProps(0)} />
                                             <Tab label="ORDER HISTORY" {...a11yProps(1)} />
                                             <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
@@ -152,7 +153,7 @@ export default function Account() {
                         </div>
                         <div className='smlingAccountTabMobileView YourAccountPageTabs' >
                                     <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                                        <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
+                                        <Tabs value={value} orientation="vertical" onClick={handleScrollTop} onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
                                             <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
                                             <Tab label="ORDER HISTORY" {...a11yProps(1)} />
                                             <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />

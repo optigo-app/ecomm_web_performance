@@ -290,7 +290,7 @@
 }
 
 .smr_productList_metaltype_div .image {
-  width: 47%;
+  width: 30%;
   display: block;
   border-radius: 8px;
   cursor: pointer;
@@ -314,8 +314,8 @@
 }
 
 .metal-buttons-container button {
-  width: 25px;
-  height: 25px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
   border: none;
   cursor: pointer;
@@ -333,8 +333,8 @@
   display: flex;
   flex-direction: column-reverse;
   justify-content: center;
-  height: 8.5rem;
-  gap: 11px;
+  height: 6rem;
+  gap: 9px;
 }
 
 .smr_metaltype_gold {

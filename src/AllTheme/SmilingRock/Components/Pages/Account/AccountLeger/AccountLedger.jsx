@@ -15,13 +15,16 @@ import { useRef } from 'react';
 import { getAccountLedgerData } from '../../../../../../utils/API/AccountTabs/accountLedger';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, CircularProgress, useMediaQuery } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+import AccountLedgerExcel from '../../../../../RoopJewellers/Components/Pages/Account/AccountLeger/AccountLedgerExcel';
+import { downloadExcelLedgerData } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import excelExport from "../../../../../../utils/assets/Image/excel.png";
 const AccountLedger = () => {
 
     const isSmallScreen = useMediaQuery('(max-width:500px)');
 
     const [resultArray, setResultArray] = useState([]);
     const [currencySymbol, setCurrencySymbol] = useState('');
+    const [currencyRate, setCurrencyRate] = useState(1);
     const [filterArray, setFilterArray] = useState([]);
     const [loaderAC, setLoaderAC] = useState(false);
     const [userName, setUserName] = useState('');
@@ -65,8 +68,10 @@ const AccountLedger = () => {
         try {
 
             const response = await getAccountLedgerData(storeinit, loginInfo, UserEmail);
+            
             // setCurrencySymbol(response?.CurrencySymbol);
             setCurrencySymbol(response?.CurrencySymbol);
+            setCurrencyRate(response?.CurrencyRate);
 
           if(response?.response2?.Status === '200'){
 
@@ -493,6 +498,7 @@ const AccountLedger = () => {
         // console.log(dataObject, dataObject?.PrintUrl, args);
         window.open(dataObject?.PrintUrl, "_blank");
     }
+    
 
   return (
     <div className='ledger_Account_SMR'>
@@ -624,6 +630,8 @@ const AccountLedger = () => {
     
                         <div className='mx_1_acc ms_4_acc mb_2_acc'>
                         </div>
+                        <div style={{paddingBottom:'35px'}}><img src={excelExport} onClick={() => downloadExcelLedgerData()} style={{height:'40px', width:'40px', objectFit:'contain', cursor:'pointer'}} alt='#excelExport' title='Download Excel' /></div>
+
                         </div>}
                         
                     </div>
@@ -712,6 +720,8 @@ const AccountLedger = () => {
                                             <SearchIcon sx={{ color: "#fff !important", cursor:'pointer' }} />
                                         </Button>
                                     </Box>
+                            <div style={{ display:'flex', justifyContent:'center', alignItems:'center'}}><img src={excelExport} onClick={() => downloadExcelLedgerData()} style={{height:'40px', cursor:'pointer', width:'40px', objectFit:'contain', cursor:'pointer'}} alt='#excelExport' /></div>
+
                                 </div>
                                 <Box  className=" center_acc w_all_acc">
                         
@@ -770,7 +780,8 @@ const AccountLedger = () => {
                               ))
                             }&nbsp;
 
-                            {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr' ) }</span></div>
+                            {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr' ) }</span>
+                        </div>
                     </div>
                 </div>
                 <div className='text_secondary_acc fs_al d_flex_Acc justify_content_between align_items_start p_2_acc my_3_acc mt_0_acc balance_not_none'>
@@ -805,6 +816,28 @@ const AccountLedger = () => {
                 </div>
                 {
                     loaderAC ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", paddingBottom: "30px" }}><CircularProgress className='loadingBarManage' /></Box> : <div  style={{margin:'8px', overflow:'auto'}}>
+                        <div>
+                                <AccountLedgerExcel 
+                                    
+                                    filterArray={filterArray} 
+
+                                    credit_curr_diff={credit_curr_diff} 
+                                    credit_amt_diff={credit_amt_diff} 
+                                    credit_mg_diff={credit_mg_diff} 
+                                    credit_dia_diff={credit_dia_diff}
+
+                                    debit_curr_diff={debit_curr_diff}
+                                    debit_amt_diff={debit_amt_diff}
+                                    debit_mg_diff={debit_mg_diff}
+                                    debit_dia_diff={debit_dia_diff}
+
+                                    resultTotal={resultTotal}
+
+                                    currencySymbol={currencySymbol}
+                                    currencyRate={currencyRate}
+
+                                 />
+                            </div>
                     <table className='w_100_acc'>
                         <thead className='w_100_acc border_Acc'>
                             <tr className='w_100_acc border_bottom_acc fs_td' style={{width:'100%'}}>
@@ -862,13 +895,23 @@ const AccountLedger = () => {
                                             filterArray?.length > 0 ? filterArray?.map((e) => {
                                                 let doneIcon = null;
                                                 let closeIcon = null;
+                                                let d_doneIcon = null;
+                                                let d_closeIcon = null;
 
                                             if (e.IsVerified === 0) {
-                                                doneIcon = <DoneIcon sx={{ color: 'green' }} />;
+                                                doneIcon = '';
                                             } else if (e.IsVerified === 1) {
+                                                closeIcon = <DoneIcon sx={{ color: 'green' }} />;
+                                            } else if (e.IsVerified === 2) {
                                                 closeIcon = <CloseIcon sx={{ color: 'red' }} />;
+                                            } 
+                                            if (e.IsDVerified === 0) {
+                                                d_doneIcon = '';
+                                            } else if (e.IsDVerified === 1) {
+                                                d_closeIcon = <DoneIcon sx={{ color: 'green' }} />;
+                                            } else if (e.IsDVerified === 2) {
+                                                d_closeIcon = <CloseIcon sx={{ color: 'red' }} />;
                                             }
-
                                     return(
                                      <>
                                     {
@@ -880,7 +923,7 @@ const AccountLedger = () => {
                                                 <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.metalctw === 0 ? '' : e?.metalctw)}</td>
                                                 <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.diamondctw === 0 ? '' : e?.diamondctw)}</td>
                                                 <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}> { e?.IsDebit !== 0 && <span dangerouslySetInnerHTML={{__html: e?.CurrencyCode}}></span>} {e?.IsDebit === 0 ? '' : ` ${formatAmount(e?.Currency) === 'NaN' ? '' : formatAmount(e?.Currency)} `}</td>
-                                                <td className='border_end_acc p_1_acc text_center_acc'></td>
+                                                <td className='border_end_acc p_1_acc text_center_acc'>{d_doneIcon}{d_closeIcon}</td>
                                                 <td className='border_end_acc p_1_acc text_center_acc'>{e?.IsDebit === 0 ? e?.EntryDate : ''}</td>
                                                 <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'>{e?.IsDebit === 0 ? e?.particular : ''}</td>
                                                 <td className='border_end_acc p_1_acc text_start_acc ps_1_acc ' style={{cursor:'pointer', textDecoration:`${e?.PrintUrl === '' ? '' : 'underline'}`, color:`${e?.PrintUrl === '' ? '' : 'blue'}`}} onClick={() => e?.PrintUrl === '' ? '' : window.open(atob(e?.PrintUrl))}>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td>

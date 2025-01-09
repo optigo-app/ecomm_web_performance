@@ -2080,6 +2080,7 @@ const TopNavBar = ({ menuItems = [], handelMenu = () => {} }) => {
                        onMouseEnter={() => {
                 handleMouseEnter(index, menuItem);
               }}
+              onClick={() => handleMouseLeave()}
               // onMouseLeave={() => {
               //   handleMouseLeave();
               // }}
