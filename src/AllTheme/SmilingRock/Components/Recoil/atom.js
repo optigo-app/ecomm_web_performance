@@ -44,3 +44,8 @@ export const defaultAddressState = atom({
   key: 'smr_defaultAddressState',
   default: null,
 });
+
+export const MetalColor_Image = atom({
+  key: "smr_MetalColor_Image",
+  default: "",
+})
