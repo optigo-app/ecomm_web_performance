@@ -166,7 +166,7 @@ export default function PaymentComponent({ bgcolor }) {
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
-                                                <label style={{ fontWeight: 'bold', color: '#7d7f85' }} htmlFor="zip">Zip Code</label>
+                                                <label style={{ fontWeight: 'bold', color: '#7d7f85' }} htmlFor="zip">Mobile No</label>
                                                 <TextField
                                                     fullWidth
                                                     placeholder='Enter your mobile number'

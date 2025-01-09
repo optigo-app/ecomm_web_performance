@@ -1,0 +1,108 @@
+.smrr_container {
+    @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap');
+    font-family: 'Merriweather', serif;
+    background-color: #f7fafc;
+    padding: 2rem;
+  
+  .smr_title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .smr_description {
+    text-align: center;
+    max-width: 28rem;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+  }
+  
+  .smr_content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  
+    @media (min-width: 1024px) {
+      flex-direction: row;
+    }
+  }
+  
+  .smr_form {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.375rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .smr_label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #4a5568;
+  }
+  
+  .smr_input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    margin-bottom: 1rem;
+    focus:outline-none;
+    focus:ring-2;
+    focus:ring-blue-500;
+  }
+  
+  .smr_button {
+    width: 100%;
+    background-color: #3182ce;
+    color: white;
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+  
+    &:hover {
+      background-color: #2b6cb0;
+    }
+  
+    &:focus {
+      outline: none;
+      ring: 2px;
+      ring-color: #3182ce;
+      ring-offset: 2px;
+    }
+  }
+  
+  .smr_map {
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .smr_office_info {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.375rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .smr_office_title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .smr_map_frame {
+    margin-top: 1.5rem;
+  }
+  
+  .smr_iframe {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.375rem;
+  }
+  
+}

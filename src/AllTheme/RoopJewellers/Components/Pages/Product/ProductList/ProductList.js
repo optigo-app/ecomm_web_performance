@@ -2668,7 +2668,10 @@ const ProductList = () => {
                                           //     "roop1_prod_title_with_no_width"
                                           // }
                                           >
-                                            {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
+                                            {productData?.designno}  {productData?.TitleLine && productData?.designno
+? " - "
+: ""}
+ {productData?.TitleLine}
                                           </span>
 
                                         </div>
