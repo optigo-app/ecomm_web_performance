@@ -124,7 +124,9 @@ const NewArrivalCarousel = ({ showmore = false ,data}) => {
   };
   const NoImageFound = `${storImagePath()}/Forevery/noimage.jpg`;
   const BannerImage = `${storImagePath()}/Forevery/banner/1.jpg`;
-  if (!TrendingProductlist) {
+
+
+  if (TrendingProductlist?.length === 0) {
     return;
   }
 
@@ -140,6 +142,9 @@ const NewArrivalCarousel = ({ showmore = false ,data}) => {
       </div>
       <div className="for_carousel">
         <Swiper
+        style={{
+          width:"100%"
+        }}
           slidesPerView={4}
           freeMode={true}
           spaceBetween={10}
@@ -199,7 +204,11 @@ const NewArrivalCarousel = ({ showmore = false ,data}) => {
         >
           {validatedData?.map((data, i) => {
             return (
-              <SwiperSlide>
+              <SwiperSlide 
+              style={{
+                width:"100%"
+              }}
+              >
                 <ProductCard
                   title={
                     !data?.TitleLine?.length > 0
