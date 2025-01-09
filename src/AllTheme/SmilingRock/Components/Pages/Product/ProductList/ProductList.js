@@ -1221,27 +1221,8 @@ const ProductList = () => {
 
 
   const handleLeaveImgRolloverImg = async (pd, yellowImage, whiteImage, roseImage) => {
-  const handleLeaveImgRolloverImg = async (pd, yellowImage, whiteImage, roseImage) => {
     if (pd?.images?.length > 0) {
-      // setRolloverImgPd((prev) => pd?.images[0] )
-      // const imageUrl = pd?.images[0];
-      const color = selectedMetalColor?.[pd?.autocode];
 
-      let imageUrl;
-      switch (color) {
-        case 1:
-          imageUrl = yellowImage;  // Yellow color rollover image
-          break;
-        case 2:
-          imageUrl = whiteImage;  // White color rollover image
-          break;
-        case 3:
-          imageUrl = roseImage;  // Rose color rollover image
-          break;
-        default:
-          imageUrl = pd?.images[1];  // Default to second image if no color is selected
-          break;
-      }
       // const imageUrl = pd?.images[0];
       const color = selectedMetalColor?.[pd?.autocode];
 
@@ -1262,7 +1243,6 @@ const ProductList = () => {
       }
       // const isImageAvailable = await checkImageAvailability(imageUrl);
       if (imageUrl) {
-        setRolloverImgPd((prev) => { return { [pd?.autocode]: imageUrl || pd?.images[0] } })
         setRolloverImgPd((prev) => { return { [pd?.autocode]: imageUrl || pd?.images[0] } })
       }
     }
@@ -3729,8 +3709,6 @@ const ProductList = () => {
                                               </CardMedia> :
                                               <>
                                                 <div
-                                                  onMouseEnter={() => {
-                                                    handleImgRollover(productData, yellowRollImage,whiteRollImage,roseRollImage);
                                                   onMouseMove={(e) => {
                                                     handleImgRollover(productData, yellowRollImage,whiteRollImage,roseRollImage);
                                                     if (productData?.VideoCount > 0) {
