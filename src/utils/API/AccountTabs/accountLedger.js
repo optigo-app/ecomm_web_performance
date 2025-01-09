@@ -35,10 +35,11 @@ export const getAccountLedgerData = async(storeinit, loginInfo, UserEmail) => {
             }
             
           const response2 = await CommonAPI(body);
-
+            
           let res = {
             response2: response2,
-            CurrencySymbol:CurrencySymbol
+            CurrencySymbol:CurrencySymbol,
+            CurrencyRate: CurrencyRate
           }
 
           return res;

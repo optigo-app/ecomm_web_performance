@@ -2,7 +2,7 @@ export function storImagePath() {
   let statiPath = `${window?.location?.protocol}//${
     window.location.hostname === "localhost" ||
     window.location.hostname === "zen"
-      ? "fgstore.pro"
+      ? "rpjewel.web"
       : window.location.hostname
   }`;
   return `${statiPath}/WebSiteStaticImage`;
@@ -32,7 +32,7 @@ export function storInitDataPath() {
   let hostName =
     window.location.hostname === "localhost" ||
     window.location.hostname === "zen"
-      ? "fgstore.pro"
+      ? "rpjewel.web"
       : window.location.hostname;
   if (hostName.startsWith("www.")) {
     hostName = hostName.substring(4);
@@ -95,6 +95,18 @@ export function findCsQcId(param) {
 
 export const formatter = new Intl.NumberFormat("en-IN")?.format;
 
+
+
+
+
+
+
+export const downloadExcelLedgerData = () => {
+  setTimeout(() => {
+      const button = document.getElementById('test-table-xls-button');
+      button.click();
+    }, 500);
+  }
 
 export const handleScrollTop = () => {
   window.scrollTo({
