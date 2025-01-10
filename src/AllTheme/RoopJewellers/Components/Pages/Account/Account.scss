@@ -123,6 +123,11 @@
     .smlingAccountTabWebView .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
         font-family: $fontRegular !important;
     }
+    @media screen and (max-width:1080px) {
+        .smlingAccountTabWebView .css-heg063-MuiTabs-flexContainer {
+            gap: 1.5rem;
+        }
+    }
 
     .roop_tabs_div {
         font-family: $fontRegular !important;
@@ -206,11 +211,12 @@
         }
     }
 
+  
     @media screen and (max-width: 1049px) {
 
         .smlingAccountTabWebView {
-            // display: none;
-            display: unset;
+            display: none;
+            // display: unset;
         }
 
         .smilingAccountLogoutMobile {
@@ -243,7 +249,7 @@
             position: unset;
             /* For Safari */
             position: unset;
-            top: 0;
+            top: 110px;
             background-color: white;
             z-index: 1001;
             /* Adjust z-index as needed */
@@ -330,7 +336,7 @@
             position: unset;
             /* For Safari */
             position: unset;
-            top: 0;
+            top: 110px;
             background-color: white;
             z-index: 1001;
             /* Adjust z-index as needed */
