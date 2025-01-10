@@ -34,6 +34,7 @@ import SummarizeIcon from "@mui/icons-material/Summarize";
 import ShieldIcon from "@mui/icons-material/Shield";
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
+import {handleScrollTop } from "../../../../../utils/Glob_Functions/GlobalFunction";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -173,7 +174,7 @@ export default function Account() {
               <p className="stamAccountTitle youraccountpagesec" style={{ height: "40px", margin: "0px", padding: "0px" }} > Your Account </p>
               <div className="stamAccountTabWebView stam_main_head_none" style={{ paddingTop: '1%' }}>
                 <Box sx={{ display: "flex", justifyContent: "center", borderBottom: 1, borderColor: "divider", }} >
-                  <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
+                  <Tabs value={value} onChange={handleChange} onClick={handleScrollTop} aria-label="basic tabs example" >
                     {" "}
                     {/*  orientation="vertical" indicatorColor="#7d7f85" */}
                     <Tab label="Your Profile" {...a11yProps(0)} />
@@ -188,7 +189,7 @@ export default function Account() {
               </div>
               <div className="stamAccountTabMobileView stamYourAccountPageTabs yourAccount " style={{ display: "none" }} >
                 <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-                  <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: "100%" }} >
+                  <Tabs value={value} orientation="vertical" onClick={handleScrollTop} onChange={handleChange} sx={{ width: "100%" }} >
                     {" "}
                     {/*  indicatorColor="#7d7f85" */}
                     <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: "start", width: "90%", borderColor: "divider", }} />
@@ -202,7 +203,7 @@ export default function Account() {
                 </Box>
               </div>
               <div className="stamAccountTabMobileView stamYourAccountPageTabs yourAccount iconsTabAcc" style={{ paddingTop: '1%', display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <Tabs value={value} orientation="horizontal" variant="scrollable" onChange={handleChange} TabIndicatorProps={{
+                <Tabs value={value} orientation="horizontal" variant="scrollable" onClick={handleScrollTop} onChange={handleChange} TabIndicatorProps={{
                   style: {
                     backgroundColor: "black",
                     marginTop: "5px", // This changes the underline color to black

@@ -2684,7 +2684,7 @@ const ProductDetail = () => {
                                 {/* <span>{ele?.TitleLine}</span> */}
                               </div>
                             </div>
-                          ))}
+                          ))} 
                         </div>
                       </div>
                     ) : (
@@ -2692,6 +2692,9 @@ const ProductDetail = () => {
                         <p className="proCat_details_title">More Products</p>
                         <div className="proCat_swiper_container">
                           <Swiper
+                          style={{
+                            width: "100%",
+                          }}
                             spaceBetween={10}
                             lazy={true}
                             navigation={imageData?.length > 3} 
@@ -2715,6 +2718,9 @@ const ProductDetail = () => {
                           >
                             {imageData?.map((ele) => (
                               <SwiperSlide
+                              style={{
+                                width: "100%",
+                              }}
                                 key={ele?.autocode}
                                 className="proCat_Swiper_slide_custom"
                                 onClick={() => handleMoveToDetail(ele)}
