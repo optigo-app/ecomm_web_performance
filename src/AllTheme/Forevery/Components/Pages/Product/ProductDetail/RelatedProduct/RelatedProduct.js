@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
+import imageNotFound from '../../../../Assets/image-not-found.jpg';
 import "swiper/css/pagination";
 import { storImagePath } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 import { Rating, styled } from "@mui/material";
@@ -76,13 +77,15 @@ const RelatedProduct = ({
                       </div>
                       <div className="for_related_card_image_div">
                         <img className="for_related_card_image" src={elv?.ImageCount > 0
-                          ? storeInit?.DesignImageFol +
+                          ? storeInit?.CDNDesignImageFol +
                           elv?.designno +
-                          "_" +
+                          "~" +
                           "1" +
                           "." +
                           elv?.ImageExtension
-                          : "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"} alt={elv?.id} />
+                          : imageNotFound} alt={elv?.id} 
+                          onError={(e) => e.target.src = imageNotFound}
+                        />
                       </div>
                     </div>
                   </SwiperSlide>

@@ -120,14 +120,13 @@ const diamondShapes = [
 
 const RingCategory = `Ring/category`;
 const filterKeyVal1 = btoa(RingCategory);
-
-const RingsNavi = `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=Round/M=${filterKeyVal1}`;
+const RingsNavi = `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal1}`;
 const EaringCategory = `Earring/category`;
 const filterKeyVal2 = btoa(EaringCategory);
-const EaringNavi = `/certified-loose-lab-grown-diamonds/settings/Earring/diamond_shape=Round/M=${filterKeyVal2}`;
+const EaringNavi = `/certified-loose-lab-grown-diamonds/settings/Earring/M=${filterKeyVal2}`;
 const PendantCategory = `Pendant/category`;
 const filterKeyVal3 = btoa(PendantCategory);
-const PendantNavi = `/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=Round/M=${filterKeyVal3}`;
+const PendantNavi = `/certified-loose-lab-grown-diamonds/settings/Pendant/M=${filterKeyVal3}`;
 
 const SideItems = [
   {
