@@ -606,43 +606,50 @@ const useCart = () => {
         txt.innerHTML = html;
         return txt.value;
     }
-
     const CartCardImageFunc = (pd) => {
         return new Promise((resolve) => {
-            const loadImage = (src) => {
-                return new Promise((resolve, reject) => {
-                    const img = new Image();
-                    img.src = src;
-                    img.onload = () => resolve(src);
-                    img.onerror = () => reject(src);
-                });
-            };
-
-            const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
-            let primaryImage, secondaryImage;
-
-            if (pd?.ImageCount > 0) {
-                primaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
-                secondaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1.${pd?.ImageExtension}`;
-            } else {
-                primaryImage = secondaryImage = imageNotFound;
-            }
-
-            loadImage(primaryImage)
+          const loadImage = (src) => {
+            return new Promise((resolve, reject) => {
+              const img = new Image();
+              img.src = src;
+              img.onload = () => resolve(src);
+              img.onerror = () => reject(src);
+            });
+          };
+    
+          const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
+          let primaryImage, secondaryImage;
+    
+          if (pd?.ImageCount > 0) {
+            primaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1~${mtcCode?.colorcode}.${pd?.ImageExtension}`;
+            secondaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1.${pd?.ImageExtension}`;
+          }
+          else {
+            primaryImage = secondaryImage = imageNotFound;
+          }
+          // if (pd?.ImageCount > 0) {
+          //   primaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
+          //   secondaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1.${pd?.ImageExtension}`;
+          // } 
+          // else {
+          //   primaryImage = secondaryImage = imageNotFound;
+          // }
+    
+          loadImage(primaryImage)
+            .then((imgSrc) => {
+              resolve(imgSrc);
+            })
+            .catch(() => {
+              loadImage(secondaryImage)
                 .then((imgSrc) => {
-                    resolve(imgSrc);
+                  resolve(imgSrc);
                 })
                 .catch(() => {
-                    loadImage(secondaryImage)
-                        .then((imgSrc) => {
-                            resolve(imgSrc);
-                        })
-                        .catch(() => {
-                            resolve(imageNotFound);
-                        });
+                  resolve(imageNotFound);
                 });
+            });
         });
-    };
+      };
 
     const compressAndEncode = (inputString) => {
         try {

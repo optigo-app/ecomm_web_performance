@@ -199,14 +199,14 @@ const DiamondDetails = () => {
         });
     };
 
-    let getDesignImageFol = storeInit?.DesignImageFol;
+    let getDesignImageFol = storeInit?.CDNDesignImageFol;
 
     const getDynamicImages = async (imageData, designno, MetalColorid, extension) => {
         const matchMetalColorid = metalColor.find((color) => color?.id === MetalColorid);
-        const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+        const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
         // const colorImage = imageData?.ImageCount > 0 ? `${baseImagePath}_${matchMetalColorid?.colorcode}.${extension}` : imageNotFound;
         // const defaultImage = imageData?.ImageCount > 0 ? `${baseImagePath}.${extension}` : imageNotFound;
-        const colorImage = `${baseImagePath}_${matchMetalColorid?.colorcode}.${extension}`;
+        const colorImage = `${baseImagePath}~${matchMetalColorid?.colorcode}.${extension}`;
         const defaultImage = `${baseImagePath}.${extension}`;
 
         try {
@@ -1028,9 +1028,9 @@ const DiamondDetails = () => {
 
     const designImage = (designno, ImageExtension) => {
         let imgString =
-            storeInit?.DesignImageFol +
+            storeInit?.CDNDesignImageFol +
             designno +
-            "_" +
+            "~" +
             1 +
             "." +
             ImageExtension;
@@ -2176,12 +2176,12 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         });
     };
 
-    let getDesignImageFol = storeInit?.DesignImageFol;
+    let getDesignImageFol = storeInit?.CDNDesignImageFol;
 
     const getDynamicImages = async (imageData, designno, MetalColorid, extension) => {
         const matchMetalColorid = metalColor.find((color) => color?.id === MetalColorid);
-        const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
-        const colorImage = imageData?.ImageCount > 0 ? `${baseImagePath}_${matchMetalColorid?.colorcode}.${extension}` : imageNotFound;
+        const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
+        const colorImage = imageData?.ImageCount > 0 ? `${baseImagePath}~${matchMetalColorid?.colorcode}.${extension}` : imageNotFound;
         const defaultImage = imageData?.ImageCount > 0 ? `${baseImagePath}.${extension}` : imageNotFound;
 
         try {
