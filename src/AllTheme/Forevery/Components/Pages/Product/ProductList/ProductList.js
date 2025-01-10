@@ -1903,13 +1903,17 @@ const Product_Card = ({
               <>
                 {videoUrl !== undefined ? (
                   <div className="for_rollup_video">
-                    <video src={videoUrl} muted loop ref={(el) => (videoRefs.current[index] = el)} />
+                    <video src={videoUrl} muted loop ref={(el) => (videoRefs.current[index] = el)}
+                      onError={(e) => e.target.poster = noImageFound}
+                    />
                   </div>
                 ) : null}
 
                 {videoUrl === undefined && RollImageUrl !== undefined ? (
                   <div className="for_rollup_img">
-                    <img src={selectedMetalColor === 1 ? yellowRollImage : selectedMetalColor === 2 ? whiteRollImage : selectedMetalColor === 3 ? roseRollImage : RollImageUrl} />
+                    <img src={selectedMetalColor === 1 ? yellowRollImage : selectedMetalColor === 2 ? whiteRollImage : selectedMetalColor === 3 ? roseRollImage : RollImageUrl}
+                      onError={(e) => e.target.src = noImageFound}
+                    />
                   </div>
                 ) : null}
               </>
