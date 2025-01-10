@@ -1195,7 +1195,7 @@ const ProductList = () => {
     if (pd?.images?.length >= 1) {
       // Checking for the rollover image based on color
       const color = selectedMetalColor?.[pd?.autocode];
-  console.log(color,"color")
+  
       let imageUrl;
       switch (color) {
         case 1:
@@ -1219,14 +1219,10 @@ const ProductList = () => {
     }
   };
 
-  // useEffect(()=>{
-  //   console.log(rollOverImgPd,"RolloverImgPd updated")
-  // },[rollOverImgPd])
-
 
   const handleLeaveImgRolloverImg = async (pd, yellowImage, whiteImage, roseImage) => {
     if (pd?.images?.length > 0) {
-      // setRolloverImgPd((prev) => pd?.images[0] )
+
       // const imageUrl = pd?.images[0];
       const color = selectedMetalColor?.[pd?.autocode];
 
@@ -1903,9 +1899,6 @@ const ProductList = () => {
 
     checkAllImages();
   }, [finalProductListData]);
-
-  console.log(finalProductListData,"finalProductListData")
-
 
   return (
     <>
