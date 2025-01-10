@@ -460,17 +460,14 @@ const Themes = ({ htmlContent }) => {
       <Suspense fallback={<></>}>
         {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
 
-        {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
         {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
 
-        {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
         {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
         {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 
         {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
-        {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
         {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
         {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
