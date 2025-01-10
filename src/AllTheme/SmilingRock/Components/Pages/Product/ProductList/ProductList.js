@@ -209,80 +209,47 @@ const ProductList = () => {
     });
     // handleMetalColor(metalColorId, autocode);
   };
-  const getDynamicYellowImage = (item, designno, extension) => {
-    const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
-    const colorImagePath = `${baseImagePath}~Yellow.${extension}`;
-    const defaultImagePath = `${baseImagePath}.${extension}`;
-  
-    // First check for the color-specific path
-    if (item?.ImageCount > 0 && colorImagePath) {
+
+  const getDynamicImage = async (item, designno, extension, type, color) => {
+    const baseImagePath = `${getDesignImageFol}${designno}~${type}`;
+    const colorImagePath = `${baseImagePath}~${color}.${extension}`;
+    let defaultImagePath = "";
+    if(type === 2){
+      defaultImagePath = `${getDesignImageFol}${designno}~1.${extension}`;
+    }else {
+      defaultImagePath = `${baseImagePath}.${extension}`;
+    }
+
+    const imageExistsFlag = await checkImageAvailability(colorImagePath);
+    if (item?.ImageCount > 0 && imageExistsFlag) {
       return colorImagePath;
     }
-  
-    // Fallback to the base image path if the color image is not available
     return defaultImagePath;
   };
-  
-  const getDynamicWhiteImage = (item, designno, extension) => {
-    const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
-    const colorImagePath = `${baseImagePath}~White.${extension}`;
-    const defaultImagePath = `${baseImagePath}.${extension}`;
-  
-    if (item?.ImageCount > 0 && colorImagePath) {
-      return colorImagePath;
-    }
-  
-    return defaultImagePath;
+
+  const getDynamicYellowImage = async (item, designno, extension) => {
+    return await getDynamicImage(item, designno, extension, 1, "Yellow");
   };
-  
-  const getDynamicRoseImage = (item, designno, extension) => {
-    const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
-    const colorImagePath = `${baseImagePath}~Rose.${extension}`;
-    const defaultImagePath = `${baseImagePath}.${extension}`;
-  
-    if (item?.ImageCount > 0 && colorImagePath) {
-      return colorImagePath;
-    }
-  
-    return defaultImagePath;
+
+  const getDynamicWhiteImage = async (item, designno, extension) => {
+    return await getDynamicImage(item, designno, extension, 1, "White");
   };
-  
-  const getDynamicRollYellowImage = (item, designno, extension) => {
-    const baseImagePath = `${getDesignImageFol}${designno}~${2}`;
-    const colorImagePath = `${baseImagePath}~Yellow.${extension}`;
-    const defaultImagePath = `${getDesignImageFol}${designno}~${1}.${extension}`;
-  
-    if (item?.ImageCount > 0 && colorImagePath) {
-      return colorImagePath;
-    }
-  
-    return defaultImagePath;
+
+  const getDynamicRoseImage = async (item, designno, extension) => {
+    return await getDynamicImage(item, designno, extension, 1, "Rose");
   };
-  
-  const getDynamicRollWhiteImage = (item, designno, extension) => {
-    const baseImagePath = `${getDesignImageFol}${designno}~${2}`;
-    const colorImagePath = `${baseImagePath}~White.${extension}`;
-    const defaultImagePath = `${getDesignImageFol}${designno}~${1}.${extension}`;
-  
-    if (item?.ImageCount > 0 && colorImagePath) {
-      return colorImagePath;
-    }
-  
-    return defaultImagePath;
+
+  const getDynamicRollYellowImage = async (item, designno, extension) => {
+    return await getDynamicImage(item, designno, extension, 2, "Yellow");
   };
-  
-  const getDynamicRollRoseImage = (item, designno, extension) => {
-    const baseImagePath = `${getDesignImageFol}${designno}~${2}`;
-    const colorImagePath = `${baseImagePath}~Rose.${extension}`;
-    const defaultImagePath = `${getDesignImageFol}${designno}~${1}.${extension}`;
-  
-    if (item?.ImageCount > 0 && colorImagePath) {
-      return colorImagePath;
-    }
-  
-    return defaultImagePath;
+
+  const getDynamicRollWhiteImage = async (item, designno, extension) => {
+    return await getDynamicImage(item, designno, extension, 2, "White");
   };
-  
+
+  const getDynamicRollRoseImage = async (item, designno, extension) => {
+    return await getDynamicImage(item, designno, extension, 2, "Rose");
+  };
 
 
   useEffect(() => {
@@ -627,6 +594,7 @@ const ProductList = () => {
   useEffect(() => {
     const finalProdWithPrice = productListData.map(async (product) => {
       let pdImgList = [];
+      let pdColorImgList = [];
 
       // Fetch images for yellow, white, and rose colors, including rollover images
       const yellowImage = await getDynamicYellowImage(product, product.designno, product.ImageExtension);
@@ -648,13 +616,14 @@ const ProductList = () => {
       }
 
       // Add color-specific images along with their rollover images to the images array
-      pdImgList.push({ color: "yellow", image: yellowImage, rollover: yellowRollImage });
-      pdImgList.push({ color: "white", image: whiteImage, rollover: whiteRollImage });
-      pdImgList.push({ color: "rose", image: roseImage, rollover: roseRollImage });
+      pdColorImgList.push({ color: "yellow", image: yellowImage, rollover: yellowRollImage });
+      pdColorImgList.push({ color: "white", image: whiteImage, rollover: whiteRollImage });
+      pdColorImgList.push({ color: "rose", image: roseImage, rollover: roseRollImage });
 
       return {
         ...product,
-        images: pdImgList
+        images: pdImgList,
+        colorImages: pdColorImgList,
       };
     });
 
@@ -1191,33 +1160,34 @@ const ProductList = () => {
   //   }
   // };
 
-  const handleImgRollover = async (pd,yellowRollImage,whiteRollImage,roseRollImage) => {
+  const handleImgRollover = async (pd, yellowRollImage, whiteRollImage, roseRollImage, metalId) => {
+    console.log('metalId: ', metalId);
     if (pd?.images?.length >= 1) {
-      // Checking for the rollover image based on color
-      const color = selectedMetalColor?.[pd?.autocode];
-  
+      const color = metalId ?? selectedMetalColor?.[pd?.autocode];
+
       let imageUrl;
+
       switch (color) {
         case 1:
-          imageUrl = yellowRollImage;  // Yellow color rollover image
+          imageUrl = yellowRollImage;
           break;
         case 2:
-          imageUrl = whiteRollImage;  // White color rollover image
+          imageUrl = whiteRollImage
           break;
         case 3:
-          imageUrl = roseRollImage;  // Rose color rollover image
+          imageUrl = roseRollImage;
           break;
         default:
-          imageUrl = pd?.images[1];  // Default to second image if no color is selected
+          imageUrl = checkImageAvailability(pd?.images[1]) ? pd?.images[1] : pd?.images[0];
           break;
       }
-  
-      // Set the rollover image in the state
+
       setRolloverImgPd((prev) => {
-        return { [pd?.autocode]: imageUrl || pd?.images[0] };  // Fallback to first image if no rollover image
+        return { [pd?.autocode]: imageUrl };
       });
     }
   };
+
 
 
   const handleLeaveImgRolloverImg = async (pd, yellowImage, whiteImage, roseImage) => {
@@ -1229,16 +1199,16 @@ const ProductList = () => {
       let imageUrl;
       switch (color) {
         case 1:
-          imageUrl = yellowImage;  // Yellow color rollover image
+          imageUrl = yellowImage;
           break;
         case 2:
-          imageUrl = whiteImage;  // White color rollover image
+          imageUrl = whiteImage;
           break;
         case 3:
-          imageUrl = roseImage;  // Rose color rollover image
+          imageUrl = roseImage;
           break;
         default:
-          imageUrl = pd?.images[1];  // Default to second image if no color is selected
+          imageUrl = pd?.images[0];
           break;
       }
       // const isImageAvailable = await checkImageAvailability(imageUrl);
@@ -3551,7 +3521,7 @@ const ProductList = () => {
                                                 {/* <img src="https://png.pngtree.com/template/20240229/ourmid/pngtree-jewelry-social-media-and-instagram-post-template-vector-image_2010320.jpg" alt="" /> */}
                                                 {menuParams?.menuname === "Glossy" && (
                                                   <div className="smr_productCard_banner">
-                                                    <img src={`${storImagePath()}/images/HomePage/ProductListing/static3.jpg`} alt="" />
+                                                    <img src={`${storImagePath()}/images/HomePage/ProductListing/5.png`} alt="" />
                                                   </div>
                                                 )}
                                                 {menuParams?.menuname === "Amber" && (
@@ -3710,16 +3680,16 @@ const ProductList = () => {
                                               <>
                                                 <div
                                                   onMouseMove={(e) => {
-                                                    handleImgRollover(productData, yellowRollImage,whiteRollImage,roseRollImage);
+                                                    handleImgRollover(productData, yellowRollImage, whiteRollImage, roseRollImage);
                                                     if (productData?.VideoCount > 0) {
                                                       setIsRollOverVideo({ [productData?.autocode]: true });
                                                     } else {
                                                       setIsRollOverVideo({ [productData?.autocode]: false });
                                                     }
                                                   }}
-                                                  
+
                                                   onMouseLeave={() => {
-                                                    handleLeaveImgRolloverImg(productData,yellowImage,whiteImage,roseImage);
+                                                    handleLeaveImgRolloverImg(productData, yellowImage, whiteImage, roseImage);
                                                     setIsRollOverVideo({ [productData?.autocode]: false });
                                                   }}
                                                   className="smr_ImgandVideoContainer"
@@ -3776,7 +3746,7 @@ const ProductList = () => {
                                                                 : `smr_metaltype_${item?.metal}`
                                                             }
                                                             type="button"
-                                                            onClick={() => handleClick(item?.id, productData?.autocode)} 
+                                                            onClick={() => {handleClick(item?.id, productData?.autocode); handleImgRollover(productData, yellowRollImage, whiteRollImage, roseRollImage, item?.id)}}
                                                           >
                                                           </button>
                                                         ))}

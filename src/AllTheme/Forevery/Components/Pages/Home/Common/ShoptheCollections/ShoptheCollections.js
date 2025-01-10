@@ -33,15 +33,12 @@ const ShoptheCollections = () => {
     Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum", finalID)
     .then((response) => {
       if (response?.Data?.rd) {
-        console.log("called album", response?.Data?.rd);
-        console.log(response?.Data?.rd);
         setAlbumList(response?.Data?.rd);
       }
     })
     Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum_List", finalID)
       .then((response) => {
         if (response?.Data?.rd) {
-          console.log("album", response?.Data?.rd);
           // setAlbumList(response?.Data?.rd);
         }
       })
@@ -62,7 +59,6 @@ const ShoptheCollections = () => {
   const GenrateImage = (data)=>{
     let Image ;
     Image =  imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName
-    console.log(Image,"album imge")
     return Image ;
   }
   const handleNavigate = (name) => {
