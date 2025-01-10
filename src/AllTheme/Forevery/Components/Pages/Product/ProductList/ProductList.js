@@ -127,7 +127,7 @@ const ProductList = () => {
   const getEncodeData = atob(location?.search?.slice(3));
   const [collectionName, setCollectionName] = useState(getEncodeData.split('/')?.[0]);
 
-  const [priceRangeValue, setPriceRangeValue] = useState([5000, 250000]);
+  const [priceRangeValue, setPriceRangeValue] = useState([]);
   const [caratRangeValue, setCaratRangeValue] = useState([0.96, 41.81]);
   const [productListData, setProductListData] = useState([]);
   const [prodListType, setprodListType] = useState();
@@ -142,6 +142,8 @@ const ProductList = () => {
   const [currPage, setCurrPage] = useState(1);
   const [colorImgSrc, setColorImgSrc] = useState([]);
   const [imageMap, setImageMap] = useState({});
+  const [highestPrice, setHighestPrice] = useState();
+  const [lowestPrice, setLowestPrice] = useState();
 
   const setCartCountVal = useSetRecoilState(for_CartCount);
   const setWishCountVal = useSetRecoilState(for_WishCount);
@@ -158,11 +160,13 @@ const ProductList = () => {
   }
 
   const handleOpen = (index) => {
-    setOpen(open === index ? null : index)
+    setOpen((prevOpen) => (prevOpen === index ? null : index))
+    // setOpen(open === index ? null : index)
   }
 
   const handleCategory = (id) => {
     setSelectedCategory(selectedCategory === id ? null : id);
+    handleButton(6, id ?? selectedCategory);
   }
 
   const handleMetalColor = (index) => {
@@ -287,17 +291,15 @@ const ProductList = () => {
   ]
 
   let getDesignImageFol = storeInit?.CDNDesignImageFol;
-  // let getDesignImageFol = storeInit?.DesignImageFol;
-  const getDesignVideoFol = storeInit?.CDNVPath;
+  const getDesignVideoFol = storeInit?.CDNVPath;;
   // const getDesignVideoFol = (storeInit?.DesignImageFol)?.slice(0, -13) + "video/";
 
   const getDynamicImages = (designno, extension) => {
     return `${getDesignImageFol}${designno}~${1}.${extension}`;
-    // return `${getDesignImageFol}${designno}_${1}.${extension}`;
   };
 
   const getDynamicYellowImage = (item, designno, extension) => {
-    // return `${getDesignImageFol}${designno}_${1}_Yellow.${extension}`;
+    // return `${getDesignImageFol}${designno}~${1}~Yellow.${extension}`;
     return new Promise((resolve) => {
       const loadImage = (src) => new Promise((resolve, reject) => {
         const img = new Image();
@@ -307,7 +309,6 @@ const ProductList = () => {
       });
 
       const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
-      // const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
       const colorImage = item?.ImageCount > 0
         ? `${baseImagePath}~Yellow.${extension}`
         : noImageFound;
@@ -324,7 +325,7 @@ const ProductList = () => {
   };
 
   const getDynamicWhiteImage = (item, designno, extension) => {
-    // return `${getDesignImageFol}${designno}_${1}_White.${extension}`;
+    // return `${getDesignImageFol}${designno}~${1}~White.${extension}`;
     return new Promise((resolve) => {
       const loadImage = (src) => new Promise((resolve, reject) => {
         const img = new Image();
@@ -350,7 +351,7 @@ const ProductList = () => {
   }
 
   const getDynamicRoseImage = (item, designno, extension) => {
-    // return `${getDesignImageFol}${designno}_${1}_Rose.${extension}`;
+    // return `${getDesignImageFol}${designno}~${1}~Rose.${extension}`;
     return new Promise((resolve) => {
       const loadImage = (src) => new Promise((resolve, reject) => {
         const img = new Image();
@@ -376,7 +377,7 @@ const ProductList = () => {
   }
 
   const getDynamicRollYellowImage = (item, designno, extension) => {
-    // return `${getDesignImageFol}${designno}_${2}_Yellow.${extension}`;
+    // return `${getDesignImageFol}${designno}~${2}~Yellow.${extension}`;
     return new Promise((resolve) => {
       const loadImage = (src) => new Promise((resolve, reject) => {
         const img = new Image();
@@ -401,7 +402,7 @@ const ProductList = () => {
   }
 
   const getDynamicRollWhiteImage = (item, designno, extension) => {
-    // return `${getDesignImageFol}${designno}_${2}_White.${extension}`;
+    // return `${getDesignImageFol}${designno}~${2}~White.${extension}`;
     return new Promise((resolve) => {
       const loadImage = (src) => new Promise((resolve, reject) => {
         const img = new Image();
@@ -426,7 +427,7 @@ const ProductList = () => {
   }
 
   const getDynamicRollRoseImage = (item, designno, extension) => {
-    // return `${getDesignImageFol}${designno}_${2}_Rose.${extension}`;
+    // return `${getDesignImageFol}${designno}~${2}~Rose.${extension}`;
     return new Promise((resolve) => {
       const loadImage = (src) => new Promise((resolve, reject) => {
         const img = new Image();
@@ -480,48 +481,17 @@ const ProductList = () => {
     }
   }, [productListData]);
 
-  const loadImage = (src) => new Promise((resolve, reject) => {
-    const img = new Image();
-    img.src = src;
-    img.onload = () => resolve(src);
-    img.onerror = () => reject(src);
-  });
 
-  const getDynamicRollImages = async (designno, count, extension) => {
+  const getDynamicRollImages = (designno, count, extension) => {
     if (count > 1) {
-      const imageSrc = `${getDesignImageFol}${designno}~2.${extension}`;
-      try {
-        await loadImage(imageSrc);
-        return imageSrc;
-      } catch (error) {
-        return noImageFound;
-      }
+      return `${getDesignImageFol}${designno}~${2}.${extension}`;
     }
-    return noImageFound;
+    return;
   };
-
-  const [rollImages, setRollImages] = useState({});
-
-  const loadRollImage = async (designno, count, extension) => {
-    const imageSrc = await getDynamicRollImages(designno, count, extension);
-    setRollImages(prevState => ({
-      ...prevState,
-      [designno]: imageSrc
-    }));
-  };
-
-  useEffect(() => {
-    if (productListData) {
-      productListData.forEach(item => {
-        loadRollImage(item.designno, item.ImageCount, item.ImageExtension);
-      });
-    }
-  }, [productListData]);
 
   const getDynamicVideo = (designno, count, extension) => {
     if (extension && count > 0) {
       const url = `${getDesignVideoFol}${designno}~${1}.${extension}`;
-      // const url = `${getDesignVideoFol}${designno}_${1}.${extension}`;
       return url;
     }
     return;
@@ -633,6 +603,15 @@ const ProductList = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          const highestPrice = res?.pdList?.reduce((max, item) => {
+            return Math.max(max, item?.UnitCostWithMarkUpIncTax);
+          }, 0);
+          setHighestPrice(highestPrice);
+          const lowestPrice = res?.pdList?.reduce((min, item) => {
+            return Math.min(min, item?.UnitCostWithMarkUpIncTax);
+          }, 0);
+          setLowestPrice(lowestPrice);
+          setPriceRangeValue([lowestPrice, highestPrice]);
         }
 
         if (res1) {
@@ -652,26 +631,6 @@ const ProductList = () => {
     }
     setCurrPage(1)
   }, [location?.key,]);
-
-  useEffect(() => {
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-
-    if (location?.key === locationKey) {
-      setIsOnlyProdLoading(true);
-      ProductListApi({}, 1, obj, prodListType, cookie, "")
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err))
-        .finally(() => {
-          setIsOnlyProdLoading(false);
-        });
-    }
-  }, [selectedMetalId, selectedDiaId]);
 
   const handleBreadcums = (mparams) => {
 
@@ -761,13 +720,33 @@ const ProductList = () => {
   }, [])
 
 
+  // useEffect(() => {
+  //   let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+  //   if (location?.key === locationKey) {
+  //     setIsOnlyProdLoading(true);
+  //     ProductListApi({}, 1, obj, prodListType, cookie, "")
+  //       .then((res) => {
+  //         if (res) {
+  //           setProductListData(res?.pdList);
+  //           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+  //         }
+  //         return res;
+  //       })
+  //       .catch((err) => console.log("err", err))
+  //       .finally(() => {
+  //         setIsOnlyProdLoading(false);
+  //       });
+  //   }
+  // }, [selectedMetalId, selectedDiaId]);
+
   useEffect(() => {
     let output = selectedValues.filter((ele) => ele.value)
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
     if (location?.key === locationKey) {
       setIsOnlyProdLoading(true);
-      ProductListApi(output, 1, obj, prodListType, cookie, "")
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect ?? "", "")
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -780,10 +759,11 @@ const ProductList = () => {
           setIsOnlyProdLoading(false);
         });
     }
-  }, [selectedValues]);
+  }, [selectedValues, selectedMetalId, selectedDiaId, sortBySelect, selectedCategory]);
 
   const handleSortby = async (e) => {
     setSortBySelect(e.target?.value)
+    let output = selectedValues.filter((ele) => ele.value)
 
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
@@ -791,7 +771,7 @@ const ProductList = () => {
 
     let sortby = e.target?.value
 
-    await ProductListApi({}, 1, obj, prodListType, cookie, sortby, "")
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortby, "")
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -820,8 +800,11 @@ const ProductList = () => {
     { index: 5, title: "carat", data: caratRangeValue, type: 'carat' },
   ]
 
-  const handlePriceSliderChange = (event, newValue) => {
+  const handlePriceSliderChange = async (event, newValue) => {
     const roundedValue = newValue.map(val => parseInt(val));
+    // let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    // let pricerange = { PriceMin: newValue[0], PriceMax: newValue[1] };
+    // await ProductListApi(pricerange, 1, obj, prodListType, cookie);
     setPriceRangeValue(roundedValue)
     handleButton(4, roundedValue); // index 4 is the index for price range
   };
@@ -890,38 +873,66 @@ const ProductList = () => {
   }, [metalType, diamondType, selectedDiaId, location?.pathname]);
 
   const handleRemoveValues = (index) => {
-    setSelectedValues(prev => {
-      const existingIndex = prev.findIndex(item => item?.dropdownIndex === index);
+    setSelectedValues((prev) => {
+      const existingIndex = prev.findIndex((item) => item?.dropdownIndex === index);
       const updatedValues = prev.filter((_, i) => i !== existingIndex);
 
       if (updatedValues.length === 0) {
-        // const matchCollName = getMatchCollName();
         setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
         setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
-        // setDefaultValues(matchCollName);
-        setDefaultValues();
-        // navigate(`/p/${BreadCumsObj()?.menuname}?M=${location?.search?.slice(3)}`)
+        setTrend("Recommended");
+        setSortBySelect("");
+
+        // Save metal and diamond default values
+        const ids = typeof selectedDiaId === "string" ? selectedDiaId.split(",").map(Number) : [];
+        const [qualityId, colorId] = ids;
+
+        const findMetal = metalType?.find((item) => item?.Metalid === selectedMetalId)?.metaltype;
+        const findDiamond = diamondType?.find(
+          (ele) => ele.QualityId === qualityId && ele.ColorId === colorId
+        );
+
+        const defaultValues = [
+          { dropdownIndex: 2, value: findMetal || "" },
+          { dropdownIndex: 3, value: findDiamond ? `${findDiamond.Quality}#${findDiamond.color}` : "" },
+        ];
+
+        setSelectedValues(defaultValues);
       }
 
       return updatedValues;
     });
 
     setCaratRangeValue([0.96, 41.81]);
-    setPriceRangeValue([5000, 250000]);
+    setPriceRangeValue([0, highestPrice]);
   };
 
   const handleClearSelectedvalues = () => {
     setSelectedValues([]);
 
-    // const matchCollName = getMatchCollName();
     setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
     setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
 
     setCaratRangeValue([0.96, 41.81]);
-    setPriceRangeValue([5000, 250000]);
+    setPriceRangeValue([0, highestPrice]);
+    setTrend("Recommended");
+    setSortBySelect("");
 
-    // setDefaultValues(matchCollName);
-    setDefaultValues();
+    // Save metal and diamond default values
+    const ids = typeof selectedDiaId === "string" ? selectedDiaId.split(",").map(Number) : [];
+    const [qualityId, colorId] = ids;
+
+    const findMetal = metalType?.find((item) => item?.Metalid === selectedMetalId)?.metaltype;
+    const findDiamond = diamondType?.find(
+      (ele) => ele.QualityId === qualityId && ele.ColorId === colorId
+    );
+
+    const defaultValues = [
+      { dropdownIndex: 2, value: findMetal || "" },
+      { dropdownIndex: 3, value: findDiamond ? `${findDiamond.Quality}#${findDiamond.color}` : "" },
+    ];
+
+    setSelectedValues(defaultValues);
   };
 
 
@@ -1113,7 +1124,10 @@ const ProductList = () => {
                   '& .MuiDrawer-paper': {
                     width: maxwidth375px ? '18rem' : maxwidth464px ? '22rem' : '25rem',
                   },
-                }} open={open1} onClose={toggleDrawer(false)} className="for_productList_drawer_div">
+                }}
+                  open={open1}
+                  onClose={toggleDrawer(false)}
+                  className="for_productList_drawer_div">
                   <div className="for_modal_cancel_btn_div_pd" onClick={toggleDrawer(false)}>
                     <IoClose className='for_modal_cancel_btn_pd' size={28} />
                   </div>
@@ -1141,6 +1155,7 @@ const ProductList = () => {
                     ))}
 
                     {rangeData?.map(({ index, title, data, type }) => {
+                      // const Component = CollectionPriceRange;
                       const Component = type === 'price' ? CollectionPriceRange : CollectionCaratRange;
                       return (
                         <Component
@@ -1149,6 +1164,8 @@ const ProductList = () => {
                           open={open === index}
                           title={title}
                           index={index}
+                          highestPrice={type === 'price' ? highestPrice : ''}
+                          lowestPrice={type === 'price' ? lowestPrice : ''}
                           handleSliderChange={type === 'price' ? handlePriceSliderChange : handleCaratSliderChange}
                           data={data}
                           maxwidth1000px={maxwidth1000px}
@@ -1231,6 +1248,7 @@ const ProductList = () => {
 
                   {rangeData?.map(({ index, title, data, type }) => {
                     const Component = type === 'price' ? CollectionPriceRange : CollectionCaratRange;
+                    const handleSlider = type === 'price' ? handlePriceSliderChange : handleCaratSliderChange;
                     return (
                       <Component
                         key={index}
@@ -1238,7 +1256,9 @@ const ProductList = () => {
                         open={open === index}
                         title={title}
                         index={index}
-                        handleSliderChange={type === 'price' ? handlePriceSliderChange : handleCaratSliderChange}
+                        highestPrice={type === 'price' ? highestPrice : ''}
+                        lowestPrice={type === 'price' ? lowestPrice : ''}
+                        handleSliderChange={handleSlider}
                         data={data}
                       />
                     );
@@ -1360,7 +1380,6 @@ const ProductList = () => {
               {isOnlyProdLoading ? <div className="for_global_spinner"></div> : (
                 productListData?.map((item, index) => {
                   const images = imageMap[item.designno] || {};
-                  const rollImageUrl = rollImages[item.designno] || noImageFound; 
                   return (
                     <Product_Card
                       StyledRating={StyledRating}
@@ -1377,8 +1396,7 @@ const ProductList = () => {
                       whiteRollImage={images?.whiteRollImage}
                       roseRollImage={images?.roseRollImage}
                       videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
-                      RollImageUrl={rollImageUrl}
-                      // RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
+                      RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
                       loginCurrency={loginCurrency}
                       storeInit={storeInit}
                       handleCartandWish={handleCartandWish}
@@ -1497,35 +1515,79 @@ const CollectionPriceRange = forwardRef(({
   handleOpen,
   open,
   title,
+  highestPrice,
+  lowestPrice,
   index,
   handleSliderChange,
   data,
   maxwidth1000px,
 }, ref) => {
+  const [localOpen, setLocalOpen] = useState(open);
+  const [localValue, setLocalValue] = useState(data);
+
+  useEffect(() => {
+    setLocalOpen(open);
+  }, [open]);
+
+  useEffect(() => {
+    setLocalValue(data);
+  }, [data]);
+
   const handleSliderMouseDown = (event) => {
     event.stopPropagation(); // Prevent click from propagating to parent div
   };
 
-  // const debounce = (func, delay) => {
-  //   let timeoutId;
-  //   return (...args) => {
-  //     if (timeoutId) {
-  //       clearTimeout(timeoutId);
-  //     }
-  //     timeoutId = setTimeout(() => {
-  //       func.apply(null, args);
-  //     }, delay);
-  //   };
-  // };
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func.apply(null, args);
+      }, delay);
+    };
+  };
 
-  // const debouncedHandleSliderChange = useMemo(() => debounce(handleSliderChange, 1000), [handleSliderChange]);
-  const isOpen = maxwidth1000px || open;
+  const debouncedHandleSliderChange = useMemo(
+    () => debounce((event, newValue) => {
+      handleSliderChange(event, newValue);
+    }, 500),
+    [handleSliderChange]
+  );
+
+  const handleLocalSliderChange = (event, newValue) => {
+    setLocalValue(newValue);
+    setLocalOpen(true);
+    debouncedHandleSliderChange(event, newValue);
+  };
+
+  const handleLocalOpen = () => {
+    const newOpenState = !localOpen;
+    setLocalOpen(newOpenState);
+    handleOpen(index);
+  };
+
+  const isOpen = maxwidth1000px || localOpen;
+  const isOpenBox = maxwidth1000px || open;
   return (
     <div
       className="for_collection_filter_dropdown"
-      onClick={() => handleOpen(index)}
-      ref={ref} // Attach ref to a DOM element
+      onClick={handleLocalOpen}
+      ref={ref}
     >
+      {isOpenBox == true && <div className="wrapper-fg"
+        style={{
+          position: "absolute",
+          top: "0",
+          padding: "4px 18px",
+          left: 0,
+          right: 0,
+          cursor: "pointer",
+          backgroundColor: "transparent",
+          color: "transparent",
+        }}
+      >22446</div>}
       <div className="for_collection_filter_label">
         <label>{title}</label>
         <FaAngleDown />
@@ -1533,11 +1595,11 @@ const CollectionPriceRange = forwardRef(({
       <div className={isOpen ? "for_collection_filter_option_div_slide" : 'for_collection_filter_option_div_slide_hide'}>
         <div className='for_collection_slider_div'>
           <Slider
-            value={data}
-            onChange={handleSliderChange}
+            value={localValue}
+            onChange={handleLocalSliderChange}
             onMouseDown={handleSliderMouseDown}
-            min={5000}
-            max={250000}
+            min={lowestPrice}
+            max={highestPrice}
             aria-labelledby="range-slider"
             style={{ color: 'black' }}
             size='small'
@@ -1566,8 +1628,10 @@ const CollectionPriceRange = forwardRef(({
             }}
           />
           <div className='for_collection_slider_input'>
-            <input type="text" value={`INR ${formatter(data[0])}`} className='for_collection_price' />
-            <input type="text" value={`INR ${formatter(data[1])}`} className='for_collection_price' />
+            <input type="text" value={`INR ${localValue[0]}`} className='for_collection_price' />
+            {/* <input type="text" value={`INR ${formatter(data[0])}`} className='for_collection_price' /> */}
+            <input type="text" value={`INR ${localValue[1]}`} className='for_collection_price' />
+            {/* <input type="text" value={`INR ${formatter(data[1])}`} className='for_collection_price' /> */}
           </div>
         </div>
       </div>
@@ -1585,16 +1649,73 @@ const CollectionCaratRange = forwardRef(({
   maxwidth1000px,
 }, ref) => {
 
+  const [localOpen1, setLocalOpen1] = useState(open);
+  const [localValue1, setLocalValue1] = useState(data);
+
+  useEffect(() => {
+    setLocalOpen1(open);
+  }, [open]);
+
+  useEffect(() => {
+    setLocalValue1(data);
+  }, [data]);
+
   const handleSliderMouseDown = (event) => {
     event.stopPropagation(); // Prevent click from propagating to parent div
   };
-  const isOpen = maxwidth1000px || open;
+
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func.apply(null, args);
+      }, delay);
+    };
+  };
+
+  const debouncedHandleSliderChange = useMemo(
+    () => debounce((event, newValue) => {
+      handleSliderChange(event, newValue);
+    }, 500),
+    [handleSliderChange]
+  );
+
+  const handleLocalSliderChange = (event, newValue) => {
+    setLocalValue1(newValue);
+    setLocalOpen1(true);
+    debouncedHandleSliderChange(event, newValue);
+  };
+
+  const handleLocalOpen = () => {
+    const newOpenState = !localOpen1;
+    setLocalOpen1(newOpenState);
+    handleOpen(index);
+  };
+
+  const isOpen = maxwidth1000px || localOpen1;
+  const isOpenBox = maxwidth1000px || open;
+
   return (
     <div
       className="for_collection_filter_dropdown"
-      onClick={() => handleOpen(index)}
+      onClick={handleLocalOpen}
       ref={ref} // Attach ref to a DOM element
     >
+      {isOpenBox == true && <div className="wrapper-fg"
+        style={{
+          position: "absolute",
+          top: "0",
+          padding: "4px 18px",
+          left: 0,
+          right: 0,
+          cursor: "pointer",
+          backgroundColor: "transparent",
+          color: "transparent",
+        }}
+      >22446</div>}
       <div className="for_collection_filter_label">
         <label>{title}</label>
         <FaAngleDown />
@@ -1602,8 +1723,8 @@ const CollectionCaratRange = forwardRef(({
       <div className={isOpen ? "for_collection_filter_option_div_slide" : 'for_collection_filter_option_div_slide_hide'}>
         <div className='for_collection_slider_div'>
           <Slider
-            value={data}
-            onChange={handleSliderChange}
+            value={localValue1}
+            onChange={handleLocalSliderChange}
             onMouseDown={handleSliderMouseDown} // Prevent propagation
             min={0.96}
             max={41.81}
@@ -1635,8 +1756,10 @@ const CollectionCaratRange = forwardRef(({
             }}
           />
           <div className='for_collection_slider_input'>
-            <input type="text" value={`${data[0]}Ct`} className='for_collection_weights' />
-            <input type="text" value={`${data[1]}Ct`} className='for_collection_weights' />
+            <input type="text" value={`${localValue1[0]}Ct`} className='for_collection_weights' />
+            <input type="text" value={`${localValue1[1]}Ct`} className='for_collection_weights' />
+            {/* <input type="text" value={`${data[0]}Ct`} className='for_collection_weights' />
+            <input type="text" value={`${data[1]}Ct`} className='for_collection_weights' /> */}
           </div>
         </div>
       </div>
@@ -1829,7 +1952,7 @@ const Product_Card = ({
                 />
               </>
             }
-            label={<span className={`for_productList_cart_title`}>{isChecked ? "Remove from Cart" : "Add to Cart"}</span>}
+            label={<span className={`for_productList_cart_title`}>{isChecked ? "In Cart" : "Add to Cart"}</span>}
             className="for_productList_listinig_ATC_div"
           />
         </div>
@@ -1888,7 +2011,7 @@ const Product_Card = ({
                 }}
                 style={{ paddingRight: '0.4rem' }}
               />
-              {formatter(productData?.UnitCostWithMarkUp)}
+              {formatter(productData?.UnitCostWithMarkUpIncTax)}
             </span>
           </div>
         </div>

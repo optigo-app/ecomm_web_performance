@@ -108,7 +108,6 @@ const Navbar = () => {
     const fetchData = () => {
       const value = JSON.parse(sessionStorage?.getItem("LoginUser"));
       setislogin(value);
-      console.log(value);
     };
     fetchData();
   }, []);
@@ -175,7 +174,6 @@ const Navbar = () => {
         param1: param1Items,
       };
     });
-    console.log(uniqueMenuItems, "nvabar list");
     setMenuItems(uniqueMenuItems);
   }, [menuData]);
 

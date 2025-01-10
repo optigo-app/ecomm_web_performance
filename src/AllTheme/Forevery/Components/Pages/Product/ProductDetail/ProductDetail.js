@@ -60,7 +60,6 @@ const ProductDetail = () => {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [CustPath, setCustpath] = useState(false);
-  console.log('CustPath: ', CustPath);
   const [loginData, setLoginData] = useState({});
   const [completeSet, setCompleteSet] = useState(false);
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
@@ -1028,9 +1027,10 @@ const ProductDetail = () => {
     }
 
     mcArr =
-      metalColorCombo?.find((ele) => {
-        return ele?.colorcode == metalColor
-      }) ?? metalColorCombo;
+    metalColorCombo?.find((ele) => {
+      return ele?.colorcode == metalColor
+    }) ?? metalColorCombo;
+    console.log('mcArr: ', mcArr);
 
     setImageSrc(mcArr?.id);
     sessionStorage.setItem('cartWishImgColor', JSON.stringify(mcArr?.id))
