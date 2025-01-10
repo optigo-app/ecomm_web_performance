@@ -2,6 +2,8 @@ import React, { Suspense, useEffect, useRef, useState } from "react";
 import SmilingRock_App from "./AllTheme/SmilingRock/SmilingRock_App";
 import DaimondTine_App from "./AllTheme/DaimondTine/DaimondTine_App";
 import Elveester_App from "./AllTheme/Elveester/Elveester_App";
+import DaimondTine_App from "./AllTheme/DaimondTine/DaimondTine_App";
+import Elveester_App from "./AllTheme/Elveester/Elveester_App";
 import { Storeinit } from "./utils/API/Home/Storeinit/Storeinit";
 import { CurrencyComboAPI } from "./utils/API/Combo/CurrencyComboAPI";
 import { MetalColorCombo } from "./utils/API/Combo/MetalColorCombo";
@@ -462,15 +464,18 @@ const Themes = ({ htmlContent }) => {
         {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
 
         {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
+        {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
         {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 
         {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
         {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
+        {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
         {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
+        {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
 
         {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
 

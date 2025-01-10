@@ -23,6 +23,7 @@ import { accountDetailPages, accountValidation } from '../../../../../utils/Glob
 import NewOrderHistoryPC from './AccountOrderHistory/NewOrderHistoryPC';
 import Cookies from 'js-cookie';
 // import { accountDetailPage, accountDetailPages, accountValidation } from '../../../Utils/globalFunctions/GlobalFunction';
+import {handleScrollTop } from "../../../../../utils/Glob_Functions/GlobalFunction";
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -90,9 +91,6 @@ export default function Account() {
         setValue(newValue);
     };
 
-    const handleTabchange = ()=>{
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
 
     useEffect(() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -141,7 +139,7 @@ export default function Account() {
                             <p className='SmilingAccountTitle youraccountpagesecSMR '>Your Account</p>
                             <div className='smlingAccountTabWebView_Procat yourAccount d_none_acc' >
                                 <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
-                                    <Tabs value={value} onClick={handleTabchange} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
+                                    <Tabs value={value} onClick={handleScrollTop} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
                                         <Tab label="Your Profile" {...a11yProps(0)} />
                                         <Tab label="ORDER HISTORY" {...a11yProps(1)} />
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
@@ -156,7 +154,7 @@ export default function Account() {
                             </div>
                             <div className='smlingAccountTabMobileView_Procat YourAccountPageTabs yourAccount'>
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                                    <Tabs value={value} orientation="vertical" onClick={handleTabchange} onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
+                                    <Tabs value={value} orientation="vertical" onClick={handleScrollTop} onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
                                         <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
                                         <Tab label="ORDER HISTORY" {...a11yProps(1)} />
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
