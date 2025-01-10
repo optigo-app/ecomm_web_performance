@@ -17,6 +17,9 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         helperText={errors.firstName}
                         fullWidth
                         className='roop_addressTextFields'
+                        sx={{
+                            margin:"10px 0"
+                        }}
                     />
                     <TextField
                         label="Last Name"
@@ -26,6 +29,9 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         helperText={errors.lastName}
                         fullWidth
                         className='roop_addressTextFields'
+                        sx={{
+                            margin:"8px 0"
+                        }}
                     />
                     <TextField
                         label="Mobile No."
@@ -36,6 +42,9 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         fullWidth
                         type='number'
                         className='roop_addressTextFields'
+                        sx={{
+                            margin:"8px 0"
+                        }}
                     />
                     <TextField
                         label="Address"
@@ -45,6 +54,9 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         helperText={errors.address}
                         fullWidth
                         className='roop_addressTextFields'
+                        sx={{
+                            margin:"8px 0"
+                        }}
                     />
                     <TextField
                         label="Country"
@@ -54,6 +66,9 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         helperText={errors.country}
                         fullWidth
                         className='roop_addressTextFields'
+                        sx={{
+                            margin:"8px 0"
+                        }}
                     />
                     <TextField
                         label="State"
@@ -63,6 +78,9 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         helperText={errors.state}
                         fullWidth
                         className='roop_addressTextFields'
+                        sx={{
+                            margin:"8px 0"
+                        }}
                     />
                     <TextField
                         label="City"
@@ -72,6 +90,9 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         helperText={errors.city}
                         fullWidth
                         className='roop_addressTextFields'
+                        sx={{
+                            margin:"8px 0"
+                        }}
                     />
                     <TextField
                         label="ZIP Code"
@@ -82,6 +103,9 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         fullWidth
                         type='number'
                         className='roop_addressTextFields'
+                        sx={{
+                            margin:"8px 0"
+                        }}
                     />
                 </DialogContent>
                 <div className='roop_cardActionBtn'>

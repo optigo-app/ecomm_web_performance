@@ -2,7 +2,6 @@ import React, { lazy, Suspense, useEffect, useState } from "react";
 import "./Index.modul.scss";
 import useHomeBannerImages from "../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner";
 
-const TopSection = lazy(() => import('./TopVideo/TopSection'));
 const TheDifference = lazy(() => import('./TheDifference/TheDifference'));
 const PromotionBaner1 = lazy(() => import('./PromotionBanner1/PromotionBaner1'));
 const PromotionBaner2 = lazy(() => import('./PromotionBanner1/PromotionBaner2'));
@@ -12,18 +11,19 @@ const SustainAbility = lazy(() => import('./SustainAbility/SustainAbility'));
 const BottomBanner = lazy(() => import('./BottomBanner/BottomBanner'));
 const Footer = lazy(() => import('./Footer/Footer'));
 const TrendingView = lazy(() => import('./TrandingView/TrendingView'));
+const TopSection = lazy(() => import('./TopVideo/TopSection'));
 const TrendingView1 = lazy(() => import('./TrandingView/TrendingView1'));
+const NewArrival1 = lazy(() => import('./NewArrival/NewArrival1'));
+const BestSellerSection1 = lazy(() => import('./BestSellerSection/BestSellerSection1'));
+const JewellerySet = lazy(() => import('./JewellerySet/JewellerySet'));
+const Collection = lazy(() => import('./Collection/Collection'));
 const DesignSet = lazy(() => import('./DesignSet/DesignSet1'));
 const DesignSet1 = lazy(() => import('./DesignSet/DesignSet2'));
 const Album = lazy(() => import('./Album/Album'));
 const Album1 = lazy(() => import('./Album/Album1'));
 const NewArrival = lazy(() => import('./NewArrival/NewArrival'));
-const NewArrival1 = lazy(() => import('./NewArrival/NewArrival1'));
 const BestSellerSection = lazy(() => import('./BestSellerSection/BestSellerSection'));
-const BestSellerSection1 = lazy(() => import('./BestSellerSection/BestSellerSection1'));
 const BrandsComponent = lazy(() => import('./BrandComponent/BrandComponents'));
-const Collection = lazy(() => import('./Collection/Collection'));
-const JewellerySet = lazy(() => import('./JewellerySet/JewellerySet'));
 
 
 function Home() {
