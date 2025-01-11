@@ -3,12 +3,30 @@ import './ConfirmationPage.modul.scss';
 import { FaPrint } from 'react-icons/fa'
 import ThankYouImage from '../../../Assets/thankyou.svg'
 import { useNavigate, useLocation } from 'react-router-dom';
+import { el_CartCount } from '../../../Recoil/atom';
+import { useSetRecoilState } from 'recoil';
+import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 
 const ConfirmationPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [orderNo, setOrderNo] = useState();
   const [storeInit, setStoreInit] = useState();
+  const setCartCountVal = useSetRecoilState(el_CartCount); 
+
+  // for cart count
+  useEffect(() => {
+     const fetchCartCount = async () => {
+         try {
+             const cartCount = await GetCountAPI();
+             setCartCountVal(cartCount?.cartcount);
+         } catch (error) {
+             console.error("Error fetching cart count:", error);
+         }
+     };
+ 
+     fetchCartCount();
+ }, []);
 
   useEffect(() => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));

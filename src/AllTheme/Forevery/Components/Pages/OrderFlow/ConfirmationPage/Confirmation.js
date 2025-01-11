@@ -5,11 +5,29 @@ import ThankYouImage from "../../../Assets/thankyou.svg"
 import { useNavigate } from 'react-router-dom';
 import { FaPrint } from 'react-icons/fa';
 import btnStyle from "../../../scss/Button.module.scss"
+import { for_CartCount } from '../../../Recoil/atom';
+import { useSetRecoilState } from 'recoil';
+import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 
 const Confirmation = () => {
     const navigate = useNavigate();
     const [orderNo, setOrderNo] = useState();
     const [storeInit, setStoreInit] = useState();
+    const setCartCountVal = useSetRecoilState(for_CartCount); 
+
+    // for cart count
+    useEffect(() => {
+       const fetchCartCount = async () => {
+           try {
+               const cartCount = await GetCountAPI();
+               setCartCountVal(cartCount?.cartcount);
+           } catch (error) {
+               console.error("Error fetching cart count:", error);
+           }
+       };
+   
+       fetchCartCount();
+   }, []);
 
     const setCSSVariable = () => {
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
