@@ -291,6 +291,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
               src={data?.stockno ? data?.image_file_url : imageMap?.colorImage}
               alt=""
               style={{ cursor: 'default' }}
+              onError={(e) => e.target.src = noImageFound}
             />
           </div>
           <div className="for_dia_price">
@@ -328,7 +329,9 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
   const getCustStepData = JSON?.parse(sessionStorage?.getItem('customizeSteps'));
   const getCustStepData2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
   const getdiaData = JSON.parse(sessionStorage.getItem('custStepData'));
+  console.log('getdiaData: ', getdiaData?.[0]?.step1Data?.length !== 0);
   const getdiaData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
+  console.log('getdiaData2: ', getdiaData2);
   const setting = getStepName.includes('Ring') || getStepName.includes('Pendant');
   const [setshape, setSetShape] = useState();
 
@@ -375,8 +378,6 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
     setOpen(open === index ? null : index);
   };
 
-  console.log("getCompleteStep2?.[0]?.step1",getCompleteStep2?.[0]?.step1)
-
   const renderSteps = () => {
     return (
       <>
@@ -418,9 +419,12 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
 
         <div className={`step_data ${getStepName.includes('diamond') ? 'active' : ''} d-1`}>
           <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition} onClick={() => {
-            console.log('Current Shape:', setshape);
-            Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
-            setswap("diamond");
+            if (getCompleteStep2?.[1]?.step2 === true) {
+              Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+            } else {
+              Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
+              setswap("diamond");
+            }
           }}>
             <img className="for_shapes_img" src={StepImages[0]?.img} alt="" /> Diamond
           </span>
@@ -490,11 +494,15 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
             )}
           </div>
 
-          <div className={`step_data ${setting === true ? 'active' : ''} d-2`}>
+          <div className={`step_data ${(setting === true && getdiaData?.[0]?.step1Data?.length !== 0) ? 'active' : ''} d-2`}>
             <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition}
               onClick={() => {
-                Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
-                setswap("settings");
+                if (getCompleteStep1?.[1]?.step2 === true) {
+                  Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
+                  setswap("settings");
+                } else {
+                  Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
+                }
               }}
             >
               <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : 'for_shapes_img'} src={(getCustStepData?.[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img) ||
