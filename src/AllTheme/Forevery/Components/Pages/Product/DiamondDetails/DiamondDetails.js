@@ -2228,6 +2228,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                 src={forTabletResp ? StepImages[0]?.downIcon : StepImages[0]?.eyeIcon}
                 alt=""
                 style={{ cursor: 'pointer' }}
+                onError={(e) => e.target.src = imageNotFound}
             />
             <div
                 className="for_navigate_eye_div"

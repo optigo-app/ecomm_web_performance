@@ -109,7 +109,7 @@ const Footer = () => {
         { name: "Engagement Rings", path: "/lab-created-engagement-rings", disabled: false },
         { name: "Wedding Rings", path: "/lab-grown-wedding-rings", disabled: false },
         { name: "Fine Jewelry", path: "/lab-grown-fine-jewelry", disabled: false },
-        { name: 'Certified Loose Diamonds', path: '/certified-loose-lab-grown-diamonds/diamond' ,disabled: false },
+        { name: 'Certified Loose Diamonds', path: '/certified-loose-lab-grown-diamonds/diamond', disabled: false },
         // { name: 'Letter Diamonds Jewelry', path: '/letter-diamonds' ,disabled: false }
       ],
     },
@@ -133,9 +133,8 @@ const Footer = () => {
         {sections.map((section, index) => (
           <div
             key={index}
-            className={`footer-section ${
-              isMobile && activeSection === index ? "active" : ""
-            }`}
+            className={`footer-section ${isMobile && activeSection === index ? "active" : ""
+              }`}
           >
             <h4
               className={
@@ -214,7 +213,7 @@ const Footer = () => {
                       <a
                         style={
                           item.disabled
-                            ? {  color: "gray" ,cursor  :"not-allowed" }
+                            ? { color: "gray", cursor: "not-allowed" }
                             : {}
                         }
                         href={item?.path}
@@ -239,15 +238,15 @@ const Footer = () => {
       </div>
       <ul className="companyCopyRight">
         <li style={{
-          fontWeight  :"420"
-        }}>© 2024 FOREVERY</li>
+          fontWeight: "420"
+        }}>© 2025 FOREVERY</li>
         <li>
           <a
             href="/terms-conditions"
-            // onClick={(e) => {
-            //   e.preventDefault();
-            //   handleNavigate(e, "/terms-conditions");
-            // }}
+          // onClick={(e) => {
+          //   e.preventDefault();
+          //   handleNavigate(e, "/terms-conditions");
+          // }}
           >
             TERMS OF CONDITIONS</a>
         </li>
@@ -265,10 +264,10 @@ const Footer = () => {
         <li>
           <a
             href="/#"
-            // onClick={(e) => {
-            //   e.preventDefault();
-            //   handleNavigate(e, "/cookies-policy");
-            // }}
+          // onClick={(e) => {
+          //   e.preventDefault();
+          //   handleNavigate(e, "/cookies-policy");
+          // }}
           >
             COOKIES POLICY
           </a>
@@ -276,10 +275,10 @@ const Footer = () => {
         <li>
           <a
             href="/#"
-            // onClick={(e) => {
-            //   e.preventDefault();
-            //   handleNavigate(e, "/return-refund-policy");
-            // }}
+          // onClick={(e) => {
+          //   e.preventDefault();
+          //   handleNavigate(e, "/return-refund-policy");
+          // }}
           >
             RETURN AND REFUND POLICY
           </a>
@@ -287,12 +286,25 @@ const Footer = () => {
         <li>
           <a
             href="/#"
-            // onClick={(e) => {
-            //   e.preventDefault();
-            //   handleNavigate(e, "/change-cookie-preferences");
-            // }}
+          // onClick={(e) => {
+          //   e.preventDefault();
+          //   handleNavigate(e, "/change-cookie-preferences");
+          // }}
           >
             CHANGE COOKIE PREFERENCES
+          </a>
+        </li>
+        <li>
+          <a
+            style={{ color: '#F9F9F9' }}
+            href="/#"
+          // onClick={(e) => {
+          //   e.preventDefault();
+          //   handleNavigate(e, "/change-cookie-preferences");
+          // }}
+          >
+            Ver: 1.0.110120251850
+            {/* { 110120251850 : date and time } */}
           </a>
         </li>
       </ul>
