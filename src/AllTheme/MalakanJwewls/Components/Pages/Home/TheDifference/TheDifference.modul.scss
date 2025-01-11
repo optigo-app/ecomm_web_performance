@@ -2,7 +2,7 @@
 
 .malkana-containerrr {
   width: 100%;
-  min-height: 100vh;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,21 +10,23 @@
   padding: 2rem;
   position: relative;
   font-family: $rown;
+
   @media screen and (max-width: 768px) {
-    min-height: 70vh;
+    min-height: 70%;
   }
+
   @media screen and (max-width: 420px) {
-    min-height: 55vh;
+    min-height: 55%;
   }
 }
 
 .malkana-heading {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: clamp(2.5rem, 6vw, 4rem);
   margin-bottom: 2rem;
   letter-spacing: 0.2em;
   text-align: center;
   font-weight: 500;
-  color: #01332A;
+  color: #333333;
   letter-spacing: -0.5px;
 }
 
@@ -48,8 +50,10 @@
   font-size: clamp(1rem, 2vw, 1.5rem);
   max-width: 800px;
   text-align: center;
-  margin: 2rem auto;
+  margin-top: 2rem;
+  margin-bottom: 0;
+  margin-inline: auto;
   line-height: 1.6;
   font-weight: 300;
-  color: #01332A;
+  color: #333333;
 }
