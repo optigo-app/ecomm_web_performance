@@ -1148,10 +1148,39 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const [shape, setShape] = useState();
   const Navigate = useNavigate();
   const banner = useHomeBannerImages();
-
+  const location = useLocation();
+  const [urlData, setUrlData] = useState();
+  const [urlDiaData, setUrlDiaData] = useState();
 
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
   const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+
+  const getShapeFromStep0 = steps?.[0]?.shape;
+  const getShapeFromStep1 = steps1?.[1]?.shape;
+
+  useEffect(() => {
+    const pathname = location.pathname;
+    if (pathname) {
+      const segments = pathname.split('/');
+      const mSegment = segments.find(segment => segment.startsWith('M='));
+      const diaSegment = segments.find(segment => segment.startsWith('diamond_shape='));
+      const diaData = diaSegment?.split('=')[1];
+      console.log('diaSegment?.[1]: ', diaData);
+      setUrlDiaData(
+        diaData && diaData !== "undefined"
+          ? diaData
+          : getShapeFromStep0 || getShapeFromStep1
+      );
+      if (mSegment) {
+        const value = mSegment.split('=')[1];
+        setUrlData(value);
+      } else {
+        console.log("M= not found in the URL.");
+      }
+    } else {
+      console.log("Location pathname is not available.");
+    }
+  }, [location?.key])
 
   const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1)?.[2]?.url}`;
 
@@ -1187,24 +1216,43 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   //     Navigate(link);
   //   }
   // };
-
   const handleCheckStepsForSett = (link, val) => {
-    console.log('link: ', link, val);
-    console.log('checkStepsOf0: ', checkStepsOf0);
+    const regex = /M=([^/]+)/;
+    const match = link.match(regex);
+    let mValue;
+    if (match) {
+      mValue = match[1];
+    } else {
+      console.log('M value not found.');
+    }
+
     if (checkStepsOf0) {
       if (steps1 && steps1.length === 1 && steps1[0]?.step1) {
         const updatedSteps = [{ step1: true, Setting: val }];
         sessionStorage.setItem("customizeSteps2", JSON.stringify(updatedSteps));
         Navigate(link);
       } else {
-        if(steps && steps?.[1]?.Setting === ("Ring" || "Pendant")){
-          toast.error("Comparitable Setting is already displaying")
+        // Check if `urlData` is valid before calling `atob`
+        let currentSetting;
+        try {
+          currentSetting = atob(urlData)?.split('/')[0]; // Decode and extract first part
+        } catch (e) {
+          console.error('Error decoding base64 string:', e);
+          currentSetting = null; // Set currentSetting to null if decoding fails
+        }
+
+        const savedSetting = steps && steps?.[1]?.Setting;
+
+        if (currentSetting === val) {
+          toast.error("Compatible Setting is already displaying");
         } else {
-          Navigate(link)
+          const newPath = `/certified-loose-lab-grown-diamonds/settings/${val}/diamond_shape=${urlDiaData}/M=${mValue}`;
+          Navigate(newPath);
         }
       }
     }
   };
+
 
   const HandleDiamondNavigation = (shape) => {
     Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
