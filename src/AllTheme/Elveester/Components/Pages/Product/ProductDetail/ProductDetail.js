@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './ProductDetail.modul.scss'
 import { useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie'
@@ -29,6 +29,9 @@ import Stockitems from './InstockProduct/Stockitems';
 import { SaveLastViewDesign } from '../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign';
 import { Helmet } from 'react-helmet';
 import { FilterListAPI } from '../../../../../../utils/API/FilterAPI/FilterListAPI';
+import {useImageZoom } from '../../../../../../hooks/UseImageZoom'
+
+
 
 const ProductDetail = () => {
   const [maxWidth1400, setMaxWidth1400] = useState(false);
@@ -68,8 +71,8 @@ const ProductDetail = () => {
   const [saveLastView, setSaveLastView] = useState();
   const [imageSrc, setImageSrc] = useState();
   const [filterData, setFilterData] = useState([]);
-
   const [showPlaceholder, setShowPlaceholder] = useState(false);
+  const { imageRefs, handleMouseMove, handleMouseLeave } = useImageZoom(1.5);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -1219,6 +1222,8 @@ const ProductDetail = () => {
       return matchedOption?.Name || null;
     })[0];
 
+
+
   return (
     <>
       <Helmet>
@@ -1248,12 +1253,24 @@ const ProductDetail = () => {
                     <Skeleton className='elv_prod_det_default_1400' variant="rectangular" />
                   ) : (
                     <div className='elv_ProductDet_max1400'>
-                      <div className='elv_ProductDet_prod_img_max1400'>
+                      <div className='elv_ProductDet_prod_img_max1400'
+                        style={{
+                          position: "relative",
+                          overflow: "hidden",
+                          cursor: "zoom-in",
+                          width: "100%",
+                          transition:"0.3s ease-in"
+                        }}
+                        onMouseMove={(e) => handleMouseMove(e, 1)}
+                        onMouseLeave={() => handleMouseLeave(1)}
+                      >
                         {selectedThumbImg || imageSrc ? (
                           selectedThumbImg?.type == "img" ? (
                             <img
                               // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
                               src={imageSrc}
+                                ref={el => imageRefs.current[1] = el}
+                                            loading="lazy"
                               onError={handleError}
                               alt={""}
                               onLoad={() => setIsImageLoad(false)}
@@ -1419,16 +1436,28 @@ const ProductDetail = () => {
                         <Skeleton className='elv_prod_det_default' variant="rectangular" />
                       ) : (
                         <>
-                          <div className='elv_ProductDet_prod_img'>
+                          <div className='elv_ProductDet_prod_img'
+                           style={{
+                            position: "relative",
+                            overflow: "hidden",
+                            cursor: "zoom-in",
+                            width: "100%",
+                            transition:"0.3s ease-in"
+                          }}
+                          onMouseMove={(e) => handleMouseMove(e, 1)}
+                          onMouseLeave={() => handleMouseLeave(1)}
+                          >
                             {imageSrc || selectedThumbImg ? (
                               selectedThumbImg.type === "img" ? (
                                 <img
                                   src={imageSrc}
+                                  ref={el => imageRefs.current[1] = el}
+                                            loading="lazy"
                                   onError={handleError} // Pass the error handler
                                   alt=""
                                   onLoad={() => setIsImageLoad(false)}
                                   className={`elv_ProductDet_prod_image`}
-                                />
+                                                                 />
                               ) : (
                                 <video
                                   src={pdVideoArr.length > 0 ? selectedThumbImg.link : imageNotFound}
@@ -1474,12 +1503,24 @@ const ProductDetail = () => {
                     ) : (
                       <>
                         <div style={{ maxWidth: maxWidth1000 ? "100%" : "" }}>
-                          <div className='elv_ProductDet_prod_img_max1000'>
+                          <div className='elv_ProductDet_prod_img_max1000'
+                            style={{
+                              position: "relative",
+                              overflow: "hidden",
+                              cursor: "zoom-in",
+                              width: "100%",
+                              transition:"0.3s ease-in"
+                            }}
+                            onMouseMove={(e) => handleMouseMove(e, 1)}
+                            onMouseLeave={() => handleMouseLeave(1)}
+                          >
                             {selectedThumbImg || imageSrc ? (
                               selectedThumbImg?.type == "img" ? (
                                 <img
                                   // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
                                   src={imageSrc}
+                                    ref={el => imageRefs.current[1] = el}
+                                            loading="lazy"
                                   onError={handleError}
                                   alt={""}
                                   onLoad={() => setIsImageLoad(false)}

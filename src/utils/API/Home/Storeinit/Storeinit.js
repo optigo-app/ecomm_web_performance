@@ -43,7 +43,7 @@ export const Storeinit = async (param) => {
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'rpjewel.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'stamford.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'demostore' : window.location.hostname,
-    domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'forevery.web' : window.location.hostname,
+    // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'forevery.web' : window.location.hostname,
     version: 'Live',
     sp: "1",
     sv: 0
