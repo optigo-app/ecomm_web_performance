@@ -60,7 +60,7 @@ export default function AboutUs() {
   // const banner = `${storImagePath()}/images/static/about2.jpg`;
 
   return (
-    <Kamalika banner={banner} />
+    <ShreeDiamonds banner={banner} />
   );
 }
 
