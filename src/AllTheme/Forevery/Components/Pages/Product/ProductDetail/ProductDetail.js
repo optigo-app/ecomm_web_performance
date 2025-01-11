@@ -1414,22 +1414,25 @@ const ProductDetail = () => {
           return step;
         });
 
+        const shapeName = (singleProd1?.ShapeName ?? singleProd?.ShapeName)
+          ?.charAt(0).toUpperCase() + (singleProd1?.ShapeName ?? singleProd?.ShapeName)?.slice(1).toLowerCase();
+
         // If no existing step2, add new entry
         if (!updatedStep1.some(step => step.step2 !== undefined)) {
-          updatedStep1.push({ "step2": true, "shape": 'Oval' });
+          updatedStep1.push({ "step2": true, "shape": shapeName });
         }
         const step1Data = [{ "step1Data": singleProd1 ?? singleProd, 'selectedMetalId': selectedMetalId, 'selectedDiaId': selectedDiaId, 'selectedCsId': selectedCsId }]
         sessionStorage.setItem('custStepData2', JSON.stringify(step1Data));
         sessionStorage.setItem("customizeSteps2", JSON.stringify(updatedStep1));
 
 
-        navigate(`/certified-loose-lab-grown-diamonds/diamond/Oval`);
+        navigate(`/certified-loose-lab-grown-diamonds/diamond/${shapeName}`);
       }
 
     }
     else {
 
-      const totalPrice = (Number(stepsData?.[0]?.step1Data?.[0]?.price) + Number((singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp))).toFixed(2);
+      const totalPrice = (Number(stepsData?.[0]?.step1Data?.[0]?.price) + Number((singleProd1?.UnitCostWithMarkUpIncTax ?? singleProd?.UnitCostWithMarkUpIncTax))).toFixed(2);
 
       const obj = {
         a: stepsData?.[0]?.step1Data?.[0]?.stockno,
@@ -1480,6 +1483,7 @@ const ProductDetail = () => {
     }
 
   }
+
   const imageRefs = useRef([])
   const [origin, setorigin] = useState({ x: 0, y: 0 });
 
