@@ -137,7 +137,7 @@ const WishlistItems = (
                     </CardContent>
                     <div className='dt_Wl-CartbtnDiv'>
                         <button className='dt_Wl-Cartbtn' onClick={() => handleWishlistToCartFun(item)}>
-                            {(item?.IsInCart != 1 ? "Add to cart +" : "In cart")}
+                            {(item?.IsInCart != 1 ? "Add to cart +" : "Remove from cart")}
                         </button>
 
                     </div>

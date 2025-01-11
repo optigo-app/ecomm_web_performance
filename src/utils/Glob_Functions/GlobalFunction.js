@@ -2,7 +2,8 @@ export function storImagePath() {
   let statiPath = `${window?.location?.protocol}//${
     window.location.hostname === "localhost" ||
     window.location.hostname === "zen"
-      ? "elvee.web"
+      // ? "elvee.web"
+      ? process.env.REACT_APP_WEB
       : window.location.hostname
   }`;
   return `${statiPath}/WebSiteStaticImage`;
@@ -32,9 +33,10 @@ export function storInitDataPath() {
   let hostName =
     window.location.hostname === "localhost" ||
     window.location.hostname === "zen"
-      ? "elvee.web"
+      // ? "elvee.web"
+      ? process.env.REACT_APP_WEB
       : window.location.hostname;
-  if (hostName.startsWith("www.")) {
+  if (hostName?.startsWith("www.")) {
     hostName = hostName.substring(4);
   }
   let statiPath = `${window?.location?.protocol}//${hostName}`;
