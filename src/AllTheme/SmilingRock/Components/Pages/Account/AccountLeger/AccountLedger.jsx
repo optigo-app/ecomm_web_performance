@@ -815,7 +815,9 @@ const AccountLedger = () => {
                     </div>
                 </div>
                 {
-                    loaderAC ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", paddingBottom: "30px" }}><CircularProgress className='loadingBarManage' /></Box> : <div  style={{margin:'8px', overflow:'auto'}}>
+                    loaderAC ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", paddingBottom: "30px" }}>
+                        <CircularProgress className='loadingBarManage' /></Box> : 
+                        <div  style={{margin:'8px', overflow:'auto'}}>
                         <div>
                                 <AccountLedgerExcel 
                                     

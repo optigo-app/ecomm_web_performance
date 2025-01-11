@@ -29,8 +29,8 @@ export const Storeinit = async (param) => {
 
   const header = {
     Authorization: 'Bearer optigo_json_api',
-    domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'forevery.web' : window.location.hostname,
-    // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'elvee.web' : window.location.hostname,
+    // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'forevery.web' : window.location.hostname,
+    domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? process.env.REACT_APP_WEB : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.pro' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.plw' : window.location.hostname,
