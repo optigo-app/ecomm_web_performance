@@ -27,7 +27,7 @@ function Home() {
         <>
           <TopSection banner={banner?.mainBanner} />
           <PromoComponent1 banner={banner?.middleBanner} />
-          <Exhibition banner={banner?.middleBanner} />
+          {/* <Exhibition banner={banner?.middleBanner} /> */}
           <BrandsComponent banner={banner?.brandlogo} />
           <PromoComponent2 banner={banner?.collectionBanner} />
           <Collection banner={banner?.categoryBanner} />
