@@ -38,7 +38,7 @@ const usePaymentLogic = () => {
     const islogin = JSON?.parse(sessionStorage?.getItem('LoginUser'));
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-    const [selectedPayment, setSelectedPayment] = useState(10);
+    const [selectedPayment, setSelectedPayment] = useState(null);
     const [paymentMethods, setPaymentMethods] = useState([]);
     let currCode = loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode
 
@@ -97,11 +97,11 @@ const usePaymentLogic = () => {
             case 8: return 4;  // Stripe
             case 1: return 5;  // PayPal
             case 2: return 6;  // EBS
-            case 3: return 10;  // Payeezy
+            case 3: return 10; // Payeezy
             case 5: return 8;  // Eazypay
             case 6: return 9;  // PayUMoney
-            case 7: return 7; // Offline
-            default: return 11; // Default for any other payment methods
+            case 7: return 7;  // Offline
+            default: return null; // Default for any other payment methods
         }
     };
 
@@ -217,8 +217,8 @@ const usePaymentLogic = () => {
             const verificationResponse = await handleVerifySignature(razorpayData);
             const vstatus = verificationResponse?.Data?.signature[0]?.state;
             if (vstatus === 1) {
-                  let mode = 'pay with Razorpay'
-                const paymentResponse = await handlePaymentAPI(visiterId, islogin,mode);
+                let mode = 'pay with Razorpay'
+                const paymentResponse = await handlePaymentAPI(visiterId, islogin, mode);
                 if (paymentResponse?.Data?.rd?.[0]?.stat === 1) {
                     const orderNumber = paymentResponse.Data?.rd[0]?.orderno;
                     sessionStorage.setItem('orderNumber', orderNumber);
@@ -240,8 +240,8 @@ const usePaymentLogic = () => {
     const handleOfflinePayment = async (visiterId, islogin) => {
         try {
             setSelectedMode(2)
-              let mode = 'Cash on Delivery'
-            const paymentResponse = await handlePaymentAPI(visiterId, islogin,mode);
+            let mode = 'Cash on Delivery'
+            const paymentResponse = await handlePaymentAPI(visiterId, islogin, mode);
             if (paymentResponse?.Data?.rd?.[0]?.stat === 1) {
                 const orderNumber = paymentResponse.Data?.rd[0]?.orderno;
                 sessionStorage.setItem('orderNumber', orderNumber);
@@ -259,55 +259,62 @@ const usePaymentLogic = () => {
 
     // for payment
     const handlePay = async () => {
-        const razorPayData = {
-            description: orderRemakdata,
-            price: Math.round(parseFloat(taxAmmountData?.TotalAmountWithTax) * 100),
-            addressData: selectedAddrData,
-        };
-        const visiterId = Cookies.get('visiterId');
-        setIsloding(true);
-        setSelectedMode(1);
+        if (selectedPayment != null) {
+            const razorPayData = {
+                description: orderRemakdata,
+                price: Math.round(parseFloat(taxAmmountData?.TotalAmountWithTax) * 100),
+                addressData: selectedAddrData,
+            };
+            const visiterId = Cookies.get('visiterId');
+            setIsloding(true);
+            setSelectedMode(1);
 
-        const paymentMethods = {
-            10: () => handleRazorpayPayment(razorPayData, visiterId, taxAmmountData),
-            9: () => {
-                alert('Coming Soon PhonePe...');
-                setIsloding(false);
-            },
-            8: () => {
-                alert('Coming Soon Stripe...');
-                setIsloding(false);
-            },
-            7: () => {
-                alert('Coming Soon Payeezy...');
-                setIsloding(false);
-            },
-            6: () => {
-                alert('Coming Soon PayUMoney...');
-                setIsloding(false);
-            },
-            5: () => {
-                alert('Coming Soon Eazypay...');
-                setIsloding(false);
-            },
-            4: () => {
-                alert('Coming Soon Paytm...');
-                setIsloding(false);
-            },
-            3: () => handleOfflinePayment(visiterId, islogin),
-            2: () => {
-                alert('Coming Soon EBS...');
-                setIsloding(false);
-            },
-            1: () => {
-                alert('Coming Soon PayPal...');
-                setIsloding(false);
-            },
-        };
+            const paymentMethods = {
+                10: () => handleRazorpayPayment(razorPayData, visiterId, taxAmmountData),
+                9: () => {
+                    alert('Coming Soon PhonePe...');
+                    setIsloding(false);
+                },
+                8: () => {
+                    alert('Coming Soon Stripe...');
+                    setIsloding(false);
+                },
+                7: () => {
+                    alert('Coming Soon Payeezy...');
+                    setIsloding(false);
+                },
+                6: () => {
+                    alert('Coming Soon PayUMoney...');
+                    setIsloding(false);
+                },
+                5: () => {
+                    alert('Coming Soon Eazypay...');
+                    setIsloding(false);
+                },
+                4: () => {
+                    alert('Coming Soon Paytm...');
+                    setIsloding(false);
+                },
+                3: () => handleOfflinePayment(visiterId, islogin),
+                2: () => {
+                    alert('Coming Soon EBS...');
+                    setIsloding(false);
+                },
+                1: () => {
+                    alert('Coming Soon PayPal...');
+                    setIsloding(false);
+                },
+            };
 
+            const executePayment = paymentMethods[selectedPayment] || (() => alert('Coming Soon'));
+            await executePayment();
+        } else {
+            alert('Please select a payment method.');
+        }
+    };
 
-        const executePayment = paymentMethods[selectedPayment] || (() => alert('Coming Soon'));
-        await executePayment();
+    const handleChangeAddr = () => {
+        navigate('/Delivery');
     };
 
     return {
@@ -316,6 +323,7 @@ const usePaymentLogic = () => {
         handleRemarkChangeInternal,
         handleOpen,
         handleClose,
+        handleChangeAddr,
         open,
         selectedPayment,
         selectedAddrData,

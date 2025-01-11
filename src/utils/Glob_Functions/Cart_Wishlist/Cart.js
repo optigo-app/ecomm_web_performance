@@ -194,7 +194,7 @@ const useCart = () => {
   // remove
   const handleRemoveItem = async (item) => {
     let param = "Cart";
-    let cartfilter = cartData?.filter(cartItem => cartItem.id !== item.id);
+    let cartfilter = cartData?.filter(cartItem => cartItem?.id !== item?.id);
     setCartData(cartfilter);
 
     setTimeout(() => {

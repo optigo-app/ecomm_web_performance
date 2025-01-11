@@ -2,10 +2,30 @@ import React, { useEffect, useState } from 'react'
 import "./confirmation.scss"
 import ThankYouImage from "../../../Assets/thankyou.jpg"
 import { useNavigate } from 'react-router-dom';
+import { smrMA_CartCount } from '../../../Recoil/atom';
+import { useSetRecoilState } from 'recoil';
+import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
 
 const Confirmation = () => {
     const navigate = useNavigate();
     const [orderNo, setOrderNo] = useState();
+    const setCartCountVal = useSetRecoilState(smrMA_CartCount); 
+    
+    // for cart count
+    useEffect(() => {
+        const fetchCartCount = async () => {
+            try {
+                const cartCount = await GetCountAPI();
+                setCartCountVal(cartCount?.cartcount);
+            } catch (error) {
+                console.error("Error fetching cart count:", error);
+            }
+        };
+    
+        fetchCartCount();
+    }, []);
+
+
     useEffect(() => {
         let orderNo = sessionStorage.getItem('orderNumber')
         setOrderNo(orderNo)

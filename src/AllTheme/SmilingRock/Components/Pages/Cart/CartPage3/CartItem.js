@@ -238,7 +238,7 @@ const CartItem = ({
             }
           </>
           <div className="smr3_cart-item__remove">
-            <button className="smr3_remove-button" onClick={() => handleRemoveItem(diamondData, index)}>×</button>
+            <button className="smr3_remove-button" onClick={() => handleRemoveItem(item)}>×</button>
           </div>
         </div>
       </div>
