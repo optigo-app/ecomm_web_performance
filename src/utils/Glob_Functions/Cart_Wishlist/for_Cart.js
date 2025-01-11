@@ -230,7 +230,7 @@ const useCart = () => {
     const handleRemoveItem = async (item, isdiamond) => {
         let param = "Cart";
         const keyToCheck = "stockno"
-        let cartfilter = cartData?.filter(cartItem => cartItem.id !== item.id);
+        let cartfilter = cartData?.filter(cartItem => cartItem?.id !== item?.id);
         setCartData(cartfilter);
         let diaFilter = diamondCartData?.filter(dia => dia?.stockno !== item?.Sol_StockNo);
         setDiamondCartData(diaFilter);

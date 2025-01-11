@@ -33,6 +33,7 @@ export default function PaymentComponent({ bgcolor }) {
         handleRemarkChangeInternal,
         handleOpen,
         handleClose,
+        handleChangeAddr,
         open,
         selectedPayment,
         selectedAddrData,
@@ -224,12 +225,31 @@ export default function PaymentComponent({ bgcolor }) {
 
                                 <Card>
                                     <CardContent>
-                                        <Typography variant="h6" gutterBottom>
-                                            Shipping Address
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                                            Where should we deliver?
-                                        </Typography>
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                                            <Box>
+                                                <Typography variant="h6" gutterBottom>
+                                                    Shipping Address
+                                                </Typography>
+                                                <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                                                    Where should we deliver?
+                                                </Typography>
+                                            </Box>
+                                            <Button
+                                                variant="contained"
+                                                size="small"
+                                                onClick={handleChangeAddr}
+                                                sx={{
+                                                    bgcolor: bgcolor ? bgcolor : '',
+                                                    fontSize: {
+                                                        sm: '10px !important',
+                                                        md: '14px !important',
+                                                        xs: '10px !important'
+                                                    },
+                                                }}
+                                            >
+                                                Change Address
+                                            </Button>
+                                        </Box>
                                         {!isPloding ? (
                                             <Paper
                                                 elevation={0}
