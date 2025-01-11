@@ -34,7 +34,7 @@ export function storInitDataPath() {
     window.location.hostname === "zen"
       ? "fgstorepro.mapp"
       : window.location.hostname;
-  if (hostName.startsWith("www.")) {
+  if (hostName?.startsWith("www.")) {
     hostName = hostName.substring(4);
   }
   let statiPath = `${window?.location?.protocol}//${hostName}`;

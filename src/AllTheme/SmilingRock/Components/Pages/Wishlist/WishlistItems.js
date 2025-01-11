@@ -200,7 +200,7 @@ const WishlistItems = ({
                   className="smr_Wl-Cartbtn"
                   onClick={() => handleWishlistToCartFun(item)}
                 >
-                  {item?.IsInCart != 1 ? "Add to cart +" : "in cart"}
+                  {item?.IsInCart != 1 ? "Add to cart +" : "Remove from cart"}
                 </button>
               </div>
             </div>
@@ -235,7 +235,7 @@ const WishlistItems = ({
                   className="smr_Wl-Cartbtn"
                   onClick={() => handleWishlistToCartFun(item)}
                 >
-                  {item?.IsInCart != 1 ? "Add to cart +" : "in cart"}
+                  {item?.IsInCart != 1 ? "Add to cart +" : "Remove from cart"}
                 </button>
               </div>
             </div>

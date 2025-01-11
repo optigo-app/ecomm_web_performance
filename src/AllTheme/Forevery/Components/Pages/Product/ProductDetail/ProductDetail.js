@@ -30,9 +30,9 @@ import Faq from '../../ReusableComponent/Faq/Faq';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { responsiveConfig } from '../../../Config/ProductSliderConfig';
 import { StepImages } from '../../../data/NavbarMenu';
-import useZoom from '../../../hooks/UseZoom';
 import OurServices from '../../Home/Common/OurServices/OurServices';
 import Stockitems from '../InstockProduct/Stockitems';
+import {useImageZoom } from '../../../../../../hooks/UseImageZoom'
 
 
 const ProductDetail = () => {
@@ -57,7 +57,6 @@ const ProductDetail = () => {
   const getCartWishImgColor = JSON.parse(sessionStorage.getItem('cartWishImgColor'));
   const [colorImgFromURL, setColorImgFromURL] = useState();
   const [colorImgFromCartWish, setColorImgFromCartWish] = useState();
-
   const [currentSlide, setCurrentSlide] = useState(0);
   const [CustPath, setCustpath] = useState(false);
   const [loginData, setLoginData] = useState({});
@@ -108,10 +107,6 @@ const ProductDetail = () => {
   const [Swap, setswap] = useState("diamond");
   const breadCrumb = location?.pathname?.split("/")[2];
 
-  const containerRef = useRef(null);
-  const imgRef = useRef(null);
-
-  useZoom(containerRef, imgRef);
 
   const StyleCondition = {
     fontSize: breadCrumb === "settings" && "14px",
@@ -1483,55 +1478,57 @@ const ProductDetail = () => {
     }
 
   }
+  // const imageRefs = useRef([])
+  // const [origin, setorigin] = useState({ x: 0, y: 0 });
 
-  const imageRefs = useRef([])
-  const [origin, setorigin] = useState({ x: 0, y: 0 });
+  // const handleMouseMove = (e, index) => {
+  //   const imageRef = imageRefs?.current[index];
+  //   if (!imageRef) return;
 
-  const handleMouseMove = (e, index) => {
-    const imageRef = imageRefs?.current[index];
-    if (!imageRef) return;
+  //   const imageContainer = imageRef?.parentElement;
+  //   if (!imageContainer) return;
 
-    const imageContainer = imageRef?.parentElement;
-    if (!imageContainer) return;
+  //   const rect = imageContainer.getBoundingClientRect();
+  //   const x = (e.clientX - rect.left) / rect.width;
+  //   const y = (e.clientY - rect.top) / rect.height;
 
-    const rect = imageContainer.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
+  //   const zoomLevel = 1.5;
 
-    const zoomLevel = 1.5;
+  //   const transformOriginX = x * 100;
+  //   const transformOriginY = y * 100;
+  //   console.log(transformOriginX ,
+  //     transformOriginY , "xy")
 
-    const transformOriginX = x * 100;
-    const transformOriginY = y * 100;
-    console.log(transformOriginX ,
-      transformOriginY , "xy")
+  //   setorigin({ x: transformOriginX, y: transformOriginY })
+  //   imageRef.style.transformOrigin = `${transformOriginX}% ${transformOriginY}%`;
+  //   imageRef.style.transform = `scale(${zoomLevel})`;
+  // };
 
-    setorigin({ x: transformOriginX, y: transformOriginY })
-    imageRef.style.transformOrigin = `${transformOriginX}% ${transformOriginY}%`;
-    imageRef.style.transform = `scale(${zoomLevel})`;
-  };
+  // const handleMouseLeave = (index) => {
+  //   const imageReff = imageRefs?.current[index]
+  //   if (!imageReff) return
 
-  const handleMouseLeave = (index) => {
-    const imageReff = imageRefs?.current[index]
-    if (!imageReff) return
+  //   imageReff.style.transform = 'scale(1)';
+  //   imageReff.style.transformOrigin = 'center center'; // reset the origin to center
+  //   setorigin({ x: 0, y: 0 })
 
-    imageReff.style.transform = 'scale(1)';
-    imageReff.style.transformOrigin = 'center center'; // reset the origin to center
-    setorigin({ x: 0, y: 0 })
+  // }
 
-  }
+  // useEffect(() => {
+  //   // Cleanup logic when component unmounts or ref changes
+  //   return () => {
+  //     // Reset all image transformations
+  //     imageRefs.current.forEach((ref) => {
+  //       if (ref) {
+  //         ref.style.transform = 'scale(1)';
+  //         ref.style.transformOrigin = 'center center';
+  //       }
+  //     });
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    // Cleanup logic when component unmounts or ref changes
-    return () => {
-      // Reset all image transformations
-      imageRefs.current.forEach((ref) => {
-        if (ref) {
-          ref.style.transform = 'scale(1)';
-          ref.style.transformOrigin = 'center center';
-        }
-      });
-    };
-  }, []);
+  const { imageRefs, handleMouseMove, handleMouseLeave } = useImageZoom(1.5);
+
 
   return (
     <div className="for_ProductDet_mainDiv">
@@ -1621,7 +1618,6 @@ const ProductDetail = () => {
                                           position: "relative",
                                           overflow: "hidden",
                                           cursor: "zoom-in",
-                                          width: "100%",
                                           transition:"0.3s ease-in"
                                         }}
                                         onMouseMove={(e) => handleMouseMove(e, i)}
