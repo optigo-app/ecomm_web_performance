@@ -47,6 +47,7 @@ import UseNavbar from "../../../hooks/UseNavbar";
 import MobileNav from "./MobileNavbar";
 import { RiMenu2Line } from "react-icons/ri";
 import useHomeBannerImages from "../../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner";
+import { toast } from "react-toastify";
 
 const styleHref = {
   textDecoration: "none",
@@ -1166,12 +1167,42 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
     (steps?.[2] !== undefined && steps?.[2] !== null) ||
     (steps1?.[2] !== undefined && steps1?.[2] !== null);
 
+  const checkStepsOf0 =
+    (steps?.[0] !== undefined && steps?.[0] !== null) ||
+    (steps1?.[0] !== undefined && steps1?.[0] !== null);
+
   const handleCheckSteps = (value) => {
     if (checkSteps) {
       setShowModal(true);
       setShape(value);
     } else {
       console.log("Alternative action");
+    }
+  };
+
+  // const handleCheckStepsForSett = (link) => {
+  //   if (checkStepsOf0) {
+  //     sessionStorage.removeItem("custStepData");
+  //     sessionStorage.removeItem("custStepData2");
+  //     Navigate(link);
+  //   }
+  // };
+
+  const handleCheckStepsForSett = (link, val) => {
+    console.log('link: ', link, val);
+    console.log('checkStepsOf0: ', checkStepsOf0);
+    if (checkStepsOf0) {
+      if (steps1 && steps1.length === 1 && steps1[0]?.step1) {
+        const updatedSteps = [{ step1: true, Setting: val }];
+        sessionStorage.setItem("customizeSteps2", JSON.stringify(updatedSteps));
+        Navigate(link);
+      } else {
+        if(steps && steps?.[1]?.Setting === ("Ring" || "Pendant")){
+          toast.error("Comparitable Setting is already displaying")
+        } else {
+          Navigate(link)
+        }
+      }
     }
   };
 
@@ -1232,16 +1263,58 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
       <div className="for_second_col">
         <h3>Build Your Jewelry</h3>
         <div className="for_ring_section">
-          {SideItems?.map((val, i) => (
-            <span
-              className="ring-type"
-              key={i}
-              onClick={() => Navigate(val?.link)}
-            >
-              <img src={val?.img} alt="" width={18} height={18} />
-              {val?.name}
-            </span>
-          ))}
+          {SideItems?.map((val, i) => {
+            const RingVal = val?.name === "Diamond Rings" && "Ring";
+            const PendantVal = val?.name === "Diamond Pendant" && "Pendant";
+            return (
+              <>
+                {checkSteps ? (
+                  <span
+                    className="ring-type"
+                    key={i}
+                    onClick={() => {
+                      console.log(`Clicked on 12: ${val?.name}`);
+                      if (val?.name === "Diamond Earrings") return;
+                      handleCheckSteps(val?.name);
+                    }}
+                  >
+                    <img src={val?.img} alt="" width={18} height={18} />
+                    {val?.name}
+                  </span>
+                ) :
+                  <>
+                    {checkStepsOf0 ? (
+                      <span
+                        className="ring-type"
+                        key={i}
+                        onClick={() => {
+                          console.log(`Clicked on 1234: ${val?.name}`);
+                          if (val?.name === "Diamond Earrings") return;
+                          handleCheckStepsForSett(val?.link, val?.name === "Diamond Rings" ? RingVal : PendantVal);
+                        }}
+                      >
+                        <img src={val?.img} alt="" width={18} height={18} />
+                        {val?.name}
+                      </span>
+                    ) :
+                      <span
+                        className="ring-type"
+                        key={i}
+                        onClick={() => {
+                          console.log(`Navigating to 12345: ${val?.link}`);
+                          if (val?.name === "Diamond Earrings") return;
+                          Navigate(val?.link);
+                        }}
+                      >
+                        <img src={val?.img} alt="" width={18} height={18} />
+                        {val?.name}
+                      </span>
+                    }
+                  </>
+                }
+              </>
+            )
+          })}
         </div>
       </div>
       <div className="for_third_col">
@@ -1418,10 +1491,10 @@ const ThirdNavMenu = ({ data }) => {
             >
               <img
                 // src={BespokeBannerImage}
-                src={banner?.navbarMenu?.image?.[1]} 
+                src={banner?.navbarMenu?.image?.[1]}
                 alt=""
                 onClick={() => {
-                  
+
                   Navigate(`/bespoke-jewelry`);
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
