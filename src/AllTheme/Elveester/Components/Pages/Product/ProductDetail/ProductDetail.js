@@ -72,7 +72,7 @@ const ProductDetail = () => {
   const [imageSrc, setImageSrc] = useState();
   const [filterData, setFilterData] = useState([]);
   const [showPlaceholder, setShowPlaceholder] = useState(false);
-  const { imageRefs, handleMouseMove, handleMouseLeave } = useImageZoom(1.5);
+  const { imageRefs, handleMouseMove, handleMouseLeave } = useImageZoom(2.2);
 
   useEffect(() => {
     const timer = setTimeout(() => {
