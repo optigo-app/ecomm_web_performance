@@ -81,18 +81,7 @@ const RoopJewellers_App = React.lazy(() =>
 const MalakanJewels_App = React.lazy(() =>
   import("./AllTheme/MalakanJwewls/MalakanJewels_App")
 );
-const Procatalog_MobileApp_App = React.lazy(() =>
-  import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
-);
-const StamFordJewels_App = React.lazy(() =>
-  import("./AllTheme/StamFordJewels/StamFordJewels_App")
-);
-const RoopJewellers_App = React.lazy(() =>
-  import("./AllTheme/RoopJewellers/RoopJewellers_App")
-);
-const MalakanJewels_App = React.lazy(() =>
-  import("./AllTheme/MalakanJwewls/MalakanJewels_App")
-);
+
 
 export default function ThemeRoutes() {
   const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo);
