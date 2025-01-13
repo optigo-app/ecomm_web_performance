@@ -8,8 +8,8 @@ const CartMain = () => {
 
     useEffect(() => {
         const storeInit = JSON?.parse(sessionStorage.getItem('storeInit'));
-        // const cartNo = storeInit?.CartNo ?? 1;
-        const cartNo = 3;
+        const cartNo = storeInit?.CartNo ?? 3;
+        // const cartNo = 3;
 
         switch (cartNo) {
             case 1:
@@ -22,7 +22,7 @@ const CartMain = () => {
                 setCartComponent(<CartPage3 />);
                 break;
             default:
-                setCartComponent(<B2bCart />);
+                setCartComponent(<CartPage3 />);
                 break;
         }
     }, []);

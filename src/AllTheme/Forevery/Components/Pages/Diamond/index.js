@@ -192,7 +192,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
 
       let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-      let navigateUrl = `/d/${data?.stockno}/det/?p=${encodeObj}`;
+      let navigateUrl = `/d/${data?.stockno}/det345/?p=${encodeObj}`;
       handleOpen(null)
       Navigation(navigateUrl);
     }
@@ -272,6 +272,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         src={forTabletResp ? StepImages[0]?.downIcon : StepImages[0]?.eyeIcon}
         alt=""
         style={{ cursor: 'pointer' }}
+        onError={(e) => e.target.src = noImageFound}
       />
       <div
         className="for_navigate_eye_div"
@@ -329,9 +330,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
   const getCustStepData = JSON?.parse(sessionStorage?.getItem('customizeSteps'));
   const getCustStepData2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
   const getdiaData = JSON.parse(sessionStorage.getItem('custStepData'));
-  console.log('getdiaData: ', getdiaData?.[0]?.step1Data?.length !== 0);
   const getdiaData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
-  console.log('getdiaData2: ', getdiaData2);
   const setting = getStepName.includes('Ring') || getStepName.includes('Pendant');
   const [setshape, setSetShape] = useState();
 
@@ -422,8 +421,13 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
             if (getCompleteStep2?.[1]?.step2 === true) {
               Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
             } else {
-              Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
-              setswap("diamond");
+              if (getCompleteStep2?.[0]?.step1 === true && (getdiaData2 === null || getdiaData2 === undefined)) {
+                sessionStorage.removeItem('customizeSteps2');
+                Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+              } else {
+                Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
+                setswap("diamond");
+              }
             }
           }}>
             <img className="for_shapes_img" src={StepImages[0]?.img} alt="" /> Diamond
@@ -501,7 +505,12 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
                   Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
                   setswap("settings");
                 } else {
-                  Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
+                  if (getCompleteStep1?.[0]?.step1 === true && (getdiaData === null || getdiaData === undefined)) {
+                    sessionStorage.removeItem('customizeSteps');
+                    Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
+                  } else {
+                    Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
+                  }
                 }
               }}
             >

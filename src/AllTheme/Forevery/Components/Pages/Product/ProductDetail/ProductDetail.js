@@ -2875,6 +2875,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
               src={data?.stockno ? data?.image_file_url : imageMap?.colorImage}
               alt=""
               style={{ cursor: 'default' }}
+              onError={(e) => e.target.src = imageNotFound}
             />
           </div>
           <div className="for_dia_price">

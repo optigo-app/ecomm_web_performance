@@ -110,9 +110,6 @@ const CartItem = ({
     }
   }, [item]);
 
-  const diamondData = diamondValue?.find((dia) => dia?.stockno == item?.Sol_StockNo);
-
-
   return (
     <>
       <div className="dt3_cartMain-item" onClick={() => onSelect(item)}
@@ -241,7 +238,7 @@ const CartItem = ({
             }
           </>
           <div className="dt3_cart-item__remove">
-            <button className="dt3_remove-button" onClick={() => handleRemoveItem(diamondData, index)}>×</button>
+            <button className="dt3_remove-button" onClick={() => handleRemoveItem(item)}>×</button>
           </div>
         </div>
       </div>
