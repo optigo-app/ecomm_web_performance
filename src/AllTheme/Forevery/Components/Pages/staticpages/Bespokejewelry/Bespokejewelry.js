@@ -6,21 +6,26 @@ import GetInTouch from "../../Home/Common/GetInTouch/GetInTouch";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { foreveryProcess } from "../../../data/dummydata";
 import InquiryModal from "./InquiryForm/InquiryModal";
+import { BespokeAPI } from "../../../../../../utils/API/Bespoke/BespokeAPI";
+import { toast } from "react-toastify";
 
 const Bespokejewelry = () => {
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState({});
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    website: "",
-    additionalInfo: "",
-    file: null,
+    FullName: "",
+    EmailId: "",
+    mobileno: "",
+    WebSite: "",
+    Be_In_Message: "",
   });
 
-  useEffect(()=>{
-    document.body.style.overflow = open ? "hidden"  :"auto";
-  },[open])
+  const [file, setFile] = useState();
+  const [loading, setLoading] = useState();
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "auto";
+  }, [open])
 
   const onOpen = () => {
     setOpen(true);
@@ -33,19 +38,78 @@ const Bespokejewelry = () => {
     }));
   };
 
-  const handleFileChange = (event) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      file: event.target.files[0],
-    }));
+  const validate = (file) => {
+    const newErrors = {};
+
+    if (!formData.FullName) newErrors.FullName = 'Full Name is required';
+    if (!formData.EmailId) newErrors.EmailId = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(formData.EmailId)) newErrors.EmailId = 'Invalid email address';
+    if (!formData.mobileno) newErrors.mobileno = 'Phone is required';
+    else if (!/^\d{10}$/.test(formData.mobileno)) newErrors.mobileno = 'Phone must be exactly 10 digits';
+    // if (!formData.website) newErrors.website = 'Website URL is required';
+    if (!formData.Be_In_Message) newErrors.Be_In_Message = 'Additional information is required';
+
+    if (file) {
+      if (file.size > 10000000) {
+        newErrors.file = 'File size exceeds 10MB';
+      }
+      const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+      if (!allowedTypes.includes(file.type)) {
+        newErrors.file = 'Only JPG, PNG, and PDF files are allowed';
+      }
+    }
+
+    return newErrors;
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("Form submitted", formData);
-    setOpen(false);
-    resetForm();
+
+  // const handleFileChange = (event) => {
+  //   setFile(event.target.files[0])
+  //   // setFormData((prevData) => ({
+  //   //   ...prevData,
+  //   //   file: event.target.files[0],
+  //   // }));
+  // };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+
+    if (file) {
+      if (file.size > 10000000) {
+        setError((prev) => ({ ...prev, file: 'File size exceeds 10MB' }));
+      } else if (!allowedTypes.includes(file.type)) {
+        setError((prev) => ({ ...prev, file: 'Only JPG, PNG, and PDF files are allowed' }));
+      } else {
+        setFile(file);
+        setError((prev) => ({ ...prev, file: '' }));
+      }
+    }
   };
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true)
+    const formErrors = validate();
+    if (Object.keys(formErrors).length === 0) {
+      await BespokeAPI(formData, file).then((res) => {
+        if (res?.stat_msg === 'success') {
+          toast.success("Bespoke form submitted Successfully");
+          setLoading(false);
+        } else {
+          toast.error("Something went wrong");
+        }
+      })
+      setOpen(false);
+      resetForm();
+    }
+    else {
+      setError(formErrors);
+    }
+  };
+
+
   const resetForm = () => {
     setFormData({
       fullName: "",
@@ -58,21 +122,25 @@ const Bespokejewelry = () => {
   };
   return (
     <div className="for_Bespokejewelry">
-      {open && (
-        <InquiryModal
-          open={open}
-          setOpen={setOpen}
-          formData={formData}
-          handleChange={handleChange}
-          handleFileChange={handleFileChange}
-          handleSubmit={handleSubmit}
-        />
-      )}
-      <Banner onOpen={onOpen} />
-      <ColumnGrid onOpen={onOpen}/>
-      <OurServices />
-      <GetInTouch />
-      <NewsletterSignup />
+      <>
+        {open && (
+          <InquiryModal
+            open={open}
+            setOpen={setOpen}
+            formData={formData}
+            handleChange={handleChange}
+            handleFileChange={handleFileChange}
+            handleSubmit={handleSubmit}
+            error={error}
+            loading={loading}
+          />
+        )}
+        <Banner onOpen={onOpen} />
+        <ColumnGrid onOpen={onOpen} />
+        <OurServices />
+        <GetInTouch />
+        <NewsletterSignup />
+      </>
     </div>
   );
 };
@@ -101,7 +169,7 @@ const Banner = ({ onOpen }) => {
     </section>
   );
 };
-const ColumnGrid = ({onOpen}) => {
+const ColumnGrid = ({ onOpen }) => {
   return (
     <>
       <div className="ColumnGrid">

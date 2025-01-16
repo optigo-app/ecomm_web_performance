@@ -93,7 +93,6 @@ export default function Account() {
             setValue(0)
         }
     },[location.key])
-    console.log('location?.state?.id: ', location?.state?.id);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
