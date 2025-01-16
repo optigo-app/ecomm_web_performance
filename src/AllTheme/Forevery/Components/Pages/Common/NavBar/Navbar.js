@@ -451,13 +451,13 @@ const NavbarRight = ({
                   <div
                     className="item_a"
                     onClick={() => {
-                      Navigate("/account");
+                      Navigate("/account", { state: { id: 1 } });
                       window.scrollTo({ behavior: "smooth", top: 0 });
                     }}
                   >
                     <li>my orders</li>
                   </div>
-                  <div
+                  {/* <div
                     className="item_a"
                     onClick={() => {
                       Navigate("/account");
@@ -465,7 +465,7 @@ const NavbarRight = ({
                     }}
                   >
                     <li>my details</li>
-                  </div>
+                  </div> */}
                   <hr />
                   <div className="item_a" onClick={() => handleLogout()}>
                     <li>log out</li>

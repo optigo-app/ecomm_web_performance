@@ -1,48 +1,78 @@
 import React, { useState } from "react";
 import "./NewsletterSignup.scss";
-import btnStyle  from "../../../scss/Button.module.scss"
+import btnStyle from "../../../scss/Button.module.scss";
 
 const NewsletterSignup = () => {
     const [email, setEmail] = useState("");
+    const [result, setResult] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const handleInputChange = (e) => {
         setEmail(e.target.value);
     };
 
     const handleSubmit = () => {
+        setLoading(true)
         if (email) {
-            alert(`Email: ${email}`);
+            fetch(
+                `http://www.orail.co.in/demo/icontact/standard/Ajax/SendMailToSubscriber.aspx?officeid=1&groupid=1468&emailid=${email}`
+            )
+                .then((response) => response.text())
+                .then((result) => { setResult(result); setLoading(false) })
+                .catch((error) => { setResult(error) })
+                .finally(() => setLoading(false));
         } else {
             alert("Please enter your email.");
+            setLoading(false)
         }
     };
+
+    const alreadySubs = 'Already Subscribed.';
 
     return (
         <div className="newsletter-signup">
             <div className="icon">
-                <img src="https://forevery.one/images_new/foreveryimg/subscribe.png" alt="email-icon" />
+                <img
+                    src="https://forevery.one/images_new/foreveryimg/subscribe.png"
+                    alt="email-icon"
+                />
             </div>
             <h2>Deals are delivered to your Inbox.</h2>
-            <p className="sub-text">Be the first one to get the details of the 'Forevery' Brand New Collection.</p>
+            <p className="sub-text">
+                Be the first one to get the details of the 'Forevery' Brand New
+                Collection.
+            </p>
             <div className="email-input">
-                <input
-                    type="email"
-                    placeholder="Type Your Email"
-                    value={email}
-                    onChange={handleInputChange}
-                    required
-                />
-                <button onClick={handleSubmit} className={`${btnStyle?.btn_for_new} ${btnStyle?.btn_15}`}>I'm Ready for Jewelry Updates</button>
+                <div className="email-input-with-error">
+                    <input
+                        type="email"
+                        placeholder="Type Your Email"
+                        value={email}
+                        onChange={handleInputChange}
+                        required
+                    />{
+                        loading ? <span className="for-error-message-news">Loading...</span> : (
+                            <>
+                                {result && <span className="for-error-message-news" style={{ color: result === alreadySubs ? '#FF0000' : '#04AF70 ' }}>{result}</span>}
+                            </>
+                        )}
+                </div>
+                <button
+                    onClick={handleSubmit}
+                    className={`${btnStyle?.btn_for_new} ${btnStyle?.btn_15}`}
+                >
+                    I'm Ready for Jewelry Updates
+                </button>
             </div>
             <p className="disclaimer">
                 By signing up with Forevery, you are agreeing to the terms outlined in
                 our privacy policy. Any information provided will be collected and used
                 for the purpose of sending news, promotions, and updates through email
                 communication. You can withdraw your consent at any time by
-                unsubscribing or reaching out to the customer service team at&nbsp;<a href="mailto:service@forevery.com">service@forevery.com.</a>
+                unsubscribing or reaching out to the customer service team at&nbsp;
+                <a href="mailto:service@forevery.com">service@forevery.com.</a>
             </p>
-            <span className="newslatterEmail">
-            </span>
+            <span className="newslatterEmail"></span>
         </div>
     );
 };
