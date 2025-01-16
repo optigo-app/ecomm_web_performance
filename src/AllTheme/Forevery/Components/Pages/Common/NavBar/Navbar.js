@@ -786,10 +786,11 @@ const NavitemsWrapper = ({
   }, []);
   return (
     <>
+    {/*before 118  after 133px */}
       <div
         className="first_nav"
         style={{
-          top: `${height}px`,
+          top: `${height+15}px`,
         }}
         ref={firstNavRef}
       >

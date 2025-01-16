@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { REACT_APP_WEB } from '../../../../env';
 
 export const Storeinit = async (param) => {
   // const APIURL = 'https://api.optigoapps.com/storev26/store.aspx';
@@ -35,7 +36,7 @@ export const Storeinit = async (param) => {
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.pro' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.plw' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.mapp' : window.location.hostname,
-    domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstorepro.mapp' : window.location.hostname,
+    domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? REACT_APP_WEB : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.mapp' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'diamondtine.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'hoq.web' : window.location.hostname,

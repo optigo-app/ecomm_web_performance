@@ -185,7 +185,7 @@ const NewArrival = () => {
                     }}
                     viewport={{ once: true, amount: 0.2 }}
                 >
-                    <Typography variant='h4' className='smrN_NewArr1Title'>NEW ARRIVAL
+                    <Typography variant='h5' className='smrN_NewArr1Title'>NEW ARRIVAL
                         <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
                             View more
                         </Link>
@@ -210,7 +210,7 @@ const NewArrival = () => {
                                         />
                                     </div>
                                     <CardContent className='smr_newarrproduct-info'>
-                                        <Typography variant="h6" className="smr_newArrTitle">
+                                        <Typography  className="smr_newArrTitle">
                                             {product?.designno}
                                             {product?.TitleLine && " - "}
                                             {product?.TitleLine != "" && product?.TitleLine}
