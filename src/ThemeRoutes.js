@@ -1,7 +1,4 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
-import SmilingRock_App from "./AllTheme/SmilingRock/SmilingRock_App";
-import DaimondTine_App from "./AllTheme/DaimondTine/DaimondTine_App";
-import Elveester_App from "./AllTheme/Elveester/Elveester_App";
 import { Storeinit } from "./utils/API/Home/Storeinit/Storeinit";
 import { CurrencyComboAPI } from "./utils/API/Combo/CurrencyComboAPI";
 import { MetalColorCombo } from "./utils/API/Combo/MetalColorCombo";
@@ -53,6 +50,16 @@ import {
   stam_companyLogoM,
 } from "./AllTheme/StamFordJewels/Components/Recoil/atom";
 import { fetchPayMaster } from "./utils/API/OrderFlow/Paymaster";
+
+const SmilingRock_App = React.lazy(() =>
+  import("./AllTheme/SmilingRock/SmilingRock_App")
+);
+const DaimondTine_App = React.lazy(() =>
+  import("./AllTheme/DaimondTine/DaimondTine_App")
+);
+const Elveester_App = React.lazy(() =>
+  import("./AllTheme/Elveester/Elveester_App")
+);
 
 const SmilingRock_MobileApp_App = React.lazy(() =>
   import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
@@ -320,7 +327,6 @@ export default function ThemeRoutes() {
     callApiAndStore(CurrencyComboAPI, "CurrencyCombo", finalID);
   };
 
-
   useEffect(() => {
     const storedData = sessionStorage.getItem("storeInit");
     const data = storedData ? JSON.parse(storedData) : null;
@@ -335,18 +341,21 @@ export default function ThemeRoutes() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const storedPayMaster = sessionStorage.getItem('payMaster');
+        const storedPayMaster = sessionStorage.getItem("payMaster");
 
         if (storedPayMaster) {
-          console.log('payMaster from session storage: ', JSON.parse(storedPayMaster));
+          console.log(
+            "payMaster from session storage: ",
+            JSON.parse(storedPayMaster)
+          );
         } else {
           const payMaster = await fetchPayMaster();
           const res = payMaster?.Data?.rd;
-          console.log('payMaster from API: ', res);
-          sessionStorage.setItem('payMaster', JSON.stringify(res));
+          console.log("payMaster from API: ", res);
+          sessionStorage.setItem("payMaster", JSON.stringify(res));
         }
       } catch (error) {
-        console.error('Error fetching or retrieving payMaster:', error);
+        console.error("Error fetching or retrieving payMaster:", error);
       }
     };
     const timer = setTimeout(() => {
@@ -458,9 +467,8 @@ const Themes = ({ htmlContent }) => {
       <Suspense fallback={<></>}>
         {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
 
-        {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
-
         {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
+        {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
 
         {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 

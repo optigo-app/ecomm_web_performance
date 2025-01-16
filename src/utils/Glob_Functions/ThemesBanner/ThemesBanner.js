@@ -239,6 +239,8 @@ const useHomeBannerImages = () => {
           popup: {
             image: [
               `${storImagePath()}/Banner/popup.png`,
+              `${storImagePath()}/Banner/popup1.png`,
+              `${storImagePath()}/Banner/popup2.png`,
             ],
             video: [],
           },

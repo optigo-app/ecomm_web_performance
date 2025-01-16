@@ -1,8 +1,11 @@
+import { REACT_APP_WEB } from "../../env";
+
+
 export function storImagePath() {
   let statiPath = `${window?.location?.protocol}//${
     window.location.hostname === "localhost" ||
     window.location.hostname === "zen"
-      ? process.env.REACT_APP_WEB
+      ? REACT_APP_WEB
       : window.location.hostname
   }`;
   return `${statiPath}/WebSiteStaticImage`;
@@ -32,7 +35,7 @@ export function storInitDataPath() {
   let hostName =
     window.location.hostname === "localhost" ||
     window.location.hostname === "zen"
-      ? process.env.REACT_APP_WEB
+      ? REACT_APP_WEB
       : window.location.hostname;
   if (hostName?.startsWith("www.")) {
     hostName = hostName.substring(4);

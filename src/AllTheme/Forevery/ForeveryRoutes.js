@@ -195,7 +195,7 @@ const ForEveryRoutes = () => {
       <div
         className="body"
         style={{
-          marginTop: `${navHeight}px`,
+          marginTop: `${navHeight+15}px`,
           overflow: "hidden",
         }}
       >
