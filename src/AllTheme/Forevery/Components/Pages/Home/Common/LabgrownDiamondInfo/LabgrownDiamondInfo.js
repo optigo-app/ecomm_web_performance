@@ -16,7 +16,7 @@ const LabgrownDiamondInfo = ({data}) => {
           <div className="banner-wrap ">
             {/* <img className="bg-img-for" src={bgImage} alt="" /> */}
             <img className="bg-img-for" src={data?.image?.[0]} alt="" />
-            <div className="main_wrap_title">
+            {/* <div className="main_wrap_title">
               <div className="title_head">Lab Grown Diamonds</div>
               <p className="paragraph">
                 Lab-grown diamonds are a revolutionary new way to elevate every
@@ -83,7 +83,7 @@ const LabgrownDiamondInfo = ({data}) => {
                   that there is no mining required.
                 </p>
               </div>
-            </div>
+            </div> */}
           </div>
         </section>
       </div>
