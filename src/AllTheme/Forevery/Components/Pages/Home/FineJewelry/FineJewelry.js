@@ -143,9 +143,9 @@ const FineJewelry = () => {
               );
             })}
           </div>
-          <div className="for_fineJewel_newletter">
+          {/* <div className="for_fineJewel_newletter">
             <NewsletterSignup />
-          </div>
+          </div> */}
         </div>
       </div>
       <MobileContainer />
@@ -193,7 +193,7 @@ const MobileContainer = () => {
           })}
         </div>
       </div>
-      <NewsletterSignup />
+      {/* <NewsletterSignup /> */}
     </>
   );
 };

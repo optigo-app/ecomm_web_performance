@@ -56,7 +56,7 @@ const SmilingRock_MobileApp_App = React.memo(() => {
 
   return (
     <div>
-      <Suspense fallback={<><Loader/></>}>
+      <Suspense fallback={<></>} >
       {(location.pathname === "/accountledgertable" ||
         location.pathname === "/accountledgerexcel" ||
         location.pathname === "/accountledgerdebit" ||

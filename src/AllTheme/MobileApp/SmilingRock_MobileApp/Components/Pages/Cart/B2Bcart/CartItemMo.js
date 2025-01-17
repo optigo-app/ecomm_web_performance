@@ -98,6 +98,9 @@ const CartItem = ({
               sx={{
                 width: "100%",
                 height: "11rem",
+                borderRadius:"8px",
+                paddingLeft:"5px",
+                paddingTop:"5px",
                 '@media (max-width: 425px)': {
                   width: "9.5rem",
                 },

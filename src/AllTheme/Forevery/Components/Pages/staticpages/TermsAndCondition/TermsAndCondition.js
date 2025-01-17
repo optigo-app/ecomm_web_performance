@@ -31,9 +31,9 @@ const TermsAndCondition = () => {
           dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
       </div>
-      <div className="wrapper">
+      {/* <div className="wrapper">
         <NewsletterSignup />
-      </div>
+      </div> */}
     </div>
   );
 };

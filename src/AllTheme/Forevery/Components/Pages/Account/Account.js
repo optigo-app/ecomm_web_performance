@@ -79,7 +79,7 @@ export default function Account() {
     const [value, setValue] = useState(0);
     console.log('value: ', value);
     const [value1, setValue1] = useState(0);
-    const naviagation = useNavigate();
+    const naviagation = useNavigate();  
     const setIsLoginState = useSetRecoilState(for_loginState)
     const navigation = useNavigate();
     const [accountInner, setAccountInner] = useState(accountDetailPages());
@@ -146,7 +146,7 @@ export default function Account() {
                     <div className='sticky-header_web_sm'>
                     {/* <div className='sticky-header_web_sm' style={{top:nav[0]}}> */}
                         <p className='SmilingAccountTitle youraccountpagesecSMR'>Your Account</p>
-                        <div className='smlingAccountTabWebView  ' >
+                        <div className='smlingAccountTabWebView'>
                                     <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
                                         <Tabs value={value} onChange={handleChange} onClick={handleScrollTop} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
                                             <Tab label="Your Profile" {...a11yProps(0)} />
@@ -164,7 +164,7 @@ export default function Account() {
                         <div className='smlingAccountTabMobileView YourAccountPageTabs' >
                                     <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                                         <Tabs value={value} orientation="vertical" onClick={handleScrollTop} onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
-                                            <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
+                                            <Tab label="Your Profile" {...a11yProps(0)} sx={{  }} />
                                             <Tab label="ORDER HISTORY" {...a11yProps(1)} />
                                             <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
                                             {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}

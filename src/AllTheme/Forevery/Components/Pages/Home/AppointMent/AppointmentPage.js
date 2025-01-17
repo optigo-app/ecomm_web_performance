@@ -107,8 +107,8 @@ const AppointmentPage = () => {
                 {Object.keys(selectedItem).length !== 0 && selectedItem.constructor === Object &&
                     <AppointmentForm selectedItem={selectedItem}  setSelectedItem={setSelectedItem}/>
                 }
-                <Services title={"Our Services"} services={services} />
-                <NewsletterSignup />
+                {/* <Services title={"Our Services"} services={services} /> */}
+                {/* <NewsletterSignup /> */}
             </div>
         </div>
     );

@@ -351,7 +351,6 @@ export default function ThemeRoutes() {
         } else {
           const payMaster = await fetchPayMaster();
           const res = payMaster?.Data?.rd;
-          console.log("payMaster from API: ", res);
           sessionStorage.setItem("payMaster", JSON.stringify(res));
         }
       } catch (error) {
@@ -406,10 +405,8 @@ const MetaData1 = ({ title, storeInitData }) => {
         <link rel="mask-icon" href={storeInitData?.favicon} />
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="msapplication-TileImage" content={storeInitData?.favicon} />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+
       </Helmet>
     </>
   );
@@ -417,7 +414,6 @@ const MetaData1 = ({ title, storeInitData }) => {
 
 const MetaData2 = ({ title, isHaveSub = false }) => {
   const MetaPath = isHaveSub ? `logoIcon/sona/` : `logoIcon/`;
-  console.log(MetaPath, "meta");
   return (
     <Helmet>
       <title>{title}</title>
@@ -453,10 +449,8 @@ const MetaData2 = ({ title, isHaveSub = false }) => {
         name="msapplication-TileImage"
         content={`${storImagePath()}/${MetaPath}androidCh2.png`}
       />
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-      />
+              <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+
     </Helmet>
   );
 };
@@ -472,13 +466,13 @@ const Themes = ({ htmlContent }) => {
 
         {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 
+        {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
         {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
         {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
         {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
-        {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
 
         {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
 
