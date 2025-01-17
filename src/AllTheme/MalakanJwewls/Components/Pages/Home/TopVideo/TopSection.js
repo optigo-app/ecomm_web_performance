@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import "./TopSection.modul.scss";
 
 const TopSection = ({data}) => {
-  console.log(data)
   const [isLoaded, setIsLoaded] = useState(false);
 
   const style = {

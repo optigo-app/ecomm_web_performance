@@ -2357,7 +2357,7 @@ const ProductDetail = () => {
           }
           <div className="for_ProductDet_services_div">
             {/* <Services title={"Our Exclusive services"} services={services} /> */}
-            <OurServices />
+            {/* <OurServices /> */}
           </div>
         </div>
         <div className="for_ProductDet_trend_coll_banner_div">
@@ -2379,9 +2379,9 @@ const ProductDetail = () => {
           <div className="for_productDet_faq">
             <Faq />
           </div>
-          <div className="for_ProductDet_NewsLetter">
+          {/* <div className="for_ProductDet_NewsLetter">
             <NewsletterSignup />
-          </div>
+          </div> */}
         </div>
       </div>
     </div >

@@ -626,8 +626,8 @@ const Header = () => {
                 className="mala_ListMenuSiderMobile"
                 sx={{ paddingTop: "0", marginBottom: "0px", marginTop: "15px" }}
               >
-                {menuItems.map((menuItem) => (
-                  <div key={menuItem.menuid}>
+                {menuItems.map((menuItem,i) => (
+                  <div key={menuItem.menuid || `menuItem.menuid-${i}`}>
                     <ButtonBase
                       component="div"
                       className="muilistMenutext"
@@ -678,8 +678,8 @@ const Header = () => {
                           </div>
                         </ButtonBase>
                         <List className="mala_mobileMenuScroll">
-                          {menuItem.param1.map((subMenuItem) => (
-                            <div key={subMenuItem.param1dataid}>
+                          {menuItem.param1.map((subMenuItem,i) => (
+                            <div key={`subMenuItem.param1dataid-${i}`}>
                               <ButtonBase
                                 component="div"
                                 onClick={() =>
@@ -721,8 +721,9 @@ const Header = () => {
                                     }}
                                   >
                                     {subMenuItem.param2.map(
-                                      (subSubMenuItem) => (
+                                      (subSubMenuItem,i) => (
                                         <ButtonBase
+                                        key={`subSubMenuItem.param2dataid-${i}`}
                                           component="div"
                                           onClick={() =>
                                             handelMenu(
@@ -926,6 +927,7 @@ const Header = () => {
                 src={compnyLogo}
                 loading="lazy"
                 className="mala_logo_header"
+                alt="compnyLogo-DESKTOP"
               />
             </a>
 
@@ -934,16 +936,17 @@ const Header = () => {
                 src={ compnyLogoM}
                 loading="lazy"
                 className="mala_logo_header"
+                alt="compnyLogo-MOBILE"
               />
             </a>
 
-            <li className="nav_ul_shop_menu_Mobile">
+            <span className="nav_ul_shop_menu_Mobile">
               <MenuIcon
                 style={{ fontSize: "45px" }}
                 className="muIconeMobileHeader"
                 onClick={toggleDrawerOverlay}
               />
-            </li>
+            </span>
           </div>
           <div className="mala_Top_header_menu_main">
             <div className="mala_Top_header_menu_main">
@@ -1252,9 +1255,9 @@ const Header = () => {
             onMouseLeave={handleDropdownClose}
           >
             <div style={{ display: "flex" }}>
-              {menuItems.map((menuItem) => (
+              {menuItems.map((menuItem,i) => (
                 <div
-                  key={menuItem.menuid}
+                  key={`menuItems-col-1-${i}`}
                   className="mala_headerOptionSingleDiv"
                 >
                   <ButtonBase
@@ -1297,8 +1300,8 @@ const Header = () => {
                       </div>
                     </ButtonBase> */}
                     <List className="mala_listMain">
-                      {menuItem.param1.map((subMenuItem) => (
-                        <div key={subMenuItem.param1dataid}>
+                      {menuItem.param1.map((subMenuItem,i) => (
+                        <div key={`menuItems-${i}`}>
                           <ButtonBase
                             component="div"
                             style={{
@@ -1329,17 +1332,16 @@ const Header = () => {
                                 {subMenuItem.param1dataname}
                               </p>
                             </a>
-                            {/* </a> */}
                           </ButtonBase>
-                          <>
                             <List
                               style={{
                                 paddingTop: "0px",
                                 paddingBottom: "0px",
                               }}
                             >
-                              {subMenuItem.param2.map((subSubMenuItem) => (
+                              {subMenuItem.param2.map((subSubMenuItem,i) => (
                                 <div
+                                key={`SubSubMenuItem-list-${i}`}
                                   component="div"
                                   style={{ width: "100%" }}
                                   onClick={(e) =>
@@ -1395,7 +1397,6 @@ const Header = () => {
                                 </div>
                               ))}
                             </List>
-                          </>
                         </div>
                       ))}
                       <p

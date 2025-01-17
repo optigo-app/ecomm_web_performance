@@ -6,7 +6,9 @@ import { storImagePath } from "../../../../../../../utils/Glob_Functions/GlobalF
 const LabgrownDiamondInfo = ({data}) => {
   return (
     <>
-      <div className="for_LabgrownDiamondInfo">
+      <div className="for_LabgrownDiamondInfo" style={{
+        marginTop:"2rem"
+      }}>
         <section
           className="Labgrown_Diamonds"
           // style={{

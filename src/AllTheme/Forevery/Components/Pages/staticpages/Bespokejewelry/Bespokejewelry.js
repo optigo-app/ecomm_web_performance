@@ -70,9 +70,9 @@ const Bespokejewelry = () => {
       )}
       <Banner onOpen={onOpen} />
       <ColumnGrid onOpen={onOpen}/>
-      <OurServices />
-      <GetInTouch />
-      <NewsletterSignup />
+      {/* <OurServices /> */}
+      {/* <GetInTouch /> */}
+      {/* <NewsletterSignup /> */}
     </div>
   );
 };

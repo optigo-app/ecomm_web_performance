@@ -46,7 +46,7 @@ function Home() {
             <HistoryPage data={banner?.bottomBanner} />
             <InstagramSection />
             {/* <GetInTouch data={banner?.bottomBanner} /> */}
-            <NewsletterSignup />
+            {/* <NewsletterSignup /> */}
           </div>
         </div>
       </div>

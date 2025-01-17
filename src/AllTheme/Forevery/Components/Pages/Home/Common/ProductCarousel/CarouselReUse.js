@@ -29,7 +29,7 @@ const NewArrivalCarousel = ({ showmore = false ,data}) => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
     let data = JSON.parse(sessionStorage.getItem("storeInit"));
-    setImageUrl(data?.DesignImageFol);
+    setImageUrl(data?.CDNDesignImageFol);
     const loginUserDetail = JSON.parse(
       sessionStorage.getItem("loginUserDetail")
     );

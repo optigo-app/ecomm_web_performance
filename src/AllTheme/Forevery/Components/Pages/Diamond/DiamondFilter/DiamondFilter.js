@@ -1566,7 +1566,7 @@ const DiamondFilter = () => {
             </button>
           </div>
         </div>
-        <NewsletterSignup />
+        {/* <NewsletterSignup /> */}
       </div>
     </>
   );

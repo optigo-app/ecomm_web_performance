@@ -1958,7 +1958,7 @@ const DiamondDetails = () => {
                         </div>
                     )}
                     <div className="for_Complete_set_services_div">
-                        <OurServices />
+                        {/* <OurServices /> */}
                         {/* <Services title={"Our Exclusive services"} services={services} /> */}
                     </div>
                 </div>
@@ -1980,9 +1980,9 @@ const DiamondDetails = () => {
                             <div className='for_trend_coll_image_div'>
                                 <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/banner-3.png`} alt="" />
                             </div>
-                            <div className="for_DiamondDet_NewsLetter">
+                            {/* <div className="for_DiamondDet_NewsLetter">
                                 <NewsletterSignup />
-                            </div>
+                            </div> */}
                         </div>
                     ) : (
                         <>
@@ -2003,9 +2003,9 @@ const DiamondDetails = () => {
                                     <div className='for_trend_coll_image_div'>
                                         <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/pendants.webp`} alt="" />
                                     </div>
-                                    <div className="for_DiamondDet_NewsLetter">
+                                    {/* <div className="for_DiamondDet_NewsLetter">
                                         <NewsletterSignup />
-                                    </div>
+                                    </div> */}
                                 </div>
                             ) : (
                                 <div className="for_DiamondDet_trend_coll_banner_div">
@@ -2024,9 +2024,9 @@ const DiamondDetails = () => {
                                     <div className='for_trend_coll_image_div'>
                                         <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/diamond-banner.webp`} alt="" />
                                     </div>
-                                    <div className="for_DiamondDet_NewsLetter">
+                                    {/* <div className="for_DiamondDet_NewsLetter">
                                         <NewsletterSignup />
-                                    </div>
+                                    </div> */}
                                 </div>
                             )}
                         </>

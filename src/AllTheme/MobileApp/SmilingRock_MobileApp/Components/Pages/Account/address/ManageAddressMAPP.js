@@ -464,10 +464,16 @@ const ManageAddressMAPP = () => {
                     title="Delete Address"
                     content="Are you sure you want to delete address?"
                 />
-                <Dialog open={open} onClose={handleClose} className='dialogBox_Mapp'>
+                <Dialog open={open} onClose={handleClose} className='dialogBox_Mapp'
+                sx={{
+                    "& .css-1t1j96h-MuiPaper-root-MuiDialog-paper": {
+                        margin: "0 20px !important", // Remove default margin
+                      },
+                }}
+                >
                     <div className='smilingAddressPopupMain dialogMAddress_Mapp'>
                         <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>{ isEditMode ? 'Edit' : 'Add' } Shipping Info</DialogTitle>
-                        <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center',padding:"0 10px"  }}>
                             <TextField
                                 id="firstName"
                                 label="First Name"

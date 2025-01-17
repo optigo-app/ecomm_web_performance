@@ -90,8 +90,8 @@ export default function ContactUs() {
         handleSubmit={handleSubmit}
         formData={formData}
       />
-      <OurServices />
-      <NewsletterSignup />
+      {/* <OurServices /> */}
+      {/* <NewsletterSignup /> */}
     </div>
   );
 }

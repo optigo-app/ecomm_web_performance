@@ -54,40 +54,40 @@ import { fetchPayMaster } from "./utils/API/OrderFlow/Paymaster";
 const SmilingRock_App = React.lazy(() =>
   import("./AllTheme/SmilingRock/SmilingRock_App")
 );
-const DaimondTine_App = React.lazy(() =>
-  import("./AllTheme/DaimondTine/DaimondTine_App")
-);
-const Elveester_App = React.lazy(() =>
-  import("./AllTheme/Elveester/Elveester_App")
-);
+// const DaimondTine_App = React.lazy(() =>
+//   import("./AllTheme/DaimondTine/DaimondTine_App")
+// );
+// const Elveester_App = React.lazy(() =>
+//   import("./AllTheme/Elveester/Elveester_App")
+// );
 
-const SmilingRock_MobileApp_App = React.lazy(() =>
-  import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
-);
-const HemratnaProcatalog_App = React.lazy(() =>
-  import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
-);
-const Procatalog_App = React.lazy(() =>
-  import("./AllTheme/Pocatalog/Procatalog_App")
-);
-const HouseOfQuadri_App = React.lazy(() =>
-  import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
-);
+// const SmilingRock_MobileApp_App = React.lazy(() =>
+//   import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
+// );
+// const HemratnaProcatalog_App = React.lazy(() =>
+//   import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
+// );
+// const Procatalog_App = React.lazy(() =>
+//   import("./AllTheme/Pocatalog/Procatalog_App")
+// );
+// const HouseOfQuadri_App = React.lazy(() =>
+//   import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
+// );
 const ForEveryRoutes = React.lazy(() =>
   import("./AllTheme/Forevery/ForeveryRoutes")
 );
-const Procatalog_MobileApp_App = React.lazy(() =>
-  import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
-);
-const StamFordJewels_App = React.lazy(() =>
-  import("./AllTheme/StamFordJewels/StamFordJewels_App")
-);
-const RoopJewellers_App = React.lazy(() =>
-  import("./AllTheme/RoopJewellers/RoopJewellers_App")
-);
-const MalakanJewels_App = React.lazy(() =>
-  import("./AllTheme/MalakanJwewls/MalakanJewels_App")
-);
+// const Procatalog_MobileApp_App = React.lazy(() =>
+//   import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
+// );
+// const StamFordJewels_App = React.lazy(() =>
+//   import("./AllTheme/StamFordJewels/StamFordJewels_App")
+// );
+// const RoopJewellers_App = React.lazy(() =>
+//   import("./AllTheme/RoopJewellers/RoopJewellers_App")
+// );
+// const MalakanJewels_App = React.lazy(() =>
+//   import("./AllTheme/MalakanJwewls/MalakanJewels_App")
+// );
 
 export default function ThemeRoutes() {
   const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo);
@@ -351,7 +351,6 @@ export default function ThemeRoutes() {
         } else {
           const payMaster = await fetchPayMaster();
           const res = payMaster?.Data?.rd;
-          console.log("payMaster from API: ", res);
           sessionStorage.setItem("payMaster", JSON.stringify(res));
         }
       } catch (error) {
@@ -406,10 +405,8 @@ const MetaData1 = ({ title, storeInitData }) => {
         <link rel="mask-icon" href={storeInitData?.favicon} />
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="msapplication-TileImage" content={storeInitData?.favicon} />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+
       </Helmet>
     </>
   );
@@ -417,7 +414,6 @@ const MetaData1 = ({ title, storeInitData }) => {
 
 const MetaData2 = ({ title, isHaveSub = false }) => {
   const MetaPath = isHaveSub ? `logoIcon/sona/` : `logoIcon/`;
-  console.log(MetaPath, "meta");
   return (
     <Helmet>
       <title>{title}</title>
@@ -453,10 +449,8 @@ const MetaData2 = ({ title, isHaveSub = false }) => {
         name="msapplication-TileImage"
         content={`${storImagePath()}/${MetaPath}androidCh2.png`}
       />
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-      />
+              <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+
     </Helmet>
   );
 };
@@ -467,18 +461,18 @@ const Themes = ({ htmlContent }) => {
       <Suspense fallback={<></>}>
         {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
 
-        {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
-        {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
+        {/* {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
+        {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />} */}
 
-        {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
+        {/* {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />} */}
 
-        {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
+        {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
+        {/* {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
         {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
         {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
-        {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
 
         {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
 
@@ -486,7 +480,7 @@ const Themes = ({ htmlContent }) => {
 
         {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
 
-        {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
+        {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />} */}
       </Suspense>
     </>
   );
