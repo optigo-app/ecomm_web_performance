@@ -1,13 +1,13 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
-const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", visiterId, sortby = "", diaRange = {}, netWt = {}, gross = {}, Shape = "",dno = "",album = "") => {
+const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", visiterId, sortby = "", diaRange = {}, netWt = {}, gross = {}, Shape = "", dno = "", album = "") => {
   
   let MenuParams = {};
   let serachVar = ""
-
+  
+  console.log('filterObj: ', filterObj);
   console.log("mainData", sortby);
-
 
   if (Array.isArray(mainData)) {
     if (mainData?.length > 0) {
@@ -24,24 +24,24 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
   } else {
     if (mainData !== "") {
 
-      if(mainData?.split("=")[0] == "S") {
+      if (mainData?.split("=")[0] == "S") {
         serachVar = JSON.parse(atob(mainData?.split("=")[1]))
       } else {
         MenuParams.FilterKey = atob(mainData)
         MenuParams.FilterVal = atob(mainData)
       }
 
-      if(mainData?.split("=")[0] !== "S") {
+      if (mainData?.split("=")[0] !== "S") {
         if (atob(mainData)?.split("=")[0] == "AlbumName") {
           MenuParams.FilterKey = atob(mainData)?.split("=")[0]
           MenuParams.FilterVal = atob(mainData)?.split("=")[1]
-        }else {
+        } else {
           MenuParams.FilterKey = atob(mainData)
           MenuParams.FilterVal = atob(mainData)
         }
       }
 
-      
+
     }
   }
 
@@ -86,15 +86,23 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
   //     IsFromDesDet: "1"
   // }
 
-  console.log("serachVar11", serachVar)
-
   let diaQc = (obj?.dia === undefined ? (loginInfo?.cmboDiaQCid ?? storeinit?.cmboDiaQCid) : obj?.dia)
   let csQc = (obj?.cs === undefined ? (loginInfo?.cmboCSQCid ?? storeinit?.cmboCSQCid) : obj?.cs)
   let mtid = (obj?.mt === undefined ? (loginInfo?.MetalId ?? storeinit?.MetalId) : obj?.mt)
-  // let mtid = (loginInfo?.MetalId ?? storeinit?.MetalId) ?? "" ;
   let filPrice = filterObj?.Price?.length > 0 ? filterObj?.Price : ''
 
-  console.log("stroreeeeeeeeeeee", filPrice);
+  const priceData = Array.isArray(filterObj) ? filterObj?.find(item => item.dropdownIndex === 4) ?? {} : [];
+  // const caratData = filterObj.find(item => item.dropdownIndex === 5);
+  // const ProductType = filterObj.find(item => item.dropdownIndex === 6);
+
+  let foreveryPrice = priceData?.value
+  ? { Minval: priceData.value[0], Maxval: priceData.value[1] }
+  : {};
+
+  // console.log(
+  //   "data",
+  //   Object.keys(foreveryPrice)?.length > 0 ? foreveryPrice : filPrice
+  // );
 
   const data = {
     PackageId: `${(loginInfo?.PackageId ?? storeinit?.PackageId) ?? ''}`,
@@ -130,7 +138,8 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
     Min_NetWt: `${netWt?.netMin ?? ""}`,
     Max_NetWt: `${netWt?.netMax ?? ""}`,
     // FilPrice: filterObj?.Price?.length > 0 ? `${JSON.stringify(filterObj?.Price)}` : '',
-    FilPrice: filPrice,
+    FilPrice: Object.keys(foreveryPrice)?.length > 0 ? foreveryPrice : (filPrice ?? ""),
+    // FilPrice: filPrice,
     // Max_Price: '',
     // Min_Price: '',
     CurrencyRate: `${(loginInfo?.CurrencyRate ?? storeinit?.CurrencyRate) ?? ''}`,
@@ -156,7 +165,8 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
     IsFromDesDet: "",
     IsPLW: `${storeinit?.IsPLW ?? ''}`,
     DomainForNo: `${storeinit?.DomainForNo ?? ""}`,
-    AlbumName:album ?? ""
+    AlbumName: album ?? "",
+    TaxId: loginInfo?.TaxId || 0,
   };
 
   let encData = JSON.stringify(data)

@@ -1,20 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import './AppointmentForm.scss';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { BookAppointment } from '../../../../../../utils/API/BookAppointment/BookAppointment';
+import { toast } from 'react-toastify';
 
 const AppointmentForm = ({ selectedItem, setSelectedItem }) => {
     const [loginDetail, setLoginDetail] = useState(null);
+    const [selectRequest, setSelectRequest] = useState('');
+    const [loading, setLoading] = useState({
+        load: false,
+        index: 0
+    });
     const [minDateTime, setMinDateTime] = useState('');
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        message: '',
-        dateTime: '',
+        firstname: '',
+        lastname: '',
+        EmailId: '',
+        mobileno: '',
+        AppointmentMessage: '',
+        AppointmentDateTime: '',
+        JewelleryType: selectedItem?.title,
+        RequestId: '',
     });
-    const [errors, setErrors] = useState({});
+        const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleRequestTypeChange = (requestType) => {
+        setSelectRequest(requestType);
+        setFormData(prevData => {
+            const newData = {
+                ...prevData,
+                RequestId: requestType
+            };
+            return newData;
+        });
+    };
+
+    const formatDateTime = (dateTimeString) => {
+        if (!dateTimeString) return '';
+        const [date, time] = dateTimeString.split('T');
+        const [year, month, day] = date.split('-');
+        return `${day}-${month}-${year} ${time}`;
+    };
 
     useEffect(() => {
         const islogin = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -35,12 +62,14 @@ const AppointmentForm = ({ selectedItem, setSelectedItem }) => {
     useEffect(() => {
         if (loginDetail) {
             setFormData({
-                firstName: loginDetail.firstname ?? '',
-                lastName: loginDetail.lastname ?? '',
-                email: loginDetail.userid ?? '',
-                phone: loginDetail.mobileno ?? '',
-                message: '',
-                dateTime: '',
+                firstname: loginDetail.firstname ?? '',
+                lastname: loginDetail.lastname ?? '',
+                EmailId: loginDetail.userid ?? '',
+                mobileno: loginDetail.mobileno ?? '',
+                AppointmentMessage: '',
+                AppointmentDateTime: '',
+                JewelleryType: '',
+                RequestId: '',
             });
         }
     }, [loginDetail]);
@@ -61,32 +90,37 @@ const AppointmentForm = ({ selectedItem, setSelectedItem }) => {
 
     const validate = () => {
         const newErrors = {};
-        if (!formData.firstName) newErrors.firstName = 'First Name is required';
-        if (!formData.lastName) newErrors.lastName = 'Last Name is required';
-        if (!formData.email) newErrors.email = 'Email is required';
-        else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email address';
-        if (!formData.phone) newErrors.phone = 'Phone is required';
-        if (!formData.dateTime) newErrors.dateTime = 'Date & Time is required';
+        if (!formData.firstname) newErrors.firstname = 'First Name is required';
+        if (!formData.lastname) newErrors.lastname = 'Last Name is required';
+        if (!formData.EmailId) newErrors.EmailId = 'Email is required';
+        else if (!/\S+@\S+\.\S+/.test(formData.EmailId)) newErrors.EmailId = 'Invalid email address';
+        if (!formData.mobileno) newErrors.mobileno = 'Phone is required';
+        if (!formData.AppointmentDateTime) newErrors.AppointmentDateTime = 'Date & Time is required';
         return newErrors;
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event, index) => {
+        console.log('index: ', index);
         event.preventDefault();
         const formErrors = validate();
         if (Object.keys(formErrors).length === 0) {
             setIsSubmitting(true);
-            console.log(formData, "Share details");
-            alert('Coming Soon');
+            setLoading({ load: true, index })
+            const formattedData = {
+                ...formData,
+                AppointmentDateTime: formatDateTime(formData?.AppointmentDateTime)
+            }
+            await BookAppointment(formattedData).then((res) => {
+                if (res?.stat_msg === 'success') {
+                    setSelectedItem({});
+                    toast.success("Appointment Booked Successfully");
+                    setLoading({ load: false, index })
+                } else {
+                    toast.error("Something went wrong");
+                    setLoading({ load: false, index });
+                }
+            })
             setIsSubmitting(false);
-            setFormData({
-                firstName: loginDetail.firstname ?? '',
-                lastName: loginDetail.lastname ?? '',
-                email: loginDetail.userid ?? '',
-                phone: loginDetail.mobileno ?? '',
-                message: '',
-                dateTime: '',
-            });
-            setSelectedItem({});
         } else {
             setErrors(formErrors);
         }
@@ -113,63 +147,63 @@ const AppointmentForm = ({ selectedItem, setSelectedItem }) => {
                     <button className="for_edit-btn" onClick={handleEdit}>Edit</button>
                 </div>
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e) => handleSubmit(e, formData?.RequestId)}>
                 <div className='for_leftside'>
                     <div className="for_input-group">
                         <div className="for_input-field">
-                            <label htmlFor="firstName">First Name*</label>
+                            <label htmlFor="firstname">First Name*</label>
                             <input
                                 type="text"
-                                id="firstName"
+                                id="firstname"
                                 placeholder="First Name"
-                                value={formData.firstName}
+                                value={formData.firstname}
                                 onChange={handleChange}
                             />
-                            {errors.firstName && <div className="for_error-message">{errors.firstName}</div>}
+                            {errors.firstname && <div className="for_error-message">{errors.firstname}</div>}
                         </div>
                         <div className="for_input-field">
-                            <label htmlFor="lastName">Last Name*</label>
+                            <label htmlFor="lastname">Last Name*</label>
                             <input
                                 type="text"
-                                id="lastName"
+                                id="lastname"
                                 placeholder="Last Name"
-                                value={formData.lastName}
+                                value={formData.lastname}
                                 onChange={handleChange}
                             />
-                            {errors.lastName && <div className="for_error-message">{errors.lastName}</div>}
+                            {errors.lastname && <div className="for_error-message">{errors.lastname}</div>}
                         </div>
                     </div>
                     <div className="for_input-group">
                         <div className="for_input-field">
-                            <label htmlFor="email">Email*</label>
+                            <label htmlFor="EmailId">Email*</label>
                             <input
                                 type="email"
-                                id="email"
+                                id="EmailId"
                                 placeholder="Email"
-                                value={formData.email}
+                                value={formData.EmailId}
                                 onChange={handleChange}
                             />
-                            {errors.email && <div className="for_error-message">{errors.email}</div>}
+                            {errors.EmailId && <div className="for_error-message">{errors.EmailId}</div>}
                         </div>
                         <div className="for_input-field">
-                            <label htmlFor="phone">Phone*</label>
+                            <label htmlFor="mobileno">Phone*</label>
                             <input
                                 type="tel"
-                                id="phone"
+                                id="mobileno"
                                 placeholder="Phone"
-                                value={formData.phone}
+                                value={formData.mobileno}
                                 onChange={handleChange}
                             />
-                            {errors.phone && <div className="for_error-message">{errors.phone}</div>}
+                            {errors.mobileno && <div className="for_error-message">{errors.mobileno}</div>}
                         </div>
                     </div>
                     <div className="for_input-group">
                         <div className="for_input-field">
-                            <label htmlFor="message">Message (Optional)</label>
+                            <label htmlFor="AppointmentMessage">Message (Optional)</label>
                             <textarea
-                                id="message"
+                                id="AppointmentMessage"
                                 placeholder="Message"
-                                value={formData.message}
+                                value={formData.AppointmentMessage}
                                 onChange={handleChange}
                             ></textarea>
                         </div>
@@ -178,20 +212,20 @@ const AppointmentForm = ({ selectedItem, setSelectedItem }) => {
                 <div className='for_rightside'>
                     <div className="for_input-group">
                         <div className="for_input-field">
-                            <label htmlFor="dateTime">Select a Date & Time*</label>
+                            <label htmlFor="AppointmentDateTime">Select a Date & Time*</label>
                             <input
                                 type="datetime-local"
-                                id="dateTime"
-                                value={formData.dateTime}
+                                id="AppointmentDateTime"
+                                value={formData.AppointmentDateTime}
                                 min={minDateTime}
                                 onChange={handleChange}
                             />
-                            {errors.dateTime && <div className="for_error-message">{errors.dateTime}</div>}
+                            {errors.AppointmentDateTime && <div className="for_error-message">{errors.AppointmentDateTime}</div>}
                         </div>
                     </div>
                     <div className="for_button-group">
-                        <button type="submit" className="for_primary-btn" disabled={isSubmitting}>Book Appointment</button>
-                        <button type="button" className="for_secondary-btn">Request A Callback</button>
+                        <button type="submit" className="for_primary-btn" disabled={isSubmitting} onClick={() => handleRequestTypeChange('1')}>{loading?.index === '1' ? 'Booking Appointment' : 'Book Appointment'}</button>
+                        <button type="submit" className="for_secondary-btn" disabled={isSubmitting} onClick={() => handleRequestTypeChange('2')}>{loading?.index === '2' ? 'Requesting A Callback' : 'Request A Callback'}</button>
                     </div>
                 </div>
             </form>

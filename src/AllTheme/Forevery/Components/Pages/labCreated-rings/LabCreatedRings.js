@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./LabCreatedRings.scss";
+import { useNavigate } from "react-router-dom";
 import { storImagePath } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import btnstyle from "../../scss/Button.module.scss";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { for_customizationSteps1, for_customizationSteps } from '../../Recoil/atom';
 import { ringscollection, metalcollection } from "../../data/NavbarMenu";
 import ShapeSection from "../Home/Common/ShapeSection/ShapeSection";
 import RingCarousel from "../Home/Common/ProductCarousel/RingCarousel";
 import NewsLetter from "../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
+import MountModel from "../ReusableComponent/MountModel/MountModel";
 
 const LabCreatedRings = () => {
   useEffect(() => {
@@ -22,7 +26,7 @@ const LabCreatedRings = () => {
       <DesignyourOwn />
       <ShapeSection />
       <Metalcolor />
-      <RingCarousel showmore={true}  />
+      <RingCarousel showmore={true} />
       <BannerNew />
       {/* <NewsLetter /> */}
     </div>
@@ -32,6 +36,10 @@ const LabCreatedRings = () => {
 export default LabCreatedRings;
 
 const Banner = () => {
+  const navigate = useNavigate();
+  const addCategory = `Ring/category`;
+  const filterKeyVal = btoa(addCategory);
+
   return (
     <>
       <div
@@ -51,6 +59,9 @@ const Banner = () => {
           </p>
           <button
             className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
+            onClick={() => navigate(
+              `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+            )}
           >
             SHOP ENGAGEMENT RING
           </button>
@@ -75,7 +86,7 @@ export const CategoryGrid = ({ title = "Find Your Forever Ring", data }) => {
           {data?.map((val, i) => {
             return (
               <div key={i} className="card-grid">
-                <Link href="#">
+                <Link to={val?.link}>
                   <img src={val?.image} loading="lazy" alt="" />
                 </Link>
                 <div className="title_For_q">{val?.key}</div>
@@ -88,6 +99,108 @@ export const CategoryGrid = ({ title = "Find Your Forever Ring", data }) => {
   );
 };
 const DesignyourOwn = () => {
+
+  const navigate = useNavigate();
+
+  const [customizeStep, setCustomizeStep] = useRecoilState(
+    for_customizationSteps
+  );
+  const [customizeStep1, setCustomizeStep1] = useRecoilState(
+    for_customizationSteps1
+  );
+
+  const [showModal, setShowModal] = useState(false);
+  const [checkIndex, setCheckIndex] = useState();
+
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+
+  const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1)?.[2]?.url}`;
+
+  const handleToggle = () => {
+    setShowModal(!showModal);
+  };
+
+  const handleConfirm = () => {
+    navigate(createUrl);
+  }
+
+  const checkSteps =
+    (steps?.[2] !== undefined && steps?.[2] !== null) ||
+    (steps1?.[2] !== undefined && steps1?.[2] !== null);
+
+  const handleCheckSteps = (index) => {
+    if (checkSteps) {
+      setShowModal(true);
+      setCheckIndex(index);
+    } else {
+      console.log("Alternative action");
+    }
+  };
+
+  const HandleSettingNavigation = () => {
+    if (
+      (steps?.[0] !== undefined && steps?.[0] !== null) ||
+      (steps?.[1] !== undefined && steps?.[1] !== null)
+    ) {
+      sessionStorage.removeItem("customizeSteps");
+      sessionStorage.removeItem("custStepData");
+      const addCategory = `Ring/category`;
+      const filterKeyVal = btoa(addCategory);
+      navigate(
+        `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+      );
+    } else {
+      const addCategory = `Ring/category`;
+
+      const filterKeyVal = btoa(addCategory);
+      navigate(
+        `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+      );
+      setCustomizeStep1({
+        step1: true,
+      });
+      const step1 = [{ step1: true, Setting: "Ring" }];
+      sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
+    }
+  };
+
+  const HandleDiamondNavigation = () => {
+    if (
+      (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
+      (steps1?.[1] !== undefined && steps1?.[1] !== null)
+    ) {
+      sessionStorage.removeItem("customizeSteps2");
+      sessionStorage.removeItem("custStepData2");
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+    } else {
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+      setCustomizeStep({
+        step1: true,
+      });
+      const step1 = [{ step1: true, shape: "Round" }];
+      sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    }
+  };
+
+  const handleRemoveData = (index) => {
+    sessionStorage.removeItem("customizeSteps");
+    sessionStorage.removeItem("custStepData");
+    sessionStorage.removeItem("customizeSteps2");
+    sessionStorage.removeItem("custStepData2");
+    if (index === 0) {
+      const addCategory = `Ring/category`;
+      const filterKeyVal = btoa(addCategory);
+      navigate(
+        `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+      );
+    } else {
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+    }
+    handleToggle();
+  };
+
+
   return (
     <>
       <div
@@ -111,26 +224,61 @@ const DesignyourOwn = () => {
               of love today!
             </p>
             <div className="btn">
-              <button
-                className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
-              >
-                {" "}
-                start with setting
-              </button>
+              {checkSteps ? (
+                <button
+                  onClick={() => { handleCheckSteps(0); console.log("Cliked Setting") }}
+                  className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
+                >
+                  start with setting
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    {
+                      HandleSettingNavigation();
+                      console.log("Cliked Setting")
+                    };
+                  }}
+                  className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
+                >
+                  start with setting
+                </button>
+              )}
               <span>OR</span>
-              <button
-                className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
-              >
-                start with a diamond
-              </button>
+              {checkSteps ? (
+                <button
+                  onClick={() => { handleCheckSteps(1); console.log("Cliked Diamond") }}
+                  className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
+                >
+                  start with a diamond
+                </button>
+              ) : (
+                <button
+                  onClick={() => { HandleDiamondNavigation(); console.log("Cliked Diamond") }}
+                  className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
+                >
+                  start with a diamond
+                </button>
+              )}
             </div>
           </div>
         </div>
       </div>
+      <MountModel
+        open={showModal}
+        handleConfirm={handleConfirm}
+        handleClose={handleToggle}
+        handleRemoveData={handleRemoveData}
+        index={checkIndex}
+      />
     </>
   );
 };
 const BannerNew = () => {
+  const navigate = useNavigate();
+  const addCategory = `Ring/category`;
+  const filterKeyVal = btoa(addCategory);
+
   return (
     <>
       <div
@@ -176,12 +324,15 @@ const BannerNew = () => {
             style={{
               color: "white",
             }}
+            onClick={() => navigate(
+              `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+            )}
             className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
           >
             View All Engagement Ring
           </button>
         </div>
-      </div>
+      </div >
     </>
   );
 };
