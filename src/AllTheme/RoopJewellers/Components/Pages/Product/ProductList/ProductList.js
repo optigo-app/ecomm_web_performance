@@ -180,13 +180,13 @@ const ProductList = () => {
     setSelectedCsId(csid);
   }, []);
 
-  useEffect(()=>{
-    const getdomain = async()=>{
+  useEffect(() => {
+    const getdomain = async () => {
       let dm = await getDomainName();
-      setIsVaara(dm  !== "vaara");
+      setIsVaara(dm !== "vaara");
     }
     getdomain()
-  },[])
+  }, [])
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
@@ -442,17 +442,18 @@ const ProductList = () => {
       setIsProdLoading(true);
       //  if(location?.state?.SearchVal === undefined){
       setprodListType(productlisttype);
-      let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-      let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
-      let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
-  
+      let DiaRange = { DiaMin: sliderValue[0] ?? "0", DiaMax: sliderValue[1] ?? "100" }
+      let grossRange = { grossMin: sliderValue2[0] ?? "0", grossMax: sliderValue2[1] ?? "100" }
+      let netRange = { netMin: sliderValue1[0] ?? "0", netMax: sliderValue1[1] ?? "100" }
+
       await ProductListApi(
         {},
         1,
         obj,
         productlisttype,
         cookie,
-        (sortBySelect = "Recommended")
+        (sortBySelect = "Recommended"),
+        DiaRange, netRange, grossRange
       )
         .then((res) => {
           if (res) {
@@ -487,22 +488,22 @@ const ProductList = () => {
                   res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
                     ?.length > 0
                     ? JSON.parse(
-                        res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-                      )[0]
+                      res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+                    )[0]
                     : [];
                 let diafilter1 =
                   res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
                     ?.length > 0
                     ? JSON.parse(
-                        res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-                      )[0]
+                      res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+                    )[0]
                     : [];
                 let diafilter2 =
                   res?.filter((ele) => ele?.Name == "Gross")[0]?.options
                     ?.length > 0
                     ? JSON.parse(
-                        res?.filter((ele) => ele?.Name == "Gross")[0]?.options
-                      )[0]
+                      res?.filter((ele) => ele?.Name == "Gross")[0]?.options
+                    )[0]
                     : [];
 
                 // console.log("diafilter",diafilter);
@@ -762,14 +763,41 @@ const ProductList = () => {
     //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
     // console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
 
+    let diafilter =
+    filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+      ?.length > 0
+      ? JSON.parse(
+        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+      )[0]
+      : [];
+  let diafilter1 =
+    filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+      ?.length > 0
+      ? JSON.parse(
+        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+      )[0]
+      : [];
+  let diafilter2 =
+    filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+      ?.length > 0
+      ? JSON.parse(
+        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+      )[0]
+      : [];
+  const isDia =      JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+  const isNet =   JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+  const isGross =   JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
     if (location?.key === locationKey) {
       setIsOnlyProdLoading(true);
-      let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-      let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
-      let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
-      
+      let DiaRange = { DiaMin: isDia ?  sliderValue[0] : "", DiaMax:  isDia ?  sliderValue[1] : "" }
+      let grossRange = { grossMin: isGross ?  sliderValue1[0] : "", grossMax: isGross ?  sliderValue1[1] : "" }
+      let netRange = { netMin: isNet ?  sliderValue2[1] : "", netMax: isNet ?  sliderValue2[1] : "" }
+
       // ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
-      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange ,grossRange)
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, 
+        DiaRange, netRange, grossRange
+      )
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -803,7 +831,59 @@ const ProductList = () => {
 
   const handelFilterClearAll = () => {
     // setAfterCountStatus(true);
-    if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
+    let diafilter =
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isFilterChecked = Object.values(filterChecked).some((ele) => ele.checked);
+    const isSliderChanged =
+      JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]) ||
+      JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]) ||
+      JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+    // if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
+    if (isFilterChecked || isSliderChanged) {
+      let diafilter =
+        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+          ?.length > 0
+          ? JSON.parse(
+            filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+          )[0]
+          : [];
+      let diafilter1 =
+        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+          ?.length > 0
+          ? JSON.parse(
+            filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+          )[0]
+          : [];
+      let diafilter2 =
+        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+          ?.length > 0
+          ? JSON.parse(
+            filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+          )[0]
+          : [];
+      setSliderValue([diafilter?.Min, diafilter?.Max]);
+      setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
+      setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
       setFilterChecked({});
     }
     setAccExpanded(false);
@@ -826,12 +906,12 @@ const ProductList = () => {
         behavior: "smooth",
       });
     }, 100);
-    let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
-    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
+    let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
+    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
 
     // ProductListApi(output, value, obj, prodListType, cookie, sortBySelect)
-    ProductListApi(output, value, obj, prodListType, cookie, sortBySelect,DiaRange, netRange ,grossRange)
+    ProductListApi(output, value, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
 
       .then((res) => {
         if (res) {
@@ -928,10 +1008,10 @@ const ProductList = () => {
 
     if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true);
-      let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-      let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
-      let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
-  
+      let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+      let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
+      let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+
       ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
@@ -1027,8 +1107,7 @@ const ProductList = () => {
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
     navigate(
-      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${
-        productData?.TitleLine?.length > 0 ? "_" : ""
+      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
       }${productData?.designno}?p=${encodeObj}`
     );
   };
@@ -1153,9 +1232,9 @@ const ProductList = () => {
     setIsOnlyProdLoading(true);
 
     let sortby = e.target?.value;
-    let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
-    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
+    let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
+    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
 
     await ProductListApi(output, 1, obj, prodListType, cookie, sortby)
       .then((res) => {
@@ -1284,6 +1363,7 @@ const ProductList = () => {
   // };
 
   const handleRangeFilterApi = async (Rangeval) => {
+    setIsOnlyProdLoading(true)
     setAfterCountStatus(true);
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
@@ -1319,9 +1399,9 @@ const ProductList = () => {
     // };
 
     let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] };
-    let netRange = { netMin:  sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" } 
-    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""} 
-  
+    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
+
 
     await ProductListApi(
       output,
@@ -1349,6 +1429,8 @@ const ProductList = () => {
       });
   };
   const handleRangeFilterApi1 = async (Rangeval1) => {
+    setIsOnlyProdLoading(true)
+    setAfterCountStatus(true)
     let diafilter = JSON.parse(
       filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
     )[0];
@@ -1385,8 +1467,8 @@ const ProductList = () => {
     let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
     // let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[1] }
     // let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
-    let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
+    let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
 
 
     await ProductListApi(
@@ -1404,15 +1486,19 @@ const ProductList = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+          setAfterCountStatus(false)
         }
         return res;
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
         setIsOnlyProdLoading(false);
+        setAfterCountStatus(false)
       });
   };
   const handleRangeFilterApi2 = async (Rangeval2) => {
+    setIsOnlyProdLoading(true)
+    setAfterCountStatus(true)
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
@@ -1446,8 +1532,8 @@ const ProductList = () => {
     // };
     // let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] };
 
-    let DiaRange = { DiaMin:  sliderValue[0] ?? diafilter?.Min , DiaMax: sliderValue[1] ?? diafilter?.Max }
-    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
+    let DiaRange = { DiaMin: sliderValue[0] ?? diafilter?.Min, DiaMax: sliderValue[1] ?? diafilter?.Max }
+    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
     let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] }
 
 
@@ -1466,12 +1552,14 @@ const ProductList = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+          setAfterCountStatus(false);
         }
         return res;
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
         setIsOnlyProdLoading(false);
+        setAfterCountStatus(false);
       });
   };
 
@@ -1494,6 +1582,7 @@ const ProductList = () => {
       event.target.value === "" ? "" : Number(event.target.value);
     setSliderValue(newSliderValue);
     handleRangeFilterApi(newSliderValue);
+    //
   };
   const handleInputChange1 = (index) => (event) => {
     const newSliderValue = [...sliderValue1];
@@ -1501,6 +1590,7 @@ const ProductList = () => {
       event.target.value === "" ? "" : Number(event.target.value);
     setSliderValue1(newSliderValue);
     handleRangeFilterApi1(newSliderValue);
+    //
   };
   const handleInputChange2 = (index) => (event) => {
     const newSliderValue = [...sliderValue2];
@@ -1508,7 +1598,17 @@ const ProductList = () => {
       event.target.value === "" ? "" : Number(event.target.value);
     setSliderValue2(newSliderValue);
     handleRangeFilterApi2(newSliderValue);
+    //
   };
+
+  const SharedStyleForRange = { width: 232, height: 88 , '@media (max-width:1520px)': {
+    width: 200, // Example of how to change width on small screens
+        }, '@media (max-width:1410px)': {
+          width: 170, // Example of how to change width on small screens
+              },'@media (max-width:1290px)': {
+          width: 150, // Example of how to change width on small screens
+              }, }
+              
 
   const RangeFilterView = (ele) => {
     return (
@@ -1516,6 +1616,16 @@ const ProductList = () => {
         <div>
           <div>
             <Slider
+              // value={sliderValue}
+              // onChange={(event, newValue) => setSliderValue(newValue)}
+              // onChangeCommitted={handleSliderChange}
+              // valueLabelDisplay="auto"
+              // aria-labelledby="range-slider"
+              // min={JSON?.parse(ele?.options)[0]?.Min}
+              // max={JSON?.parse(ele?.options)[0]?.Max}
+              // step={0.001}
+              // sx={{ marginTop: "25px" }}
+
               value={sliderValue}
               onChange={(event, newValue) => setSliderValue(newValue)}
               onChangeCommitted={handleSliderChange}
@@ -1524,13 +1634,17 @@ const ProductList = () => {
               min={JSON?.parse(ele?.options)[0]?.Min}
               max={JSON?.parse(ele?.options)[0]?.Max}
               step={0.001}
-              sx={{ marginTop: "25px" }}
+              sx={{
+                marginTop: "25px",
+                transition: "all 0.2s ease-out", // Smooth transition on value change
+              }}
+              disableSwap
             />
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
             <Input
-              value={sliderValue[0]}
-              margin="none"
+              value={sliderValue[0]?.toFixed(3)}
+              margin="dense"
               onChange={handleInputChange(0)}
               inputProps={{
                 step: 0.001,
@@ -1538,11 +1652,14 @@ const ProductList = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
             />
             <Input
-              value={sliderValue[1]}
-              margin="none"
+              value={sliderValue[1]?.toFixed(3)}
+              margin="dense"
               onChange={handleInputChange(1)}
               inputProps={{
                 step: 0.001,
@@ -1550,7 +1667,10 @@ const ProductList = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
             />
           </div>
         </div>
@@ -1564,20 +1684,33 @@ const ProductList = () => {
         <div>
           <div>
             <Slider
+              // value={sliderValue1}
+              // onChange={() => (event, newValue) => setSliderValue1(newValue)}
+              // onChangeCommitted={handleSliderChange1}
+              // valueLabelDisplay="auto"
+              // aria-labelledby="range-slider"
+              // min={JSON?.parse(ele?.options)[0]?.Min}
+              // max={JSON?.parse(ele?.options)[0]?.Max}
+              // step={0.001}
+              // sx={{ marginTop: "25px" }}
               value={sliderValue1}
-              onChange={() => (event, newValue) => setSliderValue1(newValue)}
+              onChange={(event, newValue) => setSliderValue1(newValue)}
               onChangeCommitted={handleSliderChange1}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
               max={JSON?.parse(ele?.options)[0]?.Max}
               step={0.001}
-              sx={{ marginTop: "25px" }}
+              sx={{
+                marginTop: "25px",
+                transition: "all 0.2s ease-out", // Smooth transition on value change
+              }}
+              disableSwap
             />
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
             <Input
-              value={sliderValue1[0]}
+                value={sliderValue1[0]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange1(0)}
               inputProps={{
@@ -1586,10 +1719,14 @@ const ProductList = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+
             />
             <Input
-              value={sliderValue1[1]}
+                value={sliderValue1[1]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange1(1)}
               inputProps={{
@@ -1598,7 +1735,11 @@ const ProductList = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+
             />
           </div>
         </div>
@@ -1624,7 +1765,7 @@ const ProductList = () => {
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
             <Input
-              value={sliderValue2[0]}
+              value={sliderValue2[0]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange2(0)}
               inputProps={{
@@ -1633,10 +1774,14 @@ const ProductList = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+
             />
             <Input
-              value={sliderValue2[1]}
+              value={sliderValue2[1]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange2(1)}
               inputProps={{
@@ -1645,7 +1790,11 @@ const ProductList = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+
             />
           </div>
         </div>
@@ -1716,6 +1865,37 @@ const ProductList = () => {
 
     checkAllImages();
   }, [finalProductListData]);
+
+  const showClearAllButton = () => {
+    let diafilter =
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isFilterChecked = Object.values(filterChecked).some((ele) => ele.checked);
+    const isSliderChanged =
+      JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]) ||
+      JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]) ||
+      JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+    return isFilterChecked || isSliderChanged;
+  };
 
 
   return (
@@ -1950,24 +2130,26 @@ const ProductList = () => {
                   }}
                 >
                   <span>
-                    {Object.values(filterChecked).filter((ele) => ele.checked)
-                      ?.length === 0 ? (
-                      // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
-                      "Filters"
-                    ) : (
-                      <>
-                        {afterCountStatus == true ? (
-                          <Skeleton
-                            variant="rounded"
-                            width={140}
-                            height={22}
-                            className="pSkelton"
-                          />
+                    {
+                      // Object.values(filterChecked).filter((ele) => ele.checked)                      ?.length === 0 
+                      !showClearAllButton()
+                        ? (
+                          // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
+                          "Filters"
                         ) : (
-                          <span>{`Product Found : ${afterFilterCount}`}</span>
+                          <>
+                            {afterCountStatus == true ? (
+                              <Skeleton
+                                variant="rounded"
+                                width={140}
+                                height={22}
+                                className="pSkelton"
+                              />
+                            ) : (
+                              <span>{`Product Found : ${afterFilterCount}`}</span>
+                            )}
+                          </>
                         )}
-                      </>
-                    )}
                   </span>
                   <span
                     style={{
@@ -1976,23 +2158,26 @@ const ProductList = () => {
                     }}
                     onClick={() => handelFilterClearAll()}
                   >
-                    {Object.values(filterChecked).filter((ele) => ele.checked)
-                      ?.length > 0 ? (
-                      "Clear All"
-                    ) : (
-                      <>
-                        {afterCountStatus == true ? (
-                          <Skeleton
-                            variant="rounded"
-                            width={140}
-                            height={22}
-                            className="pSkelton"
-                          />
+                    {
+                      // Object.values(filterChecked).filter((ele) => ele.checked)                      ?.length > 0
+                      showClearAllButton()
+                        ?
+                        (
+                          "Clear All"
                         ) : (
-                          <span>{`Total Products: ${afterFilterCount}`}</span>
+                          <>
+                            {afterCountStatus == true ? (
+                              <Skeleton
+                                variant="rounded"
+                                width={140}
+                                height={22}
+                                className="pSkelton"
+                              />
+                            ) : (
+                              <span>{`Total Products: ${afterFilterCount}`}</span>
+                            )}
+                          </>
                         )}
-                      </>
-                    )}
                   </span>
                 </span>
                 <div
@@ -2011,16 +2196,16 @@ const ProductList = () => {
                               borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
                               "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                {
-                                  borderBottomLeftRadius: "0px",
-                                  borderBottomRightRadius: "0px",
-                                },
+                              {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
                               "&.MuiPaper-root.MuiAccordion-root:before": {
                                 background: "none",
                               },
                             }}
-                            // expanded={accExpanded}
-                            // defaultExpanded={}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
                           >
                             <AccordionSummary
                               expandIcon={
@@ -2036,7 +2221,7 @@ const ProductList = () => {
                                   padding: 0,
                                 },
                               }}
-                              // className="filtercategoryLable"
+                            // className="filtercategoryLable"
                             >
                               {/* <span> */}
                               {ele.Fil_DisName}
@@ -2092,8 +2277,8 @@ const ProductList = () => {
                                             ?.checked === undefined
                                             ? false
                                             : filterChecked[
-                                                `${ele?.id}${opt?.id}`
-                                              ]?.checked
+                                              `${ele?.id}${opt?.id}`
+                                            ]?.checked
                                         }
                                         style={{
                                           color: "#7f7d85",
@@ -2139,8 +2324,8 @@ const ProductList = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2212,7 +2397,7 @@ const ProductList = () => {
                                           ?.checked === undefined
                                           ? false
                                           : filterChecked[`Price${i}${i}`]
-                                              ?.checked
+                                            ?.checked
                                       }
                                       style={{
                                         color: "#7f7d85",
@@ -2235,23 +2420,19 @@ const ProductList = () => {
                                   className="roop_mui_checkbox_label"
                                   label={
                                     opt?.Minval == 0
-                                      ? `Under ${
-                                          loginUserDetail?.CurrencyCode ??
-                                          storeInit?.CurrencyCode
-                                        } ${opt?.Maxval}`
+                                      ? `Under ${loginUserDetail?.CurrencyCode ??
+                                      storeInit?.CurrencyCode
+                                      } ${opt?.Maxval}`
                                       : opt?.Maxval == 0
-                                      ? `Over ${
-                                          loginUserDetail?.CurrencyCode ??
-                                          storeInit?.CurrencyCode
+                                        ? `Over ${loginUserDetail?.CurrencyCode ??
+                                        storeInit?.CurrencyCode
                                         }${opt?.Minval}`
-                                      : `${
-                                          loginUserDetail?.CurrencyCode ??
-                                          storeInit?.CurrencyCode
+                                        : `${loginUserDetail?.CurrencyCode ??
+                                        storeInit?.CurrencyCode
                                         } ${opt?.Minval} 
-                                                   - ${
-                                                     loginUserDetail?.CurrencyCode ??
-                                                     storeInit?.CurrencyCode
-                                                   } ${opt?.Maxval}`
+                                                   - ${loginUserDetail?.CurrencyCode ??
+                                        storeInit?.CurrencyCode
+                                        } ${opt?.Maxval}`
                                   }
                                 />
                               </div>
@@ -2273,8 +2454,8 @@ const ProductList = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2303,12 +2484,12 @@ const ProductList = () => {
                               flexDirection: "column",
                               gap: "4px",
                               minHeight: "fit-content",
-                              maxHeight: "300px",
+                              // maxHeight: "300px",
                               overflow: "auto",
                             }}
                           >
                             {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                            <Box sx={{ width: 203, height: 88 }}>
+                            <Box sx={SharedStyleForRange}>
                               {RangeFilterView(ele)}
                             </Box>
                           </AccordionDetails>
@@ -2328,8 +2509,8 @@ const ProductList = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2363,69 +2544,69 @@ const ProductList = () => {
                             }}
                           >
                             {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                            <Box sx={{ width: 204, height: 88 }}>
+                            <Box sx={SharedStyleForRange}>
                               {RangeFilterView1(ele)}
                             </Box>
                           </AccordionDetails>
                         </Accordion>
                       )}
-                          {/* first condtion  */}
-                      { IsVaara  && 
-                      (ele?.Name?.includes("Gross") && (
-                        <Accordion
-                          elevation={0}
-                          sx={{
-                            borderBottom: "1px solid #c7c8c9",
-                            borderRadius: 0,
-                            "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                              borderBottomLeftRadius: "0px",
-                              borderBottomRightRadius: "0px",
-                            },
-                            "&.MuiPaper-root.MuiAccordion-root:before": {
-                              background: "none",
-                            },
-                          }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
-                        >
-                          <AccordionSummary
-                            expandIcon={
-                              <ExpandMoreIcon sx={{ width: "20px" }} />
-                            }
-                            aria-controls="panel1-content"
-                            id="panel1-header"
+                      {/* first condtion  */}
+                      {IsVaara &&
+                        (ele?.Name?.includes("Gross") && (
+                          <Accordion
+                            elevation={0}
                             sx={{
-                              color: "#7f7d85",
+                              borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
-
-                              "&.MuiAccordionSummary-root": {
-                                padding: 0,
+                              "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
+                              "&.MuiPaper-root.MuiAccordion-root:before": {
+                                background: "none",
                               },
                             }}
-                            // className="filtercategoryLable"
-                            onClick={() => handleScrollHeight()}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
                           >
-                            {/* <span> */}
-                            {ele.Fil_DisName}
-                            {/* </span> */}
-                          </AccordionSummary>
-                          <AccordionDetails
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "4px",
-                              minHeight: "fit-content",
-                              maxHeight: "300px",
-                              overflow: "auto",
-                            }}
-                          >
-                            <Box sx={{ width: 204, height: 88 }}>
-                              {RangeFilterView2(ele)}
-                            </Box>
-                          </AccordionDetails>
-                        </Accordion>
-                      )
-                      )
+                            <AccordionSummary
+                              expandIcon={
+                                <ExpandMoreIcon sx={{ width: "20px" }} />
+                              }
+                              aria-controls="panel1-content"
+                              id="panel1-header"
+                              sx={{
+                                color: "#7f7d85",
+                                borderRadius: 0,
+
+                                "&.MuiAccordionSummary-root": {
+                                  padding: 0,
+                                },
+                              }}
+                              // className="filtercategoryLable"
+                              onClick={() => handleScrollHeight()}
+                            >
+                              {/* <span> */}
+                              {ele.Fil_DisName}
+                              {/* </span> */}
+                            </AccordionSummary>
+                            <AccordionDetails
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "4px",
+                                minHeight: "fit-content",
+                                maxHeight: "300px",
+                                overflow: "auto",
+                              }}
+                            >
+                              <Box sx={SharedStyleForRange}>
+                                {RangeFilterView2(ele)}
+                              </Box>
+                            </AccordionDetails>
+                          </Accordion>
+                        )
+                        )
                       }
                     </>
                   ))}
@@ -2458,223 +2639,223 @@ const ProductList = () => {
                       />
                     </div>
                   ) : null
-                  // <div className="roop_prodSorting">
-                  //   <div className="empty_sorting_div">
-                  //     <span
-                  //       className="roop_breadcums_port "
-                  //       style={{ marginLeft: "72px" }}
-                  //       onClick={() => {
-                  //         navigate("/");
-                  //       }}
-                  //     >
-                  //       {"Home >"}{" "}
-                  //     </span>
+                    // <div className="roop_prodSorting">
+                    //   <div className="empty_sorting_div">
+                    //     <span
+                    //       className="roop_breadcums_port "
+                    //       style={{ marginLeft: "72px" }}
+                    //       onClick={() => {
+                    //         navigate("/");
+                    //       }}
+                    //     >
+                    //       {"Home >"}{" "}
+                    //     </span>
 
-                  //     {location?.search.charAt(1) == "A" && (
-                  //       <div
-                  //         className="roop_breadcums_port"
-                  //         style={{ marginLeft: "3px" }}
-                  //       >
-                  //         <span>{"Album"}</span>
-                  //       </div>
-                  //     )}
+                    //     {location?.search.charAt(1) == "A" && (
+                    //       <div
+                    //         className="roop_breadcums_port"
+                    //         style={{ marginLeft: "3px" }}
+                    //       >
+                    //         <span>{"Album"}</span>
+                    //       </div>
+                    //     )}
 
-                  //     {location?.search.charAt(1) == "T" && (
-                  //       <div
-                  //         className="roop_breadcums_port"
-                  //         style={{ marginLeft: "3px" }}
-                  //       >
-                  //         <span>{"Trending"}</span>
-                  //       </div>
-                  //     )}
+                    //     {location?.search.charAt(1) == "T" && (
+                    //       <div
+                    //         className="roop_breadcums_port"
+                    //         style={{ marginLeft: "3px" }}
+                    //       >
+                    //         <span>{"Trending"}</span>
+                    //       </div>
+                    //     )}
 
-                  //     {location?.search.charAt(1) == "B" && (
-                  //       <div
-                  //         className="roop_breadcums_port"
-                  //         style={{ marginLeft: "3px" }}
-                  //       >
-                  //         <span>{"Best Seller"}</span>
-                  //       </div>
-                  //     )}
+                    //     {location?.search.charAt(1) == "B" && (
+                    //       <div
+                    //         className="roop_breadcums_port"
+                    //         style={{ marginLeft: "3px" }}
+                    //       >
+                    //         <span>{"Best Seller"}</span>
+                    //       </div>
+                    //     )}
 
-                  //     {location?.search.charAt(1) == "N" && (
-                  //       <div
-                  //         className="roop_breadcums_port"
-                  //         style={{ marginLeft: "3px" }}
-                  //       >
-                  //         <span>{"New Arrival"}</span>
-                  //       </div>
-                  //     )}
+                    //     {location?.search.charAt(1) == "N" && (
+                    //       <div
+                    //         className="roop_breadcums_port"
+                    //         style={{ marginLeft: "3px" }}
+                    //       >
+                    //         <span>{"New Arrival"}</span>
+                    //       </div>
+                    //     )}
 
-                  //     {IsBreadCumShow && (
-                  //       <div
-                  //         className="roop_breadcums_port"
-                  //         style={{ marginLeft: "3px" }}
-                  //       >
-                  //         {menuParams?.menuname && (
-                  //           <span
-                  //             onClick={() =>
-                  //               handleBreadcums({
-                  //                 [menuParams?.FilterKey]:
-                  //                   menuParams?.FilterVal,
-                  //               })
-                  //             }
-                  //           >
-                  //             {menuParams?.menuname}
-                  //           </span>
-                  //         )}
+                    //     {IsBreadCumShow && (
+                    //       <div
+                    //         className="roop_breadcums_port"
+                    //         style={{ marginLeft: "3px" }}
+                    //       >
+                    //         {menuParams?.menuname && (
+                    //           <span
+                    //             onClick={() =>
+                    //               handleBreadcums({
+                    //                 [menuParams?.FilterKey]:
+                    //                   menuParams?.FilterVal,
+                    //               })
+                    //             }
+                    //           >
+                    //             {menuParams?.menuname}
+                    //           </span>
+                    //         )}
 
-                  //         {menuParams?.FilterVal1 && (
-                  //           <span
-                  //             onClick={() =>
-                  //               handleBreadcums({
-                  //                 [menuParams?.FilterKey]:
-                  //                   menuParams?.FilterVal,
-                  //                 [menuParams?.FilterKey1]:
-                  //                   menuParams?.FilterVal1,
-                  //               })
-                  //             }
-                  //           >
-                  //             {` > ${menuParams?.FilterVal1}`}
-                  //           </span>
-                  //         )}
+                    //         {menuParams?.FilterVal1 && (
+                    //           <span
+                    //             onClick={() =>
+                    //               handleBreadcums({
+                    //                 [menuParams?.FilterKey]:
+                    //                   menuParams?.FilterVal,
+                    //                 [menuParams?.FilterKey1]:
+                    //                   menuParams?.FilterVal1,
+                    //               })
+                    //             }
+                    //           >
+                    //             {` > ${menuParams?.FilterVal1}`}
+                    //           </span>
+                    //         )}
 
-                  //         {menuParams?.FilterVal2 && (
-                  //           <span
-                  //             onClick={() =>
-                  //               handleBreadcums({
-                  //                 [menuParams?.FilterKey]:
-                  //                   menuParams?.FilterVal,
-                  //                 [menuParams?.FilterKey1]:
-                  //                   menuParams?.FilterVal1,
-                  //                 [menuParams?.FilterKey2]:
-                  //                   menuParams?.FilterVal2,
-                  //               })
-                  //             }
-                  //           >
-                  //             {` > ${menuParams?.FilterVal2}`}
-                  //           </span>
-                  //         )}
+                    //         {menuParams?.FilterVal2 && (
+                    //           <span
+                    //             onClick={() =>
+                    //               handleBreadcums({
+                    //                 [menuParams?.FilterKey]:
+                    //                   menuParams?.FilterVal,
+                    //                 [menuParams?.FilterKey1]:
+                    //                   menuParams?.FilterVal1,
+                    //                 [menuParams?.FilterKey2]:
+                    //                   menuParams?.FilterVal2,
+                    //               })
+                    //             }
+                    //           >
+                    //             {` > ${menuParams?.FilterVal2}`}
+                    //           </span>
+                    //         )}
 
-                  //         {/* {
-                  //           decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")?.map((ele,i)=>(
-                  //               (i !== 2 && <span
-                  //                 onClick={() =>
-                  //                   handleBreadcums({
-                  //                     [menuParams?.FilterKey]:
-                  //                       menuParams?.FilterVal,
-                  //                   })
-                  //                 }
-                  //               >
-                  //                 {ele} {i !== decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")[decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")?.length-1] && ">"} {" "}
-                  //               </span>)
-                  //           ))
-                  //         } */}
-                  //       </div>
-                  //     )}
-                  //   </div>
+                    //         {/* {
+                    //           decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")?.map((ele,i)=>(
+                    //               (i !== 2 && <span
+                    //                 onClick={() =>
+                    //                   handleBreadcums({
+                    //                     [menuParams?.FilterKey]:
+                    //                       menuParams?.FilterVal,
+                    //                   })
+                    //                 }
+                    //               >
+                    //                 {ele} {i !== decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")[decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")?.length-1] && ">"} {" "}
+                    //               </span>)
+                    //           ))
+                    //         } */}
+                    //       </div>
+                    //     )}
+                    //   </div>
 
-                  // <div className="roop_main_sorting_div">
-                  //   <div className="roop_metal_custom">
-                  //     <label className="label">Metal:&nbsp;</label>
-                  //     <select
-                  //       className="select"
-                  //       value={selectedMetalId}
-                  //       onChange={(e) => setSelectedMetalId(e.target.value)}
-                  //     >
-                  //       {metalTypeCombo?.map((metalele, i) => (
-                  //         <option
-                  //           className="option"
-                  //           key={i}
-                  //           value={metalele?.Metalid}
-                  //         >
-                  //           {metalele?.metaltype.toUpperCase()}
-                  //         </option>
-                  //       ))}
-                  //     </select>
-                  //   </div>
+                    // <div className="roop_main_sorting_div">
+                    //   <div className="roop_metal_custom">
+                    //     <label className="label">Metal:&nbsp;</label>
+                    //     <select
+                    //       className="select"
+                    //       value={selectedMetalId}
+                    //       onChange={(e) => setSelectedMetalId(e.target.value)}
+                    //     >
+                    //       {metalTypeCombo?.map((metalele, i) => (
+                    //         <option
+                    //           className="option"
+                    //           key={i}
+                    //           value={metalele?.Metalid}
+                    //         >
+                    //           {metalele?.metaltype.toUpperCase()}
+                    //         </option>
+                    //       ))}
+                    //     </select>
+                    //   </div>
 
-                  //   {storeInit?.IsDiamondCustomization === 1 && (
-                  //     <div className="roop_dia_custom">
-                  //       <label className="label">Diamond:&nbsp;</label>
-                  //       <select
-                  //         className="select"
-                  //         value={selectedDiaId}
-                  //         onChange={(e) => setSelectedDiaId(e.target.value)}
-                  //       >
-                  //         {diaQcCombo?.map((diaQc, i) => (
-                  //           <option
-                  //             className="option"
-                  //             key={i}
-                  //             value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
-                  //           >
-                  //             {" "}
-                  //             {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
-                  //           </option>
-                  //         ))}
-                  //       </select>
-                  //     </div>
-                  //   )}
+                    //   {storeInit?.IsDiamondCustomization === 1 && (
+                    //     <div className="roop_dia_custom">
+                    //       <label className="label">Diamond:&nbsp;</label>
+                    //       <select
+                    //         className="select"
+                    //         value={selectedDiaId}
+                    //         onChange={(e) => setSelectedDiaId(e.target.value)}
+                    //       >
+                    //         {diaQcCombo?.map((diaQc, i) => (
+                    //           <option
+                    //             className="option"
+                    //             key={i}
+                    //             value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                    //           >
+                    //             {" "}
+                    //             {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                    //           </option>
+                    //         ))}
+                    //       </select>
+                    //     </div>
+                    //   )}
 
-                  //   {storeInit?.IsCsCustomization === 1 && (
-                  //     <div className="roop_cs_custom">
-                  //       <label className="label">color stone:&nbsp;</label>
-                  //       <select
-                  //         className="select"
-                  //         value={selectedCsId}
-                  //         onChange={(e) => setSelectedCsId(e.target.value)}
-                  //       >
-                  //         {csQcCombo?.map((csCombo, i) => (
-                  //           <option
-                  //             className="option"
-                  //             key={i}
-                  //             value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
-                  //           >
-                  //             {" "}
-                  //             {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
-                  //           </option>
-                  //         ))}
-                  //       </select>
-                  //     </div>
-                  //   )}
+                    //   {storeInit?.IsCsCustomization === 1 && (
+                    //     <div className="roop_cs_custom">
+                    //       <label className="label">color stone:&nbsp;</label>
+                    //       <select
+                    //         className="select"
+                    //         value={selectedCsId}
+                    //         onChange={(e) => setSelectedCsId(e.target.value)}
+                    //       >
+                    //         {csQcCombo?.map((csCombo, i) => (
+                    //           <option
+                    //             className="option"
+                    //             key={i}
+                    //             value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
+                    //           >
+                    //             {" "}
+                    //             {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
+                    //           </option>
+                    //         ))}
+                    //       </select>
+                    //     </div>
+                    //   )}
 
-                  //   <div className="roop_sorting_custom">
-                  //     <div className="container">
-                  //       <label className="label">Sort By:&nbsp;</label>
-                  //       <select
-                  //         className="select"
-                  //         value={sortBySelect}
-                  //         onChange={(e) => handleSortby(e)}
-                  //       >
-                  //         <option className="option" value="Recommended">
-                  //           Recommended
-                  //         </option>
-                  //         <option className="option" value="New">
-                  //           New
-                  //         </option>
-                  //         <option className="option" value="Trending">
-                  //           Trending
-                  //         </option>
-                  //         <option className="option" value="In Stock">
-                  //           In stock
-                  //         </option>
-                  //         <option
-                  //           className="option"
-                  //           value="PRICE HIGH TO LOW"
-                  //         >
-                  //           Price High To Low
-                  //         </option>
-                  //         <option
-                  //           className="option"
-                  //           value="PRICE LOW TO HIGH"
-                  //         >
-                  //           Price Low To High
-                  //         </option>
-                  //       </select>
-                  //     </div>
-                  //   </div>
-                  // </div>
-                  // </div>
+                    //   <div className="roop_sorting_custom">
+                    //     <div className="container">
+                    //       <label className="label">Sort By:&nbsp;</label>
+                    //       <select
+                    //         className="select"
+                    //         value={sortBySelect}
+                    //         onChange={(e) => handleSortby(e)}
+                    //       >
+                    //         <option className="option" value="Recommended">
+                    //           Recommended
+                    //         </option>
+                    //         <option className="option" value="New">
+                    //           New
+                    //         </option>
+                    //         <option className="option" value="Trending">
+                    //           Trending
+                    //         </option>
+                    //         <option className="option" value="In Stock">
+                    //           In stock
+                    //         </option>
+                    //         <option
+                    //           className="option"
+                    //           value="PRICE HIGH TO LOW"
+                    //         >
+                    //           Price High To Low
+                    //         </option>
+                    //         <option
+                    //           className="option"
+                    //           value="PRICE LOW TO HIGH"
+                    //         >
+                    //           Price Low To High
+                    //         </option>
+                    //       </select>
+                    //     </div>
+                    //   </div>
+                    // </div>
+                    // </div>
                   }
 
                   <GivaFilterMenu
@@ -2708,6 +2889,7 @@ const ProductList = () => {
                     setCurrPage={setCurrPage}
                     currPage={currPage}
                     IsVaara={IsVaara}
+                    showClearAllButton={showClearAllButton}
                   />
 
                   <div className="roop_mainPortion">
@@ -2759,9 +2941,12 @@ const ProductList = () => {
                             <div
                               className="roop_outer_portion"
                               id="roop_outer_portion"
+                              style={finalProductListData?.length <= 6 ? { minHeight: '80vh' } : {}}
                             >
                               {/* <div className="roop_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
-                              <div className="roop_inner_portion">
+                              <div className="roop_inner_portion"
+                       
+                              >
                                 {finalProductListData?.map((productData, i) => {
                                   const isChecked =
                                     cartArr[productData?.autocode] ??
@@ -2887,11 +3072,11 @@ const ProductList = () => {
                                             src={
                                               productData?.VideoCount > 0
                                                 ? storeInit?.CDNVPath +
-                                                  productData?.designno +
-                                                  "~" +
-                                                  1 +
-                                                  "." +
-                                                  productData?.VideoExtension
+                                                productData?.designno +
+                                                "~" +
+                                                1 +
+                                                "." +
+                                                productData?.VideoExtension
                                                 : ""
                                             }
                                             // src={productData?.VideoCount > 0 ?
@@ -2908,7 +3093,7 @@ const ProductList = () => {
                                             onError={(e) => {
                                               e.target.poster = imageNotFound;
                                             }}
-                                            // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
+                                          // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
                                           />
                                         ) : (
                                           <>
@@ -2942,8 +3127,8 @@ const ProductList = () => {
                                                     productData?.autocode
                                                   ]
                                                     ? rollOverImgPd[
-                                                        productData?.autocode
-                                                      ]
+                                                    productData?.autocode
+                                                    ]
                                                     : productData?.images[0]
                                                 }
                                                 onError={(e) => {
@@ -2958,15 +3143,15 @@ const ProductList = () => {
                                                 //       : imageNotFound
                                                 // }
                                                 alt=""
-                                                // onClick={() =>
-                                                //   handleMoveToDetail(productData)
-                                                // }
-                                                // onMouseEnter={() => {
-                                                //   handleImgRollover(productData);
-                                                // }}
-                                                // onMouseLeave={() => {
-                                                //   handleLeaveImgRolloverImg(productData);
-                                                // }}
+                                              // onClick={() =>
+                                              //   handleMoveToDetail(productData)
+                                              // }
+                                              // onMouseEnter={() => {
+                                              //   handleImgRollover(productData);
+                                              // }}
+                                              // onMouseLeave={() => {
+                                              //   handleLeaveImgRolloverImg(productData);
+                                              // }}
                                               />
                                             )}
                                           </>
@@ -2976,17 +3161,17 @@ const ProductList = () => {
                                         <div className="roop_prod_Title">
                                           <span
                                             className="roop1_prod_title_with_width"
-                                            // className={
-                                            //   (productData?.TitleLine?.length > 30)
-                                            //     ?
-                                            //     "roop1_prod_title_with_width"
-                                            //     :
-                                            //     "roop1_prod_title_with_no_width"
-                                            // }
+                                          // className={
+                                          //   (productData?.TitleLine?.length > 30)
+                                          //     ?
+                                          //     "roop1_prod_title_with_width"
+                                          //     :
+                                          //     "roop1_prod_title_with_no_width"
+                                          // }
                                           >
                                             {productData?.designno}{" "}
                                             {productData?.TitleLine &&
-                                            productData?.designno
+                                              productData?.designno
                                               ? " - "
                                               : ""}
                                             {productData?.TitleLine}
@@ -3016,7 +3201,7 @@ const ProductList = () => {
                                             <div className="roop_prod_wt_div">
                                               {storeInit?.IsGrossWeight == 1 &&
                                                 Number(productData?.Gwt) !==
-                                                  0 && (
+                                                0 && (
                                                   <span className="roop_prod_wt">
                                                     <span className="roop_main_keys">
                                                       GWT:
@@ -3030,19 +3215,19 @@ const ProductList = () => {
                                                 )}
                                               {Number(productData?.Nwt) !==
                                                 0 && (
-                                                <>
-                                                  <span className="roop_prod_wt">
-                                                    <span className="roop_main_keys">
-                                                      NWT:
+                                                  <>
+                                                    <span className="roop_prod_wt">
+                                                      <span className="roop_main_keys">
+                                                        NWT:
+                                                      </span>
+                                                      <span className="roop_main_val">
+                                                        {productData?.Nwt?.toFixed(
+                                                          3
+                                                        )}
+                                                      </span>
                                                     </span>
-                                                    <span className="roop_main_val">
-                                                      {productData?.Nwt?.toFixed(
-                                                        3
-                                                      )}
-                                                    </span>
-                                                  </span>
-                                                </>
-                                              )}
+                                                  </>
+                                                )}
                                             </div>
                                             <div className="roop_prod_wt_div">
                                               <span className="roop_price">
@@ -3059,7 +3244,7 @@ const ProductList = () => {
                                               {storeInit?.IsDiamondWeight ==
                                                 1 &&
                                                 Number(productData?.Dwt) !==
-                                                  0 && (
+                                                0 && (
                                                   <span className="roop_prod_wt">
                                                     <span className="roop_main_keys">
                                                       DWT:
@@ -3069,7 +3254,7 @@ const ProductList = () => {
                                                         3
                                                       )}
                                                       {storeInit?.IsDiamondPcs ===
-                                                      1
+                                                        1
                                                         ? `/${productData?.Dpcs}`
                                                         : null}
                                                     </span>
@@ -3158,7 +3343,7 @@ const ProductList = () => {
                                               }
                                               checked={
                                                 cartArr[
-                                                  productData?.autocode
+                                                productData?.autocode
                                                 ] ?? productData?.IsInCart === 1
                                               }
                                               onChange={(e) =>
@@ -3189,7 +3374,7 @@ const ProductList = () => {
                             </div>
                             {storeInit?.IsProductListPagination == 1 &&
                               Math.ceil(afterFilterCount / storeInit.PageSize) >
-                                1 && (
+                              1 && (
                                 <div
                                   style={{
                                     display: "flex",
@@ -3273,7 +3458,8 @@ const GivaFilterMenu = ({
   handleBreadcums,
   setCurrPage,
   currPage,
-  IsVaara
+  IsVaara,
+  showClearAllButton
 }) => {
   const [showMenu, setshowMenu] = useState(-1);
   const menuRef = useRef(null);
@@ -3395,6 +3581,13 @@ const GivaFilterMenu = ({
     { value: "PRICE HIGH TO LOW", label: "Price High To Low" },
     { value: "PRICE LOW TO HIGH", label: "Price Low To High" },
   ];
+  const SharedStyleForRange = { width: 170, height: 'auto' , '@media (max-width:1520px)': {
+    width: 165, // Example of how to change width on small screens
+        }, '@media (max-width:1410px)': {
+          width: 160, // Example of how to change width on small screens
+              },'@media (max-width:1290px)': {
+          width: 145, // Example of how to change width on small screens
+              }, }
   // useEffect(() => {
   //   // Function to handle outside click
   //   const handleOutsideClick = (e) => {
@@ -3499,8 +3692,8 @@ const GivaFilterMenu = ({
                                                 ]?.checked === undefined
                                                   ? false
                                                   : filterChecked[
-                                                      `${ele?.id}${opt?.id}`
-                                                    ]?.checked
+                                                    `${ele?.id}${opt?.id}`
+                                                  ]?.checked
                                               }
                                               style={{
                                                 padding: 0,
@@ -3544,7 +3737,7 @@ const GivaFilterMenu = ({
                                                 ?.checked === undefined
                                                 ? false
                                                 : filterChecked[`Price${i}${i}`]
-                                                    ?.checked
+                                                  ?.checked
                                             }
                                             style={{
                                               padding: 0,
@@ -3563,23 +3756,19 @@ const GivaFilterMenu = ({
                                           <CustomLabel
                                             text={
                                               opt?.Minval == 0
-                                                ? `Under ${
-                                                    loginUserDetail?.CurrencyCode ??
-                                                    storeInit?.CurrencyCode
-                                                  } ${opt?.Maxval}`
+                                                ? `Under ${loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode
+                                                } ${opt?.Maxval}`
                                                 : opt?.Maxval == 0
-                                                ? `Over ${
-                                                    loginUserDetail?.CurrencyCode ??
-                                                    storeInit?.CurrencyCode
+                                                  ? `Over ${loginUserDetail?.CurrencyCode ??
+                                                  storeInit?.CurrencyCode
                                                   } ${opt?.Minval}`
-                                                : `${
-                                                    loginUserDetail?.CurrencyCode ??
-                                                    storeInit?.CurrencyCode
+                                                  : `${loginUserDetail?.CurrencyCode ??
+                                                  storeInit?.CurrencyCode
                                                   } ${opt?.Minval} 
-                                                    - ${
-                                                      loginUserDetail?.CurrencyCode ??
-                                                      storeInit?.CurrencyCode
-                                                    } ${opt?.Maxval}`
+                                                    - ${loginUserDetail?.CurrencyCode ??
+                                                  storeInit?.CurrencyCode
+                                                  } ${opt?.Maxval}`
                                             }
                                           />
                                         }
@@ -3597,16 +3786,18 @@ const GivaFilterMenu = ({
                                 borderBottom: "1px solid #c7c8c9",
                                 borderRadius: 0,
                                 "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                  {
-                                    borderBottomLeftRadius: "0px",
-                                    borderBottomRightRadius: "0px",
-                                  },
+                                {
+                                  borderBottomLeftRadius: "0px",
+                                  borderBottomRightRadius: "0px",
+                                },
                                 "&.MuiPaper-root.MuiAccordion-root:before": {
                                   background: "none",
                                 },
+                                height:"auto",
+                                paddingBlock:"unset",
                               }}
-                              // expanded={accExpanded}
-                              // defaultExpanded={}
+                            // expanded={accExpanded}
+                            // defaultExpanded={}
                             >
                               <AccordionSummary
                                 expandIcon={
@@ -3615,14 +3806,14 @@ const GivaFilterMenu = ({
                                 aria-controls="panel1-content"
                                 id="panel1-header"
                                 sx={{
-                                  color: "#7f7d85",
+                                  color: "black",
                                   borderRadius: 0,
 
                                   "&.MuiAccordionSummary-root": {
                                     padding: 0,
                                   },
                                 }}
-                                // className="filtercategoryLable"
+                              // className="filtercategoryLable"
                               >
                                 {/* <span> */}
                                 {ele.Fil_DisName}
@@ -3636,10 +3827,11 @@ const GivaFilterMenu = ({
                                   minHeight: "fit-content",
                                   maxHeight: "300px",
                                   overflow: "auto",
+                                  marginTop:"-2rem"
                                 }}
                               >
                                 {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                                <Box sx={{ width: 203, height: 88 }}>
+                                <Box sx={SharedStyleForRange}>
                                   {RangeFilterView(ele)}
                                 </Box>
                               </AccordionDetails>
@@ -3652,16 +3844,16 @@ const GivaFilterMenu = ({
                                 borderBottom: "1px solid #c7c8c9",
                                 borderRadius: 0,
                                 "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                  {
-                                    borderBottomLeftRadius: "0px",
-                                    borderBottomRightRadius: "0px",
-                                  },
+                                {
+                                  borderBottomLeftRadius: "0px",
+                                  borderBottomRightRadius: "0px",
+                                },
                                 "&.MuiPaper-root.MuiAccordion-root:before": {
                                   background: "none",
                                 },
                               }}
-                              // expanded={accExpanded}
-                              // defaultExpanded={}
+                            // expanded={accExpanded}
+                            // defaultExpanded={}
                             >
                               <AccordionSummary
                                 expandIcon={
@@ -3670,7 +3862,7 @@ const GivaFilterMenu = ({
                                 aria-controls="panel1-content"
                                 id="panel1-header"
                                 sx={{
-                                  color: "#7f7d85",
+                                  color: "black",
                                   borderRadius: 0,
 
                                   "&.MuiAccordionSummary-root": {
@@ -3692,10 +3884,12 @@ const GivaFilterMenu = ({
                                   minHeight: "fit-content",
                                   maxHeight: "300px",
                                   overflow: "auto",
+                                  marginTop:"-2rem"
+
                                 }}
                               >
                                 {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                                <Box sx={{ width: 204, height: 88 }}>
+                                <Box sx={SharedStyleForRange}>
                                   {RangeFilterView1(ele)}
                                 </Box>
                               </AccordionDetails>
@@ -3703,62 +3897,63 @@ const GivaFilterMenu = ({
                           )}
                           {/* first condtion  */}
                           {
-                            IsVaara  && 
-                         ( ele?.Name?.includes("Gross") && (
-                            <Accordion
-                              elevation={0}
-                              sx={{
-                                borderBottom: "1px solid #c7c8c9",
-                                borderRadius: 0,
-                                "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                            IsVaara &&
+                            (ele?.Name?.includes("Gross") && (
+                              <Accordion
+                                elevation={0}
+                                sx={{
+                                  borderBottom: "1px solid #c7c8c9",
+                                  borderRadius: 0,
+                                  "&.MuiPaper-root.MuiAccordion-root:last-of-type":
                                   {
                                     borderBottomLeftRadius: "0px",
                                     borderBottomRightRadius: "0px",
                                   },
-                                "&.MuiPaper-root.MuiAccordion-root:before": {
-                                  background: "none",
-                                },
-                              }}
-                              // expanded={accExpanded}
-                              // defaultExpanded={}
-                            >
-                              <AccordionSummary
-                                expandIcon={
-                                  <ExpandMoreIcon sx={{ width: "20px" }} />
-                                }
-                                aria-controls="panel1-content"
-                                id="panel1-header"
-                                sx={{
-                                  color: "#7f7d85",
-                                  borderRadius: 0,
-
-                                  "&.MuiAccordionSummary-root": {
-                                    padding: 0,
+                                  "&.MuiPaper-root.MuiAccordion-root:before": {
+                                    background: "none",
                                   },
                                 }}
-                                // className="filtercategoryLable"
-                                onClick={() => handleScrollHeight()}
+                              // expanded={accExpanded}
+                              // defaultExpanded={}
                               >
-                                {/* <span> */}
-                                {ele.Fil_DisName}
-                                {/* </span> */}
-                              </AccordionSummary>
-                              <AccordionDetails
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  gap: "4px",
-                                  minHeight: "fit-content",
-                                  maxHeight: "300px",
-                                  overflow: "auto",
-                                }}
-                              >
-                                <Box sx={{ width: 204, height: 88 }}>
-                                  {RangeFilterView2(ele)}
-                                </Box>
-                              </AccordionDetails>
-                            </Accordion>
-                          ))
+                                <AccordionSummary
+                                  expandIcon={
+                                    <ExpandMoreIcon sx={{ width: "20px" }} />
+                                  }
+                                  aria-controls="panel1-content"
+                                  id="panel1-header"
+                                  sx={{
+                                    color: "black",
+                                    borderRadius: 0,
+
+                                    "&.MuiAccordionSummary-root": {
+                                      padding: 0,
+                                    },
+                                  }}
+                                  // className="filtercategoryLable"
+                                  onClick={() => handleScrollHeight()}
+                                >
+                                  {/* <span> */}
+                                  {ele.Fil_DisName}
+                                  {/* </span> */}
+                                </AccordionSummary>
+                                <AccordionDetails
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: "4px",
+                                    minHeight: "fit-content",
+                                    maxHeight: "300px",
+                                    overflow: "auto",
+                                  marginTop:"-2rem"
+                                  }}
+                                >
+                                  <Box sx={SharedStyleForRange}>
+                                    {RangeFilterView2(ele)}
+                                  </Box>
+                                </AccordionDetails>
+                              </Accordion>
+                            ))
                           }
                         </>
                       ))}
@@ -4068,6 +4263,7 @@ const GivaFilterMenu = ({
           filterChecked={filterChecked}
           afterCountStatus={afterCountStatus}
           handelFilterClearAll={handelFilterClearAll}
+          showClearAllButton={showClearAllButton}
         />
       </div>
     </>
@@ -4193,49 +4389,55 @@ const ClearAllAndTotalResult = ({
   filterChecked,
   afterCountStatus,
   handelFilterClearAll,
+  showClearAllButton = () => { }
 }) => {
   return (
     <div className="clear_fmg_list">
       <span className="roop_filter_text">
         <span>
-          {Object.values(filterChecked).filter((ele) => ele.checked)?.length ===
-          0 ? (
-            ""
-          ) : (
-            <>
-              {afterCountStatus == true ? (
-                <Skeleton
-                  variant="rounded"
-                  width={140}
-                  height={22}
-                  className="pSkelton"
-                />
+          {
+            // Object.values(filterChecked).filter((ele) => ele.checked)?.length ===            0 
+            !showClearAllButton()
+              ?
+              (
+                ""
               ) : (
-                <span className="fmg_total_product">{`Product Found : ${afterFilterCount}`}</span>
+                <>
+                  {afterCountStatus == true ? (
+                    <Skeleton
+                      variant="rounded"
+                      width={140}
+                      height={22}
+                      className="pSkelton"
+                    />
+                  ) : (
+                    <span className="fmg_total_product">{`Product Found : ${afterFilterCount}`}</span>
+                  )}
+                </>
               )}
-            </>
-          )}
         </span>
         <span onClick={() => handelFilterClearAll()}>
-          {Object.values(filterChecked).filter((ele) => ele.checked)?.length >
-          0 ? (
-            <div className="fmg_remove_All">
-              Remove All <IoClose />
-            </div>
-          ) : (
-            <>
-              {afterCountStatus == true ? (
-                <Skeleton
-                  variant="rounded"
-                  width={140}
-                  height={22}
-                  className="pSkelton"
-                />
+          {
+            // Object.values(filterChecked).filter((ele) => ele.checked)?.length >            0 
+            showClearAllButton()
+              ? (
+                <div className="fmg_remove_All">
+                  Remove All <IoClose />
+                </div>
               ) : (
-                <span className="fmg_total_product">{`Total Products : ${afterFilterCount}`}</span>
+                <>
+                  {afterCountStatus == true ? (
+                    <Skeleton
+                      variant="rounded"
+                      width={140}
+                      height={22}
+                      className="pSkelton"
+                    />
+                  ) : (
+                    <span className="fmg_total_product">{`Total Products : ${afterFilterCount}`}</span>
+                  )}
+                </>
               )}
-            </>
-          )}
         </span>
       </span>
     </div>
