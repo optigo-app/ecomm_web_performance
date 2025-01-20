@@ -899,7 +899,7 @@ const AccountLedger = () => {
                                                 let closeIcon = null;
                                                 let d_doneIcon = null;
                                                 let d_closeIcon = null;
-
+                                                
                                             if (e.IsVerified === 0) {
                                                 doneIcon = '';
                                             } else if (e.IsVerified === 1) {
