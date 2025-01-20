@@ -197,6 +197,7 @@ const ForEveryRoutes = () => {
         style={{
           marginTop: `${navHeight+15}px`,
           overflow: "hidden",
+          paddingBottom:"2rem"
         }}
       >
         <Routes>

@@ -22,6 +22,7 @@ export const getDomainName = async () => {
     const domainMap = {
       "almacarino.procatalog.in": "almacarino",
       "shreediamond.optigoapps.com": "sdj",
+      'varajewels.com': "vaara",
       'localhost': "default",
     };
     return domainMap[hostname] || "default";

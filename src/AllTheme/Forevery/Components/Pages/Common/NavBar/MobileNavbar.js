@@ -207,8 +207,8 @@ export default function MobileNav({ open, onClose }) {
     setShowModal(!showModal);
   };
 
-  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
-  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const steps = JSON?.parse(sessionStorage?.getItem("customizeSteps"));
+  const steps1 = JSON?.parse(sessionStorage?.getItem("customizeSteps2"));
   const checkSteps =
     (steps?.[2] !== undefined && steps?.[2] !== null) ||
     (steps1?.[2] !== undefined && steps1?.[2] !== null);

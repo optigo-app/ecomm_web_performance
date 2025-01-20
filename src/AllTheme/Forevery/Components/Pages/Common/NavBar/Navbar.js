@@ -857,8 +857,8 @@ const FirstNavMenu = ({
   const banner = useHomeBannerImages();
 
 
-  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
-  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const steps = JSON?.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON?.parse(sessionStorage.getItem("customizeSteps2"));
 
   const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1)?.[2]?.url}`;
 
