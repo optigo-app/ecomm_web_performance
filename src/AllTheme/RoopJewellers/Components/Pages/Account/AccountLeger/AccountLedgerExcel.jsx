@@ -40,7 +40,6 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
       obj.otherWt += a?.OtherWt;
     })
 
-    console.log(filterArray);
     
     setSummaryObj(obj);
     
@@ -60,7 +59,7 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
     <table id='table-to-xls'>
       <tr>
             
-                <td align='center' ><h3>Balance Gold</h3></td>
+                <td align='center' ><h3>Balance Metal</h3></td>
                 <td colSpan={5} align='center'>
                     <h3>
                     <b>
@@ -106,8 +105,8 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                 </td>
       </tr>
       <tr>
-        <th colSpan={8} align='center'>DEBIT</th>
-        <th  colSpan={8} align='center'>CREDIT</th>
+        <th colSpan={11} align='center'>DEBIT</th>
+        <th  colSpan={11} align='center'>CREDIT</th>
       </tr>
       <tr>
         <th  align='center'>DATE</th>
@@ -205,7 +204,8 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                             }
                         </th>
                         <th  align='center'>
-                            {formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === '0.00' ? '' :  <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>}
+                            {/* {formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === '0.00' ? '' :  
+                            <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>} */}
                             &nbsp;
                         </th>
                         <th></th>
@@ -220,15 +220,16 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                         <th  align='center'>
                           {/* <th> */}
                           {
-                            formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : 
-                            ((formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === 'NaN' ? '0.00' : 
-                            formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
+                            ((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : 
+                            ((((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === 'NaN' ? '0.00' : 
+                            ((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
                             ))
                           }
                           {/* </th> */}
                         </th>
                         <th  align='center'>
-                          {formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>}
+                          {/* {formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : 
+                          <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>} */}
                         </th>
                         <th></th>
                         <th  align='center'>
@@ -239,7 +240,7 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
         <tr>
           <td colSpan={18}></td>
         <td colSpan={2} align='center'>Balance (Amt) : </td>
-        <td colSpan={2} align='center'><b>{summaryObj?.balance_amt}</b></td>
+        <td colSpan={2} align='center'><b><span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>&nbsp; {summaryObj?.balance_amt?.toFixed(2)}</b></td>
       </tr>
       <tr>
       <td colSpan={18}></td>
@@ -248,27 +249,27 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
       </tr>
       <tr>
       <td colSpan={18}></td>
-        <td colSpan={2} align='center'>Balance Metal :</td>
-        <td colSpan={2} align='center'><b>{summaryObj?.metal}</b></td>
+        <td colSpan={2} align='center'>Balance (Metal) :</td>
+        <td colSpan={2} align='center'><b>{summaryObj?.metal?.toFixed(2)}</b></td>
       </tr>
       <tr>
       <td colSpan={18}></td>
-        <td colSpan={2} align='center'>Gold:</td>
+        <td colSpan={2} align='center'>Gold (gm) :</td>
         <td colSpan={2} align='center'><b>{summaryObj?.goldWt?.toFixed(3)}</b></td>
       </tr>
       <tr>
       <td colSpan={18}></td>
-        <td colSpan={2} align='center'>Silver:</td>
+        <td colSpan={2} align='center'>Silver (gm) :</td>
         <td colSpan={2} align='center'><b>{summaryObj?.silverWt?.toFixed(3)}</b></td>
       </tr>
       <tr>
       <td colSpan={18}></td>
-        <td colSpan={2} align='center'>Platinum:</td>
+        <td colSpan={2} align='center'>Platinum (gm) :</td>
         <td colSpan={2} align='center'><b>{summaryObj?.platinumWt?.toFixed(3)}</b></td>
       </tr>
       <tr>
       <td colSpan={18}></td>
-        <td colSpan={2} align='center'>Others:</td>
+        <td colSpan={2} align='center'>Others (gm) :</td>
         <td colSpan={2} align='center'><b>{summaryObj?.otherWt?.toFixed(3)}</b></td>
       </tr>
     </table>
