@@ -89,7 +89,8 @@ const CartItem = ({
     const returnValue = await onRemove(item);
 
     const existingData = JSON.parse(sessionStorage.getItem('custStepData')) || [];
-    const existingData1 = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
+    const existingData1 = JSON.parse(sessionStorage.getItem('custStepData2Ring')) || [];
+    const existingData2 = JSON.parse(sessionStorage.getItem('custStepData2Pendant')) || [];
 
     if (existingData1?.[0]?.step1Data != undefined) {
       const newIsInCartValue = 0;
@@ -107,7 +108,26 @@ const CartItem = ({
         return step;
       });
 
-      sessionStorage.setItem('custStepData2', JSON.stringify(updatedData));
+      sessionStorage.setItem('custStepData2Ring', JSON.stringify(updatedData));
+    }
+
+    if (existingData2?.[0]?.step1Data != undefined) {
+      const newIsInCartValue = 0;
+
+      const updatedData = existingData2.map(step => {
+        if (step.step1Data != undefined) {
+          return {
+            ...step,
+            step1Data: {
+              ...step.step1Data,
+              IsInCart: newIsInCartValue
+            }
+          };
+        }
+        return step;
+      });
+
+      sessionStorage.setItem('custStepData2Pendant', JSON.stringify(updatedData));
     }
 
     if (existingData?.[1]?.step2Data != undefined) {
@@ -157,6 +177,7 @@ const CartItem = ({
   const handleError = (event) => {
     event.target.src = noImageFound;
   };
+  console.log('diamondData: ', diamondData);
 
 
   return (

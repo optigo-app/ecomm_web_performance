@@ -11,9 +11,8 @@ const Stepper = ({ Swap, StyleCondition, setswap, customizeStep }) => {
     const location = useLocation();
     const getStepName = location?.pathname.split('/');
     const getCustStepData = JSON?.parse(sessionStorage?.getItem('customizeSteps'));
-    console.log('getCustStepData: ', getCustStepData);
-    const getCustStepData2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
-    console.log('getCustStepData2: ', getCustStepData2);
+    const getCustStepData2 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
+    const getCustStepData3 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
     const getdiaData = JSON.parse(sessionStorage.getItem('custStepData'));
     const getdiaData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
     console.log('getdiaData2: ', getdiaData2);

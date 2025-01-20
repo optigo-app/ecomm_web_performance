@@ -152,26 +152,38 @@ const NewOrderHistoryF = () => {
   const handleMoveToDetail = (productData) => {
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    let obj = {
-      a: productData?.autocode,
-      b: productData?.designno,
-      m: loginInfo?.MetalId,
-      d: loginInfo?.cmboDiaQCid,
-      c: loginInfo?.cmboCSQCid,
-      f: {},
-    };
-    let encodeObj = compressAndEncode(JSON.stringify(obj));
+    if (productData?.Sol_StockNo) {
+      const obj = {
+        a: productData?.Sol_StockNo,
+        b: productData?.Sol_Shapename,
+      };
 
-    productData?.TitleLine === undefined
-      ? navigate(`/d/${productData?.designno}?p=${encodeObj}`)
-      : navigate(
-        `/d/${productData?.TitleLine &&
-        productData?.TitleLine?.replace(/\s+/g, `_`)
-        }${productData?.TitleLine && productData?.TitleLine?.length > 0
-          ? "_"
-          : ""
-        }${productData?.designno}?p=${encodeObj}`
-      );
+      let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+      let navigateUrl = `/d/${productData?.Sol_StockNo}/det345/?p=${encodeObj}`;
+      navigate(navigateUrl);
+    } else {
+      let obj = {
+        a: productData?.autocode,
+        b: productData?.designno,
+        m: loginInfo?.MetalId,
+        d: loginInfo?.cmboDiaQCid,
+        c: loginInfo?.cmboCSQCid,
+        f: {},
+      };
+      let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+      productData?.TitleLine === undefined
+        ? navigate(`/d/${productData?.designno}?p=${encodeObj}`)
+        : navigate(
+          `/d/${productData?.TitleLine &&
+          productData?.TitleLine?.replace(/\s+/g, `_`)
+          }${productData?.TitleLine && productData?.TitleLine?.length > 0
+            ? "_"
+            : ""
+          }${productData?.designno}?p=${encodeObj}`
+        );
+    }
   };
 
   const compressAndEncode = (inputString) => {
@@ -270,6 +282,7 @@ const NewOrderHistoryF = () => {
   };
 
   const [images, setImages] = useState([]);
+  console.log('images: ', images);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -503,7 +516,7 @@ const NewOrderHistoryF = () => {
                                             />
                                             {/* <img src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`} onError={handleOrderImageError} alt="#designimage" style={{ maxHeight: '90px', maxWidth: '90px', marginRight: '10px' }} onClick={() => handleMoveToDetail(el)} /> */}
                                             <div>
-                                              <div>{el?.designno}</div>
+                                              <div>{el?.designno ? `${el?.designno} - Quantity ${el?.quantity}` : (`${el?.Sol_StockNo} - Quantity ${el?.quantity}` ?? "")}</div>
                                               <div>{el?.metaltypename?.toUpperCase()?.split(" ")[1]} {el?.metalcolorname?.toUpperCase()} {el?.metaltypename?.toUpperCase()?.split(" ")[0]}</div>
                                               <div style={{ fontWeight: 'bold' }}><span style={{ paddingRight: '5px' }} dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></span>
                                                 {formatAmount2(el?.TotalUnitCostWithDiscount)}</div>

@@ -10,6 +10,10 @@
   align-items: center;
   margin-bottom: 2rem;
   margin-top: 5rem;
+
+  @media (max-width: 425px) {
+    margin-top: 3rem;
+  }
   .shape_Section {
     display: flex;
     gap: 2.2rem;

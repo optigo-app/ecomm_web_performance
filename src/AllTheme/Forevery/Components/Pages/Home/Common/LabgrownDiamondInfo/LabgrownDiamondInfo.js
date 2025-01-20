@@ -98,7 +98,7 @@ const MobileInfo = ({bgImage}) => {
   return (
     <>
       <div className="mobile_info_for">
-        <div className="main_wrap_title">
+        {/* <div className="main_wrap_title">
           <div className="title_head">Lab Grown Diamonds</div>
           <p className="paragraph">
             Lab-grown diamonds are a revolutionary new way to elevate every
@@ -108,11 +108,11 @@ const MobileInfo = ({bgImage}) => {
             those seeking the beauty and brilliance of a diamond. Now enjoy the
             beauty of diamonds without compromising on their value.
           </p>
-        </div>
+        </div> */}
         <div className="image_hos">
           <img className="bg-img-for-mob" src={bgImage} alt="" />
         </div>
-        <div className="mobile-content ">
+        {/* <div className="mobile-content ">
           <div className="beauty-and-quality blocks ">
             <div className="lg-items-head ">
               <img
@@ -170,7 +170,7 @@ const MobileInfo = ({bgImage}) => {
               there is no mining required.
             </p>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

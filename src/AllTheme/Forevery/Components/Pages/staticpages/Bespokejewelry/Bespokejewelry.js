@@ -99,6 +99,7 @@ const Bespokejewelry = () => {
           setLoading(false);
         } else {
           toast.error("Something went wrong");
+          setLoading(false);
         }
       })
       setOpen(false);
@@ -106,6 +107,7 @@ const Bespokejewelry = () => {
     }
     else {
       setError(formErrors);
+      setLoading(false);
     }
   };
 
