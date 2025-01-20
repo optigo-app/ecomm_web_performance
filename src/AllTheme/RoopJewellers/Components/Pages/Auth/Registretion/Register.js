@@ -102,21 +102,20 @@ export default function Register() {
       } else {
         setErrors((prevErrors) => ({ ...prevErrors, lastName: "" }));
       }
-    } else if (fieldName === "mobileNo") {
+    } else if (fieldName === 'mobileNo') {
       if (!value.trim()) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          mobileNo: "Mobile No. is required",
-        }));
+        setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Mobile No. is required' }));
       } else if (!/^\d{10}$/.test(value.trim())) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          mobileNo: "Enter Valid mobile number",
-        }));
+        if (/[\s-+!@#$%^&*(),.?":{}|<>]/.test(value)) {
+          setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Mobile number should not contain hyphens or special characters' }));
+        } else {
+          setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Enter a valid 10-digit mobile number' }));
+        }
       } else {
-        setErrors((prevErrors) => ({ ...prevErrors, mobileNo: "" }));
+        setErrors(prevErrors => ({ ...prevErrors, mobileNo: '' }));
       }
-    } else if (fieldName === "email") {
+    }
+     else if (fieldName === "email") {
       if (!value.trim()) {
         setErrors((prevErrors) => ({
           ...prevErrors,
