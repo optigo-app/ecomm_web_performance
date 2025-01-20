@@ -71,7 +71,6 @@ const ShoptheCollections = () => {
   if(albumList?.length === 0){
     return ;
   }
-  
 
   return (
     <div className="forevery_ShoptheCollections">

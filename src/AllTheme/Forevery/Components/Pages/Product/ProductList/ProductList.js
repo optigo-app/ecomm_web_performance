@@ -117,6 +117,7 @@ const ProductList = () => {
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [open, setOpen] = useState(null);
   const [selectedValues, setSelectedValues] = useState([]);
+  console.log('selectedValues: ', selectedValues);
   const [ratingvalue, setratingvalue] = useState(5);
   const [selectMetalColor, setSelectMetalColor] = useState(null);
   const [hoverIndex, setHoverIndex] = useState(true);
@@ -233,6 +234,12 @@ const ProductList = () => {
   useEffect(() => {
     callAllApi();
   }, [storeInit])
+
+  useEffect(() => {
+    setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
+    setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+    setTrend('Recommended')
+  }, [location?.key])
 
   useEffect(() => {
     const data = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -602,15 +609,19 @@ const ProductList = () => {
 
         if (res) {
           setProductListData(res?.pdList);
-          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+
           const highestPrice = res?.pdList?.reduce((max, item) => {
             return Math.max(max, item?.UnitCostWithMarkUpIncTax);
           }, 0);
           setHighestPrice(highestPrice);
+
           const lowestPrice = res?.pdList?.reduce((min, item) => {
-            return Math.min(min, item?.UnitCostWithMarkUpIncTax);
-          }, 0);
+            const value = item?.UnitCostWithMarkUpIncTax;
+            return value > 0 ? Math.min(min, value) : min;
+          }, Infinity);
           setLowestPrice(lowestPrice);
+
           setPriceRangeValue([lowestPrice, highestPrice]);
         }
 
@@ -630,7 +641,7 @@ const ProductList = () => {
       setLocationKey(location?.key);
     }
     setCurrPage(1)
-  }, [location?.key,]);
+  }, [location?.key]);
 
   const handleBreadcums = (mparams) => {
 
@@ -771,6 +782,13 @@ const ProductList = () => {
 
     let sortby = e.target?.value
 
+    setTimeout(() => {
+      window.scroll({
+        top: 0,
+        behavior: 'smooth'
+      })
+    }, 100)
+
     await ProductListApi(output, 1, obj, prodListType, cookie, sortby, "")
       .then((res) => {
         if (res) {
@@ -802,9 +820,9 @@ const ProductList = () => {
 
   const handlePriceSliderChange = async (event, newValue) => {
     const roundedValue = newValue.map(val => parseInt(val));
-    // let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-    // let pricerange = { PriceMin: newValue[0], PriceMax: newValue[1] };
-    // await ProductListApi(pricerange, 1, obj, prodListType, cookie);
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    let pricerange = { PriceMin: newValue[0], PriceMax: newValue[1] };
+    await ProductListApi(pricerange, 1, obj, prodListType, cookie);
     setPriceRangeValue(roundedValue)
     handleButton(4, roundedValue); // index 4 is the index for price range
   };
@@ -816,13 +834,14 @@ const ProductList = () => {
   };
 
   const handleButton = (dropdownIndex, value) => {
+  
     setSelectedValues(prev => {
       const existingIndex = prev.findIndex(item => item.dropdownIndex === dropdownIndex);
       const newValue = { dropdownIndex, value };
-
+  
       if (existingIndex >= 0) {
         if (JSON.stringify(prev[existingIndex].value) === JSON.stringify(value)) {
-          return prev.filter((_, i) => i !== existingIndex); // Remove if the same value is selected again
+          return prev.filter((_, i) => i !== existingIndex); 
         }
         // Update existing value
         const updatedValues = [...prev];
@@ -834,7 +853,6 @@ const ProductList = () => {
       }
     });
   };
-
 
   const getMatchCollName = () => {
     const getCollectionNameFromURL = location?.pathname.split('/')?.[2];
@@ -870,7 +888,7 @@ const ProductList = () => {
     // const matchCollName = getMatchCollName();
     // setDefaultValues(matchCollName);
     setDefaultValues();
-  }, [metalType, diamondType, selectedDiaId, location?.pathname]);
+  }, [metalType, diamondType, selectedDiaId, location?.pathname, location?.key]);
 
   const handleRemoveValues = (index) => {
     setSelectedValues((prev) => {
@@ -904,7 +922,7 @@ const ProductList = () => {
     });
 
     setCaratRangeValue([0.96, 41.81]);
-    setPriceRangeValue([0, highestPrice]);
+    setPriceRangeValue([lowestPrice, highestPrice]);
   };
 
   const handleClearSelectedvalues = () => {
@@ -914,7 +932,7 @@ const ProductList = () => {
     setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
 
     setCaratRangeValue([0.96, 41.81]);
-    setPriceRangeValue([0, highestPrice]);
+    setPriceRangeValue([lowestPrice, highestPrice]);
     setTrend("Recommended");
     setSortBySelect("");
 
@@ -1956,7 +1974,7 @@ const Product_Card = ({
                 />
               </>
             }
-            label={<span className={`for_productList_cart_title`}>{isChecked ? "In Cart" : "Add to Cart"}</span>}
+            label={<span className={`for_productList_cart_title`}>{isChecked ? "Remove from Cart" : "Add to Cart"}</span>}
             className="for_productList_listinig_ATC_div"
           />
         </div>

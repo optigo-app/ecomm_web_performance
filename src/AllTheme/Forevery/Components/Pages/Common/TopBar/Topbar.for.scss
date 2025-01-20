@@ -2,18 +2,19 @@
 
 .for_topbar {
   width: 100%;
-  height: 25px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #000000;
+  background-color: $ProjectActiveColor;
+  // background-color: #000000;
   font-family: $primaryFontFamily;
   position: fixed;
   top: 0;
   z-index: 9999;
   span {
-    color: white;
-    font-size: 13px;
+    color: black;
+    font-size: 18px;
     font-weight: 400;
   }
 

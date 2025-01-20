@@ -372,7 +372,7 @@ const CartPage = () => {
         />
 
       </div>
-      <NewsletterSignup />
+      {/* <NewsletterSignup /> */}
     </div>
   );
 };

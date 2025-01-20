@@ -1,43 +1,80 @@
+import { Helmet } from "react-helmet";
 import React, { useEffect, useState } from "react";
+import { lazy } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import Cookies from "js-cookie";
+import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
+import { mala_companyLogo, mala_companyLogoM, mala_loginState } from "./Components/Recoil/atom";
+import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
+
+// import Home from "./Components/Pages/Home/Index";
+// import Header from "./Components/Pages/Home/Header/Header";
+// import Cart from "./Components/Pages/Cart/CartMain";
+// import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
+// import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
+// import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
+// import ProductList from "./Components/Pages/Product/ProductList/ProductList";
+// import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
+// import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
+// import ServicePolicy from "./Components/Pages/FooterPages/servicePolicy/ServicePolicy";
+// import ExpertAdvice from "./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice";
+// import FunFact from "./Components/Pages/FooterPages/FunFact/FunFact";
+// import Register from "./Components/Pages/Auth/Registretion/Register";
+// import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile";
+// import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
+// import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode";
+// import AboutUs from "./Components/Pages/aboutUs/AboutUs";
+// import Wishlist from "./Components/Pages/Wishlist/Wishlist";
+// import PageNotFound from "./Components/Pages/404Page/PageNotFound";
+// import PrivateRoutes from "./PrivateRoutes";
+// import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
+// import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
+// import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
+// import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
+// import Header2 from "./Components/Pages/Home/Header/Header2";
+// import Account from "./Components/Pages/Account/Account";
+// import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
+// import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
+// import Footer from "./Components/Pages/Home/Footer/Footer";
+// import TermsPolicy from "./Components/Pages/FooterPages/TermsPolicy/TermsPolicy";
+// import PrivacyPolicy from "./Components/Pages/FooterPages/PrivacyPolicy/PrivacyPolicy";
+
 import Home from "./Components/Pages/Home/Index";
 import Header from "./Components/Pages/Home/Header/Header";
-import Cart from "./Components/Pages/Cart/CartMain";
-import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
-import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
-import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import ProductList from "./Components/Pages/Product/ProductList/ProductList";
-import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
-import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
-import ServicePolicy from "./Components/Pages/FooterPages/servicePolicy/ServicePolicy";
-import ExpertAdvice from "./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice";
-import FunFact from "./Components/Pages/FooterPages/FunFact/FunFact";
-import Register from "./Components/Pages/Auth/Registretion/Register";
-import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile";
-import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
-import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode";
-import AboutUs from "./Components/Pages/aboutUs/AboutUs";
-import Wishlist from "./Components/Pages/Wishlist/Wishlist";
-import PageNotFound from "./Components/Pages/404Page/PageNotFound";
-import PrivateRoutes from "./PrivateRoutes";
-import { Helmet } from "react-helmet";
-import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
-import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
-import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
-import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
 import Header2 from "./Components/Pages/Home/Header/Header2";
-import Account from "./Components/Pages/Account/Account";
-import Cookies from "js-cookie";
-import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
-import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
-import { mala_companyLogo, mala_companyLogoM, mala_loginState } from "./Components/Recoil/atom";
-import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
-import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
 import Footer from "./Components/Pages/Home/Footer/Footer";
-import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
-import TermsPolicy from "./Components/Pages/FooterPages/TermsPolicy/TermsPolicy";
-import PrivacyPolicy from "./Components/Pages/FooterPages/PrivacyPolicy/PrivacyPolicy";
+import PrivateRoutes from "./PrivateRoutes";
+import PageNotFound from "./Components/Pages/404Page/PageNotFound";
+import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
+import { Suspense } from "react";
+
+// Lazy load components that are not immediately needed
+const Cart = lazy(() => import("./Components/Pages/Cart/CartMain"));
+const LoginOption = lazy(() => import("./Components/Pages/Auth/LoginOption/LoginOption"));
+const ContinueWithEmail = lazy(() => import("./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail"));
+const LoginWithEmail = lazy(() => import("./Components/Pages/Auth/LoginWithEmail/LoginWithEmail"));
+const ProductList = lazy(() => import("./Components/Pages/Product/ProductList/ProductList"));
+const ProductDetail = lazy(() => import("./Components/Pages/Product/ProductDetail/ProductDetail"));
+const ContactUs = lazy(() => import("./Components/Pages/FooterPages/contactUs/ContactUs"));
+const ExpertAdvice = lazy(() => import("./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice"));
+const FunFact = lazy(() => import("./Components/Pages/FooterPages/FunFact/FunFact"));
+const Register = lazy(() => import("./Components/Pages/Auth/Registretion/Register"));
+const ContimueWithMobile = lazy(() => import("./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile"));
+const LoginWithEmailCode = lazy(() => import("./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode"));
+const LoginWithMobileCode = lazy(() => import("./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode"));
+const AboutUs = lazy(() => import("./Components/Pages/aboutUs/AboutUs"));
+const Wishlist = lazy(() => import("./Components/Pages/Wishlist/Wishlist"));
+const Delivery = lazy(() => import("./Components/Pages/OrderFlow/DeliveryPage/Delivery"));
+const Payment = lazy(() => import("./Components/Pages/OrderFlow/PaymentPage/Payment"));
+const Confirmation = lazy(() => import("./Components/Pages/OrderFlow/ConfirmationPage/Confirmation"));
+const ForgotPass = lazy(() => import("./Components/Pages/Auth/forgotPass/ForgotPass"));
+const Account = lazy(() => import("./Components/Pages/Account/Account"));
+const Lookbook = lazy(() => import("./Components/Pages/Home/LookBook/Lookbook"));
+const TermsPolicy = lazy(() => import("./Components/Pages/FooterPages/TermsPolicy/TermsPolicy"));
+const PrivacyPolicy = lazy(() => import("./Components/Pages/FooterPages/PrivacyPolicy/PrivacyPolicy"));
+
+
 
 const MalakanJewels_App = () => {
   const islogin = useRecoilValue(mala_loginState);
@@ -61,11 +98,11 @@ const MalakanJewels_App = () => {
           const jsonData = JSON?.parse(text);
           setHtmlContent(jsonData);
         } catch (error) {
-          console.error("Error parsing JSON:", error);
+          console.warn("Error parsing JSON:", error);
         }
       })
       .catch((error) => {
-        console.error("Error fetching the file:", error);
+        console.warn("Error fetching the file:", error);
       });
   }, []);
 
@@ -184,7 +221,7 @@ const MalakanJewels_App = () => {
   }
 
   return (
-    <>
+    <Suspense fallback={<></>}>
       <Helmet>
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
@@ -255,7 +292,7 @@ const MalakanJewels_App = () => {
           ''
       }
       <StamScrollToTop />
-    </>
+    </Suspense>
   );
 };
 

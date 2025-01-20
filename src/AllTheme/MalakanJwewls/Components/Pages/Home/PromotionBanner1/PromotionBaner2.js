@@ -22,7 +22,7 @@ const PromotionBaner1 = ({data}) => {
 
 
             {/* <img src={`${storImagePath()}/images/HomePage/BespokeBanner/bespokemiddlebanner.png`} className='mala_promo_secton2_img' /> */}
-            <img src={data?.image?.[0]} className='mala_promo_secton2_img' />
+            <img src={data?.image?.[0]} className='mala_promo_secton2_img' alt='bespokemiddlebanner' />
         </div>
     )
 }

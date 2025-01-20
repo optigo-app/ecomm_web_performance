@@ -16,7 +16,7 @@ import Pako from "pako";
 import btnstyle from "../../../../scss/Button.module.scss";
 import { FaChevronDown } from "react-icons/fa";
 
-const NewArrivalCarousel = ({ showmore = false ,data}) => {
+const NewArrivalCarousel = ({ showmore = false, data }) => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const navigation = useNavigate();
   const [storeInit, setStoreInit] = useState({});
@@ -29,7 +29,7 @@ const NewArrivalCarousel = ({ showmore = false ,data}) => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
     let data = JSON.parse(sessionStorage.getItem("storeInit"));
-    setImageUrl(data?.DesignImageFol);
+    setImageUrl(data?.CDNDesignImageFol);
     const loginUserDetail = JSON.parse(
       sessionStorage.getItem("loginUserDetail")
     );
@@ -77,7 +77,7 @@ const NewArrivalCarousel = ({ showmore = false ,data}) => {
       TrendingProductlist.map(async (item) => {
         const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
         const validatedURL = await checkImageAvailability(imageURL);
-        return { ...item, validatedImageURL: validatedURL };
+        return { ...item, validatedImageURL: imageURL };
       })
     );
     setValidatedData(validatedData);
@@ -142,9 +142,9 @@ const NewArrivalCarousel = ({ showmore = false ,data}) => {
       </div>
       <div className="for_carousel">
         <Swiper
-        style={{
-          width:"100%"
-        }}
+          style={{
+            width: "100%"
+          }}
           slidesPerView={4}
           freeMode={true}
           spaceBetween={10}
@@ -204,10 +204,10 @@ const NewArrivalCarousel = ({ showmore = false ,data}) => {
         >
           {validatedData?.map((data, i) => {
             return (
-              <SwiperSlide 
-              style={{
-                width:"100%"
-              }}
+              <SwiperSlide
+                style={{
+                  width: "100%"
+                }}
               >
                 <ProductCard
                   title={
@@ -279,6 +279,7 @@ const ProductCard = ({
           alt=""
           onClick={onclick}
           style={{ cursor: "pointer" }}
+          onError={(e) => e.target.src = imageNotFound}
         />
         {/* <div className="addtocart_overlay">
           <HiOutlineShoppingBag size={22} /> <span>Add To Cart</span>

@@ -395,6 +395,7 @@ const SettingPage = () => {
       if (stepsData === null && stepsData2 === null && steps1?.[0]?.step1 !== true) {
         const step1 = [{ "step1": true, "Setting": getSetting }];
         sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
+        console.log("updatedStep1 step2 Setting", step1)
       }
     }
   }

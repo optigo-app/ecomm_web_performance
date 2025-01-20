@@ -451,13 +451,13 @@ const NavbarRight = ({
                   <div
                     className="item_a"
                     onClick={() => {
-                      Navigate("/account");
+                      Navigate("/account", { state: { id: 1 } });
                       window.scrollTo({ behavior: "smooth", top: 0 });
                     }}
                   >
                     <li>my orders</li>
                   </div>
-                  <div
+                  {/* <div
                     className="item_a"
                     onClick={() => {
                       Navigate("/account");
@@ -465,7 +465,7 @@ const NavbarRight = ({
                     }}
                   >
                     <li>my details</li>
-                  </div>
+                  </div> */}
                   <hr />
                   <div className="item_a" onClick={() => handleLogout()}>
                     <li>log out</li>
@@ -786,10 +786,11 @@ const NavitemsWrapper = ({
   }, []);
   return (
     <>
+    {/*before 118  after 133px */}
       <div
         className="first_nav"
         style={{
-          top: `${height}px`,
+          top: `${height+15}px`,
         }}
         ref={firstNavRef}
       >
@@ -856,8 +857,8 @@ const FirstNavMenu = ({
   const banner = useHomeBannerImages();
 
 
-  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
-  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const steps = JSON?.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON?.parse(sessionStorage.getItem("customizeSteps2"));
 
   const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1)?.[2]?.url}`;
 

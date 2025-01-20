@@ -1,5 +1,6 @@
 @import "../../scss/variable.scss";
 
+
 .for_pm_PromotionalBanner {
   width: 100%;
   height: 100vh;
@@ -18,16 +19,20 @@
   .discount-popup {
     background-color: #000;
     border: 1px solid #fff;
-    max-width: 900px;
+    max-width: 450px;
     position: relative;
     width: 100%;
     display: flex;
-    @media screen and (max-width : 1018px) {
-    max-width: 700px;
+    flex-direction: column;
+    height: 80vh;
+    .close_for_api{
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      cursor: pointer;
+      z-index: 7777;
     }
-    @media screen and (max-width : 824px) {
-      max-width: 100%;
-      }
+  
       @media screen and (max-width : 768px) {
         max-width: 60%;
         }
@@ -37,20 +42,107 @@
           @media screen and (max-width : 472px) {
             max-width: 80%;
             }
-            @media screen and (max-width : 410px) {
-              max-width: 90%;
+            @media screen and (max-width : 520px) {
+              max-width: 94%;
+              }
+              .forevery_center_mode{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                color: white;
+                background-color: black;
+                border: 1px solid rgb(82, 73, 73);  
+                z-index: 9999;
+                padding: 10px;
+                img{
+                  aspect-ratio: 4/auto;
+                  width: 100%;
+                  object-fit: contain;
+                }
               }
     .for-col-discount {
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 40px 20px 20px;
+      // padding: 40px 20px 20px;
       width: 100%;
       height: 100%;
       align-items: center;
       text-align: center;
       color: white;
       position: relative;
+      background-repeat: no-repeat;
+      height: 100%;
+      background-size: cover;
+      .content{
+        padding-top: 60px;
+        padding-inline: 25px;
+        @media screen and (max-width : 768px) {
+          padding-inline: 10px;
+          padding-top: 55px;
+        }
+        @media screen and (max-width : 520px) {
+          padding-inline: 10px;
+          }
+        h2{
+          font-weight: 700;
+          color: black;
+          margin: unset;
+          font-size: 32px;
+        }
+        h4{
+          font-weight: 400;
+          font-size: 18px;
+          line-height: 20px;
+          font-weight: 400;
+          color: gray;
+          padding: 0 65px;
+          text-transform: capitalize !important;
+        }
+        .for_pb_btn {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: absolute;
+          bottom: 2rem;
+          top: 90%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 50%;
+            a {
+            background: #e9e8e8;
+            margin-top: -1rem;
+            color: #000 !important;
+            display: inline-block;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding: 8px 12px;
+            position: relative;
+            text-transform: uppercase;
+            transition: 0.5s; 
+            text-decoration: none;
+            border: none;
+            width: 100%;
+            @media screen and (max-width : 768px) {
+              padding: 10px 25px;
+              text-wrap: nowrap;
+              width: unset;
+            }
+            @media screen and (max-width : 520px) {
+              padding: 10px 45px;
+              text-wrap: nowrap;
+              width: unset;
+            }
+          }
+        }
+      }
 
       .close_for_btn{
         position: absolute;
@@ -171,13 +263,11 @@
       }
     }
     .for-col-image {
-      padding: 40px 20px 20px;
+      // padding: 40px 20px 20px;
       flex: 1;
       background-repeat: no-repeat;
+      height: 100%;
       background-size: cover;
-      @media screen and (max-width : 768px) {
-        display: none;
-        }
-    }
+      }
   }
 }

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { REACT_APP_WEB } from '../../../../env';
 
 export const Storeinit = async (param) => {
   // const APIURL = 'https://api.optigoapps.com/storev26/store.aspx';

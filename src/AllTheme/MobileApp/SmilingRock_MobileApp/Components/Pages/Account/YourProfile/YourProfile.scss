@@ -56,6 +56,9 @@
         flex-direction: column !important;
         align-items: center !important;
         width: 100% !important;
+        .labgrowRegister{
+            width: 95% !important;
+        }
     }
 }
 
@@ -93,7 +96,7 @@
         top: 45% !important;
         left: 48.5% !important;
         transform: translate(-50%, -50%) !important;
-        width: 300px !important;
+        width: 90% !important;
         height: 100vh !important;
         max-height: 80vh;
         overflow-y: scroll;

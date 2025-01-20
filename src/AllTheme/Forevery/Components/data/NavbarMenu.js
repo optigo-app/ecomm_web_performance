@@ -81,9 +81,10 @@ const NavbarMenu = [
   },
   {
     category: "High End Jewelry",
-    link: "/p/Ikigai/?M=SWtpZ2FpL2NvbGxlY3Rpb24=",
+    link: "/p/M_F_D_CS/Rebellious/?M=UmViZWxsaW91cywsL2NvbGxlY3Rpb24=",
+    // link: "/p/Ikigai/?M=SWtpZ2FpL2NvbGxlY3Rpb24=",
     disabled: false,
-    IsB2b : true ,
+    IsB2b: true,
   },
   // {
   //   category: "Fine Jewelry",
@@ -120,13 +121,14 @@ const diamondShapes = [
 
 const RingCategory = `Ring/category`;
 const filterKeyVal1 = btoa(RingCategory);
-const RingsNavi = `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal1}`;
+
+const RingsNavi = `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=Round/M=${filterKeyVal1}`;
 const EaringCategory = `Earring/category`;
 const filterKeyVal2 = btoa(EaringCategory);
-const EaringNavi = `/certified-loose-lab-grown-diamonds/settings/Earring/M=${filterKeyVal2}`;
+const EaringNavi = `/certified-loose-lab-grown-diamonds/settings/Earring/diamond_shape=Round/M=${filterKeyVal2}`;
 const PendantCategory = `Pendant/category`;
 const filterKeyVal3 = btoa(PendantCategory);
-const PendantNavi = `/certified-loose-lab-grown-diamonds/settings/Pendant/M=${filterKeyVal3}`;
+const PendantNavi = `/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=Round/M=${filterKeyVal3}`;
 
 const SideItems = [
   {
@@ -487,27 +489,42 @@ const LooseDiamond = [
   },
 ];
 
+const encodeLink = (link) => btoa(link);
+
+const styleLinks = {
+  Solitaire: "Solitaire/style",
+  Halo: "Halo/style",
+  Vintage: "Vintage/style",
+  Side_Stone: "Side Stone/style",
+  Designer: "Designer/style",
+};
+
 const ringscollection = [
   {
     key: "solitaire",
     image: `${storImagePath()}/Forevery/ring-col/1.webp`,
+    link: `/certified-loose-lab-grown-diamonds/settings/Ring/Solitaire/M=${encodeLink(styleLinks?.Solitaire)}`
   },
 
   {
     key: "halo",
     image: `${storImagePath()}/Forevery/ring-col/4.webp`,
+    link: `/certified-loose-lab-grown-diamonds/settings/Ring/Halo/M=${encodeLink(styleLinks?.Halo)}`
   },
   {
     key: "vintage",
     image: `${storImagePath()}/Forevery/ring-col/7.webp`,
+    link: `/certified-loose-lab-grown-diamonds/settings/Ring/Vintage/M=${encodeLink(styleLinks?.Vintage)}`
   },
   {
     key: "side stone",
     image: `${storImagePath()}/Forevery/ring-col/10.webp`,
+    link: `/certified-loose-lab-grown-diamonds/settings/Ring/Side_Stone/M=${encodeLink(styleLinks?.Side_Stone)}`
   },
   {
     key: "designer",
     image: `${storImagePath()}/Forevery/ring-col/13.webp`,
+    link: `/certified-loose-lab-grown-diamonds/settings/Ring/Designer/M=${encodeLink(styleLinks?.Designer)}`
   },
 ];
 

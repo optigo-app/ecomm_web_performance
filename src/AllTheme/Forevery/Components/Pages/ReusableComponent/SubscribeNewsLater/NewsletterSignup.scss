@@ -30,6 +30,7 @@
     font-size: 1rem;
     margin-bottom: 20px;
     padding-inline: 10px;
+
     a {
       text-decoration: none;
       color: inherit;
@@ -41,23 +42,35 @@
     justify-content: center;
     margin-bottom: 15px;
 
-    input {
-      padding: 8.2px 20px;
-      font-size: $fontSize2;
-      border: 1px solid #ccc;
-      margin-right: 20px;
-      outline: none;
-      color: $primaryfontcolor;
-      width: 250px;
+    .email-input-with-error {
+      display: flex;
+      flex-direction: column;
 
-      &:focus {
-        border-color: #000;
+      input {
+        padding: 8.2px 20px;
+        font-size: $fontSize2;
+        border: 1px solid #ccc;
+        margin-right: 20px;
+        outline: none;
+        color: $primaryfontcolor;
+        width: 250px;
+
+        &:focus {
+          border-color: #000;
+        }
+      }
+
+      .for-error-message-news {
+        display: flex;
+        width: 15.5rem;
+        text-align: justify;
       }
     }
 
     button {
       padding: 8px 20px;
       font-size: $fontSize2;
+      height: 2.4rem;
     }
   }
 
@@ -79,21 +92,31 @@
   }
 
   @media (max-width: 600px) {
-    .sub-text{
-        font-size: 12px;
-        margin-left: -10px;
-        font-weight: 400;
-        text-align: left;
-        color: black;
+    .sub-text {
+      font-size: 12px;
+      margin-left: -10px;
+      font-weight: 400;
+      text-align: left;
+      color: black;
     }
+
     .email-input {
       flex-direction: column;
       width: 100%;
 
-      input {
-        border-radius: 1px;
-        margin-bottom: 10px;
+      .email-input-with-error {
         width: 100%;
+
+        input {
+          border-radius: 1px;
+          margin-bottom: 2px;
+          width: 100%;
+        }
+
+        .for-error-message-news{
+          width: 100%;
+          margin-bottom: 2px;
+        }
       }
 
       button {

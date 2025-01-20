@@ -35,18 +35,18 @@ function Home() {
             <ShoptheCollections />
             <LabgrownDiamondInfo data={banner?.middleBanner} />
             <ShapeSection />
-            <DiamondLifeTime data={banner?.middleBanner} />
+            {/* <DiamondLifeTime data={banner?.middleBanner} /> */}
             {data?.IsHomeTrending == 1 && <ProductCarousel />}
             <Bestseller />
             <Banner data={banner?.promotionalBanner} />
             {data?.IsHomeNewArrival == 1 && (
               <NewArrivalCarousel data={banner?.newArrivalBanner} />
             )}
-            <OurServices />
+            {/* <OurServices /> */}
             <HistoryPage data={banner?.bottomBanner} />
             <InstagramSection />
-            <GetInTouch data={banner?.bottomBanner} />
-            <NewsletterSignup />
+            {/* <GetInTouch data={banner?.bottomBanner} /> */}
+            {/* <NewsletterSignup /> */}
           </div>
         </div>
       </div>

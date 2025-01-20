@@ -12,10 +12,10 @@ const TheDifference = ({ data }) => {
   };
   return (
     <div className="malkana-containerrr">
-      <h1 className="malkana-heading">CRAFTMANSHIP</h1>
+      <h1 className="malkana-heading" role="heading">CRAFTMANSHIP</h1>
 
       <div className="malkana-videoContainer">
-        <video autoPlay loop muted playsInline className="malkana-video" src={data?.video?.[0]}>
+        <video autoPlay loop muted playsInline controls={false} className="malkana-video"  src={data?.video?.[0]}>
           {/* <source src={data?.video?.[0]} type="video/mp4" />
           <source
             src={data?.video[0].replace(".mp4", ".webm")}
@@ -25,7 +25,7 @@ const TheDifference = ({ data }) => {
         </video>
       </div>
 
-      <p className="malkana-description">
+      <p className="malkana-description" aria-label="description">
         Crafting timeless pieces with unparalleled attention to detail
       </p>
     </div>
