@@ -29,7 +29,7 @@ const RingCarousel = ({ showmore = false }) => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
     let data = JSON.parse(sessionStorage.getItem("storeInit"));
-    setImageUrl(data?.DesignImageFol);
+    setImageUrl(data?.CDNDesignImageFol);
     const loginUserDetail = JSON.parse(
       sessionStorage.getItem("loginUserDetail")
     );
@@ -85,7 +85,9 @@ const RingCarousel = ({ showmore = false }) => {
     }
   };
   const NoImageFound = `${storImagePath()}/Forevery/noimage.jpg`;
-
+  if(ringsCollection?.length === 0 ){
+    return ;
+  }
   return (
     <div className="for_ProductCarousel">
       <div className="heading">
@@ -147,7 +149,10 @@ const RingCarousel = ({ showmore = false }) => {
         >
           {ringsCollection?.map((data, i) => {
             return (
-              <SwiperSlide>
+              <SwiperSlide
+              style={{
+                width:"100%"
+              }}>
                 <ProductCard
                   title={
                     !data?.TitleLine?.length > 0
@@ -158,7 +163,7 @@ const RingCarousel = ({ showmore = false }) => {
                     data?.ImageCount >= 1
                       ? `${imageUrl}${
                           data?.designno === undefined ? "" : data?.designno
-                        }_1.${
+                        }~1.${
                           data?.ImageExtension === undefined
                             ? ""
                             : data.ImageExtension

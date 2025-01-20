@@ -336,8 +336,8 @@ const Diamond = () => {
           </div>
         </div>
       </div>
-      <OurServices />
-      <NewsletterSignup />
+      {/* <OurServices />
+      <NewsletterSignup /> */}
     </div>
   );
 };

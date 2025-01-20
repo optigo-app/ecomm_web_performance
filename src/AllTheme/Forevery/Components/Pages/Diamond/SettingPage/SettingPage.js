@@ -1428,19 +1428,19 @@ const Product_Card = ({
           <div className="for_settingList_desc_div">
             <div>
               {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
-                <span>GWT : {productData?.Gwt.toFixed(3)}</span>
+                <span>GWT : {productData?.Gwt?.toFixed(3)}</span>
               )}
               {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
-                <span>&nbsp;| NWT : {productData?.Nwt.toFixed(3)}</span>
+                <span>&nbsp;| NWT : {productData?.Nwt?.toFixed(3)}</span>
               )}
               {storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0 && (
-                <span>&nbsp;| DWT : {productData?.Dwt.toFixed(3)}{storeInit?.IsDiamondPcs === 1
+                <span>&nbsp;| DWT : {productData?.Dwt?.toFixed(3)}{storeInit?.IsDiamondPcs === 1
                   ? `/ ${productData?.Dpcs?.toFixed(0)}`
                   : null}</span>
               )}
               {storeInit?.IsStoneWeight == 1 &&
                 Number(productData?.CSwt) !== 0 && (
-                  <span>&nbsp;| CWT : {productData?.CSwt.toFixed(3)}{storeInit?.IsStonePcs === 1
+                  <span>&nbsp;| CWT : {productData?.CSwt?.toFixed(3)}{storeInit?.IsStonePcs === 1
                     ? `/ ${productData?.CSpcs?.toFixed(0)}`
                     : null}</span>
                 )}

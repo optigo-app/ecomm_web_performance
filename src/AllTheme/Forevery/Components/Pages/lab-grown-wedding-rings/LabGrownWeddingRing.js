@@ -42,7 +42,7 @@ const LabGrownWeddingRing = () => {
       <ShopByCategory />
       <RingCarousel showmore={true} />
       <MeetTheMatch />
-      <NewsletterSignup />
+      {/* <NewsletterSignup /> */}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './Account.scss'
 import { Box,  Tab, Tabs,  Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
@@ -77,6 +77,8 @@ export default function Account() {
     const navigation = useNavigate();
     const [accountInner, setAccountInner] = useState(accountDetailPages());
     const loginUSerDeatil = JSON.parse(sessionStorage.getItem('loginUserDetail'))
+    const componentRef = useRef(null);
+    const [size, setSize] = useState({ width: 0, height: 0 });
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -85,6 +87,24 @@ export default function Account() {
     const handleChangeSub = (event, newValue) => {
         setValue1(newValue);
     }
+    useEffect(() => {
+        const resizeObserver = new ResizeObserver((entries) => {
+            entries.forEach(entry => {
+                setSize({
+                    width: entry.contentRect.width,
+                    height: entry.contentRect.height
+                });
+            });
+        });
+
+        if (componentRef.current) {
+            resizeObserver.observe(componentRef.current);
+        }
+
+        return () => {
+            resizeObserver.disconnect();
+        };
+    }, []);
 
     // const handleLogout = () => {
     //     setIsLoginState('false')
@@ -123,7 +143,7 @@ export default function Account() {
       }
 
     return (
-        <div className='accountTab_Account_RPJ'>
+        <div className='accountTab_Account_RPJ' ref={componentRef}>
             <div className='accountPagTabSection'>
                 <div>
                     <div className='Smiling-AccountMain'>

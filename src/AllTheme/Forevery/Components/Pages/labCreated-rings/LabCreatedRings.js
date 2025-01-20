@@ -28,7 +28,7 @@ const LabCreatedRings = () => {
       <Metalcolor />
       <RingCarousel showmore={true} />
       <BannerNew />
-      <NewsLetter />
+      {/* <NewsLetter /> */}
     </div>
   );
 };

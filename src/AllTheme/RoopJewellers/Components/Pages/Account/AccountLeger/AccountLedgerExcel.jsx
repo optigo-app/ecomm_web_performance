@@ -6,23 +6,43 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
   const [summaryObj, setSummaryObj ] = useState({
     balance_amt : 0,
     diam : 0,
-    metal:0
+    metal:0,
+    goldWt:0,
+    silverWt:0,
+    platinumWt:0,
+    otherWt:0,
+    metalctw:0
   });
+
+  
 
   useEffect(() => {
     let obj = {
       balance_amt : 0,
       diam : 0,
-      metal:0
+      metal:0,
+      goldWt:0,
+      silverWt:0,
+      platinumWt:0,
+      otherWt:0,
+      metalctw:0
     }
 
     obj.balance_amt = ((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency) - (debit_amt_diff + resultTotal?.debit_totalcurrency));
     obj.diam = ((Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt) - (debit_curr_diff + resultTotal?.debit_diamondwt));
     obj.metal = ((Math.abs(credit_mg_diff) + resultTotal?.credit_metalgold) - (debit_mg_diff + resultTotal?.debit_metalgold));
 
+    filterArray?.forEach((a) => {
+      obj.metalctw += a?.metalctw;
+      obj.goldWt += a?.GoldWt;
+      obj.silverWt += a?.SilverWt;
+      obj.platinumWt += a?.PlatinumWt;
+      obj.otherWt += a?.OtherWt;
+    })
+
+    
     setSummaryObj(obj);
     
-
   },[filterArray, credit_curr_diff, credit_amt_diff, credit_mg_diff, credit_dia_diff, debit_curr_diff, debit_amt_diff, debit_mg_diff, debit_dia_diff, resultTotal, currencySymbol, currencyRate]);
 
   return (
@@ -39,8 +59,8 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
     <table id='table-to-xls'>
       <tr>
             
-                <td align='center' ><h3>Balance Gold</h3></td>
-                <td colSpan={3} align='center'>
+                <td align='center' ><h3>Balance Metal</h3></td>
+                <td colSpan={5} align='center'>
                     <h3>
                     <b>
                     {   ((((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - 
@@ -54,7 +74,7 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                 <td></td>
                 <td></td>
                 <td align='center'><h3>Balance Diamond</h3></td>
-                <td colSpan={3} align='center'>
+                <td colSpan={5} align='center'>
                     <h3>
                     <b>
                     { ((((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)) === 'NaN' ? '0.00'
@@ -66,7 +86,7 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                 <td></td>
                 <td></td>
                 <td align='center'><h3>Balance Amount</h3></td>
-                <td colSpan={3} align='center'>
+                <td colSpan={5} align='center'>
                     <h3>
                     <b>
                     <span>
@@ -85,8 +105,8 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                 </td>
       </tr>
       <tr>
-        <th colSpan={8} align='center'>DEBIT</th>
-        <th  colSpan={8} align='center'>CREDIT</th>
+        <th colSpan={11} align='center'>DEBIT</th>
+        <th  colSpan={11} align='center'>CREDIT</th>
       </tr>
       <tr>
         <th  align='center'>DATE</th>
@@ -184,7 +204,8 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                             }
                         </th>
                         <th  align='center'>
-                            {formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === '0.00' ? '' :  <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>}
+                            {/* {formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === '0.00' ? '' :  
+                            <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>} */}
                             &nbsp;
                         </th>
                         <th></th>
@@ -199,15 +220,16 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                         <th  align='center'>
                           {/* <th> */}
                           {
-                            formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : 
-                            ((formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === 'NaN' ? '0.00' : 
-                            formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
+                            ((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : 
+                            ((((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === 'NaN' ? '0.00' : 
+                            ((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
                             ))
                           }
                           {/* </th> */}
                         </th>
                         <th  align='center'>
-                          {formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>}
+                          {/* {formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : 
+                          <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>} */}
                         </th>
                         <th></th>
                         <th  align='center'>
@@ -218,7 +240,7 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
         <tr>
           <td colSpan={18}></td>
         <td colSpan={2} align='center'>Balance (Amt) : </td>
-        <td colSpan={2} align='center'><b>{summaryObj?.balance_amt}</b></td>
+        <td colSpan={2} align='center'><b><span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>&nbsp; {summaryObj?.balance_amt?.toFixed(2)}</b></td>
       </tr>
       <tr>
       <td colSpan={18}></td>
@@ -227,8 +249,28 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
       </tr>
       <tr>
       <td colSpan={18}></td>
-        <td colSpan={2} align='center'>Balance:</td>
-        <td colSpan={2} align='center'><b>{summaryObj?.metal}</b></td>
+        <td colSpan={2} align='center'>Balance (Metal) :</td>
+        <td colSpan={2} align='center'><b>{summaryObj?.metal?.toFixed(2)}</b></td>
+      </tr>
+      <tr>
+      <td colSpan={18}></td>
+        <td colSpan={2} align='center'>Gold (gm) :</td>
+        <td colSpan={2} align='center'><b>{summaryObj?.goldWt?.toFixed(3)}</b></td>
+      </tr>
+      <tr>
+      <td colSpan={18}></td>
+        <td colSpan={2} align='center'>Silver (gm) :</td>
+        <td colSpan={2} align='center'><b>{summaryObj?.silverWt?.toFixed(3)}</b></td>
+      </tr>
+      <tr>
+      <td colSpan={18}></td>
+        <td colSpan={2} align='center'>Platinum (gm) :</td>
+        <td colSpan={2} align='center'><b>{summaryObj?.platinumWt?.toFixed(3)}</b></td>
+      </tr>
+      <tr>
+      <td colSpan={18}></td>
+        <td colSpan={2} align='center'>Others (gm) :</td>
+        <td colSpan={2} align='center'><b>{summaryObj?.otherWt?.toFixed(3)}</b></td>
       </tr>
     </table>
     </div>

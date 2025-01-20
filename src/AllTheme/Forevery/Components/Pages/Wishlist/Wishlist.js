@@ -237,7 +237,7 @@ const Wishlist = () => {
           content="Are you sure you want to remove all Items?"
         />
       </div>
-      <NewsletterSignup />
+      {/* <NewsletterSignup /> */}
     </div>
   );
 };

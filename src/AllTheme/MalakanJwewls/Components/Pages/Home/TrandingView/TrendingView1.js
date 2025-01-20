@@ -216,7 +216,7 @@ const TrendingView1 = ({data}) => {
                                             className="malakan_trendImg"
                                             loading="lazy"
                                             src={item?.src}
-                                            alt={item?.name}
+                                            alt={`Trending-${index}`}
                                             onError={(e) => {
                                                 e.target.src = imageNotFound
                                             }}
@@ -224,7 +224,7 @@ const TrendingView1 = ({data}) => {
                                         />
                                         <p className="malakan_trend_Div_name">{item?.name}</p>
                                         <div className="product-info">
-                                            <h3>{item?.designno} {item?.TitleLine && " - "} {item?.TitleLine != "" && item?.TitleLine}</h3>
+                                            <span>{item?.designno} {item?.TitleLine && " - "} {item?.TitleLine != "" && item?.TitleLine}</span>
                                             {storeInit?.IsGrossWeight == 1 &&
                                                 <>
                                                     <span className='malakan_btdetailDT'>GWT: </span>

@@ -6,88 +6,32 @@ import { ColorStoneQualityColorComboAPI } from "./utils/API/Combo/ColorStoneQual
 import { DiamondQualityColorComboAPI } from "./utils/API/Combo/DiamondQualityColorComboAPI";
 import { MetalTypeComboAPI } from "./utils/API/Combo/MetalTypeComboAPI";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  el_companyLogo,
-  el_companyLogoM,
-} from "./AllTheme/Elveester/Components/Recoil/atom";
-import {
-  for_companyLogo,
-  for_companyLogoM,
-} from "./AllTheme/Forevery/Components/Recoil/atom";
-import {
-  companyLogo,
-  companyLogoM,
-  loginState,
-  smr_companyLogo,
-  smr_companyLogoM,
-  smr_loginState,
-} from "./AllTheme/SmilingRock/Components/Recoil/atom";
-import {
-  dt_companyLogo,
-  dt_companyLogoM,
-} from "./AllTheme/DaimondTine/Components/Recoil/atom";
+import { el_companyLogo, el_companyLogoM } from "./AllTheme/Elveester/Components/Recoil/atom";
+import { for_companyLogo, for_companyLogoM } from "./AllTheme/Forevery/Components/Recoil/atom";
+import { companyLogo, companyLogoM, loginState, smr_companyLogo, smr_companyLogoM, smr_loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
+import { dt_companyLogo, dt_companyLogoM } from "./AllTheme/DaimondTine/Components/Recoil/atom";
 import Cookies from "js-cookie";
 import { smrMA_companyLogo } from "./AllTheme/MobileApp/SmilingRock_MobileApp/Components/Recoil/atom";
-import {
-  storImagePath,
-  storInitDataPath,
-} from "./utils/Glob_Functions/GlobalFunction";
+import { storImagePath, storInitDataPath } from "./utils/Glob_Functions/GlobalFunction";
 import { Helmet } from "react-helmet";
-import {
-  proCat_companyLogo,
-  proCat_companyLogoM,
-} from "./AllTheme/Pocatalog/Components/Recoil/atom";
-import {
-  roop_companyLogo,
-  roop_companyLogoM,
-} from "./AllTheme/RoopJewellers/Components/Recoil/atom";
-import {
-  mala_companyLogo,
-  mala_companyLogoM,
-} from "./AllTheme/MalakanJwewls/Components/Recoil/atom";
-import {
-  stam_companyLogo,
-  stam_companyLogoM,
-} from "./AllTheme/StamFordJewels/Components/Recoil/atom";
+import { proCat_companyLogo, proCat_companyLogoM } from "./AllTheme/Pocatalog/Components/Recoil/atom";
+import { roop_companyLogo, roop_companyLogoM } from "./AllTheme/RoopJewellers/Components/Recoil/atom";
+import { mala_companyLogo, mala_companyLogoM } from "./AllTheme/MalakanJwewls/Components/Recoil/atom";
+import { stam_companyLogo, stam_companyLogoM } from "./AllTheme/StamFordJewels/Components/Recoil/atom";
 import { fetchPayMaster } from "./utils/API/OrderFlow/Paymaster";
 
-const SmilingRock_App = React.lazy(() =>
-  import("./AllTheme/SmilingRock/SmilingRock_App")
-);
-const DaimondTine_App = React.lazy(() =>
-  import("./AllTheme/DaimondTine/DaimondTine_App")
-);
-const Elveester_App = React.lazy(() =>
-  import("./AllTheme/Elveester/Elveester_App")
-);
-
-const SmilingRock_MobileApp_App = React.lazy(() =>
-  import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App")
-);
-const HemratnaProcatalog_App = React.lazy(() =>
-  import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App")
-);
-const Procatalog_App = React.lazy(() =>
-  import("./AllTheme/Pocatalog/Procatalog_App")
-);
-const HouseOfQuadri_App = React.lazy(() =>
-  import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App")
-);
-const ForEveryRoutes = React.lazy(() =>
-  import("./AllTheme/Forevery/ForeveryRoutes")
-);
-const Procatalog_MobileApp_App = React.lazy(() =>
-  import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App")
-);
-const StamFordJewels_App = React.lazy(() =>
-  import("./AllTheme/StamFordJewels/StamFordJewels_App")
-);
-const RoopJewellers_App = React.lazy(() =>
-  import("./AllTheme/RoopJewellers/RoopJewellers_App")
-);
-const MalakanJewels_App = React.lazy(() =>
-  import("./AllTheme/MalakanJwewls/MalakanJewels_App")
-);
+const SmilingRock_App = React.lazy(() => import("./AllTheme/SmilingRock/SmilingRock_App"));
+const DaimondTine_App = React.lazy(() => import("./AllTheme/DaimondTine/DaimondTine_App"));
+const Elveester_App = React.lazy(() => import("./AllTheme/Elveester/Elveester_App"));
+const SmilingRock_MobileApp_App = React.lazy(() => import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App"));
+const HemratnaProcatalog_App = React.lazy(() => import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App"));
+const Procatalog_App = React.lazy(() => import("./AllTheme/Pocatalog/Procatalog_App"));
+const HouseOfQuadri_App = React.lazy(() => import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App"));
+const ForEveryRoutes = React.lazy(() => import("./AllTheme/Forevery/ForeveryRoutes"));
+const Procatalog_MobileApp_App = React.lazy(() => import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App"));
+const StamFordJewels_App = React.lazy(() => import("./AllTheme/StamFordJewels/StamFordJewels_App"));
+const MalakanJewels_App = React.lazy(() => import("./AllTheme/MalakanJwewls/MalakanJewels_App"));
+const RoopJewellers_App = React.lazy(() => import("./AllTheme/RoopJewellers/RoopJewellers_App"));
 
 export default function ThemeRoutes() {
   const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo);
@@ -150,14 +94,8 @@ export default function ThemeRoutes() {
           if (jsonData) {
             setHtmlContent(jsonData);
             sessionStorage.setItem("storeInit", JSON.stringify(jsonData.rd[0]));
-            sessionStorage.setItem(
-              "myAccountFlags",
-              JSON.stringify(jsonData.rd1)
-            );
-            sessionStorage.setItem(
-              "CompanyInfoData",
-              JSON.stringify(jsonData.rd2[0])
-            );
+            sessionStorage.setItem("myAccountFlags", JSON.stringify(jsonData.rd1));
+            sessionStorage.setItem("CompanyInfoData", JSON.stringify(jsonData.rd2[0]));
           }
         } catch (error) {
           console.error("Error parsing JSON:", error);
@@ -206,8 +144,7 @@ export default function ThemeRoutes() {
       } else {
         try {
           const visitorIdCookie = JSON.parse(Cookies.get("visiterId"));
-          const expirationDate =
-            visitorIdCookie?.expires && new Date(visitorIdCookie.expires);
+          const expirationDate = visitorIdCookie?.expires && new Date(visitorIdCookie.expires);
           if (expirationDate && expirationDate <= new Date()) {
             Cookies.remove("visiterId", { path: "/" });
           }
@@ -299,31 +236,16 @@ export default function ThemeRoutes() {
 
   const callAllApi = () => {
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
-    const loginUserDetail = JSON?.parse(
-      sessionStorage.getItem("loginUserDetail")
-    );
+    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const LoginUser = JSON?.parse(sessionStorage.getItem("LoginUser"));
     const visiterID = Cookies.get("visiterId");
 
-    const finalID =
-      storeInit?.IsB2BWebsite === 0
-        ? LoginUser === false
-          ? visiterID
-          : loginUserDetail?.id || "0"
-        : loginUserDetail?.id || "0";
+    const finalID = storeInit?.IsB2BWebsite === 0 ? (LoginUser === false ? visiterID : loginUserDetail?.id || "0") : loginUserDetail?.id || "0";
 
     callApiAndStore(MetalTypeComboAPI, "metalTypeCombo", finalID);
-    callApiAndStore(
-      DiamondQualityColorComboAPI,
-      "diamondQualityColorCombo",
-      finalID
-    );
+    callApiAndStore(DiamondQualityColorComboAPI, "diamondQualityColorCombo", finalID);
     callApiAndStore(MetalColorCombo, "MetalColorCombo", finalID);
-    callApiAndStore(
-      ColorStoneQualityColorComboAPI,
-      "ColorStoneQualityColorCombo",
-      finalID
-    );
+    callApiAndStore(ColorStoneQualityColorComboAPI, "ColorStoneQualityColorCombo", finalID);
     callApiAndStore(CurrencyComboAPI, "CurrencyCombo", finalID);
   };
 
@@ -344,14 +266,10 @@ export default function ThemeRoutes() {
         const storedPayMaster = sessionStorage.getItem("payMaster");
 
         if (storedPayMaster) {
-          console.log(
-            "payMaster from session storage: ",
-            JSON.parse(storedPayMaster)
-          );
+          console.log("payMaster from session storage: ", JSON.parse(storedPayMaster));
         } else {
           const payMaster = await fetchPayMaster();
           const res = payMaster?.Data?.rd;
-          console.log("payMaster from API: ", res);
           sessionStorage.setItem("payMaster", JSON.stringify(res));
         }
       } catch (error) {
@@ -366,15 +284,9 @@ export default function ThemeRoutes() {
 
   return (
     <>
-      {storeInitData?.DomainForNo == 2 ? (
-        <MetaData1 storeInitData={storeInitData} title={title} />
-      ) : (
-        <MetaData2 title={title} />
-      )}
+      {storeInitData?.DomainForNo == 2 ? <MetaData1 storeInitData={storeInitData} title={title} /> : <MetaData2 title={title} />}
 
-      {htmlContent?.rd && htmlContent?.rd.length > 0 && (
-        <Themes htmlContent={htmlContent} />
-      )}
+      {htmlContent?.rd && htmlContent?.rd.length > 0 && <Themes htmlContent={htmlContent} />}
     </>
   );
 }
@@ -386,30 +298,13 @@ const MetaData1 = ({ title, storeInitData }) => {
         <title>{title}</title>
         <meta name="description" content={title} />
         <link rel="icon" href={storeInitData?.favicon} type="image/x-icon" />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href={storeInitData?.favicon}
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="192x192"
-          href={storeInitData?.favicon}
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="512x512"
-          href={storeInitData?.favicon}
-        />
+        <link rel="apple-touch-icon" sizes="180x180" href={storeInitData?.favicon} />
+        <link rel="icon" type="image/png" sizes="192x192" href={storeInitData?.favicon} />
+        <link rel="icon" type="image/png" sizes="512x512" href={storeInitData?.favicon} />
         <link rel="mask-icon" href={storeInitData?.favicon} />
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="msapplication-TileImage" content={storeInitData?.favicon} />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
       </Helmet>
     </>
   );
@@ -417,46 +312,18 @@ const MetaData1 = ({ title, storeInitData }) => {
 
 const MetaData2 = ({ title, isHaveSub = false }) => {
   const MetaPath = isHaveSub ? `logoIcon/sona/` : `logoIcon/`;
-  console.log(MetaPath, "meta");
   return (
     <Helmet>
       <title>{title}</title>
       <meta name="description" content={title} />
-      <link
-        rel="icon"
-        href={`${storImagePath()}/${MetaPath}favicon1.png`}
-        type="image/x-icon"
-      />
-      <link
-        rel="apple-touch-icon"
-        sizes="180x180"
-        href={`${storImagePath()}/${MetaPath}apple-touch-icon.png`}
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="192x192"
-        href={`${storImagePath()}/${MetaPath}androidCh1.png`}
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="512x512"
-        href={`${storImagePath()}/${MetaPath}androidCh2.png`}
-      />
-      <link
-        rel="mask-icon"
-        href={`${storImagePath()}/${MetaPath}apple-touch-icon.png`}
-      />
+      <link rel="icon" href={`${storImagePath()}/${MetaPath}favicon1.png`} type="image/x-icon" />
+      <link rel="apple-touch-icon" sizes="180x180" href={`${storImagePath()}/${MetaPath}apple-touch-icon.png`} />
+      <link rel="icon" type="image/png" sizes="192x192" href={`${storImagePath()}/${MetaPath}androidCh1.png`} />
+      <link rel="icon" type="image/png" sizes="512x512" href={`${storImagePath()}/${MetaPath}androidCh2.png`} />
+      <link rel="mask-icon" href={`${storImagePath()}/${MetaPath}apple-touch-icon.png`} />
       <meta name="msapplication-TileColor" content="#ffffff" />
-      <meta
-        name="msapplication-TileImage"
-        content={`${storImagePath()}/${MetaPath}androidCh2.png`}
-      />
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-      />
+      <meta name="msapplication-TileImage" content={`${storImagePath()}/${MetaPath}androidCh2.png`} />
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
     </Helmet>
   );
 };
@@ -472,21 +339,19 @@ const Themes = ({ htmlContent }) => {
 
         {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 
+        {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
         {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
         {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
         {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
-        {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
-
         {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
 
         {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
 
-        {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
-
         {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
+        {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
       </Suspense>
     </>
   );

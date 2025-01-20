@@ -8,6 +8,7 @@ import BottomSection from "./BottomSection/BottomSection";
 import TrendingView1 from "./TrandingView/TrendingView1";
 import useHomeBannerImages from "./../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner";
 
+
 function Home() {
   const [localData, setLocalData] = useState();
   const [minHeight, setMinHeight] = useState("800px");

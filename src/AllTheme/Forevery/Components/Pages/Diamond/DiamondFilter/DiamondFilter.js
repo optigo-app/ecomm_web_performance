@@ -234,6 +234,8 @@ const DiamondFilter = () => {
 
           const step1 = [{ step1: true, shape: getShape ?? "" }];
           sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    console.log(step1,"updatedStep1 step1 diamond")
+
         }
       } else if (
         stepsData != null &&
@@ -275,6 +277,7 @@ const DiamondFilter = () => {
       updatedStep1?.push({ step1: true, shape: shape });
     }
     sessionStorage?.setItem("customizeSteps", JSON?.stringify(updatedStep1));
+    console.log(updatedStep1,"updatedStep1 diamond")
   };
 
   const handleOpen = (title) => {
@@ -752,48 +755,48 @@ const DiamondFilter = () => {
     }, 500);
   }, [sliderState1, sliderLabels1, filtersData1, location?.pathname]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      const extractedValue = location?.pathname.split("f=")[1] ?? "";
-      const decodedUrlData = decodeAndDecompress(extractedValue);
-      const parsedData = parseUrlSegment(decodedUrlData);
-      const pathname = location?.pathname.split("/");
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     const extractedValue = location?.pathname.split("f=")[1] ?? "";
+  //     const decodedUrlData = decodeAndDecompress(extractedValue);
+  //     const parsedData = parseUrlSegment(decodedUrlData);
+  //     const pathname = location?.pathname.split("/");
 
-      // Determine which data to use
-      const dataToUse = Object.keys(finalArray).some(
-        (key) => Array.isArray(finalArray[key]) && finalArray[key].length > 0
-      )
-        ? finalArray
-        : parsedData ?? {};
+  //     // Determine which data to use
+  //     const dataToUse = Object.keys(finalArray)?.some(
+  //       (key) => Array.isArray(finalArray[key]) && finalArray[key].length > 0
+  //     )
+  //       ? finalArray
+  //       : parsedData ?? {};
 
-      const sliderParams = Object.entries(dataToUse)
-        .filter(
-          ([key, value]) =>
-            value &&
-            (Array.isArray(value)
-              ? value.length > 0
-              : typeof value === "string" && value.length > 0)
-        )
-        .filter(([key, value]) =>
-          Array.isArray(value)
-            ? value.every((v) => v !== null && v !== undefined && v !== "")
-            : true
-        )
-        .map(([key, value]) =>
-          Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
-        )
-        .join("/");
+  //     const sliderParams = Object.entries(dataToUse)
+  //       .filter(
+  //         ([key, value]) =>
+  //           value &&
+  //           (Array.isArray(value)
+  //             ? value.length > 0
+  //             : typeof value === "string" && value.length > 0)
+  //       )
+  //       .filter(([key, value]) =>
+  //         Array.isArray(value)
+  //           ? value.every((v) => v !== null && v !== undefined && v !== "")
+  //           : true
+  //       )
+  //       .map(([key, value]) =>
+  //         Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
+  //       )
+  //       .join("/");
 
-      const shape = location?.pathname?.split("/")[3];
-      const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""
-        }`;
-      const encodeUrl = compressAndEncode(urlToEncode);
-      const decodedUrl = decodeAndDecompress(encodeUrl);
-      const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
-        }`;
-      Navigate(newPath);
-    }, 600);
-  }, [finalArray]);
+  //     const shape = location?.pathname?.split("/")[3];
+  //     const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""
+  //       }`;
+  //     const encodeUrl = compressAndEncode(urlToEncode);
+  //     const decodedUrl = decodeAndDecompress(encodeUrl);
+  //     const newPath = `${pathname?.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
+  //       }`;
+  //     Navigate(newPath);
+  //   }, 600);
+  // }, [finalArray]);
 
   function parseUrlSegment(segment) {
     const parts = segment?.split("/")?.slice(1);
@@ -1569,7 +1572,7 @@ const DiamondFilter = () => {
             </button>
           </div>
         </div>
-        <NewsletterSignup />
+        {/* <NewsletterSignup /> */}
       </div>
     </>
   );

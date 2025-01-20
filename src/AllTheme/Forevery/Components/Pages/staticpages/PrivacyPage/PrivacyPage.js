@@ -38,14 +38,14 @@ const PrivacyPage = () => {
           dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
       </div>
-      <div
+      {/* <div
         className="wrapper"
         style={{
           marginTop: " 3rem",
         }}
       >
         <NewsletterSignup />
-      </div>
+      </div> */}
     </div>
   );
 };

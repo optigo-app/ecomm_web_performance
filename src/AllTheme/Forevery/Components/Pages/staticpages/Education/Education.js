@@ -51,7 +51,7 @@ const Education = () => {
           </div>
         </div>
       </div>
-      <NewsletterSignup />
+      {/* <NewsletterSignup /> */}
     </>
   );
 };
