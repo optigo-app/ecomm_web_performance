@@ -675,7 +675,7 @@ const useCart = () => {
 
             let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-            let navigateUrl = `/d/${cartData?.stockno}/det/?p=${encodeObj}`;
+            let navigateUrl = `/d/${cartData?.stockno}/det345/?p=${encodeObj}`;
             navigate(navigateUrl);
         } else {
             let obj = {

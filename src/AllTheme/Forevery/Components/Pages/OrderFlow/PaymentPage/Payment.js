@@ -3,7 +3,7 @@ import PaymentComponent from '../../../../../../utils/PaymentComponent/PaymentCo
 
 const Payment = () => {
   return (
-    <div><PaymentComponent bgcolor={"black"}/></div>
+    <div><PaymentComponent bgcolor={"black"} top={"5px"} /></div>
   )
 }
 

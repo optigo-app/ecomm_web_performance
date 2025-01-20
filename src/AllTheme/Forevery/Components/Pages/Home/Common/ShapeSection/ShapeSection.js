@@ -12,10 +12,11 @@ const ShapeSection = () => {
   const [showModal, setShowModal] = useState(false);
   const [shape, setShape] = useState();
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
-  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
+  const steps2 = JSON.parse(sessionStorage.getItem("customizeSteps2Pendant"));
 
 
-  const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1)?.[2]?.url}`;
+  const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1 ?? steps2)?.[2]?.url}`;
 
   const handleToggle = () => {
     setShowModal(!showModal);
@@ -26,7 +27,8 @@ const ShapeSection = () => {
   }
   const checkSteps =
     (steps?.[2] !== undefined && steps?.[2] !== null) ||
-    (steps1?.[2] !== undefined && steps1?.[2] !== null);
+    (steps1?.[2] !== undefined && steps1?.[2] !== null) ||
+    (steps2?.[2] !== undefined && steps2?.[2] !== null);
 
   const handleCheckSteps = (value) => {
     if (checkSteps) {
@@ -46,8 +48,10 @@ const ShapeSection = () => {
   const handleRemoveData = (shape) => {
     sessionStorage.removeItem("customizeSteps");
     sessionStorage.removeItem("custStepData");
-    sessionStorage.removeItem("customizeSteps2");
-    sessionStorage.removeItem("custStepData2");
+    sessionStorage.removeItem("customizeSteps2Ring");
+    sessionStorage.removeItem("customizeSteps2Pendant");
+    sessionStorage.removeItem("custStepData2Ring");
+    sessionStorage.removeItem("custStepData2Pendant");
     navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
     handleToggle();
   };

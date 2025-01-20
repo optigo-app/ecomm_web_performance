@@ -120,7 +120,7 @@
                         &.active {
                             background-color: #ffdfdf;
                             position: relative;
-
+                            
                             &::after {
                                 content: "";
                                 border-color: transparent transparent transparent #ffdfdf !important;
@@ -130,6 +130,7 @@
                                 right: -24px;
                                 top: -1px;
                                 z-index: 9;
+                                cursor: pointer;
                             }
 
                             &:last-child {

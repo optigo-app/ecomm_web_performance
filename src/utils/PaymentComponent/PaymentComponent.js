@@ -26,7 +26,7 @@ import OrderRemarkModal from '../Glob_Functions/OrderRemark/OrderRemark';
 import EnhancedPaymentDialog from './PaymentDialog';
 // import './Payment.scss'
 
-export default function PaymentComponent({ bgcolor }) {
+export default function PaymentComponent({ bgcolor, top }) {
     const {
         handlePay,
         handleSaveInternal,
@@ -53,7 +53,7 @@ export default function PaymentComponent({ bgcolor }) {
 
     return (
         <ThemeProvider theme={theme}>
-            <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 6 }}>
+            <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 6, marginTop: top ?? "" }}>
                 <Container maxWidth="xl">
                     {/* <Typography variant="h4" gutterBottom align="center" sx={{ mb: 4 }}>
                         Complete Your Purchase
