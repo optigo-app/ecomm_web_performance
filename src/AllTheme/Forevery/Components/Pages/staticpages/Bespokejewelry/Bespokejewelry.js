@@ -137,9 +137,9 @@ const Bespokejewelry = () => {
         )}
         <Banner onOpen={onOpen} />
         <ColumnGrid onOpen={onOpen} />
-        <OurServices />
+        {/* <OurServices />
         <GetInTouch />
-        <NewsletterSignup />
+        <NewsletterSignup /> */}
       </>
     </div>
   );

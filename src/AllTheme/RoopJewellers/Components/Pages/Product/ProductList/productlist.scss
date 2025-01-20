@@ -276,16 +276,18 @@
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 5px;
   }
 
-  .roop_productCard:hover .cart_and_wishlist_icon {
+  .roop_productCard:hover .roop_cart_and_wishlist_icon {
     transform: translateX(0);
   }
 
-  .cart_and_wishlist_icon {
+  .roop_cart_and_wishlist_icon {
     position: absolute;
     width: 100%;
     top: 1rem;
     right: 0.5rem;
     display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
     z-index: 1111111;
     transform: translateX(30%);
     transition: transform 0.2s ease-in;

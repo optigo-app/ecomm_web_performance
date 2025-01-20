@@ -267,7 +267,7 @@ const DiamondDetails = () => {
     }, [compSet, setshape])
 
 
-    const totalPrice = (Number(diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price) + Number(settingData?.step2Data?.UnitCostWithMarkUp ?? settingData?.step1Data?.UnitCostWithMarkUp)).toFixed(2);
+    const totalPrice = Number((Number(diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price) + Number(settingData?.step2Data?.UnitCostWithMarkUp ?? settingData?.step1Data?.UnitCostWithMarkUp)).toFixed(2));
 
     useEffect(() => {
         if (compSet && !isNaN(totalPrice)) {
@@ -309,43 +309,42 @@ const DiamondDetails = () => {
         setPrice(totalPrice);
     }, [compSet, totalPrice, steps, steps1]);
 
-    const services = [
-        {
-            title: 'Free Shipping',
-            description: 'Now it\'s easier for customers to get the beautiful and sustainable diamonds they want without paying extra for shipping.',
-            image: 'https://forevery.one/images_new/new-home/free-ship.png',
-            link: '#',
-            btnText: "Read More"
-        },
-        {
-            title: 'Free 30 Day Returns',
-            description: 'Forevery offers a hassle-free jewelry shopping experience with its 30-DAY Returns policy. Get ready to shop confidently.',
-            image: 'https://forevery.one/images_new/new-home/free-return.png',
-            link: '#',
-            btnText: "Read More"
-        },
-        {
-            title: 'Free Lifetime Warranty',
-            description: 'Shop with Confidence; a lifetime warranty covers every piece of fine jewelry you buy.',
-            image: 'https://forevery.one/images_new/new-home/waranty.png',
-            link: '#',
-            btnText: "Read More"
-        },
-        {
-            title: '60-Days Free Resizing',
-            description: 'Within 60 days of purchase, resize your jewelry to the perfect fit without any additional costs.',
-            image: 'https://forevery.one/images_new/new-home/resizing.png',
-            link: '#',
-            btnText: "Read More"
-        },
-        {
-            title: 'Free Engraving',
-            description: 'Add sentimental value to the piece and make it a unique and meaningful gift.',
-            image: 'https://forevery.one/images_new/new-home/engraving.png',
-            link: '#',
-            btnText: "Read More"
-        }
-    ];
+    //     {
+    //         title: 'Free Shipping',
+    //         description: 'Now it\'s easier for customers to get the beautiful and sustainable diamonds they want without paying extra for shipping.',
+    //         image: 'https://forevery.one/images_new/new-home/free-ship.png',
+    //         link: '#',
+    //         btnText: "Read More"
+    //     },
+    //     {
+    //         title: 'Free 30 Day Returns',
+    //         description: 'Forevery offers a hassle-free jewelry shopping experience with its 30-DAY Returns policy. Get ready to shop confidently.',
+    //         image: 'https://forevery.one/images_new/new-home/free-return.png',
+    //         link: '#',
+    //         btnText: "Read More"
+    //     },
+    //     {
+    //         title: 'Free Lifetime Warranty',
+    //         description: 'Shop with Confidence; a lifetime warranty covers every piece of fine jewelry you buy.',
+    //         image: 'https://forevery.one/images_new/new-home/waranty.png',
+    //         link: '#',
+    //         btnText: "Read More"
+    //     },
+    //     {
+    //         title: '60-Days Free Resizing',
+    //         description: 'Within 60 days of purchase, resize your jewelry to the perfect fit without any additional costs.',
+    //         image: 'https://forevery.one/images_new/new-home/resizing.png',
+    //         link: '#',
+    //         btnText: "Read More"
+    //     },
+    //     {
+    //         title: 'Free Engraving',
+    //         description: 'Add sentimental value to the piece and make it a unique and meaningful gift.',
+    //         image: 'https://forevery.one/images_new/new-home/engraving.png',
+    //         link: '#',
+    //         btnText: "Read More"
+    //     }
+    // ];
 
     const handleThumbnailClick = (index) => {
         if (sliderRef.current) {
@@ -828,8 +827,8 @@ const DiamondDetails = () => {
             });
 
             // If no existing step2, add new entry
-            if (!updatedStep1.some(step => step.step2 !== undefined)) {
-                updatedStep1.push({ "step2": true, "Setting": 'Ring' });
+            if (!updatedStep1?.some(step => step.step2 !== undefined)) {
+                updatedStep1?.push({ "step2": true, "Setting": 'Ring' });
             }
             const step1Data = [{ "step1Data": singleDiaData }]
             sessionStorage.setItem('custStepData', JSON.stringify(step1Data));
@@ -1876,7 +1875,7 @@ const DiamondDetails = () => {
                                                     {isDataFound ? (
                                                         <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
                                                     ) : (
-                                                        <span>{formatter(totalPrice)}</span>
+                                                        <span>{typeof totalPrice ===  "number" ? formatter(totalPrice) : 0}</span>
                                                     )}
                                                 </span>
                                             </div>
@@ -2429,8 +2428,8 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                         <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : 'for_shapes_img'} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
                             StepImages[2]?.img} alt="" /> {(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'Pendant' : 'Ring'}
                     </span>
-                    {(compSet || getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true) && (
-                        <span className='for_total_prc'>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter((getCompleteStep1?.[2]?.price || getCompleteStep2?.[2]?.price))}</span>
+                    {compSet && (getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true) && (
+                        <span className='for_total_prc'>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter((getCompleteStep1?.[2]?.price || getCompleteStep2?.[2]?.price || getdiaData2[0]?.step1Data?.UnitCostWithMarkUp))}</span>
                     )}
                 </div>
                 {showModal && (
@@ -2509,7 +2508,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                             <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : 'for_shapes_img'} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
                                 StepImages[2]?.img} alt="" /> {(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'Pendant' : 'Ring'}
                         </span>
-                        {(compSet || getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true) && (
+                        {compSet && (getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true) && (
                             <span className='for_total_prc'>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter((getCompleteStep1?.[2]?.price || getCompleteStep2?.[2]?.price))}</span>
                         )}
                     </div>

@@ -231,6 +231,8 @@ const DiamondFilter = () => {
 
           const step1 = [{ step1: true, shape: getShape ?? "" }];
           sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    console.log(step1,"updatedStep1 step1 diamond")
+
         }
       } else if (
         stepsData != null &&
@@ -272,6 +274,7 @@ const DiamondFilter = () => {
       updatedStep1?.push({ step1: true, shape: shape });
     }
     sessionStorage?.setItem("customizeSteps", JSON?.stringify(updatedStep1));
+    console.log(updatedStep1,"updatedStep1 diamond")
   };
 
   const handleOpen = (title) => {
@@ -757,7 +760,7 @@ const DiamondFilter = () => {
       const pathname = location?.pathname.split("/");
 
       // Determine which data to use
-      const dataToUse = Object.keys(finalArray).some(
+      const dataToUse = Object.keys(finalArray)?.some(
         (key) => Array.isArray(finalArray[key]) && finalArray[key].length > 0
       )
         ? finalArray
@@ -786,7 +789,7 @@ const DiamondFilter = () => {
         }`;
       const encodeUrl = compressAndEncode(urlToEncode);
       const decodedUrl = decodeAndDecompress(encodeUrl);
-      const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
+      const newPath = `${pathname?.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
         }`;
       Navigate(newPath);
     }, 600);
