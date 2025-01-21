@@ -91,7 +91,9 @@ const Wishlist = () => {
   }
 
   return (
-    <div className="smr_MainWlDiv">
+    <div className="smr_MainWlDiv" style={{
+      paddingBottom:"4rem"
+    }}>
       <div className="WlMainPageDiv">
         <div className="WlBtnGroupMainDiv">
           {isMobileScreen &&

@@ -21,10 +21,6 @@ import NewArrival1 from "./NewArrival/NewArrival1";
 import BestSellerSection from "./BestSellerSection/BestSellerSection";
 import BestSellerSection1 from "./BestSellerSection/BestSellerSection1";
 import BrandsComponent from "./BrandComponent/BrandComponents";
-import {
-  storImagePath,
-  storInitDataPath,
-} from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { useRecoilValue } from "recoil";
 import { homeLoading } from "../../Recoil/atom";
 import NewsletterSignup from "./SubscribeNewsLater/NewsletterSignup";
@@ -47,22 +43,7 @@ function Home() {
     setCSSVariable();
   }, []);
 
-  // useEffect(() => {
-  //   fetch(`${storInitDataPath()}/StoreInit.json`)
-  //     .then((response) => response.text())
-  //     .then((text) => {
-  //       try {
-  //         const jsonData = JSON?.parse(text);
-  //         setHtmlContent(jsonData);
-  //       } catch (error) {
-  //         console.error("Error parsing JSON:", error);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching the file:", error);
-  //     });
-  // }, []);
-
+ 
   const setCSSVariable = () => {
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";

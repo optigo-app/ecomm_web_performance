@@ -3,7 +3,12 @@
 .smr_about_mainDiv {
   font-family: "Calibri";
   background-color: $bgColor;
-.shinjini {
+ .smr_daimondsEveryAbout_sub {
+    margin-inline: 0.5% !important;
+}
+// .shinjini {
+  .smrPr {
+
     &-banner {
       position: relative;
       height: 220px;
@@ -61,7 +66,8 @@
         color: #333;
         margin-bottom: 1.5rem;
         font-weight: 500;
-        color: rgb(215, 178, 86);
+        color: rgb(9, 9, 10);
+        text-decoration: underline;
       }
 
       &-content {
