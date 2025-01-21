@@ -305,18 +305,30 @@ const Usewishlist = () => {
   };
 
   const handleMoveToDetail = (wishtData) => {
-    let obj = {
-      a: wishtData?.autocode,
-      b: wishtData?.designno,
-      m: wishtData?.metaltypeid,
-      d: `${wishtData?.diamondqualityid}${","}${wishtData?.diamondcolorid}`,
-      c: `${wishtData?.colorstonequalityid}${","}${wishtData?.colorstonecolorid}`,
-      f: {},
-      g: [["", ""], ["", "", ""]],
+    if (wishtData?.stockno) {
+      const obj = {
+        a: wishtData?.stockno,
+        b: wishtData?.shapename,
+      };
+
+      let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+      let navigateUrl = `/d/${wishtData?.stockno}/det345/?p=${encodeObj}`;
+      navigate(navigateUrl);
+    } else {
+      let obj = {
+        a: wishtData?.autocode,
+        b: wishtData?.designno,
+        m: wishtData?.metaltypeid,
+        d: `${wishtData?.diamondqualityid}${","}${wishtData?.diamondcolorid}`,
+        c: `${wishtData?.colorstonequalityid}${","}${wishtData?.colorstonecolorid}`,
+        f: {},
+        g: [["", ""], ["", "", ""]],
+      }
+      compressAndEncode(JSON.stringify(obj))
+      let encodeObj = compressAndEncode(JSON.stringify(obj))
+      navigate(`/d/${wishtData?.TitleLine?.replace(/\s+/g, `_`)}${wishtData?.TitleLine?.length > 0 ? "_" : ""}${wishtData?.designno}?p=${encodeObj}`)
     }
-    compressAndEncode(JSON.stringify(obj))
-    let encodeObj = compressAndEncode(JSON.stringify(obj))
-    navigate(`/d/${wishtData?.TitleLine?.replace(/\s+/g, `_`)}${wishtData?.TitleLine?.length > 0 ? "_" : ""}${wishtData?.designno}?p=${encodeObj}`)
   }
 
   //browse our collection

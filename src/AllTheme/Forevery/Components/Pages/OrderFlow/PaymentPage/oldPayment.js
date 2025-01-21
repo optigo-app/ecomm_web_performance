@@ -122,8 +122,10 @@ const Payment = () => {
             })
             sessionStorage.removeItem("customizeSteps");
             sessionStorage.removeItem("custStepData");
-            sessionStorage.removeItem("customizeSteps2");
-            sessionStorage.removeItem("custStepData2");
+            sessionStorage.removeItem("customizeSteps2Ring");
+            sessionStorage.removeItem("customizeSteps2Pendant");
+            sessionStorage.removeItem("custStepData2Ring");
+            sessionStorage.removeItem("custStepData2Pendant");
         } else {
             toast.error('Something went wrong!')
         }

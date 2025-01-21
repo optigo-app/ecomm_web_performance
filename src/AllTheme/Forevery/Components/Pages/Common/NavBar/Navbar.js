@@ -786,11 +786,11 @@ const NavitemsWrapper = ({
   }, []);
   return (
     <>
-    {/*before 118  after 133px */}
+      {/*before 118  after 133px */}
       <div
         className="first_nav"
         style={{
-          top: `${height+15}px`,
+          top: `${height + 15}px`,
         }}
         ref={firstNavRef}
       >
@@ -857,10 +857,11 @@ const FirstNavMenu = ({
   const banner = useHomeBannerImages();
 
 
-  const steps = JSON?.parse(sessionStorage.getItem("customizeSteps"));
-  const steps1 = JSON?.parse(sessionStorage.getItem("customizeSteps2"));
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
+  const steps2 = JSON.parse(sessionStorage.getItem("customizeSteps2Pendant"));
 
-  const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1)?.[2]?.url}`;
+  const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1 ?? steps2)?.[2]?.url}`;
 
   const handleToggle = () => {
     setShowModal(!showModal);
@@ -872,7 +873,8 @@ const FirstNavMenu = ({
 
   const checkSteps =
     (steps?.[2] !== undefined && steps?.[2] !== null) ||
-    (steps1?.[2] !== undefined && steps1?.[2] !== null);
+    (steps1?.[2] !== undefined && steps1?.[2] !== null) ||
+    (steps2?.[2] !== undefined && steps2?.[2] !== null)
 
   const handleCheckSteps = (index) => {
     if (checkSteps) {
@@ -906,17 +908,21 @@ const FirstNavMenu = ({
         step1: true,
       });
       const step1 = [{ step1: true, Setting: "Ring" }];
-      sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
+      // sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
     }
   };
 
   const HandleDiamondNavigation = () => {
     if (
       (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
-      (steps1?.[1] !== undefined && steps1?.[1] !== null)
+      (steps1?.[1] !== undefined && steps1?.[1] !== null) ||
+      (steps2?.[0] !== undefined && steps2?.[0] !== null) ||
+      (steps2?.[1] !== undefined && steps2?.[1] !== null)
     ) {
-      sessionStorage.removeItem("customizeSteps2");
-      sessionStorage.removeItem("custStepData2");
+      sessionStorage.removeItem("customizeSteps2Ring");
+      sessionStorage.removeItem("customizeSteps2Pendant");
+      sessionStorage.removeItem("custStepData2Ring");
+      sessionStorage.removeItem("custStepData2Pendant");
       navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
     } else {
       navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
@@ -931,8 +937,10 @@ const FirstNavMenu = ({
   const handleRemoveData = (index) => {
     sessionStorage.removeItem("customizeSteps");
     sessionStorage.removeItem("custStepData");
-    sessionStorage.removeItem("customizeSteps2");
-    sessionStorage.removeItem("custStepData2");
+    sessionStorage.removeItem("customizeSteps2Ring");
+    sessionStorage.removeItem("customizeSteps2Pendant");
+    sessionStorage.removeItem("custStepData2Ring");
+    sessionStorage.removeItem("custStepData2Pendant");
     if (index === 0) {
       const addCategory = `Ring/category`;
       const filterKeyVal = btoa(addCategory);
@@ -1154,10 +1162,12 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const [urlDiaData, setUrlDiaData] = useState();
 
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
-  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
+  const steps2 = JSON.parse(sessionStorage.getItem("customizeSteps2Pendant"));
 
   const getShapeFromStep0 = steps?.[0]?.shape;
   const getShapeFromStep1 = steps1?.[1]?.shape;
+  const getShapeFromStep2 = steps2?.[1]?.shape;
 
   useEffect(() => {
     const pathname = location.pathname;
@@ -1166,11 +1176,10 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
       const mSegment = segments.find(segment => segment.startsWith('M='));
       const diaSegment = segments.find(segment => segment.startsWith('diamond_shape='));
       const diaData = diaSegment?.split('=')[1];
-      console.log('diaSegment?.[1]: ', diaData);
       setUrlDiaData(
         diaData && diaData !== "undefined"
           ? diaData
-          : getShapeFromStep0 || getShapeFromStep1
+          : getShapeFromStep0 || getShapeFromStep1 || getShapeFromStep2
       );
       if (mSegment) {
         const value = mSegment.split('=')[1];
@@ -1183,7 +1192,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
     }
   }, [location?.key])
 
-  const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1)?.[2]?.url}`;
+  const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1 ?? steps2)?.[2]?.url}`;
 
   const handleToggle = () => {
     setShowModal(!showModal);
@@ -1195,29 +1204,45 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
 
   const checkSteps =
     (steps?.[2] !== undefined && steps?.[2] !== null) ||
-    (steps1?.[2] !== undefined && steps1?.[2] !== null);
+    (steps1?.[2] !== undefined && steps1?.[2] !== null) ||
+    (steps2?.[2] !== undefined && steps2?.[2] !== null);
 
-  const checkStepsOf0 =
-    (steps?.[0] !== undefined && steps?.[0] !== null) ||
-    (steps1?.[0] !== undefined && steps1?.[0] !== null);
+  // const checkStepsOf0 =
+  // (steps?.[0] !== undefined && steps?.[0] !== null) ||
+  // (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
+  // (steps2?.[0] !== undefined && steps2?.[0] !== null);
 
-  const handleCheckSteps = (value) => {
-    if (checkSteps) {
-      setShowModal(true);
-      setShape(value);
+  const handleCheckSteps = (value, link) => {
+    let isStepValid = false;
+    let shapeVal;
+
+    if (value === "Diamond Rings") {
+      shapeVal = "Round"
+      isStepValid = (steps1?.[2] !== undefined && steps1?.[2] !== null);
+    } else if (value === "Diamond Pendant") {
+      shapeVal = "Round"
+      isStepValid = (steps2?.[2] !== undefined && steps2?.[2] !== null);
+    } else if (value === "Diamond Earrings") {
+      // isStepValid = (steps?.[2] !== undefined && steps?.[2] !== null);
     } else {
-      console.log("Alternative action");
+      isStepValid = (steps?.[2] !== undefined && steps?.[2] !== null);
+    }
+
+    if (isStepValid) {
+      setShowModal(true);
+      setShape((value === "Diamond Rings" || value === "Diamond Pendant") ? shapeVal : value);
+    } else {
+      Navigate(link);
+      if (value === "Diamond Rings") {
+        Navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+      }
+      if (value === "Diamond Pendant") {
+        Navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UGVuZGFudC9jYXRlZ29yeQ====`);
+      }
     }
   };
 
-  // const handleCheckStepsForSett = (link) => {
-  //   if (checkStepsOf0) {
-  //     sessionStorage.removeItem("custStepData");
-  //     sessionStorage.removeItem("custStepData2");
-  //     Navigate(link);
-  //   }
-  // };
-  const handleCheckStepsForSett = (link, val) => {
+  const handleCheckStepsForSett = (link, val, id) => {
     const regex = /M=([^/]+)/;
     const match = link.match(regex);
     let mValue;
@@ -1227,33 +1252,18 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
       console.log('M value not found.');
     }
 
-    if (checkStepsOf0) {
-      if (steps1 && steps1.length === 1 && steps1[0]?.step1) {
-        const updatedSteps = [{ step1: true, Setting: val }];
-        sessionStorage.setItem("customizeSteps2", JSON.stringify(updatedSteps));
-        Navigate(link);
-      } else {
-        // Check if `urlData` is valid before calling `atob`
-        let currentSetting;
-        try {
-          currentSetting = atob(urlData)?.split('/')[0]; // Decode and extract first part
-        } catch (e) {
-          console.error('Error decoding base64 string:', e);
-          currentSetting = null; // Set currentSetting to null if decoding fails
-        }
+    // if (checkStepsOf0) {
 
-        const savedSetting = steps && steps?.[1]?.Setting;
-
-        if (currentSetting === val) {
-          toast.error("Compatible Setting is already displaying");
-        } else {
-          const newPath = `/certified-loose-lab-grown-diamonds/settings/${val}/diamond_shape=${urlDiaData}/M=${mValue}`;
-          Navigate(newPath);
-        }
-      }
+    const updatedSteps = [{ step1: true, Setting: val, id }];
+    if (val === "Ring") {
+      Navigate(link);
+      // sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(updatedSteps));
+    } else if (val === "Pendant") {
+      Navigate(link);
+      // sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(updatedSteps));
     }
+    // }
   };
-
 
   const HandleDiamondNavigation = (shape) => {
     Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
@@ -1269,8 +1279,10 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const handleRemoveData = (shape) => {
     sessionStorage.removeItem("customizeSteps");
     sessionStorage.removeItem("custStepData");
-    sessionStorage.removeItem("customizeSteps2");
-    sessionStorage.removeItem("custStepData2");
+    sessionStorage.removeItem("customizeSteps2Ring");
+    sessionStorage.removeItem("customizeStepsPendant");
+    sessionStorage.removeItem("custStepData2Ring");
+    sessionStorage.removeItem("custStepData2Pendant");
     Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
     handleToggle();
   };
@@ -1313,8 +1325,6 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         <h3>Build Your Jewelry</h3>
         <div className="for_ring_section">
           {SideItems?.map((val, i) => {
-            const RingVal = val?.name === "Diamond Rings" && "Ring";
-            const PendantVal = val?.name === "Diamond Pendant" && "Pendant";
             return (
               <>
                 {checkSteps ? (
@@ -1324,7 +1334,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
                     onClick={() => {
                       console.log(`Clicked on 12: ${val?.name}`);
                       if (val?.name === "Diamond Earrings") return;
-                      handleCheckSteps(val?.name);
+                      handleCheckSteps(val?.name, val?.link);
                     }}
                   >
                     <img src={val?.img} alt="" width={18} height={18} />
@@ -1332,20 +1342,20 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
                   </span>
                 ) :
                   <>
-                    {checkStepsOf0 ? (
-                      <span
-                        className="ring-type"
-                        key={i}
-                        onClick={() => {
-                          console.log(`Clicked on 1234: ${val?.name}`);
-                          if (val?.name === "Diamond Earrings") return;
-                          handleCheckStepsForSett(val?.link, val?.name === "Diamond Rings" ? RingVal : PendantVal);
-                        }}
-                      >
-                        <img src={val?.img} alt="" width={18} height={18} />
-                        {val?.name}
-                      </span>
-                    ) :
+                    {/* {checkStepsOf0 ? ( */}
+                    <span
+                      className="ring-type"
+                      key={i}
+                      onClick={() => {
+                        console.log(`Clicked on 1234: ${val?.name}`);
+                        if (val?.name === "Diamond Earrings") return;
+                        handleCheckStepsForSett(val?.link, val?.name === "Diamond Rings" ? "Ring" : "Pendant", val?.name === "Diamond Rings" ? 1 : 2);  // Pass the correct value
+                      }}
+                    >
+                      <img src={val?.img} alt="" width={18} height={18} />
+                      {val?.name}
+                    </span>
+                    {/* ) : (
                       <span
                         className="ring-type"
                         key={i}
@@ -1358,7 +1368,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
                         <img src={val?.img} alt="" width={18} height={18} />
                         {val?.name}
                       </span>
-                    }
+                    )} */}
                   </>
                 }
               </>

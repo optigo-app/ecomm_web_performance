@@ -38,12 +38,12 @@ $secondary-color: #fff;
 
     .for-modal-content {
       background-color: $modal-bg;
-      padding:15px 20px;
+      padding: 15px 20px;
       width: 90%;
       max-width: 550px;
       position: relative;
       border: 2px solid rgba(100, 100, 100, 0.308);
-      
+
       .for-modal-header {
         display: flex;
         justify-content: space-between;
@@ -58,7 +58,7 @@ $secondary-color: #fff;
           background: transparent;
           border: none;
           cursor: pointer;
-          border: 1px solid  black;
+          border: 1px solid black;
           border-radius: 50%;
           width: 24px;
           height: 24px;
@@ -74,30 +74,33 @@ $secondary-color: #fff;
         gap: 8px;
 
         .for-grid {
-           flex-direction: row !important;
-           justify-content: space-between;
-           width: 100%;
-           gap: 1rem;
-           div{
+          flex-direction: row !important;
+          justify-content: space-between;
+          width: 100%;
+          gap: 1rem;
+
+          div {
             display: flex;
             flex-direction: column !important;
             width: 100%;
-            input{
+
+            input {
               flex: 1;
             }
-           }
-         }
+          }
+        }
 
         .for-form-group {
           display: flex;
           flex-direction: column;
-        
+
           label {
             font-weight: bold;
             font-size: 12px;
           }
-          p{
-            font-size: 10px ;
+
+          p {
+            font-size: 10px;
             margin-top: 6px;
             font-weight: 600;
             margin-bottom: 0 !important;
@@ -107,10 +110,12 @@ $secondary-color: #fff;
           textarea {
             padding: 6px 10px;
             border: 2px solid #ccc;
-            &:placeholder-shown{
+
+            &:placeholder-shown {
               font-size: 15px;
             }
-            &::placeholder{
+
+            &::placeholder {
               font-size: 15px;
             }
           }
@@ -118,6 +123,12 @@ $secondary-color: #fff;
           textarea {
             resize: none;
             min-height: 20px !important;
+          }
+
+          .for-error-message {
+            color: red;
+            font-size: 13px;
+            margin-top: 3px;
           }
 
         }
