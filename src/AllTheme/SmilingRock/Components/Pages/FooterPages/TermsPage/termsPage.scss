@@ -127,7 +127,9 @@
 
 /* shinjini css */
 
+
 .smr {
+
   &-banner {
     position: relative;
     height: 220px;
@@ -160,6 +162,9 @@
     margin: 0 auto;
     width: 100%;
     padding: 2rem;
+    @media screen and (max-width: 500px) { 
+      padding: 2rem 0.5rem !important;
+    }
   }
 
   &-title {
@@ -185,7 +190,8 @@
       color: #333;
       margin-bottom: 1.5rem;
       font-weight: 500;
-      color: rgb(215, 178, 86);
+      color: rgb(9, 9, 10);
+      text-decoration: underline;
     }
 
     &-content {

@@ -2264,17 +2264,17 @@ const ProductDetail = () => {
                   {CustPath === 'Engagement_Ring' || CustPath === 'Diamond_Pendants' ? (
                     <>
                       {stepsData?.[1]?.step2Data?.[0]?.id > 0 ? (
-                        <button onClick={() => handleButtonChange("hasData")} className={`${btnstyle?.btn_for_new} for_productDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                        <button disabled={isPriceloading} onClick={() => handleButtonChange("hasData")} className={`${btnstyle?.btn_for_new} for_productDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                           choose this setting
                         </button>
                       ) : (
-                        <button onClick={() => handleButtonChange("")} className={`${btnstyle?.btn_for_new} for_productDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                        <button disabled={isPriceloading} onClick={() => handleButtonChange("")} className={`${btnstyle?.btn_for_new} for_productDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                           choose this setting
                         </button>
                       )}
                     </>
                   ) : (
-                    <button onClick={() => handleCart(!addToCardFlag)} className={`${btnstyle?.btn_for_new} for_productDet_ATC ${btnstyle?.btn_15}`}>
+                    <button disabled={isPriceloading} onClick={() => handleCart(!addToCardFlag)} className={`${btnstyle?.btn_for_new} for_productDet_ATC ${btnstyle?.btn_15}`}>
                       {addToCardFlag === false ? "ADD TO CART" : "REMOVE FROM CART"}
                     </button>
                   )}

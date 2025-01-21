@@ -1847,13 +1847,13 @@ const DiamondDetails = () => {
                                     </div>
                                     <div className="for_DiamondDet_choose_Dia_div">
                                         {settingSteps?.[1]?.step2 ? (
-                                            <button onClick={() => handleButtonChange('diamond', "", "", "", "")} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                                            <button disabled={isPriceloading} onClick={() => handleButtonChange('diamond', "", "", "", "")} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                 choose this diamond
                                             </button>
                                         ) : (
                                             <>
                                                 {stepsData?.[1]?.step2Data?.id > 0 ? (
-                                                    <button onClick={() => handleButtonChange('hasData', "", "", stepsData?.[0]?.step1Data?.[0]?.shapename, steps?.[1]?.Setting)} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                                                    <button disabled={isPriceloading} onClick={() => handleButtonChange('hasData', "", "", stepsData?.[0]?.step1Data?.[0]?.shapename, steps?.[1]?.Setting)} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                         choose this diamond
                                                     </button>
                                                 ) : (

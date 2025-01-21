@@ -855,7 +855,7 @@ const Lookbook = () => {
                         aria-controls="panel1-content"
                         id="panel1-header"
                         sx={{
-                          color: "#7d7f85 !important",
+                          color: "black !important",
                           borderRadius: 0,
 
                           "&.MuiAccordionSummary-root": {

@@ -2890,6 +2890,9 @@ const ProductList = () => {
                     currPage={currPage}
                     IsVaara={IsVaara}
                     showClearAllButton={showClearAllButton}
+                    sliderValue={sliderValue}
+                    sliderValue1={sliderValue1}
+                    sliderValue2={sliderValue2}
                   />
 
                   <div className="roop_mainPortion">
@@ -3459,7 +3462,10 @@ const GivaFilterMenu = ({
   setCurrPage,
   currPage,
   IsVaara,
-  showClearAllButton
+  showClearAllButton ,
+  sliderValue ,
+sliderValue1 ,
+sliderValue2
 }) => {
   const [showMenu, setshowMenu] = useState(-1);
   const menuRef = useRef(null);
@@ -3484,6 +3490,33 @@ const GivaFilterMenu = ({
   );
 
   function calculateTotalFilters(selectedFilters) {
+    let diafilter =
+    filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+      ?.length > 0
+      ? JSON.parse(
+        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+      )[0]
+      : [];
+  let diafilter1 =
+    filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+      ?.length > 0
+      ? JSON.parse(
+        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+      )[0]
+      : [];
+  let diafilter2 =
+    filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+      ?.length > 0
+      ? JSON.parse(
+        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+      )[0]
+      : [];
+  const isDia =      JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+  const isNet =   JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+  const isGross =   JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+
+
     let totalCount = 0;
 
     for (const key in selectedFilters) {
@@ -3497,6 +3530,9 @@ const GivaFilterMenu = ({
         totalCount += 1; // Count the single selection
       }
     }
+  if (isDia) totalCount += 1;
+    if (isNet) totalCount += 1;
+    if (isGross) totalCount += 1;
 
     return totalCount;
   }

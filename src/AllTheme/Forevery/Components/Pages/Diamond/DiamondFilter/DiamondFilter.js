@@ -5,6 +5,7 @@ import React, {
   forwardRef,
   useCallback,
   useReducer,
+  memo,
 } from "react";
 import "./DiamondFilter.scss";
 import { DiamondLists } from "../../../data/NavbarMenu";
@@ -191,7 +192,7 @@ const DiamondFilter = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
-        Object.values(dropdownRefs.current).every(
+        Object.values(dropdownRefs?.current).every(
           (ref) => ref && !ref.contains(event.target)
         )
       ) {
@@ -233,8 +234,7 @@ const DiamondFilter = () => {
           });
 
           const step1 = [{ step1: true, shape: getShape ?? "" }];
-          sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
-    console.log(step1,"updatedStep1 step1 diamond")
+          sessionStorage.setItem("customizeSteps", JSON?.stringify(step1));
 
         }
       } else if (
@@ -355,6 +355,8 @@ const DiamondFilter = () => {
   }
 
   const HandleDiamondRoute = (val) => {
+    const currentLocation = location.pathname + location.search + location.hash;
+
     //("hsahdjash", val);
     const obj = {
       a: val?.stockno,
@@ -364,6 +366,7 @@ const DiamondFilter = () => {
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
     let navigateUrl = `/d/${val?.stockno?.replaceAll(" ", "")}/det345/?p=${encodeObj}`;
+    window.history.pushState({ pathname: currentLocation }, '', currentLocation);
     Navigate(navigateUrl);
   };
 
@@ -756,7 +759,7 @@ const DiamondFilter = () => {
   }, [sliderState1, sliderLabels1, filtersData1, location?.pathname]);
 
   useEffect(() => {
-    setTimeout(() => {
+    const UpdatedUrl =  setTimeout(() => {
       const extractedValue = location?.pathname.split("f=")[1] ?? "";
       const decodedUrlData = decodeAndDecompress(extractedValue);
       const parsedData = parseUrlSegment(decodedUrlData);
@@ -786,16 +789,18 @@ const DiamondFilter = () => {
           Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
         )
         .join("/");
-
+  console.log(sliderParams , "sliderParams")
       const shape = location?.pathname?.split("/")[3];
       const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""
         }`;
-      const encodeUrl = compressAndEncode(urlToEncode);
-      const decodedUrl = decodeAndDecompress(encodeUrl);
+        const encodeUrl = compressAndEncode(urlToEncode);
+        const decodedUrl = decodeAndDecompress(encodeUrl);
+        console.log(decodedUrl,"decode")
       const newPath = `${pathname?.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
         }`;
       Navigate(newPath);
     }, 600);
+    return () => clearTimeout(UpdatedUrl);
   }, [finalArray]);
 
   function parseUrlSegment(segment) {
@@ -835,6 +840,9 @@ const DiamondFilter = () => {
       fetchData(shape);
     }
   }, [location?.pathname]);
+
+  
+
 
   return (
     <>
@@ -1392,6 +1400,7 @@ const DiamondFilter = () => {
                   {diamondData?.map((val, i) => {
                     const currentMediaType = ShowMedia[i] || "vid";
                     const bannerImage = getBannerImage(i);
+                    console.log(val,"video")
                     return (
                       <div key={i} className="diamond_card">
                         <div className="media_frame">
@@ -1413,6 +1422,7 @@ const DiamondFilter = () => {
                                       ref={(el) => (videoRefs.current[i] = el)}
                                       autoPlay={hoveredCard === i}
                                       controls={false}
+                                      playsInline 
                                       muted
                                       onMouseOver={(e) => handleMouseMove(e, i)}
                                       onMouseLeave={(e) =>
@@ -1578,7 +1588,7 @@ const DiamondFilter = () => {
   );
 };
 
-export default DiamondFilter;
+export default memo(DiamondFilter);
 
 const CollectionPriceRange = forwardRef(
   ({ handleSliderChange, data, open, priceVal }, ref) => {

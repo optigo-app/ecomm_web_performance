@@ -4,7 +4,7 @@ import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductLi
 import { useLocation, useNavigate } from "react-router-dom";
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPriceListApi";
-import { findMetal, findMetalColor, findMetalType, formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { findMetal, findMetalColor, findMetalType, formatter, getDomainName, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import {
@@ -73,6 +73,7 @@ const ProductList = () => {
   const [isProdLoading, setIsProdLoading] = useState(true);
   const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
   const [storeInit, setStoreInit] = useState({});
+  const [isshowDots, setisshowDots] = useState(false);
   const [filterData, setFilterData] = useState([])
   const [filterChecked, setFilterChecked] = useState({})
   const [afterFilterCount, setAfterFilterCount] = useState();
@@ -214,9 +215,9 @@ const ProductList = () => {
     const baseImagePath = `${getDesignImageFol}${designno}~${type}`;
     const colorImagePath = `${baseImagePath}~${color}.${extension}`;
     let defaultImagePath = "";
-    if(type === 2){
+    if (type === 2) {
       defaultImagePath = `${getDesignImageFol}${designno}~1.${extension}`;
-    }else {
+    } else {
       defaultImagePath = `${baseImagePath}.${extension}`;
     }
 
@@ -1870,6 +1871,17 @@ const ProductList = () => {
     checkAllImages();
   }, [finalProductListData]);
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getDomainName();
+        setisshowDots(res === 'demo' ? true : false)
+      } catch (error) {
+        return error;
+      }
+    })();
+  }, [])
+
   return (
     <>
       <Helmet>
@@ -3515,7 +3527,7 @@ const ProductList = () => {
                                       const isLoading = productData && productData?.loading === true;
                                       return (
                                         <>
-                                          {
+                                          { !isshowDots &&
                                             i === 6 && (
                                               <>
                                                 {/* <img src="https://png.pngtree.com/template/20240229/ourmid/pngtree-jewelry-social-media-and-instagram-post-template-vector-image_2010320.jpg" alt="" /> */}
@@ -3551,7 +3563,7 @@ const ProductList = () => {
                                               </>
                                             )
                                           }
-                                          {i === 14 && (
+                                          { !isshowDots && i === 14 && (
                                             <>
                                               {menuParams?.menuname === "Glossy" && (
                                                 <div className="smr_productCard_banner">
@@ -3733,7 +3745,7 @@ const ProductList = () => {
 
                                                       )
                                                   }
-                                                  <div className="smr_productList_metaltype_Maindiv">
+                                                  {!isshowDots && <div className="smr_productList_metaltype_Maindiv">
                                                     <div className="smr_productList_metaltype_div">
                                                       <img src={colorPicker} alt="" className="image" />
                                                       <div className="metal-buttons-container">
@@ -3746,13 +3758,13 @@ const ProductList = () => {
                                                                 : `smr_metaltype_${item?.metal}`
                                                             }
                                                             type="button"
-                                                            onClick={() => {handleClick(item?.id, productData?.autocode); handleImgRollover(productData, yellowRollImage, whiteRollImage, roseRollImage, item?.id)}}
+                                                            onClick={() => { handleClick(item?.id, productData?.autocode); handleImgRollover(productData, yellowRollImage, whiteRollImage, roseRollImage, item?.id) }}
                                                           >
                                                           </button>
                                                         ))}
                                                       </div>
                                                     </div>
-                                                  </div>
+                                                  </div>}
                                                 </div>
                                               </>
                                             }
