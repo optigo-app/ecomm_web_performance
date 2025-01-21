@@ -303,7 +303,7 @@ const Footer = () => {
           //   handleNavigate(e, "/change-cookie-preferences");
           // }}
           >
-            Ver: 1.0.110120251850
+            Ver: 1.0.200120251339
             {/* { 110120251850 : date and time } */}
           </a>
         </li>

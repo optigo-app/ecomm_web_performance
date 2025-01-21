@@ -136,9 +136,11 @@ const SettingPage = () => {
   const [Shape, setShape] = useState("");
   const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
   const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
-  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
+  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
+  const steps2 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
   const stepsData = JSON.parse(sessionStorage.getItem('custStepData'));
-  const stepsData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
+  const stepsData2 = JSON.parse(sessionStorage.getItem('custStepData2Ring'));
+  const stepsData3 = JSON.parse(sessionStorage.getItem('custStepData2Pendant'));
 
   const initialSelections = {
     selectedMetalId: loginUserDetail?.MetalId,
@@ -392,17 +394,21 @@ const SettingPage = () => {
     const getPath = location.pathname.split('/').slice(1, 3)
     const mergePath = getPath.join('/')
     if (mergePath == 'certified-loose-lab-grown-diamonds/settings') {
-      if (stepsData === null && stepsData2 === null && steps1?.[0]?.step1 !== true) {
-        const step1 = [{ "step1": true, "Setting": getSetting }];
-        sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
-        console.log("updatedStep1 step2 Setting", step1)
+      if (stepsData === null && stepsData2 === null && stepsData3 === null && (steps1?.[0]?.step1 !== true ?? steps2?.[0]?.step1 !== true)) {
+        const step1 = [{ "step1": true, "Setting": getSetting, 'id': getSetting === "Ring" ? 1 : 2 }];
+        console.log('step1: ', step1);
+        if (getSetting === "Ring") {
+          sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
+        } else {
+          sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(step1));
+        }
       }
     }
   }
 
   useEffect(() => {
     getShapeFromURL();
-  }, [location?.pathname]);
+  }, [location?.pathname, location?.key]);
 
   const updateSteps = (shape) => {
     const updatedStep1 = steps?.map(step => {
@@ -596,8 +602,8 @@ const SettingPage = () => {
   };
 
   const dropdownsData = [
-    { index: 1, title: "All metal", data: metalType, type: 'metal', "diaStep": steps, "setStep": steps1 },
-    { index: 2, title: "Diamond shape", data: diaShapeData, type: 'diashape', "diaStep": steps, "settStep": steps1 },
+    { index: 1, title: "All metal", data: metalType, type: 'metal', "diaStep": steps, "setStep": steps1 ?? steps2 },
+    { index: 2, title: "Diamond shape", data: diaShapeData, type: 'diashape', "diaStep": steps, "settStep": steps1 ?? steps2 },
   ];
 
   const rangeData = [
@@ -1422,19 +1428,19 @@ const Product_Card = ({
           <div className="for_settingList_desc_div">
             <div>
               {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
-                <span>GWT : {productData?.Gwt.toFixed(3)}</span>
+                <span>GWT : {productData?.Gwt?.toFixed(3)}</span>
               )}
               {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
-                <span>&nbsp;| NWT : {productData?.Nwt.toFixed(3)}</span>
+                <span>&nbsp;| NWT : {productData?.Nwt?.toFixed(3)}</span>
               )}
               {storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0 && (
-                <span>&nbsp;| DWT : {productData?.Dwt.toFixed(3)}{storeInit?.IsDiamondPcs === 1
+                <span>&nbsp;| DWT : {productData?.Dwt?.toFixed(3)}{storeInit?.IsDiamondPcs === 1
                   ? `/ ${productData?.Dpcs?.toFixed(0)}`
                   : null}</span>
               )}
               {storeInit?.IsStoneWeight == 1 &&
                 Number(productData?.CSwt) !== 0 && (
-                  <span>&nbsp;| CWT : {productData?.CSwt.toFixed(3)}{storeInit?.IsStonePcs === 1
+                  <span>&nbsp;| CWT : {productData?.CSwt?.toFixed(3)}{storeInit?.IsStonePcs === 1
                     ? `/ ${productData?.CSpcs?.toFixed(0)}`
                     : null}</span>
                 )}

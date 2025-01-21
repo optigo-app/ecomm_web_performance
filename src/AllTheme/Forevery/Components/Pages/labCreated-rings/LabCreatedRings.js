@@ -113,9 +113,10 @@ const DesignyourOwn = () => {
   const [checkIndex, setCheckIndex] = useState();
 
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
-  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
+  const steps2 = JSON.parse(sessionStorage.getItem("customizeSteps2Pendant"));
 
-  const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1)?.[2]?.url}`;
+  const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1 ?? steps2)?.[2]?.url}`;
 
   const handleToggle = () => {
     setShowModal(!showModal);
@@ -127,7 +128,8 @@ const DesignyourOwn = () => {
 
   const checkSteps =
     (steps?.[2] !== undefined && steps?.[2] !== null) ||
-    (steps1?.[2] !== undefined && steps1?.[2] !== null);
+    (steps1?.[2] !== undefined && steps1?.[2] !== null) || 
+    (steps2?.[2] !== undefined && steps2?.[2] !== null);
 
   const handleCheckSteps = (index) => {
     if (checkSteps) {
@@ -161,17 +163,21 @@ const DesignyourOwn = () => {
         step1: true,
       });
       const step1 = [{ step1: true, Setting: "Ring" }];
-      sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
+      sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
     }
   };
 
   const HandleDiamondNavigation = () => {
     if (
       (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
-      (steps1?.[1] !== undefined && steps1?.[1] !== null)
+      (steps1?.[1] !== undefined && steps1?.[1] !== null) ||
+      (steps2?.[0] !== undefined && steps2?.[0] !== null) ||
+      (steps2?.[1] !== undefined && steps2?.[1] !== null)
     ) {
-      sessionStorage.removeItem("customizeSteps2");
-      sessionStorage.removeItem("custStepData2");
+      sessionStorage.removeItem("customizeSteps2Ring");
+      sessionStorage.removeItem("customizeSteps2Pendant");
+      sessionStorage.removeItem("custStepData2Ring");
+      sessionStorage.removeItem("custStepData2Pendant");
       navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
     } else {
       navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
@@ -186,8 +192,10 @@ const DesignyourOwn = () => {
   const handleRemoveData = (index) => {
     sessionStorage.removeItem("customizeSteps");
     sessionStorage.removeItem("custStepData");
-    sessionStorage.removeItem("customizeSteps2");
-    sessionStorage.removeItem("custStepData2");
+    sessionStorage.removeItem("customizeSteps2Ring");
+    sessionStorage.removeItem("customizeSteps2Pendant");
+    sessionStorage.removeItem("custStepData2Ring");
+    sessionStorage.removeItem("custStepData2Pendant");
     if (index === 0) {
       const addCategory = `Ring/category`;
       const filterKeyVal = btoa(addCategory);

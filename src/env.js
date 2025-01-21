@@ -8,5 +8,5 @@
 export const REACT_APP_WEB = "rpjewel.web";
 // export const REACT_APP_WEB = "stamford.web";
 // export const REACT_APP_WEB = "demostore";
-// export const REACT_APP_WEB = "forevery.web";
+export const REACT_APP_WEB = "forevery.web";
 // export const REACT_APP_WEB = "elvee.web";

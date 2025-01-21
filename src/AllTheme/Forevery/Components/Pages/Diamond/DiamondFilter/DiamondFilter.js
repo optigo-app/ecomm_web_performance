@@ -151,9 +151,11 @@ const DiamondFilter = () => {
     for_customizationSteps
   );
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
-  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
+  const steps2 = JSON.parse(sessionStorage.getItem("customizeSteps2Pendant"));
   const stepsData = JSON.parse(sessionStorage.getItem("custStepData"));
-  const stepsData2 = JSON.parse(sessionStorage.getItem("custStepData2"));
+  const stepsData2 = JSON.parse(sessionStorage.getItem("custStepData2Ring"));
+  const stepsData3 = JSON.parse(sessionStorage.getItem("custStepData2Pendant"));
 
   const [ApiData, setApiData] = useState([]);
   const [FilterApiOptions, setFilterApiOptions] = useState();
@@ -220,6 +222,7 @@ const DiamondFilter = () => {
       if (
         stepsData === null &&
         stepsData2 === null &&
+        stepsData3 === null &&
         (steps?.[0]?.step1 == true || steps?.[0]?.step1 != true)
       ) {
         if (getShape) {
@@ -752,48 +755,48 @@ const DiamondFilter = () => {
     }, 500);
   }, [sliderState1, sliderLabels1, filtersData1, location?.pathname]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      const extractedValue = location?.pathname.split("f=")[1] ?? "";
-      const decodedUrlData = decodeAndDecompress(extractedValue);
-      const parsedData = parseUrlSegment(decodedUrlData);
-      const pathname = location?.pathname.split("/");
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     const extractedValue = location?.pathname.split("f=")[1] ?? "";
+  //     const decodedUrlData = decodeAndDecompress(extractedValue);
+  //     const parsedData = parseUrlSegment(decodedUrlData);
+  //     const pathname = location?.pathname.split("/");
 
-      // Determine which data to use
-      const dataToUse = Object.keys(finalArray)?.some(
-        (key) => Array.isArray(finalArray[key]) && finalArray[key].length > 0
-      )
-        ? finalArray
-        : parsedData ?? {};
+  //     // Determine which data to use
+  //     const dataToUse = Object.keys(finalArray)?.some(
+  //       (key) => Array.isArray(finalArray[key]) && finalArray[key].length > 0
+  //     )
+  //       ? finalArray
+  //       : parsedData ?? {};
 
-      const sliderParams = Object.entries(dataToUse)
-        .filter(
-          ([key, value]) =>
-            value &&
-            (Array.isArray(value)
-              ? value.length > 0
-              : typeof value === "string" && value.length > 0)
-        )
-        .filter(([key, value]) =>
-          Array.isArray(value)
-            ? value.every((v) => v !== null && v !== undefined && v !== "")
-            : true
-        )
-        .map(([key, value]) =>
-          Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
-        )
-        .join("/");
+  //     const sliderParams = Object.entries(dataToUse)
+  //       .filter(
+  //         ([key, value]) =>
+  //           value &&
+  //           (Array.isArray(value)
+  //             ? value.length > 0
+  //             : typeof value === "string" && value.length > 0)
+  //       )
+  //       .filter(([key, value]) =>
+  //         Array.isArray(value)
+  //           ? value.every((v) => v !== null && v !== undefined && v !== "")
+  //           : true
+  //       )
+  //       .map(([key, value]) =>
+  //         Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
+  //       )
+  //       .join("/");
 
-      const shape = location?.pathname?.split("/")[3];
-      const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""
-        }`;
-      const encodeUrl = compressAndEncode(urlToEncode);
-      const decodedUrl = decodeAndDecompress(encodeUrl);
-      const newPath = `${pathname?.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
-        }`;
-      Navigate(newPath);
-    }, 600);
-  }, [finalArray]);
+  //     const shape = location?.pathname?.split("/")[3];
+  //     const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""
+  //       }`;
+  //     const encodeUrl = compressAndEncode(urlToEncode);
+  //     const decodedUrl = decodeAndDecompress(encodeUrl);
+  //     const newPath = `${pathname?.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
+  //       }`;
+  //     Navigate(newPath);
+  //   }, 600);
+  // }, [finalArray]);
 
   function parseUrlSegment(segment) {
     const parts = segment?.split("/")?.slice(1);
@@ -891,8 +894,8 @@ const DiamondFilter = () => {
                       checked={checkedItem === val?.name}
                       onChange={() => {
                         if (
-                          steps1?.[0]?.step1 == true &&
-                          stepsData2?.[0]?.step1Data?.id > 0
+                          (steps1?.[0]?.step1 == true ?? steps2?.[0]?.step1 == true) &&
+                          (stepsData2?.[0]?.step1Data?.id > 0 ?? stepsData3?.[0]?.step1Data?.id > 0)
                         ) {
                           return;
                         } else {
@@ -903,7 +906,7 @@ const DiamondFilter = () => {
                     <div
                       className={`shape_card ${checkedItem === val?.name
                         ? "active-checked"
-                        : (steps1?.[0]?.step1 === true && stepsData2?.[0]?.step1Data?.id > 0) || (stepsData?.[1]?.step2Data?.id > 0 ?? stepsData2?.[1]?.step2Data?.[0]?.id > 0)
+                        : ((steps1?.[0]?.step1 === true ?? steps2?.[0]?.step1 === true) && (stepsData2?.[0]?.step1Data?.id > 0 ?? stepsData3?.[0]?.step1Data?.id > 0)) || (stepsData?.[1]?.step2Data?.id > 0 ?? stepsData2?.[1]?.step2Data?.[0]?.id > 0 ?? stepsData3?.[1]?.step2Data?.[0]?.id > 0)
                           ? "blue-unchecked"
                           : ""
                         }`}
@@ -952,8 +955,8 @@ const DiamondFilter = () => {
                         checked={checkedItem === val?.name}
                         onChange={() => {
                           if (
-                            steps1?.[0]?.step1 == true &&
-                            stepsData2?.[0]?.step1Data?.id > 0
+                            (steps1?.[0]?.step1 == true ?? steps2?.[0]?.step1 == true) &&
+                            (stepsData2?.[0]?.step1Data?.id > 0 ?? stepsData3?.[0]?.step1Data?.id > 0)
                           ) {
                             return;
                           } else {
@@ -1053,8 +1056,8 @@ const DiamondFilter = () => {
                   checked={checkedItem === val?.name}
                   onChange={() => {
                     if (
-                      steps1?.[0]?.step1 == true &&
-                      stepsData2?.[0]?.step1Data?.id > 0
+                      (steps1?.[0]?.step1 == true ?? steps2?.[0]?.step1 == true) &&
+                      (stepsData2?.[0]?.step1Data?.id > 0 ?? stepsData3?.[0]?.step1Data?.id > 0)
                     ) {
                       return;
                     } else {
@@ -1065,7 +1068,7 @@ const DiamondFilter = () => {
                 <div
                   className={`shape_card ${checkedItem === val?.name
                     ? "active-checked"
-                    : (steps1?.[0]?.step1 === true && stepsData2?.[0]?.step1Data?.id > 0) || (stepsData?.[1]?.step2Data?.id > 0 ?? stepsData2?.[1]?.step2Data?.[0]?.id > 0)
+                    : ((steps1?.[0]?.step1 === true ?? steps2?.[0]?.step1 === true) && (stepsData2?.[0]?.step1Data?.id > 0 ?? stepsData3?.[0]?.step1Data?.id > 0)) || (stepsData?.[1]?.step2Data?.id > 0 ?? stepsData2?.[1]?.step2Data?.[0]?.id > 0 ?? stepsData3?.[1]?.step2Data?.[0]?.id > 0)
                       ? "blue-unchecked"
                       : ""
                     }`}
@@ -1113,8 +1116,8 @@ const DiamondFilter = () => {
                     checked={checkedItem === val?.name}
                     onChange={() => {
                       if (
-                        steps1?.[0]?.step1 == true &&
-                        stepsData2?.[0]?.step1Data?.id > 0
+                        (steps1?.[0]?.step1 == true ?? steps2?.[0]?.step1 == true) &&
+                        (stepsData2?.[0]?.step1Data?.id > 0 ?? stepsData3?.[0]?.step1Data?.id > 0)
                       ) {
                         return;
                       } else {

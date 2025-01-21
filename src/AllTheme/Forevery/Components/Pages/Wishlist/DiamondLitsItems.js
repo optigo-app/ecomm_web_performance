@@ -47,8 +47,6 @@ const DiamondLitsItems = ({
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    console.log('diamondValue: ', diamondValue);
-
     // const matchedDiamonds = diamondValue.filter(dia =>
     //     matchingDiamonds.some(diamond => diamond.stockno === dia?.stockno)
     // );
@@ -85,6 +83,20 @@ const DiamondLitsItems = ({
     };
 
     const handleButtonChange = async (value, e, item, stockno, shape) => {
+
+        if (value == 'cart') {
+            await CartAndWishListAPI('Cart', {}, '', '', stockno).then((res) => {
+                if (res) {
+                    if (res?.Data?.rd[0]?.msg === 'success') {
+                        let cartC = res?.Data?.rd[0]?.Cartlistcount
+                        let wishC = res?.Data?.rd[0]?.Wishlistcount
+                        setWishCountVal(wishC)
+                        setCartCountVal(cartC);
+                    }
+
+                }
+            }).catch((err) => console.log("addtocartwishErr", err))
+        }
 
         if (value == 'wish') {
             await CartAndWishListAPI('Wish', {}, '', '', stockno).then((res) => {
@@ -166,7 +178,8 @@ const DiamondLitsItems = ({
         const returnValue = await handleRemoveItem(item, isdiamond);
 
         const existingData = JSON.parse(sessionStorage.getItem('custStepData')) || [];
-        const existingData1 = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
+        const existingData1 = JSON.parse(sessionStorage.getItem('custStepData2Ring')) || [];
+        const existingData2 = JSON.parse(sessionStorage.getItem('custStepData2Pendant')) || [];
 
         if (existingData1?.[0]?.step1Data != undefined) {
             const newIsInWishValue = 0;
@@ -184,7 +197,26 @@ const DiamondLitsItems = ({
                 return step;
             });
 
-            sessionStorage.setItem('custStepData2', JSON.stringify(updatedData));
+            sessionStorage.setItem('custStepData2Ring', JSON.stringify(updatedData));
+        }
+
+        if (existingData2?.[0]?.step1Data != undefined) {
+            const newIsInWishValue = 0;
+
+            const updatedData = existingData2.map(step => {
+                if (step.step1Data != undefined) {
+                    return {
+                        ...step,
+                        step1Data: {
+                            ...step.step1Data,
+                            IsInWish: newIsInWishValue
+                        }
+                    };
+                }
+                return step;
+            });
+
+            sessionStorage.setItem('custStepData2Pendant', JSON.stringify(updatedData));
         }
 
         if (existingData?.[1]?.step2Data != undefined) {
@@ -246,6 +278,7 @@ const DiamondLitsItems = ({
                             alt={item?.TitleLine}
                             className="for_WlListImage"
                             onError={handleError}
+                            onClick={() => handleMoveToDetail(item)}
                         />
                         <CardContent className="for_cardContent for_diamondImage">
                             <div className="for_cardText">
