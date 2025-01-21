@@ -625,7 +625,7 @@ const AccountLedger = () => {
 
                                     <div className='mx_1_acc ms_4_acc mb_2_acc'>
                                     </div>
-                                    <div style={{paddingBottom:'35px'}}><img src={excelExport} onClick={() => downloadExcelLedgerData()} style={{height:'40px', width:'40px', objectFit:'contain', cursor:'pointer'}} alt='#excelExport' title='Download Excel' /></div>
+                                    {/* <div style={{paddingBottom:'35px'}}><img src={excelExport} onClick={() => downloadExcelLedgerData()} style={{height:'40px', width:'40px', objectFit:'contain', cursor:'pointer'}} alt='#excelExport' title='Download Excel' /></div> */}
                                 </div>
                             }
                         </div>
@@ -777,26 +777,33 @@ const AccountLedger = () => {
                                     {
                                         filterArray?.length > 0 ? filterArray?.map((e) => {
                                             
-                                            
                                             let doneIcon = null;
                                             let closeIcon = null;
-                                            let d_doneIcon = null;
-                                            let d_closeIcon = null;
 
                                         if (e.IsVerified === 0) {
-                                            doneIcon = '';
+                                            doneIcon = <DoneIcon sx={{ color: 'green' }} />;
                                         } else if (e.IsVerified === 1) {
-                                            closeIcon = <DoneIcon sx={{ color: 'green' }} />;
-                                        } else if (e.IsVerified === 2) {
                                             closeIcon = <CloseIcon sx={{ color: 'red' }} />;
-                                        } 
-                                        if (e.IsDVerified === 0) {
-                                            d_doneIcon = '';
-                                        } else if (e.IsDVerified === 1) {
-                                            d_closeIcon = <DoneIcon sx={{ color: 'green' }} />;
-                                        } else if (e.IsDVerified === 2) {
-                                            d_closeIcon = <CloseIcon sx={{ color: 'red' }} />;
                                         }
+                                        //     let doneIcon = null;
+                                        //     let closeIcon = null;
+                                        //     let d_doneIcon = null;
+                                        //     let d_closeIcon = null;
+
+                                        // if (e.IsVerified === 0) {
+                                        //     doneIcon = '';
+                                        // } else if (e.IsVerified === 1) {
+                                        //     closeIcon = <DoneIcon sx={{ color: 'green' }} />;
+                                        // } else if (e.IsVerified === 2) {
+                                        //     closeIcon = <CloseIcon sx={{ color: 'red' }} />;
+                                        // } 
+                                        // if (e.IsDVerified === 0) {
+                                        //     d_doneIcon = '';
+                                        // } else if (e.IsDVerified === 1) {
+                                        //     d_closeIcon = <DoneIcon sx={{ color: 'green' }} />;
+                                        // } else if (e.IsDVerified === 2) {
+                                        //     d_closeIcon = <CloseIcon sx={{ color: 'red' }} />;
+                                        // }
 
                                             return (
                                                 <>
@@ -809,7 +816,8 @@ const AccountLedger = () => {
                                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.metalctw === 0 ? '' : e?.metalctw)}</td>
                                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.diamondctw === 0 ? '' : e?.diamondctw)}</td>
                                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{ minWidth: '100px' }}> {e?.IsDebit !== 0 && <span dangerouslySetInnerHTML={{ __html: e?.CurrSymbol }}></span>} {e?.IsDebit === 0 ? '' : ` ${formatAmount(e?.Currency) === 'NaN' ? '' : formatAmount(e?.Currency)} `}</td>
-                                                            <td className='border_end_acc p_1_acc text_center_acc'>{d_doneIcon}{d_closeIcon}</td>
+                                                            {/* <td className='border_end_acc p_1_acc text_center_acc'>{d_doneIcon}{d_closeIcon}</td> */}
+                                                            <td className='border_end_acc p_1_acc text_center_acc'></td>
                                                             <td className='border_end_acc p_1_acc text_center_acc'>{e?.IsDebit === 0 ? e?.EntryDate : ''}</td>
                                                             <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'>{e?.IsDebit === 0 ? e?.particular : ''}</td>
                                                             <td className={`border_end_acc p_1_acc text_start_acc ps_1_acc ${e?.PrintUrl === '' ? '' : 'text-primary text-decoration-underline'}`} onClick={() => e?.PrintUrl === '' ? '' : window.open(atob(e?.PrintUrl))} style={{cursor:'pointer'}}>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td>
