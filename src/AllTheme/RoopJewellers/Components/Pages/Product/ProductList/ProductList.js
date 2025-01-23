@@ -181,9 +181,12 @@ const ProductList = () => {
   }, []);
 
   useEffect(() => {
+    const { hostname } = window.location;
     const getdomain = async () => {
+      
       let dm = await getDomainName();
-      setIsVaara(dm !== "vaara");
+      
+      setIsVaara(dm === "vaara" ? false  : true);
     }
     getdomain()
   }, [])
@@ -442,6 +445,9 @@ const ProductList = () => {
       setIsProdLoading(true);
       //  if(location?.state?.SearchVal === undefined){
       setprodListType(productlisttype);
+      // let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+      // let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
+      // let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
       let DiaRange = { DiaMin: sliderValue[0] ?? "0", DiaMax: sliderValue[1] ?? "100" }
       let grossRange = { grossMin: sliderValue2[0] ?? "0", grossMax: sliderValue2[1] ?? "100" }
       let netRange = { netMin: sliderValue1[0] ?? "0", netMax: sliderValue1[1] ?? "100" }
@@ -790,10 +796,10 @@ const ProductList = () => {
 
     if (location?.key === locationKey) {
       setIsOnlyProdLoading(true);
-      let DiaRange = { DiaMin: isDia ?  sliderValue[0] : "", DiaMax:  isDia ?  sliderValue[1] : "" }
-      let grossRange = { grossMin: isGross ?  sliderValue1[0] : "", grossMax: isGross ?  sliderValue1[1] : "" }
-      let netRange = { netMin: isNet ?  sliderValue2[1] : "", netMax: isNet ?  sliderValue2[1] : "" }
-
+      let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
+      let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
+      let netRange = { netMin: isNet ? sliderValue1[0] : "", netMax: isNet ? sliderValue1[1] : "" }
+      
       // ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
       ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, 
         DiaRange, netRange, grossRange
