@@ -23,6 +23,7 @@ export const getDomainName = async () => {
       "almacarino.procatalog.in": "almacarino",
       "shreediamond.optigoapps.com": "sdj",
       'varajewels.com': "vaara",
+      'www.varajewels.com':"vaara",
       'sonasons.optigoapps.com': "demo",
       'localhost': "default",
     };
