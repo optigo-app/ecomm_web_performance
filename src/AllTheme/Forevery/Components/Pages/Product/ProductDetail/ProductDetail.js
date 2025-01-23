@@ -92,11 +92,9 @@ const ProductDetail = () => {
   const [isDataFound, setIsDataFound] = useState(false)
   const [isPriceloading, setisPriceLoading] = useState(false);
   const [decodeUrl, setDecodeUrl] = useState({})
-  console.log('decodeUrl: ', decodeUrl);
   const [loadingdata, setloadingdata] = useState(false);
   const [pdImageLoading, setPdImageLoading] = useState(false);
   const [path, setpath] = useState();
-  console.log('path: ', path);
   const [metalWiseColorImg, setMetalWiseColorImg] = useState()
   const [videoArr, SETvideoArr] = useState([]);
   const [setshape, setSetShape] = useState();
@@ -110,6 +108,7 @@ const ProductDetail = () => {
   const [Swap, setswap] = useState("diamond");
   const breadCrumb = location?.pathname?.split("/")[2];
 
+  const getImagePath = JSON.parse(sessionStorage?.getItem("setImage")) ?? "";
 
   const StyleCondition = {
     fontSize: breadCrumb === "settings" && "14px",
@@ -1335,11 +1334,13 @@ const ProductDetail = () => {
     const stepData = JSON.parse(sessionStorage.getItem("custStepData2Ring"));
     const stepData1 = JSON.parse(sessionStorage.getItem("custStepData2Pendant"));
 
+    const imageUrl = storeInit?.CDNDesignImageFol;
+    const setImage = { "colorImage": `${imageUrl}${(singleProd1 ?? singleProd)?.designno}~1.${(singleProd1 ?? singleProd)?.ImageExtension}` }
+
     let mcArr;
     let mcArr1;
 
     const activeColorCode = colorImgFromURL ?? colorImgFromCartWish;
-    console.log('activeColorCode: ', activeColorCode);
 
     if (activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null) {
       const getAllMetalColor = mtColorLocal?.find((ele) => ele?.id === colorImgFromCartWish);
@@ -1359,9 +1360,6 @@ const ProductDetail = () => {
         mcArr1 = getRoseImage
       }
     }
-
-    console.log('mcArr1: ', mcArr1);
-
 
     mcArr =
       metalColorCombo?.find((ele) => {
@@ -1410,6 +1408,10 @@ const ProductDetail = () => {
           sessionStorage.setItem('custStepData2Pendant', JSON.stringify(updatedStepData));
         }
 
+        // if (!getImagePath) {
+          sessionStorage.setItem('setImage', JSON.stringify(setImage));
+        // }
+
         navigate(`/d/setting-complete-product/det345/?p=${(step1?.[2]?.url ?? step2?.[2]?.url)}`);
       }
       else {
@@ -1446,7 +1448,11 @@ const ProductDetail = () => {
           sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(updatedStep1));
         }
 
-        if(shapeName){
+        // if (!getImagePath) {
+          sessionStorage.setItem('setImage', JSON.stringify(setImage));
+        // }
+
+        if (shapeName) {
           navigate(`/certified-loose-lab-grown-diamonds/diamond/${shapeName}`);
         } else {
           alert("Please choose your setting which have a diamond shape")
@@ -1640,45 +1646,47 @@ const ProductDetail = () => {
                             {(
                               imageSrc || PdImageArr?.length > 1 ? (
                                 <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
-                                  {PdImageArr?.length > 0 && PdImageArr.map((val, i) => (
-                                    <div key={i} className="for_slider_card">
-                                      <div className="for_image"
-                                        style={{
-                                          position: "relative",
-                                          overflow: "hidden",
-                                          cursor: "zoom-in",
-                                          transition: "0.3s ease-in"
-                                        }}
-                                        onMouseMove={(e) => handleMouseMove(e, i)}
-                                        onMouseLeave={() => handleMouseLeave(i)}
-                                      >
-                                        {val?.type === "img" ? (
-                                          <img
-                                            ref={el => imageRefs.current[i] = el}
-                                            loading="lazy"
-                                            src={val?.src}
-                                            alt=""
-                                            onLoad={() => setIsImageLoad(false)}
-                                            onError={(e) => {
-                                              e.target.onerror = null;
-                                              e.target.src = imageNotFound;
-                                            }}
-                                          />
-                                        ) : (
-                                          <div style={{ height: "80%" }}>
-                                            <video
+                                  {PdImageArr?.length > 0 && PdImageArr.map((val, i) => {
+                                    return (
+                                      <div key={i} className="for_slider_card">
+                                        <div className="for_image"
+                                          style={{
+                                            position: "relative",
+                                            overflow: "hidden",
+                                            cursor: "zoom-in",
+                                            transition: "0.3s ease-in"
+                                          }}
+                                          onMouseMove={(e) => handleMouseMove(e, i)}
+                                          onMouseLeave={() => handleMouseLeave(i)}
+                                        >
+                                          {val?.type === "img" ? (
+                                            <img
+                                              ref={el => imageRefs.current[i] = el}
+                                              loading="lazy"
                                               src={val?.src}
-                                              ref={videoRef}
-                                              loop={true}
-                                              autoPlay={true}
-                                              muted
-                                              style={{ width: "100%", height: "100%", objectFit: "scale-down" }}
+                                              alt=""
+                                              onLoad={() => setIsImageLoad(false)}
+                                              onError={(e) => {
+                                                e.target.onerror = null;
+                                                e.target.src = imageNotFound;
+                                              }}
                                             />
-                                          </div>
-                                        )}
+                                          ) : (
+                                            <div style={{ height: "80%" }}>
+                                              <video
+                                                src={val?.src}
+                                                ref={videoRef}
+                                                loop={true}
+                                                autoPlay={true}
+                                                muted
+                                                style={{ width: "100%", height: "100%", objectFit: "scale-down" }}
+                                              />
+                                            </div>
+                                          )}
+                                        </div>
                                       </div>
-                                    </div>
-                                  ))}
+                                    )
+                                  })}
                                 </Slider>
                               ) : imageSrc || PdImageArr.length === 1 ? (
                                 <div className="for_slider_card">
@@ -2264,17 +2272,17 @@ const ProductDetail = () => {
                   {CustPath === 'Engagement_Ring' || CustPath === 'Diamond_Pendants' ? (
                     <>
                       {stepsData?.[1]?.step2Data?.[0]?.id > 0 ? (
-                        <button onClick={() => handleButtonChange("hasData")} className={`${btnstyle?.btn_for_new} for_productDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                        <button disabled={isPriceloading} onClick={() => handleButtonChange("hasData")} className={`${btnstyle?.btn_for_new} for_productDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                           choose this setting
                         </button>
                       ) : (
-                        <button onClick={() => handleButtonChange("")} className={`${btnstyle?.btn_for_new} for_productDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                        <button disabled={isPriceloading} onClick={() => handleButtonChange("")} className={`${btnstyle?.btn_for_new} for_productDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                           choose this setting
                         </button>
                       )}
                     </>
                   ) : (
-                    <button onClick={() => handleCart(!addToCardFlag)} className={`${btnstyle?.btn_for_new} for_productDet_ATC ${btnstyle?.btn_15}`}>
+                    <button disabled={isPriceloading} onClick={() => handleCart(!addToCardFlag)} className={`${btnstyle?.btn_for_new} for_productDet_ATC ${btnstyle?.btn_15}`}>
                       {addToCardFlag === false ? "ADD TO CART" : "REMOVE FROM CART"}
                     </button>
                   )}
@@ -2443,6 +2451,8 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
   const getCompleteStep2 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
   const getCompleteStep3 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
 
+  const getImagePath = JSON.parse(sessionStorage?.getItem("setImage")) ?? "";
+
   useEffect(() => {
     const storeData = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeData);
@@ -2504,6 +2514,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
               handleOpen={() => handleOpen('setting')}
               data={(getdiaData2?.[0] ?? getdiaData3?.[0])}
               ref={(el) => { dropdownRefs.current[0] = el; }}
+              getImagePath={getImagePath}
             />
           )}
           {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
@@ -2513,6 +2524,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
               handleOpen={() => handleOpen('setting')}
               data={getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data}
               ref={(el) => { dropdownRefs.current[0] = el; }}
+              getImagePath={getImagePath}
             />
           )}
         </div>
@@ -2520,7 +2532,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
         <div className={`step_data ${isActive(isDiamondPage) ? 'active' : ''} d-1`}>
           <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition} onClick={() => {
             if ((getCompleteStep2?.[1]?.step2 ?? getCompleteStep3?.[1]?.step2) === true) {
-              Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+              Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
             } else {
               if ((getCompleteStep2?.[0]?.step1 ?? getCompleteStep3?.[0]?.step1) === true && ((getdiaData2 === null || getdiaData2 === undefined) ?? (getdiaData3 === null || getdiaData3 === undefined))) {
                 if (getCompleteStep2?.[0]?.step1) {
@@ -2529,7 +2541,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
                 if (getCompleteStep3?.[0]?.step1) {
                   sessionStorage.removeItem('customizeSteps2Pendant');
                 }
-                Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+                Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
               } else {
                 Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
                 setswap("diamond");
@@ -2628,6 +2640,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
                 handleOpen={() => handleOpen('setting')}
                 data={getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data}
                 ref={(el) => { dropdownRefs.current[1] = el; }}
+                getImagePath={getImagePath}
               />
             )}
             {(getdiaData2?.[0]?.step1Data ?? getdiaData3?.[0]?.step1Data) && (
@@ -2637,6 +2650,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
                 handleOpen={() => handleOpen('setting')}
                 data={(getdiaData2?.[0] ?? getdiaData3?.[0])}
                 ref={(el) => { dropdownRefs.current[1] = el; }}
+                getImagePath={getImagePath}
               />
             )}
           </div>
@@ -2724,7 +2738,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
   );
 };
 
-const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
+const HandleDrp = forwardRef(({ index, open, handleOpen, data, getImagePath }, ref) => {
   const [storeInit, setStoreInit] = useState({});
   const [loginCurrency, setLoginCurrency] = useState();
   const [metalColor, setMetalColor] = useState([]);
@@ -2753,6 +2767,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     setMetalColor(metalC)
   }, []);
 
+
   const handleRemoveItem = (index) => {
     const storedData = JSON.parse(sessionStorage.getItem('custStepData'));
     const storedData2 = JSON.parse(sessionStorage.getItem('custStepData2Ring'));
@@ -2766,247 +2781,308 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     const pendant = (storedSteps?.[0]?.Setting ?? storedSteps2?.[1]?.Setting ?? storedSteps3?.[1]?.Setting) === 'Pendant' ? true : false;;
 
     if (index === 0) {
-        if (Array.isArray(storedData)) {
-            if (storedSteps?.[1]?.Setting === "Ring") {
-                let storedData2 = JSON.parse(sessionStorage.getItem('custStepData2Ring'));
-                if (!Array.isArray(storedData2)) {
-                    storedData2 = [];
-                }
+      if (Array.isArray(storedData)) {
+        if (storedSteps?.[1]?.Setting === "Ring") {
+          let storedData2 = JSON.parse(sessionStorage.getItem('custStepData2Ring'));
+          if (!Array.isArray(storedData2)) {
+            storedData2 = [];
+          }
 
-                if (storedData?.[1]) {
-                    storedData[1].id = 1;
-                }
+          if (storedData?.[1]) {
+            storedData[1].id = 1;
+          }
 
-                if (storedData?.[1]?.step2Data) {
-                    storedData[1].step1Data = storedData[1].step2Data;
-                    delete storedData[1].step2Data;
-                }
+          if (storedData?.[1]?.step2Data) {
+            storedData[1].step1Data = storedData[1].step2Data;
+            delete storedData[1].step2Data;
+          }
 
-                // Insert modified storedData[1] at the 0 index of storedData2
-                storedData2.unshift(storedData?.[1]);
-
-                // Update sessionStorage with the modified storedData2
-                sessionStorage.setItem('custStepData2Ring', JSON.stringify(storedData2));
-
-                if (storedData2?.length > 0) {
-                    sessionStorage.removeItem("custStepData");
-                }
-
+          if (storedData?.length > 0 && storedSteps?.[2]?.step3 === true) {
+            // Insert modified storedData[1] at the 0 index of storedData2
+            storedData2.unshift(storedData?.[1]);
+            sessionStorage.setItem('custStepData2Ring', JSON.stringify(storedData2));
+            if (storedData2?.length > 0) {
+              sessionStorage.removeItem("custStepData");
             }
-            if (storedSteps?.[1]?.Setting === "Pendant") {
-                // Add your logic for "Pendant" here if needed
-            }
-            handleOpen(null)
-            // sessionStorage.setItem('custStepData', JSON.stringify(storedData));
             Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+          }
+          else {
+            sessionStorage.removeItem("custStepData");
+            sessionStorage.removeItem("custStepData2Ring");
+            sessionStorage.removeItem("setImage");
+            Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
+          }
+        }
+        if (storedSteps?.[1]?.Setting === "Pendant") {
+          let storedData3 = JSON.parse(sessionStorage.getItem('custStepData2Pendant'));
+          if (!Array.isArray(storedData3)) {
+            storedData3 = [];
+          }
+
+          if (storedData?.[1]) {
+            storedData[1].id = 2;
+          }
+
+          if (storedData?.[1]?.step2Data) {
+            storedData[1].step1Data = storedData[1].step2Data;
+            delete storedData[1].step2Data;
+          }
+
+          if (storedData?.length > 0 && storedSteps?.[2]?.step3 === true) {
+            // Insert modified storedData[1] at the 0 index of storedData2
+            storedData3.unshift(storedData?.[1]);
+            sessionStorage.setItem('custStepData2Pendant', JSON.stringify(storedData3));
+
+            if (storedData3?.length > 0) {
+              sessionStorage.removeItem("custStepData");
+            }
+            Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+          } else {
+            sessionStorage.removeItem("custStepData");
+            sessionStorage.removeItem("custStepData2Pendant");
+            sessionStorage.removeItem("setImage");
+            Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
+          }
+        }
+        handleOpen(null)
+        // sessionStorage.setItem('custStepData', JSON.stringify(storedData));
+      }
+
+      if (Array.isArray(storedData2)) {
+        let storedData = JSON.parse(sessionStorage.getItem('custStepData'));
+        if (!Array.isArray(storedData)) {
+          storedData = [];
         }
 
-        if (Array.isArray(storedData2)) {
-            let storedData = JSON.parse(sessionStorage.getItem('custStepData'));
-            if (!Array.isArray(storedData)) {
-                storedData = [];
-            }
-
-            if (storedData2?.[1]?.step2Data) {
-                storedData2[1].step1Data = storedData2[1].step2Data;
-                delete storedData2[1].step2Data;
-            }
-
-            storedData.unshift(storedData2?.[1]);
-
-            sessionStorage.setItem('custStepData', JSON.stringify(storedData));
-
-            if (storedData?.length > 0) {
-                sessionStorage.removeItem("custStepData2Ring");
-            }
-
-            handleOpen(null)
-            Navigation(`/certified-loose-lab-grown-diamonds/settings/${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`);
+        if (storedData2?.[1]?.step2Data) {
+          storedData2[1].step1Data = storedData2[1].step2Data;
+          delete storedData2[1].step2Data;
         }
-        if (Array.isArray(storedData3)) {
-            let storedData = JSON.parse(sessionStorage.getItem('custStepData'));
-            if (!Array.isArray(storedData)) {
-                storedData = [];
-            }
 
-            if (storedData3?.[1]?.step2Data) {
-                storedData3[1].step1Data = storedData3[1].step2Data;
-                delete storedData3[1].step2Data;
-            }
-
-            storedData.unshift(storedData3?.[1]);
-
-            sessionStorage.setItem('custStepData', JSON.stringify(storedData));
-
-            if (storedData?.length > 0) {
-                sessionStorage.removeItem("custStepData2Pendant");
-            }
-
-            handleOpen(null)
-            Navigation(`/certified-loose-lab-grown-diamonds/settings/${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`);
+        if (storedData2?.length > 0 && storedSteps2?.[2]?.step3 === true) {
+          storedData.unshift(storedData2?.[1]);
+          sessionStorage.setItem('custStepData', JSON.stringify(storedData));
+          if (storedData?.length > 0) {
+            sessionStorage.removeItem("custStepData2Ring");
+            sessionStorage.removeItem("setImage");
+          }
+          Navigation(`/certified-loose-lab-grown-diamonds/settings/${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, { replace: true });
         }
+        else {
+          sessionStorage.removeItem("custStepData");
+          sessionStorage.removeItem("custStepData2Ring");
+          sessionStorage.removeItem("setImage");
+          Navigation(`/certified-loose-lab-grown-diamonds/settings/${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "Ring" : "Pendant"}/M=${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, { replace: true });
+        }
+
+        handleOpen(null)
+      }
+      if (Array.isArray(storedData3)) {
+        let storedData = JSON.parse(sessionStorage.getItem('custStepData'));
+        if (!Array.isArray(storedData)) {
+          storedData = [];
+        }
+
+        if (storedData3?.[1]?.step2Data) {
+          storedData3[1].step1Data = storedData3[1].step2Data;
+          delete storedData3[1].step2Data;
+        }
+
+        if (storedData?.length > 0 && storedSteps?.[2]?.step3 === true) {
+          storedData.unshift(storedData3?.[1]);
+          sessionStorage.setItem('custStepData', JSON.stringify(storedData));
+          if (storedData?.length > 0) {
+            sessionStorage.removeItem("custStepData2Pendant");
+            sessionStorage.removeItem("setImage");
+          }
+          Navigation(`/certified-loose-lab-grown-diamonds/settings/${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, { replace: true });
+        }
+        else {
+          sessionStorage.removeItem("custStepData");
+          sessionStorage.removeItem("custStepData2Pendant");
+          sessionStorage.removeItem("setImage");
+          Navigation(`/certified-loose-lab-grown-diamonds/settings/${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "Ring" : "Pendant"}/M=${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, { replace: true });
+        }
+
+        handleOpen(null)
+      }
     }
     else {
-        if (Array.isArray(storedData)) {
+      if (Array.isArray(storedData)) {
+        if (storedData?.[1]?.step2Data?.id > 0) {
+          storedData.pop();
+          sessionStorage.setItem('custStepData', JSON.stringify(storedData));
 
-            if (storedData?.[1]?.step2Data?.id > 0) {
-                storedData.pop();
-                sessionStorage.setItem('custStepData', JSON.stringify(storedData));
-
-                Navigation(`/certified-loose-lab-grown-diamonds/settings/${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`);
-            } else {
-                console.warn("storedData is not a valid array or doesn't meet the condition.");
-            }
-
-            handleOpen(null);
+          Navigation(`/certified-loose-lab-grown-diamonds/settings/${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, {
+            replace: true
+          });
+        } else {
+          console.warn("storedData is not a valid array or doesn't meet the condition.");
         }
 
-        if (Array.isArray(storedData2)) {
-            if (storedData2?.[1]?.step2Data?.[0]?.stockno) {
-                storedData2.pop();
-                sessionStorage.setItem('custStepData2Ring', JSON.stringify(storedData2));
-                Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
-            } else {
-                console.warn("storedData2 is not a valid array or doesn't meet the condition.");
-            }
-            handleOpen(null)
+        handleOpen(null);
+      }
+
+      if (Array.isArray(storedData2)) {
+        if (storedData2?.[1]?.step2Data?.[0]?.stockno) {
+          storedData2.pop();
+          sessionStorage.setItem('custStepData2Ring', JSON.stringify(storedData2));
+          Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+        } else {
+          console.warn("storedData2 is not a valid array or doesn't meet the condition.");
         }
-        if (Array.isArray(storedData3)) {
-            if (storedData3?.[1]?.step2Data?.[0]?.stockno) {
-                storedData3.pop();
-                sessionStorage.setItem('custStepData2Pendant', JSON.stringify(storedData3));
-                Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
-            } else {
-                console.warn("storedData2 is not a valid array or doesn't meet the condition.");
-            }
-            handleOpen(null)
+        handleOpen(null)
+      }
+      if (Array.isArray(storedData3)) {
+        if (storedData3?.[1]?.step2Data?.[0]?.stockno) {
+          storedData3.pop();
+          sessionStorage.setItem('custStepData2Pendant', JSON.stringify(storedData3));
+          Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+        } else {
+          console.warn("storedData2 is not a valid array or doesn't meet the condition.");
         }
+        handleOpen(null)
+      }
     }
 
     if (index === 0) {
-        if (Array.isArray(storedSteps)) {
-            if (storedData?.[0]?.step1Data?.[0]?.stockno) {
-                handleOpen(null)
-                if (storedSteps?.[1]?.Setting === "Ring") {
-                    let step1;
-                    let step2;
-                    let storedSteps2 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
-                    if (!Array.isArray(storedSteps2)) {
-                        storedSteps2 = [];
-                    }
-
-                    if (storedSteps?.[1]) {
-                        step1 = { step1: true, Setting: "Ring", id: 1 };
-                        step2 = { step2: true, shape: shapename, id: 1 };
-                    }
-
-                    storedSteps2.unshift(step1, step2);
-                    // Update sessionStorage with the modified storedSteps2
-                    sessionStorage.setItem('customizeSteps2Ring', JSON.stringify(storedSteps2));
-
-                    // Optionally remove customizeSteps from sessionStorage
-                    if (storedSteps2?.length > 0) {
-                        sessionStorage.removeItem("customizeSteps");
-                    }
-
-                }
-
-                if (storedSteps?.[1]?.Setting === "Pendant") {
-                    let step1;
-                    let step2;
-                    let storedSteps2 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
-                    if (!Array.isArray(storedSteps2)) {
-                        storedSteps2 = [];
-                    }
-
-                    if (storedSteps?.[1]) {
-                        step1 = { step1: true, Setting: "Pendant", id: 2 };
-                        step2 = { step2: true, shape: shapename, id: 2 };
-                    }
-
-                    storedSteps2.unshift(step1, step2);
-                    // Update sessionStorage with the modified storedSteps2
-                    sessionStorage.setItem('customizeSteps2Pendant', JSON.stringify(storedSteps2));
-
-                    // Optionally remove customizeSteps from sessionStorage
-                    if (storedSteps2?.length > 0) {
-                        sessionStorage.removeItem("customizeSteps");
-                    }
-                }
-                Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
-            }
-        }
-
-        if (Array.isArray(storedSteps2)) {
+      if (Array.isArray(storedSteps)) {
+        if (storedData?.[0]?.step1Data?.[0]?.stockno) {
+          handleOpen(null)
+          if (storedSteps?.[1]?.Setting === "Ring") {
             let step1;
             let step2;
-            let storedSteps = JSON.parse(sessionStorage.getItem('customizeSteps'));
-            if (!Array.isArray(storedSteps)) {
-                storedSteps = [];
+            let storedSteps2 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
+            if (!Array.isArray(storedSteps2)) {
+              storedSteps2 = [];
             }
 
-            if (storedSteps2?.[1]) {
-                step1 = { step1: true, shape: shapename, id: 1 };
-                step2 = { step2: true, Setting: "Ring", id: 1 };
+            if (storedSteps?.[1]) {
+              step1 = { step1: true, Setting: "Ring", id: 1 };
+              step2 = { step2: true, shape: shapename, id: 1 };
             }
 
-            storedSteps.unshift(step1, step2);
-            // Update sessionStorage with the modified storedSteps
-            sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
-
-            // Optionally remove customizeSteps from sessionStorage
-            if (storedSteps?.length > 0) {
+            if (storedSteps?.length > 0 && storedSteps?.[2]?.step3 === true) {
+              storedSteps2.unshift(step1, step2);
+              sessionStorage.setItem('customizeSteps2Ring', JSON.stringify(storedSteps2));
+              if (storedSteps2?.length > 0) {
+                sessionStorage.removeItem("customizeSteps");
+              }
+              else {
+                sessionStorage.removeItem("customizeSteps");
                 sessionStorage.removeItem("customizeSteps2Ring");
+              }
             }
+          }
 
-        }
-        if (Array.isArray(storedSteps3)) {
+          if (storedSteps?.[1]?.Setting === "Pendant") {
             let step1;
             let step2;
-            let storedSteps = JSON.parse(sessionStorage.getItem('customizeSteps'));
-            if (!Array.isArray(storedSteps)) {
-                storedSteps = [];
+            let storedSteps2 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
+            if (!Array.isArray(storedSteps2)) {
+              storedSteps2 = [];
             }
 
-            if (storedSteps3?.[1]) {
-                step1 = { step1: true, shape: shapename, id: 2 };
-                step2 = { step2: true, Setting: "Pendant", id: 2 };
+            if (storedSteps?.[1]) {
+              step1 = { step1: true, Setting: "Pendant", id: 2 };
+              step2 = { step2: true, shape: shapename, id: 2 };
             }
 
-            storedSteps.unshift(step1, step2);
-            // Update sessionStorage with the modified storedSteps
-            sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
-
-            // Optionally remove customizeSteps from sessionStorage
-            if (storedSteps?.length > 0) {
+            if (storedSteps?.length > 0 && storedSteps?.[2]?.step3 === true) {
+              storedSteps2.unshift(step1, step2);
+              sessionStorage.setItem('customizeSteps2Pendant', JSON.stringify(storedSteps2));
+              if (storedSteps2?.length > 0) {
+                sessionStorage.removeItem("customizeSteps");
+              }
+              else {
+                sessionStorage.removeItem("customizeSteps");
                 sessionStorage.removeItem("customizeSteps2Pendant");
+              }
             }
+          }
+          Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
         }
+      }
+
+      if (Array.isArray(storedSteps2)) {
+        let step1;
+        let step2;
+        let storedSteps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+        if (!Array.isArray(storedSteps)) {
+          storedSteps = [];
+        }
+
+        if (storedSteps2?.[1]) {
+          step1 = { step1: true, shape: shapename, id: 1 };
+          step2 = { step2: true, Setting: "Ring", id: 1 };
+        }
+
+        if (storedSteps?.length > 0 && storedSteps?.[2]?.step3 === true) {
+          storedSteps.unshift(step1, step2);
+          sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
+          if (storedSteps?.length > 0) {
+            sessionStorage.removeItem("customizeSteps2Ring");
+          }
+          else {
+            sessionStorage.removeItem("customizeSteps");
+            sessionStorage.removeItem("customizeSteps2Ring");
+          }
+        }
+
+      }
+      if (Array.isArray(storedSteps3)) {
+        let step1;
+        let step2;
+        let storedSteps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+        if (!Array.isArray(storedSteps)) {
+          storedSteps = [];
+        }
+
+        if (storedSteps3?.[1]) {
+          step1 = { step1: true, shape: shapename, id: 2 };
+          step2 = { step2: true, Setting: "Pendant", id: 2 };
+        }
+
+        // Optionally remove customizeSteps from sessionStorage
+
+        if (storedSteps?.length > 0 && storedSteps?.[2]?.step3 === true) {
+          storedSteps.unshift(step1, step2);
+          sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
+          if (storedSteps?.length > 0) {
+            sessionStorage.removeItem("customizeSteps2Pendant");
+          }
+          else {
+            sessionStorage.removeItem("customizeSteps");
+            sessionStorage.removeItem("customizeSteps2Pendant");
+          }
+        }
+      }
     }
     else {
-        if (Array.isArray(storedSteps)) {
-            storedSteps.pop();
-            sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
+      if (Array.isArray(storedSteps)) {
+        storedSteps.pop();
+        sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
 
-            Navigation(`/certified-loose-lab-grown-diamonds/settings/${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`);
+        // Navigation(`/certified-loose-lab-grown-diamonds/settings/${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`);
 
-            handleOpen(null);
-        }
+        handleOpen(null);
+      }
 
-        if (Array.isArray(storedSteps2)) {
-            storedSteps2.pop();
-            handleOpen(null)
-            sessionStorage.setItem('customizeSteps2Ring', JSON.stringify(storedSteps2));
-            Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
-        }
-        if (Array.isArray(storedSteps3)) {
-            storedSteps3.pop();
-            handleOpen(null)
-            sessionStorage.setItem('customizeSteps2Pendant', JSON.stringify(storedSteps3));
-            Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
-        }
+      if (Array.isArray(storedSteps2)) {
+        storedSteps2.pop();
+        handleOpen(null)
+        sessionStorage.setItem('customizeSteps2Ring', JSON.stringify(storedSteps2));
+        // Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+      }
+      if (Array.isArray(storedSteps3)) {
+        storedSteps3.pop();
+        handleOpen(null)
+        sessionStorage.setItem('customizeSteps2Pendant', JSON.stringify(storedSteps3));
+        // Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+      }
     }
-};
+  };
+
 
   const handleInnerClick = (event) => {
     event.stopPropagation();
@@ -3107,7 +3183,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
       }
     };
     loadImages();
-  }, [data]);
+  }, [data, getImagePath]);
 
 
   return (
@@ -3138,7 +3214,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         >
           <div className="for_dia_data_image">
             <img
-              src={data?.stockno ? data?.image_file_url : imageMap?.colorImage}
+              src={data?.stockno ? data?.image_file_url : (!imageMap?.colorImage?.includes('/static') ? imageMap?.colorImage : getImagePath?.colorImage)}
               alt=""
               style={{ cursor: 'default' }}
               onError={(e) => e.target.src = imageNotFound}

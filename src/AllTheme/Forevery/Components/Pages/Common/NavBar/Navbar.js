@@ -876,62 +876,69 @@ const FirstNavMenu = ({
     (steps1?.[2] !== undefined && steps1?.[2] !== null) ||
     (steps2?.[2] !== undefined && steps2?.[2] !== null)
 
-  const handleCheckSteps = (index) => {
-    if (checkSteps) {
+  const checkStepsOf0 =
+    (steps?.[0] !== undefined && steps?.[0] !== null) ||
+    (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
+    (steps2?.[0] !== undefined && steps2?.[0] !== null);
+
+  const checkStepsOf1 =
+    (steps?.[1] !== undefined && steps?.[1] !== null) ||
+    (steps1?.[1] !== undefined && steps1?.[1] !== null) ||
+    (steps2?.[1] !== undefined && steps2?.[1] !== null);
+
+  const handleCheckSteps = (value, index) => {
+    let isStepValid = false;
+
+    if (value === "Ring") {
+      isStepValid = checkSteps;
+    }
+
+    if (value === "Diamond") {
+      isStepValid = true;
+    }
+
+    if (isStepValid) {
       setShowModal(true);
       setCheckIndex(index);
     } else {
       console.log("Alternative action");
+      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
     }
   };
 
-  const HandleSettingNavigation = () => {
-    if (
-      (steps?.[0] !== undefined && steps?.[0] !== null) ||
-      (steps?.[1] !== undefined && steps?.[1] !== null)
-    ) {
-      sessionStorage.removeItem("customizeSteps");
-      sessionStorage.removeItem("custStepData");
-      const addCategory = `Ring/category`;
-      const filterKeyVal = btoa(addCategory);
-      navigate(
-        `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
-      );
-    } else {
-      const addCategory = `Ring/category`;
+  const HandleSettingNavigation = (value) => {
+    const addCategory = `Ring/category`;
+    const filterKeyVal = btoa(addCategory);
 
-      const filterKeyVal = btoa(addCategory);
+    if (value === "Ring" && checkSteps) {
+      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+    } else {
+      if (checkStepsOf0) {
+        sessionStorage.removeItem('customizeSteps')
+        sessionStorage.removeItem("custStepData");
+      }
       navigate(
         `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
       );
       setCustomizeStep1({
         step1: true,
       });
-      const step1 = [{ step1: true, Setting: "Ring" }];
-      // sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
+      const step1 = [{ step1: true, Setting: "Ring", id: 1 }];
+      sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
     }
   };
 
   const HandleDiamondNavigation = () => {
-    if (
-      (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
-      (steps1?.[1] !== undefined && steps1?.[1] !== null) ||
-      (steps2?.[0] !== undefined && steps2?.[0] !== null) ||
-      (steps2?.[1] !== undefined && steps2?.[1] !== null)
-    ) {
-      sessionStorage.removeItem("customizeSteps2Ring");
-      sessionStorage.removeItem("customizeSteps2Pendant");
-      sessionStorage.removeItem("custStepData2Ring");
-      sessionStorage.removeItem("custStepData2Pendant");
-      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
-    } else {
-      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
-      setCustomizeStep({
-        step1: true,
-      });
-      const step1 = [{ step1: true, shape: "Round" }];
-      sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    if (checkStepsOf0) {
+      sessionStorage.removeItem('customizeSteps2Ring');
+      sessionStorage.removeItem('custStepData2Ring')
     }
+    navigate(`/certified-loose-lab-grown-diamonds/diamond/`);
+    setCustomizeStep({
+      step1: true,
+    });
+    const step1 = [{ step1: true, shape: "All" }];
+    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };
 
   const handleRemoveData = (index) => {
@@ -940,6 +947,7 @@ const FirstNavMenu = ({
     sessionStorage.removeItem("customizeSteps2Ring");
     sessionStorage.removeItem("customizeSteps2Pendant");
     sessionStorage.removeItem("custStepData2Ring");
+    sessionStorage.removeItem("setImage");
     sessionStorage.removeItem("custStepData2Pendant");
     if (index === 0) {
       const addCategory = `Ring/category`;
@@ -948,7 +956,7 @@ const FirstNavMenu = ({
         `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
       );
     } else {
-      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/`);
     }
     handleToggle();
   };
@@ -1027,21 +1035,21 @@ const FirstNavMenu = ({
               <h3>create your own diamond ring</h3>
               <div class="ring-types">
                 {checkSteps ? (
-                  <span class="ring-type" onClick={() => handleCheckSteps(0)}>
+                  <span class="ring-type" onClick={() => handleCheckSteps("Ring", 0)}>
                     <GiDiamondRing size={15} /> start with a setting
                   </span>
                 ) : (
                   <span
                     class="ring-type"
                     onClick={() => {
-                      HandleSettingNavigation();
+                      HandleSettingNavigation("Ring");
                     }}
                   >
                     <GiDiamondRing size={15} /> start with a setting
                   </span>
                 )}
                 {checkSteps ? (
-                  <span class="ring-type" onClick={() => handleCheckSteps(1)}>
+                  <span class="ring-type" onClick={() => handleCheckSteps("Diamond", 1)}>
                     <IoDiamondOutline size={15} /> Start With a Diamond
                   </span>
                 ) : (
@@ -1154,12 +1162,14 @@ const FirstNavMenu = ({
 };
 const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const [showModal, setShowModal] = useState(false);
+  const [showModal1, setShowModal1] = useState(false);
   const [shape, setShape] = useState();
   const Navigate = useNavigate();
   const banner = useHomeBannerImages();
   const location = useLocation();
-  const [urlData, setUrlData] = useState();
-  const [urlDiaData, setUrlDiaData] = useState();
+  const [checkIndex, setCheckIndex] = useState();
+  // const [urlData, setUrlData] = useState();
+  // const [urlDiaData, setUrlDiaData] = useState();
 
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
   const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
@@ -1169,33 +1179,45 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const getShapeFromStep1 = steps1?.[1]?.shape;
   const getShapeFromStep2 = steps2?.[1]?.shape;
 
-  useEffect(() => {
-    const pathname = location.pathname;
-    if (pathname) {
-      const segments = pathname.split('/');
-      const mSegment = segments.find(segment => segment.startsWith('M='));
-      const diaSegment = segments.find(segment => segment.startsWith('diamond_shape='));
-      const diaData = diaSegment?.split('=')[1];
-      setUrlDiaData(
-        diaData && diaData !== "undefined"
-          ? diaData
-          : getShapeFromStep0 || getShapeFromStep1 || getShapeFromStep2
-      );
-      if (mSegment) {
-        const value = mSegment.split('=')[1];
-        setUrlData(value);
-      } else {
-        console.log("M= not found in the URL.");
-      }
-    } else {
-      console.log("Location pathname is not available.");
-    }
-  }, [location?.key])
+  // useEffect(() => {
+  //   const pathname = location.pathname;
+  //   if (pathname) {
+  //     const segments = pathname.split('/');
+  //     const mSegment = segments.find(segment => segment.startsWith('M='));
+  //     const diaSegment = segments.find(segment => segment.startsWith('diamond_shape='));
+  //     const diaData = diaSegment?.split('=')[1];
+  //     setUrlDiaData(
+  //       diaData && diaData !== "undefined"
+  //         ? diaData
+  //         : getShapeFromStep0 || getShapeFromStep1 || getShapeFromStep2
+  //     );
+  //     if (mSegment) {
+  //       const value = mSegment.split('=')[1];
+  //       setUrlData(value);
+  //     } else {
+  //       console.log("M= not found in the URL.");
+  //     }
+  //   } else {
+  //     console.log("Location pathname is not available.");
+  //   }
+  // }, [location?.key])
 
   const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1 ?? steps2)?.[2]?.url}`;
+  const createYesUrl = `/certified-loose-lab-grown-diamonds/diamond/`;
+
+  const handleNoConfirm = () => {
+    const getRingSteps = [...steps1];
+    sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(getRingSteps));
+    setShowModal(false);
+    Navigate(`/certified-loose-lab-grown-diamonds/diamond/${getRingSteps?.[1]?.shape}`);
+  };
 
   const handleToggle = () => {
     setShowModal(!showModal);
+  }
+
+  const handleToggle1 = () => {
+    setShowModal1(!showModal1);
   }
 
   const handleConfirm = () => {
@@ -1207,29 +1229,37 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
     (steps1?.[2] !== undefined && steps1?.[2] !== null) ||
     (steps2?.[2] !== undefined && steps2?.[2] !== null);
 
-  // const checkStepsOf0 =
-  // (steps?.[0] !== undefined && steps?.[0] !== null) ||
-  // (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
-  // (steps2?.[0] !== undefined && steps2?.[0] !== null);
+  const checkStepsOf0 =
+    (steps?.[0] !== undefined && steps?.[0] !== null) ||
+    (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
+    (steps2?.[0] !== undefined && steps2?.[0] !== null);
 
-  const handleCheckSteps = (value, link) => {
+  const checkStepsOf1 =
+    (steps?.[1] !== undefined && steps?.[1] !== null) ||
+    (steps1?.[1] !== undefined && steps1?.[1] !== null) ||
+    (steps2?.[1] !== undefined && steps2?.[1] !== null);
+
+  const handleCheckSteps = (value, link, index) => {
     let isStepValid = false;
     let shapeVal;
 
     if (value === "Diamond Rings") {
       shapeVal = "Round"
-      isStepValid = (steps1?.[2] !== undefined && steps1?.[2] !== null);
+      isStepValid = checkSteps
+      console.log('isStepValid: ', isStepValid);
     } else if (value === "Diamond Pendant") {
       shapeVal = "Round"
-      isStepValid = (steps2?.[2] !== undefined && steps2?.[2] !== null);
+      isStepValid = checkSteps
     } else if (value === "Diamond Earrings") {
-      // isStepValid = (steps?.[2] !== undefined && steps?.[2] !== null);
+      shapeVal = "Round"
+      isStepValid = checkSteps
     } else {
-      isStepValid = (steps?.[2] !== undefined && steps?.[2] !== null);
+      isStepValid = checkSteps
     }
 
     if (isStepValid) {
       setShowModal(true);
+      setCheckIndex(index);
       setShape((value === "Diamond Rings" || value === "Diamond Pendant") ? shapeVal : value);
     } else {
       Navigate(link);
@@ -1252,40 +1282,91 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
       console.log('M value not found.');
     }
 
-    // if (checkStepsOf0) {
-
     const updatedSteps = [{ step1: true, Setting: val, id }];
+
     if (val === "Ring") {
-      Navigate(link);
-      // sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(updatedSteps));
+      if (val === "Ring" && checkSteps) {
+        Navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+      } else {
+        if (checkStepsOf0) {
+          sessionStorage.removeItem('customizeSteps')
+          sessionStorage.removeItem("custStepData");
+        }
+        Navigate(link);
+      }
     } else if (val === "Pendant") {
-      Navigate(link);
-      // sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(updatedSteps));
+      if (val === "Pendant" && checkSteps) {
+        Navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UGVuZGFudC9jYXRlZ29yeQ====`);
+      } else {
+        if (checkStepsOf0) {
+          sessionStorage.removeItem('customizeSteps')
+          sessionStorage.removeItem("custStepData");
+        }
+        Navigate(link);
+      }
     }
-    // }
   };
 
   const HandleDiamondNavigation = (shape) => {
-    Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
-    setCustomizeStep({
-      step1: true,
-      step2: false,
-      step3: false,
-    });
-    const step1 = [{ step1: true, shape: shape }];
-    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    if (checkStepsOf0 && (steps1?.[1]?.step2 !== true && steps2?.[1]?.step2 !== true)) {
+      sessionStorage.removeItem('customizeSteps2Ring');
+      sessionStorage.removeItem('custStepData2Ring')
+      Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+      setCustomizeStep({
+        step1: true,
+        step2: false,
+        step3: false,
+      });
+      const step1 = [{ step1: true, shape: shape }];
+      sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    } else {
+      if (steps1?.[1]?.step2 === true || steps2?.[1]?.step2 === true) {
+        const getShape = steps1?.[1]?.shape ?? steps2?.[1]?.shape;
+        if (getShape !== shape) {
+          setShowModal1(true);
+        } else {
+          handleNoConfirm();
+        }
+      } else {
+        Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+        setCustomizeStep({
+          step1: true,
+          step2: false,
+          step3: false,
+        });
+        const step1 = [{ step1: true, shape: shape }];
+        sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+      }
+    }
   };
 
-  const handleRemoveData = (shape) => {
+  const handleRemoveData = (index) => {
     sessionStorage.removeItem("customizeSteps");
     sessionStorage.removeItem("custStepData");
     sessionStorage.removeItem("customizeSteps2Ring");
     sessionStorage.removeItem("customizeStepsPendant");
     sessionStorage.removeItem("custStepData2Ring");
     sessionStorage.removeItem("custStepData2Pendant");
-    Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+    sessionStorage.removeItem("setImage");
+    if (index === 0) {
+      Navigate(`/certified-loose-lab-grown-diamonds/diamond/`);
+    } else {
+      const addCategory = `Ring/category`;
+      const filterKeyVal = btoa(addCategory);
+      Navigate(
+        `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+      );
+    }
     handleToggle();
   };
+
+  const navigateToAllDiamond = () => {
+    if (checkSteps) {
+      setShowModal(true);
+    } else {
+      Navigate(`/certified-loose-lab-grown-diamonds/diamond/`);
+    }
+  }
 
   return (
     <div className="Second_Nav_first_Menu">
@@ -1303,7 +1384,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
                 return (
                   <>
                     {checkSteps ? (
-                      <span onClick={() => handleCheckSteps(val?.name)}>
+                      <span onClick={() => handleCheckSteps(val?.name, " ", 0)}>
                         <img src={val?.img} alt="" width={15} height={15} />
                         {val?.name}
                       </span>
@@ -1316,7 +1397,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
                   </>
                 );
               })}
-              <span className="view-all-last">View All</span>
+              <span className="view-all-last" onClick={navigateToAllDiamond}>View All</span>
             </div>
           </div>
         </div>
@@ -1324,7 +1405,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
       <div className="for_second_col">
         <h3>Build Your Jewelry</h3>
         <div className="for_ring_section">
-          {SideItems?.map((val, i) => {
+          {SideItems?.slice(0, 1)?.map((val, i) => {
             return (
               <>
                 {checkSteps ? (
@@ -1334,7 +1415,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
                     onClick={() => {
                       console.log(`Clicked on 12: ${val?.name}`);
                       if (val?.name === "Diamond Earrings") return;
-                      handleCheckSteps(val?.name, val?.link);
+                      handleCheckSteps(val?.name, val?.link, 1);
                     }}
                   >
                     <img src={val?.img} alt="" width={18} height={18} />
@@ -1342,7 +1423,6 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
                   </span>
                 ) :
                   <>
-                    {/* {checkStepsOf0 ? ( */}
                     <span
                       className="ring-type"
                       key={i}
@@ -1355,20 +1435,6 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
                       <img src={val?.img} alt="" width={18} height={18} />
                       {val?.name}
                     </span>
-                    {/* ) : (
-                      <span
-                        className="ring-type"
-                        key={i}
-                        onClick={() => {
-                          console.log(`Navigating to 12345: ${val?.link}`);
-                          if (val?.name === "Diamond Earrings") return;
-                          Navigate(val?.link);
-                        }}
-                      >
-                        <img src={val?.img} alt="" width={18} height={18} />
-                        {val?.name}
-                      </span>
-                    )} */}
                   </>
                 }
               </>
@@ -1385,7 +1451,15 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         handleConfirm={handleConfirm}
         handleClose={handleToggle}
         handleRemoveData={handleRemoveData}
-        index={shape}
+        index={checkIndex}
+      />
+      <CheckingDiaSetModal
+        open={showModal1}
+        link1={createYesUrl}
+        handleNoConfirm={handleNoConfirm}
+        handleClose={handleToggle1}
+        handleRemoveData={handleRemoveData}
+        index={checkIndex}
       />
     </div>
   );
@@ -1746,6 +1820,7 @@ const LatsNavMenu = ({ data }) => {
     </>
   );
 };
+
 const Modal = ({ open, handleConfirm, handleClose, handleRemoveData, index }) => {
   return (
     <>
@@ -1809,141 +1884,82 @@ const Modal = ({ open, handleConfirm, handleClose, handleRemoveData, index }) =>
   );
 };
 
-// Backup
 
-const Backup = [
-  //   {
-  //     third  : [`const ThirdNavMenu = ({ data }) => {
-  //   const Navigate = useNavigate();
-  //   return (
-  //     <>
-  //       <div className="Third_Nav_first_Menu">
-  //         <div className="first_Section">
-  //           {CollectionData?.map((val, i) => {
-  //             return (
-  //               <div className="for_collection_card">
-  //                 <img src={val?.img} alt="" />
-  //                 <div className="details_col">
-  //                   <span className="for_title">{val?.name}</span>
-  //                   <span className="for_collection_static">Collection</span>
-  //                   <button
-  //                     onClick={() => Navigate(val?.link)}
-  //                     className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-  //                   >
-  //                     Shop the Collection
-  //                   </button>
-  //                 </div>
-  //               </div>
-  //             );
-  //           })}
-  //         </div>
-  //         <div className="second_section">
-  //           <div
-  //             className="images"
-  //             style={{ backgroundImage: `url(${BespokeImage})` }}
-  //           >
-  //             <div className="for-s-card">
-  //               <h3>Bespoke Jewlery</h3>
-  //               <button
-  //                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-  //               // onClick={() =>
-  //               //   Navigate(
-  //               //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-  //               //   )
-  //               // }
-  //               >
-  //                 Show More
-  //               </button>
-  //             </div>
-  //             <div className="for-s-card">
-  //               <h3>Bespoke Diamonds</h3>
-  //               <button
-  //                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-  //               // onClick={() =>
-  //               //   Navigate(
-  //               //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-  //               //   )
-  //               // }
-  //               >
-  //                 Show More
-  //               </button>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // };`]
-  // }
-];
+const CheckingDiaSetModal = ({ open, link1, handleNoConfirm, handleClose, handleRemoveData, index }) => {
+  const navigate = useNavigate();
 
-{
-  /* <>
-{menuItem?.param1.map((subMenuItem) => (
-  <div key={subMenuItem.param1dataid}>
-    <p>{subMenuItem.param1dataname}</p>
+  const handleYesConfirm = () => {
+    sessionStorage.removeItem("customizeSteps");
+    sessionStorage.removeItem("custStepData");
+    sessionStorage.removeItem("customizeSteps2Ring");
+    sessionStorage.removeItem("customizeStepsPendant");
+    sessionStorage.removeItem("custStepData2Ring");
+    sessionStorage.removeItem("custStepData2Pendant");
+    handleClose();
+    const step = [{ step1: true, shape: "All" }]
+    sessionStorage.setItem('customizeSteps', JSON.stringify(step));
+    window.location.href = link1;
+  }
+
+  return (
     <>
-      {subMenuItem.param2.map((subSubMenuItem) => (
-        <p className="forevery_mobile_subMenu">
-          {subSubMenuItem.param2dataname}
-        </p>
-      ))}
-    </>
-  </div>
-))}
-</> */
-}
-{
-  /* <div className="first_Section">
-          {CollectionData?.map((val, i) => {
-            return (
-              <div className="for_collection_card">
-                <img src={val?.img} alt="" />
-                <div className="details_col">
-                  <span className="for_title">{val?.name}</span>
-                  <span className="for_collection_static">Collection</span>
-                  <button
-                    onClick={() => Navigate(val?.link)}
-                    className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-                  >
-                    Shop the Collection
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <div className="second_section">
-          <div
-            className="images"
-            style={{ backgroundImage: `url(${BespokeImage})` }}
-          >
-            <div className="for-s-card">
-              <h3>Bespoke Jewlery</h3>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        sx={{
+          zIndex: 9999999,
+          "& .MuiDialog-root": {
+            zIndex: 9999,
+          },
+          "& .MuiDialog-paper": {
+            backgroundColor: "transparent",
+            border: "1px solid white",
+            zIndex: 9999,
+          },
+          "& .MuiDialogContent-root": {
+            padding: "10px",
+          },
+        }}
+      >
+        <DialogContent
+          sx={{
+            minWidth: 260,
+            padding: "0px",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <div className="for_modal_cancel_btn_nav_div" onClick={handleClose}>
+            <RxCross1 className="for_modal_cancel_nav_btn" size={"12px"} />
+          </div>
+          <div className="for_modal_inner_nav_div">
+            <span className="for_modal_nav_title">
+              This Diamond Shape Is Not Compatible With Your Selected Setting.
+              Do You Want To Remove Selected Setting And Continue?
+            </span>
+            <div className="for_modal_buttons_nav_div">
               <button
-                className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-              // onClick={() =>
-              //   Navigate(
-              //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-              //   )
-              // }
+                onClick={() => {
+                  handleYesConfirm();
+                  handleClose();
+                }}
               >
-                Show More
+                Yes
               </button>
-            </div>
-            <div className="for-s-card">
-              <h3>Bespoke Diamonds</h3>
               <button
-                className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-              // onClick={() =>
-              //   Navigate(
-              //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-              //   )
-              // }
+                onClick={() => {
+                  handleNoConfirm();
+                }}
               >
-                Show More
+                No
               </button>
             </div>
           </div>
-        </div> */
-}
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+

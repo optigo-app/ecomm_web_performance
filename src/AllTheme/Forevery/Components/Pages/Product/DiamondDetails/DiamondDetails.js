@@ -78,6 +78,7 @@ const DiamondDetails = () => {
     };
 
     const [singleDiaData, setSingleDiaData] = useState([]);
+    console.log('singleDiaData: ', singleDiaData);
     const [shape, setShape] = useState()
     const [currentSlide, setCurrentSlide] = useState(0);
     const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
@@ -115,7 +116,6 @@ const DiamondDetails = () => {
     const [metalWiseColorImg, setMetalWiseColorImg] = useState()
     const [videoArr, SETvideoArr] = useState([]);
     const [diamondData, setDiamondData] = useState([]);
-    console.log('diamondData: ', diamondData);
     const [settingData, setSettingData] = useState();
     const [setshape, setSetShape] = useState();
     const [metalColor, setMetalColor] = useState([]);
@@ -136,9 +136,10 @@ const DiamondDetails = () => {
     const [compSet, setCompSet] = useState(false);
     const [mediaArr, setMediaArr] = useState([]);
     const [compSettArr, setCompSettArr] = useState([]);
-    console.log('compSettArr: ', compSettArr);
     const [getAllData, setAllData] = useState([]);
     const [certyLink, setCertyLink] = useState();
+
+    const getImagePath = JSON.parse(sessionStorage?.getItem("setImage")) ?? "";
 
     const StyleCondition = {
         fontSize: breadCrumb === "settings" && "14px",
@@ -242,6 +243,9 @@ const DiamondDetails = () => {
             setTimeout(() => {
                 setImageMap(loadedImages);
             }, 20)
+            // if(!getImagePath && compSet){
+            //     sessionStorage.setItem('setImage', JSON.stringify(loadedImages))
+            // }
         };
         loadImages();
     }, [getAllData]);
@@ -833,6 +837,9 @@ const DiamondDetails = () => {
                         let wishC = res?.Data?.rd[0]?.Wishlistcount;
                         setWishCountVal(wishC);
                         setCartCountVal(cartC);
+                        if (singleDiaData[0]?.stockno) {
+                            singleDiaData[0].isInWish = true;
+                        }
                     } catch (error) {
                         console.log("err", error)
                     }
@@ -846,6 +853,9 @@ const DiamondDetails = () => {
                         let wishC = res1?.Data?.rd[0]?.Wishlistcount;
                         setWishCountVal(wishC);
                         setCartCountVal(cartC);
+                        if (singleDiaData[0]?.stockno) {
+                            singleDiaData[0].isInWish = false;
+                        }
                     } catch (error) {
                         console.log("err", error);
                     }
@@ -934,10 +944,18 @@ const DiamondDetails = () => {
                 return step;
             });
 
+            const shapeName1 = singleDiaData?.[0]?.shapename;
+            const formattedShapeName = shapeName1 ? shapeName1.charAt(0).toUpperCase() + shapeName1.slice(1).toLowerCase() : '';
+
+            if (updatedStep1?.[0]?.shape === "All" || updatedStep1?.[0]?.shape === null || updatedStep1?.[0]?.shape === undefined) {
+                updatedStep1[0].shape = formattedShapeName ?? "";
+            }
+
             // If no existing step2, add new entry
             if (!updatedStep1?.some(step => step.step2 !== undefined)) {
                 updatedStep1?.push({ "step2": true, "Setting": 'Ring' });
             }
+
             const step1Data = [{ "step1Data": singleDiaData }]
             sessionStorage.setItem('custStepData', JSON.stringify(step1Data));
             sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
@@ -968,6 +986,13 @@ const DiamondDetails = () => {
                 }
                 return step;
             });
+
+            const shapeName1 = singleDiaData?.[0]?.shapename;
+            const formattedShapeName = shapeName1 ? shapeName1.charAt(0).toUpperCase() + shapeName1.slice(1).toLowerCase() : '';
+
+            if (updatedStep1?.[0]?.shape === "All" || updatedStep1?.[0]?.shape === null || updatedStep1?.[0]?.shape === undefined) {
+                updatedStep1[0].shape = formattedShapeName ?? "";
+            }
 
             // If no existing step2, add new entry
             if (!updatedStep1.some(step => step.step2 !== undefined)) {
@@ -1157,6 +1182,7 @@ const DiamondDetails = () => {
                             setshape={setshape}
                             compSet={compSet}
                             customizeStep={customizeStep}
+                            getImagePath={getImagePath}
                         />
                     </div>
                     <div className="for_DiamondDet_container_div">
@@ -1201,7 +1227,7 @@ const DiamondDetails = () => {
                                                                                         style={{ position: "relative" }}
                                                                                     >
                                                                                         <img
-                                                                                            src={imageMap?.colorImage}
+                                                                                            src={(!imageMap?.colorImage?.includes('undefinedundefined') ? imageMap?.colorImage : getImagePath?.colorImage)}
                                                                                             // src={item?.src}
                                                                                             onError={(e) => {
                                                                                                 e.target.onerror = null;
@@ -1403,7 +1429,7 @@ const DiamondDetails = () => {
                                                                                         style={{ position: "relative" }}
                                                                                     >
                                                                                         <img
-                                                                                            src={imageMap?.colorImage}
+                                                                                            src={(!imageMap?.colorImage?.includes('undefinedundefined') ? imageMap?.colorImage : getImagePath?.colorImage)}
                                                                                             // src={item?.src}
                                                                                             onError={(e) => {
                                                                                                 e.target.onerror = null;
@@ -1847,18 +1873,18 @@ const DiamondDetails = () => {
                                     </div>
                                     <div className="for_DiamondDet_choose_Dia_div">
                                         {settingSteps?.[1]?.step2 ? (
-                                            <button onClick={() => handleButtonChange('diamond', "", "", "", "")} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                                            <button disabled={isPriceloading} onClick={() => handleButtonChange('diamond', "", "", "", "")} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                 choose this diamond
                                             </button>
                                         ) : (
                                             <>
                                                 {stepsData?.[1]?.step2Data?.id > 0 ? (
-                                                    <button onClick={() => handleButtonChange('hasData', "", "", stepsData?.[0]?.step1Data?.[0]?.shapename, steps?.[1]?.Setting)} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                                                    <button disabled={isPriceloading} onClick={() => handleButtonChange('hasData', "", "", stepsData?.[0]?.step1Data?.[0]?.shapename, steps?.[1]?.Setting)} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                         choose this diamond
                                                     </button>
                                                 ) : (
                                                     <>
-                                                        <button onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                                                        <button disabled={isPriceloading} onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                             choose this diamond
                                                         </button>
                                                         <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
@@ -1983,7 +2009,7 @@ const DiamondDetails = () => {
                                                     {isDataFound ? (
                                                         <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
                                                     ) : (
-                                                        <span>{typeof totalPrice ===  "number" ? formatter(totalPrice) : 0}</span>
+                                                        <span>{typeof totalPrice === "number" ? formatter(totalPrice) : 0}</span>
                                                     )}
                                                 </span>
                                             </div>
@@ -1991,12 +2017,12 @@ const DiamondDetails = () => {
 
                                         <div className="for_Complete_set_choose_Dia_div">
                                             {compSet ? (
-                                                <button onClick={() => handleCart(!addToCardFlag, diamondData, settingData)} className={`${btnstyle?.btn_for_new} for_Complete_set_ATC ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                                                <button disabled={isPriceloading} onClick={() => handleCart(!addToCardFlag, diamondData, settingData)} className={`${btnstyle?.btn_for_new} for_Complete_set_ATC ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                     {addToCardFlag === false ? "ADD TO CART" : "REMOVE FROM CART"}
                                                 </button>
                                             ) : (
                                                 <>
-                                                    <button onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                                                    <button disabled={isPriceloading} onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                         choose this diamond
                                                     </button>
                                                     <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
@@ -2147,7 +2173,7 @@ const DiamondDetails = () => {
 
 export default DiamondDetails
 
-const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
+const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImagePath }, ref) => {
     const [storeInit, setStoreInit] = useState({});
     const [loginCurrency, setLoginCurrency] = useState();
     const [metalColor, setMetalColor] = useState([]);
@@ -2205,23 +2231,55 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                         delete storedData[1].step2Data;
                     }
 
-                    // Insert modified storedData[1] at the 0 index of storedData2
-                    storedData2.unshift(storedData?.[1]);
-
-                    // Update sessionStorage with the modified storedData2
-                    sessionStorage.setItem('custStepData2Ring', JSON.stringify(storedData2));
-
-                    if (storedData2?.length > 0) {
-                        sessionStorage.removeItem("custStepData");
+                    if (storedData?.length > 0 && storedSteps?.[2]?.step3 === true) {
+                        // Insert modified storedData[1] at the 0 index of storedData2
+                        storedData2.unshift(storedData?.[1]);
+                        sessionStorage.setItem('custStepData2Ring', JSON.stringify(storedData2));
+                        if (storedData2?.length > 0) {
+                            sessionStorage.removeItem("custStepData");
+                        }
+                        Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
                     }
-
+                    else {
+                        sessionStorage.removeItem("custStepData");
+                        sessionStorage.removeItem("custStepData2Ring");
+                        sessionStorage.removeItem("setImage");
+                        Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
+                    }
                 }
                 if (storedSteps?.[1]?.Setting === "Pendant") {
-                    // Add your logic for "Pendant" here if needed
+                    let storedData3 = JSON.parse(sessionStorage.getItem('custStepData2Pendant'));
+                    if (!Array.isArray(storedData3)) {
+                        storedData3 = [];
+                    }
+
+                    if (storedData?.[1]) {
+                        storedData[1].id = 2;
+                    }
+
+                    if (storedData?.[1]?.step2Data) {
+                        storedData[1].step1Data = storedData[1].step2Data;
+                        delete storedData[1].step2Data;
+                    }
+
+                    if (storedData?.length > 0 && storedSteps?.[2]?.step3 === true) {
+                        // Insert modified storedData[1] at the 0 index of storedData2
+                        storedData3.unshift(storedData?.[1]);
+                        sessionStorage.setItem('custStepData2Pendant', JSON.stringify(storedData3));
+
+                        if (storedData3?.length > 0) {
+                            sessionStorage.removeItem("custStepData");
+                        }
+                        Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+                    } else {
+                        sessionStorage.removeItem("custStepData");
+                        sessionStorage.removeItem("custStepData2Pendant");
+                        sessionStorage.removeItem("setImage");
+                        Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
+                    }
                 }
                 handleOpen(null)
                 // sessionStorage.setItem('custStepData', JSON.stringify(storedData));
-                Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`, { replace: true });
             }
 
             if (Array.isArray(storedData2)) {
@@ -2235,16 +2293,23 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                     delete storedData2[1].step2Data;
                 }
 
-                storedData.unshift(storedData2?.[1]);
-
-                sessionStorage.setItem('custStepData', JSON.stringify(storedData));
-
-                if (storedData?.length > 0) {
+                if (storedData2?.length > 0 && storedSteps2?.[2]?.step3 === true) {
+                    storedData.unshift(storedData2?.[1]);
+                    sessionStorage.setItem('custStepData', JSON.stringify(storedData));
+                    if (storedData?.length > 0) {
+                        sessionStorage.removeItem("custStepData2Ring");
+                        sessionStorage.removeItem("setImage");
+                    }
+                    Navigation(`/certified-loose-lab-grown-diamonds/settings/${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, { replace: true });
+                }
+                else {
+                    sessionStorage.removeItem("custStepData");
                     sessionStorage.removeItem("custStepData2Ring");
+                    sessionStorage.removeItem("setImage");
+                    Navigation(`/certified-loose-lab-grown-diamonds/settings/${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "Ring" : "Pendant"}/M=${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, { replace: true });
                 }
 
                 handleOpen(null)
-                Navigation(`/certified-loose-lab-grown-diamonds/settings/${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, { replace: true });
             }
             if (Array.isArray(storedData3)) {
                 let storedData = JSON.parse(sessionStorage.getItem('custStepData'));
@@ -2257,26 +2322,31 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                     delete storedData3[1].step2Data;
                 }
 
-                storedData.unshift(storedData3?.[1]);
-
-                sessionStorage.setItem('custStepData', JSON.stringify(storedData));
-
-                if (storedData?.length > 0) {
+                if (storedData?.length > 0 && storedSteps?.[2]?.step3 === true) {
+                    storedData.unshift(storedData3?.[1]);
+                    sessionStorage.setItem('custStepData', JSON.stringify(storedData));
+                    if (storedData?.length > 0) {
+                        sessionStorage.removeItem("custStepData2Pendant");
+                        sessionStorage.removeItem("setImage");
+                    }
+                    Navigation(`/certified-loose-lab-grown-diamonds/settings/${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, { replace: true });
+                }
+                else {
+                    sessionStorage.removeItem("custStepData");
                     sessionStorage.removeItem("custStepData2Pendant");
+                    Navigation(`/certified-loose-lab-grown-diamonds/settings/${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "Ring" : "Pendant"}/M=${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, { replace: true });
                 }
 
                 handleOpen(null)
-                Navigation(`/certified-loose-lab-grown-diamonds/settings/${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`);
             }
         }
         else {
             if (Array.isArray(storedData)) {
-
                 if (storedData?.[1]?.step2Data?.id > 0) {
                     storedData.pop();
                     sessionStorage.setItem('custStepData', JSON.stringify(storedData));
 
-                    Navigation(`/certified-loose-lab-grown-diamonds/settings/${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, {
+                    Navigation(`/certified-loose-lab-grown-diamonds/settings/${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, {
                         replace: true
                     });
                 } else {
@@ -2325,13 +2395,25 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                             step2 = { step2: true, shape: shapename, id: 1 };
                         }
 
-                        storedSteps2.unshift(step1, step2);
-                        // Update sessionStorage with the modified storedSteps2
-                        sessionStorage.setItem('customizeSteps2Ring', JSON.stringify(storedSteps2));
+                        if (!compSet) {
+                            if (storedSteps?.length > 0 && storedSteps?.[2]?.step3 === true) {
+                                storedSteps2.unshift(step1, step2);
+                                sessionStorage.setItem('customizeSteps2Ring', JSON.stringify(storedSteps2));
+                                if (storedSteps2?.length > 0) {
+                                    sessionStorage.removeItem("customizeSteps");
+                                }
+                            }
+                            else {
+                                sessionStorage.removeItem("customizeSteps");
+                                sessionStorage.removeItem("customizeSteps2Ring");
+                            }
+                        } else {
+                            storedSteps2.unshift(step1, step2);
+                            sessionStorage.setItem('customizeSteps2Ring', JSON.stringify(storedSteps2));
 
-                        // Optionally remove customizeSteps from sessionStorage
-                        if (storedSteps2?.length > 0) {
-                            sessionStorage.removeItem("customizeSteps");
+                            if (storedSteps2?.length > 0) {
+                                sessionStorage.removeItem("customizeSteps");
+                            }
                         }
 
                     }
@@ -2349,13 +2431,25 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                             step2 = { step2: true, shape: shapename, id: 2 };
                         }
 
-                        storedSteps2.unshift(step1, step2);
-                        // Update sessionStorage with the modified storedSteps2
-                        sessionStorage.setItem('customizeSteps2Pendant', JSON.stringify(storedSteps2));
+                        if (!compSet) {
+                            if (storedSteps?.length > 0 && storedSteps?.[2]?.step3 === true) {
+                                storedSteps2.unshift(step1, step2);
+                                sessionStorage.setItem('customizeSteps2Pendant', JSON.stringify(storedSteps2));
+                                if (storedSteps2?.length > 0) {
+                                    sessionStorage.removeItem("customizeSteps");
+                                }
+                            }
+                            else {
+                                sessionStorage.removeItem("customizeSteps");
+                                sessionStorage.removeItem("customizeSteps2Pendant");
+                            }
+                        } else {
+                            storedSteps2.unshift(step1, step2);
+                            sessionStorage.setItem('customizeSteps2Pendant', JSON.stringify(storedSteps2));
 
-                        // Optionally remove customizeSteps from sessionStorage
-                        if (storedSteps2?.length > 0) {
-                            sessionStorage.removeItem("customizeSteps");
+                            if (storedSteps2?.length > 0) {
+                                sessionStorage.removeItem("customizeSteps");
+                            }
                         }
                     }
                     Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
@@ -2375,13 +2469,25 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                     step2 = { step2: true, Setting: "Ring", id: 1 };
                 }
 
-                storedSteps.unshift(step1, step2);
-                // Update sessionStorage with the modified storedSteps
-                sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
+                if (!compSet) {
+                    if (storedData2?.length > 0 && storedSteps2?.[2]?.step3 === true) {
+                        storedSteps.unshift(step1, step2);
+                        sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
+                        if (storedSteps?.length > 0) {
+                            sessionStorage.removeItem("customizeSteps2Ring");
+                        }
+                    }
+                    else {
+                        sessionStorage.removeItem("customizeSteps");
+                        sessionStorage.removeItem("customizeSteps2Ring");
+                    }
+                } else {
+                    storedSteps.unshift(step1, step2);
+                    sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
 
-                // Optionally remove customizeSteps from sessionStorage
-                if (storedSteps?.length > 0) {
-                    sessionStorage.removeItem("customizeSteps2Ring");
+                    if (storedSteps?.length > 0) {
+                        sessionStorage.removeItem("customizeSteps2Ring");
+                    }
                 }
 
             }
@@ -2398,13 +2504,27 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                     step2 = { step2: true, Setting: "Pendant", id: 2 };
                 }
 
-                storedSteps.unshift(step1, step2);
-                // Update sessionStorage with the modified storedSteps
-                sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
 
-                // Optionally remove customizeSteps from sessionStorage
-                if (storedSteps?.length > 0) {
-                    sessionStorage.removeItem("customizeSteps2Pendant");
+
+                if (!compSet) {
+                    if (storedSteps?.length > 0 && storedSteps?.[2]?.step3 === true) {
+                        storedSteps.unshift(step1, step2);
+                        sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
+                        if (storedSteps?.length > 0) {
+                            sessionStorage.removeItem("customizeSteps2Pendant");
+                        }
+                    }
+                    else {
+                        sessionStorage.removeItem("customizeSteps");
+                        sessionStorage.removeItem("customizeSteps2Pendant");
+                    }
+                } else {
+                    storedSteps.unshift(step1, step2);
+                    sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
+
+                    if (storedSteps?.length > 0) {
+                        sessionStorage.removeItem("customizeSteps2Pendant");
+                    }
                 }
             }
         }
@@ -2413,7 +2533,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                 storedSteps.pop();
                 sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
 
-                Navigation(`/certified-loose-lab-grown-diamonds/settings/${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`);
+                // Navigation(`/certified-loose-lab-grown-diamonds/settings/${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`);
 
                 handleOpen(null);
             }
@@ -2422,13 +2542,13 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                 storedSteps2.pop();
                 handleOpen(null)
                 sessionStorage.setItem('customizeSteps2Ring', JSON.stringify(storedSteps2));
-                Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+                // Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
             }
             if (Array.isArray(storedSteps3)) {
                 storedSteps3.pop();
                 handleOpen(null)
                 sessionStorage.setItem('customizeSteps2Pendant', JSON.stringify(storedSteps3));
-                Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+                // Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
             }
         }
     };
@@ -2562,7 +2682,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                 >
                     <div className="for_dia_data_image">
                         <img
-                            src={data?.stockno ? data?.image_file_url : imageMap?.colorImage}
+                            src={data?.stockno ? data?.image_file_url : (!imageMap?.colorImage?.includes('/static') ? imageMap?.colorImage : getImagePath?.colorImage)}
                             alt=""
                             style={{ cursor: 'default' }}
                             onError={(e) => e.target.src = imageNotFound}
@@ -2589,7 +2709,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     );
 });
 
-const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, customizeStep }) => {
+const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, getImagePath, customizeStep }) => {
     const dropdownRefs = useRef({});
     const [open, setOpen] = useState(null);
     const isLoading = useRecoilValue(for_Loader);
@@ -2632,7 +2752,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
         sessionStorage.removeItem("custStepData2Ring");
         sessionStorage.removeItem("custStepData2Pendant");
         if (index === 0) {
-            Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+            Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
         }
         else {
             Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
@@ -2707,6 +2827,8 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                             handleOpen={() => handleOpen('setting')}
                             data={(getdiaData2?.[0] ?? getdiaData3?.[0])}
                             ref={(el) => { dropdownRefs.current[0] = el; }}
+                            compSet={compSet}
+                            getImagePath={getImagePath}
                         />
                     )}
                     {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
@@ -2716,6 +2838,8 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                             handleOpen={() => handleOpen('setting')}
                             data={getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data}
                             ref={(el) => { dropdownRefs.current[0] = el; }}
+                            compSet={compSet}
+                            getImagePath={getImagePath}
                         />
                     )}
                 </div>
@@ -2734,6 +2858,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                             handleOpen={() => handleOpen('diamond')}
                             data={(getdiaData2?.[1]?.step2Data?.[0] ?? getdiaData2?.[0]?.step2Data?.[0]) ?? (getdiaData3?.[1]?.step2Data?.[0] ?? getdiaData3?.[0]?.step2Data?.[0])}
                             ref={(el) => { dropdownRefs.current[1] = el; }}
+                            compSet={compSet}
                         />
                     )}
                     {getdiaData?.[0]?.step1Data?.[0] && (
@@ -2743,6 +2868,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                             handleOpen={() => handleOpen('diamond')}
                             data={getdiaData?.[0]?.step1Data?.[0]}
                             ref={(el) => { dropdownRefs.current[1] = el; }}
+                            compSet={compSet}
                         />
                     )}
                 </div>
@@ -2752,7 +2878,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                         <img className={((getCustStepData2?.[0]?.Setting ?? getCustStepData3?.[0]?.Setting) === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : 'for_shapes_img'} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData3?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
                             StepImages[2]?.img} alt="" /> {((getCustStepData2?.[0]?.Setting ?? getCustStepData3?.[0]?.Setting) === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'Pendant' : 'Ring'}
                     </span>
-                    {compSet && (getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true) && (
+                    {(compSet || (getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true)) && (
                         <span className='for_total_prc'>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter((getCompleteStep1?.[2]?.price || getCompleteStep2?.[2]?.price || getdiaData2[0]?.step1Data?.UnitCostWithMarkUp))}</span>
                     )}
                 </div>
@@ -2784,6 +2910,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                                 handleOpen={() => handleOpen('diamond')}
                                 data={getdiaData?.[0]?.step1Data?.[0]}
                                 ref={(el) => { dropdownRefs.current[0] = el; }}
+                                compSet={compSet}
                             />
                         )}
                         {((getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data) ?? (getdiaData3?.[1]?.step2Data ?? getdiaData3?.[0]?.step2Data)) && (
@@ -2793,6 +2920,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                                 handleOpen={() => handleOpen('diamond')}
                                 data={(getdiaData2?.[1]?.step2Data?.[0] ?? getdiaData2?.[0]?.step2Data?.[0]) ?? (getdiaData3?.[1]?.step2Data?.[0] ?? getdiaData3?.[0]?.step2Data?.[0])}
                                 ref={(el) => { dropdownRefs.current[0] = el; }}
+                                compSet={compSet}
                             />
                         )}
                     </div>
@@ -2823,6 +2951,8 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                                 handleOpen={() => handleOpen('setting')}
                                 data={getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data}
                                 ref={(el) => { dropdownRefs.current[1] = el; }}
+                                compSet={compSet}
+                                getImagePath={getImagePath}
                             />
                         )}
                         {(getdiaData2?.[0]?.step1Data ?? getdiaData3?.[0]?.step1Data) && (
@@ -2832,6 +2962,8 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                                 handleOpen={() => handleOpen('setting')}
                                 data={(getdiaData2?.[0] ?? getdiaData3?.[0])}
                                 ref={(el) => { dropdownRefs.current[1] = el; }}
+                                compSet={compSet}
+                                getImagePath={getImagePath}
                             />
                         )}
                     </div>
@@ -2841,7 +2973,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                             <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData3?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : 'for_shapes_img'} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData3?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
                                 StepImages[2]?.img} alt="" /> {((getCustStepData2?.[0]?.Setting ?? getCustStepData3?.[0]?.Setting) === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'Pendant' : 'Ring'}
                         </span>
-                        {compSet && (getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true) && (
+                        {(compSet || (getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true)) && (
                             <span className='for_total_prc'>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter((getCompleteStep1?.[2]?.price || getCompleteStep2?.[2]?.price))}</span>
                         )}
                     </div>
@@ -2862,7 +2994,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                                     <div
                                         className="for_step d-1"
                                         onClick={() => {
-                                            Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+                                            Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
                                             setswap("diamond");
                                         }}
                                     >
@@ -2967,7 +3099,7 @@ const Modal = ({
                                 handleButtonChange('ring', "", stockno, shape, "");
                                 handleClose();
                             }}>Add your diamond to a ring</button>
-                            <button onClick={() => { handleButtonChange('pendant', "", stockno, shape, ""); handleClose(); }}>add your diamond to a pendant</button>
+                            {/* <button onClick={() => { handleButtonChange('pendant', "", stockno, shape, ""); handleClose(); }}>add your diamond to a pendant</button> */}
                             <button onClick={() => {
                                 handleButtonChange('cart', "", stockno, "", "");
                                 handleClose();
