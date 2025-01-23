@@ -5,6 +5,7 @@ import {
   Routes,
   useLocation,
   useNavigate,
+  unstable_HistoryRouter ,  
 } from "react-router-dom";
 import Home from "./Components/Pages/Home/Index";
 import Cart from "./Components/Pages/Cart/CartMain";
@@ -102,6 +103,20 @@ const ForEveryRoutes = () => {
     );
   };
 
+  const [urlHistory, setUrlHistory] = useState([]);
+
+  // Update URL history on location change
+  useEffect(() => {
+    setUrlHistory((prevHistory) => [...prevHistory, location.pathname]);
+  }, [location]);
+  const handleBackButton = ()=>{
+    console.log("first1213")
+    localStorage.setItem('useHistory', JSON.stringify(urlHistory));
+    const history = JSON.parse(localStorage.getItem('useHistory'));
+  }
+  useEffect(()=>{
+  handleBackButton();
+  },[location])
 
   // useEffect(() => {
   //   let data = sessionStorage.getItem("storeInit");
@@ -160,6 +175,8 @@ const ForEveryRoutes = () => {
     const localD = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localD);
   }, []);
+ 
+
 
   if (islogin === true) {
     const restrictedPaths = [
@@ -177,6 +194,8 @@ const ForEveryRoutes = () => {
       return navigation("/");
     }
   }
+
+  
 
   
   return (

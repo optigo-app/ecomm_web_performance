@@ -43,6 +43,7 @@ $cartUpdateBtncolor: #b1b1b1;
     gap: 15px !important;
     // margin-bottom: -8%;
     padding: 0px 15px 0px 10px;
+ 
   }
 
   .cartBtnGroupMainDiv {
@@ -54,6 +55,9 @@ $cartUpdateBtncolor: #b1b1b1;
       // padding-bottom: 35px;
       font-size: $fontSize8;
       font-family: $primaryFontFamily !important;
+      @media screen and (max-width:500px) {
+        margin-bottom: 2rem;
+        }
     }
 
     .smr_cartButton-groups {
