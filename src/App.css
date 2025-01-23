@@ -24,3 +24,21 @@
 .MobileAppPay, .css-1qd6nut{
       padding-top: 5px !important;
 }
+
+::-ms-reveal,
+::-ms-clear {
+  display: none;
+}
+
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}

@@ -109,7 +109,6 @@ const ProductDetail = () => {
   const [pdVideoArr, setPdVideoArr] = useState([]);
   const [allListDataSlide, setAllListDataSlide] = useState([]);
   const [imageData, setImageData] = useState([]);
-  console.log('imageData: ', imageData);
   const SoketData = useRecoilValue(soketProductData);
   const [imageStates, setImageStates] = useState({});
   const [imageSrc, setImageSrc] = useState();
@@ -131,8 +130,6 @@ const ProductDetail = () => {
 
   const maxwidth1023px = useMediaQuery('(max-width: 1023px)')
 
-  console.log(Almacarino, "Almacarino")
-
   useEffect(() => {
     setCSSVariable();
   }, []);
@@ -145,9 +142,27 @@ const ProductDetail = () => {
   }, []);
 
   useEffect(() => {
-    let allListData = JSON.parse(sessionStorage.getItem("deatilSliderData"));
+    let allListData = sessionStorage.getItem("deatilSliderData");
 
-    const finalProdWithPrice = allListData.map((product) => {
+    if (allListData) {
+        try {
+            allListData = JSON.parse(allListData);
+            
+            if (Array.isArray(allListData) && allListData.length > 0) {
+                console.log("Valid array data:", allListData);
+            } else if (typeof allListData === 'object' && allListData !== null) {
+                console.log("Valid object data:", allListData);
+            } else {
+                console.error("Invalid data format in sessionStorage");
+            }
+        } catch (error) {
+            console.error("Error parsing JSON data from sessionStorage:", error);
+        }
+    } else {
+        console.error("No data found in sessionStorage for 'deatilSliderData'");
+    }
+
+    const finalProdWithPrice = allListData && allListData?.map((product) => {
       let pdImgList = [];
 
       if (product?.ImageCount > 0) {
@@ -184,19 +199,27 @@ const ProductDetail = () => {
     });
 
     const fetchImageData = async () => {
-      const processedData = await Promise.all(
-        finalProdWithPrice?.map(async (ele) => {
-          const src = `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`;
-          const isImageAvailable = await checkImageAvailability(src);
-          return {
-            ...ele,
-            imageSrc: isImageAvailable ? src : imageNotFound,
-          };
-        })
-      );
-
-      setAllListDataSlide(finalProdWithPrice);
-      setImageData(processedData);
+      if (!Array.isArray(finalProdWithPrice) || finalProdWithPrice.length === 0) {
+        console.error("finalProdWithPrice is not a valid array or is empty");
+        return;
+      }
+       try {
+        const processedData = await Promise.all(
+          finalProdWithPrice.map(async (ele) => {
+            const src = `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`;
+            const isImageAvailable = await checkImageAvailability(src);
+            return {
+              ...ele,
+              imageSrc: isImageAvailable ? src : imageNotFound,
+            };
+          })
+        );
+    
+        setAllListDataSlide(finalProdWithPrice);
+        setImageData(processedData);
+      } catch (error) {
+        console.error("Error processing image data:", error);
+      }
     };
     fetchImageData();
     let isincart = singleProd?.IsInCart == 0 ? false : true;
