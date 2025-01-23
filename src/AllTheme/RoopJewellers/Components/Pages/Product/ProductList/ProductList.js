@@ -181,9 +181,12 @@ const ProductList = () => {
   }, []);
 
   useEffect(() => {
+    const { hostname } = window.location;
     const getdomain = async () => {
+      
       let dm = await getDomainName();
-      setIsVaara(dm !== "vaara");
+      
+      setIsVaara(dm === "vaara" ? false  : true);
     }
     getdomain()
   }, [])
@@ -442,6 +445,9 @@ const ProductList = () => {
       setIsProdLoading(true);
       //  if(location?.state?.SearchVal === undefined){
       setprodListType(productlisttype);
+      // let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+      // let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
+      // let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
       let DiaRange = { DiaMin: sliderValue[0] ?? "0", DiaMax: sliderValue[1] ?? "100" }
       let grossRange = { grossMin: sliderValue2[0] ?? "0", grossMax: sliderValue2[1] ?? "100" }
       let netRange = { netMin: sliderValue1[0] ?? "0", netMax: sliderValue1[1] ?? "100" }
@@ -790,10 +796,10 @@ const ProductList = () => {
 
     if (location?.key === locationKey) {
       setIsOnlyProdLoading(true);
-      let DiaRange = { DiaMin: isDia ?  sliderValue[0] : "", DiaMax:  isDia ?  sliderValue[1] : "" }
-      let grossRange = { grossMin: isGross ?  sliderValue1[0] : "", grossMax: isGross ?  sliderValue1[1] : "" }
-      let netRange = { netMin: isNet ?  sliderValue2[1] : "", netMax: isNet ?  sliderValue2[1] : "" }
-
+      let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
+      let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
+      let netRange = { netMin: isNet ? sliderValue1[0] : "", netMax: isNet ? sliderValue1[1] : "" }
+      
       // ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
       ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, 
         DiaRange, netRange, grossRange
@@ -2890,6 +2896,9 @@ const ProductList = () => {
                     currPage={currPage}
                     IsVaara={IsVaara}
                     showClearAllButton={showClearAllButton}
+                    sliderValue={sliderValue}
+                    sliderValue1={sliderValue1}
+                    sliderValue2={sliderValue2}
                   />
 
                   <div className="roop_mainPortion">
@@ -3459,7 +3468,10 @@ const GivaFilterMenu = ({
   setCurrPage,
   currPage,
   IsVaara,
-  showClearAllButton
+  showClearAllButton ,
+  sliderValue ,
+sliderValue1 ,
+sliderValue2
 }) => {
   const [showMenu, setshowMenu] = useState(-1);
   const menuRef = useRef(null);
@@ -3484,6 +3496,33 @@ const GivaFilterMenu = ({
   );
 
   function calculateTotalFilters(selectedFilters) {
+    let diafilter =
+    filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+      ?.length > 0
+      ? JSON.parse(
+        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+      )[0]
+      : [];
+  let diafilter1 =
+    filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+      ?.length > 0
+      ? JSON.parse(
+        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+      )[0]
+      : [];
+  let diafilter2 =
+    filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+      ?.length > 0
+      ? JSON.parse(
+        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+      )[0]
+      : [];
+  const isDia =      JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+  const isNet =   JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+  const isGross =   JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+
+
     let totalCount = 0;
 
     for (const key in selectedFilters) {
@@ -3497,6 +3536,9 @@ const GivaFilterMenu = ({
         totalCount += 1; // Count the single selection
       }
     }
+  if (isDia) totalCount += 1;
+    if (isNet) totalCount += 1;
+    if (isGross) totalCount += 1;
 
     return totalCount;
   }

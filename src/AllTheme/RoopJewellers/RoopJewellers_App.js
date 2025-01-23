@@ -15,7 +15,7 @@ import AXboutUs from './Components/Pages/aboutUs/AQbout';
 
 // import Home from "./Components/Pages/Home/Index";
 // import Header from "./Components/Pages/Home/Header/Header";
-// import Cart from "./Components/Pages/Cart/CartMain";
+import Cart from "./Components/Pages/Cart/CartMain";
 // import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
 // import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
 // import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
@@ -30,14 +30,14 @@ import AXboutUs from './Components/Pages/aboutUs/AQbout';
 // import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
 // import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode";
 // import AboutUs from "./Components/Pages/aboutUs/AboutUs";
-// import Wishlist from "./Components/Pages/Wishlist/Wishlist";
+import Wishlist from "./Components/Pages/Wishlist/Wishlist";
 // import PageNotFound from "./Components/Pages/404Page/PageNotFound";
 // import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
 // import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
 // import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
 // import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
 // import Header2 from "./Components/Pages/Home/Header/Header2";
-// import Account from "./Components/Pages/Account/Account";
+import Account from "./Components/Pages/Account/Account";
 // import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 // import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
 // import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
@@ -45,7 +45,7 @@ import AXboutUs from './Components/Pages/aboutUs/AQbout';
 
 const Home = lazy(() => import("./Components/Pages/Home/Index"));
 const Header = lazy(() => import("./Components/Pages/Home/Header/Header"));
-const Cart = lazy(() => import("./Components/Pages/Cart/CartMain"));
+// const Cart = lazy(() => import("./Components/Pages/Cart/CartMain"));
 const LoginOption = lazy(() => import("./Components/Pages/Auth/LoginOption/LoginOption"));
 const ContinueWithEmail = lazy(() => import("./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail"));
 const LoginWithEmail = lazy(() => import("./Components/Pages/Auth/LoginWithEmail/LoginWithEmail"));
@@ -60,14 +60,14 @@ const ContimueWithMobile = lazy(() => import("./Components/Pages/Auth/ContimueWi
 const LoginWithEmailCode = lazy(() => import("./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode"));
 const LoginWithMobileCode = lazy(() => import("./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode"));
 const AboutUs = lazy(() => import("./Components/Pages/aboutUs/AboutUs"));
-const Wishlist = lazy(() => import("./Components/Pages/Wishlist/Wishlist"));
+// const Wishlist = lazy(() => import("./Components/Pages/Wishlist/Wishlist"));
 const PageNotFound = lazy(() => import("./Components/Pages/404Page/PageNotFound"));
 const Delivery = lazy(() => import("./Components/Pages/OrderFlow/DeliveryPage/Delivery"));
 const Payment = lazy(() => import("./Components/Pages/OrderFlow/PaymentPage/Payment"));
 const Confirmation = lazy(() => import("./Components/Pages/OrderFlow/ConfirmationPage/Confirmation"));
 const ForgotPass = lazy(() => import("./Components/Pages/Auth/forgotPass/ForgotPass"));
 const Header2 = lazy(() => import("./Components/Pages/Home/Header/Header2"));
-const Account = lazy(() => import("./Components/Pages/Account/Account"));
+// const Account = lazy(() => import("./Components/Pages/Account/Account"));
 const Lookbook = lazy(() => import("./Components/Pages/Home/LookBook/Lookbook"));
 const ScrollToTop = lazy(() => import("../DaimondTine/Components/Pages/ScrollToTop "));
 const StamScrollToTop = lazy(() => import("./Components/Pages/BackToTop/StamScrollToTop"));
@@ -177,7 +177,16 @@ const RoopJewellers_App = () => {
   console.log(location)
   return (
     <>
-    <Suspense fallback={<></>}>
+    <Suspense fallback={<>
+      <div className="loading" style={{
+        width:"100%",
+        height:"100vh",
+        backgroundColor:"#fff",
+        position:"fixed",
+      }}>
+
+      </div>
+      </>}>
       <Helmet>
         <title>{localData?.BrowserTitle}</title>
       </Helmet>

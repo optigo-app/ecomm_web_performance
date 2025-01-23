@@ -36,7 +36,7 @@ const PrintPageCard = () => {
   }, [cartData, imageSrcs]);
 
   return (
-    <div className='printPageMain'>
+    <div className='printPage'>
       <div className="print-header" aria-hidden="true">
         <img src={storeInitData && storeInitData?.companylogo} alt="Logo" className="print-logo" />
         <p>Cart Summary</p>
