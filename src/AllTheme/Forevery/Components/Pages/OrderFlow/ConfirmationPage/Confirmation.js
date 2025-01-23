@@ -25,6 +25,14 @@ const Confirmation = () => {
                console.error("Error fetching cart count:", error);
            }
        };
+
+       sessionStorage.removeItem("customizeSteps");
+       sessionStorage.removeItem("custStepData");
+       sessionStorage.removeItem("customizeSteps2Ring");
+       sessionStorage.removeItem("customizeSteps2Pendant");
+       sessionStorage.removeItem("custStepData2Ring");
+       sessionStorage.removeItem("setImage");
+       sessionStorage.removeItem("custStepData2Pendant");
    
        fetchCartCount();
    }, []);

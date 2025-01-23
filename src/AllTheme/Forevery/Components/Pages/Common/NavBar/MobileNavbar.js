@@ -202,10 +202,20 @@ export default function MobileNav({ open, onClose }) {
   const [showModal, setShowModal] = React.useState(false);
   const [shape, setShape] = React.useState();
   const [checkIndex, setCheckIndex] = React.useState();
+  const [showModal1, setShowModal1] = React.useState(false);
 
   const handleToggle = () => {
     setShowModal(!showModal);
   };
+
+  const handleNoConfirm = () => {
+    const getRingSteps = [...steps1];
+    sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(getRingSteps));
+    setShowModal(false);
+    Navigate(`/certified-loose-lab-grown-diamonds/diamond/${getRingSteps?.[1]?.shape}`);
+  };
+
+  const createYesUrl = `/certified-loose-lab-grown-diamonds/diamond/`;
 
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
   const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
@@ -215,88 +225,187 @@ export default function MobileNav({ open, onClose }) {
     (steps1?.[2] !== undefined && steps1?.[2] !== null) ||
     (steps2?.[2] !== undefined && steps2?.[2] !== null);
 
+  const checkStepsOf0 =
+    (steps?.[0] !== undefined && steps?.[0] !== null) ||
+    (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
+    (steps2?.[0] !== undefined && steps2?.[0] !== null);
+
   const handleCheckSteps = (value, index) => {
-    if (checkSteps) {
+    let isStepValid = false;
+
+    if (value === "Ring") {
+      isStepValid = checkSteps;
+    }
+
+    if (value === "Diamond") {
+      isStepValid = true;
+    }
+
+    if (isStepValid) {
       setShowModal(true);
       setCheckIndex(index);
-      setShape(value);
     } else {
       console.log("Alternative action");
+      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+    }
+  };
+
+  const handleCheckStepssSecondMenu = (value, link, index) => {
+    let isStepValid = false;
+    let shapeVal;
+
+    if (value === "Diamond Rings") {
+      shapeVal = "Round"
+      isStepValid = checkSteps
+      console.log('isStepValid: ', isStepValid);
+    } else if (value === "Diamond Pendant") {
+      shapeVal = "Round"
+      isStepValid = checkSteps
+    } else if (value === "Diamond Earrings") {
+      shapeVal = "Round"
+      isStepValid = checkSteps
+    } else {
+      isStepValid = checkSteps
+    }
+
+    if (isStepValid) {
+      setShowModal(true);
+      setCheckIndex(index);
+      setShape((value === "Diamond Rings" || value === "Diamond Pendant") ? shapeVal : value);
+    } else {
+      Navigate(link);
+      if (value === "Diamond Rings") {
+        Navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+      }
+      if (value === "Diamond Pendant") {
+        Navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UGVuZGFudC9jYXRlZ29yeQ====`);
+      }
     }
   };
 
   const HandleDiamondNavigation = (shape) => {
-    Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
-    setCustomizeStep({
-      step1: true,
-      step2: false,
-      step3: false,
-    });
-    const step1 = [{ step1: true, shape: shape }];
-    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    if (checkStepsOf0 && (steps1?.[1]?.step2 !== true && steps2?.[1]?.step2 !== true)) {
+      sessionStorage.removeItem('customizeSteps2Ring');
+      sessionStorage.removeItem('custStepData2Ring')
+      Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+      setCustomizeStep({
+        step1: true,
+        step2: false,
+        step3: false,
+      });
+      const step1 = [{ step1: true, shape: shape }];
+      sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    } else {
+      if (steps1?.[1]?.step2 === true || steps2?.[1]?.step2 === true) {
+        const getShape = steps1?.[1]?.shape ?? steps2?.[1]?.shape;
+        if (getShape !== shape) {
+          setShowModal1(true);
+        } else {
+          handleNoConfirm();
+        }
+      } else {
+        Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+        setCustomizeStep({
+          step1: true,
+          step2: false,
+          step3: false,
+        });
+        const step1 = [{ step1: true, shape: shape }];
+        sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+      }
+    }
   };
 
-  const handleRemoveData = (shape) => {
+  const handleRemoveData = (index) => {
     sessionStorage.removeItem("customizeSteps");
     sessionStorage.removeItem("custStepData");
     sessionStorage.removeItem("customizeSteps2Ring");
-    sessionStorage.removeItem("customizeSteps2Pendant");
+    sessionStorage.removeItem("customizeStepsPendant");
     sessionStorage.removeItem("custStepData2Ring");
     sessionStorage.removeItem("custStepData2Pendant");
-    Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+    sessionStorage.removeItem("setImage");
+    if (index === 0) {
+      Navigate(`/certified-loose-lab-grown-diamonds/diamond/`);
+    } else {
+      const addCategory = `Ring/category`;
+      const filterKeyVal = btoa(addCategory);
+      Navigate(
+        `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+      );
+    }
     handleToggle();
   };
 
-
   //  fIRST engagement ring making process function and hooks
 
-  const HandleSettingNavigation = () => {
-    if (
-      (steps?.[0] !== undefined && steps?.[0] !== null) ||
-      (steps?.[1] !== undefined && steps?.[1] !== null)
-    ) {
-      sessionStorage.removeItem("customizeSteps");
-      sessionStorage.removeItem("custStepData");
-      const addCategory = `Ring/category`;
-      const filterKeyVal = btoa(addCategory);
-      navigate(
-        `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
-      );
-    } else {
-      const addCategory = `Ring/category`;
+  const HandleSettingNavigation = (value) => {
+    const addCategory = `Ring/category`;
+    const filterKeyVal = btoa(addCategory);
 
-      const filterKeyVal = btoa(addCategory);
+    if (value === "Ring" && checkSteps) {
+      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+    } else {
+      if (checkStepsOf0) {
+        sessionStorage.removeItem('customizeSteps')
+        sessionStorage.removeItem("custStepData");
+      }
       navigate(
         `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
       );
       setCustomizeStep1({
         step1: true,
       });
-      const step1 = [{ step1: true, Setting: "Ring" }];
+      const step1 = [{ step1: true, Setting: "Ring", id: 1 }];
       sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
     }
   };
 
-  const HandleDiamondNavigationFirstLevel = () => {
-    if (
-      (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
-      (steps1?.[1] !== undefined && steps1?.[1] !== null) || 
-      (steps2?.[0] !== undefined && steps2?.[0] !== null) ||
-      (steps2?.[1] !== undefined && steps2?.[1] !== null) 
-    ) {
-      sessionStorage.removeItem("customizeSteps2Ring");
-      sessionStorage.removeItem("customizeSteps2Pendant");
-      sessionStorage.removeItem("custStepData2Ring");
-      sessionStorage.removeItem("custStepData2Pendant");
-      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+  const handleCheckStepsForSett = (link, val, id) => {
+    const regex = /M=([^/]+)/;
+    const match = link.match(regex);
+    let mValue;
+    if (match) {
+      mValue = match[1];
     } else {
-      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
-      setCustomizeStep({
-        step1: true,
-      });
-      const step1 = [{ step1: true, shape: "Round" }];
-      sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+      console.log('M value not found.');
     }
+
+    const updatedSteps = [{ step1: true, Setting: val, id }];
+
+    if (val === "Ring") {
+      if (val === "Ring" && checkSteps) {
+        Navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+      } else {
+        if (checkStepsOf0) {
+          sessionStorage.removeItem('customizeSteps')
+          sessionStorage.removeItem("custStepData");
+        }
+        Navigate(link);
+      }
+    } else if (val === "Pendant") {
+      if (val === "Pendant" && checkSteps) {
+        Navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UGVuZGFudC9jYXRlZ29yeQ====`);
+      } else {
+        if (checkStepsOf0) {
+          sessionStorage.removeItem('customizeSteps')
+          sessionStorage.removeItem("custStepData");
+        }
+        Navigate(link);
+      }
+    }
+  };
+
+  const HandleDiamondNavigationFirstLevel = () => {
+    if (checkStepsOf0) {
+      sessionStorage.removeItem('customizeSteps2Ring');
+      sessionStorage.removeItem('custStepData2Ring')
+    }
+    navigate(`/certified-loose-lab-grown-diamonds/diamond/`);
+    setCustomizeStep({
+      step1: true,
+    });
+    const step1 = [{ step1: true, shape: "All" }];
+    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };
 
   const handleRemoveDataFirstLevel = (index) => {
@@ -305,6 +414,7 @@ export default function MobileNav({ open, onClose }) {
     sessionStorage.removeItem("customizeSteps2Ring");
     sessionStorage.removeItem("customizeSteps2Pendant");
     sessionStorage.removeItem("custStepData2Ring");
+    sessionStorage.removeItem("setImage");
     sessionStorage.removeItem("custStepData2Pendant");
     if (index === 0) {
       const addCategory = `Ring/category`;
@@ -313,10 +423,19 @@ export default function MobileNav({ open, onClose }) {
         `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
       );
     } else {
-      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/`);
     }
     handleToggle();
   };
+
+  const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1 ?? steps2)?.[2]?.url}`;
+  const handleConfirm = () => {
+    Navigate(createUrl);
+  }
+
+  const handleToggle1 = () => {
+    setShowModal1(!showModal1);
+  }
 
   // General encoding function
   const encodeLink = (link) => btoa(link);
@@ -539,21 +658,21 @@ export default function MobileNav({ open, onClose }) {
                       {/* Data here Subu */}
                       <div class="diamond_list_for_list">
                         {checkSteps ? (
-                          <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("", 0)}>
+                          <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("Ring", 0)}>
                             <GiDiamondRing size={15} /> start with a setting
                           </span>
                         ) : (
                           <span
                             class="diamond_shape_step_li"
                             onClick={() => {
-                              HandleSettingNavigation();
+                              HandleSettingNavigation("Ring");
                             }}
                           >
                             <GiDiamondRing size={15} /> start with a setting
                           </span>
                         )}
                         {checkSteps ? (
-                          <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("", 1)}>
+                          <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("Diamond", 1)}>
                             <IoDiamondOutline size={15} /> Start With a Diamond
                           </span>
                         ) : (
@@ -567,6 +686,7 @@ export default function MobileNav({ open, onClose }) {
                       </div>
                       <Modal
                         open={showModal}
+                        handleConfirm={handleConfirm}
                         handleClose={handleToggle}
                         handleRemoveData={handleRemoveDataFirstLevel}
                         index={checkIndex}
@@ -933,7 +1053,7 @@ export default function MobileNav({ open, onClose }) {
                             {checkSteps ? (
                               <span
                                 className="diamond_shape_step_li"
-                                onClick={() => handleCheckSteps(val?.name, "")}
+                                onClick={() => handleCheckStepssSecondMenu(val?.name, " ", 0)}
                               >
                                 <img
                                   src={val?.img}
@@ -946,9 +1066,7 @@ export default function MobileNav({ open, onClose }) {
                             ) : (
                               <span
                                 className="diamond_shape_step_li"
-                                onClick={() =>
-                                  HandleDiamondNavigation(val?.name)
-                                }
+                                onClick={() => HandleDiamondNavigation(val?.name)}
                               >
                                 <img
                                   src={val?.img}
@@ -1015,21 +1133,50 @@ export default function MobileNav({ open, onClose }) {
                     }}
                   >
                     <div className="diamond_list_for_list">
-                      {SideItems?.map((val, i) => (
-                        <span
-                          className="diamond_shape_step_li"
-                          key={i}
-                          onClick={() => Navigate(val?.link)}
-                        >
-                          <img src={val?.img} alt="" width={18} height={18} />
-                          {val?.name}
-                        </span>
+                      {SideItems?.slice(0, 1)?.map((val, i) => (
+                        <>
+                          {checkSteps ? (
+                            <span
+                              className="diamond_shape_step_li"
+                              key={i}
+                              onClick={() => {
+                                console.log(`Clicked on 12: ${val?.name}`);
+                                if (val?.name === "Diamond Earrings") return;
+                                handleCheckSteps(val?.name, val?.link, 1);
+                              }}
+                            >
+                              <img src={val?.img} alt="" width={18} height={18} />
+                              {val?.name}
+                            </span>
+                          ) : (
+                            <span
+                              className="diamond_shape_step_li"
+                              key={i}
+                              onClick={() => {
+                                console.log(`Clicked on 1234: ${val?.name}`);
+                                if (val?.name === "Diamond Earrings") return;
+                                handleCheckStepsForSett(val?.link, val?.name === "Diamond Rings" ? "Ring" : "Pendant", val?.name === "Diamond Rings" ? 1 : 2);  // Pass the correct value
+                              }}
+                            >
+                              <img src={val?.img} alt="" width={18} height={18} />
+                              {val?.name}
+                            </span>
+                          )}
+                        </>
                       ))}
                     </div>
                   </AccordionDetails>
                 </Accordion>
               </AccordionDetails>
             </Accordion>
+            <CheckingDiaSetModal
+              open={showModal1}
+              link1={createYesUrl}
+              handleNoConfirm={handleNoConfirm}
+              handleClose={handleToggle1}
+              handleRemoveData={handleRemoveData}
+              index={checkIndex}
+            />
           </div>
           {storeinit?.IsB2BWebsite === 1 && <div className="Menu_m_a">
             <Accordion
@@ -1253,8 +1400,8 @@ export default function MobileNav({ open, onClose }) {
             </div>
           )}
         </div>
-      </div>
-    </Box>
+      </div >
+    </Box >
   );
 
   return (
@@ -1266,7 +1413,7 @@ export default function MobileNav({ open, onClose }) {
           backdropFilter: "blur(4px)",
         },
       }}
-      open={ open}
+      open={open}
       onClose={onClose}
     >
       {DrawerList}
@@ -1275,7 +1422,7 @@ export default function MobileNav({ open, onClose }) {
 }
 
 
-const Modal = ({ open, handleClose, handleRemoveData, index }) => {
+const Modal = ({ open, handleConfirm, handleClose, handleRemoveData, index }) => {
   return (
     <>
       <Dialog
@@ -1317,6 +1464,7 @@ const Modal = ({ open, handleClose, handleRemoveData, index }) => {
             <div className="for_modal_buttons_nav_div">
               <button
                 onClick={() => {
+                  handleConfirm();
                   handleClose();
                 }}
               >
@@ -1325,6 +1473,84 @@ const Modal = ({ open, handleClose, handleRemoveData, index }) => {
               <button
                 onClick={() => {
                   handleRemoveData(index);
+                }}
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+
+const CheckingDiaSetModal = ({ open, link1, handleNoConfirm, handleClose, handleRemoveData, index }) => {
+  const navigate = useNavigate();
+
+  const handleYesConfirm = () => {
+    sessionStorage.removeItem("customizeSteps");
+    sessionStorage.removeItem("custStepData");
+    sessionStorage.removeItem("customizeSteps2Ring");
+    sessionStorage.removeItem("customizeStepsPendant");
+    sessionStorage.removeItem("custStepData2Ring");
+    sessionStorage.removeItem("custStepData2Pendant");
+    handleClose();
+    const step = [{ step1: true, shape: "All" }]
+    sessionStorage.setItem('customizeSteps', JSON.stringify(step));
+    window.location.href = link1;
+  }
+
+  return (
+    <>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        sx={{
+          zIndex: 9999999,
+          "& .MuiDialog-root": {
+            zIndex: 9999,
+          },
+          "& .MuiDialog-paper": {
+            backgroundColor: "transparent",
+            border: "1px solid white",
+            zIndex: 9999,
+          },
+          "& .MuiDialogContent-root": {
+            padding: "10px",
+          },
+        }}
+      >
+        <DialogContent
+          sx={{
+            minWidth: 260,
+            padding: "0px",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <div className="for_modal_cancel_btn_nav_div" onClick={handleClose}>
+            <RxCross1 className="for_modal_cancel_nav_btn" size={"12px"} />
+          </div>
+          <div className="for_modal_inner_nav_div">
+            <span className="for_modal_nav_title">
+              This Diamond Shape Is Not Compatible With Your Selected Setting.
+              Do You Want To Remove Selected Setting And Continue?
+            </span>
+            <div className="for_modal_buttons_nav_div">
+              <button
+                onClick={() => {
+                  handleYesConfirm();
+                  handleClose();
+                }}
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => {
+                  handleNoConfirm();
                 }}
               >
                 No

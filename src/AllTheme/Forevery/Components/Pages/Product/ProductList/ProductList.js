@@ -777,9 +777,8 @@ const ProductList = () => {
     let output = selectedValues.filter((ele) => ele.value)
 
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-
+    setCurrPage(1);
     setIsOnlyProdLoading(true)
-
     let sortby = e.target?.value
 
     setTimeout(() => {
@@ -1868,7 +1867,7 @@ const Product_Card = ({
 
     // Play the hovered video
     if (videoRefs.current[index] && videoUrl !== undefined) {
-      videoRefs.current[index].play();
+      videoRefs?.current[index]?.play();
     }
   };
 
