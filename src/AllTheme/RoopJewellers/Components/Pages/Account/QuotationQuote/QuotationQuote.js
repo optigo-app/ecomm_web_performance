@@ -534,10 +534,11 @@ const QuotationQuote = () => {
                                                     >
                                                         {page * rowsPerPage + index + 1}
                                                     </TableCell>
+                                                    
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.Date}</TableCell>
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.SKUNo}</TableCell>
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.TotalDesign}</TableCell>
-                                                    <TableCell align="right" style={{ fontFamily: "Spectral-Regular" }}>{formatAmount(row.Amount)}</TableCell>
+                                                    <TableCell align="right" style={{ fontFamily: "Spectral-Regular" }}> <span  dangerouslySetInnerHTML={{__html: row?.Currencycode }}></span>&nbsp; {formatAmount(row.Amount)}</TableCell>
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>
                                                         <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
                                                             <PrintIcon />
