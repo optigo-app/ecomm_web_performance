@@ -7,7 +7,6 @@ import { soketProductData } from "../../AllTheme/Pocatalog/Components/Recoil/ato
 
 const ConnectionManager = () => {
   let socket;
-
   const setProductData = useSetRecoilState(soketProductData);
   useEffect(() => {
     const { address, SoPath, di } = config;
@@ -15,7 +14,7 @@ const ConnectionManager = () => {
     console.log("configconfigconfig", config);
     const details = {
       path: SoPath,
-      transports: ["websocket"],
+      transports: ["websocket", "polling"],
     };
 
     try {

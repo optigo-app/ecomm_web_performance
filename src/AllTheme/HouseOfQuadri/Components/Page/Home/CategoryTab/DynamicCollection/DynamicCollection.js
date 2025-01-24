@@ -29,6 +29,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Badge,
   Box,
   Checkbox,
   Drawer,
@@ -94,7 +95,7 @@ const DynamicCollection = () => {
   const [sliderValue, setSliderValue] = useState([]);
   const [sliderValue1, setSliderValue1] = useState([]);
   const [sliderValue2, setSliderValue2] = useState([]);
-  const [sortBySelect, setSortBySelect] = useState("");
+  const [sortBySelect, setSortBySelect] = useState("Recommended");
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedMetalId, setSelectedMetalId] = useState(
@@ -185,14 +186,43 @@ const DynamicCollection = () => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
     //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
+      let diafilter =
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
     if (location?.key === locationKey) {
+
       setIsProdLoading(true);
       setIsOnlyProdLoading(true);
-      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
+      let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
+      let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
+      let netRange = { netMin: isNet ? sliderValue1[0] : "", netMax: isNet ? sliderValue1[1] : "" }
+      
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+      
         .then((res) => {
           if (res) {
-            console.log(res, "setSearchError")
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
             setAfterCountStatus(false);
@@ -225,6 +255,7 @@ const DynamicCollection = () => {
 
   const handleRangeFilterApi = async (Rangeval) => {
     setIsProdLoading(true);
+    setAfterCountStatus(true);
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
@@ -236,15 +267,19 @@ const DynamicCollection = () => {
       filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
     )[0];
 
+    // let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] };
+    // let netRange = {
+    //   netMin: diafilter1?.Min == sliderValue1[0] ? "" : sliderValue1[0],
+    //   netMax: diafilter1?.Max == sliderValue1[1] ? "" : sliderValue1[1],
+    // };
+    // let grossRange = {
+    //   grossMin: diafilter2?.Min == sliderValue2[0] ? "" : sliderValue2[0],
+    //   grossMax: diafilter2?.Max == sliderValue2[1] ? "" : sliderValue2[1],
+    // };
     let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] };
-    let netRange = {
-      netMin: diafilter1?.Min == sliderValue1[0] ? "" : sliderValue1[0],
-      netMax: diafilter1?.Max == sliderValue1[1] ? "" : sliderValue1[1],
-    };
-    let grossRange = {
-      grossMin: diafilter2?.Min == sliderValue2[0] ? "" : sliderValue2[0],
-      grossMax: diafilter2?.Max == sliderValue2[1] ? "" : sliderValue2[1],
-    };
+    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
+
 
     await ProductListApi(
       output,
@@ -269,10 +304,13 @@ const DynamicCollection = () => {
       .finally(() => {
         setIsOnlyProdLoading(false);
         setIsProdLoading(false);
+    setAfterCountStatus(false);
       });
   };
   const handleRangeFilterApi1 = async (Rangeval1) => {
     setIsProdLoading(true);
+    setAfterCountStatus(true);
+
     let diafilter = JSON.parse(
       filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
     )[0];
@@ -284,15 +322,21 @@ const DynamicCollection = () => {
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-    let DiaRange = {
-      diaMin: diafilter?.Min == sliderValue[0] ? "" : sliderValue[0],
-      diaMax: diafilter?.Max == sliderValue[1] ? "" : sliderValue[1],
-    };
-    let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] };
-    let grossRange = {
-      grossMin: diafilter2?.Min == sliderValue2[0] ? "" : sliderValue2[0],
-      grossMax: diafilter2?.Max == sliderValue2[1] ? "" : sliderValue2[1],
-    };
+    // let DiaRange = {
+    //   diaMin: diafilter?.Min == sliderValue[0] ? "" : sliderValue[0],
+    //   diaMax: diafilter?.Max == sliderValue[1] ? "" : sliderValue[1],
+    // };
+    // let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] };
+    // let grossRange = {
+    //   grossMin: diafilter2?.Min == sliderValue2[0] ? "" : sliderValue2[0],
+    //   grossMax: diafilter2?.Max == sliderValue2[1] ? "" : sliderValue2[1],
+    // };
+
+    let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
+    // let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[1] }
+    // let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
+    let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
 
     await ProductListApi(
       output,
@@ -317,10 +361,12 @@ const DynamicCollection = () => {
       .finally(() => {
         setIsOnlyProdLoading(false);
         setIsProdLoading(false);
+    setAfterCountStatus(false);
       });
   };
   const handleRangeFilterApi2 = async (Rangeval2) => {
     setIsProdLoading(true);
+    setAfterCountStatus(true);
 
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
@@ -333,15 +379,20 @@ const DynamicCollection = () => {
     )[0];
     // let diafilter2 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Gross")[0]?.options)[0]
 
-    let DiaRange = {
-      diaMin: diafilter?.Min == sliderValue[0] ? "" : sliderValue[0],
-      diaMax: diafilter?.Max == sliderValue[1] ? "" : sliderValue[1],
-    };
-    let netRange = {
-      netMin: diafilter1?.Min == sliderValue1[0] ? "" : sliderValue1[0],
-      netMax: diafilter1?.Max == sliderValue1[1] ? "" : sliderValue1[1],
-    };
-    let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] };
+    // let DiaRange = {
+    //   diaMin: diafilter?.Min == sliderValue[0] ? "" : sliderValue[0],
+    //   diaMax: diafilter?.Max == sliderValue[1] ? "" : sliderValue[1],
+    // };
+    // let netRange = {
+    //   netMin: diafilter1?.Min == sliderValue1[0] ? "" : sliderValue1[0],
+    //   netMax: diafilter1?.Max == sliderValue1[1] ? "" : sliderValue1[1],
+    // };
+    // let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] };
+
+    let DiaRange = { DiaMin: sliderValue[0] ?? diafilter?.Min, DiaMax: sliderValue[1] ?? diafilter?.Max }
+    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+    let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] }
+
 
     await ProductListApi(
       output,
@@ -366,6 +417,7 @@ const DynamicCollection = () => {
       .finally(() => {
         setIsOnlyProdLoading(false);
         setIsProdLoading(false);
+        setAfterCountStatus(false);
       });
   };
 
@@ -420,12 +472,169 @@ const DynamicCollection = () => {
 
   // range filter for diammond net wt  gross wet
 
+  // const RangeFilterView = (ele) => {
+  //   return (
+  //     <>
+  //       <div>
+  //         <div>
+  //           <Slider
+  //             value={sliderValue}
+  //             onChange={(event, newValue) => setSliderValue(newValue)}
+  //             onChangeCommitted={handleSliderChange}
+  //             valueLabelDisplay="auto"
+  //             aria-labelledby="range-slider"
+  //             min={JSON?.parse(ele?.options)[0]?.Min}
+  //             max={JSON?.parse(ele?.options)[0]?.Max}
+  //             step={0.001}
+  //             sx={{ marginTop: "25px" }}
+  //           />
+  //         </div>
+  //         <div style={{ display: "flex", gap: "10px" ,width:"100%",justifyContent:"space-between" }}>
+  //           <Input
+  //             value={sliderValue[0]}
+  //             margin="none"
+  //             onChange={handleInputChange(0)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min,
+  //               max: JSON?.parse(ele?.options)[0]?.Max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //           />
+  //           <Input
+  //             value={sliderValue[1]}
+  //             margin="none"
+  //             onChange={handleInputChange(1)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min,
+  //               max: JSON?.parse(ele?.options)[0]?.Max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //           />
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
+  // };
+  // const RangeFilterView1 = (ele) => {
+  //   // console.log("netwt",ele)
+  //   return (
+  //     <>
+  //       <div>
+  //         <div>
+  //           <Slider
+  //             value={sliderValue1}
+  //             onChange={() => (event, newValue) => setSliderValue1(newValue)}
+  //             onChangeCommitted={handleSliderChange1}
+  //             valueLabelDisplay="auto"
+  //             aria-labelledby="range-slider"
+  //             min={JSON?.parse(ele?.options)[0]?.Min}
+  //             max={JSON?.parse(ele?.options)[0]?.Max}
+  //             step={0.001}
+  //             sx={{ marginTop: "25px" }}
+  //           />
+  //         </div>
+  //         <div style={{ display: "flex", gap: "10px" ,width:"100%",justifyContent:"space-between"  }}>
+  //           <Input
+  //             value={sliderValue1[0]}
+  //             margin="dense"
+  //             onChange={handleInputChange1(0)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min,
+  //               max: JSON?.parse(ele?.options)[0]?.Max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //           />
+  //           <Input
+  //             value={sliderValue1[1]}
+  //             margin="dense"
+  //             onChange={handleInputChange1(1)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min,
+  //               max: JSON?.parse(ele?.options)[0]?.Max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //           />
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
+  // };
+  // const RangeFilterView2 = (ele) => {
+  //   return (
+  //     <>
+  //       <div>
+  //         <div>
+  //           <Slider
+  //             value={sliderValue2}
+  //             onChange={(event, newValue) => setSliderValue2(newValue)}
+  //             onChangeCommitted={handleSliderChange2}
+  //             valueLabelDisplay="auto"
+  //             aria-labelledby="range-slider"
+  //             min={JSON?.parse(ele?.options)[0]?.Min}
+  //             max={JSON?.parse(ele?.options)[0]?.Max}
+  //             step={0.001}
+  //             sx={{ marginTop: "25px" }}
+  //           />
+  //         </div>
+  //         <div style={{ display: "flex", gap: "10px" ,width:"100%",justifyContent:"space-between"  }}>
+  //           <Input
+  //             value={sliderValue2[0]}
+  //             margin="dense"
+  //             onChange={handleInputChange2(0)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min,
+  //               max: JSON?.parse(ele?.options)[0]?.Max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //               pattern: "\\d*(\\.\\d{0,3})?",
+  //             }}
+  //           />
+  //           <Input
+  //             value={sliderValue2[1]}
+  //             margin="dense"
+  //             onChange={handleInputChange2(1)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min,
+  //               max: JSON?.parse(ele?.options)[0]?.Max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //               pattern: "\\d*(\\.\\d{0,3})?",
+  //             }}
+  //           />
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
+  // };
+
+  // new range filter for diammond net wt  gross wet
+
   const RangeFilterView = (ele) => {
     return (
       <>
         <div>
           <div>
             <Slider
+              // value={sliderValue}
+              // onChange={(event, newValue) => setSliderValue(newValue)}
+              // onChangeCommitted={handleSliderChange}
+              // valueLabelDisplay="auto"
+              // aria-labelledby="range-slider"
+              // min={JSON?.parse(ele?.options)[0]?.Min}
+              // max={JSON?.parse(ele?.options)[0]?.Max}
+              // step={0.001}
+              // sx={{ marginTop: "25px" }}
+
               value={sliderValue}
               onChange={(event, newValue) => setSliderValue(newValue)}
               onChangeCommitted={handleSliderChange}
@@ -434,13 +643,17 @@ const DynamicCollection = () => {
               min={JSON?.parse(ele?.options)[0]?.Min}
               max={JSON?.parse(ele?.options)[0]?.Max}
               step={0.001}
-              sx={{ marginTop: "25px" }}
+              sx={{
+                marginTop: "25px",
+                transition: "all 0.2s ease-out", // Smooth transition on value change
+              }}
+              disableSwap
             />
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
             <Input
-              value={sliderValue[0]}
-              margin="none"
+              value={sliderValue[0]?.toFixed(3)}
+              margin="dense"
               onChange={handleInputChange(0)}
               inputProps={{
                 step: 0.001,
@@ -448,11 +661,14 @@ const DynamicCollection = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
             />
             <Input
-              value={sliderValue[1]}
-              margin="none"
+              value={sliderValue[1]?.toFixed(3)}
+              margin="dense"
               onChange={handleInputChange(1)}
               inputProps={{
                 step: 0.001,
@@ -460,7 +676,10 @@ const DynamicCollection = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
             />
           </div>
         </div>
@@ -474,20 +693,33 @@ const DynamicCollection = () => {
         <div>
           <div>
             <Slider
+              // value={sliderValue1}
+              // onChange={() => (event, newValue) => setSliderValue1(newValue)}
+              // onChangeCommitted={handleSliderChange1}
+              // valueLabelDisplay="auto"
+              // aria-labelledby="range-slider"
+              // min={JSON?.parse(ele?.options)[0]?.Min}
+              // max={JSON?.parse(ele?.options)[0]?.Max}
+              // step={0.001}
+              // sx={{ marginTop: "25px" }}
               value={sliderValue1}
-              onChange={() => (event, newValue) => setSliderValue1(newValue)}
+              onChange={(event, newValue) => setSliderValue1(newValue)}
               onChangeCommitted={handleSliderChange1}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
               max={JSON?.parse(ele?.options)[0]?.Max}
               step={0.001}
-              sx={{ marginTop: "25px" }}
+              sx={{
+                marginTop: "25px",
+                transition: "all 0.2s ease-out", // Smooth transition on value change
+              }}
+              disableSwap
             />
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
             <Input
-              value={sliderValue1[0]}
+                value={sliderValue1[0]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange1(0)}
               inputProps={{
@@ -496,10 +728,14 @@ const DynamicCollection = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+
             />
             <Input
-              value={sliderValue1[1]}
+                value={sliderValue1[1]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange1(1)}
               inputProps={{
@@ -508,7 +744,11 @@ const DynamicCollection = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+
             />
           </div>
         </div>
@@ -534,7 +774,7 @@ const DynamicCollection = () => {
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
             <Input
-              value={sliderValue2[0]}
+              value={sliderValue2[0]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange2(0)}
               inputProps={{
@@ -543,11 +783,14 @@ const DynamicCollection = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
-                pattern: "\\d*(\\.\\d{0,3})?",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+
             />
             <Input
-              value={sliderValue2[1]}
+              value={sliderValue2[1]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange2(1)}
               inputProps={{
@@ -556,14 +799,18 @@ const DynamicCollection = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
-                pattern: "\\d*(\\.\\d{0,3})?",
+                readOnly: true,  // Disable manual editing
               }}
+              readOnly
+              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+
             />
           </div>
         </div>
       </>
     );
   };
+
 
   // Product Fetching Api
   useEffect(() => {
@@ -650,7 +897,14 @@ const DynamicCollection = () => {
       setIsProdLoading(true);
 
       setprodListType(productlisttype);
-      await ProductListApi({}, 1, obj, productlisttype, cookie)
+      let DiaRange = { DiaMin: sliderValue[0] ?? "0", DiaMax: sliderValue[1] ?? "100" }
+      let grossRange = { grossMin: sliderValue2[0] ?? "0", grossMax: sliderValue2[1] ?? "100" }
+      let netRange = { netMin: sliderValue1[0] ?? "0", netMax: sliderValue1[1] ?? "100" }
+
+      await ProductListApi({}, 1, obj, productlisttype, cookie,
+        sortBySelect ,
+        DiaRange, netRange, grossRange
+      )
         .then((res) => {
           if (res) {
             setproductsPerPage(res?.pdResp?.rd1[0]?.designcount);
@@ -927,6 +1181,11 @@ const DynamicCollection = () => {
 
     let sortby = e.target?.value;
 
+    let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
+    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+
+
     await ProductListApi(output, currentPage, obj, prodListType, cookie, sortby)
       .then((res) => {
         if (res) {
@@ -944,8 +1203,13 @@ const DynamicCollection = () => {
   // cUTSOMIZATION
   const handelCustomCombo = (obj) => {
     let output = FilterValueWithCheckedOnly();
+    setIsProdLoading(true);
 
     if (location?.state?.SearchVal === undefined) {
+      let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+      let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
+      let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+
       setIsProdLoading(true);
       ProductListApi(
         output,
@@ -1166,9 +1430,69 @@ const DynamicCollection = () => {
     setLoginInfo(logininfo);
   }, []);
 
+  // const handelFilterClearAll = () => {
+  //   setAfterCountStatus(false);
+  //   if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
+  //     setFilterChecked({});
+  //   }
+  //   setAccExpanded(false);
+  // };
+
   const handelFilterClearAll = () => {
-    setAfterCountStatus(false);
-    if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
+    // setAfterCountStatus(true);
+    let diafilter =
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isFilterChecked = Object.values(filterChecked).some((ele) => ele.checked);
+    const isSliderChanged =
+      JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]) ||
+      JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]) ||
+      JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+    // if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
+    if (isFilterChecked || isSliderChanged) {
+      let diafilter =
+        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+          ?.length > 0
+          ? JSON.parse(
+            filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+          )[0]
+          : [];
+      let diafilter1 =
+        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+          ?.length > 0
+          ? JSON.parse(
+            filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+          )[0]
+          : [];
+      let diafilter2 =
+        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+          ?.length > 0
+          ? JSON.parse(
+            filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+          )[0]
+          : [];
+      setSliderValue([diafilter?.Min, diafilter?.Max]);
+      setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
+      setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
       setFilterChecked({});
     }
     setAccExpanded(false);
@@ -1179,16 +1503,22 @@ const DynamicCollection = () => {
   }, [loginInfo]);
 
   const handlePageChange = (event, value) => {
+    setIsProdLoading(true);
+    setIsProdLoading(true)
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-    setIsProdLoading(true);
     setCurrentPage(value);
     window.scroll({
       top: 0,
       left: 0,
       behavior: "smooth",
     });
-    ProductListApi(output, value, obj, prodListType, cookie, sortBySelect)
+    let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
+    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+
+    // ProductListApi(output, value, obj, prodListType, cookie, sortBySelect)
+    ProductListApi(output, value, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -1210,6 +1540,7 @@ const DynamicCollection = () => {
       .finally(() => {
         setTimeout(() => {
           setIsProdLoading(false);
+    setIsProdLoading(false)
         }, 100);
       });
   };
@@ -1356,6 +1687,37 @@ const DynamicCollection = () => {
     </Typography>
   );
 
+  const showClearAllButton = () => {
+    let diafilter =
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isFilterChecked = Object.values(filterChecked).some((ele) => ele.checked);
+    const isSliderChanged =
+      JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]) ||
+      JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]) ||
+      JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+    return isFilterChecked || isSliderChanged;
+  };
+
 
   return (
     <>
@@ -1376,7 +1738,12 @@ const DynamicCollection = () => {
             },
           }}
         >
-          <div
+        <div
+        style={{
+          padding:"10px"
+        }}
+        >
+        <div
             style={{
               display: "flex",
               width: "100%",
@@ -1393,7 +1760,6 @@ const DynamicCollection = () => {
           </div>
           <div
             style={{
-              marginLeft: "15px",
               marginBottom: "20px",
               display: "flex",
               gap: "5px",
@@ -1607,15 +1973,25 @@ const DynamicCollection = () => {
           >
             {filterData?.length > 0 && (
               <div className="smr_mobile_filter_portion_outter">
-                <span className="smr_filter_text">
+                <span className="smr_filter_text"
+                style={{
+                  display:"flex",
+                  alignItems:"center",
+                  justifyContent:"space-between" ,
+                  width:"100%"
+                }}
+                >
                   <span
                     style={{
                       fontWeight: "500",
                       fontFamily: "Tenor Sans , sans-serif",
                     }}
                   >
-                    {Object.values(filterChecked).filter((ele) => ele.checked)
-                      ?.length === 0 ? (
+                    {
+                    // Object.values(filterChecked).filter((ele) => ele.checked)
+                    //   ?.length === 0 
+                    !showClearAllButton()
+                      ? (
                       // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
                       "Filters"
                     ) : (
@@ -1638,10 +2014,14 @@ const DynamicCollection = () => {
                     style={{
                       fontWeight: "600",
                       fontFamily: "Tenor Sans , sans-serif",
+                   
                     }}
                   >
-                    {Object.values(filterChecked).filter((ele) => ele.checked)
-                      ?.length > 0 ? (
+                    {
+                    // Object.values(filterChecked).filter((ele) => ele.checked)
+                    //   ?.length > 0 
+                    showClearAllButton()
+                      ? (
                       "Clear All"
                     ) : (
                       <>
@@ -1701,6 +2081,7 @@ const DynamicCollection = () => {
                                 "&.MuiAccordionSummary-root": {
                                   padding: 0,
                                 },
+
                               }}
                               className="filtercategoryLable"
                             >
@@ -1722,6 +2103,7 @@ const DynamicCollection = () => {
                                 maxHeight: "300px",
                                 overflow: "auto",
                                 fontFamily: "Tenor Sans , sans-serif",
+                                bgcolor:"white"
                               }}
                             >
                               {(JSON.parse(ele?.options) ?? []).map((opt) => (
@@ -1742,9 +2124,15 @@ const DynamicCollection = () => {
                                         fontFamily:
                                           "Tenor Sans, sans-serif !important",
                                       },
+                                      width:"100%",
+                                      display: "flex" ,
+                                      alignItems: "center",
+                                      justifyContent: "space-between",
+                                      flexDirection:"row-reverse"
                                     }}
                                     control={
                                       <Checkbox
+                                      disableRipple={true}
                                         name={`${ele?.id}${opt?.id}`}
                                         checked={
                                           filterChecked[`${ele?.id}${opt?.id}`]
@@ -1757,11 +2145,16 @@ const DynamicCollection = () => {
                                         sx={{
                                           fontFamily:
                                             "Tenor Sans , sans-serif !important",
+                                            width:"100%",
+                                            display: "flex" ,
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            flexDirection:"row-reverse"
                                         }}
                                         style={{
                                           color: "#7f7d85",
                                           padding: 0,
-                                          width: "10px",
+                                         
                                           fontFamily:
                                             "Tenor Sans , sans-serif  !important",
                                         }}
@@ -1791,7 +2184,6 @@ const DynamicCollection = () => {
                             borderRadius: 0,
                             fontFamily: "Tenor Sans , sans-serif",
                             gap: "12px",
-
                             "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                               borderBottomLeftRadius: "0px",
                               borderBottomRightRadius: "0px",
@@ -1838,7 +2230,7 @@ const DynamicCollection = () => {
                               maxHeight: "300px",
                               overflow: "auto",
                               fontFamily: "Tenor Sans , sans-serif",
-                            }}
+                                                        }}
                           >
                             {(JSON.parse(ele?.options) ?? []).map((opt, i) => (
                               <div
@@ -1848,7 +2240,7 @@ const DynamicCollection = () => {
                                   justifyContent: "space-between",
                                   gap: "12px",
                                   fontFamily: "Tenor Sans , sans-serif",
-                                }}
+                                                         }}
                                 key={i}
                               >
                                 {/* <small
@@ -1862,6 +2254,13 @@ const DynamicCollection = () => {
                                 <FormControlLabel
                                   style={{
                                     fontFamily: "Tenor Sans , sans-serif",
+                                  }}
+                                  sx={{
+                                    width:"100%",
+                                    display: "flex" ,
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    flexDirection:"row-reverse"
                                   }}
                                   control={
                                     <Checkbox
@@ -1883,6 +2282,7 @@ const DynamicCollection = () => {
                                         padding: 0,
                                         width: "10px",
                                       }}
+                                      
                                       onClick={(e) =>
                                         handleCheckboxChange(e, ele?.id, opt)
                                       }
@@ -2125,6 +2525,7 @@ const DynamicCollection = () => {
               </div>
             )}
           </div>
+        </div>
         </Drawer>
         {/* Main Image Banner */}
         <Banner />
@@ -2162,21 +2563,16 @@ const DynamicCollection = () => {
             navigate={navigate}
           />
         </div>
-        <div className="filter_btn_mobile">
-          <div className="fb_btn">
-            <Checkbox
-              icon={<MdOutlineFilterList size={32} />}
-              // disabled
-              checkedIcon={
-                <MdOutlineFilterListOff
-                  size={32}
-                  style={{ color: "#666666" }}
-                />
-              }
-              checked={isDrawerOpen}
-              onChange={(e) => setIsDrawerOpen(e.target.value)}
-            />
-          </div>
+          <div className="filter_btn_mobile">
+          <FilterButton
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+          filterData={filterData}
+          sliderValue={sliderValue}
+          sliderValue1={sliderValue1}
+          sliderValue2={sliderValue2}
+          FilterValueWithCheckedOnly={FilterValueWithCheckedOnly}
+         />
         </div>
         {/* Filter on Below on iamge Banner */}
         <div className="filter_section">
@@ -2292,6 +2688,95 @@ const DynamicCollection = () => {
 
 export default React.memo(DynamicCollection);
 
+const FilterButton = ({
+  isDrawerOpen,
+  setIsDrawerOpen,
+  FilterValueWithCheckedOnly = () => {},
+  sliderValue,
+  sliderValue1,
+  sliderValue2,
+  filterData
+}) => {
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [totalSelected, setTotalSelected] = useState(0);
+
+  const calculateTotalFilters = (selectedFilters) => {
+    if (!filterData) return 0;
+
+    let diafilter = filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0
+      ? JSON.parse(filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0]
+      : [];
+    let diafilter1 = filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0
+      ? JSON.parse(filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0]
+      : [];
+    let diafilter2 = filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0
+      ? JSON.parse(filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0]
+      : [];
+
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+    let totalCount = 0;
+
+    for (const key in selectedFilters) {
+      const value = selectedFilters[key];
+
+      if (value.includes(",")) {
+        const options = value.split(",").map((item) => item.trim());
+        totalCount += options.length;
+      } else {
+        totalCount += 1;
+      }
+    }
+
+    if (isDia) totalCount += 1;
+    if (isNet) totalCount += 1;
+    if (isGross) totalCount += 1;
+
+    return totalCount;
+  };
+
+  useEffect(() => {
+    if (isFirstLoad) {
+      const timeoutId = setTimeout(() => {
+        setIsFirstLoad(false); 
+      }, 1000); 
+
+      return () => clearTimeout(timeoutId); 
+    }
+  }, [isFirstLoad]);
+
+  useEffect(() => {
+    if (!isFirstLoad && filterData) {
+      const values = FilterValueWithCheckedOnly();
+      const total = calculateTotalFilters(values);
+      setTotalSelected(total); 
+    }
+  }, [isFirstLoad, filterData, sliderValue, sliderValue1, sliderValue2, FilterValueWithCheckedOnly]);
+
+  return (
+    <>
+      <div className="fb_btn">
+        <Badge
+        sx={{
+          "& .MuiBadge-badge": {
+            bgcolor: "#C20000",
+          },
+        }}
+         badgeContent={totalSelected} color="primary" className="badge_hoq_filter_Count">
+          <Checkbox
+            icon={<MdOutlineFilterList size={32} />}
+            checkedIcon={<MdOutlineFilterListOff size={32} style={{ color: "#666666" }} />}
+            checked={isDrawerOpen}
+            onChange={(e) => setIsDrawerOpen(e.target.value)}
+          />
+        </Badge>
+      </div>
+    </>
+  );
+};
+
 const Banner = () => {
   return (
     <div
@@ -2304,7 +2789,7 @@ const Banner = () => {
     </div>
   );
 };
-  const C_Card = ({
+const C_Card = ({
     img,
     index,
     title,
