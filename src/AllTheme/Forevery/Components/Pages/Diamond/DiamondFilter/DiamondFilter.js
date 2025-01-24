@@ -234,8 +234,11 @@ const DiamondFilter = () => {
           });
 
           const step1 = [{ step1: true, shape: getShape ?? "" }];
-          sessionStorage.setItem("customizeSteps", JSON?.stringify(step1));
+          sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
 
+        } else if (!getShape) {
+          const step1 = [{ step1: true, shape: "All" }];
+          sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
         }
       } else if (
         stepsData != null &&
@@ -244,13 +247,13 @@ const DiamondFilter = () => {
         if (getShape) {
           const updatedStep1 = steps?.map((step) => {
             if (step.step1 !== undefined) {
-              return { step1: true, shape: getShape };
+              return { step1: true, shape: (getShape ?? "All") };
             }
             return step;
           });
 
           if (!updatedStep1?.some((step) => step.step1 !== undefined)) {
-            updatedStep1?.push({ step1: true, shape: getShape });
+            updatedStep1?.push({ step1: true, shape: (getShape ?? "All") });
           }
           sessionStorage.setItem(
             "customizeSteps",
@@ -263,21 +266,20 @@ const DiamondFilter = () => {
 
   useEffect(() => {
     getShapeFromURL();
-  }, [location?.pathname]);
+  }, [location?.pathname, location?.key]);
 
   const updateSteps = (shape) => {
     const updatedStep1 = steps?.map((step) => {
       if (step.step1 !== undefined) {
-        return { step1: true, shape: shape };
+        return { step1: true, shape: (shape ?? "All") };
       }
       return step;
     });
 
     if (!updatedStep1?.some((step) => step.step1 !== undefined)) {
-      updatedStep1?.push({ step1: true, shape: shape });
+      updatedStep1?.push({ step1: true, shape: (shape ?? "All") });
     }
     sessionStorage?.setItem("customizeSteps", JSON?.stringify(updatedStep1));
-    console.log(updatedStep1,"updatedStep1 diamond")
   };
 
   const handleOpen = (title) => {
@@ -287,8 +289,14 @@ const DiamondFilter = () => {
   const handleCheckboxChange = (name) => {
     const shape = location?.pathname?.split("/")[3];
     if (name) {
-      const newPath = location?.pathname.replace(shape, name);
-      Navigate(newPath);
+      let newPath;
+      if (shape !== "") {
+        newPath = location?.pathname.replace(shape, name);
+        Navigate(newPath);
+      } else {
+        newPath = `/certified-loose-lab-grown-diamonds/diamond/${name}`
+        Navigate(newPath);
+      }
     }
 
     setCheckedItem((prevCheckedItem) =>

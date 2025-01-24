@@ -89,7 +89,7 @@ const BreadCrumb = ({ breadCrumb }) => {
   );
 };
 
-const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
+const HandleDrp = forwardRef(({ index, open, handleOpen, data, getImagePath }, ref) => {
   const [storeInit, setStoreInit] = useState({});
   const [loginCurrency, setLoginCurrency] = useState();
   const [metalColor, setMetalColor] = useState([]);
@@ -118,6 +118,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     const metalC = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
     setMetalColor(metalC)
   }, []);
+
 
   const handleRemoveItem = (index) => {
     const storedData = JSON.parse(sessionStorage.getItem('custStepData'));
@@ -148,23 +149,60 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
             delete storedData[1].step2Data;
           }
 
-          // Insert modified storedData[1] at the 0 index of storedData2
-          storedData2.unshift(storedData?.[1]);
-
-          // Update sessionStorage with the modified storedData2
-          sessionStorage.setItem('custStepData2Ring', JSON.stringify(storedData2));
-
-          if (storedData2?.length > 0) {
-            sessionStorage.removeItem("custStepData");
+          if (storedData?.length > 0 && storedSteps?.[2]?.step3 === true) {
+            // Insert modified storedData[1] at the 0 index of storedData2
+            storedData2.unshift(storedData?.[1]);
+            sessionStorage.setItem('custStepData2Ring', JSON.stringify(storedData2));
+            if (storedData2?.length > 0) {
+              sessionStorage.removeItem("custStepData");
+            }
+            Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
           }
-
+          else {
+            sessionStorage.removeItem("custStepData");
+            sessionStorage.removeItem("custStepData2Ring");
+            sessionStorage.removeItem("setImage");
+            Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
+          }
         }
         if (storedSteps?.[1]?.Setting === "Pendant") {
-          // Add your logic for "Pendant" here if needed
+          let storedData3 = JSON.parse(sessionStorage.getItem('custStepData2Pendant'));
+          if (!Array.isArray(storedData3)) {
+            storedData3 = [];
+          }
+
+          if (storedData?.[1]) {
+            storedData[1].id = 2;
+          }
+
+          if (storedData?.[1]?.step2Data) {
+            storedData[1].step1Data = storedData[1].step2Data;
+            delete storedData[1].step2Data;
+          }
+
+          if (storedData?.length > 0 && storedSteps?.[2]?.step3 === true) {
+            // Insert modified storedData[1] at the 0 index of storedData2
+            storedData3.unshift(storedData?.[1]);
+            sessionStorage.setItem('custStepData2Pendant', JSON.stringify(storedData3));
+
+            if (storedData3?.length > 0) {
+              sessionStorage.removeItem("custStepData");
+            }
+            Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+          } else {
+            sessionStorage.removeItem("custStepData");
+            sessionStorage.removeItem("custStepData2Pendant");
+            sessionStorage.removeItem("setImage");
+            Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
+          }
+        }
+
+        if (storedSteps?.[0]?.step1 === true) {
+          sessionStorage.removeItem("custStepData");
+          window.location.href = `/certified-loose-lab-grown-diamonds/diamond/`
         }
         handleOpen(null)
         // sessionStorage.setItem('custStepData', JSON.stringify(storedData));
-        Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
       }
 
       if (Array.isArray(storedData2)) {
@@ -178,16 +216,23 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
           delete storedData2[1].step2Data;
         }
 
-        storedData.unshift(storedData2?.[1]);
-
-        sessionStorage.setItem('custStepData', JSON.stringify(storedData));
-
-        if (storedData?.length > 0) {
+        if (storedData2?.length > 0 && storedSteps2?.[2]?.step3 === true) {
+          storedData.unshift(storedData2?.[1]);
+          sessionStorage.setItem('custStepData', JSON.stringify(storedData));
+          if (storedData?.length > 0) {
+            sessionStorage.removeItem("custStepData2Ring");
+            sessionStorage.removeItem("setImage");
+          }
+          Navigation(`/certified-loose-lab-grown-diamonds/settings/${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, { replace: true });
+        }
+        else {
+          sessionStorage.removeItem("custStepData");
           sessionStorage.removeItem("custStepData2Ring");
+          sessionStorage.removeItem("setImage");
+          Navigation(`/certified-loose-lab-grown-diamonds/settings/${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "Ring" : "Pendant"}/M=${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, { replace: true });
         }
 
         handleOpen(null)
-        Navigation(`/certified-loose-lab-grown-diamonds/settings/${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`);
       }
       if (Array.isArray(storedData3)) {
         let storedData = JSON.parse(sessionStorage.getItem('custStepData'));
@@ -200,26 +245,34 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
           delete storedData3[1].step2Data;
         }
 
-        storedData.unshift(storedData3?.[1]);
-
-        sessionStorage.setItem('custStepData', JSON.stringify(storedData));
-
-        if (storedData?.length > 0) {
+        if (storedData?.length > 0 && storedSteps?.[2]?.step3 === true) {
+          storedData.unshift(storedData3?.[1]);
+          sessionStorage.setItem('custStepData', JSON.stringify(storedData));
+          if (storedData?.length > 0) {
+            sessionStorage.removeItem("custStepData2Pendant");
+            sessionStorage.removeItem("setImage");
+          }
+          Navigation(`/certified-loose-lab-grown-diamonds/settings/${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, { replace: true });
+        }
+        else {
+          sessionStorage.removeItem("custStepData");
           sessionStorage.removeItem("custStepData2Pendant");
+          sessionStorage.removeItem("setImage");
+          Navigation(`/certified-loose-lab-grown-diamonds/settings/${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "Ring" : "Pendant"}/M=${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, { replace: true });
         }
 
         handleOpen(null)
-        Navigation(`/certified-loose-lab-grown-diamonds/settings/${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`);
       }
     }
     else {
       if (Array.isArray(storedData)) {
-
         if (storedData?.[1]?.step2Data?.id > 0) {
           storedData.pop();
           sessionStorage.setItem('custStepData', JSON.stringify(storedData));
 
-          Navigation(`/certified-loose-lab-grown-diamonds/settings/${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`);
+          Navigation(`/certified-loose-lab-grown-diamonds/settings/${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === "Ring" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`, {
+            replace: true
+          });
         } else {
           console.warn("storedData is not a valid array or doesn't meet the condition.");
         }
@@ -266,15 +319,17 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
               step2 = { step2: true, shape: shapename, id: 1 };
             }
 
-            storedSteps2.unshift(step1, step2);
-            // Update sessionStorage with the modified storedSteps2
-            sessionStorage.setItem('customizeSteps2Ring', JSON.stringify(storedSteps2));
-
-            // Optionally remove customizeSteps from sessionStorage
-            if (storedSteps2?.length > 0) {
-              sessionStorage.removeItem("customizeSteps");
+            if (storedSteps?.length > 0 && storedSteps?.[2]?.step3 === true) {
+              storedSteps2.unshift(step1, step2);
+              sessionStorage.setItem('customizeSteps2Ring', JSON.stringify(storedSteps2));
+              if (storedSteps2?.length > 0) {
+                sessionStorage.removeItem("customizeSteps");
+              }
             }
-
+            else {
+              sessionStorage.removeItem("customizeSteps");
+              sessionStorage.removeItem("customizeSteps2Ring");
+            }
           }
 
           if (storedSteps?.[1]?.Setting === "Pendant") {
@@ -290,16 +345,22 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
               step2 = { step2: true, shape: shapename, id: 2 };
             }
 
-            storedSteps2.unshift(step1, step2);
-            // Update sessionStorage with the modified storedSteps2
-            sessionStorage.setItem('customizeSteps2Pendant', JSON.stringify(storedSteps2));
-
-            // Optionally remove customizeSteps from sessionStorage
-            if (storedSteps2?.length > 0) {
+            if (storedSteps?.length > 0 && storedSteps?.[2]?.step3 === true) {
+              storedSteps2.unshift(step1, step2);
+              sessionStorage.setItem('customizeSteps2Pendant', JSON.stringify(storedSteps2));
+              if (storedSteps2?.length > 0) {
+                sessionStorage.removeItem("customizeSteps");
+              }
+            }
+            else {
               sessionStorage.removeItem("customizeSteps");
+              sessionStorage.removeItem("customizeSteps2Pendant");
             }
           }
-          Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+
+          if (storedSteps?.[0]?.step1 === true) {
+            sessionStorage.removeItem("customizeSteps");
+          }
         }
       }
 
@@ -316,12 +377,15 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
           step2 = { step2: true, Setting: "Ring", id: 1 };
         }
 
-        storedSteps.unshift(step1, step2);
-        // Update sessionStorage with the modified storedSteps
-        sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
-
-        // Optionally remove customizeSteps from sessionStorage
-        if (storedSteps?.length > 0) {
+        if (storedData2?.length > 0 && storedSteps2?.[2]?.step3 === true) {
+          storedSteps.unshift(step1, step2);
+          sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
+          if (storedSteps?.length > 0) {
+            sessionStorage.removeItem("customizeSteps2Ring");
+          }
+        }
+        else {
+          sessionStorage.removeItem("customizeSteps");
           sessionStorage.removeItem("customizeSteps2Ring");
         }
 
@@ -339,12 +403,17 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
           step2 = { step2: true, Setting: "Pendant", id: 2 };
         }
 
-        storedSteps.unshift(step1, step2);
-        // Update sessionStorage with the modified storedSteps
-        sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
-
         // Optionally remove customizeSteps from sessionStorage
-        if (storedSteps?.length > 0) {
+
+        if (storedSteps?.length > 0 && storedSteps?.[2]?.step3 === true) {
+          storedSteps.unshift(step1, step2);
+          sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
+          if (storedSteps?.length > 0) {
+            sessionStorage.removeItem("customizeSteps2Pendant");
+          }
+        }
+        else {
+          sessionStorage.removeItem("customizeSteps");
           sessionStorage.removeItem("customizeSteps2Pendant");
         }
       }
@@ -354,7 +423,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         storedSteps.pop();
         sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
 
-        Navigation(`/certified-loose-lab-grown-diamonds/settings/${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`);
+        // Navigation(`/certified-loose-lab-grown-diamonds/settings/${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "Ring" : "Pendant"}/diamond_shape=${(storedSteps?.[0]?.shape ?? storedSteps2?.[1]?.shape ?? storedSteps3?.[1]?.shape)}/M=${(data?.id === 1 || (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting)) ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ=="}`);
 
         handleOpen(null);
       }
@@ -363,13 +432,13 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         storedSteps2.pop();
         handleOpen(null)
         sessionStorage.setItem('customizeSteps2Ring', JSON.stringify(storedSteps2));
-        Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+        // Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
       }
       if (Array.isArray(storedSteps3)) {
         storedSteps3.pop();
         handleOpen(null)
         sessionStorage.setItem('customizeSteps2Pendant', JSON.stringify(storedSteps3));
-        Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+        // Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
       }
     }
   };
@@ -481,6 +550,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     loadImages();
   }, [getAllData]);
 
+  console.log("jiji", data?.stockno ? data?.image_file_url : !imageMap?.colorImage?.includes('/static') ? imageMap?.colorImage : getImagePath?.colorImage)
 
   return (
     <div
@@ -510,7 +580,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         >
           <div className="for_dia_data_image">
             <img
-              src={data?.stockno ? data?.image_file_url : imageMap?.colorImage}
+              src={data?.stockno ? data?.image_file_url : (!imageMap?.colorImage?.includes('/static') ? imageMap?.colorImage : getImagePath?.colorImage)}
               alt=""
               style={{ cursor: 'default' }}
               onError={(e) => e.target.src = noImageFound}
@@ -556,6 +626,8 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
   const getdiaData3 = JSON.parse(sessionStorage.getItem('custStepData2Pendant'));
   const setting = getStepName.includes('Ring') || getStepName.includes('Pendant');
   const [setshape, setSetShape] = useState();
+
+  const getImagePath = JSON.parse(sessionStorage?.getItem("setImage")) ?? "";
 
   useEffect(() => {
     const handleCompset = () => {
@@ -607,10 +679,11 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
         <div className={`step_data ${setting === true ? 'active' : ''} d-2`}>
           <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition}
             onClick={() => {
-              if (getCompleteStep2?.[0]?.step1 ?? getCompleteStep3?.[0]?.step1) {
-                Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
-              } else {
+              if (getCompleteStep2?.[2]?.step3 ?? getCompleteStep3?.[2]?.step3) {
                 Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
+
+              } else if (getCompleteStep2?.[0]?.step1 ?? getCompleteStep3?.[0]?.step1) {
+                Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
               }
               setswap("settings");
             }}
@@ -627,6 +700,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
               handleOpen={() => handleOpen('setting')}
               data={(getdiaData2?.[0] ?? getdiaData3?.[0])}
               ref={(el) => { dropdownRefs.current[0] = el; }}
+              getImagePath={getImagePath}
             />
           )}
           {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
@@ -636,19 +710,20 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
               handleOpen={() => handleOpen('setting')}
               data={getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data}
               ref={(el) => { dropdownRefs.current[0] = el; }}
+              getImagePath={getImagePath}
             />
           )}
         </div>
 
         <div className={`step_data ${getStepName.includes('diamond') ? 'active' : ''} d-1`}>
           <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition} onClick={() => {
-            if ((getCompleteStep2?.[1]?.step2 === true ?? getCompleteStep3?.[1]?.step2 === true) ?? getCompleteStep3?.[1]?.step2 === true) {
-              Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+            if (getCompleteStep2?.[2]?.step3 === true ?? getCompleteStep3?.[2]?.step3 === true) {
+              Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
             } else {
               if ((getCompleteStep2?.[0]?.step1 === true ?? getCompleteStep3?.[0]?.step1 === true) && ((getdiaData2 === null || getdiaData2 === undefined) ?? (getdiaData3 === null || getdiaData3 === undefined))) {
                 sessionStorage.removeItem('customizeSteps2Ring');
                 sessionStorage.removeItem('customizeSteps2Pendant');
-                Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+                Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
               } else {
                 Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
                 setswap("diamond");
@@ -662,7 +737,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
               index={1}
               open={open === 'diamond'}
               handleOpen={() => handleOpen('diamond')}
-              data={(getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data) ?? (getdiaData3?.[1]?.step2Data ?? getdiaData3?.[0]?.step2Data)}
+              data={(getdiaData2?.[1]?.step2Data?.[0] ?? getdiaData2?.[0]?.step2Data?.[0]) ?? (getdiaData3?.[1]?.step2Data?.[0] ?? getdiaData3?.[0]?.step2Data?.[0])}
               ref={(el) => { dropdownRefs.current[1] = el; }}
             />
           )}
@@ -717,7 +792,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
                 index={0}
                 open={open === 'diamond'}
                 handleOpen={() => handleOpen('diamond')}
-                data={(getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data) ?? (getdiaData3?.[1]?.step2Data ?? getdiaData3?.[0]?.step2Data)}
+                data={(getdiaData2?.[1]?.step2Data?.[0] ?? getdiaData2?.[0]?.step2Data?.[0]) ?? (getdiaData3?.[1]?.step2Data?.[0] ?? getdiaData3?.[0]?.step2Data?.[0])}
                 ref={(el) => { dropdownRefs.current[0] = el; }}
               />
             )}
@@ -732,7 +807,8 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
                 } else {
                   if (getCompleteStep1?.[0]?.step1 === true && (getdiaData === null || getdiaData === undefined)) {
                     sessionStorage.removeItem('customizeSteps');
-                    Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
+                    // Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
+                    Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
                   } else {
                     Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
                   }
@@ -749,6 +825,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
                 handleOpen={() => handleOpen('setting')}
                 data={getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data}
                 ref={(el) => { dropdownRefs.current[1] = el; }}
+                getImagePath={getImagePath}
               />
             )}
             {(getdiaData2?.[0]?.step1Data ?? getdiaData3?.[0]?.step1Data) && (
@@ -758,6 +835,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
                 handleOpen={() => handleOpen('setting')}
                 data={(getdiaData2?.[0] ?? getdiaData3?.[0])}
                 ref={(el) => { dropdownRefs.current[1] = el; }}
+                getImagePath={getImagePath}
               />
             )}
           </div>
@@ -785,7 +863,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
                   <div
                     className="step d-1"
                     onClick={() => {
-                      Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+                      Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
                       setswap("diamond");
                     }}
                   >
@@ -810,7 +888,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
                   <div
                     className="step d-1"
                     onClick={() => {
-                      Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+                      Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
                       setswap("diamond");
                     }}
                   >

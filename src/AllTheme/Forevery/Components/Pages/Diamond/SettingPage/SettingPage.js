@@ -27,6 +27,8 @@ import { useRecoilState } from 'recoil';
 import MakeRingProcessModal from '../../ReusableComponent/DiamondStepModal/MakeRingProcessModal';
 import { IoClose } from 'react-icons/io5';
 import ScrollTop from '../../ReusableComponent/ScrollTop/ScrollTop';
+import { SignalCellularNullTwoTone } from '@mui/icons-material';
+import { FaSlideshare } from 'react-icons/fa';
 
 const SettingPage = () => {
 
@@ -71,46 +73,26 @@ const SettingPage = () => {
     Designer: "Designer/style",
   };
 
-  const categoryArr = [
-    {
-      id: 1,
-      image: `${storImagePath()}/images/ProductListing/SettingBanner/Ringsvg/solitaire.svg`,
-      title: 'solitaire',
-      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Solitaire/M=${encodeLink(styleLinks?.Solitaire)}`
-    },
-    {
-      id: 2,
-      image: `${storImagePath()}/images/ProductListing/SettingBanner/Ringsvg/halo.svg`,
-      title: 'halo',
-      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Halo/M=${encodeLink(styleLinks?.Halo)}`
-    },
-    {
-      id: 3,
-      image: `${storImagePath()}/images/ProductListing/SettingBanner/Ringsvg/vintage.svg`,
-      title: 'vintage',
-      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Vintage/M=${encodeLink(styleLinks?.Vintage)}`
-    },
-    {
-      id: 4,
-      image: `${storImagePath()}/images/ProductListing/SettingBanner/Ringsvg/side-stone.svg`,
-      title: 'Side_stone',
-      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Side_Stone/M=${encodeLink(styleLinks?.Side_Stone)}`
-    },
-    {
-      id: 5,
-      image: `${storImagePath()}/images/ProductListing/SettingBanner/Ringsvg/designer.svg`,
-      title: 'designer',
-      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Designer/M=${encodeLink(styleLinks?.Designer)}`
-    },
-  ]
-
-  const handleClick = (id, link) => {
-    handleCategory(id);
-    navigate(link);
+  const handleClick = (id, link, isSelected) => {
+    console.log('isSelected: ', isSelected);
+    if (isSelected === false) {
+      handleCategory(id);
+      navigate(link);
+    } else if (isSelected === true) {
+      if (shapeParam?.[0] === 'diamond_shape') {
+        navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${Shape}/M=UmluZy9jYXRlZ29yeQ==`);
+        handleCategory(id);
+      } else {
+        navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
+        handleCategory(id);
+      }
+    }
   };
+
 
   const [isRing, setIsRing] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null)
+  console.log('selectedCategory: ', selectedCategory);
   const [trend, setTrend] = useState('Recommended');
   const [selectShape, setSelectShape] = useState();
   const [shippingDrp, setShippingDrp] = useState('ANY DATE');
@@ -150,6 +132,46 @@ const SettingPage = () => {
 
   // Use shallow copy to track changes
   const [previousSelections, setPreviousSelections] = useState(initialSelections);
+
+  const categoryArr = [
+    {
+      id: 1,
+      image: `${storImagePath()}/images/ProductListing/SettingBanner/Ringsvg/solitaire.svg`,
+      title: 'solitaire',
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Solitaire/M=${encodeLink(styleLinks?.Solitaire)}`,
+      link1: `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${Shape}/Solitaire/M=${encodeLink(styleLinks?.Solitaire)}`
+    },
+    {
+      id: 2,
+      image: `${storImagePath()}/images/ProductListing/SettingBanner/Ringsvg/halo.svg`,
+      title: 'halo',
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Halo/M=${encodeLink(styleLinks?.Halo)}`,
+      link1: `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${Shape}/Halo/M=${encodeLink(styleLinks?.Halo)}`,
+    },
+    {
+      id: 3,
+      image: `${storImagePath()}/images/ProductListing/SettingBanner/Ringsvg/vintage.svg`,
+      title: 'vintage',
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Vintage/M=${encodeLink(styleLinks?.Vintage)}`,
+      link1: `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${Shape}/Vintage/M=${encodeLink(styleLinks?.Vintage)}`
+    },
+    {
+      id: 4,
+      image: `${storImagePath()}/images/ProductListing/SettingBanner/Ringsvg/side-stone.svg`,
+      title: 'Side_stone',
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Side_Stone/M=${encodeLink(styleLinks?.Side_Stone)}`,
+      link1: `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${Shape}/Side_Stone/M=${encodeLink(styleLinks?.Side_Stone)}`
+    },
+    {
+      id: 5,
+      image: `${storImagePath()}/images/ProductListing/SettingBanner/Ringsvg/designer.svg`,
+      title: 'designer',
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Designer/M=${encodeLink(styleLinks?.Designer)}`,
+      link1: `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${Shape}/Designer/M=${encodeLink(styleLinks?.Designer)}`,
+    },
+  ]
+
+  const catgeoryName = [{ type: "Solitaire", id: 1 }, { type: "Halo", id: 2 }, { type: "Vintage", id: 3 }, { type: "Side_Stone", id: 4 }, { type: "Designer", id: 5 }]
 
   useEffect(() => {
     setIsRing(location?.pathname.split('/')[3])
@@ -331,6 +353,9 @@ const SettingPage = () => {
     }
   }, [productListData]);
 
+  const urlPath = location?.pathname?.slice(1).split("/");
+  const shapeParam = urlPath?.[3]?.split('=');
+
   useEffect(() => {
     const urlPath = location?.pathname?.slice(1).split("/");
     const shapeParam = urlPath?.[3]?.split('=');
@@ -355,9 +380,11 @@ const SettingPage = () => {
   const fetchData = async (Shape) => {
     try {
       // if(!Shape) return;
+      setIsOnlySettLoading(true);
 
       const obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
       const urlPath = location?.pathname?.slice(1).split("/");
+      console.log('urlPath: ', urlPath);
       let menuVal = "";
       let productlisttype;
 
@@ -396,7 +423,6 @@ const SettingPage = () => {
     if (mergePath == 'certified-loose-lab-grown-diamonds/settings') {
       if (stepsData === null && stepsData2 === null && stepsData3 === null && (steps1?.[0]?.step1 !== true ?? steps2?.[0]?.step1 !== true)) {
         const step1 = [{ "step1": true, "Setting": getSetting, 'id': getSetting === "Ring" ? 1 : 2 }];
-        console.log('step1: ', step1);
         if (getSetting === "Ring") {
           sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
         } else {
@@ -505,11 +531,18 @@ const SettingPage = () => {
   }
 
   useEffect(() => {
-    const path = location?.pathname.split('/')?.[4]
-    if (!path.includes('M=')) {
-      setSelectedCategory(path?.toLocaleLowerCase())
+    const categoryFromUrl = location?.pathname.split('/')?.[4];
+    const categoryMatch = catgeoryName.find(category => 
+      category.type === categoryFromUrl
+    );
+  
+    if (categoryMatch && selectedCategory === null) {
+      setSelectedCategory(categoryMatch.id);
+    } else if(categoryMatch === undefined){
+      setSelectedCategory(null)
     }
-  }, [location?.pathname])
+  
+  }, [location?.key, selectedCategory]);
 
   const handleCategory = (id) => {
     setSelectedCategory(selectedCategory === id ? null : id);
@@ -756,12 +789,20 @@ const SettingPage = () => {
             <p className='for_settingList_desc_para'>{isRing === 'Ring' ? 'Find the perfect Engagement Rings for women and men at Forevery. Choose from classic to modern styles or design your own for a ring that is sure to shine.' : 'Find the perfect Diamond Pendants for women and men at Forevery. Choose from classic to modern styles or design your own for a ring that is sure to shine.'}</p>
           </div>
           <div className="for_settingLists_category_lists_div" style={{ display: isRing === 'Ring' ? '' : 'none' }}>
-            {categoryArr?.map((item, index) => (
-              <div className={`for_settingLists_category_lists ${selectedCategory == item?.title?.toLocaleLowerCase() ? 'selected' : ''}`} key={index} onClick={() => handleClick(item?.id, item?.link)}>
-                <img className='for_settingLists_categ_img' src={item?.image} alt={item?.title} />
-                <span className='for_settingList_categ_title'>{item?.title}</span>
-              </div>
-            ))}
+            {categoryArr?.map((item, index) => {
+              const checkLink = shapeParam?.[0] === 'diamond_shape' ? item?.link1 : item?.link;
+              const isSelected = selectedCategory === item?.id; // Check selection based on ID
+              return (
+                <div
+                  className={`for_settingLists_category_lists ${isSelected ? 'selected' : ''}`}
+                  key={index}
+                  onClick={() => handleClick(item?.id, checkLink, isSelected)}
+                >
+                  <img className='for_settingLists_categ_img' src={item?.image} alt={item?.title} />
+                  <span className='for_settingList_categ_title'>{item?.title}</span>
+                </div>
+              );
+            })}
           </div>
           <div className="for_settingList_filter_div">
             <div className="for_productList_setting_filter_mainDiv">
