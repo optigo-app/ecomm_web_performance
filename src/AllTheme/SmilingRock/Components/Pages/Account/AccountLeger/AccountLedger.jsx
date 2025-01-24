@@ -49,17 +49,39 @@ const AccountLedger = () => {
     const fromDateRef = useRef(null);
     const toDateRef = useRef(null);
 
+    const [homeCurrency, setHomeCurrency] = useState({
+        currencyCode:'',
+        currencyRate:1,
+        currencySymbol:'',
+        Currencyname:''
+    });
+
 
     useEffect(() => {
 
 
         const userName = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         setUserName(userName?.customercode)
-
+        
         getLedgerData();
+        
+        const currencyComboList = JSON.parse(sessionStorage.getItem('CurrencyCombo'));
+
+        const obj = currencyComboList?.find((e) => e?.IsDefault === 1);
+
+        let currencyObj = {
+        currencyCode:obj?.Currencycode,
+        currencyRate:obj?.CurrencyRate,
+        currencySymbol:obj?.Currencysymbol,
+        Currencyname:obj?.Currencyname
+        }
+
+        setHomeCurrency(currencyObj);
         
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    
 
     const getLedgerData = async() => {
         setLoaderAC(true)
@@ -85,24 +107,43 @@ const AccountLedger = () => {
 
                     const mainData = response?.response2?.Data?.rd;
                     const mainData2 = [];
+                    const mainData3 = [];
+
                     mainData?.forEach((e) => {
                         let obj = { ...e };
-                        
-                        if (obj?.CurrRate !== loginInfo?.CurrencyRate) {
-                            // Validate that both obj.Currency and loginInfo.CurrRate are valid numbers
-                            if (typeof obj?.Currency === 'number' && typeof loginInfo?.CurrencyRate === 'number' && loginInfo?.CurrencyRate !== 0) {
-                                obj.Currency = obj?.Currency / loginInfo?.CurrencyRate;
-                            }
+
+                        if(obj?.CurrRate !== homeCurrency?.currencyRate){
+                            obj.Currency = obj?.Currency * obj?.CurrRate;
                         }
+                        
+                        // if (obj?.CurrRate !== loginInfo?.CurrencyRate) {
+                        //     // Validate that both obj.Currency and loginInfo.CurrRate are valid numbers
+                        //     if (typeof obj?.Currency === 'number' && typeof loginInfo?.CurrencyRate === 'number' && loginInfo?.CurrencyRate !== 0) {
+                        //         obj.Currency = obj?.Currency / loginInfo?.CurrencyRate;
+                        //     }
+                        // }
                         mainData2.push(obj);
                     });
+
+                    mainData2?.forEach((e) => {
+                        let obj = {...e};
+
+                                if (typeof obj?.Currency === 'number' && typeof loginInfo?.CurrencyRate === 'number' && loginInfo?.CurrencyRate !== 0) {
+                                    obj.Currency = obj?.Currency / loginInfo?.CurrencyRate;
+                                }
+                        mainData3.push(obj);
+                    })
+
+                    
+                    
+                    
                     
                     // mainData?.sort((a, b) => {
                     //     const dateA = new Date(a?.EntryDate);
                     //     const dateB = new Date(b?.EntryDate);
                     //     return dateA - dateB;
                     // })
-                    const sortedRows = sortByDate(mainData2, 'EntryDate');
+                    const sortedRows = sortByDate(mainData3, 'EntryDate');
                     // console.log(sortedRows);
                     
                     const arrayReverse = sortedRows?.reverse();
@@ -901,7 +942,7 @@ const AccountLedger = () => {
                                             <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{ (Math.abs(debit_mg_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(debit_mg_diff))?.toFixed(3)}</td>
                                             <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(debit_dia_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(debit_dia_diff))?.toFixed(3)}</td>
 
-                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}>{Math.abs(debit_curr_diff) === 0.00 ? '' : formatAmount(Math.abs(debit_curr_diff))}</td>
+                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}>{Math.abs(debit_curr_diff) === 0.00 ? '' : <><span dangerouslySetInnerHTML={{__html:currencyCode}}></span>&nbsp;{formatAmount(Math.abs(debit_curr_diff))}</>}</td>
                                             <td className='border_end_acc p_1_acc text_center_acc'></td>
                                             <td className='border_end_acc p_1_acc text_center_acc'></td>
                                             <td className='border_end_acc p_1_acc text_start_acc ps_1_acc' align='center'>Opening</td>
@@ -909,7 +950,7 @@ const AccountLedger = () => {
                                             <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(credit_mg_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(credit_mg_diff))?.toFixed(3)}</td>
                                             <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(credit_dia_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(credit_dia_diff))?.toFixed(3)}</td>
                   
-                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}>{Math.abs(credit_curr_diff) === 0.00 ? '' : formatAmount(Math.abs(credit_curr_diff))}</td>
+                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}>{Math.abs(credit_curr_diff) === 0.00 ? '' : <><span dangerouslySetInnerHTML={{__html:currencyCode}}></span>&nbsp;{formatAmount(Math.abs(credit_curr_diff))}</>}</td>
                                             <td className=' p_1_acc text_center_acc'></td>
                                         </tr> 
                                         }
