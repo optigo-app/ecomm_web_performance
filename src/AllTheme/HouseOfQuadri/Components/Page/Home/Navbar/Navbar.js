@@ -103,8 +103,6 @@ const Navbar = () => {
           setCompanyMobileLogo(parsedData?.companyMlogo);
           window.scroll({ behavior: "smooth", top: 0 });
           setLoading(false);
-          console.log(parsedData, "avaiable");
-
           if (interval) {
             clearInterval(interval);
           }
@@ -214,7 +212,6 @@ const Navbar = () => {
     setCartOpenState((prevState) => !prevState);
   };
 
-  console.log(IsCartNo, "no")
 
   useEffect(() => {
     const uniqueMenuIds = [...new Set(menuData?.map((item) => item?.menuid))];
@@ -579,11 +576,13 @@ const Navbar = () => {
               </div>
               <div className="hamburger_hoq_m">
                 <Tooltip title="Search">
+                  <div>
                   <HiMenuAlt1
                     className="search_icon_hoq"
                     onClick={() => setisMobileMenu(!isMobileMenu)}
                     color="#9c9c9cea"
-                  />
+                    />
+                    </div>
                 </Tooltip>
               </div>
             </div>

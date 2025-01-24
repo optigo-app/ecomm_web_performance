@@ -10,7 +10,6 @@ const Footer = ({ StoreData }) => {
   const [socialMediaData, setSocialMediaData] = useState([]);
   const [selectedFooteVal, setSelectedVal] = useState(0);
   const [loading1, setLoading1] = useState(false);
-  console.log('loading1: ', loading1);
   const [result, setResult] = useState();
   const navigation = useNavigate();
   const [loading, setLoading] = useState(true);

@@ -122,8 +122,6 @@ const HouseOfQuadri_App = () => {
           const parsedData = JSON.parse(storeInit);
           setStoreData(parsedData);
           setLoading(false);
-          console.log(parsedData, "avaiable");
-
           if (interval) {
             clearInterval(interval);
           }

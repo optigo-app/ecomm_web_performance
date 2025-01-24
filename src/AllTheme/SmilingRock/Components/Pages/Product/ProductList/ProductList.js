@@ -1556,9 +1556,6 @@ const ProductList = () => {
     let diafilter1 = JSON.parse(filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0];
     let diafilter2 = JSON.parse(filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0];
 
-    console.log("net", sliderValue1, "gross", sliderValue2, "Dia", Rangeval, "range 1")
-    let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] };
-
     // let netRange = { 
     //   netMin: (diafilter1?.Min === sliderValue1[0] || diafilter1?.Max === sliderValue1[1]) ? "" : sliderValue1[0],
     //   netMax: (diafilter1?.Min === sliderValue1[0] || diafilter1?.Max === sliderValue1[1]) ? "" : sliderValue1[1]
@@ -1567,6 +1564,9 @@ const ProductList = () => {
     //   grossMin: (diafilter2?.Min === sliderValue2[0] || diafilter2?.Max === sliderValue2[1]) ? "" : sliderValue2[0],
     //   grossMax: (diafilter2?.Min === sliderValue2[0] || diafilter2?.Max === sliderValue2[1]) ? "" : sliderValue2[1]
     // };
+
+    console.log("net", sliderValue1, "gross", sliderValue2, "Dia", Rangeval, "range 1")
+    let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] };
 
     let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
     let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
@@ -1729,8 +1729,8 @@ const ProductList = () => {
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
             <Input
-              value={sliderValue[0]}
-              margin="none"
+              value={sliderValue[0]?.toFixed(3)}
+              margin="dense"
               onChange={handleInputChange(0)}
               inputProps={{
                 step: 0.001,
@@ -1744,8 +1744,8 @@ const ProductList = () => {
               sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
             />
             <Input
-              value={sliderValue[1]}
-              margin="none"
+              value={sliderValue[1]?.toFixed(3)}
+              margin="dense"
               onChange={handleInputChange(1)}
               inputProps={{
                 step: 0.001,
