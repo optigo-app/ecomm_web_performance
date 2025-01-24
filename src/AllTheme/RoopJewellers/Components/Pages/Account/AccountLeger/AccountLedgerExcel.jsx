@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import  ReactHTMLTableToExcel  from 'react-html-table-to-excel';
 import { formatAmount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import DoneIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
 const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, credit_mg_diff, credit_dia_diff, debit_curr_diff, debit_amt_diff, debit_mg_diff, debit_dia_diff, resultTotal, currencySymbol, currencyRate}) => {
 
   const [summaryObj, setSummaryObj ] = useState({
@@ -162,6 +164,27 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                                         }
       {
         filterArray?.map((e, i) => {
+          let icon = null;
+
+          
+          if (e?.IsDebit === 1 && e.IsDVerified === 0) {
+              icon = '';
+          } else if (e?.IsDebit === 1 && e.IsDVerified === 1) {
+              // icon = <DoneIcon sx={{ color: 'green' }} />;
+              icon = 'VERIFIED';
+          } else if ( e?.IsDebit === 1 && e.IsDVerified === 2) {
+              // icon = <CloseIcon sx={{ color: 'red' }} />;
+              icon = 'REJECTED';
+          } 
+          if (e?.IsDebit === 0 && e.IsDVerified === 0) {
+              icon = '';
+          } else if (e?.IsDebit === 0 && e.IsDVerified === 1) {
+              // icon = <DoneIcon sx={{ color: 'green' }} />;
+              icon = 'VERIFIED';
+          } else if (e?.IsDebit === 0 && e.IsDVerified === 2) {
+              // icon = <CloseIcon sx={{ color: 'red' }} />;
+              icon = 'REJECTED';
+          }
             return <React.Fragment key={i}>
                 <tr>
                     <td  align='center'>{e?.IsDebit === 0 ? '' : e?.EntryDate}</td>
@@ -173,7 +196,7 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                     <td  align='center'>{ e?.IsDebit !== 0 && <span dangerouslySetInnerHTML={{__html: e?.CurrencyCode}}></span>}</td>
                     <td  align='center'>{ e?.IsDebit === 0 ? '' : e?.CurrRate }</td>
                     <td  align='center'>{e?.IsDebit === 0 ? '' : ` ${(e?.Currency / e?.CurrRate) === 'NaN' ? '' : ((e?.Currency / e?.CurrRate))} `}</td>
-                    <td  align='center'>{e?.IsDVerified === 0 &&  ''}{e?.IsDVerified === 1 &&  'VERIFIED'}{e?.IsDVerified === 2 &&  'REJECTED'}</td>
+                    <td  align='center'>{e?.IsDebit === 1  && icon}</td>
                     <td  align='center'>{e?.IsDebit === 0 ? e?.EntryDate : ''}</td>
                     <td  align='center' colSpan={2}>{e?.IsDebit === 0 ? e?.particular : ''}</td>
                     <td  align='center'>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td>
@@ -183,7 +206,7 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                     <td  align='center'>{ e?.IsDebit === 0 && <span dangerouslySetInnerHTML={{__html: e?.CurrencyCode}}></span>}</td>
                     <td  align='center'>{ e?.IsDebit === 0 ? e?.CurrRate : ''}</td>
                     <td  align='center'>{e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? '' : ((e?.Currency / e?.CurrRate))}`  : ''}</td>
-                    <td  align='center'>{e?.IsVerified === 0 &&  ''}{e?.IsVerified === 1 &&  'VERIFIED'}{e?.IsVerified === 2 &&  'REJECTED'}</td>
+                    <td  align='center'>{e?.IsDebit === 0  && icon}</td>
                 </tr>
 
             </React.Fragment>
