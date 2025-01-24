@@ -200,7 +200,10 @@ export default function LoginWithEmail() {
                 if (redirectEmailUrl) {
                     navigation(redirectEmailUrl);
                 } else {
-                    navigation('/')
+                window.location.reload();
+                    setTimeout(() => {
+                        navigation('/')                        
+                    }, 300);
                 }
 
                 // pdDataCalling()
@@ -210,7 +213,6 @@ export default function LoginWithEmail() {
 
                 // handelCurrencyData()
                 // getAllProdData()
-                window.location.reload();
             } else {
                 errors.confirmPassword = 'Password is Invalid'
             }

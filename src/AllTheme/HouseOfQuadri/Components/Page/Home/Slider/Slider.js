@@ -34,8 +34,6 @@ const TopSlider = ({data}) => {
     };
   }, []);
 
-  console.log(data)
-
   return (
     <div className="hoq_main_slider">
       {/* <div className="controller_btn">

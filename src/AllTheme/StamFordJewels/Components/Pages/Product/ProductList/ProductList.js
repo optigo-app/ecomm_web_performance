@@ -1885,6 +1885,9 @@ const ProductList = () => {
                       }
                     </span>
                     <span
+                    style={showClearAllButton() ? {
+                      cursor:"pointer"
+                    }:{}}
                       onClick={() => handelFilterClearAll()}
                     >
                       {
