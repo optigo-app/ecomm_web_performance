@@ -57,6 +57,7 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
     />
     <div className='d-none'>
     <table id='table-to-xls'>
+    <tr></tr>
       <tr>
             
                 <td align='center' ><h3>Balance Metal</h3></td>
@@ -104,9 +105,11 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                     </h3>
                 </td>
       </tr>
+      <tr></tr>
+      <tr></tr>
       <tr>
-        <th colSpan={7} align='center'>DEBIT</th>
-        <th  colSpan={7} align='center'>CREDIT</th>
+        <th colSpan={8} align='center'>DEBIT</th>
+        <th  colSpan={8} align='center'>CREDIT</th>
       </tr>
       <tr>
         <th  align='center'>DATE</th>
