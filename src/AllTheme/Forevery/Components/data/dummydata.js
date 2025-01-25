@@ -131,40 +131,40 @@ export const AdvancesfiltersOption = {
 };
 
 export const sortingOptions = [
-  { category: "Best Match", value: "default-asc" },
+  { category: "Best Match", value: "" },
   {
     category: "Carat",
     options: [
-      { label: "Low to High", value: "Carat-asc" },
-      { label: "High to Low", value: "Carat-desc" },
+      { label: "Low to High", value: "carat asc" },
+      { label: "High to Low", value: "carat desc" },
     ],
   },
   {
     category: "Color",
     options: [
-      { label: "Low to High", value: "Color-asc" },
-      { label: "High to Low", value: "Color-desc" },
+      { label: "Low to High", value: "color asc" },
+      { label: "High to Low", value: "color desc" },
     ],
   },
   {
     category: "Clarity",
     options: [
-      { label: "Low to High", value: "Clarity-asc" },
-      { label: "High to Low", value: "Clarity-desc" },
+      { label: "Low to High", value: "clarity asc" },
+      { label: "High to Low", value: "clarity desc" },
     ],
   },
   {
     category: "Cut",
     options: [
-      { label: "Low to High", value: "Cut-asc" },
-      { label: "High to Low", value: "Cut-desc" },
+      { label: "Low to High", value: "cut asc" },
+      { label: "High to Low", value: "cut desc" },
     ],
   },
   {
     category: "Price",
     options: [
-      { label: "Low to High", value: "Price-asc" },
-      { label: "High to Low", value: "Price-desc" },
+      { label: "Low to High", value: "price asc" },
+      { label: "High to Low", value: "price desc" },
     ],
   },
 ];
