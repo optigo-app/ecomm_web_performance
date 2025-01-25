@@ -282,8 +282,9 @@ export default function ThemeRoutes() {
 
   return (
     <>
-      {storeInitData?.DomainForNo == 2 ? <MetaData1 storeInitData={storeInitData} title={title} /> : <MetaData2 title={title} />}
-
+      {storeInitData?.DomainForNo == 2 ? 
+      <MetaData1 storeInitData={storeInitData} title={title} /> : 
+      <MetaData2 title={title} />}
       {htmlContent?.rd && htmlContent?.rd.length > 0 && <Themes htmlContent={htmlContent} />}
     </>
   );
@@ -331,8 +332,8 @@ const Themes = ({ htmlContent }) => {
     <>
       <Suspense fallback={<></>}>
         {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
-
-        {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
+        {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
+ {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
         {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
         
         {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
@@ -340,7 +341,6 @@ const Themes = ({ htmlContent }) => {
         
         {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
         
-        {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
         
         {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
         {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
@@ -352,7 +352,7 @@ const Themes = ({ htmlContent }) => {
         
         {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
         
-        {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />} 
+        {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}  
         
       </Suspense>
     </>
