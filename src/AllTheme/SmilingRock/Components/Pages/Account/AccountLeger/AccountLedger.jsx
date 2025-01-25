@@ -108,35 +108,35 @@ const AccountLedger = () => {
 
                     const mainData = response?.response2?.Data?.rd;
 
-                    const formatLedgerData = loginUserDetailWiseAccountLedgerData(response?.response2?.Data?.rd, homeCurrency, loginInfo);
+                    const formatLedgerData = loginUserDetailWiseAccountLedgerData(mainData, homeCurrency, loginInfo);
 
-                    const mainData2 = [];
-                    const mainData3 = [];
+                    // const mainData2 = [];
+                    // const mainData3 = [];
 
-                    mainData?.forEach((e) => {
-                        let obj = { ...e };
+                    // mainData?.forEach((e) => {
+                    //     let obj = { ...e };
 
-                        if(obj?.CurrRate !== homeCurrency?.currencyRate){
-                            obj.Currency = obj?.Currency * obj?.CurrRate;
-                        }
+                    //     if(obj?.CurrRate !== homeCurrency?.currencyRate){
+                    //         obj.Currency = obj?.Currency * obj?.CurrRate;
+                    //     }
                         
-                        // if (obj?.CurrRate !== loginInfo?.CurrencyRate) {
-                        //     // Validate that both obj.Currency and loginInfo.CurrRate are valid numbers
-                        //     if (typeof obj?.Currency === 'number' && typeof loginInfo?.CurrencyRate === 'number' && loginInfo?.CurrencyRate !== 0) {
-                        //         obj.Currency = obj?.Currency / loginInfo?.CurrencyRate;
-                        //     }
-                        // }
-                        mainData2.push(obj);
-                    });
+                    //     // if (obj?.CurrRate !== loginInfo?.CurrencyRate) {
+                    //     //     // Validate that both obj.Currency and loginInfo.CurrRate are valid numbers
+                    //     //     if (typeof obj?.Currency === 'number' && typeof loginInfo?.CurrencyRate === 'number' && loginInfo?.CurrencyRate !== 0) {
+                    //     //         obj.Currency = obj?.Currency / loginInfo?.CurrencyRate;
+                    //     //     }
+                    //     // }
+                    //     mainData2.push(obj);
+                    // });
 
-                    mainData2?.forEach((e) => {
-                        let obj = {...e};
+                    // mainData2?.forEach((e) => {
+                    //     let obj = {...e};
 
-                                if (typeof obj?.Currency === 'number' && typeof loginInfo?.CurrencyRate === 'number' && loginInfo?.CurrencyRate !== 0) {
-                                    obj.Currency = obj?.Currency / loginInfo?.CurrencyRate;
-                                }
-                        mainData3.push(obj);
-                    })
+                    //             if (typeof obj?.Currency === 'number' && typeof loginInfo?.CurrencyRate === 'number' && loginInfo?.CurrencyRate !== 0) {
+                    //                 obj.Currency = obj?.Currency / loginInfo?.CurrencyRate;
+                    //             }
+                    //     mainData3.push(obj);
+                    // })
 
                     
                     
@@ -147,7 +147,7 @@ const AccountLedger = () => {
                     //     const dateB = new Date(b?.EntryDate);
                     //     return dateA - dateB;
                     // })
-                    const sortedRows = sortByDate(mainData3, 'EntryDate');
+                    const sortedRows = sortByDate(formatLedgerData, 'EntryDate');
                     // console.log(sortedRows);
                     
                     const arrayReverse = sortedRows?.reverse();
