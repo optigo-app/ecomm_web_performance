@@ -305,20 +305,6 @@
           box-shadow: 0 6px 12px -2px rgba(50, 50, 93, 0.25), 0 3px 7px -3px rgba(0, 0, 0, 0.3);
           z-index: 999;
 
-          // Dropdown arrow style
-          // &::after {
-          //   content: '';
-          //   position: absolute;
-          //   bottom: 100%;
-          //   left: 50%;
-          //   margin-left: -0.5rem;
-          //   transition: 0.3s ease-in-out;
-          //   border-width: 0.7rem;
-          //   border-style: solid;
-          //   border-color: transparent transparent white transparent;
-          //   border-bottom-color: white;
-          // }
-
           &.open {
             height: 16rem;
             width: 44rem;
@@ -328,6 +314,24 @@
             flex-wrap: wrap;
             gap: 10px;
             padding-inline: 8px;
+
+            // Positioning the arrow
+            // &::after {
+            //   content: '';
+            //   background: red;
+            //   bottom: 100%; // Position above the tooltip
+            //   left: 50%; // Adjust the left position to center the arrow horizontally
+            //   margin-left: -0.5rem; // Half of the width of the arrow to center it properly
+            //   transition: 0.3s ease-in-out;
+
+            //   // Triangle arrow
+            //   border-width: 0.7rem;
+            //   border-style: solid;
+            //   border-color: transparent transparent white transparent; // Arrow pointing upwards
+
+            //   // Adjust the position of the arrow
+            //   border-bottom-color: white; // Color of the tooltip background
+            // }
           }
 
           &.close {
@@ -1131,475 +1135,476 @@
 .for_productList_drawer_div {
   position: relative;
 
-  .css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
-    .for_design_h4 {
-      margin-top: 3rem;
-      max-width: 89%;
-      font-size: 21px;
-      font-weight: 400;
-      margin-bottom: 2rem;
-      text-align: center;
-      margin-inline: auto;
-    }
+  // .css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
+  .for_design_h4 {
+    margin-top: 3rem;
+    max-width: 89%;
+    font-size: 21px;
+    font-weight: 400;
+    margin-bottom: 2rem;
+    text-align: center;
+    margin-inline: auto;
+  }
 
-    .for_settingLisrt_fillter_div_1 {
+  .for_settingLisrt_fillter_div_1 {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    padding-inline: 1.5rem;
+
+    .for_setting_filter_dropdown {
       display: flex;
-      justify-content: center;
+      align-items: left;
       flex-direction: column;
-      gap: 1rem;
-      padding-inline: 1.5rem;
+      position: relative;
+      margin-block: 0.5rem;
 
-      .for_setting_filter_dropdown {
+      .for_setting_filter_label {
+        font-family: $primaryFontFamily;
         display: flex;
-        align-items: left;
-        flex-direction: column;
-        position: relative;
-        margin-block: 0.5rem;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 0.5rem;
+        cursor: pointer;
 
-        .for_setting_filter_label {
-          font-family: $primaryFontFamily;
+        label {
+          text-transform: uppercase;
+          font-size: $fontSize3;
+          color: $primaryfontcolor2;
+          font-weight: 700;
+          cursor: pointer;
+        }
+      }
+
+      .for_setting_filter_option_div {
+        position: relative;
+        top: 0.5rem;
+        background: white;
+        width: 12rem;
+        font-family: $primaryFontFamily;
+        z-index: 1000;
+        transition: 0.3s ease-in-out;
+        height: 0;
+
+        // &::after {
+        //   content: '';
+        //   position: absolute;
+        //   bottom: 100%;
+        //   left: 50%;
+        //   margin-left: -0.5rem;
+        //   transition: 0.3s ease-in-out;
+        //   border-width: 0.7rem;
+        //   border-style: solid;
+        //   border-color: transparent transparent white transparent;
+        //   border-bottom-color: white;
+        // }
+
+        .for_setting_filter_options {
           display: flex;
           align-items: center;
-          gap: 2rem;
-          margin-top: 0.5rem;
           cursor: pointer;
+          padding: 0 1rem;
 
-          label {
-            text-transform: uppercase;
-            font-size: $fontSize3;
-            color: $primaryfontcolor2;
+          input {
+            margin-left: 10px;
+            accent-color: black;
+          }
+
+          span {
+            color: #1b1b1b;
+            font-size: 12px;
             font-weight: 700;
-            cursor: pointer;
+            padding-block: 5px;
+            margin-left: 10px;
+            text-transform: uppercase;
           }
         }
+      }
 
-        .for_setting_filter_option_div {
-          position: relative;
-          top: 0.5rem;
-          background: white;
-          width: 12rem;
-          font-family: $primaryFontFamily;
-          z-index: 1000;
-          transition: 0.3s ease-in-out;
-          height: 0;
+      .for_setting_filter_option_dia_div {
+        position: relative;
+        top: 0.5rem;
+        font-family: $primaryFontFamily; // Ensure you have defined this variable
+        transition: height 0.3s ease-in-out;
+        height: 0;
+        width: 0;
+        background-color: #fff;
+        border-radius: 5px;
+        z-index: 999;
 
-          // &::after {
-          //   content: '';
-          //   position: absolute;
-          //   bottom: 100%;
-          //   left: 50%;
-          //   margin-left: -0.5rem;
-          //   transition: 0.3s ease-in-out;
-          //   border-width: 0.7rem;
-          //   border-style: solid;
-          //   border-color: transparent transparent white transparent;
-          //   border-bottom-color: white;
-          // }
+        // Dropdown arrow style
+        // &::after {
+        //   content: '';
+        //   position: absolute;
+        //   bottom: 100%;
+        //   left: 50%;
+        //   margin-left: -0.5rem;
+        //   transition: 0.3s ease-in-out;
+        //   border-width: 0.7rem;
+        //   border-style: solid;
+        //   border-color: transparent transparent white transparent;
+        //   border-bottom-color: white;
+        // }
 
-          .for_setting_filter_options {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            padding: 0 1rem;
-
-            input {
-              margin-left: 10px;
-              accent-color: black;
-            }
-
-            span {
-              color: #1b1b1b;
-              font-size: 12px;
-              font-weight: 700;
-              padding-block: 5px;
-              margin-left: 10px;
-              text-transform: uppercase;
-            }
-          }
-        }
-
-        .for_setting_filter_option_dia_div {
-          position: relative;
-          top: 0.5rem;
-          font-family: $primaryFontFamily; // Ensure you have defined this variable
-          transition: height 0.3s ease-in-out;
-          height: 0;
-          width: 0;
-          background-color: #fff;
-          border-radius: 5px;
-          z-index: 999;
-
-          // Dropdown arrow style
-          // &::after {
-          //   content: '';
-          //   position: absolute;
-          //   bottom: 100%;
-          //   left: 50%;
-          //   margin-left: -0.5rem;
-          //   transition: 0.3s ease-in-out;
-          //   border-width: 0.7rem;
-          //   border-style: solid;
-          //   border-color: transparent transparent white transparent;
-          //   border-bottom-color: white;
-          // }
-
-          &.open {
-            height: 16rem;
-            width: 23rem;
-            overflow-y: auto;
-            display: flex;
-            justify-content: left;
-            flex-wrap: wrap;
-
-            @media (max-width: 464px) {
-              width: 20rem;
-            }
-
-            @media (max-width: 375px) {
-              width: 15rem;
-            }
-          }
-
-          &.close {
-            height: 0rem;
-            width: 23rem;
-            overflow-y: auto;
-            display: flex;
-            justify-content: left;
-            flex-wrap: wrap;
-          }
-
-          .for_setting_filter_options {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            padding: 0 1rem;
-
-            // Style for input elements if present
-            input {
-              margin-left: 10px;
-              accent-color: black; // Ensure this works in your environment
-            }
-
-            // Style for span elements
-            span {
-              color: #1b1b1b;
-              font-size: 12px;
-              font-weight: 700;
-              padding-block: 5px;
-              margin-left: 10px;
-              text-transform: uppercase;
-            }
-          }
-
-          .for_setting_filter_options_diaShape {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            width: 120px;
-            margin-block: 0.3rem;
-
-            @media (max-width: 464px) {
-              width: 104px;
-            }
-
-            @media (max-width: 375px) {
-              width: 77px;
-            }
-
-            .for_settingLists_category_lists {
-              display: flex;
-              align-items: center;
-              flex-direction: column;
-              justify-content: space-between;
-              cursor: pointer;
-
-              img {
-                height: 50px;
-                width: 50px;
-                object-fit: fill;
-
-                @media (max-width: 464px) {
-                  height: 40px;
-                  width: 40px;
-                }
-
-                @media (max-width: 375px) {
-                  height: 36px;
-                  width: 36px;
-                }
-              }
-
-              .for_settingList_categ_title {
-                font-size: $fontSize2;
-                width: 100%;
-                text-align: center;
-
-                @media (max-width: 464px) {
-                  width: 80%;
-                }
-
-                @media (max-width: 375px) {
-                  width: 60%;
-                }
-              }
-            }
-          }
-
-          .for_setting_filter_options_diaShape_seelcted {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            width: 120px;
-            margin-block: 0.3rem;
-            border: 1px solid #ffdfdf;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
-
-            @media (max-width: 464px) {
-              width: 104px;
-            }
-
-            @media (max-width: 375px) {
-              width: 77px;
-            }
-
-            .for_settingLists_category_lists {
-              display: flex;
-              align-items: center;
-              flex-direction: column;
-              justify-content: space-between;
-              cursor: pointer;
-
-              img {
-                height: 50px;
-                width: 50px;
-                object-fit: fill;
-
-                @media (max-width: 464px) {
-                  height: 40px;
-                  width: 40px;
-                }
-
-                @media (max-width: 375px) {
-                  height: 36px;
-                  width: 36px;
-                }
-              }
-
-              .for_settingList_categ_title {
-                font-size: $fontSize2;
-                width: 100%;
-                text-align: center;
-
-                @media (max-width: 464px) {
-                  width: 80%;
-                }
-
-                @media (max-width: 375px) {
-                  width: 60%;
-                }
-              }
-            }
-          }
-        }
-
-        .for_setting_filter_option_div_slide {
-          position: relative;
-          top: 0.5rem;
-          background: white;
-          width: 22rem;
-          font-family: $primaryFontFamily;
-          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .02), 0 0 0 1px rgba(27, 31, 35, .15);
-          transition: 0.3s ease-in;
-          height: 0;
-          border-radius: 4px;
-
-          z-index: 1000;
+        &.open {
+          height: 16rem;
+          width: 23rem;
+          overflow-y: auto;
+          display: flex;
+          justify-content: left;
+          flex-wrap: wrap;
 
           @media (max-width: 464px) {
-            width: 19rem;
+            width: 20rem;
           }
 
           @media (max-width: 375px) {
             width: 15rem;
           }
+        }
 
-          // Positioning the arrow
-          // &::after {
-          //   content: '';
-          //   position: absolute;
-          //   bottom: 100%; // Position above the tooltip
-          //   left: 50%; // Adjust the left position to center the arrow horizontally
-          //   margin-left: -0.5rem; // Half of the width of the arrow to center it properly
-          //   transition: 0.3s ease-in-out;
+        &.close {
+          height: 0rem;
+          width: 23rem;
+          overflow-y: auto;
+          display: flex;
+          justify-content: left;
+          flex-wrap: wrap;
+        }
 
-          //   // Triangle arrow
-          //   border-width: 0.7rem;
-          //   border-style: solid;
-          //   border-color: transparent transparent white transparent; // Arrow pointing upwards
+        .for_setting_filter_options {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          padding: 0 1rem;
 
-          //   // Adjust the position of the arrow
-          //   border-bottom-color: white; // Color of the tooltip background
-          // }
+          // Style for input elements if present
+          input {
+            margin-left: 10px;
+            accent-color: black; // Ensure this works in your environment
+          }
 
-          .for_setting_filter_options {
+          // Style for span elements
+          span {
+            color: #1b1b1b;
+            font-size: 12px;
+            font-weight: 700;
+            padding-block: 5px;
+            margin-left: 10px;
+            text-transform: uppercase;
+          }
+        }
+
+        .for_setting_filter_options_diaShape {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          width: 120px;
+          margin-block: 0.3rem;
+
+          @media (max-width: 464px) {
+            width: 104px;
+          }
+
+          @media (max-width: 375px) {
+            width: 77px;
+          }
+
+          .for_settingLists_category_lists {
             display: flex;
             align-items: center;
+            flex-direction: column;
+            justify-content: space-between;
             cursor: pointer;
 
-            input {
-              margin-left: 10px;
+            img {
+              height: 50px;
+              width: 50px;
+              object-fit: fill;
 
-              &:checked {
-                background-color: #000;
+              @media (max-width: 464px) {
+                height: 40px;
+                width: 40px;
+              }
+
+              @media (max-width: 375px) {
+                height: 36px;
+                width: 36px;
               }
             }
 
-            span {
-              color: #1b1b1b;
-              font-size: 12px;
-              font-weight: 700;
-              padding-block: 5px;
-              margin-left: 10px;
-              text-transform: uppercase;
-            }
+            .for_settingList_categ_title {
+              font-size: $fontSize2;
+              width: 100%;
+              text-align: center;
 
+              @media (max-width: 464px) {
+                width: 80%;
+              }
+
+              @media (max-width: 375px) {
+                width: 60%;
+              }
+            }
+          }
+        }
+
+        .for_setting_filter_options_diaShape_seelcted {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          width: 120px;
+          margin-block: 0.3rem;
+          border: 1px solid #ffdfdf;
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+
+          @media (max-width: 464px) {
+            width: 104px;
           }
 
-          .for_setting_slider_div {
-            margin-top: 2px;
-            padding: 5px;
-            width: 90%;
-            margin-inline: auto;
+          @media (max-width: 375px) {
+            width: 77px;
+          }
 
-            .for_setting_slider_input {
+          .for_settingLists_category_lists {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+
+            img {
+              height: 50px;
+              width: 50px;
+              object-fit: fill;
+
+              @media (max-width: 464px) {
+                height: 40px;
+                width: 40px;
+              }
+
+              @media (max-width: 375px) {
+                height: 36px;
+                width: 36px;
+              }
+            }
+
+            .for_settingList_categ_title {
+              font-size: $fontSize2;
+              width: 100%;
+              text-align: center;
+
+              @media (max-width: 464px) {
+                width: 80%;
+              }
+
+              @media (max-width: 375px) {
+                width: 60%;
+              }
+            }
+          }
+        }
+      }
+
+      .for_setting_filter_option_div_slide {
+        position: relative;
+        top: 0.5rem;
+        background: white;
+        width: 22rem;
+        font-family: $primaryFontFamily;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .02), 0 0 0 1px rgba(27, 31, 35, .15);
+        transition: 0.3s ease-in;
+        height: 0;
+        border-radius: 4px;
+
+        z-index: 1000;
+
+        @media (max-width: 464px) {
+          width: 19rem;
+        }
+
+        @media (max-width: 375px) {
+          width: 15rem;
+        }
+
+        // Positioning the arrow
+        // &::after {
+        //   content: '';
+        //   position: absolute;
+        //   bottom: 100%; // Position above the tooltip
+        //   left: 50%; // Adjust the left position to center the arrow horizontally
+        //   margin-left: -0.5rem; // Half of the width of the arrow to center it properly
+        //   transition: 0.3s ease-in-out;
+
+        //   // Triangle arrow
+        //   border-width: 0.7rem;
+        //   border-style: solid;
+        //   border-color: transparent transparent white transparent; // Arrow pointing upwards
+
+        //   // Adjust the position of the arrow
+        //   border-bottom-color: white; // Color of the tooltip background
+        // }
+
+        .for_setting_filter_options {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+
+          input {
+            margin-left: 10px;
+
+            &:checked {
+              background-color: #000;
+            }
+          }
+
+          span {
+            color: #1b1b1b;
+            font-size: 12px;
+            font-weight: 700;
+            padding-block: 5px;
+            margin-left: 10px;
+            text-transform: uppercase;
+          }
+
+        }
+
+        .for_setting_slider_div {
+          margin-top: 2px;
+          padding: 5px;
+          width: 90%;
+          margin-inline: auto;
+
+          .for_setting_slider_input {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .for_setting_price {
+              width: 30%;
               display: flex;
-              justify-content: space-between;
               align-items: center;
+              font-size: 13px;
+              height: 24px;
+              padding: 5px 4px 3px;
+              text-align: center;
 
-              .for_setting_price {
-                width: 30%;
-                display: flex;
-                align-items: center;
-                font-size: 13px;
-                height: 24px;
-                padding: 5px 4px 3px;
-                text-align: center;
-
-                @media (max-width: 464px) {
-                  font-size: 11px;
-                }
-
-                @media (max-width: 375px) {
-                  width: 40%;
-                }
+              @media (max-width: 464px) {
+                font-size: 11px;
               }
 
-              .for_setting_weights {
-                width: 20%;
-                display: flex;
-                align-items: center;
-                font-size: 13px;
-                height: 24px;
-                padding: 5px 4px 3px;
-                text-align: center;
+              @media (max-width: 375px) {
+                width: 40%;
               }
+            }
+
+            .for_setting_weights {
+              width: 20%;
+              display: flex;
+              align-items: center;
+              font-size: 13px;
+              height: 24px;
+              padding: 5px 4px 3px;
+              text-align: center;
             }
           }
         }
-
-        .for_setting_filter_option_div_hide {
-          position: absolute;
-          top: 1.7rem;
-          display: none;
-          background: white;
-          width: 100%;
-          box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-          font-family: $primaryFontFamily;
-
-          opacity: 0;
-          transform: translateY(-10px);
-          visibility: hidden;
-          transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
-        }
-
-        .for_setting_filter_option_div_slide_hide {
-          position: absolute;
-          top: 2.6rem;
-          background: white;
-          display: none;
-          width: 25rem;
-          box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-          font-family: $primaryFontFamily;
-
-          z-index: 1000;
-          padding: 1rem;
-        }
-
       }
 
-      .for_setting_filter_dropdown_sort {
+      .for_setting_filter_option_div_hide {
+        position: absolute;
+        top: 1.7rem;
+        display: none;
+        background: white;
+        width: 100%;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        font-family: $primaryFontFamily;
+
+        opacity: 0;
+        transform: translateY(-10px);
+        visibility: hidden;
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
+      }
+
+      .for_setting_filter_option_div_slide_hide {
+        position: absolute;
+        top: 2.6rem;
+        background: white;
+        display: none;
+        width: 25rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        font-family: $primaryFontFamily;
+
+        z-index: 1000;
+        padding: 1rem;
+      }
+
+    }
+
+    .for_setting_filter_dropdown_sort {
+      display: flex;
+      align-items: center;
+      margin-block: 1rem;
+
+      .for_setting_filter_label {
+        font-family: $primaryFontFamily;
         display: flex;
         align-items: center;
-        margin-block: 1rem;
+        gap: 2rem;
+        cursor: pointer;
 
-        .for_setting_filter_label {
-          font-family: $primaryFontFamily;
-          display: flex;
-          align-items: center;
-          gap: 2rem;
+        label {
+          text-transform: uppercase;
+          font-size: $fontSize3;
+          color: $primaryfontcolor2;
+          font-weight: 700;
           cursor: pointer;
-
-          label {
-            text-transform: uppercase;
-            font-size: $fontSize3;
-            color: $primaryfontcolor2;
-            font-weight: 700;
-            cursor: pointer;
-          }
-        }
-
-        .for_setting_filter_sort_select {
-          margin-left: 5px;
-          background: transparent;
-          border: none;
-          font-size: 15px;
-          font-family: $primaryFontFamily;
-          color: #656565;
-          outline: none;
         }
       }
 
-      .for_setting_filter_dropdown_sort_ship {
+      .for_setting_filter_sort_select {
+        margin-left: 5px;
+        background: transparent;
+        border: none;
+        font-size: 15px;
+        font-family: $primaryFontFamily;
+        color: #656565;
+        outline: none;
+      }
+    }
+
+    .for_setting_filter_dropdown_sort_ship {
+      display: flex;
+      align-items: center;
+
+      .for_setting_filter_label_ship {
+        font-family: $primaryFontFamily;
         display: flex;
         align-items: center;
+        gap: 10px;
+        cursor: pointer;
 
-        .for_setting_filter_label_ship {
-          font-family: $primaryFontFamily;
-          display: flex;
-          align-items: center;
-          gap: 10px;
+        label {
+          text-transform: uppercase;
+          font-size: 13px;
+          color: $primaryfontcolor2;
+          font-weight: 700;
           cursor: pointer;
-
-          label {
-            text-transform: uppercase;
-            font-size: 13px;
-            color: $primaryfontcolor2;
-            font-weight: 700;
-            cursor: pointer;
-          }
         }
+      }
 
-        .for_setting_filter_sort_select_ship {
-          margin-left: 5px;
-          background: transparent;
-          border: none;
-          font-size: 12px;
-          font-family: $primaryFontFamily;
-          color: #656565;
-          outline: none;
-        }
+      .for_setting_filter_sort_select_ship {
+        margin-left: 5px;
+        background: transparent;
+        border: none;
+        font-size: 12px;
+        font-family: $primaryFontFamily;
+        color: #656565;
+        outline: none;
       }
     }
   }
+
+  // }
 }

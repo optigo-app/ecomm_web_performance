@@ -2,16 +2,41 @@
 
 .for_DeliverMainDiv {
   font-family: $primaryFontFamily;
-    margin-top: 187px;
-    min-height: 475px;
-    margin-bottom: 20px;
+  margin-top: 187px;
+  min-height: 475px;
+  margin-bottom: 20px;
+
+  @media (max-width: 1400px) {
+    margin-top: 100px;
+  }
+
+  @media (max-width: 900px) {
+    margin-top: 50px;
+  }
 }
 
 .for_secondMaindivAdd {
   margin-inline: 280px;
   background-color: #fff;
+
+  @media (max-width: 1600px) {
+    margin-inline: 200px;
+  }
+
+  @media (max-width: 1350px) {
+    margin-inline: 130px;
+  }
+
+  @media (max-width: 700px) {
+    margin-inline: 60px;
+  }
+
+  @media (max-width: 430px) {
+    margin-inline: 20px;
+  }
 }
-.for_addMainDiv{
+
+.for_addMainDiv {
   margin-bottom: 20px;
 }
 
@@ -19,7 +44,7 @@
   margin: 20px 0px;
 }
 
-.for_TitleDetailMainDiv{
+.for_TitleDetailMainDiv {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,7 +62,7 @@
   font-family: $primaryFontFamily !important;
   color: $titleColor !important;
 
-  .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root{
+  .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
     border-radius: 0px !important;
   }
 }
@@ -82,84 +107,102 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
-.for_defualt_addrSelectedHide{
+.for_defualt_addrSelectedHide {
   display: none !important;
 }
 
 .for_addrTypoTitle {
   color: $titleColor;
   font-family: $primaryFontFamily !important;
-  text-transform: capitalize;
+  // text-transform: capitalize;
 }
 
 .for_addrTypo {
   color: $titleColor;
   font-family: $primaryFontFamily !important;
-  text-transform: capitalize;
+  // text-transform: capitalize;
 }
 
 .for_AddressBtnGroup {
+
+  @media (max-width: 450px) {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 5px;
+    margin-inline: 5%;
+    width: 100%;
+  }
+
   button {
     height: 40px;
     width: 150px;
     font-family: $primaryFontFamily !important;
     font-size: $fontSize3;
+
+    @media (max-width: 450px) {
+      margin-right: 0;
+      width: 100%;
+    }
   }
 }
 
-.for_dialogTitle{
+.for_dialogTitle {
   color: $titleColor;
   font-weight: 500 !important;
   text-align: center;
 }
 
-.for_AddNewAddrModalbtn{
-    margin-right: 20px;
-    height: 40px;
-    width: 150px;
-    font-family: $primaryFontFamily !important;
-    font-size: $fontSize3;
-    color: $btn1hoverFontColor;
-    background-color: $btn1ActivebgColor;
-    border: 1px solid $btn1FontColor;
-    border-radius: 0px !important;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-
-    &:hover {
-      color: $btn1hoverFontColor;
-      background-color: $btn1ActivebgColor;
-    }
-}
-.for_Cancelbtn{
+.for_AddNewAddrModalbtn {
   margin-right: 20px;
   height: 40px;
   width: 150px;
   font-family: $primaryFontFamily !important;
   font-size: $fontSize3;
-  color: $btn1FontColor;
-  background-color: $btn1bgColor;
+  color: $btn1hoverFontColor;
+  background-color: $btn1FontColor;
   border: 1px solid $btn1FontColor;
   border-radius: 0px !important;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 
   &:hover {
-    color: $btn1hoverFontColor;
-    background-color: $btn1ActivebgColor;
+    color: white;
+    background-color: $btn1hoverColor;
   }
 }
 
-.for_editDeleteBtngroup{
+.for_Cancelbtn {
+  margin-right: 20px;
+  height: 40px;
+  width: 150px;
+  font-family: $primaryFontFamily !important;
+  font-size: $fontSize3;
+  color: $btn1FontColor;
+  background-color: $btn1hoverFontColor;
+  border: 1px solid $btn1FontColor;
+  border-radius: 0px !important;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    color: white;
+    background-color: $btn1hoverColor;
+  }
+}
+
+.for_editDeleteBtngroup {
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin-bottom: 10px;
-  .for_editIcon{
+
+  .for_editIcon {
     font-size: 20px;
     color: $titleColor;
   }
-  .for_DeleteIcon{
+
+  .for_DeleteIcon {
     font-size: 20px;
     color: $titleColor
   }

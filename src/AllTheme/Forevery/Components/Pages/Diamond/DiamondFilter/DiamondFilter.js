@@ -35,6 +35,7 @@ import {
   useMediaQuery,
   Drawer,
   Box,
+  PaginationItem,
 } from "@mui/material";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { json, useLocation, useNavigate } from "react-router-dom";
@@ -331,6 +332,7 @@ const DiamondFilter = () => {
 
   const handleSortChange = (value, label, categories) => {
     setSortValue(value);
+    setCurrentPage(1);
     //("Selected Sort Value:", value);
     //(label, "eikedekdb", categories);
     setselectedsort({
@@ -767,7 +769,7 @@ const DiamondFilter = () => {
   }, [sliderState1, sliderLabels1, filtersData1, location?.pathname]);
 
   useEffect(() => {
-    const UpdatedUrl =  setTimeout(() => {
+    const UpdatedUrl = setTimeout(() => {
       const extractedValue = location?.pathname.split("f=")[1] ?? "";
       const decodedUrlData = decodeAndDecompress(extractedValue);
       const parsedData = parseUrlSegment(decodedUrlData);
@@ -797,13 +799,13 @@ const DiamondFilter = () => {
           Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
         )
         .join("/");
-  console.log(sliderParams , "sliderParams")
+      console.log(sliderParams, "sliderParams")
       const shape = location?.pathname?.split("/")[3];
       const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""
         }`;
-        const encodeUrl = compressAndEncode(urlToEncode);
-        const decodedUrl = decodeAndDecompress(encodeUrl);
-        console.log(decodedUrl,"decode")
+      const encodeUrl = compressAndEncode(urlToEncode);
+      const decodedUrl = decodeAndDecompress(encodeUrl);
+      console.log(decodedUrl, "decode")
       const newPath = `${pathname?.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
         }`;
       Navigate(newPath);
@@ -849,7 +851,7 @@ const DiamondFilter = () => {
     }
   }, [location?.pathname]);
 
-  
+
 
 
   return (
@@ -1153,8 +1155,17 @@ const DiamondFilter = () => {
         </div>
         <div className="filter_Head">
           <div className="for_price">
+            {open === "price" && <div className="wrapper-fg"
+              style={{
+                position: "absolute",
+                top: "0",
+                padding: "4px 18px",
+                backgroundColor: "transparent",
+                color: "transparent",
+              }}
+            >22</div>}
             <span onClick={() => handleOpen("price")}>
-              price <FaChevronDown className="chveron_icon" />
+              Price <FaChevronDown className="chveron_icon" />
             </span>
             <CollectionPriceRange
               data={sliderState.price}
@@ -1167,6 +1178,15 @@ const DiamondFilter = () => {
             />
           </div>
           <div className="for_Color">
+            {open === "Color" && <div className="wrapper-fg"
+              style={{
+                position: "absolute",
+                top: "0",
+                padding: "4px 18px",
+                backgroundColor: "transparent",
+                color: "transparent",
+              }}
+            >22</div>}
             <span onClick={() => handleOpen("Color")}>
               Color <FaChevronDown className="chveron_icon" />
             </span>
@@ -1181,6 +1201,15 @@ const DiamondFilter = () => {
             />
           </div>
           <div className="for_Carat">
+            {open === "Carat" && <div className="wrapper-fg"
+              style={{
+                position: "absolute",
+                top: "0",
+                padding: "4px 18px",
+                backgroundColor: "transparent",
+                color: "transparent",
+              }}
+            >22</div>}
             <span onClick={() => handleOpen("Carat")}>
               Carat <FaChevronDown className="chveron_icon" />
             </span>
@@ -1195,6 +1224,15 @@ const DiamondFilter = () => {
             />
           </div>
           <div className="for_Clarity">
+            {open === "Clarity" && <div className="wrapper-fg"
+              style={{
+                position: "absolute",
+                top: "0",
+                padding: "4px 18px",
+                backgroundColor: "transparent",
+                color: "transparent",
+              }}
+            >22</div>}
             <span onClick={() => handleOpen("Clarity")}>
               Clarity <FaChevronDown className="chveron_icon" />
             </span>
@@ -1209,6 +1247,15 @@ const DiamondFilter = () => {
             />
           </div>
           <div className="for_Cut">
+            {open === "Cut" && <div className="wrapper-fg"
+              style={{
+                position: "absolute",
+                top: "0",
+                padding: "4px 18px",
+                backgroundColor: "transparent",
+                color: "transparent",
+              }}
+            >22</div>}
             <span onClick={() => handleOpen("Cut")}>
               Cut <FaChevronDown className="chveron_icon" />
             </span>
@@ -1408,7 +1455,6 @@ const DiamondFilter = () => {
                   {diamondData?.map((val, i) => {
                     const currentMediaType = ShowMedia[i] || "vid";
                     const bannerImage = getBannerImage(i);
-                    console.log(val,"video")
                     return (
                       <div key={i} className="diamond_card">
                         <div className="media_frame">
@@ -1430,7 +1476,7 @@ const DiamondFilter = () => {
                                       ref={(el) => (videoRefs.current[i] = el)}
                                       autoPlay={hoveredCard === i}
                                       controls={false}
-                                      playsInline 
+                                      playsInline
                                       muted
                                       onMouseOver={(e) => handleMouseMove(e, i)}
                                       onMouseLeave={(e) =>
@@ -1496,7 +1542,7 @@ const DiamondFilter = () => {
                             <div className="price_details">
                               <div className="title">
                                 <span>
-                                  {val?.shapename} <strong>{val?.carat}</strong>{" "}
+                                  {val?.shapename} <strong>{val?.carat?.toFixed(3)}</strong>{" "}
                                   CARAT {val?.colorname} {val?.clarityname}{" "}
                                   {val?.cutname}
                                 </span>
@@ -1535,6 +1581,15 @@ const DiamondFilter = () => {
                           page={currentPage}
                           showFirstButton
                           showLastButton
+                          disabled={false}
+                          renderItem={(item) => (
+                            <PaginationItem
+                              {...item}
+                              sx={{
+                                pointerEvents: item.page === currentPage ? 'none' : 'auto',
+                              }}
+                            />
+                          )}
                         />
                       </div>
                     )}
@@ -1675,7 +1730,7 @@ const CollectionCaratRange = forwardRef(
             style={{ color: "black" }}
             size="small"
             defaultValue={[0.96, 41.81]}
-            step={0.1}
+            step={0.001}
             sx={{
               "& .MuiSlider-thumb": {
                 width: 20,
@@ -1693,10 +1748,10 @@ const CollectionCaratRange = forwardRef(
           />
           <div className="for_ma_collection_slider_input">
             <div className="for_right-menu">
-              <input type="text" value={data[0]} />
+              <input type="text" value={data[0]?.toFixed(3)} />
             </div>
             <div className="for_left-menu">
-              <input type="text" value={data[1]} />
+              <input type="text" value={data[1]?.toFixed(3)} />
             </div>
           </div>
         </div>

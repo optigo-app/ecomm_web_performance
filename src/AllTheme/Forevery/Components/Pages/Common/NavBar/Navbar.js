@@ -244,7 +244,7 @@ const Navbar = () => {
           f: {},
         };
         let encodeObj = btoa(JSON.stringify(obj));
-        Navigate(`/p/${searchText}?S=${encodeObj}`);
+        Navigate(`/search/${searchText}?S=${encodeObj}`);
         setSearchText("");
         setShowSearchBar(!ShowSearchBar);
       }
@@ -986,6 +986,10 @@ const FirstNavMenu = ({
       / /g,
       "_"
     )}/M=${encodeLink(link)}`,
+    link1: `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/${title.replace(
+      / /g,
+      "_"
+    )}/M=${encodeLink(link)}`,
   }));
 
   // Data for categories
@@ -1017,10 +1021,42 @@ const FirstNavMenu = ({
         baseLink,
         subCategory
       )}`,
+      link1: `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/${key}/M=${convertLink(
+        baseLink,
+        subCategory
+      )}`,
     }));
 
   const womenArr = generateCategoryArr(categoryLinks.Women, womenCategories);
   const menArr = generateCategoryArr(categoryLinks.Men, menCategories);
+
+  const handleCategorySettFlow = (link, link1) => {
+    if (checkSteps) {
+      navigate(link1);
+    } else {
+      if (checkStepsOf0) {
+        sessionStorage.removeItem('customizeSteps')
+        sessionStorage.removeItem("custStepData");
+      }
+      navigate(link);
+      const step1 = [{ step1: true, Setting: "Ring", id: 1 }];
+      sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
+    }
+  }
+
+  const handleStyleSettFlow = (link, link1) => {
+    if (checkSteps) {
+      navigate(link1);
+    } else {
+      if (checkStepsOf0) {
+        sessionStorage.removeItem('customizeSteps')
+        sessionStorage.removeItem("custStepData");
+      }
+      navigate(link);
+      const step1 = [{ step1: true, Setting: "Ring", id: 1 }];
+      sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
+    }
+  }
   return (
     <>
       <div className="For_Nav_first_Menu">
@@ -1066,14 +1102,22 @@ const FirstNavMenu = ({
               <h3>shop By style</h3>
               <div class="ring-types-col">
                 {styleArr?.map((item, index) => (
-                  <span key={index} onClick={() => navigate(item?.link)}>
-                    {item?.title}
-                  </span>
+                  <>
+                    {checkSteps ? (
+                      <span key={index} onClick={() => handleCheckSteps("Ring", 0)}>
+                        {item?.title}
+                      </span>
+                    ) : (
+                      <span key={index} onClick={() => handleStyleSettFlow(item?.link, item?.link1)}>
+                        {item?.title}
+                      </span>
+                    )}
+                  </>
                 ))}
               </div>
             </div>
             <div className="for_col_3">
-              <h3>
+              <h3 onClick={() => navigate('/bespoke-jewelry')}>
                 <img
                   src={`${storImagePath()}/Forevery/writing.png`}
                   alt=""
@@ -1104,17 +1148,31 @@ const FirstNavMenu = ({
                 }
               >
                 <img src={`${storImagePath()}/Forevery/women.png`} alt="" />{" "}
-                Womens
+                Women
               </h3>
               <div class="ring-types">
                 {womenArr?.map((item, index) => (
-                  <span
-                    key={index}
-                    class="ring-type"
-                    onClick={() => navigate(item?.link)}
-                  >
-                    {item?.title}
-                  </span>
+                  <>
+                    {checkSteps ? (
+                      <span
+                        key={index}
+                        class="ring-type"
+                        onClick={() => handleCheckSteps("Ring", 0)}
+                      >
+                        {item?.title}
+                      </span>
+                    ) : (
+                      <span
+                        key={index}
+                        class="ring-type"
+                        // onClick={() => navigate(item?.link)}
+                        onClick={() => handleCategorySettFlow(item?.link, item?.link1)}
+                      >
+                        {item?.title}
+                      </span >
+                    )}
+                  </>
+
                 ))}
               </div>
             </div>
@@ -1133,13 +1191,25 @@ const FirstNavMenu = ({
 
               <div class="ring-types">
                 {menArr?.map((item, index) => (
-                  <span
-                    key={index}
-                    class="ring-type"
-                    onClick={() => navigate(item?.link)}
-                  >
-                    {item?.title}
-                  </span>
+                  <>
+                    {checkSteps ? (
+                      <span
+                        key={index}
+                        class="ring-type"
+                        onClick={() => handleCheckSteps("Ring", 0)}
+                      >
+                        {item?.title}
+                      </span>
+                    ) : (
+                      <span
+                        key={index}
+                        class="ring-type"
+                        onClick={() => handleCategorySettFlow(item?.link, item?.link1)}
+                      >
+                        {item?.title}
+                      </span >
+                    )}
+                  </>
                 ))}
               </div>
             </div>
@@ -1149,7 +1219,7 @@ const FirstNavMenu = ({
           {/* <img src={commonImage} alt="" /> */}
           <img src={banner?.navbarMenu?.image?.[0]} alt="" />
         </div>
-      </div>
+      </div >
       <Modal
         open={showModal}
         handleConfirm={handleConfirm}

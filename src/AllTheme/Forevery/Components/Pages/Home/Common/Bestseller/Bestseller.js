@@ -32,6 +32,31 @@ const Bestseller = () => {
       observer.disconnect();
     };
   }, []);
+
+  const navigate = useNavigate();
+  const addCategory = `Ring/category`;
+  const filterKeyVal = btoa(addCategory);
+
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
+  const steps2 = JSON.parse(sessionStorage.getItem("customizeSteps2Pendant"));
+
+  const checkStepsOf0 =
+    (steps?.[0] !== undefined && steps?.[0] !== null) ||
+    (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
+    (steps2?.[0] !== undefined && steps2?.[0] !== null);
+
+  const handleSettingNavigation = () => {
+    if (checkStepsOf0) {
+      sessionStorage.removeItem('customizeSteps')
+      sessionStorage.removeItem("custStepData");
+    }
+    navigate(
+      `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+    );
+    const step1 = [{ step1: true, Setting: "Ring", id: 1 }];
+    sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
+  };
   return (
     <div className="for_Bestseller">
       <div className="for_heading">
@@ -72,11 +97,11 @@ const Bestseller = () => {
           </p>
           <div className="for_col_btn">
             <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
-            onClick={()=>Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`)}
+            onClick={handleSettingNavigation}
             >
               Customize Ring
             </button>
-            <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
+            {/* <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
             onClick={()=>Navigation(`/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ==`)}
             >
               Customize Earring
@@ -85,7 +110,7 @@ const Bestseller = () => {
             onClick={()=>Navigation(`/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ==`)}
             >
               Customize Pendant
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

@@ -72,6 +72,7 @@ import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
 import PromotionalBanner from "./Components/Pages/PromotionalBanner/PromotionalBanner";
 import usePromotionalBanner from "./Components/hooks/usePromotionalBanner";
 import useHomeBannerImages from "../../utils/Glob_Functions/ThemesBanner/ThemesBanner";
+import SearchData from "./Components/Pages/Product/SearchData/SearchData";
 
 const ForEveryRoutes = () => {
   const { openPromotionalBanner, handleCloseBanner } =
@@ -315,6 +316,7 @@ const ForEveryRoutes = () => {
           </Route>
 
           <Route path="/diamond" element={<Diamond />} />
+          <Route path="/search/*" element={<SearchData />} />
           <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
           <Route
             path="/lab-created-engagement-rings"
