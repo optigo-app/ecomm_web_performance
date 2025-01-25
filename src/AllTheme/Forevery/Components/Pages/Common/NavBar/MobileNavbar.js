@@ -762,7 +762,7 @@ export default function MobileNav({ open, onClose }) {
                         cursor: "default",
                       }}
                     >
-                      <span className="title_for_accordian">Bespoke</span>
+                      <span className="title_for_accordian" onClick={() => navigate('/bespoke-jewelry')}>Bespoke</span>
                     </div>
                   </div>
 

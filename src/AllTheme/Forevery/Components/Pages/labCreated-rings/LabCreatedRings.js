@@ -6,11 +6,13 @@ import btnstyle from "../../scss/Button.module.scss";
 import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { for_customizationSteps1, for_customizationSteps } from '../../Recoil/atom';
-import { ringscollection, metalcollection } from "../../data/NavbarMenu";
+import { metalcollection } from "../../data/NavbarMenu";
+import { RxCross1 } from "react-icons/rx";
 import ShapeSection from "../Home/Common/ShapeSection/ShapeSection";
 import RingCarousel from "../Home/Common/ProductCarousel/RingCarousel";
 import NewsLetter from "../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
 import MountModel from "../ReusableComponent/MountModel/MountModel";
+import { Dialog, DialogContent } from "@mui/material";
 
 const LabCreatedRings = () => {
   useEffect(() => {
@@ -19,15 +21,104 @@ const LabCreatedRings = () => {
       top: 0,
     });
   }, []);
+
+  const navigate = useNavigate();
+  const addCategory = `Ring/category`;
+  const filterKeyVal = btoa(addCategory);
+
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
+  const steps2 = JSON.parse(sessionStorage.getItem("customizeSteps2Pendant"));
+
+  const checkStepsOf0 =
+    (steps?.[0] !== undefined && steps?.[0] !== null) ||
+    (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
+    (steps2?.[0] !== undefined && steps2?.[0] !== null);
+
+  const checkSteps =
+    (steps?.[2] !== undefined && steps?.[2] !== null) ||
+    (steps1?.[2] !== undefined && steps1?.[2] !== null) ||
+    (steps2?.[2] !== undefined && steps2?.[2] !== null)
+
+  const handleSettingNavigation = () => {
+    if (checkStepsOf0) {
+      sessionStorage.removeItem('customizeSteps')
+      sessionStorage.removeItem("custStepData");
+    }
+    navigate(
+      `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+    );
+    const step1 = [{ step1: true, Setting: "Ring", id: 1 }];
+    sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
+  };
+
+  const encodeLink = (link) => btoa(link);
+
+  const styleLinks = {
+    Solitaire: "Solitaire/style",
+    Halo: "Halo/style",
+    Vintage: "Vintage/style",
+    Side_Stone: "Side Stone/style",
+    Designer: "Designer/style",
+  };
+
+  const ringscollection = [
+    {
+      key: "solitaire",
+      image: `${storImagePath()}/Forevery/ring-col/1.webp`,
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Solitaire/M=${encodeLink(styleLinks?.Solitaire)}`,
+      link1: `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/Solitaire/M=${encodeLink(styleLinks?.Solitaire)}`,
+    },
+
+    {
+      key: "halo",
+      image: `${storImagePath()}/Forevery/ring-col/4.webp`,
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Halo/M=${encodeLink(styleLinks?.Halo)}`,
+      link1: `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/Halo/M=${encodeLink(styleLinks?.Halo)}`,
+    },
+    {
+      key: "vintage",
+      image: `${storImagePath()}/Forevery/ring-col/7.webp`,
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Vintage/M=${encodeLink(styleLinks?.Vintage)}`,
+      link1: `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/Vintage/M=${encodeLink(styleLinks?.Vintage)}`,
+    },
+    {
+      key: "side stone",
+      image: `${storImagePath()}/Forevery/ring-col/10.webp`,
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Side_Stone/M=${encodeLink(styleLinks?.Side_Stone)}`,
+      link1: `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/Side_Stone/M=${encodeLink(styleLinks?.Side_Stone)}`,
+    },
+    {
+      key: "designer",
+      image: `${storImagePath()}/Forevery/ring-col/13.webp`,
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Designer/M=${encodeLink(styleLinks?.Designer)}`,
+      link1: `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/Designer/M=${encodeLink(styleLinks?.Designer)}`,
+    },
+  ];
+
+  const handleStyleSettFlow = (link, link1) => {
+    if (checkSteps) {
+      navigate(link1);
+    } else {
+      if (checkStepsOf0) {
+        sessionStorage.removeItem('customizeSteps')
+        sessionStorage.removeItem("custStepData");
+      }
+      navigate(link);
+      const step1 = [{ step1: true, Setting: "Ring", id: 1 }];
+      sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
+    }
+  }
+
   return (
     <div className="for_LabCreatedRings">
-      <Banner />
-      <CategoryGrid data={ringscollection} />
+      <Banner handleSettingNavigation={handleSettingNavigation} />
+      <CategoryGrid data={ringscollection} handleStyleSettFlow={handleStyleSettFlow} />
       <DesignyourOwn />
       <ShapeSection />
       <Metalcolor />
       <RingCarousel showmore={true} />
-      <BannerNew />
+      <BannerNew handleSettingNavigation={handleSettingNavigation} />
       {/* <NewsLetter /> */}
     </div>
   );
@@ -35,7 +126,7 @@ const LabCreatedRings = () => {
 
 export default LabCreatedRings;
 
-const Banner = () => {
+const Banner = ({ handleSettingNavigation }) => {
   const navigate = useNavigate();
   const addCategory = `Ring/category`;
   const filterKeyVal = btoa(addCategory);
@@ -59,9 +150,7 @@ const Banner = () => {
           </p>
           <button
             className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
-            onClick={() => navigate(
-              `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
-            )}
+            onClick={handleSettingNavigation}
           >
             SHOP ENGAGEMENT RING
           </button>
@@ -75,7 +164,7 @@ const Banner = () => {
     </>
   );
 };
-export const CategoryGrid = ({ title = "Find Your Forever Ring", data }) => {
+export const CategoryGrid = ({ title = "Find Your Forever Ring", data, handleStyleSettFlow }) => {
   return (
     <>
       <div className="lab-CategoryGrid">
@@ -86,9 +175,9 @@ export const CategoryGrid = ({ title = "Find Your Forever Ring", data }) => {
           {data?.map((val, i) => {
             return (
               <div key={i} className="card-grid">
-                <Link to={val?.link}>
+                <div onClick={() => handleStyleSettFlow(val?.link)}>
                   <img src={val?.image} loading="lazy" alt="" />
-                </Link>
+                </div>
                 <div className="title_For_q">{val?.key}</div>
               </div>
             );
@@ -108,7 +197,6 @@ const DesignyourOwn = () => {
   const [customizeStep1, setCustomizeStep1] = useRecoilState(
     for_customizationSteps1
   );
-
   const [showModal, setShowModal] = useState(false);
   const [checkIndex, setCheckIndex] = useState();
 
@@ -128,65 +216,67 @@ const DesignyourOwn = () => {
 
   const checkSteps =
     (steps?.[2] !== undefined && steps?.[2] !== null) ||
-    (steps1?.[2] !== undefined && steps1?.[2] !== null) || 
-    (steps2?.[2] !== undefined && steps2?.[2] !== null);
+    (steps1?.[2] !== undefined && steps1?.[2] !== null) ||
+    (steps2?.[2] !== undefined && steps2?.[2] !== null)
 
-  const handleCheckSteps = (index) => {
-    if (checkSteps) {
+  const checkStepsOf0 =
+    (steps?.[0] !== undefined && steps?.[0] !== null) ||
+    (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
+    (steps2?.[0] !== undefined && steps2?.[0] !== null);
+
+  const handleCheckSteps = (value, index) => {
+    let isStepValid = false;
+
+    if (value === "Ring") {
+      isStepValid = checkSteps;
+    }
+
+    if (value === "Diamond") {
+      isStepValid = true;
+    }
+
+    if (isStepValid) {
       setShowModal(true);
       setCheckIndex(index);
     } else {
       console.log("Alternative action");
+      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
     }
   };
 
-  const HandleSettingNavigation = () => {
-    if (
-      (steps?.[0] !== undefined && steps?.[0] !== null) ||
-      (steps?.[1] !== undefined && steps?.[1] !== null)
-    ) {
-      sessionStorage.removeItem("customizeSteps");
-      sessionStorage.removeItem("custStepData");
-      const addCategory = `Ring/category`;
-      const filterKeyVal = btoa(addCategory);
-      navigate(
-        `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
-      );
-    } else {
-      const addCategory = `Ring/category`;
+  const HandleSettingNavigation = (value) => {
+    const addCategory = `Ring/category`;
+    const filterKeyVal = btoa(addCategory);
 
-      const filterKeyVal = btoa(addCategory);
+    if (value === "Ring" && checkSteps) {
+      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+    } else {
+      if (checkStepsOf0) {
+        sessionStorage.removeItem('customizeSteps')
+        sessionStorage.removeItem("custStepData");
+      }
       navigate(
         `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
       );
       setCustomizeStep1({
         step1: true,
       });
-      const step1 = [{ step1: true, Setting: "Ring" }];
+      const step1 = [{ step1: true, Setting: "Ring", id: 1 }];
       sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
     }
   };
 
   const HandleDiamondNavigation = () => {
-    if (
-      (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
-      (steps1?.[1] !== undefined && steps1?.[1] !== null) ||
-      (steps2?.[0] !== undefined && steps2?.[0] !== null) ||
-      (steps2?.[1] !== undefined && steps2?.[1] !== null)
-    ) {
-      sessionStorage.removeItem("customizeSteps2Ring");
-      sessionStorage.removeItem("customizeSteps2Pendant");
-      sessionStorage.removeItem("custStepData2Ring");
-      sessionStorage.removeItem("custStepData2Pendant");
-      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
-    } else {
-      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
-      setCustomizeStep({
-        step1: true,
-      });
-      const step1 = [{ step1: true, shape: "Round" }];
-      sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    if (checkStepsOf0) {
+      sessionStorage.removeItem('customizeSteps2Ring');
+      sessionStorage.removeItem('custStepData2Ring')
     }
+    navigate(`/certified-loose-lab-grown-diamonds/diamond/`);
+    setCustomizeStep({
+      step1: true,
+    });
+    const step1 = [{ step1: true, shape: "All" }];
+    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };
 
   const handleRemoveData = (index) => {
@@ -195,6 +285,7 @@ const DesignyourOwn = () => {
     sessionStorage.removeItem("customizeSteps2Ring");
     sessionStorage.removeItem("customizeSteps2Pendant");
     sessionStorage.removeItem("custStepData2Ring");
+    sessionStorage.removeItem("setImage");
     sessionStorage.removeItem("custStepData2Pendant");
     if (index === 0) {
       const addCategory = `Ring/category`;
@@ -203,7 +294,7 @@ const DesignyourOwn = () => {
         `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
       );
     } else {
-      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/`);
     }
     handleToggle();
   };
@@ -234,7 +325,7 @@ const DesignyourOwn = () => {
             <div className="btn">
               {checkSteps ? (
                 <button
-                  onClick={() => { handleCheckSteps(0); console.log("Cliked Setting") }}
+                  onClick={() => handleCheckSteps("Ring", 0)}
                   className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
                 >
                   start with setting
@@ -242,10 +333,7 @@ const DesignyourOwn = () => {
               ) : (
                 <button
                   onClick={() => {
-                    {
-                      HandleSettingNavigation();
-                      console.log("Cliked Setting")
-                    };
+                    HandleSettingNavigation("Ring");
                   }}
                   className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
                 >
@@ -255,14 +343,14 @@ const DesignyourOwn = () => {
               <span>OR</span>
               {checkSteps ? (
                 <button
-                  onClick={() => { handleCheckSteps(1); console.log("Cliked Diamond") }}
+                  onClick={() => handleCheckSteps("Diamond", 1)}
                   className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
                 >
                   start with a diamond
                 </button>
               ) : (
                 <button
-                  onClick={() => { HandleDiamondNavigation(); console.log("Cliked Diamond") }}
+                  onClick={() => HandleDiamondNavigation()}
                   className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
                 >
                   start with a diamond
@@ -272,7 +360,7 @@ const DesignyourOwn = () => {
           </div>
         </div>
       </div>
-      <MountModel
+      <Modal
         open={showModal}
         handleConfirm={handleConfirm}
         handleClose={handleToggle}
@@ -282,7 +370,7 @@ const DesignyourOwn = () => {
     </>
   );
 };
-const BannerNew = () => {
+const BannerNew = ({ handleSettingNavigation }) => {
   const navigate = useNavigate();
   const addCategory = `Ring/category`;
   const filterKeyVal = btoa(addCategory);
@@ -332,9 +420,7 @@ const BannerNew = () => {
             style={{
               color: "white",
             }}
-            onClick={() => navigate(
-              `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
-            )}
+            onClick={handleSettingNavigation}
             className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
           >
             View All Engagement Ring
@@ -370,6 +456,70 @@ const Metalcolor = () => {
           })}
         </div>
       </div>
+    </>
+  );
+};
+
+
+const Modal = ({ open, handleConfirm, handleClose, handleRemoveData, index }) => {
+  return (
+    <>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        sx={{
+          zIndex: 9999999,
+          "& .MuiDialog-root": {
+            zIndex: 9999,
+          },
+          "& .MuiDialog-paper": {
+            backgroundColor: "transparent",
+            border: "1px solid white",
+            zIndex: 9999,
+          },
+          "& .MuiDialogContent-root": {
+            padding: "10px",
+          },
+        }}
+      >
+        <DialogContent
+          sx={{
+            minWidth: 260,
+            padding: "0px",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <div className="for_modal_cancel_btn_nav_div" onClick={handleClose}>
+            <RxCross1 className="for_modal_cancel_nav_btn" size={"12px"} />
+          </div>
+          <div className="for_modal_inner_nav_div">
+            <span className="for_modal_nav_title">
+              You have already selected mount & diamond, would you like to view
+              it?
+            </span>
+            <div className="for_modal_buttons_nav_div">
+              <button
+                onClick={() => {
+                  handleConfirm();
+                  handleClose();
+                }}
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => {
+                  handleRemoveData(index);
+                }}
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
