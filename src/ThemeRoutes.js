@@ -20,6 +20,7 @@ import { stam_companyLogo, stam_companyLogoM } from "./AllTheme/StamFordJewels/C
 import { fetchPayMaster } from "./utils/API/OrderFlow/Paymaster";
 
 const SmilingRock_App = React.lazy(() => import("./AllTheme/SmilingRock/SmilingRock_App"));
+const ForEveryRoutes = React.lazy(() => import("./AllTheme/Forevery/ForeveryRoutes"));
 const DaimondTine_App = React.lazy(() => import("./AllTheme/DaimondTine/DaimondTine_App"));
 const Elveester_App = React.lazy(() => import("./AllTheme/Elveester/Elveester_App"));
 const SmilingRock_MobileApp_App = React.lazy(() => import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App"));
@@ -27,7 +28,6 @@ const HouseOfQuadri_App = React.lazy(() => import("./AllTheme/HouseOfQuadri/Hous
 const Procatalog_MobileApp_App = React.lazy(() => import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App"));
 const StamFordJewels_App = React.lazy(() => import("./AllTheme/StamFordJewels/StamFordJewels_App"));
 const MalakanJewels_App = React.lazy(() => import("./AllTheme/MalakanJwewls/MalakanJewels_App"));
-const ForEveryRoutes = React.lazy(() => import("./AllTheme/Forevery/ForeveryRoutes"));
 const RoopJewellers_App = React.lazy(() => import("./AllTheme/RoopJewellers/RoopJewellers_App"));
 const HemratnaProcatalog_App = React.lazy(() => import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App"));
 const Procatalog_App = React.lazy(() => import("./AllTheme/Pocatalog/Procatalog_App"));
@@ -72,20 +72,19 @@ export default function ThemeRoutes() {
           .then(resolve)
           .catch((error) => {
             if (n === 0) {
-              reject(error); // Give up after all retries
+              reject(error);
             } else {
-              setTimeout(() => attemptFetch(n - 1), delay); // Retry after delay
+              setTimeout(() => attemptFetch(n - 1), delay);
             }
           });
       };
-      attemptFetch(retries); // Start the first attempt with the given retry count
+      attemptFetch(retries);
     });
   };
 
   useEffect(() => {
     const path = `${storInitDataPath()}/StoreInit.json`;
 
-    // Fetch with retry logic
     fetchWithRetry(path, 3, 1000)
       .then((text) => {
         try {
@@ -265,7 +264,7 @@ export default function ThemeRoutes() {
         const storedPayMaster = sessionStorage.getItem("payMaster");
 
         if (storedPayMaster) {
-          console.log("payMaster from session storage: ", JSON.parse(storedPayMaster));
+          // console.log("payMaster from session storage: ", JSON.parse(storedPayMaster));
         } else {
           const payMaster = await fetchPayMaster();
           const res = payMaster?.Data?.rd;
@@ -283,8 +282,9 @@ export default function ThemeRoutes() {
 
   return (
     <>
-      {storeInitData?.DomainForNo == 2 ? <MetaData1 storeInitData={storeInitData} title={title} /> : <MetaData2 title={title} />}
-
+      {storeInitData?.DomainForNo == 2 ?
+        <MetaData1 storeInitData={storeInitData} title={title} /> :
+        <MetaData2 title={title} />}
       {htmlContent?.rd && htmlContent?.rd.length > 0 && <Themes htmlContent={htmlContent} />}
     </>
   );
@@ -332,23 +332,22 @@ const Themes = ({ htmlContent }) => {
     <>
       <Suspense fallback={<></>}>
         {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
-        {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
-        {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
-
         {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
-
+        {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
         {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
-
         {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
+        {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
         {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
         {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
 
+
         {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
 
         {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
+
 
         {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
 

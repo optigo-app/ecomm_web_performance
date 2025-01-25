@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import ThemeRoutes from "./ThemeRoutes";
 import { ToastContainer ,Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import useRemoveAllConsole from "./hooks/useRemoveAllConsole";
 function App() {
   const toastStyle = {
     borderRadius: "6px",
@@ -15,6 +15,8 @@ function App() {
     borderLeft: `8px solid teal`,
     fontSize:"18px",
   };
+
+useRemoveAllConsole()
   return (
     <>
       <RecoilRoot>

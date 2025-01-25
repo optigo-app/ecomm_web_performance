@@ -16,7 +16,6 @@ const CategoryTab = () => {
   const showShapeSection = false;
 
   useEffect(() => {
-    console.log("called album");
     let data = JSON.parse(sessionStorage?.getItem("storeInit"));
     setImageUrl(data?.AlbumImageFol);
 
@@ -37,7 +36,6 @@ const CategoryTab = () => {
       Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum", finalID)
         .then((response) => {
           if (response?.Data?.rd) {
-            console.log("called album", response?.Data?.rd);
             setAlbumData(response?.Data?.rd);
           }
         })
@@ -63,6 +61,7 @@ const CategoryTab = () => {
         {albumData?.slice(0, 4)?.map((data, i) => {
           return (
             <CategoryCard
+            key={i}
               src={imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName}
               onClick={() => handleNavigate(data?.AlbumName)}
               name={data?.AlbumName}
@@ -92,7 +91,7 @@ const ShapeSection = () => {
       </div>
       <div className="shape_category_row">
         {diamondShapes?.map(({ img, shape }, i) => {
-          return <ShapeCard img={img} shape={shape} />;
+          return <ShapeCard key={i} img={img} shape={shape} />;
         })}
       </div>
     </>
