@@ -107,8 +107,8 @@ const DiamondFilter = () => {
   const [storeInitData, setStoreInitData] = useState();
   const [sortValue, setSortValue] = useState("");
   const [selectedsort, setselectedsort] = useState({
-    title: "Price",
-    sort: "Low to High",
+    title: "Best Match",
+    sort: "",
   });
   const [sliderState, setSliderState] = useState({
     price: [],
@@ -491,7 +491,8 @@ const DiamondFilter = () => {
     setIsLoading(true);
     try {
       dispatch({ type: ACTIONS.SET_LOADING, payload: true });
-      const filterData = await DiamondListData(1, shape, "", parsedData);
+      console.log(sortValue , "sortValue")
+      const filterData = await DiamondListData(1, shape, "", parsedData, sortValue ? `order by ${sortValue}` : ""); 
       const data1 = filterData?.Data?.rd[0];
       const resData = filterData?.Data?.rd;
       // const Newmap = resData?.map((val, index) => ({
@@ -847,7 +848,7 @@ const DiamondFilter = () => {
     } else {
       fetchData(shape);
     }
-  }, [location?.pathname]);
+  }, [location?.pathname ,selectedsort ,sortValue]);
 
   
 
