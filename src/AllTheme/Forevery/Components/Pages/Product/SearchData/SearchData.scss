@@ -1,0 +1,502 @@
+@import '../../../scss/variable.scss';
+
+@mixin metal-type-style($border-color) {
+    // background-color: #f1f0ee;
+    // border: 1px solid $border-color;
+
+    @if $border-color ==#e06e6e {
+        background: linear-gradient(30deg, #ec8a55 0, #fcede2 55%, #fcede2 60%, #ec8a55 100%) !important;
+        border: 1px solid darken($border-color, 20%);
+    }
+
+    @else if $border-color ==#848484 {
+        background: linear-gradient(30deg, #b3b2af 0, #f7f7f7 55%, #f7f7f7 60%, #b3b2af 100%) !important;
+        border: 1px solid darken($border-color, 20%);
+    }
+
+    @else if $border-color ==#c9a63a {
+        background: linear-gradient(30deg, #e1b94f 0, #fcf1d5 55%, #fcf1d5 60%, #e1b94f 100%) !important;
+        border: 1px solid darken($border-color, 20%);
+    }
+
+    border-radius: 50%;
+    width: 7%;
+    text-align: center;
+    color: #707070;
+    font-size: 12px;
+    font-weight: 300;
+    height: 21px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in;
+
+    @media (max-width: 900px) {
+        width: 6%;
+        height: 21px;
+    }
+
+    @media (max-width: 700px) {
+        width: 8%;
+        height: 21px;
+    }
+
+    @media (max-width: 520px) {
+        width: 5%;
+        height: 25px;
+    }
+
+    @media (max-width: 450px) {
+        width: 6%;
+        height: 25px;
+    }
+
+    @media (max-width: 375px) {
+        width: 7%;
+        height: 21px;
+    }
+
+    @media (max-width: 320px) {
+        width: 8%;
+        height: 21px;
+    }
+}
+
+@mixin metal-type-style-clicked($border-color) {
+    @include metal-type-style($border-color);
+    transform: scale(1.3); // Scales the clicked div
+    z-index: 100000; // Ensures the clicked div is above others
+}
+
+.for_searchdata_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    margin-top: 5rem;
+
+    .for_searchdata_content {
+        width: 100%;
+        max-width: 82.5rem;
+        text-align: center;
+
+        .for_searchdata_title_1 {
+            font-size: $fontSize10;
+            font-family: $primaryFontFamily;
+            font-weight: 600;
+            color: $primaryfontcolor2;
+            margin-bottom: 2rem;
+            display: inline-block;
+            padding-bottom: 6px;
+            border-bottom: 2px solid $primaryfontcolor2;
+            width: 140px;
+        }
+
+        .for_searchinput_wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            max-width: 40rem;
+            margin: 0 auto;
+
+
+            .for_searchicon_div {
+                position: absolute;
+                left: 0.05rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: $btn1FontColor;
+                border-radius: 4px;
+
+                img {
+                    height: 40px;
+                    width: 40px;
+                    padding: 6px;
+                }
+            }
+
+            input[type="text"] {
+                width: 100%;
+                padding-block: 0.5rem;
+                padding-left: 4rem;
+                border: 1px solid $primaryfontcolorLight;
+                border-radius: 4px;
+                font-size: 1rem;
+                outline: none;
+                transition: border-color 0.3s ease;
+
+                &:focus {
+                    border-color: $primaryfontcolor2;
+                    color: $homePageFontColor;
+                }
+            }
+
+        }
+
+        .for_searchdata_showresult_div {
+            margin-top: 4rem;
+            max-width: 90%;
+            margin-inline: auto;
+
+            .for_searchdata_title_2 {
+                font-size: $fontSize10;
+                font-family: $primaryFontFamily;
+                font-weight: 600;
+                color: $primaryfontcolor2;
+                margin-bottom: 1.5rem;
+                display: inline-block;
+                padding-bottom: 6px;
+                border-bottom: 2px solid $primaryfontcolor2;
+                width: 160px;
+            }
+
+            .for_searchdata_listing_div {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+                gap: 16px;
+                margin-top: 30px;
+                padding-bottom: 50px;
+                padding-inline: 5px;
+
+                @media (max-width: 600px) {
+                    gap: 10px;
+                }
+
+                .for_productCard_mainDiv {
+
+                    width: 100%;
+                    height: auto;
+                    cursor: pointer;
+                    border: 1px solid transparent;
+                    transition: border 0.3s ease;
+
+                    &:hover {
+                        // border: 1px solid red;
+                        box-shadow: 0 3px 8px rgba(0, 0, 0, .24);
+                    }
+
+                    .for_productList_listing_card_div {
+                        position: relative;
+
+                        .for_product_listing_ratings_div {
+                            position: absolute;
+                            padding-top: 5px;
+                            z-index: 100;
+
+                            .for_product_listting_rating {
+                                font-size: 0.7rem;
+                                display: flex;
+                                gap: 4px;
+                            }
+                        }
+
+                        .forWeb_app_product_label_prd {
+                            position: absolute;
+                            right: 0;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 3px;
+                            font-size: 14px;
+                            font-family: $primaryFontFamily;
+                            z-index: 100;
+
+                            .forWeb_app_instock {
+                                background-color: #00b894;
+                                color: white;
+                                text-transform: uppercase;
+                                width: 70px;
+                                font-size: 10px;
+                                text-align: center;
+                                font-weight: 500;
+                            }
+
+                            .forWeb_app_bestSeller {
+                                background-color: #ff5100;
+                                color: white;
+                                text-transform: uppercase;
+                                width: 70px;
+                                font-size: 10px;
+                                text-align: center;
+                            }
+
+                            .forWeb_app_newarrival {
+                                background-color: darkblue;
+                                color: white;
+                                text-transform: uppercase;
+                                width: 70px;
+                                font-size: 10px;
+                                text-align: center;
+                            }
+
+                            .forWeb_app_intrending {
+                                background-color: darkorange;
+                                color: white;
+                                text-transform: uppercase;
+                                width: 70px;
+                                font-size: 10px;
+                                text-align: center;
+                            }
+
+                        }
+
+
+                        .for_productList_listing_card_image_div {
+                            width: 100%;
+                            min-height: 246px;
+
+                            .for_rollup_video,
+                            .for_rollup_img {
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                width: 100%;
+                                z-index: 1;
+
+                                video {
+                                    width: 80%;
+                                    min-height: 246px;
+                                    object-fit: contain;
+                                }
+
+                                img {
+                                    width: 80%;
+                                    min-height: 246px;
+                                    object-fit: contain;
+                                }
+                            }
+
+                            .for_productList_listing_card_image {
+                                width: 100%;
+                                min-height: 246px;
+                                object-fit: cover;
+                                border: 1px solid $primaryfontcolorLight;
+                            }
+
+                        }
+
+                        .for_productList_metaltype_div {
+                            bottom: 2.5rem;
+                            display: flex;
+                            gap: 25px;
+                            justify-content: center;
+                            position: absolute;
+                            padding: 5px;
+                            width: 100%;
+                            align-items: center;
+                            z-index: 100;
+
+                            .for_metaltype_gold {
+                                @include metal-type-style(#c9a63a);
+                            }
+
+                            .for_metaltype_gold_clicked {
+                                @include metal-type-style-clicked(#c9a63a)
+                            }
+
+                            .for_metaltype_white {
+                                @include metal-type-style(#848484);
+                            }
+
+                            .for_metaltype_white_clicked {
+                                @include metal-type-style-clicked(#848484)
+                            }
+
+                            .for_metaltype_rose {
+                                @include metal-type-style(#e06e6e);
+                            }
+
+                            .for_metaltype_rose_clicked {
+                                @include metal-type-style-clicked(#e06e6e)
+                            }
+                        }
+
+                        .for_ATC_handler {
+                            position: absolute;
+                            /* Take the checkbox out of the normal flow */
+                            opacity: 0;
+                            /* Make it invisible */
+                            width: 0;
+                            /* No width */
+                            height: 0;
+                            /* No height */
+                            overflow: hidden;
+                            /* Prevent any overflow */
+                            border: 0;
+                            /* No border */
+                        }
+
+                        .for_productList_listinig_ATC_div {
+                            background: #5C5C5C;
+                            height: 40px;
+                            color: #fff;
+                            font-family: "Nunito", sans-serif;
+                            display: flex;
+                            align-items: center;
+                            position: absolute;
+                            bottom: 0;
+                            width: 100%;
+                            opacity: 0;
+                            transition: opacity 0.3s ease;
+                            cursor: pointer;
+                            z-index: 100;
+                            margin-inline: 0px;
+
+                            @media (max-width: 1000px) {
+                                opacity: 1;
+                            }
+
+                            .for_productList_cart_icon {
+                                padding-bottom: 4px;
+                                padding-left: 15px;
+                                padding-right: 8px;
+                                font-size: 16px;
+                            }
+
+                            .for_productList_cart_title {
+                                font-size: 14px;
+                                color: #fff;
+                                font-family: "Nunito", sans-serif;
+                            }
+
+                        }
+                    }
+
+                    /* Show the ATC div on hover */
+                    &:hover .for_productList_listinig_ATC_div {
+                        opacity: 1;
+                    }
+
+                    .for_productList_card_description {
+                        margin-top: 10px;
+                        font-family: $primaryFontFamily;
+
+                        .for_productList_metaltype_div {
+                            display: flex;
+                            gap: 25px;
+                            justify-content: center;
+                            position: relative;
+                            padding: 5px;
+                            // margin-bottom: 10px;
+                            width: 100%;
+                            align-items: center;
+                            z-index: 100;
+
+                            .for_metaltype_gold {
+                                @include metal-type-style(#c9a63a);
+                            }
+
+                            .for_metaltype_gold_clicked {
+                                @include metal-type-style-clicked(#c9a63a)
+                            }
+
+                            .for_metaltype_white {
+                                @include metal-type-style(#848484);
+                            }
+
+                            .for_metaltype_white_clicked {
+                                @include metal-type-style-clicked(#848484)
+                            }
+
+                            .for_metaltype_rose {
+                                @include metal-type-style(#e06e6e);
+                            }
+
+                            .for_metaltype_rose_clicked {
+                                @include metal-type-style-clicked(#e06e6e)
+                            }
+                        }
+
+                        .for_productList_caratWeight {
+                            display: flex;
+                            align-items: center;
+                            width: 100%;
+                            padding-inline: 2%;
+
+                            .for_carat_title {
+                                color: #707070;
+                                font-size: 12px;
+                            }
+
+                            .for_carat_weights {
+                                display: flex;
+                                align-items: center;
+                                gap: 5px;
+
+                                .for_weight_bg {
+                                    display: flex;
+                                    align-items: center;
+                                    background: #CECECE;
+                                    height: 25px;
+                                    color: #707070;
+                                    font-size: 12px;
+                                    padding: 0 4px;
+                                }
+                            }
+                        }
+
+                        .for_productList_desc_title {
+                            height: 45px;
+                            font-family: $primaryFontFamily;
+
+                            .for_listing_desc_span {
+                                width: 100%;
+                                padding-inline: 4%;
+                                color: $primaryfontcolor2;
+                                font-size: $fontSize3;
+                                font-weight: 700;
+                                display: inline-block;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                text-align: center;
+                            }
+                        }
+
+                        .for_productList_desc_div {
+                            font-family: $primaryFontFamily;
+                            color: #707070;
+                            font-size: 10px;
+                            text-align: center;
+                            height: 30px;
+                            width: 100%;
+                            padding-inline: 3rem;
+                        }
+
+                        .for_productList_price_div {
+                            color: #000000;
+                            margin-top: 10px;
+                            font-size: $fontSize3;
+                            height: 50px;
+                            width: 100%;
+                            font-weight: 700;
+                            text-align: center;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+.for_global_spinner::before,
+.for_global_spinner::after {
+  content: "";
+  grid-area: 1/1;
+  border-radius: 50%;
+  background: inherit;
+  opacity: 0.915;
+  transform: rotate(30deg);
+}
+
+.for_global_spinner::after {
+  opacity: 0.83;
+  transform: rotate(60deg);
+}
+
+@keyframes for_global_spinner-d3o0rx {
+  100% {
+    transform: rotate(1turn);
+  }
+}

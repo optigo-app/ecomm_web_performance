@@ -290,7 +290,7 @@ const DiamondLitsItems = ({
                                 </Typography>
                                 <Typography variant="body2" className="for_card-ContentData">
                                     <span>
-                                        {item?.carat}{" "}
+                                        {item?.carat?.toFixed(3)}{" "}
                                         Carat {item?.colorname} {item?.clarityname}{" "}
                                         {item?.cutname} Cut {item?.shapename} Diamond
                                     </span>

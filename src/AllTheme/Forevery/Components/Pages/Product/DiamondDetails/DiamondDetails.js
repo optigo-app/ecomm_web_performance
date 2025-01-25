@@ -138,6 +138,17 @@ const DiamondDetails = () => {
     const [compSettArr, setCompSettArr] = useState([]);
     const [getAllData, setAllData] = useState([]);
     const [certyLink, setCertyLink] = useState();
+    console.log('certyLink: ', certyLink);
+
+    const diamondDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[0] ?? (ringData ?? pendantData)?.[1];
+
+    const hrdCerti = singleDiaData?.[0]?.certificate_url?.includes("hrd") ? "HRD" : null
+    const igiCerti = singleDiaData?.[0]?.certificate_url?.includes("igi") ? "IGI" : null
+    const giaCerti = singleDiaData?.[0]?.certificate_url?.includes("gia") ? "GIA" : null
+
+    const diaHrdCerti = (diamondDatas?.step1Data?.[0]?.certificate_url ?? diamondDatas?.step2Data?.[0]?.certificate_url)?.includes("hrd") ? "HRD" : null
+    const diaIgiCerti = (diamondDatas?.step1Data?.[0]?.certificate_url ?? diamondDatas?.step2Data?.[0]?.certificate_url)?.includes("igi") ? "IGI" : null
+    const diaGiaCerti = (diamondDatas?.step1Data?.[0]?.certificate_url ?? diamondDatas?.step2Data?.[0]?.certificate_url)?.includes("gia") ? "GIA" : null
 
     const getImagePath = JSON.parse(sessionStorage?.getItem("setImage")) ?? "";
 
@@ -155,18 +166,26 @@ const DiamondDetails = () => {
     }, [location?.pathname]);
 
     useEffect(() => {
+        const getCertyNameFromUrl = igiCerti ?? hrdCerti ?? giaCerti;
+        const getCertyNameFromUrlDia = diaIgiCerti ?? diaHrdCerti ?? diaGiaCerti;
         const diamondDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[0] ?? (ringData ?? pendantData)?.[1];
-        const diaStep1 = diamondDatas?.step1Data?.[0]?.certyname;
-        const diaStep2 = diamondDatas?.step2Data?.[0]?.certyname;
+        const diaStep1 = (diamondDatas?.step1Data?.[0]?.certyname || getCertyNameFromUrlDia)
+        const diaStep2 = (diamondDatas?.step2Data?.[0]?.certyname || getCertyNameFromUrlDia)
         if (singleDiaData !== undefined || diamondDatas !== undefined) {
-            const getCertiName = certificate?.find((item) => item?.certyName === singleDiaData?.[0]?.certyname);
+            const getCertiName = certificate?.find((item) => item?.certyName === (singleDiaData?.[0]?.certyname || getCertyNameFromUrl));
             const getCertiNameCompSet = certificate?.find((item) => item?.certyName === (diaStep1 ?? diaStep2))
 
             if (!compSet) {
-                setCertyLink(getCertiName);
+                setCertyLink({
+                    ...getCertiName,
+                    link: getCertiName?.certyName === getCertyNameFromUrl ? singleDiaData?.[0]?.certificate_url : "",
+                });
             }
             else {
-                setCertyLink(getCertiNameCompSet);
+                setCertyLink({
+                    ...getCertiNameCompSet,
+                    link: getCertiNameCompSet?.certyName === getCertyNameFromUrlDia ? (diamondDatas?.step1Data?.[0]?.certificate_url ?? diamondDatas?.step2Data?.[0]?.certificate_url) : "",
+                });
             }
         }
     }, [singleDiaData, compSet])
@@ -1258,19 +1277,20 @@ const DiamondDetails = () => {
                                                             })}
                                                             {certyLink && (
                                                                 <Link
-                                                                    href={certyLink?.certificate_url}
+                                                                    to={certyLink?.link}
                                                                     className="for_box_certy"
                                                                     title="Diamond certificate"
                                                                     style={{ position: "relative" }}
+                                                                    target='_blank'
                                                                 >
                                                                     <img
-                                                                        src={certyLink?.link}
+                                                                        src={certyLink?.imageUrl}
                                                                         onError={(e) => {
                                                                             e.target.onerror = null;
                                                                             e.target.src = imageNotFound;
                                                                         }}
                                                                         alt="Diamond Certificate"
-                                                                        style={{ width: '100%', height: 'auto' }}
+                                                                        style={{ width: '100%', height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto' }}
                                                                     />
                                                                 </Link>
                                                             )}
@@ -1326,19 +1346,20 @@ const DiamondDetails = () => {
 
                                                             {certyLink && (
                                                                 <Link
-                                                                    href={certyLink?.certificate_url}
+                                                                    to={certyLink?.link}
                                                                     className="for_box_certy"
                                                                     title="Diamond certificate"
                                                                     style={{ position: "relative" }}
+                                                                    target="_blank"
                                                                 >
                                                                     <img
-                                                                        src={certyLink?.link}
+                                                                        src={certyLink?.imageUrl}
                                                                         onError={(e) => {
                                                                             e.target.onerror = null;
                                                                             e.target.src = imageNotFound;
                                                                         }}
                                                                         alt="Diamond Certificate"
-                                                                        style={{ width: '100%', height: 'auto' }}
+                                                                        style={{ width: '100%', height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto' }}
                                                                     />
                                                                 </Link>
                                                             )}

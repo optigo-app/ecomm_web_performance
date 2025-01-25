@@ -4,10 +4,10 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, D
 
 export default function AddressForm({ open, handleClose, handleCancel, handleInputChange, handleSubmit, formData, errors, isEditMode }) {
     return (
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open} onClose={handleClose} sx={{ marginTop: '7.5rem' }}>
             <form onSubmit={handleSubmit}>
                 <DialogTitle className='for_dialogTitle'>{isEditMode ? 'Edit Shipping Address' : 'Add Shipping Address'}</DialogTitle>
-                <Divider/>
+                <Divider />
                 <DialogContent>
                     <TextField
                         label="First Name"
@@ -86,8 +86,8 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                 </DialogContent>
                 <DialogActions>
                     <div className='for_AddressBtnGroup'>
-                    <button type='submit' className='for_AddNewAddrModalbtn'>{isEditMode ? 'Save Changes' : 'Add Address'}</button>
-                    <button type='button' className='for_Cancelbtn' onClick={handleCancel}>Cancel</button>
+                        <button type='submit' className='for_AddNewAddrModalbtn'>{isEditMode ? 'Save Changes' : 'Add Address'}</button>
+                        <button type='button' className='for_Cancelbtn' onClick={handleCancel}>Cancel</button>
                     </div>
                 </DialogActions>
             </form>

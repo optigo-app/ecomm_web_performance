@@ -16,7 +16,9 @@ const AddressCard = ({ address, index, handleOpen, handleDeleteClick, handleDefa
         shippingmobile,
         isdefault
     } = address;
-
+    
+    console.log('shippingfirstname: ', shippingfirstname);
+    console.log('shippinglastname: ', shippinglastname);
     const [showButtons, setShowButtons] = useState(false);
 
     const handleMouseEnter = () => {

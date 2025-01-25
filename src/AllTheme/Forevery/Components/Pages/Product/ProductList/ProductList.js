@@ -18,7 +18,7 @@ import { RxCross1 } from "react-icons/rx";
 import Rating from '@mui/material/Rating';
 import { IoClose } from "react-icons/io5";
 import Stack from '@mui/material/Stack';
-import { Box, Checkbox, Divider, Drawer, FormControl, FormControlLabel, Input, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, Slider, colors, useMediaQuery } from "@mui/material";
+import { Box, Checkbox, Divider, Drawer, FormControl, FormControlLabel, Input, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, PaginationItem, Select, Slider, colors, useMediaQuery } from "@mui/material";
 import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
@@ -50,36 +50,47 @@ const ProductList = () => {
   let cookie = Cookies.get("visiterId");
   const videoRef = useRef(null);
 
+  const dynamicParams = (categoryValue, category) => {
+    const getMenuParams = JSON.parse(sessionStorage?.getItem('menuparams'));
+    return `${getMenuParams?.FilterVal},${categoryValue},/${getMenuParams?.FilterKey}${category ? `,${category}` : ''}`
+  }
+
   const categoryArr = [
     {
       id: 1,
       title: 'All Jewelry',
-      image: `${storImagePath()}/images/ProductListing/CategoryImages/all-jewelry.svg`
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/all-jewelry.svg`,
+      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/?M=${btoa(dynamicParams(''))}`,
     },
     {
       id: 2,
       title: 'Diamond Rings',
-      image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond_Rings.svg`
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond_Rings.svg`,
+      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/Ring/?M=${btoa(dynamicParams('Ring','category'))}`,
     },
     {
       id: 3,
       title: 'Diamond Earings',
-      image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond_Studs.svg`
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond_Studs.svg`,
+      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/EARRING/?M=${btoa(dynamicParams('EARRING','category'))}`,
     },
     {
       id: 4,
       title: 'Diamond Braceletes',
-      image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond-bracelets.svg`
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond-bracelets.svg`,
+      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/Bracelet/?M=${btoa(dynamicParams('Bracelet','category'))}`,
     },
     {
       id: 5,
       title: 'Diamond Necklaces',
-      image: `${storImagePath()}/images/ProductListing/CategoryImages/diamond-necklaces.svg`
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/diamond-necklaces.svg`,
+      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/Necklace/?M=${btoa(dynamicParams('Necklace','category'))}`,
     },
     {
       id: 6,
       title: 'Diamond Pendants',
-      image: `${storImagePath()}/images/ProductListing/CategoryImages/pendant.png`
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/pendant.png`,
+      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/Pendant/?M=${btoa(dynamicParams('Pendant','category'))}`,
     },
     {
       id: 7,
@@ -117,7 +128,6 @@ const ProductList = () => {
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [open, setOpen] = useState(null);
   const [selectedValues, setSelectedValues] = useState([]);
-  console.log('selectedValues: ', selectedValues);
   const [ratingvalue, setratingvalue] = useState(5);
   const [selectMetalColor, setSelectMetalColor] = useState(null);
   const [hoverIndex, setHoverIndex] = useState(true);
@@ -129,7 +139,7 @@ const ProductList = () => {
   const [collectionName, setCollectionName] = useState(getEncodeData.split('/')?.[0]);
 
   const [priceRangeValue, setPriceRangeValue] = useState([]);
-  const [caratRangeValue, setCaratRangeValue] = useState([0.96, 41.81]);
+  const [caratRangeValue, setCaratRangeValue] = useState([0.960, 41.810]);
   const [productListData, setProductListData] = useState([]);
   const [prodListType, setprodListType] = useState();
   const [isProdLoading, setIsProdLoading] = useState(false);
@@ -165,9 +175,10 @@ const ProductList = () => {
     // setOpen(open === index ? null : index)
   }
 
-  const handleCategory = (id) => {
+  const handleCategory = (id, urlLink) => {
     setSelectedCategory(selectedCategory === id ? null : id);
-    handleButton(6, id ?? selectedCategory);
+    navigate(urlLink); // Redirect to the respective URL
+    handleButton(6, id ?? selectedCategory); // Your other logic
   }
 
   const handleMetalColor = (index) => {
@@ -556,13 +567,13 @@ const ProductList = () => {
       try {
         let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
         let UrlVal = location?.search?.slice(1).split("/");
-
+  
         let MenuVal = "";
         let SearchVar = '';
         let AlbumVar = '';
         let BestSellerVar = "";
         let productlisttype;
-
+  
         UrlVal.forEach((ele) => {
           let firstChar = ele.charAt(0);
           switch (firstChar) {
@@ -582,18 +593,17 @@ const ProductList = () => {
               return "";
           }
         });
-
-
+  
         if (MenuVal.length > 0) {
           let menuDecode = atob(MenuVal?.split("=")[1]);
           let key = menuDecode?.split("/")[1].split(",");
           let val = menuDecode?.split("/")[0].split(",");
-          setIsBreadcumShow(true)
+          setIsBreadcumShow(true);
           productlisttype = [key, val];
         }
-
+  
         if (SearchVar) {
-          productlisttype = SearchVar
+          productlisttype = SearchVar;
         }
         if (AlbumVar) {
           productlisttype = AlbumVar.split("=")[1];
@@ -603,45 +613,48 @@ const ProductList = () => {
         }
         setprodListType(productlisttype);
         setIsProdLoading(true);
-
+        setIsOnlyProdLoading(true);
+  
         const res = await ProductListApi({}, 1, obj, productlisttype, cookie, "");
         const res1 = await FilterListAPI(productlisttype, cookie);
-
+  
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
-
+  
           const highestPrice = res?.pdList?.reduce((max, item) => {
             return Math.max(max, item?.UnitCostWithMarkUpIncTax);
           }, 0);
           setHighestPrice(highestPrice);
-
+  
           const lowestPrice = res?.pdList?.reduce((min, item) => {
             const value = item?.UnitCostWithMarkUpIncTax;
             return value > 0 ? Math.min(min, value) : min;
           }, Infinity);
           setLowestPrice(lowestPrice);
-
+  
           setPriceRangeValue([lowestPrice, highestPrice]);
         }
-
+  
         if (res1) {
           setFilterData(res1);
         }
       } catch (error) {
         console.error("Error fetching product list:", error);
+      } finally {
+        setIsOnlyProdLoading(false);
+        setIsProdLoading(false);
       }
-      setIsProdLoading(false);
-      setIsOnlyProdLoading(false);
     };
-
+  
     fetchData();
-
+  
     if (location?.key) {
       setLocationKey(location?.key);
     }
-    setCurrPage(1)
+    setCurrPage(1);
   }, [location?.key]);
+  
 
   const handleBreadcums = (mparams) => {
 
@@ -752,11 +765,11 @@ const ProductList = () => {
   // }, [selectedMetalId, selectedDiaId]);
 
   useEffect(() => {
+    setIsOnlyProdLoading(true);
     let output = selectedValues.filter((ele) => ele.value)
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
     if (location?.key === locationKey) {
-      setIsOnlyProdLoading(true);
       ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect ?? "", "")
         .then((res) => {
           if (res) {
@@ -833,14 +846,14 @@ const ProductList = () => {
   };
 
   const handleButton = (dropdownIndex, value) => {
-  
+
     setSelectedValues(prev => {
       const existingIndex = prev.findIndex(item => item.dropdownIndex === dropdownIndex);
       const newValue = { dropdownIndex, value };
-  
+
       if (existingIndex >= 0) {
         if (JSON.stringify(prev[existingIndex].value) === JSON.stringify(value)) {
-          return prev.filter((_, i) => i !== existingIndex); 
+          return prev.filter((_, i) => i !== existingIndex);
         }
         // Update existing value
         const updatedValues = [...prev];
@@ -920,7 +933,7 @@ const ProductList = () => {
       return updatedValues;
     });
 
-    setCaratRangeValue([0.96, 41.81]);
+    setCaratRangeValue([0.960, 41.810]);
     setPriceRangeValue([lowestPrice, highestPrice]);
   };
 
@@ -930,7 +943,7 @@ const ProductList = () => {
     setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
     setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
 
-    setCaratRangeValue([0.96, 41.81]);
+    setCaratRangeValue([0.960, 41.810]);
     setPriceRangeValue([lowestPrice, highestPrice]);
     setTrend("Recommended");
     setSortBySelect("");
@@ -1010,6 +1023,7 @@ const ProductList = () => {
       cmc: metalColor,
       // mc: metalColor ?? productData?.MetalColorId,
       p: BreadCumsObj(),
+      s: location?.search.charAt(1) == "S",
       f: {},
     };
     // compressAndEncode(JSON.stringify(obj))
@@ -1117,7 +1131,7 @@ const ProductList = () => {
               </div>
               <div className="for_productList_category_filter_options">
                 {categoryArr?.map((item, index) => (
-                  <div className={`for_category_filter_options_card ${selectedCategory === item?.id && maxwidth1000px ? 'selected' : ''}`} key={index} onClick={() => handleCategory(item?.id)}>
+                  <div className={`for_category_filter_options_card ${selectedCategory === item?.id && maxwidth1000px ? 'selected' : ''}`} key={index} onClick={() => handleCategory(item?.id, item?.urlLink)}>
                     <div className={selectedCategory === item?.id ? 'for_category_filter_image_div_selected' : 'for_category_filter_image_div'}>
                       <img src={item?.image} className={selectedCategory === item?.id ? "for_category_filter_image_selected" : "for_category_filter_image"} alt="category image" />
                     </div>
@@ -1446,6 +1460,15 @@ const ProductList = () => {
                     page={currPage}
                     showFirstButton
                     showLastButton
+                    disabled={false}
+                    renderItem={(item) => (
+                      <PaginationItem
+                        {...item}
+                        sx={{
+                          pointerEvents: item.page === currPage ? 'none' : 'auto',
+                        }}
+                      />
+                    )}
                   />
                 </div>
               )}
@@ -1485,7 +1508,14 @@ const CollectionDropdown = forwardRef(({
         <label>{title}</label>
         <FaAngleDown />
       </div>
-      <div className={`for_collection_filter_option_div ${isOpen ? 'open' : 'for_collection_filter_option_div_hide'}`}>
+      {/* <div className={`for_collection_filter_option_div ${isOpen ? 'open' : 'for_collection_filter_option_div_hide'}`}> */}
+      <div
+        className='for_collection_filter_option_div'
+        style={{
+          height: isOpen && index === 2 ? "90px" : isOpen && index === 3 ? "150px" : "0px",
+          overflow: isOpen ? "unset" : "hidden",
+        }}
+      >
         {data?.map((i) => {
           let isChecked = false;
 
@@ -1609,7 +1639,13 @@ const CollectionPriceRange = forwardRef(({
         <label>{title}</label>
         <FaAngleDown />
       </div>
-      <div className={isOpen ? "for_collection_filter_option_div_slide" : 'for_collection_filter_option_div_slide_hide'}>
+      {/* <div className={isOpen ? "for_collection_filter_option_div_slide" : 'for_collection_filter_option_div_slide_hide'}> */}
+      <div className="for_collection_filter_option_div_slide"
+        style={{
+          height: isOpen ? "90px" : "0px",
+          overflow: isOpen ? "unset" : "hidden",
+        }}
+      >
         <div className='for_collection_slider_div'>
           <Slider
             value={localValue}
@@ -1737,18 +1773,24 @@ const CollectionCaratRange = forwardRef(({
         <label>{title}</label>
         <FaAngleDown />
       </div>
-      <div className={isOpen ? "for_collection_filter_option_div_slide" : 'for_collection_filter_option_div_slide_hide'}>
+      {/* <div className={isOpen ? "for_collection_filter_option_div_slide" : 'for_collection_filter_option_div_slide_hide'}> */}
+      <div className="for_collection_filter_option_div_slide"
+        style={{
+          height: isOpen ? "90px" : "0px",
+          overflow: isOpen ? "unset" : "hidden",
+        }}
+      >
         <div className='for_collection_slider_div'>
           <Slider
             value={localValue1}
             onChange={handleLocalSliderChange}
             onMouseDown={handleSliderMouseDown} // Prevent propagation
-            min={0.96}
-            max={41.81}
+            min={0.960}
+            max={41.810}
             aria-labelledby="range-slider"
             style={{ color: 'black' }}
             size='small'
-            step={0.01}
+            step={0.001}
             sx={{
               "& .MuiSlider-thumb": {
                 width: 17,
@@ -1773,8 +1815,8 @@ const CollectionCaratRange = forwardRef(({
             }}
           />
           <div className='for_collection_slider_input'>
-            <input type="text" value={`${localValue1[0]}Ct`} className='for_collection_weights' />
-            <input type="text" value={`${localValue1[1]}Ct`} className='for_collection_weights' />
+            <input type="text" value={`${localValue1[0].toFixed(3)}Ct`} className='for_collection_weights' />
+            <input type="text" value={`${localValue1[1].toFixed(3)}Ct`} className='for_collection_weights' />
             {/* <input type="text" value={`${data[0]}Ct`} className='for_collection_weights' />
             <input type="text" value={`${data[1]}Ct`} className='for_collection_weights' /> */}
           </div>
@@ -2005,20 +2047,20 @@ const Product_Card = ({
           <div className="for_productList_desc_div">
             <div className="">
               {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
-                <span>GWT : {productData?.Gwt.toFixed(3)}</span>
+                <span>GWT: {productData?.Gwt.toFixed(3)}</span>
               )}
               {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
-                <span>&nbsp;| NWT : {productData?.Nwt.toFixed(3)}</span>
+                <span>&nbsp;| NWT: {productData?.Nwt.toFixed(3)}</span>
               )}
               {storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0 && (
-                <span>&nbsp;| DWT : {productData?.Dwt.toFixed(3)}{storeInit?.IsDiamondPcs === 1
-                  ? `/ ${productData?.Dpcs?.toFixed(0)}`
+                <span>&nbsp;| DWT: {productData?.Dwt.toFixed(3)}{storeInit?.IsDiamondPcs === 1
+                  ? ` / ${productData?.Dpcs?.toFixed(0)}`
                   : null}</span>
               )}
               {storeInit?.IsStoneWeight == 1 &&
                 Number(productData?.CSwt) !== 0 && (
-                  <span>&nbsp;| CWT : {productData?.CSwt.toFixed(3)}{storeInit?.IsStonePcs === 1
-                    ? `/ ${productData?.CSpcs?.toFixed(0)}`
+                  <span>&nbsp;| CWT: {productData?.CSwt.toFixed(3)}{storeInit?.IsStonePcs === 1
+                    ? ` / ${productData?.CSpcs?.toFixed(0)}`
                     : null}</span>
                 )}
 

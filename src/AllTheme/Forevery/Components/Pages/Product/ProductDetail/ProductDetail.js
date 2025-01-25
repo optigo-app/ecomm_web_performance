@@ -1409,7 +1409,7 @@ const ProductDetail = () => {
         }
 
         // if (!getImagePath) {
-          sessionStorage.setItem('setImage', JSON.stringify(setImage));
+        sessionStorage.setItem('setImage', JSON.stringify(setImage));
         // }
 
         navigate(`/d/setting-complete-product/det345/?p=${(step1?.[2]?.url ?? step2?.[2]?.url)}`);
@@ -1449,7 +1449,7 @@ const ProductDetail = () => {
         }
 
         // if (!getImagePath) {
-          sessionStorage.setItem('setImage', JSON.stringify(setImage));
+        sessionStorage.setItem('setImage', JSON.stringify(setImage));
         // }
 
         if (shapeName) {
@@ -1876,7 +1876,7 @@ const ProductDetail = () => {
                         //   })
                         // }
                         >
-                          {` / ${path?.menuname}`}
+                          {decodeUrl?.s ? "" : ` / ${path?.menuname}`}
                         </span>
                       ) : CustPath !== undefined ? ` / ${CustPath}` : ""}
 
@@ -2310,10 +2310,13 @@ const ProductDetail = () => {
             </div>
           </div>
           <div className="for_ProductDet_prod_desc_mainDIv">
-            <div className="for_ProductDet_desc">
-              <span className='for_ProductDet_desc_title'>Product Description</span>
-              <p className='for_ProductDet_desc_1_para'>Discover unparalleled elegance with our Italian-crafted Oval Diamond Ring, a masterpiece designed for the discerning luxury connoisseur. This exquisite ring features a brilliant oval lab-grown diamond, known for its impeccable clarity and extraordinary brilliance. Handcrafted in Italy, this piece marries timeless design with cutting-edge technology, offering a sustainable and ethically sourced alternative to traditional diamonds</p>
-            </div>
+            {(singleProd ?? singleProd1)?.description !== "" && (
+              <div className="for_ProductDet_desc">
+                <span className='for_ProductDet_desc_title'>Product Description</span>
+                <p className='for_ProductDet_desc_1_para'>{(singleProd ?? singleProd1)?.description}</p>
+                {/* <p className='for_ProductDet_desc_1_para'>Discover unparalleled elegance with our Italian-crafted Oval Diamond Ring, a masterpiece designed for the discerning luxury connoisseur. This exquisite ring features a brilliant oval lab-grown diamond, known for its impeccable clarity and extraordinary brilliance. Handcrafted in Italy, this piece marries timeless design with cutting-edge technology, offering a sustainable and ethically sourced alternative to traditional diamonds</p> */}
+              </div>
+            )}
             {(CustPath !== 'Engagement_Ring' && CustPath !== 'Diamond_Pendants') && (
               <div className="for_ProductDet_desc">
                 <span className='for_ProductDet_desc_title'>Diamond Rings Information</span>
@@ -3263,11 +3266,11 @@ const TableComponents = ({ list, details }) => {
           <div>
             {details.includes('MISC') ? (
               <>
-                <span>{details}</span> <span>({pcsTotalVal[0]?.total}/{wtTotalVal[0]?.total}gm)</span>
+                <span>{details}</span> <span>({pcsTotalVal[0]?.total} / {wtTotalVal[0]?.total}gm)</span>
               </>
             ) : (
               <>
-                <span>{details}</span> <span>({pcsTotalVal[0]?.total}/{wtTotalVal[0]?.total}ct)</span>
+                <span>{details}</span> <span>({pcsTotalVal[0]?.total} / {wtTotalVal[0]?.total}ct)</span>
               </>
             )}
           </div>
@@ -3331,11 +3334,11 @@ const TableComponentsMISC = ({ list, details }) => {
           <div>
             {details.includes('MISC') ? (
               <>
-                <span>{details}</span> <span>({pcsTotalVal1[0]?.total}/{wtTotalVal1[0]?.total}gm)</span>
+                <span>{details}</span> <span>({pcsTotalVal1[0]?.total} / {wtTotalVal1[0]?.total}gm)</span>
               </>
             ) : (
               <>
-                <span>{details}</span> <span>({pcsTotalVal[0]?.total}/{wtTotalVal[0]?.total}ct)</span>
+                <span>{details}</span> <span>({pcsTotalVal[0]?.total} / {wtTotalVal[0]?.total}ct)</span>
               </>
             )}
           </div>

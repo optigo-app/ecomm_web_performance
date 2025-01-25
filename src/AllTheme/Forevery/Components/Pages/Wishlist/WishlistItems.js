@@ -195,6 +195,7 @@ const WishlistItems = ({
                             <div className="for_cardText">
                                 <Typography
                                     variant="body2"
+                                    sx={{ fontWeight: 700 }}
                                     className="for_card-ContentData for_WlTitleline"
                                 >
                                     {selectedDia && Object.keys(selectedDia).length != 0 &&
@@ -203,7 +204,7 @@ const WishlistItems = ({
                                     {item?.designno != "" && item?.designno}
                                     {item?.TitleLine != "" && " - " + item?.TitleLine}
                                 </Typography>
-                                <Typography variant="body2" className="for_card-ContentData">
+                                <Typography variant="body2" className="for_card-ContentData" style={{ textAlign: "start" }}>
                                     {storeInit?.IsGrossWeight == 1 &&
                                         <>
                                             <span className="for_wishDT">GWT: </span>
@@ -215,7 +216,7 @@ const WishlistItems = ({
                                     }
                                     {storeInit?.IsMetalWeight == 1 &&
                                         <>
-                                            <span className="for_wishDT">NWT : </span>
+                                            <span className="for_wishDT">NWT: </span>
                                             <span className="for_wishDT">
                                                 {(item?.Nwt || 0)?.toFixed(3)}
                                             </span>
@@ -228,8 +229,7 @@ const WishlistItems = ({
                                                     <span className="for_pipes"> | </span>
                                                     <span className="for_wishDT">DWT: </span>
                                                     <span>
-                                                        {(item?.Dwt || 0)?.toFixed(3)} /
-                                                        {(item?.Dpcs || 0)}
+                                                        {(item?.Dwt || 0)?.toFixed(3)} / {(item?.Dpcs || 0)}
                                                     </span>
                                                 </>
                                             }
@@ -242,13 +242,14 @@ const WishlistItems = ({
                                                     <span className="for_pipes"> | </span>
                                                     <span className="for_wishDT">CWT: </span>
                                                     <span>
-                                                        {(item?.CSwt || 0)?.toFixed(3)} /
-                                                        {(item?.CSpcs || 0)}
+                                                        {(item?.CSwt || 0)?.toFixed(3)} / {(item?.CSpcs || 0)}
                                                     </span>
                                                 </>
                                             }{" "}
                                         </>
                                     }
+                                </Typography>
+                                <Typography variant="body2" className="for_card-ContentData" sx={{ fontWeight: 700 }}>
                                     {storeInit?.IsMetalTypeWithColor == 1 &&
                                         <>
                                             {item?.metalcolorname !== "" && (
@@ -268,7 +269,7 @@ const WishlistItems = ({
                                             <img src={diamondShapeImage} alt="designImage" className="for_diamondDShapeImg" />
                                         }
                                         <span>
-                                            {selectedDia?.carat}{" "}
+                                            {selectedDia?.carat?.toFixed(3)}{" "}
                                             Carat {selectedDia?.colorname}, {selectedDia?.clarityname},{" "}
                                             {selectedDia?.cutname} Cut, {selectedDia?.shapename} Diamond
                                         </span>
@@ -285,7 +286,7 @@ const WishlistItems = ({
                         <span className="for_totalcart">
                             {selectedDia && Object.keys(selectedDia).length != 0 &&
                                 <>
-                                    Total carat weight:{" "}{selectedDia?.carat}
+                                    Total carat weight:{" "}{selectedDia?.carat?.toFixed(3)}
                                 </>
                             }
 
@@ -306,8 +307,8 @@ const WishlistItems = ({
                     >
                         <CloseIcon className="closeWlIcon" />
                     </div>
-                </Card>
-            </Grid>
+                </Card >
+            </Grid >
         </>
     );
 };
