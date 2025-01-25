@@ -16,8 +16,6 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
     metalctw:0
   });
 
-  
-
   useEffect(() => {
     let obj = {
       balance_amt : 0,

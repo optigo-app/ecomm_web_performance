@@ -18,6 +18,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccountLedgerExcel from '../../../../../RoopJewellers/Components/Pages/Account/AccountLeger/AccountLedgerExcel';
 import { downloadExcelLedgerData } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import excelExport from "../../../../../../utils/assets/Image/excel.png";
+import { loginUserDetailWiseAccountLedgerData } from '../../../../../../utils/Glob_Functions/AccountPages/AccountLedger';
 
 const AccountLedger = () => {
 
@@ -106,6 +107,9 @@ const AccountLedger = () => {
                 {
 
                     const mainData = response?.response2?.Data?.rd;
+
+                    const formatLedgerData = loginUserDetailWiseAccountLedgerData(response?.response2?.Data?.rd, homeCurrency, loginInfo);
+
                     const mainData2 = [];
                     const mainData3 = [];
 
