@@ -85,7 +85,8 @@ export const DiamondListData = async (
   page,
   shape,
   stockno,
-  finalArray
+  finalArray,
+  sortbyK
 ) => {
   let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
   const storedData = sessionStorage.getItem("loginUserDetail");
@@ -108,13 +109,15 @@ export const DiamondListData = async (
   const [tableFrom, tableTo] = finalArray?.Table || [null, null];
   const fluorescence = finalArray?.Fluorescence || [];
   const Culet = finalArray?.Culet || [];
+  const SortBy = sortbyK ?? "";
+
   
   console.log("finalArrayApi", tableFrom, tableTo);
   try {
     const combinedValue = JSON.stringify({
       PageNo: `${page ?? 1}`,
       PageSize: `${storeInit?.PageSize ?? 50}`,
-      OrderBy: "order by carat asc",
+      OrderBy: SortBy,
       FrontEnd_RegNo: `${FrontEnd_RegNo ?? ''}`,
       Customerid: `${customerId ?? 0}`,
       PackageId: packageId,
