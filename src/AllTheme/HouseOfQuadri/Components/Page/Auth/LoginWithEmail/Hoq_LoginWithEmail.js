@@ -4,10 +4,12 @@ import { Button, CircularProgress, TextField } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ContinueWithEmailAPI } from "../../../../../../utils/API/Auth/ContinueWithEmailAPI";
+import OTPContainer from '../../../../../../utils/Glob_Functions/Otpflow/App';
 
 export default function ContinueWithEmail() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigate();
   const location = useLocation();
@@ -109,6 +111,7 @@ export default function ContinueWithEmail() {
         </div>
       )}
       <div >
+      <OTPContainer btncolor="#c20000" bgcolor="#fff" iconcolor="#c20000"  iconbgcolor={"#f2f2f2"} />
         <form onSubmit={(e) => { handleSubmit(); e.preventDefault() }} className="smling-forgot-main">
           <p
             style={{
@@ -180,8 +183,16 @@ export default function ContinueWithEmail() {
             <Button
               // type="submit"
               className="hoq_cancleForgot"
-              style={{ marginTop: "10px", color: "gray" }}
+              style={{ marginTop: "10px", color: "gray",width:"auto" }}
               onClick={() => navigation(cancelRedireactUrl)}
+              sx={{
+                '&:before': {
+                  backgroundColor: 'transparent !important',
+                },
+                '&:before:hover': {
+                  backgroundColor: 'transparent !important',
+                },
+              }}
             >
               CANCEL
             </Button>
