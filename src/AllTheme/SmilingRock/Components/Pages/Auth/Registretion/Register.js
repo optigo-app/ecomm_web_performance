@@ -9,7 +9,10 @@ import { RegisterAPI } from '../../../../../../utils/API/Auth/RegisterAPI';
 // import Footer from ' ../../Home/Footer/Footer';
 // import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 // import { loginState } from '../../../Recoil/atom';
-
+import Box from '@mui/material/Box';
+import Autocomplete from '@mui/material/Autocomplete';
+import { CountryCode } from '../../../../../../utils/assets/Countrylist';
+import CountryDropDown from '../../../../../../utils/Glob_Functions/CountryDropDown/CountryDropDown';
 
 export default function Register() {
   const navigation = useNavigate();
@@ -24,6 +27,7 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [Errors, setErrors] = useState({});
+  const [Countrycodestate, setCountrycodestate] = useState(CountryCode[103].phone);
   const [passwordError, setPasswordError] = useState('');
   const firstNameRef = useRef(null);
   const lastNameRef = useRef(null);
@@ -31,6 +35,7 @@ export default function Register() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
+  const [open, setOpen] = useState(false); // Track dropdown open/close
 
   const search = location?.search
   // const updatedSearch = search.replace('?LoginRedirect=', '');
@@ -43,6 +48,14 @@ export default function Register() {
       nextRef.current.focus();
     }
   };
+
+  const handleCountryChange = (event, value) => {
+    if (value) {
+      setCountrycodestate(value.phone); // Update country code
+      setOpen(false); // Close the dropdown once a selection is made
+    }
+  };
+
 
   useEffect(() => {
     const storedEmail = location.state?.email;
@@ -207,7 +220,7 @@ export default function Register() {
         setIsLoading(false);
         if (response.Data.rd[0].stat === 1) {
           navigation(singupRedirectUrl);
-          
+
           // sessionStorage.setItem('LoginUser', true)
           // sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
           // setIsLoginState(true)
@@ -249,7 +262,7 @@ export default function Register() {
         </div>
       )}
       <div >
-      {/* style={{ backgroundColor: '#c0bbb1' }} */}
+        {/* style={{ backgroundColor: '#c0bbb1' }} */}
         <div className='smling-register-main'>
           <p style={{
             textAlign: 'center',
@@ -257,13 +270,15 @@ export default function Register() {
             paddingTop: '5%',
             fontSize: '40px',
             color: '#7d7f85',
-          
+
           }}
             className='AuthScreenRegisterMainTitle'
           >Register</p>
 
-          <form noValidate style={{ display: 'flex', flexDirection: 'column', 
-            alignItems: 'center' }} onSubmit={handleSubmit}>
+          <form noValidate style={{
+            display: 'flex', flexDirection: 'column',
+            alignItems: 'center'
+          }} onSubmit={handleSubmit}>
             <TextField
               name="user-firstName"
               autoFocus
@@ -294,23 +309,14 @@ export default function Register() {
               error={!!Errors.lastName}
               helperText={Errors.lastName}
             />
-
-            <TextField
-              name="user-mobileNo"
-              id="outlined-basic mobileNo"
-              label="Mobile No."
-              variant="outlined"
-              autoComplete="new-mobileNo" // Explicitly telling the browser not to autocomplete this field
-              className='labgrowRegister'
-              style={{ margin: '15px' }}
-              value={mobileNo}
-              inputRef={mobileNoRef}
-              onKeyDown={(e) => handleKeyDown(e, emailRef)}
-              onChange={(e) => handleInputChange(e, setMobileNo, 'mobileNo')}
-              error={!!Errors.mobileNo}
-              helperText={Errors.mobileNo}
-            />
-
+            <CountryDropDown
+              CountryCode={CountryCode}
+              Errors={Errors}
+              handleCountryChange={handleCountryChange}
+              handleInputChange={handleInputChange}
+              handleKeyDown={handleKeyDown}
+              open={open}
+              Countrycodestate={Countrycodestate} emailRef={emailRef} mobileNo={mobileNo} mobileNoRef={mobileNoRef} setMobileNo={setMobileNo} setOpen={setOpen} />
             <TextField
               name="user-email"
               id="outlined-basic email"
