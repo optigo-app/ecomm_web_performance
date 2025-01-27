@@ -52,7 +52,8 @@ function createData(
   CsPcs,
   CsWt,
   imgsrc,
-  Netwt_24k
+  Netwt_24k,
+  Currencycode
 ) {
   return {
     SrNo,
@@ -76,6 +77,7 @@ function createData(
     CsWt,
     imgsrc,
     Netwt_24k,
+    Currencycode
   };
 }
 
@@ -515,6 +517,7 @@ const SalesReport = () => {
         let totals = { ...total };
         let designLists = [];
         response.Data?.rd?.forEach((e, i) => {
+          
           let dataObj = createData(
             i + 1,
             e?.Date,
@@ -536,7 +539,8 @@ const SalesReport = () => {
             e?.CsPcs,
             e?.CsWt,
             e?.imgsrc,
-            e?.Netwt_24k
+            e?.Netwt_24k,
+            e?.Currencycode
           );
           totals.GrossWt += e?.GrossWt;
           totals.NetWt += e?.NetWt;
@@ -964,16 +968,16 @@ const SalesReport = () => {
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.SKUNo}</TableCell>
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.designno}</TableCell>
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.MetalType}</TableCell>
-                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{formatAmount(row.MetalAmount)}</TableCell>
-                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.MetalAmount)}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;
                           {formatAmount(row.DiamondAmount)}
                         </TableCell>
-                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;
                           {formatAmount(row.ColorStoneAmount)}
                         </TableCell>
-                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{formatAmount(row.LabourAmount)}</TableCell>
-                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{formatAmount(row.OtherAmount)}</TableCell>
-                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{formatAmount(row.UnitCost)}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.LabourAmount)}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.OtherAmount)}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.UnitCost)}</TableCell>
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.Category}</TableCell>
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.GrossWt}</TableCell>
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.NetWt}</TableCell>

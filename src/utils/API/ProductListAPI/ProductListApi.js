@@ -2,10 +2,10 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
 const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", visiterId, sortby = "", diaRange = {}, netWt = {}, gross = {}, Shape = "", dno = "", album = "") => {
-  
+
   let MenuParams = {};
   let serachVar = ""
-  
+
   console.log('filterObj: ', filterObj);
   console.log("mainData", sortby);
 
@@ -91,13 +91,16 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
   let mtid = (obj?.mt === undefined ? (loginInfo?.MetalId ?? storeinit?.MetalId) : obj?.mt)
   let filPrice = filterObj?.Price?.length > 0 ? filterObj?.Price : ''
 
-  const priceData = Array.isArray(filterObj) ? filterObj?.find(item => item.dropdownIndex === 4) ?? {} : [];
+  const priceData = Array.isArray(filterObj)
+    ? filterObj.find(item => item.dropdownIndex === 4 || item.dropdownIndex === 3) || {}
+    : [];
+
   // const caratData = filterObj.find(item => item.dropdownIndex === 5);
   // const ProductType = filterObj.find(item => item.dropdownIndex === 6);
 
   let foreveryPrice = priceData?.value
-  ? { Minval: priceData.value[0], Maxval: priceData.value[1] }
-  : {};
+    ? { Minval: priceData.value[0], Maxval: priceData.value[1] }
+    : {};
 
   // console.log(
   //   "data",

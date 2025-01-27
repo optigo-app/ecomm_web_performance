@@ -24,13 +24,14 @@ import { getSalesData } from '../../../../../../utils/API/AccountTabs/sales';
 
 import { headCells_Sales as headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
 
-const createData = (SrNo, Date, StockDocumentNo, TotalDesign, Amount, PrintUrl) => {
+const createData = (SrNo, Date, StockDocumentNo, TotalDesign, Amount, Currencycode, PrintUrl) => {
     return {
         SrNo,
         Date,
         StockDocumentNo,
         TotalDesign,
         Amount,
+        Currencycode,
         PrintUrl
     };
 }
@@ -98,7 +99,8 @@ function EnhancedTableHead(props) {
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
                         style={{
-                            fontFamily: "Spectral-Regular"
+                            fontFamily: "Spectral-Regular",
+                            backgroundColor:"#EAEAEB",
                         }}
                     >
                         {
@@ -317,7 +319,8 @@ const Sales = () => {
                 let rows = [];
                 response?.Data?.rd?.forEach((e, i) => {
                     let printUrl = atob(e?.PrintUrl);
-                    let dataa = createData(i + 1, e?.Date, e?.StockDocumentNo, e?.TotalDesign, e?.Amount, printUrl);
+                    
+                    let dataa = createData(i + 1, e?.Date, e?.StockDocumentNo, e?.TotalDesign, e?.Amount, e?.Currencycode, printUrl);
                     rows?.push(dataa)
                 });
                 setData(rows);
@@ -491,7 +494,7 @@ const Sales = () => {
                                                     </TableCell>
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.Date}</TableCell>
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.StockDocumentNo}</TableCell>
-                                                    <TableCell align="right" style={{ fontFamily: "Spectral-Regular" }}>{formatAmount(row.Amount)}</TableCell>
+                                                    <TableCell align="right" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span> {formatAmount(row.Amount)}</TableCell>
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
                                                         <PrintIcon />
                                                     </div></TableCell>

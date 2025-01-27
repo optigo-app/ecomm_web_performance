@@ -3,15 +3,15 @@ import { storImagePath } from "../../../../../utils/Glob_Functions/GlobalFunctio
 const certy = [
     {
         certyName: "IGI",
-        link: `${storImagePath()}/images/HomePage/Certificate/IGI.webp`,
+        imageUrl: `${storImagePath()}/images/HomePage/Certificate/IGI.webp`,
     },
     {
         certyName: "HRD",
-        link: `${storImagePath()}/images/HomePage/Certificate/HRD.png`,
+        imageUrl: `${storImagePath()}/images/HomePage/Certificate/HRD.png`,
     },
     {
         certyName: "GIA",
-        link: `${storImagePath()}/images/HomePage/Certificate/GIA.JPG`,
+        imageUrl: `${storImagePath()}/images/HomePage/Certificate/GIA.JPG`,
     },
 ];
 

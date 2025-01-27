@@ -71,6 +71,15 @@ const Footer = () => {
     }
   };
 
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
+  const steps2 = JSON.parse(sessionStorage.getItem("customizeSteps2Pendant"));
+
+  const checkStepsOf0 =
+    (steps?.[0] !== undefined && steps?.[0] !== null) ||
+    (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
+    (steps2?.[0] !== undefined && steps2?.[0] !== null);
+
   const sections = [
     {
       title: "About Us",
@@ -109,7 +118,7 @@ const Footer = () => {
         { name: "Engagement Rings", path: "/lab-created-engagement-rings", disabled: false },
         { name: "Wedding Rings", path: "/lab-grown-wedding-rings", disabled: false },
         { name: "Fine Jewelry", path: "/lab-grown-fine-jewelry", disabled: false },
-        { name: 'Certified Loose Diamonds', path: '/certified-loose-lab-grown-diamonds/diamond', disabled: false },
+        { name: 'Certified Loose Diamonds', path: '/certified-loose-lab-grown-diamonds/diamond/', disabled: false },
         // { name: 'Letter Diamonds Jewelry', path: '/letter-diamonds' ,disabled: false }
       ],
     },
@@ -208,28 +217,36 @@ const Footer = () => {
                 </div>
               ) : (
                 <>
-                  {section.items.map((item, idx) => (
-                    <li key={idx}>
-                      <a
-                        style={
-                          item.disabled
-                            ? { color: "gray", cursor: "not-allowed" }
-                            : {}
-                        }
-                        href={item?.path}
-                        onClick={(e) => {
-                          if (item.disabled) {
-                            e.preventDefault();
-                            return;
+                  {section.items.map((item, idx) => {
+                    return (
+                      <li key={idx}>
+                        <a
+                          style={
+                            item.disabled
+                              ? { color: "gray", cursor: "not-allowed" }
+                              : {}
                           }
-                          e.preventDefault();
-                          handleNavigate(e, item.path);
-                        }}
-                      >
-                        {item.name}
-                      </a>
-                    </li>
-                  ))}
+                          href={item?.path}
+                          onClick={(e) => {
+                            if (item.disabled) {
+                              e.preventDefault();
+                              return;
+                            }
+                            if (item?.path === '/certified-loose-lab-grown-diamonds/diamond/') {
+                              if (checkStepsOf0) {
+                                sessionStorage.removeItem('customizeSteps2Ring');
+                                sessionStorage.removeItem('custStepData2Ring')
+                              }
+                            }
+                            e.preventDefault();
+                            handleNavigate(e, item.path);
+                          }}
+                        >
+                          {item.name}
+                        </a>
+                      </li>
+                    )
+                  })}
                 </>
               )}
             </ul>
@@ -303,7 +320,7 @@ const Footer = () => {
           //   handleNavigate(e, "/change-cookie-preferences");
           // }}
           >
-            Ver: 1.0.200120251339
+            Ver: 1.0.250120251049
             {/* { 110120251850 : date and time } */}
           </a>
         </li>

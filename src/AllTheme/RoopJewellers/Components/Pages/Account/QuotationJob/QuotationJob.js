@@ -906,7 +906,7 @@ const QuotationJob = () => {
                             style={{
                               minWidth: column.minWidth,
                               backgroundColor: "#ebebeb",
-                              color: "#6f6f6f",
+                              color: "black",
                               fontFamily: "Spectral-Regular", // Apply font family here
                               cursor: 'pointer' // Optional: changes the cursor to indicate it's clickable
                             }}
@@ -935,8 +935,10 @@ const QuotationJob = () => {
                                 const value = row[column?.id];
                                 return (
                                   <TableCell key={column?.id} align={column?.align} style={{
-                                    fontFamily: "Spectral-Regular"
+                                    fontFamily: "Spectral-Regular",
                                   }}>
+                              
+
                                     {column.id === 'Sr#' ? serialNumber :
                                       column?.id === 'checkbox' ?
                                         <Checkbox
@@ -946,7 +948,7 @@ const QuotationJob = () => {
                                         :
                                         column?.format && typeof value === 'number'
                                           ? column.format(value)
-                                          : column?.id === 'FinalAmount' ? formatAmount(value) : value}
+                                          : column?.id === 'FinalAmount' ? <> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span> {formatAmount(value)} </> : value}
                                   </TableCell>
                                 );
                               })}

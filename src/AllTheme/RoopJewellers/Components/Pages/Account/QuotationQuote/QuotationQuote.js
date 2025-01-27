@@ -25,13 +25,16 @@ import Paper from '@mui/material/Paper';
 import { getQuotationQuoteData } from "../../../../../../utils/API/AccountTabs/quotationQuote";
 
 import { headCells_Quotation as headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
+import { AccountPagesLoginCurrencyWise } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPagesLoginCurrencyWise";
 
-const createData = (SrNo, Date, SKUNo, TotalDesign, Amount, PrintUrl) => {
+const createData = (SrNo, Date, SKUNo, TotalDesign, Currencycode, CurrencyExchRate, Amount, PrintUrl) => {
     return {
         SrNo,
         Date,
         SKUNo,
         TotalDesign,
+        Currencycode,
+        CurrencyExchRate,
         Amount,
         PrintUrl
     };
@@ -157,6 +160,12 @@ const QuotationQuote = () => {
 
     const fromDateRef = useRef(null);
     const toDateRef = useRef(null);
+
+    const [currencySymbol, setCurrencySymbol] = useState('');
+    const [currencyCode, setCurrencyCode] = useState('');
+    const [currencyRate, setCurrencyRate] = useState(1);
+
+    
 
     const handleRequestSort = (event, property) => {
         if (property?.toLowerCase() === 'srno') return null;
@@ -339,16 +348,23 @@ const QuotationQuote = () => {
             // };
             // const response = await CommonAPI(body);
             let currencyRate = storeInit?.CurrencyRate;
-            const response = await getQuotationQuoteData(data, currencyRate, FrontEnd_RegNo, customerid);
 
+            setCurrencySymbol(storedData?.CurrencyCode);
+            setCurrencyRate(storedData?.CurrencyRate);
+            setCurrencyCode(storedData?.CurrencyCode);
+
+            const response = await getQuotationQuoteData(data, currencyRate, FrontEnd_RegNo, customerid);
+            
             if (response?.Data?.rd) {
                 let rows = [];
                 response?.Data?.rd?.forEach((e, i) => {
                     let printUrl = atob(e?.PrintUrl);
-                    let dataa = createData(i + 1, e?.Date, e?.SKUNo, e?.TotalDesign, e?.Amount, printUrl);
+                    let dataa = createData(i + 1, e?.Date, e?.SKUNo, e?.TotalDesign, e?.Currencycode, e?.CurrencyExchRate, e?.Amount, printUrl);
                     rows?.push(dataa)
                 });
 
+                // const formatedData = AccountPagesLoginCurrencyWise(rows, data);
+                
                 setData(rows);
                 setFilterData(rows);
             } else {

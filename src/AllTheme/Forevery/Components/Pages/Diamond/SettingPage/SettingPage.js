@@ -1,4 +1,4 @@
-import React, { forwardRef, lazy, useEffect, useRef, useState } from 'react'
+import React, { forwardRef, lazy, useEffect, useMemo, useRef, useState } from 'react'
 import './SettingPage.scss'
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -9,7 +9,7 @@ import noImageFound from '../../../Assets/image-not-found.jpg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import { useNavigate, useLocation } from "react-router-dom";
-import { Checkbox, Drawer, FormControl, FormControlLabel, MenuItem, Pagination, Rating, Select, Skeleton, Slider, styled, useMediaQuery } from "@mui/material";
+import { Checkbox, Drawer, FormControl, FormControlLabel, MenuItem, Pagination, PaginationItem, Rating, Select, Skeleton, Slider, styled, useMediaQuery } from "@mui/material";
 import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
 import { DiamondQualityColorComboAPI } from '../../../../../../utils/API/Combo/DiamondQualityColorComboAPI';
@@ -45,6 +45,8 @@ const SettingPage = () => {
   const [currPage, setCurrPage] = useState(1);
   const [modalOpen, setModalOpen] = useRecoilState(for_MakeMyRingProcessDrawer);
   const [imageMap, setImageMap] = useState({});
+  const [highestPrice, setHighestPrice] = useState();
+  const [lowestPrice, setLowestPrice] = useState();
 
   const [open1, setOpen1] = useState(false);
 
@@ -73,26 +75,30 @@ const SettingPage = () => {
     Designer: "Designer/style",
   };
 
-  const handleClick = (id, link, isSelected) => {
-    console.log('isSelected: ', isSelected);
+  const handleClick = (id, link, isSelected, link1) => {
     if (isSelected === false) {
-      handleCategory(id);
-      navigate(link);
-    } else if (isSelected === true) {
       if (shapeParam?.[0] === 'diamond_shape') {
-        navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${Shape}/M=UmluZy9jYXRlZ29yeQ==`);
+        navigate(link1);
+        handleCategory(id);
+      } else {
+        handleCategory(id);
+        navigate(link);
+      }
+    }
+    else if (isSelected === true) {
+      if (shapeParam?.[0] === 'diamond_shape') {
+        navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${shapeParam?.[1]}/M=UmluZy9jYXRlZ29yeQ==`);
         handleCategory(id);
       } else {
         navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
         handleCategory(id);
       }
     }
-  };
+  }
 
 
   const [isRing, setIsRing] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null)
-  console.log('selectedCategory: ', selectedCategory);
   const [trend, setTrend] = useState('Recommended');
   const [selectShape, setSelectShape] = useState();
   const [shippingDrp, setShippingDrp] = useState('ANY DATE');
@@ -108,7 +114,7 @@ const SettingPage = () => {
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid)
-  const [priceRangeValue, setPriceRangeValue] = useState([5000, 250000]);
+  const [priceRangeValue, setPriceRangeValue] = useState([]);
   const [locationKey, setLocationKey] = useState();
   const [productListData, setProductListData] = useState([]);
   const [prodListType, setprodListType] = useState();
@@ -407,6 +413,19 @@ const SettingPage = () => {
       if (res) {
         setProductListData(res?.pdList);
         setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+
+        const highestPrice = res?.pdList?.reduce((max, item) => {
+          return Math.max(max, item?.UnitCostWithMarkUpIncTax);
+        }, 0);
+        setHighestPrice(highestPrice);
+
+        const lowestPrice = res?.pdList?.reduce((min, item) => {
+          const value = item?.UnitCostWithMarkUpIncTax;
+          return value > 0 ? Math.min(min, value) : min;
+        }, Infinity);
+        setLowestPrice(lowestPrice);
+
+        setPriceRangeValue([lowestPrice, highestPrice]);
       }
     } catch (error) {
       console.error("Error fetching product list:", error);
@@ -506,6 +525,7 @@ const SettingPage = () => {
     // }
   }
 
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       // Check if the click was outside of any dropdown
@@ -532,16 +552,25 @@ const SettingPage = () => {
 
   useEffect(() => {
     const categoryFromUrl = location?.pathname.split('/')?.[4];
-    const categoryMatch = catgeoryName.find(category => 
+    const categoryFromDiamondUrl = location?.pathname.split('/')?.[5];
+
+    const categoryMatch1 = catgeoryName.find(category =>
       category.type === categoryFromUrl
     );
-  
-    if (categoryMatch && selectedCategory === null) {
-      setSelectedCategory(categoryMatch.id);
-    } else if(categoryMatch === undefined){
-      setSelectedCategory(null)
+
+    const categoryMatch2 = catgeoryName.find(category =>
+      category.type === categoryFromDiamondUrl
+    );
+
+    const selectedCategoryId = categoryMatch1?.id ?? categoryMatch2?.id;
+
+    // Only update if selectedCategory is null or different from the current match
+    if (selectedCategory === null && (categoryMatch1 || categoryMatch2)) {
+      setSelectedCategory(selectedCategoryId);
+    } else if (!categoryMatch1 && !categoryMatch2) {
+      setSelectedCategory(null);
     }
-  
+
   }, [location?.key, selectedCategory]);
 
   const handleCategory = (id) => {
@@ -565,7 +594,7 @@ const SettingPage = () => {
       const existingIndex = prev.findIndex(item => item?.dropdownIndex === index)
       return prev.filter((_, i) => i !== existingIndex);
     })
-    setPriceRangeValue([5000, 250000])
+    setPriceRangeValue([lowestPrice, highestPrice]);
     setSelectShape();
   }
 
@@ -574,7 +603,7 @@ const SettingPage = () => {
     setSelectShape();
     setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId)
     setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid)
-    setPriceRangeValue([5000, 250000])
+    setPriceRangeValue([lowestPrice, highestPrice]);
     setShippingDrp('ANY DATE')
     setTrend('Recommended')
   }
@@ -606,14 +635,16 @@ const SettingPage = () => {
 
   const handleSortby = async (e) => {
     setSortBySelect(e.target?.value)
+    let output = selectedValues.filter((ele) => ele.value)
 
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
     setIsOnlySettLoading(true)
+    setCurrPage(1);
 
     let sortby = e.target?.value
 
-    await ProductListApi({}, 1, obj, prodListType, cookie, sortby, {}, {}, {}, (Shape ?? ''))
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortby, {}, {}, {}, (Shape ?? ''))
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -628,11 +659,30 @@ const SettingPage = () => {
 
   }
 
-  const handlePriceSliderChange = (event, newValue) => {
+  const handlePriceSliderChange = async (event, newValue) => {
     const roundedValue = newValue.map(val => parseInt(val));
     setPriceRangeValue(roundedValue)
     handleButton(3, roundedValue);
   };
+
+  useEffect(() => {
+    setIsOnlySettLoading(true);
+    let output = selectedValues.filter((ele) => ele.value)
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+    ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect ?? "", "")
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsOnlySettLoading(false);
+      });
+  }, [selectedValues, selectedMetalId, selectedDiaId, sortBySelect, selectedCategory]);
 
   const dropdownsData = [
     { index: 1, title: "All metal", data: metalType, type: 'metal', "diaStep": steps, "setStep": steps1 ?? steps2 },
@@ -722,7 +772,6 @@ const SettingPage = () => {
     });
   };
 
-
   const StyledRating = styled(Rating)({
     '& .MuiRating-iconFilled': {
       color: '#A2A2A2',
@@ -796,7 +845,7 @@ const SettingPage = () => {
                 <div
                   className={`for_settingLists_category_lists ${isSelected ? 'selected' : ''}`}
                   key={index}
-                  onClick={() => handleClick(item?.id, checkLink, isSelected)}
+                  onClick={() => handleClick(item?.id, checkLink, isSelected, item?.link1)}
                 >
                   <img className='for_settingLists_categ_img' src={item?.image} alt={item?.title} />
                   <span className='for_settingList_categ_title'>{item?.title}</span>
@@ -870,8 +919,11 @@ const SettingPage = () => {
                               open={open === index}
                               title={title}
                               index={index}
+                              highestPrice={type === 'price' ? highestPrice : ''}
+                              lowestPrice={type === 'price' ? lowestPrice : ''}
                               handleSliderChange={handlePriceSliderChange}
                               data={data}
+                              ref={el => dropdownRefs.current[index] = el}
                               maxwidth1000px={maxwidth1000px}
                             />
                           )
@@ -976,6 +1028,9 @@ const SettingPage = () => {
                           open={open === index}
                           title={title}
                           index={index}
+                          highestPrice={type === 'price' ? highestPrice : ''}
+                          lowestPrice={type === 'price' ? lowestPrice : ''}
+                          ref={el => dropdownRefs.current[index] = el}
                           handleSliderChange={handlePriceSliderChange}
                           data={data}
                         />
@@ -1127,6 +1182,15 @@ const SettingPage = () => {
                   page={currPage}
                   showFirstButton
                   showLastButton
+                  disabled={false}
+                  renderItem={(item) => (
+                    <PaginationItem
+                      {...item}
+                      sx={{
+                        pointerEvents: item.page === currPage ? 'none' : 'auto',
+                      }}
+                    />
+                  )}
                 />
               </div>
             )}
@@ -1260,42 +1324,190 @@ const CollectionDiamondShape = forwardRef(({
   );
 });
 
+// const CollectionPriceRange = forwardRef(({
+//   handleOpen,
+//   open,
+//   title,
+//   index,
+//   handleSliderChange,
+//   data,
+//   maxwidth1000px,
+// }, ref) => {
+//   const handleSliderMouseDown = (event) => {
+//     event.stopPropagation();
+//   };
+
+//   const handleInputClick = (event) => {
+//     event.stopPropagation(); // Prevent the dropdown from toggling when clicking on the input
+//   };
+
+//   const isOpen = maxwidth1000px || open;
+
+//   return (
+//     <div
+//       className="for_setting_filter_dropdown"
+//       onClick={() => handleOpen(index)}
+//       ref={ref}
+//     >
+//       <div className="for_setting_filter_label">
+//         <label>{title}</label>
+//         <FaAngleDown />
+//       </div>
+//       <div className="for_setting_filter_option_div_slide"
+//         style={{
+//           height: isOpen ? "100px" : "0px",
+//           overflow: isOpen ? "unset" : "hidden",
+//         }}
+//       >
+//         <div className="for_setting_slider_div">
+//           <Slider
+//             value={data}
+//             onChange={handleSliderChange}
+//             onMouseDown={handleSliderMouseDown}
+//             min={5000}
+//             max={250000}
+//             aria-labelledby="range-slider"
+//             style={{ color: 'black' }}
+//             size="small"
+//             step={1}
+//             sx={{
+//               "& .MuiSlider-thumb": {
+//                 width: 17,
+//                 height: 17,
+//                 backgroundColor: "black",
+//                 border: "1px solid #000",
+//               },
+//               "& .MuiSlider-rail": {
+//                 height: 5, // Adjust height of the rail
+//                 bgcolor: "black",
+//                 border: "none",
+//               },
+//               "& .MuiSlider-track": {
+//                 height: 5, // Adjust height of the track
+//                 padding: "0 5px",
+//                 bgcolor: "black",
+//                 border: "none",
+//               },
+//               "& .MuiSlider-markLabel": {
+//                 fontSize: "12px !important",
+//               },
+//             }}
+//           />
+//           <div className="for_setting_slider_input">
+//             <input
+//               type="text"
+//               value={`INR ${formatter(data[0])}`}
+//               className="for_setting_price"
+//               onClick={handleInputClick} // Prevent propagation
+//             />
+//             <input
+//               type="text"
+//               value={`INR ${formatter(data[1])}`}
+//               className="for_setting_price"
+//               onClick={handleInputClick} // Prevent propagation
+//             />
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// });
+
 const CollectionPriceRange = forwardRef(({
   handleOpen,
   open,
   title,
+  highestPrice,
+  lowestPrice,
   index,
   handleSliderChange,
   data,
   maxwidth1000px,
 }, ref) => {
+  const [localOpen, setLocalOpen] = useState(open);
+  const [localValue, setLocalValue] = useState(data);
+
+  useEffect(() => {
+    setLocalOpen(open);
+  }, [open]);
+
+  useEffect(() => {
+    setLocalValue(data);
+  }, [data]);
+
   const handleSliderMouseDown = (event) => {
-    event.stopPropagation();
+    event.stopPropagation(); // Prevent click from propagating to parent div
   };
-  const isOpen = maxwidth1000px || open;
+
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func.apply(null, args);
+      }, delay);
+    };
+  };
+
+  const debouncedHandleSliderChange = useMemo(
+    () => debounce((event, newValue) => {
+      handleSliderChange(event, newValue);
+    }, 500),
+    [handleSliderChange]
+  );
+
+  const handleLocalSliderChange = (event, newValue) => {
+    setLocalValue(newValue);
+    setLocalOpen(true);
+    debouncedHandleSliderChange(event, newValue);
+  };
+
+  const handleLocalOpen = () => {
+    const newOpenState = !localOpen;
+    setLocalOpen(newOpenState);
+    handleOpen(index);
+  };
+
+  const isOpen = maxwidth1000px || localOpen;
+  const isOpenBox = maxwidth1000px || open;
   return (
     <div
       className="for_setting_filter_dropdown"
-      onClick={() => handleOpen(index)}
+      onClick={handleLocalOpen}
       ref={ref}
     >
+      {isOpenBox == true && <div className="wrapper-fg"
+        style={{
+          position: "absolute",
+          top: "0",
+          padding: "4px 18px",
+          left: 0,
+          right: 0,
+          cursor: "pointer",
+          backgroundColor: "transparent",
+          color: "transparent",
+        }}
+      >22446</div>}
       <div className="for_setting_filter_label">
         <label>{title}</label>
         <FaAngleDown />
       </div>
+      {/* <div className={isOpen ? "for_collection_filter_option_div_slide" : 'for_collection_filter_option_div_slide_hide'}> */}
       <div className="for_setting_filter_option_div_slide"
         style={{
-          height: isOpen ? "100px" : "0px",
+          height: isOpen ? "90px" : "0px",
           overflow: isOpen ? "unset" : "hidden",
         }}
       >
         <div className='for_setting_slider_div'>
           <Slider
-            value={data}
-            onChange={handleSliderChange}
+            value={localValue}
+            onChange={handleLocalSliderChange}
             onMouseDown={handleSliderMouseDown}
-            min={5000}
-            max={250000}
+            min={lowestPrice}
+            max={highestPrice}
             aria-labelledby="range-slider"
             style={{ color: 'black' }}
             size='small'
@@ -1324,8 +1536,8 @@ const CollectionPriceRange = forwardRef(({
             }}
           />
           <div className='for_setting_slider_input'>
-            <input type="text" value={`INR ${formatter(data[0])}`} className='for_setting_price' />
-            <input type="text" value={`INR ${formatter(data[1])}`} className='for_setting_price' />
+            <input type="text" value={`INR ${localValue[0]}`} className='for_setting_price' />
+            <input type="text" value={`INR ${localValue[1]}`} className='for_setting_price' />
           </div>
         </div>
       </div>
@@ -1496,7 +1708,7 @@ const Product_Card = ({
                 }}
                 style={{ paddingRight: '0.4rem' }}
               />
-              {formatter(productData?.UnitCostWithMarkUp)}
+              {formatter(productData?.UnitCostWithMarkUpIncTax)}
             </span>
           </div>
         </div>
