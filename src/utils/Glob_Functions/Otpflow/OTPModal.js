@@ -10,12 +10,12 @@ export const OTPVerificationModal = ({
   onClose,
   type,
   contactInfo,
-  buttonBgColor ,
+  buttonBgColor,
   onVerify,
   onResend,
-  iconcolor ,
-bgcolor ,
-iconbgcolor
+  iconcolor,
+  bgcolor,
+  iconbgcolor
 }) => {
   const otpLength = 4
   const [otp, setOtp] = useState(new Array(otpLength).fill(""))
@@ -63,19 +63,28 @@ iconbgcolor
     onResend()
   }
 
+  useEffect(() => {
+    if (isOpen) {
+      setOtp(new Array(otpLength).fill(""))
+      setShowResend(false)
+      inputRefs.current[0]?.focus()
+    }
+  }, [isOpen]) 
+
+
   return (
     <Modal open={isOpen} onClose={onClose} aria-labelledby="otp-modal-title" className="otp-verification-modal">
       <Box className="modal-content" sx={{
-        bgcolor:`${bgcolor} !important`
+        bgcolor: `${bgcolor} !important`
       }}>
-        <button className="close-button"  onClick={onClose}>
+        <button className="close-button" onClick={onClose}>
           <MdClose />
         </button>
 
         <div className="icon-container" style={{
           backgroundColor: iconbgcolor
         }}>
-          {type === "email" ? <MdEmail className="icon"  color={iconcolor} /> : <MdSmartphone className="icon" color={iconcolor} />}
+          {type === "email" ? <MdEmail className="icon" color={iconcolor} /> : <MdSmartphone className="icon" color={iconcolor} />}
         </div>
 
         <Typography variant="h5" id="otp-modal-title" className="title">
