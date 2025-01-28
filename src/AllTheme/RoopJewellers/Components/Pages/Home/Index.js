@@ -39,6 +39,7 @@ function Home() {
     }
     setCSSVariable();
   }, []);
+  
 
   const setCSSVariable = () => {  
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));

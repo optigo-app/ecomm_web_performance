@@ -27,7 +27,7 @@ const ForkTsCheckerWebpackPlugin =
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const createEnvironmentHash = require('./webpack/persistentCache/createEnvironmentHash');
-
+const CompressionPlugin = require('compression-webpack-plugin')
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 
@@ -570,6 +570,20 @@ module.exports = function (webpackEnv) {
     },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
+      // new CompressionPlugin(),
+      // new CompressionPlugin({
+      //   filename: "[path][base].br",
+      //   algorithm: "brotliCompress",
+      //   test: /\.(js|css|html|svg)$/,
+      //   compressionOptions: {
+      //     params: {
+      //       [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+      //     },
+      //   },
+      //   threshold: 10240,
+      //   minRatio: 0.8,
+      //   deleteOriginalAssets: false,
+      // }),
       new HtmlWebpackPlugin(
         Object.assign(
           {},
