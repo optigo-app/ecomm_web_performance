@@ -8,9 +8,9 @@ import { roop_CartNo, roop_companyLogo, roop_loginState } from "./Components/Rec
 import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import AboutUsVara from './Components/Pages/static/AboutUs/AboutUsVara';
-import BrandsComponent from './Components/Pages/Home/BrandComponent/BrandComponents';
+// import BrandsComponent from './Components/Pages/Home/BrandComponent/BrandComponents';
 import PrivacyPolicy from './Components/Pages/static/PrivacyPolicy/PrivacyPolicy';
-import AXboutUs from './Components/Pages/aboutUs/AQbout';
+// import AXboutUs from './Components/Pages/aboutUs/AQbout';
 
 
 // import Home from "./Components/Pages/Home/Index";
@@ -52,9 +52,9 @@ const LoginWithEmail = lazy(() => import("./Components/Pages/Auth/LoginWithEmail
 const ProductList = lazy(() => import("./Components/Pages/Product/ProductList/ProductList"));
 const ProductDetail = lazy(() => import("./Components/Pages/Product/ProductDetail/ProductDetail"));
 const ContactUs = lazy(() => import("./Components/Pages/FooterPages/contactUs/ContactUs"));
-const ServicePolicy = lazy(() => import("./Components/Pages/FooterPages/servicePolicy/ServicePolicy"));
-const ExpertAdvice = lazy(() => import("./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice"));
-const FunFact = lazy(() => import("./Components/Pages/FooterPages/FunFact/FunFact"));
+// const ServicePolicy = lazy(() => import("./Components/Pages/FooterPages/servicePolicy/ServicePolicy"));
+// const ExpertAdvice = lazy(() => import("./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice"));
+// const FunFact = lazy(() => import("./Components/Pages/FooterPages/FunFact/FunFact"));
 const Register = lazy(() => import("./Components/Pages/Auth/Registretion/Register"));
 const ContimueWithMobile = lazy(() => import("./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile"));
 const LoginWithEmailCode = lazy(() => import("./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode"));
@@ -69,7 +69,7 @@ const ForgotPass = lazy(() => import("./Components/Pages/Auth/forgotPass/ForgotP
 const Header2 = lazy(() => import("./Components/Pages/Home/Header/Header2"));
 // const Account = lazy(() => import("./Components/Pages/Account/Account"));
 const Lookbook = lazy(() => import("./Components/Pages/Home/LookBook/Lookbook"));
-const ScrollToTop = lazy(() => import("../DaimondTine/Components/Pages/ScrollToTop "));
+// const ScrollToTop = lazy(() => import("../DaimondTine/Components/Pages/ScrollToTop "));
 const StamScrollToTop = lazy(() => import("./Components/Pages/BackToTop/StamScrollToTop"));
 const Footer = lazy(() => import("./Components/Pages/Home/Footer/Footer"));
 const ManagementTeam = lazy(() => import('./Components/Pages/static/Management/Management'));
