@@ -285,32 +285,32 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
       <tr>
       <td colSpan={12}></td>
         <td colSpan={2} align='center'>Balance (Diam) :</td>
-        <td colSpan={2} align='center'><b>{summaryObj?.diam?.toFixed(3)}</b></td>
+        <td colSpan={2} align='center'><b>{Math.abs(+summaryObj?.diam?.toFixed(3))}</b></td>
       </tr>
       <tr>
       <td colSpan={12}></td>
         <td colSpan={2} align='center'>Balance (Metal) :</td>
-        <td colSpan={2} align='center'><b>{summaryObj?.metal?.toFixed(2)}</b></td>
+        <td colSpan={2} align='center'><b>{Math.abs(+summaryObj?.metal?.toFixed(2))}</b></td>
       </tr>
       <tr>
       <td colSpan={12}></td>
         <td colSpan={2} align='center'>Gold (gm) :</td>
-        <td colSpan={2} align='center'><b>{summaryObj?.goldWt?.toFixed(3)}</b></td>
+        <td colSpan={2} align='center'><b>{Math.abs(+summaryObj?.goldWt?.toFixed(3))}</b></td>
       </tr>
       <tr>
       <td colSpan={12}></td>
         <td colSpan={2} align='center'>Silver (gm) :</td>
-        <td colSpan={2} align='center'><b>{summaryObj?.silverWt?.toFixed(3)}</b></td>
+        <td colSpan={2} align='center'><b>{Math.abs(+summaryObj?.silverWt?.toFixed(3))}</b></td>
       </tr>
       <tr>
       <td colSpan={12}></td>
         <td colSpan={2} align='center'>Platinum (gm) :</td>
-        <td colSpan={2} align='center'><b>{summaryObj?.platinumWt?.toFixed(3)}</b></td>
+        <td colSpan={2} align='center'><b>{Math.abs(+summaryObj?.platinumWt?.toFixed(3))}</b></td>
       </tr>
       <tr>
       <td colSpan={12}></td>
         <td colSpan={2} align='center'>Others (gm) :</td>
-        <td colSpan={2} align='center'><b>{summaryObj?.otherWt?.toFixed(3)}</b></td>
+        <td colSpan={2} align='center'><b>{Math.abs(+summaryObj?.otherWt?.toFixed(3))}</b></td>
       </tr>
     </table>
     </div>
