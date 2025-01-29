@@ -9,6 +9,7 @@ import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductLi
 import { useLocation, useNavigate } from "react-router-dom";
 import Pako from "pako";
 import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { DiamondListData } from "../../../../../../utils/API/DiamondStore/DiamondList";
 
 const SearchData = () => {
 
@@ -24,6 +25,7 @@ const SearchData = () => {
     const [locationKey, setLocationKey] = useState();
     const getEncodeData = atob(location?.search?.slice(3));
     const [productListData, setProductListData] = useState([]);
+    const [diamondData, setDiamondData] = useState();
     const [prodListType, setprodListType] = useState();
     const [isProdLoading, setIsProdLoading] = useState(false);
     const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
@@ -31,6 +33,7 @@ const SearchData = () => {
     const [afterFilterCount, setAfterFilterCount] = useState();
     const [currPage, setCurrPage] = useState(1);
     const [searchText, setSearchText] = useState("");
+    console.log('searchText: ', searchText);
 
     const setDefaultsearchText = location?.pathname?.split('/')?.[2];
 
@@ -81,10 +84,16 @@ const SearchData = () => {
                 setIsOnlyProdLoading(true);
 
                 const res = await ProductListApi({}, 1, obj, productlisttype, cookie, "");
+                const filterData = await DiamondListData(1, (setDefaultsearchText || searchText));
+                // const filterData = await DiamondListData("", (shape || ""), (stockno || ""), "", "");
 
                 if (res) {
                     setProductListData(res?.pdList);
                     setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+                }
+
+                if (filterData) {
+                    setDiamondData(filterData?.Data?.rd);
                 }
 
             } catch (error) {
@@ -230,6 +239,22 @@ const SearchData = () => {
         );
     };
 
+    const HandleDiamondRoute = (val) => {
+        const currentLocation = location.pathname + location.search + location.hash;
+
+        //("hsahdjash", val);
+        const obj = {
+            a: val?.stockno,
+            b: val?.shapename,
+        };
+
+        let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+        let navigateUrl = `/d/${val?.stockno?.replaceAll(" ", "")}/det345/?p=${encodeObj}`;
+        window.history.pushState({ pathname: currentLocation }, '', currentLocation);
+        navigate(navigateUrl);
+    };
+
     const decodeEntities = (html) => {
         var txt = document.createElement("textarea");
         txt.innerHTML = html;
@@ -348,6 +373,57 @@ const SearchData = () => {
                             </>
                         )}
                     </div>
+                    {isOnlyProdLoading ? "" : (
+                        <>
+                            {diamondData?.length !== 0 && diamondData?.[0]?.stat !== 0 && (
+                                <div className="for_searchdata_listing_div">
+                                    {diamondData?.map((val, i) => {
+                                        const diamondImageUrl = val?.image_file_url || noImageFound;
+                                        return (
+                                            <div className="for_productCard_mainDiv" key={i}>
+                                                <div className="for_productList_listing_card_div">
+                                                    <div
+                                                        className="for_productList_listing_card_image_div"
+                                                        onClick={() => HandleDiamondRoute(val)}
+                                                    >
+                                                        <img
+                                                            className="for_productList_listing_card_image"
+                                                            src={diamondImageUrl}
+                                                            alt=""
+                                                            onError={(e) => {
+                                                                e.target.onerror = null;
+                                                                e.stopPropagation();
+                                                                e.target.src = noImageFound;
+                                                            }}
+                                                            loading="lazy"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="for_productList_card_description">
+                                                    <div className="for_productList_desc_dia_title">
+                                                        <span className="for_listing_desc_dia_span">
+                                                            {val?.shapename} - {val?.carat?.toFixed(3)} CARAT {val?.colorname} {val?.clarityname} {val?.cutname}
+                                                        </span>
+                                                        <span className="for_listing_desc_dia_span">SKU: {val?.stockno}</span>
+                                                        <div className="for_productList_price_dia_div">
+                                                            <span>
+                                                                Price:{" "}
+                                                                <span className="smr_currencyFont">
+                                                                    {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                                </span>
+                                                                <span> {val?.price}</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </>
+                    )}
+
                 </div>
             </div>
         </div>

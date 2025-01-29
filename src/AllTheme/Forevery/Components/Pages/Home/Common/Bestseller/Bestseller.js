@@ -105,12 +105,12 @@ const Bestseller = () => {
             onClick={()=>Navigation(`/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ==`)}
             >
               Customize Earring
-            </button>
+            </button> */}
             <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
             onClick={()=>Navigation(`/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ==`)}
             >
               Customize Pendant
-            </button> */}
+            </button>
           </div>
         </div>
       </div>
