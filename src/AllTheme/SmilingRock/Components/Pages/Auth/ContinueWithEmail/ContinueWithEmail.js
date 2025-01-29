@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Footer from '../../Home/Footer/Footer';
 import { ContinueWithEmailAPI } from '../../../../../../utils/API/Auth/ContinueWithEmailAPI';
+import OTPContainer from '../../../../../../utils/Glob_Functions/Otpflow/App';
 
 export default function ContinueWithEmail() {
     const [email, setEmail] = useState('');
@@ -120,6 +121,7 @@ export default function ContinueWithEmail() {
                 </div>
             )}
             <div >
+                <OTPContainer />
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',

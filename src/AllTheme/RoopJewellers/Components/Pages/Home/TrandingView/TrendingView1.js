@@ -167,6 +167,8 @@ const TrendingView1 = ({data}) => {
                         {/* // for vara  */}
                         <img src={data?.image?.[0]}
                             alt="Trending Jewellery Collection Banner"
+                            loading='lazy'
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"  // Responsive image size based on viewport width
                         />  
                     </div>
                     {/* <div className='smr_rightSideTR'> */}

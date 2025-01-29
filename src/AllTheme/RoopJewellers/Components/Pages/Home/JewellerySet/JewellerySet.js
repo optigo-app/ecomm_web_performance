@@ -175,6 +175,7 @@ function JewellerySet() {
         style={{
           width: GenerateWidthBaseOnContent()?.width,
         }}
+        role="list" 
       >
         <Swiper
           modules={[Navigation]}

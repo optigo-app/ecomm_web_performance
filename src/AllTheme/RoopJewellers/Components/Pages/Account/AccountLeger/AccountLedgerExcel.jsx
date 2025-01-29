@@ -29,9 +29,9 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
     }
 
     obj.balance_amt = ((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency) - (debit_amt_diff + resultTotal?.debit_totalcurrency));
-    obj.diam = ((Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt) - (debit_curr_diff + resultTotal?.debit_diamondwt));
+    obj.diam = +(((Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt) - (debit_curr_diff + resultTotal?.debit_diamondwt))?.toFixed(3));
     obj.metal = ((Math.abs(credit_mg_diff) + resultTotal?.credit_metalgold) - (debit_mg_diff + resultTotal?.debit_metalgold));
-
+    
     filterArray?.forEach((a) => {
       obj.metalctw += a?.metalctw;
       obj.goldWt += a?.GoldWt;
@@ -68,7 +68,7 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                                     ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)) === 'NaN' ? '0.00' :  
                                     (((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)))
                     }
-                    { ((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff))) > 0 ? 'Dr' : ' Cr' }
+                    { ((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff))) > 0 ? ' Dr' : ' Cr' }
                     </b>
                     </h3>
                 </td>
@@ -80,7 +80,7 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                     <b>
                     { ((((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)) === 'NaN' ? '0.00'
                     : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3))) }
-                    { ((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? 'Dr' : ' Cr' }
+                    { ((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? ' Dr' : ' Cr' }
                     </b>
                     </h3> 
                 </td>
@@ -99,7 +99,7 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                               ))
                             }&nbsp;
 
-                            {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr' ) }
+                            {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? ' Dr' : ' Cr' ) }
                     </span>
                     </b>
                     </h3>
@@ -211,7 +211,7 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
                     <td  align='center'>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td>
                     <td  align='center'>{e?.IsDebit === 0 ? (e?.metalctw === 0 ? '' : e?.metalctw) : ''}</td>
                     <td  align='center'>{e?.IsDebit === 0 ? (e?.diamondctw === 0 ? '' : e?.diamondctw) : ''}</td>
-                    <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}> { e?.IsDebit === 0 && <span dangerouslySetInnerHTML={{__html: currencySymbol}}></span>} {e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? '' : formatAmount(e?.Currency)}`  : ''}</td>
+                    <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}> { e?.IsDebit === 0 && <span dangerouslySetInnerHTML={{__html: currencySymbol}}></span>} {e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? '0.00' : formatAmount(e?.Currency)}`  : ''}</td>
                     {/* <td  align='center'>{e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? '' : (e?.Currency)}`  : ''}</td>
                     <td  align='center'>{ e?.IsDebit === 0 && <span dangerouslySetInnerHTML={{__html: currencySymbol}}></span>}</td>
                     <td  align='center'>{ e?.IsDebit === 0 ? e?.CurrRate : ''}</td>
@@ -279,37 +279,38 @@ const AccountLedgerExcel = ({filterArray, credit_curr_diff, credit_amt_diff, cre
         <tr>
           <td colSpan={12}></td>
         <td colSpan={2} align='center'>Balance (Amt) : </td>
-        <td colSpan={2} align='center'><b><span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>&nbsp; {summaryObj?.balance_amt?.toFixed(2)}</b></td>
+        {/* <td colSpan={2} align='center'><b><span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>&nbsp; {summaryObj?.balance_amt?.toFixed(2)}</b></td> */}
+        <td colSpan={2} align='center'><b>&nbsp; {Math.abs(+summaryObj?.balance_amt?.toFixed(2))}</b></td>
       </tr>
       <tr>
       <td colSpan={12}></td>
         <td colSpan={2} align='center'>Balance (Diam) :</td>
-        <td colSpan={2} align='center'><b>{summaryObj?.diam}</b></td>
+        <td colSpan={2} align='center'><b>{Math.abs(+summaryObj?.diam?.toFixed(3))}</b></td>
       </tr>
       <tr>
       <td colSpan={12}></td>
         <td colSpan={2} align='center'>Balance (Metal) :</td>
-        <td colSpan={2} align='center'><b>{summaryObj?.metal?.toFixed(2)}</b></td>
+        <td colSpan={2} align='center'><b>{Math.abs(+summaryObj?.metal?.toFixed(2))}</b></td>
       </tr>
       <tr>
       <td colSpan={12}></td>
         <td colSpan={2} align='center'>Gold (gm) :</td>
-        <td colSpan={2} align='center'><b>{summaryObj?.goldWt?.toFixed(3)}</b></td>
+        <td colSpan={2} align='center'><b>{Math.abs(+summaryObj?.goldWt?.toFixed(3))}</b></td>
       </tr>
       <tr>
       <td colSpan={12}></td>
         <td colSpan={2} align='center'>Silver (gm) :</td>
-        <td colSpan={2} align='center'><b>{summaryObj?.silverWt?.toFixed(3)}</b></td>
+        <td colSpan={2} align='center'><b>{Math.abs(+summaryObj?.silverWt?.toFixed(3))}</b></td>
       </tr>
       <tr>
       <td colSpan={12}></td>
         <td colSpan={2} align='center'>Platinum (gm) :</td>
-        <td colSpan={2} align='center'><b>{summaryObj?.platinumWt?.toFixed(3)}</b></td>
+        <td colSpan={2} align='center'><b>{Math.abs(+summaryObj?.platinumWt?.toFixed(3))}</b></td>
       </tr>
       <tr>
       <td colSpan={12}></td>
         <td colSpan={2} align='center'>Others (gm) :</td>
-        <td colSpan={2} align='center'><b>{summaryObj?.otherWt?.toFixed(3)}</b></td>
+        <td colSpan={2} align='center'><b>{Math.abs(+summaryObj?.otherWt?.toFixed(3))}</b></td>
       </tr>
     </table>
     </div>

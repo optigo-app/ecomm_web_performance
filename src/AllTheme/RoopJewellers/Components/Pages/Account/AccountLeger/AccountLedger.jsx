@@ -656,7 +656,7 @@ const AccountLedger = () => {
                                 <span className='bal_Amt_ac w_60_acc end_acc' style={{ fontFamily: "Spectral-Regular" }}>
                                     {((((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)) === 'NaN' ? '0.00'
                                         : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)))}
-                                    {((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? 'Dr' : ' Cr'}
+                                    {((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? ' Dr' : ' Cr'}
                                 </span>
                             </div>
                             <div className='custom_px_4 px_2_al d_flex_Acc align_items_center mb_2_acc w_all_acc'>
@@ -684,7 +684,7 @@ const AccountLedger = () => {
                                 <div className='w_100_acc' style={{ fontFamily: "Spectral-Regular" }}>Balance Diam. :&nbsp;</div>
                                 <div className='bal_Amt_ac w_100_acc end_acc' style={{ fontFamily: "Spectral-Regular" }}>
                                     {((((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)) === 'NaN' ? '0.00' : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)))}
-                                    {((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? 'Dr' : ' Cr'}
+                                    {((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? ' Dr' : ' Cr'}
                                 </div>
                             </div>
                             <div className='custom_px_4 px_2_al d_flex_Acc flex_column align_items_center mb_2_acc w_100_acc'>
@@ -698,7 +698,7 @@ const AccountLedger = () => {
                                     ))
                                     }&nbsp;
 
-                                    {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr')}
+                                    {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? ' Dr' : ' Cr')}
                                 </div>
                             </div>
                         </div>
@@ -767,16 +767,16 @@ const AccountLedger = () => {
                                             <td className='border_end_acc p_1_acc text_center_acc'></td>
                                             <td className='border_end_acc p_1_acc  ps_1_acc' align='center'>Opening</td>
                                             <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'></td>
-                                            <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(debit_mg_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(debit_mg_diff))?.toFixed(3)}</td>
-                                            <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(debit_dia_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(debit_dia_diff))?.toFixed(3)}</td>
+                                            <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(debit_mg_diff))?.toFixed(3) === '0.000 ' ? '' : (Math.abs(debit_mg_diff))?.toFixed(3)}</td>
+                                            <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(debit_dia_diff))?.toFixed(3) === '0.000 ' ? '' : (Math.abs(debit_dia_diff))?.toFixed(3)}</td>
 
                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{ minWidth: '100px' }} >{Math.abs(debit_curr_diff) === 0.00 ? '' : <><span dangerouslySetInnerHTML={{__html:currencyCode}}></span>&nbsp;{formatAmount(Math.abs(debit_curr_diff))}</>}</td>
                                             <td className='border_end_acc p_1_acc text_center_acc'></td>
                                             <td className='border_end_acc p_1_acc text_center_acc'></td>
                                             <td className='border_end_acc p_1_acc text_start_acc ps_1_acc' align='center'>Opening</td>
                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'></td>
-                                            <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(credit_mg_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(credit_mg_diff))?.toFixed(3)}</td>
-                                            <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(credit_dia_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(credit_dia_diff))?.toFixed(3)}</td>
+                                            <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(credit_mg_diff))?.toFixed(3) === '0.000 ' ? '' : (Math.abs(credit_mg_diff))?.toFixed(3)}</td>
+                                            <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(credit_dia_diff))?.toFixed(3) === '0.000 ' ? '' : (Math.abs(credit_dia_diff))?.toFixed(3)}</td>
 
                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{ minWidth: '100px' }}>{Math.abs(credit_curr_diff) === 0.00 ? '' : <><span dangerouslySetInnerHTML={{__html:currencyCode}}></span>&nbsp;{formatAmount(Math.abs(credit_curr_diff))}</>}</td>
                                             <td className=' p_1_acc text_center_acc'></td>
@@ -851,7 +851,7 @@ const AccountLedger = () => {
                                                             {/* <td className='border_end_acc p_1_acc text_start_acc ps_1_acc ' style={{ cursor: 'pointer' }}>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td> */}
                                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? (e?.metalctw === 0 ? '' : e?.metalctw) : ''}</td>
                                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? (e?.diamondctw === 0 ? '' : e?.diamondctw) : ''}</td>
-                                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{ minWidth: '100px' }}> {e?.IsDebit === 0 && <span dangerouslySetInnerHTML={{ __html: currencyCode }}></span>} {e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? '' : formatAmount(e?.Currency)}` : ''}</td>
+                                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{ minWidth: '100px' }}> {e?.IsDebit === 0 && <span dangerouslySetInnerHTML={{ __html: currencyCode }}></span>} {e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? ' 0.00' : formatAmount(e?.Currency)}` : ''}</td>
 
                                                             <td className=' p_1_acc text_center_acc'>{e?.IsDebit === 0 && icon}</td>
                                                         </tr>

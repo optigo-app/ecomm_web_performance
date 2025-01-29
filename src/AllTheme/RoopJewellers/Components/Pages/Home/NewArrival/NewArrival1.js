@@ -136,13 +136,14 @@ const NewArrival = () => {
           <div className="title_rp">
             <Typography variant="h4" className="roop_NewArr1Title">
               NEW ARRIVAL
-              <Link
+              <span
+              role="link"
                 className="rp_designSetViewmoreBtn"
                 aria-label="View more new arrival products"
                 onClick={() => navigation(`/p/NewArrival/?N=${btoa("NewArrival")}`)}
               >
                 View more
-              </Link>
+              </span>
             </Typography>
           </div>
 

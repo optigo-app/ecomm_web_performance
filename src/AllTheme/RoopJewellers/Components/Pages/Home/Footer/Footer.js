@@ -26,10 +26,10 @@ const Footer = ({ fromPage }) => {
           <div className='footerIconMain'>
             {socialMediaData?.map((social, index) => (
               <div className='footerSocialIcon' key={index} onClick={() => window.open(`${social?.SLink}`, '_blank')}>
-                <a key={index} rel="noopener noreferrer">
+                <div key={index} rel="noopener noreferrer" role='link'>
                   <img src={social?.SImgPath} alt={social?.SName} style={{ width: '24px', height: '24px', objectFit: 'cover' }}
                     onError={(e) => { e.target.style.display = 'none'; }} />
-                </a>
+                </div>
               </div>
             ))}
           </div>

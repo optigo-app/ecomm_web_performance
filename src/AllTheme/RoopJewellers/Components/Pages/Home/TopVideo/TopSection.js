@@ -69,12 +69,14 @@ const TopSection = ({data}) => {
           {isMobile
             ? data?.image?.slice(0,3).map((val, i) => (
               <div className="slide" key={i}>
-                <img src={val} alt={val?.key} />
+                <LazyImage src={val} alt={`top-section-banner-${i}`}    />
+                {/* <img src={val} alt={`top-section-banner-${i}`}  /> */}
               </div>
             ))
             : data?.image?.slice(0,3).map((val, i) => (
               <div className="slide" key={i}>
-                <img src={val} alt={val?.key} />
+                {/* <img src={val} alt={`top-section-banner-${i}`}  /> */}
+                <LazyImage src={val} alt={`top-section-banner-${i}`}    />
               </div>
             ))}
         </Slider>
@@ -121,3 +123,37 @@ const TopSection = ({data}) => {
 
 export default TopSection;
 
+
+
+
+const LazyImage = ({ src, alt, className }) => {
+  const imgRef = useRef(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect(); // Stop observing once image is in view
+        }
+      },
+      { threshold: 0.1 } // 10% of the image needs to be in view
+    );
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <img
+      ref={imgRef}
+      src={inView ? src : ''}
+      alt={alt}
+      className={className}
+      loading="lazy"
+    />
+  );
+};
