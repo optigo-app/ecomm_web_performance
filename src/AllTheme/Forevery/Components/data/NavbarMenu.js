@@ -136,12 +136,12 @@ const SideItems = [
   },
   {
     name: "Diamond Earrings",
-    img: `${storImagePath()}/Forevery/diamond/side/easrrings.png`,
+    img: `${storImagePath()}/Forevery/diamond/side/s.png`,
     link: EaringNavi,
   },
   {
     name: "Diamond Pendant",
-    img: `${storImagePath()}/Forevery/diamond/side/s.png`,
+    img: `${storImagePath()}/Forevery/diamond/side/easrrings.png`,
     link: PendantNavi,
   },
 ];

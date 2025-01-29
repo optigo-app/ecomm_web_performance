@@ -5,7 +5,6 @@ import ProductDetail from './ProductDetail/ProductDetail';
 
 const DetailsRoute = () => {
   const location = useLocation();
-  console.log('location: ', location);
   const [DiamondData, setDiamondData] = useState(false);
 
   const checkIfDiamondPage = (pathname) => {
