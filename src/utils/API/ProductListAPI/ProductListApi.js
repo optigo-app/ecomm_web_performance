@@ -92,8 +92,8 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
   let filPrice = filterObj?.Price?.length > 0 ? filterObj?.Price : ''
 
   const priceData = Array.isArray(filterObj)
-    ? filterObj.find(item => item.dropdownIndex === 4 || item.dropdownIndex === 3) || {}
-    : [];
+  ? filterObj.find(item => item.dropdownIndex === 4) || {}
+  : [];
 
   // const caratData = filterObj.find(item => item.dropdownIndex === 5);
   // const ProductType = filterObj.find(item => item.dropdownIndex === 6);

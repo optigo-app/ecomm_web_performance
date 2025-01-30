@@ -110,6 +110,7 @@ const SettingPage = () => {
   const [isOnlySettLoading, setIsOnlySettLoading] = useState(true);
   const [isProdLoading, setIsProdLoading] = useState(false);
   const [selectedValues, setSelectedValues] = useState([]);
+  console.log('selectedValues: ', selectedValues);
   const [loginCurrency, setLoginCurrency] = useState();
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
@@ -381,7 +382,7 @@ const SettingPage = () => {
     // fetchData('')
     setCurrPage(1)
 
-  }, [location?.pathname]);
+  }, [location?.key]);
 
   const fetchData = async (Shape) => {
     try {
@@ -389,8 +390,10 @@ const SettingPage = () => {
       setIsOnlySettLoading(true);
 
       const obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+      let output = selectedValues.filter((ele) => ele.value)
+      let diamondShape = output.find((item) => item?.dropdownIndex === 2)
+      let priceValue = output.find((item) => item?.dropdownIndex === 4)
       const urlPath = location?.pathname?.slice(1).split("/");
-      console.log('urlPath: ', urlPath);
       let menuVal = "";
       let productlisttype;
 
@@ -409,7 +412,13 @@ const SettingPage = () => {
       }
       setprodListType(productlisttype);
 
-      const res = await ProductListApi({}, 1, obj, productlisttype, cookie, "", {}, {}, {}, Shape);
+      let res;
+
+      if (output?.length > 0 && !priceValue) {
+        res = await ProductListApi(output, 1, obj, productlisttype, cookie, "", {}, {}, {}, Shape);
+      } else {
+        res = await ProductListApi({}, 1, obj, productlisttype, cookie, "", {}, {}, {}, Shape);
+      }
       if (res) {
         setProductListData(res?.pdList);
         setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
@@ -437,23 +446,68 @@ const SettingPage = () => {
 
   const getShapeFromURL = () => {
     const getSetting = location?.pathname?.split("/")[3];
-    const getPath = location.pathname.split('/').slice(1, 3)
-    const mergePath = getPath.join('/')
-    if (mergePath == 'certified-loose-lab-grown-diamonds/settings') {
-      if (stepsData === null && stepsData2 === null && stepsData3 === null && (steps1?.[0]?.step1 !== true ?? steps2?.[0]?.step1 !== true)) {
-        const step1 = [{ "step1": true, "Setting": getSetting, 'id': getSetting === "Ring" ? 1 : 2 }];
-        if (getSetting === "Ring") {
-          sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
-        } else {
-          sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(step1));
+    const getPath = location.pathname.split('/').slice(1, 3).join('/');
+
+    if (getPath === 'certified-loose-lab-grown-diamonds/settings') {
+      if (
+        getSetting === "Ring" && stepsData === null && (stepsData2 === null || stepsData3 !== null) && (steps1?.[0]?.step1 !== true)
+      ) {
+        const step1Ring = [{ "step1": true, "Setting": "Ring", "id": 1, "Status": "active" }];
+        sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1Ring));
+        if (steps2?.[0]?.step1 === true) {
+          if (steps2?.[0]) {
+            steps2[0].Status = "inactive";
+            sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
+          }
+        }
+      } else if (getSetting === "Ring" && (stepsData2 !== null || stepsData3 !== null) && (steps1?.[0]?.step1 === true)) {
+        if (steps1?.[0]?.step1 === true && steps1?.[1]?.step2 === true) {
+          if (steps1?.[0]) {
+            steps1[0].Status = "active";
+            // const getRingSteps = [...steps1];
+            // getRingSteps.splice(2, 1);
+            sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(steps1));
+            if (steps2?.[0]) {
+              steps2[0].Status = "inactive";
+              sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
+            }
+          }
+        }
+      }
+
+      if (
+        getSetting === "Pendant" && stepsData === null && (stepsData3 === null || stepsData2 !== null) && (steps2?.[0]?.step1 !== true)
+      ) {
+        const step1Pendant = [{ "step1": true, "Setting": "Pendant", "id": 2, "Status": "active" }];
+        sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(step1Pendant));
+        if (steps1?.[0]?.step1 === true) {
+          if (steps1?.[0]) {
+            steps1[0].Status = "inactive";
+            sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(steps1));
+          }
+        }
+      }
+      else if (getSetting === "Pendant" && (stepsData3 !== null || stepsData2 !== null) && (steps2?.[0]?.step1 === true)) {
+        if (steps2?.[0]?.step1 === true && steps2?.[1]?.step2 === true) {
+          if (steps2?.[0]) {
+            steps2[0].Status = "active";
+            // const getPendantteps = [...steps2];
+            // getPendantteps.splice(2, 1);
+            sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
+            if (steps1?.[0]) {
+              steps1[0].Status = "inactive";
+              sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(steps1));
+            }
+          }
         }
       }
     }
-  }
+  };
 
   useEffect(() => {
     getShapeFromURL();
   }, [location?.pathname, location?.key]);
+
 
   const updateSteps = (shape) => {
     const updatedStep1 = steps?.map(step => {
@@ -472,20 +526,28 @@ const SettingPage = () => {
 
   useEffect(() => {
     // Check if the current values differ from the previous values
-    const hasChanges = selectedMetalId !== previousSelections.selectedMetalId
-      || selectedDiaId !== previousSelections.selectedDiaId
-      || selectedCsId !== previousSelections.selectedCsId || selectShape
+    const hasChanges =
+      selectedMetalId !== previousSelections.selectedMetalId ||
+      selectedDiaId !== previousSelections.selectedDiaId ||
+      selectedCsId !== previousSelections.selectedCsId ||
+      selectShape !== previousSelections.selectShape;
 
     if (hasChanges) {
-      filterData(selectedMetalId, selectedDiaId, selectedCsId, selectShape);
+      if (!selectShape) {
+        fetchData();
+      } else {
+        filterData(selectedValues, selectedMetalId, selectedDiaId, selectedCsId, selectShape);
+      }
 
       setPreviousSelections({
         selectedMetalId,
         selectedDiaId,
-        selectedCsId
+        selectedCsId,
+        selectShape,
       });
     }
-  }, [selectedMetalId, selectedDiaId, selectShape]);
+  }, [selectedMetalId, selectedDiaId, selectShape, selectedValues]);
+
 
   // useEffect(() => {
   //   let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
@@ -505,24 +567,26 @@ const SettingPage = () => {
   //     });
   // }, [selectedMetalId, selectedDiaId, selectShape]);
 
-  const filterData = (selectedMetalId, selectedDiaId, selectedCsId, shape) => {
+  const filterData = (selectValues, selectedMetalId, selectedDiaId, selectedCsId, shape) => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-
-    // if (location?.key === locationKey) {
-    setIsOnlySettLoading(true);
-    ProductListApi({}, 1, obj, prodListType, cookie, "", {}, {}, {}, shape)
-      .then((res) => {
-        if (res) {
-          setProductListData(res?.pdList);
-          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-        }
-        return res;
-      })
-      .catch((err) => console.log("err", err))
-      .finally(() => {
-        setIsOnlySettLoading(false);
-      });
-    // }
+    let output = selectValues.filter((ele) => ele.value)
+    const diamondShape = output?.find((ele) => ele.dropdownIndex === 2);
+    const priceValue = output?.find((ele) => ele.dropdownIndex === 4);
+    if (!priceValue?.dropdownIndex) {
+      setIsOnlySettLoading(true);
+      ProductListApi(output?.length > 0 ? output : {}, 1, obj, prodListType, cookie, "", {}, {}, {}, (shape || diamondShape?.value))
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          }
+          return res;
+        })
+        .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsOnlySettLoading(false);
+        });
+    }
   }
 
 
@@ -596,6 +660,7 @@ const SettingPage = () => {
     })
     setPriceRangeValue([lowestPrice, highestPrice]);
     setSelectShape();
+    fetchData();
   }
 
   const handleClearSelectedvalues = () => {
@@ -606,10 +671,13 @@ const SettingPage = () => {
     setPriceRangeValue([lowestPrice, highestPrice]);
     setShippingDrp('ANY DATE')
     setTrend('Recommended')
+    fetchData();
   }
 
   const handelPageChange = (event, value) => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    let output = selectedValues.filter((ele) => ele.value)
+    const diamondShape = output?.find((ele) => ele.dropdownIndex === 2);
     setIsProdLoading(true);
     setCurrPage(value)
     setTimeout(() => {
@@ -618,7 +686,7 @@ const SettingPage = () => {
         behavior: 'smooth'
       })
     }, 100)
-    ProductListApi({}, value, obj, prodListType, cookie, sortBySelect, {}, {}, {}, (Shape ?? ''))
+    ProductListApi(output, value, obj, prodListType, cookie, sortBySelect, {}, {}, {}, (Shape || diamondShape?.value))
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -636,6 +704,7 @@ const SettingPage = () => {
   const handleSortby = async (e) => {
     setSortBySelect(e.target?.value)
     let output = selectedValues.filter((ele) => ele.value)
+    const diamondShape = output?.find((ele) => ele.dropdownIndex === 2);
 
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
@@ -644,7 +713,7 @@ const SettingPage = () => {
 
     let sortby = e.target?.value
 
-    await ProductListApi(output, 1, obj, prodListType, cookie, sortby, {}, {}, {}, (Shape ?? ''))
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortby, {}, {}, {}, (Shape || diamondShape?.value))
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -659,30 +728,34 @@ const SettingPage = () => {
 
   }
 
-  const handlePriceSliderChange = async (event, newValue) => {
+  const handlePriceSliderChange = (event, newValue) => {
     const roundedValue = newValue.map(val => parseInt(val));
     setPriceRangeValue(roundedValue)
-    handleButton(3, roundedValue);
+    handleButton(4, roundedValue);
   };
 
   useEffect(() => {
-    setIsOnlySettLoading(true);
     let output = selectedValues.filter((ele) => ele.value)
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    let priceValue = output.find((item) => item?.dropdownIndex === 4)
+    const diamondShape = output?.find((ele) => ele.dropdownIndex === 2);
+    if (priceValue?.dropdownIndex) {
+      setIsOnlySettLoading(true);
+      let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-    ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect ?? "", "")
-      .then((res) => {
-        if (res) {
-          setProductListData(res?.pdList);
-          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-        }
-        return res;
-      })
-      .catch((err) => console.log("err", err))
-      .finally(() => {
-        setIsOnlySettLoading(false);
-      });
-  }, [selectedValues, selectedMetalId, selectedDiaId, sortBySelect, selectedCategory]);
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect ?? "", {}, {}, {}, (Shape || diamondShape?.value))
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          }
+          return res;
+        })
+        .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsOnlySettLoading(false);
+        });
+    }
+  }, [selectedValues]);
 
   const dropdownsData = [
     { index: 1, title: "All metal", data: metalType, type: 'metal', "diaStep": steps, "setStep": steps1 ?? steps2 },
@@ -690,7 +763,7 @@ const SettingPage = () => {
   ];
 
   const rangeData = [
-    { index: 3, title: "price", data: priceRangeValue, type: 'price' },
+    { index: 4, title: "price", data: priceRangeValue, type: 'price' },
   ]
 
 
@@ -1103,7 +1176,7 @@ const SettingPage = () => {
                             <div onClick={() => handleRemoveValues(item?.dropdownIndex)}><RxCross1 className="for_settingList_filter_selected_icon" /></div>
                           </>
                         )}
-                        {item?.dropdownIndex === 3 && (
+                        {item?.dropdownIndex === 4 && (
                           <>
                             <div className="for_settingList_filter_selected_value"> {`Price INR ${item.value[0]} - INR ${item.value[1]}`}</div>
                             <div onClick={() => handleRemoveValues(item?.dropdownIndex)}><RxCross1 className="for_settingList_filter_selected_icon" /></div>
@@ -1122,8 +1195,8 @@ const SettingPage = () => {
             </div>
           </div>
           <div class="mr_Modal-imageButton">
-            <div onClick={handleButtonClick}>
-              <button className='mr_Modal_btn'>How it works</button>
+            <div>
+              <button onClick={handleButtonClick} className='mr_Modal_btn'>How it works</button>
             </div>
 
 
