@@ -1180,6 +1180,14 @@ const ProductPage = () => {
           } ${singleProd?.designno ?? ""}`}</title>
       </Helmet>
       <div className="hoq_main_Product" style={{ marginBottom: "25px" }}>
+          {ShowMangifier && (
+        <MagnifierSlider
+          product={Product}
+          close={() => setShowMangifier(!ShowMangifier)}
+          list={PdImageArr}
+          currentIndex={currentSlide}
+        />
+      )}
         <main>
           <div className="images_slider">
             {loadingdata || PdImageLoader ? (
@@ -1231,7 +1239,7 @@ const ProductPage = () => {
               </>
             ) : (
               <>
-                <div className="slider">
+                <div className="slider" >
                   {PdImageArr?.map((val, i) => {
                     return (
                       <div
@@ -1274,7 +1282,9 @@ const ProductPage = () => {
                     );
                   })}
                 </div>
-                <div className="main_image">
+                <div className="main_image" 
+                        onClick={() => setShowMangifier(!ShowMangifier)}
+                        >
                   {PdImageArr?.length > 1 ? (
                     <>
                       <Slider
@@ -1285,7 +1295,7 @@ const ProductPage = () => {
                         {PdImageArr?.length > 0 ? (
                           PdImageArr?.map((val, i) => {
                             return (
-                              <div key={i} className="slider_card">
+                              <div key={i} className="slider_card" >
                                 <div className="image">
                                   {val?.type == "img" ? (
                                     <img
@@ -2448,7 +2458,7 @@ const NotFoundProduct = ({ Navigate }) => {
     </div>
   );
 };
-const MagnifierSlider = ({ product, close }) => {
+const MagnifierSlider = ({ product, close,list ,currentIndex}) => {
   const swiperRef = useRef(null);
 
   const goNext = () => {
@@ -2462,6 +2472,7 @@ const MagnifierSlider = ({ product, close }) => {
       swiperRef.current.swiper.slidePrev();
     }
   };
+  
   return (
     <>
       <div className="MagnifierSlider">
@@ -2476,11 +2487,14 @@ const MagnifierSlider = ({ product, close }) => {
           className="mySwiper"
           effect="fade"
         >
-          {product?.map((val, i) => {
+          {list?.map((val, i) => {
+            if(val?.type === "video"){
+              return null ;
+            }
             return (
               <SwiperSlide>
                 <div className="swiper-zoom-container">
-                  <img src={val?.img} onError={(e) => e.target.src = imageNotFound} />
+                  <img src={val?.src} onError={(e) => e.target.src = imageNotFound} />
                 </div>
               </SwiperSlide>
             );

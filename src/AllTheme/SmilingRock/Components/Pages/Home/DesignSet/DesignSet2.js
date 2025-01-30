@@ -286,7 +286,7 @@ const DesignSet2 = ({ data }) => {
                                   {detail?.TitleLine && " - "}{" "}
                                   {detail?.TitleLine != "" && detail?.TitleLine}
                                 </div>
-                                <div className="fs2 centerall">
+                                {storeInit?.IsPriceShow == 1 &&  <div className="fs2 centerall">
                                   <p>
                                     <span
                                       className="smr_currencyFont"
@@ -300,7 +300,7 @@ const DesignSet2 = ({ data }) => {
                                     />{" "}
                                     {formatter(detail?.UnitCostWithMarkUp)}
                                   </p>
-                                </div>
+                                </div>}
                                 {/* <div className="fs3 centerall"
                                 onClick={() =>
                                   handleNavigation(

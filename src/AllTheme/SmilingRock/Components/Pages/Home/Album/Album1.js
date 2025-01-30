@@ -254,7 +254,7 @@ const Album1 = () => {
                                                                 }}
                                                             />
                                                         </div>
-                                                        <div className="design-info">
+                                                      {storeInit?.IsPriceShow == 1 &&  <div className="design-info">
                                                             <p className='smr_album1price'>
                                                                 <span
                                                                     className="smr_currencyFont"
@@ -265,7 +265,7 @@ const Album1 = () => {
                                                                     }}
                                                                 /> {formatter(design?.UnitCostWithMarkUp)}
                                                             </p>
-                                                        </div>
+                                                        </div>}
                                                     </SwiperSlide>
                                                 ))}
                                                 {GenerateWidthBaseOnContent().length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{

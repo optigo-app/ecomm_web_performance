@@ -2523,7 +2523,7 @@ const ProductList = () => {
                             </AccordionDetails>
                           </Accordion>
                         )}
-                      {ele?.id?.includes("Price") && (
+                      {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                         <Accordion
                           elevation={0}
                           sx={{
@@ -3490,6 +3490,7 @@ productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? p
                                               )[0]?.metaltype
                                             }
                                           </span>
+                                          {storeInit?.IsPriceShow == 1 && <>
                                           <span>/</span>
                                           <span className="mala_price" style={{
                                             fontWeight: "900"
@@ -3523,6 +3524,8 @@ productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? p
                                               )}
                                             </span>
                                           </span>
+                                          </>}
+
                                         </div>
                                         <div className="fmg_mal1_prodBtn">
                                           <FormControlLabel
@@ -3906,7 +3909,7 @@ sliderValue2
                               </Box>
                             </Box>
                           )}
-                        {ele?.id?.includes("Price") && (
+                        {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                           <Box className="giva_menu">
                             <Typography className="giva_menu_title">
                               {ele?.Fil_DisName}
