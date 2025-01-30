@@ -51,6 +51,8 @@ export default function PaymentComponent({ bgcolor, top }) {
         isPloding,
     } = usePaymentLogic();
 
+    const {IsPriceShow}  = JSON?.parse(sessionStorage?.getItem("storeInit")) ?? {} ;
+
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 6, marginTop: top ?? "" }}>
@@ -183,7 +185,7 @@ export default function PaymentComponent({ bgcolor, top }) {
 
                         <Grid item xs={12} md={6}>
                             <Stack spacing={2}>
-                                <Card>
+                            {IsPriceShow == 1 &&    <Card>
                                     <CardContent>
                                         <Typography variant="h6" gutterBottom>
                                             Order Summary
@@ -221,7 +223,7 @@ export default function PaymentComponent({ bgcolor, top }) {
                                             </Box>
                                         </Stack>
                                     </CardContent>
-                                </Card>
+                                </Card>}
 
                                 <Card>
                                     <CardContent>

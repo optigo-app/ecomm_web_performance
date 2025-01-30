@@ -804,7 +804,7 @@ const Lookbook = () => {
                         </AccordionDetails>
                       </Accordion>
                     )}
-                  {ele?.id?.includes("Price") && (
+                   {storeInit?.IsPriceShow == 1 &&  ele?.id?.includes("Price") && (
                     <Accordion
                       elevation={0}
                       sx={{
@@ -1317,7 +1317,7 @@ const Lookbook = () => {
                                 </AccordionDetails>
                               </Accordion>
                             )}
-                          {ele?.id?.includes("Price") && (
+                           {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                             <Accordion
                               elevation={0}
                               sx={{
@@ -1548,7 +1548,7 @@ const Lookbook = () => {
                                 className="roop_lookBookImgDeatilSub_sel2"
                                 style={{ display: "flex", alignItems: "center" }}
                               >
-                                <p
+                                {storeInit?.IsPriceShow == 1 &&  <p
                                   style={{
                                     margin: "0px 10px 0px 0px",
                                     fontSize: "15px",
@@ -1574,7 +1574,7 @@ const Lookbook = () => {
                                   {formatter(calculateTotalUnitCostWithMarkUp(
                                     JSON?.parse(slide.Designdetail)
                                   ))}
-                                </p>
+                                </p>}
                                 <button
                                   className="roop_lookBookBuyBtn"
                                   onClick={() =>
@@ -1759,7 +1759,7 @@ const Lookbook = () => {
                                     className="roop_lookBookImgDeatilSub"
                                     style={{ display: "flex", alignItems: "center" }}
                                   >
-                                    <p
+                                     {storeInit?.IsPriceShow == 1 && <p
                                       style={{
                                         margin: "0px 10px 0px 0px",
                                         fontSize: "15px",
@@ -1783,7 +1783,7 @@ const Lookbook = () => {
                                       </span>
                                       &nbsp;
                                       {formatter(calculateTotalUnitCostWithMarkUp(JSON?.parse(slide.Designdetail)))}
-                                    </p>
+                                    </p>}
                                     <button
                                       className="roop_lookBookBuyBtn"
                                       onClick={() =>
@@ -2186,13 +2186,15 @@ const Lookbook = () => {
                                                 ),
                                               }}
                                             /> */}
+                                             {storeInit?.IsPriceShow == 1 &&  <>
                                                       <span
                                                         className="roop_currencyFont"
-                                                      >
+                                                        >
                                                         {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                       </span>
                                                       &nbsp;
                                                       {formatter(ele?.UnitCostWithMarkUp)}
+                                                        </>}
                                                     </p>
                                                   </div>
                                                 </div>
@@ -2229,7 +2231,7 @@ const Lookbook = () => {
                                       <div
                                         className="roop_lb3TotalBtnGroups"
                                       >
-                                        <div className="roop_lb3TotalPrice">
+                                         {storeInit?.IsPriceShow == 1 && <div className="roop_lb3TotalPrice">
                                           <span>
                                             <span
                                               className="roop_currencyFont"
@@ -2241,7 +2243,7 @@ const Lookbook = () => {
                                               JSON?.parse(slide.Designdetail)
                                             ))}
                                           </span>
-                                        </div>
+                                        </div>}
                                         <div className="roop_lb3BuyComboDiv" onClick={() =>
                                           handleByCombo(
                                             parseDesignDetails(

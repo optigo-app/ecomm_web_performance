@@ -137,18 +137,19 @@ const DesignSet = ({
                               <p>
                                 {ele?.designno} - {ele?.CategoryName}
                                 <br />
-                                {
+                                {storeInit?.IsPriceShow == 1 &&  <>
                                   <span className="elv_currencyFont">
                                     {loginInfo?.CurrencyCode ??
                                       storeInit?.CurrencyCode}
                                   </span>
-                                }
+                                
                                 &nbsp;
                                 {
                                   formatter(
                                     ele?.UnitCostWithMarkUp
                                   )
                                 }
+                                  </>}
                               </p>
                             </div>
                             {/* <div>

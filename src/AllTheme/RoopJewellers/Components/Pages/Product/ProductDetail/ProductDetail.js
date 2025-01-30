@@ -1809,7 +1809,7 @@ const ProductDetail = () => {
                             </div>
                           )}
 
-                        {storeInit?.IsPriceBreakUp == 1 && singleProd1?.IrooppBase !== 1 && singleProd?.IrooppBase !== 1 &&
+                        {storeInit?.IsPriceShow == 1 && storeInit?.IsPriceBreakUp == 1 && singleProd1?.IrooppBase !== 1 && singleProd?.IrooppBase !== 1 &&
                           (
                             <Accordion
                               elevation={0}
@@ -2335,7 +2335,7 @@ const ProductDetail = () => {
                             <th className="roop_stockItem_table_td">
                               Metal Color-Purity
                             </th>
-                            <th className="roop_stockItem_table_td">Price</th>
+                            {storeInit?.IsPriceShow == 1 &&       <th className="roop_stockItem_table_td">Price</th>}
                             <th className="roop_stockItem_table_td">
                               Add To Cart
                             </th>
@@ -2458,7 +2458,7 @@ const ProductDetail = () => {
                                 </span>
                                 {/* </div> */}
                               </td>
-                              <td className="roop_stockItem_table_td">
+                              {storeInit?.IsPriceShow == 1 && <td className="roop_stockItem_table_td">
                                 <span>
                                   <span className="roop_currencyFont">
                                     {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
@@ -2470,7 +2470,7 @@ const ProductDetail = () => {
                                     )
                                   }</span>
                                 </span>
-                              </td>
+                              </td>}
                               <td
                                 className="roop_stockItem_table_td"
                                 style={{
@@ -2560,7 +2560,7 @@ const ProductDetail = () => {
                                     {ele?.designno}
                                   </span>
 
-                                  <div
+                                  {storeInit?.IsPriceShow == 1 && <div
                                     style={{
                                       display: "flex",
                                       justifyContent: "center",
@@ -2581,7 +2581,7 @@ const ProductDetail = () => {
                                         ele?.UnitCostWithMarkUp
                                       )
                                     }</span>
-                                  </div>
+                                  </div>}
                                 </div>
                               </div>
                             )
@@ -2705,17 +2705,18 @@ const ProductDetail = () => {
                                             <p>
                                               {ele?.designno} - {ele?.CategoryName}
                                               <br />
-                                              {
+                                              {storeInit?.IsPriceShow == 1 && <>
+                                             
                                                 <span className="roop_currencyFont">
                                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                 </span>
-                                              }
                                               &nbsp;
                                               {
                                                 formatter.format(
                                                   ele?.UnitCostWithMarkUp
                                                 )
                                               }
+                                                </>}
                                             </p>
                                           </div>
                                           {/* <div>

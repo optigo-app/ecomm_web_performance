@@ -2471,7 +2471,7 @@ const ProductList = () => {
                             </AccordionDetails>
                           </Accordion>
                         )}
-                      {ele?.id?.includes("Price") && (
+                      {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                         <Accordion
                           elevation={0}
                           sx={{
@@ -3394,7 +3394,7 @@ const ProductList = () => {
                                                 )}
                                             </div>
                                             <div className="roop_prod_wt_div">
-                                              <span className="roop_price">
+                                            {storeInit?.IsPriceShow == 1 && <span className="roop_price">
                                                 <span className="roop_currencyFont">
                                                   {loginUserDetail?.CurrencyCode ??
                                                     storeInit?.CurrencyCode}
@@ -3404,7 +3404,7 @@ const ProductList = () => {
                                                     productData?.UnitCostWithMarkUp
                                                   )}
                                                 </span>
-                                              </span>
+                                              </span>}
                                               {storeInit?.IsDiamondWeight ==
                                                 1 &&
                                                 Number(productData?.Dwt) !==
@@ -3915,7 +3915,7 @@ sliderValue2
                                 </Box>
                               </Box>
                             )}
-                          {ele?.id?.includes("Price") && (
+                          {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                             <Box className="giva_roop_menu">
                               <Typography className="giva_roop_menu_title">
                                 {ele.Fil_DisName}

@@ -2778,7 +2778,7 @@ const ProductDetail = () => {
                             <th className="Smr_stockItem_table_td">
                               Metal Color-Purity
                             </th>
-                            <th className="Smr_stockItem_table_td">Price</th>
+                            {storeInit?.IsPriceShow == 1 &&     <th className="Smr_stockItem_table_td">Price</th>}
                             <th className="Smr_stockItem_table_td">
                               Add To Cart
                             </th>
@@ -2903,7 +2903,7 @@ const ProductDetail = () => {
                                 </span>
                                 {/* </div> */}
                               </td>
-                              <td className="Smr_stockItem_table_td">
+                              {storeInit?.IsPriceShow == 1 &&  <td className="Smr_stockItem_table_td">
                                 <span>
                                   <span className="smr_currencyFont">
                                     {loginInfo?.CurrencyCode ??
@@ -2912,7 +2912,7 @@ const ProductDetail = () => {
                                   &nbsp;
                                   <span> {formatter.format(ele?.Amount)}</span>
                                 </span>
-                              </td>
+                              </td>}
                               <td
                                 className="Smr_stockItem_table_td"
                                 style={{
@@ -3166,16 +3166,17 @@ const ProductDetail = () => {
                                             {ele?.designno} -{" "}
                                             {ele?.CategoryName}
                                             <br />
-                                            {
+                                            {storeInit?.IsPriceShow == 1 &&  <>
                                               <span className="smr_currencyFont">
                                                 {loginInfo?.CurrencyCode ??
                                                   storeInit?.CurrencyCode}
                                               </span>
-                                            }
+                                            
                                             &nbsp;
                                             {formatter.format(
                                               ele?.UnitCostWithMarkUp
                                             )}
+                                            </>}
                                           </p>
                                         </div>
                                         {/* <div>

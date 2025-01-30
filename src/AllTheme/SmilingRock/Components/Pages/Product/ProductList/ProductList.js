@@ -2508,7 +2508,7 @@ const ProductList = () => {
                             </AccordionDetails>
                           </Accordion>
                         )}
-                      {ele?.id?.includes("Price") && (
+                       {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                         <Accordion
                           elevation={0}
                           sx={{
@@ -3339,7 +3339,7 @@ const ProductList = () => {
                                           </AccordionDetails>
                                         </Accordion>
                                       )}
-                                    {ele?.id?.includes("Price") && (
+                                     {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                                       <Accordion
                                         elevation={0}
                                         sx={{
@@ -4135,8 +4135,9 @@ const ProductList = () => {
                                                     )[0]?.metaltype
                                                   }
                                                 </span>
+                                                {storeInit?.IsPriceShow == 1 && <>
                                                 <span>/</span>
-                                                <span className="smr_price">
+                                                 <span className="smr_price">
                                                   {/*  <span
                                         className="smr_currencyFont"
                                         dangerouslySetInnerHTML={{
@@ -4160,7 +4161,7 @@ const ProductList = () => {
                                                       productData?.UnitCostWithMarkUp
                                                     )}
                                                   </span>
-                                                </span>
+                                                </span></>}
                                               </div>
                                             </div>
                                           </div>

@@ -258,7 +258,7 @@ const CartPage = () => {
                         </div>
                         <Modal open={openPriceModal} onClose={handleClosePriceModal}>
                           <Box sx={modalStyle}>
-                            <span className="elv_total_price_title">
+                           { storeinit?.IsPriceShow == 1 &&  <span className="elv_total_price_title">
                               Total Price: &nbsp;
                               {storeinit?.IsPriceShow == 1 && (
                                 <span>
@@ -271,7 +271,7 @@ const CartPage = () => {
                                   &nbsp;<span style={{ fontWeight: 'bold' }}>{formatter(getTotalPrice[0]?.total)}</span>
                                 </span>
                               )}
-                            </span>
+                            </span>}
                             <div className="elv_Cartblock_rows_2" >
                               <span className="elv_items_title">
                                 <span style={{ fontWeight: '600' }}>{cartData?.length}</span>

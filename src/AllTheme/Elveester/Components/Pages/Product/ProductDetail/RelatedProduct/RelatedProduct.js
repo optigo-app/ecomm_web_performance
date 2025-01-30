@@ -52,10 +52,10 @@ const RelatedProduct = ({
               </div>
               <div className="tab_hover_Details">
                 <h3>{elv?.designno}</h3>
-                <small>
+                {storeInit?.IsPriceShow == 1 &&  <small>
                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode} &nbsp;
                   {formatter.format(elv?.UnitCostWithMarkUp)}
-                </small>
+                </small>}
               </div>
             </div>
           );

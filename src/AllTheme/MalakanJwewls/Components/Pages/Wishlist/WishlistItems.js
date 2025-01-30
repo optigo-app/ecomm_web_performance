@@ -161,12 +161,15 @@ const WishlistItems = ({
                                         {item?.metaltypename !== "" && (
                                             <span>{item?.metaltypename}</span>
                                         )}
-                                        {" / "}
                                         {/* <span className="mala_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}
+                                        {storeInit?.IsPriceShow == 1 && 
+                                        <>
+                                        {" / "}
                                         <span className="mala_currencyFont">
                                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>{" "}
                                         <span>{formatter(item?.FinalCost)}</span>
+                                        </>}
                                     </Typography>
                                 </div>
                                 {/* <div className='designNoWlList'>
