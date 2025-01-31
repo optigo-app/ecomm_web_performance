@@ -14,6 +14,7 @@ const LoginOption = () => {
     const location = useLocation();
 
     const search = location?.search
+    const state = location?.state?.SecurityKey ? location?.state : "";
 
     const redirectEmailUrl = `/ContinueWithEmail/${search}`;
     const redirectMobileUrl = `/ContimueWithMobile/${search}`;
@@ -46,11 +47,11 @@ const LoginOption = () => {
                         color: '#7d7f85',
                     }}>Use your email or mobile no to continue with the organization.</p>
                     <div className='smilingLoginOptionMain'>
-                        <div className='loginMail btnColorProCat' onClick={() => navigation(redirectEmailUrl)}>
+                        <div className='loginMail btnColorProCat' onClick={() => navigation(redirectEmailUrl, { state })}>
                             <IoMdMail style={{ height: '25px', width: '25px' }} />
                             <p className='pro_loginText'>Continue with email</p>
                         </div>
-                        <div className='loginMobile btnColorProCat' onClick={() => navigation(redirectMobileUrl)}>
+                        <div className='loginMobile btnColorProCat' onClick={() => navigation(redirectMobileUrl, { state })}>
                             <FaMobileAlt style={{ height: '25px', width: '25px', marginRight: '10px' }} />
                             <p className='pro_loginText_mobile'>Log in with mobile</p>
                         </div>

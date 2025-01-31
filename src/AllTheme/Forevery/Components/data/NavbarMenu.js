@@ -246,6 +246,7 @@ const DiamondLists = [
 const StepImages = [
   {
     img: `${storImagePath()}/Forevery/diamondFilter/mount-diamond-icon.svg`,
+    img1: `${storImagePath()}/Forevery/diamondFilter/double-diamond-icon.svg`,
     name: "Diamond",
     link: "diamond",
     eyeIcon: `${storImagePath()}/images/ProductListing/settingNav/eye.png`,
@@ -254,6 +255,8 @@ const StepImages = [
   {
     img: `${storImagePath()}/Forevery/diamondFilter/mount-icon.svg`,
     img1: `${storImagePath()}/Forevery/diamondFilter/easrrings.png`,
+    img2: `${storImagePath()}/Forevery/diamondFilter/earring-icon.svg`,
+    img3: `${storImagePath()}/Forevery/diamondFilter/complete-earring-icon.svg`,
     name: "Settings",
     link: "settings",
     eyeIcon: `${storImagePath()}/images/ProductListing/settingNav/eye.png`,

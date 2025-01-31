@@ -26,9 +26,10 @@ import {
   AlmacarinoFlag,
   proCat_CartCount,
   proCat_WishCount,
+  proCat_loginState,
   soketProductData,
 } from "../../../Recoil/atom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { IoIosPlayCircle } from "react-icons/io";
@@ -72,6 +73,8 @@ import { SaveLastViewDesign } from "../../../../../../utils/API/SaveLastViewDesi
 const ProductDetail = () => {
   let location = useLocation();
   const Almacarino = useRecoilValue(AlmacarinoFlag);
+  const islogin = useRecoilValue(proCat_loginState);
+  console.log('islogin: ', islogin);
   const [singleProd, setSingleProd] = useState({});
   const [singleProd1, setSingleProd1] = useState({});
   // const [singleProdPrice, setSingleProdPrice] = useState();
@@ -145,21 +148,21 @@ const ProductDetail = () => {
     let allListData = sessionStorage.getItem("deatilSliderData");
 
     if (allListData) {
-        try {
-            allListData = JSON.parse(allListData);
-            
-            if (Array.isArray(allListData) && allListData.length > 0) {
-                console.log("Valid array data:", allListData);
-            } else if (typeof allListData === 'object' && allListData !== null) {
-                console.log("Valid object data:", allListData);
-            } else {
-                console.error("Invalid data format in sessionStorage");
-            }
-        } catch (error) {
-            console.error("Error parsing JSON data from sessionStorage:", error);
+      try {
+        allListData = JSON.parse(allListData);
+
+        if (Array.isArray(allListData) && allListData.length > 0) {
+          console.log("Valid array data:", allListData);
+        } else if (typeof allListData === 'object' && allListData !== null) {
+          console.log("Valid object data:", allListData);
+        } else {
+          console.error("Invalid data format in sessionStorage");
         }
+      } catch (error) {
+        console.error("Error parsing JSON data from sessionStorage:", error);
+      }
     } else {
-        console.error("No data found in sessionStorage for 'deatilSliderData'");
+      console.error("No data found in sessionStorage for 'deatilSliderData'");
     }
 
     const finalProdWithPrice = allListData && allListData?.map((product) => {
@@ -203,7 +206,7 @@ const ProductDetail = () => {
         console.error("finalProdWithPrice is not a valid array or is empty");
         return;
       }
-       try {
+      try {
         const processedData = await Promise.all(
           finalProdWithPrice.map(async (ele) => {
             const src = `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`;
@@ -214,7 +217,7 @@ const ProductDetail = () => {
             };
           })
         );
-    
+
         setAllListDataSlide(finalProdWithPrice);
         setImageData(processedData);
       } catch (error) {
@@ -685,6 +688,18 @@ const ProductDetail = () => {
       return null;
     }
   };
+
+  useEffect(() => {
+    let url = `${location?.pathname}${location?.search}`;
+    let navVal = location?.search.split("?p=")[1];
+    let decodeobj = decodeAndDecompress(navVal);
+    const state = { SecurityKey: decodeobj?.sk };
+    if (decodeobj?.sk > 0) {
+      if (islogin !== true) {
+        navigate(`/loginOption/?LoginRedirect=${(url)}`, { state })
+      }
+    }
+  }, [location?.key])
 
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
@@ -2707,7 +2722,7 @@ const ProductDetail = () => {
                                 {/* <span>{ele?.TitleLine}</span> */}
                               </div>
                             </div>
-                          ))} 
+                          ))}
                         </div>
                       </div>
                     ) : (
@@ -2715,24 +2730,24 @@ const ProductDetail = () => {
                         <p className="proCat_details_title">More Products</p>
                         <div className="proCat_swiper_container">
                           <Swiper
-                          style={{
-                            width: "100%",
-                          }}
+                            style={{
+                              width: "100%",
+                            }}
                             spaceBetween={10}
                             lazy={true}
-                            navigation={imageData?.length > 3} 
+                            navigation={imageData?.length > 3}
                             breakpoints={{
                               1440: {
-                                slidesPerView: imageData?.length >= 6 ? 6 : imageData?.length, 
+                                slidesPerView: imageData?.length >= 6 ? 6 : imageData?.length,
                               },
                               1024: {
-                                slidesPerView: imageData?.length >= 4 ? 4 : imageData?.length, 
+                                slidesPerView: imageData?.length >= 4 ? 4 : imageData?.length,
                               },
                               768: {
-                                slidesPerView: imageData?.length >= 2 ? 2 : imageData?.length, 
+                                slidesPerView: imageData?.length >= 2 ? 2 : imageData?.length,
                               },
                               0: {
-                                slidesPerView: imageData?.length >= 2 ? 2 : imageData?.length, 
+                                slidesPerView: imageData?.length >= 2 ? 2 : imageData?.length,
                               },
                             }}
                             modules={[Keyboard, FreeMode, Navigation]}
@@ -2741,9 +2756,9 @@ const ProductDetail = () => {
                           >
                             {imageData?.map((ele) => (
                               <SwiperSlide
-                              style={{
-                                width: "100%",
-                              }}
+                                style={{
+                                  width: "100%",
+                                }}
                                 key={ele?.autocode}
                                 className="proCat_Swiper_slide_custom"
                                 onClick={() => handleMoveToDetail(ele)}

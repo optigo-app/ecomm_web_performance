@@ -12,8 +12,10 @@ export default function ContinueWithEmail() {
     const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigate();
     const location = useLocation();
+    console.log('location: ', location);
 
     const search = location?.search
+    const state = location?.state?.SecurityKey ? location?.state : "";
     const redirectEmailUrl = `/LoginWithEmail/${search}`;
     const redirectSignUpUrl = `/register/${search}`;
     const cancelRedireactUrl = `/LoginOption/${search}`;
@@ -59,12 +61,12 @@ export default function ContinueWithEmail() {
             if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 1) {
                 toast.error('You are not a customer, contact to admin')
             } else if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 0) {
-                navigation(redirectEmailUrl, { state: { email: trimmedEmail } });
+                navigation(redirectEmailUrl, { state: { email: trimmedEmail, SecurityKey : location?.state?.SecurityKey } });
                 if (trimmedEmail) {
                     sessionStorage.setItem("registerEmail", trimmedEmail);
                 }
             } else {
-                navigation(redirectSignUpUrl, { state: { email: trimmedEmail } });
+                navigation(redirectSignUpUrl, { state: { email: trimmedEmail,SecurityKey : location?.state?.SecurityKey } });
             }
         }).catch((err) => console.log(err))
 
@@ -157,7 +159,7 @@ export default function ContinueWithEmail() {
                         </button> */}
 
                         <button type='submit' className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>SUBMIT</button>
-                        <Button className='pro_cancleForgot' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button className='pro_cancleForgot' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl, {state})}>CANCEL</Button>
                     </div>
                 </div>
             </div>
