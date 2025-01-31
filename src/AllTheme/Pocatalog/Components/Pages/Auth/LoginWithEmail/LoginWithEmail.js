@@ -29,11 +29,13 @@ export default function LoginWithEmail() {
     const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigate();
     const location = useLocation();
+    console.log('location: ', location);
 
     const [cartCountNum, setCartCountNum] = useRecoilState(proCat_CartCount)
     const [wishCountNum, setWishCountNum] = useRecoilState(proCat_WishCount)
 
     const search = location?.search
+    const state = location?.state?.SecurityKey ? location?.state : "";
     const updatedSearch = search.replace('?LoginRedirect=', '');
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
     const cancelRedireactUrl = `/LoginOption/${search}`;
@@ -185,9 +187,10 @@ export default function LoginWithEmail() {
                 }).catch((err) => console.log(err))
 
                 if (redirectEmailUrl) {
-                    navigation(redirectEmailUrl);
+                    navigation(redirectEmailUrl, { state });
+                    sessionStorage.setItem('Loginkey', JSON.stringify(location?.state?.SecurityKey))
                 } else {
-                    navigation('/')
+                    navigation('/', { state })
                 }
 
                 // pdDataCalling()
@@ -250,7 +253,7 @@ export default function LoginWithEmail() {
         //     setIsLoading(false);
         // }
     };
-    
+
 
 
     const handleTogglePasswordVisibility = (fieldName) => {
@@ -259,7 +262,7 @@ export default function LoginWithEmail() {
 
     const handleNavigation = () => {
         sessionStorage.setItem('LoginCodeEmail', 'true');
-        navigation('/LoginWithEmailCode', { state: { email: location.state?.email } });
+        navigation('/LoginWithEmailCode', { state: { email: location.state?.email, SecurityKey: location?.state?.SecurityKey } });
     }
 
     const handleForgotPassword = async () => {
@@ -369,7 +372,7 @@ export default function LoginWithEmail() {
                         <p className='pro_loginText' style={{ textAlign: 'center', marginTop: '20px' }}>Go passwordless! we'll send you an email.</p>
 
                         <p style={{ color: 'blue', cursor: 'pointer' }} onClick={handleForgotPassword}>Forgot Password ?</p>
-                        <Button className='pro_cancleForgot' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button className='pro_cancleForgot' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl, { state })}>CANCEL</Button>
                     </div>
                 </div>
             </div>

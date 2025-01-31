@@ -26,7 +26,7 @@ const Education = () => {
     navigate(
       `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
     );
-    const step1 = [{ step1: true, Setting: "Ring", id: 1 }];
+    const step1 = [{ step1: true, Setting: "Ring", id: 1, Status: "active" }];
     sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
   };
   return (

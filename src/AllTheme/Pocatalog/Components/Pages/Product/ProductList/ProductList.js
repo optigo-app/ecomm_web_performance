@@ -37,6 +37,7 @@ import {
   proCat_CartCount,
   proCat_DiamondRangeArr,
   proCat_WishCount,
+  proCat_loginState,
   soketProductData,
 } from "../../../Recoil/atom";
 import pako from "pako";
@@ -80,6 +81,7 @@ const ProductList = () => {
   let maxwidth464px = useMediaQuery("(max-width:464px)");
 
   const [productListData, setProductListData] = useState([]);
+  const islogin = useRecoilValue(proCat_loginState);
   const [priceListData, setPriceListData] = useState([]);
   const [finalProductListData, setFinalProductListData] = useState([]);
   const [isProdLoading, setIsProdLoading] = useState(true);
@@ -120,6 +122,8 @@ const ProductList = () => {
   const [isRollOverVideo, setIsRollOverVideo] = useState({});
   const [afterCountStatus, setAfterCountStatus] = useState(false);
   const [loadingIndex, setLoadingIndex] = useState(0)
+  const [securityKey, setSecurityKey] = useState();
+  console.log('securityKey: ', securityKey);
   const SoketData = useRecoilValue(soketProductData);
   const formatter = new Intl.NumberFormat("en-IN");
   let cookie = Cookies.get("visiterId");
@@ -241,6 +245,17 @@ const ProductList = () => {
   // },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
+    let url = `${location?.pathname}${location?.search}`;
+    let navVal = location?.pathname?.split('/')[3];
+    let securityKey = navVal?.split('K=')[1]
+    console.log('navVal: ', atob(securityKey));
+    let state = { SecurityKey: atob(securityKey) }
+    if (atob(securityKey) > 0 && islogin !== true) {
+      navigate(`/loginOption/?LoginRedirect=${(url)}`, { state })
+    }
+  }, [location?.key])
+
+  useEffect(() => {
     const fetchData = async () => {
       let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
       let UrlVal = location?.search.slice(1).split("/");
@@ -252,9 +267,13 @@ const ProductList = () => {
       let BestSellerVar = "";
       let AlbumVar = "";
 
+      const securityKey = location?.state === null ? JSON.parse(sessionStorage.getItem('Loginkey')) : location?.state?.SecurityKey;
+      setSecurityKey(securityKey);
+
       let productlisttype;
 
       UrlVal.forEach((ele) => {
+
         let firstChar = ele.charAt(0);
 
         switch (firstChar) {
@@ -310,52 +329,53 @@ const ProductList = () => {
       if (AlbumVar) {
         productlisttype = AlbumVar.split("=")[1];
       }
+      console.log('AlbumVar.split("=")[1]: ', AlbumVar.split("=")[1]);
 
       setIsProdLoading(true);
       setprodListType(productlisttype);
       let diafilter =
-      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-        ?.length > 0
-        ? JSON.parse(
-          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-        )[0]
-        : [];
-    let diafilter1 =
-      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-        ?.length > 0
-        ? JSON.parse(
-          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-        )[0]
-        : [];
-    let diafilter2 =
-      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-        ?.length > 0
-        ? JSON.parse(
-          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-        )[0]
-        : [];
-    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
-    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
-    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
-  
-    let DiaRange = {
-      DiaMin: isDia ? sliderValue[0] ?? "" : "",
-      DiaMax: isDia ? sliderValue[1] ?? "": ""
-    };
-    
-    let netRange = {
-      netMin: isNet ? sliderValue1[0] ?? "" : "",
-      netMax: isNet ? sliderValue1[1] ?? "" : ""
-    };
-    
-    let grossRange = {
-      grossMin: isGross ? sliderValue2[0] ?? "" : "",
-      grossMax: isGross ? sliderValue2[1] ?? "" : ""
-    };
+        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+          ?.length > 0
+          ? JSON.parse(
+            filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+          )[0]
+          : [];
+      let diafilter1 =
+        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+          ?.length > 0
+          ? JSON.parse(
+            filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+          )[0]
+          : [];
+      let diafilter2 =
+        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+          ?.length > 0
+          ? JSON.parse(
+            filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+          )[0]
+          : [];
+      const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+      const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+      const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+      let DiaRange = {
+        DiaMin: isDia ? sliderValue[0] ?? "" : "",
+        DiaMax: isDia ? sliderValue[1] ?? "" : ""
+      };
+
+      let netRange = {
+        netMin: isNet ? sliderValue1[0] ?? "" : "",
+        netMax: isNet ? sliderValue1[1] ?? "" : ""
+      };
+
+      let grossRange = {
+        grossMin: isGross ? sliderValue2[0] ?? "" : "",
+        grossMax: isGross ? sliderValue2[1] ?? "" : ""
+      };
 
 
       // await ProductListApi({}, 1, obj, productlisttype, cookie,sortBySelect ,DiaRange, netRange ,grossRange)
-      await ProductListApi({}, 1, obj, productlisttype, cookie,sortBySelect )
+      await ProductListApi({}, 1, obj, productlisttype, cookie, sortBySelect)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -731,29 +751,29 @@ const ProductList = () => {
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     let diafilter =
-    filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-      )[0]
-      : [];
-  let diafilter1 =
-    filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-      )[0]
-      : [];
-  let diafilter2 =
-    filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-      )[0]
-      : [];
-  const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
-  const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
-  const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
     //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
     // console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
@@ -763,8 +783,8 @@ const ProductList = () => {
       let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
       let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
       let netRange = { netMin: isNet ? sliderValue1[0] : "", netMax: isNet ? sliderValue1[1] : "" }
-      
-      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect,DiaRange, netRange ,grossRange)
+
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -803,7 +823,7 @@ const ProductList = () => {
   //   // setAfterCountStatus(true);      
   //   if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { 
   //     setFilterChecked({})
-     
+
   //     setAccExpanded(false) 
   //   } 
   //    let diafilter = filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0] : [];
@@ -814,11 +834,40 @@ const ProductList = () => {
   //     setSliderValue2([diafilter2?.Min, diafilter2?.Max])
   //     // setRangeFilterShow(false)
   // }
-    
-    // new steps clear all range 
-   
-    const handelFilterClearAll = () => {
-      // setAfterCountStatus(true);
+
+  // new steps clear all range 
+
+  const handelFilterClearAll = () => {
+    // setAfterCountStatus(true);
+    let diafilter =
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isFilterChecked = Object.values(filterChecked).some((ele) => ele.checked);
+    const isSliderChanged =
+      JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]) ||
+      JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]) ||
+      JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+    // if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
+    if (isFilterChecked || isSliderChanged) {
       let diafilter =
         filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
           ?.length > 0
@@ -840,43 +889,14 @@ const ProductList = () => {
             filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
           )[0]
           : [];
-      const isFilterChecked = Object.values(filterChecked).some((ele) => ele.checked);
-      const isSliderChanged =
-        JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]) ||
-        JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]) ||
-        JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
-  
-      // if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
-      if (isFilterChecked || isSliderChanged) {
-        let diafilter =
-          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-            ?.length > 0
-            ? JSON.parse(
-              filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-            )[0]
-            : [];
-        let diafilter1 =
-          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-            ?.length > 0
-            ? JSON.parse(
-              filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-            )[0]
-            : [];
-        let diafilter2 =
-          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-            ?.length > 0
-            ? JSON.parse(
-              filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-            )[0]
-            : [];
-        setSliderValue([diafilter?.Min, diafilter?.Max]);
-        setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
-        setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
-        setFilterChecked({});
-      }
-      setAccExpanded(false);
-    };
-  
+      setSliderValue([diafilter?.Min, diafilter?.Max]);
+      setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
+      setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
+      setFilterChecked({});
+    }
+    setAccExpanded(false);
+  };
+
 
   const handelPageChange = (event, value) => {
     // console.log("pagination",value);
@@ -891,11 +911,11 @@ const ProductList = () => {
         behavior: "smooth",
       });
     }, 100);
-    let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
-    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
+    let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
+    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
 
-    ProductListApi(output, value, obj, prodListType, cookie, sortBySelect,DiaRange, netRange ,grossRange)
+    ProductListApi(output, value, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -991,10 +1011,10 @@ const ProductList = () => {
 
     if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true);
-      let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-      let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
-      let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
-  
+      let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+      let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
+      let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+
       // , DiaRange, netRange ,grossRange
       ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
@@ -1094,6 +1114,7 @@ const ProductList = () => {
         "",
       pl: prodListType ?? "",
       sb: sortBySelect ?? "",
+      sk: securityKey,
     };
     decodeAndDecompress();
     let encodeObj = compressAndEncode(JSON.stringify(obj));
@@ -1198,9 +1219,9 @@ const ProductList = () => {
     setIsOnlyProdLoading(true);
 
     let sortby = e.target?.value;
-    let DiaRange = { DiaMin:  sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
-    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
+    let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
+    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
+    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
 
     // DiaRange, netRange ,grossRange
     await ProductListApi(output, currPage, obj, prodListType, cookie, sortby)
@@ -1356,46 +1377,46 @@ const ProductList = () => {
     // let netRange = { netMin:  sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" } 
     // let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""} 
     let diafilter =
-    filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-      )[0]
-      : [];
-  let diafilter1 =
-    filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-      )[0]
-      : [];
-  let diafilter2 =
-    filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-      )[0]
-      : [];
-  const isDia = JSON.stringify(Rangeval) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
-  const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
-  const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isDia = JSON.stringify(Rangeval) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
-  let DiaRange = {
-    DiaMin: isDia ? Rangeval[0] ?? "" : "",
-    DiaMax: isDia ? Rangeval[1] ?? "": ""
-  };
-  
-  let netRange = {
-    netMin: isNet ? sliderValue1[0] ?? "" : "",
-    netMax: isNet ? sliderValue1[1] ?? "" : ""
-  };
-  
-  let grossRange = {
-    grossMin: isGross ? sliderValue2[0] ?? "" : "",
-    grossMax: isGross ? sliderValue2[1] ?? "" : ""
-  };
+    let DiaRange = {
+      DiaMin: isDia ? Rangeval[0] ?? "" : "",
+      DiaMax: isDia ? Rangeval[1] ?? "" : ""
+    };
 
-  
+    let netRange = {
+      netMin: isNet ? sliderValue1[0] ?? "" : "",
+      netMax: isNet ? sliderValue1[1] ?? "" : ""
+    };
+
+    let grossRange = {
+      grossMin: isGross ? sliderValue2[0] ?? "" : "",
+      grossMax: isGross ? sliderValue2[1] ?? "" : ""
+    };
+
+
 
     await ProductListApi(
       output,
@@ -1421,7 +1442,7 @@ const ProductList = () => {
         setIsOnlyProdLoading(false);
         setAfterCountStatus(false);
       });
-    }
+  }
 
   const handleRangeFilterApi1 = async (Rangeval1) => {
     setIsOnlyProdLoading(true)
@@ -1453,44 +1474,44 @@ const ProductList = () => {
     // let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? ""}
 
     let diafilter =
-    filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-      )[0]
-      : [];
-  let diafilter1 =
-    filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-      )[0]
-      : [];
-  let diafilter2 =
-    filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-      )[0]
-      : [];
-  const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
-  const isNet = JSON.stringify(Rangeval1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
-  const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(Rangeval1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
-  let DiaRange = {
-    DiaMin: isDia ? sliderValue[0] ?? "" : "",
-    DiaMax: isDia ? sliderValue[1] ?? "": ""
-  };
-  
-  let netRange = {
-    netMin: isNet ? Rangeval1[0] ?? "" : "",
-    netMax: isNet ? Rangeval1[1] ?? "" : ""
-  };
-  
-  let grossRange = {
-    grossMin: isGross ? sliderValue2[0] ?? "" : "",
-    grossMax: isGross ? sliderValue2[1] ?? "" : ""
-  };
+    let DiaRange = {
+      DiaMin: isDia ? sliderValue[0] ?? "" : "",
+      DiaMax: isDia ? sliderValue[1] ?? "" : ""
+    };
+
+    let netRange = {
+      netMin: isNet ? Rangeval1[0] ?? "" : "",
+      netMax: isNet ? Rangeval1[1] ?? "" : ""
+    };
+
+    let grossRange = {
+      grossMin: isGross ? sliderValue2[0] ?? "" : "",
+      grossMax: isGross ? sliderValue2[1] ?? "" : ""
+    };
 
 
     await ProductListApi(
@@ -1517,7 +1538,7 @@ const ProductList = () => {
         setIsOnlyProdLoading(false);
         setAfterCountStatus(false)
       });
-    };
+  };
 
   const handleRangeFilterApi2 = async (Rangeval2) => {
     setIsOnlyProdLoading(true)
@@ -1546,44 +1567,44 @@ const ProductList = () => {
     // let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? ""}
     // let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] }
     let diafilter =
-    filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-      )[0]
-      : [];
-  let diafilter1 =
-    filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-      )[0]
-      : [];
-  let diafilter2 =
-    filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-      )[0]
-      : [];
-  const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
-  const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
-  const isGross = JSON.stringify(Rangeval2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(Rangeval2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
-  let DiaRange = {
-    DiaMin: isDia ? sliderValue[0] ?? "" : "",
-    DiaMax: isDia ? sliderValue[1] ?? "": ""
-  };
-  
-  let netRange = {
-    netMin: isNet ? sliderValue1[0] ?? "" : "",
-    netMax: isNet ? sliderValue1[1] ?? "" : ""
-  };
-  
-  let grossRange = {
-    grossMin: isGross ? Rangeval2[0] ?? "" : "",
-    grossMax: isGross ? Rangeval2[1] ?? "" : ""
-  };
+    let DiaRange = {
+      DiaMin: isDia ? sliderValue[0] ?? "" : "",
+      DiaMax: isDia ? sliderValue[1] ?? "" : ""
+    };
+
+    let netRange = {
+      netMin: isNet ? sliderValue1[0] ?? "" : "",
+      netMax: isNet ? sliderValue1[1] ?? "" : ""
+    };
+
+    let grossRange = {
+      grossMin: isGross ? Rangeval2[0] ?? "" : "",
+      grossMax: isGross ? Rangeval2[1] ?? "" : ""
+    };
 
 
 
@@ -1611,7 +1632,7 @@ const ProductList = () => {
         setIsOnlyProdLoading(false);
         setAfterCountStatus(false);
       });
-    };
+  };
 
 
   const handleSliderChange = (event, newValue) => {
@@ -1649,13 +1670,15 @@ const ProductList = () => {
     handleRangeFilterApi2(newSliderValue);
   };
 
-  const SharedStyleForRange = { width: 170, height: 88 , '@media (max-width:1520px)': {
-    width: 165, // Example of how to change width on small screens
-        }, '@media (max-width:1410px)': {
-          width: 160, // Example of how to change width on small screens
-              },'@media (max-width:1290px)': {
-          width: 145, // Example of how to change width on small screens
-              }, }
+  const SharedStyleForRange = {
+    width: 170, height: 88, '@media (max-width:1520px)': {
+      width: 165, // Example of how to change width on small screens
+    }, '@media (max-width:1410px)': {
+      width: 160, // Example of how to change width on small screens
+    }, '@media (max-width:1290px)': {
+      width: 145, // Example of how to change width on small screens
+    },
+  }
 
   const RangeFilterView = (ele) => {
     return (
@@ -1692,7 +1715,7 @@ const ProductList = () => {
                 readOnly: true,  // Disable manual editing
               }}
               readOnly
-                          sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
 
             />
             <Input
@@ -1708,7 +1731,7 @@ const ProductList = () => {
                 readOnly: true,  // Disable manual editing
               }}
               readOnly
-                          sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
 
             />
           </div>
@@ -1740,7 +1763,7 @@ const ProductList = () => {
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
             <Input
-                            value={sliderValue1[0]?.toFixed(3)}
+              value={sliderValue1[0]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange1(0)}
               inputProps={{
@@ -1752,11 +1775,11 @@ const ProductList = () => {
                 readOnly: true,  // Disable manual editing
               }}
               readOnly
-              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
 
             />
             <Input
-                           value={sliderValue1[1]?.toFixed(3)}
+              value={sliderValue1[1]?.toFixed(3)}
               margin="dense"
               onChange={handleInputChange1(1)}
               inputProps={{
@@ -1768,7 +1791,7 @@ const ProductList = () => {
                 readOnly: true,  // Disable manual editing
               }}
               readOnly
-              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
 
             />
           </div>
@@ -1807,7 +1830,7 @@ const ProductList = () => {
                 readOnly: true,  // Disable manual editing
               }}
               readOnly
-              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
 
             />
             <Input
@@ -1823,7 +1846,7 @@ const ProductList = () => {
                 readOnly: true,  // Disable manual editing
               }}
               readOnly
-              sx={{ cursor: 'not-allowed' ,textAlign:"center" }}  // Change cursor to 'not-allowed'
+              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
 
             />
           </div>
@@ -2104,47 +2127,47 @@ const ProductList = () => {
                 <span className="smr_filter_text">
                   <span>
                     {
-                      !showClearAllButton () 
-                    // Object.values(filterChecked).filter((ele) => ele.checked)
-                    //   ?.length === 0 
-                      ? (
-                      "Filters"
-                    ) : (
-                      <>
-                        {afterCountStatus == true ? (
-                          <Skeleton
-                            variant="rounded"
-                            width={140}
-                            height={22}
-                            className="pSkelton"
-                          />
+                      !showClearAllButton()
+                        // Object.values(filterChecked).filter((ele) => ele.checked)
+                        //   ?.length === 0 
+                        ? (
+                          "Filters"
                         ) : (
-                          <span>{`Product Found: ${afterFilterCount}`}</span>
+                          <>
+                            {afterCountStatus == true ? (
+                              <Skeleton
+                                variant="rounded"
+                                width={140}
+                                height={22}
+                                className="pSkelton"
+                              />
+                            ) : (
+                              <span>{`Product Found: ${afterFilterCount}`}</span>
+                            )}
+                          </>
                         )}
-                      </>
-                    )}
                   </span>
                   <span onClick={() => handelFilterClearAll()}>
                     {
                       showClearAllButton()
-                    // Object.values(filterChecked).filter((ele) => ele.checked)
-                    //   ?.length > 0 
-                      ? (
-                      "Clear All"
-                    ) : (
-                      <>
-                        {afterCountStatus == true ? (
-                          <Skeleton
-                            variant="rounded"
-                            width={140}
-                            height={22}
-                            className="pSkelton"
-                          />
+                        // Object.values(filterChecked).filter((ele) => ele.checked)
+                        //   ?.length > 0 
+                        ? (
+                          "Clear All"
                         ) : (
-                          <span>{`Total Products : ${afterFilterCount}`}</span>
+                          <>
+                            {afterCountStatus == true ? (
+                              <Skeleton
+                                variant="rounded"
+                                width={140}
+                                height={22}
+                                className="pSkelton"
+                              />
+                            ) : (
+                              <span>{`Total Products : ${afterFilterCount}`}</span>
+                            )}
+                          </>
                         )}
-                      </>
-                    )}
                   </span>
                 </span>
                 <div style={{ marginTop: "12px" }}>
@@ -2590,50 +2613,50 @@ const ProductList = () => {
                             <span className="smr_filter_text">
                               <span>
                                 {
-                                // Object.values(filterChecked).filter(
-                                //   (ele) => ele.checked
-                                // )?.length === 0
-                                !showClearAllButton()
-                                 ? (
-                                  "Filters"
-                                ) : (
-                                  // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products : ${afterFilterCount}`}</span></span>
-                                  <>
-                                    {afterCountStatus == true ? (
-                                      <Skeleton
-                                        variant="rounded"
-                                        width={140}
-                                        height={22}
-                                        className="pSkelton"
-                                      />
+                                  // Object.values(filterChecked).filter(
+                                  //   (ele) => ele.checked
+                                  // )?.length === 0
+                                  !showClearAllButton()
+                                    ? (
+                                      "Filters"
                                     ) : (
-                                      <span>{`Product Found: ${afterFilterCount}`}</span>
+                                      // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products : ${afterFilterCount}`}</span></span>
+                                      <>
+                                        {afterCountStatus == true ? (
+                                          <Skeleton
+                                            variant="rounded"
+                                            width={140}
+                                            height={22}
+                                            className="pSkelton"
+                                          />
+                                        ) : (
+                                          <span>{`Product Found: ${afterFilterCount}`}</span>
+                                        )}
+                                      </>
                                     )}
-                                  </>
-                                )}
                               </span>
                               <span onClick={() => handelFilterClearAll()}>
                                 {
                                   showClearAllButton()
-                                // Object.values(filterChecked).filter(
-                                //   (ele) => ele.checked
-                                // )?.length > 0 
-                                ? (
-                                  "Clear All"
-                                ) : (
-                                  <>
-                                    {afterCountStatus == true ? (
-                                      <Skeleton
-                                        variant="rounded"
-                                        width={140}
-                                        height={22}
-                                        className="pSkelton"
-                                      />
+                                    // Object.values(filterChecked).filter(
+                                    //   (ele) => ele.checked
+                                    // )?.length > 0 
+                                    ? (
+                                      "Clear All"
                                     ) : (
-                                      <span>{`Total Products : ${afterFilterCount}`}</span>
+                                      <>
+                                        {afterCountStatus == true ? (
+                                          <Skeleton
+                                            variant="rounded"
+                                            width={140}
+                                            height={22}
+                                            className="pSkelton"
+                                          />
+                                        ) : (
+                                          <span>{`Total Products : ${afterFilterCount}`}</span>
+                                        )}
+                                      </>
                                     )}
-                                  </>
-                                )}
                               </span>
                             </span>
                             <div style={{ marginTop: "12px" }}>
@@ -3427,8 +3450,8 @@ const ProductList = () => {
                                       <div className="proCat_prod_card_info">
                                         <span className="proCat1_prod_title_with_no_width">
                                           {productData?.designno}  {productData?.TitleLine && productData?.designno
-? " - "
-: ""} {productData?.TitleLine}
+                                            ? " - "
+                                            : ""} {productData?.TitleLine}
                                         </span>
                                         <p
                                           className="proCatPriceMobile"

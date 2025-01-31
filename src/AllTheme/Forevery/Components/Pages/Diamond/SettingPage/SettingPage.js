@@ -127,9 +127,11 @@ const SettingPage = () => {
   const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
   const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
   const steps2 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
+  const steps3 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
   const stepsData = JSON.parse(sessionStorage.getItem('custStepData'));
   const stepsData2 = JSON.parse(sessionStorage.getItem('custStepData2Ring'));
   const stepsData3 = JSON.parse(sessionStorage.getItem('custStepData2Pendant'));
+  const stepsData4 = JSON.parse(sessionStorage.getItem('custStepData2Earring'));
 
   const initialSelections = {
     selectedMetalId: loginUserDetail?.MetalId,
@@ -450,7 +452,7 @@ const SettingPage = () => {
 
     if (getPath === 'certified-loose-lab-grown-diamonds/settings') {
       if (
-        getSetting === "Ring" && stepsData === null && (stepsData2 === null || stepsData3 !== null) && (steps1?.[0]?.step1 !== true)
+        getSetting === "Ring" && stepsData === null && (stepsData2 === null || stepsData3 !== null || stepsData4 !== null) && (steps1?.[0]?.step1 !== true)
       ) {
         const step1Ring = [{ "step1": true, "Setting": "Ring", "id": 1, "Status": "active" }];
         sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1Ring));
@@ -459,8 +461,13 @@ const SettingPage = () => {
             steps2[0].Status = "inactive";
             sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
           }
+        } else if (steps3?.[0]?.step1 === true) {
+          if (steps3?.[0]) {
+            steps3[0].Status = "inactive";
+            sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
+          }
         }
-      } else if (getSetting === "Ring" && (stepsData2 !== null || stepsData3 !== null) && (steps1?.[0]?.step1 === true)) {
+      } else if (getSetting === "Ring" && (stepsData2 !== null || stepsData3 !== null || stepsData4 !== null) && (steps1?.[0]?.step1 === true)) {
         if (steps1?.[0]?.step1 === true && steps1?.[1]?.step2 === true) {
           if (steps1?.[0]) {
             steps1[0].Status = "active";
@@ -471,12 +478,16 @@ const SettingPage = () => {
               steps2[0].Status = "inactive";
               sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
             }
+            if (steps3?.[0]) {
+              steps3[0].Status = "inactive";
+              sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
+            }
           }
         }
       }
 
       if (
-        getSetting === "Pendant" && stepsData === null && (stepsData3 === null || stepsData2 !== null) && (steps2?.[0]?.step1 !== true)
+        getSetting === "Pendant" && stepsData === null && (stepsData2 !== null || stepsData3 === null || stepsData4 !== null) && (steps2?.[0]?.step1 !== true)
       ) {
         const step1Pendant = [{ "step1": true, "Setting": "Pendant", "id": 2, "Status": "active" }];
         sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(step1Pendant));
@@ -485,9 +496,14 @@ const SettingPage = () => {
             steps1[0].Status = "inactive";
             sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(steps1));
           }
+        } else if (steps3?.[0]?.step1 === true) {
+          if (steps3?.[0]) {
+            steps3[0].Status = "inactive";
+            sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
+          }
         }
       }
-      else if (getSetting === "Pendant" && (stepsData3 !== null || stepsData2 !== null) && (steps2?.[0]?.step1 === true)) {
+      else if (getSetting === "Pendant" && (stepsData2 !== null || stepsData3 !== null || stepsData4 !== null) && (steps2?.[0]?.step1 === true)) {
         if (steps2?.[0]?.step1 === true && steps2?.[1]?.step2 === true) {
           if (steps2?.[0]) {
             steps2[0].Status = "active";
@@ -497,6 +513,46 @@ const SettingPage = () => {
             if (steps1?.[0]) {
               steps1[0].Status = "inactive";
               sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(steps1));
+            }
+            if (steps3?.[0]) {
+              steps3[0].Status = "inactive";
+              sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
+            }
+          }
+        }
+      }
+
+      if (
+        getSetting === "Earring" && stepsData === null && (stepsData2 !== null || stepsData3 !== null || stepsData3 === null) && (steps3?.[0]?.step1 !== true)
+      ) {
+        const step1Earring = [{ "step1": true, "Setting": "Earring", "id": 3, "Status": "active" }];
+        sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(step1Earring));
+        if (steps1?.[0]?.step1 === true) {
+          if (steps1?.[0]) {
+            steps1[0].Status = "inactive";
+            sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(steps1));
+          }
+        } else if (steps2?.[0]?.step1 === true) {
+          if (steps2?.[0]) {
+            steps2[0].Status = "inactive";
+            sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
+          }
+        }
+      }
+      else if (getSetting === "Earring" && (stepsData2 !== null || stepsData3 !== null || stepsData4 !== null) && (steps3?.[0]?.step1 === true)) {
+        if (steps3?.[0]?.step1 === true && steps3?.[1]?.step2 === true) {
+          if (steps3?.[0]) {
+            steps3[0].Status = "active";
+            // const getPendantteps = [...steps2];
+            // getPendantteps.splice(2, 1);
+            sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
+            if (steps1?.[0]) {
+              steps1[0].Status = "inactive";
+              sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(steps1));
+            }
+            if (steps2?.[0]) {
+              steps2[0].Status = "inactive";
+              sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
             }
           }
         }
@@ -758,8 +814,8 @@ const SettingPage = () => {
   }, [selectedValues]);
 
   const dropdownsData = [
-    { index: 1, title: "All metal", data: metalType, type: 'metal', "diaStep": steps, "setStep": steps1 ?? steps2 },
-    { index: 2, title: "Diamond shape", data: diaShapeData, type: 'diashape', "diaStep": steps, "settStep": steps1 ?? steps2 },
+    { index: 1, title: "All metal", data: metalType, type: 'metal', "diaStep": steps, "setStep": steps1 ?? steps2 ?? steps3 },
+    { index: 2, title: "Diamond shape", data: diaShapeData, type: 'diashape', "diaStep": steps, "settStep": steps1 ?? steps2 ?? steps3 },
   ];
 
   const rangeData = [
@@ -869,7 +925,7 @@ const SettingPage = () => {
 
   const handleMoveToDetail = (productData, metalColor) => {
     console.log('productData: ', productData);
-    let pValue = isRing === 'Ring' ? { menuname: 'Engagement Ring' } : { menuname: 'Diamond Pendants' };
+    let pValue = isRing === 'Ring' ? { menuname: 'Engagement Ring' } : isRing === 'Pendant' ? { menuname: 'Diamond Pendants' } : { menuname: 'Diamond Earrings' };
     let output = isRing === 'Ring' ? { category: '1' } : { category: '13' };
     let obj = {
       a: productData?.autocode,
@@ -907,8 +963,8 @@ const SettingPage = () => {
       <div className="for_settingList_MainDiv">
         <div className="for_settingList_div">
           <div className="for_settingList_desc_div">
-            <h5 className='for_settingList_desc_title'>All {isRing === 'Ring' ? 'Engagement Rings' : 'Diamond Pendants'}</h5>
-            <p className='for_settingList_desc_para'>{isRing === 'Ring' ? 'Find the perfect Engagement Rings for women and men at Forevery. Choose from classic to modern styles or design your own for a ring that is sure to shine.' : 'Find the perfect Diamond Pendants for women and men at Forevery. Choose from classic to modern styles or design your own for a ring that is sure to shine.'}</p>
+            <h5 className='for_settingList_desc_title'>All {isRing === 'Ring' ? 'Engagement Rings' : isRing === 'Pendant' ? 'Diamond Pendants' : 'Diamond Earring'}</h5>
+            <p className='for_settingList_desc_para'>{isRing === 'Ring' ? 'Find the perfect Engagement Rings for women and men at Forevery. Choose from classic to modern styles or design your own for a ring that is sure to shine.' : isRing === 'Pendant' ? 'Find the perfect Diamond Pendants for women and men at Forevery. Choose from classic to modern styles or design your own for a ring that is sure to shine.' : 'Find the perfect Diamond Earrings for women and men at Forevery. Choose from classic to modern styles or design your own for a ring that is sure to shine.'}</p>
           </div>
           <div className="for_settingLists_category_lists_div" style={{ display: isRing === 'Ring' ? '' : 'none' }}>
             {categoryArr?.map((item, index) => {

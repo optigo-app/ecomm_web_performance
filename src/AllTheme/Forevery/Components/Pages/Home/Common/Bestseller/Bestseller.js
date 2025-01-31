@@ -35,7 +35,9 @@ const Bestseller = () => {
 
   const navigate = useNavigate();
   const addCategory = `Ring/category`;
+  const addCategory1 = `Pendant/category`;
   const filterKeyVal = btoa(addCategory);
+  const filterKeyVal1 = btoa(addCategory1);
 
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
   const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
@@ -46,16 +48,45 @@ const Bestseller = () => {
     (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
     (steps2?.[0] !== undefined && steps2?.[0] !== null);
 
-  const handleSettingNavigation = () => {
-    if (checkStepsOf0) {
-      sessionStorage.removeItem('customizeSteps')
-      sessionStorage.removeItem("custStepData");
+  const checkSteps =
+    (steps?.[2] !== undefined && steps?.[2] !== null) ||
+    (steps1?.[2] !== undefined && steps1?.[2] !== null) ||
+    (steps2?.[2] !== undefined && steps2?.[2] !== null);
+
+  const handleSettingNavigation = (val) => {
+    if (val === "Ring") {
+      if (val === "Ring" && checkSteps) {
+        navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+      } else {
+        if (checkStepsOf0) {
+          if (steps?.[0] !== undefined && steps?.[0] !== null) {
+            sessionStorage.removeItem('customizeSteps')
+            sessionStorage.removeItem("custStepData");
+          } else {
+            sessionStorage.removeItem('customizeSteps2Pendant');
+            sessionStorage.removeItem('custStepData2Pendant')
+          }
+        }
+        navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+      }
+    } else if (val === "Pendant") {
+      if (val === "Pendant" && checkSteps) {
+        navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UGVuZGFudC9jYXRlZ29yeQ====`);
+      } else {
+        if (checkStepsOf0) {
+          if (steps?.[0] !== undefined && steps?.[0] !== null) {
+            sessionStorage.removeItem('customizeSteps')
+            sessionStorage.removeItem("custStepData");
+          } else {
+            sessionStorage.removeItem('customizeSteps2Ring');
+            sessionStorage.removeItem('custStepData2Ring')
+          }
+        }
+        navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/M=${filterKeyVal1}`);
+      }
     }
-    navigate(
-      `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
-    );
-    const step1 = [{ step1: true, Setting: "Ring", id: 1 }];
-    sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
+    // const step1 = [{ step1: true, Setting: "Ring", id: 1 }];
+    // sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
   };
   return (
     <div className="for_Bestseller">
@@ -63,7 +94,7 @@ const Bestseller = () => {
         <button
           className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
           onClick={() => Navigation(`/p/BestSeller/?N=${btoa("BestSeller")}`)}
-          // /p/BestSeller/?N=QmVzdFNlbGxlcg==
+        // /p/BestSeller/?N=QmVzdFNlbGxlcg==
         >
           SHOP'S BESTSELLERS{" "}
           <FaChevronDown size={20} style={{ marginTop: "-3px" }} />
@@ -97,7 +128,7 @@ const Bestseller = () => {
           </p>
           <div className="for_col_btn">
             <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
-            onClick={handleSettingNavigation}
+              onClick={() => handleSettingNavigation("Ring")}
             >
               Customize Ring
             </button>
@@ -107,7 +138,7 @@ const Bestseller = () => {
               Customize Earring
             </button> */}
             <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
-            onClick={()=>Navigation(`/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ==`)}
+              onClick={() => handleSettingNavigation("Pendant")}
             >
               Customize Pendant
             </button>

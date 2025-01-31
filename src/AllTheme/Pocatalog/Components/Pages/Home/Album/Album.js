@@ -130,9 +130,13 @@ const Album = () => {
   // }
 
   const handleNavigate = (data) => {
-    const url = `/p/${encodeURIComponent(data?.AlbumName)}/?A=${btoa(`AlbumName=${data?.AlbumName}`)}`;
+    const albumName = data?.AlbumName;
+    const securityKey = data?.AlbumSecurityId;
+    const url = `/p/${encodeURIComponent(data?.AlbumName)}/K=${btoa(securityKey)}/?A=${btoa(`AlbumName=${albumName}`)}`;
     const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
     const Newdata = data?.AlbumDetail ? JSON.parse(data?.AlbumDetail) : [];
+
+    const state = { SecurityKey: securityKey };
   
     if (data?.IsDual === 1 && Newdata?.length > 1) {
       const finalNewData = Newdata.map((item) => {
@@ -144,7 +148,7 @@ const Album = () => {
       setDesignSubData(finalNewData);
     } else {
       sessionStorage.setItem('redirectURL', url);
-      navigate(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl);
+      navigate(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl, { state });
     }
   };
   
@@ -184,10 +188,13 @@ const Album = () => {
   // };
 
   const handleNavigateSub = (data) => {
-    const url = `/p/${encodeURIComponent(data?.AlbumName)}/?A=${btoa(`AlbumName=${data?.AlbumName}`)}`;
+    const albumName = data?.AlbumName;
+    const securityKey = data?.AlbumSecurityId;
+    const url = `/p/${encodeURIComponent(data?.AlbumName)}/K=${btoa(securityKey)}/?A=${btoa(`AlbumName=${albumName}`)}`;
+    const state = { SecurityKey: securityKey };
     const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
     sessionStorage.setItem('redirectURL', url)
-    navigate(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl);
+    navigate(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl, { state });
   };
   
   const prevLoadedProducts = useRef([]); 
