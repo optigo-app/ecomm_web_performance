@@ -258,11 +258,11 @@ const TrendingView1 = ({data}) => {
                                                 }
                                             </>
                                         }
-                                        <p>
+                                    {storeInit?.IsPriceShow == 1 &&     <p>
                                             <span className="smr_currencyFont">
                                                 {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
                                             </span>&nbsp;
-                                            <span>{formatter(data?.UnitCostWithMarkUp)}</span></p>
+                                            <span>{formatter(data?.UnitCostWithMarkUp)}</span></p>}
                                     </div>
                                 </motion.div>
                             ))}

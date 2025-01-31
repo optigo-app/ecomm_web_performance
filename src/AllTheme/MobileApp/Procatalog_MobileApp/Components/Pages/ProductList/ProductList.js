@@ -1949,7 +1949,7 @@ const ProductList = () => {
                       </AccordionDetails>
                     </Accordion>
                   )}
-                  {ele?.id?.includes("Price") && (
+                  {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                     <Accordion
                       elevation={0}
                       sx={{
@@ -2720,16 +2720,19 @@ const ProductList = () => {
                                                   ?.metaltype
                                               }
                                             </span>
-                                            <span>/</span>
+                                           {
+                                            storeInit?.IsPriceShow == 1 && <>
+                                             <span>/</span>
                                             <span className="smrMA_price">
                                               <span className="smr_currencyFont">
                                                 {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                               </span>
-
                                               <span className="smr_pricePort">
                                                 {formatter.format(productData?.UnitCostWithMarkUp)}
                                               </span>
                                             </span>
+                                            </>
+                                           }
                                           </div>
                                         </div>
                                       ))}

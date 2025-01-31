@@ -58,6 +58,8 @@ const WishlistItems = ({
     }
   }, [item]);
 
+  const {IsPriceShow} = JSON.parse(sessionStorage.getItem('storeInit')) ?? {};
+
   return (
     <Grid
       sx={{ paddingLeft: "12px !important", paddingTop: "10px !important" }}
@@ -97,7 +99,7 @@ const WishlistItems = ({
             />
           )}
    
-     <Informationtab item={item} decodeEntities={decodeEntities} currency={currency}/>
+     <Informationtab item={item} decodeEntities={decodeEntities} currency={currency}  IsPriceShow={IsPriceShow == 1 }/>
      {/* <OldInformationtab item={item} decodeEntities={decodeEntities} currency={currency}/> */}
           <div className="smrMo_Wl-CartbtnDiv">
             <button
@@ -123,7 +125,7 @@ export default WishlistItems;
 
 
 
-const Informationtab = ({item,decodeEntities,  currency})=>{
+const Informationtab = ({item,decodeEntities,  currency ,IsPriceShow})=>{
   return <>
        <div className="card_content_mapp">
           <div className="price_mapp_sec">
@@ -137,6 +139,7 @@ const Informationtab = ({item,decodeEntities,  currency})=>{
                                     <span>{item?.metaltypename}</span>
                                 )}
                                 {' / '}
+                               {IsPriceShow && <>
                                 <span className="smrMo_currencyFont" dangerouslySetInnerHTML={{
                                     __html: decodeEntities(currency),
                                 }} />
@@ -144,6 +147,7 @@ const Informationtab = ({item,decodeEntities,  currency})=>{
                                 {item?.UnitCost !== "" && (
                                     <span>{(item?.UnitCost).toFixed(3)}</span>
                                 )}
+                               </>}
                             </div>
             <div className="title_mapp_sec">
               {item?.designno != "" && item?.designno}

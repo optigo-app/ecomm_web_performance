@@ -2189,7 +2189,7 @@ const ProductList = () => {
                               </AccordionDetails>
                             </Accordion>
                           )}
-                        {ele?.id?.includes("Price") && (
+                          {storeInit?.IsPriceShow == 1 &&ele?.id?.includes("Price") && (
                           <Accordion
                             elevation={0}
                             sx={{
@@ -3771,16 +3771,18 @@ const ProductList = () => {
                                               )[0]?.metaltype
                                             }
                                           </span>
-                                          <span>/</span>
-                                          <span className="stam_price">
+                                        {storeInit?.IsPriceShow == 1 &&
+                                        <>
+                                        <span>/</span>
+                                        <span className="stam_price">
                                             {/*  <span
                                         className="stam_currencyFont"
                                         dangerouslySetInnerHTML={{
                                           __html: decodeEntities(
                                             storeInit?.Currencysymbol
-                                          ),
-                                        }}
-                                      /> */}
+                                            ),
+                                            }}
+                                            /> */}
                                             <span className="stam_currencyFont" style={{ fontWeight: '600' }}>
                                               {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                             </span>
@@ -3797,6 +3799,8 @@ const ProductList = () => {
                                               )}
                                             </span>
                                           </span>
+                                            </>
+                                          }
                                         </div>
                                       </div>
                                     </div>

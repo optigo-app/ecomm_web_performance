@@ -86,6 +86,8 @@ const usePaymentLogic = () => {
                 console.error("Error parsing payment methods:", error);
             }
         }
+
+        
     }, []);
 
     // for payment display order

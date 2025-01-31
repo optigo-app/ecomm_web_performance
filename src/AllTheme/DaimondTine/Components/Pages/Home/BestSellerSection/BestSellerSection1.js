@@ -206,7 +206,7 @@ const BestSellerSection1 = ({data}) => {
                                                 }
                                             </>
                                         } */}
-                                        <p>
+                                   { storeInit?.IsPriceShow == 1 &&     <p>
                                             <span
                                                 className="smr_currencyFont"
                                                 dangerouslySetInnerHTML={{
@@ -214,7 +214,7 @@ const BestSellerSection1 = ({data}) => {
                                                         islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
                                                     ),
                                                 }}
-                                            /> {formatter(data?.UnitCostWithMarkUp)}</p>
+                                            /> {formatter(data?.UnitCostWithMarkUp)}</p>}
                                     </div>
 
                                     <div className="dt_bestSaller_product_info_mobile">

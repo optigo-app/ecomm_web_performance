@@ -2488,7 +2488,7 @@ const ProductList = () => {
                                         </AccordionDetails>
                                       </Accordion>
                                     )}
-                                  {item?.id?.includes("Price") && (
+                                   {storeInit?.IsPriceShow == 1 && item?.id?.includes("Price") && (
                                     <Accordion
                                       className="accordian"
                                       sx={{ paddingInline: 0 }}
@@ -2804,7 +2804,7 @@ const ProductList = () => {
                                       </AccordionDetails>
                                     </Accordion>
                                   )}
-                                {item?.id?.includes("Price") && (
+                                 {storeInit?.IsPriceShow == 1 && item?.id?.includes("Price") && (
                                   <Accordion className="accordian">
                                     <AccordionSummary
                                       sx={{ paddingInline: 0 }}

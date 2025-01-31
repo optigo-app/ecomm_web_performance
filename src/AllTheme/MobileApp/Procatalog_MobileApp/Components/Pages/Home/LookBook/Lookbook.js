@@ -759,7 +759,7 @@ const Lookbook = () => {
                           </AccordionDetails>
                         </Accordion>
                       )}
-                    {ele?.id?.includes("Price") && (
+                    {  storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                       <Accordion
                         elevation={0}
                         sx={{
@@ -1149,7 +1149,7 @@ const Lookbook = () => {
                                 </AccordionDetails>
                               </Accordion>
                             )}
-                          {ele?.id?.includes("Price") && (
+                          { storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                             <Accordion
                               elevation={0}
                               sx={{
@@ -1396,7 +1396,7 @@ const Lookbook = () => {
                                   className="smr1_lookBookImgDeatilSub"
                                   style={{ display: "flex", alignItems: "center" }}
                                 >
-                                  <p
+                                 { storeInit?.IsPriceShow == 1 && <p
                                     style={{
                                       margin: "0px 10px 0px 0px",
                                       fontSize: "15px",
@@ -1413,7 +1413,7 @@ const Lookbook = () => {
                                     {formatter(calculateTotalUnitCostWithMarkUp(
                                       JSON.parse(slide.Designdetail)
                                     ))}
-                                  </p>
+                                  </p>}
                                   <Button
                                     className="smr_lookBookBuyBtn"
                                     onClick={() =>

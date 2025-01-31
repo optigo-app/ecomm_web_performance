@@ -228,7 +228,7 @@ const TrendingView1 = ({data}) => {
                                                 }
                                             </>
                                         } */}
-                                        <p>
+                                        { storeInit?.IsPriceShow == 1 && <p>
                                             <span
                                                 className="smr_currencyFont"
                                                 dangerouslySetInnerHTML={{
@@ -237,7 +237,7 @@ const TrendingView1 = ({data}) => {
                                                     ),
                                                 }}
                                             /> {formatter(data?.UnitCostWithMarkUp)}
-                                        </p>
+                                        </p>}
                                     </div>
 
                                     <div className="trending_ifno_mobile_product_info">
@@ -290,7 +290,7 @@ const TrendingView1 = ({data}) => {
                                                 </div>
                                             </div>
                                         } */}
-                                        <p>
+                                      { storeInit?.IsPriceShow == 1 &&  <p>
                                             <span
                                                 className="smr_currencyFont"
                                                 dangerouslySetInnerHTML={{
@@ -299,7 +299,7 @@ const TrendingView1 = ({data}) => {
                                                     ),
                                                 }}
                                             /> {formatter(data?.UnitCostWithMarkUp)}
-                                        </p>
+                                        </p>}
                                     </div>
                                 </div>
                             ))}

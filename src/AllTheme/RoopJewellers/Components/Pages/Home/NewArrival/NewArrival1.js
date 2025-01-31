@@ -230,7 +230,7 @@ const NewArrival = () => {
                         </>
                       )}
                     </Typography>
-                    <p className="roop_newArrPrice">
+                    {storeInit?.IsPriceShow == 1 &&   <p className="roop_newArrPrice">
                       <span
                         className="roop_currencyFont"
                         dangerouslySetInnerHTML={{
@@ -242,7 +242,7 @@ const NewArrival = () => {
                         }}
                       />{" "}
                       {formatter(product?.UnitCostWithMarkUp)}
-                    </p>
+                    </p>}
                   </CardContent>
                 </Card>
               </Grid>

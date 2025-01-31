@@ -1735,7 +1735,7 @@ const ProductDetail = () => {
                           </Accordion>
                         )}
 
-                        {<div className="smr_price_portion">
+                        { storeInit?.IsPriceShow == 1 &&  <div className="smr_price_portion">
                           {isPriceloading ? (
                             ""
                           ) : (
@@ -1749,7 +1749,7 @@ const ProductDetail = () => {
                         finalprice,
                         storeInit?.CurrencyRate
                       )?.toFixed(2)} */}
-                          {isPriceloading ? (
+                          { isPriceloading ? (
                             <Skeleton
                               variant="rounded"
                               width={140}

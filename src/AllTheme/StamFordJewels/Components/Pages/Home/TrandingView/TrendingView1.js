@@ -246,11 +246,11 @@ const TrendingView1 = ({data}) => {
                                                     </>
                                                 }
                                             </div>
-                                            <p>
+                                            {storeInit?.IsPriceShow == 1 &&   <p>
                                                 <span className="stam_currencyFont">
                                                     {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
                                                 </span>&nbsp;
-                                                <span>{formatter(item?.UnitCostWithMarkUp)}</span></p>
+                                                <span>{formatter(item?.UnitCostWithMarkUp)}</span></p>}
                                         </div>
                                     </div>
                                 </SwiperSlide>

@@ -252,7 +252,7 @@ const NewArrival = () => {
                                                 </>
                                             }
                                         </Typography>
-                                        <p className='smr_newArrPrice'>
+                                        {storeInit?.IsPriceShow == 1 &&  <p className='smr_newArrPrice'>
                                             <span
                                                 className="smr_currencyFont"
                                                 dangerouslySetInnerHTML={{
@@ -260,7 +260,7 @@ const NewArrival = () => {
                                                         islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
                                                     ),
                                                 }}
-                                            /> {formatter(product?.UnitCostWithMarkUp)}</p>
+                                            /> {formatter(product?.UnitCostWithMarkUp)}</p>}
                                     </CardContent>
                                 </Card>
                             </Grid>

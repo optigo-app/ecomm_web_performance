@@ -200,8 +200,21 @@ function EnhancedTableHead(props) {
   return (
     <TableHead className="salesReporttabelHead">
       <TableRow>
-        {headCells?.map((headCell) => (
-          <TableCell
+        {headCells?.map((headCell) => {
+            const headCellsLits = [
+              'MetalAmount',
+              'DiamondAmount',
+              'ColorStoneAmount',
+              'LabourAmount',
+              'OtherAmount',
+              'UnitCost'
+            ];
+            const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+            if (IsPriceShow === 0 && headCellsLits.includes(headCell?.id)) {
+              return null;  
+            }
+              
+         return <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
@@ -228,7 +241,7 @@ function EnhancedTableHead(props) {
                 </TableSortLabel>
             }
           </TableCell>
-        ))}
+})}
       </TableRow>
     </TableHead>
   );
@@ -715,10 +728,12 @@ const SalesReport = () => {
       tableContainer.scrollTop = 0;
     }
   };
+  const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+
   return (
     <div className="salesReport_Account_SMR">
       <Box>
-        <Box
+    {IsPriceShow == 1 &&     <Box
           sx={{
             display: "flex",
             alignItems: "center",
@@ -823,7 +838,7 @@ const SalesReport = () => {
               )}
             </Box>
           </Box>
-        </Box>
+        </Box>}
         {!isSmallScreen && <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
           <Box
             sx={{
@@ -1202,12 +1217,12 @@ const SalesReport = () => {
                           <TableCell align="center">{row.SKUNo}</TableCell>
                           <TableCell align="center">{row.designno}</TableCell>
                           <TableCell align="center">{row.MetalType}</TableCell>
-                          <TableCell align="center"><span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span>&nbsp;{formatAmount(row.MetalAmount)}</TableCell>
+                       {IsPriceShow == 1 &&  <>  <TableCell align="center"><span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span>&nbsp;{formatAmount(row.MetalAmount)}</TableCell>
                           <TableCell align="center"><span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span>&nbsp; {formatAmount(row.DiamondAmount)} </TableCell>
                           <TableCell align="center"><span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span>&nbsp; {formatAmount(row.ColorStoneAmount)} </TableCell>
                           <TableCell align="center"><span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span>&nbsp;{formatAmount(row.LabourAmount)}</TableCell>
                           <TableCell align="center"><span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span>&nbsp;{formatAmount(row.OtherAmount)}</TableCell>
-                          <TableCell align="center"><span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span>&nbsp;{formatAmount(row.UnitCost)}</TableCell>
+                          <TableCell align="center"><span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span>&nbsp;{formatAmount(row.UnitCost)}</TableCell></>}
                           <TableCell align="center">{row.Category}</TableCell>
                           <TableCell align="center">{row.GrossWt}</TableCell>
                           <TableCell align="center">{row.NetWt}</TableCell>
