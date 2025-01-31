@@ -1674,7 +1674,7 @@ const ProductDetail = () => {
                     </div>
                   </div>
 
-                  {storeInit?.IsPriceBreakUp == 1 && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 && (
+                  { storeInit?.IsPriceShow == 1 && storeInit?.IsPriceBreakUp == 1 && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 && (
                     <Accordion
                       elevation={0}
                       sx={{
@@ -2172,7 +2172,7 @@ const ProductDetail = () => {
                     <th className="dt_stockItem_table_td">
                       Metal Color-Purity
                     </th>
-                    <th className="dt_stockItem_table_td">Price</th>
+                { storeInit?.IsPriceShow == 1 &&    <th className="dt_stockItem_table_td">Price</th>}
                     <th className="dt_stockItem_table_td">
                       Add To Cart
                     </th>
@@ -2295,7 +2295,7 @@ const ProductDetail = () => {
                         </span>
                         {/* </div> */}
                       </td>
-                      <td className="dt_stockItem_table_td">
+                    { storeInit?.IsPriceShow == 1 &&  <td className="dt_stockItem_table_td">
                         <span className="dt_table_Price">
                           <span className="smr_currencyFont">
                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
@@ -2307,7 +2307,7 @@ const ProductDetail = () => {
                             // )
                           }</span>
                         </span>
-                      </td>
+                      </td>}
                       <td
                         className="dt_stockItem_table_td"
                         style={{
@@ -2396,7 +2396,7 @@ const ProductDetail = () => {
                             {ele?.designno}
                           </span>
 
-                          <div
+                         { storeInit?.IsPriceShow == 1 && <div
                             style={{
                               display: "flex",
                               justifyContent: "center",
@@ -2417,7 +2417,7 @@ const ProductDetail = () => {
                               ele?.UnitCostWithMarkUp
                               // )
                             }</span>
-                          </div>
+                          </div>}
                         </div>
                       </div>
                     ))}
@@ -2540,13 +2540,13 @@ const ProductDetail = () => {
                                     <p>
                                       {ele?.designno} - {ele?.CategoryName}
                                       <br />
-                                      {
+                                      {   storeInit?.IsPriceShow == 1 &&   
                                         <span className="dt_currencyFont">
                                           {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }
                                       &nbsp;
-                                      {
+                                      { storeInit?.IsPriceShow == 1 && 
                                         formatter.format(
                                           ele?.UnitCostWithMarkUp
                                         )

@@ -2052,7 +2052,7 @@ const ProductList = () => {
                                 </AccordionDetails>
                               </Accordion>
                             )}
-                          {ele?.id?.includes("Price") && (
+                          { storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                             <Accordion
                               elevation={0}
                               sx={{
@@ -2854,7 +2854,7 @@ const ProductList = () => {
                                       </AccordionDetails>
                                     </Accordion>
                                   )}
-                                {ele?.id?.includes("Price") && (
+                                { storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                                   <Accordion
                                     elevation={0}
                                     sx={{
@@ -3373,11 +3373,11 @@ const ProductList = () => {
                                      </p> */}
                                         </div>
                                       )}
-                                      <div style={{ margin: '0px', fontSize: '15px', display: 'flex', justifyContent: 'center', width: '100%', gap: '5px' }}>
+                                     { storeInit?.IsPriceShow == 1 && <div style={{ margin: '0px', fontSize: '15px', display: 'flex', justifyContent: 'center', width: '100%', gap: '5px' }}>
                                         {/* <label className="from">Form:</label> */}
                                         <div className="currencyFont" style={{ fontSize: '16px', color: '#8d8d8d' }}>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}</div>
                                         <div style={{ fontFamily: 'Roboto, sans-serif', fontSize: '16px', color: '#8d8d8d' }}>{formatter.format(productData?.UnitCostWithMarkUp)}</div>
-                                      </div>
+                                      </div>}
                                     </div>
                                   </div>
                                 })}

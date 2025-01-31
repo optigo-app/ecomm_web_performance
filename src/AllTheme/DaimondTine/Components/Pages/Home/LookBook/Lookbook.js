@@ -836,7 +836,7 @@ const Lookbook = () => {
 
 
 
-                  {ele?.id?.includes("Price") && (
+                  { storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                     <Accordion
                       elevation={0}
                       sx={{
@@ -1215,7 +1215,7 @@ const Lookbook = () => {
                             </AccordionDetails>
                           </Accordion>
                         )}
-                      {ele?.id?.includes("Price") && (
+                      { storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                         <Accordion
                           elevation={0}
                           sx={{
@@ -1515,7 +1515,7 @@ const Lookbook = () => {
                               className="dt_lookBookImgDeatilSub"
                               style={{ display: "flex", alignItems: "center" }}
                             >
-                              <p
+                             { storeInit?.IsPriceShow == 1 && <p
                                 style={{
                                   margin: "0px 10px 0px 0px",
                                   fontSize: "15px",
@@ -1541,7 +1541,7 @@ const Lookbook = () => {
                                 {formatter(calculateTotalUnitCostWithMarkUp(
                                   JSON?.parse(slide.Designdetail)
                                 ))}
-                              </p>
+                              </p>}
                               <button
                                 className="dt_lookBookBuyBtn"
                                 onClick={() =>
@@ -1750,7 +1750,7 @@ const Lookbook = () => {
                                   className="dt_lookBookImgDeatilSub"
                                   style={{ display: "flex", alignItems: "center" }}
                                 >
-                                  <p
+                                { storeInit?.IsPriceShow == 1 &&  <p
                                     style={{
                                       margin: "0px 10px 0px 0px",
                                       fontSize: "15px",
@@ -1776,7 +1776,7 @@ const Lookbook = () => {
                                     {formatter(calculateTotalUnitCostWithMarkUp(
                                       JSON?.parse(slide.Designdetail)
                                     ))}
-                                  </p>
+                                  </p>}
                                   <button
                                     className="dt_lookBookBuyBtn"
                                     onClick={() =>
@@ -2169,13 +2169,17 @@ const Lookbook = () => {
                                                 ),
                                               }}
                                             /> */}
+                                            {
+                                               storeInit?.IsPriceShow == 1 && <>
+                                               
                                                   <span
                                                     className="dt_currencyFont"
-                                                  >
+                                                    >
                                                     {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                   </span>
                                                   &nbsp;
                                                   {formatter(ele?.UnitCostWithMarkUp)}
+                                                  </>                                            }
                                                 </p>
                                               </div>
                                             </div>
@@ -2211,7 +2215,7 @@ const Lookbook = () => {
                                     <div
                                       className="dt_lb3TotalBtnGroup"
                                     >
-                                      <div className="dt_lb3TotalPrice">
+                                     { storeInit?.IsPriceShow == 1 && <div className="dt_lb3TotalPrice">
                                         <span>
                                           <span
                                             className="dt_currencyFont"
@@ -2223,7 +2227,7 @@ const Lookbook = () => {
                                             JSON?.parse(slide.Designdetail)
                                           ))}
                                         </span>
-                                      </div>
+                                      </div>}
                                       <div className="dt_lb3BuyComboDiv" onClick={() =>
                                         handleByCombo(
                                           parseDesignDetails(

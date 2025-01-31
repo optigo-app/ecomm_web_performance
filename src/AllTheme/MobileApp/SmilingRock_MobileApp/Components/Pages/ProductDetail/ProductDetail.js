@@ -1866,7 +1866,9 @@ const ProductDetail = () => {
                           </div>
                         )}
 
-                        {storeInit?.IsPriceBreakUp == 1 &&
+                        {
+                        storeInit?.IsPriceShow == 1 &&
+                        storeInit?.IsPriceBreakUp == 1 &&
                           singleProd1?.IsMrpBase !== 1 &&
                           singleProd?.IsMrpBase !== 1 && (
                             <Accordion
@@ -2316,6 +2318,7 @@ const ProductDetail = () => {
                           )}
 
                         {
+                          storeInit?.IsPriceShow == 1 &&
                           <div className="smr_price_portion">
                             {isPriceloading ? (
                               ""
@@ -2719,15 +2722,18 @@ const ProductDetail = () => {
                               >
                                 <span>
                                   {ele?.MetalColorName} - {ele?.metaltypename}
-                                  {ele?.metalPurity} /{" "}
+                                  {ele?.metalPurity} 
+                                  {storeInit?.IsPriceShow == 1 && <>
+                                    /{" "}
                                   <span className="smr_currencyFont">
                                     {loginInfo?.CurrencyCode ??
                                       storeInit?.CurrencyCode}
                                   </span>
+                                  </>}
                                 </span>
-                                <span>
+                               { storeInit?.IsPriceShow == 1 && <span>
                                   &nbsp;{formatter.format(ele?.Amount)}
-                                </span>
+                                </span>}
                               </div>
                             </div>
                           </div>
@@ -2786,7 +2792,7 @@ const ProductDetail = () => {
                                   {ele?.designno}
                                 </span>
 
-                                <div
+                                {storeInit?.IsPriceShow == 1 && <div
                                   style={{
                                     display: "flex",
                                     justifyContent: "center",
@@ -2805,7 +2811,7 @@ const ProductDetail = () => {
                                   <span>
                                     &nbsp;{formatter.format(ele?.UnitCost)}
                                   </span>
-                                </div>
+                                </div>}
                               </div>
                             </div>
                           ))}
@@ -2944,16 +2950,18 @@ const ProductDetail = () => {
                                               {ele?.designno} -{" "}
                                               {ele?.CategoryName}
                                               <br />
-                                              {
+                                              {storeInit?.IsPriceShow == 1 && <> 
                                                 <span className="smr_currencyFont">
                                                   {loginInfo?.CurrencyCode ??
                                                     storeInit?.CurrencyCode}
                                                 </span>
-                                              }
+                                              
                                               &nbsp;
                                               {formatter.format(
                                                 ele?.UnitCostWithMarkUp
                                               )}
+
+</>}
                                             </p>
                                           </div>
                                           {/* <div>

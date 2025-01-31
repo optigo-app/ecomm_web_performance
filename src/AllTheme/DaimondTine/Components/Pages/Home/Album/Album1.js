@@ -292,7 +292,7 @@ const Album1 = () => {
                                                     <p className='smr_album1price'>
                                                         {design?.designno}
                                                     </p>
-                                                    <p className='smr_album1price'>
+                                                 { storeInit?.IsPriceShow == 1 &&   <p className='smr_album1price'>
                                                         <span
                                                             className="smr_currencyFont"
                                                             dangerouslySetInnerHTML={{
@@ -301,7 +301,7 @@ const Album1 = () => {
                                                                 ),
                                                             }}
                                                         /> {formatter(design?.UnitCostWithMarkUp)}
-                                                    </p>
+                                                    </p>}
                                                 </div>
                                             </SwiperSlide>
                                         );

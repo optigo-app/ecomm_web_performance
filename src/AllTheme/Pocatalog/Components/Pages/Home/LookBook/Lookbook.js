@@ -333,14 +333,14 @@ const Lookbook = () => {
                                 <div style={{ display: 'flex', justifyContent: 'space-between', margin: '5px' }}>
                                     <p style={{ fontSize: '13px', margin: '2px' }}>DWT:{slide?.Dwt} | GWT:{slide?.Gwt}| NWT:{slide?.Nwt}</p>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <p style={{ margin: '0px 10px 0px 0px', fontSize: '15px', fontWeight: 600 }}>  <span
+                                      { storeInit?.IsPriceShow == 1 &&  <p style={{ margin: '0px 10px 0px 0px', fontSize: '15px', fontWeight: 600 }}>  <span
                                             className="smr_currencyFont"
                                             dangerouslySetInnerHTML={{
                                                 __html: decodeEntities(
                                                     storeInit?.Currencysymbol
                                                 ),
                                             }}
-                                        /> {slide?.UnitCostWithMarkUp}</p>
+                                        /> {slide?.UnitCostWithMarkUp}</p>}
                                         <button className='smr_lookBookBuyBtn' onClick={() => handleByCombo(parseDesignDetails(slide?.Designdetail, "Cart"))}>
                                             Buy Combo
                                         </button>
