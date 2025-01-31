@@ -155,10 +155,12 @@ const DiamondFilter = () => {
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
   const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
   const steps2 = JSON.parse(sessionStorage.getItem("customizeSteps2Pendant"));
+  const steps3 = JSON.parse(sessionStorage.getItem("customizeSteps2Earring"));
   const stepsData = JSON.parse(sessionStorage.getItem("custStepData"));
   const stepsData2 = JSON.parse(sessionStorage.getItem("custStepData2Ring"));
   const stepsData3 = JSON.parse(sessionStorage.getItem("custStepData2Pendant"));
-  const [pairedDiamonds, setPairedDiamonds] = useState([]);
+  const stepsData4 = JSON.parse(sessionStorage.getItem("custStepData2Earring"));
+
   const [ApiData, setApiData] = useState([]);
   const [FilterApiOptions, setFilterApiOptions] = useState();
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -225,6 +227,7 @@ const DiamondFilter = () => {
         stepsData === null &&
         stepsData2 === null &&
         stepsData3 === null &&
+        stepsData4 === null &&
         (steps?.[0]?.step1 == true || steps?.[0]?.step1 != true)
       ) {
         if (getShape) {
@@ -495,8 +498,8 @@ const DiamondFilter = () => {
     setIsLoading(true);
     try {
       dispatch({ type: ACTIONS.SET_LOADING, payload: true });
-      console.log(sortValue , "sortValue")
-      const filterData = await DiamondListData(1, shape, "", parsedData, sortValue ? `order by ${sortValue}` : ""); 
+      console.log(sortValue, "sortValue")
+      const filterData = await DiamondListData(1, shape, "", parsedData, sortValue ? `order by ${sortValue}` : "");
       const data1 = filterData?.Data?.rd[0];
       const resData = filterData?.Data?.rd;
 
@@ -1028,7 +1031,8 @@ useEffect(() => {
                     <div
                       className={`shape_card ${checkedItem === val?.name
                         ? "active-checked"
-                        : ((steps1?.[0]?.step1 === true ?? steps2?.[0]?.step1 === true) && (stepsData2?.[0]?.step1Data?.id > 0 ?? stepsData3?.[0]?.step1Data?.id > 0)) || (stepsData?.[1]?.step2Data?.id > 0 ?? stepsData2?.[1]?.step2Data?.[0]?.id > 0 ?? stepsData3?.[1]?.step2Data?.[0]?.id > 0)
+                        : (((stepsData2?.[0]?.step1Data?.id > 0 && steps1?.[0]?.Status === 'active') || (stepsData3?.[0]?.step1Data?.id > 0 && steps2?.[0]?.Status === 'active')))
+                          // || (stepsData?.[1]?.step2Data?.id > 0 ?? stepsData2?.[1]?.step2Data?.[0]?.id > 0 ?? stepsData3?.[1]?.step2Data?.[0]?.id > 0)
                           ? "blue-unchecked"
                           : ""
                         }`}
@@ -1190,7 +1194,7 @@ useEffect(() => {
                 <div
                   className={`shape_card ${checkedItem === val?.name
                     ? "active-checked"
-                    : ((steps1?.[0]?.step1 === true ?? steps2?.[0]?.step1 === true) && (stepsData2?.[0]?.step1Data?.id > 0 ?? stepsData3?.[0]?.step1Data?.id > 0)) || (stepsData?.[1]?.step2Data?.id > 0 ?? stepsData2?.[1]?.step2Data?.[0]?.id > 0 ?? stepsData3?.[1]?.step2Data?.[0]?.id > 0)
+                    : (((stepsData2?.[0]?.step1Data?.id > 0 && steps1?.[0]?.Status === 'active') || (stepsData3?.[0]?.step1Data?.id > 0 && steps2?.[0]?.Status === 'active')) || (stepsData?.[1]?.step2Data?.id > 0 ?? stepsData2?.[1]?.step2Data?.[0]?.id > 0 ?? stepsData3?.[1]?.step2Data?.[0]?.id > 0))
                       ? "blue-unchecked"
                       : ""
                     }`}

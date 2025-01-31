@@ -135,6 +135,12 @@
           }
         }
 
+        .for_earring_shape {
+          @media (max-width: 470px) {
+            display: none;
+          }
+        }
+
         &.finish_set {
           opacity: 0.5;
           cursor: not-allowed;
@@ -339,7 +345,7 @@
         }
 
         img {
-          width: 28px;
+          width: 35px;
           object-fit: scale-down;
           margin-top: -3px;
 
