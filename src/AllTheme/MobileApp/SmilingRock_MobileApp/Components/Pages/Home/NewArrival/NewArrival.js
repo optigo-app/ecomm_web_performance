@@ -181,10 +181,10 @@ const NewArrival = () => {
                   alt={item.TitleLine}
                 />
                 <p className="ring1Desc">{item.designno}</p>
-                <p className='smr_nwArrivalTitle'>
+               {storeInit?.IsPriceShow == 1 && <p className='smr_nwArrivalTitle'>
                   <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
                   {formatter(item.UnitCostWithMarkUp)}
-                </p>
+                </p>}
               </div>
             </SwiperSlide>
             })}

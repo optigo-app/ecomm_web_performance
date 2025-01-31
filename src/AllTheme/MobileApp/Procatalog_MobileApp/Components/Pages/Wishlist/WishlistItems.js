@@ -58,6 +58,7 @@ const WishlistItems = (
         }
     }, [item]);
 
+    const {IsPriceShow}  = JSON?.parse(sessionStorage?.getItem("storeInit")) ?? {};
     return (
         <Grid sx={{ paddingLeft: '12px !important', paddingTop: '10px !important' }} item xs={itemsLength !== 1 ? 6 : 12} sm={itemsLength !== 1 ? 6 : 12} md={itemsLength <= 2 ? 6 : 4} lg={itemsLength <= 2 ? 6 : 3}>
             <Card className='smrMo_WlListCard'>
@@ -98,11 +99,11 @@ const WishlistItems = (
                                     <span>{item?.metaltypename}</span>
                                 )}
                                 {' / '}
-                                <span className="smrMo_currencyFont" dangerouslySetInnerHTML={{
+                               {IsPriceShow == 1 &&  <span className="smrMo_currencyFont" dangerouslySetInnerHTML={{
                                     __html: decodeEntities(currency),
-                                }} />
+                                }} />}
                                 {' '}
-                                {item?.UnitCost !== "" && (
+                                {IsPriceShow == 1 && item?.UnitCost !== "" && (
                                     <span>{(item?.UnitCost).toFixed(3)}</span>
                                 )}
                             </Typography>

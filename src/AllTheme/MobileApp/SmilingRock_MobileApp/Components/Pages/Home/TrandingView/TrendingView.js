@@ -182,10 +182,10 @@ const TrendingView = ({data}) => {
                         <div className='linkLoveRing1Desc'>
                             <p className='ring1Desc'>{trandingViewData[i]?.designno}</p>
 
-                            <p className='smr_bestSellerPrice'>
+                       {storeInit?.IsPriceShow == 1 &&     <p className='smr_bestSellerPrice'>
                                 <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
                                 {formatter(trandingViewData[i]?.UnitCostWithMarkUp)}
-                            </p>
+                            </p>}
                         </div>
                     </div>
                     {trandingViewData[i + 1] && (
@@ -196,10 +196,10 @@ const TrendingView = ({data}) => {
                             <div className='linkLoveRing1Desc'>
                                 <p className='ring1Desc'>{trandingViewData[i + 1]?.designno}</p>
 
-                                <p className='smr_bestSellerPrice'>
+                             {storeInit?.IsPriceShow == 1 &&   <p className='smr_bestSellerPrice'>
                                     <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
                                     {formatter(trandingViewData[i + 1]?.UnitCostWithMarkUp)}
-                                </p>
+                                </p>}
                             </div>
                         </div>
                     )}

@@ -158,7 +158,7 @@ const DiamondFilter = () => {
   const stepsData = JSON.parse(sessionStorage.getItem("custStepData"));
   const stepsData2 = JSON.parse(sessionStorage.getItem("custStepData2Ring"));
   const stepsData3 = JSON.parse(sessionStorage.getItem("custStepData2Pendant"));
-
+  const [pairedDiamonds, setPairedDiamonds] = useState([]);
   const [ApiData, setApiData] = useState([]);
   const [FilterApiOptions, setFilterApiOptions] = useState();
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -489,6 +489,8 @@ const DiamondFilter = () => {
     }
   };
 
+ 
+
   const fetchData = async (shape, parsedData) => {
     setIsLoading(true);
     try {
@@ -497,6 +499,7 @@ const DiamondFilter = () => {
       const filterData = await DiamondListData(1, shape, "", parsedData, sortValue ? `order by ${sortValue}` : ""); 
       const data1 = filterData?.Data?.rd[0];
       const resData = filterData?.Data?.rd;
+
       // const Newmap = resData?.map((val, index) => ({
       //   img: IMG,
       //   vid: val?.video_url,
@@ -516,6 +519,10 @@ const DiamondFilter = () => {
           bannerImage ? { img: bannerImage, isBanner: true } : null,
         ].filter(Boolean);
       });
+
+      
+      console.log(dataWithBanners,"data")
+
       setDiamondData(dataWithBanners);
       const count = data1?.icount;
       setDiaCount(count);
@@ -851,8 +858,104 @@ const DiamondFilter = () => {
       fetchData(shape);
     }
   }, [location?.pathname ,selectedsort ,sortValue]);
+const clarityGrades = {
+  FL: 1,
+  IF: 2,
+  VVS1: 3,
+  VVS2: 4,
+  VS1: 5,
+  VS2: 6,
+  SI1: 7,
+  SI2: 8,
+  I1: 9,
+  I2: 10,
+  I3: 11,
+};
 
+// Function to get the clarity group (e.g., "VS", "SI", "VVS")
+const getClarityGroup = (clarity) => {
+  if (clarity?.includes("VVS")) return "VVS"; // "VVS" group
+  if (clarity?.includes("VS")) return "VS"; // "VS" group
+  if (clarity?.includes("SI")) return "SI"; // "SI" group
+  if (clarity?.includes("I")) return "I"; // "I" group
+  return ""; // Default if unknown
+};
 
+// Function to get the numeric clarity value for comparison (e.g., "VS1" -> 5, "VS2" -> 6)
+const getClarityValue = (clarity) => clarityGrades[clarity] || Infinity; // Returns `Infinity` if clarity is invalid
+
+const isValidPair = (diamond1, diamond2) => {
+  // Check if both diamonds are the same shape
+  if (diamond1?.shape !== diamond2?.shape) return false;
+
+  // Check carat weight: Difference should be within ±0.02 carats
+  const caratDifference = Math.abs(diamond1?.carat - diamond2?.carat);
+  if (caratDifference > 0.02) return false;
+
+  // Check color: Should be within 1-2 grades of each other (simple character comparison for color)
+  if (Math.abs(diamond1?.color?.charCodeAt(0) - diamond2?.color?.charCodeAt(0)) > 2) return false;
+
+  // Check clarity group: Both diamonds should have the same clarity group (e.g., "VS", "SI", "VVS")
+  const clarityGroup1 = getClarityGroup(diamond1?.clarity);
+  const clarityGroup2 = getClarityGroup(diamond2?.clarity);
+  
+  if (clarityGroup1 !== clarityGroup2) return false; // Ensure same clarity group (e.g., "VS" vs "SI")
+
+  // Check clarity grade difference: Only allow a difference of 1 (e.g., "VS1" vs "VS2")
+  const clarityDifference = Math.abs(getClarityValue(diamond1?.clarity) - getClarityValue(diamond2?.clarity));
+  if (clarityDifference > 1) return false; // Allow only one grade difference (e.g., "VS1" vs "VS2")
+
+  // Check cut and symmetry: Should match
+  if (diamond1?.cut !== diamond2?.cut || diamond1?.symmetry !== diamond2?.symmetry) return false;
+
+  // Check fluorescence: Both diamonds should have the same fluorescence
+  if (diamond1?.fluorescence !== diamond2?.fluorescence) return false;
+
+  return true;
+};
+
+// Function to pair diamonds and avoid repeated pairings
+useEffect(() => {
+  const pairDiamonds = () => {
+    let pairs = [];
+    
+    // Filter diamonds by clarity group (only include diamonds with the same clarity group)
+    const clarityGroups = ["VVS", "VS", "SI", "I"]; // These are the main groups we're focusing on
+    let filteredDiamonds = [];
+
+    // Iterate over each clarity group and filter diamonds accordingly
+    clarityGroups.forEach(group => {
+      const groupDiamonds = diamondData?.filter(diamond => getClarityGroup(diamond?.clarity) === group && !diamond.isBanner);
+      filteredDiamonds = [...filteredDiamonds, ...groupDiamonds];
+    });
+
+    const pairedDiamondsSet = new Set();  // To track already paired diamonds
+
+    // Pairing diamonds after filtering by clarity group
+    for (let i = 0; i < filteredDiamonds?.length; i++) {
+      for (let j = i + 1; j < filteredDiamonds?.length; j++) {
+        const diamond1 = filteredDiamonds[i];
+        const diamond2 = filteredDiamonds[j];
+
+        // Check if either diamond has already been paired
+        if (pairedDiamondsSet.has(diamond1?.id) || pairedDiamondsSet.has(diamond2?.id)) continue;
+
+        if (isValidPair(diamond1, diamond2)) {
+          pairs.push([diamond1, diamond2]);
+
+          // Add both diamonds to the paired set to prevent re-pairing
+          pairedDiamondsSet.add(diamond1?.id);
+          pairedDiamondsSet.add(diamond2?.id);
+        }
+      }
+    }
+
+    setPairedDiamonds(pairs);
+    console.log(pairs?.length, pairs, "diamond pairs");
+  };
+
+  pairDiamonds();
+}, [diamondData]);
 
 
   return (

@@ -23,7 +23,7 @@ const OrderHistory = () => {
   // const [openListStatus, setOpenListStatus] = useState(false);
   const [openListStatus, setOpenListStatus] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+    const [storeInit, setstoreInit] = useState(null);
   const [showPrint, setShowPrint] = useState(false);
   const [clickedPrintId, setClickedPrintId] = useState(null);
 
@@ -51,7 +51,7 @@ const OrderHistory = () => {
     setUkey(storeinit?.ukey);
     // setImagePath(storeinit?.UploadLogicalPath)
     setImagePath(storeinit?.DesignImageFolBackEnd)
-
+        setstoreInit(storeinit);
 
     try {
   
@@ -273,10 +273,11 @@ const OrderHistory = () => {
                         items&nbsp;&nbsp; : &nbsp;&nbsp;(
                         <span className="text-danger">{e?.TotalQuantity}</span>)
                       </div>
-                      <div className="py-1 w-50 d-flex fs_price_oh _color fw-bold center_price px_change ps-4 ">
+                      {storeInit?.IsPriceShow == 1 &&  <div className="py-1 w-50 d-flex fs_price_oh _color fw-bold center_price px_change ps-4 ">
                         <div dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }} ></div>{" "}
                         <div className="px-1">{formatAmount(e?.orderAmountwithvat)}</div>
                     </div>
+            }
                     </div>
                         {/* <MenuIcon className="_color2 " onClick={() => openList(e?.id)} /> */}
                       {/* { e?.IsPLW === 1 ? <div className="w-100 ps-4  d-flex align-items-center justify-content-end pe-4" >
@@ -340,10 +341,11 @@ const OrderHistory = () => {
                       { e?.IsPLW === 1 && <span className="_colo2 w-100 d-flex justify-content-end" style={{fontSize:'7px', lineHeight:'7px', height:'8px'}}>
                         { showPrint && <>{clickedPrintId === e?.id && 'Coming Soon...'}</>}
                       </span> }
-                      <div className="py-1 w-50 d_flex_oh fs_price_oh _color fw-bold center_price px_change ps-4 order_none">
+                      {storeInit?.IsPriceShow == 1 &&  <div className="py-1 w-50 d_flex_oh fs_price_oh _color fw-bold center_price px_change ps-4 order_none">
                           <div dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }} ></div>{" "}
                           <div className="px-1">{formatAmount(e?.orderAmountwithvat)}</div>
                       </div>
+            }
                     </div>}
 
                   </div>
@@ -438,9 +440,10 @@ const OrderHistory = () => {
                                 {el?.metaltypename} {el?.metalcolorname}
                               </Card.Title>
                               <Card.Text>{el?.designno}</Card.Text>
-                              <Card.Text>
+                              {storeInit?.IsPriceShow == 1 &&     <Card.Text>
                                 <span dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></span> {formatAmount(el?.TotalUnitCostWithDiscount)}
                               </Card.Text>
+            }
                             </Card.Body>
                           </Card>
                         </Col>
@@ -451,17 +454,19 @@ const OrderHistory = () => {
               <div className="pt-2 _end">
                 <div className="d_flex_oh justify-content-between align-items-center fs-4 w-25 w25_oh_2 fs_small order_none" style={{ width: '30% !important' }}>
                   <div style={{ width: '40%' }}>Total :</div>
-                  <div style={{ width: '60%' }} className="d-flex align-items-center">
+                  {storeInit?.IsPriceShow == 1 && <div style={{ width: '60%' }} className="d-flex align-items-center">
                     <div className="pe-1" dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></div>
                     {formatAmount(e?.orderAmountwithvat)}
                   </div>
+            }
                 </div>
                 <div className="d_flex_oh justify-content-between align-items-center text-secondary fs_small order_not_none">
-                  <div className="d-flex align-items-center w-100 pe-4">
+                {storeInit?.IsPriceShow == 1 &&   <div className="d-flex align-items-center w-100 pe-4">
                     <div>Total :</div>
                     <div className="pe-1" dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></div>
                     {formatAmount(e?.orderAmountwithvat)}
                   </div>
+            }
                 </div>
               </div>
             </div>

@@ -2239,7 +2239,7 @@ const ProductList = () => {
                             </AccordionDetails>
                           </Accordion>
                         )}
-                      {ele?.id?.includes("Price") && (
+                      { storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                         <Accordion
                           elevation={0}
                           sx={{
@@ -2762,7 +2762,7 @@ const ProductList = () => {
                                         </AccordionDetails>
                                       </Accordion>
                                     )}
-                                  {ele?.id?.includes("Price") && (
+                                  {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                                     <Accordion
                                       elevation={0}
                                       sx={{
@@ -3439,7 +3439,7 @@ const ProductList = () => {
                                         >
                                           {productData?.Gwt &&
                                             `GWT - ${productData?.Gwt} / `}
-                                          {storeInit?.IsPriceShow === 1 && (
+                                          {storeInit?.IsPriceShow == 1 && (
                                             <span className="proCat_price">
                                               <span className="smr_currencyFont">
                                                 {(loginUserDetail?.CurrencyCode ??

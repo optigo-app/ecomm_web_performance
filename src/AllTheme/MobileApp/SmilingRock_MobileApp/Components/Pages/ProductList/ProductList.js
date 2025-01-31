@@ -446,8 +446,6 @@ const ProductList = () => {
 
   // }, [location?.key])
 
-  console.log(location ?.state?.SearchVal, location?.key, location?.state?.menu, location?.state?.menukey, location?.state?.menuname, location?.state?.menunamekey , "menu")
-
     useEffect(() => {
     const fetchData = async () => {
       let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
@@ -2209,7 +2207,7 @@ const ProductList = () => {
                       </AccordionDetails>
                     </Accordion>
                   )}
-                  {ele?.id?.includes("Price") && (
+                  {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                     <Accordion
                       elevation={0}
                       sx={{
@@ -2982,6 +2980,7 @@ productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? p
                                                     ?.metaltype
                                                 }
                                               </span>
+                                              {storeInit?.IsPriceShow == 1 && <>
                                               <span>/</span>
                                               <span className="smrMA_price">
                                                 <span className="smr_currencyFont">
@@ -2992,6 +2991,7 @@ productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? p
                                                   {formatter.format(productData?.UnitCostWithMarkUp)}
                                                 </span>
                                               </span>
+                                              </>}
                                             </div>
                                           </div>
                                         )
