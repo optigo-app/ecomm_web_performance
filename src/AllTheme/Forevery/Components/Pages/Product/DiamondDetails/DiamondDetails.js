@@ -59,6 +59,7 @@ const DiamondDetails = () => {
     const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
     const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
     const steps2 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
+    const steps3 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
     const ringSteps = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
     const pendantSteps = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
     const earringSteps = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
@@ -147,6 +148,7 @@ const DiamondDetails = () => {
     const [compSettArr, setCompSettArr] = useState([]);
     const [getAllData, setAllData] = useState([]);
     const [certyLink, setCertyLink] = useState();
+    console.log('certyLink: ', certyLink);
     const [getImagePath, setImagePath] = useState();
 
     const diamondDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[0] ?? (ringData ?? pendantData)?.[1];
@@ -320,7 +322,7 @@ const DiamondDetails = () => {
     }, [compSet, setshape])
 
 
-    const totalPrice = Number((Number(diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price) + Number(settingData?.step2Data?.UnitCostWithMarkUp ?? settingData?.step1Data?.UnitCostWithMarkUp)).toFixed(2));
+    const totalPrice = Number((Number(diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price) + Number(settingData?.step2Data?.UnitCostWithMarkUpIncTax ?? settingData?.step1Data?.UnitCostWithMarkUpIncTax)).toFixed(2));
 
     useEffect(() => {
         if (compSet && !isNaN(totalPrice)) {
@@ -342,7 +344,7 @@ const DiamondDetails = () => {
                 sessionStorage.setItem('customizeSteps', JSON.stringify(updatedStep1));
             }
 
-            if (steps1?.[1]?.step2 === true || steps2?.[1]?.step2 === true) {
+            if (steps1?.[1]?.step2 === true || steps2?.[1]?.step2 === true || steps3?.[1]?.step2 === true) {
                 let updatedStep2;
 
                 if (steps1?.[0]?.Status === 'active') {
@@ -351,20 +353,23 @@ const DiamondDetails = () => {
                 if (steps2?.[0]?.Status === 'active') {
                     updatedStep2 = steps2;
                 }
+                if (steps3?.[0]?.Status === 'active') {
+                    updatedStep2 = steps3;
+                }
 
                 const step3Exists = updatedStep2?.some(step => step.step3 !== undefined);
 
                 if (!step3Exists && updatedStep2?.[0]?.Status === "active") {
                     updatedStep2.push({
                         "step3": true,
-                        "url": steps1?.[2]?.url ?? steps2?.[2]?.url,
+                        "url": steps1?.[2]?.url ?? steps2?.[2]?.url ?? steps3?.[2]?.url,
                         "price": totalPrice
                     });
                 } else if (step3Exists) {
                     updatedStep2.forEach(step => {
                         if (step.step3 !== undefined) {
                             step.step3 = true;
-                            step.url = steps1?.[2]?.url ?? steps2?.[2]?.url;
+                            step.url = steps1?.[2]?.url ?? steps2?.[2]?.url ?? steps3?.[2]?.url;
                             step.price = totalPrice;
                         }
                     });
@@ -376,6 +381,9 @@ const DiamondDetails = () => {
                 }
                 if (updatedStep2?.[1]?.id === 2 && steps2?.[0]?.Status === "active") {
                     sessionStorage.setItem('customizeSteps2Pendant', JSON.stringify(updatedStep2));
+                }
+                if (updatedStep2?.[1]?.id === 3 && steps3?.[0]?.Status === "active") {
+                    sessionStorage.setItem('customizeSteps2Earring', JSON.stringify(updatedStep2));
                 }
             }
 
@@ -2398,13 +2406,13 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
         const storedData = JSON.parse(sessionStorage.getItem('custStepData'));
         const storedData2 = JSON.parse(sessionStorage.getItem('custStepData2Ring'));
         const storedData3 = JSON.parse(sessionStorage.getItem('custStepData2Pendant'));
+        const storedData4 = JSON.parse(sessionStorage.getItem('custStepData2Earring'));
         const storedSteps = JSON.parse(sessionStorage.getItem('customizeSteps'));
         const storedSteps2 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
         const storedSteps3 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
+        const storedSteps4 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
 
-        const shapename = storedSteps?.[0]?.shape ?? (storedSteps2?.[0]?.Setting === 'Ring' && storedSteps2?.[0]?.Status === 'active' ? storedSteps2?.[1]?.shape : storedSteps3?.[1]?.shape);
-        const ring = (storedSteps?.[1]?.Setting ?? storedSteps2?.[0]?.Setting ?? storedSteps3?.[0]?.Setting) === 'Ring' ? true : false;
-        const pendant = (storedSteps?.[0]?.Setting ?? storedSteps2?.[1]?.Setting ?? storedSteps3?.[1]?.Setting) === 'Pendant' ? true : false;;
+        const shapename = storedSteps?.[0]?.shape ?? (storedSteps2?.[0]?.Setting === 'Ring' && storedSteps2?.[0]?.Status === 'active' ? storedSteps2?.[1]?.shape : storedSteps3?.[0]?.Setting === 'Pendant' && storedSteps3?.[0]?.Status === 'active' ? storedSteps3?.[1]?.shape : storedSteps4?.[1]?.shape);
 
         if (index === 0) {
             if (Array.isArray(storedData)) {
@@ -2532,6 +2540,35 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
 
                 handleOpen(null)
             }
+            if (Array.isArray(storedData4) && storedSteps4?.[0]?.Status === 'active') {
+                let storedData = JSON.parse(sessionStorage.getItem('custStepData'));
+                if (!Array.isArray(storedData)) {
+                    storedData = [];
+                }
+
+                if (storedData4?.[1]?.step2Data) {
+                    storedData4[1].step1Data = storedData4[1].step2Data;
+                    delete storedData4[1].step2Data;
+                }
+
+                if (storedData4?.length > 0 && storedSteps4?.[2]?.step3 === true) {
+                    storedData.unshift(storedData4?.[1]);
+                    sessionStorage.setItem('custStepData', JSON.stringify(storedData));
+                    if (storedData?.length > 0) {
+                        sessionStorage.removeItem("custStepData2Earring");
+                        sessionStorage.removeItem("setEarImage");
+                    }
+                    Navigation(`/certified-loose-lab-grown-diamonds/settings/${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "Ring" : storedSteps3?.[0]?.Setting === "Pendant" && storedSteps3?.[0]?.Status === "active" ? "Pendant" : "Earring")}/diamond_shape=${storedSteps?.[0]?.shape ?? (storedSteps2?.[1]?.shape && storedSteps2?.[0]?.Status === "active" ? storedSteps2?.[1]?.shape : storedSteps3?.[1]?.shape && storedSteps3?.[0]?.Status === "active" ? storedSteps3?.[1]?.shape : storedSteps4?.[1]?.shape)}/M=${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "UmluZy9jYXRlZ29yeQ==" : storedSteps3?.[0]?.Setting === "Pendant" && storedSteps3?.[0]?.Status === "active" ? "UGVuZGFudC9jYXRlZ29yeQ==" : "RWFycmluZy9jYXRlZ29yeQ==")} `, { replace: true });
+                }
+                else {
+                    sessionStorage.removeItem("custStepData");
+                    sessionStorage.removeItem("custStepData2Earring");
+                    sessionStorage.removeItem("setEarImage");
+                    Navigation(`/certified-loose-lab-grown-diamonds/settings/${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "Ring" : storedSteps3?.[0]?.Setting === "Pendant" && storedSteps3?.[0]?.Status === "active" ? "Pendant" : "Earring")}/diamond_shape=${storedSteps?.[0]?.shape ?? (storedSteps2?.[1]?.shape && storedSteps2?.[0]?.Status === "active" ? storedSteps2?.[1]?.shape : storedSteps3?.[1]?.shape && storedSteps3?.[0]?.Status === "active" ? storedSteps3?.[1]?.shape : storedSteps4?.[1]?.shape)}/M=${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "UmluZy9jYXRlZ29yeQ==" : storedSteps3?.[0]?.Setting === "Pendant" && storedSteps3?.[0]?.Status === "active" ? "UGVuZGFudC9jYXRlZ29yeQ==" : "RWFycmluZy9jYXRlZ29yeQ==")} `, { replace: true });
+                }
+
+                handleOpen(null)
+            }
         }
         else {
             if (Array.isArray(storedData)) {
@@ -2563,6 +2600,16 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                 if (storedData3?.[1]?.step2Data?.[0]?.stockno) {
                     storedData3.pop();
                     sessionStorage.setItem('custStepData2Pendant', JSON.stringify(storedData3));
+                    Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+                } else {
+                    console.warn("storedData2 is not a valid array or doesn't meet the condition.");
+                }
+                handleOpen(null)
+            }
+            if (Array.isArray(storedData4) && storedSteps4?.[0]?.Status === 'active') {
+                if (storedData4?.[1]?.step2Data?.[0]?.stockno) {
+                    storedData4.pop();
+                    sessionStorage.setItem('custStepData2Earring', JSON.stringify(storedData4));
                     Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
                 } else {
                     console.warn("storedData2 is not a valid array or doesn't meet the condition.");
@@ -2719,6 +2766,41 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     }
                 }
             }
+            if (Array.isArray(storedSteps4) && storedSteps4?.[0]?.Status === 'active') {
+                let step1;
+                let step2;
+                let storedSteps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+                if (!Array.isArray(storedSteps)) {
+                    storedSteps = [];
+                }
+
+                if (storedSteps4?.[1]) {
+                    step1 = { step1: true, shape: shapename, id: 3 };
+                    step2 = { step2: true, Setting: "Earring", id: 3 };
+                }
+
+
+                if (!compSet) {
+                    if (storedData4?.length > 0 && storedSteps4?.[2]?.step3 === true) {
+                        storedSteps.unshift(step1, step2);
+                        sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
+                        if (storedSteps?.length > 0) {
+                            sessionStorage.removeItem("customizeSteps2Earring");
+                        }
+                    }
+                    else {
+                        sessionStorage.removeItem("customizeSteps");
+                        sessionStorage.removeItem("customizeSteps2Earring");
+                    }
+                } else {
+                    storedSteps.unshift(step1, step2);
+                    sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
+
+                    if (storedSteps?.length > 0) {
+                        sessionStorage.removeItem("customizeSteps2Earring");
+                    }
+                }
+            }
         }
         else {
             if (Array.isArray(storedSteps)) {
@@ -2740,6 +2822,12 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                 storedSteps3.pop();
                 handleOpen(null)
                 sessionStorage.setItem('customizeSteps2Pendant', JSON.stringify(storedSteps3));
+                // Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+            }
+            if (Array.isArray(storedSteps4) && storedSteps4?.[0]?.Status === 'active') {
+                storedSteps4.pop();
+                handleOpen(null)
+                sessionStorage.setItem('customizeSteps2Earring', JSON.stringify(storedSteps4));
                 // Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
             }
         }
@@ -2922,6 +3010,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
     const settingActive = 'Ring' || 'Pendant' || 'Diamond_Pendants' || 'Engagement_Ring';
     const getCustStepData2 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
     const getCustStepData3 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
+    const getCustStepData4 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
     const getdiaData2 = JSON.parse(sessionStorage.getItem('custStepData2Ring'));
     const getdiaData3 = JSON.parse(sessionStorage.getItem('custStepData2Pendant'));
     const getdiaData4 = JSON.parse(sessionStorage.getItem('custStepData2Earring'));
@@ -2963,12 +3052,15 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
         if (getCompleteStep3?.[0]?.Status === 'active') {
             setSettingSteps(getCompleteStep3);
         }
+        if (getCompleteStep4?.[0]?.Status === 'active') {
+            setSettingSteps(getCompleteStep4);
+        }
     }, [location?.key])
 
 
     useEffect(() => {
         const handleCompset = () => {
-            const getSetShape = JSON.parse(sessionStorage.getItem('customizeSteps')) ?? (getCompleteStep2?.[0]?.Status === "active" ? getCompleteStep2 : getCompleteStep3);
+            const getSetShape = JSON.parse(sessionStorage.getItem('customizeSteps')) ?? (getCompleteStep2?.[0]?.Status === "active" ? getCompleteStep2 : getCompleteStep3?.[0]?.Status === "active" ? getCompleteStep3 : getCompleteStep4);
             setSetShape(getSetShape);
         }
         handleCompset();
@@ -3017,13 +3109,26 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                             if ((getCustStepData2?.[2]?.step3 == true || getCustStepData3?.[2]?.step3 == true)) {
                                 setShowModal(true)
                             }
-
                             setswap("settings");
                         }}
                     >
-                        <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData3?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : (getCustStepData2?.[0]?.Setting === 'Ring' || getCustStepData3?.[0]?.Setting === 'Ring' || getCustStepData?.[1]?.Setting === 'Ring') ? 'for_shapes_img' : 'for_earring_shape'} src={
-                            ((((getCompleteStep2?.[0]?.Setting === 'Pendant' && getCompleteStep2?.[0]?.Status === 'active' || getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active') ? StepImages[1]?.img1 : (getCompleteStep2?.[0]?.Setting === 'Pendant' && getCompleteStep2?.[0]?.Status === 'active' || getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active') ? StepImages[1]?.img : StepImages[1]?.img2)))
-                        } alt="" /> Settings
+                        <img
+                            className={
+                                getCustStepData?.[1]?.Setting === 'Pendant' || (getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active')
+                                    ? 'for_pendant_view'
+                                    : (getCompleteStep2?.[0]?.Setting === 'Ring' && getCompleteStep2?.[0]?.Status === 'active')
+                                        ? 'for_shapes_img'
+                                        : 'for_earring_shape'
+                            }
+                            src={
+                                getCustStepData?.[1]?.Setting === 'Pendant' || (getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active')
+                                    ? StepImages[1]?.img1
+                                    : (getCompleteStep2?.[0]?.Setting === 'Ring' && getCompleteStep2?.[0]?.Status === 'active')
+                                        ? StepImages[1]?.img
+                                        : StepImages[1]?.img2
+                            }
+                            alt=""
+                        />  Settings
                     </span>
                     {(getdiaData2?.[0]?.step1Data && getCustStepData2?.[0]?.Status === "active") && (
                         <HandleDrp
@@ -3042,6 +3147,17 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                             open={open === 'setting'}
                             handleOpen={() => handleOpen('setting')}
                             data={getdiaData3?.[0]?.step1Data}
+                            ref={(el) => { dropdownRefs.current[0] = el; }}
+                            getImagePath={getImagePath}
+                            compSet={compSet}
+                        />
+                    )}
+                    {(getdiaData4?.[0]?.step1Data && getCustStepData4?.[0]?.Status === "active") && (
+                        <HandleDrp
+                            index={0}
+                            open={open === 'setting'}
+                            handleOpen={() => handleOpen('setting')}
+                            data={getdiaData4?.[0]?.step1Data}
                             ref={(el) => { dropdownRefs.current[0] = el; }}
                             getImagePath={getImagePath}
                             compSet={compSet}
@@ -3076,6 +3192,16 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                             compSet={compSet}
                         />
                     )}
+                    {((getdiaData4?.[1]?.step2Data ?? getdiaData4?.[0]?.step2Data) && getCustStepData4?.[0]?.Status === "active") && (
+                        <HandleDrp
+                            index={1}
+                            open={open === 'diamond'}
+                            handleOpen={() => handleOpen('diamond')}
+                            data={getdiaData4?.[1]?.step2Data?.[0] ?? getdiaData4?.[0]?.step2Data?.[0]}
+                            ref={(el) => { dropdownRefs.current[1] = el; }}
+                            compSet={compSet}
+                        />
+                    )}
                     {getdiaData?.[0]?.step1Data?.[0] && (
                         <HandleDrp
                             index={1}
@@ -3088,15 +3214,15 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                     )}
                 </div>
 
-                <div className={`step_data ${(getdiaData2?.[1]?.step2Data || getdiaData3?.[1]?.step2Data || getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
-                    <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url || getCompleteStep3?.[2]?.url)}`); setswap("finish"); }}>
+                <div className={`step_data ${(getdiaData2?.[1]?.step2Data || getdiaData3?.[1]?.step2Data || getdiaData?.[1]?.step2Data || getdiaData4?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
+                    <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url || getCompleteStep3?.[2]?.url || getCompleteStep4?.[2]?.url)}`); setswap("finish"); }}>
                         <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData3?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : (getCustStepData2?.[0]?.Setting === 'Ring' || getCustStepData3?.[0]?.Setting === 'Ring' || getCustStepData?.[1]?.Setting === 'Ring') ? 'for_shapes_img' : 'for_earring_shape'} src={
                             ((((getCompleteStep2?.[0]?.Setting === 'Pendant' && getCompleteStep2?.[0]?.Status === 'active' || getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active') ? StepImages[1]?.img1 : (getCompleteStep2?.[0]?.Setting === 'Ring' && getCompleteStep2?.[0]?.Status === 'active' || getCompleteStep3?.[0]?.Setting === 'Ring' && getCompleteStep3?.[0]?.Status === 'active') ? StepImages[1]?.img : StepImages[1]?.img3)))
                         } alt="" /> {((getCompleteStep2?.[0]?.Setting === 'Pendant' && getCompleteStep2?.[0]?.Status === 'active' || getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active')) ? 'Pendant' : ((getCompleteStep2?.[0]?.Setting === 'Ring' && getCompleteStep2?.[0]?.Status === 'active' || getCompleteStep3?.[0]?.Setting === 'Ring' && getCompleteStep3?.[0]?.Status === 'active')) ? 'Ring' : 'Earring'}
                     </span>
-                    {(compSet && (getCompleteStep1?.[2]?.price || (getCompleteStep2?.[2]?.price && getCompleteStep2?.[0]?.Status === "active" ? getCompleteStep2?.[2]?.price : getCompleteStep3?.[2]?.price))) && (
+                    {(compSet && (getCompleteStep1?.[2]?.price || (getCompleteStep2?.[2]?.price && getCompleteStep2?.[0]?.Status === "active" ? getCompleteStep2?.[2]?.price : getCompleteStep3?.[2]?.price && getCompleteStep3?.[0]?.Status === "active" ? getCompleteStep3?.[2]?.price : getCompleteStep4?.[2]?.price))) && (
                         <span className='for_total_prc'>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(
-                            getCompleteStep1?.[2]?.price || (getCompleteStep2?.[2]?.price && getCompleteStep2?.[0]?.Status === "active" ? getCompleteStep2?.[2]?.price : getCompleteStep3?.[2]?.price))}</span>
+                            getCompleteStep1?.[2]?.price || (getCompleteStep2?.[2]?.price && getCompleteStep2?.[0]?.Status === "active" ? getCompleteStep2?.[2]?.price : getCompleteStep3?.[2]?.price && getCompleteStep3?.[0]?.Status === "active" ? getCompleteStep3?.[2]?.price : getCompleteStep4?.[2]?.price))}</span>
                     )}
                 </div>
                 {showModal && (
@@ -3105,8 +3231,6 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
             </>
         );
     };
-
-    console.log("ki",)
 
     return (
         <>
