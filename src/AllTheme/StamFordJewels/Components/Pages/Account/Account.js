@@ -89,6 +89,7 @@ export default function Account() {
   const navigation = useNavigate();
   const [accountInner, setAccountInner] = useState(accountDetailPages());
   const loginUSerDeatil = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const [Storeinit, setStoreinit] = useState(null);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -162,6 +163,12 @@ export default function Account() {
       }
     };
   }, []);
+
+  useEffect(()=>{
+    const init = JSON.parse(sessionStorage.getItem('storeInit')) ?? {};
+    setStoreinit(init);
+ },[])
+
 
   return (
     <div className="accountTab_Account_stam">
@@ -288,6 +295,11 @@ export default function Account() {
                         scrollButtons="auto"
                       >
                         {accountInner?.map((e, i) => {
+                             if(Storeinit?.IsPriceShow == 0 && e.tabComp === "AccountLedger"){
+                              return <Tab sx={{
+                                  display: 'none',
+                              }} /> ;
+                          }
                           return (
                             <Tab
                               label={e?.tabLabel}
@@ -307,7 +319,7 @@ export default function Account() {
                         {e?.id === 1314 && (<CustomTabPanel value={value1} index={i} className="salesReport" > <SalesReport /> </CustomTabPanel>)}
                         {e?.id === 18129 && <CustomTabPanel value={value1} index={i}> <PendingMemo /> </CustomTabPanel>}
                         {e?.id === 17020 && (<CustomTabPanel value={value1} index={i} className="DesignWiseSalesReport" > <DesignWiseSalesReport /> </CustomTabPanel>)}
-                        {e?.id === 1159 && (<CustomTabPanel value={value1} index={i}> <AccountLedger /> </CustomTabPanel>)} {/* {e?.id === 1314 && <CustomTabPanel value={value1} index={i}>
+                        {Storeinit?.IsPriceShow == 1 && e?.id === 1159 && (<CustomTabPanel value={value1} index={i}> <AccountLedger /> </CustomTabPanel>)} {/* {e?.id === 1314 && <CustomTabPanel value={value1} index={i}>
                                                   <PendingMemo />
                                               </CustomTabPanel>} */}
                       </React.Fragment>

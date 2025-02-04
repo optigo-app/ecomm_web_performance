@@ -97,8 +97,12 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-                {headCells.map((headCell) => (
-                    <>
+                {headCells.map((headCell) => {
+            const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+            if (IsPriceShow == 0 && headCell?.label == 'Total Amount') {
+                return null;
+            }
+                   return <>
                         <TableCell
                             key={headCell.id}
                             align={headCell.align}
@@ -127,7 +131,7 @@ function EnhancedTableHead(props) {
                             }
                         </TableCell>
                     </>
-                ))}
+})}
             </TableRow>
         </TableHead>
     );
@@ -488,6 +492,7 @@ const QuotationQuote = () => {
                                     { visibleRows?.length > 0 ? visibleRows.map((row, index) => {
                                     
                                         const labelId = `enhanced-table-checkbox-${index}`;
+                                        const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
 
                                         return (
                                             <TableRow
@@ -513,8 +518,8 @@ const QuotationQuote = () => {
                                                 <TableCell align="center">{row.Date}</TableCell>
                                                 <TableCell align="center">{row.SKUNo}</TableCell>
                                                 <TableCell align="center">{row.TotalDesign}</TableCell>
-                                                <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
-                                                <TableCell align="center">
+{IsPriceShow == 1 &&                                                <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
+}                                                <TableCell align="center">
                                                     
                                                 
                                                             <div onClick={() => handlePrintUrl(row?.PrintUrl)}>

@@ -92,8 +92,12 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-                {headCells.map((headCell) => (
-                    <TableCell
+                {headCells.map((headCell) => {
+                    const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {};
+                    if (IsPriceShow == 0 && headCell?.id == "Amount") {
+                        return null;
+                    }
+                    return <TableCell
                         key={headCell.id}
                         align={headCell.align}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
@@ -118,7 +122,7 @@ function EnhancedTableHead(props) {
                         </TableSortLabel>
                         }
                     </TableCell>
-                ))}
+})}
             </TableRow>
         </TableHead>
     );
@@ -635,7 +639,10 @@ const Sales = () => {
                             <TableBody>
                                 {visibleRows.map((row, index) => {
                                     const labelId = `enhanced-table-checkbox-${index}`;
-
+                                    const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {};
+                                    if (IsPriceShow == 0 && row?.id == "Amount") {
+                                        return null;
+                                    }
                                     return (
                                         <TableRow
                                             hover
@@ -657,8 +664,8 @@ const Sales = () => {
                                             </TableCell>
                                             <TableCell align="center">{row.Date}</TableCell>
                                             <TableCell align="center">{row.StockDocumentNo}</TableCell>
-                                            <TableCell align="right"><span dangerouslySetInnerHTML={{__html: row?.Currencycode }}></span>&nbsp;{formatAmount(row.Amount)}</TableCell>
-                                            <TableCell align="center"> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
+{IsPriceShow == 1 &&      <TableCell align="right"><span dangerouslySetInnerHTML={{__html: row?.Currencycode }}></span>&nbsp;{formatAmount(row.Amount)}</TableCell>
+}                                            <TableCell align="center"> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
                                                             <PrintIcon   />
                                                         </div></TableCell>
                                         </TableRow>

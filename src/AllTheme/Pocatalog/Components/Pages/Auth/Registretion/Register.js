@@ -15,6 +15,10 @@ import Footer from "../../Home/Footer/Footer";
 import { RegisterAPI } from "../../../../../../utils/API/Auth/RegisterAPI";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import { proCat_loginState } from "../../../Recoil/atom";
+import { CountryCodeListApi } from "../../../../../../utils/API/Auth/CountryCodeListApi";
+import Cookies from 'js-cookie';
+import CountryDropDown from "../../../../../../utils/Glob_Functions/CountryDropDown/CountryDropDown";
+// import { CountryCode } from "../../../../../../utils/assets/Countrylist";
 
 export default function Register() {
   const navigation = useNavigate();
@@ -36,13 +40,15 @@ export default function Register() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
-
+  const visiterID = Cookies.get("visiterId");
+  const [Countrycodestate, setCountrycodestate] = useState();
+  const [open, setOpen] = useState(false); 
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const cancelRedireactUrl = `/LoginOption/${search}`;
   const singupRedirectUrl = `/LoginOption/${search}`;
-
+  
   const setIsLoginState = useSetRecoilState(proCat_loginState);
 
   const handleKeyDown = (event, nextRef) => {
@@ -70,7 +76,6 @@ export default function Register() {
   const handleInputChange = (e, setter, fieldName) => {
     const { value } = e.target;
     setter(value);
-
     if (fieldName === "firstName") {
       if (!value.trim()) {
         setErrors((prevErrors) => ({
@@ -103,21 +108,23 @@ export default function Register() {
       } else {
         setErrors((prevErrors) => ({ ...prevErrors, lastName: "" }));
       }
-    } else if (fieldName === "mobileNo") {
-      if (!value.trim()) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          mobileNo: "Mobile No. is required",
-        }));
-      } else if (!/^\d{10}$/.test(value.trim())) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          mobileNo: "Enter Valid mobile number",
-        }));
-      } else {
-        setErrors((prevErrors) => ({ ...prevErrors, mobileNo: "" }));
-      }
-    } else if (fieldName === "email") {
+    } 
+    // else if (fieldName === "mobileNo") {
+    //   if (!value.trim()) {
+    //     setErrors((prevErrors) => ({
+    //       ...prevErrors,
+    //       mobileNo: "Mobile No. is required",
+    //     }));
+    //   } else if (!/^\d{10}$/.test(value.trim())) {
+    //     setErrors((prevErrors) => ({
+    //       ...prevErrors,
+    //       mobileNo: "Enter Valid mobile number",
+    //     }));
+    //   } else {
+    //     setErrors((prevErrors) => ({ ...prevErrors, mobileNo: "" }));
+    //   }
+    // }
+     else if (fieldName === "email") {
       if (!value.trim()) {
         setErrors((prevErrors) => ({
           ...prevErrors,
@@ -298,6 +305,30 @@ export default function Register() {
     }
   };
 
+
+  // useEffect(()=>{
+  //   const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
+  //   const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+  //   const LoginUser = JSON?.parse(sessionStorage.getItem("LoginUser"));
+  //   const finalID = storeInit?.IsB2BWebsite === 0 ? (LoginUser === false ? visiterID : loginUserDetail?.id || "0") : loginUserDetail?.id || "0";
+  //   CountryCodeListApi(finalID)
+  //     .then((res) => {
+  //       console.log(res)
+  //       const phonecode = res?.Data?.rd?.filter((val,i)=>{
+  //          return val?.IsDefault == 1 ;
+  //       })
+  //       setCountrycodestate(phonecode[0]?.mobileprefix)
+  //     })
+  //     .catch((err) => console.log(err));
+  // },[])
+
+  // const handleCountryChange = (event, value) => {
+  //   if (value) {
+  //     setCountrycodestate(value.phone); 
+  //     setOpen(false); 
+  //   }
+  // };
+
   return (
     <div className="proCat_registerMain">
       {isLoading && (
@@ -362,8 +393,22 @@ export default function Register() {
               error={!!Errors.lastName}
               helperText={Errors.lastName}
             />
-
-            <TextField
+          <CountryDropDown
+              // CountryCode={CountryCode}
+              Errors={Errors}
+              // handleCountryChange={handleCountryChange}
+              handleInputChange={handleInputChange}
+              handleKeyDown={handleKeyDown}
+              // open={open}
+              Countrycodestate={Countrycodestate} 
+              emailRef={emailRef} 
+              mobileNo={mobileNo} 
+              mobileNoRef={mobileNoRef} 
+              setMobileNo={setMobileNo} 
+              setErrors={setErrors}
+              // setOpen={setOpen}
+               />
+            {/* <TextField
               id="outlined-basic"
               label="Mobile No."
               name="Mobile No."
@@ -377,7 +422,7 @@ export default function Register() {
               onChange={(e) => handleInputChange(e, setMobileNo, "mobileNo")}
               error={!!Errors.mobileNo}
               helperText={Errors.mobileNo}
-            />
+            /> */}
 
             <TextField
               id="outlined-basic"

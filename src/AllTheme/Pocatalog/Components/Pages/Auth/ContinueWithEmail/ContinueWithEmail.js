@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Footer from '../../Home/Footer/Footer';
 import { ContinueWithEmailAPI } from '../../../../../../utils/API/Auth/ContinueWithEmailAPI';
+import OTPContainer from '../../../../../../utils/Glob_Functions/Otpflow/App';
 
 export default function ContinueWithEmail() {
     const [email, setEmail] = useState('');
@@ -13,7 +14,7 @@ export default function ContinueWithEmail() {
     const navigation = useNavigate();
     const location = useLocation();
     console.log('location: ', location);
-
+    const [isOpen, setIsOpen] = useState(false)
     const search = location?.search
     const state = location?.state?.SecurityKey ? location?.state : "";
     const redirectEmailUrl = `/LoginWithEmail/${search}`;
@@ -66,7 +67,11 @@ export default function ContinueWithEmail() {
                     sessionStorage.setItem("registerEmail", trimmedEmail);
                 }
             } else {
-                navigation(redirectSignUpUrl, { state: { email: trimmedEmail,SecurityKey : location?.state?.SecurityKey } });
+                if(process.env.NODE_ENV === "development"){
+                    alert(response.Data.rd[0].OTP)
+                }
+                setIsOpen(true)
+                // navigation(redirectSignUpUrl, { state: { email: trimmedEmail,SecurityKey : location?.state?.SecurityKey } });
             }
         }).catch((err) => console.log(err))
 
@@ -107,6 +112,10 @@ export default function ContinueWithEmail() {
                 </div>
             )}
             <div>
+            <OTPContainer emailId={email.trim()} isOpen={isOpen} type='email' setIsOpen={()=>setIsOpen(!isOpen)} onClose={()=>setIsOpen(false)} 
+            navigation={navigation}
+            location={location}
+                />
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',

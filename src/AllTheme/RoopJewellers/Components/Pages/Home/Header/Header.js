@@ -63,6 +63,7 @@ const Header = () => {
   const IsCartNo = storeinit?.CartNo;
   const location = useLocation();
   const cartTheameNo = useRecoilValue(roop_CartNo);
+  const isMenuCalled = useRef(false);
 
   let navigate = useNavigate();
   let cookie = Cookies.get("visiterId");
@@ -161,14 +162,21 @@ const Header = () => {
     setMenuItems(uniqueMenuItems);
   }, [menuData]);
 
+  let count = 0 ;
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
+  if (storeinit && !isMenuCalled.current) {
+    isMenuCalled.current = true;
     if (
       storeinit?.IsB2BWebsite === 0 ||
       (storeinit?.IsB2BWebsite === 1 && isUserLogin === true)) {
+        console.log("bypass ",count)
+        count++;
       getMenuApi();
     }
+  }
+  console.log("bypass",count)
   }, [islogin]);
 
 

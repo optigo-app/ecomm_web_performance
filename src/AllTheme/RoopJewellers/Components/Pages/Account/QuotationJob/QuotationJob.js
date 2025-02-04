@@ -899,8 +899,12 @@ const QuotationJob = () => {
                             onChange={handleMasterCheckboxChange}
                           />
                         </TableCell>
-                        {columns?.slice(1)?.map((column) => (
-                          <TableCell
+                        {columns?.slice(1)?.map((column) => {
+                           const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+                           if (IsPriceShow == 0 && column?.id == 'FinalAmount') {
+                             return null;
+                          }
+                         return <TableCell
                             key={column?.id}
                             align={column.align}
                             style={{
@@ -919,7 +923,7 @@ const QuotationJob = () => {
                               </span>
                             ) : null}
                           </TableCell>
-                        ))}
+})}
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -933,6 +937,10 @@ const QuotationJob = () => {
                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                               {columns.map((column, index) => {
                                 const value = row[column?.id];
+                                const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+                                if (IsPriceShow == 0 && column?.id == 'FinalAmount') {
+                                  return null;
+                              }
                                 return (
                                   <TableCell key={column?.id} align={column?.align} style={{
                                     fontFamily: "Spectral-Regular",
