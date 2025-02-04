@@ -99,8 +99,12 @@ function EnhancedTableHead(props) {
     return (
         <TableHead style={{backgroundColor: "#ebebeb"}}>
             <TableRow>
-                {headCells.map((headCell) => (
-                    <>
+                {headCells.map((headCell) => {
+                      const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+                      if (IsPriceShow == 0 && headCell?.label == 'Total Amount') {
+                          return null;
+                      }
+                    return <>
                         <TableCell
                             key={headCell.id}
                             align={headCell.align}
@@ -130,7 +134,7 @@ function EnhancedTableHead(props) {
                             }
                         </TableCell>
                     </>
-                ))}
+})}
             </TableRow>
         </TableHead>
     );
@@ -867,6 +871,7 @@ const QuotationQuote = () => {
                                     { visibleRows?.length > 0 ? visibleRows?.map((row, index) => {
                                     
                                         const labelId = `enhanced-table-checkbox-${index}`;
+                                        const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
 
                                         return (
                                             <TableRow
@@ -894,8 +899,8 @@ const QuotationQuote = () => {
                                                 <TableCell  align="center" className="elvee_fs_quote">{row.Date}</TableCell>
                                                 <TableCell align="center" className="elvee_fs_quote">{row.SKUNo}</TableCell>
                                                 <TableCell align="center" className="elvee_fs_quote">{row.TotalDesign}</TableCell>
-                                                <TableCell align="right" className="elvee_fs_quote">{formatAmount(row.Amount)}</TableCell>
-                                                <TableCell align="center" className="elvee_fs_quote">
+{ IsPriceShow == 1 &&  <TableCell align="right" className="elvee_fs_quote">{formatAmount(row.Amount)}</TableCell>
+}                                                <TableCell align="center" className="elvee_fs_quote">
                                                     
                                                 
                                                             <div onClick={() => handlePrintUrl(row?.PrintUrl)} className="fs_elvee_quote">

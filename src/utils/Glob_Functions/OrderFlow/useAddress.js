@@ -32,7 +32,11 @@ export const useAddress = () => {
     };
 
     useEffect(() => {
-        fetchInitialData();
+        if(window.location.pathname === "/Delivery"){
+            fetchInitialData();
+        }else{
+            return ;
+        }
     }, []);
 
     const handleOpen = (addressId) => {

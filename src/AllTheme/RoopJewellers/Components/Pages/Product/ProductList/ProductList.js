@@ -94,7 +94,7 @@ const ProductList = () => {
   let maxwidth464px = useMediaQuery("(max-width:464px)");
   let maxwidth425px = useMediaQuery("(max-width:425px)");
   let maxwidth375px = useMediaQuery("(max-width:375px)");
-
+  
   const [productListData, setProductListData] = useState([]);
   const [priceListData, setPriceListData] = useState([]);
   const [finalProductListData, setFinalProductListData] = useState([]);
@@ -145,6 +145,7 @@ const ProductList = () => {
   const [afterCountStatus, setAfterCountStatus] = useState(false);
 
   const [value, setValue] = React.useState([]);
+  const [isFirstMount, setIsFirstMount] = useState(true);
 
   const getDiaRangeFilter = useRecoilValue(roop_DiamondRangeArr);
 
@@ -366,6 +367,7 @@ const ProductList = () => {
   // },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
+    console.log("prior 1") 
     const fetchData = async () => {
       setSortBySelect("Recommended");
 
@@ -580,7 +582,7 @@ const ProductList = () => {
   }, [location?.key]);
 
   useEffect(() => {
-    const finalProdWithPrice = productListData.map((product) => {
+    const finalProdWithPrice = productListData && productListData?.map((product) => {
       let pdImgList = [];
 
       if (product?.ImageCount > 0) {
@@ -796,6 +798,10 @@ const ProductList = () => {
   };
 
   useEffect(() => {
+    if(Object.keys(filterChecked).length === 0 ){
+      console.log("bypass no data")
+      return  ;
+    }else{
     setAfterCountStatus(true);
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
@@ -867,6 +873,8 @@ const ProductList = () => {
     //   }
     // })
     // }
+  }
+
   }, [filterChecked]);
 
   const handelFilterClearAll = () => {
@@ -2013,7 +2021,7 @@ const ProductList = () => {
     const checkAllImages = async () => {
       let availability = {};
 
-      const checks = finalProductListData.map(async (productData) => {
+      const checks = finalProductListData && finalProductListData?.map(async (productData) => {
         const imageUrl = productData?.images?.[0] || imageNotFound;
         const isAvailable = await checkImageAvailability(imageUrl);
         availability[productData?.autocode] = isAvailable;

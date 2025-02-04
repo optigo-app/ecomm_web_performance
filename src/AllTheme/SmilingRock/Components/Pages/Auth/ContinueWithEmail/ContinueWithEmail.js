@@ -13,8 +13,8 @@ export default function ContinueWithEmail() {
     const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigate();
     const location = useLocation();
-
-    const search = location?.search
+    const [isOpen, setIsOpen] = useState(false)
+    const search = location?.search;
     const redirectEmailUrl = `/LoginWithEmail/${search}`;
     const redirectSignUpUrl = `/register/${search}`;
     const cancelRedireactUrl = `/LoginOption/${search}`;
@@ -72,6 +72,8 @@ export default function ContinueWithEmail() {
         setIsLoading(true);
         ContinueWithEmailAPI(trimmedEmail).then((response) => {
             setIsLoading(false);
+            console.log(response,"email")
+           
             if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 1) {
                 toast.error('You are not a customer, contact to admin')
             } else if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 0) {
@@ -80,7 +82,12 @@ export default function ContinueWithEmail() {
                     sessionStorage.setItem("registerEmail", trimmedEmail);
                 }
             } else {
-                navigation(redirectSignUpUrl, { state: { email: trimmedEmail } });
+                setIsOpen(true)
+                // WebSignUpOTPVerify(email).then((res) => {
+                //     console.log(res, "res")
+                //     setIsLoading(false);
+                // })
+                // navigation(redirectSignUpUrl, { state: { email: trimmedEmail } });
             }
         }).catch((err) => console.log(err))
 
@@ -121,7 +128,11 @@ export default function ContinueWithEmail() {
                 </div>
             )}
             <div >
-                <OTPContainer />
+            <OTPContainer emailId={email.trim()} isOpen={isOpen} type='email' setIsOpen={()=>setIsOpen(!isOpen)} onClose={()=>setIsOpen(false)} 
+            navigation={navigation}
+            location={location}
+            bgcolor={'blue'}
+                />
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',

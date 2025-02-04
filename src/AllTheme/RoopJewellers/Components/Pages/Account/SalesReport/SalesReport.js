@@ -194,8 +194,20 @@ function EnhancedTableHead(props) {
   return (
     <TableHead className="salesReporttabelHead">
       <TableRow>
-        {headCells?.map((headCell) => (
-          <TableCell
+        {headCells?.map((headCell) => {
+             const headCellsLits = [
+              'MetalAmount',
+              'DiamondAmount',
+              'ColorStoneAmount',
+              'LabourAmount',
+              'OtherAmount',
+              'UnitCost'
+            ];
+            const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+            if (IsPriceShow === 0 && headCellsLits.includes(headCell?.id)) {
+              return null;  
+            }
+         return <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
@@ -223,7 +235,7 @@ function EnhancedTableHead(props) {
                 </TableSortLabel>
             }
           </TableCell>
-        ))}
+})}
       </TableRow>
     </TableHead>
   );
@@ -602,10 +614,11 @@ const SalesReport = () => {
       tableContainer.scrollTop = 0;
     }
   };
+  const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
 
   return (
     <Box className="salesReport_Account_RPJ">
-      <Box
+   {IsPriceShow == 1 &&   <Box
         sx={{
           display: "flex",
           alignItems: "center",
@@ -713,7 +726,7 @@ const SalesReport = () => {
             )}
           </Box>
         </Box>
-      </Box>
+      </Box>}
       <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
         <Box
           sx={{
@@ -968,8 +981,9 @@ const SalesReport = () => {
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.SKUNo}</TableCell>
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.designno}</TableCell>
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.MetalType}</TableCell>
+                        {IsPriceShow == 1 && <>
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.MetalAmount)}</TableCell>
-                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;
+                          <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;
                           {formatAmount(row.DiamondAmount)}
                         </TableCell>
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;
@@ -978,6 +992,7 @@ const SalesReport = () => {
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.LabourAmount)}</TableCell>
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.OtherAmount)}</TableCell>
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.UnitCost)}</TableCell>
+                        </>}
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.Category}</TableCell>
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.GrossWt}</TableCell>
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.NetWt}</TableCell>

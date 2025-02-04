@@ -90,8 +90,12 @@ function EnhancedTableHead(props) {
     return (
         <TableHead style={{backgroundColor:'#f0e0e0', color:'black'}}>
             <TableRow>
-                {headCells.map((headCell) => (
-                    <TableCell
+                {headCells.map((headCell) => {
+                     const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {};
+                     if (IsPriceShow == 0 && headCell?.id == "Amount") {
+                         return null;
+                     }
+                    return                     <TableCell
                         key={headCell.id}
                         align={headCell.align}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
@@ -114,7 +118,7 @@ function EnhancedTableHead(props) {
                         </TableSortLabel>
                         }
                     </TableCell>
-                ))}
+})}
             </TableRow>
         </TableHead>
     );
@@ -455,7 +459,10 @@ const Sales = () => {
                                 <TableBody>
                                     { visibleRows?.length > 0 ? visibleRows.map((row, index) => {
                                         const labelId = `enhanced-table-checkbox-${index}`;
-
+                                        const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {};
+                                        if (IsPriceShow == 0 && row?.id == "Amount") {
+                                            return null;
+                                        }
                                         return (
                                             <TableRow
                                                 hover
@@ -478,8 +485,8 @@ const Sales = () => {
                                                 </TableCell>
                                                 <TableCell align="center" className='tbCellDT'>{row.Date}</TableCell>
                                                 <TableCell align="center" className='tbCellDT'>{row.StockDocumentNo}</TableCell>
-                                                <TableCell align="right" className='tbCellDT'>{formatAmount(row.Amount)}</TableCell>
-                                                <TableCell align="center" className='tbCellDT'> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
+{IsPriceShow == 1 &&                                                <TableCell align="right" className='tbCellDT'>{formatAmount(row.Amount)}</TableCell>
+}                                                <TableCell align="center" className='tbCellDT'> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
                                                                 <PrintIcon   />
                                                             </div></TableCell>
                                             </TableRow>

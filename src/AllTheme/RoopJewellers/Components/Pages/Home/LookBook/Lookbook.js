@@ -223,6 +223,7 @@ const Lookbook = () => {
       FilterKey: "GETDesignSet_List",
       FilterVal: "GETDesignSet_List",
     };
+    console.log("bypass 1")
     LookBookAPI(productlisttype, finalID)
       .then((res) => setFilterData(res))
       .catch((err) => console.log("err", err));
@@ -289,6 +290,11 @@ const Lookbook = () => {
   };
 
   useEffect(() => {
+    // if(Object.keys(filterChecked).length === 0 ){
+      // console.log("bypass no data")
+      // return  ;
+    // }else{
+    console.log(filterChecked,"bypass")
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
@@ -302,6 +308,7 @@ const Lookbook = () => {
     }
 
     let output = FilterValueWithCheckedOnly();
+  
     if (Object.keys(filterChecked)?.length >= 0) {
       Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output, currentPage, itemsPerPage)
         .then((response) => {
@@ -322,6 +329,7 @@ const Lookbook = () => {
         })
         .catch((err) => console.log(err));
     }
+  // }
   }, [filterChecked, currentPage]);
 
   const ProdCardImageFunc = (pd) => {

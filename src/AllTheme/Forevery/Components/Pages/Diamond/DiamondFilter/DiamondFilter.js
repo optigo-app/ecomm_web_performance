@@ -91,6 +91,7 @@ const fallbackImg = `${storImagePath()}/Forevery/diamondFilter/fallback_diamond.
 
 const DiamondFilter = () => {
   const location = useLocation();
+  console.log(location,"location")
   const [isloding, setIsLoading] = useRecoilState(for_Loader);
   const [diamondData, setDiamondData] = useState();
   const [diamondFilterData, setDiamondFilterData] = useState();
@@ -107,6 +108,7 @@ const DiamondFilter = () => {
   const [open, setOpen] = useState(null);
   const [storeInitData, setStoreInitData] = useState();
   const [sortValue, setSortValue] = useState("");
+  const [PairedDiamonds, setPairedDiamonds] = useState([]);
   const [selectedsort, setselectedsort] = useState({
     title: "Best Match",
     sort: "",
@@ -492,7 +494,7 @@ const DiamondFilter = () => {
     }
   };
 
- 
+
 
   const fetchData = async (shape, parsedData) => {
     setIsLoading(true);
@@ -523,8 +525,8 @@ const DiamondFilter = () => {
         ].filter(Boolean);
       });
 
-      
-      console.log(dataWithBanners,"data")
+
+      console.log(dataWithBanners, "data")
 
       setDiamondData(dataWithBanners);
       const count = data1?.icount;
@@ -860,105 +862,77 @@ const DiamondFilter = () => {
     } else {
       fetchData(shape);
     }
-  }, [location?.pathname ,selectedsort ,sortValue]);
-const clarityGrades = {
-  FL: 1,
-  IF: 2,
-  VVS1: 3,
-  VVS2: 4,
-  VS1: 5,
-  VS2: 6,
-  SI1: 7,
-  SI2: 8,
-  I1: 9,
-  I2: 10,
-  I3: 11,
-};
+  }, [location?.pathname, selectedsort, sortValue]);
 
-// Function to get the clarity group (e.g., "VS", "SI", "VVS")
-const getClarityGroup = (clarity) => {
-  if (clarity?.includes("VVS")) return "VVS"; // "VVS" group
-  if (clarity?.includes("VS")) return "VS"; // "VS" group
-  if (clarity?.includes("SI")) return "SI"; // "SI" group
-  if (clarity?.includes("I")) return "I"; // "I" group
-  return ""; // Default if unknown
-};
 
-// Function to get the numeric clarity value for comparison (e.g., "VS1" -> 5, "VS2" -> 6)
-const getClarityValue = (clarity) => clarityGrades[clarity] || Infinity; // Returns `Infinity` if clarity is invalid
+  const pairDiamonds = (db) => {
+    const pairedDiamonds = [];
+    const pairedDiamondsIndices = new Set();  // To track paired diamonds
 
-const isValidPair = (diamond1, diamond2) => {
-  // Check if both diamonds are the same shape
-  if (diamond1?.shape !== diamond2?.shape) return false;
+    const colorCompatible = (color1, color2) => {
+      const colorScale = ['D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+      const index1 = colorScale.indexOf(color1);
+      const index2 = colorScale.indexOf(color2);
+      return Math.abs(index1 - index2) <= 2; // Within 1-2 grades
+    };
 
-  // Check carat weight: Difference should be within ±0.02 carats
-  const caratDifference = Math.abs(diamond1?.carat - diamond2?.carat);
-  if (caratDifference > 0.02) return false;
+    const clarityCompatible = (clarity1, clarity2) => {
+      const clarityOrder = ['IF', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2', 'I1', 'I2', 'I3'];
+      const index1 = clarityOrder.indexOf(clarity1);
+      const index2 = clarityOrder.indexOf(clarity2);
+      return Math.abs(index1 - index2) <= 1; // Within 1 grade
+    };
 
-  // Check color: Should be within 1-2 grades of each other (simple character comparison for color)
-  if (Math.abs(diamond1?.color?.charCodeAt(0) - diamond2?.color?.charCodeAt(0)) > 2) return false;
+    const caratCompatible = (carat1, carat2) => {
+      return Math.abs(carat1 - carat2) <= 0.02; // Tolerance of 0.02 carats
+    };
 
-  // Check clarity group: Both diamonds should have the same clarity group (e.g., "VS", "SI", "VVS")
-  const clarityGroup1 = getClarityGroup(diamond1?.clarity);
-  const clarityGroup2 = getClarityGroup(diamond2?.clarity);
-  
-  if (clarityGroup1 !== clarityGroup2) return false; // Ensure same clarity group (e.g., "VS" vs "SI")
+    const sameFluorescence = (fluorescence1, fluorescence2) => {
+      return fluorescence1 === fluorescence2;
+    };
 
-  // Check clarity grade difference: Only allow a difference of 1 (e.g., "VS1" vs "VS2")
-  const clarityDifference = Math.abs(getClarityValue(diamond1?.clarity) - getClarityValue(diamond2?.clarity));
-  if (clarityDifference > 1) return false; // Allow only one grade difference (e.g., "VS1" vs "VS2")
+    const similarCut = (cut1, cut2) => {
+      return cut1 === cut2;
+    };
 
-  // Check cut and symmetry: Should match
-  if (diamond1?.cut !== diamond2?.cut || diamond1?.symmetry !== diamond2?.symmetry) return false;
+    // Iterate through the diamond list to find matching pairs
+    for (let i = 0; i < db?.length; i++) {
+      // Skip already paired diamonds
+      if (pairedDiamondsIndices.has(i)) continue;
 
-  // Check fluorescence: Both diamonds should have the same fluorescence
-  if (diamond1?.fluorescence !== diamond2?.fluorescence) return false;
+      for (let j = i + 1; j < db?.length; j++) {
+        // Skip already paired diamonds
+        if (pairedDiamondsIndices.has(j)) continue;
 
-  return true;
-};
+        const diamond1 = db[i];
+        const diamond2 = db[j];
 
-// Function to pair diamonds and avoid repeated pairings
-useEffect(() => {
-  const pairDiamonds = () => {
-    let pairs = [];
-    
-    // Filter diamonds by clarity group (only include diamonds with the same clarity group)
-    const clarityGroups = ["VVS", "VS", "SI", "I"]; // These are the main groups we're focusing on
-    let filteredDiamonds = [];
-
-    // Iterate over each clarity group and filter diamonds accordingly
-    clarityGroups.forEach(group => {
-      const groupDiamonds = diamondData?.filter(diamond => getClarityGroup(diamond?.clarity) === group && !diamond.isBanner);
-      filteredDiamonds = [...filteredDiamonds, ...groupDiamonds];
-    });
-
-    const pairedDiamondsSet = new Set();  // To track already paired diamonds
-
-    // Pairing diamonds after filtering by clarity group
-    for (let i = 0; i < filteredDiamonds?.length; i++) {
-      for (let j = i + 1; j < filteredDiamonds?.length; j++) {
-        const diamond1 = filteredDiamonds[i];
-        const diamond2 = filteredDiamonds[j];
-
-        // Check if either diamond has already been paired
-        if (pairedDiamondsSet.has(diamond1?.id) || pairedDiamondsSet.has(diamond2?.id)) continue;
-
-        if (isValidPair(diamond1, diamond2)) {
-          pairs.push([diamond1, diamond2]);
-
-          // Add both diamonds to the paired set to prevent re-pairing
-          pairedDiamondsSet.add(diamond1?.id);
-          pairedDiamondsSet.add(diamond2?.id);
+        // Apply all pairing criteria
+        if (
+          diamond1?.shapename === diamond2?.shapename &&
+          caratCompatible(diamond1?.carat, diamond2?.carat) &&
+          colorCompatible(diamond1?.colorname, diamond2?.colorname) &&
+          clarityCompatible(diamond1?.clarityname, diamond2?.clarityname) &&
+          similarCut(diamond1?.cutname, diamond2?.cutname) &&
+          sameFluorescence(diamond1?.fluorescencename, diamond2?.fluorescencename)
+        ) {
+          // If all conditions are met, add to paired list
+          pairedDiamonds.push([diamond1, diamond2]);
+          pairedDiamondsIndices.add(i);
+          pairedDiamondsIndices.add(j);
+          break;
         }
       }
     }
 
-    setPairedDiamonds(pairs);
-    console.log(pairs?.length, pairs, "diamond pairs");
+    return pairedDiamonds;
   };
 
-  pairDiamonds();
-}, [diamondData]);
+  useEffect(() => {
+    const pairedDiamonds = pairDiamonds(diamondData);
+    console.log(pairedDiamonds,"pairedDiamonds")
+    setPairedDiamonds(pairedDiamonds)
+  }, [diamondData])
 
 
   return (
@@ -1559,7 +1533,7 @@ useEffect(() => {
           <>
             {diamondData?.length != 0 && diamondData?.[0]?.stat !== 0 ? (
               <>
-                <div className="diamond_listing">
+                <div className="diamond_listing" style={{ display: "none" }}>
                   {diamondData?.map((val, i) => {
                     const currentMediaType = ShowMedia[i] || "vid";
                     const bannerImage = getBannerImage(i);
@@ -1665,6 +1639,168 @@ useEffect(() => {
                             </div>
                           </>
                         )}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="pair_diamond_listing">
+                  {PairedDiamonds?.map((val, i) => {
+                    const currentMediaType = ShowMedia[i] || "vid";
+                    const bannerImage = getBannerImage(i);
+                    console.log(PairedDiamonds, "pairedDiamonds")
+                    return (
+                      <div key={i} className="diamond_card">
+                        <div className="media_frame">
+                          {/* {val?.isBanner == true ? (
+                            <img
+                              src={val?.img}
+                              alt="bannerImage"
+                              width={"100%"}
+                              loading="lazy"
+                            />
+                          ) : (
+                            <>
+                              {currentMediaType === "vid" ? (
+                                <>
+                                  {val?.vid?.endsWith(".mp4") ? (
+                                    <video
+                                      src={val?.vid}
+                                      width="100%"
+                                      ref={(el) => (videoRefs.current[i] = el)}
+                                      autoPlay={hoveredCard === i}
+                                      controls={false}
+                                      playsInline
+                                      muted
+                                      onMouseOver={(e) => handleMouseMove(e, i)}
+                                      onMouseLeave={(e) =>
+                                        handleMouseLeave(e, i)
+                                      }
+                                      loading="lazy"
+                                      onClick={() => HandleDiamondRoute(val)}
+                                    />
+                                  ) : val?.image_file_url !== "" ? (
+                                    <img
+                                      className="dimond-info-img"
+                                      src={val?.image_file_url}
+                                      alt=""
+                                      onClick={() => HandleDiamondRoute(val)}
+                                      loading="lazy"
+                                    />
+                                  ) : (
+                                    <>
+                                      <img
+                                        // src={val?.img}
+                                        src={fallbackImg}
+                                        alt="bannerImage"
+                                        width={"100%"}
+                                        loading="lazy"
+                                        onClick={() => HandleDiamondRoute(val)}
+                                      />
+                                    </>
+                                  )}
+                                </>
+                              ) : (
+                                <img
+                                  className="dimond-info-img"
+                                  loading="lazy"
+                                  src={val?.img}
+                                  alt=""
+                                  onClick={() => HandleDiamondRoute(val)}
+                                />
+                              )}
+                            </>
+                          )} */}
+                          <div className="paired_diamond">
+                            {val?.map((dia) => {
+                              console.log(dia)
+                              return <>
+                                {
+                                  // <video
+                                  // className="paired_media"
+                                  // src={dia?.vid}   
+                                  // muted
+                                  //  autoPlay
+                                  //  playsInline
+                                  // />
+                                  // <img  src={dia?.img} alt="" />
+                                  <video
+                                    src={dia?.vid}
+                                    className="paired_media"
+                                    poster={val?.img}
+                                    width="100%"
+                                    ref={(el) => (videoRefs.current[i] = el)}
+                                    autoPlay={hoveredCard === i}
+                                    controls={false}
+                                    playsInline
+                                    muted
+                                    onMouseOver={(e) => handleMouseMove(e, i)}
+                                    onMouseLeave={(e) =>
+                                      handleMouseLeave(e, i)
+                                    }
+                                    loading="lazy"
+                                    onClick={() => HandleDiamondRoute(dia[1])}
+                                  />
+                                }
+                              </>
+                            })}
+                          </div>
+                          {!val?.isBanner == true && (
+                            <>
+                              <div className="select_this_diamond_banner" onClick={() => HandleDiamondRoute(val)}>
+                                <span>Select This Diamond</span>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      
+                          <>
+                            {/* <div className="toggle_btn">
+                              <span onClick={() => HandleMedia("img", i)}>
+                                <img
+                                  src={`${storImagePath()}/Forevery/diamondFilter/t-1.png`}
+                                  alt=""
+                                  loading="lazy"
+                                />
+                              </span>
+                              <span onClick={() => HandleMedia("vid", i)}>
+                                <SvgImg />
+                              </span>
+                            </div> */}
+                             <div className="for_pair_details">
+                           {val?.map((det,i)=>{
+                            return <>
+                              <div className="title">
+                                <span>
+                                  {det?.shapename} <strong>{det?.carat?.toFixed(3)}</strong>{" "}
+                                  CARAT {det?.colorname} {det?.clarityname}{" "}
+                                  {det?.cutname}
+                                </span>
+                              </div>
+                            </>
+                           })}
+                            </div>
+                          </>
+                          <div className="pair_price_sec">
+                           <div className="pric">
+                                <span className="smr_currencyFont">
+                                  {loginInfo?.CurrencyCode ??
+                                    storeInitData?.CurrencyCode}
+                                </span>
+                             <span>{
+                              val?.reduce((acc, cuu) => {
+                                return acc + (cuu?.price || 0); 
+                              }, 0) 
+                            }</span>
+                              </div> 
+                          </div>
+                        
+                           {/* <div className="pric">
+                                <span className="smr_currencyFont">
+                                  {loginInfo?.CurrencyCode ??
+                                    storeInitData?.CurrencyCode}
+                                </span>
+                                <span> {val?.price}</span>
+                              </div> */}
                       </div>
                     );
                   })}

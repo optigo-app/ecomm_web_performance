@@ -34,6 +34,7 @@ function CustomTabPanel(props) {
         a11yProps(1)
     }, [])
 
+
     return (
         <div
             role="tabpanel"
@@ -83,6 +84,7 @@ export default function Account() {
     const navigation = useNavigate();
     const [accountInner, setAccountInner] = useState(accountDetailPages());
     const loginUSerDeatil = JSON.parse(sessionStorage.getItem('loginUserDetail'))
+    const [Storeinit, setStoreinit] = useState(null);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -110,6 +112,12 @@ export default function Account() {
         navigation('/')
         window.location.reload();
       }
+
+      
+  useEffect(()=>{
+    const init = JSON.parse(sessionStorage.getItem('storeInit')) ?? {};
+    setStoreinit(init);
+ },[])
 
     return (
         <div className='accountTab_Account_DT'>
@@ -201,6 +209,11 @@ export default function Account() {
                                         sx={{ background: "#f0e0e0", ...tabIndicator }} scrollButtons="auto">
                                             {
                                                 accountInner?.map((e, i) => {
+                                                    if(Storeinit?.IsPriceShow == 0 && e.tabComp === "AccountLedger"){
+                                                        return <Tab sx={{
+                                                            display: 'none',
+                                                        }} /> ;
+                                                    }
                                                     return <Tab label={e?.tabLabel} {...a11yProps(i)} sx={{ color: "#3b3c3d" }} key={i} />
                                                 })
                                             }
@@ -227,7 +240,7 @@ export default function Account() {
                                                 {e?.id === 17020 && <CustomTabPanel value={value1} index={i} className="DesignWiseSalesReport">
                                                     <DesignWiseSalesReport />
                                                 </CustomTabPanel>}
-                                                {e?.id === 1159 && <CustomTabPanel value={value1} index={i}>
+                                                {Storeinit?.IsPriceShow == 1 &&  e?.id === 1159 && <CustomTabPanel value={value1} index={i}>
                                                     <AccountLedger />
                                                 </CustomTabPanel>}
                                             </React.Fragment>
