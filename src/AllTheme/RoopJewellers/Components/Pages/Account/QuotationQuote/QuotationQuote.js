@@ -100,8 +100,12 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-                {headCells.map((headCell) => (
-                    <>
+                {headCells.map((headCell) => {
+                     const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+                     if (IsPriceShow == 0 && headCell?.label == 'Total Amount') {
+                         return null;
+                     }
+                    return<>
                         <TableCell
                             key={headCell.id}
                             align={headCell.align}
@@ -136,7 +140,7 @@ function EnhancedTableHead(props) {
                             }
                         </TableCell>
                     </>
-                ))}
+})}
             </TableRow>
         </TableHead>
     );
@@ -529,6 +533,7 @@ const QuotationQuote = () => {
                                         {filterData?.length > 0 ? visibleRows?.map((row, index) => {
 
                                             const labelId = `enhanced-table-checkbox-${index}`;
+                                            const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
 
                                             return (
                                                 <TableRow
@@ -554,8 +559,8 @@ const QuotationQuote = () => {
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.Date}</TableCell>
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.SKUNo}</TableCell>
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.TotalDesign}</TableCell>
-                                                    <TableCell align="right" style={{ fontFamily: "Spectral-Regular" }}> <span  dangerouslySetInnerHTML={{__html: row?.Currencycode }}></span>&nbsp; {formatAmount(row.Amount)}</TableCell>
-                                                    <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>
+{IsPriceShow == 1 &&                                                     <TableCell align="right" style={{ fontFamily: "Spectral-Regular" }}> <span  dangerouslySetInnerHTML={{__html: row?.Currencycode }}></span>&nbsp; {formatAmount(row.Amount)}</TableCell>
+}                                                    <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>
                                                         <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
                                                             <PrintIcon />
                                                         </div>

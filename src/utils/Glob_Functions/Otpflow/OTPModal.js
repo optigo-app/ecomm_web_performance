@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react"
-import { Modal, Box, Typography, TextField, Button } from "@mui/material"
+import { Modal, Box, Typography, TextField, Button, CircularProgress } from "@mui/material"
 import { MdEmail, MdSmartphone, MdClose } from "react-icons/md"
 import { Timer } from "./Timer"
 import "./OTPVerificationModal.scss"
@@ -15,10 +15,13 @@ export const OTPVerificationModal = ({
   onResend,
   iconcolor,
   bgcolor,
-  iconbgcolor
+  iconbgcolor ,
+  otp,
+setOtp ,
+message ,
+loading
 }) => {
-  const otpLength = 4
-  const [otp, setOtp] = useState(new Array(otpLength).fill(""))
+  const otpLength = 4;
   const [showResend, setShowResend] = useState(false)
   const inputRefs = useRef([])
 
@@ -113,6 +116,7 @@ export const OTPVerificationModal = ({
         </div>
 
         <div className="action-container">
+      {message !== '' &&  <small>{message}</small>}
           {showResend ? (
             <Button onClick={handleResend} className="resend-button">
               Resend Code
@@ -131,7 +135,7 @@ export const OTPVerificationModal = ({
           className="verify-button"
           style={{ backgroundColor: buttonBgColor }}
         >
-          Verify {type === "email" ? "Email" : "Mobile"}
+           {!loading ? `Verify ${type === "email" ? "Email" : "Mobile"}` : <CircularProgress size={20} />}
         </Button>
       </Box>
     </Modal>

@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { smrMA_loginState } from '../../Recoil/atom';
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
 import Cookies from 'js-cookie';
+import img from '../../Assets/mb.svg';
 
 const Menu = () => {
 
@@ -182,7 +183,10 @@ const Menu = () => {
 
             {isB2bFlag == 1 ?
                 islogin == false ?
-                    <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', marginTop: '200px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', height:'80svh',justifyContent:"center",}}>
+                        {/* <img src={img} alt="mb" style={{
+                            width:"250px"
+                        }} /> */}
                         <p style={{ margin: '0px', fontWeight: 500 }}>No Data Available</p>
                         <button style={{
                             height: '35px',
@@ -229,7 +233,7 @@ const Menu = () => {
                             margin: '0px',
                             height: '700px',
                             width: '100%',
-                            overflowY: 'auto',  // To make the vertical scrollbar appear when needed
+                            overflowY: 'auto',
                         }}
                     >
                         {menuItems.map(menuItem => {

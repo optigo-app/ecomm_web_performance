@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Button, CircularProgress, TextField } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Footer from '../../Home/Footer/Footer';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
 import './ContimueWithMobile.modul.scss'
+import { WebSignUpOTPVerify } from '../../../../../../utils/API/Auth/WebSignUpOTPVerify';
+import OTPContainer from '../../../../../../utils/Glob_Functions/Otpflow/App';
 
 export default function ContimueWithMobile() {
     const [mobileNo, setMobileNo] = useState('');
@@ -14,6 +16,8 @@ export default function ContimueWithMobile() {
     const [buttonFocused, setButtonFocused] = useState(false);
     const navigation = useNavigate();
     const location = useLocation();
+    const [isOpen, setIsOpen] = useState(false)
+
 
 
     const search = location?.search
@@ -69,7 +73,7 @@ export default function ContimueWithMobile() {
         setIsSubmitting(true);
         setIsLoading(true);
         ContimueWithMobileAPI(mobileNo).then((response) => {
-            setIsLoading(false);
+
             if (response.Data.Table1[0].stat === '1' && response.Data.Table1[0].islead === '1') {
                 toast.error('You are not a customer, contact to admin')
             } else if (response.Data.Table1[0].stat === '1' && response.Data.Table1[0].islead === '0') {
@@ -77,6 +81,11 @@ export default function ContimueWithMobile() {
                 navigation(redirectMobileUrl, { state: { mobileNo: mobileNo } });
                 sessionStorage.setItem('registerMobile', mobileNo)
             } else {
+                // setIsOpen(true)
+                // WebSignUpOTPVerify('', mobileNo).then((res) => {
+                //     console.log(res, "res")
+                // })
+                setIsLoading(false);
                 navigation(redirectSignUpUrl, { state: { mobileNo: mobileNo } });
                 sessionStorage.setItem('registerMobile', mobileNo)
             }
@@ -100,6 +109,8 @@ export default function ContimueWithMobile() {
                 </div>
             )}
             <div >
+                <OTPContainer mobileNo={mobileNo} isOpen={isOpen} type='mobile' setIsOpen={()=>setIsOpen(!isOpen)} />
+
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',

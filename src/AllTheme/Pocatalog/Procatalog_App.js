@@ -19,7 +19,7 @@ import { MetalTypeComboAPI } from "../../utils/API/Combo/MetalTypeComboAPI";
 import { ColorStoneQualityColorComboAPI } from "../../utils/API/Combo/ColorStoneQualityColorComboAPI";
 import { CurrencyComboAPI } from "../../utils/API/Combo/CurrencyComboAPI";
 import { DiamondQualityColorComboAPI } from "../../utils/API/Combo/DiamondQualityColorComboAPI";
-import { MetalColorCombo } from "../../utils/API/Combo/MetalColorCombo";
+import { MetalColorCombo } from "../../utils/API/Combo/MetalColorCombo";    
 // import ProductList from "./Components/Pages/Product/ProductList/ProductList";
 
 // import AboutUs from "./Components/Pages/aboutUs/AboutUs";
@@ -62,7 +62,6 @@ const Procatalog_App = () => {
   const navigation = useNavigate();
   const setIsLoginState = useSetRecoilState(proCat_loginState);
   const location = useLocation();
-  console.log('location: ', location?.pathname);
   const islogin = useRecoilValue(proCat_loginState);
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");

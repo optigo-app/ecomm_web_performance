@@ -10,7 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, TextField } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, IconButton, TextField } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PrintIcon from '@mui/icons-material/Print';
 import { formatAmount, checkMonth } from "../../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
@@ -170,7 +170,7 @@ const QuotationQuote = () => {
     const [isLoading, setIsLoading] = useState(false);
     const maxYear = addYears(new Date(), 1); // Set maximum year to the next year
     const minYear = subYears(new Date(), 1);
-
+    const [expanded, setExpanded] = useState(false); // Track the expanded state
     const fromDateRef = useRef(null);
     const toDateRef = useRef(null);
 
@@ -393,13 +393,15 @@ const QuotationQuote = () => {
     }
 
     const scrollToTop = () => {
-        // Find the table container element and set its scrollTop property to 0
         const tableContainer = document.querySelector('.quotationJobSec');
         if (tableContainer) {
           tableContainer.scrollTop = 0;
         }
     };
 
+    const handleAccordionChange = (event, isExpanded) => {
+        setExpanded(isExpanded);
+      };
 
     return (
         <div className="quotationQuote_Account_SMRM">
@@ -407,11 +409,11 @@ const QuotationQuote = () => {
             <MobViewHeader title="Quotation" />
         </div>
             <Box className='smilingSavedAddressMain salesApiSectionQMA headSetQMAMain' sx={{ padding: "20px", }}>
-            <Accordion sx={{marginBottom:'20px'}}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    More Filters
-                </AccordionSummary>
-                <AccordionDetails>
+            {/* <Accordion expanded={expanded} onChange={handleAccordionChange} sx={{marginBottom:'20px'}}> 
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} > 
+                    More Filters 
+                </AccordionSummary> 
+                <AccordionDetails> 
                 <Box className="d_flex_quote" sx={{ display: "flex", flexWrap: "wrap" }}>
                 <Box sx={{ paddingRight: "15px" }} className="AllQuoteBtn QuotePadSec">
                     <Button variant="contained" className="muiSmilingRocksBtn" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>
@@ -423,7 +425,7 @@ const QuotationQuote = () => {
                         setSearchVal(eve?.target?.value);
                         handleSearch(eve, eve?.target?.value, fromDate, toDate);
                     }} />
-                    <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
+                    <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "18px", color: "#757575" }}
                         onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon /></Button>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="d_flex_quote w_q">
@@ -518,7 +520,170 @@ const QuotationQuote = () => {
                 </Box>
             </Box>
                 </AccordionDetails>
-            </Accordion>
+            </Accordion> */}
+            <Accordion 
+      expanded={expanded} 
+      onChange={handleAccordionChange}
+      sx={{
+        maxWidth: "500px",
+        width: "100%",
+        // borderRadius: "8px !important",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.12)",
+        "&:before": {
+          display: "none",
+        },
+        marginBottom: "20px",
+      }}
+    >
+      <AccordionSummary 
+        expandIcon={<ExpandMoreIcon />}
+        sx={{
+          borderBottom: expanded ? "1px solid rgba(0,0,0,0.1)" : "none",
+          height :'55px',
+          "& .MuiAccordionSummary-content": {
+            margin: "12px 0",
+          },
+        }}
+      >
+        <Box sx={{ 
+          fontSize: "16px", 
+          fontWeight: 600,
+          color: "gray"
+        }}>
+          More Filters
+        </Box>
+      </AccordionSummary>
+
+      <AccordionDetails sx={{ padding: "24px" }}>
+        <Box sx={{ 
+          display: "flex", 
+          flexDirection: "column",
+          gap: "24px"
+        }}>
+          {/* Top Section - ALL button and Search */}
+          <Box sx={{ 
+            display: "flex", 
+            gap: "12px",
+            width: "100%"
+          }}>
+            <Button
+              variant="contained"
+              onClick={resetAllFilters}
+              sx={{
+                backgroundColor: "rgb(243, 244, 246)",
+                color: "rgb(17, 24, 39)",
+                boxShadow: "none",
+                "&:hover": {
+                  backgroundColor: "rgb(229, 231, 235)",
+                  boxShadow: "none",
+                },
+                minWidth: "60px",
+                height: "55px",
+              }}
+            >
+              ALL
+            </Button>
+
+            <Box sx={{ 
+              position: "relative",
+              flexGrow: 1 
+            }}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                label="Search"
+                value={searchVal}
+                onChange={(e) => {
+                  setSearchVal(e.target.value)
+                  handleSearch(e, e.target.value, fromDate, toDate)
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    height: "55px",
+                    "& fieldset": {
+                      borderColor: "rgba(0,0,0,0.1)",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "rgba(0,0,0,0.2)",
+                    },
+                  },
+                }}
+              />
+              <IconButton 
+                sx={{
+                  position: "absolute",
+                  right: "8px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "rgba(0,0,0,0.5)",
+                }}
+                onClick={(e) => handleSearch(e, searchVal, fromDate, toDate)}
+              >
+                <SearchIcon fontSize="small" />
+              </IconButton>
+            </Box>
+          </Box>
+
+          {/* Date Pickers Section */}
+          <Box sx={{ 
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px"
+          }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Date From"
+                value={fromDate}
+                onChange={setFromDate}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    sx: {
+                      "& .MuiOutlinedInput-root": {
+                        height: "55px",
+                      }
+                    }
+                  }
+                }}
+              />
+              <DatePicker
+                label="Date To"
+                value={toDate}
+                onChange={setToDate}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    sx: {
+                      "& .MuiOutlinedInput-root": {
+                        height: "55px",
+                      }
+                    }
+                  }
+                }}
+              />
+            </LocalizationProvider>
+          </Box>
+
+          {/* Search Button */}
+          <Button
+            variant="contained"
+            startIcon={<SearchIcon />}
+            onClick={(e) => handleSearch(e, searchVal, fromDate, toDate)}
+            sx={{
+              backgroundColor: "rgb(17, 24, 39)",
+              color: "white",
+              textTransform: "none",
+              height: "40px",
+              "&:hover": {
+                backgroundColor: "rgb(31, 41, 55)",
+              },
+            }}
+          >
+            Search
+          </Button>
+        </Box>
+      </AccordionDetails>
+    </Accordion>
             {isLoading ?
                 <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
                 <Paper sx={{ width: '100%', marginBottom:'10%'}} className="salesApiTableQMA">
@@ -585,6 +750,9 @@ const QuotationQuote = () => {
                         </Table>
                     </TableContainer>
                     <TablePagination
+                    sx={expanded ? {
+                        marginBottom:'15%'
+                    } : {}}
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
                         count={filterData.length}
@@ -593,7 +761,8 @@ const QuotationQuote = () => {
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
-                </Paper>}
+                </Paper>
+                }
 
             </Box>
         </div>
