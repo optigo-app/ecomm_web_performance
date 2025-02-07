@@ -10,7 +10,7 @@ import Footer from "../../Home/Footer/Footer"
 import SkeletonLoader from './AddressSkelton';
 import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
-const AddressManagement = () => {
+const AddressManagement = ({ data }) => {
     const {
         addressData,
         open,
@@ -46,8 +46,8 @@ const AddressManagement = () => {
                 <div className='smr_addMainDiv'>
                     <div className='smr_TitleDetailMainDiv'>
                         <div>
-                        <h1 className='smr_deliveryTitle'>Delivery</h1>
-                        <p className='smr_deliverydesc'>Order Will be delivered to selected address</p>
+                            <h1 className='smr_deliveryTitle'>Delivery</h1>
+                            <p className='smr_deliverydesc'>Order Will be delivered to selected address</p>
                         </div>
                         <button className='smr_ContinueOrderbtn' onClick={() => proceedToOrder(navigate)}>Continue</button>
                     </div>
@@ -86,7 +86,7 @@ const AddressManagement = () => {
                         handleDeleteClose={handleDeleteClose}
                         handleDelete={() => handleDelete()}
                     /> */}
-                      <ConfirmationDialog
+                    <ConfirmationDialog
                         open={openDelete}
                         onClose={handleDeleteClose}
                         onConfirm={handleDelete}
@@ -97,13 +97,16 @@ const AddressManagement = () => {
                         <button className='smr_AddNewAddrbtn' onClick={() => handleOpen(null)}>Add New Address</button>
                     </div>
                 </div>
-                {/* <Footer /> */}
+                <Footer data={data} />
             </div>
-            {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p  
-          className="backtotop_Smr"
-          style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
-            </div> */}
+            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+                <p
+                    className="backtotop_lov"
+                    style={{
+                        margin: '0px', width: '100px', cursor: 'pointer', color: "#5F497A", fontSize: "14px",
+                        fontWeight: 600,
+                    }} onClick={scrollToTop}>BACK TO TOP</p>
+            </div>
         </div>
     );
 };

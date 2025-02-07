@@ -9,12 +9,12 @@ import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { useSetRecoilState } from 'recoil';
 import { CartCount } from '../../../Recoil/atom'
 
-const Confirmation = () => {
+const Confirmation = ({ data }) => {
     const navigate = useNavigate();
     const [orderNo, setOrderNo] = useState();
     const [storeInit, setStoreInit] = useState();
-    const setCartCountVal = useSetRecoilState(CartCount); 
-    
+    const setCartCountVal = useSetRecoilState(CartCount);
+
     // for cart count
     useEffect(() => {
         const fetchCartCount = async () => {
@@ -25,7 +25,7 @@ const Confirmation = () => {
                 console.error("Error fetching cart count:", error);
             }
         };
-    
+
         fetchCartCount();
     }, []);
 
@@ -96,14 +96,17 @@ const Confirmation = () => {
                         <button className="smr_continueShoppingBtns" onClick={handleNavigate}>Continue Shopping</button>
                     </div>
                 </div>
-                {/* <Footer /> */}
+                <Footer data={data} />
             </div>
-            {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p 
-          className="backtotop_Smr"
-                
-                style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
-            </div> */}
+            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+                <p
+                    className="backtotop_lov"
+
+                    style={{
+                        margin: '0px', width: '100px', cursor: 'pointer', color: "#5F497A", fontSize: "14px",
+                        fontWeight: 600,
+                    }} onClick={scrollToTop}>BACK TO TOP</p>
+            </div>
         </div>
     );
 }

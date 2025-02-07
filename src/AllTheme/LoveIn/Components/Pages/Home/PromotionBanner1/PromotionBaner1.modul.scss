@@ -1,99 +1,259 @@
-.FestiveMainImage {
+.lovFestiveMainImage {
     position: relative;
-}
-
-.FestiveBannerImage {
     width: 100%;
-}
+    overflow: hidden;
 
-.smr_festiveBox {
-    position: absolute;
-    top: 45%;
-    left: 83% !important;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    padding: 20px;
-    background: #ffffff59;
-}
-
-.DiscoverBtn {
-    margin-top: 30px;
-    height: 60px;
-    width: 200px;
-    background-color: gray;
-    color: white;
-    cursor: pointer;
-    border: none;
-}
-
-.DiscoverBtn:hover {
-    border: 1px solid gray;
-    color: gray;
-    background-color: transparent;
-}
-
-@media screen and (max-width: 1900px) {
-    .smilingFestiMainTitle2 {
-        font-size: 25px !important;
+    .FestiveBannerImage {
+        width: 100%;
+        display: block;
     }
 
-    .smr_festiveBox {
-        position: absolute !important;
-        top: 30%;
-    }
-
-}
-
-
-@media screen and (max-width: 1024px) {
-
-    .smr_promotion1 {
-        min-height: auto !important;
-    }
-
-    .FestiveMainImage {
-        display: flex !important;
-        flex-direction: column !important;
-    }
-
-    .smr_festiveBox {
-        position: static !important;
-        background-color: #c0bbb1;
-        top: 0;
-        left: 0;
-        transform: translate(0%, 0%) !important;
+    .lovfestiveBox {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         text-align: center;
-    }
-
-    .smilingFestiMainTitle1 {
-        font-size: 11px !important;
-        font-weight: 500;
-        margin: 0px;
-        color: white !important;
-    }
-
-    .smr_festiveBox {
-        padding-top: 5px !important;
-    }
-
-
-    .smilingFestiMainTitle2 {
-        font-size: 20px !important;
-        color: white !important;
-
-    }
-
-    .smilingFestiMainTitle3 {
-        color: white !important;
+        padding: 25px;
+        background-color: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(5px);
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        z-index: 1;
     }
 
     .DiscoverBtn {
-        width: 200px !important;
-        height: 50px !important;
+        height: 60px;
+        width: 200px;
+        cursor: pointer;
         color: white;
-        background-color: gray;
-        font-weight: 500;
-        font-size: 13px;
-        margin-top: 10px !important;
+        border: none;
+        text-decoration: underline;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        transition: border-color 0.3s ease-in-out;
+        text-decoration: none;
+        margin-top: 10px;
+        border-color: white;
+        z-index: 2;
+    }
+
+    .DiscoverBtn:hover {
+        text-decoration: none;
+        margin-top: 10px;
+        border-color: white;
+    }
+
+    @media (min-width: 2581px) and (max-width: 5000px) {
+        .lovfestiveBox {
+            left: 11.5%;
+            padding: 35px;
+        }
+    }
+
+    @media (min-width: 1860px) and (max-width: 2580px) {
+        .lovfestiveBox {
+            left: 11.5%;
+            padding: 35px;
+        }
+    }
+
+    @media (min-width: 1661px) and (max-width: 1860px) {
+        .lovfestiveBox {
+            left: 13.5%;
+            padding: 15px;
+        }
+    }
+
+    @media (min-width: 1550px) and (max-width: 1660px) {
+        .lovfestiveBox {
+            left: 13.5%;
+        }
+    }
+
+    @media (min-width: 1041px) and (max-width: 1550px) {
+        .lovfestiveBox {
+            left: 13.5%;
+            padding: 15px;
+        }
+    }
+
+    @media (min-width: 1300px) and (max-width: 1041px) {
+        .lovfestiveBox {
+            left: 13.5%;
+            padding: 15px;
+        }
+    }
+
+    @media (min-width: 1100px) and (max-width: 1300px) {
+        .lovFestiMainTitle1 {
+            font-size: 12px;
+        }
+
+        .lovFestiMainTitle2 {
+            font-size: 20px;
+        }
+
+        .lovFestiMainTitle3 {
+            font-size: 10px;
+        }
+
+        .lovfestiveBox {
+            left: 15.5%;
+            padding: 15px;
+        }
+    }
+
+    @media (min-width: 1025px) and (max-width: 1100px) {
+        .lovFestiMainTitle1 {
+            font-size: 12px;
+        }
+
+        .lovFestiMainTitle2 {
+            font-size: 20px;
+        }
+
+        .lovFestiMainTitle3 {
+            font-size: 10px;
+        }
+
+        .lovfestiveBox {
+            left: 17.5%;
+            padding: 15px;
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+        .lovFestiveMainImage {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        .lovfestiveBox {
+            position: static !important;
+            background-color: #d8cbef;
+            top: 0;
+            left: 0;
+            transform: translate(0%, 0%) !important;
+            text-align: center;
+            backdrop-filter: blur(0px);
+            border-radius: 0px;
+            box-shadow: none
+        }
+
+        .lovFestiMainTitle1 {
+            font-size: 12px !important;
+            font-weight: 500;
+            margin: 0px;
+            color: white !important;
+        }
+
+        .lovfestiveBox {
+            padding-top: 35px !important;
+        }
+
+        .lovFestiMainTitle2 {
+            font-size: 25px !important;
+            color: white !important;
+            padding: 8px 0px 8px 0px;
+        }
+
+        .lovFestiMainTitle3 {
+            color: white !important;
+            padding: 0px 0px 5px 0px;
+        }
+
+        .DiscoverBtn {
+            width: 200px !important;
+            height: 50px !important;
+            color: white;
+            border: 1px solid;
+            font-weight: 500;
+            font-size: 13px;
+        }
+    }
+
+    .DiamondEveryOneMain {
+        background: #d8cbef;
+        color: rgb(95, 73, 122);
+        font-family: 'Ubuntu', sans-serif;
+    }
+
+    .daimondEvery {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-inline: 8%;
+    }
+
+    .daimondEveryTitle {
+        font-size: 25px;
+        color: #3f3151;
+        font-family: 'Ubuntu', sans-serif;
+        padding: 45px 0px 25px 0px;
+        margin-top: 40px;
+    }
+
+    .daimondEveryTitleDesc {
+        font-size: 14px;
+        text-align: center;
+        color: rgb(95, 73, 122) !important;
+    }
+
+
+    .daimondLearnMore {
+        position: relative;
+        display: inline-block;
+        color: rgb(95, 73, 122);
+        cursor: pointer;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .daimondLearnMore::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        bottom: 0;
+        left: 0;
+        background-color: #333;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .daimondLearnMore:hover::before {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+
+    @media screen and (max-width: 1024px) {
+
+        .daimondEveryTitle {
+            padding: 0px;
+            text-align: center;
+            font-size: 22px !important;
+        }
+
+        .daimondEvery {
+            margin-inline: 5%;
+        }
+
+        .daimondEveryTitleDesc {
+            display: none;
+        }
+
+        .daimondLearnMore {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+
+        .daimondEveryTitle {
+            font-size: 18px !important;
+            margin: 0px !important;
+        }
     }
 }

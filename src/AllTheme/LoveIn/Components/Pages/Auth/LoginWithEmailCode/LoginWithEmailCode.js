@@ -11,7 +11,7 @@ import Cookies from 'js-cookie';
 import OTP from './OTP'; // Make sure the path is correct
 import './LoginWithEmailCode.modul.scss'
 
-export default function LoginWithEmailCode() {
+export default function LoginWithEmailCode({data}) {
     const [email, setEmail] = useState('');
     const [otp, setOtp] = useState('');
     const [errors, setErrors] = useState({});
@@ -145,15 +145,17 @@ export default function LoginWithEmailCode() {
                         <p className='fg_resnd_msg' style={{ marginTop: '10px' }}>Didn't get the code? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
                         <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
-                    {/* <Footer /> */}
+                    <Footer data={data} />
                 </div>
             </div>
-            {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p 
-          className="backtotop_Smr"
-                
-                style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
-            </div> */}
+            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+            <p
+                    className="backtotop_lov"
+                    style={{
+                        margin: '0px', width: '100px', cursor: 'pointer', color: "#5F497A", fontSize: "14px",
+                        fontWeight: 600,
+                    }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
+            </div>
         </div>
     );
 }

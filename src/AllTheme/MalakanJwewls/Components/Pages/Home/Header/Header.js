@@ -626,7 +626,7 @@ const Header = () => {
                 className="mala_ListMenuSiderMobile"
                 sx={{ paddingTop: "0", marginBottom: "0px", marginTop: "15px" }}
               >
-                {menuItems.map((menuItem,i) => (
+                {menuItems.map((menuItem, i) => (
                   <div key={menuItem.menuid || `menuItem.menuid-${i}`}>
                     <ButtonBase
                       component="div"
@@ -678,7 +678,7 @@ const Header = () => {
                           </div>
                         </ButtonBase>
                         <List className="mala_mobileMenuScroll">
-                          {menuItem.param1.map((subMenuItem,i) => (
+                          {menuItem.param1.map((subMenuItem, i) => (
                             <div key={`subMenuItem.param1dataid-${i}`}>
                               <ButtonBase
                                 component="div"
@@ -721,9 +721,9 @@ const Header = () => {
                                     }}
                                   >
                                     {subMenuItem.param2.map(
-                                      (subSubMenuItem,i) => (
+                                      (subSubMenuItem, i) => (
                                         <ButtonBase
-                                        key={`subSubMenuItem.param2dataid-${i}`}
+                                          key={`subSubMenuItem.param2dataid-${i}`}
                                           component="div"
                                           onClick={() =>
                                             handelMenu(
@@ -921,24 +921,30 @@ const Header = () => {
 
         <div className="mala_Top_header_sub">
           <div className="mala_Top_header_logo_div">
-            <a href="/" className="mala_logo_header_webLogo">
-              <img
 
-                src={compnyLogo}
-                loading="lazy"
-                className="mala_logo_header"
-                alt="compnyLogo-DESKTOP"
-              />
-            </a>
+            {/* Privaa don't need this */}
+            {location?.pathname !== '/' && (
+              <>
+                <a href="/" className="mala_logo_header_webLogo">
+                  <img
 
-            <a href="/" className="mala_logo_header_Mobile">
-              <img
-                src={ compnyLogoM}
-                loading="lazy"
-                className="mala_logo_header"
-                alt="compnyLogo-MOBILE"
-              />
-            </a>
+                    src={compnyLogo}
+                    loading="lazy"
+                    className="mala_logo_header"
+                    alt="compnyLogo-DESKTOP"
+                  />
+                </a>
+
+                <a href="/" className="mala_logo_header_Mobile">
+                  <img
+                    src={compnyLogoM}
+                    loading="lazy"
+                    className="mala_logo_header"
+                    alt="compnyLogo-MOBILE"
+                  />
+                </a>
+              </>
+            )}
 
             <span className="nav_ul_shop_menu_Mobile">
               <MenuIcon
@@ -997,6 +1003,8 @@ const Header = () => {
                           display: "flex",
                           alignItems: "center",
                           cursor: "pointer",
+                          // For privaa
+                          color: location?.pathname !== "/" ? "#6a6969" : "#fff"
                         }}
                       >
                         SHOP
@@ -1020,6 +1028,8 @@ const Header = () => {
                         display: "flex",
                         alignItems: "center",
                         cursor: "pointer",
+                        // For privaa
+                        color: location?.pathname !== "/" ? "#6a6969" : "inherit"
                       }}
                     >
                       SHOP
@@ -1082,7 +1092,9 @@ const Header = () => {
 
                 {islogin && <li
                   className="nav_li_smining nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
+                  // For privaa
+                  style={{ cursor: "pointer", color: location?.pathname !== "/" ? "#6a6969" : "#fff" }}
+                  // style={{ cursor: "pointer" }}
                   onClick={() => navigation("/account")}
                 >
                   {/* <a href="/account" className="stam_A_link"> */}
@@ -1094,7 +1106,9 @@ const Header = () => {
                 {!islogin && (
                   <li
                     className="nav_li_smining"
-                    style={{ cursor: "pointer" }}
+                    // For privaa
+                    style={{ cursor: "pointer", color: location?.pathname !== "/" ? "#6a6969" : "#fff" }}
+                    // style={{ cursor: "pointer" }}
                     onClick={() => navigation("/LoginOption")}
                   >
                     LOG IN
@@ -1103,7 +1117,9 @@ const Header = () => {
                 {islogin && (
                   <li
                     className="nav_li_smining"
-                    style={{ cursor: "pointer" }}
+                    // For privaa
+                    style={{ cursor: "pointer", color: location?.pathname !== "/" ? "#6a6969" : "#fff" }}
+                    // style={{ cursor: "pointer" }}
                     onClick={() => handleLogout()}
                   >
                     LOG OUT
@@ -1255,7 +1271,7 @@ const Header = () => {
             onMouseLeave={handleDropdownClose}
           >
             <div style={{ display: "flex" }}>
-              {menuItems.map((menuItem,i) => (
+              {menuItems.map((menuItem, i) => (
                 <div
                   key={`menuItems-col-1-${i}`}
                   className="mala_headerOptionSingleDiv"
@@ -1300,7 +1316,7 @@ const Header = () => {
                       </div>
                     </ButtonBase> */}
                     <List className="mala_listMain">
-                      {menuItem.param1.map((subMenuItem,i) => (
+                      {menuItem.param1.map((subMenuItem, i) => (
                         <div key={`menuItems-${i}`}>
                           <ButtonBase
                             component="div"
@@ -1333,70 +1349,70 @@ const Header = () => {
                               </p>
                             </a>
                           </ButtonBase>
-                            <List
-                              style={{
-                                paddingTop: "0px",
-                                paddingBottom: "0px",
-                              }}
-                            >
-                              {subMenuItem.param2.map((subSubMenuItem,i) => (
-                                <div
+                          <List
+                            style={{
+                              paddingTop: "0px",
+                              paddingBottom: "0px",
+                            }}
+                          >
+                            {subMenuItem.param2.map((subSubMenuItem, i) => (
+                              <div
                                 key={`SubSubMenuItem-list-${i}`}
-                                  component="div"
-                                  style={{ width: "100%" }}
-                                  onClick={(e) =>
-                                    handelMenu(
-                                      {
-                                        menuname: menuItem?.menuname,
-                                        key: menuItem?.param0name,
-                                        value: menuItem?.param0dataname,
-                                      },
-                                      {
-                                        key: subMenuItem.param1name,
-                                        value: subMenuItem.param1dataname,
-                                      },
-                                      {
-                                        key: subSubMenuItem.param2name,
-                                        value: subSubMenuItem.param2dataname,
-                                      },
-                                      e
-                                    )
-                                  }
+                                component="div"
+                                style={{ width: "100%" }}
+                                onClick={(e) =>
+                                  handelMenu(
+                                    {
+                                      menuname: menuItem?.menuname,
+                                      key: menuItem?.param0name,
+                                      value: menuItem?.param0dataname,
+                                    },
+                                    {
+                                      key: subMenuItem.param1name,
+                                      value: subMenuItem.param1dataname,
+                                    },
+                                    {
+                                      key: subSubMenuItem.param2name,
+                                      value: subSubMenuItem.param2dataname,
+                                    },
+                                    e
+                                  )
+                                }
+                              >
+                                <a
+                                  href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname}/${subMenuItem.param1dataname
+                                    }/${subSubMenuItem.param2dataname
+                                    }/?M=${btoa(
+                                      `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
+                                    )}`}
+                                  className="mala_menuSubTitle"
+                                // onClick={() =>
+                                //   handelMenu(
+                                //     {
+                                //       menuname: menuItem?.menuname,
+                                //       key: menuItem?.param0name,
+                                //       value: menuItem?.param0dataname,
+                                //     },
+                                //     {
+                                //       key: subMenuItem.param1name,
+                                //       value: subMenuItem.param1dataname,
+                                //     },
+                                //     {
+                                //       key: subSubMenuItem.param2name,
+                                //       value: subSubMenuItem.param2dataname,
+                                //     }
+                                //   )
+                                // }
                                 >
-                                  <a
-                                    href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname}/${subMenuItem.param1dataname
-                                      }/${subSubMenuItem.param2dataname
-                                      }/?M=${btoa(
-                                        `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
-                                      )}`}
-                                    className="mala_menuSubTitle"
-                                  // onClick={() =>
-                                  //   handelMenu(
-                                  //     {
-                                  //       menuname: menuItem?.menuname,
-                                  //       key: menuItem?.param0name,
-                                  //       value: menuItem?.param0dataname,
-                                  //     },
-                                  //     {
-                                  //       key: subMenuItem.param1name,
-                                  //       value: subMenuItem.param1dataname,
-                                  //     },
-                                  //     {
-                                  //       key: subSubMenuItem.param2name,
-                                  //       value: subSubMenuItem.param2dataname,
-                                  //     }
-                                  //   )
-                                  // }
-                                  >
-                                    {/* <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}> */}
-                                    <p className="muilist2ndSubMenutext">
-                                      {subSubMenuItem.param2dataname}
-                                    </p>
-                                    {/* </ListItem> */}
-                                  </a>
-                                </div>
-                              ))}
-                            </List>
+                                  {/* <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}> */}
+                                  <p className="muilist2ndSubMenutext">
+                                    {subSubMenuItem.param2dataname}
+                                  </p>
+                                  {/* </ListItem> */}
+                                </a>
+                              </div>
+                            ))}
+                          </List>
                         </div>
                       ))}
                       <p

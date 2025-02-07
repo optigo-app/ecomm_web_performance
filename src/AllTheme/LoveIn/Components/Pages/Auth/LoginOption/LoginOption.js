@@ -5,8 +5,9 @@ import { useNavigate, useLocation } from "react-router";
 import { FaMobileAlt } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 import Footer from "../../Home/Footer/Footer";
+import useHomeBannerImages from "../../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner";
 
-const LoginOption = () => {
+const LoginOption = ({ data }) => {
   const navigation = useNavigate();
   const location = useLocation();
 
@@ -20,22 +21,22 @@ const LoginOption = () => {
       top: 0,
       behavior: "smooth"
     })
-  },[])
+  }, [])
 
   return (
     <div className="smr_Loginoption">
       <div className="loginDailog" >
         <div style={{
-        display:"flex",
-        alignContent:"center",
-        justifyContent:"center",
-        flexDirection:"column"
-      }}>
+          display: "flex",
+          alignContent: "center",
+          justifyContent: "center",
+          flexDirection: "column"
+        }}>
           <p className="loginDiTile">Log in or sign up in seconds</p>
           <p
             style={{
               textAlign: "center",
-              color: "#7d7f85",
+              color: "#5F497A",
             }}
           >
             Use your email or mobile number to continue with the organization.
@@ -76,7 +77,7 @@ const LoginOption = () => {
             style={{
               marginTop: "40px",
               fontSize: "14px",
-              color: "#7d7f85",
+              color: "#5F497A",
               textAlign: "center",
             }}
           >
@@ -84,10 +85,10 @@ const LoginOption = () => {
             Policy.
           </p>
         </div>
-        {/* <Footer /> */}
+        <Footer data={data} />
       </div>
 
-      {/* <div
+      <div
         style={{
           display: "flex",
           justifyContent: "center",
@@ -95,20 +96,23 @@ const LoginOption = () => {
         }}
       >
         <p
-          className="backtotop_Smr"
+          className="backtotop_lov"
 
           style={{
             margin: "0px",
-            fontWeight: 500,
-            width: "100px",
-            color: "white",
+            textAlign: "center",
+            color: "#5F497A",
             cursor: "pointer",
+            fontSize: "14px",
+            fontWeight: 600,
+            letterSpacing: "1px",
+            whiteSpace: "nowrap"
           }}
           onClick={() => window.scrollTo(0, 0)}
         >
           BACK TO TOP
         </p>
-      </div> */}
+      </div>
     </div>
   );
 };

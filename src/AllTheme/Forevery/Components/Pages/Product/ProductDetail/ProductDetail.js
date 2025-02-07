@@ -90,6 +90,7 @@ const ProductDetail = () => {
   const [selectedThumbImg, setSelectedThumbImg] = useState();
   const [singleProd, setSingleProd] = useState();
   const [singleProd1, setSingleProd1] = useState();
+  const [singleDiaProd, setSingleDiaProd] = useState();
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
   const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
@@ -624,6 +625,7 @@ const ProductDetail = () => {
         .then(async (res) => {
           if (res) {
             setSingleProd(res?.pdList[0]);
+            setSingleDiaProd(res?.pdResp?.rd3);
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false);
@@ -1567,7 +1569,7 @@ const ProductDetail = () => {
           if (updatedStep1?.[0]?.id === 3 && step3?.[0]?.Status === "active") {
             sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(updatedStep1));
           }
-          
+
           navigate(`/certified-loose-lab-grown-diamonds/diamond/${shapeName}`);
         } else {
           alert("Please choose your setting which have a diamond shape")
@@ -2523,7 +2525,7 @@ const ProductDetail = () => {
               </div>
             )}
             <div className="for_ProductDet_desc">
-              <span className='for_ProductDet_desc_title'>{CustPath === 'Engagement_Ring' ? 'Ring Description' : CustPath === 'Diamond_Pendants' ? 'Pendant Description' : 'Material Details'}</span>
+              <span className='for_ProductDet_desc_title'>{CustPath === 'Engagement_Ring' ? 'Ring Description' : CustPath === 'Diamond_Pendants' ? 'Pendant Description' : CustPath === 'Diamond_Earrings' ? 'Earring Description' : 'Material Details'}</span>
               {/* <span className='for_ProductDet_desc_title'>Stone Information</span> */}
               <div className='for_ProductDet_desc_div'>
                 {/* <div>Diamond Size : <span>0.50CT To 3.00CT</span></div>
@@ -2534,10 +2536,18 @@ const ProductDetail = () => {
 
                 <div>Metal Purity : <span>{typeof metalType === 'string' ? metalType : null}</span></div>
                 <div>Metal Color : <span>{metalColor && metalColor}</span></div>
+                <div>Net Wt : <span>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span></div>
+                <div>Side Diamonds Weight : <span>{(
+                  (singleProd1 ?? singleProd)?.Dwt -
+                  singleDiaProd
+                    ?.filter((item) => item?.IsCenterStone === 1)
+                    .map((items) => items?.N)
+                    .reduce((acc, curr) => acc + curr, 0)
+                ).toFixed(3)}</span></div>
                 {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && diaList?.length) ? (
                   <div>Diamond Quality Color : <span>{selectDiaQc}</span></div>
                 ) : null}
-                <div>Net Wt : <span>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span></div>
+
               </div>
 
               {(CustPath !== 'Engagement_Ring' && CustPath !== 'Diamond_Pendants') ? (

@@ -349,7 +349,6 @@ const Themes = ({ htmlContent }) => {
          {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
         {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
         {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
-        {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
         {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
         {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
         {htmlContent?.rd[0]?.Themeno === 13 && <LoveIn_App />}

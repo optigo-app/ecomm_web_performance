@@ -385,7 +385,7 @@ const QuotationQuote = () => {
 
     return (
         <div className="quotationQuote_Account_FE">
-        <Box className='smilingSavedAddressMain salesApiSectionQWeb' sx={{ padding: "20px", }}>
+        <Box className='smilingSavedAddressMain salesApiSectionQWeb' sx={{ padding: "20px"}}>
             <Box className="d_flex_quote" sx={{ display: "flex", flexWrap: "wrap" }}>
                 <Box sx={{ paddingRight: "15px" }} className="AllQuoteBtn QuotePadSec">
                     <Button variant="contained" className="muiSmilingRocksBtn" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>
@@ -397,7 +397,7 @@ const QuotationQuote = () => {
                         setSearchVal(eve?.target?.value);
                         handleSearch(eve, eve?.target?.value, fromDate, toDate);
                     }} />
-                    <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
+                    <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
                         onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon /></Button>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="d_flex_quote w_q">

@@ -480,7 +480,7 @@
     letter-spacing: 1px;
     position: relative;
     display: inline-block;
-    font-family: $primaryFontFamily;
+    font-family: $primaryFontFamilyMedium;
   }
 
   .nav_li_lov::before {
@@ -553,8 +553,9 @@
     h3,
     li,
     a {
-      color: $navbarcolor !important;
-      font-weight: 500;
+      color: $headerTextColor !important;
+      font-weight: 600;
+      font-size: 15px;
     }
   }
 
@@ -575,7 +576,7 @@
 
   .lov_A_linkFixed {
     text-decoration: none;
-    color: #7d7f85;
+    color: $headerTextColor;
   }
 
   /// open dropdownList

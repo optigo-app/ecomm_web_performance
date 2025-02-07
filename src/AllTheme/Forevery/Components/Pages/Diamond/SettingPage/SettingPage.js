@@ -452,7 +452,7 @@ const SettingPage = () => {
 
     if (getPath === "certified-loose-lab-grown-diamonds/settings") {
       if (getSetting === "Ring") {
-        if (!stepsData && (stepsData2 || stepsData3 || stepsData4) && !steps1?.[0]?.step1) {
+        if (!stepsData && (stepsData2 === null || stepsData3 !== null || stepsData4 !== null) && !steps1?.[0]?.step1) {
           const step1Ring = [{ step1: true, Setting: "Ring", id: 1, Status: "active" }];
           sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1Ring));
 
@@ -464,7 +464,7 @@ const SettingPage = () => {
             steps3[0].Status = "inactive";
             sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
           }
-        } else if ((stepsData2 || stepsData3 || stepsData4) && steps1?.[0]?.step1) {
+        } else if ((stepsData2 !== null || stepsData3 !== null || stepsData4 !== null) && steps1?.[0]?.step1) {
           if (steps1?.[0]?.step1 && steps1?.[1]?.step2) {
             steps1[0].Status = "active";
             sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(steps1));
@@ -482,7 +482,7 @@ const SettingPage = () => {
       }
 
       if (getSetting === "Pendant") {
-        if (!stepsData && (stepsData2 || stepsData3 || stepsData4) && !steps2?.[0]?.step1) {
+        if (!stepsData && (stepsData2 !== null || stepsData3 === null  || stepsData4 !== null) && !steps2?.[0]?.step1) {
           const step1Pendant = [{ step1: true, Setting: "Pendant", id: 2, Status: "active" }];
           sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(step1Pendant));
 
@@ -494,7 +494,7 @@ const SettingPage = () => {
             steps3[0].Status = "inactive";
             sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
           }
-        } else if ((stepsData2 || stepsData3 || stepsData4) && steps2?.[0]?.step1) {
+        } else if ((stepsData2 !== null || stepsData3 !== null || stepsData4 !== null) && steps2?.[0]?.step1) {
           if (steps2?.[0]?.step1 && steps2?.[1]?.step2) {
             steps2[0].Status = "active";
             sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
@@ -512,7 +512,7 @@ const SettingPage = () => {
       }
 
       if (getSetting === "Earring") {
-        if (!stepsData && (stepsData2 || stepsData3 || stepsData4) && !steps3?.[0]?.step1) {
+        if (!stepsData && (stepsData2 !== null || stepsData3 !== null || stepsData4 === null) && !steps3?.[0]?.step1) {
           const step1Earring = [{ step1: true, Setting: "Earring", id: 3, Status: "active" }];
           sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(step1Earring));
 
@@ -524,7 +524,7 @@ const SettingPage = () => {
             steps2[0].Status = "inactive";
             sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
           }
-        } else if ((stepsData2 || stepsData3 || stepsData4) && steps3?.[0]?.step1) {
+        } else if ((stepsData2 !== null || stepsData3 !== null || stepsData4 !== null) && steps3?.[0]?.step1) {
           if (steps3?.[0]?.step1 && steps3?.[1]?.step2) {
             steps3[0].Status = "active";
             sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
@@ -1001,7 +1001,7 @@ const SettingPage = () => {
                               />
                             ) : (
                               <>
-                                {(settStep?.[0]?.step1 == true && diaStep?.[0]?.step1 != true) && (
+                                {(settStep?.[0]?.step1 == true && settStep?.[2]?.step3 !== true && diaStep?.[0]?.step1 != true) && (
                                   <CollectionDiamondShape
                                     key={index}
                                     handleOpen={handleOpen}
@@ -1110,7 +1110,7 @@ const SettingPage = () => {
                             />
                           ) : (
                             <>
-                              {(settStep?.[0]?.step1 == true && diaStep?.[0]?.step1 != true) && (
+                              {(settStep?.[0]?.step1 == true && settStep?.[2]?.step3 !== true && diaStep?.[0]?.step1 != true) && (
                                 <CollectionDiamondShape
                                   key={index}
                                   handleOpen={handleOpen}

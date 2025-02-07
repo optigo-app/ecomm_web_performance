@@ -11,10 +11,10 @@ const PromotionBaner1 = () => {
 
     return (
         <div>
-            <div className='FestiveMainImage'>
+            <div className='lovFestiveMainImage'>
                 <img src={`${storImagePath()}/images/HomePage/Banner/PromoBanner1.png`} style={{ width: '100%' , minHeight: '450px' }} className='smr_promotion1' alt={"#promoBanner1"} />
                     {/* Maiora not needed  just for maiora*/}
-                {/* {islogin === true && <div className='festiveBox'>
+                {/* {islogin === true && <div className='lovfestiveBox'>
                     <p className='smilingFestiMainTitle1' style={{ color: 'gray' }}>LAB GROWN DIAMONDS</p>
                     <p className='smilingFestiMainTitle2' style={{ color: 'gray', fontSize: '40px', margin: '0px' }}>Festive Finds!</p>
                     <p className='smilingFestiMainTitle3' style={{ color: 'gray', margin: '0px', fontSize: '13px' }}>
