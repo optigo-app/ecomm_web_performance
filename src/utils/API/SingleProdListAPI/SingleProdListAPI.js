@@ -88,14 +88,16 @@ export const SingleProdListAPI = async (singprod, size = "", obj = {}, visiterId
 
   let pdList = [];
   let pdResp = [];
+  let status = [];
 
   await CommonAPI(body).then((res) => {
     if (res) {
       // let pdData = res?.Data.rd;
       pdList = res?.Data.rd;
       pdResp = res?.Data;
+      status = res;
     }
   });
 
-  return { pdList, pdResp }
+  return { pdList, pdResp ,status  }
 }

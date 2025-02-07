@@ -119,8 +119,12 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-                {headCells.map((headCell) => (
-                    <TableCell
+                {headCells.map((headCell) => {
+                       const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+                       if (IsPriceShow == 0 && headCell?.label == 'Total Amount') {
+                           return null;
+                       }
+                 return   <TableCell
                         key={headCell.id}
                         align={headCell.align}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
@@ -140,7 +144,7 @@ function EnhancedTableHead(props) {
                             ) : null}
                         </TableSortLabel>
                     </TableCell>
-                ))}
+})}
             </TableRow>
         </TableHead>
     );
@@ -504,7 +508,7 @@ const QuotationQuote = () => {
                                     { filterData?.length > 0 ? visibleRows.map((row, index) => {
                                     
                                         const labelId = `enhanced-table-checkbox-${index}`;
-
+                                        const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
                                         return (
                                             <TableRow
                                                 hover
@@ -530,7 +534,7 @@ const QuotationQuote = () => {
                                                 <TableCell align="center" sx={{ width: '125px' }}>{row.Date}</TableCell>
                                                 <TableCell align="center" sx={{ width: '125px' }}>{row.SKUNo}</TableCell>
                                                 <TableCell align="center" sx={{ width: '125px' }}>{row.TotalDesign}</TableCell>
-                                                <TableCell align="right" sx={{ width: '125px' }}>{formatAmount(row.Amount)}</TableCell>
+                                            {IsPriceShow == 1 &&    <TableCell align="right" sx={{ width: '125px' }}>{formatAmount(row.Amount)}</TableCell>}
                                                 <TableCell align="center" sx={{ width: '125px' }}>
                                                     
                                                 

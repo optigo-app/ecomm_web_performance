@@ -13,7 +13,6 @@ export default function ContinueWithEmail() {
     const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigate();
     const location = useLocation();
-    console.log('location: ', location);
     const [isOpen, setIsOpen] = useState(false)
     const search = location?.search
     const state = location?.state?.SecurityKey ? location?.state : "";
@@ -107,7 +106,7 @@ export default function ContinueWithEmail() {
     return (
         <div className='proCat_continuemail'>
             {isLoading && (
-                <div className="loader-overlay">
+                <div className="loader-overlay" style={{zIndex:99999999}}>
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
@@ -115,6 +114,7 @@ export default function ContinueWithEmail() {
             <OTPContainer emailId={email.trim()} isOpen={isOpen} type='email' setIsOpen={()=>setIsOpen(!isOpen)} onClose={()=>setIsOpen(false)} 
             navigation={navigation}
             location={location}
+            onResend={handleSubmit}
                 />
                 <div className='smling-forgot-main'>
                     <p style={{

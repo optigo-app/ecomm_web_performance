@@ -115,6 +115,8 @@ const usePaymentLogic = () => {
 
     // for tax amount
     useEffect(() => {
+        const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId')) ?? "";
+        setSelectedAddrData(selectedAddressData);
         setIsPloding(true);
         const fetchData = async () => {
             try {

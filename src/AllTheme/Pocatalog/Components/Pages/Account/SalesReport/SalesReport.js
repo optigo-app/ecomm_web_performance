@@ -233,8 +233,20 @@ function EnhancedTableHead(props) {
   return (
     <TableHead className="salesReporttabelHead">
       <TableRow>
-        {headCells.map((headCell) => (
-          <TableCell
+        {headCells.map((headCell) => {
+               const headCellsLits = [
+                'MetalAmount',
+                'DiamondAmount',
+                'ColorStoneAmount',
+                'LabourAmount',
+                'OtherAmount',
+                'UnitCost'
+              ];
+              const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+              if (IsPriceShow === 0 && headCellsLits.includes(headCell?.id)) {
+                return null;  
+              }
+         return <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
@@ -258,7 +270,7 @@ function EnhancedTableHead(props) {
               ) : null}
             </TableSortLabel>
           </TableCell>
-        ))}
+})}
       </TableRow>
     </TableHead>
   );
@@ -664,9 +676,12 @@ const SalesReport = () => {
     }
   };
 
+  const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+
+
   return (
     <Box className="salesReport_Account_PCJ">
-      <Box
+   {IsPriceShow == 1 && <Box
         sx={{
           display: "flex",
           alignItems: "center",
@@ -774,7 +789,7 @@ const SalesReport = () => {
             )}
           </Box>
         </Box>
-      </Box>
+      </Box>}
       <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
         <Box
           sx={{
@@ -1011,6 +1026,7 @@ const SalesReport = () => {
                         <TableCell align="center">{row.SKUNo}</TableCell>
                         <TableCell align="center">{row.designno}</TableCell>
                         <TableCell align="center">{row.MetalType}</TableCell>
+                      {IsPriceShow == 1 && <>
                         <TableCell align="center">{row.MetalAmount}</TableCell>
                         <TableCell align="center">
                           {row.DiamondAmount}
@@ -1021,6 +1037,7 @@ const SalesReport = () => {
                         <TableCell align="center">{row.LabourAmount}</TableCell>
                         <TableCell align="center">{row.OtherAmount}</TableCell>
                         <TableCell align="center">{row.UnitCost}</TableCell>
+                      </>}
                         <TableCell align="center">{row.Category}</TableCell>
                         <TableCell align="center">{row.GrossWt}</TableCell>
                         <TableCell align="center">{row.NetWt}</TableCell>

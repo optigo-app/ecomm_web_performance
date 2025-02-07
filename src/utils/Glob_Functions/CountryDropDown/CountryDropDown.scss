@@ -7,6 +7,13 @@
     align-items: start !important;
     position: relative;
     gap: 10px;
+    .m-txt-msg{
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
        @media screen and (max-width:700px){
         width: 80% !important;
     }

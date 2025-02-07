@@ -51,6 +51,10 @@ loading
     if (e.key === "Backspace" && !otp[index] && index > 0 && inputRefs.current[index - 1]) {
       inputRefs.current[index - 1]?.focus()
     }
+    console.log("enter",e.key)
+    if (e.key === "Enter" && !otp.includes("") &&  otp.length === otpLength) {
+      handleSubmit();
+    }
   }
 
   const handleSubmit = () => {

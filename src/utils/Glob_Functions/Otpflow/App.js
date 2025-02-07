@@ -4,7 +4,7 @@ import { OTPVerificationModal } from "./OTPModal"
 import { WebSignUpOTPVerify } from "../../API/Auth/WebSignUpOTPVerify"
 
 
-const App = ({ btncolor, iconcolor, bgcolor, iconbgcolor, isOpen, setIsOpen = false, type = "email", mobileNo = '', emailId = '', onClose = () => { }, navigation, location }) => {
+const App = ({ onResend =()=>{} , btncolor, iconcolor, bgcolor, iconbgcolor, isOpen, setIsOpen = false, type = "email", mobileNo = '', emailId = '', onClose = () => { }, navigation, location }) => {
   const otpLength = 4;
   const [otp, setOtp] = useState(new Array(otpLength).fill(""));
   const [message, setmessage] = useState("");
@@ -22,12 +22,16 @@ const App = ({ btncolor, iconcolor, bgcolor, iconbgcolor, isOpen, setIsOpen = fa
       const response = await WebSignUpOTPVerify(userid, mobileno, otp);
       if (response?.Data?.rd[0]?.stat == 1 || response?.Data?.rd[0]?.stat == "success") {
         setmessage("Verification Successfull")
-        navigation(redirectSignUpUrl, { state: { email: emailId } });
+        if(type === "email"){
+          navigation(redirectSignUpUrl, { state: { email: emailId } });
+        }else{
+          navigation(redirectSignUpUrl, { state: { mobileNo: mobileNo } });
+        }
         onClose();
       } else {
         console.log("OTP Verification Failed:", response);
-        setmessage("Invalid OTP")
-        setloading(false)
+        setmessage("Invalid OTP");
+        setloading(false);
       }
     } catch (error) {
       console.error("Error verifying OTP:", error);
@@ -38,9 +42,7 @@ const App = ({ btncolor, iconcolor, bgcolor, iconbgcolor, isOpen, setIsOpen = fa
 
   const handleResend = async () => {
     const contact = type === "email" ? emailId : mobileNo;
-    WebSignUpOTPVerify().then((res) => {
-      console.log(res, "res")
-    })
+    onResend()
   }
 
   return (

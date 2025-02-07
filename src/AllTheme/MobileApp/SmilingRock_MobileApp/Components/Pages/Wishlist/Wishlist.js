@@ -86,11 +86,13 @@ const Wishlist = () => {
   return (
     <div className="smrMA_MainWlDiv">
       <p className="SmiCartListTitle" style={{
-        marginTop:'1rem'
+        // marginTop:'1rem'
       }}>
         <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigation(-1)} />My Wishlist
       </p>
-      <div className="smrMo_WlBtnGroupMainDiv">
+      <div className="smrMo_WlBtnGroupMainDiv" style={{
+        marginTop:'1rem'
+      }}>
         {/* <div className="WlBtnGroupMainDiv">
           <div className="smrMo_Wl-title">My Wishlist</div>
           {wishlistData?.length != 0 &&
