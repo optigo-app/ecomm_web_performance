@@ -33,6 +33,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import Cookies from "js-cookie";
 import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { FaBoxOpen } from "react-icons/fa"
+import { Link } from "react-router-dom"
 
 import {
   FreeMode,
@@ -748,8 +750,7 @@ const ProductDetail = () => {
               setProdLoading(false);
             }
 
-            if (!res?.pdList[0]) {
-              // console.log("singleprod",res?.pdList[0]);
+            if (!res?.pdList[0] || res?.status?.Status != 200 || res?.status?.Message != "Success" ) {
               setisPriceLoading(false);
               setProdLoading(false);
               setIsDataFound(true);
@@ -828,7 +829,6 @@ const ProductDetail = () => {
           setProdLoading(false);
         });
     };
-
     FetchProductData();
 
     window.scroll({
@@ -837,7 +837,6 @@ const ProductDetail = () => {
     });
   }, [location?.key]);
 
-  console.log(ShowNoImage, "singleprod");
 
   // console.log("location", location);
 
@@ -1407,17 +1406,31 @@ const ProductDetail = () => {
         <div className="smr_prodDetail_outerContain">
           <div className="smr_prodDetail_whiteInnerContain">
             {isDataFound ? (
-              <div
-                style={{
-                  height: "90vh",
-                  justifyContent: "center",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                className="smr_prodd_datanotfound_ss"
-              >
-                Data not Found!!
+              // <div
+              //   style={{
+              //     height: "90vh",
+              //     justifyContent: "center",
+              //     display: "flex",
+              //     alignItems: "center",
+              //   }}
+              //   className="smr_prodd_datanotfound_ss"
+              // >
+              //   Data not Found!!
+              // </div>
+              <div className="product-not-found">
+              <div className="content">
+                <div className="icon-wrapper">
+                  <FaBoxOpen className="icon" />
+                </div>
+                <h2 className="title">Product Not Found</h2>
+                <p className="description">We couldn't find the product you're looking for.</p>
+                <div className="button-wrapper">
+                  <Link to="/" className="button">
+                    Return to Homepage
+                  </Link>
+                </div>
               </div>
+            </div>
             ) : (
               <>
                 <div
@@ -2317,6 +2330,8 @@ const ProductDetail = () => {
                             </Accordion>
                           )}
 
+                            
+                         
                         {
                           storeInit?.IsPriceShow == 1 &&
                           <div className="smr_price_portion">
@@ -2348,7 +2363,7 @@ const ProductDetail = () => {
                             )}
                           </div>
                         }
-
+                        
                         {!isPriceloading && (
                           <div>
                             <div className="Smr_CartAndWish_portion">
@@ -2416,12 +2431,216 @@ const ProductDetail = () => {
                             )}
                           </div>
                         )}
+                          <Accordion
+                              elevation={0}
+                              sx={{
+                                borderBottom: "1px solid #c7c8c9",
+                                borderRadius: 0,
+                                "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                  {
+                                    borderBottomLeftRadius: "0px",
+                                    borderBottomRightRadius: "0px",
+                                  },
+                                "&.MuiPaper-root.MuiAccordion-root:before": {
+                                  background: "none",
+                                },
+                                width: "95.5%",
+                                marginTop:'1rem'
+                              }}
+                            >
+                              <AccordionSummary
+                                expandIcon={
+                                  <ExpandMoreIcon sx={{ width: "20px" }} />
+                                }
+                                aria-controls="panel1-content"
+                                id="panel1-header"
+                                sx={{
+                                  color: "#7d7f85 !important",
+                                  borderRadius: 0,
+
+                                  "&.MuiAccordionSummary-root": {
+                                    padding: 0,
+                                  },
+                                }}
+                                // className="filtercategoryLable"
+                              >
+                                <Typography
+                                  sx={{
+                                    fontFamily: "TT Commons Regular",
+                                    fontSize: "18px",
+                                  }}
+                                >
+                                  Product Details
+                                </Typography>
+                              </AccordionSummary>
+                              <AccordionDetails
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  gap: "4px",
+                                  // minHeight: "fit-content",
+                                  // maxHeight: "300px",
+                                  // overflow: "auto",
+                                  padding: "0 0 16px 0",
+                                }}
+                              >
+                                   <div className="smrMA_material_details_portion">
+                 
+                  <div style={{ width: "100%"}}>
+                    {diaList?.length > 0 && (
+                      <div
+                        className="smr_material_details_portion_inner"
+                        style={{ marginLeft: "0px" }}
+                      >
+                        <ul style={{ margin: "0px 0px 3px 0px" }}>
+                          <li className="prod_detail_info_title">{`Diamond Detail(${diaList?.reduce(
+                            (accumulator, data) => accumulator + data.M,
+                            0
+                          )}/${diaList
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data?.N,
+                              0
+                            )
+                            .toFixed(3)}ct)`}</li>
+                        </ul>
+                        <ul className="smr_mt_detail_title_ul">
+                          <li className="smr_proDeatilList_mobileapp">Shape</li>
+                          <li className="smr_proDeatilList_mobileapp">
+                            Clarity
+                          </li>
+                          <li className="smr_proDeatilList_mobileapp">Color</li>
+                          <li className="smr_proDeatilList_mobileapp">
+                            Pcs&nbsp;/&nbsp;Wt
+                          </li>
+                        </ul>
+                        {diaList?.map((data) => (
+                          <ul className="smr_mt_detail_title_ul">
+                            <li className="smr_proDeatilList_mobileapp1">
+                              {data?.F}
+                            </li>
+                            <li className="smr_proDeatilList_mobileapp1">
+                              {data?.H}
+                            </li>
+                            <li className="smr_proDeatilList_mobileapp1">
+                              {data?.J}
+                            </li>
+                            <li className="smr_proDeatilList_mobileapp1">
+                              {data.M}&nbsp;/&nbsp;{data?.N?.toFixed(3)}
+                            </li>
+                          </ul>
+                        ))}
+                      </div>
+                    )}
+
+                    {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
+                      <div
+                        className="smr_material_details_portion_inner"
+                        style={{ marginLeft: "0px" }}
+                      >
+                        <ul style={{ margin: "0px 0px 3px 0px" }}>
+                          <li className="prod_detail_info_title">{`ColorStone Detail(${csList
+                            ?.filter((ele) => ele?.D !== "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data.M,
+                              0
+                            )}/${csList
+                            ?.filter((ele) => ele?.D !== "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data?.N,
+                              0
+                            )
+                            .toFixed(3)}ct)`}</li>
+                        </ul>
+                        <ul className="smr_mt_detail_title_ul">
+                          <li className="smr_proDeatilList_mobileapp">Shape</li>
+                          <li className="smr_proDeatilList_mobileapp">
+                            Clarity
+                          </li>
+                          <li className="smr_proDeatilList_mobileapp">Color</li>
+                          <li className="smr_proDeatilList_mobileapp">
+                            Pcs&nbsp;/&nbsp;Wt
+                          </li>
+                        </ul>
+                        {csList
+                          ?.filter((ele) => ele?.D !== "MISC")
+                          ?.map((data) => (
+                            <ul className="smr_mt_detail_title_ul">
+                              <li className="smr_proDeatilList_mobileapp1">
+                                {data?.F}
+                              </li>
+                              <li className="smr_proDeatilList_mobileapp1">
+                                {data?.H}
+                              </li>
+                              <li className="smr_proDeatilList_mobileapp1">
+                                {data?.J}
+                              </li>
+                              <li className="smr_proDeatilList_mobileapp1">
+                                {data.M}&nbsp;/&nbsp;{data?.N?.toFixed(3)}
+                              </li>
+                            </ul>
+                          ))}
+                      </div>
+                    )}
+
+                    {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
+                      <div
+                        className="smr_material_details_portion_inner"
+                        style={{ marginLeft: "0px" }}
+                      >
+                        <ul style={{ margin: "0px 0px 3px 0px" }}>
+                          <li className="prod_detail_info_title">{`MISC Detail(${csList
+                            ?.filter((ele) => ele?.D === "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data.M,
+                              0
+                            )}/${csList
+                            ?.filter((ele) => ele?.D === "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data?.N,
+                              0
+                            )
+                            .toFixed(3)}ct)`}</li>
+                        </ul>
+                        <ul className="smr_mt_detail_title_ul">
+                          <li className="smr_proDeatilList_mobileapp">Shape</li>
+                          <li className="smr_proDeatilList_mobileapp">
+                            Clarity
+                          </li>
+                          <li className="smr_proDeatilList_mobileapp">Color</li>
+                          <li className="smr_proDeatilList_mobileapp">
+                            Pcs&nbsp;/&nbsp;Wt
+                          </li>
+                        </ul>
+                        {csList
+                          ?.filter((ele) => ele?.D === "MISC")
+                          ?.map((data) => (
+                            <ul className="smr_mt_detail_title_ul">
+                              <li className="smr_proDeatilList_mobileapp1">
+                                {data?.F}
+                              </li>
+                              <li className="smr_proDeatilList_mobileapp1">
+                                {data?.H}
+                              </li>
+                              <li className="smr_proDeatilList_mobileapp1">
+                                {data?.J}
+                              </li>
+                              <li className="smr_proDeatilList_mobileapp1">
+                                {data.M}&nbsp;/&nbsp;{data?.N?.toFixed(3)}
+                              </li>
+                            </ul>
+                          ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                              </AccordionDetails>
+                            </Accordion>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="smrMA_material_details_portion">
+                {/* <div className="smrMA_material_details_portion">
                   {(diaList?.length > 0 ||
                     csList?.filter((ele) => ele?.D === "MISC")?.length > 0 ||
                     csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
@@ -2573,7 +2792,7 @@ const ProductDetail = () => {
                       </div>
                     )}
                   </div>
-                </div>
+                </div> */}
 
                 {stockItemArr?.length > 0 && (
                   <div className="dt_stockItem_div">
@@ -2821,7 +3040,7 @@ const ProductDetail = () => {
                   )}
 
                 {storeInit?.IsProductDetailDesignSet === 1 && (
-                  <div className="smr_DesignSet_main">
+                  <div className="mobile_smr_DesignSet_main">
                     {designSetList?.length > 0 && (
                       <div
                         style={{

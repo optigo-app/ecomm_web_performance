@@ -1227,8 +1227,12 @@ const scrollToTop = () => {
                         style={{zIndex:10}}
                       />
                     </TableCell>  
-                      {columns?.slice(1)?.map((column) => (
-                        <TableCell
+                      {columns?.slice(1)?.map((column) => {
+ const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+ if (IsPriceShow == 0 && column?.id == 'FinalAmount') {
+   return null;
+}
+                       return <TableCell
                           key={column?.id}
                           align={column.align}
                           style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f", }}
@@ -1241,7 +1245,7 @@ const scrollToTop = () => {
                             </span>
                           ) : null}
                         </TableCell>
-                      ))}
+})}
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -1255,6 +1259,10 @@ const scrollToTop = () => {
                           <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                             {columns.map((column, index) => {
                               const value = row[column?.id];
+                              const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+                              if (IsPriceShow == 0 && column?.id == 'FinalAmount') {
+                                return null;
+                            }
                               return (
                                 <TableCell key={column?.id} align={column?.align}>
                                 {column.id === 'Sr#' ? serialNumber : 

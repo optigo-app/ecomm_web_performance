@@ -50,6 +50,7 @@ export default function Register() {
   const singupRedirectUrl = `/LoginOption/${search}`;
   
   const setIsLoginState = useSetRecoilState(proCat_loginState);
+  const [IsMobileThrough,setIsMobileThrough] = useState(false)
 
   const handleKeyDown = (event, nextRef) => {
     if (event.key === "Enter") {
@@ -65,11 +66,13 @@ export default function Register() {
     if (routeMobileNo) {
       setMobileNo(routeMobileNo);
       mobileNoRef.current.disabled = true;
+      setIsMobileThrough(true);    
     }
 
     if (storedEmail) {
       setEmail(storedEmail);
       emailRef.current.disabled = true;
+      setIsMobileThrough(false);    
     }
   }, [location.state]);
 
@@ -406,6 +409,7 @@ export default function Register() {
               mobileNoRef={mobileNoRef} 
               setMobileNo={setMobileNo} 
               setErrors={setErrors}
+              IsMobileThrough={IsMobileThrough}
               // setOpen={setOpen}
                />
             {/* <TextField

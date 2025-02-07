@@ -14,7 +14,7 @@ export default function WithoutLoginCart() {
                 <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigation('/')} />My Cart
             </p>
 
-            <div
+            {/* <div
                 style={{
                     display: "flex",
                     flexDirection: "column",
@@ -37,8 +37,54 @@ export default function WithoutLoginCart() {
                     borderRadius: '5px',
                     marginTop: '5px'
                 }} onClick={() => navigation('/signin')}>Login</button>
+            </div> */}
+              <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexDirection: 'column',
+                        height: '95svh',
+                        justifyContent: 'center',
+                        backgroundColor: '#f5f5f5',
+                        padding: '20px',
+                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                        textAlign: 'center'
+                    }}>
+                        <p style={{
+                            fontSize: '24px',
+                            fontWeight: 600,
+                            margin: '0',
+                            color: '#555'
+                        }}>
+                            You are not logged in
+                        </p>
+                        <p style={{
+                            fontSize: '18px',
+                            marginTop: '10px',
+                            color: '#777'
+                        }}>
+                             Please log in to access your cart and proceed with checkout.
+                        </p>
+                        <button
+                            style={{
+                                height: '40px',
+                                width: '180px',
+                                backgroundColor: '#D6B08B',
+                                border: 'none',
+                                color: 'white',
+                                fontSize: '18px',
+                                fontWeight: 500,
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                                transition: 'background-color 0.3s',
+                            }}
+                            onClick={() => navigation('/signin')}
+                            onMouseOver={(e) => e.target.style.backgroundColor = '#b5946c'}
+                            onMouseOut={(e) => e.target.style.backgroundColor = '#D6B08B'}
+                        >
+                            Log in
+                        </button>
+                    </div>
                 {/* // }} onClick={() => navigation('/LoginOption')}>Login</button> */}
-            </div>
         </div>
     )
 }

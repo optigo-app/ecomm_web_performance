@@ -14,7 +14,7 @@ import Pako from 'pako';
 
 
 
-const Header = React.memo(() => {
+const Header = ()=>{
   const compnyLogo = useRecoilValue(smrMA_companyLogo);
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [searchText, setSearchText] = useState('');
@@ -26,7 +26,6 @@ const Header = React.memo(() => {
   const [islogin, setislogin] = useRecoilState(smrMA_loginState);
 
   let cookie = Cookies.get('visiterId')
-
 
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -40,7 +39,7 @@ const Header = React.memo(() => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [islogin]);
 
 
 
@@ -55,7 +54,7 @@ const Header = React.memo(() => {
         return err 
       }
     })
-  }, [])
+  }, [islogin])
 
 
   const compressAndEncode = (inputString) => {
@@ -116,6 +115,15 @@ const Header = React.memo(() => {
       navigation('/SearchPage')
     }
   }
+  const height = location.pathname === "/logout"
+  ? '60px'
+  : isB2bFlag === 1
+  ? islogin === true
+    ? '123px'
+    : '60px'
+  : '123px';
+
+
   return (
     <div>
       {(location.pathname.split('/')[1] === "p") || (location.pathname.split('/')[1] === "d") ?
@@ -169,7 +177,8 @@ const Header = React.memo(() => {
         (location.pathname === "CartPage") ?
           ""
           :
-          <div className='smrMA_HeaderMain' style={{ height: isB2bFlag == 1 ? islogin == true ? '123px' : '60px' : '123px' }}>
+          // isB2bFlag == 1 ? islogin == true ? '123px' : '60px' : '123px' 
+          <div className='smrMA_HeaderMain' style={{ height: height }}>
             <div className='smrMA_Top_header_sub'>
               <div className='smrMA_Div1Main'
               style={{
@@ -179,7 +188,7 @@ const Header = React.memo(() => {
                 {/* <a href="/"> */}
                 <img src={compnyLogo} loading='lazy' className='smrMA_logo_header' />
                 {/* </a> */}
-                {isB2bFlag == 1 ?
+                {  location.pathname !== "/logout" ? (isB2bFlag == 1 ?
                   islogin == false ?
                     ''
                     :
@@ -228,10 +237,10 @@ const Header = React.memo(() => {
                       </li>
                     </Tooltip>
                   </Badge>
-                }
+                ) : null}
 
               </div>
-              {isB2bFlag == 1 ?
+              { location.pathname !== "/logout" ? ( isB2bFlag == 1 ?
                 islogin == true ?
                   <div>
                     <div className="searchBoxOnlyHeaderFiexedMain" onClick={handleNaviagteSearch}>
@@ -271,11 +280,11 @@ const Header = React.memo(() => {
                     <SearchIcon onClick={handleNaviagteSearch} />
                   </div>
                 </div>
-              }
+              ) : null}
             </div>
 
 
-            {isB2bFlag == 1 ?
+            { location.pathname !== "/logout"  ? ( isB2bFlag == 1 ?
               islogin == true ?
                 <div
                   className={`smrMA_Fixed_Header ${isHeaderFixed ? "fixed" : ""}`}
@@ -321,14 +330,14 @@ const Header = React.memo(() => {
                   <SearchIcon onClick={handleNaviagteSearch} />
                 </div>
               </div>
-            }
+            ):null}
 
 
           </div>
       }
     </div>
   )
-});
+};
 
 
 export default Header

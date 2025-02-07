@@ -168,6 +168,7 @@ const SmilingRock_MobileApp_App = React.memo(() => {
         <Route path="/ManageAddress" element={<ManageAddressMAPP />} />
         <Route path="/ChangePassword" element={<ChangePassword />} />
         <Route path="/MobileViewComp" element={<MobileViewComp />} />
+        <Route path="/logout" element={<div></div>} />
         {/* </Route> */}
         <Route path="/p/*" element={<ProductList />} />
         <Route path="/d/*" element={<ProductDetail />} />
