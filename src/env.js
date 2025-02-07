@@ -7,6 +7,7 @@
 // export const REACT_APP_WEB = "malakan.web";
 // export const REACT_APP_WEB = "rpjewel.web";
 // export const REACT_APP_WEB = "stamford.web";  
+export const REACT_APP_WEB = "lovein.web";  
 // export const REACT_APP_WEB = "demostore";  
 export const REACT_APP_WEB = "forevery.web";    // Forevery.web | Foreveryd.optigoapps.com  | world.forevery.one 
 // export const REACT_APP_WEB = "elvee.web";   // elvee.in 

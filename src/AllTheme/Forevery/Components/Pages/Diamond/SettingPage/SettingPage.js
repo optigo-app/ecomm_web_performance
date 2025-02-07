@@ -448,32 +448,27 @@ const SettingPage = () => {
 
   const getShapeFromURL = () => {
     const getSetting = location?.pathname?.split("/")[3];
-    const getPath = location.pathname.split('/').slice(1, 3).join('/');
+    const getPath = location.pathname.split("/").slice(1, 3).join("/");
 
-    if (getPath === 'certified-loose-lab-grown-diamonds/settings') {
-      if (
-        getSetting === "Ring" && stepsData === null && (stepsData2 === null || stepsData3 !== null || stepsData4 !== null) && (steps1?.[0]?.step1 !== true)
-      ) {
-        const step1Ring = [{ "step1": true, "Setting": "Ring", "id": 1, "Status": "active" }];
-        sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1Ring));
-        if (steps2?.[0]?.step1 === true) {
+    if (getPath === "certified-loose-lab-grown-diamonds/settings") {
+      if (getSetting === "Ring") {
+        if (!stepsData && (stepsData2 || stepsData3 || stepsData4) && !steps1?.[0]?.step1) {
+          const step1Ring = [{ step1: true, Setting: "Ring", id: 1, Status: "active" }];
+          sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1Ring));
+
           if (steps2?.[0]) {
             steps2[0].Status = "inactive";
             sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
           }
-        } else if (steps3?.[0]?.step1 === true) {
           if (steps3?.[0]) {
             steps3[0].Status = "inactive";
             sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
           }
-        }
-      } else if (getSetting === "Ring" && (stepsData2 !== null || stepsData3 !== null || stepsData4 !== null) && (steps1?.[0]?.step1 === true)) {
-        if (steps1?.[0]?.step1 === true && steps1?.[1]?.step2 === true) {
-          if (steps1?.[0]) {
+        } else if ((stepsData2 || stepsData3 || stepsData4) && steps1?.[0]?.step1) {
+          if (steps1?.[0]?.step1 && steps1?.[1]?.step2) {
             steps1[0].Status = "active";
-            // const getRingSteps = [...steps1];
-            // getRingSteps.splice(2, 1);
             sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(steps1));
+
             if (steps2?.[0]) {
               steps2[0].Status = "inactive";
               sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
@@ -486,30 +481,24 @@ const SettingPage = () => {
         }
       }
 
-      if (
-        getSetting === "Pendant" && stepsData === null && (stepsData2 !== null || stepsData3 === null || stepsData4 !== null) && (steps2?.[0]?.step1 !== true)
-      ) {
-        const step1Pendant = [{ "step1": true, "Setting": "Pendant", "id": 2, "Status": "active" }];
-        sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(step1Pendant));
-        if (steps1?.[0]?.step1 === true) {
+      if (getSetting === "Pendant") {
+        if (!stepsData && (stepsData2 || stepsData3 || stepsData4) && !steps2?.[0]?.step1) {
+          const step1Pendant = [{ step1: true, Setting: "Pendant", id: 2, Status: "active" }];
+          sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(step1Pendant));
+
           if (steps1?.[0]) {
             steps1[0].Status = "inactive";
             sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(steps1));
           }
-        } else if (steps3?.[0]?.step1 === true) {
           if (steps3?.[0]) {
             steps3[0].Status = "inactive";
             sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
           }
-        }
-      }
-      else if (getSetting === "Pendant" && (stepsData2 !== null || stepsData3 !== null || stepsData4 !== null) && (steps2?.[0]?.step1 === true)) {
-        if (steps2?.[0]?.step1 === true && steps2?.[1]?.step2 === true) {
-          if (steps2?.[0]) {
+        } else if ((stepsData2 || stepsData3 || stepsData4) && steps2?.[0]?.step1) {
+          if (steps2?.[0]?.step1 && steps2?.[1]?.step2) {
             steps2[0].Status = "active";
-            // const getPendantteps = [...steps2];
-            // getPendantteps.splice(2, 1);
             sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
+
             if (steps1?.[0]) {
               steps1[0].Status = "inactive";
               sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(steps1));
@@ -522,30 +511,24 @@ const SettingPage = () => {
         }
       }
 
-      if (
-        getSetting === "Earring" && stepsData === null && (stepsData2 !== null || stepsData3 !== null || stepsData3 === null) && (steps3?.[0]?.step1 !== true)
-      ) {
-        const step1Earring = [{ "step1": true, "Setting": "Earring", "id": 3, "Status": "active" }];
-        sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(step1Earring));
-        if (steps1?.[0]?.step1 === true) {
+      if (getSetting === "Earring") {
+        if (!stepsData && (stepsData2 || stepsData3 || stepsData4) && !steps3?.[0]?.step1) {
+          const step1Earring = [{ step1: true, Setting: "Earring", id: 3, Status: "active" }];
+          sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(step1Earring));
+
           if (steps1?.[0]) {
             steps1[0].Status = "inactive";
             sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(steps1));
           }
-        } else if (steps2?.[0]?.step1 === true) {
           if (steps2?.[0]) {
             steps2[0].Status = "inactive";
             sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
           }
-        }
-      }
-      else if (getSetting === "Earring" && (stepsData2 !== null || stepsData3 !== null || stepsData4 !== null) && (steps3?.[0]?.step1 === true)) {
-        if (steps3?.[0]?.step1 === true && steps3?.[1]?.step2 === true) {
-          if (steps3?.[0]) {
+        } else if ((stepsData2 || stepsData3 || stepsData4) && steps3?.[0]?.step1) {
+          if (steps3?.[0]?.step1 && steps3?.[1]?.step2) {
             steps3[0].Status = "active";
-            // const getPendantteps = [...steps2];
-            // getPendantteps.splice(2, 1);
             sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
+
             if (steps1?.[0]) {
               steps1[0].Status = "inactive";
               sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(steps1));

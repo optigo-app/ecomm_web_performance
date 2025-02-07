@@ -496,6 +496,7 @@ const DiamondFilter = () => {
 
 
 
+
   const fetchData = async (shape, parsedData) => {
     setIsLoading(true);
     try {
@@ -994,7 +995,7 @@ const DiamondFilter = () => {
                       onChange={() => {
                         if (
                           (steps1?.[0]?.step1 == true ?? steps2?.[0]?.step1 == true) &&
-                          (stepsData2?.[0]?.step1Data?.id > 0 ?? stepsData3?.[0]?.step1Data?.id > 0)
+                          (stepsData2?.[0]?.step1Data?.id > 0 ?? stepsData3?.[0]?.step1Data?.id > 0 ?? stepsData3?.[0]?.step1Data?.id > 0)
                         ) {
                           return;
                         } else {
@@ -1005,8 +1006,7 @@ const DiamondFilter = () => {
                     <div
                       className={`shape_card ${checkedItem === val?.name
                         ? "active-checked"
-                        : (((stepsData2?.[0]?.step1Data?.id > 0 && steps1?.[0]?.Status === 'active') || (stepsData3?.[0]?.step1Data?.id > 0 && steps2?.[0]?.Status === 'active')))
-                          // || (stepsData?.[1]?.step2Data?.id > 0 ?? stepsData2?.[1]?.step2Data?.[0]?.id > 0 ?? stepsData3?.[1]?.step2Data?.[0]?.id > 0)
+                        : (((stepsData2?.[0]?.step1Data?.id > 0 && steps1?.[0]?.Status === 'active') || (stepsData3?.[0]?.step1Data?.id > 0 && steps2?.[0]?.Status === 'active') || (stepsData4?.[0]?.step1Data?.id > 0 && steps3?.[0]?.Status === 'active')) || (stepsData?.[1]?.step2Data?.id > 0 ?? stepsData2?.[1]?.step2Data?.[0]?.id > 0 ?? stepsData3?.[1]?.step2Data?.[0]?.id > 0 ?? stepsData4?.[1]?.step2Data?.[0]?.id > 0))
                           ? "blue-unchecked"
                           : ""
                         }`}
@@ -1157,7 +1157,7 @@ const DiamondFilter = () => {
                   onChange={() => {
                     if (
                       (steps1?.[0]?.step1 == true ?? steps2?.[0]?.step1 == true) &&
-                      (stepsData2?.[0]?.step1Data?.id > 0 ?? stepsData3?.[0]?.step1Data?.id > 0)
+                      (stepsData2?.[0]?.step1Data?.id > 0 ?? stepsData3?.[0]?.step1Data?.id > 0 ?? stepsData3?.[0]?.step1Data?.id > 0)
                     ) {
                       return;
                     } else {
@@ -1168,7 +1168,7 @@ const DiamondFilter = () => {
                 <div
                   className={`shape_card ${checkedItem === val?.name
                     ? "active-checked"
-                    : (((stepsData2?.[0]?.step1Data?.id > 0 && steps1?.[0]?.Status === 'active') || (stepsData3?.[0]?.step1Data?.id > 0 && steps2?.[0]?.Status === 'active')) || (stepsData?.[1]?.step2Data?.id > 0 ?? stepsData2?.[1]?.step2Data?.[0]?.id > 0 ?? stepsData3?.[1]?.step2Data?.[0]?.id > 0))
+                    : (((stepsData2?.[0]?.step1Data?.id > 0 && steps1?.[0]?.Status === 'active') || (stepsData3?.[0]?.step1Data?.id > 0 && steps2?.[0]?.Status === 'active') || (stepsData4?.[0]?.step1Data?.id > 0 && steps3?.[0]?.Status === 'active')) || (stepsData?.[1]?.step2Data?.id > 0 ?? stepsData2?.[1]?.step2Data?.[0]?.id > 0 ?? stepsData3?.[1]?.step2Data?.[0]?.id > 0 ?? stepsData4?.[1]?.step2Data?.[0]?.id > 0))
                       ? "blue-unchecked"
                       : ""
                     }`}

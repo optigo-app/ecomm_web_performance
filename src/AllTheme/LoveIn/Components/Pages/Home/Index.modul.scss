@@ -1,0 +1,73 @@
+@import '../../scss/variable';
+
+$generalColor : lightgray;
+
+
+.smr_authFlowBakcColor {
+    background-color: $backgroundColor;
+}
+
+.Submain {
+    background-color: $generalColor;
+}
+
+.smiling_home_index_main {
+    background-color: $backgroundColor;
+    padding-inline: 6%;
+}
+
+.smiling_home_index_Submain {
+    background-color: white;
+}
+
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.smrHome_loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #c0ced8;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.smrHome_loader_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+
+
+@media screen and (max-width:1200px) {
+    .smiling_home_index_main {
+        padding-inline: 2% !important;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .smiling_home_index_main {
+        padding-inline: 1% !important;
+    }
+}
