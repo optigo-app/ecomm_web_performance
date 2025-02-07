@@ -97,7 +97,7 @@
     "workbox-webpack-plugin": "^6.4.1"
   },
   "scripts": {
-    "start": "react-scripts --max_old_space_size=3096 start",
+    "start": "react-scripts --max_old_space_size=4096 start",
     "build": "cross-env GENERATE_SOURCEMAP=false react-scripts --max_old_space_size=6144 build",
     "test": "node scripts/test.js"
   },

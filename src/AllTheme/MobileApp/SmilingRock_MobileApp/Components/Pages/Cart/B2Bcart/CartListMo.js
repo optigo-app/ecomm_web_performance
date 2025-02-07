@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import CartItem from './CartItemMo';
 import { Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { fetchAddresses } from '../../../../../../../utils/API/OrderFlow/DeliveryAPI';
 
 const CartList = ({
   items,
@@ -35,9 +36,16 @@ const CartList = ({
     setTotalPrice(priceData)
   },[onRemove,handleSave])
 
+  const handleAddressApiCall = async() => {
+    const data = await fetchAddresses();
+    let deafu = JSON.stringify(data[0])
+    sessionStorage.setItem('selectedAddressId', deafu)
+  }
+
   const handlePlaceOrder = () => {
     let priceData = items.reduce((total, item) => total + item.FinalCost, 0)
     sessionStorage.setItem('TotalPriceData', priceData)
+    handleAddressApiCall()
     navigate("/payment")
     window.scrollTo(0, 0);
   }

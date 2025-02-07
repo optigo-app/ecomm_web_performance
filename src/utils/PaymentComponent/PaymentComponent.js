@@ -53,6 +53,7 @@ export default function PaymentComponent({ bgcolor, textColor, top }) {
 
     const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem("storeInit")) ?? {};
 
+    console.log(selectedAddrData ,"selectedAddrData")
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 6, marginTop: top ?? "" }}>
@@ -135,6 +136,8 @@ export default function PaymentComponent({ bgcolor, textColor, top }) {
                                             <Grid item xs={12}>
                                                 <label style={{ fontWeight: 'bold', color: '#7d7f85' }} htmlFor="fullName">Full Name</label>
                                                 <TextField
+                                                disabled
+                                                readOnly
                                                     fullWidth
                                                     placeholder='Enter your full name'
                                                     value={`${selectedAddrData?.shippingfirstname || ''} ${selectedAddrData?.shippinglastname || ''}`}
@@ -144,6 +147,8 @@ export default function PaymentComponent({ bgcolor, textColor, top }) {
                                             <Grid item xs={12}>
                                                 <label style={{ fontWeight: 'bold', color: '#7d7f85' }} htmlFor="email">Email</label>
                                                 <TextField
+                                                disabled
+                                                readOnly
                                                     fullWidth
                                                     placeholder='Enter your address'
                                                     value={selectedAddrData?.street}
@@ -153,6 +158,8 @@ export default function PaymentComponent({ bgcolor, textColor, top }) {
                                             <Grid item xs={6}>
                                                 <label style={{ fontWeight: 'bold', color: '#7d7f85' }} htmlFor="city">City</label>
                                                 <TextField
+                                                disabled
+                                                readOnly
                                                     fullWidth
                                                     placeholder='Enter your city'
                                                     value={selectedAddrData?.city}
@@ -162,6 +169,8 @@ export default function PaymentComponent({ bgcolor, textColor, top }) {
                                             <Grid item xs={6}>
                                                 <label style={{ fontWeight: 'bold', color: '#7d7f85' }} htmlFor="state">State</label>
                                                 <TextField
+                                                disabled
+                                                readOnly
                                                     fullWidth
                                                     placeholder='Enter your state'
                                                     value={selectedAddrData?.state}
@@ -171,6 +180,8 @@ export default function PaymentComponent({ bgcolor, textColor, top }) {
                                             <Grid item xs={12}>
                                                 <label style={{ fontWeight: 'bold', color: '#7d7f85' }} htmlFor="zip">Mobile No</label>
                                                 <TextField
+                                                disabled
+                                                readOnly
                                                     fullWidth
                                                     placeholder='Enter your mobile number'
                                                     value={selectedAddrData?.shippingmobile}

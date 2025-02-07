@@ -103,23 +103,12 @@ export default function Account() {
   }, []);
 
   const handleLogout = () => {
-    navigation("/");
     setIsLoginState(false);
+    sessionStorage.clear();
     sessionStorage.setItem("LoginUser", false);
-    sessionStorage.removeItem("storeInit");
-    sessionStorage.removeItem("loginUserDetail");
-    sessionStorage.removeItem("remarks");
-    sessionStorage.removeItem("selectedAddressId");
-    sessionStorage.removeItem("orderNumber");
-    sessionStorage.removeItem("registerEmail");
-    sessionStorage.removeItem("UploadLogicalPath");
-    sessionStorage.removeItem("remarks");
-    sessionStorage.removeItem("registerMobile");
-    sessionStorage.removeItem("allproductlist");
-    sessionStorage.removeItem("AuthToken");
-    sessionStorage.clear();
-    sessionStorage.clear();
-    window.location.reload();
+    setTimeout(() => {
+    navigation("/logout");
+    }, 300);
   };
 
   const HandleDeleteAccount = async () => {

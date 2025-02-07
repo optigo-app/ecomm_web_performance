@@ -997,6 +997,7 @@ const SalesReport = () => {
                 />
                 <TableBody>
                   {visibleRows.map((row, index) => {
+                    console.log(row ,"rowing")
                     const labelId = `enhanced-table-checkbox-${index}`;
                     return (
                       <TableRow

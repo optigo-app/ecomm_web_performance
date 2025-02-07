@@ -16,7 +16,6 @@ const CartMain = () => {
     return (
         <div>
             <p className="SmiCartListTitle" style={{
-                marginTop:'1rem',
                 display:'flex',
                 alignItems: 'center',
                 fontSize: '1rem',

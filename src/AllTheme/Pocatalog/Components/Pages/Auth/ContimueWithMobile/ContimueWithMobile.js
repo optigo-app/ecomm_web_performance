@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Button, CircularProgress, TextField } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Footer from '../../Home/Footer/Footer';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
 import './ContimueWithMobile.modul.scss'
+import OTPContainer from '../../../../../../utils/Glob_Functions/Otpflow/App';
+import ContinueMobile from '../../../../../../utils/Glob_Functions/CountryDropDown/ContinueMobile';
 
 export default function ContimueWithMobile() {
     const [mobileNo, setMobileNo] = useState('');
@@ -14,6 +16,7 @@ export default function ContimueWithMobile() {
     const [buttonFocused, setButtonFocused] = useState(false);
     const navigation = useNavigate();
     const location = useLocation();
+    const [isOpen, setIsOpen] = useState(false)
 
 
     const search = location?.search
@@ -28,15 +31,15 @@ export default function ContimueWithMobile() {
 
         setter(formattedValue);
 
-        if (fieldName === 'mobileNo') {
-            if (!formattedValue) {
-                setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Mobile No. is required' }));
-            } else if (!/^\d{10}$/.test(formattedValue)) {
-                setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Enter Valid mobile number' }));
-            } else {
-                setErrors(prevErrors => ({ ...prevErrors, mobileNo: '' }));
-            }
-        }
+        // if (fieldName === 'mobileNo') {
+        //     if (!formattedValue) {
+        //         setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Mobile No. is required' }));
+        //     } else if (!/^\d{10}$/.test(formattedValue)) {
+        //         setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Enter Valid mobile number' }));
+        //     } else {
+        //         setErrors(prevErrors => ({ ...prevErrors, mobileNo: '' }));
+        //     }
+        // }
     };
     const handleSubmit = async () => {
         if (isSubmitting) {
@@ -65,20 +68,23 @@ export default function ContimueWithMobile() {
         //     };
 
         //     const response = await CommonAPI(body);
-
         setIsSubmitting(true);
         setIsLoading(true);
         ContimueWithMobileAPI(mobileNo).then((response) => {
             setIsLoading(false);
             if (response.Data.Table1[0].stat === '1' && response.Data.Table1[0].islead === '1') {
                 toast.error('You are not a customer, contact to admin')
+        setIsSubmitting(false);
             } else if (response.Data.Table1[0].stat === '1' && response.Data.Table1[0].islead === '0') {
                 toast.success('OTP send Sucssessfully');
                 navigation(redirectMobileUrl, { state: { mobileNo: mobileNo } });
                 sessionStorage.setItem('registerMobile', mobileNo)
+        setIsSubmitting(false);
             } else {
-                navigation(redirectSignUpUrl, { state: { mobileNo: mobileNo } });
+                setIsOpen(true)
+                // navigation(redirectSignUpUrl, { state: { mobileNo: mobileNo } });
                 sessionStorage.setItem('registerMobile', mobileNo)
+        setIsSubmitting(false);
             }
         }).catch((err) => console.log(err))
 
@@ -95,11 +101,16 @@ export default function ContimueWithMobile() {
     return (
         <div className='proCat_continuMobile'>
             {isLoading && (
-                <div className="loader-overlay">
+                <div className="loader-overlay" style={{zIndex:99999999}}>
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
             <div>
+                <OTPContainer mobileNo={mobileNo.trim()} isOpen={isOpen} type='mobile' setIsOpen={() => setIsOpen(!isOpen)} onClose={() => setIsOpen(false)}
+                    navigation={navigation}
+                    location={location}
+                    onResend={handleSubmit}
+                />
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',
@@ -122,7 +133,7 @@ export default function ContimueWithMobile() {
                     >We'll check if you have an account, and help create one if you don't.</p>
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <TextField
+                        {/* <TextField
                             autoFocus
                             id="outlined-basic"
                             label="Enter Mobile No"
@@ -138,6 +149,13 @@ export default function ContimueWithMobile() {
                             onChange={(e) => handleInputChange(e, setMobileNo, 'mobileNo')}
                             error={!!errors.mobileNo}
                             helperText={errors.mobileNo}
+                        /> */}
+                        <ContinueMobile
+                            Errors={errors}
+                            mobileNo={mobileNo}
+                            setErrors={setErrors}
+                            handleInputChange={handleInputChange}
+                            setMobileNo={setMobileNo}
                         />
 
                         <button className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>
