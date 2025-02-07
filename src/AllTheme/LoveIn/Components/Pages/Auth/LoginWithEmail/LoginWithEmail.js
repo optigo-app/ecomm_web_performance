@@ -5,7 +5,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 // import { productListApiCall } from '../../../../Utils/API/ProductListAPI';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import './LoginWithEmail.modul.scss'
 // import { DesignSet } from '../../../../Utils/API/DesignSet';
 // import { GetCount } from '../../../../Utils/API/GetCount';
@@ -21,7 +21,7 @@ import { MetalColorCombo } from '../../../../../../utils/API/Combo/MetalColorCom
 import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 
-export default function LoginWithEmail() {
+export default function LoginWithEmail({ data }) {
     const [email, setEmail] = useState('');
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -319,7 +319,7 @@ export default function LoginWithEmail() {
                         marginTop: '0px',
                         fontSize: '40px',
                         color: '#7d7f85',
-                      
+
                     }}
                         className='AuthScreenMainTitle'
                     >Login With Password</p>
@@ -328,12 +328,12 @@ export default function LoginWithEmail() {
                         marginTop: '-80px',
                         fontSize: '15px',
                         color: '#7d7f85',
-                      
+
                     }}
                         className='AuthScreenSubTitle'
                     >using {email}</p>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'  }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <TextField
                             autoFocus
                             id="outlined-confirm-password-input"
@@ -368,7 +368,7 @@ export default function LoginWithEmail() {
                         />
 
                         <button className='submitBtnForgot' style={{
-                            fontWeight:'600'
+                            fontWeight: '600'
                         }} onClick={handleSubmit}>Login</button>
                         <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
 
@@ -377,15 +377,17 @@ export default function LoginWithEmail() {
 
                         <p style={{ color: 'blue', cursor: 'pointer' }} onClick={handleForgotPassword}>Forgot Password ?</p>
                     </div>
-                    {/* <Footer /> */}
+                    <Footer data={data} />
                 </div>
             </div>
-            {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p 
-          className="backtotop_Smr"
-                
-                style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
-            </div> */}
-        </div>
+            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+                <p
+                    className="backtotop_lov"
+                    style={{
+                        margin: '0px', width: '100px', cursor: 'pointer', color: "#5F497A", fontSize: "14px",
+                        fontWeight: 600,
+                    }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
+            </div>
+        </div >
     );
 }

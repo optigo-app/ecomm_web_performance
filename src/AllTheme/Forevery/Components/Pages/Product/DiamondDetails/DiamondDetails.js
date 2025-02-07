@@ -54,7 +54,6 @@ const DiamondDetails = () => {
     const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
     const [customizeStep1, setCustomizeStep1] = useRecoilState(for_customizationSteps);
     const [settingSteps, setSettingSteps] = useState();
-    console.log('settingSteps: ', settingSteps);
     const stepsData = JSON.parse(sessionStorage.getItem('custStepData'))
     const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
     const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
@@ -131,6 +130,7 @@ const DiamondDetails = () => {
     const [setshape, setSetShape] = useState();
     const [metalColor, setMetalColor] = useState([]);
     const [imageMap, setImageMap] = useState({});
+    console.log('imageMap: ', imageMap);
 
     const setCartCountVal = useSetRecoilState(for_CartCount)
     const setWishCountVal = useSetRecoilState(for_WishCount)
@@ -315,7 +315,7 @@ const DiamondDetails = () => {
 
     useEffect(() => {
         if (compSet) {
-            const Settingcategory = (setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === "Ring" ? 'Ring/category' : 'Pendant/category';
+            const Settingcategory = (setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === "Ring" ? 'Ring/category' : (setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === "Pendant" ? 'Pendant/category' : 'Earring/category';
             const filterKeyVal = btoa(Settingcategory)
             setFilterVal(filterKeyVal);
         }
@@ -1342,8 +1342,6 @@ const DiamondDetails = () => {
         };
     }, []);
 
-    console.log("imageNotFound", imageNotFound)
-
     return (
         <div className="for_DiamondDet_mainDiv">
             <div className="for_DiamondDet_div">
@@ -1361,596 +1359,360 @@ const DiamondDetails = () => {
                         />
                     </div>
                     <div className="for_DiamondDet_container_div">
-                        {!mobileView ? (
-                            <div className="for_DiamondDet_left_prodImages">
-                                <div className="for_slider_container">
-                                    <div className="for_images_slider">
-                                        {isDataFound ? (
-                                            <>
-                                                <div className="for_slider">
-                                                    {Array.from({ length: 3 })?.map((_, i) => {
-                                                        return (
-                                                            <div key={i} className='for_skeleton_thumb_div_dia' >
-                                                                <Skeleton className='for_skeleton_det_thumb_dia' />
-                                                            </div>
-                                                        );
-                                                    })}
-                                                </div>
-                                                <div
-                                                    className="for_main_image"
-                                                >
-                                                    <Skeleton variant='square' className='for_skeleton_main_image' />
-                                                </div>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <div className="for_slider">
-                                                    {compSet && (
-                                                        <>
-                                                            {compSettArr?.map((item, index) => {
+
+                        <div className="for_DiamondDet_left_prodImages_for_earr">
+                            <div className="for_slider_container_1">
+                                <div className="for_images_slider">
+                                    {isDataFound ? (
+                                        <>
+                                            <div className="for_slider">
+                                                {Array.from({ length: 3 })?.map((_, i) => {
+                                                    return (
+                                                        <div key={i} className='for_skeleton_thumb_div_dia' >
+                                                            <Skeleton className='for_skeleton_det_thumb_dia' />
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                            <div
+                                                className="for_main_image"
+                                            >
+                                                <Skeleton variant='square' className='for_skeleton_main_image' />
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="for_slider">
+
+                                                {!compSet && (
+                                                    <>
+                                                        {mediaArr
+                                                            ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
+                                                            ?.map((item, index) => {
+                                                                console.log("jeje", item?.src !== imageNotFound && item?.src !== "");
                                                                 return (
                                                                     <div
                                                                         key={index}
                                                                         className={`for_box ${index === currentSlide ? "active" : ""}`}
                                                                         onClick={() => handleThumbnailClick(index)}
                                                                     >
-                                                                        {item?.type !== '' && (
+                                                                        {item?.type === "video" ? (
                                                                             <>
-                                                                                {item?.type === "setting" && (
+                                                                                {item?.src?.endsWith(".mp4") ? (
                                                                                     <div
                                                                                         className="for_video_box_dia"
+                                                                                        title="A small thumbnail of the selected diamond."
                                                                                         style={{ position: "relative" }}
                                                                                     >
-                                                                                        <img
-                                                                                            src={(!imageMap?.colorImage?.includes('undefined') ? imageMap?.colorImage : getImagePath?.colorImage)}
-                                                                                            // src={item?.src}
-                                                                                            onError={(e) => {
-                                                                                                e.target.onerror = null;
-                                                                                                e.target.src = imageNotFound
-                                                                                            }}
-                                                                                        />
-                                                                                    </div>
-                                                                                )}
-
-                                                                                {item?.type === "diamond" && (
-                                                                                    <div
-                                                                                        className="for_video_box_dia"
-                                                                                        style={{ position: "relative" }}
-                                                                                    >
-                                                                                        <img
-                                                                                            src={item?.src}
-                                                                                            onError={(e) => {
-                                                                                                e.target.onerror = null;
-                                                                                                e.target.src = imageNotFound
-                                                                                            }}
-                                                                                        />
-                                                                                    </div>
-                                                                                )}
-                                                                            </>
-                                                                        )}
-                                                                    </div>
-                                                                );
-                                                            })}
-                                                            {certyLink && (
-                                                                <Link
-                                                                    to={certyLink?.link}
-                                                                    className="for_box_certy"
-                                                                    title="Diamond certificate"
-                                                                    style={{ position: "relative" }}
-                                                                    target='_blank'
-                                                                >
-                                                                    <img
-                                                                        src={certyLink?.imageUrl}
-                                                                        onError={(e) => {
-                                                                            e.target.onerror = null;
-                                                                            e.target.src = imageNotFound;
-                                                                        }}
-                                                                        alt="Diamond Certificate"
-                                                                        style={{ width: '100%', height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto' }}
-                                                                    />
-                                                                </Link>
-                                                            )}
-                                                        </>
-                                                    )}
-
-                                                    {!compSet && (
-                                                        <>
-                                                            {mediaArr
-                                                                ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
-                                                                ?.map((item, index) => {
-                                                                    console.log("jeje", item?.src !== imageNotFound && item?.src !== "");
-                                                                    return (
-                                                                        <div
-                                                                            key={index}
-                                                                            className={`for_box ${index === currentSlide ? "active" : ""}`}
-                                                                            onClick={() => handleThumbnailClick(index)}
-                                                                        >
-                                                                            {item?.type === "video" ? (
-                                                                                <>
-                                                                                    {item?.src?.endsWith(".mp4") ? (
-                                                                                        <div
-                                                                                            className="for_video_box_dia"
-                                                                                            title="A small thumbnail of the selected diamond."
-                                                                                            style={{ position: "relative" }}
-                                                                                        >
-                                                                                            <video src={item?.src} muted loop />
-                                                                                            <IoIosPlayCircle className="for_play_io_icon_dia" />
-                                                                                        </div>
-                                                                                    ) : (
-                                                                                        <div
-                                                                                            className="for_video_box_dia"
-                                                                                            title="A small thumbnail of the selected diamond."
-                                                                                            style={{ position: "relative" }}
-                                                                                        >
-                                                                                            <img
-                                                                                                src={`${storImagePath()}/images/ProductListing/Diamond/images/360-view.png`}
-                                                                                                onError={(e) => {
-                                                                                                    e.target.onerror = null;
-                                                                                                    e.target.src = imageNotFound;
-                                                                                                }}
-                                                                                            />
-                                                                                        </div>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {item?.type === "image" && (
-                                                                                        <img
-                                                                                            title="A small thumbnail of the selected diamond."
-                                                                                            src={item?.src}
-                                                                                            alt=""
-                                                                                            onError={(e) => {
-                                                                                                e.target.onerror = null;
-                                                                                                e.target.src = imageNotFound;
-                                                                                            }}
-                                                                                        />
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-                                                                        </div>
-                                                                    );
-                                                                })}
-
-                                                            {certyLink && (
-                                                                <Link
-                                                                    to={certyLink?.link}
-                                                                    className="for_box_certy"
-                                                                    title="Diamond certificate"
-                                                                    style={{ position: "relative" }}
-                                                                    target="_blank"
-                                                                >
-                                                                    <img
-                                                                        src={certyLink?.imageUrl}
-                                                                        onError={(e) => {
-                                                                            e.target.onerror = null;
-                                                                            e.target.src = imageNotFound;
-                                                                        }}
-                                                                        alt="Diamond Certificate"
-                                                                        style={{ width: '100%', height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto' }}
-                                                                    />
-                                                                </Link>
-                                                            )}
-                                                        </>
-                                                    )}
-
-                                                </div>
-
-                                                <div className="for_main_image">
-                                                    {!compSet && (
-                                                        <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
-                                                            {mediaArr
-                                                                ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
-                                                                ?.map((item, index) => (
-                                                                    <div className="for_slider_card" key={index}>
-                                                                        <div className="for_image">
-                                                                            {item?.type === "video" && (
-                                                                                <>
-                                                                                    {item?.src?.endsWith(".mp4") ? (
-                                                                                        <div style={{ height: "80%" }}>
-                                                                                            <video
-                                                                                                src={item?.src}
-                                                                                                loop
-                                                                                                autoPlay
-                                                                                                muted
-                                                                                                style={{
-                                                                                                    width: "100%",
-                                                                                                    height: "100%",
-                                                                                                    objectFit: "scale-down",
-                                                                                                }}
-                                                                                            />
-                                                                                        </div>
-                                                                                    ) : (
-                                                                                        <div style={{ height: "80%" }}>
-                                                                                            <iframe src={item?.src} width="500px" height="500px" />
-                                                                                        </div>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-                                                                            {item?.type === "image" && (
-                                                                                <img
-                                                                                    loading="lazy"
-                                                                                    src={item?.src}
-                                                                                    alt=""
-                                                                                    onLoad={() => setIsImageLoad(false)}
-                                                                                    onError={(e) => {
-                                                                                        e.target.onerror = null;
-                                                                                        e.target.src = imageNotFound;
-                                                                                    }}
-                                                                                />
-                                                                            )}
-                                                                        </div>
-                                                                    </div>
-                                                                ))}
-                                                        </Slider>
-                                                    )}
-                                                    {compSet && (
-                                                        <Slider
-                                                            {...settings}
-                                                            ref={sliderRef}
-                                                            lazyLoad="progressive"
-                                                        >
-                                                            {/* <div className="for_slider_card">
-                                                                <div className="for_image">
-                                                                    <img
-                                                                        loading="lazy"
-                                                                        src={designImage(
-                                                                            settingData?.step1Data?.designno ?? settingData?.step2Data?.designno,
-                                                                            settingData?.step1Data?.ImageExtension ?? settingData?.step2Data?.ImageExtension
-                                                                        )}
-                                                                        alt=""
-                                                                        onLoad={() => setIsImageLoad(false)}
-                                                                        onError={(e) => {
-                                                                            e.target.onerror = null;
-                                                                            e.target.src = imageNotFound
-                                                                        }}
-                                                                    />
-                                                                </div>
-                                                            </div> */}
-
-                                                            {compSettArr?.map((item, index) => (
-                                                                <div className="for_slider_card" key={index}>
-                                                                    <div className="for_image"
-                                                                        style={{
-                                                                            position: 'relative',
-                                                                            overflow: 'hidden',
-                                                                            cursor: 'zoom-in'
-                                                                        }}
-                                                                        onMouseMove={(e) => handleMouseMove(e, index)}
-                                                                        onMouseLeave={() => handleMouseLeave(index)}
-                                                                    >
-                                                                        {item?.type !== '' && (
-                                                                            <>
-                                                                                {item?.type === "setting" && (
-                                                                                    <div
-                                                                                        className="for_video_box_dia"
-                                                                                        style={{ position: "relative" }}
-                                                                                    >
-                                                                                        <img
-                                                                                            src={(!imageMap?.colorImage?.includes('undefined') ? imageMap?.colorImage : getImagePath?.colorImage)}
-                                                                                            ref={el => imageRefs.current[index] = el}
-                                                                                            loading='lazy'
-                                                                                            style={{ transition: 'transform 0.3s ease' }}
-                                                                                            // src={item?.src}
-                                                                                            onError={(e) => {
-                                                                                                e.target.onerror = null;
-                                                                                                e.target.src = imageNotFound
-                                                                                            }}
-                                                                                        />
-                                                                                    </div>
-                                                                                )}
-
-                                                                                {item?.type === "diamond" && (
-                                                                                    <div
-                                                                                        className="for_video_box_dia"
-                                                                                        style={{ position: "relative" }}
-                                                                                    >
-                                                                                        <img
-                                                                                            src={item?.src}
-                                                                                            onError={(e) => {
-                                                                                                e.target.onerror = null;
-                                                                                                e.target.src = imageNotFound
-                                                                                            }}
-                                                                                        />
-                                                                                    </div>
-                                                                                )}
-                                                                            </>
-                                                                        )}
-                                                                    </div>
-                                                                </div>
-                                                            ))}
-                                                        </Slider>
-                                                    )}
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="for_DiamondDet_left_prodImages_mob">
-                                <div className="for_slider_container_mob">
-                                    <div className="for_images_slider_mob">
-                                        {isDataFound ? (
-                                            <>
-                                                <div className="for_slider_mob">
-                                                    {Array.from({ length: 3 })?.map((_, i) => {
-                                                        return (
-                                                            <div key={i} className='for_skeleton_thumb_div_dia_mob' >
-                                                                <Skeleton className='for_skeleton_det_thumb_dia_mob' />
-                                                            </div>
-                                                        );
-                                                    })}
-                                                </div>
-                                                <div
-                                                    className="for_main_image_mob"
-                                                >
-                                                    <Skeleton variant='square' className='for_skeleton_main_image_mob' />
-                                                </div>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <div className="for_slider_mob">
-                                                    {compSet && (
-                                                        // <div
-                                                        //     className={`for_box_mob active`}
-                                                        // >
-                                                        //     <img
-                                                        //         src={designImage((settingData?.step1Data?.designno ?? settingData?.step2Data?.designno), (settingData?.step1Data?.ImageExtension ?? settingData?.step2Data?.ImageExtension))}
-                                                        //         alt=""
-                                                        //         onError={(e) => {
-                                                        //             e.target.onerror = null;
-                                                        //             e.target.src = imageNotFound;
-                                                        //         }}
-                                                        //     />
-                                                        // </div>
-                                                        <>
-                                                            {compSettArr?.map((item, index) => {
-                                                                return (
-                                                                    <div
-                                                                        key={index}
-                                                                        className={`for_box_mob ${index === currentSlide ? "active" : ""}`}
-                                                                        onClick={() => handleThumbnailClick(index)}
-                                                                    >
-                                                                        {item?.type !== '' && (
-                                                                            <>
-                                                                                {item?.type === "setting" && (
-                                                                                    <div
-                                                                                        className="for_video_box_dia_mob"
-                                                                                        style={{ position: "relative" }}
-                                                                                    >
-                                                                                        <img
-                                                                                            src={item?.src}
-                                                                                            onError={(e) => {
-                                                                                                e.target.onerror = null;
-                                                                                                e.target.src = imageNotFound
-                                                                                            }}
-                                                                                        />
-                                                                                    </div>
-                                                                                )}
-
-                                                                                {item?.type === "diamond" && (
-                                                                                    <div
-                                                                                        className="for_video_box_dia_mob"
-                                                                                        style={{ position: "relative" }}
-                                                                                    >
-                                                                                        <img
-                                                                                            src={item?.src}
-                                                                                            onError={(e) => {
-                                                                                                e.target.onerror = null;
-                                                                                                e.target.src = imageNotFound
-                                                                                            }}
-                                                                                        />
-                                                                                    </div>
-                                                                                )}
-                                                                            </>
-                                                                        )}
-                                                                    </div>
-                                                                );
-                                                            })}
-                                                            {certyLink && (
-                                                                <div className="for_box_certy" title='Diamond certificate' style={{ position: "relative" }}>
-                                                                    <img
-                                                                        src={certyLink?.link}
-                                                                        onError={(e) => {
-                                                                            e.target.onerror = null;
-                                                                            e.target.src = imageNotFound;
-                                                                        }}
-                                                                    />
-                                                                </div>
-                                                            )}
-                                                        </>
-                                                    )}
-
-                                                    {!compSet && (
-                                                        <>
-                                                            {mediaArr?.map((item, index) => {
-                                                                return (
-                                                                    <div
-                                                                        key={index}
-                                                                        className={`for_box_mob ${index === currentSlide ? "active" : ""}`}
-                                                                        onClick={() => handleThumbnailClick(index)}
-                                                                    >
-                                                                        {item?.type === 'video' ? (
-                                                                            <>
-                                                                                {item?.src?.endsWith('.mp4') ? (
-                                                                                    <div
-                                                                                        className="for_video_box_dia_mob"
-                                                                                        style={{ position: "relative" }}
-                                                                                    >
-                                                                                        <video
-                                                                                            src={item?.src}
-                                                                                            // autoPlay
-                                                                                            muted
-                                                                                            loop
-                                                                                        />
-                                                                                        <IoIosPlayCircle className="for_play_io_icon_dia_mob" />
+                                                                                        <video src={item?.src} muted loop />
+                                                                                        <IoIosPlayCircle className="for_play_io_icon_dia" />
                                                                                     </div>
                                                                                 ) : (
                                                                                     <div
-                                                                                        className="for_video_box_dia_mob"
+                                                                                        className="for_video_box_dia"
+                                                                                        title="A small thumbnail of the selected diamond."
                                                                                         style={{ position: "relative" }}
                                                                                     >
                                                                                         <img
                                                                                             src={`${storImagePath()}/images/ProductListing/Diamond/images/360-view.png`}
                                                                                             onError={(e) => {
                                                                                                 e.target.onerror = null;
-                                                                                                e.target.src = imageNotFound
+                                                                                                e.target.src = imageNotFound;
                                                                                             }}
                                                                                         />
                                                                                     </div>
                                                                                 )}
                                                                             </>
                                                                         ) : (
-                                                                            item?.type === "image" && (
-                                                                                <img
-                                                                                    src={item?.src}
-                                                                                    alt=""
-                                                                                    onError={(e) => {
-                                                                                        e.target.onerror = null;
-                                                                                        e.target.src = imageNotFound
-                                                                                    }}
-                                                                                />
-                                                                            )
+                                                                            <>
+                                                                                {item?.type === "image" && (
+                                                                                    <img
+                                                                                        title="A small thumbnail of the selected diamond."
+                                                                                        src={item?.src}
+                                                                                        alt=""
+                                                                                        onError={(e) => {
+                                                                                            e.target.onerror = null;
+                                                                                            e.target.src = imageNotFound;
+                                                                                        }}
+                                                                                    />
+                                                                                )}
+                                                                            </>
                                                                         )}
-
                                                                     </div>
                                                                 );
                                                             })}
-                                                            {certyLink && (
-                                                                <div className="for_box_certy" title='Diamond certificate' style={{ position: "relative" }}>
-                                                                    <img
-                                                                        src={certyLink?.link}
-                                                                        onError={(e) => {
-                                                                            e.target.onerror = null;
-                                                                            e.target.src = imageNotFound;
-                                                                        }}
-                                                                    />
-                                                                </div>
-                                                            )}
-                                                        </>
-                                                    )}
-                                                </div>
 
-                                                <div className="for_main_image_mob">
-                                                    {!compSet && (
-                                                        <Slider {...settings} ref={sliderRef}
-                                                            lazyLoad="progressive">
-                                                            {mediaArr?.map((item, index) => (
-                                                                <div className="for_slider_card_mob" key={index}>
-                                                                    <div className="for_image_mob">
-                                                                        {item?.type === 'video' && (
-                                                                            <>
-                                                                                {item?.src?.endsWith('.mp4') ? (
-                                                                                    <div style={{ height: "80%" }}>
-                                                                                        <video
-                                                                                            src={item?.src}
-                                                                                            loop
-                                                                                            autoPlay
-                                                                                            muted
-                                                                                            style={{
-                                                                                                width: "100%",
-                                                                                                height: "100%",
-                                                                                                objectFit: "scale-down",
-                                                                                            }}
-                                                                                        />
-                                                                                    </div>
-                                                                                ) : (
-                                                                                    <div style={{ height: "80%" }}>
-                                                                                        <iframe src={item?.src} width="500px" height="500px" />
-                                                                                    </div>
-                                                                                )}
-                                                                            </>
-                                                                        )}
-                                                                        {item?.type === 'image' && (
-                                                                            <img
-                                                                                loading="lazy"
-                                                                                src={item?.src}
-                                                                                alt=""
-                                                                                onLoad={() => setIsImageLoad(false)}
-                                                                                onError={(e) => {
-                                                                                    e.target.onerror = null;
-                                                                                    e.target.src = imageNotFound;
-                                                                                }}
-                                                                            />
-                                                                        )}
+                                                        {certyLink && (
+                                                            <Link
+                                                                to={certyLink?.link}
+                                                                className="for_box_certy"
+                                                                title="Diamond certificate"
+                                                                style={{ position: "relative" }}
+                                                                target="_blank"
+                                                            >
+                                                                <img
+                                                                    src={certyLink?.imageUrl}
+                                                                    onError={(e) => {
+                                                                        e.target.onerror = null;
+                                                                        e.target.src = imageNotFound;
+                                                                    }}
+                                                                    alt="Diamond Certificate"
+                                                                    style={{ width: '100%', height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto' }}
+                                                                />
+                                                            </Link>
+                                                        )}
+                                                    </>
+                                                )}
+
+                                            </div>
+
+                                            <div className="for_main_image">
+                                                {!compSet && (
+                                                    <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
+                                                        {mediaArr
+                                                            ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
+                                                            ?.map((item, index) => (
+                                                                <div className="for_slider_card" key={index}>
+                                                                    <div className="for_image">
+                                                                        <img
+                                                                            loading="lazy"
+                                                                            src={"https://www.forevery.one/images_new/diamond-sample/round.jpg"}
+                                                                            alt=""
+                                                                            onLoad={() => setIsImageLoad(false)}
+                                                                            onError={(e) => {
+                                                                                e.target.onerror = null;
+                                                                                e.target.src = imageNotFound;
+                                                                            }}
+                                                                        />
                                                                     </div>
                                                                 </div>
                                                             ))}
-                                                        </Slider>
-                                                    )}
-                                                    {compSet && (
-                                                        <Slider
-                                                            {...settings}
-                                                            ref={sliderRef}
-                                                            lazyLoad="progressive"
-                                                        >
-                                                            {/* <div className="for_slider_card_mob">
-                                                                <div className="for_image_mob">
-                                                                    <img
-                                                                        loading="lazy"
-                                                                        src={designImage(
-                                                                            settingData?.step1Data?.designno ?? settingData?.step2Data?.designno,
-                                                                            settingData?.step1Data?.ImageExtension ?? settingData?.step2Data?.ImageExtension
-                                                                        )}
-                                                                        alt=""
-                                                                        onLoad={() => setIsImageLoad(false)}
-                                                                        onError={(e) => {
-                                                                            e.target.onerror = null;
-                                                                            e.target.src = imageNotFound
-                                                                        }}
-                                                                    />
-                                                                </div>
-                                                            </div> */}
-                                                            {compSettArr?.map((item, index) => (
-                                                                <div className="for_slider_card_mob" key={index}>
-                                                                    <div className="for_image_mob">
-                                                                        {item?.type !== '' && (
-                                                                            <>
-                                                                                {item?.type === "setting" && (
-                                                                                    <div
-                                                                                        className="for_video_box_dia_mob"
-                                                                                        style={{ position: "relative" }}
-                                                                                    >
-                                                                                        <img
-                                                                                            src={item?.src}
-                                                                                            onError={(e) => {
-                                                                                                e.target.onerror = null;
-                                                                                                e.target.src = imageNotFound
-                                                                                            }}
-                                                                                        />
-                                                                                    </div>
-                                                                                )}
+                                                    </Slider>
+                                                )}
 
-                                                                                {item?.type === "diamond" && (
-                                                                                    <div
-                                                                                        className="for_video_box_dia_mob"
-                                                                                        style={{ position: "relative" }}
-                                                                                    >
-                                                                                        <img
-                                                                                            src={item?.src}
-                                                                                            onError={(e) => {
-                                                                                                e.target.onerror = null;
-                                                                                                e.target.src = imageNotFound
-                                                                                            }}
-                                                                                        />
-                                                                                    </div>
-                                                                                )}
-                                                                            </>
-                                                                        )}
-                                                                    </div>
+                                                <div className="for_DiamondDet_right_prodDetails_earr">
+                                                    <div className="for_DiamondDet_breadcrumbs">
+                                                        <div className="for_DiamondDet_title_main_div">
+                                                            <div className="for_DiamondDet_title_div">
+                                                                {isDataFound ?
+                                                                    <Skeleton variant="rounded" style={{ height: '30px', width: '32rem' }} />
+                                                                    : (
+                                                                        <div className="for_DiamondDet_title">
+                                                                            <span>{`${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}</span>
+                                                                            {/* <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span> */}
+                                                                        </div>
+                                                                    )
+                                                                }
+
+                                                                <div className="for_DiamondDet_title_sku">
+                                                                    <div className='for_DiamondDet_sku'>SKU: &nbsp;{isDataFound ? <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} /> : singleDiaData[0]?.stockno}</div>
                                                                 </div>
-                                                            ))}
-                                                        </Slider>
-                                                    )}
+                                                            </div>
+                                                        </div>
+                                                        <div className="for_DiamondDet_prodWeights_div">
+                                                        </div>
+                                                        <div className="for_DiamondDet_price_div">
+                                                            <span className='for_DiamondDet_price'>
+                                                                <span
+                                                                    dangerouslySetInnerHTML={{
+                                                                        __html: decodeEntities(loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode),
+                                                                    }}
+                                                                />
+                                                                {
+                                                                    isPriceloading ?
+                                                                        <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
+                                                                        :
+                                                                        <span>&nbsp;{formatter(singleDiaData[0]?.price)}</span>
+                                                                    // <span>&nbsp;{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
+                                                                }
+                                                            </span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </>
-                                        )}
-                                    </div>
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
                             </div>
-                        )}
+                            <div className="for_slider_container_2">
+                                <div className="for_images_slider">
+                                    {isDataFound ? (
+                                        <>
+                                            <div className="for_slider">
+                                                {Array.from({ length: 3 })?.map((_, i) => {
+                                                    return (
+                                                        <div key={i} className='for_skeleton_thumb_div_dia' >
+                                                            <Skeleton className='for_skeleton_det_thumb_dia' />
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                            <div
+                                                className="for_main_image"
+                                            >
+                                                <Skeleton variant='square' className='for_skeleton_main_image' />
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
 
-                        <div className="for_DiamondDet_right_prodDetails">
+                                            <div className="for_main_image">
+                                                {!compSet && (
+                                                    <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
+                                                        {mediaArr
+                                                            ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
+                                                            ?.map((item, index) => (
+                                                                <div className="for_slider_card" key={index}>
+                                                                    <div className="for_image">
+                                                                        <img
+                                                                            loading="lazy"
+                                                                            src={"https://www.forevery.one/images_new/diamond-sample/round.jpg"}
+                                                                            alt=""
+                                                                            onLoad={() => setIsImageLoad(false)}
+                                                                            onError={(e) => {
+                                                                                e.target.onerror = null;
+                                                                                e.target.src = imageNotFound;
+                                                                            }}
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                    </Slider>
+                                                )}
+
+                                                <div className="for_DiamondDet_right_prodDetails_earr">
+                                                    <div className="for_DiamondDet_breadcrumbs">
+                                                        <div className="for_DiamondDet_title_main_div">
+                                                            <div className="for_DiamondDet_title_div">
+                                                                {isDataFound ?
+                                                                    <Skeleton variant="rounded" style={{ height: '30px', width: '32rem' }} />
+                                                                    : (
+                                                                        <div className="for_DiamondDet_title">
+                                                                            <span>{`${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}</span>
+                                                                            {/* <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span> */}
+                                                                        </div>
+                                                                    )
+                                                                }
+
+                                                                <div className="for_DiamondDet_title_sku">
+                                                                    <div className='for_DiamondDet_sku'>SKU: &nbsp;{isDataFound ? <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} /> : singleDiaData[0]?.stockno}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="for_DiamondDet_prodWeights_div">
+                                                        </div>
+                                                        <div className="for_DiamondDet_price_div">
+                                                            <span className='for_DiamondDet_price'>
+                                                                <span
+                                                                    dangerouslySetInnerHTML={{
+                                                                        __html: decodeEntities(loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode),
+                                                                    }}
+                                                                />
+                                                                {
+                                                                    isPriceloading ?
+                                                                        <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
+                                                                        :
+                                                                        <span>&nbsp;{formatter(singleDiaData[0]?.price)}</span>
+                                                                    // <span>&nbsp;{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
+                                                                }
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="for_slider">
+
+                                                {!compSet && (
+                                                    <>
+                                                        {mediaArr
+                                                            ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
+                                                            ?.map((item, index) => {
+                                                                console.log("jeje", item?.src !== imageNotFound && item?.src !== "");
+                                                                return (
+                                                                    <div
+                                                                        key={index}
+                                                                        className={`for_box ${index === currentSlide ? "active" : ""}`}
+                                                                        onClick={() => handleThumbnailClick(index)}
+                                                                    >
+                                                                        {item?.type === "video" ? (
+                                                                            <>
+                                                                                {item?.src?.endsWith(".mp4") ? (
+                                                                                    <div
+                                                                                        className="for_video_box_dia"
+                                                                                        title="A small thumbnail of the selected diamond."
+                                                                                        style={{ position: "relative" }}
+                                                                                    >
+                                                                                        <video src={item?.src} muted loop />
+                                                                                        <IoIosPlayCircle className="for_play_io_icon_dia" />
+                                                                                    </div>
+                                                                                ) : (
+                                                                                    <div
+                                                                                        className="for_video_box_dia"
+                                                                                        title="A small thumbnail of the selected diamond."
+                                                                                        style={{ position: "relative" }}
+                                                                                    >
+                                                                                        <img
+                                                                                            src={`${storImagePath()}/images/ProductListing/Diamond/images/360-view.png`}
+                                                                                            onError={(e) => {
+                                                                                                e.target.onerror = null;
+                                                                                                e.target.src = imageNotFound;
+                                                                                            }}
+                                                                                        />
+                                                                                    </div>
+                                                                                )}
+                                                                            </>
+                                                                        ) : (
+                                                                            <>
+                                                                                {item?.type === "image" && (
+                                                                                    <img
+                                                                                        title="A small thumbnail of the selected diamond."
+                                                                                        src={item?.src}
+                                                                                        alt=""
+                                                                                        onError={(e) => {
+                                                                                            e.target.onerror = null;
+                                                                                            e.target.src = imageNotFound;
+                                                                                        }}
+                                                                                    />
+                                                                                )}
+                                                                            </>
+                                                                        )}
+                                                                    </div>
+                                                                );
+                                                            })}
+
+                                                        {certyLink && (
+                                                            <Link
+                                                                to={certyLink?.link}
+                                                                className="for_box_certy"
+                                                                title="Diamond certificate"
+                                                                style={{ position: "relative" }}
+                                                                target="_blank"
+                                                            >
+                                                                <img
+                                                                    src={certyLink?.imageUrl}
+                                                                    onError={(e) => {
+                                                                        e.target.onerror = null;
+                                                                        e.target.src = imageNotFound;
+                                                                    }}
+                                                                    alt="Diamond Certificate"
+                                                                    style={{ width: '100%', height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto' }}
+                                                                />
+                                                            </Link>
+                                                        )}
+                                                    </>
+                                                )}
+
+                                            </div>
+
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {/* <div className="for_DiamondDet_right_prodDetails">
                             {!compSet ? (
                                 <div className="for_DiamondDet_breadcrumbs">
                                     <div className="for_DiamondDet_breadcrumbs">
@@ -2037,7 +1799,6 @@ const DiamondDetails = () => {
                                                 : (
                                                     <div className="for_DiamondDet_title">
                                                         <span>{`${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}</span>
-                                                        {/* <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span> */}
                                                     </div>
                                                 )
                                             }
@@ -2061,7 +1822,6 @@ const DiamondDetails = () => {
                                                     <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
                                                     :
                                                     <span>&nbsp;{formatter(singleDiaData[0]?.price)}</span>
-                                                // <span>&nbsp;{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
                                             }
                                         </span>
                                     </div>
@@ -2138,7 +1898,6 @@ const DiamondDetails = () => {
 
                                                         </div>
                                                         <div className="for_Complete_set_title_sku">
-                                                            {/* <div className='for_Complete_set_sku'>Design No : {settingData?.step2Data?.designno ?? settingData?.step1Data?.designno}</div> */}
                                                         </div>
                                                         <div className="for_Complete_set_price_div">
                                                             <div className="for_Complete_set_price">
@@ -2177,30 +1936,6 @@ const DiamondDetails = () => {
                                                     </>
                                                 )}
                                         </div>
-
-                                        {/* <div className="for_Complete_set_size_div">
-                                            {sizeCombo?.length > 0 && (
-                                                <div className="for_prodWeights_metalType_div">
-                                                    <div className='for_prodWeight_title_div'>
-                                                        <span className="for_prodWeights_metalType_title">{setshape?.[1]?.Setting ?? setshape?.[0]?.Setting} Size</span>
-                                                        <span className="for_prodWeights_metalType_title_1">{`(Choose your ${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting} size)`}</span>
-                                                    </div>
-                                                    <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
-                                                        <select
-                                                            className="for_prodWeights_weights_drp"
-                                                            value={sizeData}
-                                                            onChange={(e) => handleCustomChange(e, 'size')}
-                                                        >
-                                                            {sizeCombo?.map((ele, index) => (
-                                                                <option key={index} value={ele?.value}>
-                                                                    {ele?.title}
-                                                                </option>
-                                                            ))}
-                                                        </select>
-                                                    </FormControl>
-                                                </div>
-                                            )}
-                                        </div> */}
 
                                         <div className="for_Complete_set_final_price_div">
                                             <div className="for_Complete_set_price">
@@ -2254,7 +1989,7 @@ const DiamondDetails = () => {
                                 </div>
                             )}
 
-                        </div>
+                        </div> */}
                     </div>
                     {!compSet && (
                         <div className="for_DiamondDet_prod_desc_mainDIv">

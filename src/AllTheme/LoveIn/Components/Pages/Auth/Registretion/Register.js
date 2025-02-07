@@ -4,17 +4,14 @@ import { Button, CircularProgress, IconButton, InputAdornment, TextField } from 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
+import { useSetRecoilState } from 'recoil';
+import Footer from '../../Home/Footer/Footer';
 import { RegisterAPI } from '../../../../../../utils/API/Auth/RegisterAPI';
-// import { useSetRecoilState } from 'recoil';
-// import Footer from ' ../../Home/Footer/Footer';
-// import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
-// import { loginState } from '../../../Recoil/atom';
-import Box from '@mui/material/Box';
-import Autocomplete from '@mui/material/Autocomplete';
-import { CountryCode } from '../../../../../../utils/assets/Countrylist';
-import CountryDropDown from '../../../../../../utils/Glob_Functions/CountryDropDown/CountryDropDown';
+import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
+import { loginState } from '../../../Recoil/atom';
 
-export default function Register() {
+
+export default function Register({ data }) {
   const navigation = useNavigate();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +24,6 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [Errors, setErrors] = useState({});
-  const [Countrycodestate, setCountrycodestate] = useState(CountryCode[103].phone);
   const [passwordError, setPasswordError] = useState('');
   const firstNameRef = useRef(null);
   const lastNameRef = useRef(null);
@@ -35,11 +31,10 @@ export default function Register() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
-  const [open, setOpen] = useState(false); // Track dropdown open/close
 
   const search = location?.search
-  // const updatedSearch = search.replace('?LoginRedirect=', '');
-  // const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+  const updatedSearch = search.replace('?LoginRedirect=', '');
+  const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const cancelRedireactUrl = `/LoginOption/${search}`;
   const singupRedirectUrl = `/LoginOption/${search}`;
   const handleKeyDown = (event, nextRef) => {
@@ -48,14 +43,6 @@ export default function Register() {
       nextRef.current.focus();
     }
   };
-
-  const handleCountryChange = (event, value) => {
-    if (value) {
-      setCountrycodestate(value.phone); // Update country code
-      setOpen(false); // Close the dropdown once a selection is made
-    }
-  };
-
 
   useEffect(() => {
     const storedEmail = location.state?.email;
@@ -162,7 +149,6 @@ export default function Register() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     const errors = {};
     if (!firstName.trim()) {
       errors.firstName = 'First Name is required';
@@ -261,8 +247,7 @@ export default function Register() {
           <CircularProgress className='loadingBarManage' />
         </div>
       )}
-      <div >
-        {/* style={{ backgroundColor: '#c0bbb1' }} */}
+      <div>
         <div className='smling-register-main'>
           <p style={{
             textAlign: 'center',
@@ -270,15 +255,12 @@ export default function Register() {
             paddingTop: '5%',
             fontSize: '40px',
             color: '#7d7f85',
-
+            fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
           }}
             className='AuthScreenRegisterMainTitle'
           >Register</p>
 
-          <form noValidate style={{
-            display: 'flex', flexDirection: 'column',
-            alignItems: 'center'
-          }} onSubmit={handleSubmit}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <TextField
               name="user-firstName"
               autoFocus
@@ -297,7 +279,7 @@ export default function Register() {
 
             <TextField
               name="user-lastName"
-              id="outlined-basic lastName"
+              id="outlined-basic lastname"
               label="Last Name"
               variant="outlined"
               className='labgrowRegister'
@@ -309,14 +291,23 @@ export default function Register() {
               error={!!Errors.lastName}
               helperText={Errors.lastName}
             />
-            <CountryDropDown
-              CountryCode={CountryCode}
-              Errors={Errors}
-              handleCountryChange={handleCountryChange}
-              handleInputChange={handleInputChange}
-              handleKeyDown={handleKeyDown}
-              open={open}
-              Countrycodestate={Countrycodestate} emailRef={emailRef} mobileNo={mobileNo} mobileNoRef={mobileNoRef} setMobileNo={setMobileNo} setOpen={setOpen} />
+
+            <TextField
+              name="user-mobileNo"
+              id="outlined-basic mobileNo"
+              label="Mobile No."
+              variant="outlined"
+              autoComplete="new-mobileNo" // Explicitly telling the browser not to autocomplete this field
+              className='labgrowRegister'
+              style={{ margin: '15px' }}
+              value={mobileNo}
+              inputRef={mobileNoRef}
+              onKeyDown={(e) => handleKeyDown(e, emailRef)}
+              onChange={(e) => handleInputChange(e, setMobileNo, 'mobileNo')}
+              error={!!Errors.mobileNo}
+              helperText={Errors.mobileNo}
+            />
+
             <TextField
               name="user-email"
               id="outlined-basic email"
@@ -397,23 +388,25 @@ export default function Register() {
               }}
             />
 
-            <button type='submit' className='createBtnRegister' >CREATE ACCOUNT</button>
+            <button className='createBtnRegister' onClick={handleSubmit}>CREATE ACCOUNT</button>
 
             {/* <div style={{ display: 'flex', marginTop: '10px' }}>
               <input type='checkbox' />
               <p style={{ margin: '5px' }}>Subscribe to our newsletter</p>
             </div> */}
             <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>BACK</Button>
-          </form>
-          {/* <Footer /> */}
+          </div>
+          <Footer data={data} />
         </div>
       </div>
-      {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-        <p 
-          className="backtotop_Smr"
-        
-        style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
-      </div> */}
+      <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+        <p
+          className="backtotop_lov"
+          style={{
+            margin: '0px', width: '100px', cursor: 'pointer', color: "#5F497A", fontSize: "14px",
+            fontWeight: 600,
+          }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
+      </div>
     </div>
   );
 }

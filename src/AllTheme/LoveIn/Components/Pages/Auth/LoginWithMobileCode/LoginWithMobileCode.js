@@ -6,11 +6,11 @@ import { useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
 import { loginState, lov_loginState } from '../../../Recoil/atom';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import Cookies from 'js-cookie';
 
-export default function LoginWithMobileCode() {
+export default function LoginWithMobileCode({ data }) {
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigate();
@@ -65,16 +65,16 @@ export default function LoginWithMobileCode() {
             errors.otp = 'Code is required';
             return;
         }
-        LoginWithEmailAPI('', mobileNo, enterOTP, 'otp_mobile_login', '',visiterId).then((response) => {
+        LoginWithEmailAPI('', mobileNo, enterOTP, 'otp_mobile_login', '', visiterId).then((response) => {
             if (response.Data.rd[0].stat === 1) {
                 sessionStorage.setItem('LoginUser', true)
                 setIsLoginState(true)
                 sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
                 sessionStorage.setItem('registerMobile', mobileNo);
 
-                if(redirectMobileUrl){
+                if (redirectMobileUrl) {
                     navigation(redirectMobileUrl);
-                }else{
+                } else {
                     navigation('/')
                 }
 
@@ -106,7 +106,7 @@ export default function LoginWithMobileCode() {
                 </div>
             )}
             <div >
-            {/* style={{ backgroundColor: '#c0bbb1' }} */}
+                {/* style={{ backgroundColor: '#c0bbb1' }} */}
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',
@@ -114,7 +114,7 @@ export default function LoginWithMobileCode() {
                         marginTop: '0px',
                         fontSize: '40px',
                         color: '#7d7f85',
-                       
+
                     }}
                         className='AuthScreenMainTitle'
                     >Login With Code</p>
@@ -123,12 +123,12 @@ export default function LoginWithMobileCode() {
                         marginTop: '-80px',
                         fontSize: '15px',
                         color: '#7d7f85',
-                       
+
                     }}
                         className='AuthScreenSubTitle'
                     >Last step! To secure your account, enter the code we just sent to {mobileNo}.</p>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' , marginTop: '20px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
                         <TextField
                             autoFocus
                             id="outlined-basic"
@@ -150,15 +150,17 @@ export default function LoginWithMobileCode() {
                         <p className='resend_msg' style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
                         <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
-                    {/* <Footer /> */}
+                    <Footer data={data} />
                 </div>
             </div>
-            {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p 
-          className="backtotop_Smr"
-                
-                style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
-            </div> */}
+            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+                <p
+                    className="backtotop_lov"
+                    style={{
+                        margin: '0px', width: '100px', cursor: 'pointer', color: "#5F497A", fontSize: "14px",
+                        fontWeight: 600,
+                    }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
+            </div>
         </div>
     );
 }

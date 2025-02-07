@@ -103,6 +103,10 @@ const useHomeBannerImages = () => {
           image: [],
           video:[],
         },
+        impactBanner: {
+          image: [],
+          video:[],
+        },
       });
 
     useEffect(() => {
@@ -266,6 +270,7 @@ const useHomeBannerImages = () => {
             image: [
               `${storImagePath()}/Banner/aboutusBanner1.png`,
               `${storImagePath()}/Banner/aboutusBanner2.png`,
+              `${storImagePath()}/Banner/aboutusBanner3.png`,
             ],
             video: [],
           },
@@ -330,6 +335,37 @@ const useHomeBannerImages = () => {
           faqBanner :{
             image: [
               `${storImagePath()}/Banner/faqBanner1.png`,
+            ],
+            video: [],
+          },
+          impactBanner :{
+            image: [
+              `${storImagePath()}/Banner/impactBanner1.png`,
+              `${storImagePath()}/Banner/impactBanner2.png`,
+              `${storImagePath()}/Banner/impactBanner3.png`,
+              `${storImagePath()}/Banner/impactBanner4.png`,
+              `${storImagePath()}/Banner/impactBanner5.png`,
+              `${storImagePath()}/Banner/impactBanner6.png`,
+              `${storImagePath()}/Banner/impactBanner7.png`,
+              `${storImagePath()}/Banner/impactBanner8.png`,
+              `${storImagePath()}/Banner/impactBanner9.png`,
+              `${storImagePath()}/Banner/impactBanner10.png`,
+              `${storImagePath()}/Banner/impactBanner11.png`,
+              `${storImagePath()}/Banner/impactBanner12.png`,
+              `${storImagePath()}/Banner/impactBanner13.png`,
+              `${storImagePath()}/Banner/impactBanner14.png`,
+              `${storImagePath()}/Banner/impactBanner15.png`,
+              `${storImagePath()}/Banner/impactBanner16.png`,
+              `${storImagePath()}/Banner/impactBanner17.png`,
+              `${storImagePath()}/Banner/impactBanner18.png`,
+              `${storImagePath()}/Banner/impactBanner19.png`,
+              `${storImagePath()}/Banner/impactBanner20.png`,
+              `${storImagePath()}/Banner/impactBanner21.png`,
+              `${storImagePath()}/Banner/impactBanner22.png`,
+              `${storImagePath()}/Banner/impactBanner23.png`,
+              `${storImagePath()}/Banner/impactBanner24.png`,
+              `${storImagePath()}/Banner/impactBanner25.png`,
+              `${storImagePath()}/Banner/impactBanner26.png`,
             ],
             video: [],
           },

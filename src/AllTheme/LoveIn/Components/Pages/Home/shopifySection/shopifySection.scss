@@ -1,0 +1,79 @@
+.shopifyMain {
+    display: flex;
+    margin-inline: 90px;
+    margin-block: 60px;
+    /* padding: 30px; */
+    border: 0.5px solid #e1e1e1;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.shopifyDesc {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.shopifyMainImage {
+    /* border: 1px solid; */
+    width: 50%;
+    padding: 20px;
+}
+
+.shopifyTitle {
+    color: #312648;
+    font-size: 25px;
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.shopifyDescription {
+    width: 70%;
+    font-size: 16px;
+    text-align: center;
+    color: rgb(125, 117, 149);
+    font-family: 'Ubuntu', sans-serif;
+}
+
+
+
+@media screen and (max-width: 1000px) {
+    .shopifyMain {
+        display: flex;
+        flex-direction: column;
+        margin-inline: 10px;
+        margin-block: 60px;
+
+    }
+
+    .shopifyDesc {
+        width: 100%;
+        order: 2;
+    }
+
+    .shopifyMainImage {
+        width: 100%;
+        order: 1;
+    }
+
+    .shopifyDescription {
+        color: #7d7f85 !important;
+        width: 95% !important;
+    }
+
+    .shopifyTitle {
+        font-size: 22px !important;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .ShopifyMainImage3 {
+        height: auto !important;
+        width: 50% !important;
+    }
+    .shopifyMainImage3{
+        display: flex;
+        justify-content: center;
+    }
+}

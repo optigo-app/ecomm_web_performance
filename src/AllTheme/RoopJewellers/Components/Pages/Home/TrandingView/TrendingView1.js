@@ -15,7 +15,7 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API
 import Pako from 'pako';
 import { useMediaQuery } from '@mui/material';
 
-const TrendingView1 = ({data}) => {
+const TrendingView1 = ({ data }) => {
 
     const trandingViewData = [
         '/images/HomePage/TrendingViewBanner/tranding1.png',
@@ -33,7 +33,6 @@ const TrendingView1 = ({data}) => {
     const maxWidth1200px = useMediaQuery('(max-width:1200px)');
 
     const [albumLength, setAlbumLength] = useRecoilState(roop_album_length);
-    console.log('albumLength: ', albumLength);
 
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     useEffect(() => {
@@ -163,13 +162,14 @@ const TrendingView1 = ({data}) => {
 
                         {/* For sonasons, pacific, ojasvi */}
                         {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} /> */}
+                        <img src={data?.image?.[1]} />
 
                         {/* // for vara  */}
-                        <img src={data?.image?.[0]}
+                        {/* <img src={data?.image?.[0]}
                             alt="Trending Jewellery Collection Banner"
                             loading='lazy'
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"  // Responsive image size based on viewport width
-                        />  
+                        />   */}
                     </div>
                     {/* <div className='smr_rightSideTR'> */}
 
@@ -276,12 +276,12 @@ const TrendingView1 = ({data}) => {
                                                     }
                                                 </>
                                             }
-                                            {storeInit?.IsPriceShow == 1 &&  <p>
+                                            {storeInit?.IsPriceShow == 1 && <p>
                                                 <span className="roop_currencyFont">
                                                     {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
                                                 </span>&nbsp;
                                                 <span>{formatter(item?.UnitCostWithMarkUp)}</span></p>
-                                                }
+                                            }
                                         </div>
                                     </div>
                                 </SwiperSlide>

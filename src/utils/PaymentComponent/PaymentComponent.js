@@ -26,7 +26,7 @@ import OrderRemarkModal from '../Glob_Functions/OrderRemark/OrderRemark';
 import EnhancedPaymentDialog from './PaymentDialog';
 // import './Payment.scss'
 
-export default function PaymentComponent({ bgcolor, top }) {
+export default function PaymentComponent({ bgcolor, textColor, top }) {
     const {
         handlePay,
         handleSaveInternal,
@@ -51,7 +51,7 @@ export default function PaymentComponent({ bgcolor, top }) {
         isPloding,
     } = usePaymentLogic();
 
-    const {IsPriceShow}  = JSON?.parse(sessionStorage?.getItem("storeInit")) ?? {} ;
+    const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem("storeInit")) ?? {};
 
     console.log(selectedAddrData ,"selectedAddrData")
     return (
@@ -196,7 +196,7 @@ export default function PaymentComponent({ bgcolor, top }) {
 
                         <Grid item xs={12} md={6}>
                             <Stack spacing={2}>
-                            {IsPriceShow == 1 &&    <Card>
+                                {IsPriceShow == 1 && <Card>
                                     <CardContent>
                                         <Typography variant="h6" gutterBottom>
                                             Order Summary
@@ -256,7 +256,11 @@ export default function PaymentComponent({ bgcolor, top }) {
                                                     fontSize: {
                                                         sm: '10px !important',
                                                         md: '14px !important',
-                                                        xs: '10px !important'
+                                                        xs: '10px !important',
+                                                    },
+                                                    color: textColor,
+                                                    '&:hover': {
+                                                        backgroundColor: bgcolor,
                                                     },
                                                 }}
                                             >
@@ -327,8 +331,11 @@ export default function PaymentComponent({ bgcolor, top }) {
                                     fullWidth
                                     sx={{
                                         py: 1.5, fontSize: '1.1rem'
-                                        , bgcolor: bgcolor ? bgcolor : ''
-
+                                        , bgcolor: bgcolor ? bgcolor : '',
+                                        color: textColor,
+                                        '&:hover': {
+                                            backgroundColor: bgcolor,
+                                        },
                                     }}
                                     onClick={handlePay}
                                     className='proCat_payOnAccountBtn'

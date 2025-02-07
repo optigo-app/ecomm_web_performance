@@ -7,7 +7,7 @@ export const BespokeAPI = async (obj = {}, file) => {
         "EmailId": obj?.EmailId || "",
         "mobileno": obj?.mobileno || "",
         "InQuirySubject": obj?.InQuirySubject || '',
-        "WebSite": obj?.WebSite || 0,
+        "WebSite": obj?.WebSite || "",
         "Be_In_Message": obj?.Be_In_Message || "",
         "Themeno": obj?.Themeno || "",
     }

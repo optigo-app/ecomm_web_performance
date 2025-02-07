@@ -1,19 +1,47 @@
-@import "../../../scss/variable.scss";
-.smr_Services_mainDiv_q {
-    padding-top: 2rem;
-    background-color: $bgColor;
-    font-family: 'Arial' !important;
-    .service_Wrraper_main{
-        min-height: 400px;
-        margin-inline: 6%;
-        padding-bottom: 80px;
-        background-color: white;
-        /* top | right | bottom | left */
-        padding: 4rem 5rem 1rem 5rem;
-    }
-    .mairo2_terms_title{
-        font-family: $homePageFontFamily !important;
-        font-weight: 600;
-    }
+.servicePolicyMainDiv{
+    font-family: 'Ubuntu', sans-serif;
+}
+.smiling-ServicePolicyMain{
+    margin-inline: 6%;
+    background-color: white;
+}
 
+.smiling-ServiPolicySubMain{
+    padding-inline: 18%;
+}
+
+.smiling-ServiceMainTitle{
+    font-size: 40px;
+    font-weight: 600;
+    color: #3f3151;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.smiling-serviceSubTitle{
+    font-size: 25px;
+    font-weight: 600;
+    color: #3f3151;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.smiling-serviceDesc{
+    font-size: 16px;
+    color: #5f497A;
+    font-weight: 500;
+
+}   
+
+.backToTop{
+    font-family: 'Ubuntu', sans-serif;
+}
+
+@media screen and (max-width:1200px) {
+    .smiling-ServicePolicyMain {
+    margin-inline: 2%;
+
+    }
+    .smiling-ServiPolicySubMain{
+    padding-inline: 5%;
+
+    }
 }

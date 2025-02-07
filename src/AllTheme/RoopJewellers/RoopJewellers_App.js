@@ -38,6 +38,7 @@ import Wishlist from "./Components/Pages/Wishlist/Wishlist";
 // import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
 // import Header2 from "./Components/Pages/Home/Header/Header2";
 import Account from "./Components/Pages/Account/Account";
+import AXboutUs from './Components/Pages/aboutUs/AQbout';
 // import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 // import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
 // import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
@@ -246,10 +247,10 @@ const RoopJewellers_App = () => {
             element={<TermsAndConditions />}
           />
           {/* For sonasons and vara */}
-          <Route path="/aboutUs" element={Vara} />
+          {/* <Route path="/aboutUs" element={Vara} /> */}
 
           {/* For shinjini, Pacific, ojasvi */}
-          {/* <Route path="/aboutUs" element={<AXboutUs />} /> */}
+          <Route path="/aboutUs" element={<AXboutUs />} />
           {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
           {/* <Route path="/FunFact" element={<FunFact />} /> */}
           <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>

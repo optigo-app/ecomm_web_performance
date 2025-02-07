@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router'
 import Footer from '../../Home/Footer/Footer';
 import { ResetPasswordAPI } from '../../../../../../utils/API/Auth/ResetPasswordAPI';
 
-export default function ForgotPass() {
+export default function ForgotPass({ data }) {
 
 
     const [password, setPassword] = useState('');
@@ -124,7 +124,7 @@ export default function ForgotPass() {
                 </div>
             )}
             <div >
-            {/* style={{ backgroundColor: '#c0bbb1' }} */}
+                {/* style={{ backgroundColor: '#c0bbb1' }} */}
                 <div className='smr_forgotSubDiv'>
                     <p style={{
                         textAlign: 'center',
@@ -132,7 +132,7 @@ export default function ForgotPass() {
                         margin: '0px',
                         fontSize: '40px',
                         color: '#7d7f85',
-                     
+
                     }}
 
                         className='AuthScreenMainTitle'
@@ -142,13 +142,13 @@ export default function ForgotPass() {
                         marginTop: '-60px',
                         fontSize: '15px',
                         color: '#7d7f85',
-                     
+
                     }}
 
                         className='AuthScreenSubTitle'
                     >{ }</p>
 
-                    <div style={{ display: 'flex',  flexDirection: 'column', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <TextField
                             autoFocus
                             id="outlined-password-input"
@@ -212,16 +212,18 @@ export default function ForgotPass() {
                         <button className='createBtnRegister' onClick={handleSubmit}>Change Password</button>
                         <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/')}>CANCEL</Button>
                     </div>
-                    {/* <Footer /> */}
+                    <Footer data={data} />
 
                 </div>
             </div>
-            {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p 
-          className="backtotop_Smr"
-                
-                style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
-            </div> */}
+            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+                <p
+                    className="backtotop_lov"
+                    style={{
+                        margin: '0px', width: '100px', cursor: 'pointer', color: "#5F497A", fontSize: "14px",
+                        fontWeight: 600,
+                    }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
+            </div>
         </div>
     )
 }

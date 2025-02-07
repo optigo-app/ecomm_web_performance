@@ -1,0 +1,43 @@
+.mainFaqDiv{
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.smiling-FaqMain {
+    margin-inline: 6%;
+    background-color: white;
+}
+
+.smiling-FaqSubMain {
+    padding-inline: 18%;
+}
+
+.smiling-FaqMainTitle {
+    color: #3f3151;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 40px;
+}
+
+.smiling-FaqMainSubTitle {
+    color: #3f3151;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 25px;
+}
+
+.smiling-FaqMainDesc {
+    color: #5f497A;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    font-weight: 400;
+}
+
+
+@media screen and (max-width:1200px) {
+    .smiling-FaqMain {
+    margin-inline: 2%;
+
+    }
+    .smiling-FaqSubMain{
+    padding-inline: 5%;
+
+    }
+}

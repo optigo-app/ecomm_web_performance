@@ -1,64 +1,76 @@
-@import '../../../scss/variable';
 
 
-
-.shopbycategoryTitle {
-    color: $homePageFontColor;
-    font-family: $homePageFontFamily;
-    font-size: $fontSize7;
+.shopbycategoryTitle{
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 25px;
     text-align: center;
-    margin: 60px 0px 0px 0px;
-    
+    color: rgb(95,73,122);
 }
-.shopbycategoryDescp{
-    color: $homePageFontColor;
-    font-family: $homePageFontFamily;
-    font-size: $fontSize1;
-}
-.smr_shopByCateTitle{
-    color: $homePageFontColor;
-    font-family: $primaryFontFamilyMedium;
-    font-size: $fontSize3;
-    margin: 0px;
-}
-.shopbycategoryDesc {
+
+.shopbycategoryDesc{
+    color: rgb(95,73,122);
     display: flex;
     justify-content: center;
 }
 
-.shopByCategoryBox {
+.shopByCategoryBox{
     margin: 30px;
+    padding: 15px 15px 0px 15px;
+    background-color: rgba(251, 249, 249, 0.7);
+    font-family: 'Ubuntu', sans-serif;
 }
-
-.shopByCategoryBoxImg {
+.shopByCategoryBoxImg{
     height: 200px;
     width: 200px;
 }
 
-.shopByCategoryBox1Main {
+.shopByCategoryBox1Main{
     display: flex;
 }
 
-.shopByCategoryBox2Main {
+.shopByCategoryBox2Main{
     display: flex;
 }
 
-@media screen and (max-width: 1000px) {
-    .shopbycategoryTitle {
-        font-size: 20px !important;
-        margin: 5px 0px 0px 0px !important;
-    }
-}
+.daimondEveryTitleDescs {
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-family: 'Ubuntu', sans-serif;
+  }
 
 @media screen and (max-width: 550px) {
 
-    .shopByCategoryBox {
-        width: 50% !important;
-        margin: 5px !important;
+    .shopbycategoryTitle{
+        margin: 0px!important;
+        font-size: 21px!important;
+
+    }
+    .ShopBYCateMAin{
+        margin-top: 10px!important;
+    }
+    .shopbycategoryDescC{
+        font-size: 14px!important;
+        margin: 0px!important;
     }
 
-    .shopByCategoryBoxImg {
-        height: 80% !important;
-        width: 100% !important;
+    .shopByCategoryBox{
+        width: 50%!important;
+        margin: 5px!important;
     }
+
+    .shopByCategoryBoxImg{
+        height: 80%!important;
+        width: 100%!important;
+    }
+
+    .shopByCategoryBox{
+        padding: 0px!important;
+    }
+    .daimondEveryTitleDescsDiv{
+       display: none;  
+    }
+
+    /* .shopByCategoryBox2Main{
+        display: none!important;
+    } */
 }

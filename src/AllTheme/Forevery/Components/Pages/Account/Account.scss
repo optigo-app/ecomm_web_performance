@@ -107,12 +107,12 @@
         border-bottom: 1px solid black;
     }
 
-    .smlingAccountTabWebView button.Mui-selected {
+    .for_AccountTabWebView button.Mui-selected {
         color: #3b3c3d;
         /* text-decoration: underline; */
     }
 
-    .smlingAccountTabWebView span.MuiTabs-indicator {
+    .for_AccountTabWebView span.MuiTabs-indicator {
         background-color: #3b3c3d;
     }
 
@@ -178,9 +178,9 @@
     }
 
     @media screen and (min-width: 1050px) {
-        .smlingAccountTabMobileView {
-            display: none;
-        }
+        // .smlingAccountTabMobileView {
+        //     display: none;
+        // }
 
         .sticky-header_web_sm {
             position: unset;
@@ -196,9 +196,8 @@
 
     @media screen and (max-width: 1049px) {
 
-        .smlingAccountTabWebView {
-            // display: none;
-            display: unset;
+        .for_AccountTabWebView {
+            display: none;
         }
 
         .smilingAccountLogoutMobile {
@@ -244,10 +243,10 @@
             display: none;
         }
 
-        .smlingAccountTabWebView {
-            // display: none;
-            display: unset !important;
-        }
+        // .for_AccountTabWebView {
+        //     // display: none;
+        //     display: none !important;
+        // }
     }
 
     @media(max-width: 768px) {

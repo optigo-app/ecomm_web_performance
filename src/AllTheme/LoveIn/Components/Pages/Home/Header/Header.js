@@ -437,7 +437,7 @@ const Header = () => {
     setCartOpenState((prevState) => !prevState);
   };
 
-  const handleContextMenu = (e) => {};
+  const handleContextMenu = (e) => { };
 
   const handleMouseDown = (e) => {
     // console.log("rrrrrrrrrrrrrrrrrrr", e);
@@ -508,9 +508,8 @@ const Header = () => {
           </div>
 
           <div
-            className={`lov_smlingSearchoverlayNew ${
-              isHeaderFixedDropShow ? "fixed" : ""
-            }`}
+            className={`lov_smlingSearchoverlayNew ${isHeaderFixedDropShow ? "fixed" : ""
+              }`}
           >
             <div className="lov_smlingTopSerachOver-Fixed">
               <IoSearchOutline
@@ -821,7 +820,7 @@ const Header = () => {
               </div>
             )}
 
-            {IsB2BWebsiteChek == 1 ? (
+            {/* {IsB2BWebsiteChek == 1 ? (
               islogin ? (
                 <>
                   {storeinit?.IsDesignSetInMenu == 1 && (
@@ -834,7 +833,6 @@ const Header = () => {
                       }}
                     >
                       {storeinit?.DesignSetInMenu}
-                      {/* LOOKBOOK */}
                     </p>
                   )}
                 </>
@@ -853,11 +851,21 @@ const Header = () => {
                     }}
                   >
                     {storeinit?.DesignSetInMenu}
-                    {/* LOOKBOOK */}
                   </p>
                 )}
               </>
-            )}
+            )}  */}
+
+            <p
+              className="lov_menuStaicMobilePageLink"
+              style={{ marginTop: "10px" }}
+              onClick={() => {
+                setDrawerShowOverlay(false);
+                navigation("/impact");
+              }}
+            >
+              IMPACT
+            </p>
 
             {islogin && (
               <div>
@@ -935,7 +943,7 @@ const Header = () => {
       <div className="smiling_Top_header">
         <div className="smiling_Top_header_sub">
           <div className="smiling_Top_header_div1">
-              {/* Here is Navbar Shop Menu  */}
+            {/* Here is Navbar Shop Menu  */}
             <ul className="nav_ul_shop">
               {IsB2BWebsiteChek == 1 ? (
                 islogin == true ? (
@@ -1025,7 +1033,7 @@ const Header = () => {
                     </li> */}
                   </>
                 )}
-              {IsB2BWebsiteChek === 1 ? (
+              {/* {IsB2BWebsiteChek === 1 ? (
                 islogin === true ? (
                   <>
                     {storeinit?.IsDesignSetInMenu == 1 && (
@@ -1036,10 +1044,7 @@ const Header = () => {
                           hanldeStaticPageNavigation(event, "/Lookbook")
                         }
                       >
-                        {/* <a href="/Lookbook" className="lov_A_link"> */}
                         {storeinit?.DesignSetInMenu}
-                        {/* LOOKBOOK */}
-                        {/* </a> */}
                       </li>
                     )}
                   </>
@@ -1056,14 +1061,20 @@ const Header = () => {
                         hanldeStaticPageNavigation(event, "/Lookbook")
                       }
                     >
-                      {/* <a href="/Lookbook" className="lov_A_link"> */}
                       {storeinit?.DesignSetInMenu}
-                      {/* LOOKBOOK */}
-                      {/* </a> */}
                     </li>
                   )}
                 </>
-              )}
+              )} */}
+              <li
+                className="nav_li_lov nav_li_lov_Mobile"
+                style={{ cursor: "pointer" }}
+                onClick={(event) =>
+                  hanldeStaticPageNavigation(event, "/impact")
+                }
+              >
+                IMPACT
+              </li>
             </ul>
             <ul className="nav_ul_shop_menu_Mobile">
               <MenuIcon
@@ -1284,9 +1295,8 @@ const Header = () => {
           </div>
         </div>
         <div
-          className={`lov-Top-Header-fixed-main ${
-            isHeaderFixed ? "fixed" : ""
-          }  ${serachsShowOverlay ? "searchoverly" : ""}`}
+          className={`lov-Top-Header-fixed-main ${isHeaderFixed ? "fixed" : ""
+            }  ${serachsShowOverlay ? "searchoverly" : ""}`}
         >
           <div className="smiling_Top_header_sub" style={{ width: "100%" }}>
             <div className="smiling_Top_header_div1">
@@ -1306,6 +1316,8 @@ const Header = () => {
                           alignItems: "center",
                           fontWeight: 500,
                           cursor: "pointer",
+                          fontSize: "15px",
+                          color: "rgb(95,73,122)"
                         }}
                       >
                         SHOP
@@ -1330,6 +1342,8 @@ const Header = () => {
                         alignItems: "center",
                         fontWeight: 500,
                         cursor: "pointer",
+                        fontSize: "15px",
+                        color: "rgb(95,73,122)"
                       }}
                     >
                       SHOP
@@ -1384,7 +1398,7 @@ const Header = () => {
                       </li> */}
                     </>
                   )}
-                {IsB2BWebsiteChek === 1 ? (
+                {/* {IsB2BWebsiteChek === 1 ? (
                   islogin === true ? (
                     <>
                       {storeinit?.IsDesignSetInMenu == 1 && (
@@ -1397,7 +1411,6 @@ const Header = () => {
                         >
                           <a href="/Lookbook" className="lov_A_linkFixed">
                             {storeinit?.DesignSetInMenu}
-                            {/* LOOKBOOK */}
                           </a>
                         </li>
                       )}
@@ -1417,13 +1430,23 @@ const Header = () => {
                       >
                         <a href="/Lookbook" className="lov_A_linkFixed">
                           {storeinit?.DesignSetInMenu}
-                          {/* LOOKBOOK */}
                         </a>
                       </li>
                     )}
                   </>
-                )}
+                )} */}
 
+                <li
+                  className="nav_li_lov_Fixed nav_li_lov_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={(event) =>
+                    hanldeStaticPageNavigation(event, "/impact")
+                  }
+                >
+                  <a href="/impact" className="lov_A_linkFixed">
+                    IMPACT
+                  </a>
+                </li>
                 <ul className="nav_ul_shop_menu_Mobile">
                   <MenuIcon
                     style={{ fontSize: "35px" }}
@@ -1646,9 +1669,8 @@ const Header = () => {
         <div
           onMouseEnter={handleDropdownOpen}
           onMouseLeave={handleDropdownClose}
-          className={`shop-dropdown ${isDropdownOpen ? "open" : ""} ${
-            isHeaderFixed ? "fixed" : ""
-          }`}
+          className={`shop-dropdown ${isDropdownOpen ? "open" : ""} ${isHeaderFixed ? "fixed" : ""
+            }`}
           style={{ backgroundColor: isHeaderFixed && "transparent" }}
         >
           <div
@@ -1667,7 +1689,7 @@ const Header = () => {
             onMouseLeave={handleDropdownClose}
           >
             {/* <NewMenuBar handelMenu={handelMenu} menuItems={menuItems} /> */}
-            {/* <OldMenuBar handelMenu={handelMenu} menuItems={menuItems}/> */}
+            <OldMenuBar handelMenu={handelMenu} menuItems={menuItems} />
           </div>
         </div>
       </div>
@@ -1680,7 +1702,7 @@ const Header = () => {
 export default Header;
 
 
-const NewMenuBar = ({ menuItems = [], handelMenu = () => {} }) => {
+const NewMenuBar = ({ menuItems = [], handelMenu = () => { } }) => {
   const SliderbannerImages = [
     storImagePath() + "/1.png",
     storImagePath() + "/2.png",
@@ -1738,11 +1760,10 @@ const NewMenuBar = ({ menuItems = [], handelMenu = () => {} }) => {
                       >
                         <a
                           className="lov_menu_level_1_title"
-                          href={`/p/${menuItem?.menuname}/${
-                            menuItem?.param0dataname
-                          }/${subMenuItem.param1dataname}/?M=${btoa(
-                            `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
-                          )}`}
+                          href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname
+                            }/${subMenuItem.param1dataname}/?M=${btoa(
+                              `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
+                            )}`}
                         >
                           {subMenuItem.param1dataname}
                         </a>
@@ -1773,13 +1794,11 @@ const NewMenuBar = ({ menuItems = [], handelMenu = () => {} }) => {
                             >
                               <a
                                 className="lov_menu_level_2_title"
-                                href={`/p/${menuItem?.menuname}/${
-                                  menuItem?.param0dataname
-                                }/${subMenuItem.param1dataname}/${
-                                  subSubMenuItem.param2dataname
-                                }/?M=${btoa(
-                                  `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
-                                )}`}
+                                href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname
+                                  }/${subMenuItem.param1dataname}/${subSubMenuItem.param2dataname
+                                  }/?M=${btoa(
+                                    `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
+                                  )}`}
                               >
                                 {" "}
                                 <p>{subSubMenuItem.param2dataname}</p>
@@ -1821,7 +1840,7 @@ const NewMenuBar = ({ menuItems = [], handelMenu = () => {} }) => {
   );
 };
 
-const OldMenuBar = ({ menuItems = [], handelMenu = () => {} }) => {
+const OldMenuBar = ({ menuItems = [], handelMenu = () => { } }) => {
   if (menuItems?.length == 0) {
     return;
   }
@@ -1858,13 +1877,13 @@ const OldMenuBar = ({ menuItems = [], handelMenu = () => {} }) => {
                   `${menuItem?.param0dataname}/${menuItem?.param0name}`
                 )}`}
                 className="lov_menuSubTitle"
-                // onClick={() =>
-                //   handelMenu({
-                //     menuname: menuItem?.menuname,
-                //     key: menuItem?.param0name,
-                //     value: menuItem?.param0dataname,
-                //   })
-                // }
+              // onClick={() =>
+              //   handelMenu({
+              //     menuname: menuItem?.menuname,
+              //     key: menuItem?.param0name,
+              //     value: menuItem?.param0dataname,
+              //   })
+              // }
               >
                 <p className="muilistMenutext">{menuItem.menuname}</p>
               </a>
@@ -1907,14 +1926,13 @@ const OldMenuBar = ({ menuItems = [], handelMenu = () => {} }) => {
                     >
                       {/* <a href='#' className='lov_menuSubTitle'> */}
                       <a
-                        href={`/p/${menuItem?.menuname}/${
-                          menuItem?.param0dataname
-                        }/${subMenuItem.param1dataname}/?M=${btoa(
-                          `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
-                        )}`}
+                        href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname
+                          }/${subMenuItem.param1dataname}/?M=${btoa(
+                            `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
+                          )}`}
                         className="lov_menuSubTitle"
 
-                        // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
+                      // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                       >
                         <p
                           style={{
@@ -1958,31 +1976,29 @@ const OldMenuBar = ({ menuItems = [], handelMenu = () => {} }) => {
                             }
                           >
                             <a
-                              href={`/p/${menuItem?.menuname}/${
-                                menuItem?.param0dataname
-                              }/${subMenuItem.param1dataname}/${
-                                subSubMenuItem.param2dataname
-                              }/?M=${btoa(
-                                `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
-                              )}`}
+                              href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname
+                                }/${subMenuItem.param1dataname}/${subSubMenuItem.param2dataname
+                                }/?M=${btoa(
+                                  `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
+                                )}`}
                               className="lov_menuSubTitle"
-                              // onClick={() =>
-                              //   handelMenu(
-                              //     {
-                              //       menuname: menuItem?.menuname,
-                              //       key: menuItem?.param0name,
-                              //       value: menuItem?.param0dataname,
-                              //     },
-                              //     {
-                              //       key: subMenuItem.param1name,
-                              //       value: subMenuItem.param1dataname,
-                              //     },
-                              //     {
-                              //       key: subSubMenuItem.param2name,
-                              //       value: subSubMenuItem.param2dataname,
-                              //     }
-                              //   )
-                              // }
+                            // onClick={() =>
+                            //   handelMenu(
+                            //     {
+                            //       menuname: menuItem?.menuname,
+                            //       key: menuItem?.param0name,
+                            //       value: menuItem?.param0dataname,
+                            //     },
+                            //     {
+                            //       key: subMenuItem.param1name,
+                            //       value: subMenuItem.param1dataname,
+                            //     },
+                            //     {
+                            //       key: subSubMenuItem.param2name,
+                            //       value: subSubMenuItem.param2dataname,
+                            //     }
+                            //   )
+                            // }
                             >
                               {/* <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}> */}
                               <p
@@ -2022,7 +2038,7 @@ const OldMenuBar = ({ menuItems = [], handelMenu = () => {} }) => {
   );
 };
 
-const TopNavBar = ({ menuItems = [], handelMenu = () => {} }) => {
+const TopNavBar = ({ menuItems = [], handelMenu = () => { } }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [expandedMenu, setExpandedMenu] = useState(null);
   const [selectedData, setSelectedData] = useState([]);
@@ -2046,44 +2062,44 @@ const TopNavBar = ({ menuItems = [], handelMenu = () => {} }) => {
       setExpandedMenu(null);
       setSelectedData([]);
       document.body.style.overflow = "auto";
-    }, 100); 
+    }, 100);
   };
 
   const handleMouseLeaveWithDelay = (e) => {
-    e.stopPropagation(); 
-      setExpandedMenu(null);
-      setSelectedData([]);
-      document.body.style.overflow = "auto";
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current); 
-      }
+    e.stopPropagation();
+    setExpandedMenu(null);
+    setSelectedData([]);
+    document.body.style.overflow = "auto";
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
   };
 
   return (
     <>
       <div className="TopNavBar"
-           onMouseLeave={handleMouseLeaveWithDelay} // Handle mouse leave from the parent container
+        onMouseLeave={handleMouseLeaveWithDelay} // Handle mouse leave from the parent container
       >
         <div className="lov_flat_view_menu">
-          <HoverMenu
+          {/* <HoverMenu
             handleMouseEnter={handleMouseEnter}
             handleMouseLeave={handleMouseLeave}
             expandedMenu={expandedMenu}
             hoveredIndex={hoveredIndex}
             selectedData={selectedData}
             handelMenu={handelMenu}
-          />
+          /> */}
           {menuItems?.map((menuItem, index) => (
             <div
               key={menuItem.menuid}
               className="menu_list_lov"
-                       onMouseEnter={() => {
+              onMouseEnter={() => {
                 handleMouseEnter(index, menuItem);
               }}
               onClick={() => handleMouseLeave()}
-              // onMouseLeave={() => {
-              //   handleMouseLeave();
-              // }}
+            // onMouseLeave={() => {
+            //   handleMouseLeave();
+            // }}
             >
               <div
                 // component="div"
@@ -2143,11 +2159,10 @@ const TopNavBar = ({ menuItems = [], handelMenu = () => {} }) => {
                           >
                             <a
                               className="lov_menu_title_1"
-                              href={`/p/${menuItem?.menuname}/${
-                                menuItem?.param0dataname
-                              }/${subMenuItem.param1dataname}/?M=${btoa(
-                                `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
-                              )}`}
+                              href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname
+                                }/${subMenuItem.param1dataname}/?M=${btoa(
+                                  `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
+                                )}`}
                             >
                               {subMenuItem.param1dataname}
                             </a>
@@ -2186,13 +2201,11 @@ const TopNavBar = ({ menuItems = [], handelMenu = () => {} }) => {
                                   >
                                     <a
                                       className="lov_menu_title_2"
-                                      href={`/p/${menuItem?.menuname}/${
-                                        menuItem?.param0dataname
-                                      }/${subMenuItem.param1dataname}/${
-                                        subSubMenuItem.param2dataname
-                                      }/?M=${btoa(
-                                        `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
-                                      )}`}
+                                      href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname
+                                        }/${subMenuItem.param1dataname}/${subSubMenuItem.param2dataname
+                                        }/?M=${btoa(
+                                          `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
+                                        )}`}
                                     >
                                       {subSubMenuItem.param2dataname}
                                     </a>
@@ -2229,16 +2242,16 @@ const TopNavBar = ({ menuItems = [], handelMenu = () => {} }) => {
   );
 };
 
-const HoverMenu = ({  selectedData,  handelMenu,  expandedMenu,  hoveredIndex,  handleMouseEnter,  handleMouseLeave,}) => {
+const HoverMenu = ({ selectedData, handelMenu, expandedMenu, hoveredIndex, handleMouseEnter, handleMouseLeave, }) => {
   const SliderbannerImages = [
     storImagePath() + "/1.png",
     storImagePath() + "/2.png",
   ];
 
-  if (expandedMenu === null || expandedMenu === undefined || selectedData?.param1[0].param1dataname === "" ) {
+  if (expandedMenu === null || expandedMenu === undefined || selectedData?.param1[0].param1dataname === "") {
     return;
   }
-  
+
   return (
     <>
       <div
@@ -2249,7 +2262,7 @@ const HoverMenu = ({  selectedData,  handelMenu,  expandedMenu,  hoveredIndex,  
       >
         <div className="lov_left_list">
           <div
-          className="lov_menu_level_list"          >
+            className="lov_menu_level_list"          >
             {selectedData?.param1?.map((param1Item, param1Index) => {
               return (
                 <div key={param1Index}>
@@ -2274,18 +2287,17 @@ const HoverMenu = ({  selectedData,  handelMenu,  expandedMenu,  hoveredIndex,  
                     }}
                   >
                     <a
-                      href={`/p/${selectedData?.param0dataname}/${
-                        param1Item.param1dataname
-                      }/?M=${btoa(
-                        `${selectedData?.param0dataname},${param1Item?.param1dataname}/${selectedData?.param0name},${param1Item?.param1name}`
-                      )}`}
+                      href={`/p/${selectedData?.param0dataname}/${param1Item.param1dataname
+                        }/?M=${btoa(
+                          `${selectedData?.param0dataname},${param1Item?.param1dataname}/${selectedData?.param0name},${param1Item?.param1name}`
+                        )}`}
                       style={{ color: "black", textDecoration: "none" }}
                     >
                       {param1Item?.param1dataname}
                     </a>
                   </span>
                   <div
-                  className="level2menudata"
+                    className="level2menudata"
                     style={{
                       height: "28.2vh",
                       display: "flex",
@@ -2327,15 +2339,14 @@ const HoverMenu = ({  selectedData,  handelMenu,  expandedMenu,  hoveredIndex,  
                             cursor: "pointer",
                             textTransform: "capitalize",
                             paddingRight: "15px",
-                            whiteSpace:"nowrap"
+                            whiteSpace: "nowrap"
                           }}
                         >
                           <a
-                            href={`/p/${selectedData?.param0dataname}/${
-                              param1Item.param1dataname
-                            }/${param2Item.param2dataname}/?M=${btoa(
-                              `${selectedData?.param0dataname},${param1Item.param1dataname},${param2Item.param2dataname}/${selectedData?.param0name},${param1Item.param1name},${param2Item.param2name}`
-                            )}`}
+                            href={`/p/${selectedData?.param0dataname}/${param1Item.param1dataname
+                              }/${param2Item.param2dataname}/?M=${btoa(
+                                `${selectedData?.param0dataname},${param1Item.param1dataname},${param2Item.param2dataname}/${selectedData?.param0name},${param1Item.param1name},${param2Item.param2name}`
+                              )}`}
                             style={{ color: "black", textDecoration: "none" }}
                           >
                             {param2Item?.param2dataname}
