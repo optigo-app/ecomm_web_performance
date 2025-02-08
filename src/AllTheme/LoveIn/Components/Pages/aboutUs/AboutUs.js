@@ -1,4 +1,4 @@
-import React,{ useEffect, useState }  from 'react'
+import React, { useEffect, useState } from 'react'
 import './AboutUs.modul.scss'
 import Footer from '../Home/Footer/Footer'
 import useHomeBannerImages from '../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner'
@@ -29,8 +29,8 @@ export default function AboutUs() {
                     <div style={{
                         paddingBlock: '70px'
                     }}
-                     className=' daimondsEveryAboutSubTitle'
-                     >
+                        className=' daimondsEveryAboutSubTitle'
+                    >
                         {/* <p style={{
                             textAlign: 'center',
                             fontSize: '15px',
@@ -127,6 +127,14 @@ export default function AboutUs() {
 
                 {/* <ContactForm /> */}
                 <Footer data={banner?.affiliation} />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px', background: "#EFE5FF" }}>
+                <p
+                    className="backtotop_lov"
+                    style={{
+                        margin: '0px', width: '100px', cursor: 'pointer', color: "#5F497A", fontSize: "14px",
+                        fontWeight: 600,
+                    }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
             </div>
         </div>
     )

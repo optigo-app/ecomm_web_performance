@@ -51,7 +51,7 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import { SaveLastViewDesign } from "../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign";
 
-const ProductDetail = () => {
+const ProductDetail = ({ data }) => {
   let location = useLocation();
   const imageNotFound = imageNotFound1;
 
@@ -2434,9 +2434,9 @@ const ProductDetail = () => {
                                 >
                                   <span
                                     className="lov_addtocart_btn_txt"
-                                    // style={{
-                                    //   color: !addToCartFlag ? "white" : "white",
-                                    // }}
+                                  // style={{
+                                  //   color: !addToCartFlag ? "white" : "white",
+                                  // }}
                                   >
                                     {!addToCartFlag
                                       ? "ADD TO CART"
@@ -2778,7 +2778,7 @@ const ProductDetail = () => {
                             <th className="lov_stockItem_table_td">
                               Metal Color-Purity
                             </th>
-                            {storeInit?.IsPriceShow == 1 &&     <th className="lov_stockItem_table_td">Price</th>}
+                            {storeInit?.IsPriceShow == 1 && <th className="lov_stockItem_table_td">Price</th>}
                             <th className="lov_stockItem_table_td">
                               Add To Cart
                             </th>
@@ -2903,7 +2903,7 @@ const ProductDetail = () => {
                                 </span>
                                 {/* </div> */}
                               </td>
-                              {storeInit?.IsPriceShow == 1 &&  <td className="lov_stockItem_table_td">
+                              {storeInit?.IsPriceShow == 1 && <td className="lov_stockItem_table_td">
                                 <span>
                                   <span className="lov_currencyFont">
                                     {loginInfo?.CurrencyCode ??
@@ -3166,16 +3166,16 @@ const ProductDetail = () => {
                                             {ele?.designno} -{" "}
                                             {ele?.CategoryName}
                                             <br />
-                                            {storeInit?.IsPriceShow == 1 &&  <>
+                                            {storeInit?.IsPriceShow == 1 && <>
                                               <span className="lov_currencyFont">
                                                 {loginInfo?.CurrencyCode ??
                                                   storeInit?.CurrencyCode}
                                               </span>
-                                            
-                                            &nbsp;
-                                            {formatter.format(
-                                              ele?.UnitCostWithMarkUp
-                                            )}
+
+                                              &nbsp;
+                                              {formatter.format(
+                                                ele?.UnitCostWithMarkUp
+                                              )}
                                             </>}
                                           </p>
                                         </div>
@@ -3198,10 +3198,10 @@ const ProductDetail = () => {
                 )}
               </>
             )}
-            {/* <Footer /> */}
+            <Footer data={data} />
           </div>
         </div>
-        {/* <div
+        <div
           className="lov_prodDetail_backtotop"
           onClick={() => {
             window.scroll({
@@ -3210,8 +3210,11 @@ const ProductDetail = () => {
             });
           }}
         >
-          BACK TO TOP
-        </div> */}
+          <p style={{
+            margin: '0px', width: '100px', cursor: 'pointer', color: "#5F497A", fontSize: "14px",
+            fontWeight: 600,
+          }}>BACK TO TOP</p>
+        </div>
       </div>
     </>
   );

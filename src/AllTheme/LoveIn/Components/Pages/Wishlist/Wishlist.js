@@ -15,7 +15,7 @@ import Cookies from "js-cookie";
 import { useMediaQuery } from "@mui/material";
 import { toast } from "react-toastify";
 
-const Wishlist = () => {
+const Wishlist = ({ data }) => {
   const {
     isWLLoading,
     wishlistData,
@@ -92,7 +92,6 @@ const Wishlist = () => {
 
   return (
     <div className="smr_MainWlDiv" style={{
-      paddingBottom:"4rem"
     }}>
       <div className="WlMainPageDiv">
         <div className="WlBtnGroupMainDiv">
@@ -147,9 +146,9 @@ const Wishlist = () => {
           content="Are you sure you want to remove all Items?"
         />
 
-        {/* <Footer /> */}
+        <Footer data={data} />
       </div>
-      {/* <div
+      <div
         style={{
           display: "flex",
           justifyContent: "center",
@@ -157,19 +156,17 @@ const Wishlist = () => {
         }}
       >
         <p
-          className="backtotop_Smr"
+          className="backtotop_lov"
 
           style={{
-            margin: "0px",
-            fontWeight: 500,
-            color: "white",
-            cursor: "pointer",
+            margin: '0px', width: '100px', cursor: 'pointer', color: "#5F497A", fontSize: "14px",
+            fontWeight: 600,
           }}
           onClick={scrollToTop}
         >
           BACK TO TOP
         </p>
-      </div> */}
+      </div>
     </div>
   );
 };
