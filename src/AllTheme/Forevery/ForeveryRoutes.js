@@ -111,7 +111,6 @@ const ForEveryRoutes = () => {
     setUrlHistory((prevHistory) => [...prevHistory, location.pathname]);
   }, [location]);
   const handleBackButton = ()=>{
-    console.log("first1213")
     localStorage.setItem('useHistory', JSON.stringify(urlHistory));
     const history = JSON.parse(localStorage.getItem('useHistory'));
   }
