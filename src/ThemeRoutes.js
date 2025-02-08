@@ -21,8 +21,8 @@ import { stam_companyLogo, stam_companyLogoM } from "./AllTheme/StamFordJewels/C
 import { fetchPayMaster } from "./utils/API/OrderFlow/Paymaster";
 
 const SmilingRock_App = React.lazy(() => import("./AllTheme/SmilingRock/SmilingRock_App"));
-const SmilingRock_MobileApp_App = React.lazy(() => import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App"));
 const ForEveryRoutes = React.lazy(() => import("./AllTheme/Forevery/ForeveryRoutes"));
+const SmilingRock_MobileApp_App = React.lazy(() => import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App"));
 const HouseOfQuadri_App = React.lazy(() => import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App"));
 const DaimondTine_App = React.lazy(() => import("./AllTheme/DaimondTine/DaimondTine_App"));
 const Elveester_App = React.lazy(() => import("./AllTheme/Elveester/Elveester_App"));
@@ -341,8 +341,8 @@ const Themes = ({ htmlContent }) => {
       <Suspense fallback={<></>}>
         {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
         {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
-        {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
-        {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
+        {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />} 
+        {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />} 
         {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
         {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
         {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
@@ -351,7 +351,7 @@ const Themes = ({ htmlContent }) => {
         {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
         {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
         {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
-        {htmlContent?.rd[0]?.Themeno === 13 && <LoveIn_App />}
+        {htmlContent?.rd[0]?.Themeno === 13 && <LoveIn_App />} 
       </Suspense>
     </>
   );
