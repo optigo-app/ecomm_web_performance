@@ -73,7 +73,7 @@ const tabIndicator = {
     }
 }
 
-export default function Account() {
+export default function Account({data}) {
 
     const [value, setValue] = useState(0);
     const [value1, setValue1] = useState(0);

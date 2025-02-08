@@ -67,8 +67,8 @@ export default function ServicePolicy() {
           <Footer data={banner?.affiliation} />
         </div>
       </div>
-      <div className='backToTop' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBlock: '30px' }}>
-        <p style={{ margin: '0px', fontWeight: 500, width: '100%', textAlign: 'center', color: '#3f3151', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
+      <div className='backToTop_lov' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBlock: '30px' }}>
+        <p style={{ margin: '0px', fontWeight: 600, width: '100%', textAlign: 'center', color: '#3f3151', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
       </div>
     </div>
   )

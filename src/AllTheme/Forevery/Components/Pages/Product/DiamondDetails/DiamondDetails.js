@@ -1342,6 +1342,8 @@ const DiamondDetails = () => {
         };
     }, []);
 
+    const isEarring = 2;
+
     return (
         <div className="for_DiamondDet_mainDiv">
             <div className="for_DiamondDet_div">
@@ -1358,480 +1360,377 @@ const DiamondDetails = () => {
                             getImagePath={getImagePath}
                         />
                     </div>
-                    <div className="for_DiamondDet_container_div">
+                    <div className="for_DiamondDet_container_div" style={{ flexDirection: isEarring === 1 ? "column" : "row" }}>
+                        {isEarring === 1 ? (
+                            <div className="for_DiamondDet_left_prodImages_for_earr">
+                                <div className='for_DiamondDet_earring_main_div'>
+                                    <div className="for_slider_container_1">
+                                        <div className="for_images_slider">
+                                            {isDataFound ? (
+                                                <>
+                                                    <div className="for_slider">
+                                                        {Array.from({ length: 3 })?.map((_, i) => {
+                                                            return (
+                                                                <div key={i} className='for_skeleton_thumb_div_dia' >
+                                                                    <Skeleton className='for_skeleton_det_thumb_dia' />
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                    <div
+                                                        className="for_main_image"
+                                                    >
+                                                        <Skeleton variant='square' className='for_skeleton_main_image' />
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <div className="for_slider">
 
-                        <div className="for_DiamondDet_left_prodImages_for_earr">
-                            <div className="for_slider_container_1">
-                                <div className="for_images_slider">
-                                    {isDataFound ? (
-                                        <>
-                                            <div className="for_slider">
-                                                {Array.from({ length: 3 })?.map((_, i) => {
-                                                    return (
-                                                        <div key={i} className='for_skeleton_thumb_div_dia' >
-                                                            <Skeleton className='for_skeleton_det_thumb_dia' />
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                            <div
-                                                className="for_main_image"
-                                            >
-                                                <Skeleton variant='square' className='for_skeleton_main_image' />
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <div className="for_slider">
-
-                                                {!compSet && (
-                                                    <>
-                                                        {mediaArr
-                                                            ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
-                                                            ?.map((item, index) => {
-                                                                console.log("jeje", item?.src !== imageNotFound && item?.src !== "");
-                                                                return (
-                                                                    <div
-                                                                        key={index}
-                                                                        className={`for_box ${index === currentSlide ? "active" : ""}`}
-                                                                        onClick={() => handleThumbnailClick(index)}
-                                                                    >
-                                                                        {item?.type === "video" ? (
-                                                                            <>
-                                                                                {item?.src?.endsWith(".mp4") ? (
-                                                                                    <div
-                                                                                        className="for_video_box_dia"
-                                                                                        title="A small thumbnail of the selected diamond."
-                                                                                        style={{ position: "relative" }}
-                                                                                    >
-                                                                                        <video src={item?.src} muted loop />
-                                                                                        <IoIosPlayCircle className="for_play_io_icon_dia" />
-                                                                                    </div>
+                                                        {!compSet && (
+                                                            <>
+                                                                {mediaArr
+                                                                    ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
+                                                                    ?.map((item, index) => {
+                                                                        console.log("jeje", item?.src !== imageNotFound && item?.src !== "");
+                                                                        return (
+                                                                            <div
+                                                                                key={index}
+                                                                                className={`for_box ${index === currentSlide ? "active" : ""}`}
+                                                                                onClick={() => handleThumbnailClick(index)}
+                                                                            >
+                                                                                {item?.type === "video" ? (
+                                                                                    <>
+                                                                                        {item?.src?.endsWith(".mp4") ? (
+                                                                                            <div
+                                                                                                className="for_video_box_dia"
+                                                                                                title="A small thumbnail of the selected diamond."
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <video src={item?.src} muted loop />
+                                                                                                <IoIosPlayCircle className="for_play_io_icon_dia" />
+                                                                                            </div>
+                                                                                        ) : (
+                                                                                            <div
+                                                                                                className="for_video_box_dia"
+                                                                                                title="A small thumbnail of the selected diamond."
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <img
+                                                                                                    src={`${storImagePath()}/images/ProductListing/Diamond/images/360-view.png`}
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound;
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
+                                                                                    </>
                                                                                 ) : (
-                                                                                    <div
-                                                                                        className="for_video_box_dia"
-                                                                                        title="A small thumbnail of the selected diamond."
-                                                                                        style={{ position: "relative" }}
-                                                                                    >
-                                                                                        <img
-                                                                                            src={`${storImagePath()}/images/ProductListing/Diamond/images/360-view.png`}
-                                                                                            onError={(e) => {
-                                                                                                e.target.onerror = null;
-                                                                                                e.target.src = imageNotFound;
-                                                                                            }}
-                                                                                        />
-                                                                                    </div>
+                                                                                    <>
+                                                                                        {item?.type === "image" && (
+                                                                                            <img
+                                                                                                title="A small thumbnail of the selected diamond."
+                                                                                                src={item?.src}
+                                                                                                alt=""
+                                                                                                onError={(e) => {
+                                                                                                    e.target.onerror = null;
+                                                                                                    e.target.src = imageNotFound;
+                                                                                                }}
+                                                                                            />
+                                                                                        )}
+                                                                                    </>
                                                                                 )}
-                                                                            </>
-                                                                        ) : (
-                                                                            <>
-                                                                                {item?.type === "image" && (
-                                                                                    <img
-                                                                                        title="A small thumbnail of the selected diamond."
-                                                                                        src={item?.src}
-                                                                                        alt=""
-                                                                                        onError={(e) => {
-                                                                                            e.target.onerror = null;
-                                                                                            e.target.src = imageNotFound;
-                                                                                        }}
-                                                                                    />
-                                                                                )}
-                                                                            </>
-                                                                        )}
-                                                                    </div>
-                                                                );
-                                                            })}
+                                                                            </div>
+                                                                        );
+                                                                    })}
 
-                                                        {certyLink && (
-                                                            <Link
-                                                                to={certyLink?.link}
-                                                                className="for_box_certy"
-                                                                title="Diamond certificate"
-                                                                style={{ position: "relative" }}
-                                                                target="_blank"
-                                                            >
-                                                                <img
-                                                                    src={certyLink?.imageUrl}
-                                                                    onError={(e) => {
-                                                                        e.target.onerror = null;
-                                                                        e.target.src = imageNotFound;
-                                                                    }}
-                                                                    alt="Diamond Certificate"
-                                                                    style={{ width: '100%', height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto' }}
-                                                                />
-                                                            </Link>
-                                                        )}
-                                                    </>
-                                                )}
-
-                                            </div>
-
-                                            <div className="for_main_image">
-                                                {!compSet && (
-                                                    <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
-                                                        {mediaArr
-                                                            ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
-                                                            ?.map((item, index) => (
-                                                                <div className="for_slider_card" key={index}>
-                                                                    <div className="for_image">
+                                                                {certyLink && (
+                                                                    <Link
+                                                                        to={certyLink?.link}
+                                                                        className="for_box_certy"
+                                                                        title="Diamond certificate"
+                                                                        style={{ position: "relative" }}
+                                                                        target="_blank"
+                                                                    >
                                                                         <img
-                                                                            loading="lazy"
-                                                                            src={"https://www.forevery.one/images_new/diamond-sample/round.jpg"}
-                                                                            alt=""
-                                                                            onLoad={() => setIsImageLoad(false)}
+                                                                            src={certyLink?.imageUrl}
                                                                             onError={(e) => {
                                                                                 e.target.onerror = null;
                                                                                 e.target.src = imageNotFound;
                                                                             }}
+                                                                            alt="Diamond Certificate"
+                                                                            style={{ width: '100%', height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto' }}
                                                                         />
+                                                                    </Link>
+                                                                )}
+                                                            </>
+                                                        )}
+
+                                                    </div>
+
+                                                    <div className="for_main_image">
+                                                        {!compSet && (
+                                                            <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
+                                                                {mediaArr
+                                                                    ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
+                                                                    ?.map((item, index) => (
+                                                                        <div className="for_slider_card" key={index}>
+                                                                            <div className="for_image">
+                                                                                <img
+                                                                                    loading="lazy"
+                                                                                    src={"https://www.forevery.one/images_new/diamond-sample/round.jpg"}
+                                                                                    alt=""
+                                                                                    onLoad={() => setIsImageLoad(false)}
+                                                                                    onError={(e) => {
+                                                                                        e.target.onerror = null;
+                                                                                        e.target.src = imageNotFound;
+                                                                                    }}
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                            </Slider>
+                                                        )}
+
+                                                        <div className="for_DiamondDet_right_prodDetails_earr">
+                                                            <div className="for_DiamondDet_breadcrumbs">
+                                                                <div className="for_DiamondDet_title_main_div">
+                                                                    <div className="for_DiamondDet_title_div">
+                                                                        {isDataFound ?
+                                                                            <Skeleton variant="rounded" style={{ height: '30px', width: '32rem' }} />
+                                                                            : (
+                                                                                <div className="for_DiamondDet_title">
+                                                                                    <span>{`${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}</span>
+                                                                                    {/* <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span> */}
+                                                                                </div>
+                                                                            )
+                                                                        }
+
+                                                                        <div className="for_DiamondDet_title_sku">
+                                                                            <div className='for_DiamondDet_sku'>SKU: &nbsp;{isDataFound ? <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} /> : singleDiaData[0]?.stockno}</div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            ))}
-                                                    </Slider>
-                                                )}
-
-                                                <div className="for_DiamondDet_right_prodDetails_earr">
-                                                    <div className="for_DiamondDet_breadcrumbs">
-                                                        <div className="for_DiamondDet_title_main_div">
-                                                            <div className="for_DiamondDet_title_div">
-                                                                {isDataFound ?
-                                                                    <Skeleton variant="rounded" style={{ height: '30px', width: '32rem' }} />
-                                                                    : (
-                                                                        <div className="for_DiamondDet_title">
-                                                                            <span>{`${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}</span>
-                                                                            {/* <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span> */}
-                                                                        </div>
-                                                                    )
-                                                                }
-
-                                                                <div className="for_DiamondDet_title_sku">
-                                                                    <div className='for_DiamondDet_sku'>SKU: &nbsp;{isDataFound ? <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} /> : singleDiaData[0]?.stockno}</div>
+                                                                <div className="for_DiamondDet_prodWeights_div">
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="for_DiamondDet_prodWeights_div">
-                                                        </div>
-                                                        <div className="for_DiamondDet_price_div">
-                                                            <span className='for_DiamondDet_price'>
-                                                                <span
-                                                                    dangerouslySetInnerHTML={{
-                                                                        __html: decodeEntities(loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode),
-                                                                    }}
-                                                                />
-                                                                {
-                                                                    isPriceloading ?
-                                                                        <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
-                                                                        :
-                                                                        <span>&nbsp;{formatter(singleDiaData[0]?.price)}</span>
-                                                                    // <span>&nbsp;{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
-                                                                }
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="for_slider_container_2">
-                                <div className="for_images_slider">
-                                    {isDataFound ? (
-                                        <>
-                                            <div className="for_slider">
-                                                {Array.from({ length: 3 })?.map((_, i) => {
-                                                    return (
-                                                        <div key={i} className='for_skeleton_thumb_div_dia' >
-                                                            <Skeleton className='for_skeleton_det_thumb_dia' />
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                            <div
-                                                className="for_main_image"
-                                            >
-                                                <Skeleton variant='square' className='for_skeleton_main_image' />
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <>
-
-                                            <div className="for_main_image">
-                                                {!compSet && (
-                                                    <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
-                                                        {mediaArr
-                                                            ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
-                                                            ?.map((item, index) => (
-                                                                <div className="for_slider_card" key={index}>
-                                                                    <div className="for_image">
-                                                                        <img
-                                                                            loading="lazy"
-                                                                            src={"https://www.forevery.one/images_new/diamond-sample/round.jpg"}
-                                                                            alt=""
-                                                                            onLoad={() => setIsImageLoad(false)}
-                                                                            onError={(e) => {
-                                                                                e.target.onerror = null;
-                                                                                e.target.src = imageNotFound;
+                                                                <div className="for_DiamondDet_price_div">
+                                                                    <span className='for_DiamondDet_price'>
+                                                                        <span
+                                                                            dangerouslySetInnerHTML={{
+                                                                                __html: decodeEntities(loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode),
                                                                             }}
                                                                         />
-                                                                    </div>
-                                                                </div>
-                                                            ))}
-                                                    </Slider>
-                                                )}
-
-                                                <div className="for_DiamondDet_right_prodDetails_earr">
-                                                    <div className="for_DiamondDet_breadcrumbs">
-                                                        <div className="for_DiamondDet_title_main_div">
-                                                            <div className="for_DiamondDet_title_div">
-                                                                {isDataFound ?
-                                                                    <Skeleton variant="rounded" style={{ height: '30px', width: '32rem' }} />
-                                                                    : (
-                                                                        <div className="for_DiamondDet_title">
-                                                                            <span>{`${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}</span>
-                                                                            {/* <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span> */}
-                                                                        </div>
-                                                                    )
-                                                                }
-
-                                                                <div className="for_DiamondDet_title_sku">
-                                                                    <div className='for_DiamondDet_sku'>SKU: &nbsp;{isDataFound ? <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} /> : singleDiaData[0]?.stockno}</div>
+                                                                        {
+                                                                            isPriceloading ?
+                                                                                <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
+                                                                                :
+                                                                                <span>&nbsp;{formatter(singleDiaData[0]?.price)}</span>
+                                                                            // <span>&nbsp;{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
+                                                                        }
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="for_DiamondDet_prodWeights_div">
-                                                        </div>
-                                                        <div className="for_DiamondDet_price_div">
-                                                            <span className='for_DiamondDet_price'>
-                                                                <span
-                                                                    dangerouslySetInnerHTML={{
-                                                                        __html: decodeEntities(loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode),
-                                                                    }}
-                                                                />
-                                                                {
-                                                                    isPriceloading ?
-                                                                        <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
-                                                                        :
-                                                                        <span>&nbsp;{formatter(singleDiaData[0]?.price)}</span>
-                                                                    // <span>&nbsp;{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
-                                                                }
-                                                            </span>
-                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="for_slider">
-
-                                                {!compSet && (
-                                                    <>
-                                                        {mediaArr
-                                                            ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
-                                                            ?.map((item, index) => {
-                                                                console.log("jeje", item?.src !== imageNotFound && item?.src !== "");
-                                                                return (
-                                                                    <div
-                                                                        key={index}
-                                                                        className={`for_box ${index === currentSlide ? "active" : ""}`}
-                                                                        onClick={() => handleThumbnailClick(index)}
-                                                                    >
-                                                                        {item?.type === "video" ? (
-                                                                            <>
-                                                                                {item?.src?.endsWith(".mp4") ? (
-                                                                                    <div
-                                                                                        className="for_video_box_dia"
-                                                                                        title="A small thumbnail of the selected diamond."
-                                                                                        style={{ position: "relative" }}
-                                                                                    >
-                                                                                        <video src={item?.src} muted loop />
-                                                                                        <IoIosPlayCircle className="for_play_io_icon_dia" />
-                                                                                    </div>
-                                                                                ) : (
-                                                                                    <div
-                                                                                        className="for_video_box_dia"
-                                                                                        title="A small thumbnail of the selected diamond."
-                                                                                        style={{ position: "relative" }}
-                                                                                    >
-                                                                                        <img
-                                                                                            src={`${storImagePath()}/images/ProductListing/Diamond/images/360-view.png`}
-                                                                                            onError={(e) => {
-                                                                                                e.target.onerror = null;
-                                                                                                e.target.src = imageNotFound;
-                                                                                            }}
-                                                                                        />
-                                                                                    </div>
-                                                                                )}
-                                                                            </>
-                                                                        ) : (
-                                                                            <>
-                                                                                {item?.type === "image" && (
-                                                                                    <img
-                                                                                        title="A small thumbnail of the selected diamond."
-                                                                                        src={item?.src}
-                                                                                        alt=""
-                                                                                        onError={(e) => {
-                                                                                            e.target.onerror = null;
-                                                                                            e.target.src = imageNotFound;
-                                                                                        }}
-                                                                                    />
-                                                                                )}
-                                                                            </>
-                                                                        )}
-                                                                    </div>
-                                                                );
-                                                            })}
-
-                                                        {certyLink && (
-                                                            <Link
-                                                                to={certyLink?.link}
-                                                                className="for_box_certy"
-                                                                title="Diamond certificate"
-                                                                style={{ position: "relative" }}
-                                                                target="_blank"
-                                                            >
-                                                                <img
-                                                                    src={certyLink?.imageUrl}
-                                                                    onError={(e) => {
-                                                                        e.target.onerror = null;
-                                                                        e.target.src = imageNotFound;
-                                                                    }}
-                                                                    alt="Diamond Certificate"
-                                                                    style={{ width: '100%', height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto' }}
-                                                                />
-                                                            </Link>
-                                                        )}
-                                                    </>
-                                                )}
-
-                                            </div>
-
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-
-
-                        {/* <div className="for_DiamondDet_right_prodDetails">
-                            {!compSet ? (
-                                <div className="for_DiamondDet_breadcrumbs">
-                                    <div className="for_DiamondDet_breadcrumbs">
-                                        <div
-                                            className="for_breadcrumbs"
-                                        >
-                                            <div className="for_bredwish_div">
-                                                <div>
-                                                    {!mobileView ? (
-                                                        <>
-                                                            {isDataFound ? <Skeleton variant="rounded" style={{ height: '30px', width: '34rem', marginLeft: '-5px' }} /> : (
-                                                                <>
-                                                                    <span
-                                                                        onClick={() => {
-                                                                            navigate("/");
-                                                                        }}
-                                                                    >
-                                                                        {"Home / "}{" "}
-                                                                    </span>
-                                                                    <span
-                                                                        onClick={() => {
-                                                                            navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
-                                                                        }}
-                                                                    >
-                                                                        {` Certified diamond`}
-                                                                    </span>
-                                                                    <span
-                                                                    >
-                                                                        {` / ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}
-                                                                    </span>
-                                                                </>
-                                                            )}
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            {isDataFound ? <Skeleton variant="rounded" style={{ height: '30px', width: '32rem', marginLeft: '-5px' }} /> : (
-                                                                <>
-                                                                    <span
-                                                                        onClick={() => {
-                                                                            navigate("/");
-                                                                        }}
-                                                                    >
-                                                                        {"Home / "}{" "}
-                                                                    </span>
-                                                                    <span
-                                                                        onClick={() => {
-                                                                            navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
-                                                                        }}
-                                                                    >
-                                                                        {` Certified diamond`}
-                                                                    </span>
-                                                                    <span
-                                                                    >
-                                                                        {` / ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}
-                                                                    </span>
-                                                                </>
-                                                            )}
-                                                        </>
-                                                    )}
-
-                                                </div>
-                                                <div className="for_DiamondDet_title_wishlist">
-                                                    <Checkbox
-                                                        icon={
-                                                            <GoHeart size={26} color='black' />
-                                                        }
-                                                        checkedIcon={
-                                                            <GoHeartFill size={26} color='black' />
-                                                        }
-
-                                                        className='for_wishlist_icon'
-                                                        disableRipple={true}
-                                                        checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
-                                                        onChange={(e) => handleButtonChange('wish', e, singleDiaData[0]?.stockno, "", "")}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="for_DiamondDet_title_main_div">
-                                        <div className="for_DiamondDet_title_div">
-                                            {isDataFound ?
-                                                <Skeleton variant="rounded" style={{ height: '30px', width: '32rem' }} />
-                                                : (
-                                                    <div className="for_DiamondDet_title">
-                                                        <span>{`${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}</span>
-                                                    </div>
-                                                )
-                                            }
-
-                                            <div className="for_DiamondDet_title_sku">
-                                                <div className='for_DiamondDet_sku'>SKU: {isDataFound ? <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} /> : singleDiaData[0]?.stockno}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="for_DiamondDet_prodWeights_div">
-                                    </div>
-                                    <div className="for_DiamondDet_price_div">
-                                        <span className='for_DiamondDet_price'>
-                                            <span
-                                                dangerouslySetInnerHTML={{
-                                                    __html: decodeEntities(loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode),
-                                                }}
-                                            />
-                                            {
-                                                isPriceloading ?
-                                                    <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
-                                                    :
-                                                    <span>&nbsp;{formatter(singleDiaData[0]?.price)}</span>
-                                            }
-                                        </span>
-                                    </div>
-                                    <div className="for_DiamondDet_details_div">
-                                        {isDataFound ? <Skeleton variant="rounded" style={{ height: '6rem', width: '32rem' }} /> :
-                                            (
-                                                <span className='for_Diamond_details_span'>{`This ${singleDiaData[0]?.companyname} diamond is a stunning symbol of perfection & brilliance with its flawless ${singleDiaData[0]?.clarityname} clarity, ${singleDiaData[0]?.colorname} color, and expertly crafted excellent round cut.`}</span>
+                                                </>
                                             )}
+                                        </div>
                                     </div>
-                                    <div className="for_DiamondDet_choose_Dia_div">
+                                    <div className="for_slider_container_2">
+                                        <div className="for_images_slider">
+                                            {isDataFound ? (
+                                                <>
+                                                    <div className="for_slider">
+                                                        {Array.from({ length: 3 })?.map((_, i) => {
+                                                            return (
+                                                                <div key={i} className='for_skeleton_thumb_div_dia' >
+                                                                    <Skeleton className='for_skeleton_det_thumb_dia' />
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                    <div
+                                                        className="for_main_image"
+                                                    >
+                                                        <Skeleton variant='square' className='for_skeleton_main_image' />
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <>
+
+                                                    <div className="for_main_image">
+                                                        {!compSet && (
+                                                            <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
+                                                                {mediaArr
+                                                                    ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
+                                                                    ?.map((item, index) => (
+                                                                        <div className="for_slider_card" key={index}>
+                                                                            <div className="for_image">
+                                                                                <img
+                                                                                    loading="lazy"
+                                                                                    src={"https://www.forevery.one/images_new/diamond-sample/round.jpg"}
+                                                                                    alt=""
+                                                                                    onLoad={() => setIsImageLoad(false)}
+                                                                                    onError={(e) => {
+                                                                                        e.target.onerror = null;
+                                                                                        e.target.src = imageNotFound;
+                                                                                    }}
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                            </Slider>
+                                                        )}
+
+                                                        <div className="for_DiamondDet_right_prodDetails_earr">
+                                                            <div className="for_DiamondDet_breadcrumbs">
+                                                                <div className="for_DiamondDet_title_main_div">
+                                                                    <div className="for_DiamondDet_title_div">
+                                                                        {isDataFound ?
+                                                                            <Skeleton variant="rounded" style={{ height: '30px', width: '32rem' }} />
+                                                                            : (
+                                                                                <div className="for_DiamondDet_title">
+                                                                                    <span>{`${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}</span>
+                                                                                    {/* <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span> */}
+                                                                                </div>
+                                                                            )
+                                                                        }
+
+                                                                        <div className="for_DiamondDet_title_sku">
+                                                                            <div className='for_DiamondDet_sku'>SKU: &nbsp;{isDataFound ? <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} /> : singleDiaData[0]?.stockno}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="for_DiamondDet_prodWeights_div">
+                                                                </div>
+                                                                <div className="for_DiamondDet_price_div">
+                                                                    <span className='for_DiamondDet_price'>
+                                                                        <span
+                                                                            dangerouslySetInnerHTML={{
+                                                                                __html: decodeEntities(loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode),
+                                                                            }}
+                                                                        />
+                                                                        {
+                                                                            isPriceloading ?
+                                                                                <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
+                                                                                :
+                                                                                <span>&nbsp;{formatter(singleDiaData[0]?.price)}</span>
+                                                                            // <span>&nbsp;{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
+                                                                        }
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="for_slider">
+
+                                                        {!compSet && (
+                                                            <>
+                                                                {mediaArr
+                                                                    ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
+                                                                    ?.map((item, index) => {
+                                                                        console.log("jeje", item?.src !== imageNotFound && item?.src !== "");
+                                                                        return (
+                                                                            <div
+                                                                                key={index}
+                                                                                className={`for_box ${index === currentSlide ? "active" : ""}`}
+                                                                                onClick={() => handleThumbnailClick(index)}
+                                                                            >
+                                                                                {item?.type === "video" ? (
+                                                                                    <>
+                                                                                        {item?.src?.endsWith(".mp4") ? (
+                                                                                            <div
+                                                                                                className="for_video_box_dia"
+                                                                                                title="A small thumbnail of the selected diamond."
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <video src={item?.src} muted loop />
+                                                                                                <IoIosPlayCircle className="for_play_io_icon_dia" />
+                                                                                            </div>
+                                                                                        ) : (
+                                                                                            <div
+                                                                                                className="for_video_box_dia"
+                                                                                                title="A small thumbnail of the selected diamond."
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <img
+                                                                                                    src={`${storImagePath()}/images/ProductListing/Diamond/images/360-view.png`}
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound;
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
+                                                                                    </>
+                                                                                ) : (
+                                                                                    <>
+                                                                                        {item?.type === "image" && (
+                                                                                            <img
+                                                                                                title="A small thumbnail of the selected diamond."
+                                                                                                src={item?.src}
+                                                                                                alt=""
+                                                                                                onError={(e) => {
+                                                                                                    e.target.onerror = null;
+                                                                                                    e.target.src = imageNotFound;
+                                                                                                }}
+                                                                                            />
+                                                                                        )}
+                                                                                    </>
+                                                                                )}
+                                                                            </div>
+                                                                        );
+                                                                    })}
+
+                                                                {certyLink && (
+                                                                    <Link
+                                                                        to={certyLink?.link}
+                                                                        className="for_box_certy"
+                                                                        title="Diamond certificate"
+                                                                        style={{ position: "relative" }}
+                                                                        target="_blank"
+                                                                    >
+                                                                        <img
+                                                                            src={certyLink?.imageUrl}
+                                                                            onError={(e) => {
+                                                                                e.target.onerror = null;
+                                                                                e.target.src = imageNotFound;
+                                                                            }}
+                                                                            alt="Diamond Certificate"
+                                                                            style={{ width: '100%', height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto' }}
+                                                                        />
+                                                                    </Link>
+                                                                )}
+                                                            </>
+                                                        )}
+
+                                                    </div>
+
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="for_diaearr_container_3">
+                                    <div className="for_DiamondDet_Total_price_div">
+                                        <span
+                                            dangerouslySetInnerHTML={{
+                                                __html: decodeEntities(loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode),
+                                            }}
+                                        />
+                                        {
+                                            isPriceloading ?
+                                                <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
+                                                :
+                                                <span>15000</span>
+                                        }
+                                    </div>
+                                    <div className='for_DiamondDet_earr_desc'>
+                                        <p>Forevery’s custom matching diamonds give you the freedom to choose your preferred diamonds and create a unique earring set that complements your style. Elegance and individuality go hand-in-hand with this personalized touch to your fine jewelry collection.</p>
+                                    </div>
+                                    <div className="for_DiamondDet_choose_Dia__earr_div">
                                         {settingSteps?.[1]?.step2 && settingSteps?.[0]?.Status === "active" ? (
                                             <button disabled={isPriceloading} onClick={() => handleButtonChange('diamond', "", "", "", "")} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                 choose this diamond
@@ -1853,119 +1752,761 @@ const DiamondDetails = () => {
                                             </>
                                         )}
                                     </div>
-                                    <div className="for_DiamondDet_shipping_fee_div">
-                                        <div className="for_DiamondDet_shipping_icon">
-                                            <img className='for_DiamondDet_shipp_image' src={`${storImagePath()}/images/ProductListing/Shipping/shipping-cart.png`} alt='shipping-icon' ></img>
+                                    <div className='for_DiamondDet_shipping_earr_div'>
+                                        <div className="for_DiamondDet_shipping_fee_div">
+                                            <div className="for_DiamondDet_shipping_icon">
+                                                <img className='for_DiamondDet_shipp_image' src={`${storImagePath()}/images/ProductListing/Shipping/shipping-cart.png`} alt='shipping-icon' ></img>
+                                            </div>
+                                            <div className="for_DiamondDet_shipp_desc">
+                                                <span className='for_shipp_desc_title_1'>Free shipping, free 30 days return</span>
+                                            </div>
                                         </div>
-                                        <div className="for_DiamondDet_shipp_desc">
-                                            <span className='for_shipp_desc_title_1'>Free shipping, free 30 days return</span>
-                                            <span className='for_shipp_desc_title_2'><span className='for_shipp_desc_bold'>Please Note :</span> If the diamond is part of a diamond ring, the completed ring will ship according to the shipping date of the setting</span>
-                                        </div>
-                                    </div>
-                                    <div className="for_DiamondDet_calender_div">
-                                        <div className="for_DiamondDet_calender_icon">
-                                            <img className='for_DiamondDet_calender_image' src={`${storImagePath()}/images/ProductListing/Shipping/calendar.png`} alt='calender-icon' ></img>
-                                        </div>
-                                        <div className="for_DiamondDet_calender_desc">
-                                            <span className='for_calender_desc_title_1'>order now and your order shipped by</span>
-                                            <span className='for_calender_desc_title_2'>Tuesday , August 20</span>
+                                        <div className="for_DiamondDet_calender_div">
+                                            <div className="for_DiamondDet_calender_icon">
+                                                <img className='for_DiamondDet_calender_image' src={`${storImagePath()}/images/ProductListing/Shipping/calendar.png`} alt='calender-icon' ></img>
+                                            </div>
+                                            <div className="for_DiamondDet_calender_desc">
+                                                <span className='for_calender_desc_title_1'>order now and your order shipped by</span>
+                                                <span className='for_calender_desc_title_2'>Tuesday , August 20 depending on center diamonds</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            ) : (
-                                <div className="for_Complete_set_main_div">
-                                    <div className="for_Complete_set_title_div">
-                                        <div className="for_Complete_set_Setting_div">
-                                            {isDataFound ?
-                                                <Skeleton variant="rounded" style={{ height: '8rem', width: '38rem' }} />
-                                                : (
+                            </div>
+                        ) : (
+                            <>
+                                {!mobileView ? (
+                                    <div className="for_DiamondDet_left_prodImages">
+                                        <div className="for_slider_container">
+                                            <div className="for_images_slider">
+                                                {isDataFound ? (
                                                     <>
-                                                        <div className='for_Complete_set_title_des_div'>
-                                                            <div className="for_Complete_set_title">
-                                                                <span>{settingData?.step2Data?.designno ?? settingData?.step1Data?.designno} {(settingData?.step2Data?.TitleLine?.length > 0 && " - " + settingData?.step2Data?.TitleLine) ?? (settingData?.step1Data?.TitleLine?.length > 0 && " - " + settingData?.step1Data?.TitleLine)}</span>
-                                                            </div>
+                                                        <div className="for_slider">
+                                                            {Array.from({ length: 3 })?.map((_, i) => {
+                                                                return (
+                                                                    <div key={i} className='for_skeleton_thumb_div_dia' >
+                                                                        <Skeleton className='for_skeleton_det_thumb_dia' />
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                        <div
+                                                            className="for_main_image"
+                                                        >
+                                                            <Skeleton variant='square' className='for_skeleton_main_image' />
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <div className="for_slider">
+                                                            {compSet && (
+                                                                <>
+                                                                    {compSettArr?.map((item, index) => {
+                                                                        return (
+                                                                            <div
+                                                                                key={index}
+                                                                                className={`for_box ${index === currentSlide ? "active" : ""}`}
+                                                                                onClick={() => handleThumbnailClick(index)}
+                                                                            >
+                                                                                {item?.type !== '' && (
+                                                                                    <>
+                                                                                        {item?.type === "setting" && (
+                                                                                            <div
+                                                                                                className="for_video_box_dia"
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <img
+                                                                                                    src={(!imageMap?.colorImage?.includes('undefinedundefined~1') ? imageMap?.colorImage : getImagePath?.colorImage)}
+                                                                                                    // src={item?.src}
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
 
-                                                            <div className="for_Complete_set_title_wishlist">
-                                                                <Checkbox
-                                                                    icon={<GoHeart size={24} color="black" />}
-                                                                    checkedIcon={<GoHeartFill size={24} color="black" />}
-                                                                    className='for_wishlist_icon'
-                                                                    disableRipple={true}
-                                                                    checked={addwishListFlag ?? (settingData?.step1Data?.IsInWish ?? settingData?.step2Data?.IsInWish) == 1 ? true : false}
-                                                                    onChange={(e) => handleWish(e, diamondData, settingData)}
-                                                                />
-                                                            </div>
+                                                                                        {item?.type === "diamond" && (
+                                                                                            <div
+                                                                                                className="for_video_box_dia"
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <img
+                                                                                                    src={item?.src}
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
+                                                                                    </>
+                                                                                )}
+                                                                            </div>
+                                                                        );
+                                                                    })}
+                                                                    {certyLink && (
+                                                                        <Link
+                                                                            to={certyLink?.link}
+                                                                            className="for_box_certy"
+                                                                            title="Diamond certificate"
+                                                                            style={{ position: "relative" }}
+                                                                            target='_blank'
+                                                                        >
+                                                                            <img
+                                                                                src={certyLink?.imageUrl}
+                                                                                onError={(e) => {
+                                                                                    e.target.onerror = null;
+                                                                                    e.target.src = imageNotFound;
+                                                                                }}
+                                                                                alt="Diamond Certificate"
+                                                                                style={{ width: '100%', height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto' }}
+                                                                            />
+                                                                        </Link>
+                                                                    )}
+                                                                </>
+                                                            )}
+
+                                                            {!compSet && (
+                                                                <>
+                                                                    {mediaArr
+                                                                        ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
+                                                                        ?.map((item, index) => {
+                                                                            console.log("jeje", item?.src !== imageNotFound && item?.src !== "");
+                                                                            return (
+                                                                                <div
+                                                                                    key={index}
+                                                                                    className={`for_box ${index === currentSlide ? "active" : ""}`}
+                                                                                    onClick={() => handleThumbnailClick(index)}
+                                                                                >
+                                                                                    {item?.type === "video" ? (
+                                                                                        <>
+                                                                                            {item?.src?.endsWith(".mp4") ? (
+                                                                                                <div
+                                                                                                    className="for_video_box_dia"
+                                                                                                    title="A small thumbnail of the selected diamond."
+                                                                                                    style={{ position: "relative" }}
+                                                                                                >
+                                                                                                    <video src={item?.src} muted loop />
+                                                                                                    <IoIosPlayCircle className="for_play_io_icon_dia" />
+                                                                                                </div>
+                                                                                            ) : (
+                                                                                                <div
+                                                                                                    className="for_video_box_dia"
+                                                                                                    title="A small thumbnail of the selected diamond."
+                                                                                                    style={{ position: "relative" }}
+                                                                                                >
+                                                                                                    <img
+                                                                                                        src={`${storImagePath()}/images/ProductListing/Diamond/images/360-view.png`}
+                                                                                                        onError={(e) => {
+                                                                                                            e.target.onerror = null;
+                                                                                                            e.target.src = imageNotFound;
+                                                                                                        }}
+                                                                                                    />
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {item?.type === "image" && (
+                                                                                                <img
+                                                                                                    title="A small thumbnail of the selected diamond."
+                                                                                                    src={item?.src}
+                                                                                                    alt=""
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound;
+                                                                                                    }}
+                                                                                                />
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </div>
+                                                                            );
+                                                                        })}
+
+                                                                    {certyLink && (
+                                                                        <Link
+                                                                            to={certyLink?.link}
+                                                                            className="for_box_certy"
+                                                                            title="Diamond certificate"
+                                                                            style={{ position: "relative" }}
+                                                                            target="_blank"
+                                                                        >
+                                                                            <img
+                                                                                src={certyLink?.imageUrl}
+                                                                                onError={(e) => {
+                                                                                    e.target.onerror = null;
+                                                                                    e.target.src = imageNotFound;
+                                                                                }}
+                                                                                alt="Diamond Certificate"
+                                                                                style={{ width: '100%', height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto' }}
+                                                                            />
+                                                                        </Link>
+                                                                    )}
+                                                                </>
+                                                            )}
 
                                                         </div>
-                                                        <div className="for_Complete_set_title_sku">
-                                                        </div>
-                                                        <div className="for_Complete_set_price_div">
-                                                            <div className="for_Complete_set_price">
-                                                                <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(settingData?.step2Data?.UnitCostWithMarkUp ?? settingData?.step1Data?.UnitCostWithMarkUp)}</span>
-                                                            </div>
-                                                            <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[0]?.shape ?? setshape?.[1]?.shape}/M=${filterVal}`) }}>
-                                                                <HiOutlinePencilSquare fontWeight={700} />
-                                                                <span style={{ marginTop: '1px' }}>Change</span>
-                                                            </div>
+
+                                                        <div className="for_main_image">
+                                                            {!compSet && (
+                                                                <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
+                                                                    {mediaArr
+                                                                        ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
+                                                                        ?.map((item, index) => (
+                                                                            <div className="for_slider_card" key={index}>
+                                                                                <div className="for_image">
+                                                                                    {item?.type === "video" && (
+                                                                                        <>
+                                                                                            {item?.src?.endsWith(".mp4") ? (
+                                                                                                <div style={{ height: "80%" }}>
+                                                                                                    <video
+                                                                                                        src={item?.src}
+                                                                                                        loop
+                                                                                                        autoPlay
+                                                                                                        muted
+                                                                                                        style={{
+                                                                                                            width: "100%",
+                                                                                                            height: "100%",
+                                                                                                            objectFit: "scale-down",
+                                                                                                        }}
+                                                                                                    />
+                                                                                                </div>
+                                                                                            ) : (
+                                                                                                <div style={{ height: "80%" }}>
+                                                                                                    <iframe src={item?.src} width="500px" height="500px" />
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                    {item?.type === "image" && (
+                                                                                        <img
+                                                                                            loading="lazy"
+                                                                                            src={item?.src}
+                                                                                            alt=""
+                                                                                            onLoad={() => setIsImageLoad(false)}
+                                                                                            onError={(e) => {
+                                                                                                e.target.onerror = null;
+                                                                                                e.target.src = imageNotFound;
+                                                                                            }}
+                                                                                        />
+                                                                                    )}
+                                                                                </div>
+                                                                            </div>
+                                                                        ))}
+                                                                </Slider>
+                                                            )}
+                                                            {compSet && (
+                                                                <Slider
+                                                                    {...settings}
+                                                                    ref={sliderRef}
+                                                                    lazyLoad="progressive"
+                                                                >
+                                                                    {/* <div className="for_slider_card">
+                                                                <div className="for_image">
+                                                                    <img
+                                                                        loading="lazy"
+                                                                        src={designImage(
+                                                                            settingData?.step1Data?.designno ?? settingData?.step2Data?.designno,
+                                                                            settingData?.step1Data?.ImageExtension ?? settingData?.step2Data?.ImageExtension
+                                                                        )}
+                                                                        alt=""
+                                                                        onLoad={() => setIsImageLoad(false)}
+                                                                        onError={(e) => {
+                                                                            e.target.onerror = null;
+                                                                            e.target.src = imageNotFound
+                                                                        }}
+                                                                    />
+                                                                </div>
+                                                            </div> */}
+
+                                                                    {compSettArr?.map((item, index) => (
+                                                                        <div className="for_slider_card" key={index}>
+                                                                            <div className="for_image"
+                                                                                style={{
+                                                                                    position: 'relative',
+                                                                                    overflow: 'hidden',
+                                                                                    cursor: 'zoom-in'
+                                                                                }}
+                                                                                onMouseMove={(e) => handleMouseMove(e, index)}
+                                                                                onMouseLeave={() => handleMouseLeave(index)}
+                                                                            >
+                                                                                {item?.type !== '' && (
+                                                                                    <>
+                                                                                        {item?.type === "setting" && (
+                                                                                            <div
+                                                                                                className="for_video_box_dia"
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <img
+                                                                                                    src={(!imageMap?.colorImage?.includes('undefinedundefined~1') ? imageMap?.colorImage : getImagePath?.colorImage)}
+                                                                                                    ref={el => imageRefs.current[index] = el}
+                                                                                                    loading='lazy'
+                                                                                                    style={{ transition: 'transform 0.3s ease' }}
+                                                                                                    // src={item?.src}
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
+
+                                                                                        {item?.type === "diamond" && (
+                                                                                            <div
+                                                                                                className="for_video_box_dia"
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <img
+                                                                                                    src={item?.src}
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
+                                                                                    </>
+                                                                                )}
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </Slider>
+                                                            )}
                                                         </div>
                                                     </>
                                                 )}
-                                        </div>
-
-                                        <div className="for_Complete_set_Diamond_div">
-                                            {isDataFound ?
-                                                <Skeleton variant="rounded" style={{ height: '8rem', width: '38rem' }} />
-                                                : (
-                                                    <>
-                                                        <div className="for_Complete_set_title">
-                                                            <span>{`${diamondData?.step1Data?.[0]?.carat ?? diamondData?.step2Data?.[0]?.carat} Carat ${diamondData?.step1Data?.[0]?.colorname ?? diamondData?.step2Data?.[0]?.colorname} ${diamondData?.step1Data?.[0]?.clarityname ?? diamondData?.step2Data?.[0]?.clarityname} ${diamondData?.step1Data?.[0]?.cutname ?? diamondData?.step2Data?.[0]?.cutname} Cut ${diamondData?.step1Data?.[0]?.shapename ?? diamondData?.step2Data?.[0]?.shapename} Diamond`}</span>
-                                                        </div>
-
-                                                        <div className="for_Complete_set_title_sku_dia">
-                                                            <div className='for_Complete_set_sku'>SKU: {diamondData?.step1Data?.[0]?.stockno ?? diamondData?.step2Data?.[0]?.stockno}</div>
-                                                        </div>
-                                                        <div className="for_Complete_set_price_div">
-                                                            <div className="for_Complete_set_price">
-                                                                <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price)}</span>
-                                                            </div>
-                                                            <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`) }}>
-                                                                <HiOutlinePencilSquare fontWeight={700} />
-                                                                <span style={{ marginTop: '1px' }}>Change</span>
-                                                            </div>
-                                                        </div>
-                                                    </>
-                                                )}
-                                        </div>
-
-                                        <div className="for_Complete_set_final_price_div">
-                                            <div className="for_Complete_set_price">
-                                                <span className='for_com_set_prc_loader'>
-                                                    {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                                    {isDataFound ? (
-                                                        <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
-                                                    ) : (
-                                                        <span>{typeof totalPrice === "number" ? formatter(totalPrice) : 0}</span>
-                                                    )}
-                                                </span>
                                             </div>
                                         </div>
+                                    </div>
+                                ) : (
+                                    <div className="for_DiamondDet_left_prodImages_mob">
+                                        <div className="for_slider_container_mob">
+                                            <div className="for_images_slider_mob">
+                                                {isDataFound ? (
+                                                    <>
+                                                        <div className="for_slider_mob">
+                                                            {Array.from({ length: 3 })?.map((_, i) => {
+                                                                return (
+                                                                    <div key={i} className='for_skeleton_thumb_div_dia_mob' >
+                                                                        <Skeleton className='for_skeleton_det_thumb_dia_mob' />
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                        <div
+                                                            className="for_main_image_mob"
+                                                        >
+                                                            <Skeleton variant='square' className='for_skeleton_main_image_mob' />
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <div className="for_slider_mob">
+                                                            {compSet && (
+                                                                // <div
+                                                                //     className={`for_box_mob active`}
+                                                                // >
+                                                                //     <img
+                                                                //         src={designImage((settingData?.step1Data?.designno ?? settingData?.step2Data?.designno), (settingData?.step1Data?.ImageExtension ?? settingData?.step2Data?.ImageExtension))}
+                                                                //         alt=""
+                                                                //         onError={(e) => {
+                                                                //             e.target.onerror = null;
+                                                                //             e.target.src = imageNotFound;
+                                                                //         }}
+                                                                //     />
+                                                                // </div>
+                                                                <>
+                                                                    {compSettArr?.map((item, index) => {
+                                                                        return (
+                                                                            <div
+                                                                                key={index}
+                                                                                className={`for_box_mob ${index === currentSlide ? "active" : ""}`}
+                                                                                onClick={() => handleThumbnailClick(index)}
+                                                                            >
+                                                                                {item?.type !== '' && (
+                                                                                    <>
+                                                                                        {item?.type === "setting" && (
+                                                                                            <div
+                                                                                                className="for_video_box_dia_mob"
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <img
+                                                                                                    src={item?.src}
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
 
-                                        <div className="for_Complete_set_choose_Dia_div">
-                                            {compSet ? (
-                                                <button disabled={isPriceloading} onClick={() => handleCart(!addToCardFlag, diamondData, settingData)} className={`${btnstyle?.btn_for_new} for_Complete_set_ATC ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
-                                                    {addToCardFlag === false ? "ADD TO CART" : "REMOVE FROM CART"}
-                                                </button>
-                                            ) : (
-                                                <>
-                                                    <button disabled={isPriceloading} onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                                                                                        {item?.type === "diamond" && (
+                                                                                            <div
+                                                                                                className="for_video_box_dia_mob"
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <img
+                                                                                                    src={item?.src}
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
+                                                                                    </>
+                                                                                )}
+                                                                            </div>
+                                                                        );
+                                                                    })}
+                                                                    {certyLink && (
+                                                                        <div className="for_box_certy" title='Diamond certificate' style={{ position: "relative" }}>
+                                                                            <img
+                                                                                src={certyLink?.link}
+                                                                                onError={(e) => {
+                                                                                    e.target.onerror = null;
+                                                                                    e.target.src = imageNotFound;
+                                                                                }}
+                                                                            />
+                                                                        </div>
+                                                                    )}
+                                                                </>
+                                                            )}
+
+                                                            {!compSet && (
+                                                                <>
+                                                                    {mediaArr?.map((item, index) => {
+                                                                        return (
+                                                                            <div
+                                                                                key={index}
+                                                                                className={`for_box_mob ${index === currentSlide ? "active" : ""}`}
+                                                                                onClick={() => handleThumbnailClick(index)}
+                                                                            >
+                                                                                {item?.type === 'video' ? (
+                                                                                    <>
+                                                                                        {item?.src?.endsWith('.mp4') ? (
+                                                                                            <div
+                                                                                                className="for_video_box_dia_mob"
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <video
+                                                                                                    src={item?.src}
+                                                                                                    // autoPlay
+                                                                                                    muted
+                                                                                                    loop
+                                                                                                />
+                                                                                                <IoIosPlayCircle className="for_play_io_icon_dia_mob" />
+                                                                                            </div>
+                                                                                        ) : (
+                                                                                            <div
+                                                                                                className="for_video_box_dia_mob"
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <img
+                                                                                                    src={`${storImagePath()}/images/ProductListing/Diamond/images/360-view.png`}
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
+                                                                                    </>
+                                                                                ) : (
+                                                                                    item?.type === "image" && (
+                                                                                        <img
+                                                                                            src={item?.src}
+                                                                                            alt=""
+                                                                                            onError={(e) => {
+                                                                                                e.target.onerror = null;
+                                                                                                e.target.src = imageNotFound
+                                                                                            }}
+                                                                                        />
+                                                                                    )
+                                                                                )}
+
+                                                                            </div>
+                                                                        );
+                                                                    })}
+                                                                    {certyLink && (
+                                                                        <div className="for_box_certy" title='Diamond certificate' style={{ position: "relative" }}>
+                                                                            <img
+                                                                                src={certyLink?.link}
+                                                                                onError={(e) => {
+                                                                                    e.target.onerror = null;
+                                                                                    e.target.src = imageNotFound;
+                                                                                }}
+                                                                            />
+                                                                        </div>
+                                                                    )}
+                                                                </>
+                                                            )}
+                                                        </div>
+
+                                                        <div className="for_main_image_mob">
+                                                            {!compSet && (
+                                                                <Slider {...settings} ref={sliderRef}
+                                                                    lazyLoad="progressive">
+                                                                    {mediaArr?.map((item, index) => (
+                                                                        <div className="for_slider_card_mob" key={index}>
+                                                                            <div className="for_image_mob">
+                                                                                {item?.type === 'video' && (
+                                                                                    <>
+                                                                                        {item?.src?.endsWith('.mp4') ? (
+                                                                                            <div style={{ height: "80%" }}>
+                                                                                                <video
+                                                                                                    src={item?.src}
+                                                                                                    loop
+                                                                                                    autoPlay
+                                                                                                    muted
+                                                                                                    style={{
+                                                                                                        width: "100%",
+                                                                                                        height: "100%",
+                                                                                                        objectFit: "scale-down",
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        ) : (
+                                                                                            <div style={{ height: "80%" }}>
+                                                                                                <iframe src={item?.src} width="500px" height="500px" />
+                                                                                            </div>
+                                                                                        )}
+                                                                                    </>
+                                                                                )}
+                                                                                {item?.type === 'image' && (
+                                                                                    <img
+                                                                                        loading="lazy"
+                                                                                        src={item?.src}
+                                                                                        alt=""
+                                                                                        onLoad={() => setIsImageLoad(false)}
+                                                                                        onError={(e) => {
+                                                                                            e.target.onerror = null;
+                                                                                            e.target.src = imageNotFound;
+                                                                                        }}
+                                                                                    />
+                                                                                )}
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </Slider>
+                                                            )}
+                                                            {compSet && (
+                                                                <Slider
+                                                                    {...settings}
+                                                                    ref={sliderRef}
+                                                                    lazyLoad="progressive"
+                                                                >
+                                                                    {/* <div className="for_slider_card_mob">
+                                                                <div className="for_image_mob">
+                                                                    <img
+                                                                        loading="lazy"
+                                                                        src={designImage(
+                                                                            settingData?.step1Data?.designno ?? settingData?.step2Data?.designno,
+                                                                            settingData?.step1Data?.ImageExtension ?? settingData?.step2Data?.ImageExtension
+                                                                        )}
+                                                                        alt=""
+                                                                        onLoad={() => setIsImageLoad(false)}
+                                                                        onError={(e) => {
+                                                                            e.target.onerror = null;
+                                                                            e.target.src = imageNotFound
+                                                                        }}
+                                                                    />
+                                                                </div>
+                                                            </div> */}
+                                                                    {compSettArr?.map((item, index) => (
+                                                                        <div className="for_slider_card_mob" key={index}>
+                                                                            <div className="for_image_mob">
+                                                                                {item?.type !== '' && (
+                                                                                    <>
+                                                                                        {item?.type === "setting" && (
+                                                                                            <div
+                                                                                                className="for_video_box_dia_mob"
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <img
+                                                                                                    src={item?.src}
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
+
+                                                                                        {item?.type === "diamond" && (
+                                                                                            <div
+                                                                                                className="for_video_box_dia_mob"
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <img
+                                                                                                    src={item?.src}
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
+                                                                                    </>
+                                                                                )}
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </Slider>
+                                                            )}
+                                                        </div>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="for_DiamondDet_right_prodDetails">
+                                    {!compSet ? (
+                                        <div className="for_DiamondDet_breadcrumbs">
+                                            <div className="for_DiamondDet_breadcrumbs">
+                                                <div
+                                                    className="for_breadcrumbs"
+                                                >
+                                                    <div className="for_bredwish_div">
+                                                        <div>
+                                                            {!mobileView ? (
+                                                                <>
+                                                                    {isDataFound ? <Skeleton variant="rounded" style={{ height: '30px', width: '34rem', marginLeft: '-5px' }} /> : (
+                                                                        <>
+                                                                            <span
+                                                                                onClick={() => {
+                                                                                    navigate("/");
+                                                                                }}
+                                                                            >
+                                                                                {"Home / "}{" "}
+                                                                            </span>
+                                                                            <span
+                                                                                onClick={() => {
+                                                                                    navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+                                                                                }}
+                                                                            >
+                                                                                {` Certified diamond`}
+                                                                            </span>
+                                                                            <span
+                                                                            >
+                                                                                {` / ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}
+                                                                            </span>
+                                                                        </>
+                                                                    )}
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    {isDataFound ? <Skeleton variant="rounded" style={{ height: '30px', width: '32rem', marginLeft: '-5px' }} /> : (
+                                                                        <>
+                                                                            <span
+                                                                                onClick={() => {
+                                                                                    navigate("/");
+                                                                                }}
+                                                                            >
+                                                                                {"Home / "}{" "}
+                                                                            </span>
+                                                                            <span
+                                                                                onClick={() => {
+                                                                                    navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+                                                                                }}
+                                                                            >
+                                                                                {` Certified diamond`}
+                                                                            </span>
+                                                                            <span
+                                                                            >
+                                                                                {` / ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}
+                                                                            </span>
+                                                                        </>
+                                                                    )}
+                                                                </>
+                                                            )}
+
+                                                        </div>
+                                                        <div className="for_DiamondDet_title_wishlist">
+                                                            <Checkbox
+                                                                icon={
+                                                                    <GoHeart size={26} color='black' />
+                                                                }
+                                                                checkedIcon={
+                                                                    <GoHeartFill size={26} color='black' />
+                                                                }
+
+                                                                className='for_wishlist_icon'
+                                                                disableRipple={true}
+                                                                checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
+                                                                onChange={(e) => handleButtonChange('wish', e, singleDiaData[0]?.stockno, "", "")}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="for_DiamondDet_title_main_div">
+                                                <div className="for_DiamondDet_title_div">
+                                                    {isDataFound ?
+                                                        <Skeleton variant="rounded" style={{ height: '30px', width: '32rem' }} />
+                                                        : (
+                                                            <div className="for_DiamondDet_title">
+                                                                <span>{`${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}</span>
+                                                                {/* <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span> */}
+                                                            </div>
+                                                        )
+                                                    }
+
+                                                    <div className="for_DiamondDet_title_sku">
+                                                        <div className='for_DiamondDet_sku'>SKU: {isDataFound ? <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} /> : singleDiaData[0]?.stockno}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="for_DiamondDet_prodWeights_div">
+                                            </div>
+                                            <div className="for_DiamondDet_price_div">
+                                                <span className='for_DiamondDet_price'>
+                                                    <span
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: decodeEntities(loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode),
+                                                        }}
+                                                    />
+                                                    {
+                                                        isPriceloading ?
+                                                            <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
+                                                            :
+                                                            <span>&nbsp;{formatter(singleDiaData[0]?.price)}</span>
+                                                        // <span>&nbsp;{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
+                                                    }
+                                                </span>
+                                            </div>
+                                            <div className="for_DiamondDet_details_div">
+                                                {isDataFound ? <Skeleton variant="rounded" style={{ height: '6rem', width: '32rem' }} /> :
+                                                    (
+                                                        <span className='for_Diamond_details_span'>{`This ${singleDiaData[0]?.companyname} diamond is a stunning symbol of perfection & brilliance with its flawless ${singleDiaData[0]?.clarityname} clarity, ${singleDiaData[0]?.colorname} color, and expertly crafted excellent round cut.`}</span>
+                                                    )}
+                                            </div>
+                                            <div className="for_DiamondDet_choose_Dia_div">
+                                                {settingSteps?.[1]?.step2 && settingSteps?.[0]?.Status === "active" ? (
+                                                    <button disabled={isPriceloading} onClick={() => handleButtonChange('diamond', "", "", "", "")} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                         choose this diamond
                                                     </button>
-                                                    <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
-
-                                                </>
-                                            )}
-                                        </div>
-                                        <div className="for_Complete_set_shipp_div">
+                                                ) : (
+                                                    <>
+                                                        {stepsData?.[1]?.step2Data?.id > 0 ? (
+                                                            <button disabled={isPriceloading} onClick={() => handleButtonChange('hasData', "", "", stepsData?.[0]?.step1Data?.[0]?.shapename, steps?.[1]?.Setting)} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                                                                choose this diamond
+                                                            </button>
+                                                        ) : (
+                                                            <>
+                                                                <button disabled={isPriceloading} onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                                                                    choose this diamond
+                                                                </button>
+                                                                <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
+                                                            </>
+                                                        )}
+                                                    </>
+                                                )}
+                                            </div>
                                             <div className="for_DiamondDet_shipping_fee_div">
                                                 <div className="for_DiamondDet_shipping_icon">
                                                     <img className='for_DiamondDet_shipp_image' src={`${storImagePath()}/images/ProductListing/Shipping/shipping-cart.png`} alt='shipping-icon' ></img>
@@ -1985,13 +2526,154 @@ const DiamondDetails = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            )}
+                                    ) : (
+                                        <div className="for_Complete_set_main_div">
+                                            <div className="for_Complete_set_title_div">
+                                                <div className="for_Complete_set_Setting_div">
+                                                    {isDataFound ?
+                                                        <Skeleton variant="rounded" style={{ height: '8rem', width: '38rem' }} />
+                                                        : (
+                                                            <>
+                                                                <div className='for_Complete_set_title_des_div'>
+                                                                    <div className="for_Complete_set_title">
+                                                                        <span>{settingData?.step2Data?.designno ?? settingData?.step1Data?.designno} {(settingData?.step2Data?.TitleLine?.length > 0 && " - " + settingData?.step2Data?.TitleLine) ?? (settingData?.step1Data?.TitleLine?.length > 0 && " - " + settingData?.step1Data?.TitleLine)}</span>
+                                                                    </div>
 
-                        </div> */}
+                                                                    <div className="for_Complete_set_title_wishlist">
+                                                                        <Checkbox
+                                                                            icon={<GoHeart size={24} color="black" />}
+                                                                            checkedIcon={<GoHeartFill size={24} color="black" />}
+                                                                            className='for_wishlist_icon'
+                                                                            disableRipple={true}
+                                                                            checked={addwishListFlag ?? (settingData?.step1Data?.IsInWish ?? settingData?.step2Data?.IsInWish) == 1 ? true : false}
+                                                                            onChange={(e) => handleWish(e, diamondData, settingData)}
+                                                                        />
+                                                                    </div>
+
+                                                                </div>
+                                                                <div className="for_Complete_set_title_sku">
+                                                                    {/* <div className='for_Complete_set_sku'>Design No : {settingData?.step2Data?.designno ?? settingData?.step1Data?.designno}</div> */}
+                                                                </div>
+                                                                <div className="for_Complete_set_price_div">
+                                                                    <div className="for_Complete_set_price">
+                                                                        <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(settingData?.step2Data?.UnitCostWithMarkUp ?? settingData?.step1Data?.UnitCostWithMarkUp)}</span>
+                                                                    </div>
+                                                                    <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[0]?.shape ?? setshape?.[1]?.shape}/M=${filterVal}`) }}>
+                                                                        <HiOutlinePencilSquare fontWeight={700} />
+                                                                        <span style={{ marginTop: '1px' }}>Change</span>
+                                                                    </div>
+                                                                </div>
+                                                            </>
+                                                        )}
+                                                </div>
+
+                                                <div className="for_Complete_set_Diamond_div">
+                                                    {isDataFound ?
+                                                        <Skeleton variant="rounded" style={{ height: '8rem', width: '38rem' }} />
+                                                        : (
+                                                            <>
+                                                                <div className="for_Complete_set_title">
+                                                                    <span>{`${diamondData?.step1Data?.[0]?.carat ?? diamondData?.step2Data?.[0]?.carat} Carat ${diamondData?.step1Data?.[0]?.colorname ?? diamondData?.step2Data?.[0]?.colorname} ${diamondData?.step1Data?.[0]?.clarityname ?? diamondData?.step2Data?.[0]?.clarityname} ${diamondData?.step1Data?.[0]?.cutname ?? diamondData?.step2Data?.[0]?.cutname} Cut ${diamondData?.step1Data?.[0]?.shapename ?? diamondData?.step2Data?.[0]?.shapename} Diamond`}</span>
+                                                                </div>
+
+                                                                <div className="for_Complete_set_title_sku_dia">
+                                                                    <div className='for_Complete_set_sku'>SKU: {diamondData?.step1Data?.[0]?.stockno ?? diamondData?.step2Data?.[0]?.stockno}</div>
+                                                                </div>
+                                                                <div className="for_Complete_set_price_div">
+                                                                    <div className="for_Complete_set_price">
+                                                                        <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price)}</span>
+                                                                    </div>
+                                                                    <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`) }}>
+                                                                        <HiOutlinePencilSquare fontWeight={700} />
+                                                                        <span style={{ marginTop: '1px' }}>Change</span>
+                                                                    </div>
+                                                                </div>
+                                                            </>
+                                                        )}
+                                                </div>
+
+                                                {/* <div className="for_Complete_set_size_div">
+                                            {sizeCombo?.length > 0 && (
+                                                <div className="for_prodWeights_metalType_div">
+                                                    <div className='for_prodWeight_title_div'>
+                                                        <span className="for_prodWeights_metalType_title">{setshape?.[1]?.Setting ?? setshape?.[0]?.Setting} Size</span>
+                                                        <span className="for_prodWeights_metalType_title_1">{`(Choose your ${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting} size)`}</span>
+                                                    </div>
+                                                    <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
+                                                        <select
+                                                            className="for_prodWeights_weights_drp"
+                                                            value={sizeData}
+                                                            onChange={(e) => handleCustomChange(e, 'size')}
+                                                        >
+                                                            {sizeCombo?.map((ele, index) => (
+                                                                <option key={index} value={ele?.value}>
+                                                                    {ele?.title}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </FormControl>
+                                                </div>
+                                            )}
+                                        </div> */}
+
+                                                <div className="for_Complete_set_final_price_div">
+                                                    <div className="for_Complete_set_price">
+                                                        <span className='for_com_set_prc_loader'>
+                                                            {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                            {isDataFound ? (
+                                                                <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
+                                                            ) : (
+                                                                <span>{typeof totalPrice === "number" ? formatter(totalPrice) : 0}</span>
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div className="for_Complete_set_choose_Dia_div">
+                                                    {compSet ? (
+                                                        <button disabled={isPriceloading} onClick={() => handleCart(!addToCardFlag, diamondData, settingData)} className={`${btnstyle?.btn_for_new} for_Complete_set_ATC ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                                                            {addToCardFlag === false ? "ADD TO CART" : "REMOVE FROM CART"}
+                                                        </button>
+                                                    ) : (
+                                                        <>
+                                                            <button disabled={isPriceloading} onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
+                                                                choose this diamond
+                                                            </button>
+                                                            <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
+
+                                                        </>
+                                                    )}
+                                                </div>
+                                                <div className="for_Complete_set_shipp_div">
+                                                    <div className="for_DiamondDet_shipping_fee_div">
+                                                        <div className="for_DiamondDet_shipping_icon">
+                                                            <img className='for_DiamondDet_shipp_image' src={`${storImagePath()}/images/ProductListing/Shipping/shipping-cart.png`} alt='shipping-icon' ></img>
+                                                        </div>
+                                                        <div className="for_DiamondDet_shipp_desc">
+                                                            <span className='for_shipp_desc_title_1'>Free shipping, free 30 days return</span>
+                                                            <span className='for_shipp_desc_title_2'><span className='for_shipp_desc_bold'>Please Note :</span> If the diamond is part of a diamond ring, the completed ring will ship according to the shipping date of the setting</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="for_DiamondDet_calender_div">
+                                                        <div className="for_DiamondDet_calender_icon">
+                                                            <img className='for_DiamondDet_calender_image' src={`${storImagePath()}/images/ProductListing/Shipping/calendar.png`} alt='calender-icon' ></img>
+                                                        </div>
+                                                        <div className="for_DiamondDet_calender_desc">
+                                                            <span className='for_calender_desc_title_1'>order now and your order shipped by</span>
+                                                            <span className='for_calender_desc_title_2'>Tuesday , August 20</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                </div>
+                            </>
+                        )}
+
                     </div>
-                    {!compSet && (
+                    {(!compSet && isEarring !== 1) && (
                         <div className="for_DiamondDet_prod_desc_mainDIv">
                             <div className="for_DiamondDet_desc">
                                 <span className='for_DiamondDet_desc_title'>General information</span>
@@ -2030,6 +2712,74 @@ const DiamondDetails = () => {
                         {/* <Services title={"Our Exclusive services"} services={services} /> */}
                     </div>
                 </div>
+                {isEarring === 1 && (
+                    <div className='for_DiamondDet_prod_desc_earr_div'>
+                        <div className="for_DiamondDet_prod_desc_earr_mainDIv_1">
+                            <div className="for_DiamondDet_desc">
+                                <span className='for_DiamondDet_desc_title'>General information: SKU: {singleDiaData?.[0]?.stockno}</span>
+                                {isDataFound ? <Skeleton variant="rounded" style={{ height: '30px', width: '40rem' }} /> : (
+                                    <p className='for_DiamondDet_desc_1_para'>{`This ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Shape Diamond ${singleDiaData[0]?.colorname} Color ${singleDiaData[0]?.clarityname} Clarity has a diamond grading report from ${singleDiaData[0]?.certyname}.`}</p>
+                                )}
+                            </div>
+                            <div className="for_DiamondDet_desc_1">
+                                <div className="for_DiamondDet_desc_DiaInfo_1">
+                                    <span className='for_DiamondDet_desc_title_1'>Diamond information</span>
+                                    <div className='for_DiamondDet_desc_div'>
+                                        {diaArr1?.map((item, index) => (
+                                            <div className="for_Diamond_desc_div" key={index}>
+                                                <div className='for_DiamondDet_desc_title_para'>{item?.title}: </div>
+                                                <div className='for_DiamondDet_desc_title_para'>{item?.value}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="for_DiamondDet_desc_DiaInfo_1">
+                                    <span className='for_DiamondDet_desc_title_1'>More Diamond information</span>
+                                    <div className='for_DiamondDet_desc_div'>
+                                        {diaArr2?.map((item, index) => (
+                                            <div className="for_Diamond_desc_div" key={index}>
+                                                <div className='for_DiamondDet_desc_title_para'>{item?.title}: </div>
+                                                <div className='for_DiamondDet_desc_title_para'>{item?.value}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="for_DiamondDet_prod_desc_earr_mainDIv_2">
+                            <div className="for_DiamondDet_desc">
+                                <span className='for_DiamondDet_desc_title'>General information: SKU: {singleDiaData?.[0]?.stockno}</span>
+                                {isDataFound ? <Skeleton variant="rounded" style={{ height: '30px', width: '40rem' }} /> : (
+                                    <p className='for_DiamondDet_desc_1_para'>{`This ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Shape Diamond ${singleDiaData[0]?.colorname} Color ${singleDiaData[0]?.clarityname} Clarity has a diamond grading report from ${singleDiaData[0]?.certyname}.`}</p>
+                                )}
+                            </div>
+                            <div className="for_DiamondDet_desc_1">
+                                <div className="for_DiamondDet_desc_DiaInfo_1">
+                                    <span className='for_DiamondDet_desc_title_1'>Diamond information</span>
+                                    <div className='for_DiamondDet_desc_div'>
+                                        {diaArr1?.map((item, index) => (
+                                            <div className="for_Diamond_desc_div" key={index}>
+                                                <div className='for_DiamondDet_desc_title_para'>{item?.title}: </div>
+                                                <div className='for_DiamondDet_desc_title_para'>{item?.value}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="for_DiamondDet_desc_DiaInfo_1">
+                                    <span className='for_DiamondDet_desc_title_1'>More Diamond information</span>
+                                    <div className='for_DiamondDet_desc_div'>
+                                        {diaArr2?.map((item, index) => (
+                                            <div className="for_Diamond_desc_div" key={index}>
+                                                <div className='for_DiamondDet_desc_title_para'>{item?.title}: </div>
+                                                <div className='for_DiamondDet_desc_title_para'>{item?.value}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 {
                     (setshape?.[1]?.Setting === 'Ring' || setshape?.[0]?.Setting === 'Ring') ? (
                         <div className="for_DiamondDet_trend_coll_banner_div">

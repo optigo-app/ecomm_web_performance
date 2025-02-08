@@ -22,7 +22,7 @@ import Cookies from "js-cookie";
 import PrintIcon from '@mui/icons-material/Print';
 
 
-const CartPage = () => {
+const CartPage = ({ data }) => {
   const addressData = useAddress();
 
   const {
@@ -366,14 +366,17 @@ const CartPage = () => {
           content="Are you sure you want to remove all Items?"
         />
 
-        {/* <Footer /> */}
+        <Footer data={data} />
       </div>
-      {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
         <p
-          className="backtotop_Smr"
-        
-        style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
-      </div> */}
+          className="backtotop_lov"
+
+          style={{
+            margin: '0px', width: '100px', cursor: 'pointer', color: "#5F497A", fontSize: "14px",
+            fontWeight: 600,
+          }} onClick={scrollToTop}>BACK TO TOP</p>
+      </div>
     </div>
   );
 };

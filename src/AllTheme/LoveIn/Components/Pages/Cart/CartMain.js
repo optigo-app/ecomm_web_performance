@@ -4,7 +4,7 @@ import B2cCart from "./CartPageB2c/Cart";
 import CartPage3 from "./CartPage3/Cart";
 import PrintPageCard from './PrintCartPage';
 
-const CartMain = () => {
+const CartMain = ({ data }) => {
     const [cartComponent, setCartComponent] = useState(null);
 
     useEffect(() => {
@@ -14,7 +14,7 @@ const CartMain = () => {
 
         switch (cartNo) {
             case 1:
-                setCartComponent(<B2bCart />);
+                setCartComponent(<B2bCart data={data} />);
                 break;
             case 2:
                 setCartComponent(<B2cCart />);
@@ -30,7 +30,7 @@ const CartMain = () => {
 
     return (
         <div style={{
-            marginBottom:"3rem"
+            // marginBottom: "3rem"
         }}>
             {cartComponent}
             <PrintPageCard />

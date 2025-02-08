@@ -340,17 +340,17 @@ const Lovein_App = () => {
         <Route path="/impact" element={<Impact data={banner?.impactBanner} fdata={banner?.affiliation} />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/aboutUs" element={<AboutUs />} />
-        <Route path="/TermsPolicy" element={<TermsPolicy />} />
+        {/* <Route path="/TermsPolicy" element={<TermsPolicy />} /> */}
         <Route path="/natural-diamond" element={<NatualDiamond />} />
         <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
           <Route path="/p/*" element={<ProductList data={banner?.affiliation} />} />
-          <Route path="/d/*" element={<ProductDetail />} />
-          <Route path="/cartPage" element={<Cart />} />
-          <Route path="/myWishList" element={<Wishlist />} />
+          <Route path="/d/*" element={<ProductDetail data={banner?.affiliation} />} />
+          <Route path="/cartPage" element={<Cart data={banner?.affiliation} />} />
+          <Route path="/myWishList" element={<Wishlist data={banner?.affiliation} />} />
           <Route path="/Delivery" element={<Delivery data={banner?.affiliation} />} />
-          <Route path="/Payment" element={<Payment />} />
+          <Route path="/Payment" element={<Payment data={banner?.affiliation} />} />
           <Route path="/Confirmation" element={<Confirmation data={banner?.affiliation} />} />
-          <Route path="/account" element={<Account />} />
+          <Route path="/account" element={<Account data={banner?.affiliation} />} />
           {/* <Route path="/accountdwsr" element={<DWSRprintComp />} /> */}
         </Route>
         <Route path="/accountdwsr" element={<DWSRprintComp />} />
