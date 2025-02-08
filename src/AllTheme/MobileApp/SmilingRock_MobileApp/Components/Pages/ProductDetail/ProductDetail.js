@@ -1435,7 +1435,7 @@ const ProductDetail = () => {
               <>
                 <div
                   className="smr_prod_detail_main"
-                  style={{ marginTop: "50px" }}
+                  style={{ marginTop: "50px" ,marginBottom: "40px",}}
                 >
                   <div className="smr_prod_image_shortInfo">
                     <div className="smr_prod_image_Sec">
