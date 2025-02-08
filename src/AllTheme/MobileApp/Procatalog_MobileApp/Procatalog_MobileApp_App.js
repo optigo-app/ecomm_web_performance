@@ -95,6 +95,7 @@ const Procatalog_MobileApp_App = () => {
         location.pathname === "/DeliveryShipping" ||
         location.pathname === "/TermsCondition" ||
         location.pathname === "/HelpCenter" ||
+        location.pathname === "/Memo" ||
         location.pathname === "/Coupons" ||
         location.pathname === "/ContctUs" ||
         location.pathname === "/Lookbook" ||

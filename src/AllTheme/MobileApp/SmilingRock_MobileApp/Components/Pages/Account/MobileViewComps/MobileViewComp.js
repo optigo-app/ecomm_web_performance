@@ -44,6 +44,9 @@ const MobileViewComp = () => {
         setUserMobile(loginUserDetail?.defaddress_shippingmobile)
     },[])
 
+  const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+
+
   return (
     <div className='mobComp_Account_SMRM'>
             <div className='sticky-header'>
@@ -105,10 +108,10 @@ const MobileViewComp = () => {
                     <p className='menuMainAccountTitle'>Design Wise Sales Report</p>
                         <FaChevronRight />
                 </div>
-                <div className='menuMainAccount' onClick={() => naviagation('/AccountLedger')}>
+               {IsPriceShow == 1 && <div className='menuMainAccount' onClick={() => naviagation('/AccountLedger')}>
                     <p className='menuMainAccountTitle'>Account Ledger</p>
                         <FaChevronRight />
-                </div>
+                </div>}
                 {/* <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px', marginBottom: '30px' }}>
                         <p className='smilingAccountLogoutMobile' onClick={handleLogout}>LOG OUT</p>
                 </div> */}
