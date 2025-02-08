@@ -1,0 +1,162 @@
+.linkingLoveMain {
+    /* display: flex; */
+    margin-top: 50px;
+    margin-inline: 90px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.linkingLove {
+    /* width: 60%; */
+    /* border-bottom: 1px solid; */
+    display: flex;
+}
+
+.sliderMain {
+    width: 66.66%;
+}
+
+.sliderMainSignle {
+    width: 100%;
+}
+
+.sliderMainSeconMain {
+    width: 100%;
+}
+
+.linkingLoveImage {
+    width: 33.33%;
+    /* border: 1px solid; */
+}
+
+.linkingTitle {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 25px;
+    text-align: center;
+    color: #3f3151;
+}
+
+.linkingDesc {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    text-align: center;
+    color: #7d7595;
+}
+
+.linkingShopCol {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 12px;
+    text-align: center;
+    color: #7d7595;
+}
+
+.linkRingLove {
+    display: flex !important;
+}
+
+.linkLoveRing1 {
+    /* border: 1px solid; */
+    display: flex;
+    /* flex-direction: column; */
+    /* align-items: end; */
+    padding: 5px 2px 5px 2px;
+
+}
+
+.linkLoveRing1Desc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ring1Desc {
+    width: 70%;
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #7d7595;
+}
+
+.linkLoveRing2 {
+    /* border: 1px solid; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5px 3px 5px 2px;
+}
+
+.linkingLoveImageDesign {
+    height: 500px;
+    margin-top: 5px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.likingLoveImages {
+    height: 500px;
+    width: 100% !important;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1700px) {
+    /* 
+    .linkingLoveImageDesign {
+        height: 100% !important;
+        width: 100% !important;
+    } */
+
+
+    /* .likingLoveImages {
+        height: 100% !important;
+        width: 100% !important;
+    } */
+
+}
+
+@media screen and (max-width: 1000px) {
+
+    .linkingLoveMain {
+        display: flex;
+        margin-top: 50px;
+        flex-direction: column;
+        margin-inline: 10px;
+    }
+
+    .linkingLove {
+        width: 100%;
+        order: 2;
+    }
+
+    .linkingLoveImage {
+        /* width: 100%; */
+        order: 1;
+    }
+
+    /* .linkingLoveImageDesign {
+        height: 100%;
+        width: 100%;
+        margin-top: 5px;
+    } */
+
+    /* .likingLoveImages {
+        height: 250px;
+    } */
+
+    .likingLoveImages {
+        height: 300px !important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .likingLoveImages {
+        height: 180px !important;
+    }
+}
+
+@media screen and (max-width: 420px) {
+
+    .likingLoveImages {
+        height: 150px !important;
+    }
+}

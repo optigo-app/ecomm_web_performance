@@ -1487,6 +1487,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   }
 
   const handleCheckStepsForSett = (link, val, id) => {
+    console.log('val: ', val);
     const regex = /M=([^/]+)/;
     const match = link.match(regex);
     let mValue;

@@ -4,10 +4,13 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 import { motion } from 'framer-motion';
 
 const TheDifference = () => {
+  const motionEnabled = false;
+  const WrapperDiv = motionEnabled ? motion.div : "div";
+  const WrapperP = motionEnabled ? motion.p : "p";
   return (
-    <div className="smilingPAgeMain" style={{ paddingBlock: '8%' }}>
-      <motion.p
-        className="smilingTitle"
+    <div className="lovPAgeMain" style={{ paddingBlock: '8%' }}>
+      <WrapperP
+        className="lovTitle"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{
@@ -16,13 +19,13 @@ const TheDifference = () => {
         }}
         viewport={{ once: true, amount: 0.2 }}
       >
-        The Sonasons Difference
-      </motion.p>
+        The wonder of 4 Decades
+      </WrapperP>
 
-      <div className="smr_smilingRock">
+      <div className="lov_lovRock">
         {/* First Image */}
-        <motion.div
-          className="smr_smilingRockBox"
+        <WrapperDiv
+          className="lov_lovRockBox"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -32,21 +35,21 @@ const TheDifference = () => {
             delay: 0.2, // Delay for the first image
           }}
         >
-          <div className="smr_diffrence_box1_main">
+          <div className="lov_diffrence_box1_main">
             <img
-              className="smr_deffrence_img"
+              className="lov_deffrence_img"
               src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference1.webp`}
-              alt="Natural Diamond & jewellery"
+              alt="CVD Growing to Handcrafted jewelry manufacturer"
             />
           </div>
-          <div className="smr_diffrence_box2_main">
-            <p className="smr_smilingBoxName">Natural Diamond & jewellery</p>
+          <div className="lov_diffrence_box2_main">
+            <p className="lov_lovBoxName">CVD Growing to Handcrafted jewelry manufacturer</p>
           </div>
-        </motion.div>
+        </WrapperDiv>
 
         {/* Second Image */}
-        <motion.div
-          className="smr_smilingRockBox"
+        <WrapperDiv
+          className="lov_lovRockBox"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -56,23 +59,23 @@ const TheDifference = () => {
             delay: 0.4, // Delay for the second image
           }}
         >
-          <div className="smr_diffrence_box1_main">
+          <div className="lov_diffrence_box1_main">
             <img
-              className="smr_deffrence_img"
+              className="lov_deffrence_img"
               src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference2.webp`}
-              alt="1% of each purchase goes to your choice of charity"
+              alt="Recycling Gold to save nature"
             />
           </div>
-          <div className="smr_diffrence_box2_main">
-            <p className="smr_smilingBoxName">
-              1% of each purchase goes to your choice of charity
+          <div className="lov_diffrence_box2_main">
+            <p className="lov_lovBoxName">
+              Recycling Gold to save nature
             </p>
           </div>
-        </motion.div>
+        </WrapperDiv>
 
         {/* Third Image */}
-        <motion.div
-          className="smr_smilingRockBox"
+        <WrapperDiv
+          className="lov_lovRockBox"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -82,21 +85,21 @@ const TheDifference = () => {
             delay: 0.6, // Delay for the third image
           }}
         >
-          <div className="smr_diffrence_box1_main">
+          <div className="lov_diffrence_box1_main_dia">
             <img
-              className="smr_deffrence_img"
+              className="lov_deffrence_img_dia"
               src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference3.webp`}
-              alt="Laser inscribed diamonds with Sonasons logo"
+              alt="Finest Precisely Polished certified Gems"
             />
           </div>
-          <div className="smr_diffrence_box2_main">
-            <p className="smr_smilingBoxName">Laser inscribed diamonds with Sonasons logo</p>
+          <div className="lov_diffrence_box2_main">
+            <p className="lov_lovBoxName">Finest Precisely Polished certified Gems</p>
           </div>
-        </motion.div>
+        </WrapperDiv>
 
         {/* Fourth Image */}
-        <motion.div
-          className="smr_smilingRockBox"
+        <WrapperDiv
+          className="lov_lovRockBox"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -106,17 +109,41 @@ const TheDifference = () => {
             delay: 0.8, // Delay for the fourth image
           }}
         >
-          <div className="smr_diffrence_box1_main">
+          <div className="lov_diffrence_box1_main">
             <img
-              className="smr_deffrence_img"
+              className="lov_deffrence_img"
               src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference4.webp`}
-              alt="ECG+ Certified Brand Butterfly Mark"
+              alt="Socially Progressive & Sustainable practices"
             />
           </div>
-          <div className="smr_diffrence_box2_main">
-            <p className="smr_smilingBoxName">ECG+ Certified Brand Butterfly Mark</p>
+          <div className="lov_diffrence_box2_main">
+            <p className="lov_lovBoxName">Socially Progressive & Sustainable practices</p>
           </div>
-        </motion.div>
+        </WrapperDiv>
+
+        {/* Fifth Image */}
+        <WrapperDiv
+          className="lov_lovRockBox"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{
+            duration: 0.4,
+            ease: 'easeIn',
+            delay: 1.0, // Delay for the fifth image
+          }}
+        >
+          <div className="lov_diffrence_box1_main">
+            <img
+              className="lov_deffrence_img"
+              src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference5.webp`}
+              alt="Unparalleled Quality & commitment"
+            />
+          </div>
+          <div className="lov_diffrence_box2_main">
+            <p className="lov_lovBoxName">Unparalleled Quality & commitment</p>
+          </div>
+        </WrapperDiv>
       </div>
     </div>
   );

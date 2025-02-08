@@ -1,7 +1,7 @@
 @import '../../../scss/variable.scss';
 
 .smr_Loginoption {
-    height: 70vh;
+    height: 100%;
     display: grid;
     align-content: center;
     font-family: $Pfonts;
@@ -24,7 +24,7 @@
         font-weight: 600;
         margin-top: 25px;
         text-align: center;
-        color: #7d7f85;
+        color: $authtextColor;
             font-family: $Pratafonts;
     }
 

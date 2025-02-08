@@ -1,0 +1,30 @@
+.video__el.is-loaded {
+    opacity: 1;
+    visibility: visible;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px; /* Adjust width as needed */
+    margin: 0 auto; /* Center the video */
+  }
+  
+  .video-container:hover .ytp-chrome-top,
+  .video-container:hover .ytp-share-button,
+  .video-container:hover .ytp-title-channel,
+  .video-container:hover .ytp-title-logo,
+  .video-container:hover .ytp-title-description,
+  .video-container:hover .ytp-cards-teaser,
+  .video-container:hover .ytp-ce-element-shadow,
+  .video-container:hover .ytp-gradient-top,
+  .video-container:hover .ytp-gradient-bottom {
+    display: none !important;
+  }
+
+@media screen and (max-width: 600px) {
+
+  .topVideoShow{
+    height: 300px!important;
+  }
+}

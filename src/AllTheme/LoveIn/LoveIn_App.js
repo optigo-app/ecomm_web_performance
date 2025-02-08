@@ -58,6 +58,10 @@ import TermsAndConditions from "./Components/Pages/FooterPages/TermsPage/TermsPa
 import usePromotionalBanner from "./Components/hook/usePromotionBanner";
 import PromotionalBanner from "./Components/Pages/Home/PromotionBanner/PromotionBanner";
 import FooterNew from "./Components/Pages/Home/Footer/New/FooterNew";
+import Footer from "./Components/Pages/Home/Footer/Footer";
+import FAQ from "./Components/Pages/FooterPages/FAQ/FAQ";
+import useHomeBannerImages from "../../utils/Glob_Functions/ThemesBanner/ThemesBanner";
+import Impact from "./Components/Pages/FooterPages/Impact";
 
 const Lovein_App = () => {
   const { openPromotionalBanner, handleCloseBanner } = usePromotionalBanner();
@@ -74,6 +78,7 @@ const Lovein_App = () => {
     useRecoilState(lov_companyLogoM);
   const [htmlContent, setHtmlContent] = useState("");
   const [localData, setLocalData] = useState();
+  const banner = useHomeBannerImages();
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -234,12 +239,12 @@ const Lovein_App = () => {
   return (
     <div div className="ggg">
       <Helmet>{/* <title>{localData?.BrowserTitle}</title> */}</Helmet>
-      {openPromotionalBanner && (
+      {/* {openPromotionalBanner && (
         <PromotionalBanner
           disablescreen={openPromotionalBanner}
           onClose={handleCloseBanner}
         />
-      )}
+      )} */}
       {!location.pathname.startsWith("/accountdwsr") && (
         <div>
           {localData?.Headerno == 1 && <Header />}
@@ -251,16 +256,16 @@ const Lovein_App = () => {
         <Route
           path="/LoginOption"
           element={
-            <div className="smr_authFlowBakcColor">
-              <LoginOption />
+            <div className="lov_authFlowBakcColor">
+              <LoginOption data={banner?.affiliation} />
             </div>
           }
         />
         <Route
           path="/ContinueWithEmail"
           element={
-            <div className="smr_authFlowBakcColor">
-              <ContinueWithEmail />
+            <div className="lov_authFlowBakcColor">
+              <ContinueWithEmail data={banner?.affiliation} />
             </div>
           }
         />
@@ -270,16 +275,16 @@ const Lovein_App = () => {
         <Route
           path="/ContimueWithMobile"
           element={
-            <div className="smr_authFlowBakcColor">
-              <ContimueWithMobile />
+            <div className="lov_authFlowBakcColor">
+              <ContimueWithMobile data={banner?.affiliation} />
             </div>
           }
         />
         <Route
           path="/LoginWithEmailCode"
           element={
-            <div className="smr_authFlowBakcColor">
-              <LoginWithEmailCode />
+            <div className="lov_authFlowBakcColor">
+              <LoginWithEmailCode data={banner?.affiliation} />
             </div>
           }
         />
@@ -289,32 +294,32 @@ const Lovein_App = () => {
         <Route
           path="/LoginWithMobileCode"
           element={
-            <div className="smr_authFlowBakcColor">
-              <LoginWithMobileCode />
+            <div className="lov_authFlowBakcColor">
+              <LoginWithMobileCode data={banner?.affiliation} />
             </div>
           }
         />
         <Route
           path="/ForgotPass"
           element={
-            <div className="smr_authFlowBakcColor">
-              <ForgotPass />
+            <div className="lov_authFlowBakcColor">
+              <ForgotPass data={banner?.affiliation} />
             </div>
           }
         />
         <Route
           path="/LoginWithEmail"
           element={
-            <div className="smr_authFlowBakcColor">
-              <LoginWithEmail />
+            <div className="lov_authFlowBakcColor">
+              <LoginWithEmail data={banner?.affiliation} />
             </div>
           }
         />
         <Route
           path="/register"
           element={
-            <div className="smr_authFlowBakcColor">
-              <Register />
+            <div className="lov_authFlowBakcColor">
+              <Register data={banner?.affiliation} />
             </div>
           }
         />
@@ -332,17 +337,19 @@ const Lovein_App = () => {
         {/* Maiora not needed fun facts */}
         {/* Kayra needed */}
         <Route path="/FunFact" element={<FunFact />} />
+        <Route path="/impact" element={<Impact data={banner?.impactBanner} fdata={banner?.affiliation} />} />
+        <Route path="/faq" element={<FAQ />} />
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/TermsPolicy" element={<TermsPolicy />} />
         <Route path="/natural-diamond" element={<NatualDiamond />} />
         <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
-          <Route path="/p/*" element={<ProductList />} />
+          <Route path="/p/*" element={<ProductList data={banner?.affiliation} />} />
           <Route path="/d/*" element={<ProductDetail />} />
           <Route path="/cartPage" element={<Cart />} />
           <Route path="/myWishList" element={<Wishlist />} />
-          <Route path="/Delivery" element={<Delivery />} />
+          <Route path="/Delivery" element={<Delivery data={banner?.affiliation} />} />
           <Route path="/Payment" element={<Payment />} />
-          <Route path="/Confirmation" element={<Confirmation />} /> 
+          <Route path="/Confirmation" element={<Confirmation data={banner?.affiliation} />} />
           <Route path="/account" element={<Account />} />
           {/* <Route path="/accountdwsr" element={<DWSRprintComp />} /> */}
         </Route>

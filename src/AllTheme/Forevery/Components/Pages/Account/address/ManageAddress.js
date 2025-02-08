@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "./manageaddress.scss";
 import { Box, Button, CircularProgress, Dialog, DialogTitle, RadioGroup, TextField, Typography } from '@mui/material';
 import StayPrimaryPortraitIcon from '@mui/icons-material/StayPrimaryPortrait';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
 import { useSetRecoilState } from 'recoil';
@@ -59,7 +59,7 @@ const ManageAddress = () => {
 
             const response = await handleDeleteAddress(deleteId, data, FrontEnd_RegNo, customerid);
             if (response?.Data?.rd[0]?.stat === 1) {
-                const updatedAddressData = addressData?.filter(item => item?.id !== deleteId);     
+                const updatedAddressData = addressData?.filter(item => item?.id !== deleteId);
                 setAddressData(updatedAddressData);
                 fetchData();
                 toast.success('Delete Success');
@@ -67,7 +67,7 @@ const ManageAddress = () => {
                 toast.error('error');
             }
             setOpenDelete(false);
-            
+
         } catch (error) {
             console.error('Error:', error);
         } finally {
@@ -119,7 +119,7 @@ const ManageAddress = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent default form submission
-    
+
         const errorsCopy = {}; // Initialize errors object
 
         if (!formData.firstName.trim()) {
@@ -151,7 +151,7 @@ const ManageAddress = () => {
         } else if (!/^\d{10}$/.test(formData.mobileNo.trim())) {
             errorsCopy.mobileNo = 'Mobile No. must contain exactly 10 numbers';
         }
-    
+
         if (!formData.address.trim()) {
             errorsCopy.address = 'Address is required';
         }
@@ -196,18 +196,18 @@ const ManageAddress = () => {
             setErrors(errorsCopy);
             return;
         }
-    
+
         try {
             setIsLoading(true); // Set loading state
-    
+
             const storedData = sessionStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
             const customerid = data.id;
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-    
+
             let response;
-    
+
             if (isEditMode) {
                 // Handle edit mode
                 setOpen(false); // Close modal or dialog
@@ -219,11 +219,11 @@ const ManageAddress = () => {
                     storeInit,
                     data
                 );
-    
+
                 if (response?.Data?.rd[0]?.stat === 1) {
                     // Handle successful edit
                     toast.success('Edit success');
-    
+
                     const editedAddress = {
                         ...addressData[editAddressIndex],
                         shippingfirstname: formData.firstName,
@@ -238,7 +238,7 @@ const ManageAddress = () => {
                     const updatedAddressData = [...addressData];
                     updatedAddressData[editAddressIndex] = editedAddress;
                     setAddressData(updatedAddressData);
-                    if(editedAddress?.isdefault === 1){
+                    if (editedAddress?.isdefault === 1) {
                         setDefaultAddress(editedAddress)
                     }
                 } else {
@@ -247,7 +247,7 @@ const ManageAddress = () => {
             } else {
                 // Handle add mode
                 setOpen(false); // Close modal or dialog
-    
+
                 response = await handleAddAddress(
                     formData,
                     FrontEnd_RegNo,
@@ -255,11 +255,11 @@ const ManageAddress = () => {
                     storeInit,
                     data
                 );
-    
+
                 if (response?.Data?.rd[0]?.stat === 1) {
                     // Handle successful addition
                     toast.success('Add success');
-    
+
                     const newAddress = {
                         shippingfirstname: formData.firstName,
                         shippinglastname: formData.lastName,
@@ -270,7 +270,7 @@ const ManageAddress = () => {
                         zip: formData.zipCode,
                         shippingmobile: formData.mobileNo
                     };
-    
+
                     const updatedAddressData = [...addressData, newAddress];
                     setAddressData(updatedAddressData);
                     fetchData(); // Assuming fetchData updates necessary data after addition
@@ -285,7 +285,7 @@ const ManageAddress = () => {
             setIsLoading(false); // Ensure loading state is reset, regardless of success or failure
         }
     };
-    
+
 
     const handleClose = () => {
         setFormData({
@@ -333,9 +333,9 @@ const ManageAddress = () => {
                     errorsCopy.lastName = 'Last Name is required';
                 } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
                     errorsCopy.lastName = 'Last Name must contain only letters';
-                } else if(value?.trim()?.length < 2){
+                } else if (value?.trim()?.length < 2) {
                     errorsCopy.lastName = 'Enter minimum 2 characters';
-                } else if(value?.trim()?.length > 45){
+                } else if (value?.trim()?.length > 45) {
                     errorsCopy.lastName = 'Enter maximum 45 characters';
                 } else {
                     errorsCopy.lastName = '';
@@ -394,7 +394,7 @@ const ManageAddress = () => {
                 }
                 break;
             default:
-                break;   
+                break;
         }
 
         setErrors(errorsCopy);
@@ -406,7 +406,7 @@ const ManageAddress = () => {
         return { id: data.id, email: data.userid }
     }
 
- 
+
 
     const handleDefaultSelection = async (addressId) => {
         setIsLoading(true);
@@ -418,8 +418,8 @@ const ManageAddress = () => {
 
             const response = await handleDefaultSelectionAddress(loginCred, addressId, FrontEnd_RegNo);
 
-            if ( response?.Status === '200' && response?.Data?.rd) {
-                
+            if (response?.Status === '200' && response?.Data?.rd) {
+
                 setIsLoading(false);
                 fetchData();
 
@@ -443,34 +443,34 @@ const ManageAddress = () => {
             const storedData = sessionStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
             const customerid = data.id;
-            
+
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            
+
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);
-            
+
             if (response?.Data?.rd) {
 
-                if(response?.Data?.rd?.length > 0){
-                    
+                if (response?.Data?.rd?.length > 0) {
+
                     let res = response?.Data?.rd?.find((e) => e?.isdefault === 1);
-                    
+
                     let arr = [];
-                    if(res === undefined){
+                    if (res === undefined) {
                         response?.Data?.rd?.forEach((a, i) => {
-                            let obj = {...a};
-                            if(i === 0){
+                            let obj = { ...a };
+                            if (i === 0) {
                                 obj.isdefault = 1;
                             }
                             arr.push(obj);
                         })
                         setAddressData(arr);
                         setDefaultAddress(arr[0]);
-                        
-                    }else{
+
+                    } else {
                         setDefaultAddress(res);
                         setAddressData(response?.Data?.rd);
-                        
+
                     }
                 }
 
@@ -498,26 +498,26 @@ const ManageAddress = () => {
     return (
         <div className='address_Account_FE'>
             <div >
-            <p style={{
+                <p style={{
                     textAlign: 'center',
                     padding: "15px 15px",
                     marginTop: '30px',
                     fontSize: '20px',
-                    background: '#f6efe6',
+                    background: '#ffdfdf',
                     color: "rgba(31, 25, 25, 0.7)",
-                    fontFamily:"PT Sans, sans-serif",
+                    fontFamily: "PT Sans, sans-serif",
                     fontWeight: "700",
-                    opacity:'.8'
+                    opacity: '.8'
                 }} className='savedAddress'>Saved Addresses</p>
                 <Box sx={{ paddingLeft: "15px" }}>
-                    <Button className='muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={handleOpen}>ADD NEW ADDRESS</Button></Box>
+                    <Button className='muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={handleOpen}>ADD NEW ADDRESS</Button></Box>
                 {/* <Button className='smilingAcoountAddNewBtn' sx={{marginLeft: "auto"}} >ADD NEW ADDRESS</Button> */}
                 <RadioGroup
                     aria-labelledby="demo-controlled-radio-buttons-group"
                     name="controlled-radio-buttons-group"
                     value={defaultAdd}
                     onChange={handleDefault}
-                    
+
                 >
                     {
                         isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec ">
@@ -544,8 +544,8 @@ const ManageAddress = () => {
                                             <NavLink to="" style={{ textDecoration: "unset" }}>
                                                 <Box sx={{ display: "flex", paddingBottom: "15px", textDecoration: "unset", marginLeft: "-4px", }}>
                                                     <StayPrimaryPortraitIcon />
-                                                    <a href={`tel:+${parseInt(item?.shippingmobile)}`} style={{textDecoration:'none'}} >{item?.shippingmobile}</a>
-                                                        {/* <Typography  sx={{ paddingLeft: "3px", textDecoration: "unset" }}>{item?.shippingmobile !== undefined && item?.shippingmobile}</Typography> */}
+                                                    <a href={`tel:+${parseInt(item?.shippingmobile)}`} style={{ textDecoration: 'none' }} >{item?.shippingmobile}</a>
+                                                    {/* <Typography  sx={{ paddingLeft: "3px", textDecoration: "unset" }}>{item?.shippingmobile !== undefined && item?.shippingmobile}</Typography> */}
                                                 </Box>
                                             </NavLink>
 
@@ -562,7 +562,7 @@ const ManageAddress = () => {
                                                 />
                                                 <label htmlFor={`default-${item.id}`}><Typography>Default</Typography></label>
                                             </Box>
-                                            
+
                                             <Box className="addresDetailsTg addresDetailsBtn" sx={{ borderTop: "1px solid rgba(0, 0, 0, 0.04) !important", display: "flex", flexWrap: "wrap", paddingTop: "20px", position: 'absolute', bottom: 0, left: "15px", width: "calc( 100% - 30px)", }}>
                                                 <Button className='muiSmilingRocksBtnManageEdit' variant="contained"
                                                     sx={{
@@ -571,7 +571,7 @@ const ManageAddress = () => {
                                                     }}
                                                     onClick={() => handleOpen(item, index)}
                                                 >Edit</Button>
-                                                { item.isdefault !== 1 && <Button className='muiSmilingRocksBtnManageEdit'
+                                                {item.isdefault !== 1 && <Button className='muiSmilingRocksBtnManageEdit'
                                                     variant="contained"
                                                     sx={{
                                                         background: "#7d7f85", maxHeight: "30px", minWidth: "max-content", maxWidth: "max-content",
@@ -623,15 +623,15 @@ const ManageAddress = () => {
                     title="Delete Address"
                     content="Are you sure you want to delete address?"
                 />
-                <Dialog open={open} onClose={handleClose} >
-                    <div className='smilingAddressPopupMain'>
-                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>{ isEditMode ? 'Edit' : 'Add' } Shipping Info</DialogTitle>
+                <Dialog open={open} onClose={handleClose} sx={{ marginTop: "6rem" }}>
+                    <div className='for_AddressPopupMain'>
+                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>{isEditMode ? 'Edit' : 'Add'} Shipping Info</DialogTitle>
                         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <TextField
                                 id="firstName"
                                 label="First Name"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="for_labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.firstName}
                                 onChange={(e) => handleInputChange(e, 'firstName')}
@@ -642,7 +642,7 @@ const ManageAddress = () => {
                                 id="lastName"
                                 label="Last Name"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="for_labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.lastName}
                                 onChange={(e) => handleInputChange(e, 'lastName')}
@@ -653,7 +653,7 @@ const ManageAddress = () => {
                                 id="address"
                                 label="Address"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="for_labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.address}
                                 onChange={(e) => handleInputChange(e, 'address')}
@@ -664,7 +664,7 @@ const ManageAddress = () => {
                                 id="country"
                                 label="Country"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="for_labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.country}
                                 onChange={(e) => handleInputChange(e, 'country')}
@@ -675,7 +675,7 @@ const ManageAddress = () => {
                                 id="state"
                                 label="State"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="for_labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.state}
                                 onChange={(e) => handleInputChange(e, 'state')}
@@ -686,7 +686,7 @@ const ManageAddress = () => {
                                 id="city"
                                 label="City"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="for_labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.city}
                                 onChange={(e) => handleInputChange(e, 'city')}
@@ -697,7 +697,7 @@ const ManageAddress = () => {
                                 id="zipCode"
                                 label="ZIP Code"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="for_labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.zipCode}
                                 onChange={(e) => handleInputChange(e, 'zipCode')}
@@ -708,7 +708,7 @@ const ManageAddress = () => {
                                 id="mobileNo"
                                 label="Mobile No."
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="for_labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.mobileNo}
                                 onChange={(e) => handleInputChange(e, 'mobileNo')}
@@ -717,8 +717,8 @@ const ManageAddress = () => {
                             />
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
                                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px', marginBottom: '30px' }}>
-                                    <button type="submit" className='smilingDeleveryformSaveBtn'>{isEditMode ? 'Edit' : 'Add'}</button>
-                                    <button onClick={handleClose} className='smilingDeleveryformCansleBtn_fe'>
+                                    <button type="submit" className='for_DeleveryformSaveBtn'>{isEditMode ? 'Edit' : 'Add'}</button>
+                                    <button onClick={handleClose} className='for_DeleveryformCansleBtn_fe'>
                                         Cancel
                                     </button>
                                 </div>
@@ -726,7 +726,7 @@ const ManageAddress = () => {
                         </form>
                     </div>
                 </Dialog>
-            </div>                    
+            </div>
         </div>
     )
 }

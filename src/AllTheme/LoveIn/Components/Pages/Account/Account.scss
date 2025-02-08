@@ -1,13 +1,13 @@
 // .account_AccountTab_lov{
 
 
-.lov-AccountMain {
+.Smiling-AccountMain {
     background-color: white;
     margin-inline: 6%;
     margin-bottom: 5rem;
 }
 
-.lovAccountTitle {
+.SmilingAccountTitle {
 
     font-size: 40px;
     text-align: center;
@@ -17,11 +17,11 @@
     // padding-top: 80px;
 }
 
-.lov-AccountTabMain {
+.smling-AccountTabMain {
     margin-inline: 10%;
 }
 
-.lovOrderHistory {
+.smlingOrderHistory {
     border: 1px solid #e1e1e1;
     display: flex;
     flex-direction: column;
@@ -29,7 +29,7 @@
     align-items: center;
 }
 
-.lovOrderHistoryBtn {
+.smlingOrderHistoryBtn {
     height: 55px;
     width: 200px;
     background-color: #7d7f85;
@@ -39,13 +39,13 @@
     border: 0;
 }
 
-.lovSavedAddressMain {
+.smilingSavedAddressMain {
     border: 1px solid #e1e1e1;
     margin-bottom: 20px;
 }
 
 
-.lovAccountSavedRemoveBtn {
+.smilingAccountSavedRemoveBtn {
     font-size: 13px;
     font-weight: 500;
     margin-top: 15px;
@@ -57,7 +57,7 @@
     height: 22px;
 }
 
-.lovAccountSavedRemoveBtn::before {
+.smilingAccountSavedRemoveBtn::before {
     content: '';
     position: absolute;
     bottom: 0;
@@ -68,14 +68,14 @@
     transition: width 0.3s ease-out;
 }
 
-.lovAccountSavedRemoveBtn:hover::before {
+.smilingAccountSavedRemoveBtn:hover::before {
     width: 100%;
     left: 0;
     right: auto;
     transition: width 0.3s ease-out;
 }
 
-.lovAcoountAddNewBtn {
+.smilingAcoountAddNewBtn {
     height: 55px;
     width: 220px;
     background-color: #7d7f85;
@@ -87,13 +87,13 @@
     margin-top: 25px;
 }
 
-.lovAcoountAddNewBtn:hover {
+.smilingAcoountAddNewBtn:hover {
     border: 1px solid #7d7f85;
     background-color: white;
     color: #7d7f85;
 }
 
-.lovAccountLogout {
+.smilingAccountLogout {
     position: relative;
     left: 235px !important;
     top: 18px;
@@ -104,16 +104,16 @@
     transition: all 0.4s ease;
 }
 
-.lovAccountLogout:hover {
+.smilingAccountLogout:hover {
     border-bottom: 1px solid black;
 }
 
-.lovAccountTabWebView_lov button.Mui-selected{
+.smlingAccountTabWebView_lov button.Mui-selected{
     color: #3b3c3d;
     /* text-decoration: underline; */
 }
 
-.lovAccountTabWebView_lov span.MuiTabs-indicator{
+.smlingAccountTabWebView_lov span.MuiTabs-indicator{
     background-color: #3b3c3d;
 }
 
@@ -141,22 +141,22 @@
 //     z-index: 9; /* Adjust z-index as needed */
 //     border-bottom: 1px solid #ddd; /* Optional: to add a border below the sticky tabs */
 // }
-.lovAccountTabMobileView{
+.smlingAccountTabMobileView{
     z-index: 1000;
 }
 @media screen and (max-width: 1441px) {
 
-    .lov-AccountMain {
+    .Smiling-AccountMain {
     margin-inline: 2%;
 
     }
 
-    .lov-AccountTabMain {
+    .smling-AccountTabMain {
     margin-inline: 5%;
 
     }
 
-    .lovAccountLogout{
+    .smilingAccountLogout{
         position: relative;
         left: 130px;
     }
@@ -170,7 +170,7 @@
     }
 }
 @media screen and (min-width: 1050px) {
-    .lovAccountTabMobileView{
+    .smlingAccountTabMobileView{
         display: none;
     }
     .sticky-header_web_sm {
@@ -185,12 +185,12 @@
 
 @media screen and (max-width: 1049px) {
 
-    // .lovAccountTabWebView_lov{
+    // .smlingAccountTabWebView_lov{
     //     // display: none;
     //     display: unset;
     // }
 
-    .lovAccountLogoutMobile{
+    .smilingAccountLogoutMobile{
         position: relative;
         left: 18px;
         top: 10px;
@@ -226,7 +226,7 @@
 }
 
 @media (max-width:786px),(max-width:1080px){
-    .lovAccountTitle{
+    .SmilingAccountTitle{
         padding-top: 0px !important;
     }
     .yourAccount_lov .MuiButtonBase-root{
@@ -237,7 +237,7 @@
 }
 @media (max-width:1026px){
     
-    // .lovAccountTabWebView_lov{
+    // .smlingAccountTabWebView_lov{
     //     // display: none;
     //     display: unset !important;
     // }
@@ -245,10 +245,10 @@
     //     display: none !important;
     // }
     
-    .lovAccountTitle{
+    .SmilingAccountTitle{
         padding-top: 0px !important;
     }
-    .lovAccountTabWebView_lov {
+    .smlingAccountTabWebView_lov {
         display: none !important;
     }
     .yourAccount_lov .MuiButtonBase-root{
@@ -264,7 +264,7 @@
         min-width: 100%;
         align-items: flex-start;
     }
-    .lovAccountTabMobileView{
+    .smlingAccountTabMobileView{
         display: unset;
         background-color: white;
     }
@@ -303,7 +303,7 @@
     padding: 10px 0;
 
 }
-.lovAccountTitle{
+.SmilingAccountTitle{
         padding-top: 20px !important;
 }
 

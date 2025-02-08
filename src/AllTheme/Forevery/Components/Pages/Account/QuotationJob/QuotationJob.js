@@ -852,7 +852,7 @@ const scrollToTop = () => {
               <Table stickyHeader aria-label="sticky table" className='quotaionFiltertable'>
                 <TableHead className='user-select-none'>
                   <TableRow>
-                  <TableCell style={{backgroundColor: "#ebebeb", color: "#6f6f6f"}}>
+                  <TableCell style={{backgroundColor: "#ebebeb", color: "#6f6f6f", paddingLeft: "4rem"}}>
                     <Checkbox
                       checked={allChecked}
                       onChange={handleMasterCheckboxChange}

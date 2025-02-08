@@ -1,0 +1,151 @@
+.ShopInstagrtamMain {
+    /* border: 0.5px solid #e1e1e1; */
+    margin-inline: 90px;
+    margin-top: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.shopinstaMainTitle {
+    font-size: 25px;
+    font-family: 'Ubuntu', sans-serif;
+    color: #312648;
+    text-align: center;
+}
+
+.shopinstaMainDesc {
+    font-size: 13px;
+    letter-spacing: 0.7px;
+    text-align: center;
+    width: 25%;
+}
+
+.ShopInstagrtamImages {
+    display: flex;
+    border: 0.5px solid #e1e1e1;
+}
+
+.shopInimage {
+    position: relative;
+    width: 25%;
+    padding: 5px;
+}
+
+.shopInimage1 {
+    height: 100%;
+    width: 100%;
+    max-width: auto;
+    /* cursor: pointer; */
+    /* transition: opacity 0.3s ease; */
+
+}
+
+/* .shopInimage1:hover {
+    opacity: 0.1;
+} */
+
+.shopInimage2 {
+    height: 100%;
+    width: 100%;
+    max-width: auto;
+}
+
+.shopInimage3 {
+    height: 100%;
+    width: 100%;
+    max-width: auto;
+}
+
+.shopInimage4 {
+    height: 100%;
+    width: 100%;
+    max-width: auto;
+}
+
+
+
+.shopInstaoverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.overlyBox1 {
+    display: flex !important;
+}
+
+.overlyBox1Content {
+    background-color: white;
+    height: 496px;
+    font-size: 12px;
+}
+
+.socialIcon {
+    height: 35px;
+    width: 35px;
+    border-radius: 50px;
+    color: white;
+    display: flex;
+    align-items: center;
+    background: #312648;
+    justify-content: center;
+    cursor: pointer;
+    margin-inline: 5px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.socialIcon:hover {
+    border-color: #7d7f85;
+}
+
+@media screen and (min-width: 1441px) {
+    .mobileFooterSection {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1440px) {
+    .webFooterSection {
+        display: none;
+    }
+}
+
+
+@media screen and (min-width: 1001px) {
+    .ShopInstagrtamImage-mobile {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .ShopInstagrtamImages {
+        display: none;
+    }
+
+    .ShopInstagrtamMain {
+        margin-inline: 10px;
+    }
+
+    .shopinstaMainDesc {
+        width: 75%;
+    }
+
+    .ShopInstagrtamImage-mobile{
+        border: 0.5px solid #e1e1e1;
+
+    }
+    .shopInimage {
+        width: 50%;
+    }
+}

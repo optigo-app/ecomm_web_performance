@@ -7,7 +7,7 @@ import Footer from '../../Home/Footer/Footer';
 import { ContinueWithEmailAPI } from '../../../../../../utils/API/Auth/ContinueWithEmailAPI';
 import OTPContainer from '../../../../../../utils/Glob_Functions/Otpflow/App';
 
-export default function ContinueWithEmail() {
+export default function ContinueWithEmail({ data }) {
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -129,7 +129,7 @@ export default function ContinueWithEmail() {
                         marginTop: '0px',
                         fontSize: '40px',
                         color: '#7d7f85',
-                                          }}
+                    }}
                         className='AuthScreenMainTitle'
                     >Continue With Email</p>
                     <p style={{
@@ -137,7 +137,7 @@ export default function ContinueWithEmail() {
                         marginTop: '-60px',
                         fontSize: '15px',
                         color: '#7d7f85',
-                                          }}
+                    }}
 
                         className='AuthScreenSubTitle'
                     >We'll check if you have an account, and help create one if you don't.</p>
@@ -174,14 +174,15 @@ export default function ContinueWithEmail() {
                         <button type='submit' className='submitBtnForgot' onClick={handleSubmit}>SUBMIT</button>
                         <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
-                    {/* <Footer /> */}
+                    <Footer data={data} />
                 </div>
             </div>
-            {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
                 <p  
-          className="backtotop_Smr"
-          style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
-            </div> */}
+          className="backtotop_lov"
+          style={{ margin: '0px', width: '100px', cursor: 'pointer', color: "#5F497A", fontSize: "14px",
+            fontWeight: 600, }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
+            </div>
         </div>
     );
 }
