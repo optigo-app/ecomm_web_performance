@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { IoArrowBack } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import './TermsCondition.modul.scss'
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
+import { getDomainName, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
 
 const AccountDelete = () => {
 
@@ -11,8 +11,9 @@ const AccountDelete = () => {
 
     const [htmlContent, setHtmlContent] = useState('');
 
-    useEffect(() => {
-        fetch(`${storImagePath()}/html/MA_AccountDelete.html`)
+    useEffect(async() => {
+        const filename = await getDomainName();
+        fetch(`${storImagePath()}/html/${filename}/MA_AccountDelete.html`)
             .then((response) => response.text())
             .then((html) => {
                 setHtmlContent(html);

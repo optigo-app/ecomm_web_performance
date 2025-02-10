@@ -1,11 +1,11 @@
 import React from 'react';
-import './Delivery.scss'
+// import './Delivery.scss'
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, Divider } from '@mui/material';
 
 export default function AddressForm({ open, handleClose, handleCancel, handleInputChange, handleSubmit, formData, errors, isEditMode }) {
     return (
         <Dialog open={open} onClose={handleClose} sx={{marginTop:'-4rem !important'}}>
-            <form onSubmit={handleSubmit}>
+            <form className='main_smr_App_form' onSubmit={handleSubmit} >
                 <DialogTitle className='smrMo_dialogTitle'>{isEditMode ? 'Edit Shipping Address' : 'Add Shipping Address'}</DialogTitle>
                 <Divider/>
                 <DialogContent>

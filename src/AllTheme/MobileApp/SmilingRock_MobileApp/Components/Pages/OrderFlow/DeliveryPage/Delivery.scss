@@ -4,6 +4,129 @@
   // background-color: #c0bbb1;
 }
 
+.main_smr_App_form{
+  @media screen and (max-width:420px) {
+    height: 500px !important;
+    overflow-y: scroll !important;
+  }
+
+  .smrMo_dialogTitle {
+    color: $titleColor;
+    font-weight: 500 !important;
+    text-align: center;
+  }
+  
+
+  .smrMo_addressTextFields {
+    width: 100%;
+    margin-bottom: 5px !important;
+    .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
+      padding: 5px 18px !important;
+    }
+    .MuiInputLabel-root {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    .MuiInputBase-root {
+      border-radius: 4px;
+      padding:0px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      &:focus-within {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
+    }
+  
+    .MuiFormHelperText-root {
+      font-size: 0.875rem;
+      color: red; 
+      font-weight: 400;
+      margin-top: 4px;
+    }
+  
+    &.MuiFormControl-error .MuiInputBase-root {
+      border-color: red; 
+      box-shadow: 0 0 5px rgba(255, 0, 0, 0.3); 
+    }
+  
+    .MuiFormHelperText-root {
+      color: red; // Red helper text color for error state
+    }
+  }
+  
+.smrMo_addressTextFields {
+  margin-bottom: 18px !important;
+  font-family: $primaryFontFamily !important;
+  color: $titleColor !important;
+}
+
+.smrMo_cardActionBtn {
+  margin: 0px 10px 20px 10px;
+
+  .smrMo_AddressModalBtnGroup {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 10px;
+
+    .smrMo_AddNewAddrModalbtn {
+      margin-right: 0 !important;
+      height: 35px;
+      width: 120px;
+      font-size: $fontSize2;
+    }
+
+    .smrMo_Cancelbtn {
+      margin-right: 0 !important;
+      height: 35px;
+      width: 120px;
+      font-size: $fontSize2;
+    }
+  }
+}
+.smrMo_AddressModalBtnGroup {
+  .smrMo_AddNewAddrModalbtn {
+    margin-right: 20px;
+    height: 40px;
+    width: 150px;
+    font-family: $primaryFontFamily !important;
+    font-size: $fontSize3;
+    color: $btn1hoverFontColor;
+    background-color: $btn1ActivebgColor;
+    border: 1px solid $btn1FontColor;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      color: $btn1hoverFontColor;
+      background-color: $btn1ActivebgColor;
+    }
+  }
+
+  .smrMo_Cancelbtn {
+    margin-right: 20px;
+    height: 40px;
+    width: 150px;
+    font-family: $primaryFontFamily !important;
+    font-size: $fontSize3;
+    color: $btn1FontColor;
+    background-color: $btn1bgColor;
+    border: 1px solid $btn1FontColor;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      color: $btn1hoverFontColor;
+      background-color: $btn1ActivebgColor;
+    }
+  }
+}
+  
+}
+
 .smrMo_secondMaindivAdd {
   margin-inline: 0%;
   background-color: #fff;
@@ -49,50 +172,7 @@
   }
 }
 
-.smrMo_addressTextFields {
-  width: 100%;
-  margin-bottom: 16px;
-  .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
-    padding: 9px 18px !important;
-  }
-  .MuiInputLabel-root {
-    font-size: 1rem;
-    font-weight: 500;
-  }
-  .MuiInputBase-root {
-    border-radius: 4px;
-    padding:0px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    &:focus-within {
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
-  }
 
-  .MuiFormHelperText-root {
-    font-size: 0.875rem;
-    color: red; 
-    font-weight: 400;
-    margin-top: 4px;
-  }
-
-  &.MuiFormControl-error .MuiInputBase-root {
-    border-color: red; 
-    box-shadow: 0 0 5px rgba(255, 0, 0, 0.3); 
-  }
-
-  .MuiFormHelperText-root {
-    color: red; // Red helper text color for error state
-  }
-}
-
-
-.smrMo_addressTextFields {
-  margin-bottom: 18px !important;
-  font-family: $primaryFontFamily !important;
-  color: $titleColor !important;
-}
 
 .smrMo_AddrCard {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
@@ -177,51 +257,8 @@
   }
 }
 
-.smrMo_dialogTitle {
-  color: $titleColor;
-  font-weight: 500 !important;
-  text-align: center;
-}
 
-.smrMo_AddressModalBtnGroup {
-  .smrMo_AddNewAddrModalbtn {
-    margin-right: 20px;
-    height: 40px;
-    width: 150px;
-    font-family: $primaryFontFamily !important;
-    font-size: $fontSize3;
-    color: $btn1hoverFontColor;
-    background-color: $btn1ActivebgColor;
-    border: 1px solid $btn1FontColor;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
 
-    &:hover {
-      color: $btn1hoverFontColor;
-      background-color: $btn1ActivebgColor;
-    }
-  }
-
-  .smrMo_Cancelbtn {
-    margin-right: 20px;
-    height: 40px;
-    width: 150px;
-    font-family: $primaryFontFamily !important;
-    font-size: $fontSize3;
-    color: $btn1FontColor;
-    background-color: $btn1bgColor;
-    border: 1px solid $btn1FontColor;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-
-    &:hover {
-      color: $btn1hoverFontColor;
-      background-color: $btn1ActivebgColor;
-    }
-  }
-}
 
 .smrMo_editDeleteBtngroup {
   display: flex;
@@ -275,28 +312,4 @@
     padding: 5px !important;
   }
 
-  .smrMo_cardActionBtn {
-    margin: 0px 10px 20px 10px;
-
-    .smrMo_AddressModalBtnGroup {
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-      gap: 10px;
-
-      .smrMo_AddNewAddrModalbtn {
-        margin-right: 0 !important;
-        height: 35px;
-        width: 120px;
-        font-size: $fontSize2;
-      }
-
-      .smrMo_Cancelbtn {
-        margin-right: 0 !important;
-        height: 35px;
-        width: 120px;
-        font-size: $fontSize2;
-      }
-    }
-  }
 }
