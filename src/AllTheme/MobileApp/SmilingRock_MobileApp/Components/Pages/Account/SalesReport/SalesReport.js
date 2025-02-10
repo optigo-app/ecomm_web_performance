@@ -41,7 +41,7 @@ import moment from "moment";
 import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../../utils/API/AccountTabs/salesReport";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+import noimageFound from '../../../Assets/image-not-found.jpg';
 import { headCells_SalesReport as headCells } from "../../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
 
 function createData(
@@ -779,7 +779,7 @@ const SalesReport = () => {
               marginTop: "17px",
             }}
           >
-            {hoverImg !== "" && (
+           
               <img
                 src={hoverImg}
                 alt=""
@@ -789,8 +789,11 @@ const SalesReport = () => {
                   minHeight: "114px",
                   maxHeight: "114px",
                 }}
+                onError={(e)=>{
+                  e.target.src = noimageFound ;
+                }}
               />
-            )}
+           
           </Box>
         </Box>
       </Box>}

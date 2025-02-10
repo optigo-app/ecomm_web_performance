@@ -393,6 +393,7 @@ const QuotationQuote = () => {
     }, []);
 
     const handlePrintUrl = (printUrl) => {
+        // console.log(printUrl,"printUrl")
         window.open(printUrl)
     }
 

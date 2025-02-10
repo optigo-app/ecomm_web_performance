@@ -22,7 +22,7 @@ const Menu = () => {
     const [isB2bFlag, setIsB2BFlaf] = useState('');
     const [menuData, setMenuData] = useState([]);
     const [menuItems, setMenuItems] = useState([]);
-
+  
     useEffect(() => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
@@ -177,6 +177,53 @@ const Menu = () => {
         // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
         navigation(url)
     }
+
+    const handelMenu2 = (param, param1, param2) => {
+        let finalData = {
+            "menuname": param?.menuname ?? "",
+            "FilterKey": param?.key ?? "",
+            "FilterVal": param?.value ?? "",
+            "FilterKey1": param1?.key ?? "",
+            "FilterVal1": param1?.value ?? "",
+            "FilterKey2": param2?.key ?? "",
+            "FilterVal2": param2?.value ?? ""
+        };
+        const queryParameters1 = [
+            finalData?.FilterKey && `${finalData.FilterVal}`,
+            finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+            finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+        ].filter(Boolean).join('/');
+
+        const queryParameters = [
+            finalData?.FilterKey && `${finalData.FilterVal}`,
+            finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+            finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+        ].filter(Boolean).join(',');
+
+        const otherparamUrl = Object.entries({
+            b: finalData?.FilterKey,
+            g: finalData?.FilterKey1,
+            c: finalData?.FilterKey2,
+        })
+            .filter(([key, value]) => value !== undefined)
+            .map(([key, value]) => value)
+            .filter(Boolean)
+            .join(',');
+
+        const menuEncoded = `${queryParameters}/${otherparamUrl}`;
+        sessionStorage.setItem("menuUrl", JSON.stringify(`/p/${queryParameters1}/?M=${btoa(menuEncoded)}`));
+    };
+
+    useEffect(() => {
+        if (menuItems.length > 0) {
+            const randomIndex = Math.floor(Math.random() * menuItems.length);
+            const randomMenuItem = menuItems[randomIndex];
+            handelMenu2(
+                { "menuname": randomMenuItem.menuname, "key": randomMenuItem.param0name, "value": randomMenuItem.param0dataname }
+            );
+        }
+    }, [menuItems]);
+
 
     return (
         <div className='smrMA_menuPageMain'>
