@@ -63,7 +63,7 @@ export default function TopSection({ data }) {
         </Slider>
       </div>
       <div className="smr_gradient_background">
-        <p>Grab flat $50 off with code FRI600</p>
+        <p>Explore The Best !</p>
       </div>
     </>
   );

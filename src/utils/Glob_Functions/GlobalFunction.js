@@ -22,6 +22,8 @@ export const getDomainName = async () => {
     const domainMap = {
       "almacarino.procatalog.in": "almacarino",
       "shreediamond.optigoapps.com": "sdj",
+      'apptstore.orail.co.in' : 'sdj',
+      'fgstore.mapp' : 'sdj',
       'varajewels.com': "vaara",
       'www.varajewels.com':"vaara",
       'sonasons.optigoapps.com': "demo",

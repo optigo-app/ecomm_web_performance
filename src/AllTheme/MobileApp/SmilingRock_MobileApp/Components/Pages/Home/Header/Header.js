@@ -92,6 +92,10 @@ const Header = ()=>{
     }
   };
 
+  const handleSearchIconClick = () => {
+    searchDataFucn({ key: "Enter" });  // Trigger the search logic as if the "Enter" key was pressed
+  };
+
   // const searchDataFucn = (e) => {
   //   if(e.key === 'Enter'){
   //     if(searchText){
@@ -143,8 +147,8 @@ const Header = ()=>{
                   }
                 }}
               />
-              <div style={{ width: '30px' }} onClick={(e) => searchDataFucn(e)} >
-                <SearchIcon />
+              <div style={{ width: '30px' }}  onClick={handleSearchIconClick}>
+                <SearchIcon/>
               </div>
             </div>
             <Badge

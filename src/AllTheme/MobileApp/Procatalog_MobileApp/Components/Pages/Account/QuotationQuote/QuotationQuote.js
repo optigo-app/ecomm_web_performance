@@ -122,8 +122,12 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-                {headCells.map((headCell) => (
-                    <TableCell
+                {headCells.map((headCell) => {
+                     const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+                     if (IsPriceShow == 0 && headCell?.label == 'Total Amount') {
+                         return null;
+                     }
+                   return <TableCell
                         key={headCell.id}
                         align={headCell.align}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
@@ -150,7 +154,7 @@ function EnhancedTableHead(props) {
                                 </TableSortLabel>
                         }
                     </TableCell>
-                ))}
+})}
             </TableRow>
         </TableHead>
     );
@@ -623,6 +627,7 @@ const QuotationQuote = () => {
                                     {visibleRows.map((row, index) => {
 
                                         const labelId = `enhanced-table-checkbox-${index}`;
+                                        const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
 
                                         return (
                                             <TableRow
@@ -647,8 +652,8 @@ const QuotationQuote = () => {
                                                 <TableCell className="proCatApp_Qut_TopName" align="center">{row.Date}</TableCell>
                                                 <TableCell className="proCatApp_Qut_TopName" align="center">{row.SKUNo}</TableCell>
                                                 <TableCell className="proCatApp_Qut_TopName" align="center">{row.TotalDesign}</TableCell>
-                                                <TableCell className="proCatApp_Qut_TopName" align="right">{formatAmount(row.Amount)}</TableCell>
-                                                <TableCell className="proCatApp_Qut_TopName" align="center">
+{IsPriceShow == 1 && <TableCell className="proCatApp_Qut_TopName" align="right">{formatAmount(row.Amount)}</TableCell>
+}                                                <TableCell className="proCatApp_Qut_TopName" align="center">
 
 
                                                     <div onClick={() => handlePrintUrl(row?.PrintUrl)}>

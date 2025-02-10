@@ -29,11 +29,13 @@ import { smrMA_CartCount, smrMA_WishCount } from "../../Recoil/atom";
 import { FaEye, FaFilter } from "react-icons/fa";
 import { BsFilterLeft } from "react-icons/bs";
 import Cookies from 'js-cookie'
+import { IoIosClose } from "react-icons/io";
+import notFound from '../../Assets/notpl.svg'
 
 const ProductList = () => {
 
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-
+  const ExloreLink =  JSON.parse(sessionStorage.getItem('menuUrl')) ?? '/';
   let location = useLocation();
   let navigate = useNavigate();
   let minwidth1201px = useMediaQuery('(min-width:1201px)')
@@ -446,7 +448,7 @@ const ProductList = () => {
 
   // }, [location?.key])
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
       let UrlVal = location?.search.slice(1).split("/")
@@ -520,44 +522,44 @@ const ProductList = () => {
       setIsProdLoading(true)
       setprodListType(productlisttype)
       let diafilter =
-      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-        ?.length > 0
-        ? JSON.parse(
-          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-        )[0]
-        : [];
-    let diafilter1 =
-      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-        ?.length > 0
-        ? JSON.parse(
-          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-        )[0]
-        : [];
-    let diafilter2 =
-      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-        ?.length > 0
-        ? JSON.parse(
-          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-        )[0]
-        : [];
-    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
-    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
-    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
-  
-    let DiaRange = {
-      DiaMin: isDia ? sliderValue[0] ?? "" : "",
-      DiaMax: isDia ? sliderValue[1] ?? "": ""
-    };
-    
-    let netRange = {
-      netMin: isNet ? sliderValue1[0] ?? "" : "",
-      netMax: isNet ? sliderValue1[1] ?? "" : ""
-    };
-    
-    let grossRange = {
-      grossMin: isGross ? sliderValue2[0] ?? "" : "",
-      grossMax: isGross ? sliderValue2[1] ?? "" : ""
-    };
+        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+          ?.length > 0
+          ? JSON.parse(
+            filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+          )[0]
+          : [];
+      let diafilter1 =
+        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+          ?.length > 0
+          ? JSON.parse(
+            filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+          )[0]
+          : [];
+      let diafilter2 =
+        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+          ?.length > 0
+          ? JSON.parse(
+            filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+          )[0]
+          : [];
+      const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+      const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+      const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+      let DiaRange = {
+        DiaMin: isDia ? sliderValue[0] ?? "" : "",
+        DiaMax: isDia ? sliderValue[1] ?? "" : ""
+      };
+
+      let netRange = {
+        netMin: isNet ? sliderValue1[0] ?? "" : "",
+        netMax: isNet ? sliderValue1[1] ?? "" : ""
+      };
+
+      let grossRange = {
+        grossMin: isGross ? sliderValue2[0] ?? "" : "",
+        grossMax: isGross ? sliderValue2[1] ?? "" : ""
+      };
 
 
       // await ProductListApi({}, 1, obj, productlisttype, cookie)
@@ -837,7 +839,7 @@ const ProductList = () => {
       let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
       let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
       let netRange = { netMin: isNet ? sliderValue1[0] : "", netMax: isNet ? sliderValue1[1] : "" }
-      
+
       // ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
       ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
         .then((res) => {
@@ -881,7 +883,7 @@ const ProductList = () => {
   //   setAccExpanded(false)
   // }
 
-  
+
   const handelFilterClearAll = () => {
     // setAfterCountStatus(true);
     let diafilter =
@@ -971,17 +973,17 @@ const ProductList = () => {
         }
         return res;
       })
-    // {  // .then(async (res) => {
-    //   //   if (res) {
-    //   //     await GetPriceListApi(value, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
-    //   //       if (resp) {
-    //   //         setPriceListData(resp)
-    //   //       }
-    //   //     })
-    //   //   }
-    //   //   return res
-    //   // })
-    //   }
+      // {  // .then(async (res) => {
+      //   //   if (res) {
+      //   //     await GetPriceListApi(value, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
+      //   //       if (resp) {
+      //   //         setPriceListData(resp)
+      //   //       }
+      //   //     })
+      //   //   }
+      //   //   return res
+      //   // })
+      //   }
       .catch((err) => console.log("err", err)).finally(() => {
         setTimeout(() => {
           setIsProdLoading(false)
@@ -1375,44 +1377,44 @@ const ProductList = () => {
     // let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
     // let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
     let diafilter =
-    filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-      )[0]
-      : [];
-  let diafilter1 =
-    filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-      )[0]
-      : [];
-  let diafilter2 =
-    filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-      )[0]
-      : [];
-  const isDia = JSON.stringify(Rangeval) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
-  const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
-  const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isDia = JSON.stringify(Rangeval) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
-  let DiaRange = {
-    DiaMin: isDia ? Rangeval[0] ?? "" : "",
-    DiaMax: isDia ? Rangeval[1] ?? "": ""
-  };
-  
-  let netRange = {
-    netMin: isNet ? sliderValue1[0] ?? "" : "",
-    netMax: isNet ? sliderValue1[1] ?? "" : ""
-  };
-  
-  let grossRange = {
-    grossMin: isGross ? sliderValue2[0] ?? "" : "",
-    grossMax: isGross ? sliderValue2[1] ?? "" : ""
-  };
+    let DiaRange = {
+      DiaMin: isDia ? Rangeval[0] ?? "" : "",
+      DiaMax: isDia ? Rangeval[1] ?? "" : ""
+    };
+
+    let netRange = {
+      netMin: isNet ? sliderValue1[0] ?? "" : "",
+      netMax: isNet ? sliderValue1[1] ?? "" : ""
+    };
+
+    let grossRange = {
+      grossMin: isGross ? sliderValue2[0] ?? "" : "",
+      grossMax: isGross ? sliderValue2[1] ?? "" : ""
+    };
 
 
 
@@ -1451,46 +1453,46 @@ const ProductList = () => {
     // let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
     // let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
     //  let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
- 
-    let diafilter =
-    filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-      )[0]
-      : [];
-  let diafilter1 =
-    filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-      )[0]
-      : [];
-  let diafilter2 =
-    filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-      )[0]
-      : [];
-  const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
-  const isNet = JSON.stringify(Rangeval1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
-  const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
-  let DiaRange = {
-    DiaMin: isDia ? sliderValue[0] ?? "" : "",
-    DiaMax: isDia ? sliderValue[1] ?? "": ""
-  };
-  
-  let netRange = {
-    netMin: isNet ? Rangeval1[0] ?? "" : "",
-    netMax: isNet ? Rangeval1[1] ?? "" : ""
-  };
-  
-  let grossRange = {
-    grossMin: isGross ? sliderValue2[0] ?? "" : "",
-    grossMax: isGross ? sliderValue2[1] ?? "" : ""
-  };
+    let diafilter =
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(Rangeval1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+    let DiaRange = {
+      DiaMin: isDia ? sliderValue[0] ?? "" : "",
+      DiaMax: isDia ? sliderValue[1] ?? "" : ""
+    };
+
+    let netRange = {
+      netMin: isNet ? Rangeval1[0] ?? "" : "",
+      netMax: isNet ? Rangeval1[1] ?? "" : ""
+    };
+
+    let grossRange = {
+      grossMin: isGross ? sliderValue2[0] ?? "" : "",
+      grossMax: isGross ? sliderValue2[1] ?? "" : ""
+    };
 
     await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
@@ -1528,44 +1530,44 @@ const ProductList = () => {
     // let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] }
 
     let diafilter =
-    filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-      )[0]
-      : [];
-  let diafilter1 =
-    filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-      )[0]
-      : [];
-  let diafilter2 =
-    filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-      ?.length > 0
-      ? JSON.parse(
-        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-      )[0]
-      : [];
-  const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
-  const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
-  const isGross = JSON.stringify(Rangeval2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(Rangeval2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
-  let DiaRange = {
-    DiaMin: isDia ? sliderValue[0] ?? "" : "",
-    DiaMax: isDia ? sliderValue[1] ?? "": ""
-  };
-  
-  let netRange = {
-    netMin: isNet ? sliderValue1[0] ?? "" : "",
-    netMax: isNet ? sliderValue1[1] ?? "" : ""
-  };
-  
-  let grossRange = {
-    grossMin: isGross ? Rangeval2[0] ?? "" : "",
-    grossMax: isGross ? Rangeval2[1] ?? "" : ""
-  };
+    let DiaRange = {
+      DiaMin: isDia ? sliderValue[0] ?? "" : "",
+      DiaMax: isDia ? sliderValue[1] ?? "" : ""
+    };
+
+    let netRange = {
+      netMin: isNet ? sliderValue1[0] ?? "" : "",
+      netMax: isNet ? sliderValue1[1] ?? "" : ""
+    };
+
+    let grossRange = {
+      grossMin: isGross ? Rangeval2[0] ?? "" : "",
+      grossMax: isGross ? Rangeval2[1] ?? "" : ""
+    };
 
 
     await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
@@ -1655,7 +1657,7 @@ const ProductList = () => {
               }}
               readOnly
               sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-         
+
             />
             <Input
               value={sliderValue[1]?.toFixed(3)}
@@ -1671,7 +1673,7 @@ const ProductList = () => {
               }}
               readOnly
               sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-         
+
             />
           </div>
         </div>
@@ -1709,13 +1711,13 @@ const ProductList = () => {
                 step: 0.001,
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
-                      type: "number",
+                type: "number",
                 "aria-labelledby": "range-slider",
                 readOnly: true,  // Disable manual editing
               }}
               readOnly
               sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-         
+
             />
             <Input
               value={sliderValue1[1]?.toFixed(3)}
@@ -1725,13 +1727,13 @@ const ProductList = () => {
                 step: 0.001,
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
-                      type: "number",
+                type: "number",
                 "aria-labelledby": "range-slider",
                 readOnly: true,  // Disable manual editing
               }}
               readOnly
               sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-         
+
             />
           </div>
         </div>
@@ -1768,13 +1770,13 @@ const ProductList = () => {
                 step: 0.001,
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
-                  type: "number",
+                type: "number",
                 "aria-labelledby": "range-slider",
                 readOnly: true,  // Disable manual editing
               }}
               readOnly
               sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-            
+
             />
             <Input
               value={sliderValue2[1]?.toFixed(3)}
@@ -1784,13 +1786,13 @@ const ProductList = () => {
                 step: 0.001,
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
-                  type: "number",
+                type: "number",
                 "aria-labelledby": "range-slider",
                 readOnly: true,  // Disable manual editing
               }}
               readOnly
               sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-            
+
             />
           </div>
         </div>
@@ -1822,32 +1824,32 @@ const ProductList = () => {
     const breadCumSearch = location?.search?.slice(3);  // Skip the '?' part from the URL
     const breadCumDecoded = breadCumSearch ? decodeURI(atob(breadCumSearch)) : ''; // Decode if search exists
     const breadCumArray = breadCumDecoded.split('/'); // Split into segments
-  
+
     // Safely extract 'values' and 'labels' from breadCumArray, defaulting to empty arrays if undefined
     const values = breadCumArray[0]?.split(',') || [];
     const labels = breadCumArray[1]?.split(',') || [];
-  
+
     // Reduce labels to create the updatedBreadCum object, using default empty strings if no value is found
     const updatedBreadCum = labels?.reduce((acc, label, index) => {
       acc[label] = values[index] || '';  // Use empty string as fallback if no corresponding value
       return acc;
     }, {});
-  
+
     // Safely build the result object, iterating over the entries of updatedBreadCum
     const result = Object.entries(updatedBreadCum ?? {}).reduce((acc, [key, value], index) => {
       acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
       acc[`FilterVal${index === 0 ? '' : index}`] = value;
       return acc;
     }, {});
-  
+
     // Safely decode the menuname from pathname and handle any missing data
     const menuname = location?.pathname
       ? decodeURI(location.pathname.slice(3).slice(0, -1).split('/')[0]) // Decode and process the pathname
       : ''; // Default to an empty string if pathname is not available
-  
+
     // Add menuname to result
     result.menuname = menuname;
-  
+
     return result;
   };
 
@@ -1907,7 +1909,7 @@ const ProductList = () => {
 
     // console.log("mparams", KeyObj, ValObj)
   };
-  
+
   const showClearAllButton = () => {
     let diafilter =
       filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
@@ -1947,9 +1949,19 @@ const ProductList = () => {
           <CloseIcon onClick={() => { setIsDrawerOpen(false) }} />
         </div>
         <div style={{ marginLeft: '15px', marginBottom: '20px', display: 'flex', gap: '5px', flexDirection: 'column' }}>
-          <Typography sx={{ color: '#7f7d85', fontSize: '16px', fontFamily: 'TT Commons Medium', marginTop: '12px' }}>
-            Customization
-          </Typography>
+          <div className="list_smr_filter" style={{
+            display: 'flex',
+            alignContent: 'center',
+            justifyContent: 'space-between',
+            width: '100%'
+          }}>
+            <Typography sx={{ color: '#7f7d85', fontSize: '16px', fontFamily: 'TT Commons Medium', marginTop: '12px' }}>
+              Customization
+            </Typography>
+            <Typography onClick={() => setIsDrawerOpen(!isDrawerOpen)} sx={{ color: '#7f7d85', fontSize: '16px', cursor: 'pointer', fontFamily: 'TT Commons Medium', marginTop: '12px', paddingRight: '10px' }}>
+              <IoIosClose size={30} />
+            </Typography>
+          </div>
           <div
           // className="smr_metal_custom"
 
@@ -2044,36 +2056,36 @@ const ProductList = () => {
             <span className="smr_filter_text">
               <span>
                 {
-                // Object.values(filterChecked).filter(
-                //   (ele) => ele.checked
-                // )?.length === 0
+                  // Object.values(filterChecked).filter(
+                  //   (ele) => ele.checked
+                  // )?.length === 0
                   !showClearAllButton()
-                  ? "Filters"
-                  // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
-                  : <>{afterCountStatus == true ? (
-                    <Skeleton
-                      variant="rounded"
-                      width={140}
-                      height={22}
-                      className="pSkelton"
-                    />
-                  ) :
-                    <span>{`Product Found: ${afterFilterCount}`}</span>
-                  }
-                  </>}
+                    ? "Filters"
+                    // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
+                    : <>{afterCountStatus == true ? (
+                      <Skeleton
+                        variant="rounded"
+                        width={140}
+                        height={22}
+                        className="pSkelton"
+                      />
+                    ) :
+                      <span>{`Product Found: ${afterFilterCount}`}</span>
+                    }
+                    </>}
               </span>
               <span onClick={() => {
                 if (
-                //   Object.values(filterChecked).filter(
-                //   (ele) => ele.checked
-                // )?.length > 0  
-                showClearAllButton()
-              ) { handelFilterClearAll() } else { return; }
+                  //   Object.values(filterChecked).filter(
+                  //   (ele) => ele.checked
+                  // )?.length > 0  
+                  showClearAllButton()
+                ) { handelFilterClearAll() } else { return; }
               }}>
                 {showClearAllButton()
-                // Object.values(filterChecked).filter(
-                //   (ele) => ele.checked
-                // )?.length > 0
+                  // Object.values(filterChecked).filter(
+                  //   (ele) => ele.checked
+                  // )?.length > 0
                   ? "Clear All"
                   :
                   <>{afterCountStatus == true ? (
@@ -2502,11 +2514,11 @@ const ProductList = () => {
           </div>}
         </div>
       </Drawer>
-  
+
       <div className="smrMA_bodyContain">
-                <div className="smr_outerContain">
-                               <div className="smrMA_whiteInnerContain ">
-                                           {
+        <div className="smr_outerContain">
+          <div className="smrMA_whiteInnerContain ">
+            {
 
               isProdLoading ?
                 // true ? 
@@ -2626,9 +2638,9 @@ const ProductList = () => {
 
                       </div>}
 
-                    <div className="smr_mainPortion" style={{ marginTop: '50px',display:'flex',flexDirection:'column' }}>
+                    <div className="smr_mainPortion" style={{ marginTop: '50px', display: 'flex', flexDirection: 'column' }}>
                       <div className="breadcrumb_mapp">
-                       <BreadCumView BreadCumsObj={BreadCumsObj}  handleBreadcums={handleBreadcums} IsBreadCumShow={IsBreadCumShow}/>
+                        <BreadCumView BreadCumsObj={BreadCumsObj} handleBreadcums={handleBreadcums} IsBreadCumShow={IsBreadCumShow} />
                       </div>
                       <div className="smr_filter_portion">
                         {filterData?.length > 0 && <div className="smr_filter_portion_outter">
@@ -2788,9 +2800,32 @@ const ProductList = () => {
                       </div>
                       {
                         filterProdListEmpty ?
-                          <div style={{ display: 'flex', justifyContent: 'center', width: '100%', alignItems: 'center', height: '500px' }}>
-                            <span className="smr_prod_datanotfound">
-                              Products Not found !!!
+                          <div style={{ display: 'flex', justifyContent: 'center', width: '100%', alignItems: 'center', height: '100svh', position: 'absolute', top: 0, bottom: 0 }}>
+                            <span className="smr_prod_datanotfound" style={{ textAlign: 'center' }}>
+                              <img src={notFound} alt="Product not found" style={{ maxWidth: '200px', marginBottom: '20px' }} />
+                              <div style={{ color: '#555', maxWidth: '60%', margin: '0 auto', lineHeight: '20px' ,display:'flex',flexDirection:'column',alignItems:'center' }}>
+                                <span style={{ fontSize: '20px' }}>
+                                  We couldn't find any products matching your search.
+                                </span>
+                                <button
+                            style={{
+                                width: '180px',
+                                backgroundColor: '#D6B08B',
+                                border: 'none',
+                                color: 'white',
+                                fontSize: '18px',
+                                fontWeight: 500,
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                                transition: 'background-color 0.3s',
+                                padding:'10px' ,
+                                marginTop:'15px'
+                            }}
+                            onClick={() => navigate(ExloreLink)}
+                        >
+                            Explore
+                        </button>
+                              </div>
                             </span>
                           </div>
                           :
@@ -2883,48 +2918,48 @@ const ProductList = () => {
                                               ? <CardMedia style={{ width: '100%', height: '30vh' }} className='roop_productCard_cardMainSkeleton'>
                                                 <Skeleton animation="wave" variant="rect" width={'100%'} height='40vh' style={{ backgroundColor: '#e8e8e86e' }} />
                                               </CardMedia> : */}
-                                              <img
-                                                className="smr_productCard_Image"
-                                                style={{ height: (isSingleView && '412px') || (isDoubleView && '200px'), minHeight: (isSingleView && '412px') || (isDoubleView && '200px') }}
+                                            <img
+                                              className="smr_productCard_Image"
+                                              style={{ height: (isSingleView && '412px') || (isDoubleView && '200px'), minHeight: (isSingleView && '412px') || (isDoubleView && '200px') }}
 
-                                            id={`smr_productCard_Image${productData?.autocode}`}
-                                            // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                                            // src={ ProdCardImageFunc(productData,0)}
-                                            src={productData?.images?.length > 0 ? productData?.images[0] : imageNotFound}
-                                            alt=""
-                                            onClick={() => handleMoveToDetail(productData)}
-                                            onMouseEnter={() => { handleImgRollover(productData, i) }}
-                                            onError={(e)=>{
-                                              e.target.src = imageNotFound ;
-                                            }}
-                                          />
-                                          <div className="smr_prod_Title" >
-                                            <span
-                                              className={
-                                                // productData?.TitleLine?.length > 30
-                                                // ? 
-                                                "smr_prod_title_with_width"
-                                                // : 
-                                                // "smr_prod_title_with_no_width"
-                                              }
-                                            >
-                                              {productData?.TitleLine?.length > 0 && "-"}
-                                              {productData?.TitleLine}{" "}
-                                            </span>
-                                            <span className="smrMA_prod_designno">
-                                              {productData?.designno}
-                                            </span>
-                                          </div>
-                                          <div className="smr_app_prod_Allwt" >
-                                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', letterSpacing: maxwidth590px ? '0px' : '1px', gap: maxwidth1674px ? '0px' : '3px', flexWrap: 'wrap' }}>
-                                              {/* <span className="smr_por"> */}
-                                              {(storeInit?.IsGrossWeight == 1 && (Number(productData?.Gwt) !== 0)) && <span className="smr_prod_wt">
-                                                <span className="smr_keys">GWT:</span>
-                                                <span className="smr_val">
-                                                  {(productData?.Gwt)?.toFixed(3)}
-                                                </span>
+                                              id={`smr_productCard_Image${productData?.autocode}`}
+                                              // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
+                                              // src={ ProdCardImageFunc(productData,0)}
+                                              src={productData?.images?.length > 0 ? productData?.images[0] : imageNotFound}
+                                              alt=""
+                                              onClick={() => handleMoveToDetail(productData)}
+                                              onMouseEnter={() => { handleImgRollover(productData, i) }}
+                                              onError={(e) => {
+                                                e.target.src = imageNotFound;
+                                              }}
+                                            />
+                                            <div className="smr_prod_Title" >
+                                              <span
+                                                className={
+                                                  // productData?.TitleLine?.length > 30
+                                                  // ? 
+                                                  "smr_prod_title_with_width"
+                                                  // : 
+                                                  // "smr_prod_title_with_no_width"
+                                                }
+                                              >
+                                                {productData?.TitleLine?.length > 0 && "-"}
+                                                {productData?.TitleLine}{" "}
                                               </span>
-                                              }
+                                              <span className="smrMA_prod_designno">
+                                                {productData?.designno}
+                                              </span>
+                                            </div>
+                                            <div className="smr_app_prod_Allwt" >
+                                              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', letterSpacing: maxwidth590px ? '0px' : '1px', gap: maxwidth1674px ? '0px' : '3px', flexWrap: 'wrap' }}>
+                                                {/* <span className="smr_por"> */}
+                                                {(storeInit?.IsGrossWeight == 1 && (Number(productData?.Gwt) !== 0)) && <span className="smr_prod_wt">
+                                                  <span className="smr_keys">GWT:</span>
+                                                  <span className="smr_val">
+                                                    {(productData?.Gwt)?.toFixed(3)}
+                                                  </span>
+                                                </span>
+                                                }
 
                                                 {(Number(productData?.Nwt !== 0)) &&
                                                   <>
@@ -2969,28 +3004,28 @@ const ProductList = () => {
                                                 {findMetalColor(
                                                   productData?.MetalColorid
                                                 )?.[0]?.metalcolorname.toUpperCase()}
-                                             
-{findMetalColor(productData?.MetalColorid)?.[0]?.metalcolorname && findMetalType(
-productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
-)[0]?.metaltype
-? " - "
-: ""}
+
+                                                {findMetalColor(productData?.MetalColorid)?.[0]?.metalcolorname && findMetalType(
+                                                  productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
+                                                )[0]?.metaltype
+                                                  ? " - "
+                                                  : ""}
                                                 {
                                                   findMetalType(selectedMetalId ?? productData?.MetalPurityid)[0]
                                                     ?.metaltype
                                                 }
                                               </span>
                                               {storeInit?.IsPriceShow == 1 && <>
-                                              <span>/</span>
-                                              <span className="smrMA_price">
-                                                <span className="smr_currencyFont">
-                                                  {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                                </span>
+                                                <span>/</span>
+                                                <span className="smrMA_price">
+                                                  <span className="smr_currencyFont">
+                                                    {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                  </span>
 
-                                                <span className="smr_pricePort">
-                                                  {formatter.format(productData?.UnitCostWithMarkUp)}
+                                                  <span className="smr_pricePort">
+                                                    {formatter.format(productData?.UnitCostWithMarkUp)}
+                                                  </span>
                                                 </span>
-                                              </span>
                                               </>}
                                             </div>
                                           </div>
@@ -3004,28 +3039,28 @@ productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? p
                   </>
                 )}
             {storeInit?.IsProductListPagination == 1 &&
-                                  Math.ceil(afterFilterCount / storeInit.PageSize)
-                                   > 1 && 
-                                    (
-                                      <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "10%",
-              }}
-              className="smr_pagination_portion"
-            >
-              <Pagination
-                count={Math.ceil(afterFilterCount / storeInit.PageSize)}
-                size={maxwidth464px ? "small" : "large"}
-                shape="circular"
-                page={currPage}
-                onChange={handelPageChange}
-                showFirstButton
-                showLastButton
-              />
-            </div>
-                                    )
+              Math.ceil(afterFilterCount / storeInit.PageSize)
+              > 1 &&
+              (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "10%",
+                  }}
+                  className="smr_pagination_portion"
+                >
+                  <Pagination
+                    count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                    size={maxwidth464px ? "small" : "large"}
+                    shape="circular"
+                    page={currPage}
+                    onChange={handelPageChange}
+                    showFirstButton
+                    showLastButton
+                  />
+                </div>
+              )
             }
           </div>
         </div>
@@ -3114,16 +3149,16 @@ const BreadCumView = ({ BreadCumsObj, handleBreadcums, IsBreadCumShow }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location?.pathname || '';
-const pathSegments = pathname.split('/'); 
+  const pathSegments = pathname.split('/');
 
-const secondSegment = pathSegments.length > 2 ? decodeURIComponent(pathSegments[2]) : null;
-console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
+  const secondSegment = pathSegments.length > 2 ? decodeURIComponent(pathSegments[2]) : null;
+  console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
   return (
     <div className="breadcrumb_fmg">
       <div className="empty_sorting_div_fmg">
         <span
           className="smr_App_breadcums_port_fmg"
-          style={{fontSize:'12.5px !important' }}
+          style={{ fontSize: '12.5px !important' }}
           onClick={() => {
             navigate("/");
           }}
@@ -3135,15 +3170,15 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
           <div
             className="smr_App_breadcums_port_fmg"
           >
-                         <span  style={{ marginLeft: "3px" , fontSize:'12.5px !important' }}>{location?.pathname?.split("/")[2]?.replaceAll('%20', '')}</span> 
+            <span style={{ marginLeft: "3px", fontSize: '12.5px !important' }}>{location?.pathname?.split("/")[2]?.replaceAll('%20', '')}</span>
           </div>
         )}
 
         {location?.search.charAt(1) == "T" && (
           <div
             className="smr_App_breadcums_port_fmg"
-       >
-            <span  style={{ marginLeft: "3px" , fontSize:'12.5px !important' }}>{"Trending"}</span>
+          >
+            <span style={{ marginLeft: "3px", fontSize: '12.5px !important' }}>{"Trending"}</span>
           </div>
         )}
 
@@ -3151,7 +3186,7 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
           <div
             className="smr_App_breadcums_port_fmg"
           >
-         <span  style={{ marginLeft: "3px" , fontSize:'12.5px !important' }}>{secondSegment}</span>
+            <span style={{ marginLeft: "3px", fontSize: '12.5px !important' }}>{secondSegment}</span>
           </div>
         )}
 
@@ -3159,7 +3194,7 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
           <div
             className="smr_App_breadcums_port_fmg"
           >
-            <span  style={{ marginLeft: "3px" , fontSize:'12.5px !important' }}>{"Best Seller"}</span>
+            <span style={{ marginLeft: "3px", fontSize: '12.5px !important' }}>{"Best Seller"}</span>
           </div>
         )}
 
@@ -3167,19 +3202,19 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
           <div
             className="smr_App_breadcums_port_fmg"
           >
-            <span  style={{ marginLeft: "3px" , fontSize:'12.5px !important' }}>{"New Arrival"}</span>
+            <span style={{ marginLeft: "3px", fontSize: '12.5px !important' }}>{"New Arrival"}</span>
           </div>
         )}
 
         {IsBreadCumShow && (
           <div
             className="smr_App_breadcums_port_fmg"
-            style={{ marginLeft: "3px" , fontSize:'12.5px !important' }}
+            style={{ marginLeft: "3px", fontSize: '12.5px !important' }}
           >
             {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
             {BreadCumsObj()?.menuname && (
               <span
-              style={{ fontSize:'12.5px !important' }}
+                style={{ fontSize: '12.5px !important' }}
                 onClick={() =>
                   handleBreadcums({
                     [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
@@ -3192,7 +3227,7 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
 
             {BreadCumsObj()?.FilterVal1 && (
               <span
-              style={{ fontSize:'12.5px !important' }}
+                style={{ fontSize: '12.5px !important' }}
                 onClick={() =>
                   handleBreadcums({
                     [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
@@ -3206,7 +3241,7 @@ console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
 
             {BreadCumsObj()?.FilterVal2 && (
               <span
-              style={{ fontSize:'12.5px !important' }}
+                style={{ fontSize: '12.5px !important' }}
                 onClick={() =>
                   handleBreadcums({
                     [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
