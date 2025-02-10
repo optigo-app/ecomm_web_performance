@@ -32,6 +32,7 @@ import RelatedProduct from '../ProductDetail/RelatedProduct/RelatedProduct';
 import { StepImages } from '../../../data/NavbarMenu';
 import { DiamondListData } from '../../../../../../utils/API/DiamondStore/DiamondList';
 import { HiOutlinePencilSquare } from "react-icons/hi2";
+import { getImagePath as getdiaImages } from "../../../Config/ShapeFinder";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
 import { toast } from 'react-toastify';
 import OurServices from '../../Home/Common/OurServices/OurServices';
@@ -43,6 +44,7 @@ const DiamondDetails = () => {
     const location = useLocation();
     const isLoading = useRecoilValue(for_Loader);
     const sliderRef = useRef(null);
+    const sliderRef1 = useRef(null);
     const certificate = certy;
     const mobileView = useMediaQuery('(max-width:600px)');
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -59,6 +61,7 @@ const DiamondDetails = () => {
     const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
     const steps2 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
     const steps3 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
+    console.log('steps3: ', steps3?.[2]?.step3 === true);
     const ringSteps = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
     const pendantSteps = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
     const earringSteps = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
@@ -148,10 +151,9 @@ const DiamondDetails = () => {
     const [compSettArr, setCompSettArr] = useState([]);
     const [getAllData, setAllData] = useState([]);
     const [certyLink, setCertyLink] = useState();
-    console.log('certyLink: ', certyLink);
     const [getImagePath, setImagePath] = useState();
 
-    const diamondDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[0] ?? (ringData ?? pendantData)?.[1];
+    const diamondDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[0] ?? (ringData ?? pendantData ?? earringData)?.[1];
 
     const hrdCerti = singleDiaData?.[0]?.certificate_url?.includes("hrd") ? "HRD" : null
     const igiCerti = singleDiaData?.[0]?.certificate_url?.includes("igi") ? "IGI" : null
@@ -206,15 +208,16 @@ const DiamondDetails = () => {
         }
     }, [singleDiaData, compSet])
 
+
     useEffect(() => {
-        try {
-            if (singleDiaData === undefined) return;
-            const { image_file_url, video_url } = singleDiaData?.[0];
-            setMediaArr([{ type: 'video', src: video_url }, { type: 'image', src: image_file_url }])
-        } catch (error) {
-            console.log("Error in fetching medias", error)
-        }
-    }, [singleDiaData])
+        if (!singleDiaData || !singleDiaData[0]) return;
+        const { image_file_url, video_url } = singleDiaData[0];
+        setMediaArr([
+            { type: 'video', src: video_url },
+            { type: 'image', src: image_file_url },
+        ]);
+    }, [singleDiaData, location?.key]);
+
 
     useEffect(() => {
         if (compSet) {
@@ -431,6 +434,12 @@ const DiamondDetails = () => {
     const handleThumbnailClick = (index) => {
         if (sliderRef.current) {
             sliderRef.current.slickGoTo(index);
+        }
+    };
+
+    const handleThumbnailClick1 = (index) => {
+        if (sliderRef1.current) {
+            sliderRef1.current.slickGoTo(index);
         }
     };
 
@@ -1363,6 +1372,29 @@ const DiamondDetails = () => {
                     <div className="for_DiamondDet_container_div" style={{ flexDirection: isEarring === 1 ? "column" : "row" }}>
                         {isEarring === 1 ? (
                             <div className="for_DiamondDet_left_prodImages_for_earr">
+                                <div className='for_DiamondDet_wishList_mainDiv'>
+                                    <div className='for_DiamondDet_breadcrums_div'>
+                                        <span onClick={() => navigate('/')}>Home/</span>
+                                        <span> Matching-Diamonds</span>
+                                    </div>
+                                    <div className='for_DiamondDet_wishlist_div'>
+                                        <div className="for_DiamondDet_title_wishlist">
+                                            <Checkbox
+                                                icon={
+                                                    <GoHeart size={26} color='black' />
+                                                }
+                                                checkedIcon={
+                                                    <GoHeartFill size={26} color='black' />
+                                                }
+
+                                                className='for_wishlist_icon'
+                                                disableRipple={true}
+                                                checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
+                                                onChange={(e) => handleButtonChange('wish', e, singleDiaData[0]?.stockno, "", "")}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className='for_DiamondDet_earring_main_div'>
                                     <div className="for_slider_container_1">
                                         <div className="for_images_slider">
@@ -1390,57 +1422,27 @@ const DiamondDetails = () => {
                                                         {!compSet && (
                                                             <>
                                                                 {mediaArr
-                                                                    ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
+                                                                    ?.filter(item => item?.type === 'image' && item?.src !== imageNotFound) // Only filter image types and avoid imageNotFound
                                                                     ?.map((item, index) => {
-                                                                        console.log("jeje", item?.src !== imageNotFound && item?.src !== "");
+                                                                        const fallbackImage = getdiaImages(singleDiaData?.[0]?.shapename);
+                                                                        const imageSrc = item?.src || fallbackImage; // Use fallback if src is empty
+                                                                        const isActive = index === currentSlide;
+
                                                                         return (
                                                                             <div
                                                                                 key={index}
-                                                                                className={`for_box ${index === currentSlide ? "active" : ""}`}
+                                                                                className={`for_box ${isActive ? 'active' : ""}`}
                                                                                 onClick={() => handleThumbnailClick(index)}
                                                                             >
-                                                                                {item?.type === "video" ? (
-                                                                                    <>
-                                                                                        {item?.src?.endsWith(".mp4") ? (
-                                                                                            <div
-                                                                                                className="for_video_box_dia"
-                                                                                                title="A small thumbnail of the selected diamond."
-                                                                                                style={{ position: "relative" }}
-                                                                                            >
-                                                                                                <video src={item?.src} muted loop />
-                                                                                                <IoIosPlayCircle className="for_play_io_icon_dia" />
-                                                                                            </div>
-                                                                                        ) : (
-                                                                                            <div
-                                                                                                className="for_video_box_dia"
-                                                                                                title="A small thumbnail of the selected diamond."
-                                                                                                style={{ position: "relative" }}
-                                                                                            >
-                                                                                                <img
-                                                                                                    src={`${storImagePath()}/images/ProductListing/Diamond/images/360-view.png`}
-                                                                                                    onError={(e) => {
-                                                                                                        e.target.onerror = null;
-                                                                                                        e.target.src = imageNotFound;
-                                                                                                    }}
-                                                                                                />
-                                                                                            </div>
-                                                                                        )}
-                                                                                    </>
-                                                                                ) : (
-                                                                                    <>
-                                                                                        {item?.type === "image" && (
-                                                                                            <img
-                                                                                                title="A small thumbnail of the selected diamond."
-                                                                                                src={item?.src}
-                                                                                                alt=""
-                                                                                                onError={(e) => {
-                                                                                                    e.target.onerror = null;
-                                                                                                    e.target.src = imageNotFound;
-                                                                                                }}
-                                                                                            />
-                                                                                        )}
-                                                                                    </>
-                                                                                )}
+                                                                                <img
+                                                                                    title="A small thumbnail of the selected diamond."
+                                                                                    src={imageSrc}
+                                                                                    alt="Thumbnail"
+                                                                                    onError={(e) => {
+                                                                                        e.target.onerror = null;
+                                                                                        e.target.src = imageNotFound;
+                                                                                    }}
+                                                                                />
                                                                             </div>
                                                                         );
                                                                     })}
@@ -1455,12 +1457,15 @@ const DiamondDetails = () => {
                                                                     >
                                                                         <img
                                                                             src={certyLink?.imageUrl}
+                                                                            alt="Diamond Certificate"
+                                                                            style={{
+                                                                                width: '100%',
+                                                                                height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto',
+                                                                            }}
                                                                             onError={(e) => {
                                                                                 e.target.onerror = null;
                                                                                 e.target.src = imageNotFound;
                                                                             }}
-                                                                            alt="Diamond Certificate"
-                                                                            style={{ width: '100%', height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto' }}
                                                                         />
                                                                     </Link>
                                                                 )}
@@ -1473,23 +1478,29 @@ const DiamondDetails = () => {
                                                         {!compSet && (
                                                             <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
                                                                 {mediaArr
-                                                                    ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
-                                                                    ?.map((item, index) => (
-                                                                        <div className="for_slider_card" key={index}>
-                                                                            <div className="for_image">
-                                                                                <img
-                                                                                    loading="lazy"
-                                                                                    src={"https://www.forevery.one/images_new/diamond-sample/round.jpg"}
-                                                                                    alt=""
-                                                                                    onLoad={() => setIsImageLoad(false)}
-                                                                                    onError={(e) => {
-                                                                                        e.target.onerror = null;
-                                                                                        e.target.src = imageNotFound;
-                                                                                    }}
-                                                                                />
+                                                                    ?.filter(item => item?.type === 'image' && item?.src !== imageNotFound) // Filter only images that are not "imageNotFound"
+                                                                    ?.map((item, index) => {
+                                                                        console.log('item:', item);
+                                                                        const fallbackImage = getdiaImages(singleDiaData?.[0]?.shapename);
+                                                                        const imageSrc = item?.src || fallbackImage; // Use fallback if src is empty
+
+                                                                        return (
+                                                                            <div className="for_slider_card" key={index}>
+                                                                                <div className="for_image">
+                                                                                    <img
+                                                                                        loading="lazy"
+                                                                                        src={imageSrc}
+                                                                                        alt=""
+                                                                                        onLoad={() => setIsImageLoad(false)}
+                                                                                        onError={(e) => {
+                                                                                            e.target.onerror = null;
+                                                                                            e.target.src = imageNotFound;
+                                                                                        }}
+                                                                                    />
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                    ))}
+                                                                        );
+                                                                    })}
                                                             </Slider>
                                                         )}
 
@@ -1561,27 +1572,34 @@ const DiamondDetails = () => {
 
                                                     <div className="for_main_image">
                                                         {!compSet && (
-                                                            <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
+                                                            <Slider {...settings} ref={sliderRef1} lazyLoad="progressive">
                                                                 {mediaArr
-                                                                    ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
-                                                                    ?.map((item, index) => (
-                                                                        <div className="for_slider_card" key={index}>
-                                                                            <div className="for_image">
-                                                                                <img
-                                                                                    loading="lazy"
-                                                                                    src={"https://www.forevery.one/images_new/diamond-sample/round.jpg"}
-                                                                                    alt=""
-                                                                                    onLoad={() => setIsImageLoad(false)}
-                                                                                    onError={(e) => {
-                                                                                        e.target.onerror = null;
-                                                                                        e.target.src = imageNotFound;
-                                                                                    }}
-                                                                                />
+                                                                    ?.filter(item => item?.type === 'image' && item?.src !== imageNotFound) // Filter only images that are not "imageNotFound"
+                                                                    ?.map((item, index) => {
+                                                                        console.log('item:', item);
+                                                                        const fallbackImage = getdiaImages(singleDiaData?.[0]?.shapename);
+                                                                        const imageSrc = item?.src || fallbackImage; // Use fallback if src is empty
+
+                                                                        return (
+                                                                            <div className="for_slider_card" key={index}>
+                                                                                <div className="for_image">
+                                                                                    <img
+                                                                                        loading="lazy"
+                                                                                        src={imageSrc}
+                                                                                        alt=""
+                                                                                        onLoad={() => setIsImageLoad(false)}
+                                                                                        onError={(e) => {
+                                                                                            e.target.onerror = null;
+                                                                                            e.target.src = imageNotFound;
+                                                                                        }}
+                                                                                    />
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                    ))}
+                                                                        );
+                                                                    })}
                                                             </Slider>
                                                         )}
+
 
                                                         <div className="for_DiamondDet_right_prodDetails_earr">
                                                             <div className="for_DiamondDet_breadcrumbs">
@@ -1629,57 +1647,27 @@ const DiamondDetails = () => {
                                                         {!compSet && (
                                                             <>
                                                                 {mediaArr
-                                                                    ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
+                                                                    ?.filter(item => item?.type === 'image' && item?.src !== imageNotFound) // Only filter image types and avoid imageNotFound
                                                                     ?.map((item, index) => {
-                                                                        console.log("jeje", item?.src !== imageNotFound && item?.src !== "");
+                                                                        const fallbackImage = getdiaImages(singleDiaData?.[0]?.shapename);
+                                                                        const imageSrc = item?.src || fallbackImage; // Use fallback if src is empty
+                                                                        const isActive = index === currentSlide;
+
                                                                         return (
                                                                             <div
                                                                                 key={index}
-                                                                                className={`for_box ${index === currentSlide ? "active" : ""}`}
-                                                                                onClick={() => handleThumbnailClick(index)}
+                                                                                className={`for_box ${isActive ? 'active' : ""}`}
+                                                                                onClick={() => handleThumbnailClick1(index)}
                                                                             >
-                                                                                {item?.type === "video" ? (
-                                                                                    <>
-                                                                                        {item?.src?.endsWith(".mp4") ? (
-                                                                                            <div
-                                                                                                className="for_video_box_dia"
-                                                                                                title="A small thumbnail of the selected diamond."
-                                                                                                style={{ position: "relative" }}
-                                                                                            >
-                                                                                                <video src={item?.src} muted loop />
-                                                                                                <IoIosPlayCircle className="for_play_io_icon_dia" />
-                                                                                            </div>
-                                                                                        ) : (
-                                                                                            <div
-                                                                                                className="for_video_box_dia"
-                                                                                                title="A small thumbnail of the selected diamond."
-                                                                                                style={{ position: "relative" }}
-                                                                                            >
-                                                                                                <img
-                                                                                                    src={`${storImagePath()}/images/ProductListing/Diamond/images/360-view.png`}
-                                                                                                    onError={(e) => {
-                                                                                                        e.target.onerror = null;
-                                                                                                        e.target.src = imageNotFound;
-                                                                                                    }}
-                                                                                                />
-                                                                                            </div>
-                                                                                        )}
-                                                                                    </>
-                                                                                ) : (
-                                                                                    <>
-                                                                                        {item?.type === "image" && (
-                                                                                            <img
-                                                                                                title="A small thumbnail of the selected diamond."
-                                                                                                src={item?.src}
-                                                                                                alt=""
-                                                                                                onError={(e) => {
-                                                                                                    e.target.onerror = null;
-                                                                                                    e.target.src = imageNotFound;
-                                                                                                }}
-                                                                                            />
-                                                                                        )}
-                                                                                    </>
-                                                                                )}
+                                                                                <img
+                                                                                    title="A small thumbnail of the selected diamond."
+                                                                                    src={imageSrc}
+                                                                                    alt="Thumbnail"
+                                                                                    onError={(e) => {
+                                                                                        e.target.onerror = null;
+                                                                                        e.target.src = imageNotFound;
+                                                                                    }}
+                                                                                />
                                                                             </div>
                                                                         );
                                                                     })}
@@ -2591,6 +2579,32 @@ const DiamondDetails = () => {
                                                             </>
                                                         )}
                                                 </div>
+                                                {steps3?.[2]?.step3 === true && (
+                                                    <div className="for_Complete_set_Diamond_div">
+                                                        {isDataFound ?
+                                                            <Skeleton variant="rounded" style={{ height: '8rem', width: '38rem' }} />
+                                                            : (
+                                                                <>
+                                                                    <div className="for_Complete_set_title">
+                                                                        <span>{`${diamondData?.step1Data?.[0]?.carat ?? diamondData?.step2Data?.[0]?.carat} Carat ${diamondData?.step1Data?.[0]?.colorname ?? diamondData?.step2Data?.[0]?.colorname} ${diamondData?.step1Data?.[0]?.clarityname ?? diamondData?.step2Data?.[0]?.clarityname} ${diamondData?.step1Data?.[0]?.cutname ?? diamondData?.step2Data?.[0]?.cutname} Cut ${diamondData?.step1Data?.[0]?.shapename ?? diamondData?.step2Data?.[0]?.shapename} Diamond`}</span>
+                                                                    </div>
+
+                                                                    <div className="for_Complete_set_title_sku_dia">
+                                                                        <div className='for_Complete_set_sku'>SKU: {diamondData?.step1Data?.[0]?.stockno ?? diamondData?.step2Data?.[0]?.stockno}</div>
+                                                                    </div>
+                                                                    <div className="for_Complete_set_price_div">
+                                                                        <div className="for_Complete_set_price">
+                                                                            <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price)}</span>
+                                                                        </div>
+                                                                        {/* <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`) }}>
+                                                                            <HiOutlinePencilSquare fontWeight={700} />
+                                                                            <span style={{ marginTop: '1px' }}>Change</span>
+                                                                        </div> */}
+                                                                    </div>
+                                                                </>
+                                                            )}
+                                                    </div>
+                                                )}
 
                                                 {/* <div className="for_Complete_set_size_div">
                                             {sizeCombo?.length > 0 && (

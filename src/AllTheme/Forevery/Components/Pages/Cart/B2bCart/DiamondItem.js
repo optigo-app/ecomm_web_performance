@@ -81,7 +81,7 @@ const DiamondItems = ({
 
     const handleIsSelected = () => {
         let isselected = selectedItem?.id == diaData?.id
-        
+
         setIsSelectedItems()
     }
 
@@ -121,59 +121,167 @@ const DiamondItems = ({
 
     const handleError = (event) => {
         event.target.src = noImageFound;
-      };
+    };
 
+    const isEarring = 2;
 
     return (
         <>
             {diamondData?.map((diaData) =>
-                <div className="for_cartMain-item"
-                    style={{
-                        // boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '0 3px 8px rgba(223, 100, 126, 0.54)'
-                        boxShadow: "none",
-                        border: !multiSelect && !isMobileScreen && selectedItem?.stockno == diaData?.stockno && '1px solid rgba(223, 100, 126, 1)'
-                    }}
-                >
-                    <div className="for_cart-item"
-
-                        onClick={() => onSelect(diaData)}
+                isEarring === 1 ? (
+                    <div className="for_cartMain-item_earr_div"
+                        style={{
+                            // boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '0 3px 8px rgba(223, 100, 126, 0.54)'
+                            boxShadow: "none",
+                            border: !multiSelect && !isMobileScreen && selectedItem?.stockno == diaData?.stockno && '1px solid rgba(223, 100, 126, 1)'
+                        }}
                     >
-                        <div className="for_cart-item__image">
-                            <img 
-                            src={diaData?.image_file_url} 
-                            alt='Product-image' 
-                            onError={handleError}
-                            />
+                        <div className="for_cart-item"
+
+                            onClick={() => onSelect(diaData)}
+                        >
+                            <div className="for_cart-item__image">
+                                <img
+                                    src={diaData?.image_file_url}
+                                    alt='Product-image'
+                                    onError={handleError}
+                                />
+                            </div>
+                            <div className="for_cart-item__details">
+                                <div className="for_weightsContainer">
+                                    <span>
+                                        {diaData?.carat}{" "}
+                                        Carat {diaData?.colorname} {diaData?.clarityname}{" "}
+                                        {diaData?.cutname} Cut {diaData?.shapename} Diamond
+                                    </span>
+                                </div>
+                                <div className='for_diamondSKUNO'>
+                                    <h3>SKU:{" "}{diaData?.stockno != "" && diaData?.stockno}</h3>
+                                </div>
+                            </div>
+                            {storeInitData?.IsPriceShow == 1 &&
+                                <div className="for_cart-item__price">
+                                    <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(diaData?.price)}</p>
+                                    <span className="for_price-excl-vat">(Excl. VAT)</span>
+                                </div>
+                            }
+                            {storeInitData?.IsPriceShow == 1 &&
+                                <div className="for_cart-item__total-price">
+                                    {!isEarring === 1 &&
+                                        <>
+                                            <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(diaData?.price)}</p>
+                                            <span className="for_price-excl-vat">(Excl. VAT)</span>
+                                        </>
+                                    }
+                                </div>
+                            }
                         </div>
-                        <div className="for_cart-item__details">
-                            <div className="for_weightsContainer">
-                                <span>
-                                    {diaData?.carat}{" "}
-                                    Carat {diaData?.colorname} {diaData?.clarityname}{" "}
-                                    {diaData?.cutname} Cut {diaData?.shapename} Diamond
-                                </span>
+                        <div className="for_cart-item"
+                            style={{ marginTop: "0.5rem" }}
+                            onClick={() => onSelect(diaData)}
+                        >
+                            <div className="for_cart-item__image">
+                                <img
+                                    src={diaData?.image_file_url}
+                                    alt='Product-image'
+                                    onError={handleError}
+                                />
                             </div>
-                            <div className='for_diamondSKUNO'>
-                                <h3>SKU:{" "}{diaData?.stockno != "" && diaData?.stockno}</h3>
+                            <div className="for_cart-item__details">
+                                <div className="for_weightsContainer">
+                                    <span>
+                                        {diaData?.carat}{" "}
+                                        Carat {diaData?.colorname} {diaData?.clarityname}{" "}
+                                        {diaData?.cutname} Cut {diaData?.shapename} Diamond
+                                    </span>
+                                </div>
+                                <div className='for_diamondSKUNO'>
+                                    <h3>SKU:{" "}{diaData?.stockno != "" && diaData?.stockno}</h3>
+                                </div>
                             </div>
+                            {storeInitData?.IsPriceShow == 1 &&
+                                <div className="for_cart-item__price">
+                                    <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(diaData?.price)}</p>
+                                    <span className="for_price-excl-vat">(Excl. VAT)</span>
+                                </div>
+                            }
+                            {storeInitData?.IsPriceShow == 1 &&
+                                <div className="for_cart-item__total-price">
+                                    {!isEarring === 1 &&
+                                        <>
+                                            <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(diaData?.price)}</p>
+                                            <span className="for_price-excl-vat">(Excl. VAT)</span>
+                                        </>
+                                    }
+                                </div>
+                            }
                         </div>
-                        {storeInitData?.IsPriceShow == 1 &&
-                            <div className="for_cart-item__price">
-                                <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(diaData?.price)}</p>
-                                <span className="for_price-excl-vat">(Excl. VAT)</span>
-                            </div>
+                        {diamondData &&
+                            <>
+                                <div className='for_cartDiaTPrice'>
+                                    {storeInitData?.IsPriceShow == 1 &&
+                                        <div className="for_cart-item__total-price">
+                                            <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(diaData?.price + diamondData?.price)}</p>
+                                            <span className="for_price-excl-vat">(Excl. VAT)</span>
+                                        </div>
+                                    }
+                                </div>
+                                <div className="for_Diacart-item__remove">
+                                    <button className="for_remove-button" onClick={() => handleRemoveItem(diaData, index)}>×</button>
+                                </div>
+                            </>
                         }
-                        {storeInitData?.IsPriceShow == 1 &&
-                            <div className="for_cart-item__total-price">
-                                <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(diaData?.price)}</p>
-                                <span className="for_price-excl-vat">(Excl. VAT)</span>
+                    </div >
+                ) : (
+                    <div className="for_cartMain-item"
+                        style={{
+                            // boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '0 3px 8px rgba(223, 100, 126, 0.54)'
+                            boxShadow: "none",
+                            border: !multiSelect && !isMobileScreen && selectedItem?.stockno == diaData?.stockno && '1px solid rgba(223, 100, 126, 1)'
+                        }}
+                    >
+                        <div className="for_cart-item"
+
+                            onClick={() => onSelect(diaData)}
+                        >
+                            <div className="for_cart-item__image">
+                                <img
+                                    src={diaData?.image_file_url}
+                                    alt='Product-image'
+                                    onError={handleError}
+                                />
                             </div>
-                        }
-                        <div className="for_cart-item__remove">
-                            <button className="for_remove-button" onClick={() => handleRemoveItem(diaData, index)}>×</button>
+                            <div className="for_cart-item__details">
+                                <div className="for_weightsContainer">
+                                    <span>
+                                        {diaData?.carat}{" "}
+                                        Carat {diaData?.colorname} {diaData?.clarityname}{" "}
+                                        {diaData?.cutname} Cut {diaData?.shapename} Diamond
+                                    </span>
+                                </div>
+                                <div className='for_diamondSKUNO'>
+                                    <h3>SKU:{" "}{diaData?.stockno != "" && diaData?.stockno}</h3>
+                                </div>
+                            </div>
+                            {storeInitData?.IsPriceShow == 1 &&
+                                <div className="for_cart-item__price">
+                                    <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(diaData?.price)}</p>
+                                    <span className="for_price-excl-vat">(Excl. VAT)</span>
+                                </div>
+                            }
+                            {storeInitData?.IsPriceShow == 1 &&
+                                <div className="for_cart-item__total-price">
+                                    <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(diaData?.price)}</p>
+                                    <span className="for_price-excl-vat">(Excl. VAT)</span>
+                                </div>
+                            }
+                            <div className="for_cart-item__remove">
+                                <button className="for_remove-button" onClick={() => handleRemoveItem(diaData, index)}>×</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                )
+
             )}
         </>
     );

@@ -6,6 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import CloseIcon from "@mui/icons-material/Close";
+import btnstyle from "../../scss/Button.module.scss";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { for_CartCount, for_MatchDiamonds, for_WishCount, for_customizationSteps, for_filterDiamond } from "../../Recoil/atom";
 import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
@@ -14,7 +15,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import diaImage from "../../Assets/round.png"
-import { Dialog, DialogContent } from "@mui/material";
+import { Button, Dialog, DialogContent, IconButton } from "@mui/material";
 import { RxCross1 } from "react-icons/rx";
 import { CartAndWishListAPI } from "../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { useNavigate } from "react-router-dom";
@@ -259,80 +260,170 @@ const DiamondLitsItems = ({
         event.target.src = noImageFound;
     };
 
+    const isEarring = 1;
+
+    const earringsData = [
+        {
+            diamond1: {
+                image: "https://www.forevery.one/images_new/diamond-sample/round.jpg",
+                sku: "2400000695965",
+                carat: 0.54,
+                color: "VVS1",
+                clarity: "Very Good",
+                cut: "Round",
+            },
+            diamond2: {
+                image: "https://www.forevery.one/images_new/diamond-sample/round.jpg",
+                sku: "240000068999",
+                carat: 0.55,
+                color: "VVS2",
+                clarity: "Very Good",
+                cut: "Round",
+            },
+            price: 290.0,
+        },
+    ];
+
     return (
         <>
-            <Grid
-                item
-                xs={diamondValue?.length <= 2 ? 6 : 6}
-                sm={diamondValue?.length <= 2 ? 4 : 4}
-                md={diamondValue?.length <= 2 ? 4 : 4}
-                lg={diamondValue?.length <= 2 ? 3 : 3}
-                xxl={diamondValue?.length <= 2 ? 3 : 2}
-                className="for_wlListGrid"
-            >
-                <Card className="for_WlListCard">
-                    <div className="for_cardContentMainDiv">
-                        <CardMedia
-                            component="img"
-                            image={item?.image_file_url}
-                            alt={item?.TitleLine}
-                            className="for_WlListImage"
-                            onError={handleError}
-                            onClick={() => handleMoveToDetail(item)}
-                        />
-                        <CardContent className="for_cardContent for_diamondImage">
-                            <div className="for_cardText">
-                                <Typography
-                                    variant="body2"
-                                    className="for_card-ContentData for_WlTitleline"
-                                >
-                                    SKU:{" "}{item?.stockno != "" && item?.stockno}
-                                </Typography>
-                                <Typography variant="body2" className="for_card-ContentData">
-                                    <span>
-                                        {item?.carat?.toFixed(3)}{" "}
-                                        Carat {item?.colorname} {item?.clarityname}{" "}
-                                        {item?.cutname} Cut {item?.shapename} Diamond
-                                    </span>
-                                </Typography>
-                                {/* <Typography variant="body2" className="for_card-ContentData">
-                                    <span className="for_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>{" "}
-                                    <span>{formatter(item?.price)}</span>
-                                </Typography> */}
+            {isEarring === 1 ? (
+                <Grid container spacing={2} className="for_WlListData_earr">
+                    {earringsData?.map((pair, index) => (
+                        <Grid item xs={12} sm={6} md={4} lg={3} key={index} className="for_wlListGrid_earr">
+                            <Card className="for_WlListCard_earr">
+                                <div className="for_cardContent_earr_div">
+                                    {/* Diamond 1 */}
+                                    <div className="for_cardContentMainDiv_1">
+                                        <CardMedia
+                                            component="img"
+                                            image={pair?.diamond1?.image}
+                                            alt={pair?.diamond1?.title || "Diamond 1"}
+                                            className="for_WlListImage"
+                                            onError={(e) => (e.target.src = "/imageNotFound.png")}
+                                        />
+                                        <CardContent className="for_cardContent for_diamondImage">
+                                            <Typography variant="body2" className="for_card-ContentData">
+                                                {pair?.diamond1?.carat} Carat {pair?.diamond1?.color} {pair?.diamond1?.clarity} {pair?.diamond1?.cut} Cut
+                                            </Typography>
+                                            <Typography variant="body2" className="for_card-ContentData for_WlTitleline">
+                                                SKU: {pair?.diamond1?.sku}
+                                            </Typography>
+                                        </CardContent>
+                                    </div>
+
+                                    {/* Diamond 2 */}
+                                    <div className="for_cardContentMainDiv_2">
+                                        <CardMedia
+                                            component="img"
+                                            image={pair?.diamond2?.image || "/default-diamond.png"}
+                                            alt={pair?.diamond2?.title || "Diamond 2"}
+                                            className="for_WlListImage"
+                                            onError={(e) => (e.target.src = "/imageNotFound.png")}
+                                        />
+                                        <CardContent className="for_cardContent for_diamondImage">
+                                            <Typography variant="body2" className="for_card-ContentData">
+                                                {pair?.diamond2?.carat} Carat {pair?.diamond2?.color} {pair?.diamond2?.clarity} {pair?.diamond2?.cut} Cut
+                                            </Typography>
+                                            <Typography variant="body2" className="for_card-ContentData for_WlTitleline">
+                                                SKU: {pair?.diamond2?.sku}
+                                            </Typography>
+                                        </CardContent>
+                                    </div>
+                                </div>
+
+                                {/* Price & Select Button */}
+                                <div className="for_priceDataDiv">
+                                    <span className="for_currencyFont">€{pair?.price}</span>
+                                </div>
+                                <div className="for_Wl-CartbtnDiv">
+                                    <button variant="contained" className={`${btnstyle?.btn_for_new} for_Wl-Cartbtn ${btnstyle?.btn_15}`}>
+                                        Select These Diamonds
+                                    </button>
+                                </div>
+
+                                {/* Remove Button */}
+                                <IconButton className="for_closeWlIconDiv" >
+                                    <CloseIcon className="closeWlIcon" />
+                                </IconButton>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            ) : (
+                <Grid
+                    item
+                    xs={diamondValue?.length <= 2 ? 6 : 6}
+                    sm={diamondValue?.length <= 2 ? 4 : 4}
+                    md={diamondValue?.length <= 2 ? 4 : 4}
+                    lg={diamondValue?.length <= 2 ? 3 : 3}
+                    xxl={diamondValue?.length <= 2 ? 3 : 2}
+                    className="for_wlListGrid"
+                >
+                    <Card className="for_WlListCard">
+                        <div className="for_cardContentMainDiv">
+                            <CardMedia
+                                component="img"
+                                image={item?.image_file_url}
+                                alt={item?.TitleLine}
+                                className="for_WlListImage"
+                                onError={handleError}
+                                onClick={() => handleMoveToDetail(item)}
+                            />
+                            <CardContent className="for_cardContent for_diamondImage">
+                                <div className="for_cardText">
+                                    <Typography
+                                        variant="body2"
+                                        className="for_card-ContentData for_WlTitleline"
+                                    >
+                                        SKU:{" "}{item?.stockno != "" && item?.stockno}
+                                    </Typography>
+                                    <Typography variant="body2" className="for_card-ContentData">
+                                        <span>
+                                            {item?.carat?.toFixed(3)}{" "}
+                                            Carat {item?.colorname} {item?.clarityname}{" "}
+                                            {item?.cutname} Cut {item?.shapename} Diamond
+                                        </span>
+                                    </Typography>
+                                    {/* <Typography variant="body2" className="for_card-ContentData">
+                                <span className="for_currencyFont">
+                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                </span>{" "}
+                                <span>{formatter(item?.price)}</span>
+                            </Typography> */}
+                                </div>
+                            </CardContent>
+                            <div className="for_priceDataDiv">
+                                <span className="for_currencyFont">
+                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                </span>{" "}
+                                <span>{formatter(item?.price)}</span>
                             </div>
-                        </CardContent>
-                        <div className="for_priceDataDiv">
-                            <span className="for_currencyFont">
-                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                            </span>{" "}
-                            <span>{formatter(item?.price)}</span>
+                            <span className="for_totalcart">
+                                {/* {selectedDia && Object.keys(selectedDia).length != 0 &&
+                            <>
+                                Total carat weight:{" "}{selectedDia?.carat}
+                            </>
+                        } */}
+                            </span>
+                            <div className="for_Wl-CartbtnDiv" onClick={handleClickOpen}>
+                                <button
+                                    className="for_Wl-Cartbtn"
+                                // onClick={() => handleWishlistToCartFun(item)}
+                                >
+                                    {item?.IsInCart != 1 ? "Select This Diamond" : "In cart"}
+                                </button>
+                            </div>
                         </div>
-                        <span className="for_totalcart">
-                            {/* {selectedDia && Object.keys(selectedDia).length != 0 &&
-                                <>
-                                    Total carat weight:{" "}{selectedDia?.carat}
-                                </>
-                            } */}
-                        </span>
-                        <div className="for_Wl-CartbtnDiv" onClick={handleClickOpen}>
-                            <button
-                                className="for_Wl-Cartbtn"
-                            // onClick={() => handleWishlistToCartFun(item)}
-                            >
-                                {item?.IsInCart != 1 ? "Select This Diamond" : "In cart"}
-                            </button>
+                        <div
+                            className="for_closeWlIconDiv"
+                            onClick={(e) => handleRemoveItemFun(item)}
+                        >
+                            <CloseIcon className="closeWlIcon" />
                         </div>
-                    </div>
-                    <div
-                        className="for_closeWlIconDiv"
-                        onClick={(e) => handleRemoveItemFun(item)}
-                    >
-                        <CloseIcon className="closeWlIcon" />
-                    </div>
-                </Card>
-            </Grid>
+                    </Card>
+                </Grid>
+            )}
+
             <Modal open={showModal} handleClose={handleClose} stockno={item?.stockno} handleButtonChange={handleButtonChange} shape={item?.shapename} item={item} />
         </>
     );
