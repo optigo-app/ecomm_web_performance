@@ -736,6 +736,27 @@
                     display: none;
                 }
 
+                .for_DiamondDet_wishList_mainDiv {
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+                    justify-content: space-between;
+                    border-top: 0.5px solid #dee2e6;
+                    padding-inline: 1.3rem;
+                    margin-bottom: 0.5rem;
+
+                    span {
+                        font-size: $fontSize2;
+                        color: #777777;
+                        transition: color 0.2s ease-in;
+                        cursor: pointer;
+
+                        &:hover {
+                            color: #000;
+                        }
+                    }
+                }
+
                 .for_DiamondDet_earring_main_div {
                     display: flex;
                     flex-direction: row;

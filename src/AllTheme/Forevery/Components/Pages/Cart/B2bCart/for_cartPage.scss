@@ -327,6 +327,261 @@ $borderColor: rgba(232, 232, 232, 1);
               top: 46%;
             }
           }
+
+          .for_cartMain-item_earr_div {
+            border: 1px solid $borderColor;
+            margin-bottom: 1rem;
+            position: relative;
+            padding: 10px 0px;
+            display: flex;
+            flex-direction: column;
+
+            .for_cart-item {
+              display: flex;
+              align-items: center;
+              padding: 0rem 1rem;
+              background-color: white;
+              border-radius: 0;
+              // box-shadow: 0 3px 8px rgba(0, 0, 0, .24);
+              // margin-bottom: 1rem;
+
+              &__image {
+                flex: 1;
+
+                img {
+                  width: 100%;
+                  height: auto;
+                }
+              }
+
+              &__details {
+                flex: 2;
+                padding-left: 1rem;
+
+                h3 {
+                  margin: 0;
+                  font-size: $fontSize3;
+                }
+
+                p {
+                  margin: 0.3rem 0;
+                  font-size: $fontSize3;
+                }
+
+                .for_ringSize {
+                  font-size: $fontSize2;
+                  margin: 0;
+                  margin-top: 5px;
+                }
+
+                .for_change-size {
+                  font-size: $fontSize1;
+                  color: $primaryfontcolor2;
+                  cursor: pointer;
+                  text-decoration: underline;
+                }
+
+                .for_weightsContainer {
+                  display: flex;
+                  flex-wrap: wrap;
+                }
+
+                .for_diamondSKUNO {
+                  margin-top: 10px;
+                }
+
+                .for_weightPair {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  align-items: center;
+                  color: $primaryfontcolor2;
+                  font-size: $fontSize2;
+
+                  .for_pipe {
+                    margin-inline: 4px;
+                  }
+
+                  .for_weightLabel {
+                    text-transform: capitalize;
+                    margin-right: 2px;
+                  }
+                }
+              }
+
+              &__price,
+              &__total-price {
+                flex: 1;
+                text-align: center;
+
+                p {
+                  margin: 0;
+                  font-size: $fontSize4;
+                  color: $primaryfontcolor2;
+                  font-weight: 700;
+                }
+
+                span {
+                  font-size: $fontSize0;
+                }
+              }
+
+              &__total-price {
+
+                p,
+                span {
+                  color: #df647e;
+                }
+              }
+
+              &__remove {
+                flex: 0.5;
+                text-align: center;
+
+                .for_remove-button {
+                  background-color: transparent;
+                  border: none;
+                  font-size: $fontSize3;
+                  font-weight: 700;
+                  color: #fff;
+                  background-color: #f2b1b7;
+                  border-radius: 50%;
+                  opacity: .5;
+                  cursor: pointer;
+                  padding: 0px 8px;
+                }
+              }
+            }
+
+            .for_Diacart-item {
+              display: flex;
+              align-items: center;
+              padding: 0rem 1rem;
+              background-color: white;
+              border-radius: 0;
+              // box-shadow: 0 3px 8px rgba(0, 0, 0, .24);
+              // margin-bottom: 1rem;
+
+              &__image {
+                flex: 1;
+
+                img {
+                  width: 100%;
+                  height: auto;
+                }
+              }
+
+              &__details {
+                flex: 2;
+                padding-left: 1rem;
+
+                h3 {
+                  margin: 0;
+                  font-size: $fontSize3;
+                }
+
+                p {
+                  margin: 0.3rem 0;
+                  font-size: $fontSize3;
+                }
+
+                .for_ringSize {
+                  font-size: $fontSize1;
+                  margin: 0;
+                  font-weight: 600;
+                }
+
+                .for_change-size {
+                  font-size: $fontSize1;
+                  color: $primaryfontcolor2;
+                  cursor: pointer;
+                  text-decoration: underline;
+                }
+
+                .for_weightsContainer {
+                  display: flex;
+                  flex-wrap: wrap;
+                }
+
+                .for_diamondSKUNO {
+                  margin-top: 10px;
+                }
+
+                .for_weightPair {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  align-items: center;
+                  color: $primaryfontcolor2;
+                  font-size: $fontSize2;
+
+                  .for_pipe {
+                    margin-inline: 4px;
+                  }
+
+                  .for_weightLabel {
+                    text-transform: capitalize;
+                    margin-right: 2px;
+                  }
+                }
+              }
+
+              &__price,
+              &__total-price {
+                flex: 1;
+                text-align: center;
+
+                p {
+                  margin: 0;
+                  font-size: $fontSize4;
+                  color: $primaryfontcolor2;
+                  font-weight: 700;
+                }
+
+                span {
+                  font-size: $fontSize0;
+                }
+              }
+
+              &__total-price {
+
+                p,
+                span {
+                  color: #df647e;
+                }
+              }
+
+              &__remove {
+                flex: 0.5;
+                text-align: center;
+
+                .for_remove-button {
+                  background-color: transparent;
+                  border: none;
+                  font-size: $fontSize3;
+                  font-weight: 700;
+                  color: #fff;
+                  background-color: #f2b1b7;
+                  border-radius: 50%;
+                  opacity: .5;
+                  cursor: pointer;
+                  padding: 0px 8px;
+                }
+              }
+            }
+
+            .for_cartDiaTPrice {
+              position: absolute;
+              right: 122px;
+              top: 46%;
+            }
+
+            .for_Diacart-item__remove {
+              position: absolute;
+              right: 44px;
+              top: 46%;
+            }
+          }
         }
       }
 
@@ -694,6 +949,57 @@ $borderColor: rgba(232, 232, 232, 1);
               }
             }
           }
+
+          .for_cartMain-item_earr_div {
+
+            .for_cart-item,
+            .for_Diacart-item {
+              .for_cart-item__details {
+                h3 {
+                  font-size: $fontSize3;
+                }
+
+                p {
+                  font-size: $fontSize1;
+                }
+
+                .for_weightsContainer {
+                  .for_weightPair {
+                    font-size: $fontSize1;
+                  }
+
+                  span {
+                    font-size: $fontSize1;
+                  }
+                }
+
+                .for_diamondSKUNO {
+                  font-size: $fontSize3;
+                }
+              }
+
+              .for_cart-item__price {
+                p {
+                  font-size: $fontSize3;
+                }
+              }
+
+              .for_cart-item__total-price {
+                p {
+                  font-size: $fontSize3;
+                }
+              }
+            }
+
+            .for_cartDiaTPrice {
+              right: 90px !important;
+              top: 40% !important;
+
+              .for_cart-item__total-price p {
+                font-size: $fontSize3;
+              }
+            }
+          }
         }
       }
 
@@ -780,6 +1086,77 @@ $borderColor: rgba(232, 232, 232, 1);
             gap: 10px;
 
             .for_cartMain-item {
+              width: 49%;
+              position: relative;
+              margin-bottom: 0px;
+
+              .for_cart-item,
+              .for_Diacart-item {
+                display: flex;
+                flex-direction: column;
+
+                .for_cart-item__details {
+                  padding: 0;
+                  text-align: center;
+
+                  h3 {
+                    font-size: $fontSize2;
+                  }
+
+                  p {
+                    font-size: $fontSize1;
+                  }
+
+                  .for_weightsContainer {
+                    justify-content: center;
+                    align-items: center;
+                  }
+
+                  .for_sizeDiv {
+                    justify-content: center;
+
+                    .for_ringSize {}
+                  }
+                }
+
+                .for_cart-item__price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__total-price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__remove {
+                  position: absolute;
+                  top: 5px;
+                  right: 5px;
+                }
+              }
+
+              .for_Diacart-item__remove {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+              }
+
+              .for_Diacart-item {
+                .for_cart-item__image {
+                  img {
+                    width: 50px;
+                  }
+                }
+              }
+
+              .for_cartDiaTPrice {
+                position: unset;
+              }
+            }
+            .for_cartMain-item_earr_div {
               width: 49%;
               position: relative;
               margin-bottom: 0px;
@@ -942,6 +1319,64 @@ $borderColor: rgba(232, 232, 232, 1);
                 position: unset;
               }
             }
+            .for_cartMain-item_earr_div {
+              width: 48.8%;
+              position: relative;
+              margin-bottom: 0px;
+
+              .for_cart-item,
+              .for_Diacart-item {
+                display: flex;
+                flex-direction: column;
+
+                .for_cart-item__details {
+                  h3 {
+                    font-size: $fontSize2;
+
+                  }
+
+                  p {
+                    font-size: $fontSize1;
+                  }
+                }
+
+                .for_cart-item__price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__total-price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__remove {
+                  position: absolute;
+                  top: 5px;
+                  right: 5px;
+                }
+              }
+
+              .for_Diacart-item__remove {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+              }
+
+              .for_Diacart-item {
+                .for_cart-item__image {
+                  img {
+                    width: 50px;
+                  }
+                }
+              }
+
+              .for_cartDiaTPrice {
+                position: unset;
+              }
+            }
           }
         }
       }
@@ -1033,6 +1468,63 @@ $borderColor: rgba(232, 232, 232, 1);
                 position: unset;
               }
             }
+            .for_cartMain-item_earr_div {
+              width: 48.6%;
+              position: relative;
+              margin-bottom: 0px;
+
+              .for_cart-item,
+              .for_Diacart-item {
+                display: flex;
+                flex-direction: column;
+
+                .for_cart-item__details {
+                  h3 {
+                    font-size: $fontSize2;
+                  }
+
+                  p {
+                    font-size: $fontSize1;
+                  }
+                }
+
+                .for_cart-item__price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__total-price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__remove {
+                  position: absolute;
+                  top: 5px;
+                  right: 5px;
+                }
+              }
+
+              .for_Diacart-item__remove {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+              }
+
+              .for_Diacart-item {
+                .for_cart-item__image {
+                  img {
+                    width: 50px;
+                  }
+                }
+              }
+
+              .for_cartDiaTPrice {
+                position: unset;
+              }
+            }
           }
         }
       }
@@ -1051,6 +1543,11 @@ $borderColor: rgba(232, 232, 232, 1);
               position: relative;
               margin-bottom: 0px;
             }
+            .for_cartMain-item_earr_div {
+              width: 48.5%;
+              position: relative;
+              margin-bottom: 0px;
+            }
           }
         }
       }
@@ -1065,6 +1562,11 @@ $borderColor: rgba(232, 232, 232, 1);
         .for_RightCartList {
           .for_cartListMapDiv {
             .for_cartMain-item {
+              width: 48.5%;
+              position: relative;
+              margin-bottom: 0px;
+            }
+            .for_cartMain-item_earr_div {
               width: 48.5%;
               position: relative;
               margin-bottom: 0px;
@@ -1096,6 +1598,62 @@ $borderColor: rgba(232, 232, 232, 1);
             gap: 10px;
 
             .for_cartMain-item {
+              width: 100%;
+              position: relative;
+
+              .for_cart-item,
+              .for_Diacart-item {
+                display: flex;
+                flex-direction: column;
+
+                .for_cart-item__details {
+                  h3 {
+                    font-size: $fontSize2;
+                  }
+
+                  p {
+                    font-size: $fontSize1;
+                  }
+                }
+
+                .for_cart-item__price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__total-price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__remove {
+                  position: absolute;
+                  top: 5px;
+                  right: 5px;
+                }
+              }
+
+              .for_Diacart-item__remove {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+              }
+
+              .for_Diacart-item {
+                .for_cart-item__image {
+                  img {
+                    width: 50px;
+                  }
+                }
+              }
+
+              .for_cartDiaTPrice {
+                position: unset;
+              }
+            }
+            .for_cartMain-item_earr_div {
               width: 100%;
               position: relative;
 
