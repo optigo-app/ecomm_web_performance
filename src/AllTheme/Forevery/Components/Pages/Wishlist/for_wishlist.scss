@@ -337,6 +337,206 @@
                     }
                 }
             }
+
+            .for_WlListData_earr {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: start;
+                align-items: center;
+                opacity: 1;
+                transition: opacity 0.5s ease;
+                padding: 20px;
+
+                .for_wlListGrid_earr {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    max-width: 360px;
+                }
+
+                .for_WlListCard_earr {
+                    border: 1px solid #d2d2d2;
+                    box-shadow: none;
+                    border-radius: 5px;
+                    width: 21rem;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    position: relative;
+                    background: #fff;
+                    padding: 15px;
+                    transition: all 0.3s ease-in-out;
+
+                    &:hover {
+                        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+                    }
+
+                    .for_cardContent_earr_div {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 10px;
+                    }
+
+                    .for_cardContentMainDiv_1,
+                    .for_cardContentMainDiv_2 {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        width: 50%;
+
+                        .for_WlListImage {
+                            width: 100%;
+                            height: 150px;
+                            object-fit: contain;
+                            cursor: pointer;
+                            transition: transform 0.2s ease-in-out;
+
+                            &:hover {
+                                transform: scale(1.05);
+                            }
+                        }
+
+                        .for_diamondImage {
+                            text-align: center;
+                            padding: 5px;
+
+                            .for_cardText {
+                                p {
+                                    text-transform: uppercase;
+                                    font-size: 14px;
+                                    letter-spacing: 0.8px;
+                                    font-weight: 600;
+                                    margin-bottom: 5px;
+
+                                    span {
+                                        text-transform: uppercase;
+                                        font-weight: 500;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .for_priceDataDiv {
+                        text-align: center;
+                        font-size: 18px;
+                        font-weight: bold;
+                        color: #000;
+                        margin-top: 10px;
+                    }
+
+                    .for_Wl-CartbtnDiv {
+                        display: flex;
+                        justify-content: center;
+                        margin-top: 10px;
+
+                        .for_Wl-Cartbtn {
+                            text-transform: uppercase;
+                            width: 220px;
+                            height: 44px;
+                            font-size: $fontSize2;
+                            font-weight: 600;
+                        }
+                    }
+
+                    .for_closeWlIconDiv {
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                        background-color: #000;
+                        color: #fff;
+                        border-radius: 50%;
+                        padding: 5px;
+                        cursor: pointer;
+                        transition: 0.3s ease-in-out;
+
+                        &:hover {
+                            background-color: red;
+                        }
+
+                        .closeWlIcon {
+                            font-size: 18px;
+                        }
+                    }
+                }
+
+                // Handle No Wishlist Data Styling
+                .for_noWishlistData {
+                    text-align: center;
+                    width: 100%;
+                    padding: 50px 0;
+
+                    .for_title {
+                        font-size: 20px;
+                        font-weight: bold;
+                        color: #333;
+                    }
+
+                    .for_desc {
+                        font-size: 16px;
+                        color: #777;
+                    }
+
+                    .for_browseOurCollectionbtn {
+                        background-color: #000;
+                        color: #fff;
+                        padding: 12px 20px;
+                        font-size: 14px;
+                        font-weight: 500;
+                        border: none;
+                        text-transform: uppercase;
+                        cursor: pointer;
+                        transition: 0.3s ease-in-out;
+
+                        &:hover {
+                            background: #fff;
+                            color: #000;
+                            border: 1px solid #000;
+                        }
+                    }
+
+                }
+
+                .for_card-ContentData {
+                    font-size: $fontSize1;
+                    color: $primaryfontcolor2;
+                    font-family: $primaryFontFamily !important;
+                    letter-spacing: .6px;
+
+                    .for_diamondDShapeImg {
+                        width: 100%;
+                        max-width: 25px;
+                        margin: 0;
+                        padding-right: 5px;
+                        filter: invert(1);
+                    }
+                }
+            }
+
+            // Responsive Design
+            @media (max-width: 768px) {
+                .for_WlListData_earr {
+                    justify-content: center;
+                }
+
+                .for_WlListCard_earr {
+                    max-width: 300px;
+                }
+
+                .for_cardContent_earr_div {
+                    flex-direction: column;
+                }
+
+                .for_cardContentMainDiv_1,
+                .for_cardContentMainDiv_2 {
+                    width: 100%;
+                }
+            }
+
         }
 
         .for_noWishlistData {
