@@ -189,25 +189,66 @@ const ProductDetail = () => {
   }, [singleProd]);
 
   const handleCart = (cartflag) => {
-    let metal =
-      metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)[0] ??
-      metalTypeCombo[0];
-    let dia =
-      diaQcCombo?.filter(
-        (ele) =>
-          ele?.Quality == selectDiaQc.split(",")[0] &&
-          ele?.color == selectDiaQc.split(",")[1]
-      )[0] ?? diaQcCombo[0];
-    let cs =
-      csQcCombo?.filter(
-        (ele) =>
-          ele?.Quality == selectCsQc.split(",")[0] &&
-          ele?.color == selectCsQc.split(",")[1]
-      )[0] ?? csQcCombo[0];
+    // let metal =
+    //   metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)[0] ??
+    //   metalTypeCombo[0];
+    // let dia =
+    //   diaQcCombo?.filter(
+    //     (ele) =>
+    //       ele?.Quality == selectDiaQc.split(",")[0] &&
+    //       ele?.color == selectDiaQc.split(",")[1]
+    //   )[0] ?? diaQcCombo[0];
+    // let cs =
+    //   csQcCombo?.filter(
+    //     (ele) =>
+    //       ele?.Quality == selectCsQc.split(",")[0] &&
+    //       ele?.color == selectCsQc.split(",")[1]
+    //   )[0] ?? csQcCombo[0];
+
+    // let mcArr = metalColorCombo?.filter((ele) => {
+    //   if (selectMtColor) {
+    //     return ele?.colorname == selectMtColor;
+    //   } else {
+    //     return (
+    //       ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
+    //     );
+    //   }
+    // })[0];
+
+    // console.log(mcArr ,"mmmm")
+
+    // let prodObj = {
+    //   autocode: singleProd?.autocode,
+    //   Metalid: metal?.Metalid,
+    //   MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
+    //   DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
+    //   CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+    //   Size: sizeData ?? singleProd?.DefaultSize,
+    //   Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
+    //   markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
+    //   UnitCostWithmarkup:
+    //     singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
+    //   Remark: "",
+    // };
+
+    let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+    let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
+    let metal = metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType);
+    let dia = diaQcCombo?.filter(
+      (ele) =>
+        ele?.Quality == selectDiaQc.split(",")[0] &&
+        ele?.color == selectDiaQc.split(",")[1]
+    );
+    let cs = csQcCombo?.filter(
+      (ele) =>
+        ele?.Quality == selectCsQc.split(",")[0] &&
+        ele?.color == selectCsQc.split(",")[1]
+    );
 
     let mcArr = metalColorCombo?.filter((ele) => {
       if (selectMtColor) {
-        return ele?.colorname == selectMtColor;
+        return ele?.colorcode == selectMtColor;
       } else {
         return (
           ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
@@ -217,10 +258,16 @@ const ProductDetail = () => {
 
     let prodObj = {
       autocode: singleProd?.autocode,
-      Metalid: metal?.Metalid,
+      Metalid: metal?.length
+        ? metal[0]?.Metalid
+        : logininfoInside?.MetalId ?? storeinitInside?.MetalId,
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      DiaQCid: dia?.length
+        ? `${dia[0]?.QualityId},${dia[0]?.ColorId}`
+        : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+      CsQCid: cs?.length
+        ? `${cs[0]?.QualityId},${cs[0]?.ColorId}`
+        : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -228,6 +275,7 @@ const ProductDetail = () => {
         singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
       Remark: "",
     };
+
 
     if (cartflag) {
       CartAndWishListAPI("Cart", prodObj)
@@ -1773,14 +1821,15 @@ const ProductDetail = () => {
                                   value={selectMtColor}
                                   onChange={(e) => handleMetalWiseColorImg(e)}
                                 >
-                                  {metalColorCombo?.map((ele) => (
-                                    <option
+                                  {metalColorCombo?.map((ele) => {
+                                    console.log(ele,"mid")
+                                   return <option
                                       key={ele?.id}
                                       value={ele?.colorcode}
                                     >
                                       {ele?.metalcolorname}
                                     </option>
-                                  ))}
+})}
                                 </select>
                               )}
                             </div>

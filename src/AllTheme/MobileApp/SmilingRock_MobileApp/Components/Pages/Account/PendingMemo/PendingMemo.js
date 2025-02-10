@@ -41,7 +41,7 @@ import moment from "moment";
 import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../../utils/API/AccountTabs/salesReport";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+import noimageFound from './../../../Assets/image-not-found.jpg'
 import {  headCells } from "../../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
 
 function createData(
@@ -768,18 +768,19 @@ const PendingMemo = () => {
               marginTop: "17px",
             }}
           >
-            {hoverImg !== "" && (
               <img
                 src={hoverImg}
                 alt=""
+                onError={(e)=>{
+                  e.target.src = noimageFound ;
+                }}
                 style={{
-                  width: "100%",
+                  width: "100%",  
                   objectFit: "contain",
                   minHeight: "114px",
                   maxHeight: "114px",
                 }}
               />
-            )}
           </Box>
         </Box>
       </Box>
