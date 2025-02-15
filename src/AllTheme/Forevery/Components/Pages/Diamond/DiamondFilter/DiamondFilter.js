@@ -215,7 +215,7 @@ const DiamondFilter = () => {
 
   useEffect(() => {
     if (location?.pathname) {
-      setCheckedItem(location?.pathname?.split("/")[3]);
+      setCheckedItem(location?.pathname?.split("/")[3] ?? '');
       if (steps?.[0]?.step1 == true && steps?.[0]?.shape !== null) {
         updateSteps(checkedItem);
       }
@@ -223,7 +223,7 @@ const DiamondFilter = () => {
   }, [location?.pathname]);
 
   const getShapeFromURL = () => {
-    const getShape = location?.pathname?.split("/")[3];
+    const getShape = location?.pathname?.split("/")[3] ?? '';
     const getPath = location?.pathname?.split("/")?.slice(1, 3);
     const mergePath = getPath.join("/");
     if (mergePath == "certified-loose-lab-grown-diamonds/diamond") {
@@ -300,7 +300,7 @@ const DiamondFilter = () => {
   };
 
   const handleCheckboxChange = (name) => {
-    const shape = location?.pathname?.split("/")[3];
+    const shape = location?.pathname?.split("/")[3] ?? '';
     if (name) {
       let newPath;
       if (shape !== "") {
@@ -441,6 +441,13 @@ const DiamondFilter = () => {
     }
   };
   const fetchData = async (shape, parsedData) => {
+    const isEarringFlow = location?.state?.isPairFlow;
+    if (isEarringFlow) {
+      setisEarringFlow(isEarringFlow);
+    } else {
+      setisEarringFlow(false);
+    }
+    setIsLoading(true);
     try {
       dispatch({ type: ACTIONS.SET_LOADING, payload: true });
       console.log(sortValue, "sortValue")
@@ -808,12 +815,12 @@ const DiamondFilter = () => {
         // Reset sliders to initial values
         const gapSize = getFilterdata?.Color?.options?.length / 1;
         const value = (getFilterdata?.Color?.options?.length * gapSize).toFixed(2);
-  
+
         setFilterApiOptions(getFilterdata);
         const ColorMarks = UseLabelGap(getFilterdata?.Color?.options, 100);
         const ClarityMarks = UseLabelGap(getFilterdata?.Clarity?.options, 100);
         const Cutmarks = UseLabelGap(getFilterdata?.Cut?.options, 100);
-        
+
         setFilters(getFilterdata);
         setSliderState({
           price: [getFilterdata?.price?.min, getFilterdata?.price?.max],
@@ -822,6 +829,8 @@ const DiamondFilter = () => {
           Clarity: [0, ClarityMarks[0]?.value],
           Cut: [0, Cutmarks[0]?.value],
         });
+
+
         setFiltersData({
           polish: [],
           symmetry: [],
@@ -831,24 +840,165 @@ const DiamondFilter = () => {
           fluorescence: [],
           culet: [],
         });
-  
-        // Reset the final array to default values
-        setFinalArray({
-          Price: getFilterdata?.price ? [getFilterdata?.price?.min, getFilterdata?.price?.max] : [],
-          Carat: getFilterdata?.carat ? [getFilterdata?.carat?.min, getFilterdata?.carat?.max] : [],
-          Color: [0, ColorMarks[0]?.value],
-          Clarity: [0, ClarityMarks[0]?.value],
-          Cut: [0, Cutmarks[0]?.value],
-          Depth: [getFilterdata?.depth?.min, getFilterdata?.depth?.max],
-          Table: [getFilterdata?.table?.min, getFilterdata?.table?.max],
-          // Add other filters if needed
+
+        setFiltersData1({
+          polish: [],
+          symmetry: [],
+          lab: [],
+          depth: [],
+          table: [],
+          fluorescence: [],
+          culet: [],
         });
+
+        setSliderState1({
+          price: [],
+          Carat: [],
+          Color: [],
+          Clarity: [],
+          Cut: [],
+        });
+        setSliderLabels1([]);
+        Navigate('/certified-loose-lab-grown-diamonds/diamond/')
       }
     } catch (error) {
       console.error("Error resetting filter data:", error);
     }
   };
 
+  useEffect(() => {
+    const updatedArray = {
+      Price: sliderState1?.price || "",
+      Carat: sliderState1?.Carat,
+      Color:sliderLabels1?.find((label) => label.type === "Color")?.labels || [],
+      Clarity:sliderLabels1?.find((label) => label.type === "Clarity")?.labels || [],
+      Cut: sliderLabels1?.find((label) => label.type === "Cut")?.labels || [],
+      Polish: filtersData1?.Polish,
+      Symmetry: filtersData1?.Symmetry,
+      Lab: filtersData1?.Lab,
+      Depth: filtersData1?.depth,
+      Table: filtersData1?.table,
+      Fluorescence: filtersData1?.Fluorescence,
+      Culet: filtersData1?.Culet,
+    };
+
+    console.log('updatedArray: ', updatedArray);
+    console.log('updatedArray: ', updatedArray);
+    setTimeout(() => {
+      setFinalArray(updatedArray);
+    }, 500);
+  }, [sliderState1, sliderLabels1, filtersData1, location?.pathname]);
+
+  // useEffect(() => {
+  //   debugger
+  //   const UpdatedUrl = setTimeout(() => {
+  //     const extractedValue = location?.pathname.split("f=")[1] ?? "";
+  //     const decodedUrlData = decodeAndDecompress(extractedValue) ?? '';
+  //     const parsedData = parseUrlSegment(decodedUrlData);
+  //     const pathname = location?.pathname.split("/");
+
+  //     // Determine which data to use
+  //     const dataToUse = Object.keys(finalArray)?.some(
+  //       (key) => Array.isArray(finalArray[key]) && finalArray[key].length > 0
+  //     )
+  //       ? finalArray
+  //       : parsedData ?? {};
+
+  //     const sliderParams = Object.entries(dataToUse)
+  //       .filter(
+  //         ([key, value]) =>
+  //           value &&
+  //           (Array.isArray(value)
+  //             ? value.length > 0
+  //             : typeof value === "string" && value.length > 0)
+  //       )
+  //       .filter(([key, value]) =>
+  //         Array.isArray(value)
+  //           ? value.every((v) => v !== null && v !== undefined && v !== "")
+  //           : true
+  //       )
+  //       .map(([key, value]) =>
+  //         Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
+  //       )
+  //       .join("/");
+  //     const shape = location?.pathname?.split("/")[3] ?? '';
+  //     const urlToEncode = `${shape ? `/shape/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""
+  //       }`;
+  //     let encodeUrl;
+  //     let decodedUrl = decodeAndDecompress(encodeUrl);
+  //     console.log('decodedUrl: ', decodedUrl);
+  //     if (urlToEncode !== '') {
+  //       encodeUrl = compressAndEncode(urlToEncode);
+  //     }
+  //     const newPath = `${pathname?.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
+  //       }`;
+  //     Navigate(newPath);
+  //   }, 600);
+  //   return () => clearTimeout(UpdatedUrl);
+  // }, [finalArray]);
+
+  // function parseUrlSegment(segment) {
+  //   const parts = segment?.split("/")?.slice(1);
+  //   const result = {};
+
+  //   for (let i = 0; i < parts?.length; i += 2) {
+  //     const key = parts[i];
+  //     const value = parts[i + 1];
+  //     if (value) {
+  //       if (value.includes(",")) {
+  //         result[key] = value
+  //           .split(",")
+  //           .map((item) => (item === "null" ? "null" : item));
+  //       } else {
+  //         result[key] = value;
+  //       }
+  //     }
+  //   }
+
+  //   return result;
+  // }
+
+  // useEffect(() => {
+  //   const debounceTimer = setTimeout(() => {
+  //     const extractedValue = location?.pathname.split("f=")[1] ?? "";
+  //     const shape = location?.pathname?.split("/")[3] ?? '';
+  //     if (extractedValue) {
+  //       try {
+  //         const decodedUrl = decodeAndDecompress(extractedValue);
+  //         const parsedData = parseUrlSegment(decodedUrl);
+  //         fetchData(shape, parsedData);
+  //       } catch (error) {
+  //         console.error("Error decoding and parsing URL:", error);
+  //         fetchData(shape);
+  //       }
+  //     } else {
+  //       fetchData(shape);
+  //     }
+  //   }, 300);
+
+  //   return () => clearTimeout(debounceTimer);
+  // }, [location?.pathname, selectedsort, sortValue, location?.key]);
+
+  useEffect(() => {
+    const debounceTimer = setTimeout(() => {
+      const shape = location?.pathname?.split("/")[3] ?? '';
+
+      try {
+        console.log('finalArray:', finalArray);
+        fetchData(shape, finalArray);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        fetchData(shape);
+      }
+    }, 300);
+
+    return () => clearTimeout(debounceTimer);
+  }, [finalArray]);
+
+
+
+
+  console.log('slider', sliderState1)
   // const ResetFilter = async()=>{
   //   try {
   //     const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
