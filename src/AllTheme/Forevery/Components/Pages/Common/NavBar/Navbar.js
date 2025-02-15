@@ -985,7 +985,7 @@ const FirstNavMenu = ({
       sessionStorage.removeItem('custStepData2Ring')
     }
     if (value === "earring") {
-      return navigate(`/certified-loose-lab-grown-diamonds/diamond/ispair=true/`, { state: { isPairFlow: true } });
+      return navigate(`/certified-loose-lab-grown-diamonds/diamond/`, { state: { isPairFlow: true } });
     } else {
       navigate(`/certified-loose-lab-grown-diamonds/diamond/`);
     }
