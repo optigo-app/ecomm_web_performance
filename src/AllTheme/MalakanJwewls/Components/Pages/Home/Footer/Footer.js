@@ -163,9 +163,9 @@ const Footer = ({ fromPage }) => {
 </div>
         </div>
       </div>
-      <p className="mala_footer_bottom_line">©2025 Privaa Jewels</p>
+      {/* <p className="mala_footer_bottom_line">©2025 Privaa Jewels</p> */}
       {/* <p className="mala_footer_bottom_line">©2025 Kamalika Jewellers</p> */}
-      {/* <p className="mala_footer_bottom_line">©2025 Sonsons</p> */}
+      <p className="mala_footer_bottom_line">©2025 Sonsons</p>
       {/* <p className="mala_footer_bottom_line">©2025 Shree Diamond</p> */}
     </footer>
   );

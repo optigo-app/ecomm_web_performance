@@ -38,7 +38,7 @@ const TopSection = ({data}) => {
     <div className="mala_topVideoMain" style={style}>
 
       {/* Privaa don't need this */}
-      {/* <motion.div
+      <motion.div
         className="details_text"
         initial="hidden"
         animate={isLoaded ? "visible" : "hidden"}
@@ -47,7 +47,7 @@ const TopSection = ({data}) => {
         <h1>Shine</h1>
         <h1>With</h1>
         <h1>Elegance</h1>
-      </motion.div> */}
+      </motion.div>
     </div>
   );
 };

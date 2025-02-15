@@ -5,7 +5,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import Cookies from "js-cookie";
 import { Helmet } from "react-helmet";
 import { roop_CartNo, roop_companyLogo, roop_loginState } from "./Components/Recoil/atom";
-import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
+import { storImagePath, storInitDataPath } from "../../utils/Glob_Functions/GlobalFunction";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import AboutUsVara from './Components/Pages/static/AboutUs/AboutUsVara';
 // import BrandsComponent from './Components/Pages/Home/BrandComponent/BrandComponents';
@@ -92,7 +92,7 @@ const RoopJewellers_App = () => {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/Store_Init.txt`)
+     fetch(`${storInitDataPath()}/StoreInit.json`)
       .then((response) => response.text())
       .then((text) => {
         try {

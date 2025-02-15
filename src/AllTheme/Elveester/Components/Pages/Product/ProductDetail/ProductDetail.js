@@ -1624,10 +1624,10 @@ const ProductDetail = () => {
                         <div className='elv_ProductDet_det_max1000'>
                           {/* <h5 className='elv_ProductDet_prod_code_Coll'>{`Collection/${getCollName}`}</h5> */}
                           <span className='elv_ProductDet_prod_code_max1000'>{singleProd?.designno}</span>
-                          <div class="collection-breadcrumb">
-                            <span class="text-muted-foreground">Collection</span>
-                            <span class="separator">-</span>
-                            <span class="text-timeless">{getCollName}</span>
+                          <div className="collection-breadcrumb">
+                            <span className="text-muted-foreground">Collection</span>
+                            <span className="separator">-</span>
+                            <span className="text-timeless">{getCollName}</span>
                           </div>
                           <div className='elv_productDet_metal_style_max1000'>
                             <div className='elv_ProductDet_prod_text_div_max1000'>
@@ -2072,10 +2072,10 @@ const ProductDetail = () => {
                       <h1 className='elv_ProductDet_prod_title'>{singleProd?.TitleLine}</h1>
                       <div className='elv_ProductDet_det'>
                         <span className='elv_ProductDet_prod_code'>{singleProd?.designno}</span>
-                        <div class="collection-breadcrumb">
-                          <span class="text-muted-foreground">Collection</span>
-                          <span class="separator">-</span>
-                          <span class="text-timeless">{getCollName}</span>
+                        <div className="collection-breadcrumb">
+                          <span className="text-muted-foreground">Collection</span>
+                          <span className="separator">-</span>
+                          <span className="text-timeless">{getCollName}</span>
                         </div>
                         <div className='elv_productDet_metal_style'>
                           {singleProd?.MetalTypePurity !== "" &&
@@ -2612,7 +2612,7 @@ const TableComponentsDia = ({ list, details }) => {
 
   return (
     <>
-      <ul class='elv_ProductDet_diaDet'>
+      <ul className='elv_ProductDet_diaDet'>
         <li>
           <div>
           <span>{details}</span> <span>({pcsTotalVal[0]?.total}<span style={{marginInline: '2px'}}>/</span>{wtTotalVal[0]?.total}ct)</span>
@@ -2671,7 +2671,7 @@ const TableComponentsMISC = ({ list, details }) => {
 
   return (
     <>
-      <ul class='elv_ProductDet_diaDet'>
+      <ul className='elv_ProductDet_diaDet'>
         <li>
           <div>
             {details.includes('MISC') ? (

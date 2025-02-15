@@ -274,6 +274,11 @@ const DiamondFilter = () => {
 
   useEffect(() => {
     getShapeFromURL();
+    if (steps3?.[0]?.Status === 'active' || JSON.parse(sessionStorage.getItem('isPair'))) {
+      setisEarringFlow(true)
+    } else {
+      setisEarringFlow(false)
+    }
   }, [location?.pathname, location?.key]);
 
   const updateSteps = (shape) => {
@@ -698,6 +703,111 @@ const DiamondFilter = () => {
     fetchData();
   }, [Condition]);
 
+  useEffect(() => {
+    const updatedArray = {
+      Price: sliderState1?.price || "",
+      Carat: sliderState1?.Carat,
+      Color:
+        sliderLabels1?.find((label) => label.type === "Color")?.labels || [],
+      Clarity:
+        sliderLabels1?.find((label) => label.type === "Clarity")?.labels || [],
+      Cut: sliderLabels1?.find((label) => label.type === "Cut")?.labels || [],
+      Polish: filtersData1?.Polish,
+      Symmetry: filtersData1?.Symmetry,
+      Lab: filtersData1?.Lab,
+      Depth: filtersData1?.depth,
+      Table: filtersData1?.table,
+      Fluorescence: filtersData1?.Fluorescence,
+      Culet: filtersData1?.Culet,
+    };
+
+    setTimeout(() => {
+      setFinalArray(updatedArray);
+    }, 500);
+  }, [sliderState1, sliderLabels1, filtersData1, location?.pathname]);
+
+  useEffect(() => {
+    const UpdatedUrl = setTimeout(() => {
+      const extractedValue = location?.pathname.split("f=")[1] ?? "";
+      const decodedUrlData = decodeAndDecompress(extractedValue);
+      const parsedData = parseUrlSegment(decodedUrlData);
+      const pathname = location?.pathname.split("/");
+
+      // Determine which data to use
+      const dataToUse = Object.keys(finalArray)?.some(
+        (key) => Array.isArray(finalArray[key]) && finalArray[key].length > 0
+      )
+        ? finalArray
+        : parsedData ?? {};
+
+      const sliderParams = Object.entries(dataToUse)
+        .filter(
+          ([key, value]) =>
+            value &&
+            (Array.isArray(value)
+              ? value.length > 0
+              : typeof value === "string" && value.length > 0)
+        )
+        .filter(([key, value]) =>
+          Array.isArray(value)
+            ? value.every((v) => v !== null && v !== undefined && v !== "")
+            : true
+        )
+        .map(([key, value]) =>
+          Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
+        )
+        .join("/");
+      const shape = location?.pathname?.split("/")[3];
+      const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""
+        }`;
+      const encodeUrl = compressAndEncode(urlToEncode);
+      const decodedUrl = decodeAndDecompress(encodeUrl);
+      const newPath = `${pathname?.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
+        }`;
+      Navigate(newPath);
+    }, 600);
+    return () => clearTimeout(UpdatedUrl);
+  }, [finalArray]);
+
+  function parseUrlSegment(segment) {
+    const parts = segment?.split("/")?.slice(1);
+    const result = {};
+
+    for (let i = 0; i < parts?.length; i += 2) {
+      const key = parts[i];
+      const value = parts[i + 1];
+      if (value) {
+        if (value.includes(",")) {
+          result[key] = value
+            .split(",")
+            .map((item) => (item === "null" ? "null" : item));
+        } else {
+          result[key] = value;
+        }
+      }
+    }
+
+    return result;
+  }
+
+  useEffect(() => {
+    const extractedValue = location?.pathname.split("f=")[1] ?? "";
+    const shape = location?.pathname?.split("/")[3];
+    if (extractedValue) {
+      try {
+        const decodedUrl = decodeAndDecompress(extractedValue);
+        const parsedData = parseUrlSegment(decodedUrl);
+        fetchData(shape, parsedData);
+      } catch (error) {
+        console.error("Error decoding and parsing URL:", error);
+        fetchData(shape);
+      }
+    } else {
+      fetchData(shape);
+    }
+  }, [location?.pathname, selectedsort, sortValue, location?.key]);
+
+  
   const ResetFilter = async () => {
     try {
       const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));

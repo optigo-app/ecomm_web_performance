@@ -12,7 +12,7 @@ const useNavbar = () => {
     if (navRef.current) {
       setNavbarHeight(navRef.current.offsetHeight + 25);
       setNavHeight(navRef.current.offsetHeight + 25);
-      console.log(navRef.current.offsetHeight, "navbar");
+      // console.log(navRef.current.offsetHeight, "navbar");
     }
   };
 

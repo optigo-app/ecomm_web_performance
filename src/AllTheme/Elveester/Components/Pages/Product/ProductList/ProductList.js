@@ -605,7 +605,6 @@ const ProductList = () => {
           let grossFilter = JSON.parse(
             res1?.filter((ele) => ele?.Name == "Gross")[0]?.options
           )[0];
-          console.log("grossFilter: ", grossFilter);
           let netFilter = JSON.parse(
             res1?.filter((ele) => ele?.Name == "NetWt")[0]?.options
           )[0];
@@ -644,7 +643,6 @@ const ProductList = () => {
       top: 0,
       behavior: "smooth"
     })
-    console.log("called every time")
   }, [location?.key]);
 
   const decodeEntities = (html) => {
@@ -1322,7 +1320,6 @@ const ProductList = () => {
   };
 
   const RangeFilterView = (ele) => {
-    console.log("diamond daat", JSON?.parse(ele?.options)?.[0]?.Max);
     return (
       <>
         <div>
