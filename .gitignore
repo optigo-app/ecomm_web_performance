@@ -18,6 +18,9 @@
 .env.production.local
 .env*
 
+#tldr
+.tldr
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
