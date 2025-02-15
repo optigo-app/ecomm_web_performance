@@ -546,7 +546,7 @@ const Header = () => {
               <div className="stam_mobileHeader_top_div3">
                 {islogin && (
                   <>
-                    <Badge
+                    {/* <Badge
                       badgeContent={wishCountNum}
                       max={1000}
                       overlap={"rectangular"}
@@ -582,7 +582,7 @@ const Header = () => {
                           width: "20px",
                         }}
                       />
-                    </li>
+                    </li> */}
                     <Badge
                       badgeContent={cartCountNum}
                       max={1000}
@@ -607,6 +607,47 @@ const Header = () => {
               </div>
             </div>
             <div className="stam_mobileMenuSubDivMain">
+              {islogin && (
+                <div
+                  style={{
+                    display: "flex",
+                    border: "1px solid white",
+                    alignItems: "center",
+                    marginBottom: "20px"
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={searchText}
+                    style={{
+                      width: "100%",
+                      borderBottom: "1px solid white",
+                      border: "none",
+                      outline: "none",
+                      backgroundColor: "transparent",
+                      fontWeight: 500,
+                      color: "white",
+                      fontSize: "17px",
+                      padding: "8px"
+                    }}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    className="mobileSideBarSearch"
+                    onKeyDown={searchDataFucn}
+                  />
+                  <IoSearchOutline
+                    onClick={() => clickSearch()}
+                    style={{
+                      color: 'white',
+                      height: '25px',
+                      cursor: 'pointer',
+                      width: '25px',
+                      marginInline: '5px',
+                      marginBottom: '4px',
+                    }}
+                  />
+                </div>
+              )}
               <List
                 className="stam_ListMenuSiderMobile"
                 sx={{ paddingTop: "0", marginBottom: "0px", marginTop: "15px" }}
@@ -756,7 +797,15 @@ const Header = () => {
               </List>
             </div>
             <div>
-              <p className="stam_menuStaicMobilePage">About us</p>
+            <p
+                className="stam_menuStaicMobilePage"
+                onClick={() => {
+                  setDrawerShowOverlay(false);
+                  navigation("/aboutUs");
+                }}
+              >
+                About us
+              </p>
             </div>
 
             <div>
@@ -778,7 +827,6 @@ const Header = () => {
                   {storeinit?.IsDesignSetInMenu == 1 &&
                     <p
                       className="stam_menuStaicMobilePageLink"
-                      style={{ marginTop: "10px" }}
                       onClick={() => {
                         setDrawerShowOverlay(false);
                         navigation("/Lookbook");
@@ -797,7 +845,6 @@ const Header = () => {
                 {storeinit?.IsDesignSetInMenu == 1 &&
                   <p
                     className="stam_menuStaicMobilePageLink"
-                    style={{ marginTop: "10px" }}
                     onClick={() => {
                       setDrawerShowOverlay(false);
                       navigation("/Lookbook");
@@ -824,56 +871,17 @@ const Header = () => {
               </div>
             }
 
-            <div>
-              <p
-                className="stam_menuStaicMobilePageLink"
-                onClick={() => {
-                  setDrawerShowOverlay(false);
-                  handleLogout();
-                }}
-              >
-                Log Out
-              </p>
-            </div>
-
             {islogin && (
-              <div
-                style={{
-                  display: "flex",
-                  borderBottom: "1px solid white",
-                  alignItems: "end",
-                  marginInline: "15px",
-                  marginBottom: "1.5rem"
-                }}
-              >
-                <input
-                  type="text"
-                  placeholder="Search"
-                  style={{
-                    width: "100%",
-                    borderBottom: "1px solid white",
-                    border: "none",
-                    outline: "none",
-                    backgroundColor: "rgba(192, 187, 177, 1.8)",
-                    marginTop: "15px",
-                    fontWeight: 500,
-                    color: "white",
-                    fontSize: "17px",
+              <div>
+                <p
+                  className="stam_menuStaicMobilePageLink"
+                  onClick={() => {
+                    setDrawerShowOverlay(false);
+                    handleLogout();
                   }}
-                  className="mobileSideBarSearch"
-                  onChange={(e) => setSearchText(e.target.value)}
-                  onKeyDown={searchDataFucn}
-                />
-                <IoSearchOutline
-                  onClick={() => clickSearch()}
-                  style={{
-                    height: "20px",
-                    cursor: "pointer",
-                    color: "white",
-                    width: "20px",
-                    marginInline: "5px",
-                  }}
-                />
+                >
+                  Log Out
+                </p>
               </div>
             )}
           </div>
@@ -1064,7 +1072,7 @@ const Header = () => {
                     <Tooltip title="WishList">
                       <li
                         className="nav_li_smining_Icone"
-                        onClick={() => {navigation("/myWishList")}}
+                        onClick={() => { navigation("/myWishList") }}
                       >
                         <PiStarThin
                           style={{
@@ -1098,7 +1106,7 @@ const Header = () => {
                   >
                     <Tooltip title="Cart">
                       <li
-                        onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage")}}
+                        onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage") }}
                         className="nav_li_smining_Icone"
                       >
                         <ShoppingCartOutlinedIcon
@@ -1463,7 +1471,7 @@ const Header = () => {
                       >
                         <Tooltip title="Cart">
                           <li
-                            onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage")}}
+                            onClick={IsCartNo == 3 ? toggleCartDrawer : () => { navigate("/cartPage") }}
                             className="nav_li_smining_Fixed_Icone"
                           >
                             <ShoppingCartOutlinedIcon

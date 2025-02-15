@@ -31,7 +31,7 @@ export default function Craftmenship({ banner }) {
                 modules={[Pagination, Navigation]}
                 className="craft_mySwiper"
             >
-                {banner?.image?.map((slide, index) => (
+                {banner?.image?.slice(0, 3)?.map((slide, index) => (
                     <SwiperSlide key={index}>
                         <img loading="lazy" src={slide} alt={`Slide ${index}`} style={{ width: '100%', height: '70vh', objectFit: 'cover' }} />
                         {/* <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ width: '100%', height: '70vh', objectFit: 'cover' }} /> */}

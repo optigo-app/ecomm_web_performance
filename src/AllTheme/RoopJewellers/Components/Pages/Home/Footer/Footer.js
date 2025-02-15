@@ -11,7 +11,7 @@ const Footer = ({ fromPage }) => {
   const maxWidth = useMediaQuery('(max-width:1024px)');
   const navigation = useNavigate();
   useEffect(() => {
-    const companyInfoData = JSON.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
+    const companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
     setCompanuInfoData(companyInfoData);
     if (companyInfoData) {
       const parsedSocialMediaUrlData = companyInfoData && JSON?.parse(companyInfoData?.SocialLinkObj) ;

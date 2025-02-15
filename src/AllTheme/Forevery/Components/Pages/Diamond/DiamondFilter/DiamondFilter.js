@@ -274,6 +274,11 @@ const DiamondFilter = () => {
 
   useEffect(() => {
     getShapeFromURL();
+    if (steps3?.[0]?.Status === 'active' || JSON.parse(sessionStorage.getItem('isPair'))) {
+      setisEarringFlow(true)
+    } else {
+      setisEarringFlow(false)
+    }
   }, [location?.pathname, location?.key]);
 
   const updateSteps = (shape) => {
@@ -436,13 +441,6 @@ const DiamondFilter = () => {
     }
   };
   const fetchData = async (shape, parsedData) => {
-    const isEarringFlow = location?.state?.isPairFlow;
-    if(isEarringFlow){
-      setisEarringFlow(isEarringFlow);
-    }else{
-      setisEarringFlow(false);
-    }
-    setIsLoading(true);
     try {
       dispatch({ type: ACTIONS.SET_LOADING, payload: true });
       console.log(sortValue, "sortValue")
@@ -800,7 +798,7 @@ const DiamondFilter = () => {
     } else {
       fetchData(shape);
     }
-  }, [location?.pathname, selectedsort, sortValue ,location?.key]);
+  }, [location?.pathname, selectedsort, sortValue, location?.key]);
 
   
   const ResetFilter = async () => {
@@ -1439,7 +1437,7 @@ const DiamondFilter = () => {
         </div>
         <div className="filter_results">
           <hr />
-          <h3>Showing {isEarringFlow ?  PairedDiamonds?.length  : diaCount} lab grown diamonds</h3>
+          <h3>Showing {isEarringFlow ? PairedDiamonds?.length : diaCount} lab grown diamonds</h3>
           <div className="col_details">
             <div className="desc">
               <p>
@@ -1487,7 +1485,7 @@ const DiamondFilter = () => {
           <>
             {diamondData?.length != 0 && diamondData?.[0]?.stat !== 0 ? (
               <>
-               {!isEarringFlow ? <div className="diamond_listing" >
+                {!isEarringFlow ? <div className="diamond_listing" >
                   {diamondData?.map((val, i) => {
                     const currentMediaType = ShowMedia[i] || "vid";
                     const bannerImage = getBannerImage(i);
@@ -1597,57 +1595,57 @@ const DiamondFilter = () => {
                     );
                   })}
                 </div> :
-                <div className="pair_diamond_listing">
-                  {PairedDiamonds?.map((val, i) => {
-                    return (
-                      <div key={i} className="diamond_card">
-                        <div className="media_frame">
-                          <div className="paired_diamond">
-                            {val?.map((dia) => {
-                              const image = getImagePath(dia?.shapename);
-                              return <img src={image} alt={dia?.shapename} className="earr_paired_diamond_img" />
-                            })}
-                          </div>
-                          {!val?.isBanner == true && (
-                            <>
-                              <div className="select_this_diamond_banner" onClick={() => HandleDiamondRoute(val)}>
-                                <span>Select This Diamond</span>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                        <>
-                          <div className="for_pair_details">
-                            {val?.map((det, i) => {
-                              return <>
-                                <div className="title">
-                                  <span>
-                                    {det?.shapename} <strong>{det?.carat?.toFixed(3)}</strong>{" "}
-                                    CARAT {det?.colorname} {det?.clarityname}{" "}
-                                    {det?.cutname}
-                                  </span>
+                  <div className="pair_diamond_listing">
+                    {PairedDiamonds?.map((val, i) => {
+                      return (
+                        <div key={i} className="diamond_card">
+                          <div className="media_frame">
+                            <div className="paired_diamond">
+                              {val?.map((dia) => {
+                                const image = getImagePath(dia?.shapename);
+                                return <img src={image} alt={dia?.shapename} className="earr_paired_diamond_img" />
+                              })}
+                            </div>
+                            {!val?.isBanner == true && (
+                              <>
+                                <div className="select_this_diamond_banner" onClick={() => HandleDiamondRoute(val)}>
+                                  <span>Select This Diamond</span>
                                 </div>
                               </>
-                            })}
+                            )}
                           </div>
-                        </>
-                        <div className="pair_price_sec">
-                          <div className="pric">
-                            <span className="smr_currencyFont">
-                              {loginInfo?.CurrencyCode ??
-                                storeInitData?.CurrencyCode}
-                            </span>
-                            <span>{
-                              val?.reduce((acc, cuu) => {
-                                return acc + (cuu?.price || 0);
-                              }, 0)
-                            }</span>
+                          <>
+                            <div className="for_pair_details">
+                              {val?.map((det, i) => {
+                                return <>
+                                  <div className="title">
+                                    <span>
+                                      {det?.shapename} <strong>{det?.carat?.toFixed(3)}</strong>{" "}
+                                      CARAT {det?.colorname} {det?.clarityname}{" "}
+                                      {det?.cutname}
+                                    </span>
+                                  </div>
+                                </>
+                              })}
+                            </div>
+                          </>
+                          <div className="pair_price_sec">
+                            <div className="pric">
+                              <span className="smr_currencyFont">
+                                {loginInfo?.CurrencyCode ??
+                                  storeInitData?.CurrencyCode}
+                              </span>
+                              <span>{
+                                val?.reduce((acc, cuu) => {
+                                  return acc + (cuu?.price || 0);
+                                }, 0)
+                              }</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>}
+                      );
+                    })}
+                  </div>}
                 <div>
                   {storeInitData?.IsProductListPagination == 1 &&
                     Math.ceil(diaCount / storeInitData.PageSize) > 1 && (
