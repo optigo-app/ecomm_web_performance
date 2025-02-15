@@ -151,7 +151,7 @@ const Informationtab = ({item,decodeEntities,  currency ,IsPriceShow})=>{
                             </div>
             <div className="title_mapp_sec">
               {item?.designno != "" && item?.designno}
-              {item?.TitleLine != "" && " - " + item?.TitleLine}
+              {(item?.TitleLine != "" && item?.TitleLine != null)  && " - " + item?.TitleLine}
             </div>
             <div className="two_col_grid_mapp">
                 <div className="col">NWT : {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</div>

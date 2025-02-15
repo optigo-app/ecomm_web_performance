@@ -800,6 +800,94 @@ const DiamondFilter = () => {
     }
   }, [location?.pathname, selectedsort, sortValue, location?.key]);
 
+  
+  const ResetFilter = async () => {
+    try {
+      const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
+      if (getFilterdata !== null && getFilterdata !== undefined) {
+        // Reset sliders to initial values
+        const gapSize = getFilterdata?.Color?.options?.length / 1;
+        const value = (getFilterdata?.Color?.options?.length * gapSize).toFixed(2);
+  
+        setFilterApiOptions(getFilterdata);
+        const ColorMarks = UseLabelGap(getFilterdata?.Color?.options, 100);
+        const ClarityMarks = UseLabelGap(getFilterdata?.Clarity?.options, 100);
+        const Cutmarks = UseLabelGap(getFilterdata?.Cut?.options, 100);
+        
+        setFilters(getFilterdata);
+        setSliderState({
+          price: [getFilterdata?.price?.min, getFilterdata?.price?.max],
+          Carat: [getFilterdata?.carat?.min, getFilterdata?.carat?.max],
+          Color: [0, ColorMarks[0]?.value],
+          Clarity: [0, ClarityMarks[0]?.value],
+          Cut: [0, Cutmarks[0]?.value],
+        });
+        setFiltersData({
+          polish: [],
+          symmetry: [],
+          lab: [],
+          depth: [getFilterdata?.depth?.min, getFilterdata?.depth?.max],
+          table: [getFilterdata?.table?.min, getFilterdata?.table?.max],
+          fluorescence: [],
+          culet: [],
+        });
+  
+        // Reset the final array to default values
+        setFinalArray({
+          Price: getFilterdata?.price ? [getFilterdata?.price?.min, getFilterdata?.price?.max] : [],
+          Carat: getFilterdata?.carat ? [getFilterdata?.carat?.min, getFilterdata?.carat?.max] : [],
+          Color: [0, ColorMarks[0]?.value],
+          Clarity: [0, ClarityMarks[0]?.value],
+          Cut: [0, Cutmarks[0]?.value],
+          Depth: [getFilterdata?.depth?.min, getFilterdata?.depth?.max],
+          Table: [getFilterdata?.table?.min, getFilterdata?.table?.max],
+          // Add other filters if needed
+        });
+      }
+    } catch (error) {
+      console.error("Error resetting filter data:", error);
+    }
+  };
+
+  // const ResetFilter = async()=>{
+  //   try {
+  //     const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
+  //     if (getFilterdata !== null && getFilterdata !== undefined) {
+  //       const gapSize = getFilterdata?.Color?.options?.length / 1;
+  //       const value = (
+  //         getFilterdata?.Color?.options?.length * gapSize
+  //       ).toFixed(2);
+  //       setFilterApiOptions(getFilterdata);
+  //       const ColorMarks = UseLabelGap(getFilterdata?.Color?.options, 100);
+  //       const ClarityMarks = UseLabelGap(
+  //         getFilterdata?.Clarity?.options,
+  //         100
+  //       );
+  //       const Cutmarks = UseLabelGap(getFilterdata?.Cut?.options, 100);
+  //       setFilters(getFilterdata);
+  //       setSliderState({
+  //         price: [getFilterdata?.price?.min, getFilterdata?.price?.max],
+  //         Carat: [getFilterdata?.carat?.min, getFilterdata?.carat?.max],
+  //         Color: [0, ColorMarks[0]?.value],
+  //         Clarity: [0, ClarityMarks[0]?.value],
+  //         Cut: [0, Cutmarks[0]?.value],
+  //       });
+  //       setFiltersData({
+  //         polish: [],
+  //         symmetry: [],
+  //         lab: [],
+  //         depth: [getFilterdata?.depth?.min, getFilterdata?.depth?.max],
+  //         table: [getFilterdata?.table?.min, getFilterdata?.table?.max],
+  //         fluorescence: [],
+  //         culet: [],
+  //       });
+  //           } else {
+  //     }
+  //   } catch (error) {
+  //     console.error("Error Resetting filter data:", error);
+  //   }
+  // }
+
   return (
     <>
       <DiamondPage />
@@ -1602,7 +1690,7 @@ const DiamondFilter = () => {
         <div className="filter_clear">
           <p>
             It appears that there are no diamonds matching your search criteria.
-            Please adjust your search settings or <u>reset your filters</u> for
+            Please adjust your search settings or <u onClick={ResetFilter}>reset your filters</u> for
             better results.
           </p>
         </div>

@@ -14,7 +14,7 @@ const Footer = ({ fromPage }) => {
     const companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
     setCompanuInfoData(companyInfoData);
     if (companyInfoData) {
-      const parsedSocialMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+      const parsedSocialMediaUrlData = companyInfoData && JSON?.parse(companyInfoData?.SocialLinkObj) ;
       setSocialMediaData(parsedSocialMediaUrlData);
     }
   }, [])
