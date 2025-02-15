@@ -69,7 +69,7 @@ export default function SocialMediaSection({ banner }) {
         className="social_mySwiper"
       >
         {updatedata.map((slide, index) => (
-          <div style={{ background: 'red' }}>
+          <div style={{ background: 'red' }} key={index}>
             <SwiperSlide key={index} style={{ marginRight: '0px', padding: '30px 20px 0px 19px' }}>
               <Link to={slide?.link}>
                 <div style={{ position: 'relative' }}>

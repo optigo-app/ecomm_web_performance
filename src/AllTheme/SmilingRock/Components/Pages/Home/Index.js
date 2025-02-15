@@ -28,10 +28,10 @@ import BespokeBanner from "./Bespokejewelry/BespokeBanner/BespokeBanner";
 import AppointmentBanner from "./Appointment/AppointmentBanner/AppointmentBanner";
 
 function Home() {
-  const [localData, setLocalData] = useState(); 
-  const [minHeight, setMinHeight] = useState("0px"); 
-  const [htmlContent, setHtmlContent] = useState(""); 
-  const isLoadingHome = useRecoilValue(homeLoading); 
+  const [localData, setLocalData] = useState();
+  const [minHeight, setMinHeight] = useState("0px");
+  const [htmlContent, setHtmlContent] = useState("");
+  const isLoadingHome = useRecoilValue(homeLoading);
   const banner = useHomeBannerImages();
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function Home() {
     setCSSVariable();
   }, []);
 
- 
+
   const setCSSVariable = () => {
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
@@ -116,7 +116,7 @@ function Home() {
                   {localData?.IsHomeTrending === 1 && <TrendingView1 />}
                   {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */}
                 {/* <div className="custom_padding_inline" style={{marginTop:"1rem"}}> */}
-                  <TopSection data={banner?.mainBanner} />
+                <TopSection data={banner?.mainBanner} />
                 {/* </div> */}
 
                 <div className="custom_padding_inline">
@@ -135,7 +135,7 @@ function Home() {
                 )}
                 {localData?.IsHomeBestSeller === 1 && (
                   <div className="custom_padding_inline">
-                    <BestSellerSection1  data={banner?.bestsellerBanner}/>
+                    <BestSellerSection1 data={banner?.bestsellerBanner} />
                   </div>
                 )}
 
@@ -154,7 +154,7 @@ function Home() {
                 <AppointmentBanner />
                 {localData?.IsHomeDesignSet === 1 && (
                   <div className="custom_padding_inline">
-                    <DesignSet1 data={banner?.lookbookBanner}  />
+                    <DesignSet1 data={banner?.lookbookBanner} />
                   </div>
                 )}
 

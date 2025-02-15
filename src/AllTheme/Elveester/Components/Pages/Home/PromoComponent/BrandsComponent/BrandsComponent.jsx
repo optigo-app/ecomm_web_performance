@@ -9,7 +9,7 @@ const BrandsComponent = ({ banner }) => {
             <Title />
             <div className='brandsComponentClass'>
                 {banner?.image?.map((image, index) => (
-                    <img key={index} className='affilitionImg' loading="lazy" src={image} />
+                    <img key={index} className='affilitionImg' loading="lazy" src={image} alt={`brand-${index + 1}`} />
                 ))}
                 {/* <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo05.png`} style={{ width: '10%', objectFit: 'cover', marginRight:'90px' }} />
                 <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo06.png`} style={{ width: '10%', objectFit: 'cover', marginRight: '90px' }} />

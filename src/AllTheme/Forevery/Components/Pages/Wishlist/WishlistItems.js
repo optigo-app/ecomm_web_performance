@@ -43,6 +43,14 @@ const WishlistItems = ({
     const visiterId = Cookies.get("visiterId");
     const navigate = useNavigate();
     const [matchDataSet, setmatchDataSet] = useRecoilState(for_MatchDiamonds)
+    const steps3 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
+
+    let isPair;
+    if (steps3?.[0]?.Status === 'active' || JSON.parse(sessionStorage.getItem('isPair'))) {
+        isPair = true;
+    } else {
+        isPair = false;
+    }
 
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -171,8 +179,160 @@ const WishlistItems = ({
     }, [item])
 
     console.log("diamondValueData", selectedDia)
+
+    const isEarring = isPair;
     return (
         <>
+            {isEarring && (
+                <Grid
+                    item
+                    xs={itemsLength <= 2 ? 6 : 6}
+                    sm={itemsLength <= 2 ? 4 : 4}
+                    md={itemsLength <= 2 ? 4 : 4}
+                    lg={itemsLength <= 2 ? 3 : 3}
+                    xxl={itemsLength <= 2 ? 3 : 2}
+                    className="for_wlListGrid"
+                >
+                    <Card className="for_WlListCard">
+                        <div className="for_cardContentMainDiv">
+                            <CardMedia
+                                component="img"
+                                image={imageSrc}
+                                alt={item?.TitleLine}
+                                className="for_WlListImage"
+                                onClick={() => handleMoveToDetail(item)}
+                            />
+                            <CardContent className="for_cardContent">
+                                <div className="for_cardText">
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ fontWeight: 700 }}
+                                        className="for_card-ContentData for_WlTitleline"
+                                    >
+                                        {selectedDia && Object.keys(selectedDia).length != 0 &&
+                                            <img src={designImage} alt="designImage" className="for_diamondDShapeImg" />
+                                        }
+                                        {item?.designno != "" && item?.designno}
+                                        {item?.TitleLine != "" && " - " + item?.TitleLine}
+                                    </Typography>
+                                    <Typography variant="body2" className="for_card-ContentData" style={{ textAlign: "start" }}>
+                                        {storeInit?.IsGrossWeight == 1 &&
+                                            <>
+                                                <span className="for_wishDT">GWT: </span>
+                                                <span className="for_wishDT">
+                                                    {(item?.Gwt || 0)?.toFixed(3)}
+                                                </span>
+                                                <span className="for_pipes"> | </span>
+                                            </>
+                                        }
+                                        {storeInit?.IsMetalWeight == 1 &&
+                                            <>
+                                                <span className="for_wishDT">NWT: </span>
+                                                <span className="for_wishDT">
+                                                    {(item?.Nwt || 0)?.toFixed(3)}
+                                                </span>
+                                            </>
+                                        }
+                                        {storeInit?.IsDiamondWeight == 1 &&
+                                            <>
+                                                {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                                                    <>
+                                                        <span className="for_pipes"> | </span>
+                                                        <span className="for_wishDT">DWT: </span>
+                                                        <span>
+                                                            {(item?.Dwt || 0)?.toFixed(3)} / {(item?.Dpcs || 0)}
+                                                        </span>
+                                                    </>
+                                                }
+                                            </>
+                                        }
+                                        {storeInit?.IsStoneWeight == 1 &&
+                                            <>
+                                                {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                                                    <>
+                                                        <span className="for_pipes"> | </span>
+                                                        <span className="for_wishDT">CWT: </span>
+                                                        <span>
+                                                            {(item?.CSwt || 0)?.toFixed(3)} / {(item?.CSpcs || 0)}
+                                                        </span>
+                                                    </>
+                                                }{" "}
+                                            </>
+                                        }
+                                    </Typography>
+                                    <Typography variant="body2" className="for_card-ContentData" sx={{ fontWeight: 700 }}>
+                                        {storeInit?.IsMetalTypeWithColor == 1 &&
+                                            <>
+                                                {item?.metalcolorname !== "" && (
+                                                    <span>{item.metalcolorname}</span>
+                                                )}
+                                                {item?.metalcolorname !== "" &&
+                                                    item?.metaltypename !== "" && <span> - </span>}
+                                                {item?.metaltypename !== "" && (
+                                                    <span>{item?.metaltypename}</span>
+                                                )}
+                                            </>
+                                        }
+                                    </Typography>
+                                    {selectedDia && Object.keys(selectedDia).length != 0 &&
+                                        <Typography variant="body2" className="for_card-ContentData">
+                                            {selectedDia && Object.keys(selectedDia).length != 0 &&
+                                                <img src={diamondShapeImage} alt="designImage" className="for_diamondDShapeImg" />
+                                            }
+                                            <span>
+                                                {selectedDia?.carat?.toFixed(3)}{" "}
+                                                Carat {selectedDia?.colorname}, {selectedDia?.clarityname},{" "}
+                                                {selectedDia?.cutname} Cut, {selectedDia?.shapename} Diamond
+                                            </span>
+                                        </Typography>
+                                    }
+                                    {selectedDia && Object.keys(selectedDia).length != 0 &&
+                                        <Typography variant="body2" className="for_card-ContentData_1 for_diamondData_1">
+                                            {selectedDia && Object.keys(selectedDia).length != 0 &&
+                                                <img src={diamondShapeImage} alt="designImage" className="for_diamondDShapeImg" />
+                                            }
+                                            <span>
+                                                {selectedDia?.carat?.toFixed(3)}{" "}
+                                                Carat {selectedDia?.colorname}, {selectedDia?.clarityname},{" "}
+                                                {selectedDia?.cutname} Cut, {selectedDia?.shapename} Diamond
+                                            </span>
+                                        </Typography>
+                                    }
+                                </div>
+                            </CardContent>
+                            <div className="for_priceDataDiv">
+                                <span className="for_currencyFont">
+                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                </span>{" "}
+                                <span>{formatter(selectedDia && Object.keys(selectedDia).length != 0 ? (selectedDia?.price + item?.FinalCost) : item?.FinalCost)}</span>
+                            </div>
+                            <span className="for_totalcart">
+                                {selectedDia && Object.keys(selectedDia).length != 0 &&
+                                    <>
+                                        Total carat weight:{" "}{selectedDia?.carat?.toFixed(3)}
+                                    </>
+                                }
+
+                            </span>
+
+                            <div className="for_Wl-CartbtnDiv">
+                                <button
+                                    className="for_Wl-Cartbtn"
+                                    onClick={() => handleWishlistToCartFun(item)}
+                                >
+                                    {item?.IsInCart != 1 ? "Add to cart +" : "Remove from cart"}
+                                </button>
+                            </div>
+                        </div>
+                        <div
+                            className="for_closeWlIconDiv"
+                            onClick={(e) => handleRemoveItemFun(item)}
+                        >
+                            <CloseIcon className="closeWlIcon" />
+                        </div>
+                    </Card >
+                </Grid >
+            )}
             <Grid
                 item
                 xs={itemsLength <= 2 ? 6 : 6}

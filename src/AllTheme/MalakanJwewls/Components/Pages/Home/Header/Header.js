@@ -837,7 +837,7 @@ const Header = () => {
             {IsB2BWebsiteChek === 1 ? (
               islogin === true ? (
                 <>
-                  {/* {storeinit?.IsDesignSetInMenu == 1 &&
+                  {storeinit?.IsDesignSetInMenu == 1 &&
                     <p
                       className="mala_menuStaicMobilePageLink"
                       style={{ marginTop: "10px" }}
@@ -848,14 +848,14 @@ const Header = () => {
                     >
                       {storeinit?.DesignSetInMenu}
                     </p>
-                  } */}
+                  }
                 </>
               ) : (
                 ""
               )
             ) : (
               <>
-                {/* {storeinit?.IsDesignSetInMenu == 1 &&
+                {storeinit?.IsDesignSetInMenu == 1 &&
                   <p
                     className="mala_menuStaicMobilePageLink"
                     style={{ marginTop: "10px" }}
@@ -866,7 +866,7 @@ const Header = () => {
                   >
                     {storeinit?.DesignSetInMenu}
                   </p>
-                } */}
+                }
               </>
             )}
 
@@ -923,28 +923,28 @@ const Header = () => {
           <div className="mala_Top_header_logo_div">
 
             {/* Privaa don't need this */}
-            {location?.pathname !== '/' && (
-              <>
-                <a href="/" className="mala_logo_header_webLogo">
-                  <img
+            {/* {location?.pathname !== '/' && ( */}
+            <>
+              <a href="/" className="mala_logo_header_webLogo">
+                <img
 
-                    src={compnyLogo}
-                    loading="lazy"
-                    className="mala_logo_header"
-                    alt="compnyLogo-DESKTOP"
-                  />
-                </a>
+                  src={compnyLogo}
+                  loading="lazy"
+                  className="mala_logo_header"
+                  alt="compnyLogo-DESKTOP"
+                />
+              </a>
 
-                <a href="/" className="mala_logo_header_Mobile">
-                  <img
-                    src={compnyLogoM}
-                    loading="lazy"
-                    className="mala_logo_header"
-                    alt="compnyLogo-MOBILE"
-                  />
-                </a>
-              </>
-            )}
+              <a href="/" className="mala_logo_header_Mobile">
+                <img
+                  src={compnyLogoM}
+                  loading="lazy"
+                  className="mala_logo_header"
+                  alt="compnyLogo-MOBILE"
+                />
+              </a>
+            </>
+            {/* )} */}
 
             <span className="nav_ul_shop_menu_Mobile">
               <MenuIcon
@@ -1004,7 +1004,7 @@ const Header = () => {
                           alignItems: "center",
                           cursor: "pointer",
                           // For privaa
-                          color: location?.pathname !== "/" ? "#6a6969" : "#fff"
+                          // color: location?.pathname !== "/" ? "#6a6969" : "#fff"
                         }}
                       >
                         SHOP
@@ -1029,7 +1029,7 @@ const Header = () => {
                         alignItems: "center",
                         cursor: "pointer",
                         // For privaa
-                        color: location?.pathname !== "/" ? "#6a6969" : "inherit"
+                        // color: location?.pathname !== "/" ? "#6a6969" : "inherit"
                       }}
                     >
                       SHOP
@@ -1063,7 +1063,7 @@ const Header = () => {
                 {IsB2BWebsiteChek === 1 ? (
                   islogin === true ? (
                     <>
-                      {/* {storeinit?.IsDesignSetInMenu == 1 &&
+                      {storeinit?.IsDesignSetInMenu == 1 &&
                         <li
                           className="nav_li_smining nav_li_smining_Mobile"
                           style={{ cursor: "pointer", textTransform: "uppercase" }}
@@ -1071,14 +1071,14 @@ const Header = () => {
                         >
                           {storeinit?.DesignSetInMenu}
                         </li>
-                      } */}
+                      }
                     </>
                   ) : (
                     ""
                   )
                 ) : (
                   <>
-                    {/* {storeinit?.IsDesignSetInMenu == 1 &&
+                    {storeinit?.IsDesignSetInMenu == 1 &&
                       <li
                         className="nav_li_smining nav_li_smining_Mobile"
                         style={{ cursor: "pointer", textTransform: "uppercase" }}
@@ -1086,15 +1086,15 @@ const Header = () => {
                       >
                         {storeinit?.DesignSetInMenu}
                       </li>
-                    } */}
+                    }
                   </>
                 )}
 
                 {islogin && <li
                   className="nav_li_smining nav_li_smining_Mobile"
                   // For privaa
-                  style={{ cursor: "pointer", color: location?.pathname !== "/" ? "#6a6969" : "#fff" }}
-                  // style={{ cursor: "pointer" }}
+                  // style={{ cursor: "pointer", color: location?.pathname !== "/" ? "#6a6969" : "#fff" }}
+                  style={{ cursor: "pointer" }}
                   onClick={() => navigation("/account")}
                 >
                   {/* <a href="/account" className="stam_A_link"> */}
@@ -1107,8 +1107,8 @@ const Header = () => {
                   <li
                     className="nav_li_smining"
                     // For privaa
-                    style={{ cursor: "pointer", color: location?.pathname !== "/" ? "#6a6969" : "#fff" }}
-                    // style={{ cursor: "pointer" }}
+                    // style={{ cursor: "pointer", color: location?.pathname !== "/" ? "#6a6969" : "#fff" }}
+                    style={{ cursor: "pointer" }}
                     onClick={() => navigation("/LoginOption")}
                   >
                     LOG IN
@@ -1118,8 +1118,8 @@ const Header = () => {
                   <li
                     className="nav_li_smining"
                     // For privaa
-                    style={{ cursor: "pointer", color: location?.pathname !== "/" ? "#6a6969" : "#fff" }}
-                    // style={{ cursor: "pointer" }}
+                    // style={{ cursor: "pointer", color: location?.pathname !== "/" ? "#6a6969" : "#fff" }}
+                    style={{ cursor: "pointer" }}
                     onClick={() => handleLogout()}
                   >
                     LOG OUT
