@@ -27,10 +27,8 @@ const WishlistData = ({
   // Filter diamondData to exclude matching diamonds
   const filteredDiamondData = diamondData.filter(d => !matchingStockNos.includes(d.stockno));
 
-  const isEarring = 1;
-
   return (
-    <div className={isEarring === 1 ? "for_WlListData_earr" : "for_WlListData"}>
+    <div className={"for_WlListData_earr for_WlListData"}>
       <Grid container spacing={2} className='for_wlListGrid'>
         {items.length > 0 && (
           items.map(item => (

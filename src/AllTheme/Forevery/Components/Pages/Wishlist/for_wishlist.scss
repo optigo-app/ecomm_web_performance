@@ -233,10 +233,29 @@
                                             filter: invert(1);
                                         }
                                     }
+                                    .for_card-ContentData_1 {
+                                        font-size: $fontSize1;
+                                        color: $primaryfontcolor2;
+                                        font-family: $primaryFontFamily !important;
+                                        letter-spacing: .6px;
+
+                                        .for_diamondDShapeImg {
+                                            width: 100%;
+                                            max-width: 25px;
+                                            margin: 0;
+                                            padding-right: 5px;
+                                            filter: invert(1);
+                                        }
+                                    }
 
                                     .for_diamondData {
                                         margin-top: 5px;
                                         padding-bottom: 10px;
+                                    }
+
+                                    .for_diamondData_1 {
+                                        margin-top: 5px;
+                                        margin-bottom: 10px;
                                     }
                                 }
                             }
@@ -484,7 +503,7 @@
                     .for_browseOurCollectionbtn {
                         background-color: #000;
                         color: #fff;
-                        padding: 12px 20px;
+                        padding: 12px 16px;
                         font-size: 14px;
                         font-weight: 500;
                         border: none;
@@ -502,6 +521,20 @@
                 }
 
                 .for_card-ContentData {
+                    font-size: $fontSize1;
+                    color: $primaryfontcolor2;
+                    font-family: $primaryFontFamily !important;
+                    letter-spacing: .6px;
+
+                    .for_diamondDShapeImg {
+                        width: 100%;
+                        max-width: 25px;
+                        margin: 0;
+                        padding-right: 5px;
+                        filter: invert(1);
+                    }
+                }
+                .for_card-ContentData_1 {
                     font-size: $fontSize1;
                     color: $primaryfontcolor2;
                     font-family: $primaryFontFamily !important;

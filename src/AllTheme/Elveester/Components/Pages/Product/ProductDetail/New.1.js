@@ -2388,7 +2388,7 @@ const TableComponents = ({ list, details }) => {
 
     return (
         <>
-            <ul class='elv_ProductDet_diaDet'>
+            <ul className='elv_ProductDet_diaDet'>
                 <li>
                     <div>
                         {details.includes('MISC') ? (

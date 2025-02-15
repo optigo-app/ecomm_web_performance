@@ -15,6 +15,7 @@ import { DiamondQualityColorComboAPI } from '../../../../../../utils/API/Combo/D
 import { ColorStoneQualityColorComboAPI } from '../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI';
 import { MetalColorCombo } from '../../../../../../utils/API/Combo/MetalColorCombo';
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, Rating, Skeleton, useMediaQuery } from '@mui/material';
+import PairSvg from "../../../Config/PairSvg";
 import { RxCross1 } from "react-icons/rx";
 import { getSizeData } from '../../../../../../utils/API/CartAPI/GetCategorySizeAPI';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
@@ -61,13 +62,19 @@ const DiamondDetails = () => {
     const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
     const steps2 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
     const steps3 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
-    console.log('steps3: ', steps3?.[2]?.step3 === true);
     const ringSteps = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
     const pendantSteps = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
     const earringSteps = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
     const ringData = JSON.parse(sessionStorage.getItem('custStepData2Ring'));
     const pendantData = JSON.parse(sessionStorage.getItem('custStepData2Pendant'));
     const earringData = JSON.parse(sessionStorage.getItem('custStepData2Earring'));
+
+    let isPair;
+    if (steps3?.[0]?.Status === 'active' || JSON.parse(sessionStorage.getItem('isPair'))) {
+        isPair = true;
+    } else {
+        isPair = false;
+    }
 
     useEffect(() => {
         if (ringSteps?.[0]?.Status === 'active') {
@@ -133,7 +140,7 @@ const DiamondDetails = () => {
     const [setshape, setSetShape] = useState();
     const [metalColor, setMetalColor] = useState([]);
     const [imageMap, setImageMap] = useState({});
-    console.log('imageMap: ', imageMap);
+    const [totalDiaprice, setTotalDiaPrice] = useState();
 
     const setCartCountVal = useSetRecoilState(for_CartCount)
     const setWishCountVal = useSetRecoilState(for_WishCount)
@@ -148,6 +155,7 @@ const DiamondDetails = () => {
     const breadCrumb = location?.pathname?.split("/")[2];
     const [compSet, setCompSet] = useState(false);
     const [mediaArr, setMediaArr] = useState([]);
+    const [mediaArr1, setMediaArr1] = useState([]);
     const [compSettArr, setCompSettArr] = useState([]);
     const [getAllData, setAllData] = useState([]);
     const [certyLink, setCertyLink] = useState();
@@ -164,9 +172,9 @@ const DiamondDetails = () => {
     const diaGiaCerti = (diamondDatas?.step1Data?.[0]?.certificate_url ?? diamondDatas?.step2Data?.[0]?.certificate_url)?.includes("gia") ? "GIA" : null
 
     useEffect(() => {
-        const getImagePath = settingSteps?.[0]?.Setting === "Ring" && settingSteps?.[0]?.Status === "active" ? JSON.parse(sessionStorage?.getItem("setImage")) : settingSteps?.[0]?.Setting === "Pendant" && settingSteps?.[0]?.Status === "active" ? JSON.parse(sessionStorage?.getItem("setPenImage")) : null;
+        const getImagePath = settingSteps?.[0]?.Setting === "Ring" && settingSteps?.[0]?.Status === "active" ? JSON.parse(sessionStorage?.getItem("setImage")) : settingSteps?.[0]?.Setting === "Pendant" && settingSteps?.[0]?.Status === "active" ? JSON.parse(sessionStorage?.getItem("setPenImage")) : settingSteps?.[0]?.Setting === "Earring" && settingSteps?.[0]?.Status === "active" ? JSON.parse(sessionStorage?.getItem("setEarImage")) : null;
         setImagePath(getImagePath);
-    }, [location?.key, location?.pathname])
+    }, [settingSteps])
 
     const StyleCondition = {
         fontSize: breadCrumb === "settings" && "14px",
@@ -185,13 +193,11 @@ const DiamondDetails = () => {
         const getCertyNameFromUrl = igiCerti ?? hrdCerti ?? giaCerti;
         const getCertyNameFromUrlDia = diaIgiCerti ?? diaHrdCerti ?? diaGiaCerti;
         const diamondDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[0] ?? (ringData ?? pendantData ?? earringData)?.[1];
-        console.log('diamondDatas: ', diamondDatas);
         const diaStep1 = (diamondDatas?.step1Data?.[0]?.certyname || getCertyNameFromUrlDia)
         const diaStep2 = (diamondDatas?.step2Data?.[0]?.certyname || getCertyNameFromUrlDia)
         if (singleDiaData !== undefined || diamondDatas !== undefined) {
             const getCertiName = certificate?.find((item) => item?.certyName === (singleDiaData?.[0]?.certyname || getCertyNameFromUrl));
             const getCertiNameCompSet = certificate?.find((item) => item?.certyName === (diaStep1 ?? diaStep2))
-            console.log('getCertiNameCompSet: ', getCertiNameCompSet);
 
             if (!compSet) {
                 setCertyLink({
@@ -216,26 +222,52 @@ const DiamondDetails = () => {
             { type: 'video', src: video_url },
             { type: 'image', src: image_file_url },
         ]);
+        if (singleDiaData[1]) {
+            const { image_file_url1, video_url1 } = singleDiaData[1];
+            setMediaArr1([
+                { type: 'video', src: video_url1 },
+                { type: 'image', src: image_file_url1 },
+            ]);
+        }
+
+        if (singleDiaData[0] && singleDiaData[1]) {
+            setTotalDiaPrice(singleDiaData[0]?.price + singleDiaData[1]?.price)
+        }
     }, [singleDiaData, location?.key]);
 
 
     useEffect(() => {
-        if (compSet) {
-            const handleCompset = () => {
-                const diamondDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[0] ?? (ringSteps?.[0]?.Status === 'active' ? ringData?.[1] : pendantData?.[0]?.Status === 'active' ? pendantData?.[1] : earringData?.[1]);
-                setDiamondData(diamondDatas)
-                const SettingDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[1] ?? (ringSteps?.[0]?.Status === 'active' ? ringData?.[0] : pendantData?.[0]?.Status === 'active' ? pendantData?.[0] : earringData?.[0]);
-                setSettingData(SettingDatas)
-                const getSetShape = JSON?.parse(sessionStorage.getItem('customizeSteps')) ?? (ringSteps?.[0]?.Status === 'active' ? ringSteps : pendantSteps?.[0]?.Status === 'active' ? pendantSteps : earringSteps);
-                setSetShape(getSetShape);
-                const getAlldata = JSON?.parse(sessionStorage.getItem('custStepData'))
-                    ?? (ringSteps?.[0]?.Status === 'active' ? ringData : pendantData?.[0]?.Status === 'active' ? pendantData : earringData);
-                setAllData(getAlldata);
-                const metalC = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
-                setMetalColor(metalC)
-            }
-            handleCompset();
-        }
+        if (!compSet) return;
+
+        const custStepData = JSON.parse(sessionStorage.getItem('custStepData')) || [];
+        const customizeSteps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+        const metalColorCombo = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
+
+        const diamondDatas = custStepData[0] ??
+            (ringSteps?.[0]?.Status === 'active' ? ringData?.[1]
+                : pendantSteps?.[0]?.Status === 'active' ? pendantData?.[1]
+                    : earringData?.[1]);
+
+        const settingDatas = custStepData[1] ??
+            (ringSteps?.[0]?.Status === 'active' ? ringData?.[0]
+                : pendantSteps?.[0]?.Status === 'active' ? pendantData?.[0]
+                    : earringData?.[0]);
+
+        const getSetShape = customizeSteps ??
+            (ringSteps?.[0]?.Status === 'active' ? ringSteps
+                : pendantSteps?.[0]?.Status === 'active' ? pendantSteps
+                    : earringSteps);
+
+        const getAllData = custStepData.length > 0 ? custStepData
+            : (ringSteps?.[0]?.Status === 'active' ? ringData
+                : pendantSteps?.[0]?.Status === 'active' ? pendantData
+                    : earringData);
+
+        setDiamondData(diamondDatas);
+        setSettingData(settingDatas);
+        setSetShape(getSetShape);
+        setAllData(getAllData);
+        setMetalColor(metalColorCombo);
     }, [compSet, location?.key])
 
     const loadImage = (src) => {
@@ -284,15 +316,10 @@ const DiamondDetails = () => {
 
             const colorImage = await getDynamicImages(currentData, designno, MetalColorid, ImageExtension);
             loadedImages = { colorImage };
-            setTimeout(() => {
-                setImageMap(loadedImages);
-            }, 20)
-            // if(!getImagePath && compSet){
-            //     sessionStorage.setItem('setImage', JSON.stringify(loadedImages))
-            // }
+            setImageMap(loadedImages)
         };
         loadImages();
-    }, [getAllData]);
+    }, [settingData]);
 
     useEffect(() => {
         try {
@@ -302,6 +329,13 @@ const DiamondDetails = () => {
                 setCompSettArr(prev => {
                     const existingIndex = prev.filter(item => item?.type !== "diamond");
                     return [...existingIndex, { type: "diamond", src: diamondImage }]
+                });
+            }
+            if ((getAllData?.[0]?.step1Data?.[0]?.stockno !== "" ?? getAllData?.[1]?.step2Data?.[0]?.stockno !== "") && isPair === true) {
+                const diamondImage1 = (getAllData?.[0]?.step1Data?.[0]?.image_file_url ?? getAllData?.[1]?.step2Data?.[1]?.image_file_url);
+                setCompSettArr(prev => {
+                    const existingIndex = prev.filter(item => item?.type !== "diamond1");
+                    return [...existingIndex, { type: "diamond1", src: diamondImage1 }]
                 });
             }
             if (getAllData?.[0]?.step1Data?.designno !== "" ?? getAllData?.[1]?.step2Data?.designno !== "") {
@@ -314,7 +348,7 @@ const DiamondDetails = () => {
         } catch (error) {
             console.log("Error in genarating diamond or setting image", error)
         }
-    }, [compSet, getAllData, settingSteps])
+    }, [getAllData, location?.key])
 
     useEffect(() => {
         if (compSet) {
@@ -325,7 +359,11 @@ const DiamondDetails = () => {
     }, [compSet, setshape])
 
 
-    const totalPrice = Number((Number(diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price) + Number(settingData?.step2Data?.UnitCostWithMarkUpIncTax ?? settingData?.step1Data?.UnitCostWithMarkUpIncTax)).toFixed(2));
+    const diamondPrice1 = diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price;
+    const diamondPrice2 = diamondData?.step1Data?.[1]?.price ?? diamondData?.step2Data?.[1]?.price;
+    const settingPrice = settingData?.step2Data?.UnitCostWithMarkUpIncTax ?? settingData?.step1Data?.UnitCostWithMarkUpIncTax;
+    const totalPrice = Number(((diamondPrice1 || 0) + (diamondPrice2 || 0) + (settingPrice || 0)).toFixed(2));
+
 
     useEffect(() => {
         if (compSet && !isNaN(totalPrice)) {
@@ -947,11 +985,11 @@ const DiamondDetails = () => {
             const obj = {
                 a: singleDiaData?.stockno,
                 b: singleDiaData?.shapename,
-                a: (step1?.[0]?.autocode ?? step2?.[0]?.autocode),
-                b: (step1?.[0]?.designno ?? step2?.[0]?.designno),
-                m: (stepsData?.[0]?.selectedMetalId ?? stepsData1?.[0]?.selectedMetalId),
-                d: (stepsData?.[0]?.selectedDiaId ?? stepsData1?.[0]?.selectedDiaId),
-                c: (stepsData?.[0]?.selectedCsId ?? stepsData1?.[0]?.selectedCsId),
+                a: (step1?.[0]?.autocode ?? step2?.[0]?.autocode ?? step3?.[0]?.autocode),
+                b: (step1?.[0]?.designno ?? step2?.[0]?.designno ?? step3?.[0]?.designno),
+                m: (stepsData?.[0]?.selectedMetalId ?? stepsData1?.[0]?.selectedMetalId ?? stepsData2?.[0]?.selectedMetalId),
+                d: (stepsData?.[0]?.selectedDiaId ?? stepsData1?.[0]?.selectedDiaId ?? stepsData2?.[0]?.selectedDiaId),
+                c: (stepsData?.[0]?.selectedCsId ?? stepsData1?.[0]?.selectedCsId ?? stepsData2?.[0]?.selectedCsId),
                 f: { category: '1' },
             };
 
@@ -976,22 +1014,49 @@ const DiamondDetails = () => {
                 updatedStep1 = step3;
             }
 
+            // Calculate totalPrice
+            const totalPrice = (singleDiaData?.[0]?.priceIncTax ?? 0) + (singleDiaData?.[1]?.priceIncTax ?? 0);
+
             // If no existing step3, add new entry
             if (!updatedStep1.some(step => step.step3 !== undefined)) {
                 updatedStep1.push({ "step3": true, "url": encodeObj });
             }
-            const updatedStepData = (settingSteps[0]?.Setting === 'Ring' ? stepsData : settingSteps[0]?.Setting === 'Pendant' ? stepsData1 : stepsData2)?.map(step => {
+            let updatedStepData = (settingSteps[0]?.Setting === 'Ring'
+                ? stepsData
+                : settingSteps[0]?.Setting === 'Pendant'
+                    ? stepsData1
+                    : stepsData2
+            )?.map(step => {
                 if (step?.step2Data !== undefined) {
                     return {
-                        "step2Data": singleDiaData,
-                        id: updatedStep1?.[0]?.Setting === "Ring" && updatedStep1?.[0]?.Status === 'active' ? 1 : updatedStep1?.[0]?.Setting === "Pendant" && updatedStep1?.[0]?.Status === 'active' ? 2 : 3
+                        totalPrice: updatedStep1?.[0]?.Setting === "Earring" && updatedStep1?.[0]?.Status === 'active' ? totalPrice : "",
+                        step2Data: settingSteps[0]?.Setting === 'Earring'
+                            ? [
+                                { ...singleDiaData?.[0] },
+                                { ...singleDiaData?.[1] }
+                            ]
+                            : singleDiaData, // Otherwise, store all records
+                        id: updatedStep1?.[0]?.Setting === "Ring" && updatedStep1?.[0]?.Status === 'active'
+                            ? 1
+                            : updatedStep1?.[0]?.Setting === "Pendant" && updatedStep1?.[0]?.Status === 'active'
+                                ? 2
+                                : 3
                     };
                 }
                 return step;
             });
 
             if (!updatedStepData.some(step => step?.step2Data !== undefined)) {
-                updatedStepData.push({ "step2Data": singleDiaData, id: updatedStep1?.[0]?.Setting === "Ring" && updatedStep1?.[0]?.Status === 'active' ? 1 : updatedStep1?.[0]?.Setting === "Pendant" && updatedStep1?.[0]?.Status === 'active' ? 2 : 3 });
+                updatedStepData.push({
+                    totalPrice: updatedStep1?.[0]?.Setting === "Earring" && updatedStep1?.[0]?.Status === 'active' ? totalPrice : "",
+                    "step2Data": settingSteps[0]?.Setting === 'Earring'
+                        ? [
+                            { ...singleDiaData?.[0] },
+                            { ...singleDiaData?.[1] }
+                        ]
+                        : singleDiaData,
+                    id: updatedStep1?.[0]?.Setting === "Ring" && updatedStep1?.[0]?.Status === 'active' ? 1 : updatedStep1?.[0]?.Setting === "Pendant" && updatedStep1?.[0]?.Status === 'active' ? 2 : 3
+                });
             }
 
             if (updatedStepData?.[1]?.id === 1 && step1?.[0]?.Status === "active") {
@@ -1057,6 +1122,9 @@ const DiamondDetails = () => {
                 navigate(`d/setting-complete-product/det345/?p=${step1?.[2]?.url}`);
             }
             else {
+                sessionStorage.setItem('isRing', true)
+                sessionStorage.removeItem('isPair')
+                sessionStorage.removeItem('isPendant')
                 navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${shape}/M=${filterKeyVal}`);
             }
         }
@@ -1099,6 +1167,9 @@ const DiamondDetails = () => {
                 navigate(`d/setting-complete-product/det345/?p=${step1?.[2]?.url}`);
             }
             else {
+                sessionStorage.setItem('isPendant', true)
+                sessionStorage.removeItem('isPair')
+                sessionStorage.removeItem('isRing')
                 navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${shape}/M=${filterKeyVal}`);
             }
         }
@@ -1123,17 +1194,30 @@ const DiamondDetails = () => {
             });
 
             const shapeName1 = singleDiaData?.[0]?.shapename;
+            const shapeName2 = singleDiaData?.[1]?.shapename;
             const formattedShapeName = shapeName1 ? shapeName1.charAt(0).toUpperCase() + shapeName1.slice(1).toLowerCase() : '';
+            const formattedShapeName1 = shapeName2 ? shapeName2.charAt(0).toUpperCase() + shapeName2.slice(1).toLowerCase() : '';
 
-            if (updatedStep1?.[0]?.shape === "All" || updatedStep1?.[0]?.shape === null || updatedStep1?.[0]?.shape === undefined) {
-                updatedStep1[0].shape = formattedShapeName ?? "";
+            // Calculate totalPrice
+            const totalPrice = (singleDiaData?.[0]?.priceIncTax ?? 0) + (singleDiaData?.[1]?.priceIncTax ?? 0);
+
+            if (formattedShapeName == formattedShapeName1) {
+                if (updatedStep1?.[0]?.shape === "All" || updatedStep1?.[0]?.shape === null || updatedStep1?.[0]?.shape === undefined) {
+                    updatedStep1[0].shape = formattedShapeName ?? "";
+                }
             }
 
             // If no existing step2, add new entry
             if (!updatedStep1.some(step => step.step2 !== undefined)) {
                 updatedStep1.push({ "step2": true, "Setting": 'Earring' });
             }
-            const step1Data = [{ "step1Data": singleDiaData }]
+            const step1Data = [{
+                totalPrice,
+                step1Data: [
+                    { ...singleDiaData?.[0] },
+                    { ...singleDiaData?.[1] },
+                ]
+            }];
             sessionStorage.setItem('custStepData', JSON.stringify(step1Data));
             sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
 
@@ -1141,7 +1225,10 @@ const DiamondDetails = () => {
                 navigate(`d/setting-complete-product/det345/?p=${step1?.[2]?.url}`);
             }
             else {
-                navigate(`/certified-loose-lab-grown-diamonds/settings/Earring/diamond_shape=${shape}/M=${filterKeyVal}`);
+                sessionStorage.setItem('isPair', true)
+                sessionStorage.removeItem('isRing')
+                sessionStorage.removeItem('isPendant')
+                navigate(`/certified-loose-lab-grown-diamonds/settings/Earring/diamond_shape=${formattedShapeName}/M=${filterKeyVal}`);
             }
         }
 
@@ -1184,7 +1271,7 @@ const DiamondDetails = () => {
             top: 0,
             behavior: "smooth",
         });
-    }, [])
+    }, [location?.key])
 
     const diaArr1 = [
         {
@@ -1256,6 +1343,79 @@ const DiamondDetails = () => {
         {
             title: 'pavilion ∠',
             value: `${singleDiaData[0]?.PavillionAngle !== '' ? Number(singleDiaData[0]?.PavillionAngle).toFixed(2) : '0.00'}`,
+        },
+    ]
+
+    const diaArrData1 = [
+        {
+            title: "Shape",
+            value: `${singleDiaData[1]?.shapename}`
+        },
+        {
+            title: 'carat weight',
+            value: `${singleDiaData[1]?.carat !== '' ? Number(singleDiaData[1]?.carat).toFixed(2) : '0.00'}`,
+        },
+        {
+            title: 'color',
+            value: `${singleDiaData[1]?.colorname}`,
+        },
+        {
+            title: 'clarity',
+            value: `${singleDiaData[1]?.clarityname}`,
+        },
+        {
+            title: 'cut',
+            value: `${singleDiaData[1]?.cutname}`,
+        },
+        {
+            title: 'polish',
+            value: `${singleDiaData[1]?.polishname}`,
+        },
+        {
+            title: 'symmetry',
+            value: `${singleDiaData[1]?.symmetryname}`,
+        },
+        {
+            title: 'Fluorescence',
+            value: `${singleDiaData[1]?.fluorescencename}`,
+        },
+        {
+            title: 'l/w/d (mm)',
+            value: `${singleDiaData[1]?.measurements ?? `0.00 X 0.00 X 0.00`}`.replace(/X/g, ' X '),
+        },
+    ]
+    const diaArrData2 = [
+        {
+            title: "l/w ratio",
+            value: `${Number(1.00).toFixed(2) ?? 0.00}`
+        },
+        {
+            title: 'depth %',
+            value: `${singleDiaData[1]?.depth !== '' ? Number(singleDiaData[1]?.depth).toFixed(2) : '0.00'}%`,
+        },
+        {
+            title: 'table %',
+            value: `${singleDiaData[1]?.table !== '' ? Number(singleDiaData[1]?.table).toFixed(2) : '0.00'}%`,
+        },
+        {
+            title: 'culet',
+            value: `${singleDiaData[1]?.culetname}`,
+        },
+        {
+            title: 'certificate',
+            value: `${singleDiaData[1]?.certyname}`,
+        },
+        {
+            title: 'crown ∠',
+            value: `${singleDiaData[1]?.CrownAngle !== '' ? Number(singleDiaData[1]?.CrownAngle).toFixed(3) : '0.000'}`,
+        },
+        {
+            title: 'crown %',
+            value: `${singleDiaData[1]?.CrownHeight !== '' ? Number(singleDiaData[1]?.CrownHeight).toFixed(3) : '0.000'}`,
+        },
+        {
+            title: 'pavilion ∠',
+            value: `${singleDiaData[1]?.PavillionAngle !== '' ? Number(singleDiaData[1]?.PavillionAngle).toFixed(2) : '0.00'}`,
         },
     ]
 
@@ -1351,7 +1511,7 @@ const DiamondDetails = () => {
         };
     }, []);
 
-    const isEarring = 2;
+    const isEarring = isPair;
 
     return (
         <div className="for_DiamondDet_mainDiv">
@@ -1369,8 +1529,8 @@ const DiamondDetails = () => {
                             getImagePath={getImagePath}
                         />
                     </div>
-                    <div className="for_DiamondDet_container_div" style={{ flexDirection: isEarring === 1 ? "column" : "row" }}>
-                        {isEarring === 1 ? (
+                    <div className="for_DiamondDet_container_div" style={{ flexDirection: (isEarring === true && !compSet) ? "column" : "row" }}>
+                        {(isEarring === true && !compSet) ? (
                             <div className="for_DiamondDet_left_prodImages_for_earr">
                                 <div className='for_DiamondDet_wishList_mainDiv'>
                                     <div className='for_DiamondDet_breadcrums_div'>
@@ -1396,7 +1556,7 @@ const DiamondDetails = () => {
                                     </div>
                                 </div>
                                 <div className='for_DiamondDet_earring_main_div'>
-                                    <div className="for_slider_container_1">
+                                    <div className="for_slider_container_1" style={{ maxWidth: isDataFound ? "38rem" : "42rem" }}>
                                         <div className="for_images_slider">
                                             {isDataFound ? (
                                                 <>
@@ -1412,7 +1572,7 @@ const DiamondDetails = () => {
                                                     <div
                                                         className="for_main_image"
                                                     >
-                                                        <Skeleton variant='square' className='for_skeleton_main_image' />
+                                                        <Skeleton variant='square' className='for_skeleton_main_image_1' />
                                                     </div>
                                                 </>
                                             ) : (
@@ -1480,7 +1640,6 @@ const DiamondDetails = () => {
                                                                 {mediaArr
                                                                     ?.filter(item => item?.type === 'image' && item?.src !== imageNotFound) // Filter only images that are not "imageNotFound"
                                                                     ?.map((item, index) => {
-                                                                        console.log('item:', item);
                                                                         const fallbackImage = getdiaImages(singleDiaData?.[0]?.shapename);
                                                                         const imageSrc = item?.src || fallbackImage; // Use fallback if src is empty
 
@@ -1548,7 +1707,7 @@ const DiamondDetails = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="for_slider_container_2">
+                                    <div className="for_slider_container_2" style={{ maxWidth: "40rem" }}>
                                         <div className="for_images_slider">
                                             {isDataFound ? (
                                                 <>
@@ -1564,7 +1723,7 @@ const DiamondDetails = () => {
                                                     <div
                                                         className="for_main_image"
                                                     >
-                                                        <Skeleton variant='square' className='for_skeleton_main_image' />
+                                                        <Skeleton variant='square' className='for_skeleton_main_image_2' />
                                                     </div>
                                                 </>
                                             ) : (
@@ -1573,11 +1732,10 @@ const DiamondDetails = () => {
                                                     <div className="for_main_image">
                                                         {!compSet && (
                                                             <Slider {...settings} ref={sliderRef1} lazyLoad="progressive">
-                                                                {mediaArr
+                                                                {mediaArr1
                                                                     ?.filter(item => item?.type === 'image' && item?.src !== imageNotFound) // Filter only images that are not "imageNotFound"
                                                                     ?.map((item, index) => {
-                                                                        console.log('item:', item);
-                                                                        const fallbackImage = getdiaImages(singleDiaData?.[0]?.shapename);
+                                                                        const fallbackImage = getdiaImages(singleDiaData?.[1]?.shapename);
                                                                         const imageSrc = item?.src || fallbackImage; // Use fallback if src is empty
 
                                                                         return (
@@ -1609,14 +1767,14 @@ const DiamondDetails = () => {
                                                                             <Skeleton variant="rounded" style={{ height: '30px', width: '32rem' }} />
                                                                             : (
                                                                                 <div className="for_DiamondDet_title">
-                                                                                    <span>{`${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}</span>
+                                                                                    <span>{`${singleDiaData[1]?.carat} Carat ${singleDiaData[1]?.colorname} ${singleDiaData[1]?.clarityname} ${singleDiaData[1]?.cutname} Cut ${singleDiaData[1]?.shapename} Diamond`}</span>
                                                                                     {/* <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span> */}
                                                                                 </div>
                                                                             )
                                                                         }
 
                                                                         <div className="for_DiamondDet_title_sku">
-                                                                            <div className='for_DiamondDet_sku'>SKU: &nbsp;{isDataFound ? <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} /> : singleDiaData[0]?.stockno}</div>
+                                                                            <div className='for_DiamondDet_sku'>SKU: &nbsp;{isDataFound ? <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} /> : singleDiaData[1]?.stockno}</div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1633,7 +1791,7 @@ const DiamondDetails = () => {
                                                                             isPriceloading ?
                                                                                 <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
                                                                                 :
-                                                                                <span>&nbsp;{formatter(singleDiaData[0]?.price)}</span>
+                                                                                <span>&nbsp;{formatter(singleDiaData[1]?.price)}</span>
                                                                             // <span>&nbsp;{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
                                                                         }
                                                                     </span>
@@ -1646,10 +1804,10 @@ const DiamondDetails = () => {
 
                                                         {!compSet && (
                                                             <>
-                                                                {mediaArr
+                                                                {mediaArr1
                                                                     ?.filter(item => item?.type === 'image' && item?.src !== imageNotFound) // Only filter image types and avoid imageNotFound
                                                                     ?.map((item, index) => {
-                                                                        const fallbackImage = getdiaImages(singleDiaData?.[0]?.shapename);
+                                                                        const fallbackImage = getdiaImages(singleDiaData?.[1]?.shapename);
                                                                         const imageSrc = item?.src || fallbackImage; // Use fallback if src is empty
                                                                         const isActive = index === currentSlide;
 
@@ -1712,7 +1870,7 @@ const DiamondDetails = () => {
                                             isPriceloading ?
                                                 <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
                                                 :
-                                                <span>15000</span>
+                                                <span>{totalDiaprice}</span>
                                         }
                                     </div>
                                     <div className='for_DiamondDet_earr_desc'>
@@ -1734,7 +1892,8 @@ const DiamondDetails = () => {
                                                         <button disabled={isPriceloading} onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                             choose this diamond
                                                         </button>
-                                                        <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
+                                                        <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno1={singleDiaData[0]?.stockno} stockno2={singleDiaData[1]?.stockno} shape1={singleDiaData[0]?.shapename}
+                                                            shape2={singleDiaData[1]?.shapename} isPair={true} />
                                                     </>
                                                 )}
                                             </>
@@ -1828,12 +1987,27 @@ const DiamondDetails = () => {
                                                                                                 />
                                                                                             </div>
                                                                                         )}
+
+                                                                                        {item?.type === "diamond1" && isPair === true && (
+                                                                                            <div
+                                                                                                className="for_video_box_dia"
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <img
+                                                                                                    src={item?.src}
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
                                                                                     </>
                                                                                 )}
                                                                             </div>
                                                                         );
                                                                     })}
-                                                                    {certyLink && (
+                                                                    {(certyLink && !isPair) && (
                                                                         <Link
                                                                             to={certyLink?.link}
                                                                             className="for_box_certy"
@@ -1860,7 +2034,6 @@ const DiamondDetails = () => {
                                                                     {mediaArr
                                                                         ?.filter((item) => item?.src !== imageNotFound && item?.src !== "") // Filter the array
                                                                         ?.map((item, index) => {
-                                                                            console.log("jeje", item?.src !== imageNotFound && item?.src !== "");
                                                                             return (
                                                                                 <div
                                                                                     key={index}
@@ -2055,6 +2228,20 @@ const DiamondDetails = () => {
                                                                                                 />
                                                                                             </div>
                                                                                         )}
+                                                                                        {item?.type === "diamond1" && isPair === true && (
+                                                                                            <div
+                                                                                                className="for_video_box_dia"
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <img
+                                                                                                    src={item?.src}
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
                                                                                     </>
                                                                                 )}
                                                                             </div>
@@ -2093,18 +2280,6 @@ const DiamondDetails = () => {
                                                     <>
                                                         <div className="for_slider_mob">
                                                             {compSet && (
-                                                                // <div
-                                                                //     className={`for_box_mob active`}
-                                                                // >
-                                                                //     <img
-                                                                //         src={designImage((settingData?.step1Data?.designno ?? settingData?.step2Data?.designno), (settingData?.step1Data?.ImageExtension ?? settingData?.step2Data?.ImageExtension))}
-                                                                //         alt=""
-                                                                //         onError={(e) => {
-                                                                //             e.target.onerror = null;
-                                                                //             e.target.src = imageNotFound;
-                                                                //         }}
-                                                                //     />
-                                                                // </div>
                                                                 <>
                                                                     {compSettArr?.map((item, index) => {
                                                                         return (
@@ -2131,6 +2306,20 @@ const DiamondDetails = () => {
                                                                                         )}
 
                                                                                         {item?.type === "diamond" && (
+                                                                                            <div
+                                                                                                className="for_video_box_dia_mob"
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <img
+                                                                                                    src={item?.src}
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
+                                                                                        {item?.type === "diamond1" && isPair === true && (
                                                                                             <div
                                                                                                 className="for_video_box_dia_mob"
                                                                                                 style={{ position: "relative" }}
@@ -2337,6 +2526,21 @@ const DiamondDetails = () => {
                                                                                                 />
                                                                                             </div>
                                                                                         )}
+
+                                                                                        {item?.type === "diamond1" && isPair === true && (
+                                                                                            <div
+                                                                                                className="for_video_box_dia_mob"
+                                                                                                style={{ position: "relative" }}
+                                                                                            >
+                                                                                                <img
+                                                                                                    src={item?.src}
+                                                                                                    onError={(e) => {
+                                                                                                        e.target.onerror = null;
+                                                                                                        e.target.src = imageNotFound
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
                                                                                     </>
                                                                                 )}
                                                                             </div>
@@ -2489,7 +2693,7 @@ const DiamondDetails = () => {
                                                                 <button disabled={isPriceloading} onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                                     choose this diamond
                                                                 </button>
-                                                                <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
+                                                                <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno1={singleDiaData[0]?.stockno} shape1={singleDiaData[0]?.shapename} isPair={false} />
                                                             </>
                                                         )}
                                                     </>
@@ -2519,7 +2723,7 @@ const DiamondDetails = () => {
                                             <div className="for_Complete_set_title_div">
                                                 <div className="for_Complete_set_Setting_div">
                                                     {isDataFound ?
-                                                        <Skeleton variant="rounded" style={{ height: '8rem', width: '38rem' }} />
+                                                        <Skeleton variant="rounded" style={{ height: '6.5rem', width: '38rem' }} />
                                                         : (
                                                             <>
                                                                 <div className='for_Complete_set_title_des_div'>
@@ -2557,7 +2761,7 @@ const DiamondDetails = () => {
 
                                                 <div className="for_Complete_set_Diamond_div">
                                                     {isDataFound ?
-                                                        <Skeleton variant="rounded" style={{ height: '8rem', width: '38rem' }} />
+                                                        <Skeleton variant="rounded" style={{ height: '6.5rem', width: '38rem' }} />
                                                         : (
                                                             <>
                                                                 <div className="for_Complete_set_title">
@@ -2579,22 +2783,22 @@ const DiamondDetails = () => {
                                                             </>
                                                         )}
                                                 </div>
-                                                {steps3?.[2]?.step3 === true && (
+                                                {(steps3?.[0]?.Status === 'active' || steps?.[1]?.Setting === 'Earring') && (
                                                     <div className="for_Complete_set_Diamond_div">
                                                         {isDataFound ?
-                                                            <Skeleton variant="rounded" style={{ height: '8rem', width: '38rem' }} />
+                                                            <Skeleton variant="rounded" style={{ height: '6.5rem', width: '38rem' }} />
                                                             : (
                                                                 <>
                                                                     <div className="for_Complete_set_title">
-                                                                        <span>{`${diamondData?.step1Data?.[0]?.carat ?? diamondData?.step2Data?.[0]?.carat} Carat ${diamondData?.step1Data?.[0]?.colorname ?? diamondData?.step2Data?.[0]?.colorname} ${diamondData?.step1Data?.[0]?.clarityname ?? diamondData?.step2Data?.[0]?.clarityname} ${diamondData?.step1Data?.[0]?.cutname ?? diamondData?.step2Data?.[0]?.cutname} Cut ${diamondData?.step1Data?.[0]?.shapename ?? diamondData?.step2Data?.[0]?.shapename} Diamond`}</span>
+                                                                        <span>{`${diamondData?.step1Data?.[1]?.carat ?? diamondData?.step2Data?.[1]?.carat} Carat ${diamondData?.step1Data?.[1]?.colorname ?? diamondData?.step2Data?.[1]?.colorname} ${diamondData?.step1Data?.[1]?.clarityname ?? diamondData?.step2Data?.[1]?.clarityname} ${diamondData?.step1Data?.[1]?.cutname ?? diamondData?.step2Data?.[1]?.cutname} Cut ${diamondData?.step1Data?.[1]?.shapename ?? diamondData?.step2Data?.[1]?.shapename} Diamond`}</span>
                                                                     </div>
 
                                                                     <div className="for_Complete_set_title_sku_dia">
-                                                                        <div className='for_Complete_set_sku'>SKU: {diamondData?.step1Data?.[0]?.stockno ?? diamondData?.step2Data?.[0]?.stockno}</div>
+                                                                        <div className='for_Complete_set_sku'>SKU: {diamondData?.step1Data?.[0]?.stockno ?? diamondData?.step2Data?.[1]?.stockno}</div>
                                                                     </div>
                                                                     <div className="for_Complete_set_price_div">
                                                                         <div className="for_Complete_set_price">
-                                                                            <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price)}</span>
+                                                                            <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(diamondData?.step1Data?.[1]?.price ?? diamondData?.step2Data?.[1]?.price)}</span>
                                                                         </div>
                                                                         {/* <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`) }}>
                                                                             <HiOutlinePencilSquare fontWeight={700} />
@@ -2653,7 +2857,7 @@ const DiamondDetails = () => {
                                                             <button disabled={isPriceloading} onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                                 choose this diamond
                                                             </button>
-                                                            <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
+                                                            <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno1={singleDiaData[0]?.stockno} shape1={singleDiaData[0]?.shapename} isPair={false} />
 
                                                         </>
                                                     )}
@@ -2687,7 +2891,7 @@ const DiamondDetails = () => {
                         )}
 
                     </div>
-                    {(!compSet && isEarring !== 1) && (
+                    {(!compSet && isEarring !== true) && (
                         <div className="for_DiamondDet_prod_desc_mainDIv">
                             <div className="for_DiamondDet_desc">
                                 <span className='for_DiamondDet_desc_title'>General information</span>
@@ -2726,7 +2930,7 @@ const DiamondDetails = () => {
                         {/* <Services title={"Our Exclusive services"} services={services} /> */}
                     </div>
                 </div>
-                {isEarring === 1 && (
+                {(isEarring === true && !compSet) && (
                     <div className='for_DiamondDet_prod_desc_earr_div'>
                         <div className="for_DiamondDet_prod_desc_earr_mainDIv_1">
                             <div className="for_DiamondDet_desc">
@@ -2762,16 +2966,16 @@ const DiamondDetails = () => {
                         </div>
                         <div className="for_DiamondDet_prod_desc_earr_mainDIv_2">
                             <div className="for_DiamondDet_desc">
-                                <span className='for_DiamondDet_desc_title'>General information: SKU: {singleDiaData?.[0]?.stockno}</span>
+                                <span className='for_DiamondDet_desc_title'>General information: SKU: {singleDiaData?.[1]?.stockno}</span>
                                 {isDataFound ? <Skeleton variant="rounded" style={{ height: '30px', width: '40rem' }} /> : (
-                                    <p className='for_DiamondDet_desc_1_para'>{`This ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Shape Diamond ${singleDiaData[0]?.colorname} Color ${singleDiaData[0]?.clarityname} Clarity has a diamond grading report from ${singleDiaData[0]?.certyname}.`}</p>
+                                    <p className='for_DiamondDet_desc_1_para'>{`This ${singleDiaData[1]?.carat} Carat ${singleDiaData[1]?.cutname} Cut ${singleDiaData[1]?.shapename} Shape Diamond ${singleDiaData[1]?.colorname} Color ${singleDiaData[1]?.clarityname} Clarity has a diamond grading report from ${singleDiaData[1]?.certyname}.`}</p>
                                 )}
                             </div>
                             <div className="for_DiamondDet_desc_1">
                                 <div className="for_DiamondDet_desc_DiaInfo_1">
                                     <span className='for_DiamondDet_desc_title_1'>Diamond information</span>
                                     <div className='for_DiamondDet_desc_div'>
-                                        {diaArr1?.map((item, index) => (
+                                        {diaArrData1?.map((item, index) => (
                                             <div className="for_Diamond_desc_div" key={index}>
                                                 <div className='for_DiamondDet_desc_title_para'>{item?.title}: </div>
                                                 <div className='for_DiamondDet_desc_title_para'>{item?.value}</div>
@@ -2782,7 +2986,7 @@ const DiamondDetails = () => {
                                 <div className="for_DiamondDet_desc_DiaInfo_1">
                                     <span className='for_DiamondDet_desc_title_1'>More Diamond information</span>
                                     <div className='for_DiamondDet_desc_div'>
-                                        {diaArr2?.map((item, index) => (
+                                        {diaArrData2?.map((item, index) => (
                                             <div className="for_Diamond_desc_div" key={index}>
                                                 <div className='for_DiamondDet_desc_title_para'>{item?.title}: </div>
                                                 <div className='for_DiamondDet_desc_title_para'>{item?.value}</div>
@@ -2840,26 +3044,53 @@ const DiamondDetails = () => {
                                     </div> */}
                                 </div>
                             ) : (
-                                <div className="for_DiamondDet_trend_coll_banner_div">
-                                    <div className="for_trend_coll_details_div">
-                                        <div className="for_trend_coll_det_title">
-                                            <div className='for_trenf_coll_tit1'><span>Make her heart race</span></div>
-                                            <div className='for_trenf_coll_tit2'><span>Trending & Unique Collection</span></div>
-                                            <div className='for_trend_coll_para'>
-                                                <p>We offers a huge lab grown diamonds jewelry collection. Surprise your significant other with a stunning diamond jewelry and a proposal they will never forget. Browse our collection now and find the perfect diamond jewelry for your love story.</p>
+                                <>
+                                    {(setshape?.[1]?.Setting === 'Earring' || setshape?.[0]?.Setting === 'Earring') ? (
+                                        <div className="for_DiamondDet_trend_coll_banner_div">
+                                            <div className="for_trend_coll_details_div">
+                                                <div className="for_trend_coll_det_title">
+                                                    <div className='for_trenf_coll_tit1'><span>Make her heart race</span></div>
+                                                    <div className='for_trenf_coll_tit2'><span>Trending & Unique Collection</span></div>
+                                                    <div className='for_trend_coll_para'>
+                                                        <p>We offers a huge lab grown diamonds jewelry collection. Surprise your significant other with a stunning diamond jewelry and a proposal they will never forget. Browse our collection now and find the perfect diamond jewelry for your love story.</p>
+                                                    </div>
+                                                    <div className="for_trend_coll_btn">
+                                                        <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15} `}>View all Diamonds</button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div className="for_trend_coll_btn">
-                                                <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15} `}>View all Diamonds</button>
+                                            <div className='for_trend_coll_image_div'>
+                                                <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/diamond-banner.webp`} alt="" />
                                             </div>
+                                            {/* <div className="for_DiamondDet_NewsLetter">
+                                       <NewsletterSignup />
+                                   </div> */}
                                         </div>
-                                    </div>
-                                    <div className='for_trend_coll_image_div'>
-                                        <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/diamond-banner.webp`} alt="" />
-                                    </div>
-                                    {/* <div className="for_DiamondDet_NewsLetter">
-                                        <NewsletterSignup />
-                                    </div> */}
-                                </div>
+                                    ) : (
+                                        <div className="for_DiamondDet_trend_coll_banner_div">
+                                            <div className="for_trend_coll_details_div">
+                                                <div className="for_trend_coll_det_title">
+                                                    <div className='for_trenf_coll_tit1'><span>Make her heart race</span></div>
+                                                    <div className='for_trenf_coll_tit2'><span>Trending & Unique Collection</span></div>
+                                                    <div className='for_trend_coll_para'>
+                                                        <p>We offers a huge lab grown diamonds jewelry collection. Surprise your significant other with a stunning diamond jewelry and a proposal they will never forget. Browse our collection now and find the perfect diamond jewelry for your love story.</p>
+                                                    </div>
+                                                    <div className="for_trend_coll_btn">
+                                                        <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15} `}>View all Diamonds</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className='for_trend_coll_image_div'>
+                                                <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/diamond-banner.webp`} alt="" />
+                                            </div>
+                                            {/* <div className="for_DiamondDet_NewsLetter">
+                                       <NewsletterSignup />
+                                   </div> */}
+                                        </div>
+                                    )}
+
+                                </>
+
                             )}
                         </>
                     )
@@ -2872,7 +3103,8 @@ const DiamondDetails = () => {
 
 export default DiamondDetails
 
-const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImagePath }, ref) => {
+const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImagePath, totalPairPrice }, ref) => {
+    console.log('data: ', data);
     const [storeInit, setStoreInit] = useState({});
     const [loginCurrency, setLoginCurrency] = useState();
     const [metalColor, setMetalColor] = useState([]);
@@ -2884,7 +3116,10 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
     const getShape1 = JSON.parse(sessionStorage.getItem('customizeSteps'))
     const getShape2 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'))
     const getShape3 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'))
+    const getShape4 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'))
     const forTabletResp = useMediaQuery('(max-width: 1000px)');
+
+    const isEarring = (JSON?.parse(sessionStorage.getItem('isPair')) && (getShape1?.[1]?.Setting === "Earring") || getShape4?.[0]?.Status === 'active') ?? "";
 
     useEffect(() => {
         setIsRing(location?.pathname.split('/')[3])
@@ -2911,7 +3146,10 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
         const storedSteps3 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
         const storedSteps4 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
 
-        const shapename = storedSteps?.[0]?.shape ?? (storedSteps2?.[0]?.Setting === 'Ring' && storedSteps2?.[0]?.Status === 'active' ? storedSteps2?.[1]?.shape : storedSteps3?.[0]?.Setting === 'Pendant' && storedSteps3?.[0]?.Status === 'active' ? storedSteps3?.[1]?.shape : storedSteps4?.[1]?.shape);
+        const shapename = storedSteps?.[0]?.shape ??
+            (storedSteps2?.[0]?.Setting === 'Ring' && storedSteps2?.[0]?.Status === 'active' ? storedSteps2?.[1]?.shape
+                : storedSteps3?.[0]?.Setting === 'Pendant' && storedSteps3?.[0]?.Status === 'active' ? storedSteps3?.[1]?.shape
+                    : storedSteps4?.[1]?.shape);
 
         if (index === 0) {
             if (Array.isArray(storedData)) {
@@ -2977,6 +3215,37 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                         Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
                     }
                 }
+                if (storedSteps?.[1]?.Setting === "Earring") {
+                    let storedData4 = JSON.parse(sessionStorage.getItem('custStepData2Earring'));
+                    if (!Array.isArray(storedData4)) {
+                        storedData4 = [];
+                    }
+
+                    if (storedData?.[1]) {
+                        storedData[1].id = 3;
+                    }
+
+                    if (storedData?.[1]?.step2Data) {
+                        storedData[1].step1Data = storedData[1].step2Data;
+                        delete storedData[1].step2Data;
+                    }
+
+                    if (storedData?.length > 0 && storedSteps?.[2]?.step3 === true) {
+                        // Insert modified storedData[1] at the 0 index of storedData2
+                        storedData4.unshift(storedData?.[1]);
+                        sessionStorage.setItem('custStepData2Earring', JSON.stringify(storedData4));
+
+                        if (storedData4?.length > 0) {
+                            sessionStorage.removeItem("custStepData");
+                            Navigation(`/certified-loose-lab-grown-diamonds/diamond/${shapename}`);
+                        }
+                    } else {
+                        sessionStorage.removeItem("custStepData");
+                        sessionStorage.removeItem("custStepData2Earring");
+                        sessionStorage.removeItem("setEarImage");
+                        Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
+                    }
+                }
                 handleOpen(null)
                 // sessionStorage.setItem('custStepData', JSON.stringify(storedData));
             }
@@ -2998,6 +3267,9 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     if (storedData?.length > 0) {
                         sessionStorage.removeItem("custStepData2Ring");
                         sessionStorage.removeItem("setImage");
+                        sessionStorage.setItem('isRing', 'true')
+                        sessionStorage.removeItem('isPendant')
+                        sessionStorage.removeItem('isPair')
                     }
                     Navigation(`/certified-loose-lab-grown-diamonds/settings/${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "Ring" : "Pendant")}/diamond_shape=${storedSteps?.[0]?.shape ?? (storedSteps2?.[1]?.shape && storedSteps2?.[0]?.Status === "active" ? storedSteps2?.[1]?.shape : storedSteps3?.[1]?.shape)}/M=${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ==")}`, { replace: true });
                 }
@@ -3027,6 +3299,9 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     if (storedData?.length > 0) {
                         sessionStorage.removeItem("custStepData2Pendant");
                         sessionStorage.removeItem("setPenImage");
+                        sessionStorage.setItem('isPendant', 'true')
+                        sessionStorage.removeItem('isRing')
+                        sessionStorage.removeItem('isPair')
                     }
                     Navigation(`/certified-loose-lab-grown-diamonds/settings/${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "Ring" : "Pendant")}/diamond_shape=${storedSteps?.[0]?.shape ?? (storedSteps2?.[1]?.shape && storedSteps2?.[0]?.Status === "active" ? storedSteps2?.[1]?.shape : storedSteps3?.[1]?.shape)}/M=${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ==")}`, { replace: true });
                 }
@@ -3056,6 +3331,9 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     if (storedData?.length > 0) {
                         sessionStorage.removeItem("custStepData2Earring");
                         sessionStorage.removeItem("setEarImage");
+                        sessionStorage.setItem('isPair', 'true')
+                        sessionStorage.removeItem('isPendant')
+                        sessionStorage.removeItem('isRing')
                     }
                     Navigation(`/certified-loose-lab-grown-diamonds/settings/${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "Ring" : storedSteps3?.[0]?.Setting === "Pendant" && storedSteps3?.[0]?.Status === "active" ? "Pendant" : "Earring")}/diamond_shape=${storedSteps?.[0]?.shape ?? (storedSteps2?.[1]?.shape && storedSteps2?.[0]?.Status === "active" ? storedSteps2?.[1]?.shape : storedSteps3?.[1]?.shape && storedSteps3?.[0]?.Status === "active" ? storedSteps3?.[1]?.shape : storedSteps4?.[1]?.shape)}/M=${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "UmluZy9jYXRlZ29yeQ==" : storedSteps3?.[0]?.Setting === "Pendant" && storedSteps3?.[0]?.Status === "active" ? "UGVuZGFudC9jYXRlZ29yeQ==" : "RWFycmluZy9jYXRlZ29yeQ==")} `, { replace: true });
                 }
@@ -3187,6 +3465,40 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                             sessionStorage.setItem('customizeSteps2Pendant', JSON.stringify(storedSteps2));
 
                             if (storedSteps2?.length > 0) {
+                                sessionStorage.removeItem("customizeSteps");
+                            }
+                        }
+                    }
+                    if (storedSteps?.[1]?.Setting === "Earring") {
+                        let step1;
+                        let step2;
+                        let storedSteps3 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
+                        if (!Array.isArray(storedSteps3)) {
+                            storedSteps3 = [];
+                        }
+
+                        if (storedSteps?.[1]) {
+                            step1 = { step1: true, Setting: "Earring", id: 3, Status: "active" };
+                            step2 = { step2: true, shape: shapename, id: 3 };
+                        }
+
+                        if (!compSet) {
+                            if (storedSteps?.length > 0 && storedSteps?.[2]?.step3 === true) {
+                                storedSteps3.unshift(step1, step2);
+                                sessionStorage.setItem('customizeSteps2Earring', JSON.stringify(storedSteps3));
+                                if (storedSteps3?.length > 0) {
+                                    sessionStorage.removeItem("customizeSteps");
+                                }
+                            }
+                            else {
+                                sessionStorage.removeItem("customizeSteps");
+                                sessionStorage.removeItem("customizeSteps2Earring");
+                            }
+                        } else {
+                            storedSteps3.unshift(step1, step2);
+                            sessionStorage.setItem('customizeSteps2Earring', JSON.stringify(storedSteps3));
+
+                            if (storedSteps3?.length > 0) {
                                 sessionStorage.removeItem("customizeSteps");
                             }
                         }
@@ -3459,17 +3771,53 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     onClick={handleInnerClick}
                     style={{ cursor: 'default' }}
                 >
-                    <div className="for_dia_data_image">
-                        <img
-                            src={data?.stockno ? data?.image_file_url : (getImagePath?.colorImage ?? imageMap?.colorImage)}
-                            // src={data?.stockno ? data?.image_file_url : (!imageMap?.colorImage?.includes('/static') ? imageMap?.colorImage : getImagePath?.colorImage)}
-                            alt=""
-                            style={{ cursor: 'default' }}
-                            onError={(e) => e.target.src = imageNotFound}
-                        />
-                    </div>
+                    {isEarring ? (
+                        <>
+                            {data?.stockno && (
+                                <div>
+                                    <PairSvg />
+                                    <PairSvg />
+                                </div>
+                            )}
+                            {!data?.stockno && (
+                                <div className="for_dia_data_image">
+                                    <img
+                                        src={(getImagePath?.colorImage ?? imageMap?.colorImage)}
+                                        // src={data?.stockno ? data?.image_file_url : (!imageMap?.colorImage?.includes('/static') ? imageMap?.colorImage : getImagePath?.colorImage)}
+                                        alt=""
+                                        style={{ cursor: 'default' }}
+                                        onError={(e) => e.target.src = imageNotFound}
+                                    />
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        <div className="for_dia_data_image">
+                            <img
+                                src={data?.stockno ? data?.image_file_url : (getImagePath?.colorImage ?? imageMap?.colorImage)}
+                                // src={data?.stockno ? data?.image_file_url : (!imageMap?.colorImage?.includes('/static') ? imageMap?.colorImage : getImagePath?.colorImage)}
+                                alt=""
+                                style={{ cursor: 'default' }}
+                                onError={(e) => e.target.src = imageNotFound}
+                            />
+                        </div>
+                    )}
                     <div className="for_dia_price">
-                        <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(data?.price ?? (data?.UnitCostWithMarkUp ?? data?.step1Data?.UnitCostWithMarkUp))}</span>
+                        {isEarring ? (
+                            <>
+                                {(getShape1?.[1]?.Setting === "Earring" && index === 0) ? (
+                                    <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(totalPairPrice)}</span>
+                                ) : (getShape4?.[0]?.Status === "active" && index === 1) ? (
+                                    <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(totalPairPrice)}</span>
+                                ) : (
+                                    <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(data?.price ?? (data?.UnitCostWithMarkUpIncTax ?? data?.step1Data?.UnitCostWithMarkUpIncTax))}</span>
+                                )}
+                            </>
+                        ) : (
+                            <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(data?.price ?? (data?.UnitCostWithMarkUpIncTax ?? data?.step1Data?.UnitCostWithMarkUpIncTax))}</span>
+                        )}
+
+
                     </div>
                     <div className="for_view_rem_div">
                         <span onClick={(e) => { e.stopPropagation(); handleMoveToDet(data) }} className="for_view">View | </span>
@@ -3485,7 +3833,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 });
 
@@ -3517,6 +3865,10 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
     const getCompleteStep2 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
     const getCompleteStep3 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
     const getCompleteStep4 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
+
+    const isRing = JSON?.parse(sessionStorage.getItem('isRing')) ?? "";
+    const isPendant = JSON?.parse(sessionStorage.getItem('isPendant')) ?? "";
+    const isEarring = JSON?.parse(sessionStorage.getItem('isPair')) ?? "";
 
     const createUrl = `/d/setting-complete-product/det345/?p=${(getCompleteStep1 ?? getCompleteStep2 ?? getCompleteStep3)?.[2]?.url}`;
 
@@ -3658,6 +4010,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                             handleOpen={() => handleOpen('setting')}
                             data={getdiaData4?.[0]?.step1Data}
                             ref={(el) => { dropdownRefs.current[0] = el; }}
+                            totalPairPrice={getdiaData?.[1]?.totalPrice ?? getdiaData?.[0]?.totalPrice}
                             getImagePath={getImagePath}
                             compSet={compSet}
                         />
@@ -3669,7 +4022,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                         Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
                         setswap("diamond");
                     }}>
-                        <img className="for_shapes_img" src={getCompleteStep4?.[0]?.step1 === true ? StepImages[0]?.img1 : StepImages[0]?.img} alt="" /> Diamond
+                        <img className="for_shapes_img" src={getCompleteStep4?.[0]?.Status === 'active' ? StepImages[0]?.img1 : StepImages[0]?.img} alt="" /> Diamond
                     </span>
                     {((getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data) && getCustStepData2?.[0]?.Status === "active") && (
                         <HandleDrp
@@ -3697,6 +4050,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                             open={open === 'diamond'}
                             handleOpen={() => handleOpen('diamond')}
                             data={getdiaData4?.[1]?.step2Data?.[0] ?? getdiaData4?.[0]?.step2Data?.[0]}
+                            totalPairPrice={getdiaData4?.[1]?.totalPrice ?? getdiaData4?.[0]?.totalPrice}
                             ref={(el) => { dropdownRefs.current[1] = el; }}
                             compSet={compSet}
                         />
@@ -3719,9 +4073,9 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                             ((((getCompleteStep2?.[0]?.Setting === 'Pendant' && getCompleteStep2?.[0]?.Status === 'active' || getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active') ? StepImages[1]?.img1 : (getCompleteStep2?.[0]?.Setting === 'Ring' && getCompleteStep2?.[0]?.Status === 'active' || getCompleteStep3?.[0]?.Setting === 'Ring' && getCompleteStep3?.[0]?.Status === 'active') ? StepImages[1]?.img : StepImages[1]?.img3)))
                         } alt="" /> {((getCompleteStep2?.[0]?.Setting === 'Pendant' && getCompleteStep2?.[0]?.Status === 'active' || getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active')) ? 'Pendant' : ((getCompleteStep2?.[0]?.Setting === 'Ring' && getCompleteStep2?.[0]?.Status === 'active' || getCompleteStep3?.[0]?.Setting === 'Ring' && getCompleteStep3?.[0]?.Status === 'active')) ? 'Ring' : 'Earring'}
                     </span>
-                    {(compSet && (getCompleteStep1?.[2]?.price || (getCompleteStep2?.[2]?.price && getCompleteStep2?.[0]?.Status === "active" ? getCompleteStep2?.[2]?.price : getCompleteStep3?.[2]?.price && getCompleteStep3?.[0]?.Status === "active" ? getCompleteStep3?.[2]?.price : getCompleteStep4?.[2]?.price))) && (
+                    {(compSet && (getCompleteStep1?.[2]?.price || (getCompleteStep2?.[2]?.price && getCompleteStep2?.[0]?.Status === "active" ? getCompleteStep2?.[2]?.price : getCompleteStep3?.[2]?.price && getCompleteStep3?.[0]?.Status === "active" ? getCompleteStep3?.[2]?.price : getCompleteStep4?.[2]?.price && getCompleteStep4?.[0]?.Status === "active" ? getCompleteStep4?.[2]?.price : ""))) && (
                         <span className='for_total_prc'>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(
-                            getCompleteStep1?.[2]?.price || (getCompleteStep2?.[2]?.price && getCompleteStep2?.[0]?.Status === "active" ? getCompleteStep2?.[2]?.price : getCompleteStep3?.[2]?.price && getCompleteStep3?.[0]?.Status === "active" ? getCompleteStep3?.[2]?.price : getCompleteStep4?.[2]?.price))}</span>
+                            getCompleteStep1?.[2]?.price || (getCompleteStep2?.[2]?.price && getCompleteStep2?.[0]?.Status === "active" ? getCompleteStep2?.[2]?.price : getCompleteStep3?.[2]?.price && getCompleteStep3?.[0]?.Status === "active" ? getCompleteStep3?.[2]?.price : getCompleteStep4?.[2]?.price && getCompleteStep4?.[0]?.Status === "active" ? getCompleteStep4?.[2]?.price : ""))}</span>
                     )}
                 </div>
                 {showModal && (
@@ -3743,7 +4097,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                             // Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
                             setswap("diamond");
                         }}>
-                            <img src={StepImages[0]?.img} className='for_shapes_img' alt="" /> Diamond
+                            <img src={(getCompleteStep4?.[0]?.Status === 'active' || isEarring === true) ? StepImages[0]?.img1 : StepImages[0]?.img} className='for_shapes_img' alt="" /> Diamond
                         </span>
                         {((getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data) && getCustStepData2?.[0]?.Status === "active") && (
                             <HandleDrp
@@ -3765,12 +4119,23 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                                 compSet={compSet}
                             />
                         )}
+                        {((getdiaData4?.[1]?.step2Data ?? getdiaData4?.[0]?.step2Data) && getCustStepData4?.[0]?.Status === "active") && (
+                            <HandleDrp
+                                index={0}
+                                open={open === 'diamond'}
+                                handleOpen={() => handleOpen('diamond')}
+                                data={getdiaData4?.[1]?.step2Data?.[0] ?? getdiaData4?.[0]?.step2Data?.[0]}
+                                ref={(el) => { dropdownRefs.current[1] = el; }}
+                                compSet={compSet}
+                            />
+                        )}
                         {getdiaData?.[0]?.step1Data?.[0] && (
                             <HandleDrp
                                 index={0}
                                 open={open === 'diamond'}
                                 handleOpen={() => handleOpen('diamond')}
                                 data={getdiaData?.[0]?.step1Data?.[0]}
+                                totalPairPrice={getdiaData?.[1]?.totalPrice ?? getdiaData?.[0]?.totalPrice}
                                 ref={(el) => { dropdownRefs.current[1] = el; }}
                                 compSet={compSet}
                             />
@@ -3793,8 +4158,27 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                                 }
                             }}
                         >
-                            <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData3?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : 'for_shapes_img'} src={(((getCompleteStep2?.[0]?.Setting === 'Pendant' && getCompleteStep2?.[0]?.Status === 'active' || getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active') || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[1]?.img1 : StepImages[1]?.img) ||
-                                StepImages[2]?.img} alt="" /> Settings
+                            <img
+                                className={
+                                    getCustStepData?.[1]?.Setting === 'Pendant' || ((getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active') || isPendant === true)
+                                        ? 'for_pendant_view'
+                                        : ((getCompleteStep2?.[0]?.Setting === 'Ring' && getCompleteStep2?.[0]?.Status === 'active') || isRing === true)
+                                            ? 'for_shapes_img'
+                                            : ((getCompleteStep4?.[0]?.Setting === 'Earring' && getCompleteStep4?.[0]?.Status === 'active') || isEarring === true)
+                                                ? 'for_earring_shape'
+                                                : 'for_shapes_img'
+                                }
+                                src={
+                                    getCustStepData?.[1]?.Setting === 'Pendant' || ((getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active') || isPendant === true)
+                                        ? StepImages[1]?.img1
+                                        : ((getCompleteStep2?.[0]?.Setting === 'Ring' && getCompleteStep2?.[0]?.Status === 'active') || isRing === true)
+                                            ? StepImages[1]?.img
+                                            : ((getCompleteStep4?.[0]?.Setting === 'Earring' && getCompleteStep4?.[0]?.Status === 'active') || isEarring === true)
+                                                ? StepImages[1]?.img2
+                                                : StepImages[1]?.img
+                                }
+                                alt=""
+                            />  Settings
                         </span>
                         {((getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) ?? (getdiaData2?.[0]?.step1Data && getCustStepData2?.[0]?.Status === "active")) && (
                             <HandleDrp
@@ -3803,6 +4187,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                                 handleOpen={() => handleOpen('setting')}
                                 data={(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) ?? getdiaData2?.[0]}
                                 ref={(el) => { dropdownRefs.current[0] = el; }}
+                                // totalPairPrice={getdiaData?.[1]?.totalPrice ?? getdiaData?.[0]?.totalPrice}
                                 getImagePath={getImagePath}
                                 compSet={compSet}
                             />
@@ -3814,6 +4199,18 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                                 handleOpen={() => handleOpen('setting')}
                                 data={getdiaData3?.[0]}
                                 ref={(el) => { dropdownRefs.current[0] = el; }}
+                                getImagePath={getImagePath}
+                                compSet={compSet}
+                            />
+                        )}
+                        {(getdiaData4?.[0]?.step1Data && getCustStepData4?.[0]?.Status === "active") && (
+                            <HandleDrp
+                                index={1}
+                                open={open === 'setting'}
+                                handleOpen={() => handleOpen('setting')}
+                                data={getdiaData4?.[0]}
+                                ref={(el) => { dropdownRefs.current[0] = el; }}
+                                totalPairPrice={getdiaData?.[1]?.totalPrice ?? getdiaData?.[0]?.totalPrice}
                                 getImagePath={getImagePath}
                                 compSet={compSet}
                             />
@@ -3833,13 +4230,26 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
 
                     <div className={`step_data ${(getdiaData2?.[1]?.step2Data || getdiaData3?.[1]?.step2Data || getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
                         <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url || getCompleteStep3?.[2]?.url)}`); setswap("finish"); }}>
-                            <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData3?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : 'for_shapes_img'} src={
-                                ((((getCompleteStep1?.[1]?.Setting === 'Pendant' || (getCompleteStep2?.[0]?.Setting === 'Pendant' && getCompleteStep2?.[0]?.Status === 'active' || getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active')) ? StepImages[1]?.img1 : StepImages[1]?.img)))
-                            } alt="" /> {(getCompleteStep1?.[1]?.Setting === 'Pendant' || (getCompleteStep2?.[0]?.Setting === 'Pendant' && getCompleteStep2?.[0]?.Status === 'active' || getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active')) ? 'Pendant' : 'Ring'}
+
+                            <img className={
+                                ((getCustStepData3?.[0]?.Setting === 'Pendant' || isPendant === true)) ? 'for_pendant_view' : ((getCustStepData2?.[0]?.Setting === 'Ring' || isRing === true)) ? 'for_shapes_img' : ((getCustStepData4?.[0]?.Setting === 'Earring' || isEarring === true)) ? 'for_earring_shape' : 'for_shapes_img'}
+                                src={
+                                    (((((getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active' || isPendant === true)) ? StepImages[1]?.img1 :
+                                        (getCompleteStep2?.[0]?.Setting === 'Ring' && getCompleteStep2?.[0]?.Status === 'active' || isRing === true) ? StepImages[1]?.img :
+                                            (getCompleteStep4?.[0]?.Setting === 'Earring' && getCompleteStep4?.[0]?.Status === 'active' || isEarring === true) ? StepImages[1]?.img3 : StepImages[1]?.img)))
+                                } alt="" />
+                            {((getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active' || isPendant === true)) ? 'Pendant' :
+                                (getCompleteStep2?.[0]?.Setting === 'Ring' && getCompleteStep2?.[0]?.Status === 'active' || isRing === true) ? 'Ring' :
+                                    (getCompleteStep4?.[0]?.Setting === 'Earring' && getCompleteStep4?.[0]?.Status === 'active' || isEarring === true) ? 'Earring' : 'Ring'}
+
                         </span>
-                        {(compSet || (getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true)) && (
+                        {(compSet || (getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true || getCompleteStep3?.[2]?.step3 == true || getCompleteStep4?.[2]?.step3 == true)) && (
                             <span className='for_total_prc'>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(
-                                getCompleteStep1?.[2]?.price || ((getCompleteStep2?.[2]?.price || getCompleteStep3?.[2]?.price) && getCompleteStep2?.[0]?.Status === "active" ? getCompleteStep2?.[2]?.price : getCompleteStep3?.[2]?.price))}</span>
+                                getCompleteStep1?.[2]?.price || (getCompleteStep2?.[2]?.price && getCompleteStep2?.[0]?.Status === "active" ? getCompleteStep2?.[2]?.price
+                                    : getCompleteStep3?.[2]?.price && getCompleteStep3?.[0]?.Status === "active"
+                                        ? getCompleteStep3?.[2]?.price
+                                        : getCompleteStep4?.[2]?.price && getCompleteStep4?.[0]?.Status === "active"
+                                            ? getCompleteStep4?.[2]?.price : ""))}</span>
                         )}
                     </div>
                     {showModal && (
@@ -3923,56 +4333,107 @@ const Modal = ({
     open,
     handleClose,
     handleButtonChange,
-    stockno,
-    shape,
+    stockno1,
+    stockno2,
+    shape1,
+    shape2,
+    isPair,
 }) => {
     return (
         <>
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-                sx={{
-                    zIndex: 9999999,
-                    '& .MuiDialog-paper': {
-                        backgroundColor: 'transparent',
-                        border: '1px solid white',
-                    },
-                    '& .MuiDialogContent-root': {
-                        padding: '10px',
-                    },
-                }}
-            >
-                <DialogContent
+            {isPair === true ? (
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
                     sx={{
-                        minWidth: 260,
-                        padding: '0px',
-                        position: 'relative',
-                        overflow: 'hidden',
+                        zIndex: 9999999,
+                        '& .MuiDialog-paper': {
+                            backgroundColor: 'transparent',
+                            border: '1px solid white',
+                        },
+                        '& .MuiDialogContent-root': {
+                            padding: '10px',
+                        },
                     }}
                 >
-                    <div className="for_modal_cancel_btn_div" onClick={handleClose}>
-                        <RxCross1 className='for_modal_cancel_btn' size={'12px'} />
-                    </div>
-                    <div className="for_modal_inner_div">
-                        <span className='for_modal_title'>
-                            What would you like to do?
-                        </span>
-                        <div className="for_modal_buttons_div">
-                            <button onClick={() => {
-                                handleButtonChange('ring', "", stockno, shape, "");
-                                handleClose();
-                            }}>Add your diamond to a ring</button>
-                            <button onClick={() => { handleButtonChange('pendant', "", stockno, shape, ""); handleClose(); }}>add your diamond to a pendant</button>
-                            <button onClick={() => {
-                                handleButtonChange('cart', "", stockno, "", "");
-                                handleClose();
-                            }}>add your diamond to cart</button>
+                    <DialogContent
+                        sx={{
+                            minWidth: 260,
+                            padding: '0px',
+                            position: 'relative',
+                            overflow: 'hidden',
+                        }}
+                    >
+                        <div className="for_modal_cancel_btn_div" onClick={handleClose}>
+                            <RxCross1 className='for_modal_cancel_btn' size={'12px'} />
                         </div>
-                    </div>
-                </DialogContent>
-            </Dialog>
+                        <div className="for_modal_inner_div_earr">
+                            <span className='for_modal_title'>
+                                What would you like to do?
+                            </span>
+                            <div className="for_modal_buttons_div">
+                                <button onClick={() => {
+                                    handleButtonChange('earring', "", [stockno1, stockno2], [shape1, shape2], "");
+                                    handleClose();
+                                }}>Add A Earring</button>
+                                <button onClick={() => {
+                                    handleButtonChange('cart', "", [stockno1, stockno2], "", "");
+                                    handleClose();
+                                }}>Add To Cart</button>
+                            </div>
+                        </div>
+                    </DialogContent>
+                </Dialog>
+            ) : (
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                    sx={{
+                        zIndex: 9999999,
+                        '& .MuiDialog-paper': {
+                            backgroundColor: 'transparent',
+                            border: '1px solid white',
+                        },
+                        '& .MuiDialogContent-root': {
+                            padding: '10px',
+                        },
+                    }}
+                >
+                    <DialogContent
+                        sx={{
+                            minWidth: 260,
+                            padding: '0px',
+                            position: 'relative',
+                            overflow: 'hidden',
+                        }}
+                    >
+                        <div className="for_modal_cancel_btn_div" onClick={handleClose}>
+                            <RxCross1 className='for_modal_cancel_btn' size={'12px'} />
+                        </div>
+                        <div className="for_modal_inner_div">
+                            <span className='for_modal_title'>
+                                What would you like to do?
+                            </span>
+                            <div className="for_modal_buttons_div">
+                                <button onClick={() => {
+                                    handleButtonChange('ring', "", stockno1, shape1, "");
+                                    handleClose();
+                                }}>Add your diamond to a ring</button>
+                                <button onClick={() => { handleButtonChange('pendant', "", stockno1, shape1, ""); handleClose(); }}>add your diamond to a pendant</button>
+                                <button onClick={() => {
+                                    handleButtonChange('cart', "", stockno1, "", "");
+                                    handleClose();
+                                }}>add your diamond to cart</button>
+                            </div>
+                        </div>
+                    </DialogContent>
+                </Dialog>
+            )}
+
         </>
     )
 }

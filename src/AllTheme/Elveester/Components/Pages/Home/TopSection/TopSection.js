@@ -15,8 +15,6 @@ const TopSection = ({ banner }) => {
 
     const checkVideo = banner?.video?.[0];
     const checkImag = banner?.image?.[0];
-    // const checkVideo = `${storImagePath()}/images/HomePage/MainBanner/videos/HomepageMainBannerVideo.mp4`;
-    // const checkImag = `${storImagePath()}/images/HomePage/MainBanner/HomepageMainBannerVideo.png`;
 
     useEffect(() => {
         window.scroll({
@@ -44,12 +42,12 @@ const TopSection = ({ banner }) => {
     };
 
     return (
-        <div>
+        <div className="top-section-container">
             {!islogin ? (
                 <>
                     {loading ? (
                         <div className="loader-container">
-                            <Skeleton variant="rectangular" width='100%' height={700} animation="wave" />
+                            <Skeleton variant="rectangular" width="100%" height="100%" animation="wave" />
                         </div>
                     ) : (
                         <ReactPlayer
@@ -58,8 +56,8 @@ const TopSection = ({ banner }) => {
                             muted={true}
                             controls={!videoStarted}
                             loop={true}
-                            width='100%'
-                            height='auto'
+                            width="100%"
+                            height="auto"
                             onPlay={handleVideoPlay}
                         />
                     )}
@@ -68,20 +66,20 @@ const TopSection = ({ banner }) => {
                 <>
                     {loading ? (
                         <div className="loader-container">
-                            <Skeleton variant="rectangular" width='100%' height={700} animation="wave" />
+                            <Skeleton variant="rectangular" width="100%" height="100%" animation="wave" />
                         </div>
                     ) : (
                         <>
                             <img
                                 loading="lazy"
                                 src={checkImag}
-                                className='elv_top_section_img'
+                                className="elv_top_section_img"
                                 onLoad={handleImageLoad}
                                 onError={handleImageError}
                                 alt="Main Banner"
                             />
                             {!imageLoaded && (
-                                <Skeleton variant="rectangular" width='100%' height={700} animation="wave" />
+                                <Skeleton variant="rectangular" width="100%" height="100%" animation="wave" />
                             )}
                             <CountdownTimer />
                         </>

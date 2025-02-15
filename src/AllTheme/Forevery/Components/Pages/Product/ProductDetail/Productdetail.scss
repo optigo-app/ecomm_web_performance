@@ -191,7 +191,7 @@
                         width: 20rem;
                         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
                         font-family: "Nunito", sans-serif;
-                        z-index: 1000;
+                        z-index: 100;
                         transition: 0.2s ease-in-out;
 
                         @media (max-width: 1400px) {
@@ -1096,6 +1096,7 @@
                             @media (max-width: 600px) {
                                 font-size: 18px;
                             }
+
                             @media (max-width: 500px) {
                                 font-size: 16px;
                             }

@@ -16,15 +16,15 @@ const TheDifference = ({ data }) => {
       <h1 className="malkana-heading" role="heading">CRAFTMANSHIP</h1>
 
       <div className="malkana-videoContainer">
-      <img className="simple_card_gif " src={data?.image?.[0]} alt="" />
-        {/* <video autoPlay loop muted playsInline controls={false} className="malkana-video"  src={data?.video?.[0]}> */}
-          {/* <source src={data?.video?.[0]} type="video/mp4" />
-          <source
+        {/* <img className="simple_card_gif " src={data?.image?.[0]} alt="" /> */}
+        <video autoPlay loop muted playsInline controls={false} className="malkana-video" src={data?.video?.[0]}>
+          <source src={data?.video?.[0]} type="video/mp4" />
+          {/* <source
             src={data?.video[0].replace(".mp4", ".webm")}
             type="video/webm"
-          />
-          Your browser does not support the video tag. */}
-        {/* </video> */}
+          /> */}
+          Your browser does not support the video tag.
+        </video>
       </div>
 
       <p className="malkana-description" aria-label="description">

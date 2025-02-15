@@ -763,7 +763,7 @@
                     height: 66%;
 
                     .for_slider_container_1 {
-                        max-width: 42rem;
+                        // max-width: 42rem;
                         display: flex;
                         flex: 1;
                         height: 100%;
@@ -985,10 +985,10 @@
                                 }
 
 
-                                .for_skeleton_main_image {
+                                .for_skeleton_main_image_1 {
                                     padding: 0;
-                                    width: 34rem;
-                                    height: 100%;
+                                    width: 30rem;
+                                    height: 30rem;
                                     background-color: #f0ededb4 !important;
 
                                     @media (max-width: 1400px) {
@@ -1809,7 +1809,7 @@
                     }
 
                     .for_slider_container_2 {
-                        max-width: 42rem;
+                        max-width: 40rem;
                         display: flex;
                         flex: 1;
                         height: 100%;
@@ -2032,10 +2032,10 @@
                                 }
 
 
-                                .for_skeleton_main_image {
+                                .for_skeleton_main_image_2 {
                                     padding: 0;
-                                    width: 34rem;
-                                    height: 100%;
+                                    width: 30rem;
+                                    height: 30rem;
                                     background-color: #f0ededb4 !important;
 
                                     @media (max-width: 1400px) {
@@ -2865,6 +2865,7 @@
                     .for_DiamondDet_Total_price_div {
                         margin-top: 2rem;
                         display: flex;
+                        align-items: center;
 
                         span {
                             font-size: 30px;
@@ -4520,7 +4521,7 @@
     }
 
     .for_DiamondDet_trend_coll_banner_div {
-        margin-top: 3rem;
+        margin-top: 5rem;
 
         .for_trend_coll_image_div {
             @media (max-width: 1000px) {
@@ -4777,6 +4778,47 @@
             background-color: black;
             font-family: $primaryFontFamily;
             font-size: $fontSize1;
+            color: white;
+            text-transform: capitalize;
+            padding: 8px;
+            transition: all .2s ease-in-out !important;
+
+            &:hover {
+                box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23) !important;
+                opacity: .9 !important;
+            }
+        }
+    }
+}
+
+.for_modal_inner_div_earr {
+    position: relative;
+    background-color: white;
+    width: 270px;
+    height: 210px;
+    border: 1px solid black;
+    z-index: 1;
+    text-align: center;
+    padding: 39px 30px 29px;
+    overflow: hidden;
+
+    .for_modal_title {
+        color: #000;
+        font-size: 16px;
+        font-weight: 700 !important;
+        font-family: $primaryFontFamily;
+    }
+
+    .for_modal_buttons_div {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-top: 1.5rem;
+
+        button {
+            background-color: black;
+            font-family: $primaryFontFamily;
+            font-size: 13px;
             color: white;
             text-transform: capitalize;
             padding: 8px;

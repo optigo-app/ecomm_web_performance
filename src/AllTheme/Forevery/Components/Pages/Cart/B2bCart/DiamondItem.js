@@ -50,6 +50,14 @@ const DiamondItems = ({
     const setCartCountVal = useSetRecoilState(for_CartCount)
     const [storeInitData, setStoreInitData] = useState();
     const visiterId = Cookies.get('visiterId');
+    const steps3 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
+
+    let isPair;
+    if (steps3?.[0]?.Status === 'active' || JSON.parse(sessionStorage.getItem('isPair'))) {
+        isPair = true;
+    } else {
+        isPair = false;
+    }
 
     const isLargeScreen = useMediaQuery('(min-width: 1600px)');
     const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
@@ -123,12 +131,12 @@ const DiamondItems = ({
         event.target.src = noImageFound;
     };
 
-    const isEarring = 2;
+    const isEarring = isPair;
 
     return (
         <>
             {diamondData?.map((diaData) =>
-                isEarring === 1 ? (
+                isEarring === true ? (
                     <div className="for_cartMain-item_earr_div"
                         style={{
                             // boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '0 3px 8px rgba(223, 100, 126, 0.54)'

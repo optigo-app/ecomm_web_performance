@@ -236,8 +236,14 @@ const Header = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [expandedMenu, setExpandedMenu] = useState(null);
   const [selectedData, setSelectedData] = useState([]);
+  const isMounted = useRef(false);
 
   useEffect(() => {
+    if(!isMounted.current){
+      isMounted.current = true;
+      return;
+    }
+
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
     if (
@@ -535,7 +541,7 @@ const Header = () => {
           isTabletResponsive ? (
             <>
               <div className="el_withoutL_Header_Main ">
-                <ul className="el_withoutL_ul_Main_side">
+                <div className="el_withoutL_ul_Main_side">
                   <Menubar />
                   <div className="el_whioutL_headerDiv2_side">
                     <a href="/">
@@ -558,38 +564,38 @@ const Header = () => {
                       </p>
                     </div>
                   </div>
-                </ul>
+                </div>
               </div>
             </>
           ) : (
             <>
               <div className="el_withoutL_Header_Main ">
-                <ul className="el_withoutL_ul_Main">
+                <div className="el_withoutL_ul_Main">
                   <div className="el_whioutL_headerDiv1">
-                    <li
+                    <div
                       className="el_whioutL_li"
                       style={{ cursor: "pointer" }}
                       // onClick={() => ScrollToView("brandsComponentID")}
                       onClick={() => HandleMoveToMenu('brandsComponentID')}
                     >
                       Our Brands
-                    </li>
-                    <li
+                    </div>
+                    <div
                       className="el_whioutL_li"
                       style={{ cursor: "pointer" }}
                       // onClick={() => ScrollToView("elveeGiftMainId")}
                       onClick={() => HandleMoveToMenu('elveeGiftMainId')}
                     >
                       Product
-                    </li>
-                    <li
+                    </div>
+                    <div
                       className="el_whioutL_li"
                       style={{ cursor: "pointer" }}
                       // onClick={() => ScrollToView("craftmenshipId")}
                       onClick={() => HandleMoveToMenu('craftmenshipId')}
                     >
                       Our Craftsmanship
-                    </li>
+                    </div>
                   </div >
                   <div className="el_whioutL_headerDiv2">
                     <a href='/'>
@@ -604,7 +610,7 @@ const Header = () => {
                   </div>
                   <div className="el_whioutL_headerDiv3">
                     <div className="el_whioutL_headerDiv3_sub1">
-                      <li
+                      <div
                         className="el_whioutL_li"
                         style={{ cursor: "pointer" }}
                         // onClick={() => ScrollToView("mainGalleryConatinerID")}
@@ -612,8 +618,8 @@ const Header = () => {
 
                       >
                         Gallery
-                      </li>
-                      <li
+                      </div>
+                      <div
                         className="el_whioutL_li"
                         style={{ cursor: "pointer" }}
                         // onClick={() => ScrollToView("mainSocialMediaConatinerID")}
@@ -621,14 +627,14 @@ const Header = () => {
 
                       >
                         Social Media
-                      </li>
-                      <li
+                      </div>
+                      <div
                         className="el_whioutL_li"
                         style={{ cursor: "pointer" }}
                         onClick={() => navigation("/contact-us")}
                       >
                         Contact
-                      </li>
+                      </div>
                     </div>
                     <div className="el_whioutL_headerDiv3_sub2">
                       <p
@@ -639,7 +645,7 @@ const Header = () => {
                       </p>
                     </div>
                   </div>
-                </ul >
+                </div >
               </div >
             </>
           )
@@ -1046,12 +1052,12 @@ const Header = () => {
             <img
               src={`${storImagePath()}/images/Menu/Menu1.jpg`}
               alt="Image 1"
-              class="dropdown-image-1"
+              className="dropdown-image-1"
             />
             <img
               src={`${storImagePath()}/images/Menu/Menu2.jpg`}
               alt="Image 2"
-              class="dropdown-image-2"
+              className="dropdown-image-2"
             />
           </div>
           <div

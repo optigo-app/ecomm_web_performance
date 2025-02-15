@@ -74,8 +74,8 @@
   .nav_li_smining_shop{
     color: $menuTextColor;
     // color: white;
-    // font-size: $fontSize3;
-    font-size: $fontSize2; // privaa 
+    font-size: $fontSize3;
+    // font-size: $fontSize2; // privaa 
     font-weight: 600;
     letter-spacing: 1px;
     position: relative;
@@ -118,8 +118,8 @@
 
   .nav_li_smining_Icone {
     // privaa
-    color: $hoverTextColor;
-    // color: $menuTextColor;
+    // color: $hoverTextColor;
+    color: $menuTextColor;
     // color: white;
     font-size: $fontSize1;
     font-weight: 500;
@@ -241,8 +241,8 @@
 
   .stam_A_link {
     text-decoration: none;
-    color: $homePageTopTextColor !important;
-    // color: $menuTextColor !important;
+    // color: $homePageTopTextColor !important;
+    color: $menuTextColor !important;
     font-family: $primaryFontFamily;
     // color: white;
 
@@ -306,16 +306,16 @@
     text-decoration: none;
 
     // just for privaa
-    color: $hoverTextColor;
-
-    p {
-      color: $hoverTextColor;
-    }
-    // color: $menuTextColor;
+    // color: $hoverTextColor;
 
     // p {
-    //   color: $menuTextColor;
+    //   color: $hoverTextColor;
     // }
+    color: $menuTextColor;
+
+    p {
+      color: $menuTextColor;
+    }
   }
 
   .muilist2ndSubMenutext {
@@ -342,8 +342,8 @@
     text-decoration: underline;
 
     // just for privaa
-    color: $hoverTextColor;
-    // color: $menuTextColor;
+    // color: $hoverTextColor;
+    color: $menuTextColor;
   }
 
   .mala_listMain {
@@ -362,8 +362,8 @@
     height: 150%;
 
     // just for privaa
-    background-color: #F5FDFF;
-    // background-color: $backgroundColor;
+    // background-color: #F5FDFF;
+    background-color: $backgroundColor;
     z-index: 999999999999;
     transition: all 0.9s ease-in-out;
     box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
@@ -458,8 +458,8 @@
 
   .mala_headerOptionSingleDiv {
     // jist for privaa
-    border-right: 1px solid $hoverTextColor;
-    // border-right: 1px solid $menuTextColor;
+    // border-right: 1px solid $hoverTextColor;
+    border-right: 1px solid $menuTextColor;
     padding-left: 30px;
     min-width: fit-content;
 
@@ -482,17 +482,17 @@
 
   .badgeColorFix .MuiBadge-badge {
     // privaa
-    background-color: $hoverTextColor !important;
-    color: white !important;
-    // background-color: white !important;
-    // color: #c0bbb1 !important;
+    // background-color: $hoverTextColor !important;
+    // color: white !important;
+    background-color: white !important;
+    color: #c0bbb1 !important;
     margin-left: 10px !important;
   }
 
   .malkan_sec_menu {
     // privaa
-    color: $hoverTextColor;
-    // color: $menuTextColor;
+    // color: $hoverTextColor;
+    color: $menuTextColor;
     // color: white;
     font-size: 12px;
     font-family: $primaryFontFamily !important;
@@ -504,8 +504,8 @@
     border: none;
     background-color: transparent;
     // privaa
-    color: $hoverTextColor;
-    // color: $menuTextColor;
+    // color: $hoverTextColor;
+    color: $menuTextColor;
     // color: white;
     text-decoration: underline;
     font-size: 12px;
@@ -518,8 +518,8 @@
     margin: 0px 0px 0px 15px;
     padding-block: 5px;
     // privaa
-    color: $hoverTextColor;
-    // color: $menuTextColor;
+    // color: $hoverTextColor;
+    color: $menuTextColor;
     // color: #f6f6f6;
     font-family: $primaryFontFamily;
   }
@@ -527,27 +527,27 @@
   .mala_mobile_list_bar {
     padding: 5px;
     // privaa
-    border-bottom: 1px solid $hoverTextColor;
-    // border-bottom: 1px solid $menuTextColor;
+    // border-bottom: 1px solid $hoverTextColor;
+    border-bottom: 1px solid $menuTextColor;
   }
 
   .mala_mobile_search {
     height: 20px;
     cursor: pointer;
     // privaa
-    color: $hoverTextColor;
-    // color: $menuTextColor;
+    // color: $hoverTextColor;
+    color: $menuTextColor;
     width: 20px;
   }
 
   .mlakna_mob_search {
     display: flex;
     // privaa
-    border-bottom: 1px solid $hoverTextColor;
-    // border-bottom: 1px solid white;
+    // border-bottom: 1px solid $hoverTextColor;
+    border-bottom: 1px solid white;
     font-family: $primaryFontFamily ;
-    border: 1px solid $hoverTextColor;
-    // border: 1px solid white;
+    // border: 1px solid $hoverTextColor;
+    border: 1px solid white;
     padding: 12px 8px;
     display: flex;
     align-items: center;
@@ -560,8 +560,8 @@
       outline: none;
       font-weight: 500;
       // privaa
-      color: $hoverTextColor;
-      // color: $menuTextColor;
+      // color: $hoverTextColor;
+      color: $menuTextColor;
       // color: white;
       font-size: 12px;
       background: transparent;
@@ -571,8 +571,8 @@
 
   .mobileSideBarSearch::placeholder {
     // privaa
-    color: $hoverTextColor;
-    // color: $menuTextColor;
+    // color: $hoverTextColor;
+    color: $menuTextColor;
     // color: white;
   }
 
@@ -727,8 +727,8 @@
     .mala_menuStaicMobile {
       margin: 0px;
       // privaa
-      color: $hoverTextColor;
-      // color: $menuTextColor;
+      // color: $hoverTextColor;
+      color: $menuTextColor;
       // color: white;
       padding: 5px 0px 5px 15px;
       font-family: $primaryFontFamily !important;
@@ -740,8 +740,8 @@
       margin: 0px;
       border-bottom: 1px solid white;
       // privaa
-      color: $hoverTextColor;
-      // color: $menuTextColor;
+      // color: $hoverTextColor;
+      color: $menuTextColor;
       // color: white;
       padding: 5px 0px 5px 20px;
       font-family: $primaryFontFamily;
@@ -751,8 +751,8 @@
     .mala_menuStaicMobilePageLink {
       margin: 0px;
       // privaa
-      color: $hoverTextColor;
-      // color: $menuTextColor;
+      // color: $hoverTextColor;
+      color: $menuTextColor;
       // color: white;
       font-weight: 800;
       padding: 5px 0px 5px 20px;

@@ -181,7 +181,7 @@ const WishlistItems = ({
                                     className="mala_Wl-Cartbtn"
                                     onClick={() => handleWishlistToCartFun(item)}
                                 >
-                                    {item?.IsInCart != 1 ? "Add to cart +" : "Remove from cart"}
+                                    {item?.IsInCart != 1 ? "Add to cart +" : "In cart"}
                                 </button>
                             </div>
                         </div>
@@ -216,7 +216,7 @@ const WishlistItems = ({
                                     className="mala_Wl-Cartbtn"
                                     onClick={() => handleWishlistToCartFun(item)}
                                 >
-                                    {item?.IsInCart != 1 ? "Add to cart +" : "Remove from cart"}
+                                    {item?.IsInCart != 1 ? "Add to cart +" : "In cart"}
                                 </button>
                             </div>
                         </div>

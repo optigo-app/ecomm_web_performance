@@ -1,31 +1,72 @@
-.elv_top_section_img {
-    // height: 100%;
-    // object-fit: cover;
-    // object-position: center;
-    // width: 100%;
-    // min-height: 750px;
-    max-height: 780px;
-    min-height: auto;
-    object-fit: cover;
+.top-section-container {
+    position: relative;
     width: 100%;
+    height: 900px;  /* Fixed height for all screens */
+    overflow: hidden;
 }
 
-// @media (max-width: 1400px) {
-//     .elv_top_section_img {
-//         height: 100%;
-//         object-fit: cover;
-//         object-position: right;
-//         width: 100%;
-//     }
+.elv_top_section_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image fills the container without stretching */
+}
 
-// }
+.loader-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-// @media (max-width: 768px) {
-//     .elv_top_section_img {
-//         height: 100%;
-//         object-fit: cover;
-//         object-position: 1px;
-//         width: 100%;
-//     }
+@media screen and (max-width: 1200px) {
+    .top-section-container {
+        height: 600px; /* Adjusted height for smaller screens (optional) */
+    }
+}
 
-// }
+@media screen and (max-width: 1000px) {
+    .top-section-container {
+        height: 500px; /* Adjusted height for smaller screens (optional) */
+    }
+}
+
+@media screen and (max-width: 870px) {
+    .top-section-container {
+        height: 400px; /* Adjusted height for smaller screens (optional) */
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .top-section-container {
+        height: 300px; /* Adjusted height for smaller screens (optional) */
+    }
+}
+
+@media screen and (max-width: 530px) {
+    .top-section-container {
+        height: 280px; /* Adjusted height for smaller screens (optional) */
+    }
+}
+@media screen and (max-width: 490px) {
+    .top-section-container {
+        height: 250px; /* Adjusted height for smaller screens (optional) */
+    }
+}
+@media screen and (max-width: 440px) {
+    .top-section-container {
+        height: 200px; /* Adjusted height for smaller screens (optional) */
+    }
+}
+@media screen and (max-width: 360px) {
+    .top-section-container {
+        height: 190px; /* Adjusted height for smaller screens (optional) */
+    }
+}
+
+@media screen and (max-width: 340px) {
+    .top-section-container {
+        height: 170px; /* Adjusted height for smaller screens (optional) */
+    }
+}
+

@@ -671,7 +671,7 @@ const Lookbook = () => {
   const CustomLabel = ({ text }) => (
     <Typography
       sx={{
-        fontFamily: "Rowan1 , sans-serif !important",
+        fontFamily: "Baskerville , sans-serif !important",
         fontSize: {
           xs: "13.2px !important", // Mobile screens
           sm: "14.1px !important", // Tablets
@@ -754,7 +754,7 @@ const Lookbook = () => {
                             "&.MuiAccordionSummary-root": {
                               padding: 0,
                             },
-                            fontFamily: "Rowan1 , sans-serif !important",
+                            fontFamily: "Baskerville , sans-serif !important",
 
                           }}
                         // className="filtercategoryLable"
@@ -871,7 +871,7 @@ const Lookbook = () => {
                           "&.MuiAccordionSummary-root": {
                             padding: 0,
                           },
-                          fontFamily: "Rowan1 , sans-serif !important",
+                          fontFamily: "Baskerville , sans-serif !important",
 
                         }}
                       // className="filtercategoryLable"
