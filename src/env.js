@@ -11,4 +11,4 @@
 // export const REACT_APP_WEB = "demostore";  
 export const REACT_APP_WEB = "forevery.web";    // Forevery.web | Foreveryd.optigoapps.com  | world.forevery.one 
 // export const REACT_APP_WEB = "elvee.web";   // elvee.in 
-// export const REACT_APP_WEB = "fgstorepro.mapp";   // procatalog mobile app
+// export const REACT_APP_WEB = "fgstorepro.mapp";   // procatalog mobile app 

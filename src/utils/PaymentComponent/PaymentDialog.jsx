@@ -37,6 +37,7 @@ export default function EnhancedPaymentDialog({ open, close, mode }) {
                         borderRadius: '10px',
                         padding: '20px',
                         boxShadow: 24,
+                        height:'220px',
                     },
                 }}
             >

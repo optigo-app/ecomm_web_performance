@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { smrMA_homeLoading, smrMA_loginState } from "../../../Recoil/atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import imageNotFound from '../../../Assets/image-not-found.jpg'
+import { storImagePath } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const Album = () => {
 
@@ -17,6 +18,13 @@ const Album = () => {
   const setLoadingHome = useSetRecoilState(smrMA_homeLoading);
   const [storeInit, setStoreInit] = useState({});
   const [validImages, setValidImages] = useState([]);
+
+  const AlbumsImages = [
+    `${storImagePath()}/images/album-static/1.png`,
+    `${storImagePath()}/images/album-static/2.png`,
+    `${storImagePath()}/images/album-static/3.png`,
+    `${storImagePath()}/images/album-static/4.png`
+  ]
 
   useEffect(() => {
     setLoadingHome(true);
@@ -195,7 +203,7 @@ const Album = () => {
               >
                 <img
                   className="smr_AlbumImageMain_img"
-                  src={data?.src}
+                  src={AlbumsImages[index]}
                   alt="image"
                   onError={(e) => {
                          e.target.src = imageNotFound;
