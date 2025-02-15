@@ -215,7 +215,7 @@ const DiamondFilter = () => {
 
   useEffect(() => {
     if (location?.pathname) {
-      setCheckedItem(location?.pathname?.split("/")[3]);
+      setCheckedItem(location?.pathname?.split("/")[3] ?? '');
       if (steps?.[0]?.step1 == true && steps?.[0]?.shape !== null) {
         updateSteps(checkedItem);
       }
@@ -223,7 +223,7 @@ const DiamondFilter = () => {
   }, [location?.pathname]);
 
   const getShapeFromURL = () => {
-    const getShape = location?.pathname?.split("/")[3];
+    const getShape = location?.pathname?.split("/")[3] ?? '';
     const getPath = location?.pathname?.split("/")?.slice(1, 3);
     const mergePath = getPath.join("/");
     if (mergePath == "certified-loose-lab-grown-diamonds/diamond") {
@@ -295,7 +295,7 @@ const DiamondFilter = () => {
   };
 
   const handleCheckboxChange = (name) => {
-    const shape = location?.pathname?.split("/")[3];
+    const shape = location?.pathname?.split("/")[3] ?? '';
     if (name) {
       let newPath;
       if (shape !== "") {
@@ -437,9 +437,9 @@ const DiamondFilter = () => {
   };
   const fetchData = async (shape, parsedData) => {
     const isEarringFlow = location?.state?.isPairFlow;
-    if(isEarringFlow){
+    if (isEarringFlow) {
       setisEarringFlow(isEarringFlow);
-    }else{
+    } else {
       setisEarringFlow(false);
     }
     setIsLoading(true);
@@ -698,14 +698,70 @@ const DiamondFilter = () => {
     fetchData();
   }, [Condition]);
 
+  const ResetFilter = async () => {
+    try {
+      const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
+      if (getFilterdata !== null && getFilterdata !== undefined) {
+        // Reset sliders to initial values
+        const gapSize = getFilterdata?.Color?.options?.length / 1;
+        const value = (getFilterdata?.Color?.options?.length * gapSize).toFixed(2);
+
+        setFilterApiOptions(getFilterdata);
+        const ColorMarks = UseLabelGap(getFilterdata?.Color?.options, 100);
+        const ClarityMarks = UseLabelGap(getFilterdata?.Clarity?.options, 100);
+        const Cutmarks = UseLabelGap(getFilterdata?.Cut?.options, 100);
+
+        setFilters(getFilterdata);
+        setSliderState({
+          price: [getFilterdata?.price?.min, getFilterdata?.price?.max],
+          Carat: [getFilterdata?.carat?.min, getFilterdata?.carat?.max],
+          Color: [0, ColorMarks[0]?.value],
+          Clarity: [0, ClarityMarks[0]?.value],
+          Cut: [0, Cutmarks[0]?.value],
+        });
+
+
+        setFiltersData({
+          polish: [],
+          symmetry: [],
+          lab: [],
+          depth: [getFilterdata?.depth?.min, getFilterdata?.depth?.max],
+          table: [getFilterdata?.table?.min, getFilterdata?.table?.max],
+          fluorescence: [],
+          culet: [],
+        });
+
+        setFiltersData1({
+          polish: [],
+          symmetry: [],
+          lab: [],
+          depth: [],
+          table: [],
+          fluorescence: [],
+          culet: [],
+        });
+
+        setSliderState1({
+          price: [],
+          Carat: [],
+          Color: [],
+          Clarity: [],
+          Cut: [],
+        });
+        setSliderLabels1([]);
+        Navigate('/certified-loose-lab-grown-diamonds/diamond/')
+      }
+    } catch (error) {
+      console.error("Error resetting filter data:", error);
+    }
+  };
+
   useEffect(() => {
     const updatedArray = {
       Price: sliderState1?.price || "",
       Carat: sliderState1?.Carat,
-      Color:
-        sliderLabels1?.find((label) => label.type === "Color")?.labels || [],
-      Clarity:
-        sliderLabels1?.find((label) => label.type === "Clarity")?.labels || [],
+      Color:sliderLabels1?.find((label) => label.type === "Color")?.labels || [],
+      Clarity:sliderLabels1?.find((label) => label.type === "Clarity")?.labels || [],
       Cut: sliderLabels1?.find((label) => label.type === "Cut")?.labels || [],
       Polish: filtersData1?.Polish,
       Symmetry: filtersData1?.Symmetry,
@@ -716,141 +772,123 @@ const DiamondFilter = () => {
       Culet: filtersData1?.Culet,
     };
 
+    console.log('updatedArray: ', updatedArray);
+    console.log('updatedArray: ', updatedArray);
     setTimeout(() => {
       setFinalArray(updatedArray);
     }, 500);
   }, [sliderState1, sliderLabels1, filtersData1, location?.pathname]);
 
+  // useEffect(() => {
+  //   debugger
+  //   const UpdatedUrl = setTimeout(() => {
+  //     const extractedValue = location?.pathname.split("f=")[1] ?? "";
+  //     const decodedUrlData = decodeAndDecompress(extractedValue) ?? '';
+  //     const parsedData = parseUrlSegment(decodedUrlData);
+  //     const pathname = location?.pathname.split("/");
+
+  //     // Determine which data to use
+  //     const dataToUse = Object.keys(finalArray)?.some(
+  //       (key) => Array.isArray(finalArray[key]) && finalArray[key].length > 0
+  //     )
+  //       ? finalArray
+  //       : parsedData ?? {};
+
+  //     const sliderParams = Object.entries(dataToUse)
+  //       .filter(
+  //         ([key, value]) =>
+  //           value &&
+  //           (Array.isArray(value)
+  //             ? value.length > 0
+  //             : typeof value === "string" && value.length > 0)
+  //       )
+  //       .filter(([key, value]) =>
+  //         Array.isArray(value)
+  //           ? value.every((v) => v !== null && v !== undefined && v !== "")
+  //           : true
+  //       )
+  //       .map(([key, value]) =>
+  //         Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
+  //       )
+  //       .join("/");
+  //     const shape = location?.pathname?.split("/")[3] ?? '';
+  //     const urlToEncode = `${shape ? `/shape/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""
+  //       }`;
+  //     let encodeUrl;
+  //     let decodedUrl = decodeAndDecompress(encodeUrl);
+  //     console.log('decodedUrl: ', decodedUrl);
+  //     if (urlToEncode !== '') {
+  //       encodeUrl = compressAndEncode(urlToEncode);
+  //     }
+  //     const newPath = `${pathname?.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
+  //       }`;
+  //     Navigate(newPath);
+  //   }, 600);
+  //   return () => clearTimeout(UpdatedUrl);
+  // }, [finalArray]);
+
+  // function parseUrlSegment(segment) {
+  //   const parts = segment?.split("/")?.slice(1);
+  //   const result = {};
+
+  //   for (let i = 0; i < parts?.length; i += 2) {
+  //     const key = parts[i];
+  //     const value = parts[i + 1];
+  //     if (value) {
+  //       if (value.includes(",")) {
+  //         result[key] = value
+  //           .split(",")
+  //           .map((item) => (item === "null" ? "null" : item));
+  //       } else {
+  //         result[key] = value;
+  //       }
+  //     }
+  //   }
+
+  //   return result;
+  // }
+
+  // useEffect(() => {
+  //   const debounceTimer = setTimeout(() => {
+  //     const extractedValue = location?.pathname.split("f=")[1] ?? "";
+  //     const shape = location?.pathname?.split("/")[3] ?? '';
+  //     if (extractedValue) {
+  //       try {
+  //         const decodedUrl = decodeAndDecompress(extractedValue);
+  //         const parsedData = parseUrlSegment(decodedUrl);
+  //         fetchData(shape, parsedData);
+  //       } catch (error) {
+  //         console.error("Error decoding and parsing URL:", error);
+  //         fetchData(shape);
+  //       }
+  //     } else {
+  //       fetchData(shape);
+  //     }
+  //   }, 300);
+
+  //   return () => clearTimeout(debounceTimer);
+  // }, [location?.pathname, selectedsort, sortValue, location?.key]);
+
   useEffect(() => {
-    const UpdatedUrl = setTimeout(() => {
-      const extractedValue = location?.pathname.split("f=")[1] ?? "";
-      const decodedUrlData = decodeAndDecompress(extractedValue);
-      const parsedData = parseUrlSegment(decodedUrlData);
-      const pathname = location?.pathname.split("/");
+    const debounceTimer = setTimeout(() => {
+      const shape = location?.pathname?.split("/")[3] ?? '';
 
-      // Determine which data to use
-      const dataToUse = Object.keys(finalArray)?.some(
-        (key) => Array.isArray(finalArray[key]) && finalArray[key].length > 0
-      )
-        ? finalArray
-        : parsedData ?? {};
-
-      const sliderParams = Object.entries(dataToUse)
-        .filter(
-          ([key, value]) =>
-            value &&
-            (Array.isArray(value)
-              ? value.length > 0
-              : typeof value === "string" && value.length > 0)
-        )
-        .filter(([key, value]) =>
-          Array.isArray(value)
-            ? value.every((v) => v !== null && v !== undefined && v !== "")
-            : true
-        )
-        .map(([key, value]) =>
-          Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
-        )
-        .join("/");
-      const shape = location?.pathname?.split("/")[3];
-      const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""
-        }`;
-      const encodeUrl = compressAndEncode(urlToEncode);
-      const decodedUrl = decodeAndDecompress(encodeUrl);
-      const newPath = `${pathname?.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
-        }`;
-      Navigate(newPath);
-    }, 600);
-    return () => clearTimeout(UpdatedUrl);
-  }, [finalArray]);
-
-  function parseUrlSegment(segment) {
-    const parts = segment?.split("/")?.slice(1);
-    const result = {};
-
-    for (let i = 0; i < parts?.length; i += 2) {
-      const key = parts[i];
-      const value = parts[i + 1];
-      if (value) {
-        if (value.includes(",")) {
-          result[key] = value
-            .split(",")
-            .map((item) => (item === "null" ? "null" : item));
-        } else {
-          result[key] = value;
-        }
-      }
-    }
-
-    return result;
-  }
-
-  useEffect(() => {
-    const extractedValue = location?.pathname.split("f=")[1] ?? "";
-    const shape = location?.pathname?.split("/")[3];
-    if (extractedValue) {
       try {
-        const decodedUrl = decodeAndDecompress(extractedValue);
-        const parsedData = parseUrlSegment(decodedUrl);
-        fetchData(shape, parsedData);
+        console.log('finalArray:', finalArray);
+        fetchData(shape, finalArray);
       } catch (error) {
-        console.error("Error decoding and parsing URL:", error);
+        console.error("Error fetching data:", error);
         fetchData(shape);
       }
-    } else {
-      fetchData(shape);
-    }
-  }, [location?.pathname, selectedsort, sortValue ,location?.key]);
+    }, 300);
 
-  
-  const ResetFilter = async () => {
-    try {
-      const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
-      if (getFilterdata !== null && getFilterdata !== undefined) {
-        // Reset sliders to initial values
-        const gapSize = getFilterdata?.Color?.options?.length / 1;
-        const value = (getFilterdata?.Color?.options?.length * gapSize).toFixed(2);
-  
-        setFilterApiOptions(getFilterdata);
-        const ColorMarks = UseLabelGap(getFilterdata?.Color?.options, 100);
-        const ClarityMarks = UseLabelGap(getFilterdata?.Clarity?.options, 100);
-        const Cutmarks = UseLabelGap(getFilterdata?.Cut?.options, 100);
-        
-        setFilters(getFilterdata);
-        setSliderState({
-          price: [getFilterdata?.price?.min, getFilterdata?.price?.max],
-          Carat: [getFilterdata?.carat?.min, getFilterdata?.carat?.max],
-          Color: [0, ColorMarks[0]?.value],
-          Clarity: [0, ClarityMarks[0]?.value],
-          Cut: [0, Cutmarks[0]?.value],
-        });
-        setFiltersData({
-          polish: [],
-          symmetry: [],
-          lab: [],
-          depth: [getFilterdata?.depth?.min, getFilterdata?.depth?.max],
-          table: [getFilterdata?.table?.min, getFilterdata?.table?.max],
-          fluorescence: [],
-          culet: [],
-        });
-  
-        // Reset the final array to default values
-        setFinalArray({
-          Price: getFilterdata?.price ? [getFilterdata?.price?.min, getFilterdata?.price?.max] : [],
-          Carat: getFilterdata?.carat ? [getFilterdata?.carat?.min, getFilterdata?.carat?.max] : [],
-          Color: [0, ColorMarks[0]?.value],
-          Clarity: [0, ClarityMarks[0]?.value],
-          Cut: [0, Cutmarks[0]?.value],
-          Depth: [getFilterdata?.depth?.min, getFilterdata?.depth?.max],
-          Table: [getFilterdata?.table?.min, getFilterdata?.table?.max],
-          // Add other filters if needed
-        });
-      }
-    } catch (error) {
-      console.error("Error resetting filter data:", error);
-    }
-  };
+    return () => clearTimeout(debounceTimer);
+  }, [finalArray]);
 
+
+
+
+  console.log('slider', sliderState1)
   // const ResetFilter = async()=>{
   //   try {
   //     const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
@@ -1439,7 +1477,7 @@ const DiamondFilter = () => {
         </div>
         <div className="filter_results">
           <hr />
-          <h3>Showing {isEarringFlow ?  PairedDiamonds?.length  : diaCount} lab grown diamonds</h3>
+          <h3>Showing {isEarringFlow ? PairedDiamonds?.length : diaCount} lab grown diamonds</h3>
           <div className="col_details">
             <div className="desc">
               <p>
@@ -1487,7 +1525,7 @@ const DiamondFilter = () => {
           <>
             {diamondData?.length != 0 && diamondData?.[0]?.stat !== 0 ? (
               <>
-               {!isEarringFlow ? <div className="diamond_listing" >
+                {!isEarringFlow ? <div className="diamond_listing" >
                   {diamondData?.map((val, i) => {
                     const currentMediaType = ShowMedia[i] || "vid";
                     const bannerImage = getBannerImage(i);
@@ -1597,57 +1635,57 @@ const DiamondFilter = () => {
                     );
                   })}
                 </div> :
-                <div className="pair_diamond_listing">
-                  {PairedDiamonds?.map((val, i) => {
-                    return (
-                      <div key={i} className="diamond_card">
-                        <div className="media_frame">
-                          <div className="paired_diamond">
-                            {val?.map((dia) => {
-                              const image = getImagePath(dia?.shapename);
-                              return <img src={image} alt={dia?.shapename} className="earr_paired_diamond_img" />
-                            })}
-                          </div>
-                          {!val?.isBanner == true && (
-                            <>
-                              <div className="select_this_diamond_banner" onClick={() => HandleDiamondRoute(val)}>
-                                <span>Select This Diamond</span>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                        <>
-                          <div className="for_pair_details">
-                            {val?.map((det, i) => {
-                              return <>
-                                <div className="title">
-                                  <span>
-                                    {det?.shapename} <strong>{det?.carat?.toFixed(3)}</strong>{" "}
-                                    CARAT {det?.colorname} {det?.clarityname}{" "}
-                                    {det?.cutname}
-                                  </span>
+                  <div className="pair_diamond_listing">
+                    {PairedDiamonds?.map((val, i) => {
+                      return (
+                        <div key={i} className="diamond_card">
+                          <div className="media_frame">
+                            <div className="paired_diamond">
+                              {val?.map((dia) => {
+                                const image = getImagePath(dia?.shapename);
+                                return <img src={image} alt={dia?.shapename} className="earr_paired_diamond_img" />
+                              })}
+                            </div>
+                            {!val?.isBanner == true && (
+                              <>
+                                <div className="select_this_diamond_banner" onClick={() => HandleDiamondRoute(val)}>
+                                  <span>Select This Diamond</span>
                                 </div>
                               </>
-                            })}
+                            )}
                           </div>
-                        </>
-                        <div className="pair_price_sec">
-                          <div className="pric">
-                            <span className="smr_currencyFont">
-                              {loginInfo?.CurrencyCode ??
-                                storeInitData?.CurrencyCode}
-                            </span>
-                            <span>{
-                              val?.reduce((acc, cuu) => {
-                                return acc + (cuu?.price || 0);
-                              }, 0)
-                            }</span>
+                          <>
+                            <div className="for_pair_details">
+                              {val?.map((det, i) => {
+                                return <>
+                                  <div className="title">
+                                    <span>
+                                      {det?.shapename} <strong>{det?.carat?.toFixed(3)}</strong>{" "}
+                                      CARAT {det?.colorname} {det?.clarityname}{" "}
+                                      {det?.cutname}
+                                    </span>
+                                  </div>
+                                </>
+                              })}
+                            </div>
+                          </>
+                          <div className="pair_price_sec">
+                            <div className="pric">
+                              <span className="smr_currencyFont">
+                                {loginInfo?.CurrencyCode ??
+                                  storeInitData?.CurrencyCode}
+                              </span>
+                              <span>{
+                                val?.reduce((acc, cuu) => {
+                                  return acc + (cuu?.price || 0);
+                                }, 0)
+                              }</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>}
+                      );
+                    })}
+                  </div>}
                 <div>
                   {storeInitData?.IsProductListPagination == 1 &&
                     Math.ceil(diaCount / storeInitData.PageSize) > 1 && (
