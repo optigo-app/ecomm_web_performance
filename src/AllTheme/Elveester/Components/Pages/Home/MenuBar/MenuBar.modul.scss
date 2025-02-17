@@ -2,9 +2,14 @@
 
 .el_display_background {
   font-family: $fontSansSerif !important;
+
+  @media only screen and (max-width: 1366px) {
+    display: block;
+    overflow: visible;
+  }
   .el_login_header_menu_main {
     position: fixed;
-    width: 100%;
+    // width: 100%;
     left: 0;
     width: 23rem;
     z-index: 1200;
@@ -12,6 +17,10 @@
     border: 2px solid white;
     height: 100vh;
     overflow-y: auto;
+
+    @media screen and (max-width: 1366px) {
+      width: 22rem; 
+    }
   }
 
   .el_login_header_menu_main_side {

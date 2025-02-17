@@ -61,6 +61,7 @@ const ProductList = () => {
 
   let maxwidth700px = useMediaQuery("(max-width:700px)");
   let maxwidth1000px = useMediaQuery("(max-width:1000px)");
+  let maxwidth1400px = useMediaQuery("(max-width:1400px)");
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
