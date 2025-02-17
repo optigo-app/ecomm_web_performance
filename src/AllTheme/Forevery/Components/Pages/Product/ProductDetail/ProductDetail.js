@@ -2082,11 +2082,11 @@ const ProductDetail = () => {
                           height={40} style={{ marginInline: "0.3rem" }} />
                         :
                         <div className="for_ProductDet_title">
-                          <span>{singleProd?.designno} -
+                          <span> {` ${singleProd?.MetalTypePurity?.split(" ")[1]} ${metalColorTitle} ${singleProd?.MetalTypePurity?.split(" ")[0]} ${singleProd?.ShapeName} Diamond`}</span>
+                          <span className='for_prod_design'>{singleProd?.designno}
                             {/* {singleProd?.TitleLine && singleProd?.designno
                               ? " - "
                               : ""} {singleProd?.TitleLine} */}
-                            {` ${singleProd?.MetalTypePurity?.split(" ")[1]} ${metalColorTitle} ${singleProd?.MetalTypePurity?.split(" ")[0]} ${singleProd?.ShapeName} Diamond`}
                           </span>
                         </div>
                     }
@@ -2558,9 +2558,11 @@ const ProductDetail = () => {
                     .map((items) => items?.N)
                     .reduce((acc, curr) => acc + curr, 0)
                 ).toFixed(3)}</span></div>
-                {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && diaList?.length) ? (
+                {/* {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && diaList?.length) ? (
                   <div>Diamond Quality Color : <span>{selectDiaQc}</span></div>
-                ) : null}
+                ) : null} */}
+                <div>Diamond Quality : <span>{(singleProd1 ?? singleProd)?.DiaQuaCol?.split(',')[0]}</span></div>
+                <div>Diamond Color : <span>{(singleProd1 ?? singleProd)?.DiaQuaCol?.split(',')[1]}</span></div>
 
               </div>
 

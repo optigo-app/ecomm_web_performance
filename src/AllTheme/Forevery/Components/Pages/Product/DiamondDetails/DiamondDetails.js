@@ -924,9 +924,10 @@ const DiamondDetails = () => {
     };
 
     const handleButtonChange = async (value, e, stockno, shape, settingType) => {
+        console.log('stockno: ', stockno);
         setWishListFlag(e?.target?.checked);
         if (value == 'cart') {
-            await CartAndWishListAPI('Cart', {}, '', '', stockno).then((res) => {
+            await CartAndWishListAPI('Cart', {}, '', '', isPair ? `${stockno[0]},${stockno[1]}` : stockno).then((res) => {
                 if (res) {
                     if (res?.Data?.rd[0]?.msg === 'success') {
                         let cartC = res?.Data?.rd[0]?.Cartlistcount
@@ -941,7 +942,7 @@ const DiamondDetails = () => {
 
         if (value == 'wish') {
             if (e?.target?.checked === true) {
-                let res = await CartAndWishListAPI('Wish', {}, '', '', stockno);
+                let res = await CartAndWishListAPI('Wish', {}, '', '', isPair ? `${stockno[0]},${stockno[1]}` : stockno);
                 if (res) {
                     try {
                         let cartC = res?.Data?.rd[0]?.Cartlistcount;
@@ -957,7 +958,7 @@ const DiamondDetails = () => {
                 }
             }
             else {
-                let res1 = await RemoveCartAndWishAPI('Wish', "", '', '', stockno);
+                let res1 = await RemoveCartAndWishAPI('Wish', "", '', '', isPair ? `${stockno[0]},${stockno[1]}` : stockno);
                 if (res1) {
                     try {
                         let cartC = res1?.Data?.rd[0]?.Cartlistcount;
@@ -1550,7 +1551,7 @@ const DiamondDetails = () => {
                                                 className='for_wishlist_icon'
                                                 disableRipple={true}
                                                 checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
-                                                onChange={(e) => handleButtonChange('wish', e, singleDiaData[0]?.stockno, "", "")}
+                                                onChange={(e) => handleButtonChange('wish', e, [singleDiaData[0]?.stockno, singleDiaData[1]?.stockno], "", "")}
                                             />
                                         </div>
                                     </div>

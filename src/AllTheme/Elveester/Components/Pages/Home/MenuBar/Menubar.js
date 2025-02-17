@@ -6,7 +6,7 @@ import { el_CartCount, el_WishCount, el_companyLogo, el_companyLogoM, el_loginSt
 import { Link, useNavigate } from 'react-router-dom';
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
 import { IoCaretDownSharp, IoPersonOutline } from 'react-icons/io5';
-import { Badge, Tooltip } from '@mui/material';
+import { Badge, Drawer, Tooltip, useMediaQuery } from '@mui/material';
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import CloseIcon from '@mui/icons-material/Close';
@@ -51,6 +51,10 @@ const Menubar = () => {
     const [selectedData, setSelectedData] = useState([]);
     const [isOpen, setIsOpen] = useState(null);
     const [isIconOpen, setIsIconOpen] = useState(false);
+    const maxWidth1366px = useMediaQuery('(max-width: 1400px)')
+    const maxWidth768px = useMediaQuery('(max-width: 768px)')
+    const maxWidth425px = useMediaQuery('(max-width: 425px)')
+    const maxWidth375px = useMediaQuery('(max-width: 375px)')
 
     // const setCartCount = useRecoilState(el_CartCount);
     const [wishCount, setWishCount] = useRecoilState(el_WishCount);
@@ -258,200 +262,214 @@ const Menubar = () => {
                     <>
                         {islogin ? (
                             <>
-                                <div className="el_login_header_menu_main">
-                                    <div className='elv_login_header_menu_div'>
-                                        <div>
-                                            <CloseIcon onClick={handleToggle} className='elv_login_header_menu_close_btn' />
-                                        </div>
-                                        {/* <div className="el_login_header_menu_main_div1">
+                                <Drawer
+                                    anchor="left"
+                                    open={toggle}
+                                    onClose={handleToggle}
+                                    className="el_display_background"
+                                    sx={{ width: maxWidth1366px ? "22rem" : maxWidth768px ? "20rem" : maxWidth425px ? "18rem" : maxWidth375px ? "17rem" : "22rem" }}
+                                    PaperProps={{
+                                        sx: {
+                                            width: maxWidth1366px ? "22rem" : maxWidth768px ? "20rem" : maxWidth425px ? "18rem" : maxWidth375px ? "17rem" : "22rem",
+                                            background: maxWidth1366px && "#fff",
+                                        },
+                                    }}
+                                >
+                                    <div className="el_login_header_menu_main">
+                                        <div className='elv_login_header_menu_div'>
+                                            <div>
+                                                <CloseIcon onClick={handleToggle} className='elv_login_header_menu_close_btn' />
+                                            </div>
+                                            {/* <div className="el_login_header_menu_main_div1">
                                             <a href="/" onClick={() => { handleToggle() }} style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', paddingLeft: '25px' }}>
                                                 {compnyLogo && <img src={compnyLogo} alt="Title" className="el_login_header_menu_main_div1_logo" />}
                                             </a>
                                         </div> */}
 
-                                        <ul className="el_login_header_menu_main_div2">
-                                            <>
+                                            <ul className="el_login_header_menu_main_div2">
+                                                <>
+                                                    <Badge
+                                                        badgeContent={wishCount}
+                                                        max={1000}
+                                                        overlap={"rectangular"}
+                                                        color="secondary"
+                                                        className='el_login_header_menu_main_div2_li'
+                                                    >
+                                                        <Tooltip title="WishList">
+                                                            <li
+                                                                onClick={() => {
+                                                                    handleToggle();
+                                                                    navigation("/myWishList");
+                                                                }}
+                                                                style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} >
+                                                                <GoHeart className='elv_heart_menu_icon' />
+                                                            </li>
+                                                        </Tooltip>
+                                                    </Badge></>
                                                 <Badge
-                                                    badgeContent={wishCount}
+                                                    badgeContent={cartCount}
                                                     max={1000}
                                                     overlap={"rectangular"}
                                                     color="secondary"
-                                                    className='el_login_header_menu_main_div2_li'
+                                                    className="el_login_header_main_div2_li"
                                                 >
-                                                    <Tooltip title="WishList">
+                                                    <Tooltip title="Cart">
                                                         <li
                                                             onClick={() => {
                                                                 handleToggle();
-                                                                navigation("/myWishList");
+                                                                navigation("/cartPage");
                                                             }}
-                                                            style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} >
-                                                            <GoHeart className='elv_heart_menu_icon' />
+                                                            style={{
+                                                                cursor: "pointer",
+                                                                marginTop: "0px",
+                                                            }}
+                                                        >
+                                                            <HiOutlineShoppingBag
+                                                                className="elv_shopping_icon"
+                                                                color="#7D7F85"
+                                                                fontSize="25px"
+                                                            />
                                                         </li>
                                                     </Tooltip>
-                                                </Badge></>
-                                            <Badge
-                                                badgeContent={cartCount}
-                                                max={1000}
-                                                overlap={"rectangular"}
-                                                color="secondary"
-                                                className="el_login_header_main_div2_li"
-                                            >
-                                                <Tooltip title="Cart">
+                                                </Badge>
+                                            </ul>
+                                        </div>
+                                        <div className='elv_login_header_menu_lists_div'>
+                                            <ul className="el_login_header_menu_main_div1_ul">
+                                                {storeinit?.IsDesignSetInMenu == 1 && (
                                                     <li
+                                                        className="el_Login_header_li go-lookbook"
+                                                        style={{
+                                                            marginLeft: "33px",
+                                                            marginBottom: '20px',
+                                                            cursor: "pointer",
+                                                            textDecoration: "none",
+                                                            position: "relative",
+                                                            color: "inherit"
+                                                        }}
                                                         onClick={() => {
                                                             handleToggle();
-                                                            navigation("/cartPage");
-                                                        }}
-                                                        style={{
-                                                            cursor: "pointer",
-                                                            marginTop: "0px",
+                                                            navigation("Lookbook");
                                                         }}
                                                     >
-                                                        <HiOutlineShoppingBag
-                                                            className="elv_shopping_icon"
-                                                            color="#7D7F85"
-                                                            fontSize="25px"
-                                                        />
+                                                        <small
+                                                            style={{
+                                                                backgroundColor: "#9C27B0",
+                                                                position: "absolute",
+                                                                marginTop: "-15px",
+                                                                display: "flex",
+                                                                alignItems: "center",
+                                                                justifyContent: "center",
+                                                                height: "15px",
+                                                                borderRadius: "",
+                                                                padding: "0 5px",
+                                                                fontSize: "10px",
+                                                                borderRadius: " 3px",
+                                                                marginLeft: "-10px",
+                                                                color: 'white'
+                                                            }}
+                                                        >
+                                                            New
+                                                        </small>
+                                                        {storeinit?.DesignSetInMenu}
                                                     </li>
-                                                </Tooltip>
-                                            </Badge>
-                                        </ul>
-                                    </div>
-                                    <div className='elv_login_header_menu_lists_div'>
-                                        <ul className="el_login_header_menu_main_div1_ul">
-                                            {storeinit?.IsDesignSetInMenu == 1 && (
-                                                <li
-                                                    className="el_Login_header_li go-lookbook"
-                                                    style={{
-                                                        marginLeft: "33px",
-                                                        marginBottom: '20px',
-                                                        cursor: "pointer",
-                                                        textDecoration: "none",
-                                                        position: "relative",
-                                                        color: "inherit"
-                                                    }}
-                                                    onClick={() => {
-                                                        handleToggle();
-                                                        navigation("Lookbook");
-                                                    }}
-                                                >
-                                                    <small
-                                                        style={{
-                                                            backgroundColor: "#9C27B0",
-                                                            position: "absolute",
-                                                            marginTop: "-30px",
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            justifyContent: "center",
-                                                            height: "15px",
-                                                            borderRadius: "",
-                                                            padding: "0 5px",
-                                                            fontSize: "10px",
-                                                            borderRadius: " 3px",
-                                                            marginLeft: "-10px",
-                                                            color: 'white'
-                                                        }}
-                                                    >
-                                                        New
-                                                    </small>
-                                                    {storeinit?.DesignSetInMenu}
-                                                </li>
-                                            )}
-                                            {menuItems.map((item, index) => {
-                                                return (
-                                                    <li
-                                                        className="el_login_header_menu_li"
-                                                        style={{ textDecoration: hoveredIndex === index ? 'underline' : 'none' }}
-                                                        key={index}
-                                                        label={item.menuname}
-                                                        onClick={(e) => {
-                                                            handleMouseEnter(index, item);
-                                                            handleMenuClick(item);
-                                                            handleMouseLeave(index);
-                                                            handleToogle(index);
-                                                            handleIcon(index);
-                                                        }}
-                                                    >
-                                                        <div className='elv_login_header_menu_menunames'>
-                                                            <div className='elv_menubar_menu_div'>
-                                                                <span className='elv_login_header_menu_names' onClick={() => {
-                                                                    handleToggle();
-                                                                    handelMenu({
-                                                                        menuname: item?.menuname,
-                                                                        key: item?.param0name,
-                                                                        value: item?.param0dataname,
-                                                                    });
-                                                                }}>{item.menuname}</span>
-                                                                {isIconOpen === index ? (
-                                                                    <MdKeyboardArrowUp />
-                                                                ) :
-                                                                    <MdKeyboardArrowDown />
-                                                                }
+                                                )}
+                                                {menuItems.map((item, index) => {
+                                                    return (
+                                                        <li
+                                                            className="el_login_header_menu_li"
+                                                            style={{ textDecoration: hoveredIndex === index ? 'underline' : 'none' }}
+                                                            key={index}
+                                                            label={item.menuname}
+                                                            onClick={(e) => {
+                                                                handleMouseEnter(index, item);
+                                                                handleMenuClick(item);
+                                                                handleMouseLeave(index);
+                                                                handleToogle(index);
+                                                                handleIcon(index);
+                                                            }}
+                                                        >
+                                                            <div className='elv_login_header_menu_menunames'>
+                                                                <div className='elv_menubar_menu_div'>
+                                                                    <span className='elv_login_header_menu_names' onClick={() => {
+                                                                        handleToggle();
+                                                                        handelMenu({
+                                                                            menuname: item?.menuname,
+                                                                            key: item?.param0name,
+                                                                            value: item?.param0dataname,
+                                                                        });
+                                                                    }}>{item.menuname}</span>
+                                                                    {isIconOpen === index ? (
+                                                                        <MdKeyboardArrowUp />
+                                                                    ) :
+                                                                        <MdKeyboardArrowDown />
+                                                                    }
 
-                                                            </div>
-                                                            <div>
-                                                                <div
-                                                                    style={{
-                                                                        padding: "6px",
-                                                                        color: "#7d7f85",
-                                                                        backgroundColor: "rgba(255, 255, 255, 0.8)",
-                                                                        gap: "50px",
-                                                                        marginBottom: '25px'
-                                                                    }}
-                                                                    className="menuDropdownData"
-                                                                >
-                                                                    <hr className='elv_login_header_menu_hr' />
-                                                                    {(item?.menuid === selectedData?.menuid) && isOpen ? (
-                                                                        <>
-                                                                            {/* <div style={{ background: '#F1F2F3', padding: '5px', marginRight: '8px', marginTop: '5px' }}> */}
-                                                                            <div style={{ padding: '5px', marginRight: '8px', marginTop: '10px' }}>
-                                                                                <div style={{ width: '95%', textTransform: 'uppercase' }}>
-                                                                                    {selectedData?.param1?.map((param1Item, param1Index) => (
-                                                                                        <div key={param1Index}>
-                                                                                            <span
-                                                                                                onClick={() => {
-                                                                                                    handleToggle();
-                                                                                                    navigation(`/p/${selectedData?.param0dataname}/${param1Item.param1dataname}/?M=${btoa(`${selectedData?.param0dataname},${param1Item?.param1dataname}/${selectedData?.param0name},${param1Item?.param1name}`)}`);
-                                                                                                }}
-                                                                                                className="level1MenuData" key={param1Index} style={{ fontSize: '16px', textDecoration: 'underline', marginBottom: '10px', fontFamily: 'sans-serif', color: 'black', textAlign: 'start', letterSpacing: 1, fontWeight: 500, cursor: 'pointer' }} >
-                                                                                                <span className='elv_param1'>{param1Item?.param1dataname}</span>
-                                                                                            </span>
-                                                                                            <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', marginLeft: '15px' }}>
-                                                                                                {param1Item?.param2?.map((param2Item, param2Index) => (
-                                                                                                    <p className="level2menuData" key={param2Index} onClick={() =>
-                                                                                                        handelMenu({ "menuname": selectedData?.menuname, "key": selectedData?.param0name, "value": selectedData?.param0dataname }, { "key": param1Item?.param1name, "value": param1Item?.param1dataname }, { "key": param2Item?.param2name, "value": param2Item?.param2dataname })
-                                                                                                    } style={{ fontSize: '15px', margin: '3px 15px 3px 0px', fontFamily: 'sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
-                                                                                                        <span
-                                                                                                            onClick={() => {
-                                                                                                                handleToggle();
-                                                                                                                navigation(`/p/${selectedData?.param0dataname}/${param1Item.param1dataname}/${param2Item.param2dataname}/?M=${btoa(`${selectedData?.param0dataname},${param1Item.param1dataname},${param2Item.param2dataname}/${selectedData?.param0name},${param1Item.param1name},${param2Item.param2name}`)}`);
-                                                                                                            }}
-                                                                                                            className='elv_param2'> {param2Item?.param2dataname}</span>
-                                                                                                    </p>
-                                                                                                ))}
+                                                                </div>
+                                                                <div>
+                                                                    <div
+                                                                        style={{
+                                                                            padding: "6px",
+                                                                            color: "#7d7f85",
+                                                                            backgroundColor: "rgba(255, 255, 255, 0.8)",
+                                                                            gap: "50px",
+                                                                            marginBottom: '25px'
+                                                                        }}
+                                                                        className="menuDropdownData"
+                                                                    >
+                                                                        <hr className='elv_login_header_menu_hr' />
+                                                                        {(item?.menuid === selectedData?.menuid) && isOpen ? (
+                                                                            <>
+                                                                                {/* <div style={{ background: '#F1F2F3', padding: '5px', marginRight: '8px', marginTop: '5px' }}> */}
+                                                                                <div style={{ padding: '5px', marginRight: '8px', marginTop: '10px' }}>
+                                                                                    <div style={{ width: '95%', textTransform: 'uppercase' }}>
+                                                                                        {selectedData?.param1?.map((param1Item, param1Index) => (
+                                                                                            <div key={param1Index}>
+                                                                                                <span
+                                                                                                    onClick={() => {
+                                                                                                        handleToggle();
+                                                                                                        navigation(`/p/${selectedData?.param0dataname}/${param1Item.param1dataname}/?M=${btoa(`${selectedData?.param0dataname},${param1Item?.param1dataname}/${selectedData?.param0name},${param1Item?.param1name}`)}`);
+                                                                                                    }}
+                                                                                                    className="level1MenuData" key={param1Index} style={{ fontSize: '16px', textDecoration: 'underline', marginBottom: '10px', fontFamily: 'sans-serif', color: 'black', textAlign: 'start', letterSpacing: 1, fontWeight: 500, cursor: 'pointer' }} >
+                                                                                                    <span className='elv_param1'>{param1Item?.param1dataname}</span>
+                                                                                                </span>
+                                                                                                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', marginLeft: '15px' }}>
+                                                                                                    {param1Item?.param2?.map((param2Item, param2Index) => (
+                                                                                                        <p className="level2menuData" key={param2Index} onClick={() =>
+                                                                                                            handelMenu({ "menuname": selectedData?.menuname, "key": selectedData?.param0name, "value": selectedData?.param0dataname }, { "key": param1Item?.param1name, "value": param1Item?.param1dataname }, { "key": param2Item?.param2name, "value": param2Item?.param2dataname })
+                                                                                                        } style={{ fontSize: '15px', margin: '3px 15px 3px 0px', fontFamily: 'sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
+                                                                                                            <span
+                                                                                                                onClick={() => {
+                                                                                                                    handleToggle();
+                                                                                                                    navigation(`/p/${selectedData?.param0dataname}/${param1Item.param1dataname}/${param2Item.param2dataname}/?M=${btoa(`${selectedData?.param0dataname},${param1Item.param1dataname},${param2Item.param2dataname}/${selectedData?.param0name},${param1Item.param1name},${param2Item.param2name}`)}`);
+                                                                                                                }}
+                                                                                                                className='elv_param2'> {param2Item?.param2dataname}</span>
+                                                                                                        </p>
+                                                                                                    ))}
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                    ))}
+                                                                                        ))}
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        </>
-                                                                    ) : null}
+                                                                            </>
+                                                                        ) : null}
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div>
+                                                            <div>
 
-                                                        </div>
-                                                    </li>
-                                                )
-                                            })}
+                                                            </div>
+                                                        </li>
+                                                    )
+                                                })}
 
-                                        </ul>
+                                            </ul>
+                                        </div>
+
+                                        <div className={`el_shop_dropdown ${expandedMenu !== null ? "open" : ""}`} onClick={() => handleMouseEnter(hoveredIndex)} onMouseLeave={handleMouseLeave}>
+                                        </div>
                                     </div>
-
-                                    <div className={`el_shop_dropdown ${expandedMenu !== null ? "open" : ""}`} onClick={() => handleMouseEnter(hoveredIndex)} onMouseLeave={handleMouseLeave}>
-                                    </div>
-                                </div>
+                                </Drawer>
                             </>
                         ) : (
                             <>

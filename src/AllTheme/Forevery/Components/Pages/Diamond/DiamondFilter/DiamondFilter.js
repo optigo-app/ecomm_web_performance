@@ -441,12 +441,6 @@ const DiamondFilter = () => {
     }
   };
   const fetchData = async (shape, parsedData) => {
-    const isEarringFlow = location?.state?.isPairFlow;
-    if (isEarringFlow) {
-      setisEarringFlow(isEarringFlow);
-    } else {
-      setisEarringFlow(false);
-    }
     setIsLoading(true);
     try {
       dispatch({ type: ACTIONS.SET_LOADING, payload: true });
