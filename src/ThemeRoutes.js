@@ -352,6 +352,7 @@ const Themes = ({ htmlContent }) => {
         {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
         {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
         {htmlContent?.rd[0]?.Themeno === 13 && <LoveIn_App />}
+        {htmlContent?.rd[0]?.Themeno === 13 && <LoveIn_App />}
       </Suspense>
     </>
   );
