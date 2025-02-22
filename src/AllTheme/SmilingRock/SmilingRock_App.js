@@ -55,6 +55,7 @@ import TermsAndConditions from "./Components/Pages/FooterPages/TermsPage/TermsPa
 import usePromotionalBanner from "./Components/hook/usePromotionBanner";
 import PromotionalBanner from "./Components/Pages/Home/PromotionBanner/PromotionBanner";
 import FooterNew from "./Components/Pages/Home/Footer/New/FooterNew";
+import WhatsAppChat from './Components/Pages/Home/ChatMenu/ChatMenu'
 
 const SmilingRock_App = () => {
   const { openPromotionalBanner, handleCloseBanner } = usePromotionalBanner();
@@ -349,6 +350,7 @@ const SmilingRock_App = () => {
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <FooterNew />
+      <WhatsAppChat phoneNo='9099887762'/>
     </div>
   );
 };
