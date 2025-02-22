@@ -19,11 +19,15 @@ export const OTPVerificationModal = ({
   otp,
 setOtp ,
 message ,
-loading
+loading ,
+setmessage ,
+isLoading
 }) => {
   const otpLength = 4;
   const [showResend, setShowResend] = useState(false)
   const inputRefs = useRef([])
+  const [seconds, setSeconds] = useState(120);
+  const [shouldStartTimer, setShouldStartTimer] = useState(true);
 
   useEffect(() => {
     if (isOpen && inputRefs.current[0]) {
@@ -34,6 +38,45 @@ loading
   useEffect(() => {
     setOtp(new Array(otpLength).fill(""))
   }, [otpLength])
+
+
+
+  useEffect(() => {
+    if (isOpen) {
+      setOtp(new Array(otpLength).fill(""))
+      setShowResend(false)
+      setSeconds(120)
+       setShouldStartTimer(true)
+      inputRefs.current[0]?.focus()
+    }
+  }, [isOpen]) 
+
+
+  useEffect(() => {
+    let timer
+    if (isOpen && seconds > 0 && !isLoading && shouldStartTimer) {
+      timer = setInterval(() => {
+        setSeconds((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer)
+            setShowResend(true)
+            return 0
+          }
+          return prev - 1
+        })
+      }, 1000)
+    }
+    return () => clearInterval(timer)
+  }, [isOpen, seconds, isLoading, shouldStartTimer])
+
+
+  useEffect(() => {
+    if (isLoading) {
+      setShouldStartTimer(false)
+    } else {
+      setShouldStartTimer(true)
+    }
+  }, [isLoading])
 
   const handleChange = (element, index) => {
     if (isNaN(Number(element.value))) return
@@ -48,10 +91,10 @@ loading
   }
 
   const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && !otp[index] && index > 0 && inputRefs.current[index - 1]) {
+    setmessage('')
+       if (e.key === "Backspace" && !otp[index] && index > 0 && inputRefs.current[index - 1]) {
       inputRefs.current[index - 1]?.focus()
     }
-    console.log("enter",e.key)
     if (e.key === "Enter" && !otp.includes("") &&  otp.length === otpLength) {
       handleSubmit();
     }
@@ -65,18 +108,13 @@ loading
   }
 
   const handleResend = () => {
+    setmessage('')
     setOtp(new Array(otpLength).fill(""))
     setShowResend(false)
+    setSeconds(120)
+    setShouldStartTimer(false)
     onResend()
   }
-
-  useEffect(() => {
-    if (isOpen) {
-      setOtp(new Array(otpLength).fill(""))
-      setShowResend(false)
-      inputRefs.current[0]?.focus()
-    }
-  }, [isOpen]) 
 
 
   return (
@@ -102,32 +140,42 @@ loading
           {`We have sent a verification code to ${contactInfo}`}
         </Typography>
 
-        <div className="otp-input-container">
+        <div className="otp-input-container" autoComplete="off" >
           {otp.map((digit, index) => (
-            <TextField
+           <TextField
+           inputMode="none" 
+           spellCheck="false" // Disable spell checking
               key={index}
               inputRef={(el) => (inputRefs.current[index] = el)}
+              name={`otp-input-${Math.random()}`} 
               variant="outlined"
               value={digit}
               onChange={(e) => handleChange(e.target, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
+              autoComplete="off" 
+              autoFocus={index === 0}
               inputProps={{
                 maxLength: 1,
                 className: "otp-input",
+                form: {
+                  autocomplete: 'off',
+                },
               }}
+              
             />
           ))}
         </div>
 
         <div className="action-container">
-      {message !== '' &&  <small>{message}</small>}
+      {message !== '' && 
+      <> <small style={{fontWeight:"500",color:"red"}}>{message}</small> <br/></>}
           {showResend ? (
             <Button onClick={handleResend} className="resend-button">
               Resend Code
             </Button>
           ) : (
             <div className="timer-container">
-              Resend code in <Timer onComplete={() => setShowResend(true)} />
+              Resend code in <Timer seconds={seconds} onComplete={() => setShowResend(true)} />
             </div>
           )}
         </div>

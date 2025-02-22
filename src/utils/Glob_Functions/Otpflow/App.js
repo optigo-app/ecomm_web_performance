@@ -1,10 +1,10 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@mui/material"
 import { OTPVerificationModal } from "./OTPModal"
 import { WebSignUpOTPVerify } from "../../API/Auth/WebSignUpOTPVerify"
 
 
-const App = ({ onResend =()=>{} , btncolor, iconcolor, bgcolor, iconbgcolor, isOpen, setIsOpen = false, type = "email", mobileNo = '', emailId = '', onClose = () => { }, navigation, location }) => {
+const App = ({ isLoading=false , onResend =()=>{} , btncolor, iconcolor, bgcolor, iconbgcolor, isOpen, setIsOpen = false, type = "email", mobileNo = '', emailId = '', onClose = () => { }, navigation, location }) => {
   const otpLength = 4;
   const [otp, setOtp] = useState(new Array(otpLength).fill(""));
   const [message, setmessage] = useState("");
@@ -44,6 +44,9 @@ const App = ({ onResend =()=>{} , btncolor, iconcolor, bgcolor, iconbgcolor, isO
     const contact = type === "email" ? emailId : mobileNo;
     onResend()
   }
+  useEffect(()=>{
+    setmessage("")
+  },[isOpen])
 
   return (
     <div style={{ padding: "20px" }}>
@@ -62,10 +65,11 @@ const App = ({ onResend =()=>{} , btncolor, iconcolor, bgcolor, iconbgcolor, isO
         setOtp={setOtp}
         message={message}
         loading={loading}
-      />
+        setmessage={setmessage}
+        isLoading={isLoading}
+        />
     </div>
   )
 }
 
 export default App
-

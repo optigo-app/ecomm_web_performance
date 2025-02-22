@@ -115,6 +115,7 @@ export default function ContinueWithEmail() {
             navigation={navigation}
             location={location}
             onResend={handleSubmit}
+            isLoading={isLoading}
                 />
                 <div className='smling-forgot-main'>
                     <p style={{
