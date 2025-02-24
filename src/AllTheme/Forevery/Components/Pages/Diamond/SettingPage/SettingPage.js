@@ -29,6 +29,7 @@ import { IoClose } from 'react-icons/io5';
 import ScrollTop from '../../ReusableComponent/ScrollTop/ScrollTop';
 import { SignalCellularNullTwoTone } from '@mui/icons-material';
 import { FaSlideshare } from 'react-icons/fa';
+import DiaSetModal from '../../ReusableComponent/DiaSetModal/DiaSetModal';
 
 const SettingPage = () => {
 
@@ -40,6 +41,13 @@ const SettingPage = () => {
   const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
   const diaQcLocal = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const ShapeFlowUrl = JSON.parse(sessionStorage.getItem("ShapeFlowUrl"));
+  const ringFlowUrl = JSON.parse(sessionStorage.getItem("ringFlowUrl"));
+  const shapeRingFlowUrl = JSON.parse(sessionStorage.getItem("ShapeRingFlowUrl"));
+  const pendantFlowUrl = JSON.parse(sessionStorage.getItem("pendantFlowUrl"));
+  const shapePendantFlowUrl = JSON.parse(sessionStorage.getItem("ShapePendantFlowUrl"));
+  const earringFlowUrl = JSON.parse(sessionStorage.getItem("EarringFlowUrl"));
+  const shapeEarringFlowUrl = JSON.parse(sessionStorage.getItem("ShapeEarringFlowUrl"));
   let cookie = Cookies.get("visiterId");
   const dropdownRefs = useRef({})
   const [currPage, setCurrPage] = useState(1);
@@ -47,6 +55,53 @@ const SettingPage = () => {
   const [imageMap, setImageMap] = useState({});
   const [highestPrice, setHighestPrice] = useState();
   const [lowestPrice, setLowestPrice] = useState();
+  const [showModal1, setShowModal1] = useState(false);
+  const [isRing, setIsRing] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null)
+  const [trend, setTrend] = useState('Recommended');
+  const [selectShape, setSelectShape] = useState();
+  const [shippingDrp, setShippingDrp] = useState('ANY DATE');
+  const [storeInit, setStoreInit] = useState({})
+  const [open, setOpen] = useState(null);
+  const [metalType, setMetaltype] = useState([]);
+  const [diamondType, setDiamondType] = useState([]);
+  const [sortBySelect, setSortBySelect] = useState();
+  const [isOnlySettLoading, setIsOnlySettLoading] = useState(true);
+  const [isProdLoading, setIsProdLoading] = useState(false);
+  const [selectedValues, setSelectedValues] = useState([]);
+  const [loginCurrency, setLoginCurrency] = useState();
+  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
+  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
+  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid)
+  const [priceRangeValue, setPriceRangeValue] = useState([]);
+  const [locationKey, setLocationKey] = useState();
+  const [productListData, setProductListData] = useState([]);
+  const [prodListType, setprodListType] = useState();
+  const [afterFilterCount, setAfterFilterCount] = useState();
+  const [ratingvalue, setratingvalue] = useState(5);
+  const [selectMetalColor, setSelectMetalColor] = useState(null);
+  const [Shape, setShape] = useState("");
+  const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
+  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
+  const steps2 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
+  const steps3 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
+  const stepsData = JSON.parse(sessionStorage.getItem('custStepData'));
+  const stepsData2 = JSON.parse(sessionStorage.getItem('custStepData2Ring'));
+  const stepsData3 = JSON.parse(sessionStorage.getItem('custStepData2Pendant'));
+  const stepsData4 = JSON.parse(sessionStorage.getItem('custStepData2Earring'));
+
+  const handleToggle1 = () => {
+    setShowModal1(!showModal1);
+  }
+
+  const shapeData = (() => {
+    if (stepsData?.[0]?.step1Data?.[0]?.shapename) {
+      return stepsData?.[0];
+    }
+  })();
+
+  const sendSteps = shapeData ? steps : "";
 
   const [open1, setOpen1] = useState(false);
 
@@ -66,6 +121,44 @@ const SettingPage = () => {
   const handleButtonClick = () => {
     setModalOpen(true);
   };
+
+  const getUrlDiaShape = location?.pathname?.split('/')[4];
+
+  useEffect(() => {
+    const getSettingDiaShape = ShapeFlowUrl?.split('/')[4] ?? "";
+    const getSettingDiaRingShape = shapeRingFlowUrl?.split('/')[4]?? "";
+    const getSettingDiaPenShape = shapePendantFlowUrl?.split('/')[4]?? "";
+    const getSettingDiaEarrShape = shapeEarringFlowUrl?.split('/')[4]?? "";
+
+    if (getSettingDiaShape) {
+      if (
+        (getUrlDiaShape?.split('=')[0] === "diamond_shape") &&
+        (getSettingDiaShape?.split('=')[1]?.toLowerCase() !== getUrlDiaShape?.split('=')[1]?.toLowerCase())) {
+        navigate(ShapeFlowUrl);
+      }
+    }
+    if (getSettingDiaRingShape) {
+      if (
+        (getUrlDiaShape?.split('=')[0] === "diamond_shape") &&
+        (getSettingDiaRingShape?.split('=')[1]?.toLowerCase() !== getUrlDiaShape?.split('=')[1]?.toLowerCase())) {
+        navigate(shapeRingFlowUrl);
+      }
+    }
+    if (getSettingDiaPenShape) {
+      if (
+        (getUrlDiaShape?.split('=')[0] === "diamond_shape") &&
+        (getSettingDiaRingShape?.split('=')[1]?.toLowerCase() !== getUrlDiaShape?.split('=')[1]?.toLowerCase())) {
+        navigate(shapePendantFlowUrl);
+      }
+    }
+    if (getSettingDiaEarrShape) {
+      if (
+        (getUrlDiaShape?.split('=')[0] === "diamond_shape") &&
+        (getSettingDiaRingShape?.split('=')[1]?.toLowerCase() !== getUrlDiaShape?.split('=')[1]?.toLowerCase())) {
+        navigate(shapeEarringFlowUrl);
+      }
+    }
+  }, [location?.key]);
 
   const styleLinks = {
     Solitaire: "Solitaire/style",
@@ -95,43 +188,6 @@ const SettingPage = () => {
       }
     }
   }
-
-
-  const [isRing, setIsRing] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null)
-  const [trend, setTrend] = useState('Recommended');
-  const [selectShape, setSelectShape] = useState();
-  const [shippingDrp, setShippingDrp] = useState('ANY DATE');
-  const [storeInit, setStoreInit] = useState({})
-  const [open, setOpen] = useState(null);
-  const [metalType, setMetaltype] = useState([]);
-  const [diamondType, setDiamondType] = useState([]);
-  const [sortBySelect, setSortBySelect] = useState();
-  const [isOnlySettLoading, setIsOnlySettLoading] = useState(true);
-  const [isProdLoading, setIsProdLoading] = useState(false);
-  const [selectedValues, setSelectedValues] = useState([]);
-  console.log('selectedValues: ', selectedValues);
-  const [loginCurrency, setLoginCurrency] = useState();
-  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid)
-  const [priceRangeValue, setPriceRangeValue] = useState([]);
-  const [locationKey, setLocationKey] = useState();
-  const [productListData, setProductListData] = useState([]);
-  const [prodListType, setprodListType] = useState();
-  const [afterFilterCount, setAfterFilterCount] = useState();
-  const [ratingvalue, setratingvalue] = useState(5);
-  const [selectMetalColor, setSelectMetalColor] = useState(null);
-  const [Shape, setShape] = useState("");
-  const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
-  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
-  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
-  const steps2 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
-  const steps3 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
-  const stepsData = JSON.parse(sessionStorage.getItem('custStepData'));
-  const stepsData2 = JSON.parse(sessionStorage.getItem('custStepData2Ring'));
-  const stepsData3 = JSON.parse(sessionStorage.getItem('custStepData2Pendant'));
-  const stepsData4 = JSON.parse(sessionStorage.getItem('custStepData2Earring'));
 
   const initialSelections = {
     selectedMetalId: loginUserDetail?.MetalId,
@@ -482,7 +538,7 @@ const SettingPage = () => {
       }
 
       if (getSetting === "Pendant") {
-        if (!stepsData && (stepsData2 !== null || stepsData3 === null  || stepsData4 !== null) && !steps2?.[0]?.step1) {
+        if (!stepsData && (stepsData2 !== null || stepsData3 === null || stepsData4 !== null) && !steps2?.[0]?.step1) {
           const step1Pendant = [{ step1: true, Setting: "Pendant", id: 2, Status: "active" }];
           sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(step1Pendant));
 
@@ -1193,7 +1249,7 @@ const SettingPage = () => {
           </div>
           <div className="for_settingList_display_div">
             <div className="for_settingList_display_dataCount">
-              <span><small>Showing {afterFilterCount ?? 0} </small>{isRing === 'Ring' ? 'Engagement Rings' : 'Diamond Pendants'}</span>
+              <span><small>Showing {afterFilterCount ?? 0} </small>{isRing === 'Ring' ? 'Engagement Rings' : isRing === 'Pendant' ? 'Diamond Pendants' : 'Diamond Earrings'}</span>
             </div>
           </div>
           <div className="for_settingList_filter_display_div">
@@ -1312,6 +1368,15 @@ const SettingPage = () => {
       <div>
         <ScrollTop />
       </div>
+      <DiaSetModal
+        open={showModal1}
+        data={shapeData}
+        Steps={sendSteps}
+        handleClose={handleToggle1}
+        productData={getUrlDiaShape?.split('=')[1]}
+        isSettFlow={0}
+      // setImage={setImage}
+      />
     </>
   )
 }
@@ -1830,4 +1895,3 @@ const Product_Card = ({
     </>
   )
 }
-

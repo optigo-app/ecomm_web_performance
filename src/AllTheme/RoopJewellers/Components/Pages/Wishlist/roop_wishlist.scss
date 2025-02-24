@@ -57,7 +57,11 @@
 
 .WlBtnGroupMainDiv {
     text-align: center;
-    padding-top: 100px;
+    padding-top: 40px;
+
+    @media (max-width: 1900px) and (min-width: 1600px) {
+        padding-top: 20px;
+    }
     // padding-top: 40px;
 
     .roop_Wl-title {

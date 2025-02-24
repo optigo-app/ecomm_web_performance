@@ -1,14 +1,11 @@
 @import '../../../scss/variable.scss';
 
 .mr_MRMainDrawer {
-    .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
-        max-width: 800px !important;
-        margin-inline: 2%;
-    }
 
     .mr_modal-content {
         padding: 0px !important;
-        max-width: 800px;
+        max-width: 800px !important;
+        width: 800px !important;
         text-align: center;
         font-family: $primaryFontFamily;
 

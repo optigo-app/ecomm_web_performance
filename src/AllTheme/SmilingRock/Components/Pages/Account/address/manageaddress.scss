@@ -39,6 +39,12 @@ font-family: $Pfonts;
     background: $btnBg !important;
     color: $btncolor !important;
 }
+
+.muiSmilingRocksBtnManageEdit:hover {
+    background: #1f1919 !important;
+    color: #1f1919;
+    opacity: 0.8;
+}
 // .muiSmilingRocksBtnManage:hover, .muiSmilingRocksBtnManageEdit:hover{
 //     background: #fff !important;
 //     color: #1f1919;

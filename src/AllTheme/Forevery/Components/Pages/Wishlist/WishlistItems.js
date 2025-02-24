@@ -43,10 +43,11 @@ const WishlistItems = ({
     const visiterId = Cookies.get("visiterId");
     const navigate = useNavigate();
     const [matchDataSet, setmatchDataSet] = useRecoilState(for_MatchDiamonds)
+    const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps'));
     const steps3 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
 
     let isPair;
-    if (steps3?.[0]?.Status === 'active' || JSON.parse(sessionStorage.getItem('isPair'))) {
+    if ((steps3?.[0]?.Status === 'active' || (steps3?.[2]?.step3 === true || steps1?.[2]?.step3 === true)) && JSON.parse(sessionStorage.getItem('isPair'))) {
         isPair = true;
     } else {
         isPair = false;
@@ -57,14 +58,9 @@ const WishlistItems = ({
 
     const [showModal, setShowModal] = useState(false);
 
-    console.log('diamondValue , matchDia : ', diamondValue, matchingDiamonds);
-
-
     const matchedDiamonds = diamondValue.filter(dia =>
         matchingDiamonds.some(diamond => diamond.stockno === dia?.stockno)
     );
-
-    console.log('matchedDiamonds: ', matchedDiamonds);
 
     const handleClickOpen = () => {
         setShowModal(true);
@@ -181,6 +177,7 @@ const WishlistItems = ({
     console.log("diamondValueData", selectedDia)
 
     const isEarring = isPair;
+    console.log('isEarring: ', isEarring);
     return (
         <>
             {isEarring && (
@@ -320,7 +317,7 @@ const WishlistItems = ({
                                     className="for_Wl-Cartbtn"
                                     onClick={() => handleWishlistToCartFun(item)}
                                 >
-                                    {item?.IsInCart != 1 ? "Add to cart +" : "Remove from cart"}
+                                    {item?.IsInCart != 1 ? "Add to cart +" : "In cart"}
                                 </button>
                             </div>
                         </div>
@@ -457,7 +454,7 @@ const WishlistItems = ({
                                 className="for_Wl-Cartbtn"
                                 onClick={() => handleWishlistToCartFun(item)}
                             >
-                                {item?.IsInCart != 1 ? "Add to cart +" : "Remove from cart"}
+                                {item?.IsInCart != 1 ? "Add to cart +" : "In cart"}
                             </button>
                         </div>
                     </div>

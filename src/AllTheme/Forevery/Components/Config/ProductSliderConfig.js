@@ -4,7 +4,7 @@ export const responsiveConfig = [
     settings: {
       slidesToShow: 1,
       slidesToScroll: 1,
-      infinite: true,
+      infinite: false,
 
       // dots: true,
       // centerMode: true,
@@ -18,7 +18,7 @@ export const responsiveConfig = [
       // centerPadding: "30px",
       slidesToShow: 1,
       slidesToScroll: 1,
-      infinite: true,
+      infinite: false,
 
       // dots: true,
       // centerMode: true,
@@ -31,7 +31,7 @@ export const responsiveConfig = [
       // centerPadding: "40px",
       slidesToShow: 1,
       slidesToScroll: 1,
-      infinite: true,
+      infinite: false,
 
       // dots: true,
       // centerMode: true,
@@ -44,7 +44,7 @@ export const responsiveConfig = [
       // centerPadding: "50px",
       slidesToShow: 1,
       slidesToScroll: 1,
-      infinite: true,
+      infinite: false,
       // dots: true,
       // centerMode: true,
       // className: "center",

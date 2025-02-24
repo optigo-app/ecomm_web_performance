@@ -53,20 +53,25 @@ const Elveester_app = () => {
   const [el_companyTitleLogoM, el_setCompanyTitleLogoM] = useRecoilState(el_companyLogoM)
 
   const timer = CountdownTimerFnc();
-  if (timer) {
-    if (loginData?.IsTimeShow == 1) {
-      timerData(timer)
-      setRedModal(false)
+  useEffect(() => {
+    if (islogin) {
+      if (timer?.showTimer === true) {
+        if (loginData?.IsTimeShow == 1) {
+          timerData(timer);
+          setRedModal(false);
+        }
+         else {
+          setRedModal(false);
+        }
+      }
     }
-    else {
-      setRedModal(false)
-    }
-  }
+  }, [loginData, islogin]);
+
 
   useEffect(() => {
     let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
     let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
-    
+
     el_setCompanyTitleLogo(webLogo);
     el_setCompanyTitleLogoM(mobileLogo);
 
@@ -83,7 +88,7 @@ const Elveester_app = () => {
 
   return (
     <div>
-      {getRedModal == true && <RedirectModal />}
+      {getRedModal === true && <RedirectModal />}
       {showHeader && <Header />}
       <Routes>
         {/* Auth Flow  */}

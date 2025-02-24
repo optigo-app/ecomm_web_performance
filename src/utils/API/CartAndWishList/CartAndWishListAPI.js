@@ -1,6 +1,6 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const CartAndWishListAPI = async (type, obj, visiterId, type2 = "", stockno) => {
+export const CartAndWishListAPI = async (type, obj, visiterId, type2 = "", stockno, isPair) => {
     // console.log('stockno in api: ', stockno);
     // console.log("type2", type2, obj)
 
@@ -21,7 +21,8 @@ export const CartAndWishListAPI = async (type, obj, visiterId, type2 = "", stock
         "IsPLW": `${storeInit?.IsPLW}`,
         "AddCartDetail": type2 ? obj : [obj],
         "stockno": `${stockno ?? ""}`,
-        "DomainForNo": `${storeInit?.DomainForNo ?? ""}`
+        "isPair": `${isPair ?? ""}`,
+        "DomainForNo": `${storeInit?.DomainForNo ?? ""}`,
     }
 
     let body = {

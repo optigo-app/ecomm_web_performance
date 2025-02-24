@@ -57,6 +57,27 @@ const MakeRingProcessModal = () => {
     }
   ];
 
+  const earringProcessData = [
+    {
+      count: 1,
+      image: `${storImagePath()}/images/ProductListing/settingModal/earring-diamond.webp`,
+      title: "Choose a Diamond",
+      description: "Choose the diamond shape that perfectly fits your earring setting."
+    },
+    {
+      count: 2,
+      image: `${storImagePath()}/images/ProductListing/settingModal/earring-mount.webp`,
+      title: "Select Earring Setting",
+      description: "Explore our earring settings and choose the style that vibes with your taste."
+    },
+    {
+      count: 3,
+      image: `${storImagePath()}/images/ProductListing/settingModal/complete-earring.webp`,
+      title: "Here's Dream Earring",
+      description: "Congratulations! Add the earring to your cart and shop it now."
+    }
+  ];
+
   useEffect(() => {
     const showModal = localStorage?.getItem('dontShowModal');
     if (showModal === 'true') {
@@ -68,8 +89,12 @@ const MakeRingProcessModal = () => {
     const getSettingName = location?.pathname?.split('/')[3];
     if (getSettingName === 'Ring') {
       setSettingName(ringProcessData);
-    } else {
+    }
+    if (getSettingName === "Pendant") {
       setSettingName(pendantProcessData);
+    }
+    if (getSettingName === "Earring") {
+      setSettingName(earringProcessData);
     }
   }, [location])
 
@@ -90,7 +115,13 @@ const MakeRingProcessModal = () => {
 
   return (
     <div>
-      <Dialog open={open} onClose={handleClose} disableEscapeKeyDown className='mr_MRMainDrawer'>
+      <Dialog open={open} onClose={handleClose} disableEscapeKeyDown sx={{
+        '& .MuiDialog-paper': {
+          maxWidth: '800px !important',
+          marginInline: '2%',
+          width: '800px !important'
+        },
+      }} className='mr_MRMainDrawer'>
         <DialogContent className="mr_modal-content">
           <div className="mr_modal-header">
             <IconButton aria-label="close" onClick={handleClose} className="mr_close-button">

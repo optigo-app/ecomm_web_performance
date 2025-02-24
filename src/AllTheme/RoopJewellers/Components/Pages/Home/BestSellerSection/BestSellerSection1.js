@@ -224,7 +224,7 @@ const ProductGrid = () => {
                                                 alt={`Best Seller Jewellery: ${data?.TitleLine || 'Design No: ' + data?.designno}`}
                                             />
                                             <div className="product-info">
-                                                <h3>{data?.designno} {data?.TitleLine && " - "} {data?.TitleLine != "" && data?.TitleLine}</h3>
+                                                <h3>{data?.designno !== "" && data?.designno} {(data?.TitleLine && data?.TitleLine.toLowerCase() !== "null") && " - " + data?.TitleLine}</h3>
                                                 {storeInit?.IsGrossWeight == 1 &&
                                                     <>
                                                         <span className='roop_btdetailDT'>GWT: </span>
@@ -260,7 +260,7 @@ const ProductGrid = () => {
                                                         }
                                                     </>
                                                 }
-                                                {storeInit?.IsPriceShow == 1 &&  <p>
+                                                {storeInit?.IsPriceShow == 1 && <p>
                                                     <span className="roop_currencyFont">
                                                         {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
                                                     </span>&nbsp;

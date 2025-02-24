@@ -1056,12 +1056,12 @@ const Lookbook = () => {
                               size="small"
                             />
                           }
-                          sx={{
-                            display: "flex !important",
-                            justifyContent: "space-between !important", // Adjust spacing between checkbox and label
-                            width: "100% !important",
-                            flexDirection: "row-reverse !important", // Align items to the right
-                          }}
+                          // sx={{
+                          //   display: "flex !important",
+                          //   justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                          //   width: "100% !important",
+                          //   flexDirection: "row-reverse !important", // Align items to the right
+                          // }}
                           className="roop_mui_checkbox_label_rp"
                           label={opt.Name}
                         />
