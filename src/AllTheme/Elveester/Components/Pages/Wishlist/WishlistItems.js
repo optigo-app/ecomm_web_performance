@@ -165,7 +165,7 @@ const WishlistItems = ({
                                 disabled={item?.IsInCart === 1}
                                 style={{ backgroundColor: item?.IsInCart === 1 ? '#fafafa' : 'initial' }}
                             >
-                                {item?.IsInCart !== 1 ? "Add to cart +" : "Remove from cart"}
+                                {item?.IsInCart !== 1 ? "Add to cart +" : "In cart"}
                             </button>
                         </div>
                     </div>

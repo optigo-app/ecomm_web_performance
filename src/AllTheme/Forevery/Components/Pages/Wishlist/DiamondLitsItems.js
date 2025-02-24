@@ -43,7 +43,16 @@ const DiamondLitsItems = ({
     const navigate = useNavigate();
     const [custSteps, setCustSteps] = useState();
     const [custData, setCustData] = useState();
+    const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps'));
+    const steps3 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
     const [filterDia, setfilterDia] = useRecoilState(for_filterDiamond)
+
+    let isPair;
+    if ((steps3?.[0]?.Status === 'active' || (steps3?.[2]?.step3 === true || steps1?.[2]?.step3 === true)) && JSON.parse(sessionStorage.getItem('isPair'))) {
+        isPair = true;
+    } else {
+        isPair = false;
+    }
 
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -260,7 +269,7 @@ const DiamondLitsItems = ({
         event.target.src = noImageFound;
     };
 
-    const isEarring = 1;
+    const isEarring = isPair;
 
     const earringsData = [
         {
@@ -286,7 +295,7 @@ const DiamondLitsItems = ({
 
     return (
         <>
-            {isEarring === 1 ? (
+            {isEarring ? (
                 <Grid container spacing={2} className="for_WlListData_earr">
                     {earringsData?.map((pair, index) => (
                         <Grid item xs={12} sm={6} md={4} lg={3} key={index} className="for_wlListGrid_earr">

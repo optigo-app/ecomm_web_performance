@@ -213,6 +213,10 @@ const DiamondFilter = () => {
     };
   }, []);
 
+  const ringFlowUrl = JSON.parse(sessionStorage.getItem("ringFlowUrl"));
+  const PendantFlowUrl = JSON.parse(sessionStorage.getItem("PendantFlowUrl"));
+  const EarringFlowUrl = JSON.parse(sessionStorage.getItem("EarringFlowUrl"));
+
   useEffect(() => {
     if (location?.pathname) {
       setCheckedItem(location?.pathname?.split("/")[3] ?? '');
@@ -272,14 +276,36 @@ const DiamondFilter = () => {
     }
   };
 
+
   useEffect(() => {
+
     getShapeFromURL();
     if (steps3?.[0]?.Status === 'active' || JSON.parse(sessionStorage.getItem('isPair'))) {
       setisEarringFlow(true)
     } else {
       setisEarringFlow(false)
     }
-  }, [location?.pathname, location?.key]);
+
+  }, [location?.key]);
+
+  const getUrlDiaShape = location?.pathname?.split('/')[3];
+
+  useEffect(() => {
+    const getRingDiaShape = ringFlowUrl?.split('/')[3];
+    const getPendantDiaShape = PendantFlowUrl?.split('/')[3];
+    const getEarringDiaShape = EarringFlowUrl?.split('/')[3];
+
+    if ((steps1?.[0]?.Status === 'active' && ringFlowUrl !== "") &&
+      (getRingDiaShape?.toLowerCase() !== getUrlDiaShape?.toLowerCase())) {
+      Navigate(ringFlowUrl);
+    } else if ((steps2?.[0]?.Status === 'active' && PendantFlowUrl !== "") &&
+      (getPendantDiaShape?.toLowerCase() !== getUrlDiaShape?.toLowerCase())) {
+      Navigate(PendantFlowUrl);
+    } else if ((steps3?.[0]?.Status === 'active' && EarringFlowUrl !== "") &&
+      (getEarringDiaShape?.toLowerCase() !== getUrlDiaShape?.toLowerCase())) {
+      Navigate(EarringFlowUrl);
+    }
+  }, [location?.key])
 
   const updateSteps = (shape) => {
     const updatedStep1 = steps?.map((step) => {
@@ -376,20 +402,29 @@ const DiamondFilter = () => {
     return decompressed;
   }
 
-  const HandleDiamondRoute = (val) => {
+  const HandleDiamondRoute = (val, stockno1, stockno2) => {
     const currentLocation = location.pathname + location.search + location.hash;
 
     //("hsahdjash", val);
     const obj = {
-      a: val?.stockno,
+      a: isEarringFlow ? [stockno1, stockno2] : val?.stockno,
       b: val?.shapename,
     };
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    let navigateUrl = `/d/${val?.stockno?.replaceAll(" ", "")}/det345/?p=${encodeObj}`;
+    let navigateUrl;
+    if (isEarringFlow) {
+      navigateUrl = `/d/pair-diamonds/det345/?p=${encodeObj}`;
+    } else {
+      navigateUrl = `/d/${val?.stockno?.replaceAll(" ", "")}/det345/?p=${encodeObj}`;
+    }
     window.history.pushState({ pathname: currentLocation }, '', currentLocation);
-    Navigate(navigateUrl);
+    if (isEarringFlow) {
+      Navigate(navigateUrl, { state: [{ isPair: true }, { stockno1: stockno1 }, { stockno2: stockno2 }] });
+    } else {
+      Navigate(navigateUrl);
+    }
   };
 
   const getBannerImage = (index) => {
@@ -697,111 +732,6 @@ const DiamondFilter = () => {
     fetchData();
   }, [Condition]);
 
-  useEffect(() => {
-    const updatedArray = {
-      Price: sliderState1?.price || "",
-      Carat: sliderState1?.Carat,
-      Color:
-        sliderLabels1?.find((label) => label.type === "Color")?.labels || [],
-      Clarity:
-        sliderLabels1?.find((label) => label.type === "Clarity")?.labels || [],
-      Cut: sliderLabels1?.find((label) => label.type === "Cut")?.labels || [],
-      Polish: filtersData1?.Polish,
-      Symmetry: filtersData1?.Symmetry,
-      Lab: filtersData1?.Lab,
-      Depth: filtersData1?.depth,
-      Table: filtersData1?.table,
-      Fluorescence: filtersData1?.Fluorescence,
-      Culet: filtersData1?.Culet,
-    };
-
-    setTimeout(() => {
-      setFinalArray(updatedArray);
-    }, 500);
-  }, [sliderState1, sliderLabels1, filtersData1, location?.pathname]);
-
-  useEffect(() => {
-    const UpdatedUrl = setTimeout(() => {
-      const extractedValue = location?.pathname.split("f=")[1] ?? "";
-      const decodedUrlData = decodeAndDecompress(extractedValue);
-      const parsedData = parseUrlSegment(decodedUrlData);
-      const pathname = location?.pathname.split("/");
-
-      // Determine which data to use
-      const dataToUse = Object.keys(finalArray)?.some(
-        (key) => Array.isArray(finalArray[key]) && finalArray[key].length > 0
-      )
-        ? finalArray
-        : parsedData ?? {};
-
-      const sliderParams = Object.entries(dataToUse)
-        .filter(
-          ([key, value]) =>
-            value &&
-            (Array.isArray(value)
-              ? value.length > 0
-              : typeof value === "string" && value.length > 0)
-        )
-        .filter(([key, value]) =>
-          Array.isArray(value)
-            ? value.every((v) => v !== null && v !== undefined && v !== "")
-            : true
-        )
-        .map(([key, value]) =>
-          Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
-        )
-        .join("/");
-      const shape = location?.pathname?.split("/")[3];
-      const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""
-        }`;
-      const encodeUrl = compressAndEncode(urlToEncode);
-      const decodedUrl = decodeAndDecompress(encodeUrl);
-      const newPath = `${pathname?.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
-        }`;
-      Navigate(newPath);
-    }, 600);
-    return () => clearTimeout(UpdatedUrl);
-  }, [finalArray]);
-
-  function parseUrlSegment(segment) {
-    const parts = segment?.split("/")?.slice(1);
-    const result = {};
-
-    for (let i = 0; i < parts?.length; i += 2) {
-      const key = parts[i];
-      const value = parts[i + 1];
-      if (value) {
-        if (value.includes(",")) {
-          result[key] = value
-            .split(",")
-            .map((item) => (item === "null" ? "null" : item));
-        } else {
-          result[key] = value;
-        }
-      }
-    }
-
-    return result;
-  }
-
-  useEffect(() => {
-    const extractedValue = location?.pathname.split("f=")[1] ?? "";
-    const shape = location?.pathname?.split("/")[3];
-    if (extractedValue) {
-      try {
-        const decodedUrl = decodeAndDecompress(extractedValue);
-        const parsedData = parseUrlSegment(decodedUrl);
-        fetchData(shape, parsedData);
-      } catch (error) {
-        console.error("Error decoding and parsing URL:", error);
-        fetchData(shape);
-      }
-    } else {
-      fetchData(shape);
-    }
-  }, [location?.pathname, selectedsort, sortValue, location?.key]);
-
-  
   const ResetFilter = async () => {
     try {
       const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
@@ -864,8 +794,8 @@ const DiamondFilter = () => {
     const updatedArray = {
       Price: sliderState1?.price || "",
       Carat: sliderState1?.Carat,
-      Color:sliderLabels1?.find((label) => label.type === "Color")?.labels || [],
-      Clarity:sliderLabels1?.find((label) => label.type === "Clarity")?.labels || [],
+      Color: sliderLabels1?.find((label) => label.type === "Color")?.labels || [],
+      Clarity: sliderLabels1?.find((label) => label.type === "Clarity")?.labels || [],
       Cut: sliderLabels1?.find((label) => label.type === "Cut")?.labels || [],
       Polish: filtersData1?.Polish,
       Symmetry: filtersData1?.Symmetry,
@@ -989,10 +919,6 @@ const DiamondFilter = () => {
     return () => clearTimeout(debounceTimer);
   }, [finalArray]);
 
-
-
-
-  console.log('slider', sliderState1)
   // const ResetFilter = async()=>{
   //   try {
   //     const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
@@ -1752,7 +1678,7 @@ const DiamondFilter = () => {
                             </div>
                             {!val?.isBanner == true && (
                               <>
-                                <div className="select_this_diamond_banner" onClick={() => HandleDiamondRoute(val)}>
+                                <div className="select_this_diamond_banner" onClick={() => HandleDiamondRoute(val, val?.[0]?.stockno, val?.[1]?.stockno,)}>
                                   <span>Select This Diamond</span>
                                 </div>
                               </>

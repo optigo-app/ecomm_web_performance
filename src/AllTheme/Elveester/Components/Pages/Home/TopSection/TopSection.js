@@ -42,7 +42,7 @@ const TopSection = ({ banner }) => {
     };
 
     return (
-        <div className="top-section-container">
+        <div className="top-section-container" style={{height: islogin ? "auto" : "900px"}}>
             {!islogin ? (
                 <>
                     {loading ? (

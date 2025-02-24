@@ -120,8 +120,8 @@ const WishlistItems = ({
                                         className="roop_WlTitleline"
                                     // className="roop_card-ContentData roop_WlTitleline"
                                     >
-                                        {item?.designno != "" && item?.designno}
-                                        {item?.TitleLine != "" && " - " + item?.TitleLine}
+                                        {item?.designno !== "" && item?.designno}
+                                        {(item?.TitleLine && item?.TitleLine.toLowerCase() !== "null") && " - " + item?.TitleLine}
                                     </Typography>
                                     <Typography variant="body2" className="roop_card-ContentData">
                                         <div style={{ display: "flex", flexDirection: "column", gap: '1.3px' }}>
@@ -150,7 +150,7 @@ const WishlistItems = ({
                                         </div>
                                         <div style={{
                                             display: "flex",
-                                             height: !item?.Dwt || Number(item?.Dwt) === 0
+                                            height: !item?.Dwt || Number(item?.Dwt) === 0
                                                 ? (maxwidth1350px ? "35px" : maxwidth600px ? "25px" : maxwidth375px ? "30px" : "40px")
                                                 : ""
                                             , flexDirection: "column", gap: '1.3px', justifyContent: "flex-start",
@@ -234,7 +234,7 @@ const WishlistItems = ({
                                     className="roop_Wl-Cartbtn"
                                     onClick={() => handleWishlistToCartFun(item)}
                                 >
-                                    {item?.IsInCart != 1 ? "Add to cart +" : "Remove from cart"}
+                                    {item?.IsInCart != 1 ? "Add to cart +" : "In cart"}
                                 </button>
                             </div>
                         </div>
@@ -299,7 +299,7 @@ const WishlistItems = ({
                                     className="roop_Wl-Cartbtn"
                                     onClick={() => handleWishlistToCartFun(item)}
                                 >
-                                    {item?.IsInCart != 1 ? "Add to cart +" : "Remove from cart"}
+                                    {item?.IsInCart != 1 ? "Add to cart +" : "In cart"}
                                 </button>
                             </div>
                         </div>

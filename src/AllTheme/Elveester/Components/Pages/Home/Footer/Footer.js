@@ -221,7 +221,7 @@ const Footer = () => {
             <div className='elv_copyrights_div'>
                 <hr className='elv_copy_hr' />
                 <div className='elv_coprights'>
-                    <span className='elv_copyrights_text'>Copyright &#169; 2024 Elvee. All Rights Reserved.</span>
+                    <span className='elv_copyrights_text'>Copyright &#169; 2025 Elvee. All Rights Reserved.</span>
                 </div>
             </div>
         </div>

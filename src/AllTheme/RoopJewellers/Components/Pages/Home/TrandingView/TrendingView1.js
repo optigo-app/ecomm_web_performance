@@ -162,14 +162,14 @@ const TrendingView1 = ({ data }) => {
 
                         {/* For sonasons, pacific, ojasvi */}
                         {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} /> */}
-                        <img src={data?.image?.[1]} />
+                        {/* <img src={data?.image?.[1]} /> */}
 
                         {/* // for vara  */}
-                        {/* <img src={data?.image?.[0]}
+                        <img src={data?.image?.[0]}
                             alt="Trending Jewellery Collection Banner"
                             loading='lazy'
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"  // Responsive image size based on viewport width
-                        />   */}
+                        />
                     </div>
                     {/* <div className='smr_rightSideTR'> */}
 
@@ -240,7 +240,7 @@ const TrendingView1 = ({ data }) => {
                                         />
                                         <p className="roop_trend_Div_name">{item?.name}</p>
                                         <div className="product-info">
-                                            <h3>{item?.designno} {item?.TitleLine && " - "} {item?.TitleLine != "" && item?.TitleLine}</h3>
+                                            <h3>{item?.designno !== "" && item?.designno} {(item?.TitleLine && item?.TitleLine.toLowerCase() !== "null") && " - " + item?.TitleLine}</h3>
                                             {storeInit?.IsGrossWeight == 1 &&
                                                 <>
                                                     <span className='roop_btdetailDT'>GWT: </span>
