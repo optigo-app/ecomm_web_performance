@@ -14,6 +14,7 @@ import { useMediaQuery } from '@mui/material';
 import { toast } from 'react-toastify';
 import Cookies from "js-cookie";
 import { fetchSingleProdDT } from '../../API/CartAPI/SingleProdDtAPI';
+import { formatRedirectTitleLine } from '../GlobalFunction';
 
 const useCart = () => {
   const navigate = useNavigate();
@@ -614,14 +615,14 @@ const useCart = () => {
   // const CartCardImageFunc = (pd) => {
   //   const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
   //   let primaryImage, secondaryImage;
-  
+
   //   if (pd?.ImageCount > 0) {
   //     primaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1~${mtcCode?.colorcode}.${pd?.ImageExtension}`;
   //     secondaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1.${pd?.ImageExtension}`;
   //   } else {
   //     primaryImage = secondaryImage = imageNotFound; // Fallback image if no valid images are found
   //   }
-  
+
   //   // Return the primary or secondary image directly
   //   return primaryImage || secondaryImage;
   // };  
@@ -676,9 +677,10 @@ const useCart = () => {
     const logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const createAndNavigate = (obj) => {
       const encodedObj = compressAndEncode(JSON.stringify(obj));
-      navigate(`/d/${cartData?.TitleLine ? cartData?.TitleLine.replace(/\s+/g, `_`) + (cartData?.TitleLine?.length > 0 ? "_" : "") : ""}${cartData?.designno}?p=${encodedObj}`);
+      // navigate(`/d/${ ? cartData?.TitleLine.replace(/\s+/g, `_`) + (cartData?.TitleLine?.length > 0 ? "_" : "") : ""}${}?p=${}`);
+      navigate(`/d/${formatRedirectTitleLine(cartData?.TitleLine)}${cartData?.designno}?p=${encodedObj}`);
     }
-  
+
     if (cartData?.StockNo !== "") {
       let obj = {
         a: cartData?.autocode,
@@ -703,7 +705,7 @@ const useCart = () => {
       createAndNavigate(obj);
     }
   };
-  
+
 
   // browse our collection
   const handelMenu = () => {

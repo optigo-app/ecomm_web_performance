@@ -14,7 +14,9 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import Cookies from "js-cookie";
 import {
+  formatRedirectTitleLine,
   formatter,
+  formatTitleLine,
   storImagePath,
 } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import noImageFound from "../../../Assets/image-not-found.jpg";
@@ -96,10 +98,11 @@ const NewArrival = () => {
       f: {},
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
-    navigation(
-      `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
-      }${designNo}?p=${encodeObj}`
-    );
+    // navigation(
+    //   `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
+    //   }${designNo}?p=${encodeObj}`
+    // );
+  navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
   };
 
   const decodeEntities = (html) => {
@@ -180,7 +183,7 @@ const NewArrival = () => {
                   </div>
                   <CardContent className="roop_newarrproduct-info">
                     <Typography variant="h6" className="roop_newArrTitle">
-                      {(product?.TitleLine && product?.TitleLine.toLowerCase() !== "null") && product?.TitleLine + " - "}
+                      {formatTitleLine(product?.TitleLine) && product?.TitleLine + " - "}
                       {product?.designno !== "" && product?.designno}
                     </Typography>
                     <Typography variant="body2">

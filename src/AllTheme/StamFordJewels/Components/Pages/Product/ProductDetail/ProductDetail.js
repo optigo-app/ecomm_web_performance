@@ -42,6 +42,7 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import { stam_CartCount, stam_WishCount } from "../../../Recoil/atom";
 import { SaveLastViewDesign } from "../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign";
+import { formatRedirectTitleLine, formatTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -1100,7 +1101,7 @@ const ProductDetail = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
-    navigate(`/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+    navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
     //Step 1
     setSingleProd1({});
     setSingleProd({});
@@ -1225,7 +1226,11 @@ const ProductDetail = () => {
   return (
     <>
       <Helmet>
-        <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? '-' : ''} ${singleProd?.designno ?? ''}`}</title>
+        <title>
+          {formatTitleLine(singleProd?.TitleLine)
+            ? `${singleProd.TitleLine} - ${singleProd?.designno ?? ''}`
+            : ((singleProd?.TitleLine || singleProd?.designno) ? `${singleProd?.designno ?? ''}` : "loading...")}
+        </title>
       </Helmet>
       <div className="stam_prodDetail_bodyContain">
         <div className="stam_prodDetail_outerContain">
@@ -1378,7 +1383,7 @@ const ProductDetail = () => {
                         />
                         : <div className="stam_prod_shortInfo_inner">
                           <p className="stam_prod_titleLine">
-                            {singleProd?.TitleLine}
+                            {formatTitleLine(singleProd?.TitleLine) && singleProd?.TitleLine}
                           </p>
 
                           <div className="stam_prod_summury_info">
@@ -1595,7 +1600,7 @@ const ProductDetail = () => {
                               </div>
                             )}
 
-{storeInit?.IsPriceShow == 1 && storeInit?.IsPriceBreakUp == 1 && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 &&
+                          {storeInit?.IsPriceShow == 1 && storeInit?.IsPriceBreakUp == 1 && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 &&
                             (
                               <Accordion
                                 elevation={0}
@@ -2117,7 +2122,7 @@ const ProductDetail = () => {
                             <th className="Smr_stockItem_table_td">
                               Metal Color-Purity
                             </th>
-                            {storeInit?.IsPriceShow == 1 &&      <th className="Smr_stockItem_table_td">Price</th>}
+                            {storeInit?.IsPriceShow == 1 && <th className="Smr_stockItem_table_td">Price</th>}
                             <th className="Smr_stockItem_table_td">
                               Add To Cart
                             </th>
@@ -2486,14 +2491,14 @@ const ProductDetail = () => {
                                               <span className="stam_currencyFont">
                                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                               </span>
-                                            
-                                            &nbsp;
-                                            {
-                                              formatter.format(
-                                                ele?.UnitCostWithMarkUp
-                                              )
-                                            }
-                                              </>}
+
+                                              &nbsp;
+                                              {
+                                                formatter.format(
+                                                  ele?.UnitCostWithMarkUp
+                                                )
+                                              }
+                                            </>}
                                           </p>
                                         </div>
                                         {/* <div>

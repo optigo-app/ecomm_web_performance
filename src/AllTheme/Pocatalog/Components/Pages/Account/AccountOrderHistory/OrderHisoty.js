@@ -8,6 +8,7 @@ import { getOrderHistory, getOrderItemDetails, handleOrderImageError } from "../
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Pako from "pako";
+import { formatRedirectTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 
 const OrderHistory = () => {
@@ -198,7 +199,8 @@ const OrderHistory = () => {
     }
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
-    navigate(`/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+    // navigate(`/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+    navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
 
   }
 

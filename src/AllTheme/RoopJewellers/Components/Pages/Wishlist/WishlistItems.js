@@ -11,7 +11,7 @@ import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import noImageFound from "../../Assets/image-not-found.jpg";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatter, formatTitleLine } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { roop_CartCount, roop_WishCount } from "../../Recoil/atom";
 import { Skeleton, useMediaQuery } from "@mui/material";
 
@@ -121,7 +121,7 @@ const WishlistItems = ({
                                     // className="roop_card-ContentData roop_WlTitleline"
                                     >
                                         {item?.designno !== "" && item?.designno}
-                                        {(item?.TitleLine && item?.TitleLine.toLowerCase() !== "null") && " - " + item?.TitleLine}
+                                        {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}
                                     </Typography>
                                     <Typography variant="body2" className="roop_card-ContentData">
                                         <div style={{ display: "flex", flexDirection: "column", gap: '1.3px' }}>

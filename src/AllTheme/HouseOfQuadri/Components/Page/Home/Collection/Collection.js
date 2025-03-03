@@ -11,6 +11,7 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API
 import Cookies from "js-cookie";
 import Pako from "pako";
 import noimage from '../../../Assets/noImageFound.jpg';
+import { formatRedirectTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const Collection = () => {
   const navigate = useNavigate();
@@ -89,11 +90,12 @@ const Collection = () => {
       f: {},
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
-    navigate(
-      `/d/${titleLine?.replace(/\s+/g, `_`)}${
-        titleLine?.length > 0 ? "_" : ""
-      }${designNo}?p=${encodeObj}`
-    );
+    // navigate(
+    //   `/d/${titleLine?.replace(/\s+/g, `_`)}${
+    //     titleLine?.length > 0 ? "_" : ""
+    //   }${designNo}?p=${encodeObj}`
+    // );
+    navigate(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
   };
 
   if(designSetList?.length === 0){

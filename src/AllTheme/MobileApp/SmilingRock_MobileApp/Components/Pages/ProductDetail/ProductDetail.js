@@ -53,6 +53,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import { formatRedirectTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -1422,11 +1423,12 @@ const ProductDetail = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    navigate(
-      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${
-        productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}?p=${encodeObj}`
-    );
+    // navigate(
+    //   `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${
+    //     productData?.TitleLine?.length > 0 ? "_" : ""
+    //   }${productData?.designno}?p=${encodeObj}`
+    // );
+    navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
     setSingleProd1({});
     setSingleProd({});
     setIsImageLoad(true);

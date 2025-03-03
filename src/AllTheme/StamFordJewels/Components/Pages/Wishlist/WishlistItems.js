@@ -11,7 +11,7 @@ import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import noImageFound from "../../Assets/image-not-found.jpg";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatter, formatTitleLine } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { stam_CartCount, stam_WishCount } from "../../Recoil/atom";
 import { Skeleton, useMediaQuery } from "@mui/material";
 
@@ -117,8 +117,8 @@ const WishlistItems = ({
                                         variant="body2"
                                         className="stam_card-ContentData stam_WlTitleline"
                                     >
-                                        {item?.designno != "" && item?.designno}
-                                        {item?.TitleLine != "" && " - " + item?.TitleLine}
+                                        {item?.designno !== "" && item?.designno}
+                                        {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}
                                     </Typography>
                                     <Typography variant="body2" className="stam_card-ContentData">
                                         {storeInit?.IsGrossWeight == 1 &&
@@ -185,11 +185,11 @@ const WishlistItems = ({
                                         {/* <span className="stam_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}
                                         {mobileView && <br />}
                                         {storeInit?.IsPriceShow == 1 && <>
-                                        {" / "}
-                                        <span className="stam_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>{" "}
-                                        <span>{formatter(item?.FinalCost)}</span>
+                                            {" / "}
+                                            <span className="stam_currencyFont">
+                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>{" "}
+                                            <span>{formatter(item?.FinalCost)}</span>
                                         </>}
                                     </Typography>
                                 </div>

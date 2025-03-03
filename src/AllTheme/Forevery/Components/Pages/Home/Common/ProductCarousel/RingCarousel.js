@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import { FreeMode, Pagination, Autoplay } from "swiper/modules";
-import { storImagePath } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, storImagePath } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 import { useEffect, useState } from "react";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import { useNavigate } from "react-router-dom";
@@ -67,11 +67,12 @@ const RingCarousel = ({ showmore = false }) => {
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    navigation(
-      `/d/${titleLine.replace(/\s+/g, `_`)}${
-        titleLine?.length > 0 ? "_" : ""
-      }${designNo}?p=${encodeObj}`
-    );
+    // navigation(
+    //   `/d/${titleLine.replace(/\s+/g, `_`)}${
+    //     titleLine?.length > 0 ? "_" : ""
+    //   }${designNo}?p=${encodeObj}`
+    // );
+    navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
   };
 
   const compressAndEncode = (inputString) => {

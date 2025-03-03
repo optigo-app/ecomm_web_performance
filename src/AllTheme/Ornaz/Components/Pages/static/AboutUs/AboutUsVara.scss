@@ -1,0 +1,647 @@
+.subheader_adu {
+    position: relative;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    /* Set text color to white or a color that contrasts well with the background */
+    text-align: center;
+    margin-bottom: 145px;
+}
+.img_w_post__abu_unique{
+    width: 50% !important;
+}
+.subheader_adu_content {
+    position: relative;
+    font-size: 30px;
+    font-weight: bold;
+    z-index: 1;
+    /* Ensure the text is on top of the background image */
+}
+
+.container_aboutus_adu {
+    display: flex;
+    width: 100%;
+    max-width: 1350px;
+    margin: 0 auto;
+}
+
+.aboutus_img {
+    width: 100%;
+    max-height: 863px;
+    min-height: 863px;
+    height: auto;
+    object-fit: cover;
+    margin-left: auto;
+}
+
+.abu_content{
+    /* Font PP Fragment  */
+    font-weight:600;  
+    font-size: 38px;
+    line-height:54.26px;
+    margin-bottom: 50px;
+    padding-bottom: 15px;
+    border-bottom: 5px solid #D7B256;
+}
+.abu_content_copy{
+    font-weight:600;  
+    font-size: 38px;
+    line-height:54.26px;
+    margin-bottom: 50px;
+    padding-bottom: 15px;
+    border-bottom: 5px solid #D7B256;
+    width: 23%;
+}
+.abu_content_para{
+    color: #868686;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 32px;
+}
+.abu_content_part{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+.abu_content_para_m{
+    margin-bottom: 30px;
+}
+
+.our_vision_abu_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1350px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 120px;
+}
+
+.our_vision_abu_content{
+    width: 70%;
+}
+
+.our_values_abu_container{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1350px;
+    margin: 0 auto;
+}
+.ourvalimg{
+    max-width: 680px;
+    width: 100%;
+    min-height: 1064px;
+    height: auto;
+    object-fit: contain;
+    margin-left: auto;
+}
+
+.our_values_abu_content{
+    width: 50%;
+    padding-left: 2rem;
+}
+.abu_content_copy_2{
+    font-weight:600;  
+    font-size: 38px;
+    line-height:54.26px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.btn_our_val_abu{
+    height: 55px;
+    width: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #D7B256;
+    border: none;
+}
+.nextlogo_adu{
+    color: white;
+    height: 25px;
+    padding-left: 10px;
+    padding-top: 6px;
+}
+.img_w_post__abu{
+    width: 30%;
+}
+.abu_content_part_2{
+    width: 50%;
+}
+.our_values_abu_container_img{
+    width: 50%;
+}
+@media ( min-width:1200px) and (max-width: 1320px){
+    .abu_content_copy{
+        width: 25%;
+    }
+    .abu_content_part{
+        padding: 10px;
+    }
+    .abu_content_para_m{
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+}
+@media ( min-width:1000px) and (max-width: 1200px){
+    .abu_content_copy{
+        width: 30%;
+    }
+    .abu_content_part{
+        padding: 10px;
+    }
+    .abu_content_para_m{
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .abu_content_copy_2{
+        margin-bottom: 2px;
+    }
+}
+@media ( min-width:870px) and (max-width: 1000px){
+    .abu_content_copy{
+        width: 34%;
+    }
+    .abu_content_part{
+        padding: 10px;
+    }
+    .abu_content_para_m{
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .abu_content_copy_2{
+        margin-bottom: 2px;
+    }
+    .subheader_adu{
+        height: 200px;
+    }
+}
+@media ( min-width:700px) and (max-width: 869px){
+    .abu_content_copy{
+        width: 49%;
+    }
+    .abu_content_part{
+        padding: 10px;
+    }
+    .abu_content_para_m{
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .abu_content_copy_2{
+        margin-bottom: 2px;
+    }
+    .subheader_adu{
+        height: 150px;
+    }
+    .aboutus_img{
+        max-height: 680px;
+        min-height: 680px;
+    }
+    .img_w_post__abu{
+        width: 40%;
+    }
+    .our_vision_abu_content{
+        width: 60%;
+    }
+}
+@media ( min-width:600px) and (max-width: 699px){
+    .container_aboutus_adu{
+        display: flex;
+        flex-direction: column;
+    }
+    .abu_content_part{
+        width: 100%;
+    }
+    .abu_content_part_2{
+        width: 100%;
+    }
+    .aboutus_img{
+        padding: 10px;
+        width: 100%;
+        max-height: 500px;
+        min-height: 500px;
+        height: auto;
+        object-fit: cover;
+        margin-left: auto;
+    }
+    .abu_content{
+        width: 100%;
+        border-bottom: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 5px;
+    }
+    .abu_content_part{
+        padding: 10px;
+    }
+    .abu_content_para_m{
+        text-align: left;
+    }
+    .our_vision_abu_container{
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+    .img_w_post__abu{
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .subheader_adu{
+        height: 150px;
+        margin-bottom: 10rem;
+    }
+    .our_vision_abu_content{
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+    .abu_content_copy{
+        width: 100%;
+        border-bottom: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+        text-align: left;
+    }
+    
+    .our_values_abu_container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+    }
+    .ourvalimg{
+        max-height: max-content;
+        min-height: max-content;
+        width: 100%;
+    }
+    .our_values_abu_content{
+        width: 100%;
+        margin-bottom: 5rem;
+        padding-left: 0px;
+        padding: 10px;
+    }
+    .our_values_abu_container_img{
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 2rem;
+    }
+}
+@media ( min-width:500px) and (max-width: 599px){
+    .container_aboutus_adu{
+        display: flex;
+        flex-direction: column;
+    }
+    .abu_content_part{
+        width: 100%;
+    }
+    .abu_content_part_2{
+        width: 100%;
+    }
+    .aboutus_img{
+        padding: 10px;
+        width: 100%;
+        max-height: 500px;
+        min-height: 500px;
+        height: auto;
+        object-fit: cover;
+        margin-left: auto;
+    }
+    .abu_content{
+        width: 100%;
+        border-bottom: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 5px;
+    }
+    .abu_content_part{
+        padding: 10px;
+    }
+    .abu_content_para_m{
+        text-align: left;
+    }
+    .our_vision_abu_container{
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+    .img_w_post__abu{
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .subheader_adu{
+        height: 150px;
+        margin-bottom: 10rem;
+    }
+    .our_vision_abu_content{
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+    .abu_content_copy{
+        width: 100%;
+        border-bottom: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+        text-align: left;
+    }
+    
+    .our_values_abu_container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+    }
+    .ourvalimg{
+        max-height: max-content;
+        min-height: max-content;
+        width: 100%;
+    }
+    .our_values_abu_content{
+        width: 100%;
+        margin-bottom: 5rem;
+        padding-left: 0px;
+        padding: 10px;
+    }
+    .our_values_abu_container_img{
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 2rem;
+    }
+}
+@media ( min-width:400px) and (max-width: 499px){
+    .container_aboutus_adu{
+        display: flex;
+        flex-direction: column;
+    }
+    .abu_content_part{
+        width: 100%;
+    }
+    .abu_content_part_2{
+        width: 100%;
+    }
+    .aboutus_img{
+        padding: 10px;
+        width: 100%;
+        max-height: 500px;
+        min-height: 500px;
+        height: auto;
+        object-fit: cover;
+        margin-left: auto;
+    }
+    .abu_content{
+        width: 100%;
+        border-bottom: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 5px;
+    }
+    .abu_content_part{
+        padding: 10px;
+    }
+    .abu_content_para_m{
+        text-align: left;
+    }
+    .our_vision_abu_container{
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+    .img_w_post__abu{
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .subheader_adu{
+        height: 150px;
+        margin-bottom: 3rem;
+    }
+    .our_vision_abu_content{
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+    .abu_content_copy{
+        width: 100%;
+        border-bottom: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+        text-align: left;
+    }
+    
+    .our_values_abu_container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+    }
+    .ourvalimg{
+        max-height: max-content;
+        min-height: max-content;
+        width: 100%;
+    }
+    .our_values_abu_content{
+        width: 100%;
+        margin-bottom: 5rem;
+        padding-left: 0px;
+        padding: 10px;
+    }
+    .our_values_abu_container_img{
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 2rem;
+    }
+}
+@media ( min-width:400px) and (max-width: 499px){
+    .container_aboutus_adu{
+        display: flex;
+        flex-direction: column;
+    }
+    .abu_content_part{
+        width: 100%;
+    }
+    .abu_content_part_2{
+        width: 100%;
+    }
+    .aboutus_img{
+        padding: 10px;
+        width: 100%;
+        max-height: 500px;
+        min-height: 500px;
+        height: auto;
+        object-fit: cover;
+        margin-left: auto;
+    }
+    .abu_content{
+        width: 100%;
+        border-bottom: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 5px;
+    }
+    .abu_content_part{
+        padding: 10px;
+    }
+    .abu_content_para_m{
+        text-align: left;
+    }
+    .our_vision_abu_container{
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+    .img_w_post__abu{
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .subheader_adu{
+        height: 150px;
+        margin-bottom: 3rem;
+    }
+    .our_vision_abu_content{
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+    .abu_content_copy{
+        width: 100%;
+        border-bottom: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+        text-align: left;
+    }
+    
+    .our_values_abu_container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+    }
+    .ourvalimg{
+        max-height: max-content;
+        min-height: max-content;
+        width: 100%;
+    }
+    .our_values_abu_content{
+        width: 100%;
+        margin-bottom: 5rem;
+        padding-left: 0px;
+        padding: 10px;
+    }
+    .our_values_abu_container_img{
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 2rem;
+    }
+}
+@media ( max-width: 399px){
+    .container_aboutus_adu{
+        display: flex;
+        flex-direction: column;
+    }
+    .abu_content_part{
+        width: 100%;
+    }
+    .abu_content_part_2{
+        width: 100%;
+    }
+    .aboutus_img{
+        padding: 10px;
+        width: 100%;
+        max-height: 350px;
+        min-height: 350px;
+        height: auto;
+        object-fit: cover;
+        margin-left: auto;
+    }
+    .abu_content{
+        width: 100%;
+        border-bottom: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 5px;
+        font-size: 30px;
+    }
+    .abu_content_part{
+        padding: 10px;
+    }
+    .abu_content_para_m{
+        text-align: left;
+        line-height: 20px;
+    }
+    .our_vision_abu_container{
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+    .img_w_post__abu{
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .subheader_adu{
+        height: 150px;
+        margin-bottom: 3rem;
+    }
+    .our_vision_abu_content{
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+    .abu_content_copy{
+        width: 100%;
+        border-bottom: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+        text-align: left;
+        font-size: 30px;
+    }
+    
+    .our_values_abu_container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+    }
+    .ourvalimg{
+        max-height: max-content;
+        min-height: max-content;
+        width: 100%;
+    }
+    .our_values_abu_content{
+        width: 100%;
+        margin-bottom: 5rem;
+        padding-left: 0px;
+        padding: 10px;
+    }
+    .our_values_abu_container_img{
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 2rem;
+    }
+    .abu_content_copy_2{
+        font-size: 28px;
+    }
+    .btn_our_val_abu{
+        width: 140px;
+    }
+}

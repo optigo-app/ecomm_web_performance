@@ -109,7 +109,7 @@ function Collection() {
         {/* Why shop with Ojasvi? */}
 
         {/* For Pacific */}
-        {/* WHY SHOP WITH PACIFIC? */}
+        {/* Why shop with Pacific? */}
         {/* Consider changing this if you want to personalize it for SEO or branding */}
       </p>
 

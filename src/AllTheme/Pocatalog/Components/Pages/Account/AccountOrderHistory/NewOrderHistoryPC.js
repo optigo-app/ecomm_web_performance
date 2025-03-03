@@ -36,6 +36,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { ExpandLess } from "@mui/icons-material";
 import { formatAmount, formatAmount2 } from './../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import { formatRedirectTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 const NewOrderHistoryPC = () => {
   const [orderHistoryData, setOrderHistoryData] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
@@ -166,14 +167,7 @@ const NewOrderHistoryPC = () => {
 
     productData?.TitleLine === undefined
       ? navigate(`/d/${productData?.designno}?p=${encodeObj}`)
-      : navigate(
-        `/d/${productData?.TitleLine &&
-        productData?.TitleLine?.replace(/\s+/g, `_`)
-        }${productData?.TitleLine && productData?.TitleLine?.length > 0
-          ? "_"
-          : ""
-        }${productData?.designno}?p=${encodeObj}`
-      );
+      : navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
   };
 
   const compressAndEncode = (inputString) => {

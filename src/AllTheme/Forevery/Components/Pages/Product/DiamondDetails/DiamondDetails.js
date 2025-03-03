@@ -68,6 +68,9 @@ const DiamondDetails = () => {
     const ringData = JSON.parse(sessionStorage.getItem('custStepData2Ring'));
     const pendantData = JSON.parse(sessionStorage.getItem('custStepData2Pendant'));
     const earringData = JSON.parse(sessionStorage.getItem('custStepData2Earring'));
+    const isRing = JSON?.parse(sessionStorage.getItem('isRing')) ?? "";
+    const isPendant = JSON?.parse(sessionStorage.getItem('isPendant')) ?? "";
+    const isEarringpair = JSON?.parse(sessionStorage.getItem('isPair')) ?? "";
 
     let isPair;
     if (steps3?.[0]?.Status === 'active' || JSON.parse(sessionStorage.getItem('isPair'))) {
@@ -139,7 +142,6 @@ const DiamondDetails = () => {
     const [diamondData, setDiamondData] = useState([]);
     const [settingData, setSettingData] = useState();
     const [setshape, setSetShape] = useState();
-    console.log('setshape: ', setshape);
     const [metalColor, setMetalColor] = useState([]);
     const [imageMap, setImageMap] = useState({});
     const [totalDiaprice, setTotalDiaPrice] = useState();
@@ -174,9 +176,9 @@ const DiamondDetails = () => {
     const diaGiaCerti = (diamondDatas?.step1Data?.[0]?.certificate_url ?? diamondDatas?.step2Data?.[0]?.certificate_url)?.includes("gia") ? "GIA" : null
 
     useEffect(() => {
-        const getImagePath = settingSteps?.[0]?.Setting === "Ring" && settingSteps?.[0]?.Status === "active" ? JSON.parse(sessionStorage?.getItem("setImage")) : settingSteps?.[0]?.Setting === "Pendant" && settingSteps?.[0]?.Status === "active" ? JSON.parse(sessionStorage?.getItem("setPenImage")) : settingSteps?.[0]?.Setting === "Earring" && settingSteps?.[0]?.Status === "active" ? JSON.parse(sessionStorage?.getItem("setEarImage")) : null;
+        const getImagePath = ((settingSteps?.[0]?.Setting === "Ring" && settingSteps?.[0]?.Status === "active") || isRing) ? JSON.parse(sessionStorage?.getItem("setImage")) : ((settingSteps?.[0]?.Setting === "Pendant" && settingSteps?.[0]?.Status === "active") || isPendant) ? JSON.parse(sessionStorage?.getItem("setPenImage")) : ((settingSteps?.[0]?.Setting === "Earring" && settingSteps?.[0]?.Status === "active") || isEarringpair) ? JSON.parse(sessionStorage?.getItem("setEarImage")) : null;
         setImagePath(getImagePath);
-    }, [settingSteps])
+    }, [settingSteps, location?.key])
 
     const StyleCondition = {
         fontSize: breadCrumb === "settings" && "14px",
@@ -1866,6 +1868,11 @@ const DiamondDetails = () => {
                                                 <div className="for_images_slider">
                                                     {isDataFound ? (
                                                         <>
+                                                            <div
+                                                                className="for_main_image"
+                                                            >
+                                                                <Skeleton variant='square' className='for_skeleton_main_image_2' />
+                                                            </div>
                                                             <div className="for_slider">
                                                                 {Array.from({ length: 3 })?.map((_, i) => {
                                                                     return (
@@ -1874,11 +1881,6 @@ const DiamondDetails = () => {
                                                                         </div>
                                                                     );
                                                                 })}
-                                                            </div>
-                                                            <div
-                                                                className="for_main_image"
-                                                            >
-                                                                <Skeleton variant='square' className='for_skeleton_main_image_2' />
                                                             </div>
                                                         </>
                                                     ) : (
@@ -2498,6 +2500,16 @@ const DiamondDetails = () => {
                                                                     {compSettArr?.map((item, index) => {
                                                                         const fallbackImage = getdiaImages(pairShapeName?.[0]);
                                                                         const imageSrc = item?.src || fallbackImage;
+                                                                        let dynamicImagePath;
+                                                                        if (!imageMap?.colorImage?.includes('undefinedundefined~1')) {
+                                                                            if (imageMap?.colorImage !== (getImagePath?.colorImage ?? "")) {
+                                                                                dynamicImagePath = getImagePath?.colorImage;
+                                                                            } else {
+                                                                                dynamicImagePath = imageMap?.colorImage
+                                                                            }
+                                                                        } else {
+                                                                            dynamicImagePath = getImagePath?.colorImage;
+                                                                        }
                                                                         return (
                                                                             <div
                                                                                 key={index}
@@ -2512,7 +2524,7 @@ const DiamondDetails = () => {
                                                                                                 style={{ position: "relative" }}
                                                                                             >
                                                                                                 <img
-                                                                                                    src={(!imageMap?.colorImage?.includes('undefinedundefined~1') ? imageMap?.colorImage : getImagePath?.colorImage)}
+                                                                                                    src={dynamicImagePath}
                                                                                                     // src={item?.src}
                                                                                                     onError={(e) => {
                                                                                                         e.target.onerror = null;
@@ -2734,6 +2746,16 @@ const DiamondDetails = () => {
                                                                     {compSettArr?.map((item, index) => {
                                                                         const fallbackImage = getdiaImages(pairShapeName?.[0]);
                                                                         const imageSrc = item?.src || fallbackImage;
+                                                                        let dynamicImagePath;
+                                                                        if (!imageMap?.colorImage?.includes('undefinedundefined~1')) {
+                                                                            if (imageMap?.colorImage !== getImagePath?.colorImage) {
+                                                                                dynamicImagePath = getImagePath?.colorImage;
+                                                                            } else {
+                                                                                dynamicImagePath = imageMap?.colorImage
+                                                                            }
+                                                                        } else {
+                                                                            dynamicImagePath = getImagePath?.colorImage;
+                                                                        }
                                                                         return (
                                                                             <div className="for_slider_card" key={index}>
                                                                                 <div className="for_image"
@@ -2753,7 +2775,7 @@ const DiamondDetails = () => {
                                                                                                     style={{ position: "relative" }}
                                                                                                 >
                                                                                                     <img
-                                                                                                        src={(!imageMap?.colorImage?.includes('undefinedundefined~1') ? imageMap?.colorImage : getImagePath?.colorImage)}
+                                                                                                        src={dynamicImagePath}
                                                                                                         ref={el => imageRefs.current[index] = el}
                                                                                                         loading='lazy'
                                                                                                         style={{ transition: 'transform 0.3s ease' }}
@@ -3667,11 +3689,11 @@ const DiamondDetails = () => {
 export default DiamondDetails
 
 const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImagePath, totalPairPrice }, ref) => {
-    console.log('totalPairPrice: ', totalPairPrice);
     const [storeInit, setStoreInit] = useState({});
     const [loginCurrency, setLoginCurrency] = useState();
     const [metalColor, setMetalColor] = useState([]);
     const [imageMap, setImageMap] = useState({});
+    console.log('imageMap: ', imageMap);
     const Navigation = useNavigate();
     const location = useLocation();
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -4319,6 +4341,17 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
         loadImages();
     }, [data]);
 
+    let dynamicImagePath;
+    if (!imageMap?.colorImage?.includes('undefinedundefined~1')) {
+        if (imageMap?.colorImage !== getImagePath?.colorImage) {
+            dynamicImagePath = getImagePath?.colorImage;
+        } else {
+            dynamicImagePath = imageMap?.colorImage
+        }
+    } else {
+        dynamicImagePath = getImagePath?.colorImage;
+    }
+    console.log('dynamicImagePath: ', dynamicImagePath);
 
     return (
         <div
@@ -4357,7 +4390,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                             {!(data?.[0]?.stockno && data?.[1]?.stockno) && (
                                 <div className="for_dia_data_image">
                                     <img
-                                        src={(getImagePath?.colorImage ?? imageMap?.colorImage)}
+                                        src={dynamicImagePath}
                                         // src={data?.stockno ? data?.image_file_url : (!imageMap?.colorImage?.includes('/static') ? imageMap?.colorImage : getImagePath?.colorImage)}
                                         alt=""
                                         style={{ cursor: 'default' }}
@@ -4369,7 +4402,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     ) : (
                         <div className="for_dia_data_image">
                             <img
-                                src={data?.stockno ? data?.image_file_url : (getImagePath?.colorImage ?? imageMap?.colorImage)}
+                                src={data?.stockno ? data?.image_file_url : dynamicImagePath}
                                 // src={data?.stockno ? data?.image_file_url : (!imageMap?.colorImage?.includes('/static') ? imageMap?.colorImage : getImagePath?.colorImage)}
                                 alt=""
                                 style={{ cursor: 'default' }}
@@ -4424,6 +4457,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
     const [settingSteps, setSettingSteps] = useState();
     const Navigation = useNavigate();
     const location = useLocation();
+    const [SettName, setSettName] = useState();
     const isDiamondPage = compSet || 'det345';
     const getStepName = location?.pathname.split('/');
     const getCustStepData = JSON.parse(sessionStorage.getItem('customizeSteps'));
@@ -4458,10 +4492,18 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
     const handleRemoveData = (index) => {
         sessionStorage.removeItem("customizeSteps");
         sessionStorage.removeItem("custStepData");
+        sessionStorage.removeItem("custStepData2Ring");
         sessionStorage.removeItem("customizeSteps2Ring");
         sessionStorage.removeItem("customizeSteps2Pendant");
-        sessionStorage.removeItem("custStepData2Ring");
         sessionStorage.removeItem("custStepData2Pendant");
+        sessionStorage.removeItem("customizeSteps2Earring");
+        sessionStorage.removeItem("custStepData2Earring");
+        sessionStorage.removeItem("setImage");
+        sessionStorage.removeItem("setPenImage");
+        sessionStorage.removeItem("setEarImage");
+        sessionStorage.removeItem('isPair');
+        sessionStorage.removeItem('isPendant');
+        sessionStorage.removeItem('isRing');
         if (index === 0) {
             Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
         }
@@ -4486,11 +4528,18 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
 
     useEffect(() => {
         const handleCompset = () => {
-            const getSetShape = JSON.parse(sessionStorage.getItem('customizeSteps')) ?? (getCompleteStep2?.[0]?.Status === "active" ? getCompleteStep2 : getCompleteStep3?.[0]?.Status === "active" ? getCompleteStep3 : getCompleteStep4);
+            const getSetShape = JSON.parse(sessionStorage.getItem('customizeSteps')) ?? (getCompleteStep2?.[0]?.Status === "active" ? getCompleteStep2 :
+                getCompleteStep3?.[0]?.Status === "active" ? getCompleteStep3 : getCompleteStep4);
             setSetShape(getSetShape);
         }
+
+        const handleDiaSettingName = () => {
+            const getSettName = isRing === true ? "Ring" : isPendant === true ? "Pendant" : "Earring";
+            setSettName(getSettName)
+        }
         handleCompset();
-    }, [])
+        handleDiaSettingName();
+    }, [location?.key])
 
     useEffect(() => {
         const storeData = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -4534,6 +4583,8 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                         onClick={() => {
                             if ((getCustStepData2?.[2]?.step3 == true || getCustStepData3?.[2]?.step3 == true || getCustStepData4?.[2]?.step3 == true)) {
                                 setShowModal(true)
+                            } else if ((getCompleteStep2?.[2]?.step3 && getCompleteStep2?.[0]?.Status === "active") ?? (getCompleteStep3?.[2]?.step3 && getCompleteStep3?.[0]?.Status === "active") ?? (getCompleteStep4?.[2]?.step3 && getCompleteStep4?.[0]?.Status === "active")) {
+                                Navigation(`/certified-loose-lab-grown-diamonds/settings/${SettName}/${(SettName === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : SettName === 'Pendant' ? 'M=UGVuZGFudC9jYXRlZ29yeQ==' : 'M=RWFycmluZy9jYXRlZ29yeQ==')}`)
                             }
                             setswap("settings");
                         }}
@@ -4642,7 +4693,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                     )}
                 </div>
 
-                <div className={`step_data ${(getdiaData2?.[1]?.step2Data || getdiaData3?.[1]?.step2Data || getdiaData?.[1]?.step2Data || getdiaData4?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
+                <div className={`step_data ${((getdiaData2?.[1]?.step2Data && getCompleteStep2?.[0]?.Status === 'active') || (getdiaData3?.[1]?.step2Data && getCompleteStep3?.[0]?.Status === 'active') || getdiaData?.[1]?.step2Data || (getdiaData4?.[1]?.step2Data && getCompleteStep4?.[0]?.Status === 'active')) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
                     <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url || getCompleteStep3?.[2]?.url || getCompleteStep4?.[2]?.url)}`); setswap("finish"); }}>
                         <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData3?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : (getCustStepData2?.[0]?.Setting === 'Ring' || getCustStepData3?.[0]?.Setting === 'Ring' || getCustStepData?.[1]?.Setting === 'Ring') ? 'for_shapes_img' : 'for_earring_shape'} src={
                             ((((getCompleteStep2?.[0]?.Setting === 'Pendant' && getCompleteStep2?.[0]?.Status === 'active' || getCompleteStep3?.[0]?.Setting === 'Pendant' && getCompleteStep3?.[0]?.Status === 'active') ? StepImages[1]?.img1 : (getCompleteStep2?.[0]?.Setting === 'Ring' && getCompleteStep2?.[0]?.Status === 'active' || getCompleteStep3?.[0]?.Setting === 'Ring' && getCompleteStep3?.[0]?.Status === 'active') ? StepImages[1]?.img : StepImages[1]?.img3)))
@@ -4726,10 +4777,12 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                                 } else {
                                     if (getCompleteStep1?.[0]?.step1 === true && (getdiaData === null || getdiaData === undefined)) {
                                         sessionStorage.removeItem('customizeSteps');
-                                        Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
-                                    } else {
-                                        Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
-                                    }
+                                        Navigation(`/certified-loose-lab-grown-diamonds/settings/${SettName}/${(SettName === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : SettName === 'Pendant' ? 'M=UGVuZGFudC9jYXRlZ29yeQ==' : 'M=RWFycmluZy9jYXRlZ29yeQ==')}`)
+                                        // Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
+                                    } 
+                                    // else {
+                                    //     Navigation(`/certified-loose-lab-grown-diamonds/settings/${SettName}/${(SettName === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : SettName === 'Pendant' ? 'M=UGVuZGFudC9jYXRlZ29yeQ==' : 'M=RWFycmluZy9jYXRlZ29yeQ==')}`)
+                                    // }
                                 }
                             }}
                         >
@@ -4803,7 +4856,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                         )} */}
                     </div>
 
-                    <div className={`step_data ${(getdiaData2?.[1]?.step2Data || getdiaData3?.[1]?.step2Data || getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
+                    <div className={`step_data ${((getdiaData2?.[1]?.step2Data && getCompleteStep2?.[0]?.Status === 'active') || (getdiaData3?.[1]?.step2Data && getCompleteStep3?.[0]?.Status === 'active') || getdiaData?.[1]?.step2Data || (getdiaData4?.[1]?.step2Data && getCompleteStep4?.[0]?.Status === 'active')) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
                         <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url || getCompleteStep3?.[2]?.url || getCompleteStep4?.[2]?.url)}`); setswap("finish"); }}>
 
                             <img className={

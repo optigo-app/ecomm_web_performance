@@ -58,7 +58,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const Lookbook = () => {
   let location = useLocation();
@@ -470,10 +470,11 @@ const Lookbook = () => {
       f: {},
     };
     let encodeObj = compressAndEncode(JSON?.stringify(obj));
-    navigate(
-      `/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
-      }${designNo}?p=${encodeObj}`
-    );
+    // navigate(
+    //   `/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
+    //   }${designNo}?p=${encodeObj}`
+    // );
+    navigate(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
   };
 
   const [selectedCategories, setSelectedCategories] = useState([]);

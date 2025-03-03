@@ -1,14 +1,16 @@
+import { wesbiteDomainName } from "../../Glob_Functions/GlobalFunction";
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
 export const LoginWithEmailCodeAPI = async (storedEmail) => {
     let response
+    const domainname = wesbiteDomainName;
     try {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { FrontEnd_RegNo } = storeInit;
 
         const combinedValue = JSON.stringify({
-            userid: storedEmail, FrontEnd_RegNo: FrontEnd_RegNo
+            userid: storedEmail, FrontEnd_RegNo: FrontEnd_RegNo, domainname: domainname
         });
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
@@ -18,7 +20,7 @@ export const LoginWithEmailCodeAPI = async (storedEmail) => {
             "dp": combinedValue,
 
         };
-         response = await CommonAPI(body);
+        response = await CommonAPI(body);
 
     } catch (error) {
         console.error('Error:', error);

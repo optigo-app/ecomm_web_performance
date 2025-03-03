@@ -1,0 +1,58 @@
+.roop_productCard_SkeltenShow {
+    width: 100%;
+    padding-inline: 5%;
+}
+
+.roop_productCard_skeltonMainDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    margin-inline: 4%;
+    margin-bottom: 20px;
+}
+
+.roop_productCardskelton_MainDiv_prodlistPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    // margin-inline: 13%;
+    margin-bottom: 20px;
+}
+
+.roop_productCard_skeltoncards {
+    box-shadow: none !important;
+}
+
+.roop_productCard_skle_Main {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.roop_productCard_listpage {
+    box-shadow: none !important;
+    width: 350px
+}
+
+@media (max-width:1440px) {
+    .roop_productCard_filtercard {
+        display: none !important;
+    }
+
+    .roop_productCard_topSkeletonMain {
+        margin-top: 50px;
+    }
+}
+
+@media (max-width: 600px) {
+    .roop_productCard_skeltonMainDiv {
+        margin-inline: 1%;
+    }
+
+    .roop_productCard_cardMainSkeleton {
+        height: 20vh !important;
+    }
+
+
+}

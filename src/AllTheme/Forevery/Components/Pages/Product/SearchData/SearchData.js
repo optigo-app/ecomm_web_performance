@@ -8,7 +8,7 @@ import { for_MetalColor_Image } from "../../../Recoil/atom";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { useLocation, useNavigate } from "react-router-dom";
 import Pako from "pako";
-import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { DiamondListData } from "../../../../../../utils/API/DiamondStore/DiamondList";
 
 const SearchData = () => {
@@ -233,10 +233,11 @@ const SearchData = () => {
 
         let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-        navigate(
-            `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-            }${productData?.designno}/?p=${encodeObj}`
-        );
+        // navigate(
+        //     `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+        //     }${productData?.designno}/?p=${encodeObj}`
+        // );
+        navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
     };
 
     const HandleDiamondRoute = (val) => {

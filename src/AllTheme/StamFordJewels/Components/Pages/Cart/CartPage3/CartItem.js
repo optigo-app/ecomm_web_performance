@@ -25,6 +25,7 @@ import { FormControl } from "react-bootstrap";
 import Cookies from "js-cookie";
 import {
   formatter,
+  formatTitleLine,
   storImagePath,
 } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
@@ -192,7 +193,7 @@ const CartItem = ({
             <h3>
               {item?.designno != "" && item?.designno} 
               {(item?.StockNo != "" && item?.StockNo != null) && ` (${item?.StockNo})`}
-              {(item?.TitleLine != "" && item?.TitleLine != null) && " - " + item?.TitleLine}
+              {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}
             </h3>
             <p>{item?.productDescription}</p>
             {/* {item?.sku != "" &&

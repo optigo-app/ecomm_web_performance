@@ -179,7 +179,7 @@ const Footer = () => {
                                 <p className='footerOfficeDesc' style={{ display: 'flex', alignItems: 'center', fontFamily: 'PT Sans, sans-serif', height: '70px' }}>
                                     <IoLocationOutline style={{ minWidth: '30px', width: 'fit-content', height: 'fit-content' }} />
                                     <span>
-                                        {companyInfoData?.FrontEndAddress}, {companyInfoData?.FrontEndCity} - {companyInfoData?.FrontEndZipCode}
+                                        {companyInfoData?.FrontEndAddress}, {companyInfoData?.FrontEndCity}, {companyInfoData?.FrontEndState} - {companyInfoData?.FrontEndZipCode}
                                     </span>
                                 </p>
                                 <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif' }}>

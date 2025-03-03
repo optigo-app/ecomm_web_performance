@@ -1147,7 +1147,8 @@ $borderColor: rgba(232, 232, 232, 1);
               .for_Diacart-item {
                 .for_cart-item__image {
                   img {
-                    width: 50px;
+                    // width: 50px;
+                    width: 100%
                   }
                 }
               }

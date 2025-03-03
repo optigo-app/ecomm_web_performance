@@ -313,6 +313,7 @@ export default function Register() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              marginBottom: "5%",
             }}
           >
             <TextField

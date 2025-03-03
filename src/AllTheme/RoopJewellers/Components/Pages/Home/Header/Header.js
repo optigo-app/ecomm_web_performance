@@ -1128,20 +1128,20 @@ const Header = () => {
         <div className="roop_header_top_line">
           <p className="roop_header_top_line_text" aria-labelledby="title">
             {/* For Vara */}
-            Welcome To Vara Jewels Offical Website
+            Welcome To Vara Jewels Official Website
 
             {/* For Sonsosons */}
-            {/* Welcome To Sonasons Offical Website */}
+            {/* Welcome To Sonasons Official Website */}
 
             {/* For Pacific */}
-            {/* Welcome To Pacific Diamonds Offical Website */}
+            {/* Welcome To Pacific Diamonds Official Website */}
 
             {/* For Ojasvi */}
-            {/* Welcome To Ojasvi Jewels Offical Website */}  
+            {/* Welcome To Ojasvi Jewels Official Website */}  
 
             {/* For Shinjini */}
-            {/* Welcome To Shinjini Jewels Offical Website */}
-            {/* Welcome To Roop Jewellers's Offical Website */}
+            {/* Welcome To Shinjini Jewels Official Website */}
+            {/* Welcome To Roop Jewellers's Official Website */}
           </p>
         </div>
         {!maxWidth1200 && (

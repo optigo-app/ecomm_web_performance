@@ -3,6 +3,7 @@ import './Footer.modul.scss'
 import { IoLocationOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router';
 import { useMediaQuery } from '@mui/material';
+import { IoMdCall, IoMdMail } from 'react-icons/io';
 
 const Footer = ({ fromPage }) => {
 
@@ -47,45 +48,64 @@ const Footer = ({ fromPage }) => {
             <p className='footerMoreOptionData' onClick={() => { navigation('/aboutUs'); window.scrollTo(0, 0); }}>ABOUT US</p>
           </div>
           <div className='footerMoreText'>
-            <p style={{
-              color: '#7d7f85',
-              fontSize: '12px',
-              fontWeight: 500,
-              marginInline: '0'
-            }}>© 2025, Varajewels</p>
-
-            {/*  pacific diamonds */}
-            {/* }}>© 2025, Pacific Diamonds</p> */}
-
-            {/* For Vara */}
-            {/* }}>© 2025, Varajewels</p> */}
-
-            {/* For shinjini */}
-            {/* }}>© 2025, Shinjini</p> */}
-
-            {/* For ojasvi */}
-            {/* }}>© 2025, Ojasvijewels</p> */}
-
-            {/* vara  */}
-            {/* }}>© 2025, Varajewels</p> */}
             <div
               className='roop_footerCompData'
-              style={{ width: maxWidth ? "100%" : "" }}>
-              <p style={{
-                color: '#7d7f85',
-                fontSize: '12px',
-                fontWeight: 500,
-                marginInline: '15px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'flex-start',
-              }}>
-                <IoLocationOutline style={{ minWidth: '18px', width: 'fit-content', height: 'fit-content' }} />
-                <span>
-                  {companyInfoData?.FrontEndAddress}, {companyInfoData?.FrontEndCity} - {companyInfoData?.FrontEndZipCode}
+              style={{ width: maxWidth ? "100% !important" : "" }}
+            >
+              <p
+                style={{
+                  color: '#7d7f85',
+                  fontSize: '12px',
+                  fontWeight: 500,
+                  marginInline: '15px',
+                  // display: 'flex',
+                  // justifyContent: 'center',
+                  margin: 0,
+                  marginBottom: "2px",
+                  alignItems: 'flex-start', // Align icons and text vertically
+                }}
+              >
+                <IoLocationOutline style={{ minWidth: '20px', width: 'auto', height: 'auto', color: "#000", marginTop: "3px" }} />
+                <span style={{ marginLeft: '5px', fontSize: "13px" }}>
+                  {companyInfoData?.FrontEndAddress}, {companyInfoData?.FrontEndCity}, {companyInfoData?.FrontEndState} - {companyInfoData?.FrontEndZipCode}
                 </span>
               </p>
+
+              {companyInfoData?.FrontEndContactno1 && (
+                <p
+                  className="footerOfficeDesc_rp"
+                  style={{ fontFamily: "PT Sans, sans-serif", margin: "0px", display: 'flex', alignItems: 'center', marginBottom: "2px", gap: "5px" }}
+                >
+                  <IoMdCall style={{ minWidth: '20px', width: 'auto', height: 'auto' }} />
+                  <span
+                    style={{
+                      color: "#7d7f85",
+                      fontSize: "13px",
+                    }}
+                  >
+                    {companyInfoData?.FrontEndContactno1}
+                  </span>
+                </p>
+              )}
+
+              {companyInfoData?.FrontEndEmail1 && (
+                <p
+                  className="footerOfficeDesc_rp"
+                  style={{ fontFamily: "PT Sans, sans-serif", display: 'flex', alignItems: 'center', marginBottom: "2px", gap: '8px' }}
+                >
+                  <IoMdMail style={{ minWidth: '20px', width: 'auto', height: 'auto' }} />
+                  <span
+                    style={{
+                      color: "#7d7f85",
+                      fontSize: "13px",
+                    }}
+                  >
+                    {companyInfoData?.FrontEndEmail1}
+                  </span>
+                </p>
+              )}
             </div>
+
             {/* // }}>© 2024,</p> */}
 
             {/* <p style={{
@@ -96,8 +116,37 @@ const Footer = ({ fromPage }) => {
             }} onClick={() => navigation('/TermsPolicy')}>Terms & Privacy</p> */}
           </div>
         </div>
+        <div>
+          <p style={{
+            color: '#7d7f85',
+            display:"flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            textAlign: "center",
+            fontSize: '14px',
+            fontWeight: 500,
+            marginInline: '0',
+            marginBottom: "2%"
+          }}>© 2025, Varajewels</p>
+
+          {/*  pacific diamonds */}
+          {/* }}>© 2025, Pacific Diamonds</p> */}
+
+          {/* For Vara */}
+          {/* }}>© 2025, Varajewels</p> */}
+
+          {/* For shinjini */}
+          {/* }}>© 2025, Shinjini</p> */}
+
+          {/* For ojasvi */}
+          {/* }}>© 2025, Ojasvijewels</p> */}
+
+          {/* vara  */}
+          {/* }}>© 2025, Varajewels</p> */}
+        </div>
       </div>
-    </div>
+    </div >
   )
 }
 

@@ -70,7 +70,7 @@ const CountryDropDown = ({
         ...Errors,
         mobileNo: '',
       });
-    } else if (numericValue.length > 0 && numericValue.length < CountryDefault) {
+    } else if (numericValue?.length > 0 && numericValue?.length < CountryDefault) {
       setErrors({
         ...Errors,
         mobileNo: `Mobile number must be ${CountryDefault} digits.`,

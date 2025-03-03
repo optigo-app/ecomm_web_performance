@@ -1,8 +1,10 @@
+import { wesbiteDomainName } from "../../Glob_Functions/GlobalFunction";
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const CountryCodeListApi = async (finalID) => {
 
     let response;
+    const domainname = wesbiteDomainName;
     try {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail')) || '0';
@@ -10,13 +12,13 @@ export const CountryCodeListApi = async (finalID) => {
         const islogin = JSON.parse(sessionStorage.getItem("LoginUser")) ?? false;
 
 
-        const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? finalID : loginUserDetail?.id ?? 0;
-        const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? finalID : loginUserDetail?.userid ?? "";
+        const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? finalID : loginUserDetail?.id ?? 0;
+        const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? finalID : loginUserDetail?.userid ?? "";
 
         const { FrontEnd_RegNo } = storeInit;
 
         const combinedValue = JSON.stringify({
-            FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerId ?? 0}`
+            FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerId ?? 0}`, domainname: domainname
         });
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
