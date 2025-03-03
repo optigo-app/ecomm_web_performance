@@ -62,11 +62,13 @@ export default function Register() {
   useEffect(() => {
     const storedEmail = location.state?.email;
     const routeMobileNo = location.state?.mobileNo;
-
-    if (routeMobileNo) {
+    const routeMobileCountry = location.state?.code;
+    
+    if (routeMobileNo && routeMobileCountry) {
       setMobileNo(routeMobileNo);
-      mobileNoRef.current.disabled = true;
-      setIsMobileThrough(true);    
+      setCountrycodestate(routeMobileCountry); 
+      mobileNoRef.current.disabled = true; 
+      setIsMobileThrough(true); 
     }
 
     if (storedEmail) {
@@ -227,11 +229,13 @@ export default function Register() {
       errors.lastName =
         "Last Name should not start with a numeric, special character, or space";
     }
-    if (!mobileNo.trim()) {
-      errors.mobileNo = "Mobile No. is required";
-    } else if (!/^\d{10}$/.test(mobileNo.trim())) {
-      errors.mobileNo = "Enter Valid mobile number";
-    }
+    // if (!mobileNo.trim()) {
+    //   errors.mobileNo = "Mobile No. is required";
+    //   console.log(mobileNo,"number")
+    // } else if (!/^\d{10}$/.test(mobileNo.trim())) {
+    //   console.log(mobileNo,"number")
+    //   errors.mobileNo = "Enter Valid mobile number";
+    // }
 
     if (!email.trim()) {
       errors.email = "Email is required";
@@ -270,11 +274,12 @@ export default function Register() {
       //   }
       //   const response = await CommonAPI(body);
 
-      RegisterAPI(firstName, lastName, email, mobileNo, hashedPassword)
+      RegisterAPI(firstName, lastName, email, mobileNo, hashedPassword,Countrycodestate)
         .then((response) => {
           setIsLoading(false);
           if (response.Data.rd[0].stat === 1) {
             navigation(singupRedirectUrl);
+            sessionStorage.removeItem("Countrycodestate")
 
             // sessionStorage.setItem('LoginUser', true)
             // sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
@@ -403,13 +408,14 @@ export default function Register() {
               handleInputChange={handleInputChange}
               handleKeyDown={handleKeyDown}
               // open={open}
-              Countrycodestate={Countrycodestate} 
               emailRef={emailRef} 
               mobileNo={mobileNo} 
               mobileNoRef={mobileNoRef} 
               setMobileNo={setMobileNo} 
               setErrors={setErrors}
               IsMobileThrough={IsMobileThrough}
+              Countrycodestate={Countrycodestate}
+              setCountrycodestate={setCountrycodestate}
               // setOpen={setOpen}
                />
             {/* <TextField

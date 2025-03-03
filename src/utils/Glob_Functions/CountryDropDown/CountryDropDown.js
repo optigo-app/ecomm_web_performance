@@ -14,9 +14,11 @@ const CountryDropDown = ({
   handleInputChange,
   Errors,
   setErrors,
+  Countrycodestate ,
+setCountrycodestate ,
+
 }) => {
   const visiterID = Cookies.get('visiterId');
-  const [Countrycodestate, setCountrycodestate] = useState();
   const [CountryDefault, setCountryDefault] = useState();
   const [Countrycode, setCountrycode] = useState([]);
   const [open, setOpen] = useState(false);
@@ -34,7 +36,13 @@ const CountryDropDown = ({
     CountryCodeListApi(finalID)
       .then((res) => {
         const phonecode = res?.Data?.rd?.filter((val) => val?.IsDefault == 1);
-        setCountrycodestate(phonecode[0]?.mobileprefix);
+        const mob = sessionStorage.getItem('Countrycodestate') ;
+        if(mob){
+          setCountrycodestate(mob);
+          return ;
+        }else{
+          setCountrycodestate(phonecode[0]?.mobileprefix);
+        }
         setCountrycode(res?.Data?.rd);
         setCountryDefault(phonecode[0]?.PhoneLength);
       })
@@ -81,7 +89,7 @@ const CountryDropDown = ({
         mobileNo: '',
       });
     }
-
+    
     handleInputChange(e, setMobileNo, 'mobileNo');
   };
 
@@ -102,11 +110,11 @@ const CountryDropDown = ({
             disablePortal
             options={Countrycode}
             getOptionLabel={(option) => `${option?.mobileprefix} - ${option?.countryname}`}
-            sx={{ width: '100%' }}
+            sx={{ width: '100%' }} 
             open={open} 
-            inputRef={mobileNoRef}
-            onClose={() => setOpen(false)}
-            onChange={handleCountryChange}
+            inputRef={mobileNoRef} 
+            onClose={() => setOpen(false)} 
+            onChange={handleCountryChange} 
             renderInput={(params) => <TextField {...params} placeholder="Search Your Country" />}
           />
         </div>

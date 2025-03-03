@@ -66,6 +66,10 @@ export const ProductListConfig2 = [
       `${storImagePath() + "/statusbar/swr10/sw3.jpg"}`,
       `${storImagePath() + "/statusbar/swr10/sw4.jpg"}`,
     ],
+    videos: [
+      `https://videos.pexels.com/video-files/27989388/12282745_1080_1920_30fps.mp4`,
+      `https://videos.pexels.com/video-files/11057646/11057646-hd_1080_1920_30fps.mp4`,
+    ],
   },
   {
     designNo: "ANB8",
@@ -74,6 +78,10 @@ export const ProductListConfig2 = [
       `${storImagePath() + "/statusbar/swr11/sw1.jpg"}`,
       `${storImagePath() + "/statusbar/swr11/sw3.jpg"}`,
       `${storImagePath() + "/statusbar/swr11/sw4.jpg"}`,
+    ],
+    videos: [
+      `https://videos.pexels.com/video-files/27989388/12282745_1080_1920_30fps.mp4`,
+      `https://videos.pexels.com/video-files/9430541/9430541-uhd_1440_2732_25fps.mp4`,
     ],
   },
   {
@@ -84,6 +92,10 @@ export const ProductListConfig2 = [
       `${storImagePath() + "/statusbar/swr12/sw3.jpg"}`,
       `${storImagePath() + "/statusbar/swr12/sw4.jpg"}`,
     ],
+    videos: [
+      `https://videos.pexels.com/video-files/9430541/9430541-uhd_1440_2732_25fps.mp4`,
+      `https://videos.pexels.com/video-files/11057646/11057646-hd_1080_1920_30fps.mp4`,
+    ],
   },
   {
     designNo: "ANB6",
@@ -92,6 +104,9 @@ export const ProductListConfig2 = [
       `${storImagePath() + "/statusbar/swr13/sw1.jpg"}`,
       `${storImagePath() + "/statusbar/swr13/sw3.jpg"}`,
       `${storImagePath() + "/statusbar/swr13/sw4.jpg"}`,
+    ],
+    videos: [
+      `https://videos.pexels.com/video-files/11057646/11057646-hd_1080_1920_30fps.mp4`,
     ],
   },
   // original

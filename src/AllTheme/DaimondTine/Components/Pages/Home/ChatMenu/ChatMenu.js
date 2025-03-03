@@ -2,11 +2,11 @@ import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunc
 import "./ChatMenu.modul.scss";
 import { useMediaQuery } from "@mui/material";
 
-const WhatsAppChat = ({ phoneNo }) => {
-  const whatsappUrl = `https://web.whatsapp.com/send?phone=${phoneNo}&text=Hi, I Need Help with !`;
-  const whatsappMobileUrl = `https://api.whatsapp.com/send?phone=${phoneNo}&text=Hi,%20I%20Need%20Help%20with%20!`;
-  const isTablet = useMediaQuery("(min-width:600px) and (max-width:899px)");
+const WhatsAppChat = ({phoneNo}) => {
 
+    const whatsappUrl = `https://web.whatsapp.com/send?phone=${phoneNo}&text=Hi, I Need Help with !`;
+    const whatsappMobileUrl = `https://api.whatsapp.com/send?phone=${phoneNo}&text=Hi,%20I%20Need%20Help%20with%20!`;
+    const isTablet = useMediaQuery('(min-width:600px) and (max-width:899px)');
   return (
     <div className="dt_main_ChatMenu">
       <button className="wai">
@@ -19,7 +19,6 @@ const WhatsAppChat = ({ phoneNo }) => {
 };
 
 export default WhatsAppChat;
-
 
 
 

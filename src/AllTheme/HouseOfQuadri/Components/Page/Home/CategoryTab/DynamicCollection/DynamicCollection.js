@@ -19,6 +19,8 @@ import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { IoChevronForward } from "react-icons/io5";
 import Stories from 'react-insta-stories';
+import imageNotFound from "../../../../Assets/noImageFound.jpg";
+
 import {
   findMetalColor,
   findMetalType,
@@ -64,6 +66,9 @@ import { Hoq_CartCount, Hoq_WishCount } from "../../../../Recoil/atom";
 import { RemoveCartAndWishAPI } from "../../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import imagnotfound from './../../../../Assets/noImageFound.jpg';
 import { ProductListConfig, ProductListConfig2, ReactStoriesConfig } from "../../../../Config/ReactStoriesConfig";
+import StoryLine from "../../../../../../../utils/Glob_Functions/StoryLine/StoryLine";
+
+
 const DynamicCollection = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const location = useLocation();
@@ -100,6 +105,7 @@ const DynamicCollection = () => {
   const [sortBySelect, setSortBySelect] = useState("Recommended");
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [StoryLineProductList, setStoryLineProductList] = useState([]);
   const [selectedMetalId, setSelectedMetalId] = useState(
     loginUserDetail?.MetalId
   );
@@ -108,6 +114,7 @@ const DynamicCollection = () => {
   const [wishArr, setWishArr] = useState({});
   const [accExpanded, setAccExpanded] = useState(null);
   const [afterCountStatus, setAfterCountStatus] = useState(false);
+
 
   const [selectedDiaId, setSelectedDiaId] = useState(
     loginUserDetail?.cmboDiaQCid
@@ -1874,6 +1881,98 @@ const DynamicCollection = () => {
 
     return isFilterChecked || isSliderChanged;
   };
+  function checkImageAvailability(imageUrl) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = imageUrl;
+    });
+  }
+  const ProdCardImageFunc = async (data) => {
+    let pdImgList = [];
+    let pdvideoList = [];
+  
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
+    let mcArr;
+  
+    if (mtColorLocal?.length) {
+      mcArr = mtColorLocal?.filter((ele) => ele?.id === data?.MetalColorid)[0];
+    }
+  
+    // Fetching color images
+    if (data?.ColorImageCount > 0) {
+      for (let i = 1; i <= data?.ColorImageCount; i++) {
+        let imgString =
+          storeInit?.CDNDesignImageFol +
+          data?.designno +
+          "~" +
+          i +
+          "~" +
+          mcArr?.colorcode +
+          "." +
+          data?.ImageExtension;
+  
+        const IsImg = await checkImageAvailability(imgString);
+        if (IsImg) {
+          pdImgList.push(imgString);
+        }
+      }
+    }
+  
+    if (data?.ImageCount > 0 && pdImgList.length === 0) {
+      for (let i = 1; i <= data?.ImageCount; i++) {
+        let imgString =
+          storeInit?.CDNDesignImageFol +
+          data?.designno +
+          "~" +
+          i +
+          "." +
+          data?.ImageExtension;
+  
+        const IsImg = await checkImageAvailability(imgString);
+        if (IsImg) {
+          pdImgList.push(imgString);
+        }
+      }
+    }
+  
+    if (data?.VideoCount > 0) {
+      for (let i = 1; i <= data?.VideoCount; i++) {
+        let videoString =
+          storeInit?.CDNVPath +
+          data?.designno +
+          "~" +
+          i +
+          "." +
+          data?.VideoExtension;
+        pdvideoList.push(videoString);
+      }
+    }
+  
+    return { images: pdImgList, videos: pdvideoList };
+  };
+
+ useEffect(() => {
+    const MakeNewImageList = async () => {
+      const newImgListPromises = productListData?.map(async (item) => {
+        const media = await ProdCardImageFunc(item);
+        return {
+          designo: item?.designno,
+          images: media.images,
+          videos: media.videos,
+        };
+      });
+
+      const result = await Promise.all(newImgListPromises);
+      setStoryLineProductList(result)
+    };
+
+    if (productListData?.length > 0) {
+      MakeNewImageList();
+    }
+  }, [productListData]);
+
 
 
   return (
@@ -2735,43 +2834,7 @@ const DynamicCollection = () => {
         <div className="filter_section">
           {/* productlist cards */}
           <div className="cc_list">
-            {/* top filter bar */}
-            {/* <div className="collections_list">
-             
-              {isProdLoading ? (
-                <LoadingSkeleton />
-              ) : productListData && productListData.length > 0 ? (
-                productListData.map((val, i) => (
-                  <C_Card
-                    key={i}
-                    img={ImageUrl(val?.designno, val?.ImageExtension)}
-                    videoUrl={VideoUrl(1, val?.designno, val?.VideoExtension)}
-                    rollUpImage={RollUpImageUrl2(
-                      val?.designno,
-                      val?.ImageExtension,
-                      val?.ImageCount
-                    )}
-                    // CurrenyCode={
-                    //   loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode
-                    // }
-                    title={val?.TitleLine}
-                    designo={val?.designno}
-                    decodeEntities={decodeEntities}
-                    productData={val}
-                    handleMoveToDetail={handleMoveToDetail}
-                    storeInit={storeInit}
-                    selectedMetalId={selectedMetalId}
-                    handleCartandWish={handleCartandWish}
-                    cartArr={cartArr}
-                    wishArr={wishArr}
-                    CurrencyCode={loginUserDetail?.CurrencyCode}
-                    CurrencyCode2={storeInit?.CurrencyCode}
-                  />
-                ))
-              ) : (
-                <NoProductFound />
-              )}
-            </div> */}
+            
             {isProdLoading ? (
               <div className="collections_list">
                 <LoadingSkeleton />
@@ -2804,6 +2867,7 @@ const DynamicCollection = () => {
                     wishArr={wishArr}
                     CurrencyCode={loginUserDetail?.CurrencyCode}
                     CurrencyCode2={storeInit?.CurrencyCode}
+                    StoryLineProductList={StoryLineProductList}
                   />
                 ))}
               </div>
@@ -2963,15 +3027,16 @@ const C_Card = ({
     wishArr,
     CurrencyCode,
     CurrencyCode2,
+    StoryLineProductList
   }) => {
 
     const [isHover, setisHover] = useState(false);
     const [isPlusClicked, SetisPlusClicked] = useState(false);
     const [resetKey, setResetKey] = useState(0); // A key to reset the story component
-    const selectedProduct = ProductListConfig2 && ProductListConfig2?.find(product => product?.designNo === designo);
+    const selectedProduct = StoryLineProductList && StoryLineProductList?.find(product => product?.designo == designo);
 
     const handleMouseEnter = () => {
-      setResetKey(prevKey => prevKey + 1); // Update the key to force re-initialization of the component
+      setResetKey(prevKey => prevKey + 1); 
     };
 
     return (
@@ -3055,8 +3120,8 @@ const C_Card = ({
           onMouseOut={() => setisHover(false)}
           onMouseEnter={handleMouseEnter}
           >
-          {selectedProduct  && <StoryLine resetKey={resetKey} selectedProduct={selectedProduct} />}
-          {isHover && (videoUrl || rollUpImage) ? (
+          {selectedProduct  && <StoryLine storeInit={storeInit} resetKey={resetKey} selectedProduct={selectedProduct} />}
+          {/* {isHover && (videoUrl || rollUpImage) ? (
             <>
               {videoUrl ? (
                 <div className="rollup_video">
@@ -3089,7 +3154,15 @@ const C_Card = ({
                 e.target.src = imagnotfound;
               }}
             />
-          )}
+          )} */}
+             <img
+              src={img}
+              alt=""
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = imagnotfound;
+              }}
+            />
         </div>
     
         <div className="det">
@@ -3404,33 +3477,31 @@ const BreadcrumbMenu = ({
     </>
   );
 };
-const StoryLine = ({resetKey,selectedProduct})=>{
-  if (!selectedProduct) {
-    return null; // Don't render if selectedProduct is not available
-  }
-  return <>
-    <div className="story-diamond"
-        style={{
-        position:"absolute",
-        top:"0",
-        bottom:"0",
-        overflow:"hidden" ,
-        zIndex:"9999" ,
-        height:"100%",
-        width:"100%" ,
-        backgroundColor:"red !important",
-      }}
-      >
-      <Stories
-      key={resetKey}
-      {...ReactStoriesConfig}
-      stories={selectedProduct?.images?.map((url) => ({ url }))}
-      />
-      </div>
-  </>
-}
-
-
+// const StoryLine = ({resetKey,selectedProduct})=>{
+//   if (!selectedProduct) {
+//     return null; // Don't render if selectedProduct is not available
+//   }
+//   return <>
+//     <div className="story-diamond"
+//         style={{
+//         position:"absolute",
+//         top:"0",
+//         bottom:"0",
+//         overflow:"hidden" ,
+//         zIndex:"9999" ,
+//         height:"100%",
+//         width:"100%" ,
+//         backgroundColor:"red !important",
+//       }}
+//       >
+//       <Stories
+//       key={resetKey}
+//       {...ReactStoriesConfig}
+//       stories={selectedProduct?.images?.map((url) => ({ url }))}
+//       />
+//       </div>
+//   </>
+// }
 
 
 
