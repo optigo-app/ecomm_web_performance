@@ -118,7 +118,7 @@ const ConnectionManager = () => {
           break;
       }
     } catch (error) {
-      console.error("Error in comboRebind:", error);
+      // console.error("Error in comboRebind:", error);
     }
   };
 

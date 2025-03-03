@@ -2,14 +2,14 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
 
-export const ContimueWithMobileAPI = async (mobileNo) => {
+export const ContimueWithMobileAPI = async (mobileNo,code) => {
 
     let response;
     try {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { FrontEnd_RegNo } = storeInit;
         const combinedValue = JSON.stringify({
-            country_code: '91', mobileno: `${mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`
+            country_code: code ?? '91', mobileno: `${mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`
         });
         const encodedCombinedValue = btoa(combinedValue);
         const body = {

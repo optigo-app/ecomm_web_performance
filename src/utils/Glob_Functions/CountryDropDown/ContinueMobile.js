@@ -11,13 +11,14 @@ const CountryDropDown = ({
   handleInputChange,
   Errors,
   setErrors, 
+  Countrycodestate ,
+setCountrycodestate
 }) => {
   const visiterID = Cookies.get('visiterId');
-  const [Countrycodestate, setCountrycodestate] = useState();
   const [CountryDefault, setCountryDefault] = useState();
   const [Countrycode, setCountrycode] = useState([]);
   const [open, setOpen] = useState(false);
-  const [isIndiaSelected, setIsIndiaSelected] = useState(true);  // State to track if India is selected
+  const [isIndiaSelected, setIsIndiaSelected] = useState(true); 
 
 
   useEffect(() => {

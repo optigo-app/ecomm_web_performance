@@ -15,6 +15,7 @@ const App = ({ isLoading=false , onResend =()=>{} , btncolor, iconcolor, bgcolor
     setmessage("")
     const userid = type === "email" ? emailId : '';
     const mobileno = type === "mobile" ? mobileNo : '';
+    const mobilenoCode = sessionStorage.getItem('Countrycodestate');
     const search = location?.search;
     const redirectSignUpUrl = `/register/${search}`;
 
@@ -25,7 +26,7 @@ const App = ({ isLoading=false , onResend =()=>{} , btncolor, iconcolor, bgcolor
         if(type === "email"){
           navigation(redirectSignUpUrl, { state: { email: emailId } });
         }else{
-          navigation(redirectSignUpUrl, { state: { mobileNo: mobileNo } });
+          navigation(redirectSignUpUrl, { state: { mobileNo: mobileNo , code :mobilenoCode } });
         }
         onClose();
       } else {

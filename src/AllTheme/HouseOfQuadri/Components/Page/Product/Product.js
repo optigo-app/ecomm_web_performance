@@ -106,6 +106,8 @@ const ProductPage = () => {
   const [ShowMdesc, setShowMdesc] = useState(false);
   const [saveLastView, setSaveLastView] = useState();
 
+  
+
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   useEffect(() => {

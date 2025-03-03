@@ -17,6 +17,7 @@ export default function ContimueWithMobile() {
     const navigation = useNavigate();
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(false)
+    const [Countrycodestate, setCountrycodestate] = useState();
 
 
     const search = location?.search
@@ -49,10 +50,11 @@ export default function ContimueWithMobile() {
         if (!mobileNo.trim()) {
             setErrors({ mobileNo: 'Mobile No. is required' });
             return;
-        } else if (!/^\d{10}$/.test(mobileNo.trim())) {
-            setErrors({ mobileNo: 'Enter Valid mobile number' });
-            return;
-        }
+        } 
+        // else if (!/^\d{10}$/.test(mobileNo.trim())) {
+        //     setErrors({ mobileNo: 'Enter Valid mobile number' });
+        //     return;
+        // }
 
         // try {
         //     const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
@@ -70,21 +72,22 @@ export default function ContimueWithMobile() {
         //     const response = await CommonAPI(body);
         setIsSubmitting(true);
         setIsLoading(true);
-        ContimueWithMobileAPI(mobileNo).then((response) => {
+        ContimueWithMobileAPI(mobileNo,Countrycodestate).then((response) => {
             setIsLoading(false);
-            if (response.Data.Table1[0].stat === '1' && response.Data.Table1[0].islead === '1') {
+            if (response?.Data?.Table1[0]?.stat === '1' && response?.Data?.Table1[0]?.islead === '1') {
                 toast.error('You are not a customer, contact to admin')
         setIsSubmitting(false);
-            } else if (response.Data.Table1[0].stat === '1' && response.Data.Table1[0].islead === '0') {
+            } else if (response?.Data?.Table1[0]?.stat === '1' && response?.Data?.Table1[0]?.islead === '0') {
                 toast.success('OTP send Sucssessfully');
-                navigation(redirectMobileUrl, { state: { mobileNo: mobileNo } });
+                navigation(redirectMobileUrl, { state: { mobileNo: mobileNo ,code  :Countrycodestate } });
                 sessionStorage.setItem('registerMobile', mobileNo)
-        setIsSubmitting(false);
+                setIsSubmitting(false);
             } else {
-                setIsOpen(true)
                 // navigation(redirectSignUpUrl, { state: { mobileNo: mobileNo } });
+                sessionStorage.setItem('Countrycodestate', Countrycodestate)
                 sessionStorage.setItem('registerMobile', mobileNo)
-        setIsSubmitting(false);
+                setIsOpen(true)
+                setIsSubmitting(false);
             }
         }).catch((err) => console.log(err))
 
@@ -157,6 +160,8 @@ export default function ContimueWithMobile() {
                             setErrors={setErrors}
                             handleInputChange={handleInputChange}
                             setMobileNo={setMobileNo}
+                            Countrycodestate={Countrycodestate}
+                            setCountrycodestate={setCountrycodestate}
                         />
 
                         <button className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>

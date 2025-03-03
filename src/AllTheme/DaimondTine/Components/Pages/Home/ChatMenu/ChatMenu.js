@@ -2,7 +2,7 @@ import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunc
 import "./ChatMenu.modul.scss";
 import { useMediaQuery } from "@mui/material";
 
-const whatsAppChat = ({phoneNo}) => {
+const WhatsAppChat = ({phoneNo}) => {
 
     const whatsappUrl = `https://web.whatsapp.com/send?phone=${phoneNo}&text=Hi, I Need Help with !`;
     const whatsappMobileUrl = `https://api.whatsapp.com/send?phone=${phoneNo}&text=Hi,%20I%20Need%20Help%20with%20!`;
@@ -24,7 +24,7 @@ const whatsAppChat = ({phoneNo}) => {
   );
 };
 
-export default whatsAppChat;
+export default WhatsAppChat;
 
 
 
