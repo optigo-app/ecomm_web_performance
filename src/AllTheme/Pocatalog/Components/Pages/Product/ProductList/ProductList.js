@@ -249,7 +249,6 @@ const ProductList = () => {
     let url = `${location?.pathname}${location?.search}`;
     let navVal = location?.pathname?.split('/')[3];
     let securityKey = navVal?.split('K=')[1]
-    console.log('navVal: ', atob(securityKey));
     let state = { SecurityKey: atob(securityKey) }
     if (atob(securityKey) > 0 && islogin !== true) {
       navigate(`/loginOption/?LoginRedirect=${(url)}`, { state })
