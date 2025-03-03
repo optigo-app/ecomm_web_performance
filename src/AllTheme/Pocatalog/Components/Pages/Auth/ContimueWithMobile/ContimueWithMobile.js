@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, CircularProgress, TextField } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import Footer from '../../Home/Footer/Footer';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
 import './ContimueWithMobile.modul.scss'
@@ -74,6 +74,11 @@ export default function ContimueWithMobile() {
         setIsLoading(true);
         ContimueWithMobileAPI(mobileNo,Countrycodestate).then((response) => {
             setIsLoading(false);
+            if(response?.Status == 400) {
+                    toast.error(response?.Message)
+                setIsSubmitting(false);
+                return 
+            }
             if (response?.Data?.Table1[0]?.stat === '1' && response?.Data?.Table1[0]?.islead === '1') {
                 toast.error('You are not a customer, contact to admin')
         setIsSubmitting(false);
@@ -89,7 +94,10 @@ export default function ContimueWithMobile() {
                 setIsOpen(true)
                 setIsSubmitting(false);
             }
-        }).catch((err) => console.log(err))
+        }).catch((err) =>{ 
+            console.log(err)
+            setIsSubmitting(false);
+        })
 
 
 
@@ -103,6 +111,7 @@ export default function ContimueWithMobile() {
 
     return (
         <div className='proCat_continuMobile'>
+            <ToastContainer limit={5} hideProgressBar={true} pauseOnHover={false}  />
             {isLoading && (
                 <div className="loader-overlay" style={{zIndex:99999999}}>
                     <CircularProgress className='loadingBarManage' />
