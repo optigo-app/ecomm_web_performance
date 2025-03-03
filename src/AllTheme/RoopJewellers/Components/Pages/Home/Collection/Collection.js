@@ -103,13 +103,13 @@ function Collection() {
         {/* Why Shop With Sonasons? */}
 
         {/* For Vara */}
-        {/* Why shop with Vara? */}
+        Why shop with Vara?
 
         {/* For Ojasvi */}
-        Why shop with Ojasvi?
+        {/* Why shop with Ojasvi? */}
 
         {/* For Pacific */}
-        {/* WHY SHOP WITH PACIFIC? */}
+        {/* Why shop with Pacific? */}
         {/* Consider changing this if you want to personalize it for SEO or branding */}
       </p>
 

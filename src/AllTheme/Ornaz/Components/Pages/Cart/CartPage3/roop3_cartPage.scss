@@ -1,0 +1,1255 @@
+@import '../../../scss/variable.scss';
+
+$borderColor: rgba(232, 232, 232, 1);
+
+.roop3_MainBGDiv {
+  font-family: $fontRegular;
+  margin-top: 32px;
+
+
+  .roop3_cart-title {
+    color: $titleColor;
+    font-size: $fontSize6;
+    text-align: center;
+
+    @media screen and (max-width:768px) {
+      margin-bottom: 1.2rem !important;
+    }
+  }
+
+  .cartMainPageDiv {
+    margin-inline: 140px;
+    margin-bottom: 2%;
+    // margin-top: 2%;
+
+    .cartBtnGroupMainDiv {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      // margin-block: 20px;
+      margin-bottom: 50px;
+
+      .roop3_cartButton-groups {
+        flex: 1;
+        text-align: left;
+
+        .roop3_ReomoveAllCartbtn {
+          font-family: $fontRegular !important;
+          background-color: $btnprimarycolor;
+          color: $btn1hoverFontColor;
+          height: 45px;
+          width: 160px;
+          border: none;
+          outline: none;
+          border-radius: 8px;
+          font-size: $fontSize2;
+          text-decoration-color: $titleColor;
+          // margin-inline: 6%;
+          cursor: pointer;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: $btn1hoverColor;
+          }
+        }
+      }
+
+      .roop3_cart-title {
+        color: $titleColor;
+        font-size: $fontSize7;
+
+      }
+
+      .roop3_placeOrderMainbtnDivs {
+        flex: 1;
+        text-align: right;
+
+        button {
+          font-family: $fontRegular !important;
+          background-color: $btnprimarycolor;
+          color: $btn1hoverFontColor;
+          font-size: $fontSize2;
+          border: none;
+          outline: none;
+          height: 45px;
+          border-radius: 8px;
+          width: 200px;
+          font-weight: 500;
+          // margin-inline: 6%;
+          cursor: pointer;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: $btn1hoverColor;
+          }
+        }
+      }
+    }
+
+    .roop3_cartMainPage {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+
+      .roop3_cart-left-sides {
+        width: 70%;
+
+        .roop3_RightCartList {
+          .roop3_tablelable {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+            p {
+              font-size: $fontSize4;
+              color: $titleColor;
+            }
+          }
+
+          .roop3_cartMain-item {
+            border: 1px solid $borderColor;
+            margin-bottom: 1rem;
+            position: relative;
+            padding: 10px 0px;
+
+            .roop3_cart-item {
+              display: flex;
+              align-items: center;
+              padding: 0rem 1rem;
+              background-color: white;
+              border-radius: 0;
+              color: $titleColor;
+              // box-shadow: 0 3px 8px rgba(0, 0, 0, .24);
+              // margin-bottom: 1rem;
+
+              &__image {
+                flex: 1;
+                max-height: 200px;
+
+                img {
+                  width: 100%;
+                  max-height: 200px;
+                  height: auto;
+                  object-fit: cover;
+                }
+              }
+
+              &__details {
+                flex: 2;
+                padding-left: 1rem;
+
+                h3 {
+                  margin: 0;
+                  font-size: $fontSize3;
+                  font-weight: 600px;
+                }
+
+                p {
+                  margin: 0.3rem 0;
+                  font-size: $fontSize3;
+                }
+
+                .roop3_ringSize {
+                  font-size: $fontSize1;
+                  margin: 0;
+                  margin-top: 5px;
+                }
+
+                .roop3_change-size {
+                  font-size: $fontSize1;
+                  color: $titleColor;
+                  cursor: pointer;
+                  text-decoration: underline;
+                }
+
+                .roop3_weightsContainer {
+                  display: flex;
+                  flex-wrap: wrap;
+                }
+
+                .roop3_diamondSKUNO {
+                  margin-top: 10px;
+                }
+
+                .roop3_weightPair {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  align-items: center;
+                  color: $titleColor;
+                  font-size: $fontSize2;
+
+                  .roop3_pipe {
+                    margin-inline: 4px;
+                  }
+
+                  .roop3_weightLabel {
+                    text-transform: capitalize;
+                    margin-right: 2px;
+                  }
+                }
+              }
+
+              &__price,
+              &__total-price {
+                flex: 1;
+                text-align: center;
+
+                p {
+                  margin: 0;
+                  font-size: $fontSize4;
+                  color: $titleColor;
+                  font-weight: 700;
+                }
+
+                span {
+                  font-size: $fontSize0;
+                }
+              }
+
+              &__total-price {
+
+                p,
+                span {
+                  color: $titleColor;
+                }
+              }
+
+              &__remove {
+                flex: 0.5;
+                text-align: center;
+
+                .roop3_remove-button {
+                  background-color: transparent;
+                  border: none;
+                  font-size: $fontSize3;
+                  font-weight: 700;
+                  color: #fff;
+                  background-color: $titleColor;
+                  border-radius: 50%;
+                  opacity: .5;
+                  cursor: pointer;
+                  padding: 0px 8px;
+                }
+              }
+            }
+
+            .roop3_Diacart-item {
+              display: flex;
+              align-items: center;
+              padding: 0rem 1rem;
+              background-color: white;
+              border-radius: 0;
+              // box-shadow: 0 3px 8px rgba(0, 0, 0, .24);
+              // margin-bottom: 1rem;
+
+              &__image {
+                flex: 1;
+
+                img {
+                  width: 100%;
+                  height: auto;
+                }
+              }
+
+              &__details {
+                flex: 2;
+                padding-left: 1rem;
+
+                h3 {
+                  margin: 0;
+                  font-size: $fontSize3;
+                }
+
+                p {
+                  margin: 0.3rem 0;
+                  font-size: $fontSize3;
+                }
+
+                .roop3_ringSize {
+                  font-size: $fontSize1;
+                  margin: 0;
+                }
+
+                .roop3_change-size {
+                  font-size: $fontSize1;
+                  color: $titleColor;
+                  cursor: pointer;
+                  text-decoration: underline;
+                }
+
+                .roop3_weightsContainer {
+                  display: flex;
+                  flex-wrap: wrap;
+                }
+
+                .roop3_diamondSKUNO {
+                  margin-top: 10px;
+                }
+
+                .roop3_weightPair {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  align-items: center;
+                  color: $titleColor;
+                  font-size: $fontSize2;
+
+                  .roop3_pipe {
+                    margin-inline: 4px;
+                  }
+
+                  .roop3_weightLabel {
+                    text-transform: capitalize;
+                    margin-right: 2px;
+                  }
+                }
+              }
+
+              &__price,
+              &__total-price {
+                flex: 1;
+                text-align: center;
+
+                p {
+                  margin: 0;
+                  font-size: $fontSize4;
+                  color: $titleColor;
+                  font-weight: 700;
+                }
+
+                span {
+                  font-size: $fontSize0;
+                }
+              }
+
+              &__total-price {
+
+                p,
+                span {
+                  color: #df647e;
+                }
+              }
+
+              &__remove {
+                flex: 0.5;
+                text-align: center;
+
+                .roop3_remove-button {
+                  background-color: transparent;
+                  border: none;
+                  font-size: $fontSize3;
+                  font-weight: 700;
+                  color: #fff;
+                  background-color: #f2b1b7;
+                  border-radius: 50%;
+                  opacity: .5;
+                  cursor: pointer;
+                  padding: 0px 8px;
+                }
+              }
+            }
+
+            .roop3_cartDiaTPrice {
+              position: absolute;
+              right: 122px;
+              top: 46%;
+            }
+
+            .roop3_Diacart-item__remove {
+              position: absolute;
+              right: 44px;
+              top: 46%;
+            }
+          }
+        }
+      }
+
+      .roop3_cart-right-side {
+        width: 30%;
+        align-items: start;
+        display: flex;
+        height: 80vh;
+        justify-content: start;
+        margin-bottom: 190px;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 125px;
+
+        .roop3_pc-cartDetail {
+          .roop3_cart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .roop3_Cart-imageDiv {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              // max-width: 400px;
+              // max-height: 400px;
+              width: 100%;
+              height: 100%;
+              border-radius: 0px;
+              border: 1px solid $borderColor;
+              // box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
+
+              .roop3_cartDetailImage {
+                border-radius: 0px;
+                padding: 2px;
+                width: 100%;
+                object-fit: contain;
+              }
+            }
+
+            .roop3_CartCusto_R-details {
+              flex: 1;
+              width: 100%;
+
+              .roop3_cart-Titleline {
+                font-size: $fontSize4;
+                color: $titleColor;
+                margin: 10px;
+                text-align: center;
+                max-height: 100px;
+                // height: 55px;
+                // display: -webkit-box;
+                // -webkit-line-clamp: 2;
+                // -webkit-box-orient: vertical;
+                // overflow: hidden;
+                // text-overflow: ellipsis;
+              }
+
+              .roop3_dividerline {
+                margin-bottom: 10px !important;
+              }
+
+              .roop3_Cart-options {
+                color: $titleColor;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+                margin-bottom: 20px;
+                margin-top: 20px;
+
+                .option {
+                  color: $titleColor;
+                  flex: 1 1 45%;
+                  display: flex;
+                  flex-direction: column;
+                  font-family: $fontRegular !important;
+
+                  label {
+                    color: $titleColor;
+                    font-weight: bold;
+                    font-size: $fontSize2;
+                    margin-bottom: 5px;
+                  }
+
+                  select {
+                    color: $titleColor;
+                    padding: 10px;
+                    border-radius: 0px !important;
+                    border: 1px solid $borderColor;
+                    // box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
+                    border: 1px solid $borderColor;
+                  }
+                }
+              }
+
+              .roop3_cartQtyPricemainDev {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .product-price {
+                  font-size: $fontSize6;
+                  width: 100%;
+                  display: flex;
+                  justify-content: end;
+
+                  span {
+                    color: $titleColor;
+                  }
+                }
+              }
+
+              .roop3_StockCart-options {
+                color: $titleColor;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+                margin-bottom: 20px;
+                margin-top: 20px;
+
+
+                .option {
+                  color: $titleColor;
+                  flex: 1 1 45%;
+                  display: flex;
+                  flex-direction: column;
+                  font-family: $fontRegular !important;
+
+                  label {
+                    color: $titleColor;
+                    font-weight: bold;
+                    font-size: $fontSize2;
+                    margin-bottom: 5px;
+                  }
+
+                  span {
+                    border: 1px solid $borderColor;
+                    padding: 10px;
+                  }
+
+                  select {
+                    color: $titleColor;
+                    padding: 10px;
+                    border-radius: 0px !important;
+                    border: 1px solid $borderColor;
+                    // box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
+                    border: 1px solid $borderColor;
+                  }
+                }
+              }
+
+              .roop3_stockPriceQtyDiv {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .option {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  font-size: $fontSize3;
+
+                  label {
+                    color: $titleColor;
+                    font-weight: bold;
+
+                  }
+
+                  span {
+                    color: $titleColor;
+                    margin-left: 10px;
+                  }
+                }
+
+                .roop3_Stockproduct-price {
+                  span {
+                    color: $titleColor;
+                    font-weight: bold;
+                    font-size: $fontSize4;
+                  }
+                }
+              }
+
+              .roop3_UpdateCartBtn {
+                display: flex;
+                justify-content: flex-end;
+                align-items: end;
+
+                button {
+                  font-family: $fontRegular !important;
+                  background-color: $btnprimarycolor;
+                  color: $btn1hoverFontColor;
+                  font-size: $fontSize2;
+                  border: none;
+                  outline: none;
+                  height: 40px;
+                  border-radius: 8px;
+                  width: 100px;
+                  font-weight: 500;
+                  cursor: pointer;
+                  transition: background-color 0.3s;
+
+                  &:hover {
+                    background-color: $btn1hoverColor;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .roop3_noCartlistData {
+      text-align: center;
+      height: 100%;
+      margin-block: 80px;
+
+      .roop3_title {
+        color: $titleColor;
+        font-size: $fontSize6;
+      }
+
+      .roop3_desc {
+        color: $titleColor;
+        font-size: $fontSize4;
+      }
+
+      .roop3_browseOurCollectionbtn {
+        background-color: $btnprimarycolor;
+        border: none;
+        color: $btn1hoverFontColor;
+        border: 1px solid $btn1FontColor;
+        font-size: 15px;
+        font-weight: 500;
+        height: 50px;
+        border: none;
+        width: 220px;
+        border-radius: 8px;
+        transition: 0.3s ease-in-out;
+
+        &:hover {
+          background: $btn1hoverColor;
+          color: $btn1hoverFontColor;
+        }
+      }
+    }
+  }
+}
+
+.roop3_CartSkelton {
+  background: #fdf6f6 !important;
+}
+
+// Media queries for responsiveness
+@media (max-width: 1745px) {
+  .roop3_MainBGDiv {
+    .cartMainPageDiv {
+      margin-inline: 170px;
+    }
+  }
+}
+
+@media (max-width: 1545px) {
+  .roop3_MainBGDiv {
+    .cartMainPageDiv {
+      margin-inline: 140px;
+    }
+  }
+}
+
+@media (max-width: 1400px) {
+  .roop3_MainBGDiv {
+    .cartMainPageDiv {
+      margin-inline: 120px;
+    }
+  }
+}
+
+@media (max-width: 1300px) {
+  .roop3_MainBGDiv {
+    .cartMainPageDiv {
+      margin-inline: 90px;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .roop3_MainBGDiv {
+    .cartMainPageDiv {
+      margin-inline: 40px;
+    }
+  }
+}
+
+@media (max-width: 1100px) {
+  .roop3_MainBGDiv {
+    .cartMainPageDiv {
+      margin-inline: 20px;
+
+      .roop3_cartMainPage {
+        .roop3_cart-left-sides {
+          .roop3_RightCartList {
+            .roop3_tablelable {
+              p {
+                font-size: $fontSize3;
+              }
+            }
+
+            .roop3_cartListMapDiv {
+              .roop3_cart-item {
+                .roop3_cart-item__details {
+                  h3 {
+                    font-size: $fontSize2;
+                  }
+
+                  .roop3_weightsContainer {
+                    .roop3_weightsContainer {
+                      font-size: $fontSize2;
+                    }
+                  }
+                }
+
+                .roop3_cart-item__price,
+                .roop3_cart-item__total-price {
+                  p {
+                    font-size: $fontSize3;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .roop3_cart-right-side {
+          .roop3_pc-cartDetail {
+            .roop3_cart-container {
+              .roop3_CartCusto_R-details {
+                .roop3_cart-Titleline {
+                  font-size: $fontSize2;
+                }
+
+                .roop3_cartQtyPricemainDev {
+                  .roop3_cart-quantity {
+                    display: flex;
+                    width: 90px;
+                    height: 35px;
+                    border: none;
+
+                    .input {
+                      width: calc(100px * 0.3);
+                      padding: 0;
+                      margin: 0;
+                    }
+
+                    a.bttn,
+                    .bttn {
+                      width: calc(100px * 0.5);
+                      padding: 0;
+                      font-size: 18px;
+                    }
+                  }
+
+                  .product-price {
+                    span {
+                      font-size: $fontSize4;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .cartBtnGroupMainDiv {
+        .roop3_placeOrderMainbtnDivs {
+          button {
+            font-size: $fontSize3;
+            height: 35px;
+            width: 140px;
+          }
+        }
+
+        .roop3_ReomoveAllCartbtn {
+          height: 35px !important;
+          width: 100px !important;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 999px) {
+  .roop3_MainBGDiv {
+    .cartMainPageDiv {
+      margin-inline: 50px;
+
+      .cartBtnGroupMainDiv {
+        .roop3_placeOrderMainbtnDivs {
+          button {
+            font-size: $fontSize3;
+          }
+        }
+      }
+
+      .roop3_cart-left-sides {
+        width: 100% !important;
+
+        .roop3_RightCartList {
+          .roop3_cartMain-item {
+
+            .roop3_cart-item,
+            .roop3_Diacart-item {
+              .roop3_cart-item__details {
+                h3 {
+                  font-size: $fontSize3;
+                }
+
+                p {
+                  font-size: $fontSize1;
+                }
+
+                .roop3_weightsContainer {
+                  .roop3_weightPair {
+                    font-size: $fontSize1;
+                  }
+
+                  span {
+                    font-size: $fontSize1;
+                  }
+                }
+
+                .roop3_diamondSKUNO {
+                  font-size: $fontSize3;
+                }
+              }
+
+              .roop3_cart-item__price {
+                p {
+                  font-size: $fontSize3;
+                }
+              }
+
+              .roop3_cart-item__total-price {
+                p {
+                  font-size: $fontSize3;
+                }
+              }
+            }
+
+            .roop3_cartDiaTPrice {
+              right: 90px !important;
+              top: 40% !important;
+
+              .roop3_cart-item__total-price p {
+                font-size: $fontSize3;
+              }
+            }
+          }
+        }
+      }
+
+      .roop3_cart-right-side {
+        display: none !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .roop3_MainBGDiv {
+    .cartMainPageDiv {
+      margin-inline: 20px;
+
+      .cartBtnGroupMainDiv {
+        .roop3_placeOrderMainbtnDivs {
+          button {
+            font-size: $fontSize3;
+          }
+        }
+      }
+
+      .roop3_cart-left-sides {
+        width: 100% !important;
+
+        .roop3_RightCartList {
+          .roop3_tablelable {}
+
+          .roop3_cart-item {
+            .roop3_cart-item__details {
+              h3 {
+                font-size: $fontSize2;
+              }
+
+              p {
+                font-size: $fontSize1;
+              }
+            }
+
+            .roop3_cart-item__price {
+              p {
+                font-size: $fontSize2;
+              }
+            }
+
+            .roop3_cart-item__total-price {
+              p {
+                font-size: $fontSize2;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .roop3_MainBGDiv {
+    .cartMainPageDiv {
+      margin-inline: 10px;
+
+      .cartBtnGroupMainDiv {
+        .roop3_placeOrderMainbtnDivs {
+          button {
+            font-size: $fontSize2;
+          }
+        }
+      }
+
+      .roop3_cart-left-sides {
+        width: 100% !important;
+
+        .roop3_RightCartList {
+          .roop3_tablelable {
+            display: none !important;
+          }
+
+          .roop3_cartListMapDiv {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            gap: 10px;
+
+            .roop3_cartMain-item {
+              width: 49%;
+              position: relative;
+              margin-bottom: 0px;
+
+              .roop3_cart-item,
+              .roop3_Diacart-item {
+                display: flex;
+                flex-direction: column;
+
+                .roop3_cart-item__details {
+                  padding-left: 0;
+                  text-align: center;
+
+                  h3 {
+                    font-size: $fontSize2;
+                  }
+
+                  p {
+                    font-size: $fontSize1;
+                  }
+
+                  .roop3_weightsContainer,
+                  .roop3_qtyDiv {
+                    justify-content: center;
+                    align-items: center;
+                  }
+
+                  .roop3_qtyDiv_qty {
+                    @media (max-width: 650px) {
+                      gap: 0.5rem;
+                      padding-top: 0.2rem;
+                      padding-bottom: 0.5rem;
+                    }
+                  }
+                }
+
+                .roop3_cart-item__price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .roop3_cart-item__total-price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .roop3_cart-item__remove {
+                  position: absolute;
+                  top: 5px;
+                  right: 5px;
+                }
+              }
+
+              .roop3_Diacart-item__remove {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+              }
+
+              .roop3_Diacart-item {
+                .roop3_cart-item__image {
+                  width: 100%;
+
+                  img {
+                    width: 50px;
+                  }
+                }
+              }
+
+              .roop3_cartDiaTPrice {
+                position: unset;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 525px) {
+  .roop3_MainBGDiv {
+    .cartMainPageDiv {
+      margin-inline: 10px;
+
+      .cartBtnGroupMainDiv {
+        .roop3_placeOrderMainbtnDivs {
+          button {
+            font-size: $fontSize2;
+          }
+        }
+      }
+
+      .roop3_cart-left-sides {
+        width: 100% !important;
+
+        .roop3_RightCartList {
+          .roop3_tablelable {
+            display: none !important;
+          }
+
+          .roop3_cartListMapDiv {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            gap: 10px;
+
+            .roop3_cartMain-item {
+              width: 48.8%;
+              position: relative;
+              margin-bottom: 0px;
+
+              .roop3_cart-item,
+              .roop3_Diacart-item {
+                display: flex;
+                flex-direction: column;
+
+                .roop3_cart-item__details {
+                  h3 {
+                    font-size: $fontSize2;
+                  }
+
+                  p {
+                    font-size: $fontSize1;
+                  }
+                }
+
+                .roop3_cart-item__price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .roop3_cart-item__total-price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .roop3_cart-item__remove {
+                  position: absolute;
+                  top: 5px;
+                  right: 5px;
+                }
+              }
+
+              .roop3_Diacart-item__remove {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+              }
+
+              .roop3_Diacart-item {
+                .roop3_cart-item__image {
+                  img {
+                    width: 50px;
+                  }
+                }
+              }
+
+              .roop3_cartDiaTPrice {
+                position: unset;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 435px) {
+  .roop3_MainBGDiv {
+    .cartMainPageDiv {
+      margin-inline: 10px;
+
+      .cartBtnGroupMainDiv {
+        .roop3_placeOrderMainbtnDivs {
+          button {
+            font-size: $fontSize2;
+          }
+        }
+      }
+
+      .roop3_cart-left-sides {
+        width: 100% !important;
+
+        .roop3_RightCartList {
+          .roop3_tablelable {
+            display: none !important;
+          }
+
+          .roop3_cartListMapDiv {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            gap: 10px;
+
+            .roop3_cartMain-item {
+              width: 48.6%;
+              position: relative;
+              margin-bottom: 0px;
+
+              .roop3_cart-item,
+              .roop3_Diacart-item {
+                display: flex;
+                flex-direction: column;
+
+                .roop3_cart-item__details {
+                  h3 {
+                    font-size: $fontSize2;
+                  }
+
+                  p {
+                    font-size: $fontSize1;
+                  }
+                }
+
+                .roop3_cart-item__price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .roop3_cart-item__total-price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .roop3_cart-item__remove {
+                  position: absolute;
+                  top: 5px;
+                  right: 5px;
+                }
+              }
+
+              .roop3_Diacart-item__remove {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+              }
+
+              .roop3_Diacart-item {
+                .roop3_cart-item__image {
+                  img {
+                    width: 50px;
+                  }
+                }
+              }
+
+              .roop3_cartDiaTPrice {
+                position: unset;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .roop3_MainBGDiv {
+    .cartMainPageDiv {
+      margin-inline: 10px;
+
+      .roop3_cart-left-sides {
+        width: 100% !important;
+
+        .roop3_RightCartList {
+          .roop3_tablelable {
+            display: none !important;
+          }
+
+          .roop3_cartListMapDiv {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            gap: 10px;
+
+            .roop3_cartMain-item {
+              width: 100%;
+              position: relative;
+
+              .roop3_cart-item,
+              .roop3_Diacart-item {
+                display: flex;
+                flex-direction: column;
+
+                .roop3_cart-item__details {
+                  h3 {
+                    font-size: $fontSize2;
+                  }
+
+                  p {
+                    font-size: $fontSize1;
+                  }
+                }
+
+                .roop3_cart-item__price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .roop3_cart-item__total-price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .roop3_cart-item__remove {
+                  position: absolute;
+                  top: 5px;
+                  right: 5px;
+                }
+              }
+
+              .roop3_Diacart-item__remove {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+              }
+
+              .roop3_Diacart-item {
+                .roop3_cart-item__image {
+                  img {
+                    width: 50px;
+                  }
+                }
+              }
+
+              .roop3_cartDiaTPrice {
+                position: unset;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

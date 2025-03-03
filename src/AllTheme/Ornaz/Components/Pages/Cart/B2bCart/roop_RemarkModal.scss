@@ -1,0 +1,75 @@
+@import '../../../scss/variable.scss';
+
+$cartUpdateBtncolor: #b1b1b1;
+
+
+.roop_remarkModalBox h2 {
+    color: $titleColor !important;
+}
+
+.roop_addorderRemark {
+    font-family: $fontRegular !important;
+}
+
+.roop_remarkModalBox .roop_projectRemarkBtn-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .roop_remarksave-btn {
+        background-color: $btnprimarycolor;
+        color: $btn1hoverFontColor;
+        border-radius: 8px;
+        font-family: $fontRegular;
+
+        &:hover {
+            background-color: $btn1hoverColor;
+        }
+    }
+
+    .roop_remarkcancel-btn {
+        background-color: $btn1bgColor;
+        color: $btnprimarycolor;
+        border: 1px solid $titleColor;
+        font-family: $fontRegular;
+
+        &:hover {
+            background-color: $btnprimarycolor;
+            color: #fff;
+        }
+    }
+}
+
+
+@media(max-width:445px) {
+    .roop_remarkModalBox {
+        padding: 20px 8px 20px 8px !important;
+        width: 300px;
+
+        h2 {
+            color: $titleColor !important;
+            font-size: $fontSize2 !important;
+        }
+
+        .roop_projectRemarkBtn-group {
+
+            .roop_remarksave-btn,
+            .roop_remarkcancel-btn {
+                font-size: $fontSize0 !important;
+                padding: 5px 10px !important;
+            }
+        }
+
+        .roop_RemarkMoalInput textarea {
+            font-size: $fontSize1 !important;
+        }
+    }
+}

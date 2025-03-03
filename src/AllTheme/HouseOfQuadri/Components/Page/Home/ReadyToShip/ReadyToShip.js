@@ -8,6 +8,7 @@ import { useRecoilValue } from "recoil";
 import Pako from "pako";
 import './../TabSection/TabSection.modul.scss'
 import noimage from '../../../Assets/noImageFound.jpg'
+import { formatRedirectTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const ReadyToShip = () => {
   const [imageUrl, setImageUrl] = useState();
@@ -70,11 +71,12 @@ const ReadyToShip = () => {
       f: {},
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
-    navigation(
-      `/d/${titleLine.replace(/\s+/g, `_`)}${
-        titleLine?.length > 0 ? "_" : ""
-      }${designNo}?p=${encodeObj}`
-    );
+    // navigation(
+    //   `/d/${titleLine.replace(/\s+/g, `_`)}${
+    //     titleLine?.length > 0 ? "_" : ""
+    //   }${designNo}?p=${encodeObj}`
+    // );
+    navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
   };
 
   const ImageUrl = (designNo, ext) => {

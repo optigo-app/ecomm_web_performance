@@ -67,7 +67,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { GoChevronLeft } from "react-icons/go";
 import { HiOutlineChevronRight } from "react-icons/hi2";
 import { HiOutlineChevronLeft } from "react-icons/hi2";
-import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { SaveLastViewDesign } from "../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign";
 
 const ProductDetail = () => {
@@ -1405,10 +1405,7 @@ const ProductDetail = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    navigate(
-      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}?p=${encodeObj}`
-    );
+    navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
     setProdLoading(true);
     setIsImageLoad(true)
   };

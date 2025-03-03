@@ -316,7 +316,7 @@ export default function Register() {
               handleInputChange={handleInputChange}
               handleKeyDown={handleKeyDown}
               open={open}
-              Countrycodestate={Countrycodestate} emailRef={emailRef} mobileNo={mobileNo} mobileNoRef={mobileNoRef} setMobileNo={setMobileNo} setOpen={setOpen} />
+              Countrycodestate={Countrycodestate} emailRef={emailRef} mobileNo={mobileNo} mobileNoRef={mobileNoRef} setMobileNo={setMobileNo} setOpen={setOpen} setErrors={setErrors} />
             <TextField
               name="user-email"
               id="outlined-basic email"

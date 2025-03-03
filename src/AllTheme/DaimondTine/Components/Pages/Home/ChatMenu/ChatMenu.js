@@ -10,14 +10,8 @@ const WhatsAppChat = ({phoneNo}) => {
   return (
     <div className="dt_main_ChatMenu">
       <button className="wai">
-        <a
-           href={isTablet ? whatsappMobileUrl : whatsappMobileUrl}
-          target="_blank"
-        >
-          <img
-            src={`${storImagePath()}/images/wa.png`}
-            alt=""
-          />
+        <a href={isTablet ? whatsappMobileUrl : whatsappUrl} target="_blank" rel="noopener noreferrer">
+          <img src={`${storImagePath()}/images/wa.png`} alt="WhatsApp" />
         </a>
       </button>
     </div>

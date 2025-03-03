@@ -102,7 +102,7 @@ const ExampleComponent = ({
                         )}
                     </td>
                     <td className='mala_b2ccartContentTd'>
-                        <p className='mala_b2ccartContentTitle' title="Titleline">{cartData?.TitleLine}</p>
+                        <p className='mala_b2ccartContentTitle' title="Titleline">{(cartData?.TitleLine && cartData?.TitleLine.toLowerCase() != "null") && " - " + cartData?.TitleLine}</p>
                         {/* <p className='mala_b2ccartContentMtDT'>{cartData?.metalcolorname} | {cartData?.MetalWeight} | {cartData?.totalGrossweight} | {cartData?.totalDiaWt} / {cartData?.totaldiamondpcs} | {cartData?.totalCSWt}  / {cartData?.totalcolorstonepcs}</p> */}
                         <p className='mala_b2ccartContentMtDT'>
                             <span className='mala_b2ccartContentcartData'>{cartData?.metalcolorname}</span>

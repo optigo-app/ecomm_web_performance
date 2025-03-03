@@ -9,8 +9,8 @@ import noImageFound from '../../../Assets/image-not-found.jpg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import { useNavigate, useLocation } from "react-router-dom";
-import { Checkbox, Drawer, FormControl, FormControlLabel, MenuItem, Pagination, PaginationItem, Rating, Select, Skeleton, Slider, styled, useMediaQuery } from "@mui/material";
-import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { Checkbox, Drawer, FormControl, FormControlLabel, ListItemButton, MenuItem, Pagination, PaginationItem, Rating, Select, Skeleton, Slider, styled, useMediaQuery } from "@mui/material";
+import { formatRedirectTitleLine, formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
 import { DiamondQualityColorComboAPI } from '../../../../../../utils/API/Combo/DiamondQualityColorComboAPI';
 import { FaAngleDown } from 'react-icons/fa6';
@@ -29,6 +29,7 @@ import { IoClose } from 'react-icons/io5';
 import ScrollTop from '../../ReusableComponent/ScrollTop/ScrollTop';
 import { SignalCellularNullTwoTone } from '@mui/icons-material';
 import { FaSlideshare } from 'react-icons/fa';
+import DiaSetModal from '../../ReusableComponent/DiaSetModal/DiaSetModal';
 
 const SettingPage = () => {
 
@@ -40,6 +41,13 @@ const SettingPage = () => {
   const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
   const diaQcLocal = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const ShapeFlowUrl = JSON.parse(sessionStorage.getItem("ShapeFlowUrl"));
+  const ringFlowUrl = JSON.parse(sessionStorage.getItem("ringFlowUrl"));
+  const shapeRingFlowUrl = JSON.parse(sessionStorage.getItem("ShapeRingFlowUrl"));
+  const pendantFlowUrl = JSON.parse(sessionStorage.getItem("pendantFlowUrl"));
+  const shapePendantFlowUrl = JSON.parse(sessionStorage.getItem("ShapePendantFlowUrl"));
+  const earringFlowUrl = JSON.parse(sessionStorage.getItem("EarringFlowUrl"));
+  const shapeEarringFlowUrl = JSON.parse(sessionStorage.getItem("ShapeEarringFlowUrl"));
   let cookie = Cookies.get("visiterId");
   const dropdownRefs = useRef({})
   const [currPage, setCurrPage] = useState(1);
@@ -47,6 +55,54 @@ const SettingPage = () => {
   const [imageMap, setImageMap] = useState({});
   const [highestPrice, setHighestPrice] = useState();
   const [lowestPrice, setLowestPrice] = useState();
+  const [showModal1, setShowModal1] = useState(false);
+  const [isRing, setIsRing] = useState(false);
+  const [metalColorCombo, setMetalColorCombo] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null)
+  const [trend, setTrend] = useState('Recommended');
+  const [selectShape, setSelectShape] = useState();
+  const [shippingDrp, setShippingDrp] = useState('ANY DATE');
+  const [storeInit, setStoreInit] = useState({})
+  const [open, setOpen] = useState(null);
+  const [metalType, setMetaltype] = useState([]);
+  const [diamondType, setDiamondType] = useState([]);
+  const [sortBySelect, setSortBySelect] = useState();
+  const [isOnlySettLoading, setIsOnlySettLoading] = useState(true);
+  const [isProdLoading, setIsProdLoading] = useState(false);
+  const [selectedValues, setSelectedValues] = useState([]);
+  const [loginCurrency, setLoginCurrency] = useState();
+  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
+  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
+  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid)
+  const [priceRangeValue, setPriceRangeValue] = useState([]);
+  const [locationKey, setLocationKey] = useState();
+  const [productListData, setProductListData] = useState([]);
+  const [prodListType, setprodListType] = useState();
+  const [afterFilterCount, setAfterFilterCount] = useState();
+  const [ratingvalue, setratingvalue] = useState(5);
+  const [selectMetalColor, setSelectMetalColor] = useState(null);
+  const [Shape, setShape] = useState("");
+  const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
+  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
+  const steps2 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
+  const steps3 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
+  const stepsData = JSON.parse(sessionStorage.getItem('custStepData'));
+  const stepsData2 = JSON.parse(sessionStorage.getItem('custStepData2Ring'));
+  const stepsData3 = JSON.parse(sessionStorage.getItem('custStepData2Pendant'));
+  const stepsData4 = JSON.parse(sessionStorage.getItem('custStepData2Earring'));
+
+  const handleToggle1 = () => {
+    setShowModal1(!showModal1);
+  }
+
+  const shapeData = (() => {
+    if (stepsData?.[0]?.step1Data?.[0]?.shapename) {
+      return stepsData?.[0];
+    }
+  })();
+
+  const sendSteps = shapeData ? steps : "";
 
   const [open1, setOpen1] = useState(false);
 
@@ -66,6 +122,44 @@ const SettingPage = () => {
   const handleButtonClick = () => {
     setModalOpen(true);
   };
+
+  const getUrlDiaShape = location?.pathname?.split('/')[4];
+
+  useEffect(() => {
+    const getSettingDiaShape = ShapeFlowUrl?.split('/')[4] ?? "";
+    const getSettingDiaRingShape = shapeRingFlowUrl?.split('/')[4] ?? "";
+    const getSettingDiaPenShape = shapePendantFlowUrl?.split('/')[4] ?? "";
+    const getSettingDiaEarrShape = shapeEarringFlowUrl?.split('/')[4] ?? "";
+
+    if (getSettingDiaShape) {
+      if (
+        (getUrlDiaShape?.split('=')[0] === "diamond_shape") &&
+        (getSettingDiaShape?.split('=')[1]?.toLowerCase() !== getUrlDiaShape?.split('=')[1]?.toLowerCase())) {
+        navigate(ShapeFlowUrl);
+      }
+    }
+    if (getSettingDiaRingShape) {
+      if (
+        (getUrlDiaShape?.split('=')[0] === "diamond_shape") &&
+        (getSettingDiaRingShape?.split('=')[1]?.toLowerCase() !== getUrlDiaShape?.split('=')[1]?.toLowerCase())) {
+        navigate(shapeRingFlowUrl);
+      }
+    }
+    if (getSettingDiaPenShape) {
+      if (
+        (getUrlDiaShape?.split('=')[0] === "diamond_shape") &&
+        (getSettingDiaPenShape?.split('=')[1]?.toLowerCase() !== getUrlDiaShape?.split('=')[1]?.toLowerCase())) {
+        navigate(shapePendantFlowUrl);
+      }
+    }
+    if (getSettingDiaEarrShape) {
+      if (
+        (getUrlDiaShape?.split('=')[0] === "diamond_shape") &&
+        (getSettingDiaEarrShape?.split('=')[1]?.toLowerCase() !== getUrlDiaShape?.split('=')[1]?.toLowerCase())) {
+        navigate(shapeEarringFlowUrl);
+      }
+    }
+  }, [location?.key]);
 
   const styleLinks = {
     Solitaire: "Solitaire/style",
@@ -95,43 +189,6 @@ const SettingPage = () => {
       }
     }
   }
-
-
-  const [isRing, setIsRing] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null)
-  const [trend, setTrend] = useState('Recommended');
-  const [selectShape, setSelectShape] = useState();
-  const [shippingDrp, setShippingDrp] = useState('ANY DATE');
-  const [storeInit, setStoreInit] = useState({})
-  const [open, setOpen] = useState(null);
-  const [metalType, setMetaltype] = useState([]);
-  const [diamondType, setDiamondType] = useState([]);
-  const [sortBySelect, setSortBySelect] = useState();
-  const [isOnlySettLoading, setIsOnlySettLoading] = useState(true);
-  const [isProdLoading, setIsProdLoading] = useState(false);
-  const [selectedValues, setSelectedValues] = useState([]);
-  console.log('selectedValues: ', selectedValues);
-  const [loginCurrency, setLoginCurrency] = useState();
-  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid)
-  const [priceRangeValue, setPriceRangeValue] = useState([]);
-  const [locationKey, setLocationKey] = useState();
-  const [productListData, setProductListData] = useState([]);
-  const [prodListType, setprodListType] = useState();
-  const [afterFilterCount, setAfterFilterCount] = useState();
-  const [ratingvalue, setratingvalue] = useState(5);
-  const [selectMetalColor, setSelectMetalColor] = useState(null);
-  const [Shape, setShape] = useState("");
-  const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
-  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
-  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2Ring'));
-  const steps2 = JSON.parse(sessionStorage.getItem('customizeSteps2Pendant'));
-  const steps3 = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
-  const stepsData = JSON.parse(sessionStorage.getItem('custStepData'));
-  const stepsData2 = JSON.parse(sessionStorage.getItem('custStepData2Ring'));
-  const stepsData3 = JSON.parse(sessionStorage.getItem('custStepData2Pendant'));
-  const stepsData4 = JSON.parse(sessionStorage.getItem('custStepData2Earring'));
 
   const initialSelections = {
     selectedMetalId: loginUserDetail?.MetalId,
@@ -465,7 +522,7 @@ const SettingPage = () => {
             sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
           }
         } else if ((stepsData2 !== null || stepsData3 !== null || stepsData4 !== null) && steps1?.[0]?.step1) {
-          if (steps1?.[0]?.step1 && steps1?.[1]?.step2) {
+          if (steps1?.[0]?.step1 || steps1?.[1]?.step2) {
             steps1[0].Status = "active";
             sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(steps1));
 
@@ -482,7 +539,7 @@ const SettingPage = () => {
       }
 
       if (getSetting === "Pendant") {
-        if (!stepsData && (stepsData2 !== null || stepsData3 === null  || stepsData4 !== null) && !steps2?.[0]?.step1) {
+        if (!stepsData && (stepsData2 !== null || stepsData3 === null || stepsData4 !== null) && !steps2?.[0]?.step1) {
           const step1Pendant = [{ step1: true, Setting: "Pendant", id: 2, Status: "active" }];
           sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(step1Pendant));
 
@@ -495,7 +552,7 @@ const SettingPage = () => {
             sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
           }
         } else if ((stepsData2 !== null || stepsData3 !== null || stepsData4 !== null) && steps2?.[0]?.step1) {
-          if (steps2?.[0]?.step1 && steps2?.[1]?.step2) {
+          if (steps2?.[0]?.step1 || steps2?.[1]?.step2) {
             steps2[0].Status = "active";
             sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
 
@@ -525,7 +582,7 @@ const SettingPage = () => {
             sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
           }
         } else if ((stepsData2 !== null || stepsData3 !== null || stepsData4 !== null) && steps3?.[0]?.step1) {
-          if (steps3?.[0]?.step1 && steps3?.[1]?.step2) {
+          if (steps3?.[0]?.step1 || steps3?.[1]?.step2) {
             steps3[0].Status = "active";
             sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
 
@@ -859,6 +916,9 @@ const SettingPage = () => {
     let metalTypeDrpdown = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     setMetaltype(metalTypeDrpdown);
 
+    let metalColorCombo = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
+    setMetalColorCombo(metalColorCombo);
+
     let diamondTypeDrpdown = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
     setDiamondType(diamondTypeDrpdown);
 
@@ -926,10 +986,11 @@ const SettingPage = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    navigate(
-      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}/${pValue.menuname.split(' ').join('_')}/?p=${encodeObj}`
-    );
+    // navigate(
+    //   `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+    //   }${productData?.designno}/${pValue.menuname.split(' ').join('_')}/?p=${encodeObj}`
+    // );
+    navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}/${pValue.menuname.split(' ').join('_')}/?p=${encodeObj}`);
 
   };
 
@@ -1193,7 +1254,7 @@ const SettingPage = () => {
           </div>
           <div className="for_settingList_display_div">
             <div className="for_settingList_display_dataCount">
-              <span><small>Showing {afterFilterCount ?? 0} </small>{isRing === 'Ring' ? 'Engagement Rings' : 'Diamond Pendants'}</span>
+              <span><small>Showing {afterFilterCount ?? 0} </small>{isRing === 'Ring' ? 'Engagement Rings' : isRing === 'Pendant' ? 'Diamond Pendants' : 'Diamond Earrings'}</span>
             </div>
           </div>
           <div className="for_settingList_filter_display_div">
@@ -1271,6 +1332,7 @@ const SettingPage = () => {
                     metalType={metalType}
                     getBannerImage={getBannerImage}
                     location={location}
+                    metalColorCombo={metalColorCombo}
                   />
                 )
               })
@@ -1312,6 +1374,15 @@ const SettingPage = () => {
       <div>
         <ScrollTop />
       </div>
+      <DiaSetModal
+        open={showModal1}
+        data={shapeData}
+        Steps={sendSteps}
+        handleClose={handleToggle1}
+        productData={getUrlDiaShape?.split('=')[1]}
+        isSettFlow={0}
+      // setImage={setImage}
+      />
     </>
   )
 }
@@ -1675,13 +1746,24 @@ const Product_Card = ({
   whiteImage,
   roseImage,
   location,
+  metalColorCombo,
 }) => {
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
   const [imageColor, setImageColor] = useRecoilState(for_MetalColor_Image);
   const getSessImgColor = JSON.parse(sessionStorage.getItem('imgColorCode'));
+  const [metalColorTitle, setMetalColorTitle] = useState();
   const getSessCartWishImgColor = JSON.parse(sessionStorage.getItem('cartWishImgColor'));
 
   const activeColorCode = getSessImgColor || getSessCartWishImgColor;
+
+  useEffect(() => {
+    if (metalColorCombo?.length > 0) {
+      const mtColor = metalColorCombo?.find(ele => ele.id === productData?.MetalColorid)?.colorcode;
+      setMetalColorTitle(mtColor);
+    }
+  }, [productData])
+
+  const titleLine = `${productData?.MetalTypePurity?.split(" ")[1]} ${metalColorTitle} ${productData?.MetalTypePurity?.split(" ")[0]} ${productData?.ShapeName} Diamond ${productData?.category} with ${productData?.style} style`;
 
   useEffect(() => {
     if ((activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null)) {
@@ -1746,21 +1828,23 @@ const Product_Card = ({
             {productData?.IsTrending == 1 && <span className="forWeb_app_intrending">Trending</span>}
             {productData?.IsNewArrival == 1 && <span className="forWeb_app_newarrival">New</span>}
           </div>
-          <div className="for_settingList_listing_card_image_div"
-            onClick={() => handleMoveToDetail(productData, selectedMetalColor)}
-          >
-            <img
-              className="for_settingList_listing_card_image"
-              loading="lazy"
-              src={selectedMetalColor === 1 ? yellowImage : selectedMetalColor === 2 ? whiteImage : selectedMetalColor === 3 ? roseImage : imageUrl}
-              onError={(e) => {
-                e.target.onerror = null;
-                e.stopPropagation();
-                e.target.src = noImageFound;
-              }}
-              alt="Product"
-            />
-          </div>
+          <abbr title={titleLine} style={{ cursor: "default" }}>
+            <div className="for_settingList_listing_card_image_div"
+              onClick={() => handleMoveToDetail(productData, selectedMetalColor)}
+            >
+              <img
+                className="for_settingList_listing_card_image"
+                loading="lazy"
+                src={selectedMetalColor === 1 ? yellowImage : selectedMetalColor === 2 ? whiteImage : selectedMetalColor === 3 ? roseImage : imageUrl}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.stopPropagation();
+                  e.target.src = noImageFound;
+                }}
+                alt="Product"
+              />
+            </div>
+          </abbr>
           {/* <div className="for_settingList_metaltype_div">
             {metalColorType?.map((item) => (
               <div
@@ -1788,7 +1872,14 @@ const Product_Card = ({
             ))}
           </div>
           <div className="for_settingList_desc_title">
-            <span className="for_listing_desc_span">{productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}</span>
+            {/* <span className="for_listing_desc_span">{productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}</span> */}
+            <span className="for_listing_desc_span">
+              {productData?.designno}
+              {productData?.designno && " - "}
+              {productData?.designno && (
+                titleLine
+              )}
+            </span>
           </div>
           <div className="for_settingList_desc_div">
             <div>
@@ -1830,4 +1921,3 @@ const Product_Card = ({
     </>
   )
 }
-

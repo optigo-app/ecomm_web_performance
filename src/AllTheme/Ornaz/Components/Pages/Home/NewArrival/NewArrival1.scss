@@ -1,0 +1,109 @@
+@import '../../../scss/variable';
+
+.roop_newwArr1MainDiv {
+    margin-top: 3rem;
+    .roop_NewArr1Title {
+        text-align: center;
+        color: $titleColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize5;
+        padding-block: 1%;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        .rp_designSetViewmoreBtn {
+            font-size: 16px;
+            text-decoration: none;
+            color: $titleColor;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+
+    .roop_NewArrival1product-list {
+        padding: 0px 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+    }
+
+    .roop_NewArrproduct-card {
+        background: #fff;
+        border: none;
+        border-radius: 5px;
+        // box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+        box-shadow: none;
+        overflow: hidden;
+        transition: box-shadow 0.3s ease-in-out;
+
+        &:hover {
+            box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 0px 1px;
+        }
+
+        .roop_newArr1Image {
+            padding: 50px;
+            background-color: #f1f1f1;
+
+            .roop_newArrImage {
+                max-width: 100%;
+                height: auto;
+                display: block;
+            }
+        }
+
+
+        .roop_newarrproduct-info {
+            padding: 0px 10px;
+
+            .roop_newArrPrice {
+                font-size: $fontSize2 !important;
+                color: $titleColor !important;
+                font-family: $primaryFontFamily;
+                font-weight: bold !important;
+                letter-spacing: .5px;
+            }
+
+            .roop_newArrTitle {
+                font-size: $fontSize2;
+                color: $titleColor;
+                font-family: $primaryFontFamily;
+                letter-spacing: .5px;
+            }
+
+            p {
+                margin: 5px 0;
+                color: $titleColor;
+                font-size: $fontSize1;
+                font-family: $primaryFontFamily;
+                letter-spacing: .5px;
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        .roop_newwArr1MainDiv {
+            .roop_NewArr1Title {
+                padding-block: 6%;
+            }
+        }
+
+        .roop_NewArrproduct-card {
+            .roop_newArr1Image {
+                padding: 10px !important;
+            }
+        }
+
+        .roop_newarrproduct-info {
+            .roop_newArrTitle {
+                font-size: $fontSize1 !important;
+            }
+
+            p {
+                font-size: $fontSize0 !important;
+                letter-spacing: .1px;
+            }
+        }
+    }
+}

@@ -116,8 +116,8 @@ const WishlistItems = ({
                                         variant="body2"
                                         className="mala_card-ContentData mala_WlTitleline"
                                     >
-                                        {item?.designno != "" && item?.designno}
-                                        {item?.TitleLine != "" && " - " + item?.TitleLine}
+                                        {item?.designno !== "" && item?.designno}
+                                        {(item?.TitleLine && item?.TitleLine.toLowerCase() != "null") && " - " + item?.TitleLine}
                                     </Typography>
                                     <Typography variant="body2" className="mala_card-ContentData">
                                         <span className="mala_wishDT">GWT: </span>
@@ -162,14 +162,14 @@ const WishlistItems = ({
                                             <span>{item?.metaltypename}</span>
                                         )}
                                         {/* <span className="mala_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}
-                                        {storeInit?.IsPriceShow == 1 && 
-                                        <>
-                                        {" / "}
-                                        <span className="mala_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>{" "}
-                                        <span>{formatter(item?.FinalCost)}</span>
-                                        </>}
+                                        {storeInit?.IsPriceShow == 1 &&
+                                            <>
+                                                {" / "}
+                                                <span className="mala_currencyFont">
+                                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                </span>{" "}
+                                                <span>{formatter(item?.FinalCost)}</span>
+                                            </>}
                                     </Typography>
                                 </div>
                                 {/* <div className='designNoWlList'>

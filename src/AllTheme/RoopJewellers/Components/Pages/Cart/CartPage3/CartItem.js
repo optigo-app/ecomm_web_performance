@@ -15,7 +15,7 @@ import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { FormControl } from 'react-bootstrap';
 import Cookies from "js-cookie";
-import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, formatTitleLine, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const CartItem = ({
   item,
@@ -42,7 +42,6 @@ const CartItem = ({
   openHandleUpdateCartModal
 }) => {
   const [imageSrc, setImageSrc] = useState();
-  console.log('imageSrc: ', imageSrc);
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item?.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
@@ -151,7 +150,8 @@ const CartItem = ({
             <h3>
               {item?.designno != "" && item?.designno}
               {(item?.StockNo != "" && item?.StockNo != null) && ` (${item?.StockNo})`}
-              {(item?.TitleLine != "" && item?.TitleLine != null) && " - " + item?.TitleLine}
+              {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}
+              {/* {(item?.TitleLine != "" && item?.TitleLine != null) && " - " + item?.TitleLine} */}
             </h3>
             <p>{item?.productDescription}</p>
             {/* {item?.sku != "" &&

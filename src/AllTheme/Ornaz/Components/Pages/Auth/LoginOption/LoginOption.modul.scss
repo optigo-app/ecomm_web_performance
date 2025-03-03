@@ -1,0 +1,136 @@
+@import '../../../scss/variable.scss';
+
+.roop_Loginoption {
+
+    font-family: $fontRegular !important;
+
+    .loginDailog {
+        margin-inline: 6%;
+        background-color: white;
+        padding: 15px;
+    }
+
+
+    .smilingLoginOptionMain {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .loginDiTile {
+        font-size: 30px;
+        font-weight: 600;
+        margin-top: 25px;
+        text-align: center;
+        color: #7d7f85,
+    }
+
+    .loginMail {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $btnprimarycolor !important;
+        color: white;
+        margin-inline: 7px;
+        height: 55px;
+        cursor: pointer;
+        width: 25%;
+        border-radius: 8px;
+        margin-top: 30px;
+    }
+
+    .loginMobile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $btnprimarycolor !important;
+        color: white;
+        margin-inline: 7px;
+        height: 55px;
+        cursor: pointer;
+        border-radius: 8px;
+        margin-top: 25px;
+        width: 25%;
+    }
+
+    .roop_loginOption_text {
+        margin: 0px;
+        font-size: 20px;
+        font-weight: 500;
+        padding-left: 25px;
+    }
+
+
+
+    @media screen and (max-width: 1400px) {
+
+        .loginMail {
+            width: 50% !important;
+        }
+
+        .loginMobile {
+            width: 50% !important;
+        }
+    }
+
+    @media screen and (max-width: 1150px) {
+
+        .loginMail {
+            width: 50% !important;
+        }
+
+        .loginMobile {
+            width: 50% !important;
+        }
+    }
+
+    @media screen and (max-width: 900px) {
+        .loginDailog {
+            margin-inline: 2% !important;
+        }
+
+    }
+
+    @media screen and (max-width: 700px) {
+
+        .loginMail {
+            width: 80% !important;
+        }
+
+        .loginMobile {
+            width: 80% !important;
+        }
+
+        .loginDiTile {
+            font-size: 25px;
+        }
+
+    }
+
+
+    @media screen and (max-width: 500px) {
+
+        .loginMail {
+
+            margin-top: 0px !important;
+        }
+
+        .roop_loginOption_text {
+            font-size: 17px;
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+
+        .loginMail {
+            width: 100% !important;
+        }
+
+        .loginMobile {
+            width: 100% !important;
+        }
+
+    }
+
+}

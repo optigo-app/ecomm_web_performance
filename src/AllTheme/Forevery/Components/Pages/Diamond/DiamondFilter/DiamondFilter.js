@@ -213,6 +213,14 @@ const DiamondFilter = () => {
     };
   }, []);
 
+  const ringFlowUrl = JSON.parse(sessionStorage.getItem("ringFlowUrl"));
+  const PendantFlowUrl = JSON.parse(sessionStorage.getItem("PendantFlowUrl"));
+  const EarringFlowUrl = JSON.parse(sessionStorage.getItem("EarringFlowUrl"));
+  
+  const isRing = JSON?.parse(sessionStorage.getItem('isRing')) ?? "";
+  const isPendant = JSON?.parse(sessionStorage.getItem('isPendant')) ?? "";
+  const isEarring = JSON?.parse(sessionStorage.getItem('isPair')) ?? "";
+
   useEffect(() => {
     if (location?.pathname) {
       setCheckedItem(location?.pathname?.split("/")[3] ?? '');
@@ -223,16 +231,17 @@ const DiamondFilter = () => {
   }, [location?.pathname]);
 
   const getShapeFromURL = () => {
-    const getShape = location?.pathname?.split("/")[3] ?? '';
+    const getShape = location?.pathname?.split("/")[3] ?? "";
     const getPath = location?.pathname?.split("/")?.slice(1, 3);
     const mergePath = getPath.join("/");
-    if (mergePath == "certified-loose-lab-grown-diamonds/diamond") {
+  
+    if (mergePath === "certified-loose-lab-grown-diamonds/diamond") {
       if (
         stepsData === null &&
         stepsData2 === null &&
         stepsData3 === null &&
         stepsData4 === null &&
-        (steps?.[0]?.step1 == true || steps?.[0]?.step1 != true)
+        (steps?.[0]?.step1 === true || steps?.[0]?.step1 !== true)
       ) {
         if (getShape) {
           setCustomizeStep({
@@ -240,46 +249,72 @@ const DiamondFilter = () => {
             step2: false,
             step3: false,
           });
-
+  
           const step1 = [{ step1: true, shape: getShape ?? "" }];
           sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
-
-        } else if (!getShape) {
+        } else {
           const step1 = [{ step1: true, shape: "All" }];
           sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
         }
       } else if (
-        stepsData != null &&
-        (steps?.[0]?.step1 == true || steps?.[0]?.step1 != true)
+        stepsData !== null &&
+        (steps?.[0]?.step1 === true || steps?.[0]?.step1 !== true)
       ) {
         if (getShape) {
           const updatedStep1 = steps?.map((step) => {
             if (step.step1 !== undefined) {
-              return { step1: true, shape: (getShape ?? "All") };
+              return { step1: true, shape: getShape ?? "All" };
             }
             return step;
           });
-
+  
           if (!updatedStep1?.some((step) => step.step1 !== undefined)) {
-            updatedStep1?.push({ step1: true, shape: (getShape ?? "All") });
+            updatedStep1?.push({ step1: true, shape: getShape ?? "All" });
           }
-          sessionStorage.setItem(
-            "customizeSteps",
-            JSON.stringify(updatedStep1)
-          );
+          sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
+        }
+      } else if ((steps?.[0]?.step1 !== true && isRing === true && stepsData2 === null) || (steps?.[0]?.step1 !== true && isPendant === true && stepsData3 === null) || (steps?.[0]?.step1 !== true && isEarring === true && stepsData4 === null)) {
+        if (getShape) {
+          const step1 = [{ step1: true, shape: getShape ?? "" }];
+          sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+        } else {
+          const step1 = [{ step1: true, shape: "All" }];
+          sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
         }
       }
     }
-  };
+  };  
+
 
   useEffect(() => {
+
     getShapeFromURL();
     if (steps3?.[0]?.Status === 'active' || JSON.parse(sessionStorage.getItem('isPair'))) {
       setisEarringFlow(true)
     } else {
       setisEarringFlow(false)
     }
-  }, [location?.pathname, location?.key]);
+
+  }, [location?.key]);
+
+  const getUrlDiaShape = location?.pathname?.split('/')[3];
+
+  useEffect(() => {
+    const getRingDiaShape = ringFlowUrl?.split('/')[3];
+    const getPendantDiaShape = PendantFlowUrl?.split('/')[3];
+    const getEarringDiaShape = EarringFlowUrl?.split('/')[3];
+
+    if ((steps1?.[0]?.Status === 'active' && ringFlowUrl !== "") &&
+      (getRingDiaShape?.toLowerCase() !== getUrlDiaShape?.toLowerCase())) {
+      Navigate(ringFlowUrl);
+    } else if ((steps2?.[0]?.Status === 'active' && PendantFlowUrl !== "") &&
+      (getPendantDiaShape?.toLowerCase() !== getUrlDiaShape?.toLowerCase())) {
+      Navigate(PendantFlowUrl);
+    } else if ((steps3?.[0]?.Status === 'active' && EarringFlowUrl !== "") &&
+      (getEarringDiaShape?.toLowerCase() !== getUrlDiaShape?.toLowerCase())) {
+      Navigate(EarringFlowUrl);
+    }
+  }, [location?.key])
 
   const updateSteps = (shape) => {
     const updatedStep1 = steps?.map((step) => {
@@ -376,20 +411,29 @@ const DiamondFilter = () => {
     return decompressed;
   }
 
-  const HandleDiamondRoute = (val) => {
+  const HandleDiamondRoute = (val, stockno1, stockno2) => {
     const currentLocation = location.pathname + location.search + location.hash;
 
     //("hsahdjash", val);
     const obj = {
-      a: val?.stockno,
+      a: isEarringFlow ? [stockno1, stockno2] : val?.stockno,
       b: val?.shapename,
     };
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    let navigateUrl = `/d/${val?.stockno?.replaceAll(" ", "")}/det345/?p=${encodeObj}`;
+    let navigateUrl;
+    if (isEarringFlow) {
+      navigateUrl = `/d/pair-diamonds/det345/?p=${encodeObj}`;
+    } else {
+      navigateUrl = `/d/${val?.stockno?.replaceAll(" ", "")}/det345/?p=${encodeObj}`;
+    }
     window.history.pushState({ pathname: currentLocation }, '', currentLocation);
-    Navigate(navigateUrl);
+    if (isEarringFlow) {
+      Navigate(navigateUrl, { state: [{ isPair: true }, { stockno1: stockno1 }, { stockno2: stockno2 }] });
+    } else {
+      Navigate(navigateUrl);
+    }
   };
 
   const getBannerImage = (index) => {
@@ -697,111 +741,6 @@ const DiamondFilter = () => {
     fetchData();
   }, [Condition]);
 
-  useEffect(() => {
-    const updatedArray = {
-      Price: sliderState1?.price || "",
-      Carat: sliderState1?.Carat,
-      Color:
-        sliderLabels1?.find((label) => label.type === "Color")?.labels || [],
-      Clarity:
-        sliderLabels1?.find((label) => label.type === "Clarity")?.labels || [],
-      Cut: sliderLabels1?.find((label) => label.type === "Cut")?.labels || [],
-      Polish: filtersData1?.Polish,
-      Symmetry: filtersData1?.Symmetry,
-      Lab: filtersData1?.Lab,
-      Depth: filtersData1?.depth,
-      Table: filtersData1?.table,
-      Fluorescence: filtersData1?.Fluorescence,
-      Culet: filtersData1?.Culet,
-    };
-
-    setTimeout(() => {
-      setFinalArray(updatedArray);
-    }, 500);
-  }, [sliderState1, sliderLabels1, filtersData1, location?.pathname]);
-
-  useEffect(() => {
-    const UpdatedUrl = setTimeout(() => {
-      const extractedValue = location?.pathname.split("f=")[1] ?? "";
-      const decodedUrlData = decodeAndDecompress(extractedValue);
-      const parsedData = parseUrlSegment(decodedUrlData);
-      const pathname = location?.pathname.split("/");
-
-      // Determine which data to use
-      const dataToUse = Object.keys(finalArray)?.some(
-        (key) => Array.isArray(finalArray[key]) && finalArray[key].length > 0
-      )
-        ? finalArray
-        : parsedData ?? {};
-
-      const sliderParams = Object.entries(dataToUse)
-        .filter(
-          ([key, value]) =>
-            value &&
-            (Array.isArray(value)
-              ? value.length > 0
-              : typeof value === "string" && value.length > 0)
-        )
-        .filter(([key, value]) =>
-          Array.isArray(value)
-            ? value.every((v) => v !== null && v !== undefined && v !== "")
-            : true
-        )
-        .map(([key, value]) =>
-          Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
-        )
-        .join("/");
-      const shape = location?.pathname?.split("/")[3];
-      const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""
-        }`;
-      const encodeUrl = compressAndEncode(urlToEncode);
-      const decodedUrl = decodeAndDecompress(encodeUrl);
-      const newPath = `${pathname?.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
-        }`;
-      Navigate(newPath);
-    }, 600);
-    return () => clearTimeout(UpdatedUrl);
-  }, [finalArray]);
-
-  function parseUrlSegment(segment) {
-    const parts = segment?.split("/")?.slice(1);
-    const result = {};
-
-    for (let i = 0; i < parts?.length; i += 2) {
-      const key = parts[i];
-      const value = parts[i + 1];
-      if (value) {
-        if (value.includes(",")) {
-          result[key] = value
-            .split(",")
-            .map((item) => (item === "null" ? "null" : item));
-        } else {
-          result[key] = value;
-        }
-      }
-    }
-
-    return result;
-  }
-
-  useEffect(() => {
-    const extractedValue = location?.pathname.split("f=")[1] ?? "";
-    const shape = location?.pathname?.split("/")[3];
-    if (extractedValue) {
-      try {
-        const decodedUrl = decodeAndDecompress(extractedValue);
-        const parsedData = parseUrlSegment(decodedUrl);
-        fetchData(shape, parsedData);
-      } catch (error) {
-        console.error("Error decoding and parsing URL:", error);
-        fetchData(shape);
-      }
-    } else {
-      fetchData(shape);
-    }
-  }, [location?.pathname, selectedsort, sortValue, location?.key]);
-
-  
   const ResetFilter = async () => {
     try {
       const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
@@ -864,8 +803,8 @@ const DiamondFilter = () => {
     const updatedArray = {
       Price: sliderState1?.price || "",
       Carat: sliderState1?.Carat,
-      Color:sliderLabels1?.find((label) => label.type === "Color")?.labels || [],
-      Clarity:sliderLabels1?.find((label) => label.type === "Clarity")?.labels || [],
+      Color: sliderLabels1?.find((label) => label.type === "Color")?.labels || [],
+      Clarity: sliderLabels1?.find((label) => label.type === "Clarity")?.labels || [],
       Cut: sliderLabels1?.find((label) => label.type === "Cut")?.labels || [],
       Polish: filtersData1?.Polish,
       Symmetry: filtersData1?.Symmetry,
@@ -989,10 +928,6 @@ const DiamondFilter = () => {
     return () => clearTimeout(debounceTimer);
   }, [finalArray]);
 
-
-
-
-  console.log('slider', sliderState1)
   // const ResetFilter = async()=>{
   //   try {
   //     const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
@@ -1635,74 +1570,76 @@ const DiamondFilter = () => {
                     const bannerImage = getBannerImage(i);
                     return (
                       <div key={i} className="diamond_card">
-                        <div className="media_frame">
-                          {val?.isBanner == true ? (
-                            <img
-                              src={val?.img}
-                              alt="bannerImage"
-                              width={"100%"}
-                              loading="lazy"
-                            />
-                          ) : (
-                            <>
-                              {currentMediaType === "vid" ? (
-                                <>
-                                  {val?.vid?.endsWith(".mp4") ? (
-                                    <video
-                                      src={val?.vid}
-                                      width="100%"
-                                      ref={(el) => (videoRefs.current[i] = el)}
-                                      autoPlay={hoveredCard === i}
-                                      controls={false}
-                                      playsInline
-                                      muted
-                                      onMouseOver={(e) => handleMouseMove(e, i)}
-                                      onMouseLeave={(e) =>
-                                        handleMouseLeave(e, i)
-                                      }
-                                      loading="lazy"
-                                      onClick={() => HandleDiamondRoute(val)}
-                                    />
-                                  ) : val?.image_file_url !== "" ? (
-                                    <img
-                                      className="dimond-info-img"
-                                      src={val?.image_file_url}
-                                      alt=""
-                                      onClick={() => HandleDiamondRoute(val)}
-                                      loading="lazy"
-                                    />
-                                  ) : (
-                                    <>
-                                      <img
-                                        // src={val?.img}
-                                        src={fallbackImg}
-                                        alt="bannerImage"
-                                        width={"100%"}
+                        <abbr style={{ cursor: "default" }} title={`${val?.shapename} ${val?.carat?.toFixed(3)} CARAT ${val?.colorname} ${val?.clarityname} ${val?.cutname}`}>
+                          <div className="media_frame">
+                            {val?.isBanner == true ? (
+                              <img
+                                src={val?.img}
+                                alt="bannerImage"
+                                width={"100%"}
+                                loading="lazy"
+                              />
+                            ) : (
+                              <>
+                                {currentMediaType === "vid" ? (
+                                  <>
+                                    {val?.vid?.endsWith(".mp4") ? (
+                                      <video
+                                        src={val?.vid}
+                                        width="100%"
+                                        ref={(el) => (videoRefs.current[i] = el)}
+                                        autoPlay={hoveredCard === i}
+                                        controls={false}
+                                        playsInline
+                                        muted
+                                        onMouseOver={(e) => handleMouseMove(e, i)}
+                                        onMouseLeave={(e) =>
+                                          handleMouseLeave(e, i)
+                                        }
                                         loading="lazy"
                                         onClick={() => HandleDiamondRoute(val)}
                                       />
-                                    </>
-                                  )}
-                                </>
-                              ) : (
-                                <img
-                                  className="dimond-info-img"
-                                  loading="lazy"
-                                  src={val?.img}
-                                  alt=""
-                                  onClick={() => HandleDiamondRoute(val)}
-                                />
-                              )}
-                            </>
-                          )}
-                          {!val?.isBanner == true && (
-                            <>
-                              <div className="select_this_diamond_banner" onClick={() => HandleDiamondRoute(val)}>
-                                <span>Select This Diamond</span>
-                              </div>
-                            </>
-                          )}
-                        </div>
+                                    ) : val?.image_file_url !== "" ? (
+                                      <img
+                                        className="dimond-info-img"
+                                        src={val?.image_file_url}
+                                        alt=""
+                                        onClick={() => HandleDiamondRoute(val)}
+                                        loading="lazy"
+                                      />
+                                    ) : (
+                                      <>
+                                        <img
+                                          // src={val?.img}
+                                          src={fallbackImg}
+                                          alt="bannerImage"
+                                          width={"100%"}
+                                          loading="lazy"
+                                          onClick={() => HandleDiamondRoute(val)}
+                                        />
+                                      </>
+                                    )}
+                                  </>
+                                ) : (
+                                  <img
+                                    className="dimond-info-img"
+                                    loading="lazy"
+                                    src={val?.img}
+                                    alt=""
+                                    onClick={() => HandleDiamondRoute(val)}
+                                  />
+                                )}
+                              </>
+                            )}
+                            {!val?.isBanner == true && (
+                              <>
+                                <div className="select_this_diamond_banner" onClick={() => HandleDiamondRoute(val)}>
+                                  <span>Select This Diamond</span>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </abbr>
                         {!val?.isBanner == true && (
                           <>
                             <div className="toggle_btn">
@@ -1745,17 +1682,27 @@ const DiamondFilter = () => {
                         <div key={i} className="diamond_card">
                           <div className="media_frame">
                             <div className="paired_diamond">
-                              {val?.map((dia) => {
+                              {val?.map((dia, index) => {
                                 const image = getImagePath(dia?.shapename);
-                                return <img src={image} alt={dia?.shapename} className="earr_paired_diamond_img" />
+                                return (
+                                  <abbr
+                                    key={index}
+                                    style={{ cursor: "default", width: "100%" }}
+                                    title={`${dia?.shapename} ${dia?.carat?.toFixed(3)} CARAT ${dia?.colorname} ${dia?.clarityname} ${dia?.cutname}`}
+                                  >
+                                    <img src={image} alt={dia?.shapename} className="earr_paired_diamond_img" />
+                                  </abbr>
+                                );
                               })}
                             </div>
-                            {!val?.isBanner == true && (
-                              <>
-                                <div className="select_this_diamond_banner" onClick={() => HandleDiamondRoute(val)}>
-                                  <span>Select This Diamond</span>
-                                </div>
-                              </>
+
+                            {!val?.isBanner && (
+                              <div
+                                className="select_this_diamond_banner"
+                                onClick={() => HandleDiamondRoute(val, val?.[0]?.stockno, val?.[1]?.stockno)}
+                              >
+                                <span>Select This Diamond</span>
+                              </div>
                             )}
                           </div>
                           <>

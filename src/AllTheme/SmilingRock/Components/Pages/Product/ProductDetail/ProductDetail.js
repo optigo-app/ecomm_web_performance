@@ -50,6 +50,7 @@ import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/D
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import { SaveLastViewDesign } from "../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign";
+import { formatRedirectTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -1307,10 +1308,7 @@ const ProductDetail = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    navigate(
-      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}?p=${encodeObj}`
-    );
+    navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
 
     //Step 1
     setSingleProd1({});
@@ -1683,7 +1681,7 @@ const ProductDetail = () => {
                       ) : (
                         <div className="smr_prod_shortInfo_inner">
                           <p className="smr_prod_titleLine">
-                            {singleProd?.TitleLine}
+                            {(singleProd?.TitleLine && (singleProd?.TitleLine.toLowerCase() !== "null" || singleProd?.TitleLine.toLowerCase() !== null)) && " - " + singleProd?.TitleLine}
                           </p>
 
                           <div className="smr_prod_summury_info">

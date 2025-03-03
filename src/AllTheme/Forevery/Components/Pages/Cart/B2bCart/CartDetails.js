@@ -53,6 +53,7 @@ const CartDetails = ({
             src={imageSrc}
             alt="image"
             className='for_cartDetailImage'
+            onError={(e) => e.target.src = noImageFound}
             onClick={() => handleMoveToDetail(selectedItem, getimcColorId !== undefined ? getimcColorId : "")}
           />
         ) :
@@ -60,6 +61,7 @@ const CartDetails = ({
             src={selectedItem?.image_file_url}
             alt="image"
             className='for_cartDetailImage'
+            onError={(e) => e.target.src = noImageFound}
             onClick={() => handleMoveToDetail(selectedItem)}
           />
         }

@@ -43,6 +43,7 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import { roop_CartCount, roop_WishCount } from "../../../Recoil/atom";
 import { SaveLastViewDesign } from "../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign";
+import { formatRedirectTitleLine, formatTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -594,10 +595,11 @@ const ProductDetail = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    navigate(
-      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}?p=${encodeObj}`
-    );
+    // navigate(
+    //   `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+    //   }${productData?.designno}?p=${encodeObj}`
+    // );
+     navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
 
     // step 1
     setSingleProd1({});
@@ -1392,11 +1394,14 @@ const ProductDetail = () => {
     });
   }, [designSetList]);
 
-
   return (
     <>
       <Helmet>
-        <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? '-' : ''} ${singleProd?.designno ?? ''}`}</title>
+        <title>
+          {formatTitleLine(singleProd?.TitleLine)
+            ? `${singleProd.TitleLine} - ${singleProd?.designno ?? ''}`
+            : ((singleProd?.TitleLine || singleProd?.designno) ? `${singleProd?.designno ?? ''}` : "loading...")}
+        </title>
       </Helmet>
       <div className="roop_prodDetail_bodyContain">
         <div className="roop_prodDetail_outerContain">
@@ -1550,7 +1555,7 @@ const ProductDetail = () => {
                         :  */}
                       <div className="roop_prod_shortInfo_inner">
                         <p className="roop_prod_titleLine">
-                          {singleProd?.TitleLine}
+                          {formatTitleLine(singleProd?.TitleLine) && singleProd?.TitleLine}
                         </p>
 
                         <div className="roop_prod_summury_info">
@@ -2335,7 +2340,7 @@ const ProductDetail = () => {
                             <th className="roop_stockItem_table_td">
                               Metal Color-Purity
                             </th>
-                            {storeInit?.IsPriceShow == 1 &&       <th className="roop_stockItem_table_td">Price</th>}
+                            {storeInit?.IsPriceShow == 1 && <th className="roop_stockItem_table_td">Price</th>}
                             <th className="roop_stockItem_table_td">
                               Add To Cart
                             </th>
@@ -2706,17 +2711,17 @@ const ProductDetail = () => {
                                               {ele?.designno} - {ele?.CategoryName}
                                               <br />
                                               {storeInit?.IsPriceShow == 1 && <>
-                                             
+
                                                 <span className="roop_currencyFont">
                                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                 </span>
-                                              &nbsp;
-                                              {
-                                                formatter.format(
-                                                  ele?.UnitCostWithMarkUp
-                                                )
-                                              }
-                                                </>}
+                                                &nbsp;
+                                                {
+                                                  formatter.format(
+                                                    ele?.UnitCostWithMarkUp
+                                                  )
+                                                }
+                                              </>}
                                             </p>
                                           </div>
                                           {/* <div>

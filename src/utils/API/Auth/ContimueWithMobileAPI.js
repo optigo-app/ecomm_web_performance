@@ -1,3 +1,4 @@
+import { wesbiteDomainName } from "../../Glob_Functions/GlobalFunction";
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
@@ -5,6 +6,7 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 export const ContimueWithMobileAPI = async (mobileNo,code) => {
 
     let response;
+    const domainname = wesbiteDomainName;
     try {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { FrontEnd_RegNo } = storeInit;
@@ -18,9 +20,10 @@ export const ContimueWithMobileAPI = async (mobileNo,code) => {
             p: encodedCombinedValue,
             "dp": combinedValue,
 
+
         };
 
-         response = await CommonAPI(body);
+        response = await CommonAPI(body);
 
     } catch (error) {
         console.error('Error:', error);

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import './BestSellerSection1.scss';
-import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatRedirectTitleLine, formatter, formatTitleLine, storImagePath,  } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { Link, useNavigate } from 'react-router-dom';
 import Pako from 'pako';
@@ -115,7 +115,9 @@ const ProductGrid = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
+
     }
 
     const handleMouseEnterRing1 = (data) => {
@@ -224,7 +226,7 @@ const ProductGrid = () => {
                                                 alt={`Best Seller Jewellery: ${data?.TitleLine || 'Design No: ' + data?.designno}`}
                                             />
                                             <div className="product-info">
-                                                <h3>{data?.designno} {data?.TitleLine && " - "} {data?.TitleLine != "" && data?.TitleLine}</h3>
+                                                <h3>{data?.designno !== "" && data?.designno} {formatTitleLine(data?.TitleLine) && " - " + data?.TitleLine}</h3>
                                                 {storeInit?.IsGrossWeight == 1 &&
                                                     <>
                                                         <span className='roop_btdetailDT'>GWT: </span>
@@ -260,7 +262,7 @@ const ProductGrid = () => {
                                                         }
                                                     </>
                                                 }
-                                                {storeInit?.IsPriceShow == 1 &&  <p>
+                                                {storeInit?.IsPriceShow == 1 && <p>
                                                     <span className="roop_currencyFont">
                                                         {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
                                                     </span>&nbsp;

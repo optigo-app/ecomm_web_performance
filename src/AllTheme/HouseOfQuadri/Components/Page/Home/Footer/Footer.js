@@ -222,7 +222,9 @@ const ContactInformation = ({ socialLinkStr, companyInfoData }) => {
       <p className="add_hoq_new_kl">
         {companyInfoData?.FrontEndAddress},
         <br />
-        {companyInfoData?.FrontEndCity}
+        {companyInfoData?.FrontEndCity},
+        <br />
+        {companyInfoData?.FrontEndState},
         <br />
         {companyInfoData?.FrontEndZipCode}
       </p>

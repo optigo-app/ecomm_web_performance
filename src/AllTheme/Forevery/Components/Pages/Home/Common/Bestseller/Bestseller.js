@@ -36,27 +36,32 @@ const Bestseller = () => {
   const navigate = useNavigate();
   const addCategory = `Ring/category`;
   const addCategory1 = `Pendant/category`;
+  const addCategory2 = `Earring/category`;
   const filterKeyVal = btoa(addCategory);
   const filterKeyVal1 = btoa(addCategory1);
+  const filterKeyVal2 = btoa(addCategory2);
 
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
   const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
   const steps2 = JSON.parse(sessionStorage.getItem("customizeSteps2Pendant"));
+  const steps3 = JSON.parse(sessionStorage.getItem("customizeSteps2Earring"));
 
   const checkStepsOf0 =
     (steps?.[0] !== undefined && steps?.[0] !== null) ||
     (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
-    (steps2?.[0] !== undefined && steps2?.[0] !== null);
+    (steps2?.[0] !== undefined && steps2?.[0] !== null) ||
+    (steps3?.[1] !== undefined && steps3?.[1] !== null);
 
   const checkSteps =
     (steps?.[2] !== undefined && steps?.[2] !== null) ||
     (steps1?.[2] !== undefined && steps1?.[2] !== null) ||
-    (steps2?.[2] !== undefined && steps2?.[2] !== null);
+    (steps2?.[2] !== undefined && steps2?.[2] !== null) ||
+    (steps3?.[1] !== undefined && steps3?.[1] !== null);
 
-  const handleSettingNavigation = (val) => {
-    if (val === "Ring") {
-      if (val === "Ring" && checkSteps) {
-        navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+  const HandleSettingNavigation = (value) => {
+    if (value === "Ring") {
+      if (value === "Ring" && checkSteps) {
+        navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape ?? steps3?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
       } else {
         if (checkStepsOf0) {
           if (steps?.[0] !== undefined && steps?.[0] !== null) {
@@ -65,13 +70,22 @@ const Bestseller = () => {
           } else {
             sessionStorage.removeItem('customizeSteps2Pendant');
             sessionStorage.removeItem('custStepData2Pendant')
+            sessionStorage.removeItem('customizeSteps2Earring');
+            sessionStorage.removeItem('custStepData2Earring')
           }
         }
-        navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+        navigate(
+          `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+        );
+        sessionStorage.removeItem('isPair')
+        const step1 = [{ step1: true, Setting: "Ring", id: 1, Status: "active" }];
+        sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
       }
-    } else if (val === "Pendant") {
-      if (val === "Pendant" && checkSteps) {
-        navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UGVuZGFudC9jYXRlZ29yeQ====`);
+    }
+
+    if (value === 'Pendant') {
+      if (value === "Pendant" && checkSteps) {
+        navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape ?? steps3?.[1]?.shape)}/M=${filterKeyVal1}`);
       } else {
         if (checkStepsOf0) {
           if (steps?.[0] !== undefined && steps?.[0] !== null) {
@@ -80,13 +94,41 @@ const Bestseller = () => {
           } else {
             sessionStorage.removeItem('customizeSteps2Ring');
             sessionStorage.removeItem('custStepData2Ring')
+            sessionStorage.removeItem('customizeSteps2Earring');
+            sessionStorage.removeItem('custStepData2Earring')
           }
         }
-        navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/M=${filterKeyVal1}`);
+        navigate(
+          `/certified-loose-lab-grown-diamonds/settings/Pendant/M=${filterKeyVal1}`
+        );
+        sessionStorage.removeItem('isPair')
+        const step1 = [{ step1: true, Setting: "Pendant", id: 2, Status: "active" }];
+        sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(step1));
       }
     }
-    // const step1 = [{ step1: true, Setting: "Ring", id: 1 }];
-    // sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(step1));
+    if (value === 'Earring') {
+      if (value === "Earring" && checkSteps) {
+        navigate(`/certified-loose-lab-grown-diamonds/settings/Earring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape ?? steps3?.[1]?.shape)}/M=${filterKeyVal2}`);
+      } else {
+        if (checkStepsOf0) {
+          if (steps?.[0] !== undefined && steps?.[0] !== null) {
+            sessionStorage.removeItem('customizeSteps')
+            sessionStorage.removeItem("custStepData");
+          } else {
+            sessionStorage.removeItem('customizeSteps2Ring');
+            sessionStorage.removeItem('custStepData2Ring')
+            sessionStorage.removeItem('customizeSteps2Pendant');
+            sessionStorage.removeItem('custStepData2Pendant')
+          }
+        }
+        navigate(
+          `/certified-loose-lab-grown-diamonds/settings/Earring/M=${filterKeyVal2}`
+        );
+        sessionStorage.setItem('isPair', true)
+        const step1 = [{ step1: true, Setting: "Earring", id: 3, Status: "active" }];
+        sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(step1));
+      }
+    }
   };
   return (
     <div className="for_Bestseller">
@@ -128,17 +170,17 @@ const Bestseller = () => {
           </p>
           <div className="for_col_btn">
             <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
-              onClick={() => handleSettingNavigation("Ring")}
+              onClick={() => HandleSettingNavigation("Ring")}
             >
               Customize Ring
             </button>
-            {/* <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
-            onClick={()=>Navigation(`/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ==`)}
+            <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
+              onClick={() => HandleSettingNavigation("Earring")}
             >
               Customize Earring
-            </button> */}
+            </button>
             <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
-              onClick={() => handleSettingNavigation("Pendant")}
+              onClick={() => HandleSettingNavigation("Pendant")}
             >
               Customize Pendant
             </button>

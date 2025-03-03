@@ -368,7 +368,7 @@
 
   .roop1_prod_title_with_width {
     font-size: 14px;
-    text-transform: uppercase;
+    // text-transform: uppercase;
     font-weight: 400;
     cursor: pointer;
     text-overflow: ellipsis;
@@ -389,7 +389,7 @@
 
   .roop1_prod_title_with_no_width {
     font-size: 12px;
-    text-transform: uppercase;
+    // text-transform: uppercase;
     font-weight: 400;
     cursor: pointer;
     text-overflow: ellipsis;
@@ -924,6 +924,32 @@
     .roop_productList {
       width: 100%;
       margin: 0px 10px 0px 10px;
+    }
+  }
+}
+
+.roop_pagination_portion {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+  width: 100%;
+
+  @media (max-width: 720px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+}
+
+.roop_editable_pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .roop_pagiantion_input {
+    @media (max-width: 600px) {
+      font-size: 14px;
     }
   }
 }

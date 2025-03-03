@@ -12,6 +12,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { CommonAPI } from "../../../../../../../utils/API/CommonAPI/CommonAPI";
 import PrintIcon from '@mui/icons-material/Print';
 import MobViewHeader from './../MobViewHeader/MobViewHeader';
+import { formatRedirectTitleLine } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 const OrderHistory = () => {
   const [orderHistoryData, setOrderHistoryData] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
@@ -129,7 +130,7 @@ const OrderHistory = () => {
 
     // navigate(`/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
     productData?.TitleLine === undefined ?  navigate(`/d/${productData?.designno}?p=${encodeObj}`)
-    : navigate(`/d/${ productData?.TitleLine && productData?.TitleLine?.replace(/\s+/g, `_`)}${ productData?.TitleLine && productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+    :  navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
 
 
   }

@@ -46,7 +46,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { Hoq_loginState } from "../../../Recoil/atom";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
-import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import Pako from "pako";
 import noimage from "../../../Assets/noImageFound.jpg";
 
@@ -125,11 +125,12 @@ const TabSection = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    navigation(
-      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${
-        productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}?p=${encodeObj}`
-    );
+    // navigation(
+    //   `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${
+    //     productData?.TitleLine?.length > 0 ? "_" : ""
+    //   }${productData?.designno}?p=${encodeObj}`
+    // );
+    navigation(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
   };
 
   const formatter = new Intl.NumberFormat("en-IN");

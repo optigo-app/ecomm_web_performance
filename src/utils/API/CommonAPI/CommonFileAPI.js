@@ -20,6 +20,7 @@ const APIURL = (window.location.hostname === 'localhost'
     || window.location.hostname === 'stamford.web'
     || window.location.hostname === 'mddesignworld.web'
     || window.location.hostname === 'lovein.web'
+    || window.location.hostname === 'ornaz.web'
 
     || window.location.hostname === 'elvee.web'
     || window.location.hostname === 'diamondtine.web'

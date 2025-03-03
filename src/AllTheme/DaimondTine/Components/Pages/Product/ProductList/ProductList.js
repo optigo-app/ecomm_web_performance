@@ -43,6 +43,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import GoogleAnalytics from 'react-ga4'
+import { formatRedirectTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const ProductList = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -1154,10 +1155,11 @@ const ProductList = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    navigate(
-      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}?p=${encodeObj}`
-    );
+    // navigate(
+    //   `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+    //   }${productData?.designno}?p=${encodeObj}`
+    // );
+     navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
   };
   const handleCartandWish = (e, ele, type) => {
     // console.log("event", e.target.checked, ele, type);

@@ -20,7 +20,7 @@ import { IoIosPlayCircle } from 'react-icons/io';
 import { CartAndWishListAPI } from '../../../../../../utils/API/CartAndWishList/CartAndWishListAPI';
 import { useSetRecoilState } from 'recoil';
 import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
-import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatRedirectTitleLine, formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import RelatedProduct from './RelatedProduct/RelatedProduct';
 import { StockItemApi } from '../../../../../../utils/API/StockItemAPI/StockItemApi';
 import { DesignSetListAPI } from '../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI';
@@ -1156,10 +1156,11 @@ const ProductDetail = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    Navigate(
-      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}?p=${encodeObj}`
-    );
+    // Navigate(
+    //   `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+    //   }${productData?.designno}?p=${encodeObj}`
+    // );
+    Navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
     // step 1
     setSingleProd1({});
     setSingleProd({});

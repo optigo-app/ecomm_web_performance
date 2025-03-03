@@ -119,6 +119,7 @@ const useHomeBannerImages = () => {
               `${storImagePath()}/Banner/Homepagemainbanner2.${format}`,
               `${storImagePath()}/Banner/Homepagemainbanner3.${format}`,
               `${storImagePath()}/Banner/Homepagemainbanner4.${format}`,
+              `${storImagePath()}/Banner/Homepagemainbanner5.${format}`,
             ],
             video: [`${storImagePath()}/Banner/homepagemainvideo.mp4`,`${storImagePath()}/Banner/homepagemainvideo2.mp4`],
           },
@@ -158,6 +159,7 @@ const useHomeBannerImages = () => {
             image: [
               `${storImagePath()}/Banner/trendingbanner1.${format}`,
               `${storImagePath()}/Banner/trendingbanner2.${format}`,
+              `${storImagePath()}/Banner/trendingbanner3.${format}`,
             ],
             video: [],
           },

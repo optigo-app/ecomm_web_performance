@@ -1,11 +1,13 @@
+import { wesbiteDomainName } from "../../Glob_Functions/GlobalFunction";
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const WebLoginWithMobileToken = async (ismobiletoke) => {
 
     let response
+    const domainname = wesbiteDomainName;
     try {
         const combinedValue = JSON.stringify({
-            userid: '', mobileno: '', pass: '', mobiletoken: `${ismobiletoke}`, FrontEnd_RegNo: ''
+            userid: '', mobileno: '', pass: '', mobiletoken: `${ismobiletoke}`, FrontEnd_RegNo: '', domainname: domainname
         });
         const encodedCombinedValue = btoa(combinedValue);
         const body = {

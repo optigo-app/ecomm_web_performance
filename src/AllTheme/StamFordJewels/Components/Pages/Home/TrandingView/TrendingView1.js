@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination, Navigation } from 'swiper/modules';
-import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatRedirectTitleLine, formatter, formatTitleLine, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
@@ -103,7 +103,7 @@ const TrendingView1 = ({data}) => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     };
 
     const HandleTrendingMore = (data) => {
@@ -208,7 +208,7 @@ const TrendingView1 = ({data}) => {
                                         />
                                         <p className="stam_trend_Div_name">{item?.name}</p>
                                         <div className="product-info">
-                                            <h3>{item?.designno} {item?.TitleLine && " - "} {item?.TitleLine != "" && item?.TitleLine}</h3>
+                                        <h3>{item?.designno !== "" && item?.designno} {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}</h3>
                                             <div className='prod_info_data'>
                                                 {storeInit?.IsGrossWeight == 1 &&
                                                     <>

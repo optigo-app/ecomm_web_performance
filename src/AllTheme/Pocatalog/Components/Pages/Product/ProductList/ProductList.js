@@ -6,6 +6,7 @@ import imageNotFound from "../../../Assets/image-not-found.jpg";
 import {
   findMetalColor,
   findMetalType,
+  formatRedirectTitleLine,
 } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
@@ -1118,10 +1119,7 @@ const ProductList = () => {
     };
     decodeAndDecompress();
     let encodeObj = compressAndEncode(JSON.stringify(obj));
-    navigate(
-      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}?p=${encodeObj}`
-    );
+    navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
   };
 
   const handleImgRollover = (pd) => {
