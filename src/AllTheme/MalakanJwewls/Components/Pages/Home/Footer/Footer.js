@@ -44,9 +44,9 @@ const Footer = ({ fromPage }) => {
               className="mala_logo_header"
               alt="Company Logo"
               style={{
-                mixBlendMode:'multiply',
-                filter:'invert(100%)',
-                mixBlendMode:'difference'
+                mixBlendMode: 'multiply',
+                filter: 'invert(100%)',
+                mixBlendMode: 'difference'
               }}
             />
           </a>
@@ -135,32 +135,30 @@ const Footer = ({ fromPage }) => {
               </div>
             ))}
           </div>
-         <div className="malakan-main_foo">
-  <p className="malkan-footerOfficeDesc">
-    <IoLocationOutline size={20} className="mala_location-icon" />
-    <span className="fooetr_address_malkan">
-      {companyInfoData?.FrontEndAddress}, {" "}
-      {companyInfoData?.FrontEndCity} -{" "}
-      {companyInfoData?.FrontEndZipCode}  
-    </span>
-  </p>
-  <p className="malkan-footerOfficeDesc">
-    <IoMdCall size={20} />
-    <span>
-      <a href={`tel:${companyInfoData?.FrontEndContactno1}`}>
-        {companyInfoData?.FrontEndContactno1}
-      </a>
-    </span>
-  </p>
-  <p className="malkan-footerOfficeDesc">
-    <IoMdMail size={20} />
-    <span>
-      <a href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
-        {companyInfoData?.FrontEndEmail1}
-      </a>
-    </span>
-  </p>
-</div>
+          <div className="malakan-main_foo">
+            <p className="malkan-footerOfficeDesc">
+              <IoLocationOutline size={20} className="mala_location-icon" />
+              <span className="fooetr_address_malkan">
+                {companyInfoData?.FrontEndAddress}, {companyInfoData?.FrontEndCity}, {companyInfoData?.FrontEndState} - {companyInfoData?.FrontEndZipCode}
+              </span>
+            </p>
+            <p className="malkan-footerOfficeDesc">
+              <IoMdCall size={20} />
+              <span>
+                <a href={`tel:${companyInfoData?.FrontEndContactno1}`}>
+                  {companyInfoData?.FrontEndContactno1}
+                </a>
+              </span>
+            </p>
+            <p className="malkan-footerOfficeDesc">
+              <IoMdMail size={20} />
+              <span>
+                <a href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
+                  {companyInfoData?.FrontEndEmail1}
+                </a>
+              </span>
+            </p>
+          </div>
         </div>
       </div>
       {/* <p className="mala_footer_bottom_line">©2025 Privaa Jewels</p> */}

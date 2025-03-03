@@ -1,0 +1,47 @@
+@import '../../../scss/variable.scss';
+
+.service-policy-rp {
+  font-family: $fontRegular !important;
+  color: #333;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+  .main-content {
+    // padding: 40px 0;
+    padding: 80px 0;
+
+    h1 {
+      color: #d14a61;
+      margin-bottom: 35px;
+      font-size: 36px;
+      font-weight: 600;
+    }
+
+    .policy-section {
+      margin-bottom: 30px;
+
+      h2 {
+        color: #d14a61;
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+
+      p {
+        line-height: 1.6;
+        font-size: 15px;
+        margin-bottom: 10px;
+      }
+
+      ul {
+        list-style-type: disc;
+        padding-left: 20px;
+        margin-bottom: 10px;
+
+        li {
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+}

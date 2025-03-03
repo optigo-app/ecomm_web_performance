@@ -223,11 +223,9 @@ const Footer = ({ fromPage }) => {
           </div>
           <div className="stamkan-main_foo">
             <div className="malkan-footerOfficeDesc1">
-              <IoLocationOutline className="location_footer_icon" style={{marginTop: "3px"}} size={20} />
+              <IoLocationOutline className="location_footer_icon" style={{ marginTop: "3px" }} size={20} />
               <span className="fooetr_address_malkan">
-                {companyInfoData?.FrontEndAddress}, {" "}
-                {companyInfoData?.FrontEndCity} -{" "}
-                {companyInfoData?.FrontEndZipCode}
+                {companyInfoData?.FrontEndAddress}, {companyInfoData?.FrontEndCity}, {companyInfoData?.FrontEndState} - {companyInfoData?.FrontEndZipCode}
               </span>
             </div>
             <p className="malkan-footerOfficeDesc">

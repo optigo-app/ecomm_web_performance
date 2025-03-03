@@ -114,6 +114,16 @@ const TopSection = ({ data }) => {
           />
         </div> */}
 
+        {/* for pacific */}
+        {/* <div id="top-banner-image-rp">
+          <img
+            // src={`${storImagePath()}/images/HomePage/Banner/3.jpg`}
+            src={data?.image[4]}
+            alt="Top banner image showcasing our latest promotions"
+            style={{ width: "100%" }}
+          />
+        </div> */}
+
       </div>
     </div>
   );

@@ -9,78 +9,89 @@ import { PiPhoneIncomingThin } from "react-icons/pi";
 import btnstyle from "../../../scss/Button.module.scss";
 import OurServices from "../../Home/Common/OurServices/OurServices";
 import NewsletterSignup from "../../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
+import { ContactUsAPI } from "../../../../../../utils/API/ContactUs/ContactUsAPI";
 
 const Bgimage = `${storImagePath()}/Forevery/contact-us.png`;
 
 export default function ContactUs() {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    fullName: "",
-    emailAddress: "",
-    phoneNumber: "",
-    message: "",
+    FullName: '',
+    EmailId: '',
+    mobileno: '',
+    Be_In_Message: '',
+    Themeno: '8'
   });
+
   const [errors, setErrors] = useState({});
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+    setErrors({
+      ...errors,
+      [name]: ''
+    });
+  };
+
   const handleSubmit = async (e) => {
+    console.log("coming here")
     e.preventDefault();
     const errors = {};
-    if (!formData.fullName) {
-      errors.fullName = "Please enter your full name";
+    if (!formData.FullName) {
+      errors.FullName = 'Please enter your full name';
     }
-    if (!formData.emailAddress) {
-      errors.emailAddress = "Please enter your email address";
-    } else if (!/\S+@\S+\.\S+/.test(formData.emailAddress)) {
-      errors.emailAddress = "Please enter a valid email address";
+    if (!formData.EmailId) {
+      errors.EmailId = 'Please enter your email address';
+    } else if (!/\S+@\S+\.\S+/.test(formData.EmailId)) {
+      errors.EmailId = 'Please enter a valid email address';
     }
-    if (!formData.phoneNumber) {
-      errors.phoneNumber = "Please enter your phone number";
+    if (!formData.mobileno) {
+      errors.mobileno = 'Phone is required';
+    } else if (!/^\d{10}$/.test(formData.mobileno)) {
+      errors.mobileno = 'Phone must be a 10-digit number';
     }
-    if (!formData.message) {
-      errors.message = "Please enter your message";
+    if (!formData.Be_In_Message) {
+      errors.Be_In_Message = 'Please enter your message';
     }
-    console.log(formData);
-    setFormData({
-      fullName: "",
-      emailAddress: "",
-      phoneNumber: "",
-      message: "",
-    });
+    console.log('errors: ', errors);
 
-    // if (Object.keys(errors).length === 0) {
-    //   console.log("Form submitted:", formData);
-    //   const combinedValue = JSON.stringify({
-    //     fullname: `${formData?.fullName}`,
-    //     emailid: `${(formData?.emailAddress).toLocaleLowerCase()}`,
-    //     mobileno: `${formData?.phoneNumber}`,
-    //     message: `${formData?.message}`,
-    //   });
-    //   const encodedCombinedValue = btoa(combinedValue);
-    //   console.log(encodedCombinedValue);
-    //   const body = {
-    //     con: '{"id":"","mode":"CONTACTUS"}',
-    //     f: "CONTACTUS (handlesubmit)",
-    //     p: encodedCombinedValue,
-    //     dp: combinedValue,
-    //   };
-    //   const response = await CommonAPI(body);
-    //   if (response) {
-    //     console.log("res", response);
-    //     toast.success(
-    //       "Got it! We've received your query. We'll be in touch shortly."
-    //     );
-    //   }
-    //   setFormData({
-    //     fullName: "",
-    //     companyName: "",
-    //     emailAddress: "",
-    //     phoneNumber: "",
-    //     subject: "",
-    //     message: "",
-    //   });
-    // } else {
-    //   setErrors(errors);
-    // }
+    if (Object.keys(errors).length === 0) {
+      setLoading(true);
+      await ContactUsAPI(formData).then((res) => {
+        if (res?.stat_msg === 'success') {
+          toast.success("Got it! We've received your query. We'll be in touch shortly.")
+          setLoading(false);
+          window.scroll({
+            top: 0,
+            behavior: "smooth",
+          });
+        } else {
+          toast.error("Something went wrong");
+          setLoading(false);
+          window.scroll({
+            top: 0,
+            behavior: "smooth",
+          });
+        }
+      })
+      setFormData({
+        FullName: '',
+        InQuiryCompanyName: '',
+        EmailId: '',
+        mobileno: '',
+        InQuirySubject: '',
+        Be_In_Message: '',
+        Themeno: '8'
+      });
+    } else {
+      setErrors(errors);
+    }
   };
+
 
   return (
     <div className="forevery_ContactMain">
@@ -89,6 +100,9 @@ export default function ContactUs() {
         setFormData={setFormData}
         handleSubmit={handleSubmit}
         formData={formData}
+        handleChange={handleChange}
+        loading={loading}
+        errors={errors}
       />
       {/* <OurServices /> */}
       {/* <NewsletterSignup /> */}
@@ -110,7 +124,7 @@ const Heading = () => {
     </>
   );
 };
-const FormBox = ({ setFormData, handleSubmit, formData }) => {
+const FormBox = ({ setFormData, handleSubmit, formData, handleChange, loading, errors }) => {
   return (
     <>
       <div className="form_box_forvery">
@@ -178,32 +192,22 @@ const FormBox = ({ setFormData, handleSubmit, formData }) => {
                 <input
                   type="text"
                   id="name"
-                  name="fullName"
-                  required
-                  value={formData?.fullName}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      fullName: e.target.value,
-                    }))
-                  }
+                  name="FullName"
+                  value={formData?.FullName}
+                  onChange={handleChange}
                 />
+                {errors.FullName && <p className='error'>{errors.FullName}</p>}
               </div>
               <div className="box_input">
                 <label htmlFor="email">Email address</label>
                 <input
                   type="email"
                   id="email"
-                  name="emailAddress"
-                  required
-                  value={formData?.emailAddress}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      emailAddress: e.target.value,
-                    }))
-                  }
+                  name="EmailId"
+                  value={formData?.EmailId}
+                  onChange={handleChange}
                 />
+                {errors.EmailId && <p className='error'>{errors.EmailId}</p>}
               </div>
               <div className="box_input">
                 <label htmlFor="phone">Phone</label>
@@ -211,38 +215,33 @@ const FormBox = ({ setFormData, handleSubmit, formData }) => {
                   type="text"
                   id="phone"
                   placeholder="Eg. +32 XX XXX XXXX"
-                  name="phoneNumber"
-                  required
-                  value={formData?.phoneNumber}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      phoneNumber: e.target.value,
-                    }))
-                  }
+                  name="mobileno"
+                  value={formData?.mobileno}
+                  onChange={handleChange}
                 />
+                {errors.mobileno && <p className='error'>{errors.mobileno}</p>}
               </div>
             </div>
             <div className="textarea">
               <label htmlFor="msg">Message</label>
               <textarea
                 id="msg"
-                name="message"
+                name="Be_In_Message"
                 rows={4}
                 cols={50}
-                value={formData?.message}
+                value={formData?.Be_In_Message}
                 maxLength={600}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, message: e.target.value }))
-                }
+                onChange={handleChange}
               ></textarea>
+              {errors.Be_In_Message && <p className='error'>{errors.Be_In_Message}</p>}
             </div>
             <div className="btn_form">
               <button
                 type="submit"
+                disabled={loading === true}
                 className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
               >
-                Send
+                {loading === true ? 'SENDING' : 'SEND'}
               </button>
             </div>
           </form>

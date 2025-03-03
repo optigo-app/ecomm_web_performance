@@ -49,7 +49,7 @@ import { Hoq_CartCount, Hoq_WishCount } from "../../Recoil/atom";
 import { useSetRecoilState } from "recoil";
 import Stockitems from "./InstockProduct/Stockitems";
 import DesignSet from "./DesignSet/DesignSet";
-import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, formatter, formatTitleLine } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { Helmet } from "react-helmet";
 import { SaveLastViewDesign } from "../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign";
 
@@ -1080,10 +1080,12 @@ const ProductPage = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    Navigate(
-      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}?p=${encodeObj}`
-    );
+    // Navigate(
+    //   `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+    //   }${productData?.designno}?p=${encodeObj}`
+    // );
+    Navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
+    
     setSingleProd1({});
     setSingleProd({});
     setIsImageLoad(true);
@@ -1176,18 +1178,21 @@ const ProductPage = () => {
   return (
     <>
       <Helmet>
-        <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? "-" : ""
-          } ${singleProd?.designno ?? ""}`}</title>
+        <title>
+          {formatTitleLine(singleProd?.TitleLine)
+            ? `${singleProd.TitleLine} - ${singleProd?.designno ?? ''}`
+            : ((singleProd?.TitleLine || singleProd?.designno) ? `${singleProd?.designno ?? ''}` : "loading...")}
+        </title>
       </Helmet>
       <div className="hoq_main_Product" style={{ marginBottom: "25px" }}>
-          {ShowMangifier && (
-        <MagnifierSlider
-          product={Product}
-          close={() => setShowMangifier(!ShowMangifier)}
-          list={PdImageArr}
-          currentIndex={currentSlide}
-        />
-      )}
+        {ShowMangifier && (
+          <MagnifierSlider
+            product={Product}
+            close={() => setShowMangifier(!ShowMangifier)}
+            list={PdImageArr}
+            currentIndex={currentSlide}
+          />
+        )}
         <main>
           <div className="images_slider">
             {loadingdata || PdImageLoader ? (
@@ -1282,9 +1287,9 @@ const ProductPage = () => {
                     );
                   })}
                 </div>
-                <div className="main_image" 
-                        onClick={() => setShowMangifier(!ShowMangifier)}
-                        >
+                <div className="main_image"
+                  onClick={() => setShowMangifier(!ShowMangifier)}
+                >
                   {PdImageArr?.length > 1 ? (
                     <>
                       <Slider
@@ -1386,7 +1391,7 @@ const ProductPage = () => {
           </div>
           <div className="product_details">
             <div className="product_info">
-              {singleProd?.TitleLine && <h1> {singleProd?.TitleLine}</h1>}
+              {formatTitleLine(singleProd?.TitleLine) && singleProd?.TitleLine}
               <span
                 className="hoq_single_prod_designno"
                 style={{ marginTop: "5px", fontSize: "1.1rem" }}
@@ -2458,7 +2463,7 @@ const NotFoundProduct = ({ Navigate }) => {
     </div>
   );
 };
-const MagnifierSlider = ({ product, close,list ,currentIndex}) => {
+const MagnifierSlider = ({ product, close, list, currentIndex }) => {
   const swiperRef = useRef(null);
 
   const goNext = () => {
@@ -2472,7 +2477,7 @@ const MagnifierSlider = ({ product, close,list ,currentIndex}) => {
       swiperRef.current.swiper.slidePrev();
     }
   };
-  
+
   return (
     <>
       <div className="MagnifierSlider">
@@ -2488,8 +2493,8 @@ const MagnifierSlider = ({ product, close,list ,currentIndex}) => {
           effect="fade"
         >
           {list?.map((val, i) => {
-            if(val?.type === "video"){
-              return null ;
+            if (val?.type === "video") {
+              return null;
             }
             return (
               <SwiperSlide>

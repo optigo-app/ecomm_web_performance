@@ -84,11 +84,12 @@ const AccountLedger = () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const getLedgerData = async() => {
+    const getLedgerData = async () => {
         setLoaderAC(true)
-        
+
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
         const UserEmail = sessionStorage.getItem("userEmail");
         try {
 
@@ -97,33 +98,32 @@ const AccountLedger = () => {
             setCurrencySymbol(loginInfo?.CurrencyCode);
             setCurrencyRate(loginInfo?.CurrencyRate);
             setCurrencyCode(loginInfo?.CurrencyCode);
+            // setCurrencySymbol(response?.CurrencySymbol);
+            // setCurrencyRate(response?.CurrencyRate);
 
-          if(response?.response2?.Status === '200'){
+            if (response?.response2?.Status === '200') {
 
-              if(response?.response2?.Data?.rd?.length > 0)
-                {
+                if (response?.response2?.Data?.rd?.length > 0) {
 
                     const mainData = response?.response2?.Data?.rd;
 
-                       const formatLedgerData = loginUserDetailWiseAccountLedgerData(mainData, homeCurrency, loginInfo);
+                    const formatLedgerData = loginUserDetailWiseAccountLedgerData(mainData, homeCurrency, loginInfo);
 
-                    // mainData?.sort((a, b) => {
-                    //     const dateA = new Date(a?.EntryDate);
-                    //     const dateB = new Date(b?.EntryDate);
-                    //     return dateA - dateB;
-                    // })
-                    const sortedRows = sortByDate(formatLedgerData, 'EntryDate');
-
-                    setResultArray(sortedRows)
-                    getFormatedArrayData(sortedRows);
-                    setFilterArray(sortedRows)
+                    formatLedgerData?.sort((a, b) => {
+                        const dateA = new Date(a?.EntryDate);
+                        const dateB = new Date(b?.EntryDate);
+                        return dateA - dateB;
+                    })
+                    setResultArray(formatLedgerData)
+                    getFormatedArrayData(formatLedgerData)
+                    setFilterArray(formatLedgerData)
                     setLoaderAC(false)
-                }else{
+                } else {
                     setResultArray(['Data Not Present'])
                     setFilterArray(['Data Not Present'])
                     setLoaderAC(false)
                 }
-          }
+            }
 
         } catch (error) {
             console.log(error);
@@ -965,7 +965,7 @@ const AccountLedger = () => {
                                                 <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? (e?.metalctw === 0 ? '' : e?.metalctw) : ''}</td>
                                                 <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? (e?.diamondctw === 0 ? '' : e?.diamondctw) : ''}</td>
 
-                                                <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}> { e?.IsDebit === 0 && <span dangerouslySetInnerHTML={{__html: currencyCode}}></span>} {e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? '' : formatAmount(e?.Currency)}`  : ''}</td>
+                                                <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}> { e?.IsDebit === 0 && <span dangerouslySetInnerHTML={{ __html: currencyCode }}></span>} {e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? ' 0.00' : formatAmount(e?.Currency)}` : ''}</td>
             
                                                 {/* <td className=' p_1_acc text_center_acc'>{doneIcon}{closeIcon}</td> */}
                                                 <td className=' p_1_acc text_center_acc'>{e?.IsDebit === 0 && icon}</td>

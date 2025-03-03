@@ -104,7 +104,6 @@ const Lookbook = () => {
   const handleImageError = (index) => {
     setImageLoadError((prev) => ({ ...prev, [index]: true }));
   };
-  console.log('asdhashdjkhhasd', DynamicSize)
 
   const updateSize = () => {
     if (SwiperSlideRef.current) {
@@ -688,7 +687,6 @@ const Lookbook = () => {
       top: 0
     })
   };
-  console.log(filteredDesignSetLstData, "filteredDesignSetLstData")
 
   return (
     <div className="smr_LookBookMain">

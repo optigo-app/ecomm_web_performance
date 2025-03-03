@@ -18,8 +18,8 @@ import { RxCross1 } from "react-icons/rx";
 import Rating from '@mui/material/Rating';
 import { IoClose } from "react-icons/io5";
 import Stack from '@mui/material/Stack';
-import { Box, Checkbox, Divider, Drawer, FormControl, FormControlLabel, Input, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, PaginationItem, Select, Slider, colors, useMediaQuery } from "@mui/material";
-import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { Box, Checkbox, Divider, Drawer, FormControl, FormControlLabel, Input, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, PaginationItem, Select, Slider, Tooltip, colors, useMediaQuery } from "@mui/material";
+import { formatRedirectTitleLine, formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
@@ -66,31 +66,31 @@ const ProductList = () => {
       id: 2,
       title: 'Diamond Rings',
       image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond_Rings.svg`,
-      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/Ring/?M=${btoa(dynamicParams('Ring','category'))}`,
+      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/Ring/?M=${btoa(dynamicParams('Ring', 'category'))}`,
     },
     {
       id: 3,
       title: 'Diamond Earings',
       image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond_Studs.svg`,
-      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/EARRING/?M=${btoa(dynamicParams('EARRING','category'))}`,
+      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/EARRING/?M=${btoa(dynamicParams('EARRING', 'category'))}`,
     },
     {
       id: 4,
       title: 'Diamond Braceletes',
       image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond-bracelets.svg`,
-      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/Bracelet/?M=${btoa(dynamicParams('Bracelet','category'))}`,
+      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/Bracelet/?M=${btoa(dynamicParams('Bracelet', 'category'))}`,
     },
     {
       id: 5,
       title: 'Diamond Necklaces',
       image: `${storImagePath()}/images/ProductListing/CategoryImages/diamond-necklaces.svg`,
-      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/Necklace/?M=${btoa(dynamicParams('Necklace','category'))}`,
+      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/Necklace/?M=${btoa(dynamicParams('Necklace', 'category'))}`,
     },
     {
       id: 6,
       title: 'Diamond Pendants',
       image: `${storImagePath()}/images/ProductListing/CategoryImages/pendant.png`,
-      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/Pendant/?M=${btoa(dynamicParams('Pendant','category'))}`,
+      urlLink: `${location?.pathname?.split('/').slice(0, 4).join('/')}/Pendant/?M=${btoa(dynamicParams('Pendant', 'category'))}`,
     },
     {
       id: 7,
@@ -136,6 +136,8 @@ const ProductList = () => {
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
   const [locationKey, setLocationKey] = useState();
   const getEncodeData = atob(location?.search?.slice(3));
+  const [metalColorCombo, setMetalColorCombo] = useState([]);
+  const [metalColorTitle, setMetalColorTitle] = useState();
   const [collectionName, setCollectionName] = useState(getEncodeData.split('/')?.[0]);
 
   const [priceRangeValue, setPriceRangeValue] = useState([]);
@@ -270,6 +272,9 @@ const ProductList = () => {
 
     let metalTypeDrpdown = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     setMetaltype(metalTypeDrpdown);
+
+    let metalColorCombo = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
+    setMetalColorCombo(metalColorCombo);
 
     let diamondTypeDrpdown = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
     setDiamondType(diamondTypeDrpdown);
@@ -567,13 +572,13 @@ const ProductList = () => {
       try {
         let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
         let UrlVal = location?.search?.slice(1).split("/");
-  
+
         let MenuVal = "";
         let SearchVar = '';
         let AlbumVar = '';
         let BestSellerVar = "";
         let productlisttype;
-  
+
         UrlVal.forEach((ele) => {
           let firstChar = ele.charAt(0);
           switch (firstChar) {
@@ -593,7 +598,7 @@ const ProductList = () => {
               return "";
           }
         });
-  
+
         if (MenuVal.length > 0) {
           let menuDecode = atob(MenuVal?.split("=")[1]);
           let key = menuDecode?.split("/")[1].split(",");
@@ -601,7 +606,7 @@ const ProductList = () => {
           setIsBreadcumShow(true);
           productlisttype = [key, val];
         }
-  
+
         if (SearchVar) {
           productlisttype = SearchVar;
         }
@@ -614,28 +619,28 @@ const ProductList = () => {
         setprodListType(productlisttype);
         setIsProdLoading(true);
         setIsOnlyProdLoading(true);
-  
+
         const res = await ProductListApi({}, 1, obj, productlisttype, cookie, "");
         const res1 = await FilterListAPI(productlisttype, cookie);
-  
+
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
-  
+
           const highestPrice = res?.pdList?.reduce((max, item) => {
             return Math.max(max, item?.UnitCostWithMarkUpIncTax);
           }, 0);
           setHighestPrice(highestPrice);
-  
+
           const lowestPrice = res?.pdList?.reduce((min, item) => {
             const value = item?.UnitCostWithMarkUpIncTax;
             return value > 0 ? Math.min(min, value) : min;
           }, Infinity);
           setLowestPrice(lowestPrice);
-  
+
           setPriceRangeValue([lowestPrice, highestPrice]);
         }
-  
+
         if (res1) {
           setFilterData(res1);
         }
@@ -646,15 +651,15 @@ const ProductList = () => {
         setIsProdLoading(false);
       }
     };
-  
+
     fetchData();
-  
+
     if (location?.key) {
       setLocationKey(location?.key);
     }
     setCurrPage(1);
   }, [location?.key]);
-  
+
 
   const handleBreadcums = (mparams) => {
 
@@ -1032,10 +1037,11 @@ const ProductList = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    navigate(
-      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}/?p=${encodeObj}`
-    );
+    // navigate(
+    //   `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+    //   }${productData?.designno}/?p=${encodeObj}`
+    // );
+    navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
   };
 
   return (
@@ -1437,6 +1443,7 @@ const ProductList = () => {
                       selectedMetalId={selectedMetalId}
                       metalType={metalType}
                       location={location}
+                      metalColorCombo={metalColorCombo}
                     />
                   )
                 })
@@ -1851,15 +1858,25 @@ const Product_Card = ({
   whiteRollImage,
   roseRollImage,
   location,
+  metalColorCombo
 }) => {
-
   const [isHover, setIsHover] = useState(false);
   const [imageColor, setImageColor] = useRecoilState(for_MetalColor_Image);
   const getSessImgColor = JSON.parse(sessionStorage.getItem('imgColorCode'));
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
+  const [metalColorTitle, setMetalColorTitle] = useState();
   const getSessCartWishImgColor = JSON?.parse(sessionStorage.getItem('cartWishImgColor')) ?? undefined;
 
   const activeColorCode = getSessImgColor || getSessCartWishImgColor;
+
+  useEffect(() => {
+    if (metalColorCombo?.length > 0) {
+      const mtColor = metalColorCombo?.find(ele => ele.id === productData?.MetalColorid)?.colorcode;
+      setMetalColorTitle(mtColor);
+    }
+  }, [productData])
+
+  const titleLine = `${productData?.MetalTypePurity?.split(" ")[1]} ${metalColorTitle} ${productData?.MetalTypePurity?.split(" ")[0]} ${productData?.ShapeName} Diamond ${productData?.category} with ${productData?.style} style`;
 
   const videoRefs = useRef([]);
 
@@ -1871,6 +1888,7 @@ const Product_Card = ({
       setSelectedMetalColor(null);
     }
   }, [location?.search])
+
 
   useEffect(() => {
     if (selectedMetalColor !== null) {
@@ -1951,42 +1969,44 @@ const Product_Card = ({
             {productData?.IsTrending == 1 && <span className="forWeb_app_intrending">Trending</span>}
             {productData?.IsNewArrival == 1 && <span className="forWeb_app_newarrival">New</span>}
           </div>
-          <div className="for_productList_listing_card_image_div"
-            // onMouseOver={() => setIsHover(true)}
-            // onMouseOut={() => setIsHover(false)}
-            onMouseEnter={() => handleMouseEnter(index)}
-            onMouseLeave={handleMouseLeave}
-            onClick={() => handleMoveToDetail(productData, selectedMetalColor)}
-          >
-            {isHover && (videoUrl !== undefined || RollImageUrl !== undefined) ? (
-              <>
-                {videoUrl !== undefined ? (
-                  <div className="for_rollup_video">
-                    <video src={videoUrl} muted loop ref={(el) => (videoRefs.current[index] = el)}
-                      onError={(e) => e.target.poster = noImageFound}
-                    />
-                  </div>
-                ) : null}
+          <abbr title={titleLine} style={{ cursor: "default" }}>
+            <div className="for_productList_listing_card_image_div"
+              // onMouseOver={() => setIsHover(true)}
+              // onMouseOut={() => setIsHover(false)}
+              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseLeave={handleMouseLeave}
+              onClick={() => handleMoveToDetail(productData, selectedMetalColor)}
+            >
+              {isHover && (videoUrl !== undefined || RollImageUrl !== undefined) ? (
+                <>
+                  {videoUrl !== undefined ? (
+                    <div className="for_rollup_video">
+                      <video src={videoUrl} muted loop ref={(el) => (videoRefs.current[index] = el)}
+                        onError={(e) => e.target.poster = noImageFound}
+                      />
+                    </div>
+                  ) : null}
 
-                {videoUrl === undefined && RollImageUrl !== undefined ? (
-                  <div className="for_rollup_img">
-                    <img src={selectedMetalColor === 1 ? yellowRollImage : selectedMetalColor === 2 ? whiteRollImage : selectedMetalColor === 3 ? roseRollImage : RollImageUrl}
-                      onError={(e) => e.target.src = noImageFound}
-                    />
-                  </div>
-                ) : null}
-              </>
-            ) : null}
-            <img
-              className="for_productList_listing_card_image"
-              src={selectedMetalColor === 1 ? yellowImage : selectedMetalColor === 2 ? whiteImage : selectedMetalColor === 3 ? roseImage : imageUrl}
-              onError={(e) => {
-                e.target.onerror = null;
-                e.stopPropagation();
-                e.target.src = noImageFound
-              }}
-            />
-          </div>
+                  {videoUrl === undefined && RollImageUrl !== undefined ? (
+                    <div className="for_rollup_img">
+                      <img src={selectedMetalColor === 1 ? yellowRollImage : selectedMetalColor === 2 ? whiteRollImage : selectedMetalColor === 3 ? roseRollImage : RollImageUrl}
+                        onError={(e) => e.target.src = noImageFound}
+                      />
+                    </div>
+                  ) : null}
+                </>
+              ) : null}
+              <img
+                className="for_productList_listing_card_image"
+                src={selectedMetalColor === 1 ? yellowImage : selectedMetalColor === 2 ? whiteImage : selectedMetalColor === 3 ? roseImage : imageUrl}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.stopPropagation();
+                  e.target.src = noImageFound
+                }}
+              />
+            </div>
+          </abbr>
           {/* <div className="for_productList_metaltype_div">
             {metalColorType?.map((item) => (
               <div
@@ -2042,7 +2062,15 @@ const Product_Card = ({
             </div>
           </div> */}
           <div className="for_productList_desc_title">
-            <span className="for_listing_desc_span">{productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}</span>
+            {/* <span className="for_listing_desc_span">{productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}</span> */}
+            <span className="for_listing_desc_span">
+              {productData?.designno}
+              {productData?.designno && " - "}
+              {productData?.designno && (
+                titleLine
+              )}
+            </span>
+
           </div>
           <div className="for_productList_desc_div">
             <div className="">

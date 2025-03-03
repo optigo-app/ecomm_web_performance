@@ -9,8 +9,8 @@ import noImageFound from '../../../Assets/image-not-found.jpg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import { useNavigate, useLocation } from "react-router-dom";
-import { Checkbox, Drawer, FormControl, FormControlLabel, MenuItem, Pagination, PaginationItem, Rating, Select, Skeleton, Slider, styled, useMediaQuery } from "@mui/material";
-import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { Checkbox, Drawer, FormControl, FormControlLabel, ListItemButton, MenuItem, Pagination, PaginationItem, Rating, Select, Skeleton, Slider, styled, useMediaQuery } from "@mui/material";
+import { formatRedirectTitleLine, formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
 import { DiamondQualityColorComboAPI } from '../../../../../../utils/API/Combo/DiamondQualityColorComboAPI';
 import { FaAngleDown } from 'react-icons/fa6';
@@ -57,6 +57,7 @@ const SettingPage = () => {
   const [lowestPrice, setLowestPrice] = useState();
   const [showModal1, setShowModal1] = useState(false);
   const [isRing, setIsRing] = useState(false);
+  const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [trend, setTrend] = useState('Recommended');
   const [selectShape, setSelectShape] = useState();
@@ -126,9 +127,9 @@ const SettingPage = () => {
 
   useEffect(() => {
     const getSettingDiaShape = ShapeFlowUrl?.split('/')[4] ?? "";
-    const getSettingDiaRingShape = shapeRingFlowUrl?.split('/')[4]?? "";
-    const getSettingDiaPenShape = shapePendantFlowUrl?.split('/')[4]?? "";
-    const getSettingDiaEarrShape = shapeEarringFlowUrl?.split('/')[4]?? "";
+    const getSettingDiaRingShape = shapeRingFlowUrl?.split('/')[4] ?? "";
+    const getSettingDiaPenShape = shapePendantFlowUrl?.split('/')[4] ?? "";
+    const getSettingDiaEarrShape = shapeEarringFlowUrl?.split('/')[4] ?? "";
 
     if (getSettingDiaShape) {
       if (
@@ -147,14 +148,14 @@ const SettingPage = () => {
     if (getSettingDiaPenShape) {
       if (
         (getUrlDiaShape?.split('=')[0] === "diamond_shape") &&
-        (getSettingDiaRingShape?.split('=')[1]?.toLowerCase() !== getUrlDiaShape?.split('=')[1]?.toLowerCase())) {
+        (getSettingDiaPenShape?.split('=')[1]?.toLowerCase() !== getUrlDiaShape?.split('=')[1]?.toLowerCase())) {
         navigate(shapePendantFlowUrl);
       }
     }
     if (getSettingDiaEarrShape) {
       if (
         (getUrlDiaShape?.split('=')[0] === "diamond_shape") &&
-        (getSettingDiaRingShape?.split('=')[1]?.toLowerCase() !== getUrlDiaShape?.split('=')[1]?.toLowerCase())) {
+        (getSettingDiaEarrShape?.split('=')[1]?.toLowerCase() !== getUrlDiaShape?.split('=')[1]?.toLowerCase())) {
         navigate(shapeEarringFlowUrl);
       }
     }
@@ -521,7 +522,7 @@ const SettingPage = () => {
             sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
           }
         } else if ((stepsData2 !== null || stepsData3 !== null || stepsData4 !== null) && steps1?.[0]?.step1) {
-          if (steps1?.[0]?.step1 && steps1?.[1]?.step2) {
+          if (steps1?.[0]?.step1 || steps1?.[1]?.step2) {
             steps1[0].Status = "active";
             sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(steps1));
 
@@ -551,7 +552,7 @@ const SettingPage = () => {
             sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
           }
         } else if ((stepsData2 !== null || stepsData3 !== null || stepsData4 !== null) && steps2?.[0]?.step1) {
-          if (steps2?.[0]?.step1 && steps2?.[1]?.step2) {
+          if (steps2?.[0]?.step1 || steps2?.[1]?.step2) {
             steps2[0].Status = "active";
             sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
 
@@ -581,7 +582,7 @@ const SettingPage = () => {
             sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(steps2));
           }
         } else if ((stepsData2 !== null || stepsData3 !== null || stepsData4 !== null) && steps3?.[0]?.step1) {
-          if (steps3?.[0]?.step1 && steps3?.[1]?.step2) {
+          if (steps3?.[0]?.step1 || steps3?.[1]?.step2) {
             steps3[0].Status = "active";
             sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(steps3));
 
@@ -915,6 +916,9 @@ const SettingPage = () => {
     let metalTypeDrpdown = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     setMetaltype(metalTypeDrpdown);
 
+    let metalColorCombo = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
+    setMetalColorCombo(metalColorCombo);
+
     let diamondTypeDrpdown = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
     setDiamondType(diamondTypeDrpdown);
 
@@ -982,10 +986,11 @@ const SettingPage = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    navigate(
-      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}/${pValue.menuname.split(' ').join('_')}/?p=${encodeObj}`
-    );
+    // navigate(
+    //   `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+    //   }${productData?.designno}/${pValue.menuname.split(' ').join('_')}/?p=${encodeObj}`
+    // );
+    navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}/${pValue.menuname.split(' ').join('_')}/?p=${encodeObj}`);
 
   };
 
@@ -1327,6 +1332,7 @@ const SettingPage = () => {
                     metalType={metalType}
                     getBannerImage={getBannerImage}
                     location={location}
+                    metalColorCombo={metalColorCombo}
                   />
                 )
               })
@@ -1740,13 +1746,24 @@ const Product_Card = ({
   whiteImage,
   roseImage,
   location,
+  metalColorCombo,
 }) => {
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
   const [imageColor, setImageColor] = useRecoilState(for_MetalColor_Image);
   const getSessImgColor = JSON.parse(sessionStorage.getItem('imgColorCode'));
+  const [metalColorTitle, setMetalColorTitle] = useState();
   const getSessCartWishImgColor = JSON.parse(sessionStorage.getItem('cartWishImgColor'));
 
   const activeColorCode = getSessImgColor || getSessCartWishImgColor;
+
+  useEffect(() => {
+    if (metalColorCombo?.length > 0) {
+      const mtColor = metalColorCombo?.find(ele => ele.id === productData?.MetalColorid)?.colorcode;
+      setMetalColorTitle(mtColor);
+    }
+  }, [productData])
+
+  const titleLine = `${productData?.MetalTypePurity?.split(" ")[1]} ${metalColorTitle} ${productData?.MetalTypePurity?.split(" ")[0]} ${productData?.ShapeName} Diamond ${productData?.category} with ${productData?.style} style`;
 
   useEffect(() => {
     if ((activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null)) {
@@ -1811,21 +1828,23 @@ const Product_Card = ({
             {productData?.IsTrending == 1 && <span className="forWeb_app_intrending">Trending</span>}
             {productData?.IsNewArrival == 1 && <span className="forWeb_app_newarrival">New</span>}
           </div>
-          <div className="for_settingList_listing_card_image_div"
-            onClick={() => handleMoveToDetail(productData, selectedMetalColor)}
-          >
-            <img
-              className="for_settingList_listing_card_image"
-              loading="lazy"
-              src={selectedMetalColor === 1 ? yellowImage : selectedMetalColor === 2 ? whiteImage : selectedMetalColor === 3 ? roseImage : imageUrl}
-              onError={(e) => {
-                e.target.onerror = null;
-                e.stopPropagation();
-                e.target.src = noImageFound;
-              }}
-              alt="Product"
-            />
-          </div>
+          <abbr title={titleLine} style={{ cursor: "default" }}>
+            <div className="for_settingList_listing_card_image_div"
+              onClick={() => handleMoveToDetail(productData, selectedMetalColor)}
+            >
+              <img
+                className="for_settingList_listing_card_image"
+                loading="lazy"
+                src={selectedMetalColor === 1 ? yellowImage : selectedMetalColor === 2 ? whiteImage : selectedMetalColor === 3 ? roseImage : imageUrl}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.stopPropagation();
+                  e.target.src = noImageFound;
+                }}
+                alt="Product"
+              />
+            </div>
+          </abbr>
           {/* <div className="for_settingList_metaltype_div">
             {metalColorType?.map((item) => (
               <div
@@ -1853,7 +1872,14 @@ const Product_Card = ({
             ))}
           </div>
           <div className="for_settingList_desc_title">
-            <span className="for_listing_desc_span">{productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}</span>
+            {/* <span className="for_listing_desc_span">{productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}</span> */}
+            <span className="for_listing_desc_span">
+              {productData?.designno}
+              {productData?.designno && " - "}
+              {productData?.designno && (
+                titleLine
+              )}
+            </span>
           </div>
           <div className="for_settingList_desc_div">
             <div>

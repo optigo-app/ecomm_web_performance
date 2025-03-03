@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import Cookies from "js-cookie";
 import { DiamondListData } from '../../API/DiamondStore/DiamondList';
 import { for_MatchDiamonds, for_filterDiamond } from '../../../AllTheme/Forevery/Components/Recoil/atom';
+import { formatRedirectTitleLine } from '../GlobalFunction';
 
 const Usewishlist = () => {
   const navigate = useNavigate();
@@ -327,7 +328,8 @@ const Usewishlist = () => {
       }
       compressAndEncode(JSON.stringify(obj))
       let encodeObj = compressAndEncode(JSON.stringify(obj))
-      navigate(`/d/${wishtData?.TitleLine?.replace(/\s+/g, `_`)}${wishtData?.TitleLine?.length > 0 ? "_" : ""}${wishtData?.designno}?p=${encodeObj}`)
+      // navigate(`/d/${?.replace(/\s+/g, `_`)}${wishtData?.TitleLine?.length > 0 ? "_" : ""}${}?p=${encodeObj}`)
+      navigate(`/d/${formatRedirectTitleLine(wishtData?.TitleLine)}${wishtData?.designno}?p=${encodeObj}`);
     }
   }
 

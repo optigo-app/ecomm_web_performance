@@ -133,7 +133,7 @@ const ProductGrid = () => {
                                         />
                                     </div>
                                     <div className="product-info">
-                                        <h3>{data?.TitleLine != "" && data?.TitleLine + " - "}{data?.designno}</h3>
+                                        <h3>{data?.designno !== "" && data?.designno} {(data?.TitleLine && data?.TitleLine.toLowerCase() != "null") && " - " + data?.TitleLine}</h3>
                                         {storeInit?.IsGrossWeight == 1 &&
                                             <>
                                                 <span className='mala_btdetailDT'>GWT: </span>
@@ -142,7 +142,7 @@ const ProductGrid = () => {
                                         }
                                         {Number(data?.Nwt) !== 0 && (
                                             <>
-                                            <span className='mala_btpipe'>|</span>
+                                                <span className='mala_btpipe'>|</span>
                                                 <span className='mala_btdetailDT'>NWT : </span>
                                                 <span className='mala_btdetailDT'>{(data?.Nwt || 0)?.toFixed(3)}</span>
                                             </>

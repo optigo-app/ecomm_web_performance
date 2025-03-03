@@ -1534,10 +1534,24 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const createYesUrl = `/certified-loose-lab-grown-diamonds/diamond/`;
 
   const handleNoConfirm = () => {
-    const getRingSteps = [...steps1];
-    sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(getRingSteps));
-    setShowModal(false);
-    Navigate(`/certified-loose-lab-grown-diamonds/diamond/${getRingSteps?.[1]?.shape}`);
+    if (steps1?.[0]?.Status === 'active') {
+      const getRingSteps = [...steps1];
+      sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(getRingSteps));
+      setShowModal(false);
+      Navigate(`/certified-loose-lab-grown-diamonds/diamond/${getRingSteps?.[1]?.shape}`);
+    }
+    if (steps2?.[0]?.Status === 'active') {
+      const getPendantSteps = [...steps2];
+      sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(getPendantSteps));
+      setShowModal(false);
+      Navigate(`/certified-loose-lab-grown-diamonds/diamond/${getPendantSteps?.[1]?.shape}`);
+    }
+    if (steps3?.[0]?.Status === 'active') {
+      const getEarringSteps = [...steps3];
+      sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(getEarringSteps));
+      setShowModal(false);
+      Navigate(`/certified-loose-lab-grown-diamonds/diamond/${getEarringSteps?.[1]?.shape}`);
+    }
   };
 
   const handleToggle = () => {
@@ -1583,6 +1597,8 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         sessionStorage.setItem('isRing', true)
         sessionStorage.removeItem('isPair')
         sessionStorage.removeItem('isPendant')
+        sessionStorage.removeItem('customizeSteps')
+        sessionStorage.removeItem("custStepData");
         window.location.href = "/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ=="
       }
       // } else if (value === "Diamond Pendant" && steps2?.[2]?.step3 === true) {
@@ -1594,6 +1610,8 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         sessionStorage.setItem('isPendant', true)
         sessionStorage.removeItem('isPair')
         sessionStorage.removeItem('isRing')
+        sessionStorage.removeItem('customizeSteps')
+        sessionStorage.removeItem("custStepData");
         window.location.href = "/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ=="
       }
     } else if (value === "Diamond Earrings") {
@@ -1604,6 +1622,8 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         sessionStorage.setItem('isPair', true)
         sessionStorage.removeItem('isPendant')
         sessionStorage.removeItem('isRing')
+        sessionStorage.removeItem('customizeSteps')
+        sessionStorage.removeItem("custStepData");
         window.location.href = "/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ=="
       }
     }
@@ -1631,6 +1651,13 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
           Navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ==`);
         } else {
           Navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UGVuZGFudC9jYXRlZ29yeQ==`);
+        }
+      }
+      if (value === "Diamond Earring" && steps3?.[2]?.step3 !== true) {
+        if (!steps3) {
+          Navigate(`/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ==`);
+        } else {
+          Navigate(`/certified-loose-lab-grown-diamonds/settings/Earring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=RWFycmluZy9jYXRlZ29yeQ==`);
         }
       }
     };
@@ -1734,6 +1761,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         const getShape = steps1?.[1]?.shape ?? steps2?.[1]?.shape ?? steps3?.[1]?.shape;
         if (getShape !== shape) {
           setShowModal1(true);
+          setShape(shape);
         } else {
           handleNoConfirm();
         }
@@ -1773,18 +1801,21 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
     } else if (index === 1) {
       const addCategory = `Ring/category`;
       const filterKeyVal = btoa(addCategory);
+      sessionStorage.setItem('isRing', true);
       Navigate(
         `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
       );
     } else if (index === 2) {
       const addCategory = `Pendant/category`;
       const filterKeyVal = btoa(addCategory);
+      sessionStorage.setItem('isPendant', true);
       Navigate(
         `/certified-loose-lab-grown-diamonds/settings/Pendant/M=${filterKeyVal}`
       );
     } else {
       const addCategory = `Earring/category`;
       const filterKeyVal = btoa(addCategory);
+      sessionStorage.setItem('isPair', true);
       Navigate(
         `/certified-loose-lab-grown-diamonds/settings/Earring/M=${filterKeyVal}`
       );
@@ -1888,6 +1919,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         handleClose={handleToggle1}
         handleRemoveData={handleRemoveData}
         index={checkIndex}
+        shape={shape}
       />
     </div>
   );
@@ -2311,7 +2343,7 @@ const Modal = ({ open, handleConfirm, handleClose, handleRemoveData, index }) =>
 };
 
 
-const CheckingDiaSetModal = ({ open, link1, handleNoConfirm, handleClose, handleRemoveData, index }) => {
+const CheckingDiaSetModal = ({ open, link1, handleNoConfirm, handleClose, handleRemoveData, index, shape }) => {
   const navigate = useNavigate();
 
   const handleYesConfirm = () => {
@@ -2324,7 +2356,7 @@ const CheckingDiaSetModal = ({ open, link1, handleNoConfirm, handleClose, handle
     handleClose();
     const step = [{ step1: true, shape: "All" }]
     sessionStorage.setItem('customizeSteps', JSON.stringify(step));
-    window.location.href = link1;
+    window.location.href = `${link1}${shape}`;
   }
 
   return (

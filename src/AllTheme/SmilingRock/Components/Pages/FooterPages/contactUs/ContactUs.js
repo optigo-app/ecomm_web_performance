@@ -4,9 +4,10 @@ import { toast } from 'react-toastify'
 import Footer from '../../Home/Footer/Footer';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import 'react-toastify/dist/ReactToastify.css';
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { getDomainName, storImagePath, wesbiteDomainName } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { BespokeAPI } from '../../../../../../utils/API/Bespoke/BespokeAPI';
 import ContactUs2 from './new/Contact';
+import { ContactUsAPI } from '../../../../../../utils/API/ContactUs/ContactUsAPI';
 
 export default function ContactUs() {
     const [activeTab, setActiveTab] = useState('M1');
@@ -16,6 +17,8 @@ export default function ContactUs() {
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
+
+    console.log('constwesbiteDomainName: ', wesbiteDomainName);
 
     useEffect(() => {
         window.scrollTo({
@@ -44,7 +47,8 @@ export default function ContactUs() {
         mobileno: '',
         InQuirySubject: '',
         Be_In_Message: '',
-        Themeno: '11'
+        Themeno: '1',
+        domainname: wesbiteDomainName
     });
 
     const [errors, setErrors] = useState({});
@@ -90,7 +94,7 @@ export default function ContactUs() {
         if (Object.keys(errors).length === 0) {
             console.log('formData: ', formData);
             setLoading(true);
-            await BespokeAPI(formData).then((res) => {
+            await ContactUsAPI(formData).then((res) => {
                 if (res?.stat_msg === 'success') {
                     toast.success("Got it! We've received your query. We'll be in touch shortly.")
                     setLoading(false);
@@ -114,13 +118,14 @@ export default function ContactUs() {
                 mobileno: '',
                 InQuirySubject: '',
                 Be_In_Message: '',
-                Themeno: '11'
+                Themeno: '1',
+                domainname: wesbiteDomainName
             });
         } else {
             setErrors(errors);
         }
     };
-// return (<><ContactUs2/></>)
+    // return (<><ContactUs2/></>)
 
     return (
         <div className='smr_contactMain_div' >

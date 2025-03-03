@@ -216,6 +216,10 @@ const DiamondFilter = () => {
   const ringFlowUrl = JSON.parse(sessionStorage.getItem("ringFlowUrl"));
   const PendantFlowUrl = JSON.parse(sessionStorage.getItem("PendantFlowUrl"));
   const EarringFlowUrl = JSON.parse(sessionStorage.getItem("EarringFlowUrl"));
+  
+  const isRing = JSON?.parse(sessionStorage.getItem('isRing')) ?? "";
+  const isPendant = JSON?.parse(sessionStorage.getItem('isPendant')) ?? "";
+  const isEarring = JSON?.parse(sessionStorage.getItem('isPair')) ?? "";
 
   useEffect(() => {
     if (location?.pathname) {
@@ -227,16 +231,17 @@ const DiamondFilter = () => {
   }, [location?.pathname]);
 
   const getShapeFromURL = () => {
-    const getShape = location?.pathname?.split("/")[3] ?? '';
+    const getShape = location?.pathname?.split("/")[3] ?? "";
     const getPath = location?.pathname?.split("/")?.slice(1, 3);
     const mergePath = getPath.join("/");
-    if (mergePath == "certified-loose-lab-grown-diamonds/diamond") {
+  
+    if (mergePath === "certified-loose-lab-grown-diamonds/diamond") {
       if (
         stepsData === null &&
         stepsData2 === null &&
         stepsData3 === null &&
         stepsData4 === null &&
-        (steps?.[0]?.step1 == true || steps?.[0]?.step1 != true)
+        (steps?.[0]?.step1 === true || steps?.[0]?.step1 !== true)
       ) {
         if (getShape) {
           setCustomizeStep({
@@ -244,37 +249,41 @@ const DiamondFilter = () => {
             step2: false,
             step3: false,
           });
-
+  
           const step1 = [{ step1: true, shape: getShape ?? "" }];
           sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
-
-        } else if (!getShape) {
+        } else {
           const step1 = [{ step1: true, shape: "All" }];
           sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
         }
       } else if (
-        stepsData != null &&
-        (steps?.[0]?.step1 == true || steps?.[0]?.step1 != true)
+        stepsData !== null &&
+        (steps?.[0]?.step1 === true || steps?.[0]?.step1 !== true)
       ) {
         if (getShape) {
           const updatedStep1 = steps?.map((step) => {
             if (step.step1 !== undefined) {
-              return { step1: true, shape: (getShape ?? "All") };
+              return { step1: true, shape: getShape ?? "All" };
             }
             return step;
           });
-
+  
           if (!updatedStep1?.some((step) => step.step1 !== undefined)) {
-            updatedStep1?.push({ step1: true, shape: (getShape ?? "All") });
+            updatedStep1?.push({ step1: true, shape: getShape ?? "All" });
           }
-          sessionStorage.setItem(
-            "customizeSteps",
-            JSON.stringify(updatedStep1)
-          );
+          sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
+        }
+      } else if ((steps?.[0]?.step1 !== true && isRing === true && stepsData2 === null) || (steps?.[0]?.step1 !== true && isPendant === true && stepsData3 === null) || (steps?.[0]?.step1 !== true && isEarring === true && stepsData4 === null)) {
+        if (getShape) {
+          const step1 = [{ step1: true, shape: getShape ?? "" }];
+          sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+        } else {
+          const step1 = [{ step1: true, shape: "All" }];
+          sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
         }
       }
     }
-  };
+  };  
 
 
   useEffect(() => {
@@ -1561,74 +1570,76 @@ const DiamondFilter = () => {
                     const bannerImage = getBannerImage(i);
                     return (
                       <div key={i} className="diamond_card">
-                        <div className="media_frame">
-                          {val?.isBanner == true ? (
-                            <img
-                              src={val?.img}
-                              alt="bannerImage"
-                              width={"100%"}
-                              loading="lazy"
-                            />
-                          ) : (
-                            <>
-                              {currentMediaType === "vid" ? (
-                                <>
-                                  {val?.vid?.endsWith(".mp4") ? (
-                                    <video
-                                      src={val?.vid}
-                                      width="100%"
-                                      ref={(el) => (videoRefs.current[i] = el)}
-                                      autoPlay={hoveredCard === i}
-                                      controls={false}
-                                      playsInline
-                                      muted
-                                      onMouseOver={(e) => handleMouseMove(e, i)}
-                                      onMouseLeave={(e) =>
-                                        handleMouseLeave(e, i)
-                                      }
-                                      loading="lazy"
-                                      onClick={() => HandleDiamondRoute(val)}
-                                    />
-                                  ) : val?.image_file_url !== "" ? (
-                                    <img
-                                      className="dimond-info-img"
-                                      src={val?.image_file_url}
-                                      alt=""
-                                      onClick={() => HandleDiamondRoute(val)}
-                                      loading="lazy"
-                                    />
-                                  ) : (
-                                    <>
-                                      <img
-                                        // src={val?.img}
-                                        src={fallbackImg}
-                                        alt="bannerImage"
-                                        width={"100%"}
+                        <abbr style={{ cursor: "default" }} title={`${val?.shapename} ${val?.carat?.toFixed(3)} CARAT ${val?.colorname} ${val?.clarityname} ${val?.cutname}`}>
+                          <div className="media_frame">
+                            {val?.isBanner == true ? (
+                              <img
+                                src={val?.img}
+                                alt="bannerImage"
+                                width={"100%"}
+                                loading="lazy"
+                              />
+                            ) : (
+                              <>
+                                {currentMediaType === "vid" ? (
+                                  <>
+                                    {val?.vid?.endsWith(".mp4") ? (
+                                      <video
+                                        src={val?.vid}
+                                        width="100%"
+                                        ref={(el) => (videoRefs.current[i] = el)}
+                                        autoPlay={hoveredCard === i}
+                                        controls={false}
+                                        playsInline
+                                        muted
+                                        onMouseOver={(e) => handleMouseMove(e, i)}
+                                        onMouseLeave={(e) =>
+                                          handleMouseLeave(e, i)
+                                        }
                                         loading="lazy"
                                         onClick={() => HandleDiamondRoute(val)}
                                       />
-                                    </>
-                                  )}
-                                </>
-                              ) : (
-                                <img
-                                  className="dimond-info-img"
-                                  loading="lazy"
-                                  src={val?.img}
-                                  alt=""
-                                  onClick={() => HandleDiamondRoute(val)}
-                                />
-                              )}
-                            </>
-                          )}
-                          {!val?.isBanner == true && (
-                            <>
-                              <div className="select_this_diamond_banner" onClick={() => HandleDiamondRoute(val)}>
-                                <span>Select This Diamond</span>
-                              </div>
-                            </>
-                          )}
-                        </div>
+                                    ) : val?.image_file_url !== "" ? (
+                                      <img
+                                        className="dimond-info-img"
+                                        src={val?.image_file_url}
+                                        alt=""
+                                        onClick={() => HandleDiamondRoute(val)}
+                                        loading="lazy"
+                                      />
+                                    ) : (
+                                      <>
+                                        <img
+                                          // src={val?.img}
+                                          src={fallbackImg}
+                                          alt="bannerImage"
+                                          width={"100%"}
+                                          loading="lazy"
+                                          onClick={() => HandleDiamondRoute(val)}
+                                        />
+                                      </>
+                                    )}
+                                  </>
+                                ) : (
+                                  <img
+                                    className="dimond-info-img"
+                                    loading="lazy"
+                                    src={val?.img}
+                                    alt=""
+                                    onClick={() => HandleDiamondRoute(val)}
+                                  />
+                                )}
+                              </>
+                            )}
+                            {!val?.isBanner == true && (
+                              <>
+                                <div className="select_this_diamond_banner" onClick={() => HandleDiamondRoute(val)}>
+                                  <span>Select This Diamond</span>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </abbr>
                         {!val?.isBanner == true && (
                           <>
                             <div className="toggle_btn">
@@ -1671,17 +1682,27 @@ const DiamondFilter = () => {
                         <div key={i} className="diamond_card">
                           <div className="media_frame">
                             <div className="paired_diamond">
-                              {val?.map((dia) => {
+                              {val?.map((dia, index) => {
                                 const image = getImagePath(dia?.shapename);
-                                return <img src={image} alt={dia?.shapename} className="earr_paired_diamond_img" />
+                                return (
+                                  <abbr
+                                    key={index}
+                                    style={{ cursor: "default", width: "100%" }}
+                                    title={`${dia?.shapename} ${dia?.carat?.toFixed(3)} CARAT ${dia?.colorname} ${dia?.clarityname} ${dia?.cutname}`}
+                                  >
+                                    <img src={image} alt={dia?.shapename} className="earr_paired_diamond_img" />
+                                  </abbr>
+                                );
                               })}
                             </div>
-                            {!val?.isBanner == true && (
-                              <>
-                                <div className="select_this_diamond_banner" onClick={() => HandleDiamondRoute(val, val?.[0]?.stockno, val?.[1]?.stockno,)}>
-                                  <span>Select This Diamond</span>
-                                </div>
-                              </>
+
+                            {!val?.isBanner && (
+                              <div
+                                className="select_this_diamond_banner"
+                                onClick={() => HandleDiamondRoute(val, val?.[0]?.stockno, val?.[1]?.stockno)}
+                              >
+                                <span>Select This Diamond</span>
+                              </div>
                             )}
                           </div>
                           <>

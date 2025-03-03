@@ -104,10 +104,20 @@ export function findCsQcId(param) {
 export const formatter = new Intl.NumberFormat("en-IN")?.format;
 
 
+export const formatRedirectTitleLine = (titleLine) => {
+  // Check for null, undefined, "null", or empty string
+  if (!titleLine || titleLine.toLowerCase() == "null" || titleLine === "") {
+    return "";
+  }
+  return titleLine.replace(/\s+/g, "_") + "_";
+};
 
-
-
-
+export const formatTitleLine = (titleLine) => {
+  if (!titleLine || titleLine.toLowerCase() == "null" || titleLine === "") {
+    return "";
+  }
+  return titleLine;
+};
 
 export const downloadExcelLedgerData = () => {
   setTimeout(() => {
@@ -122,3 +132,5 @@ export const handleScrollTop = () => {
       behavior: 'smooth'
   });
 }
+
+export const wesbiteDomainName = window.location.host;

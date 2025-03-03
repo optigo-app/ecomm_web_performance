@@ -22,7 +22,9 @@ import Stories from 'react-insta-stories';
 import {
   findMetalColor,
   findMetalType,
+  formatRedirectTitleLine,
   formatter,
+  formatTitleLine,
   storImagePath,
 } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 import {
@@ -1411,10 +1413,8 @@ const DynamicCollection = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    navigate(
-      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}?p=${encodeObj}`
-    );
+    // navigate(`/d/${(productData?.TitleLine && productData?.TitleLine?.toLowerCase() !== "null" && productData?.TitleLine?.length > 0 ? productData?.TitleLine?.replace(/\s+/g, "_") + "_" : "")}${productData?.designno}?p=${encodeObj}`);
+    navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
   };
 
   useEffect(() => {
@@ -3094,7 +3094,9 @@ const C_Card = ({
     
         <div className="det">
           <h2 className="">
-            {!title?.length > 0 ? designo : designo + "-" + title}
+            {/* {!title?.length > 0 ? designo : designo + "-" + title} */}
+            {designo !== "" && designo}
+            {formatTitleLine(title) && " - " + title}
           </h2>
           <small className="jewel_parameter">
             {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (

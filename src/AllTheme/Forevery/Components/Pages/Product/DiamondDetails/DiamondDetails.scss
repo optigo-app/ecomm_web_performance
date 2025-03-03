@@ -1035,27 +1035,38 @@
                                     background-color: #f0ededb4 !important;
 
                                     @media (max-width: 1400px) {
-                                        width: 30rem;
+                                        width: 24rem;
                                     }
 
                                     @media (max-width: 1150px) {
-                                        width: 26rem;
+                                        width: 22rem;
                                     }
 
                                     @media (max-width: 970px) {
-                                        width: 25rem;
-                                        height: 28rem;
+                                        width: 18rem;
+                                        height: 25rem;
+                                    }
+
+                                    @media (max-width: 768px) {
+                                        width: 13rem;
+                                        height: 18rem;
                                     }
 
                                     @media (max-width: 830px) {
-                                        width: 21rem;
-                                        height: 27rem;
+                                        width: 15rem;
+                                        height: 20rem;
+                                    }
+
+                                    @media (max-width: 768px) {
+                                        width: 13rem;
+                                        height: 18rem;
                                     }
 
                                     @media (max-width: 670px) {
-                                        width: 16rem;
-                                        height: 21rem;
+                                        width: 12rem;
+                                        height: 15rem;
                                     }
+                                
                                 }
 
                                 .for_slider_card {
@@ -2116,26 +2127,32 @@
                                     background-color: #f0ededb4 !important;
 
                                     @media (max-width: 1400px) {
-                                        width: 30rem;
+                                        width: 24rem;
                                     }
 
                                     @media (max-width: 1150px) {
-                                        width: 26rem;
+                                        width: 22rem;
                                     }
 
                                     @media (max-width: 970px) {
-                                        width: 25rem;
-                                        height: 28rem;
+                                        width: 18rem;
+                                        height: 25rem;
                                     }
 
+                                    
                                     @media (max-width: 830px) {
-                                        width: 21rem;
-                                        height: 27rem;
+                                        width: 15rem;
+                                        height: 20rem;
+                                    }
+
+                                    @media (max-width: 768px) {
+                                        width: 13rem;
+                                        height: 18rem;
                                     }
 
                                     @media (max-width: 670px) {
-                                        width: 16rem;
-                                        height: 21rem;
+                                        width: 12rem;
+                                        height: 15rem;
                                     }
                                 }
 
@@ -3329,6 +3346,11 @@
                                     align-items: center;
                                     justify-content: center;
 
+                                    @media (max-width: 600px) {
+                                        width: 75px;
+                                        height: 75px;
+                                    }
+
                                     .for_skeleton_det_thumb_dia {
                                         background-color: #f0ededb4 !important;
                                         width: 65px;
@@ -3471,6 +3493,16 @@
                                     @media (max-width: 670px) {
                                         width: 16rem;
                                         height: 21rem;
+                                    }
+
+                                    @media (max-width: 600px) {
+                                        width: 100%;
+                                        height: 30rem;
+                                    }
+
+                                    @media (max-width: 400px) {
+                                        width: 100%;
+                                        height: 20rem;
                                     }
                                 }
 
@@ -4418,6 +4450,11 @@
                                     align-items: center;
                                     justify-content: center;
 
+                                    @media (max-width: 600px) {
+                                        width: 75px;
+                                        height: 75px;
+                                    }
+
                                     .for_skeleton_det_thumb_dia {
                                         background-color: #f0ededb4 !important;
                                         width: 65px;
@@ -4568,6 +4605,17 @@
                                     @media (max-width: 670px) {
                                         width: 16rem;
                                         height: 21rem;
+                                    }
+
+                                    @media (max-width: 600px) {
+                                        width: 100%;
+                                        height: 30rem;
+                                        flex-direction: column-reverse;
+                                    }
+
+                                    @media (max-width: 400px) {
+                                        width: 100%;
+                                        height: 20rem;
                                     }
                                 }
 
@@ -6771,8 +6819,13 @@
         gap: 10px;
         align-items: center;
 
+        @media (max-width: 1200px) {
+            width: 90%;
+        }
+
         @media (max-width: 600px) {
             flex-direction: column;
+            width: 94%;
         }
 
 
@@ -6788,8 +6841,12 @@
                 margin-inline: auto;
             }
 
+            @media (max-width: 970px) {
+                padding-inline: 2%;
+            }
+
             @media (max-width: 600px) {
-                max-width: 34rem;
+                width: 34rem;
                 padding-inline: 2%;
             }
 
@@ -6929,8 +6986,12 @@
                 margin-inline: auto;
             }
 
+            @media (max-width: 970px) {
+                padding-inline: 2%;
+            }
+
             @media (max-width: 600px) {
-                max-width: 34rem;
+                width: 34rem;
                 padding-inline: 2%;
             }
 

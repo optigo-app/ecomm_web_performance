@@ -1,6 +1,8 @@
+import { wesbiteDomainName } from "../../Glob_Functions/GlobalFunction";
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const BookAppointment = async (obj = {}) => {
+    const domainname = wesbiteDomainName;
     const data = {
         "firstname": obj?.firstname || "",
         "lastname": obj?.lastname || "",
@@ -10,6 +12,7 @@ export const BookAppointment = async (obj = {}) => {
         "AppointmentDateTime": obj?.AppointmentDateTime || "",
         "JewelleryType": obj?.JewelleryType || "",
         "RequestId": obj?.RequestId || 0,
+        "domainname": domainname,
     }
 
     let stringify = JSON.stringify(data);

@@ -48,6 +48,7 @@ import ViewStreamIcon from "@mui/icons-material/ViewStream";
 import StopRoundedIcon from "@mui/icons-material/StopRounded";
 import { el_CartCount, el_WishCount } from "../../../Recoil/atom";
 import {
+  formatRedirectTitleLine,
   formatter,
   storImagePath,
 } from "../../../../../../utils/Glob_Functions/GlobalFunction";
@@ -1553,10 +1554,11 @@ const ProductList = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    navigate(
-      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}?p=${encodeObj}`
-    );
+    // navigate(
+    //   `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+    //   }${productData?.designno}?p=${encodeObj}`
+    // );
+    navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
   };
 
   const handleBreadcums = (mparams) => {

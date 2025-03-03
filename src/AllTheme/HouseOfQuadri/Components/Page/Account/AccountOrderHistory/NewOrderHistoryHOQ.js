@@ -37,6 +37,7 @@ import { ExpandLess } from "@mui/icons-material";
 import { formatAmount, formatAmount2 } from './../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import HeadTitleAcc from "../HeadTitleAcc";
 import imageNotFound from '../../../Assets/noImageFound.jpg';
+import { formatRedirectTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const NewOrderHistoryHOQ = () => {
   const [orderHistoryData, setOrderHistoryData] = useState([]);
@@ -170,14 +171,7 @@ const NewOrderHistoryHOQ = () => {
 
     productData?.TitleLine === undefined
       ? navigate(`/d/${productData?.designno}?p=${encodeObj}`)
-      : navigate(
-        `/d/${productData?.TitleLine &&
-        productData?.TitleLine?.replace(/\s+/g, `_`)
-        }${productData?.TitleLine && productData?.TitleLine?.length > 0
-          ? "_"
-          : ""
-        }${productData?.designno}?p=${encodeObj}`
-      );
+      :  navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
   };
 
   const compressAndEncode = (inputString) => {

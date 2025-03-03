@@ -19,6 +19,7 @@ import { roop_companyLogo, roop_companyLogoM } from "./AllTheme/RoopJewellers/Co
 import { mala_companyLogo, mala_companyLogoM } from "./AllTheme/MalakanJwewls/Components/Recoil/atom";
 import { stam_companyLogo, stam_companyLogoM } from "./AllTheme/StamFordJewels/Components/Recoil/atom";
 import { fetchPayMaster } from "./utils/API/OrderFlow/Paymaster";
+import { orz_companyLogo, orz_companyLogoM } from "./AllTheme/Ornaz/Components/Recoil/atom";
 
 const SmilingRock_App = React.lazy(() => import("./AllTheme/SmilingRock/SmilingRock_App"));
 const ForEveryRoutes = React.lazy(() => import("./AllTheme/Forevery/ForeveryRoutes"));
@@ -33,6 +34,7 @@ const HemratnaProcatalog_App = React.lazy(() => import("./AllTheme/hemratnaProca
 const Procatalog_App = React.lazy(() => import("./AllTheme/Pocatalog/Procatalog_App"));
 const RoopJewellers_App = React.lazy(() => import("./AllTheme/RoopJewellers/RoopJewellers_App"));
 const LoveIn_App = React.lazy(() => import("./AllTheme/LoveIn/LoveIn_App"));
+const Ornaz_App = React.lazy(() => import("./AllTheme/Ornaz/Ornaz_App"));
 
 export default function ThemeRoutes() {
   const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo);
@@ -40,6 +42,9 @@ export default function ThemeRoutes() {
 
   const lov_SetCompanyTitleLogo = useSetRecoilState(lov_companyLogo);
   const lov_SetCompanyTitleLogoM = useSetRecoilState(lov_companyLogoM);
+
+  const orz_SetCompanyTitleLogo = useSetRecoilState(orz_companyLogo);
+  const orz_SetCompanyTitleLogoM = useSetRecoilState(orz_companyLogoM);
 
   const proCat_setCompanyTitleLogo = useSetRecoilState(proCat_companyLogo);
   const proCatM_setCompanyTitleLogo = useSetRecoilState(proCat_companyLogoM);
@@ -116,6 +121,9 @@ export default function ThemeRoutes() {
 
     lov_SetCompanyTitleLogo(webLogo);
     lov_SetCompanyTitleLogoM(mobileLogo);
+
+    orz_SetCompanyTitleLogo(webLogo);
+    orz_SetCompanyTitleLogoM(mobileLogo);
 
     setRoopWebLogo(webLogo);
     setRoopMobileLogo(mobileLogo);
@@ -352,7 +360,7 @@ const Themes = ({ htmlContent }) => {
         {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
         {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
         {htmlContent?.rd[0]?.Themeno === 13 && <LoveIn_App />}
-        {htmlContent?.rd[0]?.Themeno === 13 && <LoveIn_App />}
+        {htmlContent?.rd[0]?.Themeno === 14 && <Ornaz_App />}
       </Suspense>
     </>
   );

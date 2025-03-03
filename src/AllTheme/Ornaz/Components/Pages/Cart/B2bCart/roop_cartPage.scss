@@ -1,0 +1,1168 @@
+@import '../../../scss/variable.scss';
+
+$cartUpdateBtncolor: #b1b1b1;
+
+.roop_MainBGDiv {
+  // background-color: $backgroundColor;
+  font-family: $fontRegular;
+
+  .cartMainPageDiv {
+    background-color: #fff;
+    margin-inline: 1%;
+    min-height: 79.6vh;
+    margin-bottom: 170px;
+  }
+
+  .roop_cartmainRowDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+
+    .roop_cartButton-groups {
+      flex: 1;
+      text-align: left;
+    }
+
+    .roop_cart-title {
+      flex: 1;
+      text-align: center;
+    }
+
+    .roop_placeOrderMainbtnDivs {
+      flex: 1;
+      text-align: right;
+    }
+  }
+
+  .roop_placeOrderMainbtnDiv {
+    flex: 1;
+    text-align: right;
+  }
+
+  // Top button Group code
+  .roop_cartMainPage {
+    display: flex;
+    gap: 15px !important;
+    margin-bottom: -8%;
+    padding: 0px 15px 0px 10px;
+  }
+
+  .cartBtnGroupMainDiv {
+    text-align: center;
+    padding-top: 40px;
+
+    .roop_cart-title {
+      color: $titleColor;
+      // padding-bottom: 35px;
+      font-size: $fontSize8;
+      font-family: $fontRegular !important;
+    }
+
+    .roop_cartButton-groups {
+
+      .roop_ReomoveAllCartbtn {
+        font-family: $fontRegular !important;
+        background-color: $btnprimarycolor;
+        color: $btn1hoverFontColor;
+        height: 45px;
+        width: 160px;
+        border: none;
+        outline: none;
+        border-radius: 8px;
+        font-size: $fontSize2;
+        text-decoration-color: $titleColor;
+        // margin-inline: 6%;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: $btn1hoverColor;
+        }
+      }
+
+      // .roop_ReomoveAllCartbtn {
+      //   margin-left: 20px;
+      // }
+
+      .roop_cartBtn {
+        height: 60px;
+        width: 150px;
+        font-family: $fontRegular !important;
+        font-size: $fontSize3;
+        color: $btn1FontColor;
+        background-color: $btn1bgColor;
+        border: 1px solid $btn1FontColor;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+
+        &.roop_cartActivebtn {
+          background-color: $btn1ActivebgColor;
+          color: $btn1hoverFontColor;
+        }
+
+        &:hover {
+          color: $btn1hoverFontColor;
+          background-color: $btn1ActivebgColor;
+        }
+      }
+    }
+
+    .roop_place-order-btn {
+      font-family: $fontRegular !important;
+      background-color: $btnprimarycolor;
+      color: $btn1hoverFontColor;
+      font-size: $fontSize2;
+      border: none;
+      outline: none;
+      height: 45px;
+      border-radius: 8px;
+      width: 200px;
+      font-weight: 500;
+      // margin-inline: 6%;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: $btn1hoverColor;
+      }
+    }
+  }
+
+  .roop_place-order-btnMobile {
+    font-family: $fontRegular !important;
+    background-color: $btn1hoverColor;
+    color: $btn1hoverFontColor;
+    font-size: $fontSize2;
+    border: none;
+    outline: none;
+    height: 45px;
+    border-radius: 5px;
+    width: 200px;
+    font-weight: 500;
+    margin-inline: 6%;
+    cursor: pointer !important;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #666;
+    }
+  }
+
+  .roop_noCartlistData {
+    text-align: center;
+    height: 100%;
+    margin-block: 109px;
+
+    .roop_title {
+      color: $titleColor;
+      font-size: $fontSize6;
+    }
+
+    .roop_desc {
+      color: $titleColor;
+      font-size: $fontSize4;
+    }
+
+    .roop_browseOurCollectionbtn {
+      background-color: #7d7f85;
+      border: none;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 500;
+      height: 50px;
+      outline: none;
+      width: 220px;
+    }
+  }
+
+  // cart Main Page layout
+
+  .roop_cartMainPage {
+    display: flex;
+
+    .roop_cart-left-sides {
+      max-width: 75%;
+      width: 75%;
+      display: flex;
+      justify-content: start;
+      align-items: start;
+
+      .roop_RightCartList {
+        width: 100%;
+
+        .roop_cartListCardGrid {
+          padding-left: 15px !important;
+          padding-top: 15px !important;
+        }
+      }
+    }
+
+    .roop_cart-right-side {
+      max-width: 25%;
+      width: 25%;
+      display: flex;
+      justify-content: start;
+      align-items: start;
+      margin-top: 6px;
+      position: sticky;
+      height: 80vh;
+      top: 70px;
+      margin-bottom: 190px;
+    }
+
+    .roop_mobile-cartDetails {
+      display: none;
+    }
+
+    .roop_currencyFontPrice {
+      color: $titleColor !important;
+      font-weight: bold;
+    }
+
+    .roop_remarktext {
+      font-size: $fontSize0 !important;
+      color: $titleColor !important;
+      max-width: 130px !important;
+      word-wrap: break-word !important;
+      margin-bottom: 20px !important;
+      font-family: $fontRegular !important;
+
+      span {
+        font-weight: bold;
+      }
+    }
+
+    .roop_mui_CartBox {
+      display: flex !important;
+      justify-content: space-evenly !important;
+    }
+
+    .roop_inStockbadgeDiv {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 128, 0, 0.2705882353);
+      color: black;
+      padding: 2px 5px;
+      font-size: $fontSize0;
+      font-weight: bold;
+    }
+
+    .roop_cartListCard {
+      .roop_card-ContentsData {
+        padding: 2px 0px 2px 0px !important;
+        font-size: $fontSize0 !important;
+      }
+    }
+
+    .roop_cartListCard1 {
+      width: 390px;
+      position: relative;
+      box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+
+      .roop_card-ContentsData {
+        padding: 2px 0px 2px 0px !important;
+        font-size: $fontSize0 !important;
+      }
+    }
+
+    .roop_PriceBox {
+      margin-bottom: 10px !important;
+    }
+  }
+
+  .roop_cart-container {
+    height: 100%;
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .roop_cart-container::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  // cart Details SCSS code (cart right side)
+
+  .roop_cart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @media (min-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  .roop_Cart-imageDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // max-width: 400px;
+    // max-height: 400px;
+    width: 100%;
+    height: 100%;
+    border-radius: 0px;
+    border: 1px solid rgb(225, 225, 225);
+
+    .roop_cartDetailImage {
+      border-radius: 0px;
+      padding: 2px;
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .roop_CartCusto_R-details {
+    // padding: 0 20px;
+    flex: 1;
+    max-width: 600px;
+    width: 100%;
+
+    .roop_cart-Titleline {
+      font-size: $fontSize4;
+      color: $titleColor;
+      margin: 10px;
+      text-align: center;
+      max-height: 100px;
+      // height: 55px;
+      // display: -webkit-box;
+      // -webkit-line-clamp: 2;
+      // -webkit-box-orient: vertical;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+    }
+
+
+    .roop_Cart-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 20px;
+      margin-top: 20px;
+
+      .option {
+        flex: 1 1 45%;
+        display: flex;
+        flex-direction: column;
+        font-family: $fontRegular !important;
+
+        label {
+          font-weight: bold;
+          font-size: $fontSize2;
+          color: $titleColor;
+          margin-bottom: 5px;
+        }
+
+        select {
+          padding: 10px;
+          border-radius: 0px !important;
+          border: 1px solid #ccc;
+          color: $titleColor;
+        }
+      }
+
+    }
+
+    .roop_StockCart-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 20px;
+
+      .option {
+        font-size: $fontSize1;
+        background-color: #f7f7f7;
+        padding: 10px;
+        border-radius: 0px;
+        width: 48.5%;
+        // max-width: 550px;
+        // width: 200px;
+
+        label {
+          display: block;
+          font-weight: bold;
+          margin-right: 10px;
+          color: $titleColor;
+          font-size: $fontSize2;
+          font-family: $fontRegular !important;
+
+        }
+
+        span {
+          display: block;
+          color: $titleColor;
+          font-size: $fontSize2;
+          font-family: $fontRegular !important;
+
+        }
+      }
+
+      @media(max-width: 1560px) {
+        .option {
+          width: 48%;
+
+          label,
+          span {
+            font-size: $fontSize1;
+          }
+        }
+      }
+
+      @media(max-width: 1490px) {
+        .option {
+          width: 47%;
+
+          label,
+          span {
+            font-size: $fontSize0;
+          }
+        }
+      }
+    }
+
+    .roop_stockPriceQtyDiv {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 10px;
+
+      .roop_Stockproduct-price {
+        font-size: $fontSize6;
+        color: $titleColor;
+        width: 100%;
+      }
+
+      .option {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: $fontRegular !important;
+
+        label {
+          font-weight: bold;
+          font-size: $fontSize2;
+          color: $titleColor;
+          margin-right: 10px;
+        }
+
+        span {
+          font-size: $fontSize2;
+          color: $titleColor;
+        }
+      }
+    }
+
+    .roop_cartQtyPricemainDev {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    // cart quantity scss
+
+    .roop_cart-quantity {
+      display: flex;
+      width: 130px;
+      height: 45px;
+
+      .bttn-left {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+      }
+
+      .input {
+        width: calc(100px * 0.5);
+        padding: 0;
+        margin: 0;
+        text-align: center;
+        color: $titleColor;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        border-left: none;
+        border-right: none;
+      }
+
+      a.bttn,
+      .bttn {
+        width: calc(100px * 0.5);
+        padding: 0;
+        text-align: center;
+        color: $titleColor;
+        border: 1px solid #ccc;
+        box-shadow: none;
+        background-color: white;
+        font-size: 24px;
+        cursor: pointer;
+
+        span {
+          margin: auto !important;
+        }
+      }
+
+      .bttn-right {
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+      }
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .product-price {
+      font-size: $fontSize6;
+      color: $titleColor;
+      margin-bottom: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: end;
+    }
+
+    .roop_UpdateCartBtn {
+      display: flex;
+      justify-content: flex-end;
+      align-items: end;
+    }
+
+    .roop_cartUpdate-button {
+      display: block;
+      height: 40px;
+      width: 100px;
+      // padding: 15px;
+      background-color: $btnprimarycolor;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: $fontSize3;
+      cursor: pointer;
+      margin-bottom: 20px;
+
+      &:hover {
+        background-color: $btn1hoverColor;
+      }
+    }
+  }
+
+  // cart list item css(left side)
+
+  .roop_cartListCard {
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    display: flex !important;
+    justify-content: space-between !important;
+    flex-direction: column !important;
+    position: relative;
+    border-radius: 0px !important;
+
+    .roop_DesignNoTExt {
+      color: $titleColor;
+      font-weight: bold;
+      font-size: $fontSize1;
+      font-family: $fontRegular !important;
+    }
+
+    .roop_card-ContentsData {
+      color: $titleColor;
+      font-size: $fontSize1;
+      font-family: $fontRegular;
+      display: flex !important;
+      justify-content: start I !important;
+      margin-right: 5px !important;
+    }
+  }
+
+  .roop_cartListImage {
+    max-width: 200px;
+    max-height: 200px;
+    height: 200px;
+    object-fit: contain;
+    width: 65%;
+  }
+
+  .roop_rightContentDataDiv {
+    max-width: 150px;
+    width: 35%;
+  }
+
+  .roop_cartcontentData {
+    padding: 16px 0px !important;
+  }
+
+  .roop_cartlistdetails {
+    font-size: 10px !important;
+  }
+
+  .roop_cartbtngroupReRm {
+    position: absolute;
+    bottom: 5px;
+
+    .roop_ItemRemarkbtn,
+    .roop_ReomoveCartbtn {
+      color: $btnprimarycolor !important;
+      font-weight: 600;
+      font-size: $fontSize1;
+    }
+
+
+    .roop_ItemRemarkbtn {
+      margin-right: 20px;
+    }
+  }
+
+
+  // update cart modal
+
+  .roop_modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .roop_Modal-cardList {
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+  }
+
+  .roop_Modal-FilterList {
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+  }
+
+  .roop_paper {
+    position: relative;
+    width: 1200px;
+    max-width: 1200px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16) !important;
+    padding: 16px 32px;
+
+  }
+
+  .roop_Modal_Title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    .roop_Modal_TitleTypo {
+      color: $titleColor;
+      margin: 0;
+    }
+  }
+
+  .roop_closeIcon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+
+  .roop_cartmodal_body {
+    margin-top: 20px;
+  }
+
+  .roop_cart-Accordian {
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+  }
+
+  .roop_Cart-prCard {
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+  }
+
+  .roop_ShortCutCombo-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    .form-control {
+      width: 250px;
+      max-width: 250px;
+    }
+  }
+
+  .roop_cartModal-Divider {
+    margin: 10px 0px 20px 0px;
+  }
+
+  .roop_filter-AccrodianDetails {
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+
+  .roop_cart-Accordion {
+    .roop_FilterTitle {
+      color: $titleColor;
+      font-weight: 500;
+      font-size: $fontSize4;
+      font-family: $fontRegular;
+    }
+
+    .roop_filterAccordianDeatilTitle {
+      color: $titleColor;
+      font-size: $fontSize3;
+      font-family: $fontRegular;
+      padding-left: 10px;
+    }
+
+    .roop_filterCheckbox {
+      color: $titleColor;
+      font-size: $fontSize3;
+      font-family: $fontRegular;
+    }
+  }
+
+  // customization ui
+
+  .roop_projectRemark {
+    max-width: 600px;
+    padding: 5px 40px 20px 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+  }
+
+  .roop_remarkTitle {
+    color: $titleColor;
+    font-size: $fontSize4;
+    font-weight: bold;
+  }
+
+  .roop_prRemarkText {
+    color: $titleColor;
+    font-size: $fontSize2;
+  }
+
+  .roop_AddReamrkBtn {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    button {
+      background-color: $cartUpdateBtncolor;
+      color: $btn1hoverFontColor;
+      height: 40px;
+      width: 150px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $btn1hoverColor;
+      }
+    }
+  }
+
+  .roop_product-remark {
+    margin: 15px 0px 15px 0px;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: $titleColor;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      resize: none;
+      color: $titleColor;
+    }
+  }
+
+  .roop_projectUpdateCartBtn-group {
+    display: flex !important;
+    justify-content: end !important;
+    gap: 10px;
+    align-items: end;
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .roop_cartUpdate-btn {
+      background-color: $cartUpdateBtncolor;
+      color: $btn1hoverFontColor;
+
+      &:hover {
+        background-color: $btn1hoverColor;
+      }
+    }
+
+    .roop_cartCancel-btn {
+      background-color: $btn1bgColor;
+      color: $btn1FontColor;
+      border: 1px solid $titleColor;
+
+      &:hover {
+        background-color: #f3f4f6;
+      }
+    }
+  }
+
+  .roop_CartSkelton {
+    background-color: #f6f6f6 !important;
+  }
+
+
+  .roop_remarkModalBox {
+    width: 90%;
+    max-width: 500px;
+    min-width: 300px;
+    margin: 0 auto;
+  }
+
+  @media(max-width:1200px) {
+    .cartMainPageDiv {
+      margin-inline: 1%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .roop_remarkModalBox {
+      width: 95%;
+      max-width: 100%;
+      min-width: 0;
+    }
+
+    .roop_Cart_R-details {
+      .roop_cart-Titleline {
+        font-size: $fontSize3 !important;
+        margin-bottom: 20px;
+        color: #7d7f85;
+        text-align: center;
+      }
+    }
+
+    .roop_Cart_R-details {
+      padding: 0 !important;
+    }
+  }
+
+  @media(max-width: 770px) {
+    .roop_cartmainRowDiv {
+      margin-bottom: 30px;
+    }
+
+    .cartBtnGroupMainDiv {
+      .roop_place-order-btn {
+        height: 35px !important;
+        width: 120px !important;
+      }
+
+      .roop_ReomoveAllCartbtn {
+        height: 35px !important;
+        width: 100px !important;
+      }
+    }
+  }
+
+  @media(max-width: 474px) {
+    .roop_place-order-btn {
+      width: 120px;
+      font-size: $fontSize2;
+      height: 35px;
+    }
+  }
+
+  @media screen and (min-width: 1000px) {
+    .roop_mobile-cartDetails {
+      display: none !important;
+    }
+
+    .roop_cart-modal {
+      display: none !important;
+    }
+  }
+
+  @media(max-width: 1500px) and (min-width:1440px) {
+    .cartMainPageDiv {
+      .roop_cartMainPage {
+        .roop_cart-left-sides {
+          max-width: 80%;
+          width: 80%;
+
+          .roop_RightCartList {
+            .roop_mui_CartBox {
+              .roop_cartListImage {
+                max-width: 170px;
+                max-height: 180px;
+                height: 150px;
+              }
+            }
+          }
+        }
+
+        .roop_cart-right-side {
+          max-width: 20%;
+          width: 20%;
+          display: block;
+        }
+      }
+    }
+  }
+
+  @media(max-width: 1439px) and (min-width:1360px) {
+    .cartMainPageDiv {
+      .roop_cartMainPage {
+        .roop_cart-left-sides {
+          max-width: 80%;
+          width: 80%;
+
+          .roop_RightCartList {
+            .roop_cartListCardGrid {
+              padding-left: 10px !important;
+              padding-top: 15px !important;
+            }
+
+            .roop_mui_CartBox {
+              .roop_cartListImage {
+                max-width: 180px;
+                max-height: 180px;
+                height: 130px;
+                width: 130px;
+              }
+            }
+          }
+        }
+
+        .roop_cart-right-side {
+          max-width: 20%;
+          width: 20%;
+          display: block;
+        }
+      }
+    }
+  }
+
+  @media(max-width: 1359px) and (min-width:1000px) {
+    .cartMainPageDiv {
+      .roop_cartMainPage {
+        .roop_cart-left-sides {
+          max-width: 75%;
+          width: 75%;
+
+          .roop_RightCartList {
+            .roop_cartListCardGrid {
+              flex-basis: 50% !important;
+              max-width: 50% !important;
+            }
+
+            .roop_mui_CartBox {
+              .roop_cartListImage {
+                max-width: 180px;
+                max-height: 180px;
+                height: 130px;
+                width: 130px;
+              }
+            }
+          }
+        }
+
+        .roop_cart-right-side {
+          max-width: 25%;
+          width: 25%;
+          display: block;
+        }
+      }
+    }
+  }
+
+  @media(max-width: 999px) {
+    .cartMainPageDiv {
+      .roop_cartMainPage {
+        .roop_cart-left-sides {
+          max-width: 100%;
+          width: 100%;
+
+          .roop_RightCartList {
+            .roop_cartListCardGrid {
+              flex-basis: 33.333333% !important;
+              max-width: 33.333333% !important;
+            }
+
+            .roop_mui_CartBox {
+              .roop_cartListImage {
+                max-width: 180px;
+                max-height: 180px;
+                height: 130px;
+                width: 130px;
+              }
+            }
+          }
+        }
+
+        .roop_cart-right-side {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media(max-width: 849px) {
+    .cartMainPageDiv {
+      .roop_cartMainPage {
+        .roop_cart-left-sides {
+          max-width: 100%;
+          width: 100%;
+
+          .roop_RightCartList {
+            .roop_cartListCardGrid {
+              flex-basis: 50% !important;
+              max-width: 50% !important;
+            }
+          }
+        }
+
+        .roop_cart-right-side {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media(max-width: 570px) {
+    .cartMainPageDiv {
+      .roop_cartMainPage {
+        padding: 0;
+
+        .roop_cart-left-sides {
+          width: 100%;
+          max-width: 100%;
+          max-height: 100%;
+          overflow: auto;
+
+          .roop_RightCartList {
+            width: 100%;
+            padding: 0px 12px 0px 10px;
+
+            .roop_cartListCardGrid {
+              padding-left: 10px !important;
+              padding-top: 10px !important;
+              width: 50% !important;
+              max-width: 50% !important;
+              flex-basis: 50% !important;
+
+              .roop_mui_CartBox {
+                display: flex;
+                flex-direction: column;
+
+                .roop_cartListImage {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  text-align: center;
+                  width: 100%;
+                  max-width: 100%;
+                  height: 200px;
+                  object-fit: contain;
+                }
+              }
+
+              .roop_rightContentDataDiv {
+                width: 100%;
+                max-width: 100%;
+                padding: 5px;
+              }
+            }
+
+            .roop_remarkModalBox {
+              width: 200px !important;
+            }
+          }
+        }
+
+        .roop_cart-right-side {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media(max-width: 570px) {
+    .cartMainPageDiv {
+      .roop_cartMainPage {
+        padding: 0;
+
+        .roop_cart-left-sides {
+          width: 100%;
+          max-width: 100%;
+          max-height: 100%;
+          overflow: auto;
+          padding: 20px 0px;
+
+          .roop_RightCartList {
+            width: 100%;
+            padding: 0px 8px 0px 8px;
+
+            .roop_cartListCardGrid {
+              padding-left: 8px !important;
+              padding-top: 8px !important;
+              width: 50% !important;
+              max-width: 50% !important;
+              flex-basis: 50% !important;
+
+              .roop_mui_CartBox {
+                display: flex;
+                flex-direction: column;
+
+                .roop_cartListImage {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  text-align: center;
+                  width: 100%;
+                  height: 100%;
+                  max-width: 100%;
+                  max-height: 200px;
+                  object-fit: contain;
+                }
+              }
+
+              .roop_rightContentDataDiv {
+                width: 100%;
+                max-width: 100%;
+                padding: 5px;
+
+                .roop_cartbtngroupReRm {
+                  display: flex;
+                  justify-content: space-between;
+                  width: 100%;
+
+                  .roop_ItemRemarkbtn {
+                    margin-right: 0px;
+                  }
+
+                  .roop_ReomoveCartbtn {
+                    margin-right: 12px;
+                  }
+                }
+              }
+            }
+
+            .roop_remarkModalBox {
+              width: 300px !important;
+            }
+          }
+        }
+
+        .roop_cart-right-side {
+          display: none;
+        }
+      }
+    }
+  }
+
+}

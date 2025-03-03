@@ -13,6 +13,7 @@ import noImageFound from "../../../Assets/noImageFound.jpg";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { Skeleton } from "@mui/material";
+import { formatTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const WishlistItems = ({
   item,
@@ -122,7 +123,7 @@ const WishlistItems = ({
           >
             <div className="cardText">
               <Typography variant="body2" className="hoq_card-ContentData">
-                {item?.TitleLine != "" && item?.TitleLine} {(item?.TitleLine && item?.designno) && '-'}
+                {formatTitleLine(item?.TitleLine)} {(formatTitleLine(item?.TitleLine) && item?.designno) && '-'}
                 {item?.designno != "" && item?.designno}
               </Typography>
               <Typography variant="body2" className="hoq_card-ContentData-1">

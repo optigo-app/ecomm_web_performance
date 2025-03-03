@@ -1,0 +1,510 @@
+@import '../../../scss/variable';
+
+.roop_mainTrending1Div {
+    margin-top: 3rem;
+
+    // @media (max-width: 1200px) {
+    //     margin-top: -3rem;
+    // }
+    .smr_trending1TitleDiv {
+        text-align: center;
+        padding-block: 10px;
+        margin-block: 1rem;
+
+        // @media (max-width: 1500px) {
+        //     margin-block: 2rem;
+        // }
+
+        @media (max-width: 1000px) {
+            margin-bottom: 0rem;
+        }
+
+        .smr_trending1Title {
+            font-size: $fontSize6;
+            color: $homePageFontColor;
+            font-family: $homePageFontFamily;
+        }
+    }
+
+    .stam_trendingProduct-grid {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 0px 10px;
+        margin-bottom: 70px;
+
+        @media (max-width: 1500px) {
+            margin-bottom: 1.5rem;
+        }
+
+        .smr_leftSideBestTR {
+            width: 100%;
+            position: relative;
+            margin-bottom: 2rem;
+
+            @media (max-width: 1500px) {
+                margin-block: 1rem;
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                display: block;
+                object-fit: cover;
+            }
+
+            .smr_lookbookImageRightDT {
+                position: absolute;
+                top: 50%;
+                left: 40%;
+                transform: translate(-30%, -70%);
+                font-size: $fontSize6;
+                color: #fff;
+                text-transform: capitalize;
+                font-family: $homePageFontFamily;
+                text-align: center;
+
+                h2 {
+                    font-size: $fontSize7;
+                    font-family: $homePageFontFamily;
+                    left: .8px;
+                }
+
+                p {
+                    font-size: $fontSize3;
+                    font-family: $primaryFontFamily;
+                    left: .5px;
+                }
+
+                button {
+                    width: 160px;
+                    height: 35px;
+                    font-size: $fontSize2;
+                    font-family: $primaryFontFamily;
+                    background-color: #fff;
+                    color: $titleColor;
+                    letter-spacing: .5px;
+                    border: none;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .smr_rightSideTR {
+            width: 50%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: end;
+            gap: 10px;
+
+            .product-card {
+                width: calc(50% - 10px);
+                box-sizing: border-box;
+
+                .stam_btimageDiv {
+                    padding: 10px;
+                    background-color: #f1f1f1;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        display: block;
+                        object-fit: contain;
+                        max-height: 450px;
+                    }
+                }
+
+                .product-info {
+                    padding: 5px;
+                    background-color: #fff;
+
+                    h3 {
+                        font-size: $fontSize1;
+                        color: $titleColor;
+                        font-family: $primaryFontFamily;
+                        margin: 0;
+                        letter-spacing: .5px;
+                    }
+
+                    p {
+                        margin: 5px 0;
+                        font-size: $fontSize2;
+                        color: $titleColor;
+                        font-family: $primaryFontFamily;
+                        font-weight: bold;
+                        letter-spacing: .5px;
+                    }
+
+                    span {
+                        font-size: $fontSize1;
+                        font-family: $primaryFontFamily;
+                        color: $titleColor;
+                        letter-spacing: .5px;
+                    }
+
+                    .smr_btpipe {
+                        margin: 0px 3px;
+                    }
+                }
+            }
+        }
+
+        @media (max-width: 1200px) {
+            flex-direction: column;
+            align-items: center;
+
+            .smr_leftSideBestTR,
+            .smr_rightSideTR {
+                width: 100%;
+            }
+
+            .smr_lookbookImageRightDT {
+                left: 50%;
+                transform: translate(-50%, -70%);
+            }
+        }
+
+        @media (max-width: 992px) {
+
+            .smr_leftSideBestTR,
+            .smr_rightSideTR {
+                width: 100%;
+            }
+
+            .product-card {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .smr_lookbookImageRightDT {
+                left: 50%;
+                transform: translate(-50%, -50%);
+
+                h2 {
+                    font-size: $fontSize5 !important;
+                }
+
+                p {
+                    font-size: $fontSize1 !important;
+                }
+
+                button {
+                    font-size: $fontSize1 !important;
+                }
+            }
+
+            .product-card {
+                width: 100%;
+                padding: 0;
+                margin: 0 0 10px 0;
+
+                .stam_btimageDiv {
+                    padding: 20px !important;
+                }
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stam_mainTrending1Div {
+                .stam_trendingProduct-grid {
+                    padding: 0px 10px !important;
+                }
+            }
+
+            .smr_leftSideBestTR,
+            .smr_rightSideTR {
+                width: 100%;
+                margin-top: 10px;
+                justify-content: center;
+                padding: 0;
+            }
+
+            .product-card {
+                width: 100%;
+                margin: 0 0 10px 0;
+
+                .stam_btimageDiv {
+                    padding: 10px !important;
+                }
+
+                .product-info {
+                    padding: 10px;
+
+                    h3 {
+                        font-size: $fontSize1 !important;
+                    }
+
+                    p {
+                        span {
+                            font-size: $fontSize2 !important;
+                        }
+                    }
+
+                    span {
+                        font-size: $fontSize0 !important;
+                        letter-spacing: .1px !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.roop_trendSet_Main {
+
+
+    .roop_trend_title {
+        font-size: 40px;
+        text-align: center;
+        margin-top: 70px;
+        font-family: $fontMedium;
+    }
+
+    .roop_trend_main_sub {
+        display: flex;
+        flex-wrap: wrap;
+        // padding-inline: 250px;
+        padding-inline: 10px;
+        // padding-inline: 100px;
+        .swiper-button-prev,
+        .swiper-button-next {
+            background-color: #b7b7b7;
+            color: #fff;
+            padding: 10px;
+            border-radius: 50%;
+            z-index: 12;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:after {
+                font-size: 16px;
+            }
+        }
+        .swiper-button-disabled {
+            opacity: 0.5;
+            cursor: pointer;
+            pointer-events: auto;
+            background-color: #ababab;
+        }
+    }
+
+    .product-info {
+        padding: 5px;
+        background-color: #fff;
+        text-align: center;
+
+        h3 {
+            font-size: $fontSize1;
+            color: $titleColor;
+            font-family: $primaryFontFamily;
+            margin: 0;
+            letter-spacing: .5px;
+        }
+
+        p {
+            margin: 5px 0;
+            font-size: $fontSize2;
+            color: $titleColor;
+            font-family: $primaryFontFamily;
+            font-weight: bold;
+            letter-spacing: .5px;
+        }
+
+        span {
+            font-size: $fontSize1;
+            font-family: $primaryFontFamily;
+            color: $titleColor;
+            letter-spacing: .5px;
+        }
+
+        .roop_btpipe {
+            margin: 0px 3px;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .product-info {
+            h3 {
+                font-size: $fontSize1 !important;
+            }
+
+            p {
+                span {
+                    font-size: $fontSize2 !important;
+                }
+            }
+
+            span {
+                font-size: $fontSize0 !important;
+            }
+        }
+    }
+
+    .roop_trend__image_div {
+        position: relative;
+        width: 100%;
+        // width: 25%;
+        // width: 50%;
+        // padding: 20px 20px 20px 0px;
+
+    }
+
+    .roop_trend__image_div1 {
+        position: relative;
+        width: 50%;
+        padding: 20px 0px 20px 20px;
+    }
+
+    .roop_trend_bannerImg_div {
+        margin-block: 20px;
+        position: relative;
+        width: 100%;
+    }
+
+    .roop_trend_Div_name {
+        color: black;
+        position: absolute;
+        font-size: 30px;
+        bottom: 12%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: $fontMedium;
+
+        @media screen and (max-width: 1200px) {
+            font-size: 20px;
+        }
+
+        @media screen and (max-width: 800px) {
+            font-size: 15px;
+        }
+
+        @media screen and (max-width: 650px) {
+            bottom: 7%;
+        }
+
+        @media screen and (max-width: 360px) {
+            bottom: 3%;
+        }
+    }
+
+
+    .roop_trendImg {
+        width: 100%;
+        object-fit: cover;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    @media screen and (max-width:1400px) {
+
+        .roop_trend_main_sub {
+            padding-inline: 10px !important;
+        }
+
+        .roop_trend_title {
+            font-size: 20px !important;
+            margin: 5px !important;
+        }
+    }
+
+    @media screen and (max-width: 900px) {
+
+        .roop_trend_main_sub {
+            padding-inline: 10px !important;
+        }
+
+        .roop_trend__image_div {
+            // padding: 10px 10px 10px 0px !important;
+        }
+
+        .roop_trend__image_div1 {
+            padding: 10px 0px 10px 10px !important;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+
+        .roop_trend_bannerImg_div {
+            margin: 0px !important;
+            padding: 5px !important;
+        }
+
+        .roop_trend_main_sub {
+            padding-inline: 0px !important;
+        }
+
+        .roop_trend_title {
+            font-size: 22px !important;
+            padding-block: 5px;
+        }
+
+        .roop_trend_Div_name {
+            font-size: 18px !important;
+        }
+
+        .roop_trend__image_div {
+            // width: 50% !important;
+            width: 100% !important;
+            // padding: 5px !important;
+        }
+
+        .roop_trend__image_div1 {
+            width: 100% !important;
+            padding: 5px !important;
+        }
+    }
+}
+
+.roop_trend_main_swiper {
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        padding: 10px;
+    }
+
+    @media (max-width: 900px) {
+
+        .swiper-button-prev,
+        .swiper-button-next {
+            background-color: #b7b7b7;
+            color: #fff;
+            padding: 10px;
+            border-radius: 50%;
+            z-index: 12;
+            width: 27px;
+            height: 27px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -30px !important;
+
+            &:after {
+                font-size: 16px;
+            }
+        }
+    }
+
+    .swiper-button-disabled {
+        opacity: 0.5;
+        cursor: pointer;
+        pointer-events: auto;
+        background-color: #ababab;
+    }
+
+    .swiper-pagination-bullet {
+        background-color: #fff;
+    }
+
+    .swiper-pagination-bullet-active {
+        background-color: #007BFF;
+    }
+}

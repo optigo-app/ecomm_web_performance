@@ -6,7 +6,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Pagination, Navigation } from 'swiper/modules';
-import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatRedirectTitleLine, formatter, formatTitleLine, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -117,7 +117,8 @@ const TrendingView1 = ({ data }) => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        // navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     };
 
     const HandleTrendingMore = (data) => {
@@ -160,9 +161,12 @@ const TrendingView1 = ({ data }) => {
                         {/* For shinjini*/}
                         {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} /> */}
 
-                        {/* For sonasons, pacific, ojasvi */}
+                        {/* For sonasons, ojasvi */}
                         {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} /> */}
                         {/* <img src={data?.image?.[1]} /> */}
+
+                        {/* For pacific */}
+                        {/* <img src={data?.image?.[2]} /> */}
 
                         {/* // for vara  */}
                         <img src={data?.image?.[0]}
@@ -240,7 +244,7 @@ const TrendingView1 = ({ data }) => {
                                         />
                                         <p className="roop_trend_Div_name">{item?.name}</p>
                                         <div className="product-info">
-                                            <h3>{item?.designno !== "" && item?.designno} {(item?.TitleLine && item?.TitleLine.toLowerCase() !== "null") && " - " + item?.TitleLine}</h3>
+                                            <h3>{item?.designno !== "" && item?.designno} {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}</h3>
                                             {storeInit?.IsGrossWeight == 1 &&
                                                 <>
                                                     <span className='roop_btdetailDT'>GWT: </span>
