@@ -1,8 +1,6 @@
 import './CountryDropDown.scss';
 import { Autocomplete, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { CountryCodeListApi } from '../../API/Auth/CountryCodeListApi';
-import Cookies from 'js-cookie';
 
 const CountryDropDown = ({
   emailRef,
@@ -18,35 +16,44 @@ const CountryDropDown = ({
 setCountrycodestate ,
 
 }) => {
-  const visiterID = Cookies.get('visiterId');
   const [CountryDefault, setCountryDefault] = useState();
   const [Countrycode, setCountrycode] = useState([]);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const storeInit = JSON?.parse(sessionStorage.getItem('storeInit'));
-    const loginUserDetail = JSON?.parse(sessionStorage.getItem('loginUserDetail'));
-    const LoginUser = JSON?.parse(sessionStorage.getItem('LoginUser'));
-    const finalID =
-      storeInit?.IsB2BWebsite === 0
-        ? LoginUser === false
-          ? visiterID
-          : loginUserDetail?.id || '0'
-        : loginUserDetail?.id || '0';
-    CountryCodeListApi(finalID)
-      .then((res) => {
-        const phonecode = res?.Data?.rd?.filter((val) => val?.IsDefault == 1);
-        const mob = sessionStorage.getItem('Countrycodestate') ;
-        if(mob){
-          setCountrycodestate(mob);
-          return ;
-        }else{
-          setCountrycodestate(phonecode[0]?.mobileprefix);
+
+        const FetchCodeList = async()=>{
+          try {
+            const response = JSON.parse(sessionStorage.getItem('CountryCodeListApi')) ?? [];
+            const phonecode = response?.filter((val) => val?.IsDefault == 1);
+            const mob = sessionStorage.getItem('Countrycodestate') ;
+            if(mob){
+              setCountrycodestate(mob);
+              return ;
+            }else{
+              setCountrycodestate(phonecode[0]?.mobileprefix);
+            }
+            setCountrycode(response);
+            setCountryDefault(phonecode[0]?.PhoneLength)
+          } catch (error) {
+            console.log(error)
+          }
         }
-        setCountrycode(res?.Data?.rd);
-        setCountryDefault(phonecode[0]?.PhoneLength);
-      })
-      .catch((err) => console.log(err));
+    // CountryCodeListApi(finalID)
+    //   .then((res) => {
+    //     const phonecode = res?.Data?.rd?.filter((val) => val?.IsDefault == 1);
+    //     const mob = sessionStorage.getItem('Countrycodestate') ;
+    //     if(mob){
+    //       setCountrycodestate(mob);
+    //       return ;
+    //     }else{
+    //       setCountrycodestate(phonecode[0]?.mobileprefix);
+    //     }
+    //     setCountrycode(res?.Data?.rd);
+    //     setCountryDefault(phonecode[0]?.PhoneLength)
+    //   })
+    //   .catch((err) => console.log(err));
+      FetchCodeList()
   }, []);
 
   const handleCountryChange = (event, value) => {
@@ -89,7 +96,6 @@ setCountrycodestate ,
         mobileNo: '',
       });
     }
-    
     handleInputChange(e, setMobileNo, 'mobileNo');
   };
 

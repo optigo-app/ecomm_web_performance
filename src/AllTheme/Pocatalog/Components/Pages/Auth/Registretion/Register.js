@@ -231,11 +231,17 @@ export default function Register() {
     }
     if (!mobileNo.trim()) {
       errors.mobileNo = "Mobile No. is required";
-      console.log(mobileNo,"number")
-    } else if (!/^\d{10}$/.test(mobileNo.trim())) {
-      console.log(mobileNo,"number")
-      errors.mobileNo = "Enter Valid mobile number";
-    }
+   
+    } 
+    const AllCode = JSON?.parse(sessionStorage?.getItem('CountryCodeListApi')) ?? [];
+        const phonecode = AllCode?.find((val) => val?.mobileprefix == Countrycodestate);
+        const requiredLength = phonecode?.PhoneLength;
+        const isValid = new RegExp(`^\\d{${requiredLength}}$`).test(mobileNo.trim());
+        if (!isValid) {
+          errors.mobileNo = `Mobile number must be  ${requiredLength} digits.`  ;
+            return { mobileNo: `Enter a valid ${requiredLength}-digit mobile number` };
+        }
+        
 
     if (!email.trim()) {
       errors.email = "Email is required";
@@ -522,6 +528,7 @@ export default function Register() {
             <button
               className="pro_createBtnRegister btnColorProCat"
               type="submit"
+              onClick={handleSubmit}
             >
               CREATE ACCOUNT
             </button>

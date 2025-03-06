@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ContinueWithEmail.modul.scss';
 import { Button, CircularProgress, TextField } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -102,6 +102,11 @@ export default function ContinueWithEmail() {
 
         // setIsLoading(false);
     };
+    
+    useEffect(()=>{
+        sessionStorage.removeItem("Countrycodestate")
+    },[])
+
 
     return (
         <div className='proCat_continuemail'>

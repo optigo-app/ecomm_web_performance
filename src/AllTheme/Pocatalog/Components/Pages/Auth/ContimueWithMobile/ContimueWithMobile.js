@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, CircularProgress, TextField } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
@@ -51,6 +51,14 @@ export default function ContimueWithMobile() {
             setErrors({ mobileNo: 'Mobile No. is required' });
             return;
         } 
+        const AllCode = JSON?.parse(sessionStorage?.getItem('CountryCodeListApi')) ?? [];
+        const phonecode = AllCode?.find((val) => val?.mobileprefix == Countrycodestate);
+        const requiredLength = phonecode?.PhoneLength;
+        const isValid = new RegExp(`^\\d{${requiredLength}}$`).test(mobileNo.trim());
+        if (!isValid) {
+            setErrors({ mobileNo: `Mobile number must be  ${requiredLength} digits.`  });
+            return { mobileNo: `Enter a valid ${requiredLength}-digit mobile number` };
+        }
         // else if (!/^\d{10}$/.test(mobileNo.trim())) {
         //     setErrors({ mobileNo: 'Enter Valid mobile number' });
         //     return;
@@ -108,6 +116,10 @@ export default function ContimueWithMobile() {
         //     setIsLoading(false);
         // }
     };
+
+    useEffect(()=>{
+        sessionStorage.removeItem("Countrycodestate")
+    },[])
 
     return (
         <div className='proCat_continuMobile'>
@@ -171,6 +183,7 @@ export default function ContimueWithMobile() {
                             setMobileNo={setMobileNo}
                             Countrycodestate={Countrycodestate}
                             setCountrycodestate={setCountrycodestate}
+                            onSubmit={handleSubmit}
                         />
 
                         <button className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>

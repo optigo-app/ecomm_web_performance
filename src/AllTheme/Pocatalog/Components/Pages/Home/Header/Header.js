@@ -162,6 +162,8 @@ const Header = () => {
     // sessionStorage.removeItem("myAccountFlags");
     sessionStorage.removeItem("registerEmail");
     sessionStorage.removeItem("selectedAddressId");
+    window.localStorage.removeItem("AuthToken");
+    Cookies.remove('visiterId')
   };
 
 

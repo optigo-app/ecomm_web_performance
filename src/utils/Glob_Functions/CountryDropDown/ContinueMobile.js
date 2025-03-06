@@ -12,7 +12,8 @@ const CountryDropDown = ({
   Errors,
   setErrors, 
   Countrycodestate ,
-setCountrycodestate
+setCountrycodestate ,
+onSubmit
 }) => {
   const visiterID = Cookies.get('visiterId');
   const [CountryDefault, setCountryDefault] = useState();
@@ -92,6 +93,14 @@ setCountrycodestate
     handleInputChange(e, setMobileNo, 'mobileNo');
   };
 
+  const handleKeyChange =(e)=>{
+    const Enter = e.key === 'Enter';
+    if (Enter) {
+      e.preventDefault();
+      onSubmit();
+    }
+  }
+
   return (
     <>
     <div className="mobile-smr">
@@ -137,6 +146,8 @@ setCountrycodestate
         onChange={handleMobileInputChange} // Using local handler to check length
         error={!!Errors.mobileNo} // Show error if it exists
         helperText={Errors.mobileNo}
+        onKeyDown={handleKeyChange}
+        autoFocus={true}
       />
     </div>
     {!isIndiaSelected && (
