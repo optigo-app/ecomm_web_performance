@@ -146,13 +146,13 @@ export default function LoginWithEmail() {
             if (response.Data.rd[0].stat === 1) {
                 const visiterID = Cookies.get('visiterId');
                 Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token);
-                if(rememberMe){
-                    const Token = generateToken(response?.Data?.rd[0]?.Token,1);
-                    localStorage?.setItem('AuthToken',JSON?.stringify(Token));
-                }else{
-                    const Token = generateToken(response?.Data?.rd[0]?.Token,0);
-                    localStorage?.setItem('AuthToken',JSON?.stringify(Token));
-                }
+                // if(rememberMe){
+                //     const Token = generateToken(response?.Data?.rd[0]?.Token,1);
+                //     localStorage?.setItem('AuthToken',JSON?.stringify(Token));
+                // }else{
+                //     const Token = generateToken(response?.Data?.rd[0]?.Token,0);
+                //     localStorage?.setItem('AuthToken',JSON?.stringify(Token));
+                // }
                 sessionStorage.setItem('registerEmail', email)
                 setIsLoginState(true)
                 sessionStorage.setItem('LoginUser', true)
@@ -309,6 +309,9 @@ export default function LoginWithEmail() {
         //     setIsLoading(false);
         // }
     }
+    const IsUi = false;
+
+
     return (
         <div className='proCat_loginEmail'>
             {isLoading && (
@@ -371,7 +374,7 @@ export default function LoginWithEmail() {
                                 ),
                             }}
                         />
-                     
+                   {IsUi &&  
                         <FormControlLabel
                          className='smr_loginPasswordBox'
                          sx={{
@@ -385,7 +388,7 @@ export default function LoginWithEmail() {
           />
         }
         label="Remember Me"
-      />
+      />}
 
                         <button className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>Login</button>
 
