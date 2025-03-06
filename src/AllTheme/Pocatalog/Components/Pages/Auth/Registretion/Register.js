@@ -229,13 +229,13 @@ export default function Register() {
       errors.lastName =
         "Last Name should not start with a numeric, special character, or space";
     }
-    // if (!mobileNo.trim()) {
-    //   errors.mobileNo = "Mobile No. is required";
-    //   console.log(mobileNo,"number")
-    // } else if (!/^\d{10}$/.test(mobileNo.trim())) {
-    //   console.log(mobileNo,"number")
-    //   errors.mobileNo = "Enter Valid mobile number";
-    // }
+    if (!mobileNo.trim()) {
+      errors.mobileNo = "Mobile No. is required";
+      console.log(mobileNo,"number")
+    } else if (!/^\d{10}$/.test(mobileNo.trim())) {
+      console.log(mobileNo,"number")
+      errors.mobileNo = "Enter Valid mobile number";
+    }
 
     if (!email.trim()) {
       errors.email = "Email is required";
