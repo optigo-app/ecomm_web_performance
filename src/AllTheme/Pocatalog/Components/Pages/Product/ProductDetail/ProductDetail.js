@@ -144,6 +144,12 @@ const ProductDetail = () => {
     });
   }, []);
 
+  const [isExpanded,setIsExpanded] = useState(false);
+
+  const toggleText = () => {
+    setIsExpanded(prevState => !prevState)
+  }
+ 
   useEffect(() => {
     let allListData = sessionStorage.getItem("deatilSliderData");
 
@@ -1841,6 +1847,18 @@ const ProductDetail = () => {
                                   )?.toFixed(3)}
                                 </span>
                               </span>}
+                              {(singleProd1?.description ?? singleProd?.description)?.length > 0 && (
+                                <>
+                                  <div className={`proCat_prod_description ${isExpanded ? 'proCat_show-more' : ''}`}>
+                                    <p className="proCat_description-text">
+                                      {(singleProd1?.description ?? singleProd?.description)}
+                                    </p>
+                                    <span className="proCat_toggle-text" onClick={toggleText}>
+                                      {isExpanded ? 'Show Less' : 'Read More'}
+                                    </span>
+                                  </div>
+                                </>
+                              )}
                             </div>
                           </div>
                           {storeInit?.IsProductWebCustomization == 1 &&
