@@ -67,7 +67,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { GoChevronLeft } from "react-icons/go";
 import { HiOutlineChevronRight } from "react-icons/hi2";
 import { HiOutlineChevronLeft } from "react-icons/hi2";
-import { formatRedirectTitleLine, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, formatTitleLine, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { SaveLastViewDesign } from "../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign";
 
 const ProductDetail = () => {
@@ -1601,8 +1601,11 @@ const ProductDetail = () => {
   return (
     <>
       <Helmet>
-        <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? "-" : ""
-          } ${singleProd?.designno ?? ""}`}</title>
+        <title>
+          {formatTitleLine(singleProd?.TitleLine)
+            ? `${singleProd.TitleLine} - ${singleProd?.designno ?? ''}`
+            : ((singleProd?.TitleLine || singleProd?.designno) ? `${singleProd?.designno ?? ''}` : "loading...")}
+        </title>
       </Helmet>
       <div className="proCat_prodDetail_bodyContain">
         <div className="proCat_prodDetail_outerContain">
@@ -1776,7 +1779,7 @@ const ProductDetail = () => {
                       <div className="proCat_prod_shortInfo">
                         <div className="proCat_prod_shortInfo_inner">
                           <p className="proCat_prod_titleLine">
-                            {singleProd?.TitleLine}
+                            {formatTitleLine(singleProd?.TitleLine) && singleProd?.TitleLine}
                           </p>
                           <div className="proCat_prod_summury_info">
                             <div className="proCat_prod_summury_info_inner">

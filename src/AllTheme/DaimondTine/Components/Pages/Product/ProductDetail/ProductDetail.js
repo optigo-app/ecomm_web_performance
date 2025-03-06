@@ -36,7 +36,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Footer from "../../Home/Footer/Footer";
 import { SaveLastViewDesign } from "../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign";
-import { formatRedirectTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, formatTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 
 const ProductDetail = () => {
@@ -1228,7 +1228,7 @@ const ProductDetail = () => {
           >
             <div className="breadCrumb_menu">
               <span style={{ textTransform: "uppercase" }}>
-                {singleProd?.TitleLine ? `${singleProd?.TitleLine} (${singleProd?.designno})` : singleProd?.designno}
+                {formatTitleLine(singleProd?.TitleLine) ? `${singleProd?.TitleLine} (${singleProd?.designno})` : singleProd?.designno}
               </span>
             </div>
           </div>
@@ -1356,7 +1356,7 @@ const ProductDetail = () => {
               </div>
               <div className="srprodetail2">
                 <div className="srprodetail2-cont">
-                  <p className="smilingProdutDetltTitle">{singleProd?.TitleLine ? `${singleProd?.TitleLine ?? ""}` : ''}</p>
+                  <p className="smilingProdutDetltTitle">{formatTitleLine(singleProd?.TitleLine) ? `${singleProd?.TitleLine ?? ""}` : ''}</p>
 
                   {storeInit?.IsPriceShow === 1 &&
                     (isPriceloading ? (

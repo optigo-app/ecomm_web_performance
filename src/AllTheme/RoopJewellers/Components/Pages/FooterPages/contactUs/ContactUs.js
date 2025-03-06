@@ -6,6 +6,9 @@ import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import 'react-toastify/dist/ReactToastify.css';
 import { BespokeAPI } from '../../../../../../utils/API/Bespoke/BespokeAPI';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { ContactUsAPI } from '../../../../../../utils/API/ContactUs/ContactUsAPI';
+import { CircularProgress } from '@mui/material';
+import PageLoader from '../../../../../../utils/Glob_Functions/PageLoaderComponent/PageLoader';
 
 export default function ContactUs() {
     const [activeTab, setActiveTab] = useState('M1');
@@ -20,8 +23,8 @@ export default function ContactUs() {
         // fetch(`${storImagePath()}/html/ShinjiniContactPage.html`)  /* for Shinjini only  */
         // fetch(`${storImagePath()}/html/PacificContactPage.html`)  /* for Pacific only  */
         fetch(`${storImagePath()}/html/VaraContactPage.html`)  /* for vara only  */
-        // fetch(`${storImagePath()}/html/SonasonsContactPage.html`)  /* for sonsons only  */
-        // fetch(`${storImagePath()}/html/OjasviContactPage.html`)  /* for ojasvi only  */
+            // fetch(`${storImagePath()}/html/SonasonsContactPage.html`)  /* for sonsons only  */
+            // fetch(`${storImagePath()}/html/OjasviContactPage.html`)  /* for ojasvi only  */
             .then((response) => response.text())
             .then((html) => {
                 setHtmlContent(html);
@@ -84,7 +87,7 @@ export default function ContactUs() {
         if (Object.keys(errors).length === 0) {
             console.log('formData: ', formData);
             setLoading(true);
-            await BespokeAPI(formData).then((res) => {
+            await ContactUsAPI(formData).then((res) => {
                 if (res?.stat_msg === 'success') {
                     toast.success("Got it! We've received your query. We'll be in touch shortly.")
                     setLoading(false);
@@ -166,6 +169,8 @@ export default function ContactUs() {
                                         type='text'
                                         className='Fo-contactBox1InputBox'
                                         name='mobileno'
+                                        maxLength={10}
+                                        pattern='{0-9}[10]'
                                         value={formData.mobileno}
                                         onChange={handleChange}
                                     />
@@ -198,42 +203,10 @@ export default function ContactUs() {
                         </div>
                         <div className='Fo-contactBox2'>
                             <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-                            {/* <p className='Fo-contactBox2Title'>Have questions?</p>
-
-                            <p style={{
-                                fontSize: '15px',
-                                fontWeight: 600
-                            }}>General inquiries<span style={{
-                                fontWeight: 400,
-                                fontSize: '13px'
-                            }}></span></p>
-
-                            <p style={{
-                                fontSize: '15px',
-                                fontWeight: 600
-                            }}>Customer inquiries<span tyle={{
-                                fontWeight: 400,
-                                fontSize: '13px'
-                            }}></span></p>
-
-                            <p style={{
-                                fontSize: '15px',
-                                fontWeight: 600
-                            }}>Orders & Returns<spna tyle={{
-                                fontWeight: 400,
-                                fontSize: '13px'
-                            }}></spna></p>
-
-                            <p className='Fo-contactBox2Desc'>If you are looking for instant answers, check out our FAQ page for more information!</p>
-                            <p className='Fo-contactBox2Title'>Orders & Returns</p>
-                            <p className='Fo-contactBox2Desc'>Check out our FAQ page or our Orders & Retuns page</p>
-                            <p className='Fo-contactBox2Title'>Call us at xxx-xxx-xxxx</p> */}
-                            {/* <p className='Fo-contactBox2Desc'>Our customer service team is available by phone from Monday-Friday 9.30am-6:30pm EST and Saturday 10am-5pm EST.</p>
-                            <p className='Fo-contactBox2Desc'>Our office is located at 33W 46th Str, STE#9W, New York, NY 10036</p> */}
-
                         </div>
                     </div>
                 </div>
+               <PageLoader loading={loading} />
             </div>
         </div>
     )

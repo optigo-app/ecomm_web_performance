@@ -12,6 +12,7 @@ import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import Cookies from "js-cookie";
 import { Skeleton } from '@mui/material';
+import { formatTitleLine } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const WishlistItems = (
     {
@@ -94,7 +95,7 @@ const WishlistItems = (
                     <CardContent className='dt_cardContent'>
                         <div className='cardText'>
                             <Typography variant="body2" className='dt_card-ContentData dt_WlTitleline'>
-                                {item?.designno != "" && item?.designno}{item?.TitleLine != "" && " - " + item?.TitleLine}
+                                {item?.designno != "" && item?.designno}{formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}
                             </Typography>
                             <Typography variant="body2" className='dt_card-ContentData'>
                                 <span className='dt_wishDT'>GWT: </span>

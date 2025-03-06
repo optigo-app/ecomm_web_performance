@@ -8,7 +8,7 @@ import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
-import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, formatTitleLine } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { CardMedia, Skeleton } from '@mui/material';
 
 const WishItem = ({
@@ -97,7 +97,7 @@ const WishItem = ({
                     />
                 )}
                 <div className="product-details">
-                    <p>{item?.TitleLine != "" || item?.TitleLine != null && item?.TitleLine}</p>
+                    <p>{formatTitleLine(item?.TitleLine) && item?.TitleLine}</p>
                 </div>
             </td>
             <td className="price">

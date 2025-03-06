@@ -12,7 +12,7 @@ import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import noImageFound from "../../Assets/image-not-found.jpg";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatter, formatTitleLine } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { Skeleton } from "@mui/material";
 
 const WishlistItems = ({
@@ -118,7 +118,7 @@ const WishlistItems = ({
                   >
                     {item?.designno != "" && item?.designno}
                     {item?.TitleLine != "" ||
-                      (item?.TitleLine != null && " - " + item?.TitleLine)}
+                      (formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine)}
                   </Typography>
                   <Typography variant="body2" className="smr_card-ContentData">
                     {storeInit?.IsGrossWeight == 1 && (
