@@ -343,6 +343,63 @@ export default function Register() {
   //   }
   // };
 
+  const HandleSpecialCase = () => {
+    const newErrors = {}; // Temporary errors object
+  
+    if (!firstName.trim()) {
+      newErrors.firstName = "First Name is required";
+    } else if (
+      !/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(firstName)
+    ) {
+      newErrors.firstName = "First Name should not start with a numeric, special character, or space";
+    }
+  
+    if (!lastName.trim()) {
+      newErrors.lastName = "Last Name is required";
+    } else if (
+      !/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(lastName)
+    ) {
+      newErrors.lastName = "Last Name should not start with a numeric, special character, or space";
+    }
+  
+    if (!mobileNo.trim()) {
+      newErrors.mobileNo = "Mobile No. is required";
+    } else {
+      const AllCode = JSON.parse(sessionStorage?.getItem("CountryCodeListApi")) ?? [];
+      const phonecode = AllCode.find((val) => val?.mobileprefix === Countrycodestate);
+      const requiredLength = phonecode?.PhoneLength;
+      const isValid = new RegExp(`^\\d{${requiredLength}}$`).test(mobileNo.trim());
+      if (!isValid) {
+        newErrors.mobileNo = `Mobile number must be ${requiredLength} digits.`;
+      }
+    }
+  
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+  
+    if (!password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (!validatePassword(password)) {
+      newErrors.password =
+        "Password must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 special character!";
+    }
+  
+    if (!confirmPassword.trim()) {
+      newErrors.confirmPassword = "Confirm Password is required";
+    } else if (confirmPassword !== password) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+  
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      return
+    }
+  };
+  
+
   return (
     <div className="proCat_registerMain">
       {isLoading && (
@@ -528,7 +585,7 @@ export default function Register() {
             <button
               className="pro_createBtnRegister btnColorProCat"
               type="submit"
-              onClick={handleSubmit}
+              onClick={HandleSpecialCase}
             >
               CREATE ACCOUNT
             </button>

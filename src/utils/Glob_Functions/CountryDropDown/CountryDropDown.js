@@ -1,6 +1,6 @@
 import './CountryDropDown.scss';
 import { Autocomplete, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const CountryDropDown = ({
   emailRef,
@@ -19,6 +19,7 @@ setCountrycodestate ,
   const [CountryDefault, setCountryDefault] = useState();
   const [Countrycode, setCountrycode] = useState([]);
   const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
 
@@ -56,16 +57,34 @@ setCountrycodestate ,
       FetchCodeList()
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef?.current && !dropdownRef?.current?.contains(event?.target)) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
+
   const handleCountryChange = (event, value) => {
     if (value) {
       setCountrycodestate(value?.mobileprefix);
       setCountryDefault(value?.PhoneLength);
       setOpen(false);
       setMobileNo('')
-      setErrors({
-        ...Errors,
-        mobileNo: `Mobile number must be ${value?.PhoneLength} digits.`,
-      });
+        // dont know working
+      // setErrors({
+      //   ...Errors,
+      //   mobileNo: `Mobile number must be ${value?.PhoneLength} digits.`,
+      // });
     }
   };
 
@@ -100,14 +119,20 @@ setCountrycodestate ,
   };
 
   return (
-    <div className="mobile-smr">
-      <div className="MOBILE_CODE">
+    <div className="mobile-smr" ref={dropdownRef}>
+      <div className="MOBILE_CODE"
+          onClick={() =>!IsMobileThrough && setOpen(true)}
+      >
         <input
           type="text"
           placeholder="+91"
           value={Countrycodestate}
           onFocus={() => !IsMobileThrough && setOpen(true)} 
           readOnly={IsMobileThrough} 
+          style={{
+            cursor: 'pointer',
+            pointerEvents: 'none',
+          }}
         />
       </div>
       {!IsMobileThrough && open && ( 
@@ -117,9 +142,9 @@ setCountrycodestate ,
             options={Countrycode}
             getOptionLabel={(option) => `${option?.mobileprefix} - ${option?.countryname}`}
             sx={{ width: '100%' }} 
-            open={open} 
+            open={open}   
+            freeSolo
             inputRef={mobileNoRef} 
-            onClose={() => setOpen(false)} 
             onChange={handleCountryChange} 
             renderInput={(params) => <TextField {...params} placeholder="Search Your Country" />}
           />
@@ -134,16 +159,16 @@ setCountrycodestate ,
         className="labgrowRegister"
         style={{ margin: '15px' }}
         type="text"
-        inputMode="numeric" // Ensures mobile number input on mobile devices
+        inputMode="numeric" 
         inputProps={{
-          maxLength: CountryDefault, // Dynamically set maxLength based on country
-          pattern: '[0-9]*', // Ensure only numbers can be typed
+          maxLength: CountryDefault, 
+          pattern: '[0-9]*', 
         }}
         value={mobileNo}
         inputRef={mobileNoRef}
         onKeyDown={(e) => handleKeyDown(e, emailRef)}
-        onChange={handleMobileInputChange} // Using local handler to check length
-        error={!!Errors.mobileNo} // Show error if it exists
+        onChange={handleMobileInputChange} 
+        error={!!Errors.mobileNo} 
         helperText={Errors.mobileNo}
       />
     </div>
