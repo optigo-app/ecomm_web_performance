@@ -45,7 +45,9 @@ const InquiryModal = ({ open, setOpen, handleSubmit, formData,
                 <input
                   id="mobileno"
                   name="mobileno"
-                  type="number"
+                  type="text"
+                  maxLength={10}
+                  pattern="{0-9}[10]"
                   placeholder="+91 xxxx xxxx"
                   value={formData.mobileno}
                   onChange={handleChange}

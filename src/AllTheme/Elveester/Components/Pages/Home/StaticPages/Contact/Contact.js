@@ -4,6 +4,9 @@ import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalF
 import { BespokeAPI } from '../../../../../../../utils/API/Bespoke/BespokeAPI';
 import { toast } from 'react-toastify';
 import useHomeBannerImages from '../../../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
+import { ContactUsAPI } from '../../../../../../../utils/API/ContactUs/ContactUsAPI';
+import { CircularProgress } from '@mui/material';
+import PageLoader from '../../../../../../../utils/Glob_Functions/PageLoaderComponent/PageLoader';
 
 // const CountryCode = [
 //     {
@@ -1031,7 +1034,7 @@ export default function ContactPage() {
         FullName: '',
         EmailId: '',
         mobileno: '',
-        InQuirySubject: '',
+        Be_In_Message: '',
         Themeno: '3'
     });
 
@@ -1080,8 +1083,8 @@ export default function ContactPage() {
         } else if (!/^\d{10}$/.test(formData.mobileno)) {
             errors.mobileno = 'Phone must be a 10-digit number';
         }
-        if (!formData.InQuirySubject) {
-            errors.InQuirySubject = 'Please enter your message';
+        if (!formData.Be_In_Message) {
+            errors.Be_In_Message = 'Please enter your message';
         }
 
         if (Object.keys(errors).length === 0) {
@@ -1090,8 +1093,7 @@ export default function ContactPage() {
                 ...formData,
                 FullName: `${names?.firstName} ${names?.lastName}`,
             }
-            console.log("Formdaat", formattedData)
-            await BespokeAPI(formattedData).then((res) => {
+            await ContactUsAPI(formattedData).then((res) => {
                 if (res?.stat_msg === 'success') {
                     toast.success("Success! Thank you for contacting us. We’ve received your message and will get back to you shortly.")
                     setLoading(false);
@@ -1187,7 +1189,12 @@ export default function ContactPage() {
                             value={formData.mobileno}
                             onChange={handleChange}
                             placeholder="Phone:"
-                            className="elvee_input" />
+                            className="elvee_input"
+                            maxLength={10}
+                            pattern="[0-9]{10}"
+                            onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}  // Optional: Only allow numbers
+                        />
+
                         {errors.mobileno && <p className="for_error-message">{errors.mobileno}</p>}
                     </div>
                     <div className="elvee_input_from">
@@ -1210,16 +1217,18 @@ export default function ContactPage() {
                     <div className="elvee_input_from">
                         <textarea
                             type="text"
-                            name="InQuirySubject"
-                            value={formData.InQuirySubject}
+                            name="Be_In_Message"
+                            value={formData.Be_In_Message}
                             onChange={handleChange}
                             placeholder="Message: "
                             className="elvee_input elvee_textarea" />
-                        {errors.InQuirySubject && <p className="for_error-message">{errors.InQuirySubject}</p>}
+                        {errors.Be_In_Message && <p className="for_error-message">{errors.Be_In_Message}</p>}
                     </div>
                     <button type="submit" disabled={loading} className="elvee_button">{loading ? "Sending" : "Send"}</button>
                 </form>
             </div>
+            {/* Show centralized loader when loading is true */}
+            <PageLoader loading={loading} />
         </div>
     );
 }

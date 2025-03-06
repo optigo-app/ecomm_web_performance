@@ -10,6 +10,8 @@ import btnstyle from "../../../scss/Button.module.scss";
 import OurServices from "../../Home/Common/OurServices/OurServices";
 import NewsletterSignup from "../../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
 import { ContactUsAPI } from "../../../../../../utils/API/ContactUs/ContactUsAPI";
+import { CircularProgress } from "@mui/material";
+import PageLoader from "../../../../../../utils/Glob_Functions/PageLoaderComponent/PageLoader";
 
 const Bgimage = `${storImagePath()}/Forevery/contact-us.png`;
 
@@ -57,7 +59,6 @@ export default function ContactUs() {
     if (!formData.Be_In_Message) {
       errors.Be_In_Message = 'Please enter your message';
     }
-    console.log('errors: ', errors);
 
     if (Object.keys(errors).length === 0) {
       setLoading(true);
@@ -80,10 +81,8 @@ export default function ContactUs() {
       })
       setFormData({
         FullName: '',
-        InQuiryCompanyName: '',
         EmailId: '',
         mobileno: '',
-        InQuirySubject: '',
         Be_In_Message: '',
         Themeno: '8'
       });
@@ -106,6 +105,7 @@ export default function ContactUs() {
       />
       {/* <OurServices /> */}
       {/* <NewsletterSignup /> */}
+      <PageLoader loading={loading} />
     </div>
   );
 }
@@ -216,6 +216,8 @@ const FormBox = ({ setFormData, handleSubmit, formData, handleChange, loading, e
                   id="phone"
                   placeholder="Eg. +32 XX XXX XXXX"
                   name="mobileno"
+                  maxLength={10}
+                  pattern="{0-9}[10]"
                   value={formData?.mobileno}
                   onChange={handleChange}
                 />

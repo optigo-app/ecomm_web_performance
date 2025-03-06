@@ -8,6 +8,7 @@ import { getDomainName, storImagePath, wesbiteDomainName } from '../../../../../
 import { BespokeAPI } from '../../../../../../utils/API/Bespoke/BespokeAPI';
 import ContactUs2 from './new/Contact';
 import { ContactUsAPI } from '../../../../../../utils/API/ContactUs/ContactUsAPI';
+import PageLoader from '../../../../../../utils/Glob_Functions/PageLoaderComponent/PageLoader';
 
 export default function ContactUs() {
     const [activeTab, setActiveTab] = useState('M1');
@@ -177,6 +178,8 @@ export default function ContactUs() {
                                         type='text'
                                         className='Fo-contactBox1InputBox'
                                         name='mobileno'
+                                        maxLength={10}
+                                        pattern='{0-9}[10]'
                                         value={formData.mobileno}
                                         onChange={handleChange}
                                     />
@@ -240,6 +243,7 @@ export default function ContactUs() {
                     </div>
                     {/* <Footer /> */}
                 </div>
+                <PageLoader loading={loading} />
             </div>
             {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
                 <p 

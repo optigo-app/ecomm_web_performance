@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Usewishlist from "../../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist";
 import { toast } from "react-toastify";
-import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatter, formatTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import RemarkModal from "../B2bCart/RemarkModal";
 
 const ResponsiveCartUi = ({
@@ -112,7 +112,7 @@ const ResponsiveCartUi = ({
         )}
         <h3 className="dt_res-card-title">
           {cartData?.designno}
-          {cartData?.TitleLine != "" && " - " + cartData?.TitleLine}
+          {formatTitleLine(cartData?.TitleLine) && " - " + cartData?.TitleLine}
         </h3>
         <p className="dt_res-card-price">
           {storeInitData?.IsPriceShow == 1 && (
