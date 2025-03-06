@@ -56,7 +56,7 @@ const Header = () => {
         console.log("getCountApiErr", err);
       }
     })
-  }, [])
+  }, [location.key])
 
   useEffect(() => {
     const uniqueMenuIds = [...new Set(menuData?.map(item => item?.menuid))];

@@ -3,9 +3,9 @@ import cookies from "js-cookie";
 const SECRET_KEY = "019560ac-9912-754b-8229-c78f35251f40-51f40-399125251f40";
 
 export const generateToken = (userData, long) => {
-    const expirationOneMin = Date.now() + 1 * 60 * 1000; // 1 minute expiration
-    const expiration1Day = Date.now() + 1 * 24 * 60 * 60 * 1000; // 1 day expiration
-    const expiration30Days = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days expiration
+    const expirationOneMin = Date.now() + 1 * 60 * 1000; 
+    const expiration1Day = Date.now() + 1 * 24 * 60 * 60 * 1000; 
+    const expiration30Days = Date.now() + 30 * 24 * 60 * 60 * 1000; 
     const exp = long == 1 ? expiration30Days : expiration1Day;
     const payload = {
         cookie: userData,
@@ -33,6 +33,7 @@ export const verifyToken = (token) => {
             window.localStorage.removeItem("AuthToken");
             sessionStorage.setItem("LoginUser", false);
             cookies.remove("AuthToken");
+            cookies.remove("userLoginCookie");
             return { status: "unauthorized", message: "Token expired" };
         }
         const expectedSignature = CryptoJS.HmacSHA256(encodedPayload, SECRET_KEY).toString(CryptoJS.enc.Base64);
