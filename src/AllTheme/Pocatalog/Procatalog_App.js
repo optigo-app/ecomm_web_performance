@@ -127,12 +127,12 @@ const Procatalog_App = () => {
     setCompanyTitleLogo(storeinit?.companylogo);
     setCompanyTitleLogoM(storeinit?.companyMlogo);
 
-
   }, []);
 
   useEffect(() => {
     let savedToken = getLocalStorageValue('AuthToken');
     let VerifiedToken = verifyToken(savedToken)
+    console.log("🚀 ~ useEffect ~ VerifiedToken:", VerifiedToken)
     const cookieValue = Cookies.get("userLoginCookie");
     if (VerifiedToken?.status === "authorized") {
       LoginWithEmailAPI("", "", "", "", cookieValue || VerifiedToken?.data?.cookie)
