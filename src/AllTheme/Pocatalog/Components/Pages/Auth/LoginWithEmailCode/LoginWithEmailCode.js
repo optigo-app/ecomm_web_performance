@@ -125,7 +125,6 @@ export default function LoginWithEmailCode() {
                 setIsLoginState(true)
                 sessionStorage.setItem('LoginUser', true)
                 sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
-
                 if (redirectEmailUrl) {
                     navigation(redirectEmailUrl);
                 } else {

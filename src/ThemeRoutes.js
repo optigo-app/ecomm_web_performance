@@ -20,6 +20,7 @@ import { mala_companyLogo, mala_companyLogoM } from "./AllTheme/MalakanJwewls/Co
 import { stam_companyLogo, stam_companyLogoM } from "./AllTheme/StamFordJewels/Components/Recoil/atom";
 import { fetchPayMaster } from "./utils/API/OrderFlow/Paymaster";
 import { orz_companyLogo, orz_companyLogoM } from "./AllTheme/Ornaz/Components/Recoil/atom";
+import { CountryCodeListApi } from "./utils/API/Auth/CountryCodeListApi";
 
 const SmilingRock_App = React.lazy(() => import("./AllTheme/SmilingRock/SmilingRock_App"));
 const HouseOfQuadri_App = React.lazy(() => import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App"));
@@ -35,6 +36,8 @@ const RoopJewellers_App = React.lazy(() => import("./AllTheme/RoopJewellers/Roop
 const LoveIn_App = React.lazy(() => import("./AllTheme/LoveIn/LoveIn_App"));
 const Ornaz_App = React.lazy(() => import("./AllTheme/Ornaz/Ornaz_App"));
 const Procatalog_App = React.lazy(() => import("./AllTheme/Pocatalog/Procatalog_App"));
+
+
 
 export default function ThemeRoutes() {
   const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo);
@@ -261,6 +264,7 @@ export default function ThemeRoutes() {
     callApiAndStore(MetalColorCombo, "MetalColorCombo", finalID);
     callApiAndStore(ColorStoneQualityColorComboAPI, "ColorStoneQualityColorCombo", finalID);
     callApiAndStore(CurrencyComboAPI, "CurrencyCombo", finalID);
+    callApiAndStore(CountryCodeListApi, "CountryCodeListApi", finalID);
   };
 
   useEffect(() => {
@@ -348,11 +352,11 @@ const Themes = ({ htmlContent }) => {
     <>
       <Suspense fallback={<></>}>
         {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
-        {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />} 
-       {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
+        {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
         {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
         {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
         {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
+        {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />} 
         {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />} 
         {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
         {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}

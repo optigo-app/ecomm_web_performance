@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material';
+import { Button, Checkbox, CircularProgress, FormControlLabel, IconButton, InputAdornment, TextField } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
@@ -20,6 +20,7 @@ import { CurrencyComboAPI } from '../../../../../../utils/API/Combo/CurrencyComb
 import { MetalColorCombo } from '../../../../../../utils/API/Combo/MetalColorCombo';
 import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import { generateToken } from '../../../../../../utils/Glob_Functions/Tokenizer';
 
 export default function LoginWithEmail() {
     const [email, setEmail] = useState('');
@@ -29,7 +30,7 @@ export default function LoginWithEmail() {
     const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigate();
     const location = useLocation();
-    console.log('location: ', location);
+    const [rememberMe, setRememberMe] = useState(false);
 
     const [cartCountNum, setCartCountNum] = useRecoilState(proCat_CartCount)
     const [wishCountNum, setWishCountNum] = useRecoilState(proCat_WishCount)
@@ -144,9 +145,14 @@ export default function LoginWithEmail() {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
                 const visiterID = Cookies.get('visiterId');
-
-                console.log('responseresponse', response?.Data?.rd[0]?.Token);
                 Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token);
+                if(rememberMe){
+                    const Token = generateToken(response?.Data?.rd[0]?.Token,1);
+                    localStorage?.setItem('AuthToken',JSON?.stringify(Token));
+                }else{
+                    const Token = generateToken(response?.Data?.rd[0]?.Token,0);
+                    localStorage?.setItem('AuthToken',JSON?.stringify(Token));
+                }
                 sessionStorage.setItem('registerEmail', email)
                 setIsLoginState(true)
                 sessionStorage.setItem('LoginUser', true)
@@ -365,6 +371,21 @@ export default function LoginWithEmail() {
                                 ),
                             }}
                         />
+                     
+                        <FormControlLabel
+                         className='smr_loginPasswordBox'
+                         sx={{
+                            height:'0px',padding:'0px',width:'0px',margin:'0px'
+                         }}
+        control={
+          <Checkbox
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+            color="primary"
+          />
+        }
+        label="Remember Me"
+      />
 
                         <button className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>Login</button>
 

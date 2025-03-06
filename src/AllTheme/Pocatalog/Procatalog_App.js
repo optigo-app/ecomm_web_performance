@@ -19,7 +19,7 @@ import { MetalTypeComboAPI } from "../../utils/API/Combo/MetalTypeComboAPI";
 import { ColorStoneQualityColorComboAPI } from "../../utils/API/Combo/ColorStoneQualityColorComboAPI";
 import { CurrencyComboAPI } from "../../utils/API/Combo/CurrencyComboAPI";
 import { DiamondQualityColorComboAPI } from "../../utils/API/Combo/DiamondQualityColorComboAPI";
-import { MetalColorCombo } from "../../utils/API/Combo/MetalColorCombo";    
+import { MetalColorCombo } from "../../utils/API/Combo/MetalColorCombo";
 // import ProductList from "./Components/Pages/Product/ProductList/ProductList";
 
 // import AboutUs from "./Components/Pages/aboutUs/AboutUs";
@@ -54,6 +54,7 @@ import Cookies from "js-cookie";
 import ProCat_PrivateRoutes from "./ProCat_PrivateRoutes";
 import { storImagePath, storInitDataPath, } from "../../utils/Glob_Functions/GlobalFunction";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
+import { verifyToken, getLocalStorageValue } from "../../utils/Glob_Functions/Tokenizer";
 
 
 const ProductList = React.lazy(() => import("./Components/Pages/Product/ProductList/ProductList"));
@@ -75,6 +76,7 @@ const Procatalog_App = () => {
   const [localData, setLocalData] = useState();
 
   useEffect(() => {
+    sessionStorage.removeItem("Countrycodestate")
     fetch(`${storInitDataPath()}/StoreInit.json`)
       .then((response) => response.text())
       .then((text) => {
@@ -124,12 +126,16 @@ const Procatalog_App = () => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setCompanyTitleLogo(storeinit?.companylogo);
     setCompanyTitleLogoM(storeinit?.companyMlogo);
+
+
   }, []);
 
   useEffect(() => {
+    let savedToken = getLocalStorageValue('AuthToken');
+    let VerifiedToken = verifyToken(savedToken)
     const cookieValue = Cookies.get("userLoginCookie");
-    if (cookieValue && islogin === false) {
-      LoginWithEmailAPI("", "", "", "", cookieValue)
+    if (VerifiedToken?.status === "authorized") {
+      LoginWithEmailAPI("", "", "", "", cookieValue || VerifiedToken?.data?.cookie)
         .then((response) => {
           if (response?.Data?.rd[0]?.stat === 1) {
             Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
@@ -139,19 +145,24 @@ const Procatalog_App = () => {
               "loginUserDetail",
               JSON.stringify(response.Data.rd[0])
             );
+            console.log(redirectEmailUrl, "redirectEmailUrl")
             if (redirectEmailUrl) {
               navigation(redirectEmailUrl);
             } else if (location.pathname.startsWith("/accountdwsr")) {
               navigation("/accountdwsr");
-            } else if (location?.pathname === sessionStorage.getItem("previousUrl")) {
-              navigation(sessionStorage.getItem("previousUrl"));
             }
-            else {
-              navigation("/");
+            else if (location?.pathname === sessionStorage.getItem("previousUrl")) {
+              navigation(sessionStorage.getItem("previousUrl"));
+            } else {
+              navigation("/")
             }
           }
         })
         .catch((err) => console.log(err));
+    } else {
+      setIsLoginState(false);
+      sessionStorage.setItem("LoginUser", false);
+      sessionStorage.setItem("loginUserDetail", JSON.stringify({}))
     }
 
     if (!islogin) {
@@ -162,7 +173,7 @@ const Procatalog_App = () => {
 
     let localD = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localD);
-  }, [islogin, location.pathname, redirectEmailUrl, navigation]);
+  }, [islogin, redirectEmailUrl,]);
 
   if (islogin === true) {
     const restrictedPaths = [

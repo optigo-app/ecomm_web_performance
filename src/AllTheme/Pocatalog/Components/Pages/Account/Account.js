@@ -125,6 +125,9 @@ export default function Account() {
         // sessionStorage.removeItem("myAccountFlags");
         sessionStorage.removeItem("registerEmail");
         sessionStorage.removeItem("selectedAddressId");
+    window.localStorage.removeItem("AuthToken");
+    Cookies.remove('visiterId')
+
     };
     useEffect(()=>{
         const init = JSON.parse(sessionStorage.getItem('storeInit')) ?? {};

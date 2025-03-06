@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material';
+import { Button, Checkbox, CircularProgress, FormControlLabel, IconButton, InputAdornment, TextField } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './LoginWithMobileCode.modul.scss';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -13,6 +13,7 @@ import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeCo
 import { MetalColorCombo } from '../../../../../../utils/API/Combo/MetalColorCombo';
 import { CurrencyComboAPI } from '../../../../../../utils/API/Combo/CurrencyComboAPI';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import { generateToken } from '../../../../../../utils/Glob_Functions/Tokenizer';
 
 
 export default function LoginWithMobileCode() {
@@ -24,7 +25,7 @@ export default function LoginWithMobileCode() {
     const [resendTimer, setResendTimer] = useState(120);
     const setIsLoginState = useSetRecoilState(proCat_loginState)
     const location = useLocation();
-
+    const [rememberMe, setRememberMe] = useState(false);
     const [cartCountNum, setCartCountNum] = useRecoilState(proCat_CartCount)
     const [wishCountNum, setWishCountNum] = useRecoilState(proCat_WishCount)
     const search = location?.search
@@ -78,6 +79,13 @@ export default function LoginWithMobileCode() {
                 sessionStorage.setItem('registerMobile', mobileNo);
                 console.log('responseresponse', response?.Data?.rd[0]?.Token);
                 Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
+                if(rememberMe){
+                    const Token = generateToken(response?.Data?.rd[0]?.Token,1);
+                    localStorage?.setItem('AuthToken',JSON?.stringify(Token));
+                }else{
+                    const Token = generateToken(response?.Data?.rd[0]?.Token,0);
+                    localStorage?.setItem('AuthToken',JSON?.stringify(Token));
+                }
                 setIsLoginState(true)
                 sessionStorage.setItem('LoginUser', true)
                 sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
@@ -188,6 +196,20 @@ export default function LoginWithMobileCode() {
                             error={!!errors.otp}
                             helperText={errors.otp}
                         />
+                           <FormControlLabel
+                         className='labgrowRegister'
+                         sx={{
+                            height:'0px',padding:'0px',width:'0px',margin:'0px'
+                         }}
+        control={
+          <Checkbox
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+            color="primary"
+          />
+        }
+        label="Remember Me"
+      />
 
                         <button className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>Login</button>
                         <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
