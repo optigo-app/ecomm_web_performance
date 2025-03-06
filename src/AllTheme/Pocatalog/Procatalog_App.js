@@ -3,9 +3,6 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Home from "./Components/Pages/Home/Index";
 import Header from "./Components/Pages/Home/Header/Header";
 import Cart from "./Components/Pages/Cart/CartMain";
-import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
-import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
-import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   companyLogo,
@@ -28,10 +25,16 @@ import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
 import ServicePolicy from "./Components/Pages/FooterPages/servicePolicy/ServicePolicy";
 import ExpertAdvice from "./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice";
 import FunFact from "./Components/Pages/FooterPages/FunFact/FunFact";
-import Register from "./Components/Pages/Auth/Registretion/Register";
-import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile";
+// new changes here
+import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/index";
+import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/index";
+import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
+import Register from "./Components/Pages/Auth/Registretion/index";
+
 import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
 import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode";
+import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
+
 import Wishlist from "./Components/Pages/Wishlist/Wishlist";
 import PageNotFound from "./Components/Pages/404Page/PageNotFound";
 import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
@@ -129,13 +132,60 @@ const Procatalog_App = () => {
 
   }, []);
 
+
+  // Rember me code 
+
+  // useEffect(() => {
+  //   let savedToken = getLocalStorageValue('AuthToken');
+  //   let VerifiedToken = verifyToken(savedToken)
+  //   console.log("🚀 ~ useEffect ~ VerifiedToken:", VerifiedToken)
+  //   const cookieValue = Cookies.get("userLoginCookie");
+  //   if (VerifiedToken?.status === "authorized") {
+  //     LoginWithEmailAPI("", "", "", "", cookieValue || VerifiedToken?.data?.cookie)
+  //       .then((response) => {
+  //         if (response?.Data?.rd[0]?.stat === 1) {
+  //           Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
+  //           setIsLoginState(true);
+  //           sessionStorage.setItem("LoginUser", true);
+  //           sessionStorage.setItem(
+  //             "loginUserDetail",
+  //             JSON.stringify(response.Data.rd[0])
+  //           );
+  //           console.log(redirectEmailUrl, "redirectEmailUrl")
+  //           if (redirectEmailUrl) {
+  //             navigation(redirectEmailUrl);
+  //           } else if (location.pathname.startsWith("/accountdwsr")) {
+  //             navigation("/accountdwsr");
+  //           }
+  //           else if (location?.pathname === sessionStorage.getItem("previousUrl")) {
+  //             navigation(sessionStorage.getItem("previousUrl"));
+  //           } else {
+  //             navigation("/")
+  //           }
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   } else {
+  //     setIsLoginState(false);
+  //     sessionStorage.setItem("LoginUser", false);
+  //     sessionStorage.setItem("loginUserDetail", JSON.stringify({}))
+  //   }
+
+  //   if (!islogin) {
+  //     if (location.pathname !== "/") {
+  //       sessionStorage.setItem("previousUrl", location.pathname);
+  //     }
+  //   }
+
+  //   let localD = JSON.parse(sessionStorage.getItem("storeInit"));
+  //   setLocalData(localD);
+  // }, [islogin, redirectEmailUrl,]);
+
+// old code
   useEffect(() => {
-    let savedToken = getLocalStorageValue('AuthToken');
-    let VerifiedToken = verifyToken(savedToken)
-    console.log("🚀 ~ useEffect ~ VerifiedToken:", VerifiedToken)
     const cookieValue = Cookies.get("userLoginCookie");
-    if (VerifiedToken?.status === "authorized") {
-      LoginWithEmailAPI("", "", "", "", cookieValue || VerifiedToken?.data?.cookie)
+    if (cookieValue && islogin === false) {
+      LoginWithEmailAPI("", "", "", "", cookieValue)
         .then((response) => {
           if (response?.Data?.rd[0]?.stat === 1) {
             Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
@@ -145,7 +195,6 @@ const Procatalog_App = () => {
               "loginUserDetail",
               JSON.stringify(response.Data.rd[0])
             );
-            console.log(redirectEmailUrl, "redirectEmailUrl")
             if (redirectEmailUrl) {
               navigation(redirectEmailUrl);
             } else if (location.pathname.startsWith("/accountdwsr")) {
@@ -159,10 +208,6 @@ const Procatalog_App = () => {
           }
         })
         .catch((err) => console.log(err));
-    } else {
-      setIsLoginState(false);
-      sessionStorage.setItem("LoginUser", false);
-      sessionStorage.setItem("loginUserDetail", JSON.stringify({}))
     }
 
     if (!islogin) {
@@ -173,7 +218,7 @@ const Procatalog_App = () => {
 
     let localD = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localD);
-  }, [islogin, redirectEmailUrl,]);
+  }, [islogin, location.pathname, redirectEmailUrl, navigation]);
 
   if (islogin === true) {
     const restrictedPaths = [
@@ -203,6 +248,7 @@ const Procatalog_App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/LoginOption" element={<LoginOption />} />
           <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />
+          {/* Changes here */}
           <Route path="/ContimueWithMobile" element={<ContimueWithMobile />} />
           <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />
           <Route
