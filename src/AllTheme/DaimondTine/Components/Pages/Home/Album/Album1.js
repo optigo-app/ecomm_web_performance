@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import Pako from 'pako';
 import { Box, Link, Tab, Tabs, tabsClasses, useMediaQuery } from '@mui/material';
-import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatRedirectTitleLine, formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { dt_homeLoading, dt_loginState } from '../../../Recoil/atom';
 import GoogleAnalytics from 'react-ga4';
 import noimageFound from '../../../Assets/image-not-found.jpg';
@@ -116,7 +116,8 @@ const Album1 = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+          navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     }
 
     const handleChangeTab = (event, newValue) => {

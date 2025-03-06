@@ -13,7 +13,7 @@ import Cookies from 'js-cookie';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Link } from '@mui/material';
 import gradientColors from "../color.json"
-import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, formatter, formatTitleLine, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { dt_homeLoading, dt_loginState } from "../../../Recoil/atom";
 import GoogleAnalytics from 'react-ga4';
 
@@ -143,7 +143,8 @@ const DesignSet2 = ({data}) => {
       f: {},
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
-    navigate(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+    // navigate(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+    navigate(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
   };
 
   const decodeEntities = (html) => {
@@ -287,7 +288,7 @@ const DesignSet2 = ({data}) => {
                                   />
                                 </div>
                               </div>
-                              <div className="fs1 centerall">{detail?.TitleLine ? `${detail.TitleLine} -` : ''}</div>
+                              <div className="fs1 centerall">{formatTitleLine(detail?.TitleLine) ? `${detail.TitleLine}` : ''}</div>
                              { storeInit?.IsPriceShow == 1 && <div className="fs2 centerall">
                                 <p>
                                   <span

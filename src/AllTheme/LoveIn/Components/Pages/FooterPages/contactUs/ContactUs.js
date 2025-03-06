@@ -8,6 +8,8 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 import { BespokeAPI } from '../../../../../../utils/API/Bespoke/BespokeAPI';
 import ContactUs2 from './new/Contact';
 import useHomeBannerImages from '../../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
+import { ContactUsAPI } from '../../../../../../utils/API/ContactUs/ContactUsAPI';
+import PageLoader from '../../../../../../utils/Glob_Functions/PageLoaderComponent/PageLoader';
 
 export default function ContactUs() {
     const [activeTab, setActiveTab] = useState('M1');
@@ -47,7 +49,7 @@ export default function ContactUs() {
         mobileno: '',
         InQuirySubject: '',
         Be_In_Message: '',
-        Themeno: '11'
+        Themeno: '13'
     });
 
     const [errors, setErrors] = useState({});
@@ -91,9 +93,8 @@ export default function ContactUs() {
         }
 
         if (Object.keys(errors).length === 0) {
-            console.log('formData: ', formData);
             setLoading(true);
-            await BespokeAPI(formData).then((res) => {
+            await ContactUsAPI(formData).then((res) => {
                 if (res?.stat_msg === 'success') {
                     toast.success("Got it! We've received your query. We'll be in touch shortly.")
                     setLoading(false);
@@ -117,7 +118,7 @@ export default function ContactUs() {
                 mobileno: '',
                 InQuirySubject: '',
                 Be_In_Message: '',
-                Themeno: '11'
+                Themeno: '13'
             });
         } else {
             setErrors(errors);
@@ -175,6 +176,8 @@ export default function ContactUs() {
                                         type='text'
                                         className='Fo-contactBox1InputBox'
                                         name='mobileno'
+                                        maxLength={10}
+                                        pattern='{0-9}[10]'
                                         value={formData.mobileno}
                                         onChange={handleChange}
                                     />
@@ -211,6 +214,7 @@ export default function ContactUs() {
                     </div>
                 </div>
                 <Footer data={banner?.affiliation} />
+                <PageLoader loading={loading} />
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
                 <p

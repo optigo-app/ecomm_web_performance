@@ -7,7 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import noImageFound from '../../Assets/image-not-found.jpg';
 import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
 import { Box, Card, CardContent, CardMedia, CircularProgress, Grid, Skeleton, Typography } from '@mui/material';
-import { formatter } from '../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, formatTitleLine } from '../../../../../utils/Glob_Functions/GlobalFunction';
 import { toast } from 'react-toastify';
 
 const WishlistItems = ({
@@ -140,7 +140,7 @@ const WishlistItems = ({
                         )}
                         <CardContent className='elv_cardContent'>
                             <div className='elv_wish_card'>
-                                <span className={item?.TitleLine ? 'elv_wishlist_card_prod_title' : 'elv_wishlist_card_prod_title_hidden'}>{item?.TitleLine != "" && item?.TitleLine}</span>
+                                <span className={(formatTitleLine(item?.TitleLine) && item?.TitleLine) ? 'elv_wishlist_card_prod_title' : 'elv_wishlist_card_prod_title_hidden'}>{formatTitleLine(item?.TitleLine) && item?.TitleLine}</span>
                             </div>
                             <div className='elv_wishlist_card_weights' style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <div className='elv_wishlist_card_weights_1' style={{ display: 'flex', flexDirection: 'column' }}>

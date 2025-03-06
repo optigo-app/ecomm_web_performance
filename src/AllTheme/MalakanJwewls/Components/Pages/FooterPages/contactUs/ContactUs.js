@@ -6,6 +6,9 @@ import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import "react-toastify/dist/ReactToastify.css";
 import { BespokeAPI } from "../../../../../../utils/API/Bespoke/BespokeAPI";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { ContactUsAPI } from "../../../../../../utils/API/ContactUs/ContactUsAPI";
+import CircularProgress from '@mui/material/CircularProgress'; // Import MUI CircularProgress
+import PageLoader from "../../../../../../utils/Glob_Functions/PageLoaderComponent/PageLoader";
 
 export default function ContactUs() {
   const [activeTab, setActiveTab] = useState("M1");
@@ -17,10 +20,8 @@ export default function ContactUs() {
   };
 
   useEffect(() => {
-    // fetch(`${storImagePath()}/html/PrivaaContactPage.html`)  /* for Privaa only  */
-      // fetch(`${storImagePath()}/html/KamalikaContactPage.html`)  /* for Kamalika only  */
-      fetch(`${storImagePath()}/html/SonasonsContactPage.html`)  /* for sonsons only  */
-      // fetch(`${storImagePath()}/html/ShreeDiaConatct.html`)  /* for shree diamonds only */
+    // fetch(`${storImagePath()}/html/SonasonsContactPage.html`)
+    fetch(`${storImagePath()}/html/ShreeDiaConatct.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);
@@ -37,7 +38,7 @@ export default function ContactUs() {
     mobileno: '',
     InQuirySubject: '',
     Be_In_Message: '',
-    Themeno: '11'
+    Themeno: '12'
   });
 
   const [errors, setErrors] = useState({});
@@ -83,9 +84,9 @@ export default function ContactUs() {
     if (Object.keys(errors).length === 0) {
       console.log('formData: ', formData);
       setLoading(true);
-      await BespokeAPI(formData).then((res) => {
+      await ContactUsAPI(formData).then((res) => {
         if (res?.stat_msg === 'success') {
-          toast.success("Got it! We've received your query. We'll be in touch shortly.")
+          toast.success("Got it! We've received your query. We'll be in touch shortly.");
           setLoading(false);
           window.scroll({
             top: 0,
@@ -122,7 +123,7 @@ export default function ContactUs() {
             <h2>Contact Us</h2>
             <p>
               Have a comment, suggestion or question? Feel free to reach out to
-              us and we’ll getback to you as soon as possible.
+              us and we’ll get back to you as soon as possible.
             </p>
           </div>
         </div>
@@ -177,6 +178,8 @@ export default function ContactUs() {
                     name="mobileno"
                     value={formData.mobileno}
                     onChange={handleChange}
+                    maxLength={10}
+                    pattern="[0-9]{10}"
                   />
                   {errors.mobileno && (
                     <p className="error">{errors.mobileno}</p>
@@ -204,48 +207,20 @@ export default function ContactUs() {
                   />
                   {errors.Be_In_Message && <p className="error">{errors.Be_In_Message}</p>}
                 </div>
-                <button type="submit" disabled={loading === true} className='Fo-contactBox1BtnSub'>{loading === true ? 'SUBMITTING' : 'SUBMIT'}</button>
+                <button type="submit" disabled={loading === true} className='Fo-contactBox1BtnSub'>
+                  {loading === true ? 'SUBMITTING' : 'SUBMIT'}
+                </button>
               </form>
             </div>
             <div className="Fo-contactBox2">
               <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-
-              {/* <p className='Fo-contactBox2Title'>Have questions?</p>
-
-                            <p style={{
-                                fontSize: '15px',
-                                fontWeight: 600
-                            }}>General inquiries<span style={{
-                                fontWeight: 400,
-                                fontSize: '13px'
-                            }}></span></p>
-
-                            <p style={{
-                                fontSize: '15px',
-                                fontWeight: 600
-                            }}>Customer inquiries<span tyle={{
-                                fontWeight: 400,
-                                fontSize: '13px'
-                            }}></span></p>
-
-                            <p style={{
-                                fontSize: '15px',
-                                fontWeight: 600
-                            }}>Orders & Returns<spna tyle={{
-                                fontWeight: 400,
-                                fontSize: '13px'
-                            }}></spna></p>
-
-                            <p className='Fo-contactBox2Desc'>If you are looking for instant answers, check out our FAQ page for more information!</p>
-                            <p className='Fo-contactBox2Title'>Orders & Returns</p>
-                            <p className='Fo-contactBox2Desc'>Check out our FAQ page or our Orders & Retuns page</p>
-                            <p className='Fo-contactBox2Title'>Call us at xxx-xxx-xxxx</p> */}
-              {/* <p className='Fo-contactBox2Desc'>Our customer service team is available by phone from Monday-Friday 9.30am-6:30pm EST and Saturday 10am-5pm EST.</p>
-                            <p className='Fo-contactBox2Desc'>Our office is located at 33W 46th Str, STE#9W, New York, NY 10036</p> */}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Show centralized loader when loading is true */}
+      <PageLoader loading={loading} />
     </div>
   );
 }

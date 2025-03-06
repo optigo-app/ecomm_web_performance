@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatter, formatTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { Box, CardMedia, Skeleton, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import RemarkModal from "../B2bCart/RemarkModal";
@@ -105,7 +105,7 @@ const CartItem = ({
             />
           )}
           <div className="product-details">
-            <p>{cartData?.TitleLine}</p>
+            <p>{formatTitleLine(cartData?.TitleLine) && cartData?.TitleLine}</p>
           </div>
         </td>
         <td className="Dt_Cartprice">

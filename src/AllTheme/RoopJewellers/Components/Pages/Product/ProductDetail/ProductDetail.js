@@ -2645,6 +2645,7 @@ const ProductDetail = () => {
                                   }
                                   alt={""}
                                   className="ctl_img"
+                                  onError={(e) => e.target.src = imageNotFound}
                                 />
                               </div>
 

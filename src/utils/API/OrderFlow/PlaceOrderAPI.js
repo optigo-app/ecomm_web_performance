@@ -1,7 +1,8 @@
+import { wesbiteDomainName } from "../../Glob_Functions/GlobalFunction";
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const handlePaymentAPI = async (visiterId, islogin ,mode) => {
-    console.log('islogin: ', islogin);
+    const domainname = wesbiteDomainName;
     try {
         const selectedAddressId = sessionStorage.getItem('selectedAddressId');
         let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -40,7 +41,8 @@ export const handlePaymentAPI = async (visiterId, islogin ,mode) => {
             domain:storeInit?.domain ?? "",
             IsPLW: storeInit?.IsPLW,
             CurrencyRate: `${data?.CurrencyRate ?? storeInit?.CurrencyRate}`,
-            TaxId:`${estimatedTaxId}`
+            TaxId:`${estimatedTaxId}`,
+            domainname: domainname
         });
 
         console.log('combinedValuecombinedValue...', combinedValue);

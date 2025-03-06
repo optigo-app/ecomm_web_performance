@@ -3,6 +3,8 @@ import "./ContactForm.scss";
 import { TextField } from "@mui/material";
 import { toast } from "react-toastify";
 import { BespokeAPI } from "../../../../../../utils/API/Bespoke/BespokeAPI";
+import { ContactUsAPI } from "../../../../../../utils/API/ContactUs/ContactUsAPI";
+import PageLoader from "../../../../../../utils/Glob_Functions/PageLoaderComponent/PageLoader";
 const ContactForm = () => {
   const [loading, setLoading] = useState(false);
 
@@ -13,7 +15,7 @@ const ContactForm = () => {
     mobileno: '',
     InQuirySubject: '',
     Be_In_Message: '',
-    Themeno: '11'
+    Themeno: '7'
   });
 
   const [errors, setErrors] = useState({});
@@ -58,7 +60,7 @@ const ContactForm = () => {
 
     if (Object.keys(errors).length === 0) {
       setLoading(true);
-      await BespokeAPI(formData).then((res) => {
+      await ContactUsAPI(formData).then((res) => {
         if (res?.stat_msg === 'success') {
           toast.success("Got it! We've received your query. We'll be in touch shortly.")
           setLoading(false);
@@ -82,7 +84,7 @@ const ContactForm = () => {
         mobileno: '',
         InQuirySubject: '',
         Be_In_Message: '',
-        Themeno: '11'
+        Themeno: '7'
       });
     } else {
       setErrors(errors);
@@ -152,8 +154,10 @@ const ContactForm = () => {
               <div className="box_input">
                 <label htmlFor="mobile">Phone Number</label>
                 <input
-                  type='number'
+                  type='text'
                   name='mobileno'
+                  maxLength={10}
+                  pattern="{0-9}[10]"
                   value={formData.mobileno}
                   onChange={handleChange}
                 />
@@ -189,6 +193,7 @@ const ContactForm = () => {
           </form>
         </div>
       </div>
+      <PageLoader loading={loading} />
     </div>
   );
 };

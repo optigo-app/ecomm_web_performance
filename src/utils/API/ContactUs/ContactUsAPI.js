@@ -1,6 +1,8 @@
+import { wesbiteDomainName } from "../../Glob_Functions/GlobalFunction";
 import { CommonFileAPI } from "../CommonAPI/CommonFileAPI";
 
 export const ContactUsAPI = async (obj = {}) => {
+    const domainname = wesbiteDomainName;
     const data = {
         "FullName": obj?.FullName || "",
         "InQuiryCompanyName": obj?.InQuiryCompanyName || '',
@@ -10,7 +12,7 @@ export const ContactUsAPI = async (obj = {}) => {
         "WebSite": obj?.WebSite || "",
         "Be_In_Message": obj?.Be_In_Message || "",
         "Themeno": obj?.Themeno || "",
-        "domainname": obj?.domainname,
+        "domainname": domainname || obj?.domainname,
     }
 
     let stringify = JSON.stringify(data);

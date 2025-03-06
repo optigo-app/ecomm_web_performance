@@ -3,7 +3,7 @@ import './for_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 import { toast } from 'react-toastify';
-import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, formatTitleLine } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import btnStyle from "../../../scss/Button.module.scss"
 
 const Customization = ({
@@ -98,7 +98,7 @@ const Customization = ({
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0 && selectedItem?.Sol_StockNo == "") ? (
             <div className="for_CartCusto_R-details">
-              <p className='for_cart-Titleline'>{selectedItem?.designno != "" && selectedItem?.designno}{selectedItem?.TitleLine != "" && " - " + selectedItem?.TitleLine}</p>
+              <p className='for_cart-Titleline'>{selectedItem?.designno != "" && selectedItem?.designno}{formatTitleLine(selectedItem?.TitleLine) && " - " + selectedItem?.TitleLine}</p>
               <Divider className='for_dividerline' />
               {storeInitData?.IsProductWebCustomization == 1 &&
                 <div className="for_Cart-options">
@@ -223,7 +223,7 @@ const Customization = ({
             </div>
           ) :
             <div className="for_CartCusto_R-details">
-              <p className='for_cart-Titleline'>{selectedItem?.TitleLine}</p>
+              <p className='for_cart-Titleline'>{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
               <Divider className='for_dividerline' />
               {selectedItem?.Sol_StockNo != "" &&
                 <div className='for_diaTitleLine'>

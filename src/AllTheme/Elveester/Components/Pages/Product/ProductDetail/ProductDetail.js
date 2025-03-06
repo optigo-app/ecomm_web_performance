@@ -20,7 +20,7 @@ import { IoIosPlayCircle } from 'react-icons/io';
 import { CartAndWishListAPI } from '../../../../../../utils/API/CartAndWishList/CartAndWishListAPI';
 import { useSetRecoilState } from 'recoil';
 import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
-import { formatRedirectTitleLine, formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatRedirectTitleLine, formatter, formatTitleLine } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import RelatedProduct from './RelatedProduct/RelatedProduct';
 import { StockItemApi } from '../../../../../../utils/API/StockItemAPI/StockItemApi';
 import { DesignSetListAPI } from '../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI';
@@ -29,7 +29,7 @@ import Stockitems from './InstockProduct/Stockitems';
 import { SaveLastViewDesign } from '../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign';
 import { Helmet } from 'react-helmet';
 import { FilterListAPI } from '../../../../../../utils/API/FilterAPI/FilterListAPI';
-import {useImageZoom } from '../../../../../../hooks/UseImageZoom'
+import { useImageZoom } from '../../../../../../hooks/UseImageZoom'
 
 
 
@@ -1228,8 +1228,11 @@ const ProductDetail = () => {
   return (
     <>
       <Helmet>
-        <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? "-" : ""
-          } ${singleProd?.designno ?? ""}`}</title>
+        <title>
+          {formatTitleLine(singleProd?.TitleLine)
+            ? `${singleProd.TitleLine} - ${singleProd?.designno ?? ''}`
+            : ((singleProd?.TitleLine || singleProd?.designno) ? `${singleProd?.designno ?? ''}` : "loading...")}
+        </title>
       </Helmet>
       <div className='elv_ProductDetMain_div'>
         <div className='elv_ProductDet_prod_div'>
@@ -1260,7 +1263,7 @@ const ProductDetail = () => {
                           overflow: "hidden",
                           cursor: "zoom-in",
                           width: "100%",
-                          transition:"0.3s ease-in"
+                          transition: "0.3s ease-in"
                         }}
                         onMouseMove={(e) => handleMouseMove(e, 1)}
                         onMouseLeave={() => handleMouseLeave(1)}
@@ -1270,8 +1273,8 @@ const ProductDetail = () => {
                             <img
                               // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
                               src={imageSrc}
-                                ref={el => imageRefs.current[1] = el}
-                                            loading="lazy"
+                              ref={el => imageRefs.current[1] = el}
+                              loading="lazy"
                               onError={handleError}
                               alt={""}
                               onLoad={() => setIsImageLoad(false)}
@@ -1438,27 +1441,27 @@ const ProductDetail = () => {
                       ) : (
                         <>
                           <div className='elv_ProductDet_prod_img'
-                           style={{
-                            position: "relative",
-                            overflow: "hidden",
-                            cursor: "zoom-in",
-                            width: "100%",
-                            transition:"0.3s ease-in"
-                          }}
-                          onMouseMove={(e) => handleMouseMove(e, 1)}
-                          onMouseLeave={() => handleMouseLeave(1)}
+                            style={{
+                              position: "relative",
+                              overflow: "hidden",
+                              cursor: "zoom-in",
+                              width: "100%",
+                              transition: "0.3s ease-in"
+                            }}
+                            onMouseMove={(e) => handleMouseMove(e, 1)}
+                            onMouseLeave={() => handleMouseLeave(1)}
                           >
                             {imageSrc || selectedThumbImg ? (
                               selectedThumbImg.type === "img" ? (
                                 <img
                                   src={imageSrc}
                                   ref={el => imageRefs.current[1] = el}
-                                            loading="lazy"
+                                  loading="lazy"
                                   onError={handleError} // Pass the error handler
                                   alt=""
                                   onLoad={() => setIsImageLoad(false)}
                                   className={`elv_ProductDet_prod_image`}
-                                                                 />
+                                />
                               ) : (
                                 <video
                                   src={pdVideoArr.length > 0 ? selectedThumbImg.link : imageNotFound}
@@ -1510,7 +1513,7 @@ const ProductDetail = () => {
                               overflow: "hidden",
                               cursor: "zoom-in",
                               width: "100%",
-                              transition:"0.3s ease-in"
+                              transition: "0.3s ease-in"
                             }}
                             onMouseMove={(e) => handleMouseMove(e, 1)}
                             onMouseLeave={() => handleMouseLeave(1)}
@@ -1520,8 +1523,8 @@ const ProductDetail = () => {
                                 <img
                                   // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
                                   src={imageSrc}
-                                    ref={el => imageRefs.current[1] = el}
-                                            loading="lazy"
+                                  ref={el => imageRefs.current[1] = el}
+                                  loading="lazy"
                                   onError={handleError}
                                   alt={""}
                                   onLoad={() => setIsImageLoad(false)}
@@ -1621,7 +1624,7 @@ const ProductDetail = () => {
                     )}
                     <div className='elv_ProductDet_prod_description_max1000'>
                       <div className='elv_Product_prod_desc_data_max1000'>
-                        <h1 className='elv_ProductDet_prod_title_max1000'>{singleProd?.TitleLine}</h1>
+                        <h1 className='elv_ProductDet_prod_title_max1000'>{formatTitleLine(singleProd?.TitleLine) && singleProd?.TitleLine}</h1>
                         <div className='elv_ProductDet_det_max1000'>
                           {/* <h5 className='elv_ProductDet_prod_code_Coll'>{`Collection/${getCollName}`}</h5> */}
                           <span className='elv_ProductDet_prod_code_max1000'>{singleProd?.designno}</span>
@@ -2070,7 +2073,7 @@ const ProductDetail = () => {
                 <>
                   <div className='elv_ProductDet_prod_description'>
                     <div className='elv_Product_prod_desc_data'>
-                      <h1 className='elv_ProductDet_prod_title'>{singleProd?.TitleLine}</h1>
+                      <h1 className='elv_ProductDet_prod_title'>{formatTitleLine(singleProd?.TitleLine) && singleProd?.TitleLine}</h1>
                       <div className='elv_ProductDet_det'>
                         <span className='elv_ProductDet_prod_code'>{singleProd?.designno}</span>
                         <div className="collection-breadcrumb">
@@ -2616,7 +2619,7 @@ const TableComponentsDia = ({ list, details }) => {
       <ul className='elv_ProductDet_diaDet'>
         <li>
           <div>
-          <span>{details}</span> <span>({pcsTotalVal[0]?.total}<span style={{marginInline: '2px'}}>/</span>{wtTotalVal[0]?.total}ct)</span>
+            <span>{details}</span> <span>({pcsTotalVal[0]?.total}<span style={{ marginInline: '2px' }}>/</span>{wtTotalVal[0]?.total}ct)</span>
           </div>
         </li>
       </ul>
@@ -2677,11 +2680,11 @@ const TableComponentsMISC = ({ list, details }) => {
           <div>
             {details.includes('MISC') ? (
               <>
-                <span>{details}</span> <span>({pcsTotalVal1[0]?.total}<span style={{marginInline: '2px'}}>/</span>{wtTotalVal1[0]?.total}gm)</span>
+                <span>{details}</span> <span>({pcsTotalVal1[0]?.total}<span style={{ marginInline: '2px' }}>/</span>{wtTotalVal1[0]?.total}gm)</span>
               </>
             ) : (
               <>
-                <span>{details}</span> <span>({pcsTotalVal[0]?.total}<span style={{marginInline: '2px'}}>/</span>{wtTotalVal[0]?.total}ct)</span>
+                <span>{details}</span> <span>({pcsTotalVal[0]?.total}<span style={{ marginInline: '2px' }}>/</span>{wtTotalVal[0]?.total}ct)</span>
               </>
             )}
           </div>

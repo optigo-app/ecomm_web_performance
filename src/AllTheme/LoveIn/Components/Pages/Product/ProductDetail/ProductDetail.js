@@ -50,7 +50,7 @@ import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/D
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import { SaveLastViewDesign } from "../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign";
-import { formatRedirectTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, formatTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const ProductDetail = ({ data }) => {
   let location = useLocation();
@@ -1440,8 +1440,11 @@ const ProductDetail = ({ data }) => {
   return (
     <>
       <Helmet>
-        <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? "-" : ""
-          } ${singleProd?.designno ?? ""}`}</title>
+        <title>
+          {formatTitleLine(singleProd?.TitleLine)
+            ? `${singleProd.TitleLine} - ${singleProd?.designno ?? ''}`
+            : ((singleProd?.TitleLine || singleProd?.designno) ? `${singleProd?.designno ?? ''}` : "loading...")}
+        </title>
       </Helmet>
       <div className="lov_prodDetail_bodyContain">
         <div className="lov_prodDetail_outerContain">
@@ -1685,7 +1688,7 @@ const ProductDetail = ({ data }) => {
                       ) : (
                         <div className="lov_prod_shortInfo_inner">
                           <p className="lov_prod_titleLine">
-                            {singleProd?.TitleLine}
+                            {formatTitleLine(singleProd?.TitleLine) && singleProd?.TitleLine}
                           </p>
 
                           <div className="lov_prod_summury_info">

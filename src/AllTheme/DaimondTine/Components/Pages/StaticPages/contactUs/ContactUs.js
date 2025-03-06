@@ -4,6 +4,8 @@ import { toast } from 'react-toastify'
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import Footer from '../../Home/Footer/Footer';
 import { BespokeAPI } from '../../../../../../utils/API/Bespoke/BespokeAPI';
+import { ContactUsAPI } from '../../../../../../utils/API/ContactUs/ContactUsAPI';
+import PageLoader from '../../../../../../utils/Glob_Functions/PageLoaderComponent/PageLoader';
 
 export default function ContactUs() {
     const [loading, setLoading] = useState(false);
@@ -60,7 +62,7 @@ export default function ContactUs() {
         if (Object.keys(errors).length === 0) {
             console.log('formData: ', formData);
             setLoading(true);
-            await BespokeAPI(formData).then((res) => {
+            await ContactUsAPI(formData).then((res) => {
                 if (res?.stat_msg === 'success') {
                     toast.success("Got it! We've received your query. We'll be in touch shortly.")
                     setLoading(false);
@@ -182,6 +184,8 @@ export default function ContactUs() {
                                         type='text'
                                         className='dt_contactBox1InputBox'
                                         name='mobileno'
+                                        maxLength={10}
+                                        pattern='{0-9}[10]'
                                         value={formData.mobileno}
                                         onChange={handleChange}
                                     />
@@ -279,6 +283,7 @@ export default function ContactUs() {
                     {/* <SmilingRock /> */}
                 </div>
             </div>
+            <PageLoader loading={loading} />
             <Footer />
             {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
                 <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>

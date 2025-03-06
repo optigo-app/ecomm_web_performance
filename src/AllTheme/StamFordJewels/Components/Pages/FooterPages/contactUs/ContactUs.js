@@ -6,6 +6,9 @@ import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import 'react-toastify/dist/ReactToastify.css';
 import { BespokeAPI } from '../../../../../../utils/API/Bespoke/BespokeAPI';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { ContactUsAPI } from '../../../../../../utils/API/ContactUs/ContactUsAPI';
+import { CircularProgress } from '@mui/material';
+import PageLoader from '../../../../../../utils/Glob_Functions/PageLoaderComponent/PageLoader';
 
 export default function ContactUs() {
     const [activeTab, setActiveTab] = useState('M1');
@@ -41,7 +44,7 @@ export default function ContactUs() {
         mobileno: '',
         InQuirySubject: '',
         Be_In_Message: '',
-        Themeno: '11'
+        Themeno: '10'
     });
 
     const [errors, setErrors] = useState({});
@@ -86,7 +89,7 @@ export default function ContactUs() {
 
         if (Object.keys(errors).length === 0) {
             setLoading(true);
-            await BespokeAPI(formData).then((res) => {
+            await ContactUsAPI(formData).then((res) => {
                 if (res?.stat_msg === 'success') {
                     toast.success("Got it! We've received your query. We'll be in touch shortly.")
                     setLoading(false);
@@ -110,7 +113,7 @@ export default function ContactUs() {
                 mobileno: '',
                 InQuirySubject: '',
                 Be_In_Message: '',
-                Themeno: '11'
+                Themeno: '10'
             });
         } else {
             setErrors(errors);
@@ -165,9 +168,11 @@ export default function ContactUs() {
                                 <div style={{ marginTop: '25px' }}>
                                     <p className='Fo-contactBox1Title'>PHONE NUMBER</p>
                                     <input
-                                        type='number'
+                                        type='text'
                                         className='Fo-contactBox1InputBox'
                                         name='mobileno'
+                                        maxLength={10}
+                                        pattern="[0-9]{10}"
                                         value={formData.mobileno}
                                         onChange={handleChange}
                                     />
@@ -200,71 +205,10 @@ export default function ContactUs() {
                         </div>
                         <div className='Fo-contactBox2'>
                             <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-                            {/* <p className='Fo-contactBox2Title'>Have questions?</p>
-
-                            <p style={{
-                                fontSize: '15px',
-                                fontWeight: 600
-                            }}>General inquiries<span style={{
-                                fontWeight: 400,
-                                fontSize: '13px'
-                            }}></span></p>
-
-                            <p style={{
-                                fontSize: '15px',
-                                fontWeight: 600
-                            }}>Customer inquiries<span tyle={{
-                                fontWeight: 400,
-                                fontSize: '13px'
-                            }}></span></p>
-
-                            <p style={{
-                                fontSize: '15px',
-                                fontWeight: 600
-                            }}>Orders & Returns<spna tyle={{
-                                fontWeight: 400,
-                                fontSize: '13px'
-                            }}></spna></p>
-
-                            <p className='Fo-contactBox2Desc'>If you are looking for instant answers, check out our FAQ page for more information!</p>
-                            <p className='Fo-contactBox2Title'>Orders & Returns</p>
-                            <p className='Fo-contactBox2Desc'>Check out our FAQ page or our Orders & Retuns page</p>
-                            <p className='Fo-contactBox2Title'>Call us at xxx-xxx-xxxx</p> */}
-                            {/* <p className='Fo-contactBox2Desc'>Our customer service team is available by phone from Monday-Friday 9.30am-6:30pm EST and Saturday 10am-5pm EST.</p>
-                            <p className='Fo-contactBox2Desc'>Our office is located at 33W 46th Str, STE#9W, New York, NY 10036</p> */}
-
-                            {/* <div>
-                                <div className="tab-buttons">
-                                    <button className={activeTab === 'M1' ? 'active' : ''} onClick={() => handleTabClick('M1')}>Main Office Address</button>
-                                </div>
-                                <div className="address">
-                                    {activeTab === 'M1' && (
-                                        <div>
-                                            <p></p>
-                                            <p>D-Block G20, ITC( International Trade Centre),
-                                                Majura Gate, Ring Road, </p>
-                                            <p>+919099887762</p>
-                                            <p>hello@optigoapps.com</p>
-                                        </div>
-                                    )}
-
-                                    <div className="map-container">
-                                        <iframe
-                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3720.2828242419437!2d72.8191344!3d21.1809209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e438cc948fb%3A0x5712a989b70ef3a2!2sOrail%20Services%20-%20OptigoApps!5e0!3m2!1sen!2sin!4v1734596370112!5m2!1sen!2sin"
-                                            width="600"
-                                            height="450"
-                                            allowfullscreen=""
-                                            loading="lazy"
-                                            referrerpolicy="no-referrer-when-downgrade"
-                                            className='mapContact'
-                                        >
-                                        </iframe>
-                                    </div>
-                                </div>
-                            </div> */}
                         </div>
                     </div>
                 </div>
+                <PageLoader loading={loading} />
             </div>
         </div>
     )

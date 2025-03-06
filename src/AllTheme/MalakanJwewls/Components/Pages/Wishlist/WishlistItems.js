@@ -11,7 +11,7 @@ import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import noImageFound from "../../Assets/image-not-found.jpg";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatter, formatTitleLine } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { mala_CartCount, mala_WishCount } from "../../Recoil/atom";
 import { Skeleton } from "@mui/material";
 
@@ -117,7 +117,7 @@ const WishlistItems = ({
                                         className="mala_card-ContentData mala_WlTitleline"
                                     >
                                         {item?.designno !== "" && item?.designno}
-                                        {(item?.TitleLine && item?.TitleLine.toLowerCase() != "null") && " - " + item?.TitleLine}
+                                        {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}
                                     </Typography>
                                     <Typography variant="body2" className="mala_card-ContentData">
                                         <span className="mala_wishDT">GWT: </span>

@@ -4,7 +4,7 @@ import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductLi
 import { useLocation, useNavigate } from "react-router-dom";
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPriceListApi";
-import { findMetal, findMetalColor, findMetalType, formatRedirectTitleLine, formatter, getDomainName, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { findMetal, findMetalColor, findMetalType, formatRedirectTitleLine, formatter, formatTitleLine, getDomainName, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import {
@@ -4040,7 +4040,7 @@ const ProductList = ({ data }) => {
                                                   {/* {productData?.TitleLine?.length > 0 &&
                                             "-"}
                                           {productData?.TitleLine}{" "} */}
-                                                  {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
+                                                  {productData?.designno} {formatTitleLine(productData?.TitleLine) && " - " + productData?.TitleLine}
                                                 </span>
                                                 {/* <span className="smr_prod_designno">
                                           {productData?.designno}

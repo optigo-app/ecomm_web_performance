@@ -24,7 +24,6 @@ function JewellerySet() {
   const [slideHeight, setSlideHeight] = useState(null);
   const swiperSlideRef = useRef(null);
   const setAlbumLength = useSetRecoilState(roop_album_length);
-  console.log('setAlbumLength: ', setAlbumLength);
 
   useEffect(() => {
     setIsLoading(true);

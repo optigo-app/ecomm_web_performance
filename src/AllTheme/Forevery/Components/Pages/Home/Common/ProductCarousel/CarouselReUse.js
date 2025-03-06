@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import { FreeMode, Pagination, Autoplay } from "swiper/modules";
-import { formatRedirectTitleLine, storImagePath } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, formatTitleLine, storImagePath } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 import { useEffect, useState } from "react";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import { useNavigate } from "react-router-dom";
@@ -212,7 +212,7 @@ const NewArrivalCarousel = ({ showmore = false, data }) => {
               >
                 <ProductCard
                   title={
-                    !data?.TitleLine?.length > 0
+                    !formatTitleLine(data?.TitleLine)
                       ? data?.designno
                       : data?.designno + ` - ${data?.TitleLine}`
                   }

@@ -15,7 +15,7 @@ import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { FormControl } from 'react-bootstrap';
 import Cookies from "js-cookie";
-import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, formatTitleLine, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import diaImage from "../../../Assets/round.png"
 
 const CartItem = ({
@@ -207,7 +207,7 @@ const CartItem = ({
             </div>
             <div className="for_cart-item__details">
               <h3>{item?.designno != "" && item?.designno}
-                {(item?.TitleLine != "" && item?.TitleLine != null) && " - " + item?.TitleLine}
+                {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}
               </h3>
               <p>{item?.productDescription}</p>
               {/* {item?.sku != "" &&
@@ -430,7 +430,7 @@ const CartItem = ({
           </div>
           <div className="for_cart-item__details">
             <h3>{item?.designno != "" && item?.designno}
-              {(item?.TitleLine != "" && item?.TitleLine != null) && " - " + item?.TitleLine}
+             {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}
             </h3>
             <p>{item?.productDescription}</p>
             {/* {item?.sku != "" &&
