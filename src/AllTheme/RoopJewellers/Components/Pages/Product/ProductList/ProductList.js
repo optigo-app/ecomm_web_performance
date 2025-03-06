@@ -276,7 +276,7 @@ const ProductList = () => {
     setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
     setSelectedCsId(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
     setSortBySelect("Recommended");
-  }, [location?.key]);
+  }, [location?.pathname]);
 
   const callAllApi = () => {
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
