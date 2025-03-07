@@ -158,6 +158,11 @@ const DynamicCollection = () => {
     let onlyTrueFilterValue = Object.values(filterChecked).filter(
       (ele) => ele.checked
     );
+    console.log("🚀 ~ FilterValueWithCheckedOnly ~ onlyTrueFilterValue:", onlyTrueFilterValue)
+
+    if (onlyTrueFilterValue?.length > 0) {
+      setCurrentPage(1); 
+    }
 
     const priceValues = onlyTrueFilterValue
       .filter((item) => item.type === "Price")
@@ -183,69 +188,10 @@ const DynamicCollection = () => {
         output[key] = output[key].slice(0, -2);
       }
     }
-
-    setCurrentPage(1);
+     
     return output;
   };
 
-  useEffect(() => {
-    setAfterCountStatus(true);
-
-    let output = FilterValueWithCheckedOnly();
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-
-    //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
-      let diafilter =
-      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-        ?.length > 0
-        ? JSON.parse(
-          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-        )[0]
-        : [];
-    let diafilter1 =
-      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-        ?.length > 0
-        ? JSON.parse(
-          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-        )[0]
-        : [];
-    let diafilter2 =
-      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-        ?.length > 0
-        ? JSON.parse(
-          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-        )[0]
-        : [];
-    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
-    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
-    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
-
-    if (location?.key === locationKey) {
-
-      setIsProdLoading(true);
-      setIsOnlyProdLoading(true);
-      let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
-      let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
-      let netRange = { netMin: isNet ? sliderValue1[0] : "", netMax: isNet ? sliderValue1[1] : "" }
-      
-      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
-      
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
-            setAfterCountStatus(false);
-            // log 1
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err))
-        .finally(() => {
-          setIsProdLoading(false);
-          setIsOnlyProdLoading(false);
-        });
-    }
-  }, [filterChecked]);
 
   useEffect(() => {
     // setCSSVariable();
@@ -1123,11 +1069,69 @@ const DynamicCollection = () => {
     };
 
     fetchData();
-    setCurrentPage(1);
     if (location?.key) {
       setLocationKey(location?.key);
     }
+    setCurrentPage(1);
   }, [location?.key]);
+
+
+  
+  useEffect(() => {
+    setAfterCountStatus(true);
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
+      let diafilter =
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+    if (location?.key === locationKey) {
+
+      setIsProdLoading(true);
+      setIsOnlyProdLoading(true);
+      let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
+      let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
+      let netRange = { netMin: isNet ? sliderValue1[0] : "", netMax: isNet ? sliderValue1[1] : "" }
+      
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+      
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+            setAfterCountStatus(false);
+          }
+          return res;
+        })
+        .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsProdLoading(false);
+          setIsOnlyProdLoading(false);
+        });
+    }
+  }, [filterChecked]);
 
   // Image Hover
   const ImageUrl = (designNo, ext) => {
@@ -1677,9 +1681,46 @@ const DynamicCollection = () => {
       left: 0,
       behavior: "smooth",
     });
-    let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
-    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+    let diafilter =
+    filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+      ?.length > 0
+      ? JSON.parse(
+        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+      )[0]
+      : [];
+  let diafilter1 =
+    filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+      ?.length > 0
+      ? JSON.parse(
+        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+      )[0]
+      : [];
+  let diafilter2 =
+    filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+      ?.length > 0
+      ? JSON.parse(
+        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+      )[0]
+      : [];
+  const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+  const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+  const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+  let DiaRange = {
+    DiaMin: isDia ? sliderValue[0] ?? "" : "",
+    DiaMax: isDia ? sliderValue[1] ?? "": ""
+  };
+  
+  let netRange = {
+    netMin: isNet ? sliderValue1[0] ?? "" : "",
+    netMax: isNet ? sliderValue1[1] ?? "" : ""
+  };
+  
+  let grossRange = {
+    grossMin: isGross ? sliderValue2[0] ?? "" : "",
+    grossMax: isGross ? sliderValue2[1] ?? "" : ""
+  };
+
 
     // ProductListApi(output, value, obj, prodListType, cookie, sortBySelect)
     ProductListApi(output, value, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
@@ -1759,6 +1800,7 @@ const DynamicCollection = () => {
       }));
     }
   };
+
   // const BreadCumsObj = () => {
   //   let BreadCum = decodeURI(atob(location?.search.slice(3))).split("/");
 
@@ -1921,7 +1963,7 @@ const DynamicCollection = () => {
     }
   
     if (data?.ImageCount > 0 && pdImgList.length === 0) {
-      for (let i = 1; i <= data?.ImageCount; i++) {
+      for (let i = 2; i <= data?.ImageCount; i++) {
         let imgString =
           storeInit?.CDNDesignImageFol +
           data?.designno +
@@ -2060,8 +2102,8 @@ const DynamicCollection = () => {
                   className="select"
                   value={selectedMetalId}
                   onChange={(e) => {
-                    setSelectedMetalId(e.target.value);
-                    setCurrentPage(1);
+                    setSelectedMetalId(e.target.value)
+                    // setCurrentPage(1);
                   }}
                 >
                   {metalTypeCombo?.map((metalele) => (
@@ -2102,7 +2144,7 @@ const DynamicCollection = () => {
                   }}
                   className="select"
                   value={selectedDiaId}
-                  onChange={(e) => { setSelectedDiaId(e.target.value); setCurrentPage(1) }}
+                  onChange={(e) => { setSelectedDiaId(e.target.value) }}
                 >
                   {diamondQualityColorCombo?.map((diaQc) => (
                     <option
@@ -3265,6 +3307,7 @@ const C_Card = ({
     );
   };
 const PaginationBar = ({ totalPages, currentPage, onPageChange }) => {
+  console.log("🚀 ~ PaginationBar ~ currentPage:", currentPage)
   let maxwidth464px = useMediaQuery('(max-width:464px)')
   return (
     <div className="pagination-bar">
