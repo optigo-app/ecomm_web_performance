@@ -146,11 +146,15 @@ const ProductDetail = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isClamped, setIsClamped] = useState(false);
 
+  const descriptionRef = useRef(null); // Using useRef instead of document.querySelector
   const descriptionText = singleProd1?.description ?? singleProd?.description;
 
   useEffect(() => {
+    setIsClamped(false);
+    setIsExpanded(false);
+
     const checkTextOverflow = () => {
-      const descriptionElement = document.querySelector('.proCat_description-text');
+      const descriptionElement = descriptionRef.current;
       if (descriptionElement) {
         const isOverflowing =
           descriptionElement.scrollHeight > descriptionElement.clientHeight;
@@ -158,19 +162,22 @@ const ProductDetail = () => {
       }
     };
 
-    // Initial check
     checkTextOverflow();
 
-    // Re-run on description text or resize
     window.addEventListener('resize', checkTextOverflow);
     return () => {
       window.removeEventListener('resize', checkTextOverflow);
     };
-  }, [descriptionText])
+  }, [descriptionText, descriptionRef])
+  
+  useEffect(() => {
+    setIsClamped(false);
+    setIsExpanded(false);
+  }, [location?.key])
 
   const toggleText = () => {
-    setIsExpanded(prevState => !prevState)
-  }
+    setIsExpanded((prevState) => !prevState);
+  };
 
   useEffect(() => {
     let allListData = sessionStorage.getItem("deatilSliderData");
@@ -1870,18 +1877,23 @@ const ProductDetail = () => {
                                 </span>
                               </span>}
                               {descriptionText?.length > 0 && (
-                                <>
-                                  <div className={`proCat_prod_description ${isExpanded ? 'proCat_show-more' : ''}`}>
-                                    <p className="proCat_description-text">
-                                      {descriptionText}
-                                    </p>
-                                    {isClamped && (
-                                      <span className="proCat_toggle-text" onClick={toggleText}>
-                                        {isExpanded ? 'Show Less' : 'Show More'}
-                                      </span>
-                                    )}
-                                  </div>
-                                </>
+                                <div className={`proCat_prod_description ${isExpanded ? 'proCat_show-more' : ''}`}>
+                                  <p className="proCat_description-text" ref={descriptionRef}>
+                                    {descriptionText}
+                                  </p>
+
+                                  {(isClamped && !isExpanded) && ( // Show "Show More" only if text is clamped and not expanded
+                                    <span className="proCat_toggle-text" onClick={toggleText}>
+                                      Show More
+                                    </span>
+                                  )}
+
+                                  {isExpanded && ( // Show "Show Less" when the description is expanded
+                                    <span className="proCat_toggle-text" onClick={toggleText}>
+                                      Show Less
+                                    </span>
+                                  )}
+                                </div>
                               )}
                             </div>
                           </div>
