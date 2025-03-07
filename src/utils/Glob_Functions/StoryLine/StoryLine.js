@@ -16,19 +16,26 @@ const getStoryContent = (isStory, selectedProduct) => {
 
     switch (isStory) {
         case 1:
-            storyContent = images?.length > 0 ? images?.slice(0, 1).map((url) => ({ url ,preloadResource: true})) : [];
+            storyContent = images?.length > 0 ? images?.slice(0, 1).map((url) => ({ url, preloadResource: true })) : [];
             break;
         case 2:
             storyContent = videos?.length > 0 ? videos?.map((url) => ({ url, type: 'video', muted: true, preloadResource: true })) : [];
             break;
         case 3:
-            storyContent = images?.length > 0 ? images?.map((url) => ({ url, duration: 1500 ,preloadResource: true })) : [];
+            storyContent = images?.length > 0 ? images?.map((url) => ({ url, duration: 1500, preloadResource: true })) : [];
             break;
         case 4:
             storyContent = [
-                ...images?.map((url) => ({ url, duration: 1500 ,preloadResource: true})),
+                ...images?.map((url) => ({ url, duration: 1500, preloadResource: true })),
                 ...videos?.map((url) => ({ url, type: 'video', duration: 5000, muted: true, preloadResource: true }))
             ];
+            break;
+        case 5:
+            if (videos.length > 0) {
+                storyContent = [{ url: videos?.[0], type: 'video', duration: 5000, muted: true, preloadResource: true }];
+            } else if (images.length > 0) {
+                storyContent = [{ url: images?.[0], duration: 1500, preloadResource: true }];
+            }
             break;
         default:
             return [];
@@ -38,15 +45,18 @@ const getStoryContent = (isStory, selectedProduct) => {
 };
 
 const StoryLine = ({ resetKey, selectedProduct, storeInit }) => {
-    const isStory = storeInit?.CartNo;
+    const isStory = 5 ||  storeInit?.RollOverNo ;
     const storyContent = selectedProduct ? getStoryContent(isStory || 1, selectedProduct) : [];
-    console.log("🚀 ~ StoryLine ~ storyContent:", storyContent)
     if (!selectedProduct || storyContent.length === 0) {
+        return null;
+    }
+    if (isStory == 0) {
         return null;
     }
 
     return (
         <div
+            key={resetKey}
             className="story-diamond"
             style={{
                 position: "absolute",
@@ -56,14 +66,14 @@ const StoryLine = ({ resetKey, selectedProduct, storeInit }) => {
                 zIndex: "9999",
                 height: "100%",
                 width: "100%",
-                backgroundColor: "red !important",
             }}
         >
             <Stories
                 key={resetKey}
                 {...ReactStoriesConfig}
                 stories={storyContent}
-                progressContainerStyles={isStory === 1 ? { display: "none" } : {}}
+                loop={true}
+                progressContainerStyles={storyContent?.length < 2 ? { display: "none" } : {}}
             />
         </div>
     );

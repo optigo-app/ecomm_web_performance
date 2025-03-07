@@ -3,7 +3,7 @@ import OldRegister from './OldRegister'
 import NewRegister from './Register'
 
 const Register = () => {
-    const IsUi = true;
+    const IsUi = false;
   return (
     <div>
         {IsUi ? <OldRegister/>  :<NewRegister/> }
