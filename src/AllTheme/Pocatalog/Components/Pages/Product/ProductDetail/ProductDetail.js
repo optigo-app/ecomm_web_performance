@@ -1642,7 +1642,9 @@ const ProductDetail = () => {
             : ((singleProd?.TitleLine || singleProd?.designno) ? `${singleProd?.designno ?? ''}` : "loading...")}
         </title>
       </Helmet>
-      <div className="proCat_prodDetail_bodyContain">
+      <div className="proCat_prodDetail_bodyContain" style={{
+        height: "100%",
+      }}>
         <div className="proCat_prodDetail_outerContain">
           <div className="proCat_prodDetail_whiteInnerContain">
             {isDataFound ? (

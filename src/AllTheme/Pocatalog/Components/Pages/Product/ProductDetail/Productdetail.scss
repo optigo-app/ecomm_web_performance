@@ -3,7 +3,8 @@
 .proCat_prodDetail_bodyContain {
   background-color: $backgroundColor;
   height: 100%;
-  width: 100%;
+  min-height: 100vh !important;
+  background-color: red !important;
 }
 
 .proCat_prodDetail_outerContain {

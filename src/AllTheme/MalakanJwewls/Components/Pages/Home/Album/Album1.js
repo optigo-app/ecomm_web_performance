@@ -11,7 +11,7 @@ import { useRecoilValue } from "recoil";
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import Pako from 'pako';
 import { Box, Link, Tab, Tabs, tabsClasses, useMediaQuery } from '@mui/material';
-import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatRedirectTitleLine, formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { mala_loginState } from '../../../Recoil/atom';
 
 const Album1 = () => {
@@ -77,7 +77,8 @@ const Album1 = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     }
 
     const handleChangeTab = (event, newValue) => {

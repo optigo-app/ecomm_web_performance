@@ -14,6 +14,7 @@ import Cookies from 'js-cookie';
 import { useRecoilValue } from 'recoil';
 import { loginState } from '../../../Recoil/atom';
 import { Link } from '@mui/material';
+import { formatRedirectTitleLine } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const DesignSet = () => {
     const navigate = useNavigate();
@@ -83,7 +84,9 @@ const DesignSet = () => {
             f: {},
         };
         let encodeObj = compressAndEncode(JSON.stringify(obj));
-        navigate(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+        // navigate(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+        navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
+
     };
 
     const [showAll, setShowAll] = useState(false);

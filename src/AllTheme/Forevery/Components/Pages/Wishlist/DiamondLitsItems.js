@@ -94,6 +94,9 @@ const DiamondLitsItems = ({
 
     const handleButtonChange = async (value, e, item, stockno, shape) => {
 
+        const isRing = JSON.parse(sessionStorage.getItem('isRing')) ?? "";
+        const isPendant = JSON.parse(sessionStorage.getItem('isPendant')) ?? "";
+
         if (value == 'cart') {
             await CartAndWishListAPI('Cart', {}, '', '', stockno).then((res) => {
                 if (res) {
@@ -149,6 +152,9 @@ const DiamondLitsItems = ({
                 navigate(`d/setting-complete-product/det/?p=${custSteps?.[2]?.url}`);
             }
             else {
+                if (!isRing) {
+                    sessionStorage.setItem('isRing', true);
+                }
                 navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${shape}/M=${filterKeyVal}`);
             }
         }
@@ -178,6 +184,9 @@ const DiamondLitsItems = ({
                 navigate(`d/setting-complete-product/det/?p=${custSteps?.[2]?.url}`);
             }
             else {
+                if (!isPendant) {
+                    sessionStorage.setItem('isPendant', true);
+                }
                 navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${shape}/M=${filterKeyVal}`);
             }
         }
@@ -371,13 +380,18 @@ const DiamondLitsItems = ({
                     <Card className="for_WlListCard">
                         <div className="for_cardContentMainDiv">
                             <CardMedia
-                                component="img"
-                                image={item?.image_file_url}
-                                alt={item?.TitleLine}
+                                component="div"
                                 className="for_WlListImage"
-                                onError={handleError}
                                 onClick={() => handleMoveToDetail(item)}
-                            />
+                            >
+                                <img
+                                    src={item?.image_file_url}
+                                    alt={item?.TitleLine}
+                                    onError={(e) => e.target.src = noImageFound}
+                                    className="for_WlListImage"
+                                />
+                            </CardMedia>
+
                             <CardContent className="for_cardContent for_diamondImage">
                                 <div className="for_cardText">
                                     <Typography

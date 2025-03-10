@@ -4,7 +4,7 @@ import './roopMo_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from 'react-toastify';
-import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, formatTitleLine } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 
 const MobileCartDetails = ({
@@ -107,7 +107,7 @@ const MobileCartDetails = ({
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
             <div className="roopMo_Cart_R-details">
-              <p className='roopMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+              <p className='roopMo_cart-Titleline'>{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
               <Divider />
               {storeInitData?.IsProductWebCustomization == 1 &&
                 <div className="roopMo_Cart-options">
@@ -228,7 +228,7 @@ const MobileCartDetails = ({
             </div>
           ) :
             <div className="roopMo_CartCusto_R-details">
-              <p className='roopMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+              <p className='roopMo_cart-Titleline'>{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
               <Divider />
               <div className="roopMo_StockCart-options">
                 {selectedItem?.metaltypename != "" &&

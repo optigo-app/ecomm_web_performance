@@ -853,20 +853,54 @@ const FirstNavMenu = ({
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
+  const [showModal1, setShowModal1] = useState(false);
   const [checkIndex, setCheckIndex] = useState();
   const banner = useHomeBannerImages();
+  const [typeFlow, setTypeFlow] = useState();
+  console.log('typeFlow: ', typeFlow);
 
+  const createYesUrl = `/certified-loose-lab-grown-diamonds/diamond/`;
 
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
   const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
   const steps2 = JSON.parse(sessionStorage.getItem("customizeSteps2Pendant"));
   const steps3 = JSON.parse(sessionStorage.getItem("customizeSteps2Earring"));
 
+  const isRing = JSON.parse(sessionStorage.getItem('isRing'));
+  const isPendant = JSON.parse(sessionStorage.getItem('isPendant'));
+  const isPair = JSON.parse(sessionStorage.getItem('isPair'));
+
   const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1 ?? steps2)?.[2]?.url}`;
+
+  const handleNoConfirm = () => {
+    if (steps1?.[0]?.Status === 'active') {
+      const getRingSteps = [...steps1];
+      sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(getRingSteps));
+      setShowModal(false);
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/${getRingSteps?.[1]?.shape}`);
+    }
+    if (steps2?.[0]?.Status === 'active') {
+      const getPendantSteps = [...steps2];
+      sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(getPendantSteps));
+      setShowModal(false);
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/${getPendantSteps?.[1]?.shape}`);
+    }
+    if (steps3?.[0]?.Status === 'active') {
+      const getEarringSteps = [...steps3];
+      sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(getEarringSteps));
+      setShowModal(false);
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/${getEarringSteps?.[1]?.shape}`);
+    }
+  };
+
 
   const handleToggle = () => {
     setShowModal(!showModal);
   };
+
+  const handleToggle1 = () => {
+    setShowModal1(!showModal1);
+  }
 
   const handleConfirm = () => {
     navigate(createUrl);
@@ -890,7 +924,7 @@ const FirstNavMenu = ({
     (steps2?.[1] !== undefined && steps2?.[1] !== null) ||
     (steps3?.[1] !== undefined && steps3?.[1] !== null);
 
-  const handleCheckSteps = (value, index, style, link) => {
+  const handleCheckSteps = (value, index, style, link, type) => {
     let isStepValid = false;
 
     if (value === "Ring") {
@@ -932,6 +966,7 @@ const FirstNavMenu = ({
 
     if (isStepValid) {
       setShowModal(true);
+      setTypeFlow(type)
       setCheckIndex(index);
     } else {
       // console.log("Alternative action");
@@ -983,7 +1018,7 @@ const FirstNavMenu = ({
             sessionStorage.removeItem('customizeSteps2Pendant');
             sessionStorage.removeItem('custStepData2Pendant')
             sessionStorage.removeItem('customizeSteps2Earring');
-            sessionStorage.removeItem('custStepData2Earring')
+            sessionStorage.removeItem('custStepData2Earring');
           }
         }
         navigate(
@@ -1053,18 +1088,10 @@ const FirstNavMenu = ({
 
     if (
       checkStepsOf0 &&
-      steps1?.[1]?.step2 !== true &&
-      steps2?.[1]?.step2 !== true &&
-      steps3?.[1]?.step2 !== true
+      (steps1?.[1]?.step2 !== true &&
+        steps2?.[1]?.step2 !== true &&
+        steps3?.[1]?.step2 !== true)
     ) {
-      // Clearing session storage
-      sessionStorage.removeItem("customizeSteps2Ring");
-      sessionStorage.removeItem("custStepData2Ring");
-      sessionStorage.removeItem("customizeSteps2Pendant");
-      sessionStorage.removeItem("custStepData2Pendant");
-      sessionStorage.removeItem("customizeSteps2Earring");
-      sessionStorage.removeItem("custStepData2Earring");
-
       if (isEarring) {
         sessionStorage.setItem("isPair", true);
         sessionStorage.removeItem("isRing");
@@ -1083,6 +1110,14 @@ const FirstNavMenu = ({
         sessionStorage.removeItem("isPair");
         sessionStorage.removeItem('isRing');
         navigate(`/certified-loose-lab-grown-diamonds/diamond/`);
+      }
+    } else if (steps1?.[1]?.step2 === true || steps2?.[1]?.step2 === true || steps3?.[1]?.step2 === true) {
+      const getShape = steps1?.[1]?.shape ?? steps2?.[1]?.shape ?? steps3?.[1]?.shape;
+      if (getShape) {
+        setShowModal1(true);
+        setTypeFlow(value);
+      } else {
+        handleNoConfirm();
       }
     } else {
       if (isEarring) {
@@ -1111,8 +1146,8 @@ const FirstNavMenu = ({
       step1: true,
     });
 
-    const step1 = [{ step1: true, shape: "All" }];
-    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    // const step1 = [{ step1: true, shape: "All" }];
+    // sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };
 
   const handleRemoveData = (index) => {
@@ -1130,7 +1165,21 @@ const FirstNavMenu = ({
     sessionStorage.removeItem('isPair');
     sessionStorage.removeItem('isPendant');
     sessionStorage.removeItem('isRing');
+    sessionStorage.removeItem('ringFlowUrl');
+    sessionStorage.removeItem('PendantFlowUrl');
+    sessionStorage.removeItem('EarringFlowUrl');
+    sessionStorage.removeItem('ShapeRingFlowUrl')
+    sessionStorage.removeItem('ShapePendantFlowUrl')
+    sessionStorage.removeItem('ShapeEarringFlowUrl')
+
     if (index === 0) {
+      if (typeFlow === "Ring") {
+        sessionStorage.setItem('isRing', true)
+      } else if (typeFlow === "Pendant") {
+        sessionStorage.setItem('isPendant', true)
+      } else if (typeFlow === "Earring") {
+        sessionStorage.setItem('isPair', true)
+      }
       navigate(`/certified-loose-lab-grown-diamonds/diamond/`);
     } else if (index === 1) {
       const addCategory = `Ring/category`;
@@ -1279,7 +1328,7 @@ const FirstNavMenu = ({
                     </span>
                   )}
                   {checkSteps ? (
-                    <span class="ring-type" onClick={() => handleCheckSteps("Diamond", 0)}>
+                    <span class="ring-type" onClick={() => handleCheckSteps("Diamond", 0, "", "", "Ring")}>
                       <IoDiamondOutline size={15} /> Start With a Diamond
                     </span>
                   ) : (
@@ -1310,7 +1359,7 @@ const FirstNavMenu = ({
                     </span>
                   )}
                   {checkSteps ? (
-                    <span class="ring-type" onClick={() => handleCheckSteps("Diamond", 0)}>
+                    <span class="ring-type" onClick={() => handleCheckSteps("Diamond", 0, "", "", "Pendant")}>
                       <IoDiamondOutline size={15} /> Start With a Diamond
                     </span>
                   ) : (
@@ -1342,7 +1391,7 @@ const FirstNavMenu = ({
                   </span>
                 )}
                 {checkSteps ? (
-                  <span class="ring-type" onClick={() => handleCheckSteps("Diamond", 0)}>
+                  <span class="ring-type" onClick={() => handleCheckSteps("Diamond", 0, "", "", "Earring")}>
                     <IoDiamondOutline size={15} /><IoDiamondOutline size={15} /> Start With a Diamond
                   </span>
                 ) : (
@@ -1483,6 +1532,15 @@ const FirstNavMenu = ({
         handleClose={handleToggle}
         handleRemoveData={handleRemoveData}
         index={checkIndex}
+      />
+      <CheckingDiaSetModal
+        open={showModal1}
+        link1={createYesUrl}
+        handleNoConfirm={handleNoConfirm}
+        handleClose={handleToggle1}
+        handleRemoveData={handleRemoveData}
+        index={checkIndex}
+        flowType={typeFlow}
       />
     </>
   );
@@ -1796,6 +1854,13 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
     sessionStorage.removeItem("isRing");
     sessionStorage.removeItem("isPendant");
     sessionStorage.removeItem("isPair");
+    sessionStorage.removeItem('ringFlowUrl');
+    sessionStorage.removeItem('PendantFlowUrl');
+    sessionStorage.removeItem('EarringFlowUrl');
+    sessionStorage.removeItem('ShapeRingFlowUrl')
+    sessionStorage.removeItem('ShapePendantFlowUrl')
+    sessionStorage.removeItem('ShapeEarringFlowUrl')
+
     if (index === 0) {
       Navigate(`/certified-loose-lab-grown-diamonds/diamond/`);
     } else if (index === 1) {
@@ -1812,7 +1877,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
       Navigate(
         `/certified-loose-lab-grown-diamonds/settings/Pendant/M=${filterKeyVal}`
       );
-    } else {
+    } else if (index === 3) {
       const addCategory = `Earring/category`;
       const filterKeyVal = btoa(addCategory);
       sessionStorage.setItem('isPair', true);
@@ -2343,20 +2408,42 @@ const Modal = ({ open, handleConfirm, handleClose, handleRemoveData, index }) =>
 };
 
 
-const CheckingDiaSetModal = ({ open, link1, handleNoConfirm, handleClose, handleRemoveData, index, shape }) => {
-  const navigate = useNavigate();
+const CheckingDiaSetModal = ({ open, link1, handleNoConfirm, handleClose, handleRemoveData, index, shape, flowType }) => {
 
   const handleYesConfirm = () => {
+    sessionStorage.removeItem("customizeSteps2Ring");
+    sessionStorage.removeItem("custStepData2Ring");
+    sessionStorage.removeItem('isRing');
+    sessionStorage.removeItem("setImage");
+    sessionStorage.removeItem('ringFlowUrl')
+    sessionStorage.removeItem('ShapeRingFlowUrl')
+    sessionStorage.removeItem("customizeStepsPendant");
+    sessionStorage.removeItem("custStepData2Pendant");
+    sessionStorage.removeItem("setPenImage");
+    sessionStorage.removeItem("isPendant");
+    sessionStorage.removeItem('PendantFlowUrl')
+    sessionStorage.removeItem('ShapePendantFlowUrl')
+    sessionStorage.removeItem("customizeStepsEarring");
+    sessionStorage.removeItem("custStepData2Earring");
+    sessionStorage.removeItem("setEarImage");
+    sessionStorage.removeItem("isPair");
+    sessionStorage.removeItem('EarringFlowUrl')
+    sessionStorage.removeItem('ShapeEarringFlowUrl')
     sessionStorage.removeItem("customizeSteps");
     sessionStorage.removeItem("custStepData");
-    sessionStorage.removeItem("customizeSteps2Ring");
-    sessionStorage.removeItem("customizeStepsPendant");
-    sessionStorage.removeItem("custStepData2Ring");
-    sessionStorage.removeItem("custStepData2Pendant");
     handleClose();
     const step = [{ step1: true, shape: "All" }]
     sessionStorage.setItem('customizeSteps', JSON.stringify(step));
-    window.location.href = `${link1}${shape}`;
+    if (flowType !== "") {
+      if (flowType === "ring") {
+        sessionStorage.setItem('isRing', 'true')
+      } else if (flowType === "pendant") {
+        sessionStorage.setItem('isPendant', 'true')
+      } else if (flowType === "earring") {
+        sessionStorage.setItem('isPair', 'true')
+      }
+    }
+    window.location.href = `${link1}${shape ? shape : ""}`;
   }
 
   return (

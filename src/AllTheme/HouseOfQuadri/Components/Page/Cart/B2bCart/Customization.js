@@ -3,6 +3,7 @@ import "./hoq_cartPage.scss";
 import { Divider, Skeleton } from "@mui/material";
 import QuantitySelector from "./QuantitySelector";
 import { toast } from "react-toastify";
+import { formatTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const Customization = ({
   ispriceloding,
@@ -47,15 +48,15 @@ const Customization = ({
 
   const handleUpdateCart = async (selectedItem) => {
     const resUpdate = await onUpdateCart(selectedItem);
-    console.log(resUpdate , "success")
+    console.log(resUpdate, "success")
     if (resUpdate?.msg == "success") {
-      toast.success(<Toast/>,{
-        hideProgressBar: true, 
+      toast.success(<Toast />, {
+        hideProgressBar: true,
         style: {
           borderRadius: "4px",
-          padding : '-2px 45px' , 
-          boxShadow : `rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px`,
-          border  :"2px solid white"
+          padding: '-2px 45px',
+          boxShadow: `rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px`,
+          border: "2px solid white"
         },
       });
     }
@@ -65,7 +66,7 @@ const Customization = ({
     <>
       {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
         <div className="hoq_CartCusto_R-details">
-          <p className="hoq_cart-Titleline">{selectedItem?.TitleLine}</p>
+          <p className="hoq_cart-Titleline">{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
           <Divider />
           {storeInitData?.IsProductWebCustomization == 1 && (
             <div className="hoq_Cart-options">
@@ -217,7 +218,7 @@ const Customization = ({
                       <option value={selectedItem?.size}>
                         {selectedItem?.size}
                       </option>
-                    ) : ( 
+                    ) : (
                       <>
                         {sizeCombo?.rd?.map((option) => (
                           <option key={option?.id} value={option?.sizename}>
@@ -275,7 +276,7 @@ const Customization = ({
         </div>
       ) : (
         <div className="hoq_CartCusto_R-details">
-          <p className="hoq_cart-Titleline">{selectedItem?.TitleLine}</p>
+          <p className="hoq_cart-Titleline">{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
           <Divider />
           <div className="hoq_StockCart-options">
             {selectedItem?.metaltypename != "" && (
@@ -320,7 +321,7 @@ const Customization = ({
             )}
           </div>
           <div className="hoq_stockPriceQtyDiv">
-          {selectedItem?.IsMrpBase == 0 ? (
+            {selectedItem?.IsMrpBase == 0 ? (
               <div className="option">
                 <label htmlFor="qty">Qty:</label>
                 <span>{selectedItem?.Quantity}</span>

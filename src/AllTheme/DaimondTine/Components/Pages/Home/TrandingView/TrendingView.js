@@ -12,7 +12,7 @@ import 'swiper/css/navigation';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatRedirectTitleLine, formatTitleLine, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { useNavigate } from 'react-router-dom';
 import pako from "pako";
@@ -119,17 +119,18 @@ const TrendingView = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`);
+        navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     }
 
     const handleMouseEnterRing1 = (data) => {
         if (data?.ImageCount > 1) {
-            setHoveredItem(data.SrNo); 
+            setHoveredItem(data.SrNo);
             setRing1ImageChange(true)
         }
     }
     const handleMouseLeaveRing1 = () => {
-        setHoveredItem(null); 
+        setHoveredItem(null);
         setRing1ImageChange(false)
     }
 
@@ -137,7 +138,7 @@ const TrendingView = () => {
     for (let i = 0; i < trandingViewData?.length; i += 3) {
         chunkedData.push(trandingViewData?.slice(i, i + 3));
     }
-    
+
     return (
         <div>
             {trandingViewData?.length != 0 &&
@@ -150,11 +151,11 @@ const TrendingView = () => {
                             <p className='linkingTitle'>Trending View</p>
                             <Slider {...settings} >
                                 {chunkedData?.map((chunk, index) => (
-                                        <div className='linkRingLove'>
-                                              {chunk?.map((data, dataIndex) => (
+                                    <div className='linkRingLove'>
+                                        {chunk?.map((data, dataIndex) => (
                                             <div className='smr_TrendingMainDiv' key={dataIndex}>
                                                 <div className='linkLoveRing1' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
-                                                    <img src={hoveredItem === data.SrNo  ?
+                                                    <img src={hoveredItem === data.SrNo ?
                                                         `${imageUrl}${data.designno === undefined ? '' : data?.designno}~2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                         :
                                                         `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
@@ -163,17 +164,17 @@ const TrendingView = () => {
                                                     />
                                                 </div>
                                                 <div className='linkLoveRing1Desc'>
-                                                    <p className='ring1Desc'>{data?.TitleLine}</p>
+                                                    <p className='ring1Desc'>{formatTitleLine(data?.TitleLine) && data?.TitleLine}</p>
                                                     <p className='ring1Desc'>
                                                         <span className="smr_currencyFont">
-                                                           {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                            {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                         </span> &nbsp;
                                                         {data?.UnitCostWithMarkUp}</p>
                                                 </div>
                                             </div>
-                                             ))}
-                                        </div>
-                                    ))
+                                        ))}
+                                    </div>
+                                ))
                                 }
                             </Slider>
                             <p className='smr_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>SHOP COLLECTION</p>

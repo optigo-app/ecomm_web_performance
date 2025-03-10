@@ -11,7 +11,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useNavigate } from 'react-router-dom';
 import pako from "pako";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
-import { formatter, storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatRedirectTitleLine, formatter, storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import Cookies from 'js-cookie';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { smrMA_homeLoading, smrMA_loginState } from '../../../Recoil/atom';
@@ -135,7 +135,8 @@ const TrendingView = ({data}) => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-      const link = `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`;
+    //   const link = `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`;
+      const link = `/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`;
         if (IsB2BWebsite == 1) {
             if (islogin) {
                 navigation(link)

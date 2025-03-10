@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import QuantitySelector from './QuantitySelector';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
-import {proCat_CartCount } from '../../../Recoil/atom';
+import { proCat_CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import Cookies from "js-cookie";
 import moment from 'moment';
+import { formatTitleLine } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const ExampleComponent = ({
     cartData,
@@ -24,7 +25,7 @@ const ExampleComponent = ({
     const visiterId = Cookies.get('visiterId');
 
     const shipsDate = cartData?.shipsdate;
-    const dayOfMonth = moment(shipsDate).format('D'); 
+    const dayOfMonth = moment(shipsDate).format('D');
 
     useEffect(() => {
         const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
@@ -60,7 +61,7 @@ const ExampleComponent = ({
                         />
                     </td>
                     <td className='smr_b2ccartContentTd'>
-                        <p className='smr_b2ccartContentTitle' title="Titleline">{cartData?.TitleLine}</p>
+                        <p className='smr_b2ccartContentTitle' title="Titleline">{formatTitleLine(cartData?.TitleLine) && cartData?.TitleLine}</p>
                         {/* <p className='smr_b2ccartContentMtDT'>{cartData?.metalcolorname} | {cartData?.MetalWeight} | {cartData?.totalGrossweight} | {cartData?.totalDiaWt} / {cartData?.totaldiamondpcs} | {cartData?.totalCSWt}  / {cartData?.totalcolorstonepcs}</p> */}
                         <p className='smr_b2ccartContentMtDT'>
                             <span className='smr_b2ccartContentcartData'>{cartData?.metalcolorname}</span>
@@ -86,19 +87,19 @@ const ExampleComponent = ({
                         </div>
                         <td className="smr_B2cCartshippingDayMobile" title="Shipping Info">Ships in {dayOfMonth} days</td>
                         <td className="smr_B2cCartPriceDayMobile" title="Price">
-                        {storeInitData?.IsPriceShow == 1 &&
-                            <span>
-                                <span
-                                    className="smr_currencyFont"
-                                    dangerouslySetInnerHTML={{
-                                        __html: decodeEntities(
-                                            CurrencyData?.Currencysymbol
-                                        ),
-                                    }}
-                                />
-                                {(cartData?.UnitCostWithMarkUp)}
-                            </span>
-                        }
+                            {storeInitData?.IsPriceShow == 1 &&
+                                <span>
+                                    <span
+                                        className="smr_currencyFont"
+                                        dangerouslySetInnerHTML={{
+                                            __html: decodeEntities(
+                                                CurrencyData?.Currencysymbol
+                                            ),
+                                        }}
+                                    />
+                                    {(cartData?.UnitCostWithMarkUp)}
+                                </span>
+                            }
                         </td>
                     </td>
                     <td className="smr_B2C-text-right smr_B2cCartshippingDay" title="Shipping Info">Ships in {dayOfMonth} days</td>
@@ -116,7 +117,7 @@ const ExampleComponent = ({
                                 {(cartData?.UnitCostWithMarkUp)}
                             </span>
                         }
-                        </td>
+                    </td>
                 </tr>
             </tbody>
         </table>

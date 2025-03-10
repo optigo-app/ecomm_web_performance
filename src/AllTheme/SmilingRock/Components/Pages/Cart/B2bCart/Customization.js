@@ -3,7 +3,7 @@ import './smr_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 import { toast } from 'react-toastify';
-import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, formatTitleLine } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Customization = ({
   ispriceloding,
@@ -72,7 +72,7 @@ const Customization = ({
     <>
       {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
         <div className="smr_CartCusto_R-details">
-          <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
+          <p className='smr_cart-Titleline'>{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
           <Divider />
           {storeInitData?.IsProductWebCustomization == 1 &&
             <div className="smr_Cart-options">
@@ -198,7 +198,7 @@ const Customization = ({
         </div>
       ) :
         <div className="smr_CartCusto_R-details">
-          <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
+          <p className='smr_cart-Titleline'>{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
           <Divider />
           <div className="smr_StockCart-options">
             {selectedItem?.metaltypename != "" &&

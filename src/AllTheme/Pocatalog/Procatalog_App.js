@@ -258,10 +258,10 @@ const Procatalog_App = () => {
           <Route path="/ForgotPass" element={<ForgotPass />} />
           <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/ContactUs" element={<ContactUs />} />
-          <Route path="/servicePolicy" element={<ServicePolicy />} />
+          {/* <Route path="/ContactUs" element={<ContactUs />} /> */}
+          {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
           <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
-          <Route path="/FunFact" element={<FunFact />} />
+          {/* <Route path="/FunFact" element={<FunFact />} /> */}
           {/* <Route path="/Lookbook" element={<Lookbook />} /> */}
           <Route path="/aboutUs" element={<AboutUs2 />} />
           <Route path="/privacy-policy" element={<TermsCondition />} />

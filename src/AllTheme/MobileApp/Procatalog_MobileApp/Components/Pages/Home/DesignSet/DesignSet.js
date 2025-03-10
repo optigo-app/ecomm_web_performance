@@ -13,6 +13,7 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/
 import { PC_ApploginState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import Cookies from 'js-cookie';
+import { formatRedirectTitleLine, formatTitleLine } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const DesignSet = () => {
     const [imageUrl, setImageUrl] = useState();
@@ -88,12 +89,14 @@ const DesignSet = () => {
 
         if (storeinit?.IsB2BWebsite == 1) {
             if (islogin) {
-                navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+                // navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+                navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
             } else {
                 navigation('/signin')
             }
         } else {
-            navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+            // navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+            navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
         }
 
     };
@@ -134,7 +137,7 @@ const DesignSet = () => {
                                 alt={`Slide ${index}`}
                                 onClick={() => handleNavigation(slide?.designno, slide?.autocode, slide?.TitleLine ? slide?.TitleLine : '')}
                             />
-                            <p className="smr_designList_title">{slide?.TitleLine}</p>
+                            <p className="smr_designList_title">{formatTitleLine(slide?.TitleLine) && slide?.TitleLine}</p>
                             {/* <p className="smr_designList_title">
                                 <span
                                     dangerouslySetInnerHTML={{

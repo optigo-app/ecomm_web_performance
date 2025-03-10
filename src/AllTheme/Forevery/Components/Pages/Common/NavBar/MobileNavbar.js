@@ -1485,20 +1485,42 @@ const Modal = ({ open, handleConfirm, handleClose, handleRemoveData, index }) =>
   );
 };
 
-const CheckingDiaSetModal = ({ open, link1, handleNoConfirm, handleClose, handleRemoveData, index }) => {
-  const navigate = useNavigate();
+const CheckingDiaSetModal = ({ open, link1, handleNoConfirm, handleClose,shape, handleRemoveData, index, flowType }) => {
 
   const handleYesConfirm = () => {
+    sessionStorage.removeItem("customizeSteps2Ring");
+    sessionStorage.removeItem("custStepData2Ring");
+    sessionStorage.removeItem('isRing');
+    sessionStorage.removeItem("setImage");
+    sessionStorage.removeItem('ringFlowUrl')
+    sessionStorage.removeItem('ShapeRingFlowUrl')
+    sessionStorage.removeItem("customizeStepsPendant");
+    sessionStorage.removeItem("custStepData2Pendant");
+    sessionStorage.removeItem("setPenImage");
+    sessionStorage.removeItem("isPendant");
+    sessionStorage.removeItem('PendantFlowUrl')
+    sessionStorage.removeItem('ShapePendantFlowUrl')
+    sessionStorage.removeItem("customizeStepsEarring");
+    sessionStorage.removeItem("custStepData2Earring");
+    sessionStorage.removeItem("setEarImage");
+    sessionStorage.removeItem("isPair");
+    sessionStorage.removeItem('EarringFlowUrl')
+    sessionStorage.removeItem('ShapeEarringFlowUrl')
     sessionStorage.removeItem("customizeSteps");
     sessionStorage.removeItem("custStepData");
-    sessionStorage.removeItem("customizeSteps2Ring");
-    sessionStorage.removeItem("customizeStepsPendant");
-    sessionStorage.removeItem("custStepData2Ring");
-    sessionStorage.removeItem("custStepData2Pendant");
     handleClose();
     const step = [{ step1: true, shape: "All" }]
     sessionStorage.setItem('customizeSteps', JSON.stringify(step));
-    window.location.href = link1;
+    if (flowType !== "") {
+      if (flowType === "ring") {
+        sessionStorage.setItem('isRing', 'true')
+      } else if (flowType === "pendant") {
+        sessionStorage.setItem('isPendant', 'true')
+      } else if (flowType === "earring") {
+        sessionStorage.setItem('isPair', 'true')
+      }
+    }
+    window.location.href = `${link1}${shape ? shape : ""}`;
   }
 
   return (
