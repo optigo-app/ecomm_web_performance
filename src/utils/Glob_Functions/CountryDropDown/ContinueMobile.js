@@ -1,6 +1,6 @@
 import './CountryDropDown.scss';
 import { Alert, Autocomplete, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CountryCodeListApi } from '../../API/Auth/CountryCodeListApi';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
@@ -20,6 +20,7 @@ onSubmit
   const [Countrycode, setCountrycode] = useState([]);
   const [open, setOpen] = useState(false);
   const [isIndiaSelected, setIsIndiaSelected] = useState(true); 
+  const dropdownRef = useRef(null);
 
 
   useEffect(() => {
@@ -42,7 +43,26 @@ onSubmit
       .catch((err) => console.log(err));
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef?.current && !dropdownRef?.current?.contains(event?.target)) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
+
+
   const handleCountryChange = (event, value) => {
+    setErrors({  ...Errors,mobileNo: ` `});
     if (value) {
       setCountrycodestate(value?.mobileprefix);
       setCountryDefault(value?.PhoneLength);
@@ -55,10 +75,6 @@ onSubmit
 
       setOpen(false);
       setMobileNo('')
-      setErrors({
-        ...Errors,
-        mobileNo: `Mobile number must be ${value?.PhoneLength} digits.`,
-      });
     }
   };
 
@@ -103,8 +119,10 @@ onSubmit
 
   return (
     <>
-    <div className="mobile-smr">
-      <div className="MOBILE_CODE">
+    <div className="mobile-smr" ref={dropdownRef}>
+      <div className="MOBILE_CODE"
+       onClick={() =>setOpen(true)}
+      >
         <input
           type="text"
           placeholder="91"
@@ -112,6 +130,10 @@ onSubmit
           onFocus={() => setOpen(true)} 
           // Open the dropdown when focused
           readOnly
+          style={{
+            cursor: 'pointer',
+            pointerEvents: 'none',
+          }}
         />
       </div>
       {open && (
@@ -144,8 +166,8 @@ onSubmit
         }}
         value={mobileNo}
         onChange={handleMobileInputChange} // Using local handler to check length
-        error={!!Errors.mobileNo} // Show error if it exists
-        helperText={Errors.mobileNo}
+        error={ !!Errors?.mobileNo} // Show error if it exists
+        helperText={Errors?.mobileNo}
         onKeyDown={handleKeyChange}
         autoFocus={true}
       />

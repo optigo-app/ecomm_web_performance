@@ -56,8 +56,8 @@ const Header = () => {
         console.log("getCountApiErr", err);
       }
     })
-  // }, [location.key])  for rember me
-}, [location.key])
+  }, [location.key])  // for rember me
+// }, [location.key])
   
 
   useEffect(() => {
