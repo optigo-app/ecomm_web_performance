@@ -18,7 +18,6 @@ import { proCat_loginState } from "../../../Recoil/atom";
 import { CountryCodeListApi } from "../../../../../../utils/API/Auth/CountryCodeListApi";
 import Cookies from 'js-cookie';
 import CountryDropDown from "../../../../../../utils/Glob_Functions/CountryDropDown/CountryDropDown";
-// import { CountryCode } from "../../../../../../utils/assets/Countrylist";
 
 export default function Register() {
   const navigation = useNavigate();
