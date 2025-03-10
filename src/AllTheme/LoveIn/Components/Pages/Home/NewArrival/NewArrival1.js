@@ -8,7 +8,7 @@ import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { homeLoading, loginState, lov_loginState, smr_loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
 import { motion } from 'framer-motion';
-import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatRedirectTitleLine, formatter, formatTitleLine, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 
 const NewArrival = () => {
@@ -143,7 +143,9 @@ const NewArrival = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`);
+        navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
+
     }
 
     const decodeEntities = (html) => {
@@ -210,10 +212,10 @@ const NewArrival = () => {
                                         />
                                     </div>
                                     <CardContent className='smr_newarrproduct-info'>
-                                        <Typography  className="smr_newArrTitle">
+                                        <Typography className="smr_newArrTitle">
                                             {product?.designno}
-                                            {product?.TitleLine && " - "}
-                                            {product?.TitleLine != "" && product?.TitleLine}
+                                            {formatTitleLine(product?.TitleLine) && " - "}
+                                            {formatTitleLine(product?.TitleLine) && product?.TitleLine}
                                         </Typography>
                                         <Typography variant='body2'>
                                             {storeInit?.IsGrossWeight == 1 &&
@@ -252,7 +254,7 @@ const NewArrival = () => {
                                                 </>
                                             }
                                         </Typography>
-                                        {storeInit?.IsPriceShow == 1 &&  <p className='smr_newArrPrice'>
+                                        {storeInit?.IsPriceShow == 1 && <p className='smr_newArrPrice'>
                                             <span
                                                 className="smr_currencyFont"
                                                 dangerouslySetInnerHTML={{

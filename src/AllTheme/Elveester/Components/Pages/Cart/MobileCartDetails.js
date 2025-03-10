@@ -4,7 +4,7 @@ import './elvMo_cartPage.modul.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from 'react-toastify';
-import { formatter } from '../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, formatTitleLine } from '../../../../../utils/Glob_Functions/GlobalFunction';
 import noImageFound from "../../Assets/image-not-found.jpg"
 
 const MobileCartDetails = ({
@@ -105,7 +105,7 @@ const MobileCartDetails = ({
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
             <div className="elvMo_Cart_R-details">
-              <p className='elvMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+              <p className='elvMo_cart-Titleline'>{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
               <Divider />
               {storeInitData?.IsProductWebCustomization == 1 &&
                 <div className="elvMo_Cart-options">
@@ -248,7 +248,7 @@ const MobileCartDetails = ({
             </div>
           ) :
             <div className="elvMo_CartCusto_R-details">
-              <p className='elvMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+              <p className='elvMo_cart-Titleline'>{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
               <Divider />
               <div className="elvMo_StockCart-options">
                 {selectedItem?.metaltypename != "" &&

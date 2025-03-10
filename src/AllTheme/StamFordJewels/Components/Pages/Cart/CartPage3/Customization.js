@@ -3,7 +3,7 @@ import './stam3_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 import { toast } from 'react-toastify';
-import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, formatTitleLine } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Customization = ({
   ispriceloding,
@@ -62,7 +62,7 @@ const Customization = ({
     <>
       {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
         <div className="stam3_CartCusto_R-details">
-          <p className='stam3_cart-Titleline'>{selectedItem?.designno != "" && selectedItem?.designno}{selectedItem?.TitleLine != "" && " - " + selectedItem?.TitleLine}</p>
+          <p className='stam3_cart-Titleline'>{selectedItem?.designno != "" && selectedItem?.designno}{formatTitleLine(selectedItem?.TitleLine) && " - " + selectedItem?.TitleLine}</p>
           <Divider className='stam3_dividerline' />
           {storeInitData?.IsProductWebCustomization == 1 &&
             <div className="stam3_Cart-options">
@@ -179,7 +179,7 @@ const Customization = ({
         </div>
       ) :
         <div className="stam3_CartCusto_R-details">
-          <p className='stam3_cart-Titleline'>{selectedItem?.TitleLine}</p>
+          <p className='stam3_cart-Titleline'>{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
           <Divider className='stam3_dividerline' />
           {selectedItem?.Sol_StockNo != "" &&
             <div className='stam3_diaTitleLine'>

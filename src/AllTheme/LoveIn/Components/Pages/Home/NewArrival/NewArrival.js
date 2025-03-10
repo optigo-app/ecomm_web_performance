@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { loginState, lov_loginState, smr_loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatRedirectTitleLine, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const NewArrival = () => {
 
@@ -65,7 +65,9 @@ const NewArrival = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
+
     }
 
     const decodeEntities = (html) => {

@@ -27,6 +27,7 @@ export const getDomainName = async () => {
       'varajewels.com': "vaara",
       'www.varajewels.com':"vaara",
       'sonasons.optigoapps.com': "demo",
+      'uscreation.procatalog.in' : "uscreation",
       'localhost': "default",
     };
     return domainMap[hostname] || "default";

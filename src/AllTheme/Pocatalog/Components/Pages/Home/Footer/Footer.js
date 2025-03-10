@@ -74,16 +74,16 @@ const Footer = ({ fromPage }) => {
                 companyInfoData?.FrontEndZipCode !== "" ||
                 companyInfoData?.FrontEndContactno1 !== "" ||
                 companyInfoData?.FrontEndEmail1 !== "") && (
-                <p
-                  style={{
-                    color: "#7d7f85",
-                    fontSize: "17px",
-                    fontWeight: 600,
-                  }}
-                >
-                  Contact Us
-                </p>
-              )}
+                  <p
+                    style={{
+                      color: "#7d7f85",
+                      fontSize: "17px",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Contact Us
+                  </p>
+                )}
               {companyInfoData?.FrontEndAddress !== "" && (
                 <p
                   className="footerOfficeDesc"
@@ -112,13 +112,15 @@ const Footer = ({ fromPage }) => {
                       fontSize: "13px",
                     }}
                   >
-                    {/* <a href={`tel:${companyInfoData?.FrontEndContactno1}`}>
-                      {companyInfoData?.FrontEndContactno1}
-                    </a> */}
-                    {companyInfoData?.FrontEndContactno1}
+                    <span>{companyInfoData?.FrontEndContactno1}</span>
+                    <span>
+                    &#x2c;&nbsp;
+                    </span>
+                    <span>{companyInfoData?.FrontEndContactno2}</span>
                   </span>
                 </p>
               )}
+
               {companyInfoData?.FrontEndEmail1 !== "" && (
                 <p
                   className="footerOfficeDesc"
@@ -146,7 +148,7 @@ const Footer = ({ fromPage }) => {
             >
               {socialMediaData?.length != 0 && (
                 <p
-                className='pro-title'
+                  className='pro-title'
                   style={{
                     color: "#7d7f85",
                     fontSize: "17px",

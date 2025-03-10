@@ -193,12 +193,17 @@ const WishlistItems = ({
                     <Card className="for_WlListCard">
                         <div className="for_cardContentMainDiv">
                             <CardMedia
-                                component="img"
-                                image={imageSrc}
-                                alt={item?.TitleLine}
+                                component="div"
                                 className="for_WlListImage"
                                 onClick={() => handleMoveToDetail(item)}
-                            />
+                            >
+                                <img
+                                    src={imageSrc}
+                                    alt={item?.TitleLine}
+                                    onError={(e) => e.target.src = noImageFound}
+                                    className="for_WlListImage"
+                                />
+                            </CardMedia>
                             <CardContent className="for_cardContent">
                                 <div className="for_cardText">
                                     <Typography
@@ -342,12 +347,17 @@ const WishlistItems = ({
                 <Card className="for_WlListCard">
                     <div className="for_cardContentMainDiv">
                         <CardMedia
-                            component="img"
-                            image={imageSrc}
-                            alt={item?.TitleLine}
+                            component="div"
                             className="for_WlListImage"
                             onClick={() => handleMoveToDetail(item)}
-                        />
+                        >
+                            <img
+                                src={imageSrc}
+                                alt={item?.TitleLine}
+                                onError={(e) => e.target.src = noImageFound}
+                                className="for_WlListImage"
+                            />
+                        </CardMedia>
                         <CardContent className="for_cardContent">
                             <div className="for_cardText">
                                 <Typography

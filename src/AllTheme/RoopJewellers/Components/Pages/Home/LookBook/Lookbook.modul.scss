@@ -46,14 +46,6 @@
     font-family: $fontRegular !important;
   }
 
-  .roop_filter_text {
-    display: flex;
-    flex-direction: column;
-    span {
-      font-family: $fontRegular;
-    }
-  }
-
   .roop_lookBookMobileTopLine {
     display: flex;
     justify-content: space-between;
@@ -221,8 +213,9 @@
     width: 120px;
     height: 35px;
     border-radius: 0;
+
     @media screen and (max-width:550px) {
-     margin-right: 6px; 
+      margin-right: 6px;
     }
 
     input {
@@ -987,4 +980,16 @@
 
 .MuiTypography-root.MuiTypography-body1.MuiFormControlLabel-label.MuiTypography-root {
   font-family: $fontRegular !important;
+}
+
+.roop_filter_text {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  margin-top: 1.5rem;
+
+  span {
+    font-family: $fontRegular;
+  }
 }

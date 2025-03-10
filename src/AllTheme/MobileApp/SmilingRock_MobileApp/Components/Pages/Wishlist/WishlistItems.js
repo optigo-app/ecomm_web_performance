@@ -11,6 +11,7 @@ import noImageFound from "../../Assets/image-not-found.jpg";
 import { smrMA_CartCount, smrMA_WishCount } from "../../Recoil/atom";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import { Skeleton } from "@mui/material";
+import { formatTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const WishlistItems = ({
   item,
@@ -151,7 +152,7 @@ const Informationtab = ({item,decodeEntities,  currency ,IsPriceShow})=>{
                             </div>
             <div className="title_mapp_sec">
               {item?.designno != "" && item?.designno}
-              {(item?.TitleLine != "" && item?.TitleLine != null)  && " - " + item?.TitleLine}
+              {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}
             </div>
             <div className="two_col_grid_mapp">
                 <div className="col">NWT : {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</div>
@@ -171,7 +172,7 @@ const OldInformationtab = ({item ,decodeEntities ,currency})=>{
          <CardContent className='smrMo_cardContent'>
                         <div className='cardText'>
                             <Typography variant="body2" className='smrMo_card-ContentData smrMo_WlTitleline'>
-                                {item?.designno != "" && item?.designno}{item?.TitleLine != "" && " - " + item?.TitleLine}
+                                {item?.designno != "" && item?.designno}{formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}
                             </Typography>
                             <Typography variant="body2" className='smrMo_card-ContentData'>
                                 <span className='smrMo_wishDT'>NWT : </span>

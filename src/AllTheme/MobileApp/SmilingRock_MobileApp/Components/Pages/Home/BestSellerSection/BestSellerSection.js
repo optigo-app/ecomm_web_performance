@@ -6,7 +6,7 @@ import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
-import { formatter, storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatRedirectTitleLine, formatter, storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import Cookies from 'js-cookie';
 import { smrMA_homeLoading, smrMA_loginState } from '../../../Recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -119,7 +119,8 @@ const BestSellerSection = ({data}) => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        const link = `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}` ;
+        // const link = `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}` ;
+        const link = `/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`;
         if(storeinit?.IsB2BWebsite == 1){
           if(islogin){
             navigation(link)
@@ -128,7 +129,8 @@ const BestSellerSection = ({data}) => {
             navigation('/signin')
           }
         }else{
-          navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        //   navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+          navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`)
         }
     }
 

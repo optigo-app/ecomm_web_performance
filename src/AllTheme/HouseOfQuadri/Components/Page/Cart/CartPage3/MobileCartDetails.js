@@ -4,7 +4,7 @@ import './Hoq3Mo_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from 'react-toastify';
-import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, formatTitleLine } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import noImageFound from "../../../Assets/noImageFound.jpg";
 
 
@@ -104,7 +104,7 @@ const MobileCartDetails = ({
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
             <div className="HoqMo_Cart_R-details">
-              <p className='HoqMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+              <p className='HoqMo_cart-Titleline'>{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
               <Divider />
               {storeInitData?.IsProductWebCustomization == 1 &&
                 <div className="HoqMo_Cart-options">
@@ -225,7 +225,7 @@ const MobileCartDetails = ({
             </div>
           ) :
             <div className="HoqMo_CartCusto_R-details">
-              <p className='HoqMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+              <p className='HoqMo_cart-Titleline'>{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
               <Divider />
               <div className="HoqMo_StockCart-options">
                 {selectedItem?.metaltypename != "" &&

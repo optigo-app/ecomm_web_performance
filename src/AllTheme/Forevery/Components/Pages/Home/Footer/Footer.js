@@ -320,7 +320,7 @@ const Footer = () => {
           //   handleNavigate(e, "/change-cookie-preferences");
           // }}
           >
-            Ver: 1.0.270220251707
+            Ver: 1.0.100320251210
             {/* { 110120251850 : date and time } */}
           </a>
         </li>

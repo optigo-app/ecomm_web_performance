@@ -14,6 +14,7 @@ import Cookies from 'js-cookie';
 import { useRecoilValue } from 'recoil';
 import { loginState } from '../../../Recoil/atom';
 import { Link } from '@mui/material';
+import { formatRedirectTitleLine, formatTitleLine } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const DesignSet = () => {
     const navigate = useNavigate();
@@ -83,7 +84,8 @@ const DesignSet = () => {
             f: {},
         };
         let encodeObj = compressAndEncode(JSON.stringify(obj));
-        navigate(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+        // navigate(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+        navigate(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     };
 
     const decodeEntities = (html) => {
@@ -136,7 +138,7 @@ const DesignSet = () => {
                                 alt={`Slide ${index}`}
                                 onClick={() => handleNavigation(slide?.designno, slide?.autocode, slide?.TitleLine ? slide?.TitleLine : '')}
                             />
-                            <p className="mala_designList_title">{slide?.TitleLine}</p>
+                            <p className="mala_designList_title">{formatTitleLine(slide?.TitleLine) && slide?.TitleLine}</p>
                         </div>
                     ))}
                     {!showAll && itemsToShow?.length > 6 && (

@@ -53,7 +53,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { formatRedirectTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, formatTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -1709,7 +1709,7 @@ const ProductDetail = () => {
                     <div className="smr_prod_shortInfo">
                       <div className="smrMA_prod_shortInfo_inner">
                         <p className="smr_prod_titleLine_app">
-                          {singleProd?.TitleLine}
+                          {formatTitleLine(singleProd?.TitleLine) && singleProd?.TitleLine}
                         </p>
                         <div className="smr_prod_summury_info">
                           <div className="smr_prod_summury_info_inner">

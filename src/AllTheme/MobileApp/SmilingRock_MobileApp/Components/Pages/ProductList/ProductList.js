@@ -4,7 +4,7 @@ import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductLi
 import { useLocation, useNavigate } from "react-router-dom";
 import imageNotFound from "../../Assets/image-not-found.jpg"
 import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPriceListApi";
-import { findMetal, findMetalColor, findMetalType, formatRedirectTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { findMetal, findMetalColor, findMetalType, formatRedirectTitleLine, formatTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, CardMedia, Checkbox, Drawer, FormControlLabel, Input, Pagination, Skeleton, Slider, Typography, useMediaQuery } from "@mui/material";
@@ -2944,8 +2944,8 @@ const ProductList = () => {
                                                   // "smr_prod_title_with_no_width"
                                                 }
                                               >
-                                                {productData?.TitleLine?.length > 0 && "-"}
-                                                {productData?.TitleLine}{" "}
+                                                {formatTitleLine(productData?.TitleLine) && "-"}
+                                                {formatTitleLine(productData?.TitleLine)}{" "}
                                               </span>
                                               <span className="smrMA_prod_designno">
                                                 {productData?.designno}

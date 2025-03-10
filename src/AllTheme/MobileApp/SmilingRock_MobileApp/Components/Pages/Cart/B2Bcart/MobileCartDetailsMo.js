@@ -6,7 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useRecoilState } from 'recoil';
 import { smrMA_ShowSnackBar } from '../../../Recoil/atom';
 import noImageFound from "../../../Assets/image-not-found.jpg"
-import { formatter } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, formatTitleLine } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const MobileCartDetails = ({
   ispriceloding,
@@ -107,7 +107,7 @@ const MobileCartDetails = ({
 
         </div>
         <div className="smrMo_Cart_R-details">
-          <p className='smrMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+          <p className='smrMo_cart-Titleline'>{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
           <Divider />
           {storeInitData?.IsProductWebCustomization == 1 &&
             <div className="smrmo_Cart-options">
