@@ -147,13 +147,13 @@ export default function LoginWithEmail() {
                 const visiterID = Cookies.get('visiterId');
                 Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token);
                 // rememberMe 
-                if(rememberMe){
-                    const Token = generateToken(response?.Data?.rd[0]?.Token,1);
-                    localStorage?.setItem('AuthToken',JSON?.stringify(Token));
-                }else{
-                    const Token = generateToken(response?.Data?.rd[0]?.Token,0);
-                    localStorage?.setItem('AuthToken',JSON?.stringify(Token));
-                }
+                // if(rememberMe){
+                //     const Token = generateToken(response?.Data?.rd[0]?.Token,1);
+                //     localStorage?.setItem('AuthToken',JSON?.stringify(Token));
+                // }else{
+                //     const Token = generateToken(response?.Data?.rd[0]?.Token,0);
+                //     localStorage?.setItem('AuthToken',JSON?.stringify(Token));
+                // }
                 sessionStorage.setItem('registerEmail', email)
                 setIsLoginState(true)
                 sessionStorage.setItem('LoginUser', true)
@@ -310,7 +310,7 @@ export default function LoginWithEmail() {
         //     setIsLoading(false);
         // }
     }
-    const IsUi = true;
+    const IsUi = false;
 
 
     return (

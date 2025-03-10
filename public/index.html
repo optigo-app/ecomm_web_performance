@@ -125,11 +125,11 @@
       const { hostname } = window.location;
       var favicon = document.getElementById("dynamic-favicon");
       window.onload = function () {
-        // if (hostname?.includes("almacarino.procatalog.in")) {
-        //   if (favicon) {
-        //     favicon.href = "./favicon/almacarino.ico";
-        //   }
-        // }
+        if (hostname?.includes("almacarino.procatalog.in")) {
+          if (favicon) {
+            favicon.href = "./favicon/almacarino.ico";
+          }
+        }
         // document.querySelector('#root').style.display = 'none';
         //   document.querySelector('.image_banner_sm').style.display = 'none';
         //   document.querySelector('.container-Loader').style.display = 'flex';

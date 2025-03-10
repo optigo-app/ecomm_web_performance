@@ -3,6 +3,8 @@ import axios from "axios";
 // const APIURL = 'https://api.optigoapps.com/storev26/store.aspx';
 // const APIURL = 'http://zen/api/ReactStore.aspx'
 // const APIURL = (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/storev26/ReactStore.aspx';
+const isTesting = false;
+const LIVE_BASE_URL = isTesting ? `https://api.optigoapps.com/ReactStoreTest/ReactStore.aspx` : 'https://api.optigoapps.com/ReactStore/ReactStore.aspx';
 const APIURL = (window.location.hostname === 'localhost'
     || window.location.hostname === 'zen'
     || window.location.hostname === 'fgstore.web'
@@ -12,7 +14,7 @@ const APIURL = (window.location.hostname === 'localhost'
     || window.location.hostname === 'fgstore.plw'
     || window.location.hostname === 'malakan.web'
     || window.location.hostname === 'rpjewel.web'
-    
+
     || window.location.hostname === 'hdstore.web'
     || window.location.hostname === 'hdstore.mapp'
     || window.location.hostname === 'hdstore.pro'
@@ -25,8 +27,8 @@ const APIURL = (window.location.hostname === 'localhost'
     || window.location.hostname === 'elvee.web'
     || window.location.hostname === 'diamondtine.web'
     || window.location.hostname === 'forevery.web'
-    || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/ReactStoreTest/ReactStore.aspx';
-    // || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/test/ReactStore.aspx';
+    || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : LIVE_BASE_URL;
+// || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/test/ReactStore.aspx';
 
 // const APIURL = 'https://api.optigoapps.com/test/store.aspx';
 // const NEWAPIURL = 'https://api.optigoapps.com/storev26/ReactStore.aspx';
@@ -36,8 +38,8 @@ const APIURL = (window.location.hostname === 'localhost'
 export const CommonAPI = async (body) => {
     const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
     try {
-        const YearCode = storeInit?.YearCode ?? '' ;
-        const version = storeInit?.version  ?? '';
+        const YearCode = storeInit?.YearCode ?? '';
+        const version = storeInit?.version ?? '';
         const token = storeInit?.token ?? '';
         const sv = storeInit?.sv ?? '';
 
