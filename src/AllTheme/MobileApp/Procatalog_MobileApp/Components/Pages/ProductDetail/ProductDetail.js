@@ -27,7 +27,7 @@ import Cookies from 'js-cookie'
 import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { Navigation, Pagination, Scrollbar, A11y,Thumbs,FreeMode,Keyboard } from 'swiper/modules';
+import { Navigation, Pagination, Scrollbar, A11y, Thumbs, FreeMode, Keyboard } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import 'swiper/css';
@@ -35,7 +35,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { FaPlayCircle } from "react-icons/fa";
-import { formatRedirectTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, formatTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -679,7 +679,7 @@ const ProductDetail = () => {
           }
         })
         .catch((err) => console.log("err", err))
-        .finally(()=>{
+        .finally(() => {
           setIsImageLoad(false)
           setProdLoading(false)
         })
@@ -917,13 +917,13 @@ const ProductDetail = () => {
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
-        storeInit?.CDNDesignImageFol +
-        singleProd?.designno +
-        "~" +
-        i +
-        "~" + mcArr?.colorcode +
-        "." +
-        singleProd?.ImageExtension;
+          storeInit?.CDNDesignImageFol +
+          singleProd?.designno +
+          "~" +
+          i +
+          "~" + mcArr?.colorcode +
+          "." +
+          singleProd?.ImageExtension;
 
         let IsImg = checkImageAvailability(imgString)
         if (IsImg) {
@@ -1053,7 +1053,7 @@ const ProductDetail = () => {
 
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
-       let imgString =
+        let imgString =
           storeInit?.CDNDesignImageFol +
           singleProd?.designno +
           "~" +
@@ -1068,12 +1068,12 @@ const ProductDetail = () => {
     if (singleProd?.ImageCount > 0) {
       for (let i = 1; i <= singleProd?.ImageCount; i++) {
         let imgString =
-        storeInit?.CDNDesignImageFol +
-        singleProd?.designno +
-        "~" +
-        i +
-        "." +
-        singleProd?.ImageExtension;
+          storeInit?.CDNDesignImageFol +
+          singleProd?.designno +
+          "~" +
+          i +
+          "." +
+          singleProd?.ImageExtension;
         pdImgList.push(imgString);
       }
     }
@@ -1266,9 +1266,9 @@ const ProductDetail = () => {
                         style={{ display: isImageload ? "none" : "block" }}
                       >
                         <Swiper
-                        slidesPerView={1}
-                        spaceBetween={10}
-                          modules={[Keyboard, FreeMode, Navigation,Thumbs,Pagination]}
+                          slidesPerView={1}
+                          spaceBetween={10}
+                          modules={[Keyboard, FreeMode, Navigation, Thumbs, Pagination]}
                           keyboard={{ enabled: true }}
                           navigation={true}
                           loop={true}
@@ -1277,51 +1277,51 @@ const ProductDetail = () => {
                           }}
                         >
                           {
-                            !(isImageload === false && !(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0))  ?
-                            ([...pdThumbImg,...pdVideoArr]?.map((ele,i)=>(
-                              <SwiperSlide key={i}>
-                              {ele?.split(".")[1] !== "mp4" ? (
-                              <img
-                                // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                                src={ele ?? imageNotFound}
-                                onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
-                                alt={""}
-                                onLoad={() => setIsImageLoad(false)}
-                                className="smr_prod_img"
-                              />
-                              ) : (
-                              <div
-                                className="smr_app_prod_video"
-                              >
-                                <video
-                                  src={ele ?? imageNotFound}
-                                  loop={true}
-                                  autoPlay={true}
-                                  style={{
-                                    width: "100%",
-                                    objectFit: "cover",
-                                    // marginTop: "40px",
-                                    height: "90%",
-                                    borderRadius: "8px",
-                                  }}
+                            !(isImageload === false && !(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) ?
+                              ([...pdThumbImg, ...pdVideoArr]?.map((ele, i) => (
+                                <SwiperSlide key={i}>
+                                  {ele?.split(".")[1] !== "mp4" ? (
+                                    <img
+                                      // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                                      src={ele ?? imageNotFound}
+                                      onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                                      alt={""}
+                                      onLoad={() => setIsImageLoad(false)}
+                                      className="smr_prod_img"
+                                    />
+                                  ) : (
+                                    <div
+                                      className="smr_app_prod_video"
+                                    >
+                                      <video
+                                        src={ele ?? imageNotFound}
+                                        loop={true}
+                                        autoPlay={true}
+                                        style={{
+                                          width: "100%",
+                                          objectFit: "cover",
+                                          // marginTop: "40px",
+                                          height: "90%",
+                                          borderRadius: "8px",
+                                        }}
+                                      />
+                                    </div>
+                                  )}
+                                </SwiperSlide>
+                              )))
+                              :
+                              (
+                                <img
+                                  src={imageNotFound}
+                                  // onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                                  // alt={""}
+                                  onLoad={() => setIsImageLoad(false)}
+                                  className="smr_prod_img"
                                 />
-                              </div>
-                            )}
-                              </SwiperSlide>
-                            )))
-                            :
-                            (
-                              <img
-                                src={imageNotFound}
-                                // onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
-                                // alt={""}
-                                onLoad={() => setIsImageLoad(false)}
-                                className="smr_prod_img"
-                              />                        
-                            )
+                              )
                           }
-                        </Swiper>                        
-                        
+                        </Swiper>
+
                         {/* {selectedThumbImg?.type == "img" ? (
                           <img
                             // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
@@ -1379,13 +1379,13 @@ const ProductDetail = () => {
                             </div>
                           ))}
                     </div> */}
-                    
-                  </div>
+
+                      </div>
                     </div>
                     <div className="smr_prod_shortInfo">
                       <div className="smrMA_prod_shortInfo_inner">
                         <p className="smr_prod_titleLine_app">
-                          {singleProd?.TitleLine}
+                          {formatTitleLine(singleProd?.TitleLine) && singleProd?.TitleLine}
                         </p>
                         <div className="smr_prod_summury_info">
                           <div className="smr_prod_summury_info_inner">
@@ -1737,7 +1737,7 @@ const ProductDetail = () => {
                           </Accordion>
                         )}
 
-                        { storeInit?.IsPriceShow == 1 &&  <div className="smr_price_portion">
+                        {storeInit?.IsPriceShow == 1 && <div className="smr_price_portion">
                           {isPriceloading ? (
                             ""
                           ) : (
@@ -1751,7 +1751,7 @@ const ProductDetail = () => {
                         finalprice,
                         storeInit?.CurrencyRate
                       )?.toFixed(2)} */}
-                          { isPriceloading ? (
+                          {isPriceloading ? (
                             <Skeleton
                               variant="rounded"
                               width={140}
@@ -1807,7 +1807,7 @@ const ProductDetail = () => {
                   {(diaList?.length > 0 || csList?.filter((ele) => ele?.D === "MISC")?.length > 0 || csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (<p className="smr_app_details_title"> Product Details</p>)}
                   <div style={{ width: '100%', border: '1px solid #80808038' }}>
                     {diaList?.length > 0 && (
-                      <div className="smr_material_details_portion_inner" style={{marginLeft:'0px'}}>
+                      <div className="smr_material_details_portion_inner" style={{ marginLeft: '0px' }}>
                         <ul style={{ margin: "0px 0px 3px 0px" }}>
                           <li
                             className="prod_detail_info_title"
@@ -1838,7 +1838,7 @@ const ProductDetail = () => {
                     )}
 
                     {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
-                      <div className="smr_material_details_portion_inner" style={{marginLeft:'0px'}}>
+                      <div className="smr_material_details_portion_inner" style={{ marginLeft: '0px' }}>
                         <ul style={{ margin: "0px 0px 3px 0px" }}>
                           <li
                             className="prod_detail_info_title"
@@ -1869,7 +1869,7 @@ const ProductDetail = () => {
                     )}
 
                     {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
-                      <div className="smr_material_details_portion_inner" style={{marginLeft:'0px'}}>
+                      <div className="smr_material_details_portion_inner" style={{ marginLeft: '0px' }}>
                         <ul style={{ margin: "0px 0px 3px 0px" }}>
                           <li
                             className="prod_detail_info_title"
@@ -2059,8 +2059,8 @@ const ProductDetail = () => {
                                 :
                                 imageNotFound
                             }
-                            onError={(e)=>{
-                              e.target.src = imageNotFound ;
+                            onError={(e) => {
+                              e.target.src = imageNotFound;
                             }}
                             alt={""}
                           />
@@ -2132,8 +2132,8 @@ const ProductDetail = () => {
                                       :
                                       imageNotFound
                                   }
-                                  onError={(e)=>{
-                                    e.target.src = imageNotFound ;
+                                  onError={(e) => {
+                                    e.target.src = imageNotFound;
                                   }}
                                   alt={""}
                                   className="ctl_img"
@@ -2184,8 +2184,8 @@ const ProductDetail = () => {
                                               : imageNotFound
                                           }
                                           alt={""}
-                                          onError={(e)=>{
-                                            e.target.src = imageNotFound ;
+                                          onError={(e) => {
+                                            e.target.src = imageNotFound;
                                           }}
                                           // src={
                                           //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"

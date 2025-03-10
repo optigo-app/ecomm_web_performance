@@ -11,7 +11,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { Pagination } from "swiper/modules";
-import { formatter } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, formatter } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 import notfound from '../../../Assets/image-not-found.jpg';
 
 const NewArrival = () => {
@@ -125,8 +125,9 @@ const NewArrival = () => {
       f: {},
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
-    const link =  `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
-          }${designNo}?p=${encodeObj}`;
+    // const link =  `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
+    //       }${designNo}?p=${encodeObj}`;
+    const link =  `/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`;
     if (storeinit?.IsB2BWebsite == 1) {
       if (islogin) {
         navigation(link);

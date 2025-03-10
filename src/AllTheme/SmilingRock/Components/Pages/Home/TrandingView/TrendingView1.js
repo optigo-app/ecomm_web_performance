@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 
 
 
-const TrendingView1 = ({data}) => {
+const TrendingView1 = ({ data }) => {
     const trendingRef = useRef(null);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const [trandingViewData, setTrandingViewData] = useState([]);
@@ -174,7 +174,6 @@ const TrendingView1 = ({data}) => {
     for (let i = 0; i < validatedData?.length; i += 3) {
         chunkedData.push(validatedData?.slice(i, i + 3));
     }
-
     return (
         <div ref={trendingRef}>
             {validatedData?.length != 0 &&
@@ -186,7 +185,7 @@ const TrendingView1 = ({data}) => {
                         <div className='smr_leftSideBestTR'>
                             {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/web-210128-BW-PF21_S219259.jpg?v=1646112530&width=2000" alt="modalimages" /> */}
                             {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImgHom2.png`} alt="modalimages" /> */}
-                            <img src={data?.image[0]}  alt="modalimages" />
+                            <img src={data?.image[0]} alt="modalimages" />
 
                             <div className="smr_lookbookImageRightDT">
                                 {/* <p>SHORESIDE COLLECTION</p>
@@ -259,7 +258,7 @@ const TrendingView1 = ({data}) => {
                                                 }
                                             </>
                                         }
-                                    {storeInit?.IsPriceShow == 1 &&     <p>
+                                        {storeInit?.IsPriceShow == 1 && <p>
                                             <span className="smr_currencyFont">
                                                 {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
                                             </span>&nbsp;

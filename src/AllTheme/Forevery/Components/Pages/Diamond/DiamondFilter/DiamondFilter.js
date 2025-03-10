@@ -216,7 +216,7 @@ const DiamondFilter = () => {
   const ringFlowUrl = JSON.parse(sessionStorage.getItem("ringFlowUrl"));
   const PendantFlowUrl = JSON.parse(sessionStorage.getItem("PendantFlowUrl"));
   const EarringFlowUrl = JSON.parse(sessionStorage.getItem("EarringFlowUrl"));
-  
+
   const isRing = JSON?.parse(sessionStorage.getItem('isRing')) ?? "";
   const isPendant = JSON?.parse(sessionStorage.getItem('isPendant')) ?? "";
   const isEarring = JSON?.parse(sessionStorage.getItem('isPair')) ?? "";
@@ -234,8 +234,16 @@ const DiamondFilter = () => {
     const getShape = location?.pathname?.split("/")[3] ?? "";
     const getPath = location?.pathname?.split("/")?.slice(1, 3);
     const mergePath = getPath.join("/");
-  
+
     if (mergePath === "certified-loose-lab-grown-diamonds/diamond") {
+      if (
+        steps1?.[1]?.step2 === true ||
+        steps2?.[1]?.step2 === true ||
+        steps3?.[1]?.step2 === true
+      ) {
+        console.log("ayaa")
+        return; // Exit the function without setting sessionStorage
+      }
       if (
         stepsData === null &&
         stepsData2 === null &&
@@ -249,7 +257,7 @@ const DiamondFilter = () => {
             step2: false,
             step3: false,
           });
-  
+
           const step1 = [{ step1: true, shape: getShape ?? "" }];
           sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
         } else {
@@ -267,7 +275,7 @@ const DiamondFilter = () => {
             }
             return step;
           });
-  
+
           if (!updatedStep1?.some((step) => step.step1 !== undefined)) {
             updatedStep1?.push({ step1: true, shape: getShape ?? "All" });
           }
@@ -283,7 +291,7 @@ const DiamondFilter = () => {
         }
       }
     }
-  };  
+  };
 
 
   useEffect(() => {

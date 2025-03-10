@@ -14,7 +14,16 @@ const EditablePagination = ({
   currPage,
   isShowButton,
 }) => {
-  const dstCount = totalItems; 
+  const dstCount = totalItems;
+
+
+  const handleOnChange = (event) => {
+    const newValue = event.target.value
+    if (newValue === "" || /^[0-9]+$/.test(newValue)) {
+      setInputPage(newValue)
+    }
+  }
+
 
   return (
     <Box display="flex" alignItems="center" className="main_pagination_portion">
@@ -45,6 +54,7 @@ const EditablePagination = ({
         {/* TextField to enter page number */}
         <TextField
           type="text"
+          autoComplete="off"
           className="main_pagiantion_input"
           value={inputPage}
           onBlur={() => {
@@ -53,9 +63,19 @@ const EditablePagination = ({
               setInputPage(currPage); // Reset to the current page if the input is empty
             }
           }}
-          onChange={(event) => setInputPage(event.target.value)}
-          onKeyDown={handlePageInputChange}  // Attach the keydown handler to check for "Enter"
-          inputProps={{ min: 1, max: totalPages }}
+          onChange={(e) => handleOnChange(e)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && inputPage != "") {
+              handlePageInputChange(e);
+            } else if(e.key === "Enter" && inputPage == "") {
+              setInputPage(currPage);
+            }
+          }}
+          inputProps={{
+            min: 1,
+            max: totalPages,
+            autoComplete: 'off',
+          }}
           variant="outlined"
           sx={{
             marginLeft: 1,

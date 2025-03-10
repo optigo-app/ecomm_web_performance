@@ -276,7 +276,7 @@ import {
 import "./mob.scss";
 import QuantitySelector from "./QuantitySelector";
 import CloseIcon from "@mui/icons-material/Close";
-import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatter, formatTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import noImageFound from "../../../Assets/noImageFound.jpg";
 
 const MobileCartDetails = ({
@@ -405,7 +405,7 @@ const MobileCartDetails = ({
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
             <div className="hoq_Cart_R-details">
-              <p className="hoq_cart-Titleline">{selectedItem?.TitleLine}</p>
+              <p className="hoq_cart-Titleline">{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
               <Divider />
               {storeInitData?.IsProductWebCustomization == 1 && (
                 <div className="hoq_Cart-options">
@@ -618,7 +618,7 @@ const MobileCartDetails = ({
             </div>
           ) : (
             <div className="hoq_CartCusto_R-details">
-              <p className="hoq_cart-Titleline">{selectedItem?.TitleLine}</p>
+              <p className="hoq_cart-Titleline">{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
               <Divider />
               <div className="hoq_StockCart-options">
                 {selectedItem?.metaltypename != "" && (

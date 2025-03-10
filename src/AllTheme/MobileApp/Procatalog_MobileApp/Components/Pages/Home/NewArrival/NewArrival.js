@@ -10,7 +10,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
-import { formatter } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, formatter } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 import notfound from '../../../Assets/image-not-found.jpg';
 
 const NewArrival = () => {
@@ -89,18 +89,20 @@ const NewArrival = () => {
 
     if (storeinit?.IsB2BWebsite == 1) {
       if (islogin) {
-        navigation(
-          `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
-          }${designNo}?p=${encodeObj}`
-        );
+        // navigation(
+        //   `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
+        //   }${designNo}?p=${encodeObj}`
+        // );
+        navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
       } else {
         navigation("/signin");
       }
     } else {
-      navigation(
-        `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
-        }${designNo}?p=${encodeObj}`
-      );
+      // navigation(
+      //   `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
+      //   }${designNo}?p=${encodeObj}`
+      // );
+      navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     }
   };
 

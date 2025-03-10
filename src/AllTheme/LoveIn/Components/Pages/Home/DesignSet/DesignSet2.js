@@ -17,7 +17,9 @@ import { homeLoading, loginState, lov_loginState, smr_loginState } from "../../.
 import { Link } from "@mui/material";
 import gradientColors from "../LookBook/color.json";
 import {
+  formatRedirectTitleLine,
   formatter,
+  formatTitleLine,
   storImagePath,
 } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
@@ -137,11 +139,13 @@ const DesignSet2 = ({ data }) => {
       f: {},
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
-    navigate(
-      `/d/${titleLine?.replace(/\s+/g, `_`)}${
-        titleLine?.length > 0 ? "_" : ""
-      }${designNo}?p=${encodeObj}`
-    );
+    // navigate(
+    //   `/d/${titleLine?.replace(/\s+/g, `_`)}${
+    //     titleLine?.length > 0 ? "_" : ""
+    //   }${designNo}?p=${encodeObj}`
+    // );
+    navigate(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
+
   };
 
   const decodeEntities = (html) => {
@@ -283,8 +287,8 @@ const DesignSet2 = ({ data }) => {
                                 </div>
                                 <div className="fs1 centerall">
                                   {detail?.designno}{" "}
-                                  {detail?.TitleLine && " - "}{" "}
-                                  {detail?.TitleLine != "" && detail?.TitleLine}
+                                  {formatTitleLine(detail?.TitleLine) && " - "}{" "}
+                                  {formatTitleLine(detail?.TitleLine) && detail?.TitleLine}
                                 </div>
                                 {storeInit?.IsPriceShow == 1 &&  <div className="fs2 centerall">
                                   <p>

@@ -3766,6 +3766,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                         sessionStorage.removeItem("custStepData");
                         sessionStorage.removeItem("custStepData2Ring");
                         sessionStorage.removeItem("setImage");
+                        sessionStorage.removeItem("isRing");
                         Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
                     }
                 }
@@ -3797,6 +3798,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                         sessionStorage.removeItem("custStepData");
                         sessionStorage.removeItem("custStepData2Pendant");
                         sessionStorage.removeItem("setPenImage");
+                        sessionStorage.removeItem("isPendant");
                         Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
                     }
                 }
@@ -3828,6 +3830,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                         sessionStorage.removeItem("custStepData");
                         sessionStorage.removeItem("custStepData2Earring");
                         sessionStorage.removeItem("setEarImage");
+                        sessionStorage.removeItem("isPair");
                         Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
                     }
                 }
@@ -3862,6 +3865,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     sessionStorage.removeItem("custStepData");
                     sessionStorage.removeItem("custStepData2Ring");
                     sessionStorage.removeItem("setImage");
+                    sessionStorage.removeItem("isRing");
                     Navigation(`/certified-loose-lab-grown-diamonds/settings/${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "Ring" : "Pendant")}/M=${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ==")}`, { replace: true });
                 }
 
@@ -3894,6 +3898,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     sessionStorage.removeItem("custStepData");
                     sessionStorage.removeItem("custStepData2Pendant");
                     sessionStorage.removeItem("setPenImage");
+                    sessionStorage.removeItem("isPendant");
                     Navigation(`/certified-loose-lab-grown-diamonds/settings/${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "Ring" : "Pendant")}/M=${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ==")}`, { replace: true });
                 }
 
@@ -3926,6 +3931,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     sessionStorage.removeItem("custStepData");
                     sessionStorage.removeItem("custStepData2Earring");
                     sessionStorage.removeItem("setEarImage");
+                    sessionStorage.removeItem("isPair");
                     Navigation(`/certified-loose-lab-grown-diamonds/settings/${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "Ring" : storedSteps3?.[0]?.Setting === "Pendant" && storedSteps3?.[0]?.Status === "active" ? "Pendant" : "Earring")}/M=${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "UmluZy9jYXRlZ29yeQ==" : storedSteps3?.[0]?.Setting === "Pendant" && storedSteps3?.[0]?.Status === "active" ? "UGVuZGFudC9jYXRlZ29yeQ==" : "RWFycmluZy9jYXRlZ29yeQ==")} `, { replace: true });
                 }
 
@@ -4342,13 +4348,18 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
     }, [data]);
 
     let dynamicImagePath;
+    console.log('imageMap?.colorImage: ', imageMap?.colorImage);
+    console.log('getImagePath?.colorImage: ', getImagePath?.colorImage);
     if (!imageMap?.colorImage?.includes('undefinedundefined~1')) {
         if (imageMap?.colorImage !== getImagePath?.colorImage) {
+            console.log("jiji")
             dynamicImagePath = getImagePath?.colorImage;
         } else {
+            console.log("jiji12")
             dynamicImagePath = imageMap?.colorImage
         }
     } else {
+        console.log("jiji126546464")
         dynamicImagePath = getImagePath?.colorImage;
     }
     console.log('dynamicImagePath: ', dynamicImagePath);

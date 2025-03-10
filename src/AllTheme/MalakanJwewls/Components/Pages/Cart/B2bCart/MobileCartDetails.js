@@ -4,7 +4,7 @@ import './malaMo_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from 'react-toastify';
-import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, formatTitleLine } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 
 const MobileCartDetails = ({
@@ -117,7 +117,7 @@ const MobileCartDetails = ({
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
             <div className="malaMo_Cart_R-details">
-              <p className='malaMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+              <p className='malaMo_cart-Titleline'>{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
               <Divider />
               {storeInitData?.IsProductWebCustomization == 1 &&
                 <div className="malaMo_Cart-options">
@@ -238,7 +238,7 @@ const MobileCartDetails = ({
             </div>
           ) :
             <div className="malaMo_CartCusto_R-details">
-              <p className='malaMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+              <p className='malaMo_cart-Titleline'>{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
               <Divider />
               <div className="malaMo_StockCart-options">
                 {selectedItem?.metaltypename != "" &&

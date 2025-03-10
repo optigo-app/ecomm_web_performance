@@ -107,7 +107,6 @@ const ProductList = () => {
   const [storeInit, setStoreInit] = useState({});
   const [filterData, setFilterData] = useState([]);
   const [filterChecked, setFilterChecked] = useState({});
-  console.log('filterChecked: ', filterChecked);
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [accExpanded, setAccExpanded] = useState(null);
   const [currPage, setCurrPage] = useState(1);
@@ -583,6 +582,7 @@ const ProductList = () => {
     }
 
     setCurrPage(1);
+    setInputPage(1);
   }, [location?.key]);
 
   useEffect(() => {
@@ -812,61 +812,61 @@ const ProductList = () => {
 
     // If filterChecked length is greater than 0 or the value changes, reset page to 1
     if (Object.keys(filterChecked).length > 0 || (previousChecked && JSON.stringify(previousChecked) !== JSON.stringify(filterChecked))) {
-        setCurrPage(1);  // Reset page to 1 if filters are applied or changed
-        setInputPage(1);
+      setCurrPage(1);  // Reset page to 1 if filters are applied or changed
+      setInputPage(1);
     }
 
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
     let diafilter =
-        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-            ?.length > 0
-            ? JSON.parse(
-                filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-            )[0]
-            : [];
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
     let diafilter1 =
-        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-            ?.length > 0
-            ? JSON.parse(
-                filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-            )[0]
-            : [];
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
     let diafilter2 =
-        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-            ?.length > 0
-            ? JSON.parse(
-                filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-            )[0]
-            : [];
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
     const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
     const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
     const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
     if (location?.key === locationKey) {
-        setIsOnlyProdLoading(true);
-        let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
-        let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
-        let netRange = { netMin: isNet ? sliderValue1[0] : "", netMax: isNet ? sliderValue1[1] : "" }
+      setIsOnlyProdLoading(true);
+      let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
+      let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
+      let netRange = { netMin: isNet ? sliderValue1[0] : "", netMax: isNet ? sliderValue1[1] : "" }
 
-        ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect,
-            DiaRange, netRange, grossRange
-        )
-            .then((res) => {
-                if (res) {
-                    setProductListData(res?.pdList);
-                    setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
-                    setAfterCountStatus(false);
-                }
-                return res;
-            })
-            .catch((err) => console.log("err", err))
-            .finally(() => {
-                setIsOnlyProdLoading(false);
-            });
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect,
+        DiaRange, netRange, grossRange
+      )
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+            setAfterCountStatus(false);
+          }
+          return res;
+        })
+        .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsOnlyProdLoading(false);
+        });
     }
-}, [filterChecked]); 
+  }, [filterChecked]);
 
   const handelFilterClearAll = () => {
     // setAfterCountStatus(true);
@@ -925,6 +925,10 @@ const ProductList = () => {
       setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
       setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
       setFilterChecked({});
+      setSortBySelect("Recommended");
+      setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
+      setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+      setSelectedCsId(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
     }
     setAccExpanded(false);
   };
@@ -1032,6 +1036,13 @@ const ProductList = () => {
       handelPageChange("", newPage);
     }
   };
+
+  const handleOnChange = (event) => {
+    const newValue = event.target.value
+    if (newValue === "" || /^[0-9]+$/.test(newValue)) {
+        setInputPage(newValue)
+    } 
+  }
 
   // // Handle blur (when user leaves the input field)
   // const handleBlur = () => {
@@ -1360,7 +1371,8 @@ const ProductList = () => {
     )}`;
     // const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
 
-    navigate(url);
+    // navigate(url);
+    window.location.href = url;
 
     // console.log("mparams", KeyObj, ValObj)
   };
@@ -3733,18 +3745,29 @@ const ProductList = () => {
 
                                       {/* TextField to enter page number */}
                                       <TextField
+                                        name="Editable Pagination"
+                                        autoComplete="off"
                                         type="text"
                                         className="roop_pagiantion_input"
                                         value={inputPage}
                                         onBlur={() => {
-                                          // Check if the input is empty, and if so, set the page to the currentPage
                                           if (!inputPage) {
-                                            setInputPage(currPage); // Reset to the current page if the input is empty
+                                            setInputPage(currPage); 
                                           }
                                         }}
-                                        onChange={(event) => setInputPage(event.target.value)}
-                                        onKeyDown={handlePageInputChange}
-                                        inputProps={{ min: 1, max: totalPages }}
+                                        onChange={(e) => handleOnChange(e)}
+                                        onKeyDown={(e) => {
+                                          if (e.key === "Enter" && inputPage != "") {
+                                            handlePageInputChange(e);
+                                          } else if(e.key === "Enter" && inputPage == "") {
+                                            setInputPage(currPage);
+                                          }
+                                        }}
+                                        inputProps={{
+                                          min: 1,
+                                          max: totalPages,
+                                          autoComplete: 'off',
+                                        }}
                                         variant="outlined"
                                         sx={{
                                           marginLeft: 1,
@@ -4015,7 +4038,7 @@ const GivaFilterMenu = ({
                     fontSize: "15px",
                     cursor: "pointer",
                     position: "relative",
-                    zIndex: "1",
+                    zIndex: 1,
                   }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(1)}
@@ -4025,17 +4048,17 @@ const GivaFilterMenu = ({
                       className="span"
                       style={{
                         position: "absolute",
-                        zIndex: "888",
+                        zIndex: 888,
                         top: "0",
                         left: "0",
                         right: "0",
                         bottom: "0",
+                        pointerEvents: "none", // Prevent this from blocking clicks
                       }}
                     ></div>
                   )}
                   <Badge
                     badgeContent={totalSelected}
-                    // onClick={() => HandleMenu(1)}
                     sx={{
                       "& .MuiBadge-badge": {
                         color: "#fff",
@@ -4055,10 +4078,13 @@ const GivaFilterMenu = ({
                   <ExpandMoreIcon
                     className="fmg_icon"
                     sx={{ cursor: "pointer" }}
-                    // onClickCapture={() => HandleMenu(1)}
-                    onClick={() => HandleMenu(1)}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent the event from bubbling up to the Typography onClick
+                      HandleMenu(1);
+                    }}
                   />
                 </Typography>
+
                 <div ref={menuRef} className="div_check">
                   {showMenu === 1 && (
                     <div className="giva_roop_filter_menu_list_filterM">

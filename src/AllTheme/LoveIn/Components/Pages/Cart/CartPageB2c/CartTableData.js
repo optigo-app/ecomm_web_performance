@@ -6,6 +6,7 @@ import { useSetRecoilState } from 'recoil';
 import Cookies from "js-cookie";
 import moment from 'moment';
 import { CardMedia, Skeleton } from '@mui/material';
+import { formatTitleLine } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const ExampleComponent = ({
     cartData,
@@ -102,7 +103,7 @@ const ExampleComponent = ({
                         )}
                     </td>
                     <td className='smr_b2ccartContentTd'>
-                        <p className='smr_b2ccartContentTitle' title="Titleline">{cartData?.TitleLine}</p>
+                        <p className='smr_b2ccartContentTitle' title="Titleline">{formatTitleLine(cartData?.TitleLine) && cartData?.TitleLine}</p>
                         {/* <p className='smr_b2ccartContentMtDT'>{cartData?.metalcolorname} | {cartData?.MetalWeight} | {cartData?.totalGrossweight} | {cartData?.totalDiaWt} / {cartData?.totaldiamondpcs} | {cartData?.totalCSWt}  / {cartData?.totalcolorstonepcs}</p> */}
                         <p className='smr_b2ccartContentMtDT'>
                             {storeInitData?.IsMetalTypeWithColor == 1 &&

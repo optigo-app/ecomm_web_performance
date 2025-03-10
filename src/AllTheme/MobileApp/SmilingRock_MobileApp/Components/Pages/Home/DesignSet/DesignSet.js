@@ -13,6 +13,7 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../../utils/
 import { smrMA_homeLoading, smrMA_loginState } from "../../../Recoil/atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import Cookies from "js-cookie";
+import { formatRedirectTitleLine, formatTitleLine } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const DesignSet = () => {
   const designSetRef = useRef(null);
@@ -115,9 +116,10 @@ const DesignSet = () => {
       f: {},
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
-    const link = `/d/${titleLine?.replace(/\s+/g, `_`)}${
-      titleLine?.length > 0 ? "_" : ""
-    }${designNo}?p=${encodeObj}`;
+    // const link = `/d/${titleLine?.replace(/\s+/g, `_`)}${
+    //   titleLine?.length > 0 ? "_" : ""
+    // }${designNo}?p=${encodeObj}`;
+    const link = `/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`;
 
     if (storeinit?.IsB2BWebsite == 1) {
       if (islogin) {
@@ -128,9 +130,7 @@ const DesignSet = () => {
       }
     } else {
       navigation(
-        `/d/${titleLine?.replace(/\s+/g, `_`)}${
-          titleLine?.length > 0 ? "_" : ""
-        }${designNo}?p=${encodeObj}`
+        `/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`
       );
     }
   };
@@ -213,7 +213,7 @@ const DesignSet = () => {
                   )
                 }
               />
-              <p className="smr_designList_title">{slide?.TitleLine}</p>
+              <p className="smr_designList_title">{formatTitleLine(slide?.TitleLine) && slide?.TitleLine}</p>
               {/* <p className="smr_designList_title">
                                 <span
                                     dangerouslySetInnerHTML={{

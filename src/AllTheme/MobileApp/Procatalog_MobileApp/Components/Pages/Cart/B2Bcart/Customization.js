@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './smrMo_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelectorMo';
+import { formatTitleLine } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Customization = ({
   ispriceloding,
@@ -43,7 +44,7 @@ const Customization = ({
 
   return (
     <div className="smrMo_Cart_R-details">
-      <p className='smrmo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+      <p className='smrmo_cart-Titleline'>{formatTitleLine(selectedItem?.TitleLine) && selectedItem?.TitleLine}</p>
       <Divider />
       {storeInitData?.IsProductWebCustomization == 1 &&
         <div className="smrmo_Cart-options">
@@ -111,7 +112,7 @@ const Customization = ({
                   </>
                 }
               </select>
-            </div>  
+            </div>
           }
           {sizeCombo?.rd?.length !== 0 &&
             <div className="option">

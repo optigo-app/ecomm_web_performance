@@ -245,7 +245,7 @@ const Lookbook = () => {
 
     const output = FilterValueWithCheckedOnly();
 
-    if (Object.keys(filterChecked)?.length >= 0) {
+    if (Object?.keys(filterChecked)?.length >= 0) {
       setIsProdLoading(true);
       setIsPgLoading(true);
       Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output, isFilterChanged ? 1 : currentPage, itemsPerPage)
@@ -297,8 +297,9 @@ const Lookbook = () => {
   }, [designSetLstData]);
 
   const handelFilterClearAll = () => {
-    if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
+    if (Object?.values(filterChecked)?.filter((ele) => ele?.checked)?.length > 0) {
       setFilterChecked({});
+      setThumbsSwiper(null)
     }
   };
 
@@ -794,7 +795,7 @@ const Lookbook = () => {
       >
         {filterData?.length > 0 && (
           <div className="roop_lookBookFilterSubDiv" style={{ padding: "20px", marginTop: '2rem' }}>
-            <div style={{ position: 'absolute', right: '0.8rem' }}>
+            <div style={{ position: 'absolute', right: '0.8rem', top: "1rem" }}>
               <IoClose
                 style={{
                   width: "30px",
@@ -1298,7 +1299,7 @@ const Lookbook = () => {
               >
                 {filterData?.length > 0 && (
                   <div className="roop_lookBookFilterSubDiv" style={{ marginTop: '2rem' }}>
-                    <div style={{ position: 'absolute', right: '0.8rem' }}>
+                    <div style={{ position: 'absolute', right: '0.8rem', top: "1rem" }}>
                       <IoClose
                         style={{
                           width: "30px",

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './BestSellerSection.modul.scss'
-import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatRedirectTitleLine, formatter, formatTitleLine, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick';
@@ -113,7 +113,8 @@ const BestSellerSection = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     }
 
     
@@ -168,7 +169,7 @@ const BestSellerSection = () => {
                                                     />
                                                 </div>
                                                 <div className='linkLoveRing1Desc'>
-                                                    <p className='ring1Desc'>{data?.TitleLine}</p>
+                                                    <p className='ring1Desc'>{formatTitleLine(data?.TitleLine) && data?.TitleLine}</p>
                                                     <p className='ring1Desc'>
                                                         {/* <span
                                                             className="smr_currencyFont"

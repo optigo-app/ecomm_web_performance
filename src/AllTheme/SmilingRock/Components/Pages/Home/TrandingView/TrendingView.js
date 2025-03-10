@@ -12,7 +12,7 @@ import 'swiper/css/navigation';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatRedirectTitleLine, formatter, formatTitleLine, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { useNavigate } from 'react-router-dom';
 import pako from "pako";
@@ -123,7 +123,8 @@ const TrendingView = () => {
         // if(IsB2BWebsite === 1){
         //     navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         // }else{
-        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
         // }
     }
 
@@ -203,7 +204,7 @@ const TrendingView = () => {
                                                     />
                                                 </div>
                                                 <div className='linkLoveRing1Desc'>
-                                                    <p className='ring1Desc'>{data?.TitleLine}</p>
+                                                    <p className='ring1Desc'>{formatTitleLine(data?.TitleLine) && data?.TitleLine}</p>
                                                     <p className='ring1Desc'>
                                                         <span className="smr_currencyFont">
                                                             {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}

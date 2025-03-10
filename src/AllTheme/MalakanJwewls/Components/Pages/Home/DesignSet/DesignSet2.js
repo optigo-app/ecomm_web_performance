@@ -14,7 +14,7 @@ import Cookies from 'js-cookie';
 import { useRecoilValue } from 'recoil';
 import { Link } from '@mui/material';
 import gradientColors from "../LookBook/color.json"
-import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, formatter, formatTitleLine, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { mala_loginState } from "../../../Recoil/atom";
 
 const DesignSet2 = () => {
@@ -104,7 +104,8 @@ const DesignSet2 = () => {
       f: {},
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
-    navigate(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+    // navigate(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+    navigate(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
   };
 
   const decodeEntities = (html) => {
@@ -208,7 +209,7 @@ const DesignSet2 = () => {
                                   />
                                 </div>
                               </div>
-                              <div className="fs1 centerall">{detail?.TitleLine ? `${detail.TitleLine} -` : ''}{detail?.designno}</div>
+                              <div className="fs1 centerall">{formatTitleLine(detail?.TitleLine) ? `${detail.TitleLine} -` : ''}{detail?.designno}</div>
                               <div className="fs2 centerall">
                                 <p>
                                   <span
