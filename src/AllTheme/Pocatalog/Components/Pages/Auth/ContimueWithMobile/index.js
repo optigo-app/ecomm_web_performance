@@ -3,7 +3,7 @@ import OldContimueWithMobile from './OldContinuewithMobile'
 import NewContimueWithMobile from './ContimueWithMobile'
 
 const MobileLogin = () => {
-    const IsUi = false;
+    const IsUi = true;
   return (
     <div>
         {IsUi ? <OldContimueWithMobile/>  :<NewContimueWithMobile/> }

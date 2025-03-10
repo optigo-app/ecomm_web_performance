@@ -56,7 +56,8 @@ const Header = () => {
         console.log("getCountApiErr", err);
       }
     })
-  }, [location.key])  // for rember me
+  }, [])  
+  // for rember me
 // }, [location.key])
   
 
