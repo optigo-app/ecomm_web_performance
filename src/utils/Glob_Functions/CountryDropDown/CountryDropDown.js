@@ -81,10 +81,11 @@ setCountrycodestate ,
       setOpen(false);
       setMobileNo('')
         // dont know working
-      // setErrors({
-      //   ...Errors,
-      //   mobileNo: `Mobile number must be ${value?.PhoneLength} digits.`,
-      // });
+      setErrors({
+        ...Errors,
+        mobileNo: ``,
+        // Mobile number must be ${value?.PhoneLength} digits.
+      });
     }
   };
 
@@ -125,7 +126,7 @@ setCountrycodestate ,
       >
         <input
           type="text"
-          placeholder="+91"
+          placeholder="91"
           value={Countrycodestate}
           onFocus={() => !IsMobileThrough && setOpen(true)} 
           readOnly={IsMobileThrough} 
