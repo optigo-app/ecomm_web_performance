@@ -45,7 +45,7 @@ const getStoryContent = (isStory, selectedProduct) => {
 };
 
 const StoryLine = ({ resetKey, selectedProduct, storeInit }) => {
-    const isStory = 5 ||  storeInit?.RollOverNo ;
+    const isStory = storeInit?.RollOverNo ;
     const storyContent = selectedProduct ? getStoryContent(isStory || 1, selectedProduct) : [];
     if (!selectedProduct || storyContent.length === 0) {
         return null;

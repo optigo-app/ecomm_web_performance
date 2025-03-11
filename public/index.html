@@ -29,13 +29,20 @@
 
 </head>
 
+
 <body>
   <div id="root"></div>
 </body>
 
 <script defer>
   window.onload = function () {
-
+    const { hostname } = window.location;
+    var favicon = document.getElementById("dynamic-favicon");
+      if (hostname?.includes("almacarino.procatalog.in")) {
+        if (favicon) {
+          favicon.href = "./favicon/almacarino.ico";
+        }
+      }
     setTimeout(function () {
       var script = document.createElement("script");
       script.src = "https://checkout.razorpay.com/v1/checkout.js";

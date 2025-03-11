@@ -22,7 +22,6 @@ import Menubar from "../MenuBar/Menubar";
 import { RxCross1 } from "react-icons/rx";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Pako from "pako";
-import reportWebVitals from './../../../../../../reportWebVitals';
 
 const Header = () => {
   const [lodingLogo, setLodingLogo] = useState(true);
@@ -1186,6 +1185,5 @@ const Header = () => {
   );
 };
 
-reportWebVitals(console.log);
 
 export default Header;
