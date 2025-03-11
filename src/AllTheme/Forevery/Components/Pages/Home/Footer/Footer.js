@@ -235,7 +235,23 @@ const Footer = () => {
                             if (item?.path === '/certified-loose-lab-grown-diamonds/diamond/') {
                               if (checkStepsOf0) {
                                 sessionStorage.removeItem('customizeSteps2Ring');
-                                sessionStorage.removeItem('custStepData2Ring')
+                                sessionStorage.removeItem('custStepData2Ring');
+                                sessionStorage.removeItem('isRing');
+                                sessionStorage.removeItem("setImage");
+                                sessionStorage.removeItem('ringFlowUrl')
+                                sessionStorage.removeItem('ShapeRingFlowUrl');
+                                sessionStorage.removeItem("customizeStepsPendant");
+                                sessionStorage.removeItem("custStepData2Pendant");
+                                sessionStorage.removeItem("setPenImage");
+                                sessionStorage.removeItem("isPendant");
+                                sessionStorage.removeItem('PendantFlowUrl')
+                                sessionStorage.removeItem('ShapePendantFlowUrl')
+                                sessionStorage.removeItem("customizeStepsEarring");
+                                sessionStorage.removeItem("custStepData2Earring");
+                                sessionStorage.removeItem("setEarImage");
+                                sessionStorage.removeItem("isPair");
+                                sessionStorage.removeItem('EarringFlowUrl')
+                                sessionStorage.removeItem('ShapeEarringFlowUrl')
                               }
                             }
                             e.preventDefault();
@@ -320,7 +336,7 @@ const Footer = () => {
           //   handleNavigate(e, "/change-cookie-preferences");
           // }}
           >
-            Ver: 1.0.100320251210
+            Ver: 1.0.110320251027
             {/* { 110120251850 : date and time } */}
           </a>
         </li>
