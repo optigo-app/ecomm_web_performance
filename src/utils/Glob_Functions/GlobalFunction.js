@@ -1,5 +1,5 @@
+import { useState, useEffect } from 'react';
 import { REACT_APP_WEB } from "../../env";
-
 
 export function storImagePath() {
   let statiPath = `${window?.location?.protocol}//${
@@ -133,5 +133,11 @@ export const handleScrollTop = () => {
       behavior: 'smooth'
   });
 }
+
+export const fetchAPIUrlFromStoreInit = () => {
+  const getStoreInitData = JSON.parse(sessionStorage.getItem("storeInit"));
+  if(!getStoreInitData) return;
+  return getStoreInitData;
+};
 
 export const wesbiteDomainName = window.location.host;

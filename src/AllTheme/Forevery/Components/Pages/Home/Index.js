@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Index.modul.scss";
 import TopVideoSection from "./Common/TopVideoSection/TopVideoSection";
 import ShoptheCollections from "./Common/ShoptheCollections/ShoptheCollections";
@@ -15,6 +15,7 @@ import GetInTouch from "./Common/GetInTouch/GetInTouch";
 import InstagramSection from "./Common/InstagramSection/InstagramSection";
 import NewArrivalCarousel from "./Common/ProductCarousel/CarouselReUse";
 import useHomeBannerImages from "../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner";
+import { GetAPIUrlFromStoreInit } from "../../../../../utils/Glob_Functions/GlobalFunction";
 
 function Home() {
   const banner = useHomeBannerImages();
