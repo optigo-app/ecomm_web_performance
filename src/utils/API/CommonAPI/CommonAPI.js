@@ -4,11 +4,13 @@ import axios from "axios";
 // const APIURL = 'https://api.optigoapps.com/storev26/store.aspx';
 // const APIURL = 'http://zen/api/ReactStore.aspx'
 // const APIURL = (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/storev26/ReactStore.aspx';
-  
-const getApi = fetchAPIUrlFromStoreInit();
+
+const getApi = fetchAPIUrlFromStoreInit() || "";
 let APIURL = '';
-if(getApi){
-    APIURL = getApi?.ApiUrl;
+if (getApi) {
+    if (getApi?.ApiUrl) {
+        APIURL = getApi.ApiUrl;
+    }
 }
 
 // const isTesting = false;
