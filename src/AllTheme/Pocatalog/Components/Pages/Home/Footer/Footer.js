@@ -113,10 +113,12 @@ const Footer = ({ fromPage }) => {
                     }}
                   >
                     <span>{companyInfoData?.FrontEndContactno1}</span>
+                  {companyInfoData?.FrontEndContactno2 && (<>
                     <span>
                     &#x2c;&nbsp;
                     </span>
                     <span>{companyInfoData?.FrontEndContactno2}</span>
+                  </>)}
                   </span>
                 </p>
               )}
@@ -190,17 +192,17 @@ const Footer = ({ fromPage }) => {
                 </p>
               )}
               <div className="footerIconMain">
-                {socialMediaData?.map((social, index) => (
+                {socialMediaData && socialMediaData?.map((social, index) => (
                   <div className="footerSocialIcon">
                     <a
                       key={index}
-                      href={`https://${social.SLink}`}
+                      href={`https://${social?.SLink}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       <img
-                        src={social.SImgPath}
-                        alt={social.SName}
+                        src={social?.SImgPath}
+                        alt={social?.SName}
                         style={{
                           width: "24px",
                           height: "24px",
