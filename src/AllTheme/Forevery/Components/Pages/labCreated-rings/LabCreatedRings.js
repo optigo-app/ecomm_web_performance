@@ -43,35 +43,35 @@ const LabCreatedRings = () => {
     (steps2?.[2] !== undefined && steps2?.[2] !== null) ||
     (steps3?.[2] !== undefined && steps3?.[2] !== null);
 
-    const handleSettingNavigation = () => {
-      // const regex = /M=([^/]+)/;
-      // const match = link.match(regex);
-      // if (match) {
-      //   mValue = match[1];
-      // } else {
-      //   // console.log('M value not found.');
-      // }
-  
-        if (checkSteps) {
-          navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape ?? steps3?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+  const handleSettingNavigation = () => {
+    // const regex = /M=([^/]+)/;
+    // const match = link.match(regex);
+    // if (match) {
+    //   mValue = match[1];
+    // } else {
+    //   // console.log('M value not found.');
+    // }
+
+    if (checkSteps) {
+      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape ?? steps3?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+    } else {
+      if (checkStepsOf0) {
+        if (steps?.[0] !== undefined && steps?.[0] !== null) {
+          sessionStorage.removeItem('customizeSteps')
+          sessionStorage.removeItem("custStepData");
         } else {
-          if (checkStepsOf0) {
-            if (steps?.[0] !== undefined && steps?.[0] !== null) {
-              sessionStorage.removeItem('customizeSteps')
-              sessionStorage.removeItem("custStepData");
-            } else {
-              sessionStorage.removeItem('customizeSteps2Pendant');
-              sessionStorage.removeItem('custStepData2Pendant')
-              sessionStorage.removeItem('customizeSteps2Earring');
-              sessionStorage.removeItem('custStepData2Earring')
-            }
-          }
-          sessionStorage.setItem('isRing', true)
-          sessionStorage.removeItem('isPair')
-          sessionStorage.removeItem('isPendant')
-          navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
+          sessionStorage.removeItem('customizeSteps2Pendant');
+          sessionStorage.removeItem('custStepData2Pendant')
+          sessionStorage.removeItem('customizeSteps2Earring');
+          sessionStorage.removeItem('custStepData2Earring')
         }
-    };
+      }
+      sessionStorage.setItem('isRing', true)
+      sessionStorage.removeItem('isPair')
+      sessionStorage.removeItem('isPendant')
+      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
+    }
+  };
 
   const encodeLink = (link) => btoa(link);
 
@@ -211,6 +211,9 @@ export const CategoryGrid = ({ title = "Find Your Forever Ring", data, handleSty
 const DesignyourOwn = () => {
 
   const navigate = useNavigate();
+  const [showModal1, setShowModal1] = useState(false);
+
+  const createYesUrl = `/certified-loose-lab-grown-diamonds/diamond/`;
 
   const [customizeStep, setCustomizeStep] = useRecoilState(
     for_customizationSteps
@@ -220,6 +223,7 @@ const DesignyourOwn = () => {
   );
   const [showModal, setShowModal] = useState(false);
   const [checkIndex, setCheckIndex] = useState();
+  const [typeFlow, setTypeFlow] = useState();
 
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
   const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
@@ -239,7 +243,7 @@ const DesignyourOwn = () => {
   const checkSteps =
     (steps?.[2] !== undefined && steps?.[2] !== null) ||
     (steps1?.[2] !== undefined && steps1?.[2] !== null) ||
-    (steps2?.[2] !== undefined && steps2?.[2] !== null) || 
+    (steps2?.[2] !== undefined && steps2?.[2] !== null) ||
     (steps3?.[2] !== undefined && steps3?.[2] !== null);
 
   const checkStepsOf0 =
@@ -248,23 +252,68 @@ const DesignyourOwn = () => {
     (steps2?.[0] !== undefined && steps2?.[0] !== null) ||
     (steps3?.[0] !== undefined && steps3?.[0] !== null);
 
-  const handleCheckSteps = (value, index) => {
+  const handleCheckSteps = (value, index, style, link, type) => {
     let isStepValid = false;
 
     if (value === "Ring") {
-      isStepValid = checkSteps;
+      if (steps?.[2] !== undefined && steps?.[2] !== null) {
+        isStepValid = checkSteps;
+      } else {
+        isStepValid = false;
+        sessionStorage.setItem('isRing', true)
+        sessionStorage.removeItem('isPair')
+        sessionStorage.removeItem('isPendant')
+      }
     }
 
     if (value === "Diamond") {
       isStepValid = true;
     }
-
     if (isStepValid) {
       setShowModal(true);
+      setTypeFlow(type)
       setCheckIndex(index);
     } else {
       console.log("Alternative action");
-      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+
+      if (style !== "" && link !== "") {
+        if (value === 'Ring') {
+          navigate(link);
+        }
+      } else if (style === "" && link !== "") {
+        if (value === 'Ring') {
+          navigate(link);
+        }
+      } else {
+        if (value === 'Ring') {
+          navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape ?? steps3?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+        }
+      }
+    }
+  };
+
+  const handleToggle1 = () => {
+    setShowModal1(!showModal1);
+  }
+
+  const handleNoConfirm = () => {
+    if (steps1?.[0]?.Status === 'active') {
+      const getRingSteps = [...steps1];
+      sessionStorage.setItem("customizeSteps2Ring", JSON.stringify(getRingSteps));
+      setShowModal(false);
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/${getRingSteps?.[1]?.shape}`);
+    }
+    if (steps2?.[0]?.Status === 'active') {
+      const getPendantSteps = [...steps2];
+      sessionStorage.setItem("customizeSteps2Pendant", JSON.stringify(getPendantSteps));
+      setShowModal(false);
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/${getPendantSteps?.[1]?.shape}`);
+    }
+    if (steps3?.[0]?.Status === 'active') {
+      const getEarringSteps = [...steps3];
+      sessionStorage.setItem("customizeSteps2Earring", JSON.stringify(getEarringSteps));
+      setShowModal(false);
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/${getEarringSteps?.[1]?.shape}`);
     }
   };
 
@@ -311,18 +360,10 @@ const DesignyourOwn = () => {
 
     if (
       checkStepsOf0 &&
-      steps1?.[1]?.step2 !== true &&
-      steps2?.[1]?.step2 !== true &&
-      steps3?.[1]?.step2 !== true
+      (steps1?.[1]?.step2 !== true &&
+        steps2?.[1]?.step2 !== true &&
+        steps3?.[1]?.step2 !== true)
     ) {
-      // Clearing session storage
-      sessionStorage.removeItem("customizeSteps2Ring");
-      sessionStorage.removeItem("custStepData2Ring");
-      sessionStorage.removeItem("customizeSteps2Pendant");
-      sessionStorage.removeItem("custStepData2Pendant");
-      sessionStorage.removeItem("customizeSteps2Earring");
-      sessionStorage.removeItem("custStepData2Earring");
-
       if (isEarring) {
         sessionStorage.setItem("isPair", true);
         sessionStorage.removeItem("isRing");
@@ -341,6 +382,14 @@ const DesignyourOwn = () => {
         sessionStorage.removeItem("isPair");
         sessionStorage.removeItem('isRing');
         navigate(`/certified-loose-lab-grown-diamonds/diamond/`);
+      }
+    } else if (steps1?.[1]?.step2 === true || steps2?.[1]?.step2 === true || steps3?.[1]?.step2 === true) {
+      const getShape = steps1?.[1]?.shape ?? steps2?.[1]?.shape ?? steps3?.[1]?.shape;
+      if (getShape) {
+        setShowModal1(true);
+        setTypeFlow(value);
+      } else {
+        handleNoConfirm();
       }
     } else {
       if (isEarring) {
@@ -369,8 +418,8 @@ const DesignyourOwn = () => {
       step1: true,
     });
 
-    const step1 = [{ step1: true, shape: "All" }];
-    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    // const step1 = [{ step1: true, shape: "All" }];
+    // sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };
 
   const handleRemoveData = (index) => {
@@ -388,25 +437,27 @@ const DesignyourOwn = () => {
     sessionStorage.removeItem('isPair');
     sessionStorage.removeItem('isPendant');
     sessionStorage.removeItem('isRing');
+    sessionStorage.removeItem('ringFlowUrl');
+    sessionStorage.removeItem('PendantFlowUrl');
+    sessionStorage.removeItem('EarringFlowUrl');
+    sessionStorage.removeItem('ShapeRingFlowUrl')
+    sessionStorage.removeItem('ShapePendantFlowUrl')
+    sessionStorage.removeItem('ShapeEarringFlowUrl')
+
     if (index === 0) {
+      if (typeFlow === "Ring") {
+        sessionStorage.setItem('isRing', true)
+      } else if (typeFlow === "Pendant") {
+        sessionStorage.setItem('isPendant', true)
+      } else if (typeFlow === "Earring") {
+        sessionStorage.setItem('isPair', true)
+      }
       navigate(`/certified-loose-lab-grown-diamonds/diamond/`);
     } else if (index === 1) {
       const addCategory = `Ring/category`;
       const filterKeyVal = btoa(addCategory);
       navigate(
         `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
-      );
-    } else if (index === 2) {
-      const addCategory = `Pendant/category`;
-      const filterKeyVal = btoa(addCategory);
-      navigate(
-        `/certified-loose-lab-grown-diamonds/settings/Pendant/M=${filterKeyVal}`
-      );
-    } else if (index === 3) {
-      const addCategory = `Earring/category`;
-      const filterKeyVal = btoa(addCategory);
-      navigate(
-        `/certified-loose-lab-grown-diamonds/settings/Earring/M=${filterKeyVal}`
       );
     }
     handleToggle();
@@ -438,7 +489,7 @@ const DesignyourOwn = () => {
             <div className="btn">
               {checkSteps ? (
                 <button
-                  onClick={() => handleCheckSteps("Ring", 0)}
+                  onClick={() => handleCheckSteps("Ring", 1, "", "/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==")}
                   className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
                 >
                   start with setting
@@ -456,8 +507,8 @@ const DesignyourOwn = () => {
               <span>OR</span>
               {checkSteps ? (
                 <button
-                  onClick={() => handleCheckSteps("Diamond", 1)}
                   className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
+                  onClick={() => handleCheckSteps("Diamond", 0, "", "", "Ring")}
                 >
                   start with a diamond
                 </button>
@@ -472,13 +523,22 @@ const DesignyourOwn = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div >
       <Modal
         open={showModal}
         handleConfirm={handleConfirm}
         handleClose={handleToggle}
         handleRemoveData={handleRemoveData}
         index={checkIndex}
+      />
+      <CheckingDiaSetModal
+        open={showModal1}
+        link1={createYesUrl}
+        handleNoConfirm={handleNoConfirm}
+        handleClose={handleToggle1}
+        handleRemoveData={handleRemoveData}
+        index={checkIndex}
+        flowType={typeFlow}
       />
     </>
   );
@@ -625,6 +685,106 @@ const Modal = ({ open, handleConfirm, handleClose, handleRemoveData, index }) =>
               <button
                 onClick={() => {
                   handleRemoveData(index);
+                }}
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+
+const CheckingDiaSetModal = ({ open, link1, handleNoConfirm, handleClose, handleRemoveData, index, shape, flowType }) => {
+
+  const handleYesConfirm = () => {
+    sessionStorage.removeItem("customizeSteps2Ring");
+    sessionStorage.removeItem("custStepData2Ring");
+    sessionStorage.removeItem('isRing');
+    sessionStorage.removeItem("setImage");
+    sessionStorage.removeItem('ringFlowUrl')
+    sessionStorage.removeItem('ShapeRingFlowUrl')
+    sessionStorage.removeItem("customizeStepsPendant");
+    sessionStorage.removeItem("custStepData2Pendant");
+    sessionStorage.removeItem("setPenImage");
+    sessionStorage.removeItem("isPendant");
+    sessionStorage.removeItem('PendantFlowUrl')
+    sessionStorage.removeItem('ShapePendantFlowUrl')
+    sessionStorage.removeItem("customizeStepsEarring");
+    sessionStorage.removeItem("custStepData2Earring");
+    sessionStorage.removeItem("setEarImage");
+    sessionStorage.removeItem("isPair");
+    sessionStorage.removeItem('EarringFlowUrl')
+    sessionStorage.removeItem('ShapeEarringFlowUrl')
+    sessionStorage.removeItem("customizeSteps");
+    sessionStorage.removeItem("custStepData");
+    handleClose();
+    const step = [{ step1: true, shape: "All" }]
+    sessionStorage.setItem('customizeSteps', JSON.stringify(step));
+    if (flowType !== "") {
+      if (flowType === "ring") {
+        sessionStorage.setItem('isRing', 'true')
+      } else if (flowType === "pendant") {
+        sessionStorage.setItem('isPendant', 'true')
+      } else if (flowType === "earring") {
+        sessionStorage.setItem('isPair', 'true')
+      }
+    }
+    window.location.href = `${link1}${shape ? shape : ""}`;
+  }
+
+  return (
+    <>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        sx={{
+          zIndex: 9999999,
+          "& .MuiDialog-root": {
+            zIndex: 9999,
+          },
+          "& .MuiDialog-paper": {
+            backgroundColor: "transparent",
+            border: "1px solid white",
+            zIndex: 9999,
+          },
+          "& .MuiDialogContent-root": {
+            padding: "10px",
+          },
+        }}
+      >
+        <DialogContent
+          sx={{
+            minWidth: 260,
+            padding: "0px",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <div className="for_modal_cancel_btn_nav_div" onClick={handleClose}>
+            <RxCross1 className="for_modal_cancel_nav_btn" size={"12px"} />
+          </div>
+          <div className="for_modal_inner_nav_div">
+            <span className="for_modal_nav_title">
+              This Diamond Shape Is Not Compatible With Your Selected Setting.
+              Do You Want To Remove Selected Setting And Continue?
+            </span>
+            <div className="for_modal_buttons_nav_div">
+              <button
+                onClick={() => {
+                  handleYesConfirm();
+                  handleClose();
+                }}
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => {
+                  handleNoConfirm();
                 }}
               >
                 No

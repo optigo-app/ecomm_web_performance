@@ -857,7 +857,6 @@ const FirstNavMenu = ({
   const [checkIndex, setCheckIndex] = useState();
   const banner = useHomeBannerImages();
   const [typeFlow, setTypeFlow] = useState();
-  console.log('typeFlow: ', typeFlow);
 
   const createYesUrl = `/certified-loose-lab-grown-diamonds/diamond/`;
 

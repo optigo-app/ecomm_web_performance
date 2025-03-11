@@ -205,7 +205,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, getImagePath, tot
             sessionStorage.removeItem("custStepData");
             sessionStorage.removeItem("custStepData2Pendant");
             sessionStorage.removeItem("setPenImage");
-            sessionStorage.removeItem("isPendant"); 
+            sessionStorage.removeItem("isPendant");
             Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
           }
         }
@@ -713,6 +713,18 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, getImagePath, tot
     loadImages();
   }, [getAllData, location?.key]);
 
+  let dynamicImagePath;
+  if (!imageMap?.colorImage?.includes('undefinedundefined~1')) {
+    if (imageMap?.colorImage !== getImagePath?.colorImage) {
+      dynamicImagePath = getImagePath?.colorImage;
+    } else {
+      dynamicImagePath = imageMap?.colorImage
+    }
+  } else {
+    dynamicImagePath = getImagePath?.colorImage;
+  }
+  console.log('dynamicImagePath: ', dynamicImagePath);
+
   return (
     <div
       className="for_dia_step_eye_div"
@@ -741,16 +753,16 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, getImagePath, tot
         >
           {isEarring ? (
             <>
-              {data?.stockno && (
+              {(data?.[0]?.stockno && data?.[1]?.stockno) && (
                 <div>
                   <PairSvg />
                   <PairSvg />
                 </div>
               )}
-              {!data?.stockno && (
+              {!(data?.[0]?.stockno && data?.[1]?.stockno) && (
                 <div className="for_dia_data_image">
                   <img
-                    src={(getImagePath?.colorImage ?? imageMap?.colorImage)}
+                    src={dynamicImagePath}
                     // src={data?.stockno ? data?.image_file_url : (!imageMap?.colorImage?.includes('/static') ? imageMap?.colorImage : getImagePath?.colorImage)}
                     alt=""
                     style={{ cursor: 'default' }}
@@ -762,7 +774,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, getImagePath, tot
           ) : (
             <div className="for_dia_data_image">
               <img
-                src={data?.stockno ? data?.image_file_url : (getImagePath?.colorImage ?? imageMap?.colorImage)}
+                src={data?.stockno ? data?.image_file_url : dynamicImagePath}
                 // src={data?.stockno ? data?.image_file_url : (!imageMap?.colorImage?.includes('/static') ? imageMap?.colorImage : getImagePath?.colorImage)}
                 alt=""
                 style={{ cursor: 'default' }}
@@ -785,6 +797,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, getImagePath, tot
               <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(data?.price ?? (data?.UnitCostWithMarkUpIncTax ?? data?.step1Data?.UnitCostWithMarkUpIncTax))}</span>
             )}
 
+
           </div>
           <div className="for_view_rem_div">
             <span onClick={(e) => { e.stopPropagation(); handleMoveToDet(data) }} className="for_view">View | </span>
@@ -800,7 +813,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, getImagePath, tot
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 });
 
@@ -1018,7 +1031,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
               index={1}
               open={open === 'diamond'}
               handleOpen={() => handleOpen('diamond')}
-              data={getdiaData4?.[1]?.step2Data?.[0] ?? getdiaData4?.[0]?.step2Data?.[0]}
+              data={getdiaData4?.[1]?.step2Data ?? getdiaData4?.[0]?.step2Data}
               totalPairPrice={getdiaData4?.[1]?.totalPrice ?? getdiaData4?.[0]?.totalPrice}
               ref={(el) => { dropdownRefs.current[1] = el; }}
             />
@@ -1084,7 +1097,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
                 index={0}
                 open={open === 'diamond'}
                 handleOpen={() => handleOpen('diamond')}
-                data={getdiaData4?.[1]?.step2Data?.[0] ?? getdiaData4?.[0]?.step2Data?.[0]}
+                data={getdiaData4?.[1]?.step2Data ?? getdiaData4?.[0]?.step2Data}
                 ref={(el) => { dropdownRefs.current[1] = el; }}
               />
             )}

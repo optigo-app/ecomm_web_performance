@@ -49,71 +49,84 @@ const Diamond = () => {
     (steps2?.[2] !== undefined && steps2?.[2] !== null) ||
     (steps3?.[2] !== undefined && steps3?.[2] !== null);
 
-  const handleCheckSteps = (value, link, index) => {
-    let isStepValid = false;
-    let shapeVal;
-
-    // if (value === "Diamond Rings" && steps1?.[2]?.step3 === true) {
-    if (value === "Diamond Rings") {
-      if (steps?.[2] !== undefined && steps?.[2] !== null) {
-        isStepValid = checkSteps
-      } else {
-        shapeVal = "Round"
-        sessionStorage.setItem('isRing', true)
-        sessionStorage.removeItem('isPair')
-        sessionStorage.removeItem('isPendant')
-        window.location.href = "/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ=="
-      }
-      // } else if (value === "Diamond Pendant" && steps2?.[2]?.step3 === true) {
-    } else if (value === "Diamond Pendant") {
-      if (steps?.[2] !== undefined && steps?.[2] !== null) {
-        isStepValid = checkSteps
-      } else {
-        shapeVal = "Round"
-        sessionStorage.setItem('isPendant', true)
-        sessionStorage.removeItem('isPair')
-        sessionStorage.removeItem('isRing')
-        window.location.href = "/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ=="
-      }
-    } else if (value === "Diamond Earrings") {
-      if (steps?.[2] !== undefined && steps?.[2] !== null) {
-        isStepValid = checkSteps
-      } else {
-        shapeVal = "Round"
-        sessionStorage.setItem('isPair', true)
-        sessionStorage.removeItem('isPendant')
-        sessionStorage.removeItem('isRing')
-        window.location.href = "/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ=="
-      }
-    }
-    else if (value !== "Diamond Rings" && value !== "Diamond Pendant" && value !== "Diamond Earrings") {
-      isStepValid = checkSteps
-    }
-
-    if (isStepValid) {
-      setShowModal(true);
-      setCheckIndex(index);
-      setShape((value === "Diamond Rings" || value === "Diamond Pendant") ? shapeVal : value);
-    }
-    else {
-      Navigate(link);
-      if (value === "Diamond Rings" && steps1?.[2]?.step3 !== true) {
-        if (!steps1) {
-          Navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
+    const handleCheckSteps = (value, link, index) => {
+      let isStepValid = false;
+      let shapeVal;
+  
+      // if (value === "Diamond Rings" && steps1?.[2]?.step3 === true) {
+      if (value === "Diamond Rings") {
+        if (steps?.[2] !== undefined && steps?.[2] !== null) {
+          isStepValid = checkSteps
         } else {
-          Navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
-
+          shapeVal = "Round"
+          sessionStorage.setItem('isRing', true)
+          sessionStorage.removeItem('isPair')
+          sessionStorage.removeItem('isPendant')
+          sessionStorage.removeItem('customizeSteps')
+          sessionStorage.removeItem("custStepData");
+          window.location.href = "/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ=="
+        }
+        // } else if (value === "Diamond Pendant" && steps2?.[2]?.step3 === true) {
+      } else if (value === "Diamond Pendant") {
+        if (steps?.[2] !== undefined && steps?.[2] !== null) {
+          isStepValid = checkSteps
+        } else {
+          shapeVal = "Round"
+          sessionStorage.setItem('isPendant', true)
+          sessionStorage.removeItem('isPair')
+          sessionStorage.removeItem('isRing')
+          sessionStorage.removeItem('customizeSteps')
+          sessionStorage.removeItem("custStepData");
+          window.location.href = "/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ=="
+        }
+      } else if (value === "Diamond Earrings") {
+        if (steps?.[2] !== undefined && steps?.[2] !== null) {
+          isStepValid = checkSteps
+        } else {
+          shapeVal = "Round"
+          sessionStorage.setItem('isPair', true)
+          sessionStorage.removeItem('isPendant')
+          sessionStorage.removeItem('isRing')
+          sessionStorage.removeItem('customizeSteps')
+          sessionStorage.removeItem("custStepData");
+          window.location.href = "/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ=="
         }
       }
-      if (value === "Diamond Pendant" && steps2?.[2]?.step3 !== true) {
-        if (!steps2) {
-          Navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ==`);
-        } else {
-          Navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UGVuZGFudC9jYXRlZ29yeQ==`);
-        }
+      else if (value !== "Diamond Rings" && value !== "Diamond Pendant" && value !== "Diamond Earrings") {
+        isStepValid = checkSteps
       }
-    };
-  }
+  
+      if (isStepValid) {
+        setShowModal(true);
+        setCheckIndex(index);
+        setShape((value === "Diamond Rings" || value === "Diamond Pendant") ? shapeVal : value);
+      }
+      else {
+        Navigate(link);
+        if (value === "Diamond Rings" && steps1?.[2]?.step3 !== true) {
+          if (!steps1) {
+            Navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
+          } else {
+            Navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+  
+          }
+        }
+        if (value === "Diamond Pendant" && steps2?.[2]?.step3 !== true) {
+          if (!steps2) {
+            Navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ==`);
+          } else {
+            Navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UGVuZGFudC9jYXRlZ29yeQ==`);
+          }
+        }
+        if (value === "Diamond Earring" && steps3?.[2]?.step3 !== true) {
+          if (!steps3) {
+            Navigate(`/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ==`);
+          } else {
+            Navigate(`/certified-loose-lab-grown-diamonds/settings/Earring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=RWFycmluZy9jYXRlZ29yeQ==`);
+          }
+        }
+      };
+    }
 
   const createYesUrl = `/certified-loose-lab-grown-diamonds/diamond/`;
 
@@ -190,6 +203,12 @@ const Diamond = () => {
     sessionStorage.removeItem("isRing");
     sessionStorage.removeItem("isPendant");
     sessionStorage.removeItem("isPair");
+    sessionStorage.removeItem('ringFlowUrl');
+    sessionStorage.removeItem('PendantFlowUrl');
+    sessionStorage.removeItem('EarringFlowUrl');
+    sessionStorage.removeItem('ShapeRingFlowUrl')
+    sessionStorage.removeItem('ShapePendantFlowUrl')
+    sessionStorage.removeItem('ShapeEarringFlowUrl')
     Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
     handleToggle();
   };

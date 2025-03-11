@@ -183,6 +183,13 @@ const ShapeSection = () => {
     sessionStorage.removeItem("isRing");
     sessionStorage.removeItem("isPendant");
     sessionStorage.removeItem("isPair");
+    sessionStorage.removeItem('ringFlowUrl');
+    sessionStorage.removeItem('PendantFlowUrl');
+    sessionStorage.removeItem('EarringFlowUrl');
+    sessionStorage.removeItem('ShapeRingFlowUrl')
+    sessionStorage.removeItem('ShapePendantFlowUrl')
+    sessionStorage.removeItem('ShapeEarringFlowUrl')
+    
     navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
     handleToggle();
   };
