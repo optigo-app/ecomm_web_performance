@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { REACT_APP_WEB } from "../../env";
 
 export function storImagePath() {
