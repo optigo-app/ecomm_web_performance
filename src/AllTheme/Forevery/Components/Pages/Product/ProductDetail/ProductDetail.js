@@ -170,12 +170,15 @@ const ProductDetail = () => {
 
   const isRingFlow = (ringSteps?.[0]?.Setting === 'Ring' && ringSteps?.[0]?.Status === 'active');
   const isPendantFlow = (pendantSteps?.[0]?.Setting === 'Pendant' && pendantSteps?.[0]?.Status === 'active');
+  const isEarringFlow = (earringSteps?.[0]?.Setting === 'Earring' && earringSteps?.[0]?.Status === 'active');
 
   let isStepDataValid;
   if (isRingFlow) {
     isStepDataValid = stepsData?.[1]?.step2Data?.[0]?.id > 0 && isRingFlow;
   } else if (isPendantFlow) {
     isStepDataValid = stepsData1?.[1]?.step2Data?.[0]?.id > 0 && isPendantFlow;
+  } else if (isEarringFlow) {
+    isStepDataValid = stepsData2?.[1]?.step2Data?.[0]?.id > 0 && isEarringFlow;
   }
 
 
@@ -2874,7 +2877,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
               index={1}
               open={open === 'diamond'}
               handleOpen={() => handleOpen('diamond')}
-              data={getdiaData4?.[1]?.step2Data?.[0] ?? getdiaData4?.[0]?.step2Data?.[0]}
+              data={getdiaData4?.[1]?.step2Data ?? getdiaData4?.[0]?.step2Data}
               totalPairPrice={getdiaData4?.[1]?.totalPrice ?? getdiaData4?.[0]?.totalPrice}
               ref={(el) => { dropdownRefs.current[1] = el; }}
             />
@@ -2939,7 +2942,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
                 index={0}
                 open={open === 'diamond'}
                 handleOpen={() => handleOpen('diamond')}
-                data={getdiaData4?.[1]?.step2Data?.[0] ?? getdiaData4?.[0]?.step2Data?.[0]}
+                data={getdiaData4?.[1]?.step2Data ?? getdiaData4?.[0]?.step2Data}
                 totalPairPrice={getdiaData?.[1]?.totalPrice ?? getdiaData?.[0]?.totalPrice}
                 ref={(el) => { dropdownRefs.current[1] = el; }}
               />
@@ -3745,6 +3748,17 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, getImagePath, tot
     loadImages();
   }, [data, getImagePath]);
 
+  let dynamicImagePath;
+  if (!imageMap?.colorImage?.includes('undefinedundefined~1')) {
+    if (imageMap?.colorImage !== getImagePath?.colorImage) {
+      dynamicImagePath = getImagePath?.colorImage;
+    } else {
+      dynamicImagePath = imageMap?.colorImage
+    }
+  } else {
+    dynamicImagePath = getImagePath?.colorImage;
+  }
+  console.log('dynamicImagePath: ', dynamicImagePath);
 
   return (
     <div
@@ -3774,16 +3788,16 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, getImagePath, tot
         >
           {isEarring ? (
             <>
-              {data?.stockno && (
+              {(data?.[0]?.stockno && data?.[1]?.stockno) && (
                 <div>
                   <PairSvg />
                   <PairSvg />
                 </div>
               )}
-              {!data?.stockno && (
+              {!(data?.[0]?.stockno && data?.[1]?.stockno) && (
                 <div className="for_dia_data_image">
                   <img
-                    src={(getImagePath?.colorImage ?? imageMap?.colorImage)}
+                    src={dynamicImagePath}
                     // src={data?.stockno ? data?.image_file_url : (!imageMap?.colorImage?.includes('/static') ? imageMap?.colorImage : getImagePath?.colorImage)}
                     alt=""
                     style={{ cursor: 'default' }}
@@ -3795,7 +3809,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, getImagePath, tot
           ) : (
             <div className="for_dia_data_image">
               <img
-                src={data?.stockno ? data?.image_file_url : (getImagePath?.colorImage ?? imageMap?.colorImage)}
+                src={data?.stockno ? data?.image_file_url : dynamicImagePath}
                 // src={data?.stockno ? data?.image_file_url : (!imageMap?.colorImage?.includes('/static') ? imageMap?.colorImage : getImagePath?.colorImage)}
                 alt=""
                 style={{ cursor: 'default' }}
@@ -3818,6 +3832,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, getImagePath, tot
               <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(data?.price ?? (data?.UnitCostWithMarkUpIncTax ?? data?.step1Data?.UnitCostWithMarkUpIncTax))}</span>
             )}
 
+
           </div>
           <div className="for_view_rem_div">
             <span onClick={(e) => { e.stopPropagation(); handleMoveToDet(data) }} className="for_view">View | </span>
@@ -3833,7 +3848,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, getImagePath, tot
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 });
 
