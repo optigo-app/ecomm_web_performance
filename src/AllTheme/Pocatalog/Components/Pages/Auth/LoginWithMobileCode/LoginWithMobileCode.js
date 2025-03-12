@@ -78,13 +78,13 @@ export default function LoginWithMobileCode() {
                 const visiterID = Cookies.get('visiterId');
                 sessionStorage.setItem('registerMobile', mobileNo);
                 // rememberMe
-                // if(rememberMe){
-                //         const Token = generateToken(response?.Data?.rd[0]?.Token,1);
-                //         localStorage?.setItem('AuthToken',JSON?.stringify(Token));
-                //     }else{
-                //             const Token = generateToken(response?.Data?.rd[0]?.Token,0);
-                //             localStorage?.setItem('AuthToken',JSON?.stringify(Token));
-                //         }
+                if(rememberMe){
+                        const Token = generateToken(response?.Data?.rd[0]?.Token,1);
+                        localStorage?.setItem('AuthToken',JSON?.stringify(Token));
+                    }else{
+                            const Token = generateToken(response?.Data?.rd[0]?.Token,0);
+                            localStorage?.setItem('AuthToken',JSON?.stringify(Token));
+                        }
                         Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
                 setIsLoginState(true)
                 sessionStorage.setItem('LoginUser', true)
@@ -149,7 +149,7 @@ export default function LoginWithMobileCode() {
             }
         }).catch((err) => console.log(err))
     };
-    const IsUi = false;
+    const IsUi = true;
 
 
     return (

@@ -3,7 +3,8 @@ import OldContimueWithEmail from './OldContinuewithEmail'
 import NewContimueWithEmail from './ContinueWithEmail'
 
 const EmailLogin = () => {
-    const IsUi = true;
+  const IsUi = false;
+
   return (
     <div>
         {IsUi ? <OldContimueWithEmail/>  :<NewContimueWithEmail/> }
