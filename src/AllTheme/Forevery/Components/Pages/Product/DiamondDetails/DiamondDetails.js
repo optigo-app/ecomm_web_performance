@@ -3787,6 +3787,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                         sessionStorage.removeItem("custStepData2Ring");
                         sessionStorage.removeItem("setImage");
                         sessionStorage.removeItem("isRing");
+                        sessionStorage.removeItem('ringFlowUrl');
                         Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
                     }
                 }
@@ -3819,6 +3820,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                         sessionStorage.removeItem("custStepData2Pendant");
                         sessionStorage.removeItem("setPenImage");
                         sessionStorage.removeItem("isPendant");
+                        sessionStorage.removeItem("PendantFlowUrl");
                         Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
                     }
                 }
@@ -3851,6 +3853,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                         sessionStorage.removeItem("custStepData2Earring");
                         sessionStorage.removeItem("setEarImage");
                         sessionStorage.removeItem("isPair");
+                        sessionStorage.removeItem("EarringFlowUrl");
                         Navigation(`/certified-loose-lab-grown-diamonds/diamond/`);
                     }
                 }
@@ -3878,6 +3881,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                         sessionStorage.setItem('isRing', 'true')
                         sessionStorage.removeItem('isPendant')
                         sessionStorage.removeItem('isPair')
+                        sessionStorage.removeItem('ringFlowUrl');
                     }
                     Navigation(`/certified-loose-lab-grown-diamonds/settings/${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "Ring" : "Pendant")}/diamond_shape=${storedSteps?.[0]?.shape ?? (storedSteps2?.[1]?.shape && storedSteps2?.[0]?.Status === "active" ? storedSteps2?.[1]?.shape : storedSteps3?.[1]?.shape)}/M=${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ==")}`, { replace: true });
                 }
@@ -3886,6 +3890,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     sessionStorage.removeItem("custStepData2Ring");
                     sessionStorage.removeItem("setImage");
                     sessionStorage.removeItem("isRing");
+                    sessionStorage.removeItem('ringFlowUrl');
                     Navigation(`/certified-loose-lab-grown-diamonds/settings/${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "Ring" : "Pendant")}/M=${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ==")}`, { replace: true });
                 }
 
@@ -3911,6 +3916,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                         sessionStorage.setItem('isPendant', 'true')
                         sessionStorage.removeItem('isRing')
                         sessionStorage.removeItem('isPair')
+                        sessionStorage.removeItem('PendantFlowUrl');
                     }
                     Navigation(`/certified-loose-lab-grown-diamonds/settings/${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "Ring" : "Pendant")}/diamond_shape=${storedSteps?.[0]?.shape ?? (storedSteps2?.[1]?.shape && storedSteps2?.[0]?.Status === "active" ? storedSteps2?.[1]?.shape : storedSteps3?.[1]?.shape)}/M=${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ==")}`, { replace: true });
                 }
@@ -3919,6 +3925,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     sessionStorage.removeItem("custStepData2Pendant");
                     sessionStorage.removeItem("setPenImage");
                     sessionStorage.removeItem("isPendant");
+                    sessionStorage.removeItem('PendantFlowUrl');
                     Navigation(`/certified-loose-lab-grown-diamonds/settings/${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "Ring" : "Pendant")}/M=${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "UmluZy9jYXRlZ29yeQ==" : "UGVuZGFudC9jYXRlZ29yeQ==")}`, { replace: true });
                 }
 
@@ -3944,6 +3951,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                         sessionStorage.setItem('isPair', 'true')
                         sessionStorage.removeItem('isPendant')
                         sessionStorage.removeItem('isRing')
+                        sessionStorage.removeItem('EarringFlowUrl');
                     }
                     Navigation(`/certified-loose-lab-grown-diamonds/settings/${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "Ring" : storedSteps3?.[0]?.Setting === "Pendant" && storedSteps3?.[0]?.Status === "active" ? "Pendant" : "Earring")}/diamond_shape=${storedSteps?.[0]?.shape ?? (storedSteps2?.[1]?.shape && storedSteps2?.[0]?.Status === "active" ? storedSteps2?.[1]?.shape : storedSteps3?.[1]?.shape && storedSteps3?.[0]?.Status === "active" ? storedSteps3?.[1]?.shape : storedSteps4?.[1]?.shape)}/M=${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "UmluZy9jYXRlZ29yeQ==" : storedSteps3?.[0]?.Setting === "Pendant" && storedSteps3?.[0]?.Status === "active" ? "UGVuZGFudC9jYXRlZ29yeQ==" : "RWFycmluZy9jYXRlZ29yeQ==")} `, { replace: true });
                 }
@@ -3952,6 +3960,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     sessionStorage.removeItem("custStepData2Earring");
                     sessionStorage.removeItem("setEarImage");
                     sessionStorage.removeItem("isPair");
+                    sessionStorage.removeItem('EarringFlowUrl');
                     Navigation(`/certified-loose-lab-grown-diamonds/settings/${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "Ring" : storedSteps3?.[0]?.Setting === "Pendant" && storedSteps3?.[0]?.Status === "active" ? "Pendant" : "Earring")}/M=${storedSteps?.[1]?.Setting ?? (storedSteps2?.[0]?.Setting === "Ring" && storedSteps2?.[0]?.Status === "active" ? "UmluZy9jYXRlZ29yeQ==" : storedSteps3?.[0]?.Setting === "Pendant" && storedSteps3?.[0]?.Status === "active" ? "UGVuZGFudC9jYXRlZ29yeQ==" : "RWFycmluZy9jYXRlZ29yeQ==")} `, { replace: true });
                 }
 
@@ -4026,10 +4035,14 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                                 sessionStorage.setItem('customizeSteps2Ring', JSON.stringify(storedSteps2));
                                 if (storedSteps2?.length > 0) {
                                     sessionStorage.removeItem("customizeSteps");
+                                    sessionStorage.removeItem("custStepData");
+                                    sessionStorage.removeItem("ShapeRingFlowUrl");
                                 }
                             }
                             else {
                                 sessionStorage.removeItem("customizeSteps");
+                                sessionStorage.removeItem("custStepData");
+                                sessionStorage.removeItem("ShapeRingFlowUrl");
                                 sessionStorage.removeItem("customizeSteps2Ring");
                             }
                         } else {
@@ -4038,6 +4051,8 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
 
                             if (storedSteps2?.length > 0) {
                                 sessionStorage.removeItem("customizeSteps");
+                                sessionStorage.removeItem("custStepData");
+                                sessionStorage.removeItem("ShapeRingFlowUrl");
                             }
                         }
 
@@ -4062,10 +4077,14 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                                 sessionStorage.setItem('customizeSteps2Pendant', JSON.stringify(storedSteps2));
                                 if (storedSteps2?.length > 0) {
                                     sessionStorage.removeItem("customizeSteps");
+                                    sessionStorage.removeItem("custStepData");
+                                    sessionStorage.removeItem("ShapePendantFlowUrl");
                                 }
                             }
                             else {
                                 sessionStorage.removeItem("customizeSteps");
+                                sessionStorage.removeItem("custStepData");
+                                sessionStorage.removeItem("ShapePendantFlowUrl");
                                 sessionStorage.removeItem("customizeSteps2Pendant");
                             }
                         } else {
@@ -4074,6 +4093,8 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
 
                             if (storedSteps2?.length > 0) {
                                 sessionStorage.removeItem("customizeSteps");
+                                sessionStorage.removeItem("custStepData");
+                                sessionStorage.removeItem("ShapePendantFlowUrl");
                             }
                         }
                     }
@@ -4096,10 +4117,14 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                                 sessionStorage.setItem('customizeSteps2Earring', JSON.stringify(storedSteps3));
                                 if (storedSteps3?.length > 0) {
                                     sessionStorage.removeItem("customizeSteps");
+                                    sessionStorage.removeItem("custStepData");
+                                    sessionStorage.removeItem("ShapeEarringFlowUrl");
                                 }
                             }
                             else {
                                 sessionStorage.removeItem("customizeSteps");
+                                sessionStorage.removeItem("custStepData");
+                                sessionStorage.removeItem("ShapeEarringFlowUrl");
                                 sessionStorage.removeItem("customizeSteps2Earring");
                             }
                         } else {
@@ -4108,6 +4133,8 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
 
                             if (storedSteps3?.length > 0) {
                                 sessionStorage.removeItem("customizeSteps");
+                                sessionStorage.removeItem("custStepData");
+                                sessionStorage.removeItem("ShapeEarringFlowUrl");
                             }
                         }
                     }
@@ -4138,6 +4165,8 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     }
                     else {
                         sessionStorage.removeItem("customizeSteps");
+                        sessionStorage.removeItem("custStepData");
+                        sessionStorage.removeItem("ShapeRingFlowUrl");
                         sessionStorage.removeItem("customizeSteps2Ring");
                     }
                 } else {
@@ -4174,6 +4203,8 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     }
                     else {
                         sessionStorage.removeItem("customizeSteps");
+                        sessionStorage.removeItem("custStepData");
+                        sessionStorage.removeItem("ShapePendantFlowUrl");
                         sessionStorage.removeItem("customizeSteps2Pendant");
                     }
                 } else {
@@ -4209,6 +4240,8 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data, compSet, getImage
                     }
                     else {
                         sessionStorage.removeItem("customizeSteps");
+                        sessionStorage.removeItem("custStepData");
+                        sessionStorage.removeItem("ShapEarringFlowUrl");
                         sessionStorage.removeItem("customizeSteps2Earring");
                     }
                 } else {
@@ -4786,7 +4819,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, ge
                                 index={0}
                                 open={open === 'diamond'}
                                 handleOpen={() => handleOpen('diamond')}
-                                data={isEarring ? getdiaData?.[0]?.step1Data : getdiaData?.[0]?.step1Data?.[0]}
+                                data={isEarring ? getdiaData?.[1]?.step1Data ?? getdiaData?.[0]?.step1Data : getdiaData?.[0]?.step1Data?.[0]}
                                 totalPairPrice={getdiaData?.[1]?.totalPrice ?? getdiaData?.[0]?.totalPrice}
                                 ref={(el) => { dropdownRefs.current[1] = el; }}
                                 compSet={compSet}

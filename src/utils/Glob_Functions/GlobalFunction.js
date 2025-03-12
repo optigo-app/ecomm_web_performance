@@ -1,13 +1,11 @@
-import { useState, useEffect } from 'react';
 import { REACT_APP_WEB } from "../../env";
 
 export function storImagePath() {
-  let statiPath = `${window?.location?.protocol}//${
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "zen"
+  let statiPath = `${window?.location?.protocol}//${window.location.hostname === "localhost" ||
+      window.location.hostname === "zen"
       ? REACT_APP_WEB
       : window.location.hostname
-  }`;
+    }`;
   return `${statiPath}/WebSiteStaticImage`;
   // return `${statiPath}/Website_Store/WebSiteStaticImage`
   // return `${storeinit?.UploadLogicalPath}/${storeinit?.ukey}/${storeinit?.ufcc}`
@@ -22,12 +20,12 @@ export const getDomainName = async () => {
     const domainMap = {
       "almacarino.procatalog.in": "almacarino",
       "shreediamond.optigoapps.com": "sdj",
-      'apptstore.orail.co.in' : 'sdj',
-      'fgstore.mapp' : 'sdj',
+      'apptstore.orail.co.in': 'sdj',
+      'fgstore.mapp': 'sdj',
       'varajewels.com': "vaara",
-      'www.varajewels.com':"vaara",
+      'www.varajewels.com': "vaara",
       'sonasons.optigoapps.com': "demo",
-      'uscreation.procatalog.in' : "uscreation",
+      'uscreation.procatalog.in': "uscreation",
       'localhost': "default",
     };
     return domainMap[hostname] || "default";
@@ -40,7 +38,7 @@ export const getDomainName = async () => {
 export function storInitDataPath() {
   let hostName =
     window.location.hostname === "localhost" ||
-    window.location.hostname === "zen"
+      window.location.hostname === "zen"
       ? REACT_APP_WEB
       : window.location.hostname;
   if (hostName?.startsWith("www.")) {
@@ -122,22 +120,39 @@ export const formatTitleLine = (titleLine) => {
 
 export const downloadExcelLedgerData = () => {
   setTimeout(() => {
-      const button = document.getElementById('test-table-xls-button');
-      button.click();
-    }, 500);
-  }
+    const button = document.getElementById('test-table-xls-button');
+    button.click();
+  }, 500);
+}
 
 export const handleScrollTop = () => {
   window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+    top: 0,
+    behavior: 'smooth'
   });
 }
 
 export const fetchAPIUrlFromStoreInit = () => {
-  const getStoreInitData = JSON.parse(sessionStorage.getItem("storeInit"));
-  if(!getStoreInitData) return;
-  return getStoreInitData;
+  let retries = 3;
+  let getStoreInitData = null;
+
+  const checkData = () => {
+    getStoreInitData = JSON?.parse(sessionStorage?.getItem("storeInit"));
+
+    if (getStoreInitData?.ApiUrl || retries <= 0) {
+      return getStoreInitData;
+    } else {
+      retries -= 1;
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(checkData()); 
+        }, 100); 
+      });
+    }
+  };
+
+  return checkData();
 };
+
 
 export const wesbiteDomainName = window.location.host;
