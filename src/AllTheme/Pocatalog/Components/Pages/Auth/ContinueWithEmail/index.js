@@ -1,12 +1,15 @@
 import React from 'react'
 import OldContimueWithEmail from './OldContinuewithEmail'
 import NewContimueWithEmail from './ContinueWithEmail'
+import { useRecoilValue } from 'recoil';
+import { IsOtpNewUi } from '../../../Recoil/atom';
 
 const EmailLogin = () => {
-    const IsUi = true;
+  const isOtpNewUi = useRecoilValue(IsOtpNewUi);
+
   return (
     <div>
-        {IsUi ? <OldContimueWithEmail/>  :<NewContimueWithEmail/> }
+        {isOtpNewUi ?  <NewContimueWithEmail/> : <OldContimueWithEmail/> }
         
     </div>
   )

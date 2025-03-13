@@ -267,8 +267,8 @@ const ProductList = () => {
       let BestSellerVar = "";
       let AlbumVar = "";
 
-      const securityKey = location?.state === null ? JSON.parse(sessionStorage.getItem('Loginkey')) : location?.state?.SecurityKey;
-      setSecurityKey(securityKey);
+      const securityKey = location?.state === null ? JSON.parse(sessionStorage?.getItem('Loginkey')) : location?.state?.SecurityKey;
+      setSecurityKey(securityKey ?? "");
 
       let productlisttype;
 

@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import React from 'react'
 
 const useRemoveAllConsole = () => {
-    useEffect(() => {
+    React.useEffect(() => {
         const disableLoggingInProduction = () => {
             if (process.env.NODE_ENV === 'production') {
                 console.log = () => { };
@@ -11,7 +11,7 @@ const useRemoveAllConsole = () => {
                 console.debug = () => { };
             }
         };
-
+    
         disableLoggingInProduction();
         return () => {
             if (process.env.NODE_ENV === 'production') {
@@ -23,6 +23,6 @@ const useRemoveAllConsole = () => {
             }
         };
     }, []);
-};
+}
 
-export default useRemoveAllConsole;
+export default useRemoveAllConsole

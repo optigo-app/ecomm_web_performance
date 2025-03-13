@@ -3,7 +3,7 @@ import { Button, Checkbox, CircularProgress, FormControlLabel, IconButton, Input
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 // import { productListApiCall } from '../../../../Utils/API/ProductListAPI';
 import { toast } from 'react-toastify';
 import './LoginWithEmail.modul.scss'
@@ -13,7 +13,7 @@ import './LoginWithEmail.modul.scss'
 import Footer from '../../Home/Footer/Footer';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 // import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
-import { proCat_CartCount, proCat_WishCount, proCat_loginState } from '../../../Recoil/atom';
+import { IsOtpNewUi, proCat_CartCount, proCat_WishCount, proCat_loginState } from '../../../Recoil/atom';
 import { ForgotPasswordEmailAPI } from '../../../../../../utils/API/Auth/ForgotPasswordEmailAPI';
 import Cookies from 'js-cookie';
 import { CurrencyComboAPI } from '../../../../../../utils/API/Combo/CurrencyComboAPI';
@@ -31,6 +31,7 @@ export default function LoginWithEmail() {
     const navigation = useNavigate();
     const location = useLocation();
     const [rememberMe, setRememberMe] = useState(false);
+  const isOtpNewUi = useRecoilValue(IsOtpNewUi);
 
     const encodedKeyFromStorage = JSON.parse(sessionStorage.getItem("keylogs"));
     const getSecKey = encodedKeyFromStorage ? decodeURIComponent(atob(encodedKeyFromStorage)) : "";
@@ -150,13 +151,15 @@ export default function LoginWithEmail() {
                 const visiterID = Cookies.get('visiterId');
                 Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token);
                 // rememberMe 
-                // if(rememberMe){
-                //     const Token = generateToken(response?.Data?.rd[0]?.Token,1);
-                //     localStorage?.setItem('AuthToken',JSON?.stringify(Token));
-                // }else{
-                //     const Token = generateToken(response?.Data?.rd[0]?.Token,0);
-                //     localStorage?.setItem('AuthToken',JSON?.stringify(Token));
-                // }
+                if(isOtpNewUi){
+                    if(rememberMe){
+                        const Token = generateToken(response?.Data?.rd[0]?.Token,1);
+                        localStorage?.setItem('AuthToken',JSON?.stringify(Token));
+                    }else{
+                        const Token = generateToken(response?.Data?.rd[0]?.Token,0);
+                        localStorage?.setItem('AuthToken',JSON?.stringify(Token));
+                    }
+                }
                 sessionStorage.setItem('registerEmail', email)
                 setIsLoginState(true)
                 sessionStorage.setItem('LoginUser', true)
@@ -197,9 +200,9 @@ export default function LoginWithEmail() {
                 }).catch((err) => console.log(err))
 
                 if (redirectEmailUrl) {
-                    navigation(redirectEmailUrl, { state });
                     sessionStorage.removeItem('keylogs');
                     sessionStorage.setItem('Loginkey', JSON?.stringify((location?.state?.SecurityKey ?? getSecKey)))
+                    navigation(redirectEmailUrl, { state });
                 } else {
                     navigation('/', { state })
                 }
@@ -314,8 +317,6 @@ export default function LoginWithEmail() {
         //     setIsLoading(false);
         // }
     }
-    const IsUi = false;
-
 
     return (
         <div className='proCat_loginEmail'>
@@ -379,21 +380,21 @@ export default function LoginWithEmail() {
                                 ),
                             }}
                         />
-                        {IsUi &&
-                            <FormControlLabel
-                                className='smr_loginPasswordBox'
-                                sx={{
-                                    height: '0px', padding: '0px', width: '0px', margin: '0px'
-                                }}
-                                control={
-                                    <Checkbox
-                                        checked={rememberMe}
-                                        onChange={(e) => setRememberMe(e.target.checked)}
-                                        color="primary"
-                                    />
-                                }
-                                label="Remember Me"
-                            />}
+                   {isOtpNewUi &&  
+                        <FormControlLabel
+                         className='smr_loginPasswordBox'
+                         sx={{
+                            height:'0px',padding:'0px',width:'0px',margin:'0px'
+                         }}
+        control={
+          <Checkbox
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+            color="primary"
+          />
+        }
+        label="Remember Me"
+      />}
 
                         <button className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>Login</button>
 

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, CircularProgress, FormControlLabel, IconButton, InputAdornment, TextField } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './LoginWithMobileCode.modul.scss';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
-import { proCat_CartCount, proCat_loginState, proCat_WishCount } from '../../../Recoil/atom';
+import { IsOtpNewUi, proCat_CartCount, proCat_loginState, proCat_WishCount } from '../../../Recoil/atom';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
 import { toast } from 'react-toastify';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
@@ -32,6 +32,7 @@ export default function LoginWithMobileCode() {
     const updatedSearch = search.replace('?LoginRedirect=', '');
     const redirectMobileUrl = `${decodeURIComponent(updatedSearch)}`;
     const cancelRedireactUrl = `/LoginOption/${search}`;
+    const isOtpNewUi = useRecoilValue(IsOtpNewUi);
 
     const state = location?.state?.SecurityKey ? location?.state : "";
 
@@ -82,14 +83,16 @@ export default function LoginWithMobileCode() {
                 const visiterID = Cookies.get('visiterId');
                 sessionStorage.setItem('registerMobile', mobileNo);
                 // rememberMe
-                // if(rememberMe){
-                //         const Token = generateToken(response?.Data?.rd[0]?.Token,1);
-                //         localStorage?.setItem('AuthToken',JSON?.stringify(Token));
-                //     }else{
-                //             const Token = generateToken(response?.Data?.rd[0]?.Token,0);
-                //             localStorage?.setItem('AuthToken',JSON?.stringify(Token));
-                //         }
-                Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
+                if(isOtpNewUi){
+                    if(rememberMe){
+                        const Token = generateToken(response?.Data?.rd[0]?.Token,1);
+                        localStorage?.setItem('AuthToken',JSON?.stringify(Token));
+                    }else{
+                        const Token = generateToken(response?.Data?.rd[0]?.Token,0);
+                        localStorage?.setItem('AuthToken',JSON?.stringify(Token));
+                    }
+                }
+                        Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
                 setIsLoginState(true)
                 sessionStorage.removeItem('keylogs');
                 sessionStorage.setItem('Loginkey', JSON?.stringify((location?.state?.SecurityKey ?? getSecKey)))
@@ -155,7 +158,6 @@ export default function LoginWithMobileCode() {
             }
         }).catch((err) => console.log(err))
     };
-    const IsUi = false;
 
 
     return (
@@ -204,20 +206,20 @@ export default function LoginWithMobileCode() {
                             error={!!errors.otp}
                             helperText={errors.otp}
                         />
-                        {IsUi && <FormControlLabel
-                            className='labgrowRegister'
-                            sx={{
-                                height: '0px', padding: '0px', width: '0px', margin: '0px'
-                            }}
-                            control={
-                                <Checkbox
-                                    checked={rememberMe}
-                                    onChange={(e) => setRememberMe(e.target.checked)}
-                                    color="primary"
-                                />
-                            }
-                            label="Remember Me"
-                        />}
+                      {isOtpNewUi &&     <FormControlLabel
+                         className='labgrowRegister'
+                         sx={{
+                            height:'0px',padding:'0px',width:'0px',margin:'0px'
+                         }}
+        control={
+          <Checkbox
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+            color="primary"
+          />
+        }
+        label="Remember Me"
+      />}
 
                         <button className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>Login</button>
                         <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>

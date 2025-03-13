@@ -1,30 +1,30 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
+import Cookies from "js-cookie";
+import { Helmet } from "react-helmet";
 import { CurrencyComboAPI } from "./utils/API/Combo/CurrencyComboAPI";
 import { MetalColorCombo } from "./utils/API/Combo/MetalColorCombo";
 import { ColorStoneQualityColorComboAPI } from "./utils/API/Combo/ColorStoneQualityColorComboAPI";
 import { DiamondQualityColorComboAPI } from "./utils/API/Combo/DiamondQualityColorComboAPI";
+import { CountryCodeListApi } from "./utils/API/Auth/CountryCodeListApi";
 import { MetalTypeComboAPI } from "./utils/API/Combo/MetalTypeComboAPI";
+import { fetchPayMaster } from "./utils/API/OrderFlow/Paymaster";
+import { storImagePath, storInitDataPath } from "./utils/Glob_Functions/GlobalFunction";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { orz_companyLogo, orz_companyLogoM } from "./AllTheme/Ornaz/Components/Recoil/atom";
 import { el_companyLogo, el_companyLogoM } from "./AllTheme/Elveester/Components/Recoil/atom";
 import { for_companyLogo, for_companyLogoM } from "./AllTheme/Forevery/Components/Recoil/atom";
-import { companyLogo, companyLogoM, loginState, smr_companyLogo, smr_companyLogoM, smr_loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
 import { dt_companyLogo, dt_companyLogoM } from "./AllTheme/DaimondTine/Components/Recoil/atom";
-import { lov_companyLogo, lov_companyLogoM, lov_loginState } from "./AllTheme/LoveIn/Components/Recoil/atom";
-import Cookies from "js-cookie";
 import { smrMA_companyLogo } from "./AllTheme/MobileApp/SmilingRock_MobileApp/Components/Recoil/atom";
-import { storImagePath, storInitDataPath } from "./utils/Glob_Functions/GlobalFunction";
-import { Helmet } from "react-helmet";
 import { proCat_companyLogo, proCat_companyLogoM } from "./AllTheme/Pocatalog/Components/Recoil/atom";
 import { roop_companyLogo, roop_companyLogoM } from "./AllTheme/RoopJewellers/Components/Recoil/atom";
 import { mala_companyLogo, mala_companyLogoM } from "./AllTheme/MalakanJwewls/Components/Recoil/atom";
 import { stam_companyLogo, stam_companyLogoM } from "./AllTheme/StamFordJewels/Components/Recoil/atom";
-import { fetchPayMaster } from "./utils/API/OrderFlow/Paymaster";
-import { orz_companyLogo, orz_companyLogoM } from "./AllTheme/Ornaz/Components/Recoil/atom";
-import { CountryCodeListApi } from "./utils/API/Auth/CountryCodeListApi";
+import { lov_companyLogo, lov_companyLogoM, lov_loginState } from "./AllTheme/LoveIn/Components/Recoil/atom";
+import { companyLogo, companyLogoM, loginState, smr_companyLogo, smr_companyLogoM, smr_loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
 
 const SmilingRock_App = React.lazy(() => import("./AllTheme/SmilingRock/SmilingRock_App"));
-const Elveester_App = React.lazy(() => import("./AllTheme/Elveester/Elveester_App"));
 const HouseOfQuadri_App = React.lazy(() => import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App"));
+const Elveester_App = React.lazy(() => import("./AllTheme/Elveester/Elveester_App"));
 const ForEveryRoutes = React.lazy(() => import("./AllTheme/Forevery/ForeveryRoutes"));
 const SmilingRock_MobileApp_App = React.lazy(() => import("./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App"));
 const Procatalog_MobileApp_App = React.lazy(() => import("./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App"));
@@ -354,12 +354,12 @@ const Themes = ({ htmlContent }) => {
     <>
       <Suspense fallback={<></>}>
         {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
-        {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
         {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
+        
+        {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
         {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
         {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
         {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />} 
-        {/* {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}  */}
          {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
         {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
         {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
@@ -367,6 +367,8 @@ const Themes = ({ htmlContent }) => {
         {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
         {htmlContent?.rd[0]?.Themeno === 13 && <LoveIn_App />}
         {htmlContent?.rd[0]?.Themeno === 14 && <Ornaz_App />}
+        {htmlContent?.rd[0]?.Themeno === 14 && <Ornaz_App />}
+      {/* {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}   */}
       </Suspense>
     </>
   );

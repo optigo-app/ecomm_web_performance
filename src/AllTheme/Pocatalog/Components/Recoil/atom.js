@@ -49,3 +49,10 @@ export const AlmacarinoFlag = atom({
   key: 'AlmacarinoFlag',
   default: 1
 })
+
+export const IsOtpNewUi = atom({
+  key: 'ProcatalogIsOtpUi',
+  default: true ,
+})
+
+
