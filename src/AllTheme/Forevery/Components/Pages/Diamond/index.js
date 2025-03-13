@@ -29,6 +29,7 @@ const DiamondPage = () => {
       top: 0,
     });
   }, []);
+  
   return (
     <>
       <div className="for_DiamondPage">

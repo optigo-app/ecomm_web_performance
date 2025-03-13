@@ -341,6 +341,13 @@
                   }
                 }
               }
+              .for_third_col{
+                @media screen and (max-width: 1300px) {
+                  img{
+                    width: 100%;
+                  }
+                }
+              }
             }
 
             .Second_Nav_first_Menu {
@@ -431,6 +438,7 @@
                 display: flex;
                 justify-content: end;
                 align-items: center;
+              
               }
             }
 

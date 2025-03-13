@@ -145,6 +145,7 @@ const ForEveryRoutes = () => {
   });
 
   useEffect(() => {
+    sessionStorage.setItem('filterMenu',JSON.stringify({}))
     const cookieValue = Cookies.get("userLoginCookie");
     const loginUser = sessionStorage.getItem("LoginUser");
 

@@ -184,6 +184,7 @@ const DiamondFilter = () => {
     Culet: [],
   });
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const   IsFilterMenuCalled = useRef(false);
 
   const [AccordianChecked, setAccordianChecked] = useState(false);
   const [sliderLabels, setSliderLabels] = useState([]);
@@ -626,10 +627,11 @@ const DiamondFilter = () => {
 
   useEffect(() => {
     const { filterData, diamondList } = state;
-    const mergedData =
-      filterData && diamondList ? { ...filterData, ...diamondList } : {};
-    sessionStorage.setItem("filterMenu", JSON.stringify(mergedData));
-  }, [state]);
+    if(isFilterDataFetched){
+      const mergedData = filterData && diamondList ? { ...filterData, ...diamondList } : {};
+      sessionStorage.setItem("filterMenu", JSON.stringify(mergedData));
+    }
+  }, [isFilterDataFetched]);
 
   const handlePageChange = async (event, newPage) => {
     setCurrentPage(newPage);
@@ -1589,6 +1591,15 @@ const DiamondFilter = () => {
             </div>
             <div className="flex_for_mob">
               <div className="sorting_options">
+              {open === "Sort" && <div className="wrapper-fg"
+              style={{
+                position: "absolute",
+                top: "0",
+                padding: "8px 80px",
+                backgroundColor: "transparent",
+                color: "transparent",
+              }}
+            >22</div>}
                 <span
                   onClick={() => handleOpen("Sort")}
                   className="title_for_sort"
@@ -1659,6 +1670,7 @@ const DiamondFilter = () => {
                                         }
                                         loading="lazy"
                                         onClick={() => HandleDiamondRoute(val)}
+                                        preload="metadata" 
                                       />
                                     ) : val?.image_file_url !== "" ? (
                                       <img
@@ -1751,7 +1763,7 @@ const DiamondFilter = () => {
                                     style={{ cursor: "default", width: "100%" }}
                                     title={`${dia?.shapename} ${dia?.carat?.toFixed(3)} CARAT ${dia?.colorname} ${dia?.clarityname} ${dia?.cutname}`}
                                   >
-                                    <img src={image} alt={dia?.shapename} className="earr_paired_diamond_img" />
+                                    <img src={image}  alt={dia?.shapename ?? "Shape Not Available"} className="earr_paired_diamond_img" />
                                   </abbr>
                                 );
                               })}
