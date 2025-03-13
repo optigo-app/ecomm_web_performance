@@ -990,6 +990,12 @@ $borderColor: rgba(232, 232, 232, 1);
   }
 }
 
+@media (max-width: 425px) {
+  .stam3_weightsContainer {
+    margin-inline: 7%;
+  }
+}
+
 @media (max-width: 525px) {
   .stam3_MainBGDiv {
     .cartMainPageDiv {
