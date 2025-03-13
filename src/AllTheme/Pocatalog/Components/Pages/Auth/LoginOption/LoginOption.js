@@ -13,8 +13,17 @@ const LoginOption = () => {
     const navigation = useNavigate();
     const location = useLocation();
 
+    if (location?.state?.SecurityKey) {
+        const encodedKey = btoa(encodeURIComponent(location?.state?.SecurityKey));
+        sessionStorage.setItem("keylogs", JSON.stringify(encodedKey)); // Store encoded value
+    }
+
+    const encodedKeyFromStorage = JSON.parse(sessionStorage.getItem("keylogs"));
+    const getSecurityKey = encodedKeyFromStorage ? decodeURIComponent(atob(encodedKeyFromStorage)) : "";
+
     const search = location?.search
-    const state = location?.state?.SecurityKey ? location?.state : "";
+
+    const state = location?.state?.SecurityKey ? (location?.state ?? getSecurityKey) : "";
 
     const redirectEmailUrl = `/ContinueWithEmail/${search}`;
     const redirectMobileUrl = `/ContimueWithMobile/${search}`;

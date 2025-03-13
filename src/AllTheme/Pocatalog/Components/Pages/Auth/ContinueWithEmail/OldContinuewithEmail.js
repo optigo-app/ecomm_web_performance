@@ -44,6 +44,9 @@ export default function ContinueWithEmail() {
 
     const handleSubmit = async () => {
         const trimmedEmail = email.trim();
+        const encodedKeyFromStorage = JSON.parse(sessionStorage.getItem("keylogs"));
+        const getSecKey = encodedKeyFromStorage ? decodeURIComponent(atob(encodedKeyFromStorage)) : "";
+        const SecurityKey = location?.state?.SecurityKey ?? getSecKey;
         if (!trimmedEmail) {
             setEmailError('Email is required.');
             return;
@@ -59,7 +62,12 @@ export default function ContinueWithEmail() {
             if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 1) {
                 toast.error('You are not a customer, contact to admin')
             } else if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 0) {
-                navigation(redirectEmailUrl, { state: { email: trimmedEmail } });
+                navigation(redirectEmailUrl, {
+                    state: {
+                        email: trimmedEmail,
+                        SecurityKey: SecurityKey
+                    }
+                });
                 if (trimmedEmail) {
                     sessionStorage.setItem("registerEmail", trimmedEmail);
                 }

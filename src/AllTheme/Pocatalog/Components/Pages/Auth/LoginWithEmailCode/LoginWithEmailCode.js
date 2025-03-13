@@ -3,7 +3,7 @@ import { Button, CircularProgress, IconButton, InputAdornment, TextField } from 
 import { useLocation, useNavigate } from 'react-router-dom';
 import './LoginWithEmailCode.modul.scss';
 import CryptoJS from 'crypto-js';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { LoginWithEmailCodeAPI } from '../../../../../../utils/API/Auth/LoginWithEmailCodeAPI';
 import Footer from '../../Home/Footer/Footer';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
@@ -25,6 +25,10 @@ export default function LoginWithEmailCode() {
     const [resendTimer, setResendTimer] = useState(120);
     const setIsLoginState = useSetRecoilState(proCat_loginState)
     const location = useLocation();
+    const state = location?.state?.SecurityKey ? location?.state : "";
+
+    const encodedKeyFromStorage = JSON.parse(sessionStorage.getItem("keylogs"));
+    const getSecKey = encodedKeyFromStorage ? decodeURIComponent(atob(encodedKeyFromStorage)) : "";
 
     const [cartCountNum, setCartCountNum] = useRecoilState(proCat_CartCount)
     const [wishCountNum, setWishCountNum] = useRecoilState(proCat_WishCount)
@@ -126,9 +130,11 @@ export default function LoginWithEmailCode() {
                 sessionStorage.setItem('LoginUser', true)
                 sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
                 if (redirectEmailUrl) {
-                    navigation(redirectEmailUrl);
+                    navigation(redirectEmailUrl, { state });
+                    sessionStorage.removeItem('keylogs');
+                    sessionStorage.setItem('Loginkey', JSON?.stringify((location?.state?.SecurityKey ?? getSecKey)))
                 } else {
-                    navigation('/')
+                    navigation('/', { state })
                 }
             } else {
                 errors.mobileNo = 'Code is Invalid'

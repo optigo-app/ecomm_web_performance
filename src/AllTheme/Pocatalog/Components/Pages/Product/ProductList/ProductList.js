@@ -125,7 +125,6 @@ const ProductList = () => {
   const [afterCountStatus, setAfterCountStatus] = useState(false);
   const [loadingIndex, setLoadingIndex] = useState(0)
   const [securityKey, setSecurityKey] = useState();
-  console.log('securityKey: ', securityKey);
   const SoketData = useRecoilValue(soketProductData);
   const formatter = new Intl.NumberFormat("en-IN");
   let cookie = Cookies.get("visiterId");
@@ -248,11 +247,11 @@ const ProductList = () => {
 
   useEffect(() => {
     let url = `${location?.pathname}${location?.search}`;
-    let navVal = location?.pathname?.split('/')[3];
+    let navVal = url?.split('/')[3];
     let securityKey = navVal?.split('K=')[1]
     let state = { SecurityKey: atob(securityKey) }
-    if (atob(securityKey) > 0 && islogin !== true) {
-      navigate(`/loginOption/?LoginRedirect=${(url)}`, { state })
+    if (atob(securityKey) > 0 && islogin != true) {
+      navigate(`/LoginOption/?LoginRedirect=${(url)}`, { state })
     }
   }, [location?.key])
 
@@ -2260,7 +2259,7 @@ const ProductList = () => {
                             </AccordionDetails>
                           </Accordion>
                         )}
-                      { storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
+                      {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                         <Accordion
                           elevation={0}
                           sx={{
