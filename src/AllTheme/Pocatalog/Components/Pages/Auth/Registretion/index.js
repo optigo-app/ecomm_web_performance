@@ -1,15 +1,17 @@
 import React from 'react'
 import OldRegister from './OldRegister'
 import NewRegister from './Register'
+import { IsOtpNewUi } from '../../../Recoil/atom';
+import { useRecoilValue } from 'recoil';
 
 const Register = () => {
-    const IsUi = false;
+  const isOtpNewUi = useRecoilValue(IsOtpNewUi);
+
   return (
     <div>
-        {IsUi ? <OldRegister/>  :<NewRegister/> }
-        
+      {isOtpNewUi ? <NewRegister /> : <OldRegister />}
     </div>
   )
 }
 
-export default Register ;
+export default Register;

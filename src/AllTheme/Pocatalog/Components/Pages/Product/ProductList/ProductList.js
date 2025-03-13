@@ -125,7 +125,6 @@ const ProductList = () => {
   const [afterCountStatus, setAfterCountStatus] = useState(false);
   const [loadingIndex, setLoadingIndex] = useState(0)
   const [securityKey, setSecurityKey] = useState();
-  console.log('securityKey: ', securityKey);
   const SoketData = useRecoilValue(soketProductData);
   const formatter = new Intl.NumberFormat("en-IN");
   let cookie = Cookies.get("visiterId");
@@ -268,8 +267,8 @@ const ProductList = () => {
       let BestSellerVar = "";
       let AlbumVar = "";
 
-      const securityKey = location?.state === null ? JSON.parse(sessionStorage.getItem('Loginkey')) : location?.state?.SecurityKey;
-      setSecurityKey(securityKey);
+      const securityKey = location?.state === null ? JSON.parse(sessionStorage?.getItem('Loginkey')) : location?.state?.SecurityKey;
+      setSecurityKey(securityKey ?? "");
 
       let productlisttype;
 

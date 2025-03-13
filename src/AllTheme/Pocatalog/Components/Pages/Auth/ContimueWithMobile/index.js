@@ -1,12 +1,14 @@
 import React from 'react'
 import OldContimueWithMobile from './OldContinuewithMobile'
 import NewContimueWithMobile from './ContimueWithMobile'
+import { IsOtpNewUi } from '../../../Recoil/atom';
+import { useRecoilValue  } from 'recoil';
 
 const MobileLogin = () => {
-    const IsUi = false;
+  const isOtpNewUi = useRecoilValue(IsOtpNewUi);
   return (
     <div>
-        {IsUi ? <OldContimueWithMobile/>  :<NewContimueWithMobile/> }
+        {isOtpNewUi ?  <NewContimueWithMobile/> : <OldContimueWithMobile/> }
         
     </div>
   )
