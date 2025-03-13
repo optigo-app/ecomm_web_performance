@@ -148,6 +148,7 @@ const Album = () => {
       setDesignSubData(finalNewData);
     } else {
       sessionStorage.setItem('redirectURL', url);
+      console.log("islogin || data?.AlbumSecurityId === 0",islogin || data?.AlbumSecurityId === 0)
       navigate(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl, { state });
     }
   };

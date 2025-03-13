@@ -42,6 +42,9 @@ export default function ContimueWithMobile() {
         if (isSubmitting) {
             return;
         }
+        const encodedKeyFromStorage = JSON.parse(sessionStorage.getItem("keylogs"));
+        const getSecKey = encodedKeyFromStorage ? decodeURIComponent(atob(encodedKeyFromStorage)) : "";
+        const SecurityKey = location?.state?.SecurityKey ?? getSecKey;
 
         if (!mobileNo.trim()) {
             setErrors({ mobileNo: 'Mobile No. is required' });
@@ -74,7 +77,8 @@ export default function ContimueWithMobile() {
                 toast.error('You are not a customer, contact to admin')
             } else if (response.Data.Table1[0].stat === '1' && response.Data.Table1[0].islead === '0') {
                 toast.success('OTP send Sucssessfully');
-                navigation(redirectMobileUrl, { state: { mobileNo: mobileNo } });
+                // navigation(redirectMobileUrl, { state: { mobileNo: mobileNo } });
+                navigation(redirectMobileUrl, { state: { mobileNo: mobileNo, SecurityKey: SecurityKey } });
                 sessionStorage.setItem('registerMobile', mobileNo)
             } else {
                 navigation(redirectSignUpUrl, { state: { mobileNo: mobileNo } });

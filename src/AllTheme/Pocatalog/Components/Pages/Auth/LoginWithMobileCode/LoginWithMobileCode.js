@@ -6,7 +6,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
 import { proCat_CartCount, proCat_loginState, proCat_WishCount } from '../../../Recoil/atom';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import Cookies from 'js-cookie';
 import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
@@ -33,6 +33,10 @@ export default function LoginWithMobileCode() {
     const redirectMobileUrl = `${decodeURIComponent(updatedSearch)}`;
     const cancelRedireactUrl = `/LoginOption/${search}`;
 
+    const state = location?.state?.SecurityKey ? location?.state : "";
+
+    const encodedKeyFromStorage = JSON.parse(sessionStorage.getItem("keylogs"));
+    const getSecKey = encodedKeyFromStorage ? decodeURIComponent(atob(encodedKeyFromStorage)) : "";
 
     useEffect(() => {
         const storedMobile = sessionStorage.getItem('registerMobile');
@@ -85,8 +89,10 @@ export default function LoginWithMobileCode() {
                 //             const Token = generateToken(response?.Data?.rd[0]?.Token,0);
                 //             localStorage?.setItem('AuthToken',JSON?.stringify(Token));
                 //         }
-                        Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
+                Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
                 setIsLoginState(true)
+                sessionStorage.removeItem('keylogs');
+                sessionStorage.setItem('Loginkey', JSON?.stringify((location?.state?.SecurityKey ?? getSecKey)))
                 sessionStorage.setItem('LoginUser', true)
                 sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
 
@@ -198,20 +204,20 @@ export default function LoginWithMobileCode() {
                             error={!!errors.otp}
                             helperText={errors.otp}
                         />
-                      {IsUi &&     <FormControlLabel
-                         className='labgrowRegister'
-                         sx={{
-                            height:'0px',padding:'0px',width:'0px',margin:'0px'
-                         }}
-        control={
-          <Checkbox
-            checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
-            color="primary"
-          />
-        }
-        label="Remember Me"
-      />}
+                        {IsUi && <FormControlLabel
+                            className='labgrowRegister'
+                            sx={{
+                                height: '0px', padding: '0px', width: '0px', margin: '0px'
+                            }}
+                            control={
+                                <Checkbox
+                                    checked={rememberMe}
+                                    onChange={(e) => setRememberMe(e.target.checked)}
+                                    color="primary"
+                                />
+                            }
+                            label="Remember Me"
+                        />}
 
                         <button className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>Login</button>
                         <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>

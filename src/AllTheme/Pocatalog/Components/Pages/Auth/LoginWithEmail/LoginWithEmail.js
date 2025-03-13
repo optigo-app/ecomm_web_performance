@@ -32,6 +32,9 @@ export default function LoginWithEmail() {
     const location = useLocation();
     const [rememberMe, setRememberMe] = useState(false);
 
+    const encodedKeyFromStorage = JSON.parse(sessionStorage.getItem("keylogs"));
+    const getSecKey = encodedKeyFromStorage ? decodeURIComponent(atob(encodedKeyFromStorage)) : "";
+
     const [cartCountNum, setCartCountNum] = useRecoilState(proCat_CartCount)
     const [wishCountNum, setWishCountNum] = useRecoilState(proCat_WishCount)
 
@@ -195,7 +198,8 @@ export default function LoginWithEmail() {
 
                 if (redirectEmailUrl) {
                     navigation(redirectEmailUrl, { state });
-                    sessionStorage.setItem('Loginkey', JSON.stringify(location?.state?.SecurityKey))
+                    sessionStorage.removeItem('keylogs');
+                    sessionStorage.setItem('Loginkey', JSON?.stringify((location?.state?.SecurityKey ?? getSecKey)))
                 } else {
                     navigation('/', { state })
                 }
@@ -375,21 +379,21 @@ export default function LoginWithEmail() {
                                 ),
                             }}
                         />
-                   {IsUi &&  
-                        <FormControlLabel
-                         className='smr_loginPasswordBox'
-                         sx={{
-                            height:'0px',padding:'0px',width:'0px',margin:'0px'
-                         }}
-        control={
-          <Checkbox
-            checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
-            color="primary"
-          />
-        }
-        label="Remember Me"
-      />}
+                        {IsUi &&
+                            <FormControlLabel
+                                className='smr_loginPasswordBox'
+                                sx={{
+                                    height: '0px', padding: '0px', width: '0px', margin: '0px'
+                                }}
+                                control={
+                                    <Checkbox
+                                        checked={rememberMe}
+                                        onChange={(e) => setRememberMe(e.target.checked)}
+                                        color="primary"
+                                    />
+                                }
+                                label="Remember Me"
+                            />}
 
                         <button className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>Login</button>
 
