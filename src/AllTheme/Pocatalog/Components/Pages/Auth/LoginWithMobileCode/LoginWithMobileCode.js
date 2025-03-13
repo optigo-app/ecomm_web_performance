@@ -206,7 +206,7 @@ export default function LoginWithMobileCode() {
                             error={!!errors.otp}
                             helperText={errors.otp}
                         />
-                      {isOtpNewUi &&     <FormControlLabel
+                      {isOtpNewUi  &&     <FormControlLabel
                          className='labgrowRegister'
                          sx={{
                             height:'0px',padding:'0px',width:'0px',margin:'0px'
