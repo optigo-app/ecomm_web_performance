@@ -64,6 +64,7 @@ const CartItem = ({
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
   const maxwidth650px = useMediaQuery('(max-width: 650px)');
+  const maxwidth550px = useMediaQuery('(max-width: 550px)');
 
   const isLargeScreen = useMediaQuery("(min-width: 1600px)");
   const isMediumScreen = useMediaQuery(
@@ -200,50 +201,111 @@ const CartItem = ({
             <p>SKU: {item?.sku}</p>
           } */}
             <div className="stam3_weightsContainer">
-              {(storeInitData?.IsGrossWeight == 1 && item?.Gwt != "0") && (
-                <div className="stam3_weightPair">
-                  <span className="stam3_weightLabel">Gwt:</span>
-                  <span className="stam3_weightValue">
-                    {(item?.Gwt || 0)?.toFixed(3)}
-                  </span>
+              {maxwidth550px ? (
+                <div>
+                  {(storeInitData?.IsGrossWeight == 1 && item?.Gwt != "0") && (
+                    <div className="stam3_weightPair">
+                      <span className="stam3_weightLabel">Gwt:</span>
+                      <span className="stam3_weightValue">
+                        {(item?.Gwt || 0)?.toFixed(3)}
+                      </span>
+                    </div>
+                  )}
+                  {storeInitData?.IsMetalWeight == 1 && (
+                    <>
+                      {Number(item?.Nwt) !== 0 && (
+                        <div className="stam3_weightPair">
+                          {!maxwidth550px && <span className="stam3_pipe">|</span>}
+                          <span className="stam3_weightLabel">Nwt:</span>
+                          <span className="stam3_weightValue">
+                            {(item?.Nwt || 0)?.toFixed(3)}{" "}
+                          </span>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
-              )}
-              {storeInitData?.IsMetalWeight == 1 && (
+              ) : (
                 <>
-                  {Number(item?.Nwt) !== 0 && (
+                  {(storeInitData?.IsGrossWeight == 1 && item?.Gwt != "0") && (
                     <div className="stam3_weightPair">
-                      <span className="stam3_pipe">|</span>
-                      <span className="stam3_weightLabel">Nwt:</span>
+                      <span className="stam3_weightLabel">Gwt:</span>
                       <span className="stam3_weightValue">
-                        {(item?.Nwt || 0)?.toFixed(3)}{" "}
+                        {(item?.Gwt || 0)?.toFixed(3)}
                       </span>
                     </div>
                   )}
-                </>
-              )}
-              {storeInitData?.IsDiamondWeight == 1 && (
-                <>
-                  {(item?.Dwt != "0" || item?.Dpcs != "0") && (
-                    <div className="stam3_weightPair">
-                      <span className="stam3_pipe">|</span>
-                      <span className="stam3_weightLabel">Dwt:</span>
-                      <span className="stam3_weightValue">
-                        {(item?.Dwt || 0)?.toFixed(3)} / {item?.Dpcs || 0}
-                      </span>
-                    </div>
+                  {storeInitData?.IsMetalWeight == 1 && (
+                    <>
+                      {Number(item?.Nwt) !== 0 && (
+                        <div className="stam3_weightPair">
+                          {!maxwidth550px && <span className="stam3_pipe">|</span>}
+                          <span className="stam3_weightLabel">Nwt:</span>
+                          <span className="stam3_weightValue">
+                            {(item?.Nwt || 0)?.toFixed(3)}{" "}
+                          </span>
+                        </div>
+                      )}
+                    </>
                   )}
                 </>
               )}
-              {storeInitData?.IsGrossWeight == 1 && (
+              {maxwidth550px ? (
+                <div>
+                  {storeInitData?.IsDiamondWeight == 1 && (
+                    <>
+                      {(item?.Dwt != "0" || item?.Dpcs != "0") && (
+                        <div className="stam3_weightPair">
+                          {!maxwidth550px && <span className="stam3_pipe">|</span>}
+                          <span className="stam3_weightLabel">Dwt:</span>
+                          <span className="stam3_weightValue">
+                            {(item?.Dwt || 0)?.toFixed(3)} / {item?.Dpcs || 0}
+                          </span>
+                        </div>
+                      )}
+                    </>
+                  )}
+                  {storeInitData?.IsGrossWeight == 1 && (
+                    <>
+                      {(item?.CSwt != "0" || item?.CSpcs != "0") && (
+                        <div className="stam3_weightPair">
+                          {!maxwidth550px && <span className="stam3_pipe">|</span>}
+                          <span className="stam3_weightLabel">Cwt:</span>
+                          <span className="stam3_weightValue">
+                            {(item?.CSwt || 0)?.toFixed(3)} / {item?.CSpcs || 0}{" "}
+                          </span>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              ) : (
                 <>
-                  {(item?.CSwt != "0" || item?.CSpcs != "0") && (
-                    <div className="stam3_weightPair">
-                      <span className="stam3_pipe">|</span>
-                      <span className="stam3_weightLabel">Cwt:</span>
-                      <span className="stam3_weightValue">
-                        {(item?.CSwt || 0)?.toFixed(3)} / {item?.CSpcs || 0}{" "}
-                      </span>
-                    </div>
+                  {storeInitData?.IsDiamondWeight == 1 && (
+                    <>
+                      {(item?.Dwt != "0" || item?.Dpcs != "0") && (
+                        <div className="stam3_weightPair">
+                          {!maxwidth550px && <span className="stam3_pipe">|</span>}
+                          <span className="stam3_weightLabel">Dwt:</span>
+                          <span className="stam3_weightValue">
+                            {(item?.Dwt || 0)?.toFixed(3)} / {item?.Dpcs || 0}
+                          </span>
+                        </div>
+                      )}
+                    </>
+                  )}
+                  {storeInitData?.IsGrossWeight == 1 && (
+                    <>
+                      {(item?.CSwt != "0" || item?.CSpcs != "0") && (
+                        <div className="stam3_weightPair">
+                          {!maxwidth550px && <span className="stam3_pipe">|</span>}
+                          <span className="stam3_weightLabel">Cwt:</span>
+                          <span className="stam3_weightValue">
+                            {(item?.CSwt || 0)?.toFixed(3)} / {item?.CSpcs || 0}{" "}
+                          </span>
+                        </div>
+                      )}
+                    </>
                   )}
                 </>
               )}
