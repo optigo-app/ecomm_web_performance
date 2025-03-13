@@ -31,10 +31,10 @@ const Procatalog_MobileApp_App = React.lazy(() => import("./AllTheme/MobileApp/P
 const DaimondTine_App = React.lazy(() => import("./AllTheme/DaimondTine/DaimondTine_App"));
 const StamFordJewels_App = React.lazy(() => import("./AllTheme/StamFordJewels/StamFordJewels_App"));
 const MalakanJewels_App = React.lazy(() => import("./AllTheme/MalakanJwewls/MalakanJewels_App"));
-// const HemratnaProcatalog_App = React.lazy(() => import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App"));
 const RoopJewellers_App = React.lazy(() => import("./AllTheme/RoopJewellers/RoopJewellers_App"));
 const LoveIn_App = React.lazy(() => import("./AllTheme/LoveIn/LoveIn_App"));
 const Ornaz_App = React.lazy(() => import("./AllTheme/Ornaz/Ornaz_App"));
+// const HemratnaProcatalog_App = React.lazy(() => import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App"));
 const Procatalog_App = React.lazy(() => import("./AllTheme/Pocatalog/Procatalog_App"));
 
 

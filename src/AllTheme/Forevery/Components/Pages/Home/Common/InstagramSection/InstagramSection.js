@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import useInstagramPosts from "../../../../hooks/UseInstagram";
 import btnstyle from "../../../../scss/Button.module.scss";
 import { FaChevronDown } from "react-icons/fa";
@@ -15,6 +15,7 @@ const InstagramSection = () => {
   const instaLogo = `${storImagePath()}/Forevery/instagram-draw.png`;
   // const { posts, loading, error } = useInstagramPosts("foreverydiamonds");
   const swiperRef = useRef(null);
+  const [images, setimages] = useState([])
 
   useEffect(() => {
     const swiperInstance = swiperRef.current.swiper;
@@ -37,6 +38,31 @@ const InstagramSection = () => {
   // const postlist = posts?.map((val, i) => {
   //   return { imageUrl: val?.node?.image_versions2?.candidates[0]?.url };
   // });
+
+  const imagesList = [
+    `${storImagePath()}/Forevery/social/1.jpg`,
+    `${storImagePath()}/Forevery/social/2.jpg`,
+    `${storImagePath()}/Forevery/social/3.jpg`,
+    `${storImagePath()}/Forevery/social/4.jpg`,
+    `${storImagePath()}/Forevery/social/5.jpg`,
+    `${storImagePath()}/Forevery/social/6.jpg`,
+  ];
+
+  useEffect(() => {
+    const CheckAllImages = async () => {
+      let iamges = [];
+      for (let i = 0; i < imagesList?.length; i++) {
+        const image = imagesList[i];
+        const response = await fetch(image);
+        const blob = await response?.blob();
+        const objectURL = URL?.createObjectURL(blob);
+        iamges?.push(objectURL);
+      }
+      setimages(iamges);
+      return iamges;
+    }
+    CheckAllImages()
+  }, [])
 
   return (
     <div className="for_InstagramSection">
@@ -68,10 +94,10 @@ const InstagramSection = () => {
           >
             <div className="left-over-lay"></div>
             <div className="right-over-lay"></div>
-            {Array.from({ length: 12 })?.map((val, i) => {
+            {images?.map((val, i) => {
               return (
                 <SwiperSlide>
-                  <InstaCard src={val?.imageUrl} />
+                  <InstaCard src={val} />
                 </SwiperSlide>
               );
             })}

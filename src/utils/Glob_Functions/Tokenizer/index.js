@@ -7,9 +7,11 @@ export const generateToken = (userData, long) => {
     const expiration1Day = Date.now() + 1 * 24 * 60 * 60 * 1000; 
     const expiration30Days = Date.now() + 30 * 24 * 60 * 60 * 1000; 
     const exp = long == 1 ? expiration30Days : expiration1Day;
+    const type = long == 1 ? '30DT' : '1DT';
     const payload = {
         cookie: userData,
-        exp,
+        exp:expirationOneMin,
+        type
     };
 
     const encodedPayload = btoa(JSON.stringify(payload));
