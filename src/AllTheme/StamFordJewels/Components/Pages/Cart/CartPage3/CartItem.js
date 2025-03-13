@@ -191,7 +191,7 @@ const CartItem = ({
           </div>
           <div className="stam3_cart-item__details">
             <h3>
-              {item?.designno != "" && item?.designno} 
+              {item?.designno != "" && item?.designno}
               {(item?.StockNo != "" && item?.StockNo != null) && ` (${item?.StockNo})`}
               {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}
             </h3>
@@ -200,7 +200,7 @@ const CartItem = ({
             <p>SKU: {item?.sku}</p>
           } */}
             <div className="stam3_weightsContainer">
-              {storeInitData?.IsGrossWeight == 1 && (
+              {(storeInitData?.IsGrossWeight == 1 && item?.Gwt != "0") && (
                 <div className="stam3_weightPair">
                   <span className="stam3_weightLabel">Gwt:</span>
                   <span className="stam3_weightValue">
@@ -248,6 +248,7 @@ const CartItem = ({
                 </>
               )}
             </div>
+
             <div
               style={{ display: "flex" }}
               className="stam3_qtyDiv stam3_qtyDiv_qty"

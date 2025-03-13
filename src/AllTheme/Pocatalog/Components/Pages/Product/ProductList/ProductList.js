@@ -247,11 +247,11 @@ const ProductList = () => {
 
   useEffect(() => {
     let url = `${location?.pathname}${location?.search}`;
-    let navVal = location?.pathname?.split('/')[3];
+    let navVal = url?.split('/')[3];
     let securityKey = navVal?.split('K=')[1]
     let state = { SecurityKey: atob(securityKey) }
-    if (atob(securityKey) > 0 && islogin !== true) {
-      navigate(`/loginOption/?LoginRedirect=${(url)}`, { state })
+    if (atob(securityKey) > 0 && islogin != true) {
+      navigate(`/LoginOption/?LoginRedirect=${(url)}`, { state })
     }
   }, [location?.key])
 
@@ -2259,7 +2259,7 @@ const ProductList = () => {
                             </AccordionDetails>
                           </Accordion>
                         )}
-                      { storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
+                      {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                         <Accordion
                           elevation={0}
                           sx={{

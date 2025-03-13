@@ -50,13 +50,16 @@ export default function ContimueWithMobile() {
         if (!mobileNo.trim()) {
             setErrors({ mobileNo: 'Mobile No. is required' });
             return;
-        } 
+        }
+        const encodedKeyFromStorage = JSON.parse(sessionStorage.getItem("keylogs"));
+        const getSecKey = encodedKeyFromStorage ? decodeURIComponent(atob(encodedKeyFromStorage)) : "";
+        const SecurityKey = location?.state?.SecurityKey ?? getSecKey;
         const AllCode = JSON?.parse(sessionStorage?.getItem('CountryCodeListApi')) ?? [];
         const phonecode = AllCode?.find((val) => val?.mobileprefix == Countrycodestate);
         const requiredLength = phonecode?.PhoneLength;
         const isValid = new RegExp(`^\\d{${requiredLength}}$`).test(mobileNo.trim());
         if (!isValid) {
-            setErrors({ mobileNo: `Mobile number must be  ${requiredLength} digits.`  });
+            setErrors({ mobileNo: `Mobile number must be  ${requiredLength} digits.` });
             return { mobileNo: `Enter a valid ${requiredLength}-digit mobile number` };
         }
         // else if (!/^\d{10}$/.test(mobileNo.trim())) {
@@ -80,19 +83,19 @@ export default function ContimueWithMobile() {
         //     const response = await CommonAPI(body);
         setIsSubmitting(true);
         setIsLoading(true);
-        ContimueWithMobileAPI(mobileNo,Countrycodestate).then((response) => {
+        ContimueWithMobileAPI(mobileNo, Countrycodestate).then((response) => {
             setIsLoading(false);
-            if(response?.Status == 400) {
-                    toast.error(response?.Message)
+            if (response?.Status == 400) {
+                toast.error(response?.Message)
                 setIsSubmitting(false);
-                return 
+                return
             }
             if (response?.Data?.Table1[0]?.stat === '1' && response?.Data?.Table1[0]?.islead === '1') {
                 toast.error('You are not a customer, contact to admin')
-        setIsSubmitting(false);
+                setIsSubmitting(false);
             } else if (response?.Data?.Table1[0]?.stat === '1' && response?.Data?.Table1[0]?.islead === '0') {
                 toast.success('OTP send Sucssessfully');
-                navigation(redirectMobileUrl, { state: { mobileNo: mobileNo ,code  :Countrycodestate } });
+                navigation(redirectMobileUrl, { state: { mobileNo: mobileNo, code: Countrycodestate, SecurityKey: SecurityKey } });
                 sessionStorage.setItem('registerMobile', mobileNo)
                 setIsSubmitting(false);
             } else {
@@ -102,7 +105,7 @@ export default function ContimueWithMobile() {
                 setIsOpen(true)
                 setIsSubmitting(false);
             }
-        }).catch((err) =>{ 
+        }).catch((err) => {
             console.log(err)
             setIsSubmitting(false);
         })
@@ -117,15 +120,15 @@ export default function ContimueWithMobile() {
         // }
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         sessionStorage.removeItem("Countrycodestate")
-    },[])
+    }, [])
 
     return (
         <div className='proCat_continuMobile'>
-            <ToastContainer limit={5} hideProgressBar={true} pauseOnHover={false}  />
+            <ToastContainer limit={5} hideProgressBar={true} pauseOnHover={false} />
             {isLoading && (
-                <div className="loader-overlay" style={{zIndex:99999999}}>
+                <div className="loader-overlay" style={{ zIndex: 99999999 }}>
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}

@@ -196,6 +196,10 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const encodedKeyFromStorage = JSON.parse(sessionStorage.getItem("keylogs"));
+    const getSecKey = encodedKeyFromStorage ? decodeURIComponent(atob(encodedKeyFromStorage)) : "";
+    const SecurityKey = location?.state?.SecurityKey ?? getSecKey;
+
     const errors = {};
     if (!firstName.trim()) {
       errors.firstName = "First Name is required";
@@ -264,7 +268,7 @@ export default function Register() {
         .then((response) => {
           setIsLoading(false);
           if (response.Data.rd[0].stat === 1) {
-            navigation(singupRedirectUrl);
+            navigation(singupRedirectUrl, { state: { SecurityKey: SecurityKey } });
 
             // sessionStorage.setItem('LoginUser', true)
             // sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));

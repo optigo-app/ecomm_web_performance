@@ -16,6 +16,7 @@ export default function ContinueWithEmail() {
     const [isOpen, setIsOpen] = useState(false)
     const search = location?.search
     const state = location?.state?.SecurityKey ? location?.state : "";
+    console.log('state: ', location?.state);
     const redirectEmailUrl = `/LoginWithEmail/${search}`;
     const redirectSignUpUrl = `/register/${search}`;
     const cancelRedireactUrl = `/LoginOption/${search}`;
@@ -46,6 +47,9 @@ export default function ContinueWithEmail() {
 
     const handleSubmit = async () => {
         const trimmedEmail = email.trim();
+        const encodedKeyFromStorage = JSON.parse(sessionStorage.getItem("keylogs"));
+        const getSecKey = encodedKeyFromStorage ? decodeURIComponent(atob(encodedKeyFromStorage)) : "";
+        const SecurityKey = location?.state?.SecurityKey ?? getSecKey;
         if (!trimmedEmail) {
             setEmailError('Email is required.');
             return;
@@ -61,12 +65,17 @@ export default function ContinueWithEmail() {
             if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 1) {
                 toast.error('You are not a customer, contact to admin')
             } else if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 0) {
-                navigation(redirectEmailUrl, { state: { email: trimmedEmail, SecurityKey : location?.state?.SecurityKey } });
+                navigation(redirectEmailUrl, {
+                    state: {
+                        email: trimmedEmail,
+                        SecurityKey: SecurityKey
+                    }
+                });
                 if (trimmedEmail) {
                     sessionStorage.setItem("registerEmail", trimmedEmail);
                 }
             } else {
-                if(process.env.NODE_ENV === "development"){
+                if (process.env.NODE_ENV === "development") {
                     alert(response.Data.rd[0].OTP)
                 }
                 setIsOpen(true)
@@ -102,25 +111,25 @@ export default function ContinueWithEmail() {
 
         // setIsLoading(false);
     };
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         sessionStorage.removeItem("Countrycodestate")
-    },[])
+    }, [])
 
 
     return (
         <div className='proCat_continuemail'>
             {isLoading && (
-                <div className="loader-overlay" style={{zIndex:99999999}}>
+                <div className="loader-overlay" style={{ zIndex: 99999999 }}>
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
             <div>
-            <OTPContainer emailId={email.trim()} isOpen={isOpen} type='email' setIsOpen={()=>setIsOpen(!isOpen)} onClose={()=>setIsOpen(false)} 
-            navigation={navigation}
-            location={location}
-            onResend={handleSubmit}
-            isLoading={isLoading}
+                <OTPContainer emailId={email.trim()} isOpen={isOpen} type='email' setIsOpen={() => setIsOpen(!isOpen)} onClose={() => setIsOpen(false)}
+                    navigation={navigation}
+                    location={location}
+                    onResend={handleSubmit}
+                    isLoading={isLoading}
                 />
                 <div className='smling-forgot-main'>
                     <p style={{
@@ -174,7 +183,7 @@ export default function ContinueWithEmail() {
                         </button> */}
 
                         <button type='submit' className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>SUBMIT</button>
-                        <Button className='pro_cancleForgot' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl, {state})}>CANCEL</Button>
+                        <Button className='pro_cancleForgot' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl, { state })}>CANCEL</Button>
                     </div>
                 </div>
             </div>

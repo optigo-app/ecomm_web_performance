@@ -33,6 +33,9 @@ export default function LoginWithEmail() {
     const [rememberMe, setRememberMe] = useState(false);
   const isOtpNewUi = useRecoilValue(IsOtpNewUi);
 
+    const encodedKeyFromStorage = JSON.parse(sessionStorage.getItem("keylogs"));
+    const getSecKey = encodedKeyFromStorage ? decodeURIComponent(atob(encodedKeyFromStorage)) : "";
+
     const [cartCountNum, setCartCountNum] = useRecoilState(proCat_CartCount)
     const [wishCountNum, setWishCountNum] = useRecoilState(proCat_WishCount)
 
@@ -197,7 +200,8 @@ export default function LoginWithEmail() {
                 }).catch((err) => console.log(err))
 
                 if (redirectEmailUrl) {
-                    sessionStorage.setItem('Loginkey', JSON.stringify(location?.state?.SecurityKey))
+                    sessionStorage.removeItem('keylogs');
+                    sessionStorage.setItem('Loginkey', JSON?.stringify((location?.state?.SecurityKey ?? getSecKey)))
                     navigation(redirectEmailUrl, { state });
                 } else {
                     navigation('/', { state })

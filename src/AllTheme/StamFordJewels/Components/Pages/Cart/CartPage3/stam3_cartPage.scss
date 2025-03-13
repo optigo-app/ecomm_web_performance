@@ -918,7 +918,11 @@ $borderColor: rgba(232, 232, 232, 1);
                     font-size: $fontSize1;
                   }
 
-                  .stam3_weightsContainer,
+                  .stam3_weightsContainer {
+                    justify-content: space-between;
+                    align-items: center;
+                  }
+
                   .stam3_qtyDiv {
                     justify-content: center;
                     align-items: center;

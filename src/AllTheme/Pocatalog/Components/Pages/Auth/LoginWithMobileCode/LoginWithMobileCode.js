@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
 import { IsOtpNewUi, proCat_CartCount, proCat_loginState, proCat_WishCount } from '../../../Recoil/atom';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import Cookies from 'js-cookie';
 import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
@@ -34,6 +34,10 @@ export default function LoginWithMobileCode() {
     const cancelRedireactUrl = `/LoginOption/${search}`;
     const isOtpNewUi = useRecoilValue(IsOtpNewUi);
 
+    const state = location?.state?.SecurityKey ? location?.state : "";
+
+    const encodedKeyFromStorage = JSON.parse(sessionStorage.getItem("keylogs"));
+    const getSecKey = encodedKeyFromStorage ? decodeURIComponent(atob(encodedKeyFromStorage)) : "";
 
     useEffect(() => {
         const storedMobile = sessionStorage.getItem('registerMobile');
@@ -90,6 +94,8 @@ export default function LoginWithMobileCode() {
                 }
                         Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
                 setIsLoginState(true)
+                sessionStorage.removeItem('keylogs');
+                sessionStorage.setItem('Loginkey', JSON?.stringify((location?.state?.SecurityKey ?? getSecKey)))
                 sessionStorage.setItem('LoginUser', true)
                 sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
 

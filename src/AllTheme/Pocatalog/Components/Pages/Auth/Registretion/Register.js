@@ -41,15 +41,15 @@ export default function Register() {
   const confirmPasswordRef = useRef(null);
   const visiterID = Cookies.get("visiterId");
   const [Countrycodestate, setCountrycodestate] = useState();
-  const [open, setOpen] = useState(false); 
+  const [open, setOpen] = useState(false);
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const cancelRedireactUrl = `/LoginOption/${search}`;
   const singupRedirectUrl = `/LoginOption/${search}`;
-  
+
   const setIsLoginState = useSetRecoilState(proCat_loginState);
-  const [IsMobileThrough,setIsMobileThrough] = useState(false)
+  const [IsMobileThrough, setIsMobileThrough] = useState(false)
 
   const handleKeyDown = (event, nextRef) => {
     if (event.key === "Enter") {
@@ -62,18 +62,18 @@ export default function Register() {
     const storedEmail = location.state?.email;
     const routeMobileNo = location.state?.mobileNo;
     const routeMobileCountry = location.state?.code;
-    
+
     if (routeMobileNo && routeMobileCountry) {
       setMobileNo(routeMobileNo);
-      setCountrycodestate(routeMobileCountry); 
-      mobileNoRef.current.disabled = true; 
-      setIsMobileThrough(true); 
+      setCountrycodestate(routeMobileCountry);
+      mobileNoRef.current.disabled = true;
+      setIsMobileThrough(true);
     }
 
     if (storedEmail) {
       setEmail(storedEmail);
       emailRef.current.disabled = true;
-      setIsMobileThrough(false);    
+      setIsMobileThrough(false);
     }
   }, [location.state]);
 
@@ -112,7 +112,7 @@ export default function Register() {
       } else {
         setErrors((prevErrors) => ({ ...prevErrors, lastName: "" }));
       }
-    } 
+    }
     // else if (fieldName === "mobileNo") {
     //   if (!value.trim()) {
     //     setErrors((prevErrors) => ({
@@ -128,7 +128,7 @@ export default function Register() {
     //     setErrors((prevErrors) => ({ ...prevErrors, mobileNo: "" }));
     //   }
     // }
-     else if (fieldName === "email") {
+    else if (fieldName === "email") {
       if (!value.trim()) {
         setErrors((prevErrors) => ({
           ...prevErrors,
@@ -206,7 +206,9 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const encodedKeyFromStorage = JSON.parse(sessionStorage.getItem("keylogs"));
+    const getSecKey = encodedKeyFromStorage ? decodeURIComponent(atob(encodedKeyFromStorage)) : "";
+    const SecurityKey = location?.state?.SecurityKey ?? getSecKey;
     const errors = {};
     if (!firstName.trim()) {
       errors.firstName = "First Name is required";
@@ -230,17 +232,17 @@ export default function Register() {
     }
     if (!mobileNo.trim()) {
       errors.mobileNo = "Mobile No. is required";
-   
-    } 
+
+    }
     const AllCode = JSON?.parse(sessionStorage?.getItem('CountryCodeListApi')) ?? [];
-        const phonecode = AllCode?.find((val) => val?.mobileprefix == Countrycodestate);
-        const requiredLength = phonecode?.PhoneLength;
-        const isValid = new RegExp(`^\\d{${requiredLength}}$`).test(mobileNo.trim());
-        if (!isValid) {
-          errors.mobileNo = `Mobile number must be  ${requiredLength} digits.`  ;
-            return { mobileNo: `Enter a valid ${requiredLength}-digit mobile number` };
-        }
-        
+    const phonecode = AllCode?.find((val) => val?.mobileprefix == Countrycodestate);
+    const requiredLength = phonecode?.PhoneLength;
+    const isValid = new RegExp(`^\\d{${requiredLength}}$`).test(mobileNo.trim());
+    if (!isValid) {
+      errors.mobileNo = `Mobile number must be  ${requiredLength} digits.`;
+      return { mobileNo: `Enter a valid ${requiredLength}-digit mobile number` };
+    }
+
 
     if (!email.trim()) {
       errors.email = "Email is required";
@@ -279,11 +281,11 @@ export default function Register() {
       //   }
       //   const response = await CommonAPI(body);
 
-      RegisterAPI(firstName, lastName, email, mobileNo, hashedPassword,Countrycodestate)
+      RegisterAPI(firstName, lastName, email, mobileNo, hashedPassword, Countrycodestate)
         .then((response) => {
           setIsLoading(false);
           if (response.Data.rd[0].stat === 1) {
-            navigation(singupRedirectUrl);
+            navigation(singupRedirectUrl, { state: { SecurityKey: SecurityKey } });
             sessionStorage.removeItem("Countrycodestate")
 
             // sessionStorage.setItem('LoginUser', true)
@@ -344,7 +346,7 @@ export default function Register() {
 
   const HandleSpecialCase = () => {
     const newErrors = {}; // Temporary errors object
-  
+
     if (!firstName.trim()) {
       newErrors.firstName = "First Name is required";
     } else if (
@@ -352,7 +354,7 @@ export default function Register() {
     ) {
       newErrors.firstName = "First Name should not start with a numeric, special character, or space";
     }
-  
+
     if (!lastName.trim()) {
       newErrors.lastName = "Last Name is required";
     } else if (
@@ -360,7 +362,7 @@ export default function Register() {
     ) {
       newErrors.lastName = "Last Name should not start with a numeric, special character, or space";
     }
-  
+
     if (!mobileNo.trim()) {
       newErrors.mobileNo = "Mobile No. is required";
     } else {
@@ -372,32 +374,32 @@ export default function Register() {
         newErrors.mobileNo = `Mobile number must be ${requiredLength} digits.`;
       }
     }
-  
+
     if (!email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       newErrors.email = "Please enter a valid email address";
     }
-  
+
     if (!password.trim()) {
       newErrors.password = "Password is required";
     } else if (!validatePassword(password)) {
       newErrors.password =
         "Password must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 special character!";
     }
-  
+
     if (!confirmPassword.trim()) {
       newErrors.confirmPassword = "Confirm Password is required";
     } else if (confirmPassword !== password) {
       newErrors.confirmPassword = "Passwords do not match";
     }
-  
+
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
       return
     }
   };
-  
+
 
   return (
     <div className="proCat_registerMain">
@@ -463,23 +465,23 @@ export default function Register() {
               error={!!Errors.lastName}
               helperText={Errors.lastName}
             />
-          <CountryDropDown
+            <CountryDropDown
               // CountryCode={CountryCode}
               Errors={Errors}
               // handleCountryChange={handleCountryChange}
               handleInputChange={handleInputChange}
               handleKeyDown={handleKeyDown}
               // open={open}
-              emailRef={emailRef} 
-              mobileNo={mobileNo} 
-              mobileNoRef={mobileNoRef} 
-              setMobileNo={setMobileNo} 
+              emailRef={emailRef}
+              mobileNo={mobileNo}
+              mobileNoRef={mobileNoRef}
+              setMobileNo={setMobileNo}
               setErrors={setErrors}
               IsMobileThrough={IsMobileThrough}
               Countrycodestate={Countrycodestate}
               setCountrycodestate={setCountrycodestate}
-              // setOpen={setOpen}
-               />
+            // setOpen={setOpen}
+            />
             {/* <TextField
               id="outlined-basic"
               label="Mobile No."
