@@ -138,7 +138,6 @@ const Procatalog_App = () => {
   useEffect(() => {
     let savedToken = getLocalStorageValue('AuthToken');
     let VerifiedToken = verifyToken(savedToken)
-    console.log("🚀 ~ useEffect ~ VerifiedToken:", VerifiedToken)
     const cookieValue = Cookies.get("userLoginCookie");
     if (VerifiedToken?.status === "authorized") {
       LoginWithEmailAPI("", "", "", "", cookieValue || VerifiedToken?.data?.cookie)
@@ -159,9 +158,10 @@ const Procatalog_App = () => {
             }
             else if (location?.pathname === sessionStorage.getItem("previousUrl")) {
               navigation(sessionStorage.getItem("previousUrl"));
-            } else {
-              navigation("/")
             }
+            //  else {
+            //   navigation("/")
+            // }
           }
         })
         .catch((err) => console.log(err));
@@ -181,7 +181,7 @@ const Procatalog_App = () => {
     setLocalData(localD);
   }, [islogin, redirectEmailUrl,]);
 
-// old code
+  // old code
   // useEffect(() => {
   //   const cookieValue = Cookies.get("userLoginCookie");
   //   if (cookieValue && islogin === false) {
@@ -249,12 +249,12 @@ const Procatalog_App = () => {
           <Route path="/LoginOption" element={<LoginOption />} />
           <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />
           {/* Changes here */}
-          <Route path="/ContimueWithMobile" element={<ContimueWithMobile />} />
+          {(!htmlContent?.rd?.[0]?.IsWebMobileLoginOff || htmlContent?.rd?.[0]?.IsWebMobileLoginOff === 0) && <Route path="/ContimueWithMobile" element={<ContimueWithMobile />} />}
           <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />
-          <Route
+          {(!htmlContent?.rd?.[0]?.IsWebMobileLoginOff || htmlContent?.rd?.[0]?.IsWebMobileLoginOff === 0) && <Route
             path="/LoginWithMobileCode"
             element={<LoginWithMobileCode />}
-          />
+          />}
           <Route path="/ForgotPass" element={<ForgotPass />} />
           <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
           <Route path="/register" element={<Register />} />

@@ -3,14 +3,14 @@ import cookies from "js-cookie";
 const SECRET_KEY = "019560ac-9912-754b-8229-c78f35251f40-51f40-399125251f40";
 
 export const generateToken = (userData, long) => {
-    const expirationOneMin = Date.now() + 1 * 60 * 1000; 
-    const expiration1Day = Date.now() + 1 * 24 * 60 * 60 * 1000; 
-    const expiration30Days = Date.now() + 30 * 24 * 60 * 60 * 1000; 
+    const expirationOneMin = Date.now() + 1 * 60 * 1000;
+    const expiration1Day = Date.now() + 1 * 24 * 60 * 60 * 1000;
+    const expiration30Days = Date.now() + 30 * 24 * 60 * 60 * 1000;
     const exp = long == 1 ? expiration30Days : expiration1Day;
     const type = long == 1 ? '30DT' : '1DT';
     const payload = {
         cookie: userData,
-        exp:expirationOneMin,
+        exp,
         type
     };
 
@@ -52,7 +52,7 @@ export const verifyToken = (token) => {
 
 export const getLocalStorageValue = (key) => {
     try {
-        const item = localStorage?.getItem(key);
+        const item = localStorage?.getItem(key) ?? sessionStorage?.getItem(key);
         return item ? JSON.parse(item) : null;
     } catch (error) {
         console.error(`Error retrieving ${key} from localStorage:`, error);

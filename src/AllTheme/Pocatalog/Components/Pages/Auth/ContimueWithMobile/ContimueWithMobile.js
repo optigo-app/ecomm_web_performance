@@ -18,6 +18,7 @@ export default function ContimueWithMobile() {
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(false)
     const [Countrycodestate, setCountrycodestate] = useState();
+    console.log('Countrycodestate: ', typeof Countrycodestate);
 
 
     const search = location?.search
@@ -100,10 +101,14 @@ export default function ContimueWithMobile() {
                 setIsSubmitting(false);
             } else {
                 // navigation(redirectSignUpUrl, { state: { mobileNo: mobileNo } });
-                sessionStorage.setItem('Countrycodestate', Countrycodestate)
-                sessionStorage.setItem('registerMobile', mobileNo)
-                setIsOpen(true)
-                setIsSubmitting(false);
+                if (Countrycodestate != "91") {
+                    navigation(redirectSignUpUrl, { state: { mobileNo: mobileNo, code: Countrycodestate, SecurityKey: SecurityKey } });
+                } else {
+                    sessionStorage.setItem('Countrycodestate', Countrycodestate)
+                    sessionStorage.setItem('registerMobile', mobileNo)
+                    setIsOpen(true)
+                    setIsSubmitting(false);
+                }
             }
         }).catch((err) => {
             console.log(err)

@@ -2,9 +2,9 @@ import { REACT_APP_WEB } from "../../env";
 
 export function storImagePath() {
   let statiPath = `${window?.location?.protocol}//${window.location.hostname === "localhost" ||
-      window.location.hostname === "zen"
-      ? REACT_APP_WEB
-      : window.location.hostname
+    window.location.hostname === "zen"
+    ? REACT_APP_WEB
+    : window.location.hostname
     }`;
   return `${statiPath}/WebSiteStaticImage`;
   // return `${statiPath}/Website_Store/WebSiteStaticImage`
@@ -132,27 +132,44 @@ export const handleScrollTop = () => {
   });
 }
 
-export const fetchAPIUrlFromStoreInit = () => {
-  let retries = 3;
-  let getStoreInitData = null;
-
-  const checkData = () => {
-    getStoreInitData = JSON?.parse(sessionStorage?.getItem("storeInit"));
-
-    if (getStoreInitData?.ApiUrl || retries <= 0) {
-      return getStoreInitData;
-    } else {
-      retries -= 1;
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve(checkData()); 
-        }, 100); 
-      });
-    }
-  };
-
-  return checkData();
+const fetchWithRetry = (url, retries = 3, delay = 1000) => {
+  return new Promise((resolve, reject) => {
+    const attemptFetch = (n) => {
+      fetch(url)
+        .then((response) => response.json())
+        .then(resolve)
+        .catch((error) => {
+          if (n === 0) {
+            reject(error)
+          } else {
+            setTimeout(() => attemptFetch(n - 1), delay); 
+          }
+        });
+    };
+    attemptFetch(retries);
+  });
 };
 
+export const fetchAPIUrlFromStoreInit = async () => {
+  let getStoreInitData = JSON?.parse(sessionStorage?.getItem("storeInit"));
+
+  if (getStoreInitData?.ApiUrl) {
+    return getStoreInitData;
+  } else {
+    try {
+      const path = `${storInitDataPath()}/StoreInit.json`;
+      console.log("Fetching StoreInit.json from:", path);
+
+      const fetchedData = await fetchWithRetry(path, 3, 200);
+
+      sessionStorage.setItem("storeInit", JSON.stringify(fetchedData.rd[0]));
+
+      return fetchedData;
+    } catch (error) {
+      console.error("Failed to fetch StoreInit.json after 3 retries:", error);
+      return null;
+    }
+  }
+};
 
 export const wesbiteDomainName = window.location.host;
