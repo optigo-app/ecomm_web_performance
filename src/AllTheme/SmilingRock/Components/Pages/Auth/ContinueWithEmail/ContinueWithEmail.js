@@ -82,12 +82,12 @@ export default function ContinueWithEmail() {
                     sessionStorage.setItem("registerEmail", trimmedEmail);
                 }
             } else {
-                setIsOpen(true)
+                // setIsOpen(true)
                 // WebSignUpOTPVerify(email).then((res) => {
                 //     console.log(res, "res")
                 //     setIsLoading(false);
                 // })
-                // navigation(redirectSignUpUrl, { state: { email: trimmedEmail } });
+                navigation(redirectSignUpUrl, { state: { email: trimmedEmail } });
             }
         }).catch((err) => console.log(err))
 
@@ -128,11 +128,11 @@ export default function ContinueWithEmail() {
                 </div>
             )}
             <div >
-            <OTPContainer emailId={email.trim()} isOpen={isOpen} type='email' setIsOpen={()=>setIsOpen(!isOpen)} onClose={()=>setIsOpen(false)} 
+            {/* <OTPContainer emailId={email.trim()} isOpen={isOpen} type='email' setIsOpen={()=>setIsOpen(!isOpen)} onClose={()=>setIsOpen(false)} 
             navigation={navigation}
             location={location}
             bgcolor={'blue'}
-                />
+                /> */}
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',
