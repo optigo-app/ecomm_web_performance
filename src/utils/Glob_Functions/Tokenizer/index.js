@@ -10,7 +10,7 @@ export const generateToken = (userData, long) => {
     const type = long == 1 ? '30DT' : '1DT';
     const payload = {
         cookie: userData,
-        exp:expirationOneMin,
+        exp,
         type
     };
 
