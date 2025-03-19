@@ -109,7 +109,7 @@ export default function ContimueWithMobile() {
                 </div>
             )}
             <div >
-                <OTPContainer mobileNo={mobileNo} isOpen={isOpen} type='mobile' setIsOpen={()=>setIsOpen(!isOpen)} />
+                {/* <OTPContainer mobileNo={mobileNo} isOpen={isOpen} type='mobile' setIsOpen={()=>setIsOpen(!isOpen)} /> */}
 
                 <div className='smling-forgot-main'>
                     <p style={{

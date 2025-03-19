@@ -309,7 +309,7 @@ export default function Register() {
               error={!!Errors.lastName}
               helperText={Errors.lastName}
             />
-            <CountryDropDown
+            {/* <CountryDropDown
               CountryCode={CountryCode}
               Errors={Errors}
               handleCountryChange={handleCountryChange}
@@ -317,6 +317,23 @@ export default function Register() {
               handleKeyDown={handleKeyDown}
               open={open}
               Countrycodestate={Countrycodestate} emailRef={emailRef} mobileNo={mobileNo} mobileNoRef={mobileNoRef} setMobileNo={setMobileNo} setOpen={setOpen} setErrors={setErrors} />
+               */}
+            <TextField
+              id="outlined-basic"
+              label="Mobile No."
+              name="Mobile No."
+              autoComplete="Mobile No."
+              variant="outlined"
+              className="labgrowRegister"
+              style={{ margin: "15px" }}
+              value={mobileNo}
+              inputRef={mobileNoRef}
+              onKeyDown={(e) => handleKeyDown(e, emailRef)}
+              onChange={(e) => handleInputChange(e, setMobileNo, "mobileNo")}
+              error={!!Errors.mobileNo}
+              helperText={Errors.mobileNo}
+            />
+
             <TextField
               name="user-email"
               id="outlined-basic email"
