@@ -31,7 +31,7 @@ export default function LoginWithEmail() {
     const navigation = useNavigate();
     const location = useLocation();
     const [rememberMe, setRememberMe] = useState(false);
-  const isOtpNewUi = useRecoilValue(IsOtpNewUi);
+    const isOtpNewUi = useRecoilValue(IsOtpNewUi);
 
     const encodedKeyFromStorage = JSON.parse(sessionStorage.getItem("keylogs"));
     const getSecKey = encodedKeyFromStorage ? decodeURIComponent(atob(encodedKeyFromStorage)) : "";
@@ -151,13 +151,13 @@ export default function LoginWithEmail() {
                 const visiterID = Cookies.get('visiterId');
                 Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token);
                 // rememberMe 
-                if(isOtpNewUi){
-                    if(rememberMe){
-                        const Token = generateToken(response?.Data?.rd[0]?.Token,1);
-                        localStorage?.setItem('AuthToken',JSON?.stringify(Token));
-                    }else{
-                        const Token = generateToken(response?.Data?.rd[0]?.Token,0);
-                        localStorage?.setItem('AuthToken',JSON?.stringify(Token));
+                if (isOtpNewUi) {
+                    if (rememberMe) {
+                        const Token = generateToken(response?.Data?.rd[0]?.Token, 1);
+                        localStorage?.setItem('AuthToken', JSON?.stringify(Token));
+                    } else {
+                        const Token = generateToken(response?.Data?.rd[0]?.Token, 0);
+                        sessionStorage?.setItem('AuthToken', JSON?.stringify(Token));
                     }
                 }
                 sessionStorage.setItem('registerEmail', email)
@@ -380,21 +380,21 @@ export default function LoginWithEmail() {
                                 ),
                             }}
                         />
-                   {isOtpNewUi &&  
-                        <FormControlLabel
-                         className='smr_loginPasswordBox'
-                         sx={{
-                            height:'0px',padding:'0px',width:'0px',margin:'0px'
-                         }}
-        control={
-          <Checkbox
-            checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
-            color="primary"
-          />
-        }
-        label="Remember Me"
-      />}
+                        {isOtpNewUi &&
+                            <FormControlLabel
+                                className='smr_loginPasswordBox'
+                                sx={{
+                                    height: '0px', padding: '0px', width: '0px', margin: '0px'
+                                }}
+                                control={
+                                    <Checkbox
+                                        checked={rememberMe}
+                                        onChange={(e) => setRememberMe(e.target.checked)}
+                                        color="primary"
+                                    />
+                                }
+                                label="Remember Me"
+                            />}
 
                         <button className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>Login</button>
 

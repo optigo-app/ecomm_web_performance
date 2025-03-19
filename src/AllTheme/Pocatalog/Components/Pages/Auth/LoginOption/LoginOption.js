@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './LoginOption.modul.scss'
 import { useNavigate, useLocation } from 'react-router';
 
@@ -12,6 +12,14 @@ const LoginOption = () => {
 
     const navigation = useNavigate();
     const location = useLocation();
+    const [storeInit, setStoreInit] = useState();
+
+    useEffect(() => {
+        const getStoreInit = JSON.parse(sessionStorage.getItem('storeInit')) ?? "";
+        if (!storeInit) {
+            setStoreInit(getStoreInit);
+        }
+    }, [location.key])
 
     if (location?.state?.SecurityKey) {
         const encodedKey = btoa(encodeURIComponent(location?.state?.SecurityKey));
@@ -60,10 +68,12 @@ const LoginOption = () => {
                             <IoMdMail style={{ height: '25px', width: '25px' }} />
                             <p className='pro_loginText'>Continue with email</p>
                         </div>
-                        <div className='loginMobile btnColorProCat' onClick={() => navigation(redirectMobileUrl, { state })}>
-                            <FaMobileAlt style={{ height: '25px', width: '25px', marginRight: '10px' }} />
-                            <p className='pro_loginText_mobile'>Log in with mobile</p>
-                        </div>
+                        {(!storeInit?.IsWebMobileLoginOff || storeInit?.IsWebMobileLoginOff === 0) && (
+                            <div className='loginMobile btnColorProCat' onClick={() => navigation(redirectMobileUrl, { state })}>
+                                <FaMobileAlt style={{ height: '25px', width: '25px', marginRight: '10px' }} />
+                                <p className='pro_loginText_mobile'>Log in with mobile</p>
+                            </div>
+                        )}
                     </div>
                     <p style={{
                         marginTop: '40px', fontSize: '14px',

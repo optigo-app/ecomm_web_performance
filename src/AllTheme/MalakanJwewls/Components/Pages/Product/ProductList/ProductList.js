@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./productlist.scss";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -828,12 +828,23 @@ const ProductList = () => {
     return output;
   };
 
+  const prevFilterChecked = useRef();
+
   useEffect(() => {
     setAfterCountStatus(true);
+
+    // Store the previous filterChecked state
+    const previousChecked = prevFilterChecked.current;
+    prevFilterChecked.current = filterChecked;
+
+    // If filterChecked length is greater than 0 or the value changes, reset page to 1
+    if (Object.keys(filterChecked).length > 0 || (previousChecked && JSON.stringify(previousChecked) !== JSON.stringify(filterChecked))) {
+      setCurrPage(1);
+    }
+
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-    //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
-    // console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
+
     let diafilter =
       filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
         ?.length > 0
@@ -876,27 +887,11 @@ const ProductList = () => {
           }
           return res;
         })
-        //  .then( async(res) => {
-        //    if (res) {
-        //      await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-        //        if(resp){
-        //          setPriceListData(resp)
-        //        }
-        //      })
-        //    }
-        //    return res
-        //  })
         .catch((err) => console.log("err", err))
         .finally(() => {
           setIsOnlyProdLoading(false);
         });
     }
-    // .then(async(res)=>{
-    //   if(res){
-    //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
-    //   }
-    // })
-    // }
   }, [filterChecked]);
 
   // const handelFilterClearAll = () => {
@@ -963,6 +958,10 @@ const ProductList = () => {
       setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
       setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
       setFilterChecked({});
+      setSortBySelect("Recommended");
+      setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
+      setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+      setSelectedCsId(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
     }
     setAccExpanded(false);
   };
@@ -972,6 +971,8 @@ const ProductList = () => {
   }, [location?.key]);
 
   const handelPageChange = (event, value) => {
+    // console.log("pagination",value);
+
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     setIsProdLoading(true);
@@ -982,12 +983,50 @@ const ProductList = () => {
         behavior: "smooth",
       });
     }, 100);
-    let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
-    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+
+    let diafilter =
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+    let DiaRange = {
+      DiaMin: isDia ? sliderValue[0] ?? "" : "",
+      DiaMax: isDia ? sliderValue[1] ?? "" : ""
+    };
+
+    let netRange = {
+      netMin: isNet ? sliderValue1[0] ?? "" : "",
+      netMax: isNet ? sliderValue1[1] ?? "" : ""
+    };
+
+    let grossRange = {
+      grossMin: isGross ? sliderValue2[0] ?? "" : "",
+      grossMax: isGross ? sliderValue2[1] ?? "" : ""
+    };
 
     // ProductListApi(output, value, obj, prodListType, cookie, sortBySelect)
     ProductListApi(output, value, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -1079,11 +1118,47 @@ const ProductList = () => {
 
     if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true);
-      let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-      let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
-      let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+      let diafilter =
+        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+          ?.length > 0
+          ? JSON.parse(
+            filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+          )[0]
+          : [];
+      let diafilter1 =
+        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+          ?.length > 0
+          ? JSON.parse(
+            filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+          )[0]
+          : [];
+      let diafilter2 =
+        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+          ?.length > 0
+          ? JSON.parse(
+            filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+          )[0]
+          : [];
+      const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+      const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+      const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
-      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
+      let DiaRange = {
+        DiaMin: isDia ? sliderValue[0] ?? "" : "",
+        DiaMax: isDia ? sliderValue[1] ?? "" : ""
+      };
+
+      let netRange = {
+        netMin: isNet ? sliderValue1[0] ?? "" : "",
+        netMax: isNet ? sliderValue1[1] ?? "" : ""
+      };
+
+      let grossRange = {
+        grossMin: isGross ? sliderValue2[0] ?? "" : "",
+        grossMax: isGross ? sliderValue2[1] ?? "" : ""
+      };
+
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -1120,6 +1195,8 @@ const ProductList = () => {
       ) {
         handelCustomCombo(obj);
       }
+    } else {
+      handelCustomCombo(obj);
     }
   }, [selectedMetalId, selectedDiaId, selectedCsId]);
 
@@ -1288,13 +1365,49 @@ const ProductList = () => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     setCurrPage(1);
     setIsOnlyProdLoading(true);
-    let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
-    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
 
     let sortby = e.target?.value;
+    let diafilter =
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
-    await ProductListApi(output, 1, obj, prodListType, cookie, sortby)
+    let DiaRange = {
+      DiaMin: isDia ? sliderValue[0] ?? "" : "",
+      DiaMax: isDia ? sliderValue[1] ?? "" : ""
+    };
+
+    let netRange = {
+      netMin: isNet ? sliderValue1[0] ?? "" : "",
+      netMax: isNet ? sliderValue1[1] ?? "" : ""
+    };
+
+    let grossRange = {
+      grossMin: isGross ? sliderValue2[0] ?? "" : "",
+      grossMax: isGross ? sliderValue2[1] ?? "" : ""
+    };
+
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortby, DiaRange, netRange, grossRange)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -1968,9 +2081,9 @@ const ProductList = () => {
 
   const DynamicListPageTitleLineFunc = () => {
     if (location?.search.split("=")[0]?.slice(1) == "M") {
-      return menuParams?.menuname;
+      return menuParams?.menuname?.replaceAll("%20", "");
     } else {
-      return location?.pathname?.split("/")[2]?.replaceAll('%20', '');
+      return location?.pathname.split("/")[2]?.replaceAll("%20", "");
     }
   };
 
@@ -3530,7 +3643,7 @@ const ProductList = () => {
                                           </>}
 
                                         </div>
-                                        <div className="fmg_mal1_prodBtn">
+                                        {/* <div className="fmg_mal1_prodBtn">
                                           <FormControlLabel
                                             control={
                                               <Checkbox
@@ -3541,9 +3654,28 @@ const ProductList = () => {
                                               />
                                             }
                                             label={<span className={`fmg_mal1_prodBtn_proBtn_text`}>{isChecked ? "Remove from Cart" : "Add to Cart"}</span>}
-                                          // label={<span className={`fmg_mal1_prodBtn_proBtn_text`}>{isChecked ? "In Cart" : "Add to Cart"}</span>}
                                           />
-                                        </div>
+                                        </div> */}
+                                        <FormControlLabel
+                                          control={
+                                            <Checkbox
+                                            icon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
+                                            checkedIcon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
+                                            checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1}
+                                            onChange={(e) => handleCartandWish(e, productData, "Cart")}
+                                            />
+                                          }
+                                          label={
+                                            <span
+                                              className={`fmg_mal1_prodBtn_proBtn_text`}
+                                            >
+                                              {isChecked
+                                                ? "Remove from Cart"
+                                                : "Add to Cart"}
+                                            </span>
+                                          }
+                                          className="fmg_mal1_prodBtn"
+                                        />
                                       </div>
                                     </div>
                                   </>
@@ -3798,15 +3930,12 @@ const GivaFilterMenu = ({
 
         if (checkedOption) {
           checkedNames.push(checkedOption.Name);
-          setCurrPage(1);
         }
       }
     }
 
-
     return checkedNames;
   }
-
 
 
   const totalSelected = calculateTotalFilters(FilterValueWithCheckedOnly);
@@ -3848,21 +3977,54 @@ const GivaFilterMenu = ({
               <div className="filter_menu_giva">
 
                 <Typography
-                  sx={{ fontSize: "15px" }}
+                  sx={{
+                    fontSize: "15px",
+                    cursor: "pointer",
+                    position: "relative",
+                    zIndex: 1,
+                  }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(1)}
                 >
-                  <Badge className="badgeColorFix" badgeContent={totalSelected} color="primary"
+                  {showMenu === 1 && (
+                    <div
+                      className="span"
+                      style={{
+                        position: "absolute",
+                        zIndex: 888,
+                        top: "0",
+                        left: "0",
+                        right: "0",
+                        bottom: "0",
+                        pointerEvents: "none", // Prevent this from blocking clicks
+                      }}
+                    ></div>
+                  )}
+                  <Badge
+                    badgeContent={totalSelected}
+                    sx={{
+                      "& .MuiBadge-badge": {
+                        color: "#fff",
+                        backgroundColor: "#D14A61",
+                      },
+                      "& .MuiBadge-dot": {
+                        backgroundColor: "#D14A61",
+                      },
+                    }}
                     anchorOrigin={{
-                      vertical: 'top',  // Adjust this as needed (top/bottom)
-                      horizontal: 'right', // Move to the left side
+                      vertical: "top",
+                      horizontal: "right",
                     }}
                   >
                     Filters
                   </Badge>
                   <ExpandMoreIcon
                     className="fmg_icon"
-                    onClick={() => HandleMenu(1)}
+                    sx={{ cursor: "pointer" }}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent the event from bubbling up to the Typography onClick
+                      HandleMenu(1);
+                    }}
                   />
                 </Typography>
                 {showMenu === 1 && (
@@ -4147,17 +4309,16 @@ const GivaFilterMenu = ({
             )}
             {storeInit?.IsMetalCustComb === 1 && metalTypeCombo?.length > 0 && (
               <div className="filter_menu_giva">
-                <Typography
-                  sx={{ fontSize: "15px", cursor: "pointer" }}
+                <div
+                  style={{ cursor: "pointer" }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(2)}
                 >
-                  Metal{" "}
+                  <span>Metal </span>
                   <ExpandMoreIcon
                     className="fmg_icon"
-                    onClick={() => HandleMenu(2)}
                   />{" "}
-                </Typography>
+                </div>
                 {showMenu === 2 && (
                   <div className="giva_filter_menu_list">
                     <Box
@@ -4200,17 +4361,16 @@ const GivaFilterMenu = ({
             )}
             {storeInit?.IsDiamondCustComb === 1 && diaQcCombo?.length > 0 && (
               <div className="filter_menu_giva">
-                <Typography
-                  sx={{ fontSize: "15px", cursor: "pointer" }}
+                <div
+                  style={{ cursor: "pointer" }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(3)}
                 >
-                  Diamond{" "}
+                  <span>Diamond </span>
                   <ExpandMoreIcon
                     className="fmg_icon"
-                    onClick={() => HandleMenu(3)}
                   />{" "}
-                </Typography>
+                </div>
                 {showMenu === 3 && (
                   <div className="giva_filter_menu_list">
                     <Box

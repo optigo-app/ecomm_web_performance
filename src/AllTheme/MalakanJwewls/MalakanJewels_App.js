@@ -142,7 +142,7 @@ const MalakanJewels_App = () => {
             } else if (location.pathname.startsWith("/accountdwsr")) {
               navigation("/accountdwsr");
             } else {
-              navigation("/");
+              // navigation("/");
             }
        
           }

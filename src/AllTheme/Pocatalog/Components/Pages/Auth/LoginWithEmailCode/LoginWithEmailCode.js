@@ -14,6 +14,7 @@ import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { CurrencyComboAPI } from '../../../../../../utils/API/Combo/CurrencyComboAPI';
 import { MetalColorCombo } from '../../../../../../utils/API/Combo/MetalColorCombo';
 import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
+import { generateToken } from '../../../../../../utils/Glob_Functions/Tokenizer';
 
 
 export default function LoginWithEmailCode() {
@@ -127,7 +128,9 @@ export default function LoginWithEmailCode() {
             setIsLoading(false);
             if (response?.Data?.rd[0]?.stat === 1) {
                 setIsLoginState(true)
+                const visiterID = Cookies.get('visiterId');
                 sessionStorage.setItem('LoginUser', true)
+                Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token);
                 sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
                 if (redirectEmailUrl) {
                     navigation(redirectEmailUrl, { state });
@@ -136,6 +139,8 @@ export default function LoginWithEmailCode() {
                 } else {
                     navigation('/', { state })
                 }
+                const Token = generateToken(response?.Data?.rd[0]?.Token, 0);
+                sessionStorage?.setItem('AuthToken', JSON?.stringify(Token));
             } else {
                 errors.mobileNo = 'Code is Invalid'
             }

@@ -7,24 +7,9 @@ import useHomeBannerImages from "../../../../../utils/Glob_Functions/ThemesBanne
 
 const TopSection = lazy(() => import("./TopVideo/TopSection"));
 const TheDifference = lazy(() => import("./TheDifference/TheDifference"));
-const PromotionBaner1 = lazy(() => import("./PromotionBanner1/PromotionBaner1"));
 const PromotionBaner2 = lazy(() => import("./PromotionBanner1/PromotionBaner2"));
 const ShopByCategory = lazy(() => import("./ShopByCategory/ShopByCategory"));
-const PromoSetSection = lazy(() => import("./BestSellerSection/BestSellerSection"));
-const SustainAbility = lazy(() => import("./SustainAbility/SustainAbility"));
-const BottomBanner = lazy(() => import("./BottomBanner/BottomBanner"));
 const Footer = lazy(() => import("./Footer/Footer"));
-const TrendingView = lazy(() => import("./TrandingView/TrendingView"));
-const TrendingView1 = lazy(() => import("./TrandingView/TrendingView1"));
-const DesignSet = lazy(() => import("./DesignSet/DesignSet1"));
-const DesignSet1 = lazy(() => import("./DesignSet/DesignSet2"));
-const Album = lazy(() => import("./Album/Album"));
-const NewArrival = lazy(() => import("./NewArrival/NewArrival"));
-const NewArrival1 = lazy(() => import("./NewArrival/NewArrival1"));
-const BestSellerSection = lazy(() => import("./BestSellerSection/BestSellerSection"));
-const BestSellerSection1 = lazy(() => import("./BestSellerSection/BestSellerSection1"));
-const BrandsComponent = lazy(() => import("./BrandComponent/BrandComponents"));
-const NewsletterSignup = lazy(() => import("./SubscribeNewsLater/NewsletterSignup"));
 const SmilingBrides = lazy(() => import("./SmilingBrides/SmilingBrides"));
 const FeaturedCollection = lazy(() => import("./FeaturedCollection/FeaturedCollection"));
 const ShopifySection = lazy(() => import("./shopifySection/ShopifySection"));
