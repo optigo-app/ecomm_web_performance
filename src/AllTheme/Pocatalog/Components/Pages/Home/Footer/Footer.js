@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router";
 import { IoMdCall, IoMdMail } from "react-icons/io";
 import { IoLocationOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
+import { fetchAPIUrlFromStoreInit } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const Footer = ({ fromPage }) => {
   const [socialMediaData, setSocialMediaData] = useState([]);
@@ -18,7 +19,7 @@ const Footer = ({ fromPage }) => {
   }, []);
 
   useEffect(() => {
-    const fetchCompanyInfo = () => {
+    const fetchCompanyInfo = async () => {
       const storedData = sessionStorage.getItem("CompanyInfoData");
       if (storedData) {
         const parsedData = JSON?.parse(storedData);
@@ -29,15 +30,26 @@ const Footer = ({ fromPage }) => {
             : [];
           setSocialMediaData(parsedSocialMediaUrlData);
         }
+      } else {
+        try {
+          const fetchedData = await fetchAPIUrlFromStoreInit();
+          if (fetchedData) {
+            sessionStorage.setItem("CompanyInfoData", JSON.stringify(fetchedData));
+            setCompanyInfoData(fetchedData.rd[0]);
+            const parsedSocialMediaUrlData = fetchedData.rd[0]?.SocialLinkObj
+              ? JSON.parse(fetchedData.rd[0].SocialLinkObj)
+              : [];
+            setSocialMediaData(parsedSocialMediaUrlData);
+          }
+        } catch (error) {
+          console.error("Failed to fetch company info after retries:", error);
+        }
       }
     };
 
-    if (!companyInfoData) {
-      const intervalId = setInterval(fetchCompanyInfo, 2000);
-      return () => clearInterval(intervalId);
-    }
-  }, [companyInfoData]);
+    fetchCompanyInfo();
 
+  }, []);
   // useEffect(() => {
   //   let companyInfoData;
   //   const storedData = JSON.parse(sessionStorage.getItem("CompanyInfoData"));
@@ -113,12 +125,12 @@ const Footer = ({ fromPage }) => {
                     }}
                   >
                     <span>{companyInfoData?.FrontEndContactno1}</span>
-                  {companyInfoData?.FrontEndContactno2 && (<>
-                    <span>
-                    &#x2c;&nbsp;
-                    </span>
-                    <span>{companyInfoData?.FrontEndContactno2}</span>
-                  </>)}
+                    {companyInfoData?.FrontEndContactno2 && (<>
+                      <span>
+                        &#x2c;&nbsp;
+                      </span>
+                      <span>{companyInfoData?.FrontEndContactno2}</span>
+                    </>)}
                   </span>
                 </p>
               )}

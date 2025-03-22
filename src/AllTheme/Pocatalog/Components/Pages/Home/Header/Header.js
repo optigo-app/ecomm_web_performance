@@ -13,6 +13,7 @@ import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from 'js-cookie';
 import pako from "pako";
 import useCountdown from '../../CountDownTimer/CountDownTimer';
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 
 const Header = () => {
@@ -23,6 +24,7 @@ const Header = () => {
 
   const compnyLogo = useRecoilValue(proCat_companyLogo);
   const compnyLogoM = useRecoilValue(proCat_companyLogoM);
+
   const [islogin, setislogin] = useRecoilState(proCat_loginState);
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
@@ -32,6 +34,8 @@ const Header = () => {
 
   const [searchText, setSearchText] = useState("")
   let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+  const webLogo = storeinit?.companylogo;
+  const mobileLogo = storeinit?.companyMlogo;
   const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
   const location = useLocation();
 
@@ -56,10 +60,10 @@ const Header = () => {
         console.log("getCountApiErr", err);
       }
     })
-  }, [])  
+  }, [])
   // for rember me
-// }, [location.key])
-  
+  // }, [location.key])
+
 
   useEffect(() => {
     const uniqueMenuIds = [...new Set(menuData?.map(item => item?.menuid))];
@@ -384,7 +388,7 @@ const Header = () => {
               </div>
               <div className='smr_mobileHeader_top_div2'>
                 <a href="/">
-                  <img src={compnyLogo} loading='lazy' className='smr_logo_header' />
+                  <img src={compnyLogo ? compnyLogo : webLogo} loading='lazy' className='smr_logo_header' />
                 </a>
               </div>
 
@@ -580,7 +584,7 @@ const Header = () => {
         <div className='smiling_Top_header_sub'>
           <div className='smiling_Top_header_div2_web'>
             <a href="/">
-              <img src={compnyLogo} loading='lazy' className='smr_logo_header' />
+              <img src={compnyLogo ? compnyLogo : webLogo} loading='lazy' className='smr_logo_header' />
             </a>
           </div>
           <div className='smiling_Top_header_div2_mobile'>
@@ -749,7 +753,7 @@ const Header = () => {
           <div className='smiling_Top_header_sub' style={{ width: '100%' }}>
             <div className='smiling_Top_header_div2_web'>
               <a href="/">
-                <img src={compnyLogo} loading='lazy' className='smr_logo_header_Fixed' />
+                <img src={compnyLogo ? compnyLogo : webLogo} loading='lazy' className='smr_logo_header_Fixed' />
               </a>
             </div>
             <div className='smiling_Top_header_div2_mobile'>

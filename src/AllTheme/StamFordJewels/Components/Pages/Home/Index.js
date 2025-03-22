@@ -23,6 +23,7 @@ import BrandsComponent from "./BrandComponent/BrandComponents";
 import Collection from "./Collection/Collection";
 import FooterBanner from "./FooterBanner/FooterBanner";
 import useHomeBannerImages from "../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner";
+import { data } from "./json";
 
 function Home() {
   const [localData, setLocalData] = useState();
@@ -54,12 +55,12 @@ function Home() {
       <div className="stam_home_index_main">
         <div style={{ minHeight: minHeight }}>
           <div className="stam_home_index_Submain">
-            <TopSection data={banner?.mainBanner} />
+            <TopSection data={banner?.mainBanner} obj={data} />
             <TheDifference />
             {/* <TrendingView1 /> */}
-            <PromotionBaner1 data={banner?.middleBanner}/>
+            <PromotionBaner1 data={banner?.middleBanner} />
             {localData?.IsHomeAlbum === 1 && <Album1 />}
-            {localData?.IsHomeTrending === 1 && <TrendingView1  data={banner?.trendingBanner}/>}
+            {localData?.IsHomeTrending === 1 && <TrendingView1 data={banner?.trendingBanner} />}
             {/* {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
             {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
             {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */}

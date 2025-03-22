@@ -7,19 +7,20 @@ import { fetchAPIUrlFromStoreInit } from "../../Glob_Functions/GlobalFunction";
 
 let APIURL = '';
 
-const getApiUrl = async () => {
+const setApiUrl = async () => {
     try {
-        const getApi = await fetchAPIUrlFromStoreInit(); 
-
+        const getApi = await fetchAPIUrlFromStoreInit();
         if (getApi?.ApiUrl) {
-            APIURL = getApi.ApiUrl;
+            APIURL = getApi.ApiUrl ?? "https://api.optigoapps.com/test/ReactStore.aspx";
+        } else {
+            throw new Error("API URL not found");
         }
     } catch (error) {
         console.error('Failed to fetch API URL:', error);
     }
 };
 
-getApiUrl();
+setApiUrl();
 // const isTesting = false;
 // const LIVE_BASE_URL = isTesting ? `https://api.optigoapps.com/ReactStoreTest/ReactStore.aspx` : 'https://api.optigoapps.com/ReactStore/ReactStore.aspx';
 // const APIURL = (window.location.hostname === 'localhost'
@@ -53,7 +54,15 @@ getApiUrl();
 
 
 export const CommonFileAPI = async (body) => {
+    if (!APIURL) {
+        await setApiUrl();
+    }
+
     const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
+
+    if (!storeInit) {
+        throw new Error('StoreInit data not found in sessionStorage');
+    }
     try {
         const YearCode = storeInit?.YearCode ?? '';
         const version = storeInit?.version ?? '';
