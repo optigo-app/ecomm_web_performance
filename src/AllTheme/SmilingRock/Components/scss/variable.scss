@@ -5,6 +5,16 @@ $backgroundColor: var(--background-color);
 $btn1bgColor: #fff;
 $btn1ActivebgColor: #7d7f85;
 
+@font-face {
+  font-family: 'PanDisplay-Regular';
+  src: url('../fonts/PanDisplay-Regular.woff2') format('woff2'),
+}
+
+@font-face {
+  font-family: 'PanText-Regular';
+  src: url('../fonts/PanText-Regular.otf') format('opentype');
+}
+
 //fontcolors
 $primaryfontcolor: #8f8c8be6;
 $primaryfontcolor2: #7d7f85;
@@ -17,17 +27,19 @@ $btn1hoverFontColor: #fff;
 $primaryfontcolorLight: #7d7f856e;
 
 //fontFamily
-$homePageFontFamily: "Poppins", serif;
+$homePageFontFamily: "PanText-Regular", serif;
 // $homePageFontFamily: "FreightDispProMedium-Regular,Times New Roman,serif";
 // $primaryFontFamily:"Rubik", sans-serif;
-$primaryFontFamily: "Poppins", serif;
+$primaryFontFamily: "PanDisplay-Regular", serif;
 // $primaryFontFamily: "TT Commons Regular";
 // $primaryFontFamily:"Roboto", sans-serif;
-$primaryFontFamilyMedium: "Poppins", serif;
+$primaryFontFamilyMedium: "PanText-Regular", serif;
 // $primaryFontFamilyMedium: "TT Commons Medium";
 // $primaryFontFamilyMedium:"Roboto", sans-serif;
-$Pfonts : "Poppins", serif;
-$Pratafonts : "Prata", serif;
+$Pfonts : "PanText-Regular",
+serif;
+$Pratafonts : "PanText-Regular",
+serif;
 
 
 
@@ -47,22 +59,22 @@ $primaryBorderColor: #e1e1e1;
 $primaryBorderColor2: #42424233;
 
 // $bgColor: #c0bbb1;  // Light gray background
-$bgColor: white;  // Light gray background
-$textColor:#1B1212; // Dark gray text color
-$menuColor : #7D7F85 ;
-$navbarbg : black ;
-$navbarcolor : white ;
-$badgecolor : white ;
-$badgetxtcolor : black ;
-$footerbg:black ;
-$footertextcolor:white ;
+$bgColor: white; // Light gray background
+$textColor: #1B1212; // Dark gray text color
+$menuColor : #7D7F85;
+$navbarbg : black;
+$navbarcolor : white;
+$badgecolor : white;
+$badgetxtcolor : black;
+$footerbg: black;
+$footertextcolor: white;
 $sliderbar: #7d7f85;
 $btnBg: black;
 $btncolor: white;
-$authbtnbg: black ;
-$authbtncolor  :white ;
-$footertextcolor : white ;
-$menutitle:black;
+$authbtnbg: black;
+$authbtncolor :white;
+$footertextcolor : white;
+$menutitle: black;
 
 @font-face {
   font-family: "TT Commons Regular";
