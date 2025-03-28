@@ -31,6 +31,7 @@ import {
     List,
     ButtonBase,
     ListItem,
+    Skeleton,
 } from "@mui/material"
 import FacebookIcon from "@mui/icons-material/Facebook"
 import InstagramIcon from "@mui/icons-material/Instagram"
@@ -1282,36 +1283,58 @@ const AlbumSection = () => {
     const [albumData, setAlbumData] = useState();
     const islogin = useRecoilValue(smr_loginState);
     const [storeInit, setStoreInit] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigate();
+    const isMobile = useMediaQuery("(max-width: 480px)");
+    const isTablet = useMediaQuery("(max-width: 768px)");
+    const isLaptop = useMediaQuery("(max-width: 992px)");
+    const isDesktop = useMediaQuery("(min-width: 1200px)");
 
     useEffect(() => {
-        const storeInitData = JSON.parse(sessionStorage.getItem("storeInit"));
-        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const fetchAlbumData = async () => {
+            setIsLoading(true);
 
-        setStoreInit(storeInitData);
+            const storeInitData = JSON.parse(sessionStorage.getItem("storeInit"));
+            const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
 
-        const { IsB2BWebsite } = storeInitData;
-        const visiterID = Cookies.get('visiterId');
+            if (!storeInitData || !loginUserDetail) {
+                setIsLoading(false);
+                return;
+            }
 
-        let finalID;
-        if (IsB2BWebsite == 0) {
-            finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
-        } else {
-            finalID = loginUserDetail?.id || '0';
-        }
+            setStoreInit(storeInitData);
 
-        Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum", finalID)
-            .then((response) => {
+            const { IsB2BWebsite } = storeInitData;
+            const visiterID = Cookies.get('visiterId');
+
+            const finalID = IsB2BWebsite === 0
+                ? (islogin === false ? visiterID : (loginUserDetail?.id || '0'))
+                : loginUserDetail?.id || '0';
+
+            try {
+                const response = await Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum", finalID);
                 if (response?.Data?.rd) {
                     setAlbumData(response.Data.rd);
                 } else {
                     console.log("No album data found", response);
                 }
-            })
-            .catch((err) => {
+            } catch (err) {
                 console.error("Error fetching album data:", err);
-            })
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchAlbumData();
     }, [islogin]);
+
+
+    const columnCount = {
+        sm: 1,
+        md: 2,
+        lg: 3,
+        xl: 4
+    };
 
     useEffect(() => {
         const getValidImages = async () => {
@@ -1341,35 +1364,96 @@ const AlbumSection = () => {
         navigation(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl);
     };
 
+    const getColumns = (validImages, columnCount) => {
+        const columns = Array.from({ length: columnCount }, () => []);
+
+        validImages.forEach((item, index) => {
+            columns[index % columnCount].push(item);  // Distribute images into columns
+        });
+
+        return columns;
+    };
+
+    const getResponsiveColumns = () => {
+        const columnCount = isMobile ? 1 : isTablet ? 2 : isLaptop ? 3 : 4;
+        const columns = Array.from({ length: columnCount }, () => []);
+
+        validImages.forEach((item, index) => {
+            columns[index % columnCount].push(item); // Distribute images into columns
+        });
+
+        return columns;
+    };
 
     return (
         <div className="smr1_album_main_div">
-            <div className='smr1_album_label_div'>
-                <span>For every special movements</span>
-            </div>
-            <div className='smr1_album_cards_div'>
-                <Box>
-                    <ImageList style={{ position: "relative", cursor: "pointer" }} variant="masonry" cols={3} gap={8}>
-                        {validImages.map((item) => (
-                            <>
-                                <ImageListItem key={item.src} sx={{ overflowY: "hidden" }} onClick={() => handleNavigate(item)}>
-                                    <img
-                                        srcSet={`${item.src}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                                        src={`${item.src}?w=248&fit=crop&auto=format`}
-                                        loading="lazy"
-                                    />
-                                    <div className='smr1_titleline_album'>
-                                        <span>{item?.name}</span>
-                                        <hr style={{ border: "1px solid #333", marginBlock: "5px" }} />
+            {isLoading ? (
+                <div className="smr1_album_cards_div">
+                    <div className="loading-spinner">
+                        <Box>
+                            <ImageList
+                                variant="masonry"
+                                cols={3}
+                                gap={8}
+                                style={{ position: "relative", cursor: "pointer" }}
+                            >
+                                {Array.from(new Array(4)).map((_, columnIndex) => (
+                                    <div key={columnIndex} className="masonry-layout__column">
+                                        {Array.from(new Array(4)).map((_, index) => (
+                                            <ImageListItem key={index}>
+                                                <Skeleton variant="rectangular" width="100%" height={180} />
+                                            </ImageListItem>
+                                        ))}
                                     </div>
-                                </ImageListItem>
-                            </>
-                        ))}
-                    </ImageList>
-                </Box>
-            </div>
+                                ))}
+                            </ImageList>
+                        </Box>
+                    </div>
+                </div>
+            ) : (
+                <>
+                    <div className="smr1_album_label_div">
+                        <span>For every special movement</span>
+                    </div>
+                    <div className="smr1_album_cards_div">
+                        <Box>
+                            {/* Image list container */}
+                            <ImageList
+                                variant="masonry"
+                                cols={3}
+                                gap={8}
+                                style={{ position: "relative", cursor: "pointer" }}
+                            >
+                                {getResponsiveColumns().map((column, columnIndex) => (
+                                    <div key={columnIndex} className="masonry-layout__column" style={{ marginBlock: isLoading ? "0" : "0.5rem" }}>
+                                        {column.map((item) => (
+                                            <ImageListItem
+                                                key={item.src}
+                                                sx={{ overflowY: "hidden" }}
+                                                onClick={() => handleNavigate(item)}
+                                            >
+                                                <img
+                                                    srcSet={`${item.src}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                                                    src={`${item.src}?w=248&fit=crop&auto=format`}
+                                                    alt={item?.name || "Album Image"} // Added alt text for accessibility
+                                                    loading="lazy"
+                                                />
+                                                <div className="smr1_titleline_album">
+                                                    <span>{item?.name}</span>
+                                                    <hr style={{ border: "1px solid #333", marginBlock: "5px" }} />
+                                                </div>
+                                            </ImageListItem>
+                                        ))}
+                                    </div>
+                                ))}
+                            </ImageList>
+                        </Box>
+                    </div>
+                </>
+            )}
         </div>
-    )
+    );
+
 }
 
 const NewArrival = () => {
@@ -1378,6 +1462,7 @@ const NewArrival = () => {
     const [newArrivalData, setNewArrivalData] = useState('');
     const [imageUrl, setImageUrl] = useState();
     const navigation = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const [storeInit, setStoreInit] = useState({});
     const islogin = useRecoilValue(smr_loginState);
@@ -1388,8 +1473,28 @@ const NewArrival = () => {
     const [selectedMetalColor, setSelectedMetalColor] = useState(null);
     const [imageColor, setImageColor] = useRecoilState(MetalColor_Image);
     const getSessImgColor = JSON.parse(sessionStorage.getItem('imgColorCode'));
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const getSessCartWishImgColor = JSON?.parse(sessionStorage.getItem('cartWishImgColor')) ?? undefined;
 
+    const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    const getSlidesPerView = () => {
+        if (windowWidth >= 1800) return 4;
+        if (windowWidth >= 1024) return 3;
+        if (windowWidth >= 600) return 2;
+        return 1;
+    };
+
+    const slidesPerView = getSlidesPerView();
 
     const metalColorType = [
         {
@@ -1478,6 +1583,7 @@ const NewArrival = () => {
     }, [])
 
     const callAPI = () => {
+        setIsLoading(true)
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const visiterID = Cookies.get('visiterId');
@@ -1497,7 +1603,7 @@ const NewArrival = () => {
             if (response?.Data?.rd) {
                 setNewArrivalData(response?.Data?.rd);
             }
-        }).catch((err) => console.log(err))
+        }).catch((err) => console.log(err)).finally(() => { setIsLoading(false) })
     }
 
     const validateImageURLs = async () => {
@@ -1695,9 +1801,46 @@ const NewArrival = () => {
 
                     viewport={{ once: true, amount: 0.2 }}
                 >
-                    <Typography variant="h5" className="smrN_NewArr1Title">
-                        New Arrival
-                        {/* <Link
+                    {isLoading ? (
+                        // Skeleton loader for the cards
+                        <Box sx={{ height: "100%" }}>
+                            <Typography variant="h5" className="smrN_NewArr1Title">
+                                New Arrival
+                            </Typography>
+                            <div className="swiper-container-wrapper">
+                                <Swiper
+                                    spaceBetween={20}
+                                    slidesPerView={slidesPerView}
+                                    loop={true}
+                                    autoplay={{
+                                        delay: 3000,
+                                        pauseOnMouseEnter: true,
+                                    }}
+                                    navigation={{
+                                        nextEl: ".custom-swiper-button-next",
+                                        prevEl: ".custom-swiper-button-prev",
+                                    }}
+                                    pagination={{ clickable: true }}
+                                    modules={[Navigation, Autoplay]}
+                                    className="smr1_newArr1Swiper"
+                                >
+                                    {[...Array(5)].map((_, index) => (
+                                        <SwiperSlide key={index}>
+                                            <Box className="skeleton-card">
+                                                <Skeleton variant="rectangular" width="100%" height={300} />
+                                                <Skeleton variant="text" width="60%" height={20} sx={{ marginTop: 1 }} />
+                                                <Skeleton variant="text" width="40%" height={20} sx={{ marginTop: 1 }} />
+                                            </Box>
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
+                            </div>
+                        </Box>
+                    ) : (
+                        <>
+                            <Typography variant="h5" className="smrN_NewArr1Title">
+                                New Arrival
+                                {/* <Link
                             className="smr_designSetViewmoreBtn"
                             onClick={() =>
                                 navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)
@@ -1705,162 +1848,169 @@ const NewArrival = () => {
                         >
                             View more
                         </Link> */}
-                    </Typography>
+                            </Typography>
 
-                    {/* Swiper container */}
-                    <div className='swiper-container-wrapper'>
-                        <Swiper
-                            spaceBetween={20}
-                            slidesPerView={4}
-                            breakpoints={{
-                                1024: {
-                                    slidesPerView: 4,
-                                },
-                                768: {
-                                    slidesPerView: 3,
-                                },
-                                480: {
-                                    slidesPerView: 2,
-                                },
-                                0: {
-                                    slidesPerView: 1,
-                                },
-                            }}
-                            loop={true}
-                            autoplay={{ delay: 3000 }}
-                            navigation={{
-                                nextEl: ".custom-swiper-button-next",
-                                prevEl: ".custom-swiper-button-prev",
-                            }}
-                            pagination={{ clickable: true }}
-                            modules={[Navigation, Autoplay]}
-                            className='smr1_newArr1Swiper'
-                        >
-                            <div>
-                                {validatedData?.map((product, index) => {
-                                    const images = imageMap[product.designno] || {};
-                                    const yellowImage = images?.yellowImage;
-                                    const whiteImage = images?.whiteImage;
-                                    const roseImage = images?.roseImage;
-                                    const yellowRollImage = images?.yellowRollImage;
-                                    const whiteRollImage = images?.whiteRollImage;
-                                    const roseRollImage = images?.roseRollImage;
-                                    const isLoading = product && product?.loading === true;
-                                    return (
-                                        <SwiperSlide key={index}>
-                                            <Card
-                                                className="smr_NewArrproduct-card"
-                                            >
-                                                <div className="smr_newArr1Image">
-                                                    <CardMedia
+                            {/* Swiper container */}
+                            <div className='swiper-container-wrapper'>
+                                <Swiper
+                                    spaceBetween={20}
+                                    slidesPerView={4}
+                                    breakpoints={{
+                                        1024: {
+                                            slidesPerView: 4,
+                                        },
+                                        768: {
+                                            slidesPerView: 3,
+                                        },
+                                        480: {
+                                            slidesPerView: 2,
+                                        },
+                                        0: {
+                                            slidesPerView: 1,
+                                        },
+                                    }}
+                                    loop={true}
+                                    autoplay={{
+                                        delay: 3000,
+                                        pauseOnMouseEnter: true,
+                                    }}
+                                    navigation={{
+                                        nextEl: ".custom-swiper-button-next",
+                                        prevEl: ".custom-swiper-button-prev",
+                                    }}
+                                    pagination={{ clickable: true }}
+                                    modules={[Navigation, Autoplay]}
+                                    className='smr1_newArr1Swiper'
+                                >
+                                    <div>
+                                        {validatedData?.map((product, index) => {
+                                            const images = imageMap[product.designno] || {};
+                                            const yellowImage = images?.yellowImage;
+                                            const whiteImage = images?.whiteImage;
+                                            const roseImage = images?.roseImage;
+                                            const yellowRollImage = images?.yellowRollImage;
+                                            const whiteRollImage = images?.whiteRollImage;
+                                            const roseRollImage = images?.roseRollImage;
+                                            const isLoading = product && product?.loading === true;
+                                            return (
+                                                <SwiperSlide key={index}>
+                                                    <Card
+                                                        className="smr_NewArrproduct-card"
+                                                    >
+                                                        <div className="smr_newArr1Image">
+                                                            <CardMedia
 
-                                                        component="img"
-                                                        className="smr_newArrImage"
-                                                        image={
-                                                            product?.ImageCount >= 1
-                                                                ? rollOverImgPd[product?.autocode]
-                                                                    ? rollOverImgPd[product?.autocode]
-                                                                    : selectedMetalColor?.[product?.autocode] === 1
-                                                                        ? yellowImage
-                                                                        : selectedMetalColor?.[product?.autocode] === 2
-                                                                            ? whiteImage
-                                                                            : selectedMetalColor?.[product?.autocode] === 3
-                                                                                ? roseImage
-                                                                                : product?.validatedImageURL
-                                                                : imageNotFound
-                                                        }
-                                                        alt={product?.TitleLine}
-                                                        onError={(e) => {
-                                                            e.target.src = imageNotFound;
-                                                        }}
-                                                        onClick={() =>
-                                                            handleNavigation(product?.designno, product?.autocode, product?.TitleLine)
-                                                        }
-                                                    />
-                                                    {!isshowDots && <div className="smr_productList_metaltype_Maindiv">
-                                                        <div className="smr_productList_metaltype_div">
-                                                            <img src={colorPicker} alt="" className="image" />
-                                                            <div className="metal-buttons-container">
-                                                                {metalColorType?.map((item) => (
-                                                                    <button
-                                                                        key={item?.id}
-                                                                        className={
-                                                                            selectedMetalColor?.[product?.autocode] === item?.id
-                                                                                ? `smr_metaltype_${item?.metal}_clicked`
-                                                                                : `smr_metaltype_${item?.metal}`
-                                                                        }
-                                                                        type="button"
-                                                                        onClick={() => {
-                                                                            handleClick(item?.id, product?.autocode);
-                                                                            //  handleImgRollover(product, yellowRollImage, whiteRollImage, roseRollImage, item?.id)
-                                                                        }}
-                                                                    >
-                                                                    </button>
-                                                                ))}
-                                                            </div>
-                                                        </div>
-                                                    </div>}
-                                                </div>
-                                                <CardContent className="smr_newarrproduct-info">
-                                                    <Typography className="smr_newArrTitle">
-                                                        {product?.designno}
-                                                        {formatTitleLine(product?.TitleLine) && ' - '}
-                                                        {formatTitleLine(product?.TitleLine) && product?.TitleLine}
-                                                    </Typography>
-                                                    {storeInit?.IsPriceShow == 1 && (
-                                                        <p className="smr_newArrPrice">
-                                                            <span
-                                                                className="smr_currencyFont"
-                                                                dangerouslySetInnerHTML={{
-                                                                    __html: decodeEntities(
-                                                                        islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
-                                                                    ),
+                                                                component="img"
+                                                                className="smr_newArrImage"
+                                                                image={
+                                                                    product?.ImageCount >= 1
+                                                                        ? rollOverImgPd[product?.autocode]
+                                                                            ? rollOverImgPd[product?.autocode]
+                                                                            : selectedMetalColor?.[product?.autocode] === 1
+                                                                                ? yellowImage
+                                                                                : selectedMetalColor?.[product?.autocode] === 2
+                                                                                    ? whiteImage
+                                                                                    : selectedMetalColor?.[product?.autocode] === 3
+                                                                                        ? roseImage
+                                                                                        : product?.validatedImageURL
+                                                                        : imageNotFound
+                                                                }
+                                                                alt={product?.TitleLine}
+                                                                onError={(e) => {
+                                                                    e.target.src = imageNotFound;
                                                                 }}
+                                                                onClick={() =>
+                                                                    handleNavigation(product?.designno, product?.autocode, product?.TitleLine)
+                                                                }
                                                             />
-                                                            {formatter(product?.UnitCostWithMarkUp)}
-                                                        </p>
-                                                    )}
-                                                </CardContent>
-                                            </Card>
-                                        </SwiperSlide>
-                                    )
-                                })}
+                                                            {!isshowDots && <div className="smr_productList_metaltype_Maindiv">
+                                                                <div className="smr_productList_metaltype_div">
+                                                                    <img src={colorPicker} alt="" className="image" />
+                                                                    <div className="metal-buttons-container">
+                                                                        {metalColorType?.map((item) => (
+                                                                            <button
+                                                                                key={item?.id}
+                                                                                className={
+                                                                                    selectedMetalColor?.[product?.autocode] === item?.id
+                                                                                        ? `smr_metaltype_${item?.metal}_clicked`
+                                                                                        : `smr_metaltype_${item?.metal}`
+                                                                                }
+                                                                                type="button"
+                                                                                onClick={() => {
+                                                                                    handleClick(item?.id, product?.autocode);
+                                                                                    //  handleImgRollover(product, yellowRollImage, whiteRollImage, roseRollImage, item?.id)
+                                                                                }}
+                                                                            >
+                                                                            </button>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            </div>}
+                                                        </div>
+                                                        <CardContent className="smr_newarrproduct-info">
+                                                            <Typography className="smr_newArrTitle">
+                                                                {product?.designno}
+                                                                {formatTitleLine(product?.TitleLine) && ' - '}
+                                                                {formatTitleLine(product?.TitleLine) && product?.TitleLine}
+                                                            </Typography>
+                                                            {storeInit?.IsPriceShow == 1 && (
+                                                                <p className="smr_newArrPrice">
+                                                                    <span
+                                                                        className="smr_currencyFont"
+                                                                        dangerouslySetInnerHTML={{
+                                                                            __html: decodeEntities(
+                                                                                islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
+                                                                            ),
+                                                                        }}
+                                                                    />
+                                                                    {formatter(product?.UnitCostWithMarkUp)}
+                                                                </p>
+                                                            )}
+                                                        </CardContent>
+                                                    </Card>
+                                                </SwiperSlide>
+                                            )
+                                        })}
+                                    </div>
+                                </Swiper>
+                                <div className="custom-swiper-button-prev">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <path d="m15 18-6-6 6-6" />
+                                    </svg>
+                                </div>
+                                <div className="custom-swiper-button-next">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <path d="m9 18 6-6-6-6" />
+                                    </svg>
+                                </div>
                             </div>
-                        </Swiper>
-                        <div className="custom-swiper-button-prev">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            >
-                                <path d="m15 18-6-6 6-6" />
-                            </svg>
-                        </div>
-                        <div className="custom-swiper-button-next">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            >
-                                <path d="m9 18 6-6-6-6" />
-                            </svg>
-                        </div>
-                    </div>
-                </motion.div>
+                        </>
+                    )
+                    }
+
+                </motion.div >
             )}
-        </div>
+        </div >
     )
 }
 
@@ -1874,6 +2024,7 @@ const EcatDesignSet = () => {
     const [islogin, setIsLogin] = useState(false); // Assuming recoil state is handled outside of this snippet
     const [cartItems, setCartItems] = useState([]);
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
     const [imageLoadError, setImageLoadError] = useState({});
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
@@ -1891,6 +2042,7 @@ const EcatDesignSet = () => {
     };
 
     useEffect(() => {
+        setIsLoading(true)
         const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
         const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
 
@@ -1924,6 +2076,7 @@ const EcatDesignSet = () => {
             .catch((err) => console.error(err))
             .finally(() => {
                 setIsProdLoading(false);
+                setIsLoading(false);
             });
     }, [islogin]);
 
@@ -2020,185 +2173,199 @@ const EcatDesignSet = () => {
 
 
     return (
-
-        <Box className="smr1_ecat_container">
-            <Typography variant="h5" className="smrN_NewArr1Title">
-                Complete the look
-            </Typography>
-            {/* Swiper Section */}
-            <div className="swiper-container-wrapper">
-                <Swiper
-                    spaceBetween={10}
-                    slidesPerView={1}
-                    modules={[Navigation]}
-                    navigation={{
-                        nextEl: ".custom-swiper-button-next",
-                        prevEl: ".custom-swiper-button-prev",
-                    }}
-                    className='smr1_newEactDesign'
-                >
-                    {designSetLstData.map((designSet, index) => {
-                        const images = designSet.images || [];
-                        return (
-                            <SwiperSlide key={index}>
-                                <Box className="swiper-slide-content" sx={{
-                                    display: 'flex', alignItems: 'center', flexDirection: 'row',
-                                    '@media (max-width: 900px)': {
-                                        flexDirection: 'column',
-                                        height: "100%",
-                                    },
-
-                                }}>
-
-                                    {/* Banner Image */}
-                                    {(ProdCardImageFunc(designSet) && !imageLoadError[index]) ? (
-                                        <Box className="banner-image" sx={{ flex: '1 60%' }}>
-                                            <img
-                                                className="styled-image"
-                                                loading="lazy"
-                                                src={ProdCardImageFunc(designSet)}
-                                                alt={`Slide ${index}`}
-                                                onError={() => handleImageError(index)}
-                                                style={{
-                                                    width: "100%",
-                                                    cursor: "pointer",
-                                                    backgroundColor: ProdCardImageFunc(designSet) === 'a.jpg' ? "rgb(191, 200, 255)" : getRandomBgColor(index),
-                                                }}
-                                            />
-                                        </Box>
-                                    ) : (
-                                        <div
-                                            style={{
-                                                width: is600Width ? "100%" : "50%",
-                                                ...getRandomBgColor(index),
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                cursor: "pointer",
-                                                height: is600Width ? "20rem" : '40rem',
-                                            }}
-                                        >
-                                        </div>
-                                    )}
-
-                                    {/* 3 Static Images in Zigzag Pattern */}
-                                    <Box
-                                        className="zigzag-images"
-                                        sx={{
+        <>
+            {designSetLstData?.length !== 0 && (
+                <Box className="smr1_ecat_container">
+                    <Typography variant="h5" className="smrN_NewArr1Title">
+                        Complete the look
+                    </Typography>
+                    {/* Swiper Section */}
+                    <div className="swiper-container-wrapper">
+                        <Swiper
+                            spaceBetween={10}
+                            slidesPerView={1}
+                            modules={[Navigation]}
+                            navigation={{
+                                nextEl: ".custom-swiper-button-next",
+                                prevEl: ".custom-swiper-button-prev",
+                            }}
+                            className='smr1_newEactDesign'
+                        >
+                            {designSetLstData.map((designSet, index) => {
+                                const images = designSet.images || [];
+                                return (
+                                    <SwiperSlide key={index}>
+                                        <Box className="swiper-slide-content" sx={{
                                             display: 'flex',
-                                            flexDirection: 'column',
                                             alignItems: 'center',
-                                            justifyContent: (parseDesignDetails(designSet?.Designdetail)?.length <= 2) ? 'flex-start' : 'space-between', // Conditionally align to top if <= 2 items
-                                            flex: '1 40%',
-                                            position: 'relative',
-                                            marginTop: (parseDesignDetails(designSet?.Designdetail)?.length <= 2) ? '20px' : '0', // Adjust top margin
-                                        }}
-                                    >
-                                        {(parseDesignDetails(designSet?.Designdetail))?.slice(0, 3)?.map((detail, subIndex) => {
-                                            const imageSrc = imageSources[detail?.designno] || imageNotFound;
-                                            const transformValue = subIndex % 2 === 0 ? 'translateX(-5rem)' : 'translateX(5rem)';
-                                            const StyletransformValue = (subIndex % 2 === 0 && is600Width) ? 'translateX(-3rem)' : 'translateX(3rem)';
+                                            flexDirection: 'row',
+                                            height: '100%', // Ensure the entire container takes full height
+                                            '@media (max-width: 900px)': {
+                                                flexDirection: 'column', // Switch to column layout on small screens
+                                            },
+                                        }}>
 
-                                            return (
-                                                <motion.div
-                                                    whileInView={handleInView}
-                                                    style={{
-                                                        transform: is600Width ? StyletransformValue : transformValue,
-                                                        boxShadow: showImages ? "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px" : "none",
-                                                    }}
-                                                    viewport={{ once: true }}
-                                                    key={subIndex} className="smr_lookBookSubImageDiv">
-                                                    {showImages && (
-                                                        <SwiperSlide
-                                                            className="smr_lookBookSliderSubDiv"
-                                                            style={{ marginRight: '0px', cursor: 'pointer' }}
+                                            {/* Banner Image */}
+
+                                            {(ProdCardImageFunc(designSet) && !imageLoadError[index]) ? (
+                                                <Box className="banner-image" sx={{
+                                                    flex: '1 60%',
+                                                    height: '100%', // Make sure the banner takes full height
+                                                    display: 'flex',
+                                                    alignItems: 'center', // Vertically center the image
+                                                    justifyContent: 'center', // Horizontally center the image
+                                                }}>
+                                                    <img
+                                                        className="styled-image"
+                                                        loading="lazy"
+                                                        src={ProdCardImageFunc(designSet)}
+                                                        alt={`Slide ${index}`}
+                                                        onError={() => handleImageError(index)}
+                                                        style={{
+                                                            width: "100%",
+                                                            height: "100%",
+                                                            cursor: "pointer",
+                                                            backgroundColor: ProdCardImageFunc(designSet) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
+                                                        }}
+                                                    />
+                                                </Box>
+                                            ) : (
+                                                <div className="smr1_lb3ctlImg_containe">
+                                                    <div
+                                                        style={{
+                                                            width: "100%",
+                                                            height: '100%',
+                                                            ...getRandomBgColor(index),
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "center",
+                                                            cursor: "pointer",
+                                                        }}
+                                                    >
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* 3 Static Images in Zigzag Pattern */}
+                                            <Box
+                                                className="zigzag-images"
+                                                sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    alignItems: 'center',
+                                                    justifyContent: (parseDesignDetails(designSet?.Designdetail)?.length <= 2) ? 'flex-start' : 'space-between',
+                                                    flex: '1 40%',
+                                                    height: '100%', // Ensure the zigzag section takes full height
+                                                    position: 'relative',
+                                                    marginTop: (parseDesignDetails(designSet?.Designdetail)?.length <= 2) ? '20px' : '0',
+                                                }}
+                                            >
+                                                {(parseDesignDetails(designSet?.Designdetail))?.slice(0, 3)?.map((detail, subIndex) => {
+                                                    const imageSrc = imageSources[detail?.designno] || imageNotFound;
+                                                    const transformValue = subIndex % 2 === 0 ? 'translateX(-4rem)' : 'translateX(4rem)';
+                                                    const StyletransformValue = (subIndex % 2 === 0 && is600Width) ? 'translateX(-3rem)' : 'translateX(3rem)';
+
+                                                    return (
+                                                        <motion.div
+                                                            whileInView={handleInView}
+                                                            style={{
+                                                                transform: is600Width ? StyletransformValue : transformValue,
+                                                                boxShadow: showImages ? "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px" : "none",
+                                                            }}
+                                                            viewport={{ once: true }}
+                                                            key={subIndex} className="smr_lookBookSubImageDiv"
                                                         >
-                                                            <motion.img
-                                                                className="smr_lookBookSubImage"
-                                                                loading="lazy"
-                                                                src={imageSrc}
-                                                                alt={`Sub image ${subIndex} for slide ${detail?.designno}`}
-                                                                onClick={() =>
-                                                                    handleNavigation(
-                                                                        detail?.designno,
-                                                                        detail?.autocode,
-                                                                        detail?.TitleLine || ''
-                                                                    )
-                                                                }
-                                                                onError={(e) => {
-                                                                    e.target.src = imageNotFound;
-                                                                }}
-                                                                initial={{ opacity: 0, scale: 0.8 }}
-                                                                whileInView={{
-                                                                    opacity: 1,
-                                                                    scale: 1,
-                                                                    // transform: is600Width ? StyletransformValue : transformValue,
-                                                                    transition: {
-                                                                        duration: 0.8,
-                                                                        ease: "easeOut",
-                                                                        delay: subIndex * 0.5,
-                                                                    },
-                                                                }}
-                                                                viewport={{ once: true, margin: '0px' }}
-                                                            />
-                                                            <div style={{ marginTop: "10px" }}>
-                                                                <h3 className='smr1_ecat_title' style={{ fontSize: "16px", fontWeight: "bold", margin: "5px 0", color: "#333" }}>
-                                                                    {formatTitleLine(detail?.TitleLine)}
-                                                                </h3>
-                                                                <span style={{ marginBottom: "0" }}>
-                                                                    <span className="smr_currencyFont">
-                                                                        {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
-                                                                    </span>&nbsp;
-                                                                    <span>{formatter(detail?.UnitCostWithMarkUp)}</span></span>
-                                                            </div>
-                                                        </SwiperSlide>
-                                                    )}
-                                                </motion.div>
-                                            );
-                                        })}
-                                    </Box>
+                                                            {showImages && (
+                                                                <SwiperSlide
+                                                                    className="smr_lookBookSliderSubDiv"
+                                                                    style={{ marginRight: '0px', cursor: 'pointer' }}
+                                                                >
+                                                                    <motion.img
+                                                                        className="smr_lookBookSubImage"
+                                                                        loading="lazy"
+                                                                        src={imageSrc}
+                                                                        alt={`Sub image ${subIndex} for slide ${detail?.designno}`}
+                                                                        onClick={() =>
+                                                                            handleNavigation(
+                                                                                detail?.designno,
+                                                                                detail?.autocode,
+                                                                                detail?.TitleLine || ''
+                                                                            )
+                                                                        }
+                                                                        onError={(e) => {
+                                                                            e.target.src = imageNotFound;
+                                                                        }}
+                                                                        initial={{ opacity: 0, scale: 0.8 }}
+                                                                        whileInView={{
+                                                                            opacity: 1,
+                                                                            scale: 1,
+                                                                            transition: {
+                                                                                duration: 0.8,
+                                                                                ease: "easeOut",
+                                                                                delay: subIndex * 0.5,
+                                                                            },
+                                                                        }}
+                                                                        viewport={{ once: true, margin: '0px' }}
+                                                                    />
+                                                                    <div style={{ marginTop: "10px" }}>
+                                                                        <h3 className='smr1_ecat_title' style={{ fontSize: "16px", fontWeight: "bold", margin: "5px 0", color: "#333" }}>
+                                                                            {formatTitleLine(detail?.TitleLine)}
+                                                                        </h3>
+                                                                        <span style={{ marginBottom: "0" }}>
+                                                                            <span className="smr_currencyFont">
+                                                                                {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
+                                                                            </span>&nbsp;
+                                                                            <span>{formatter(detail?.UnitCostWithMarkUp)}</span>
+                                                                        </span>
+                                                                    </div>
+                                                                </SwiperSlide>
+                                                            )}
+                                                        </motion.div>
+                                                    );
+                                                })}
+                                            </Box>
 
+                                        </Box>
 
-                                </Box>
-                            </SwiperSlide>
-                        )
-                    })}
-                </Swiper>
-                <div className="custom-swiper-button-prev">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    >
-                        <path d="m15 18-6-6 6-6" />
-                    </svg>
-                </div>
-                <div className="custom-swiper-button-next">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    >
-                        <path d="m9 18 6-6-6-6" />
-                    </svg>
-                </div>
-            </div>
+                                    </SwiperSlide>
+                                )
+                            })}
+                        </Swiper>
+                        <div className="custom-swiper-button-prev">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <path d="m15 18-6-6 6-6" />
+                            </svg>
+                        </div>
+                        <div className="custom-swiper-button-next">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <path d="m9 18 6-6-6-6" />
+                            </svg>
+                        </div>
+                    </div>
 
-        </Box>
-
-
+                </Box>
+            )}
+        </>
     );
 };
 
@@ -2441,7 +2608,7 @@ const HotSellingProducts = () => {
                                                 )}
                                                 <div className='smr1_titleline_hotseller'>
                                                     <div className='smr1_titleline'>
-                                                        <span className="ellipsis-text">{formatTitleLine(data?.titleLine)}</span>
+                                                        <span className="ellipsis-text">{formatTitleLine(data?.TitleLine)}</span>
                                                     </div>
                                                     <div>
                                                         <span style={{ marginBottom: "0" }}>
@@ -2468,7 +2635,7 @@ const HotSellingProducts = () => {
 }
 
 const BrandComponent = () => {
-    const kayralogo = [
+    const sonasonsLogo = [
         "logo1.png",
         "logo2.png",
         "logo3.png",
@@ -2483,12 +2650,12 @@ const BrandComponent = () => {
         "logo6.png",
     ];
 
-    const KayralogoElements = kayralogo.map((logo, index) => (
+    const SonasonslogoElements = sonasonsLogo.map((logo, index) => (
         <img
             key={index}
             className="smr_affilitionImg"
             loading="lazy"
-            src={`${storImagePath()}/images/HomePage/BrandLogo/kayra/${logo}`}
+            src={`${storImagePath()}/images/HomePage/BrandLogo/sonasons/${logo}`}
             style={{ width: "130px", objectFit: "cover", marginRight: "90px" }}
         />
     ));
@@ -2501,7 +2668,7 @@ const BrandComponent = () => {
                 speed={40}
                 pauseOnHover={true}
             >
-                {KayralogoElements}
+                {SonasonslogoElements}
             </Marquee>
         </div>
     )

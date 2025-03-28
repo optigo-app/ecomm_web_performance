@@ -55,6 +55,7 @@ import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandW
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import LookbookSkeleton from "./lookbookSkelton";
 import { stam_CartCount, stam_loginState } from "../../../Recoil/atom";
+import EditablePagination from "../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
 
 const Lookbook = () => {
   let location = useLocation();
@@ -77,6 +78,7 @@ const Lookbook = () => {
   const [selectedCsId, setSelectedCsId] = useState(
     loginUserDetail?.cmboCSQCid ?? ""
   );
+  const isEditablePage = 1;
   const [productListData, setProductListData] = useState([]);
   const [locationKey, setLocationKey] = useState();
   const islogin = useRecoilValue(stam_loginState);
@@ -96,12 +98,17 @@ const Lookbook = () => {
   const [isPgLoading, setIsPgLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [inputPage, setInputPage] = useState(currentPage);
   let maxwidth464px = useMediaQuery('(max-width:464px)')
   const [imageLoadError, setImageLoadError] = useState({});
 
   const handleImageError = (index) => {
     setImageLoadError((prev) => ({ ...prev, [index]: true }));
   };
+
+  useEffect(() => {
+    setImageLoadError({})
+  }, [currentPage, filterChecked])
 
   const updateSize = () => {
     if (SwiperSlideRef.current) {
@@ -159,53 +166,67 @@ const Lookbook = () => {
     }
   };
 
+  const prevFilterChecked = useRef();
+
   useEffect(() => {
-    let storeinit = JSON?.parse(sessionStorage.getItem("storeInit"));
-    setStoreInit(storeinit);
-
-    let data = JSON?.parse(sessionStorage.getItem("storeInit"));
-    // setImageUrl(data?.DesignSetImageFol);
-    // setImageUrlDesignSet(data?.DesignImageFol);
-    setImageUrl(data?.DesignSetImageFol);
-    setImageUrlDesignSet(data?.CDNDesignImageFol);
-
-    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+    setImageLoadError({});
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
-    const { IsB2BWebsite } = storeInit;
-    const visiterID = Cookies.get("visiterId");
-    let finalID;
-    if (IsB2BWebsite == 0) {
-      finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
-    } else {
-      finalID = loginUserDetail?.id || "0";
+    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+
+    // Store the previous filterChecked state
+    const previousChecked = prevFilterChecked.current;
+    prevFilterChecked.current = filterChecked;
+
+    const isFilterChanged = JSON.stringify(previousChecked) !== JSON.stringify(filterChecked);
+
+    // If the filter has changed (or its length is > 0), reset page to 1, otherwise keep the current page
+    if (isFilterChanged) {
+      setCurrentPage(1);
+      setInputPage(1);
     }
 
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
-      .then((response) => {
-        if (response?.Data?.rd) {
-          setDesignSetListData(response?.Data?.rd);
-          setDstCount(response?.Data?.rd1[0]?.TotalCount)
-          const initialCartItems = response?.Data?.rd.flatMap((slide) =>
-            parseDesignDetails(slide?.Designdetail)
-              .filter((detail) => detail?.IsInCart === 1)
-              .map((detail) => detail.autocode)
-          );
+    setStoreInit(storeInit);
+    setImageUrl(storeInit?.DesignSetImageFol);
+    setImageUrlDesignSet(storeInit?.CDNDesignImageFol);
+
+    const { IsB2BWebsite } = storeInit || {};
+    const visiterID = Cookies.get("visiterId");
+
+    const finalID = IsB2BWebsite === 0
+      ? (islogin === false ? visiterID : loginUserDetail?.id || "0")
+      : loginUserDetail?.id || "0";
+
+    const output = FilterValueWithCheckedOnly();
+
+    if (Object?.keys(filterChecked)?.length >= 0) {
+      setIsProdLoading(true);
+      setIsPgLoading(true);
+      Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output, isFilterChanged ? 1 : currentPage, itemsPerPage)
+        .then((response) => {
+          if (response?.Data?.rd) {
+            setDesignSetListData(response?.Data?.rd);
+            setDstCount(response?.Data?.rd1[0]?.TotalCount);
+
+            const initialCartItems = response?.Data?.rd.flatMap((slide) =>
+              parseDesignDetails(slide?.Designdetail)
+                .filter((detail) => detail?.IsInCart === 1)
+                .map((detail) => detail.autocode)
+            );
+            setIsProdLoading(false);
+            setCartItems((prevCartItems) => [
+              ...new Set([...prevCartItems, ...initialCartItems]), // Use Set to avoid duplicates
+            ]);
+          }
+        })
+        .catch((err) => console.error(err))
+        .finally(() => {
           setIsProdLoading(false);
-          setIsPgLoading(false)
-          setCartItems((prevCartItems) => [
-            ...new Set([...prevCartItems, ...initialCartItems]),
-          ]); // Use Set to avoid duplicates
-        }
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setIsProdLoading(false);
-        setIsPgLoading(false);
-      });
-  }, []);
+          setIsPgLoading(false);
+        });
+    }
+  }, [filterChecked, islogin]);
 
   useEffect(() => {
-    console.log("cartItemscartItemscartItems", filterData);
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
@@ -227,8 +248,9 @@ const Lookbook = () => {
   }, [designSetLstData]);
 
   const handelFilterClearAll = () => {
-    if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
+    if (Object?.values(filterChecked)?.filter((ele) => ele?.checked)?.length > 0) {
       setFilterChecked({});
+      setThumbsSwiper(null)
     }
   };
 
@@ -286,41 +308,41 @@ const Lookbook = () => {
     return output;
   };
 
-  useEffect(() => {
-    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
-    const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
-    const { IsB2BWebsite } = storeInit;
+  // useEffect(() => {
+  //   const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+  //   const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
+  //   const { IsB2BWebsite } = storeInit;
 
-    const visiterID = Cookies.get("visiterId");
-    let finalID;
-    if (IsB2BWebsite == 0) {
-      finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
-    } else {
-      finalID = loginUserDetail?.id || "0";
-    }
+  //   const visiterID = Cookies.get("visiterId");
+  //   let finalID;
+  //   if (IsB2BWebsite == 0) {
+  //     finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
+  //   } else {
+  //     finalID = loginUserDetail?.id || "0";
+  //   }
 
-    let output = FilterValueWithCheckedOnly();
-    if (Object.keys(filterChecked)?.length >= 0) {
-      Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output, currentPage, itemsPerPage)
-        .then((response) => {
-          if (response?.Data?.rd) {
-            setDesignSetListData(response?.Data?.rd);
-            setDstCount(response?.Data?.rd1[0]?.TotalCount)
-            const initialCartItems = response?.Data?.rd.flatMap((slide) =>
-              parseDesignDetails(slide?.Designdetail)
-                .filter((detail) => detail?.IsInCart === 1)
-                .map((detail) => detail.autocode)
-            );
-            setCartItems((prevCartItems) => [
-              ...new Set([...prevCartItems, ...initialCartItems]),
-            ]); // Use Set to avoid duplicates
-            setIsProdLoading(false);
-            setIsPgLoading(false);
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [filterChecked, currentPage]);
+  //   let output = FilterValueWithCheckedOnly();
+  //   if (Object.keys(filterChecked)?.length >= 0) {
+  //     Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output, currentPage, itemsPerPage)
+  //       .then((response) => {
+  //         if (response?.Data?.rd) {
+  //           setDesignSetListData(response?.Data?.rd);
+  //           setDstCount(response?.Data?.rd1[0]?.TotalCount)
+  //           const initialCartItems = response?.Data?.rd.flatMap((slide) =>
+  //             parseDesignDetails(slide?.Designdetail)
+  //               .filter((detail) => detail?.IsInCart === 1)
+  //               .map((detail) => detail.autocode)
+  //           );
+  //           setCartItems((prevCartItems) => [
+  //             ...new Set([...prevCartItems, ...initialCartItems]),
+  //           ]); // Use Set to avoid duplicates
+  //           setIsProdLoading(false);
+  //           setIsPgLoading(false);
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // }, [filterChecked, currentPage]);
 
   const ProdCardImageFunc = (pd) => {
     let finalprodListimg;
@@ -473,22 +495,27 @@ const Lookbook = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
 
   useEffect(() => {
+
     const categoryOptions = JSON?.parse(
       filterData?.find((item) => item.id === "category")?.options ?? "[]"
     );
     const categoryNames = categoryOptions?.map((opt) => opt.Name);
-    setSelectedCategories(categoryNames);
+    setSelectedCategories((prevSelected) => {
+      return prevSelected.length > 0 ? prevSelected : categoryNames;
+    });
   }, [filterData]);
 
   const handleCheckboxChangeNew = (e, categoryId) => {
     const isChecked = e.target.checked;
-    if (isChecked) {
-      setSelectedCategories((prevSelected) => [...prevSelected, categoryId]);
-    } else {
-      setSelectedCategories((prevSelected) =>
-        prevSelected.filter((id) => id !== categoryId)
-      );
-    }
+
+    setSelectedCategories((prevSelected) => {
+      const updatedSelected = isChecked
+        ? [...prevSelected, categoryId]
+        : prevSelected.filter((id) => id !== categoryId);
+      handelPageChange("", 1)
+
+      return updatedSelected;
+    });
   };
 
   const filterDesignSetsByCategory = (designSetLstData, selectedCategories) => {
@@ -626,14 +653,63 @@ const Lookbook = () => {
 
   const isCategoryPresent = filterData?.some(ele => ele?.Name === "Category" && ele?.id === "category");
 
+  const handlePageInputChange = (event) => {
+    if (event.key === 'Enter') {
+      let newPage = parseInt(inputPage, 10);
+      if (newPage < 1) newPage = 1; // Ensure the page is at least 1
+      if (newPage > totalPages) newPage = totalPages; // Ensure the page doesn't exceed total pages
+      setCurrentPage(newPage);
+      setInputPage(newPage);
+      handelPageChange("", newPage);
+    }
+  };
+
+  const totalPages = Math.ceil(dstCount / itemsPerPage);
+
+  // pagination HandleChange Function for change page
   const handelPageChange = (event, value) => {
+    setThumbsSwiper(null);
+    setCurrentPage(value);
+    setInputPage(value);
+    const { IsB2BWebsite } = storeInit || {};
+    const visiterID = Cookies.get("visiterId");
+
+    const finalID = IsB2BWebsite === 0
+      ? (islogin === false ? visiterID : loginUserDetail?.id || "0")
+      : loginUserDetail?.id || "0";
+
+    const output = FilterValueWithCheckedOnly();
+
+    if (Object.keys(filterChecked)?.length >= 0) {
+      setIsProdLoading(true);
+      setIsPgLoading(true);
+      Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output, value, itemsPerPage)
+        .then((response) => {
+          if (response?.Data?.rd) {
+            setDesignSetListData(response?.Data?.rd);
+            setDstCount(response?.Data?.rd1[0]?.TotalCount);
+
+            const initialCartItems = response?.Data?.rd.flatMap((slide) =>
+              parseDesignDetails(slide?.Designdetail)
+                .filter((detail) => detail?.IsInCart === 1)
+                .map((detail) => detail.autocode)
+            );
+            setIsProdLoading(false);
+            setCartItems((prevCartItems) => [
+              ...new Set([...prevCartItems, ...initialCartItems]), // Use Set to avoid duplicates
+            ]);
+          }
+        })
+        .catch((err) => console.error(err))
+        .finally(() => {
+          setIsProdLoading(false);
+          setIsPgLoading(false);
+        });
+    }
     window.scrollTo({
-      behavior: "smooth",
+      behavior: 'smooth',
       top: 0
     })
-    setCurrentPage(value);
-    setThumbsSwiper(null);
-    setIsPgLoading(true);
   };
 
   useEffect(() => {
@@ -687,7 +763,7 @@ const Lookbook = () => {
                 onClick={() => setIsDrawerOpen(false)}
               />
             </div>
-            <div style={{ marginTop: '3rem' }}>
+            <div style={{ marginTop: '3rem', display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <Box className="stam_filter_text">
                 <Typography sx={{
                   color: "gray !important",
@@ -697,7 +773,7 @@ const Lookbook = () => {
                   fontFamily: "sans-serif",
                 }}>Filters</Typography>
               </Box>
-              <span onClick={() => handelFilterClearAll()}>
+              <span onClick={() => handelFilterClearAll()} style={{ cursor: "pointer" }}>
                 {Object.values(filterChecked).filter((ele) => ele.checked)
                   ?.length > 0
                   ? "Clear All"
@@ -1179,7 +1255,7 @@ const Lookbook = () => {
                         onClick={() => setIsDrawerOpen1(false)}
                       />
                     </div>
-                    <div style={{ marginTop: '3rem' }}>
+                    <div style={{ marginTop: '3rem', display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <Box className="stam_filter_text" >
                         <Typography sx={{
                           color: "gray !important",
@@ -1189,7 +1265,7 @@ const Lookbook = () => {
                           fontFamily: "sans-serif",
                         }}>Filters</Typography>
                       </Box>
-                      <span onClick={() => handelFilterClearAll()}>
+                      <span onClick={() => handelFilterClearAll()} style={{ cursor: "pointer" }}>
                         {Object.values(filterChecked).filter((ele) => ele.checked)
                           ?.length > 0
                           ? "Clear All"
@@ -2380,25 +2456,56 @@ const Lookbook = () => {
           BACK TO TOP
         </p>
       </div> */}
-      <div className="stam_lpDiv">
-        <MuiPagination
-          count={Math.ceil(dstCount / itemsPerPage)}
-          size={maxwidth464px ? "small" : "large"}
-          shape="circular"
-          onChange={handelPageChange}
-          page={currentPage}
-          // showFirstButton
-          // showLastButton
-          renderItem={(item) => (
-            <PaginationItem
-              {...item}
-              sx={{
-                pointerEvents: item.page === currentPage ? 'none' : 'auto',
-              }}
-            />
-          )}
-        />
-      </div>
+      {isEditablePage === 1 ? (
+        <>
+          {storeInit?.IsProductListPagination == 1 &&
+            Math.ceil(dstCount / itemsPerPage)
+            > 1 && (
+              <div className="lpDiv" style={{ marginTop: "0 !important" }}>
+                <EditablePagination
+                  currentPage={currentPage}
+                  totalItems={dstCount}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={handelPageChange}
+                  inputPage={inputPage}
+                  setInputPage={setInputPage}
+                  handlePageInputChange={handlePageInputChange}
+                  maxwidth464px={maxwidth464px}
+                  totalPages={totalPages}
+                  currPage={currentPage}
+                  isShowButton={false}
+                  style={{ marginTop: "0 !important" }}
+                />
+              </div>
+            )}
+        </>
+      ) : (
+        <>
+          {storeInit?.IsProductListPagination == 1 &&
+            Math.ceil(dstCount / itemsPerPage)
+            > 1 && (
+              <div className="lpDiv">
+                <MuiPagination
+                  count={Math.ceil(dstCount / itemsPerPage)}
+                  size={maxwidth464px ? "small" : "large"}
+                  shape="circular"
+                  onChange={handelPageChange}
+                  page={currentPage}
+                  // showFirstButton
+                  // showLastButton
+                  renderItem={(item) => (
+                    <PaginationItem
+                      {...item}
+                      sx={{
+                        pointerEvents: item.page === currentPage ? 'none' : 'auto',
+                      }}
+                    />
+                  )}
+                />
+              </div>
+            )}
+        </>
+      )}
     </div>
   );
 };

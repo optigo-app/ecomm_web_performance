@@ -49,12 +49,13 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import { LookBookAPI } from "../../../../../utils/API/FilterAPI/LookBookAPI";
 import { CartAndWishListAPI } from "../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
-import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "../../../../SmilingRock/Components/Pages/Product/ProductList/productlist_skeleton/ProductListSkeleton";
 import { RemoveCartAndWishAPI } from "../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { el_CartCount, el_loginState } from "../../Recoil/atom";
 import LookbookSkeleton from "./lookbookSkelton";
+import EditablePagination from "../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
 
 const Lookbook = () => {
   let location = useLocation();
@@ -66,6 +67,7 @@ const Lookbook = () => {
   const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
   const [designSetLstData, setDesignSetListData] = useState();
   const [filterData, setFilterData] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [filterChecked, setFilterChecked] = useState({});
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [selectedMetalId, setSelectedMetalId] = useState(
@@ -98,6 +100,7 @@ const Lookbook = () => {
   const [itemsPerPage, setItemsPerPage] = useState(20);
   let maxwidth464px = useMediaQuery('(max-width:464px)')
   const [imageLoadError, setImageLoadError] = useState({});
+  const [inputPage, setInputPage] = useState(currentPage);
 
   const handleImageError = (index) => {
     setImageLoadError((prev) => ({ ...prev, [index]: true }));
@@ -108,7 +111,7 @@ const Lookbook = () => {
       const { offsetWidth } = SwiperSlideRef.current;
       setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetWidth}px` });
     }
-  };
+  };;
 
   const handleResize = () => {
     updateSize();
@@ -126,7 +129,6 @@ const Lookbook = () => {
       for (let entry of entries) {
         const { width, height } = entry.contentRect;
         setDynamicSize({ w: `${width}px`, h: `${height}px` });
-        console.log("Resized:", width, height);
       }
     });
 
@@ -146,6 +148,12 @@ const Lookbook = () => {
     };
   }, []);
 
+
+  useEffect(() => {
+    setImageLoadError({})
+  }, [currentPage, filterChecked])
+
+
   const handlePrevious = () => {
     if (swiper !== null) {
       swiper.slidePrev();
@@ -158,9 +166,85 @@ const Lookbook = () => {
     }
   };
 
+  const CustomLabel = ({ text }) => (
+    <Typography
+      sx={{
+        fontFamily: "sans-serif",
+        fontSize: {
+          xs: "13.2px !important", // Mobile screens
+          sm: "14.1px !important", // Tablets
+          md: "15.2px !important", // Desktop screens
+          lg: "15.6px !important", // Large desktops
+          xl: "15.8px !important", // Extra large screens
+        },
+      }}
+    >
+      {text}
+    </Typography>
+  );
+
+  // useEffect(() => {
+  //   setImageLoadError({});
+  //   let storeinit = JSON?.parse(sessionStorage.getItem("storeInit"));
+  //   setStoreInit(storeinit);
+
+  //   let data = JSON?.parse(sessionStorage.getItem("storeInit"));
+  //   setImageUrl(data?.DesignSetImageFol);
+  //   setImageUrlDesignSet(data?.CDNDesignImageFol);
+  //   // setImageUrlDesignSet(data?.DesignImageFol);
+
+  //   const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+  //   const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
+  //   const { IsB2BWebsite } = storeInit;
+  //   const visiterID = Cookies.get("visiterId");
+  //   let finalID;
+  //   if (IsB2BWebsite == 0) {
+  //     finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
+  //   } else {
+  //     finalID = loginUserDetail?.id || "0";
+  //   }
+
+  //   Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, {}, currentPage, itemsPerPage)
+  //     .then((response) => {
+  //       if (response?.Data?.rd) {
+  //         setDesignSetListData(response?.Data?.rd);
+  //         setDstCount(response?.Data?.rd1[0]?.TotalCount)
+
+  //         const initialCartItems = response?.Data?.rd.flatMap((slide) =>
+  //           parseDesignDetails(slide?.Designdetail)
+  //             .filter((detail) => detail?.IsInCart === 1)
+  //             .map((detail) => detail.autocode)
+  //         );
+  //         setIsProdLoading(false);
+  //         setCartItems((prevCartItems) => [
+  //           ...new Set([...prevCartItems, ...initialCartItems]),
+  //         ]); // Use Set to avoid duplicates
+  //       }
+  //     })
+  //     .catch((err) => console.log(err))
+  //     .finally(() => {
+  //       setIsProdLoading(false);
+  //     });
+  // }, []);
+
+  const prevFilterChecked = useRef();
+
   useEffect(() => {
+    setImageLoadError({});
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+
+    // Store the previous filterChecked state
+    const previousChecked = prevFilterChecked.current;
+    prevFilterChecked.current = filterChecked;
+
+    const isFilterChanged = JSON.stringify(previousChecked) !== JSON.stringify(filterChecked);
+
+    // If the filter has changed (or its length is > 0), reset page to 1, otherwise keep the current page
+    if (isFilterChanged) {
+      setCurrentPage(1);
+      setInputPage(1);
+    }
 
     setStoreInit(storeInit);
     setImageUrl(storeInit?.DesignSetImageFol);
@@ -175,25 +259,23 @@ const Lookbook = () => {
 
     const output = FilterValueWithCheckedOnly();
 
-    if (Object.keys(filterChecked)?.length >= 0) {
-      setIsProdLoading(true); // Start loading state
+    if (Object?.keys(filterChecked)?.length >= 0) {
+      setIsProdLoading(true);
       setIsPgLoading(true);
-
-      // API call
-      Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output, currentPage, itemsPerPage)
+      Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output, isFilterChanged ? 1 : currentPage, itemsPerPage)
         .then((response) => {
           if (response?.Data?.rd) {
             setDesignSetListData(response?.Data?.rd);
             setDstCount(response?.Data?.rd1[0]?.TotalCount);
 
-            // Extract initial cart items
             const initialCartItems = response?.Data?.rd.flatMap((slide) =>
               parseDesignDetails(slide?.Designdetail)
                 .filter((detail) => detail?.IsInCart === 1)
                 .map((detail) => detail.autocode)
             );
+            setIsProdLoading(false);
             setCartItems((prevCartItems) => [
-              ...new Set([...prevCartItems, ...initialCartItems]),
+              ...new Set([...prevCartItems, ...initialCartItems]), // Use Set to avoid duplicates
             ]);
           }
         })
@@ -203,52 +285,8 @@ const Lookbook = () => {
           setIsPgLoading(false);
         });
     }
-  }, [filterChecked, currentPage, islogin]);
+  }, [filterChecked, islogin]);
 
-  // useEffect(() => {
-  //   let storeinit = JSON?.parse(sessionStorage.getItem("storeInit"));
-  //   setStoreInit(storeinit);
-
-  //   let data = JSON?.parse(sessionStorage.getItem("storeInit"));
-  //   // setImageUrl(data?.DesignSetImageFol);
-  //   // setImageUrlDesignSet(data?.DesignImageFol);
-  //   setImageUrl(data?.DesignSetImageFol);
-  //   setImageUrlDesignSet(data?.CDNDesignImageFol);
-
-  //   const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
-  //   const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
-  //   const { IsB2BWebsite } = storeInit;
-  //   const visiterID = Cookies.get("visiterId");
-  //   let finalID;
-  //   if (IsB2BWebsite == 0) {
-  //     finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
-  //   } else {
-  //     finalID = loginUserDetail?.id || "0";
-  //   }
-
-  //   Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
-  //     .then((response) => {
-  //       if (response?.Data?.rd) {
-  //         setDesignSetListData(response?.Data?.rd);
-  //         setDstCount(response?.Data?.rd1[0]?.TotalCount)
-  //         const initialCartItems = response?.Data?.rd.flatMap((slide) =>
-  //           parseDesignDetails(slide?.Designdetail)
-  //             .filter((detail) => detail?.IsInCart === 1)
-  //             .map((detail) => detail.autocode)
-  //         );
-  //         setIsProdLoading(false);
-  //         setIsPgLoading(false)
-  //         setCartItems((prevCartItems) => [
-  //           ...new Set([...prevCartItems, ...initialCartItems]),
-  //         ]); // Use Set to avoid duplicates
-  //       }
-  //     })
-  //     .catch((err) => console.log(err))
-  //     .finally(() => {
-  //       setIsProdLoading(false);
-  //       setIsPgLoading(false);
-  //     });
-  // }, []);
 
   useEffect(() => {
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
@@ -261,7 +299,6 @@ const Lookbook = () => {
     } else {
       finalID = loginUserDetail?.id || "0";
     }
-
     let productlisttype = {
       FilterKey: "GETDesignSet_List",
       FilterVal: "GETDesignSet_List",
@@ -273,8 +310,9 @@ const Lookbook = () => {
   }, []);
 
   const handelFilterClearAll = () => {
-    if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
+    if (Object?.values(filterChecked)?.filter((ele) => ele?.checked)?.length > 0) {
       setFilterChecked({});
+      setThumbsSwiper(null)
     }
   };
 
@@ -333,6 +371,12 @@ const Lookbook = () => {
   };
 
   // useEffect(() => {
+  //   // if(Object.keys(filterChecked).length === 0 ){
+  //   // console.log("bypass no data")
+  //   // return  ;
+  //   // }else{
+  //   console.log(filterChecked, "bypass")
+  //   setImageLoadError({});
   //   const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
   //   const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
   //   const { IsB2BWebsite } = storeInit;
@@ -346,6 +390,7 @@ const Lookbook = () => {
   //   }
 
   //   let output = FilterValueWithCheckedOnly();
+
   //   if (Object.keys(filterChecked)?.length >= 0) {
   //     Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output, currentPage, itemsPerPage)
   //       .then((response) => {
@@ -366,6 +411,7 @@ const Lookbook = () => {
   //       })
   //       .catch((err) => console.log(err));
   //   }
+  //   // }
   // }, [filterChecked, currentPage]);
 
   const ProdCardImageFunc = (pd) => {
@@ -432,10 +478,6 @@ const Lookbook = () => {
       setCartItems((prevCartItems) => {
         const updatedCartItems = prevCartItems.filter(
           (item) => item !== ele?.autocode
-        );
-        console.log(
-          "Updated cartItems inside setState callback:",
-          updatedCartItems
         );
         return updatedCartItems;
       });
@@ -508,34 +550,44 @@ const Lookbook = () => {
       d: loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
       c: loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid,
       f: {},
-      g: [["", ""], ["", "", ""]],
     };
     let encodeObj = compressAndEncode(JSON?.stringify(obj));
-    navigate(
-      `/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
-      }${designNo}?p=${encodeObj}`
-    );
+    // navigate(
+    //   `/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
+    //   }${designNo}?p=${encodeObj}`
+    // );
+    navigate(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
   };
 
-  const [selectedCategories, setSelectedCategories] = useState([]);
 
   useEffect(() => {
+    // const storedCategories = JSON.parse(sessionStorage.getItem('selectedCategories')) || [];
+    // setSelectedCategories(storedCategories);
+
     const categoryOptions = JSON?.parse(
       filterData?.find((item) => item.id === "category")?.options ?? "[]"
     );
     const categoryNames = categoryOptions?.map((opt) => opt.Name);
-    setSelectedCategories(categoryNames);
+    setSelectedCategories((prevSelected) => {
+      return prevSelected.length > 0 ? prevSelected : categoryNames;
+    });
   }, [filterData]);
 
   const handleCheckboxChangeNew = (e, categoryId) => {
     const isChecked = e.target.checked;
-    if (isChecked) {
-      setSelectedCategories((prevSelected) => [...prevSelected, categoryId]);
-    } else {
-      setSelectedCategories((prevSelected) =>
-        prevSelected.filter((id) => id !== categoryId)
-      );
-    }
+
+    // Update selectedCategories state
+    setSelectedCategories((prevSelected) => {
+      const updatedSelected = isChecked
+        ? [...prevSelected, categoryId]
+        : prevSelected.filter((id) => id !== categoryId);
+
+      // Persist the selected categories in sessionStorage
+      // sessionStorage.setItem('selectedCategories', JSON.stringify(updatedSelected));
+      handelPageChange("", 1)
+
+      return updatedSelected;
+    });
   };
 
   const filterDesignSetsByCategory = (designSetLstData, selectedCategories) => {
@@ -605,7 +657,8 @@ const Lookbook = () => {
   //   setSelectedValue(event.target.value);
   // };
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event) => {
+    const newValue = parseInt(event.target.value);
     if (newValue !== null) {
       setSelectedValue(newValue);
       setThumbsSwiper(null);
@@ -634,7 +687,6 @@ const Lookbook = () => {
     </div>
   );
 
-
   function checkImageAvailability(imageUrl) {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -644,46 +696,18 @@ const Lookbook = () => {
     });
   }
 
-  const CustomLabel = ({ text }) => (
-    <Typography
-      sx={{
-        fontFamily: "sans-serif",
-        fontSize: {
-          xs: "13.2px !important", // Mobile screens
-          sm: "14.1px !important", // Tablets
-          md: "15.2px !important", // Desktop screens
-          lg: "15.6px !important", // Large desktops
-          xl: "15.8px !important", // Extra large screens
-        },
-      }}
-    >
-      {text}
-    </Typography>
-  );
-
-  const isCategoryPresent = filterData?.some(ele => ele?.Name === "Category" && ele?.id === "category");
-
-  const handelPageChange = (event, value) => {
-    window.scrollTo({
-      behavior: "smooth",
-      top: 0
-    })
-    setCurrentPage(value);
-    setThumbsSwiper(null);
-    setIsPgLoading(true);
-  };
 
   useEffect(() => {
     if (filteredDesignSetLstData && Array.isArray(filteredDesignSetLstData)) {
       const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
         parseDesignDetails(slide?.Designdetail).map(async (detail) => {
-          // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
           const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`;
-
-          const isAvailable = await checkImageAvailability(designImageUrl);
+          // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
+          // const isAvailable = await checkImageAvailability(designImageUrl);
           return {
             designno: detail?.designno,
-            src: isAvailable ? designImageUrl : imageNotFound,
+            src: designImageUrl,
+            // src: isAvailable ? designImageUrl : imageNotFound,
           };
         })
       );
@@ -703,6 +727,66 @@ const Lookbook = () => {
       });
     }
   }, [filteredDesignSetLstData, imageUrlDesignSet]);
+
+  const totalPages = Math.ceil(dstCount / itemsPerPage);
+
+  // pagination HandleChange Function for change page
+  const handelPageChange = (event, value) => {
+    setThumbsSwiper(null);
+    setCurrentPage(value);
+    setInputPage(value);
+    const { IsB2BWebsite } = storeInit || {};
+    const visiterID = Cookies.get("visiterId");
+
+    const finalID = IsB2BWebsite === 0
+      ? (islogin === false ? visiterID : loginUserDetail?.id || "0")
+      : loginUserDetail?.id || "0";
+
+    const output = FilterValueWithCheckedOnly();
+
+    if (Object.keys(filterChecked)?.length >= 0) {
+      setIsProdLoading(true);
+      setIsPgLoading(true);
+      Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output, value, itemsPerPage)
+        .then((response) => {
+          if (response?.Data?.rd) {
+            setDesignSetListData(response?.Data?.rd);
+            setDstCount(response?.Data?.rd1[0]?.TotalCount);
+
+            const initialCartItems = response?.Data?.rd.flatMap((slide) =>
+              parseDesignDetails(slide?.Designdetail)
+                .filter((detail) => detail?.IsInCart === 1)
+                .map((detail) => detail.autocode)
+            );
+            setIsProdLoading(false);
+            setCartItems((prevCartItems) => [
+              ...new Set([...prevCartItems, ...initialCartItems]), // Use Set to avoid duplicates
+            ]);
+          }
+        })
+        .catch((err) => console.error(err))
+        .finally(() => {
+          setIsProdLoading(false);
+          setIsPgLoading(false);
+        });
+    }
+    window.scrollTo({
+      behavior: 'smooth',
+      top: 0
+    })
+  };
+
+  // Handle page change using the editable input
+  const handlePageInputChange = (event) => {
+    if (event.key === 'Enter') {
+      let newPage = parseInt(inputPage, 10);
+      if (newPage < 1) newPage = 1; // Ensure the page is at least 1
+      if (newPage > totalPages) newPage = totalPages; // Ensure the page doesn't exceed total pages
+      setCurrentPage(newPage);
+      setInputPage(newPage);
+      handelPageChange("", newPage);
+    }
+  };
 
   return (
     <div className="el_LookBookMain">
@@ -725,7 +809,7 @@ const Lookbook = () => {
                 onClick={() => setIsDrawerOpen(false)}
               />
             </div>
-            <div style={{ marginTop: '3rem' }}>
+            <div style={{ marginTop: '3rem', display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <Box className="elv_filter_text">
                 <Typography sx={{
                   color: "gray !important",
@@ -735,7 +819,7 @@ const Lookbook = () => {
                   fontFamily: "sans-serif",
                 }}>Filters</Typography>
               </Box>
-              <span onClick={() => handelFilterClearAll()}>
+              <span style={{ cursor: "pointer" }} onClick={() => handelFilterClearAll()}>
                 {Object.values(filterChecked).filter((ele) => ele.checked)
                   ?.length > 0
                   ? "Clear All"
@@ -855,7 +939,7 @@ const Lookbook = () => {
                         </AccordionDetails>
                       </Accordion>
                     )}
-                   {storeInit?.IsPriceShow == 1 &&  ele?.id?.includes("Price") && (
+                  {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                     <Accordion
                       elevation={0}
                       sx={{
@@ -1139,7 +1223,8 @@ const Lookbook = () => {
                 {/* <HtmlTooltip
                   title={selectedCategories?.length != 0 && <CustomTooltipContent categories={selectedCategories} />}
                 > */}
-                {isCategoryPresent && <button
+                {/* {isCategoryPresent && */}
+                <button
                   onClick={handleOpen}
                   className="el_lookBookSelectViewBtn"
                   style={{
@@ -1149,7 +1234,8 @@ const Lookbook = () => {
                   }}
                 >
                   Set View
-                </button>}
+                </button>
+                {/* } */}
                 {/* </HtmlTooltip> */}
                 <ToggleButtonGroup
                   size="medium"
@@ -1217,7 +1303,7 @@ const Lookbook = () => {
                         onClick={() => setIsDrawerOpen1(false)}
                       />
                     </div>
-                    <div style={{ marginTop: '3rem' }}>
+                    <div style={{ marginTop: '3rem', display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <Box className="elv_filter_text" >
                         <Typography sx={{
                           color: "gray !important",
@@ -1227,7 +1313,7 @@ const Lookbook = () => {
                           fontFamily: "sans-serif",
                         }}>Filters</Typography>
                       </Box>
-                      <span onClick={() => handelFilterClearAll()}>
+                      <span style={{ cursor: "pointer" }} onClick={() => handelFilterClearAll()}>
                         {Object.values(filterChecked).filter((ele) => ele.checked)
                           ?.length > 0
                           ? "Clear All"
@@ -1354,7 +1440,7 @@ const Lookbook = () => {
                                 </AccordionDetails>
                               </Accordion>
                             )}
-                           {storeInit?.IsPriceShow == 1 &&  ele?.id?.includes("Price") && (
+                          {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                             <Accordion
                               elevation={0}
                               sx={{
@@ -1589,7 +1675,7 @@ const Lookbook = () => {
                                 className="el_lookBookImgDeatilSub"
                                 style={{ display: "flex", alignItems: "center" }}
                               >
-                             {storeInit?.IsPriceShow == 1 &&     <p
+                                {storeInit?.IsPriceShow == 1 && <p
                                   style={{
                                     margin: "0px 10px 0px 0px",
                                     fontSize: "15px",
@@ -1820,7 +1906,7 @@ const Lookbook = () => {
                                     className="el_lookBookImgDeatilSub"
                                     style={{ display: "flex", alignItems: "center" }}
                                   >
-                                    {storeInit?.IsPriceShow == 1 &&  <p
+                                    {storeInit?.IsPriceShow == 1 && <p
                                       style={{
                                         margin: "0px 10px 0px 0px",
                                         fontSize: "15px",
@@ -2120,111 +2206,113 @@ const Lookbook = () => {
                                     >
                                       <p className="el_lb3designList_title" >{slide?.designsetno}</p>
                                       <div className="el_lb3_prodtDivs2">
-                                        {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((ele, subIndex) => (
-                                          <div
-                                            key={subIndex}
-                                            className="el_lb3completethelook_outer"
-                                            style={{
-                                              borderTop: subIndex !== 0 ? "none" : "",
-                                              width: "513px",
-                                              padding: "5px",
-                                              border: "1px solid #e1e1e1",
-                                              backgroundColor: "#fff",
-                                            }}
-                                          >
+                                        {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((ele, subIndex) => {
+                                          const imageSrc = imageSources[ele?.designno] || imageNotFound;
+                                          return (
                                             <div
-                                              className="el_lookbookMainDivdata"
+                                              key={subIndex}
+                                              className="el_lb3completethelook_outer"
                                               style={{
-                                                display: "flex",
-                                                gap: "40px",
-                                                justifyContent: "space-around",
+                                                borderTop: subIndex !== 0 ? "none" : "",
+                                                width: "513px",
+                                                padding: "5px",
+                                                border: "1px solid #e1e1e1",
+                                                backgroundColor: "#fff",
                                               }}
                                             >
-                                              <div className="el_lb3ImageDiv" style={{ marginLeft: "12px" }}>
-                                                <img
-                                                  src={
-                                                    ele?.ImageCount > 0
-                                                      ? `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`
-                                                      : imageNotFound
-                                                  }
-                                                  onError={(e) => {
-                                                    e.target.src = imageNotFound;
-                                                  }}
-                                                  alt=""
-                                                  className="el_lb3srthelook_img"
-                                                  onClick={() =>
-                                                    handleNavigation(
-                                                      ele?.designno,
-                                                      ele?.autocode,
-                                                      ele?.TitleLine
-                                                        ? ele?.TitleLine
-                                                        : ""
-                                                    )
-                                                  }
-                                                />
-                                              </div>
-                                              <div className="el_lb3srthelook_prodinfo" onClick={() =>
-                                                handleNavigation(
-                                                  ele?.designno,
-                                                  ele?.autocode,
-                                                  ele?.TitleLine
-                                                    ? ele?.TitleLine
-                                                    : ""
-                                                )
-                                              }>
-                                                <div
-                                                  style={{
-                                                    fontSize: "14px",
-                                                    color: "#7d7f85",
-                                                    textTransform: "uppercase",
-                                                  }}
-                                                  className="el_lb3srthelook_prodinfo_inner"
-                                                >
-                                                  <p>
-                                                    <span>
-                                                      {ele?.designno} - {ele?.CategoryName}
-                                                    </span>
-                                                    <br />
-
-                                                    {storeInit?.IsGrossWeight == 1 &&
-                                                      <>
-                                                        <span className='el_lb3detailDT'>GWT: </span>
-                                                        <span className='el_lb3detailDT'>{(ele?.Gwt || 0)?.toFixed(3)}</span>
-                                                      </>
+                                              <div
+                                                className="el_lookbookMainDivdata"
+                                                style={{
+                                                  display: "flex",
+                                                  gap: "40px",
+                                                  justifyContent: "space-around",
+                                                }}
+                                              >
+                                                <div className="el_lb3ImageDiv" style={{ marginLeft: "12px" }}>
+                                                  <img
+                                                    src={
+                                                      ele?.ImageCount > 0
+                                                        ? `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`
+                                                        : imageNotFound
                                                     }
-
-                                                    {Number(ele?.Nwt) !== 0 && (
-                                                      <>
-                                                        <span className='el_lb3pipe'> | </span>
-                                                        <span className='el_lb3detailDT'>NWT : </span>
-                                                        <span className='el_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
-                                                      </>
-                                                    )}
-
-                                                    {storeInit?.IsGrossWeight == 1 &&
-                                                      <>
-                                                        {(ele?.Dwt != "0" || ele?.Dpcs != "0") &&
-                                                          <>
-                                                            <span className='el_lb3pipe'> | </span>
-                                                            <span className='el_lb3detailDT'>DWT: </span>
-                                                            <span className='el_lb3detailDT'>{(ele?.Dwt || 0)?.toFixed(3)} / {(ele?.Dpcs || 0)}</span>
-                                                          </>
-                                                        }
-                                                      </>
+                                                    onError={(e) => {
+                                                      e.target.src = imageNotFound;
+                                                    }}
+                                                    alt=""
+                                                    className="el_lb3srthelook_img"
+                                                    onClick={() =>
+                                                      handleNavigation(
+                                                        ele?.designno,
+                                                        ele?.autocode,
+                                                        ele?.TitleLine
+                                                          ? ele?.TitleLine
+                                                          : ""
+                                                      )
                                                     }
-                                                    {storeInit?.IsStoneWeight == 1 &&
-                                                      <>
-                                                        {(ele?.CSwt != "0" || ele?.CSpcs != "0") &&
-                                                          <>
-                                                            <span className='el_lb3pipe'> | </span>
-                                                            <span className='el_lb3detailDT'>CWT: </span>
-                                                            <span className='el_lb3detailDT'>{(ele?.CSwt || 0)?.toFixed(3)} /{(ele?.CSpcs || 0)}</span>
-                                                          </>
-                                                        }
-                                                      </>
-                                                    }
-                                                    <br />
-                                                    {/* <span
+                                                  />
+                                                </div>
+                                                <div className="el_lb3srthelook_prodinfo" onClick={() =>
+                                                  handleNavigation(
+                                                    ele?.designno,
+                                                    ele?.autocode,
+                                                    ele?.TitleLine
+                                                      ? ele?.TitleLine
+                                                      : ""
+                                                  )
+                                                }>
+                                                  <div
+                                                    style={{
+                                                      fontSize: "14px",
+                                                      color: "#7d7f85",
+                                                      textTransform: "uppercase",
+                                                    }}
+                                                    className="el_lb3srthelook_prodinfo_inner"
+                                                  >
+                                                    <p>
+                                                      <span>
+                                                        {ele?.designno} - {ele?.CategoryName}
+                                                      </span>
+                                                      <br />
+
+                                                      {storeInit?.IsGrossWeight == 1 &&
+                                                        <>
+                                                          <span className='el_lb3detailDT'>GWT: </span>
+                                                          <span className='el_lb3detailDT'>{(ele?.Gwt || 0)?.toFixed(3)}</span>
+                                                        </>
+                                                      }
+
+                                                      {Number(ele?.Nwt) !== 0 && (
+                                                        <>
+                                                          <span className='el_lb3pipe'> | </span>
+                                                          <span className='el_lb3detailDT'>NWT : </span>
+                                                          <span className='el_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
+                                                        </>
+                                                      )}
+
+                                                      {storeInit?.IsGrossWeight == 1 &&
+                                                        <>
+                                                          {(ele?.Dwt != "0" || ele?.Dpcs != "0") &&
+                                                            <>
+                                                              <span className='el_lb3pipe'> | </span>
+                                                              <span className='el_lb3detailDT'>DWT: </span>
+                                                              <span className='el_lb3detailDT'>{(ele?.Dwt || 0)?.toFixed(3)} / {(ele?.Dpcs || 0)}</span>
+                                                            </>
+                                                          }
+                                                        </>
+                                                      }
+                                                      {storeInit?.IsStoneWeight == 1 &&
+                                                        <>
+                                                          {(ele?.CSwt != "0" || ele?.CSpcs != "0") &&
+                                                            <>
+                                                              <span className='el_lb3pipe'> | </span>
+                                                              <span className='el_lb3detailDT'>CWT: </span>
+                                                              <span className='el_lb3detailDT'>{(ele?.CSwt || 0)?.toFixed(3)} /{(ele?.CSpcs || 0)}</span>
+                                                            </>
+                                                          }
+                                                        </>
+                                                      }
+                                                      <br />
+                                                      {/* <span
                                               className="elv_currencyFont"
                                               dangerouslySetInnerHTML={{
                                                 __html: decodeEntities(
@@ -2232,51 +2320,52 @@ const Lookbook = () => {
                                                 ),
                                               }}
                                             /> */}
-                                             {storeInit?.IsPriceShow == 1 &&  <>
-                                                    <span
-                                                      className="elv_currencyFont"
-                                                      >
-                                                      {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                                    </span>
-                                                    &nbsp;
-                                                    {formatter(ele?.UnitCostWithMarkUp)}
+                                                      {storeInit?.IsPriceShow == 1 && <>
+                                                        <span
+                                                          className="elv_currencyFont"
+                                                        >
+                                                          {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                        </span>
+                                                        &nbsp;
+                                                        {formatter(ele?.UnitCostWithMarkUp)}
                                                       </>}
-                                                  </p>
+                                                    </p>
+                                                  </div>
+                                                </div>
+                                                <div
+                                                  style={{
+                                                    display: "flex",
+                                                    justifyContent: "end",
+                                                    alignItems: "center",
+                                                    marginBottom: "5px",
+                                                  }}
+                                                  className="el_lb3cartIconBtnDiv"
+                                                >
+                                                  {cartItems.includes(ele?.autocode) ? (
+                                                    <IconButton
+                                                      onClick={() => handleRemoveCart(ele)}
+                                                    >
+                                                      <LocalMallIcon className="el_lookBookINCartIconBtn" />
+                                                    </IconButton>
+                                                  ) : (
+                                                    <IconButton
+                                                      onClick={() => handleAddToCart(ele)}
+                                                    >
+                                                      <LocalMallOutlinedIcon className="el_lookBookAddtoCartIconBtn" />
+                                                    </IconButton>
+                                                  )}
+
+
                                                 </div>
                                               </div>
-                                              <div
-                                                style={{
-                                                  display: "flex",
-                                                  justifyContent: "end",
-                                                  alignItems: "center",
-                                                  marginBottom: "5px",
-                                                }}
-                                                className="el_lb3cartIconBtnDiv"
-                                              >
-                                                {cartItems.includes(ele?.autocode) ? (
-                                                  <IconButton
-                                                    onClick={() => handleRemoveCart(ele)}
-                                                  >
-                                                    <LocalMallIcon className="el_lookBookINCartIconBtn" />
-                                                  </IconButton>
-                                                ) : (
-                                                  <IconButton
-                                                    onClick={() => handleAddToCart(ele)}
-                                                  >
-                                                    <LocalMallOutlinedIcon className="el_lookBookAddtoCartIconBtn" />
-                                                  </IconButton>
-                                                )}
-
-
-                                              </div>
                                             </div>
-                                          </div>
-                                        ))}
+                                          )
+                                        })}
                                       </div>
                                       <div
                                         className="el_lb3TotalBtnGroups"
                                       >
-                                       {storeInit?.IsPriceShow == 1 &&   <div className="el_lb3TotalPrice">
+                                        {storeInit?.IsPriceShow == 1 && <div className="el_lb3TotalPrice">
                                           <span>
                                             <span
                                               className="elv_currencyFont"
@@ -2420,26 +2509,43 @@ const Lookbook = () => {
           BACK TO TOP
         </p>
       </div> */}
-      <div className="elv_lpDiv">
-        <MuiPagination
-          count={Math.ceil(dstCount / itemsPerPage)}
-          size={maxwidth464px ? "small" : "large"}
-          shape="circular"
-          onChange={handelPageChange}
-          page={currentPage}
-          disabled={false}
-          renderItem={(item) => (
-            <PaginationItem
-              {...item}
-              sx={{
-                pointerEvents: item.page === currentPage ? 'none' : 'auto',
-              }}
+      {storeInit?.IsProductListPagination == 1 &&
+        Math.ceil(dstCount / itemsPerPage)
+        > 1 && (
+          <div className="elv_lpDiv">
+            {/* <MuiPagination
+              count={Math.ceil(dstCount / itemsPerPage)}
+              size={maxwidth464px ? "small" : "large"}
+              shape="circular"
+              onChange={handelPageChange}
+              page={currentPage}
+              disabled={false}
+              renderItem={(item) => (
+                <PaginationItem
+                  {...item}
+                  sx={{
+                    pointerEvents: item.page === currentPage ? 'none' : 'auto',
+                  }}
+                />
+              )}
+            // showFirstButton
+            // showLastButton
+            /> */}
+            <EditablePagination
+              currentPage={currentPage}
+              totalItems={dstCount}
+              itemsPerPage={itemsPerPage}
+              onPageChange={handelPageChange}
+              inputPage={inputPage}
+              setInputPage={setInputPage}
+              handlePageInputChange={handlePageInputChange}
+              maxwidth464px={maxwidth464px}
+              totalPages={totalPages}
+              currPage={currentPage}
+              isShowButton={false}
             />
-          )}
-        // showFirstButton
-        // showLastButton
-        />
-      </div>
+          </div>
+        )}
     </div>
   );
 };

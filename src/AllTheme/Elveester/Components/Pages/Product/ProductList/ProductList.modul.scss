@@ -1144,6 +1144,13 @@
     justify-content: center;
     margin-top: 5%;
     width: 100%;
+
+    @media (max-width: 720px) {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
   }
 
   @media screen and (max-width: 1690px) {

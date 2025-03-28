@@ -14,12 +14,15 @@ export default function ContimueWithMobile() {
     const [isLoading, setIsLoading] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [buttonFocused, setButtonFocused] = useState(false);
+    const [storeInit, setStoreInit] = useState({});
     const navigation = useNavigate();
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(false)
     const [Countrycodestate, setCountrycodestate] = useState();
-    console.log('Countrycodestate: ', typeof Countrycodestate);
 
+    useEffect(() => {
+        setStoreInit(JSON.parse(sessionStorage.getItem('storeInit')));
+    }, [])
 
     const search = location?.search
     const redirectMobileUrl = `/LoginWithMobileCode/${search}`;
@@ -103,6 +106,8 @@ export default function ContimueWithMobile() {
                 // navigation(redirectSignUpUrl, { state: { mobileNo: mobileNo } });
                 if (Countrycodestate != "91") {
                     navigation(redirectSignUpUrl, { state: { mobileNo: mobileNo, code: Countrycodestate, SecurityKey: SecurityKey } });
+                } else if (Countrycodestate == "91" && storeInit?.IsEcomOtpVerification == 0) {
+                    navigation(redirectSignUpUrl, { state: { mobileNo: mobileNo, code: Countrycodestate, SecurityKey: SecurityKey } });
                 } else {
                     sessionStorage.setItem('Countrycodestate', Countrycodestate)
                     sessionStorage.setItem('registerMobile', mobileNo)
@@ -138,12 +143,14 @@ export default function ContimueWithMobile() {
                 </div>
             )}
             <div>
-                <OTPContainer mobileNo={mobileNo.trim()} isOpen={isOpen} type='mobile' setIsOpen={() => setIsOpen(!isOpen)} onClose={() => setIsOpen(false)}
-                    navigation={navigation}
-                    location={location}
-                    onResend={handleSubmit}
-                    isLoading={isLoading}
-                />
+                {((storeInit?.IsEcomOtpVerification && storeInit?.IsEcomOtpVerification === 1) && Countrycodestate == "91") ? (
+                    <OTPContainer mobileNo={mobileNo.trim()} isOpen={isOpen} type='mobile' setIsOpen={() => setIsOpen(!isOpen)} onClose={() => setIsOpen(false)}
+                        navigation={navigation}
+                        location={location}
+                        onResend={handleSubmit}
+                        isLoading={isLoading}
+                    />
+                ) : null}
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',

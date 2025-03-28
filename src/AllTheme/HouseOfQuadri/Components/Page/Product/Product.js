@@ -106,7 +106,7 @@ const ProductPage = () => {
   const [ShowMdesc, setShowMdesc] = useState(false);
   const [saveLastView, setSaveLastView] = useState();
 
-  
+
 
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
@@ -1087,7 +1087,7 @@ const ProductPage = () => {
     //   }${productData?.designno}?p=${encodeObj}`
     // );
     Navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
-    
+
     setSingleProd1({});
     setSingleProd({});
     setIsImageLoad(true);

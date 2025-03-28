@@ -32,6 +32,7 @@ import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/D
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
 import ShippingDrp from "../../ReusableComponent/ShippingDrp/ShippingDrp";
 import ScrollTop from "../../ReusableComponent/ScrollTop/ScrollTop";
+import EditablePagination from "../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
 
 
 const ProductList = () => {
@@ -49,6 +50,8 @@ const ProductList = () => {
   const mtColorLocal = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
   let cookie = Cookies.get("visiterId");
   const videoRef = useRef(null);
+
+  const isEditablePage = 1;
 
   const dynamicParams = (categoryValue, category) => {
     const getMenuParams = JSON.parse(sessionStorage?.getItem('menuparams'));
@@ -157,6 +160,7 @@ const ProductList = () => {
   const [imageMap, setImageMap] = useState({});
   const [highestPrice, setHighestPrice] = useState();
   const [lowestPrice, setLowestPrice] = useState();
+  const [inputPage, setInputPage] = useState(currPage);
 
   const setCartCountVal = useSetRecoilState(for_CartCount);
   const setWishCountVal = useSetRecoilState(for_WishCount);
@@ -658,6 +662,7 @@ const ProductList = () => {
       setLocationKey(location?.key);
     }
     setCurrPage(1);
+    setInputPage(1);
   }, [location?.key]);
 
 
@@ -796,6 +801,7 @@ const ProductList = () => {
 
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
     setCurrPage(1);
+    setInputPage(1);
     setIsOnlyProdLoading(true)
     let sortby = e.target?.value
 
@@ -836,6 +842,8 @@ const ProductList = () => {
   ]
 
   const handlePriceSliderChange = async (event, newValue) => {
+    setCurrPage(1);
+    setInputPage(1);
     const roundedValue = newValue.map(val => parseInt(val));
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
     let pricerange = { PriceMin: newValue[0], PriceMax: newValue[1] };
@@ -845,13 +853,16 @@ const ProductList = () => {
   };
 
   const handleCaratSliderChange = (event, newValue) => {
+    setCurrPage(1);
+    setInputPage(1);
     const roundedValue = newValue.map(val => parseFloat(val.toFixed(3)));
     setCaratRangeValue(roundedValue)
     handleButton(5, roundedValue); // index 5 is the index for carat range
   };
 
   const handleButton = (dropdownIndex, value) => {
-
+    setCurrPage(1);
+    setInputPage(1);
     setSelectedValues(prev => {
       const existingIndex = prev.findIndex(item => item.dropdownIndex === dropdownIndex);
       const newValue = { dropdownIndex, value };
@@ -970,11 +981,27 @@ const ProductList = () => {
     setSelectedValues(defaultValues);
   };
 
+  const totalPages = Math.ceil(
+    afterFilterCount / storeInit.PageSize
+  );
+
+  const handlePageInputChange = (event) => {
+    if (event.key === 'Enter') {
+      let newPage = parseInt(inputPage, 10);
+      if (newPage < 1) newPage = 1;
+      if (newPage > totalPages) newPage = totalPages;
+      setCurrPage(newPage);
+      setInputPage(newPage);
+      handelPageChange("", newPage);
+    }
+  };
+
 
   const handelPageChange = (event, value) => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     setIsProdLoading(true);
     setCurrPage(value)
+    setInputPage(value)
     setTimeout(() => {
       window.scroll({
         top: 0,
@@ -1449,36 +1476,63 @@ const ProductList = () => {
                 })
               )}
             </div>
-            {storeInit?.IsProductListPagination == 1 &&
-              Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginBlock: "3%",
-                    width: '100%'
-                  }}
-                >
-                  <Pagination
-                    count={Math.ceil(afterFilterCount / storeInit.PageSize)}
-                    size={maxwidth464px ? "small" : "large"}
-                    shape="circular"
-                    onChange={handelPageChange}
-                    page={currPage}
-                    showFirstButton
-                    showLastButton
-                    disabled={false}
-                    renderItem={(item) => (
-                      <PaginationItem
-                        {...item}
-                        sx={{
-                          pointerEvents: item.page === currPage ? 'none' : 'auto',
-                        }}
-                      />
-                    )}
+            {isEditablePage === 1 ? (
+              <>
+                {storeInit?.IsProductListPagination == 1 &&
+                  Math.ceil(
+                    afterFilterCount / storeInit.PageSize
+                  ) > 1 &&
+                  <EditablePagination
+                    currentPage={currPage}
+                    totalItems={afterFilterCount}
+                    itemsPerPage={storeInit.PageSize}
+                    onPageChange={handelPageChange}
+                    inputPage={inputPage}
+                    setInputPage={setInputPage}
+                    handlePageInputChange={handlePageInputChange}
+                    maxwidth464px={maxwidth464px}
+                    totalPages={totalPages}
+                    currPage={currPage}
+                    isShowButton={false}
                   />
-                </div>
-              )}
+                }
+              </>
+            ) : (
+              <>
+                {storeInit?.IsProductListPagination == 1 &&
+                  Math.ceil(afterFilterCount / storeInit.PageSize)
+                  > 1 && (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: "5%",
+                        width: '100%'
+                      }}
+                      className="smr_pagination_portion"
+                    >
+                      <Pagination
+                        count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                        size={maxwidth464px ? "small" : "large"}
+                        shape="circular"
+                        onChange={handelPageChange}
+                        page={currPage}
+                        showFirstButton
+                        showLastButton
+                        disabled={false}
+                        renderItem={(item) => (
+                          <PaginationItem
+                            {...item}
+                            sx={{
+                              pointerEvents: item.page === currPage ? 'none' : 'auto',
+                            }}
+                          />
+                        )}
+                      />
+                    </div>
+                  )}
+              </>
+            )}
           </div>
         </div >
       </div >

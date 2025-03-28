@@ -404,6 +404,7 @@
         gap: 5px;
         width: 75%;
         margin-inline: auto;
+        height: 100%;
         margin-top: 3rem;
 
         @media (max-width: 700px) {
@@ -665,7 +666,7 @@
 
         @media (max-width: 1200px) {
             .smrN_NewArr1Title {
-                font-size: 18px !important;
+                font-size: 25px !important;
             }
         }
 
@@ -705,7 +706,7 @@
 
         .smrN_NewArr1Title {
             text-align: left;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             // color: $titleColor;
             // font-family: $homePageFontFamily;
             // font-size: 28px;
@@ -715,8 +716,65 @@
             font-family: $homePageFontFamily;
 
             @media (max-width: 1200px) {
+                font-size: 25px !important;
+            }
+
+            @media (max-width: 400px) {
                 font-size: 20px !important;
             }
+        }
+
+        .smr1_lb3ctlImg_containe {
+            width: 60%;
+            height: 800px;
+
+            @media (max-width: 1800px) {
+                height: 750px;
+            }
+
+            @media (max-width: 1600px) {
+                height: 650px;
+            }
+
+            @media (max-width: 1400px) {
+                height: 550px;
+            }
+
+            @media (max-width: 1200px) {
+                height: 450px;
+            }
+
+            @media (max-width: 1000px) {
+                height: 400px;
+            }
+
+            @media (max-width: 900px) {
+                height: 550px;
+                width: 100%;
+            }
+
+            @media (max-width: 700px) {
+                height: 450px;
+                width: 100%;
+            }
+
+            @media (max-width: 500px) {
+                height: 350px;
+                width: 100%;
+            }
+
+            @media (max-width: 400px) {
+                height: 280px;
+                width: 100%;
+            }
+        }
+
+        .smr1_lb3ctl_img_new {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+            margin-top: 12px;
+            margin-bottom: -100px;
         }
 
 
@@ -1286,7 +1344,6 @@
         margin: 5px;
         padding: 15px;
         background-color: transparent;
-        height: 100%;
 
         @media (max-width: 768px) {
             padding: 10px;
@@ -2017,9 +2074,9 @@
 .smr1_newEactDesign {
     --swiper-navigation-size: 20px;
 
-    @media (min-width: 1760px) {
-        height: 57rem;
-    }
+    // @media (min-width: 1760px) {
+    //     height: 57rem;
+    // }
 
     .swiper-button-prev:after,
     .swiper-button-next:after {

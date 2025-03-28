@@ -169,7 +169,7 @@ export const fetchAPIUrlFromStoreInit = async () => {
 
       const fetchedData = await fetchWithRetry(path, 3, 200);
 
-      if (fetchedData) {
+      if (fetchedData && !getStoreInitData) {
         sessionStorage.setItem("storeInit", JSON.stringify(fetchedData.rd[0]));
       }
 
