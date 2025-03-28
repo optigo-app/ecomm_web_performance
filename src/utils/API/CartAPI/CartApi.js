@@ -32,6 +32,7 @@ export const fetchCartDetails = async (visiterId) => {
             DomainForNo: `${storeInit?.DomainForNo ?? ""}`,
             WebDiscount: islogin ? `${data?.WebDiscount ?? 0}` : `${0}`,
             IsZeroPriceProductShow: `${storeInit?.IsZeroPriceProductShow ?? 0}`,
+            IsSolitaireWebsite: `${storeInit?.IsSolitaireWebsite ?? 0}`,
         });
 
         const encodedCombinedValue = btoa(combinedValue);

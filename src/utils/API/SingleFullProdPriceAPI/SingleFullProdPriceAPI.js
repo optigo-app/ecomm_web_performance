@@ -44,6 +44,7 @@ export const SingleFullProdPriceAPI = async (obj, autocode) => {
     AutoCodeList: `${obj?.a}`,
     "WebDiscount": islogin ? `${loginUserDetail?.WebDiscount ?? 0}` : `${0}`,
     IsZeroPriceProductShow: `${storeInit?.IsZeroPriceProductShow ?? 0}`,
+    IsSolitaireWebsite: `${storeInit?.IsSolitaireWebsite ?? 0}`,
   };
 
   const encodedCombinedValue = btoa(JSON.stringify(GetPriceReq));

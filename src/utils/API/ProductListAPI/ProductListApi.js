@@ -172,6 +172,7 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
     TaxId: loginInfo?.TaxId || 0,
     "WebDiscount": islogin ? `${loginInfo?.WebDiscount ?? 0}` : `${0}`,
     IsZeroPriceProductShow: `${storeinit?.IsZeroPriceProductShow ?? 0}`,
+    IsSolitaireWebsite: `${storeinit?.IsSolitaireWebsite ?? 0}`,
   };
 
   let encData = JSON.stringify(data)

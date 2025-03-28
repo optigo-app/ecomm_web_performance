@@ -126,6 +126,7 @@ const ProductList = () => {
     loginUserDetail?.cmboDiaQCid
   );
 
+  const [isClearAllClicked, setIsClearAllClicked] = useState(false);
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
   const [close, setClose] = useState(false);
   const setCartCountVal = useSetRecoilState(el_CartCount);
@@ -210,8 +211,8 @@ const ProductList = () => {
       }
     }
 
-    setCurrPage(1);
-    setInputPage(1);
+    // setCurrPage(1);
+    // setInputPage(1);
 
     return output;
   };
@@ -225,6 +226,9 @@ const ProductList = () => {
   useEffect(() => {
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+    setCurrPage(1);
+    setInputPage(1);
 
     let diafilter =
       filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
@@ -252,13 +256,13 @@ const ProductList = () => {
     const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
 
-    if (location?.key === locationKey) {
+    if (location?.key === locationKey && (Object.keys(filterChecked)?.length > 0 || isClearAllClicked === true)) {
+
       let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
       let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
       let netRange = { netMin: isNet ? sliderValue1[0] : "", netMax: isNet ? sliderValue1[1] : "" }
 
       setIsOnlyProdLoading(true);
-      // ProductListApi(output, 1, obj, prodListType, cookie)
       ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
         .then((res) => {
           if (res) {
@@ -267,27 +271,12 @@ const ProductList = () => {
           }
           return res;
         })
-        //  .then( async(res) => {
-        //    if (res) {
-        //      await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-        //        if(resp){
-        //          setPriceListData(resp)
-        //        }
-        //      })
-        //    }
-        //    return res
-        //  })
         .catch((err) => console.log("err", err))
         .finally(() => {
           setIsOnlyProdLoading(false);
+          setIsClearAllClicked(false);
         });
     }
-    // .then(async(res)=>{
-    //   if(res){
-    //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
-    //   }
-    // })
-    // }
   }, [filterChecked]);
 
   const handleGridToggles = (event) => {
@@ -650,7 +639,7 @@ const ProductList = () => {
       top: 0,
       behavior: "smooth"
     })
-  }, [location?.key]);
+  }, [location?.pathname]);
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -996,6 +985,7 @@ const ProductList = () => {
       setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
       setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
       setFilterChecked({});
+      setIsClearAllClicked(true);
     }
   };
 
@@ -1145,6 +1135,8 @@ const ProductList = () => {
       grossMax: isGross ? sliderValue2[1] ?? "" : ""
     };
 
+    setCurrPage(1);
+    setInputPage(1);
 
     await ProductListApi(
       output,
@@ -1247,6 +1239,8 @@ const ProductList = () => {
       grossMax: isGross ? sliderValue2[1] ?? "" : ""
     };
 
+    setCurrPage(1);
+    setInputPage(1);
 
     await ProductListApi(
       output,
@@ -1346,7 +1340,8 @@ const ProductList = () => {
       grossMax: isGross ? Rangeval2[1] ?? "" : ""
     };
 
-
+    setCurrPage(1);
+    setInputPage(1);
 
     await ProductListApi(
       output,
@@ -2713,6 +2708,7 @@ const ProductList = () => {
                                           minHeight: "fit-content",
                                           maxHeight: "300px",
                                           overflow: "auto",
+                                          paddingTop: "30px",
                                         }}
                                       >
                                         <Box
@@ -2752,6 +2748,7 @@ const ProductList = () => {
                                           minHeight: "fit-content",
                                           maxHeight: "300px",
                                           overflow: "auto",
+                                          paddingTop: "30px",
                                         }}
                                       >
                                         <Box
@@ -2791,6 +2788,7 @@ const ProductList = () => {
                                           minHeight: "fit-content",
                                           maxHeight: "300px",
                                           overflow: "auto",
+                                          paddingTop: "30px",
                                         }}
                                       >
                                         <Box
@@ -3033,6 +3031,7 @@ const ProductList = () => {
                                         minHeight: "fit-content",
                                         maxHeight: "300px",
                                         overflow: "auto",
+                                        paddingTop: "30px",
                                       }}
                                     >
                                       <Box
@@ -3068,6 +3067,7 @@ const ProductList = () => {
                                         minHeight: "fit-content",
                                         maxHeight: "300px",
                                         overflow: "auto",
+                                        paddingTop: "30px",
                                       }}
                                     >
                                       <Box
@@ -3103,6 +3103,7 @@ const ProductList = () => {
                                         minHeight: "fit-content",
                                         maxHeight: "300px",
                                         overflow: "auto",
+                                        paddingTop: "30px",
                                       }}
                                     >
                                       <Box

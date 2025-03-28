@@ -32,6 +32,7 @@ export const SearchProductPrice = async ({ searchVar, autocodeList }) => {
     "AutoCodeList": `${autocodeList}`,
     "WebDiscount": islogin ? `${loginUserDetail?.WebDiscount ?? 0}` : `${0}`,
     IsZeroPriceProductShow: `${storeInit?.IsZeroPriceProductShow ?? 0}`,
+    IsSolitaireWebsite: `${storeInit?.IsSolitaireWebsite ?? 0}`,
   }
 
   let encData = JSON.stringify(data)

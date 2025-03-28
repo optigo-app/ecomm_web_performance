@@ -28,6 +28,7 @@ export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDDa
                     "UnitCostWithmarkup": `${updatedItems?.UnitCostWithMarkUp ?? 0}`,
                     "WebDiscount": islogin ? `${loginUserDetail?.WebDiscount ?? 0}` : `${0}`,
                     IsZeroPriceProductShow: `${storeInit?.IsZeroPriceProductShow ?? 0}`,
+                    IsSolitaireWebsite: `${storeInit?.IsSolitaireWebsite ?? 0}`,
                 }],
             DomainForNo: `${storeInit?.DomainForNo ?? ""}`
         });
