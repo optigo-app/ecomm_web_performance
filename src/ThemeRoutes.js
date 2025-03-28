@@ -34,7 +34,7 @@ const MalakanJewels_App = React.lazy(() => import("./AllTheme/MalakanJwewls/Mala
 const RoopJewellers_App = React.lazy(() => import("./AllTheme/RoopJewellers/RoopJewellers_App"));
 const LoveIn_App = React.lazy(() => import("./AllTheme/LoveIn/LoveIn_App"));
 const Ornaz_App = React.lazy(() => import("./AllTheme/Ornaz/Ornaz_App"));
-// const HemratnaProcatalog_App = React.lazy(() => import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App"));
+const HemratnaProcatalog_App = React.lazy(() => import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App"));
 const Procatalog_App = React.lazy(() => import("./AllTheme/Pocatalog/Procatalog_App"));
 
 
@@ -368,7 +368,7 @@ const Themes = ({ htmlContent }) => {
         {htmlContent?.rd[0]?.Themeno === 13 && <LoveIn_App />}
         {htmlContent?.rd[0]?.Themeno === 14 && <Ornaz_App />}
         {htmlContent?.rd[0]?.Themeno === 14 && <Ornaz_App />}
-      {/* {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}   */}
+      {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}  
       </Suspense>
     </>
   );
