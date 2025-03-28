@@ -61,6 +61,7 @@ import { BsHandbag } from "react-icons/bs";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ProductCard_Skeleton from "./productCard_skeleton/Productcard_skeleton";
+import EditablePagination from "../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
 const ProductList = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
@@ -141,6 +142,7 @@ const ProductList = () => {
   const [value, setValue] = React.useState([]);
 
   const getDiaRangeFilter = useRecoilValue(mala_DiamondRangeArr);
+  const [inputPage, setInputPage] = useState(currPage);
 
   // console.log("getDiaRangeFilter",getDiaRangeFilter)
 
@@ -543,6 +545,7 @@ const ProductList = () => {
 
     fetchData();
     setCurrPage(1)
+    setInputPage(1);
     if (location?.key) {
       setLocationKey(location?.key);
     }
@@ -840,6 +843,7 @@ const ProductList = () => {
     // If filterChecked length is greater than 0 or the value changes, reset page to 1
     if (Object.keys(filterChecked).length > 0 || (previousChecked && JSON.stringify(previousChecked) !== JSON.stringify(filterChecked))) {
       setCurrPage(1);
+      setInputPage(1);
     }
 
     let output = FilterValueWithCheckedOnly();
@@ -970,6 +974,21 @@ const ProductList = () => {
     handelFilterClearAll();
   }, [location?.key]);
 
+  const totalPages = Math.ceil(
+    afterFilterCount / storeInit.PageSize
+  );
+
+  const handlePageInputChange = (event) => {
+    if (event.key === 'Enter') {
+      let newPage = parseInt(inputPage, 10);
+      if (newPage < 1) newPage = 1;
+      if (newPage > totalPages) newPage = totalPages;
+      setCurrPage(newPage);
+      setInputPage(newPage);
+      handelPageChange("", newPage);
+    }
+  };
+
   const handelPageChange = (event, value) => {
     // console.log("pagination",value);
 
@@ -977,6 +996,7 @@ const ProductList = () => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     setIsProdLoading(true);
     setCurrPage(value);
+    setInputPage(value);
     setTimeout(() => {
       window.scroll({
         top: 0,
@@ -1364,6 +1384,7 @@ const ProductList = () => {
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     setCurrPage(1);
+    setInputPage(1);
     setIsOnlyProdLoading(true);
 
     let sortby = e.target?.value;
@@ -3213,6 +3234,7 @@ const ProductList = () => {
                     IsBreadCumShow={IsBreadCumShow}
                     handleBreadcums={handleBreadcums}
                     setCurrPage={setCurrPage}
+                    setInputPage={setInputPage}
                     showClearAllButton={showClearAllButton}
                     sliderValue={sliderValue}
                     sliderValue1={sliderValue1}
@@ -3659,10 +3681,10 @@ const ProductList = () => {
                                         <FormControlLabel
                                           control={
                                             <Checkbox
-                                            icon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
-                                            checkedIcon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
-                                            checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1}
-                                            onChange={(e) => handleCartandWish(e, productData, "Cart")}
+                                              icon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
+                                              checkedIcon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
+                                              checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1}
+                                              onChange={(e) => handleCartandWish(e, productData, "Cart")}
                                             />
                                           }
                                           label={
@@ -3682,7 +3704,7 @@ const ProductList = () => {
                                 })}
                               </div>
                             </div>
-                            {storeInit?.IsProductListPagination == 1 &&
+                            {/* {storeInit?.IsProductListPagination == 1 &&
                               Math.ceil(afterFilterCount / storeInit.PageSize) >
                               1 && (
                                 <div
@@ -3714,7 +3736,25 @@ const ProductList = () => {
                                     )}
                                   />
                                 </div>
-                              )}
+                              )} */}
+                            {storeInit?.IsProductListPagination == 1 &&
+                              Math.ceil(
+                                afterFilterCount / storeInit.PageSize
+                              ) > 1 &&
+                              <EditablePagination
+                                currentPage={currPage}
+                                totalItems={afterFilterCount}
+                                itemsPerPage={storeInit.PageSize}
+                                onPageChange={handelPageChange}
+                                inputPage={inputPage}
+                                setInputPage={setInputPage}
+                                handlePageInputChange={handlePageInputChange}
+                                maxwidth464px={maxwidth464px}
+                                totalPages={totalPages}
+                                currPage={currPage}
+                                isShowButton={false}
+                              />
+                            }
                           </>
                         )}
                       </div>
@@ -3808,6 +3848,7 @@ const GivaFilterMenu = ({
   IsBreadCumShow,
   handleBreadcums,
   setCurrPage,
+  setInputPage,
   IsVaara,
   showClearAllButton,
   sliderValue,
@@ -4342,6 +4383,7 @@ const GivaFilterMenu = ({
                                 onChange={(e) => {
                                   setSelectedMetalId(metalele?.Metalid);
                                   setCurrPage(1);
+                                  setInputPage(1);
                                 }}
                                 size="small"
                               />
@@ -4395,6 +4437,7 @@ const GivaFilterMenu = ({
                                   onChange={(e) => {
                                     setSelectedDiaId(`${diaQc?.QualityId},${diaQc?.ColorId}`);
                                     setCurrPage(1);
+                                    setInputPage(1);
                                   }}
                                   size="small"
                                 />
@@ -4451,6 +4494,7 @@ const GivaFilterMenu = ({
                                     `${CsQcC?.QualityId},${CsQcC?.ColorId}`
                                   )
                                   setCurrPage(1);
+                                  setInputPage(1);
                                 }}
                                 size="small"
                               />
@@ -4593,7 +4637,6 @@ const BreadCumView = ({ BreadCumsObj, handleBreadcums, IsBreadCumShow }) => {
   const pathSegments = pathname.split('/');
 
   const secondSegment = pathSegments.length > 2 ? decodeURIComponent(pathSegments[2]) : null;
-  console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
   return (
     <div className="breadcrumb_fmg">
       <div className="empty_sorting_div_fmg">

@@ -30,6 +30,7 @@ import ScrollTop from '../../ReusableComponent/ScrollTop/ScrollTop';
 import { SignalCellularNullTwoTone } from '@mui/icons-material';
 import { FaSlideshare } from 'react-icons/fa';
 import DiaSetModal from '../../ReusableComponent/DiaSetModal/DiaSetModal';
+import EditablePagination from '../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination';
 
 const SettingPage = () => {
 
@@ -81,6 +82,7 @@ const SettingPage = () => {
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [ratingvalue, setratingvalue] = useState(5);
   const [selectMetalColor, setSelectMetalColor] = useState(null);
+  const [inputPage, setInputPage] = useState(currPage);
   const [Shape, setShape] = useState("");
   const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
   const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
@@ -95,6 +97,8 @@ const SettingPage = () => {
   const handleToggle1 = () => {
     setShowModal1(!showModal1);
   }
+
+  const isEditablePage = 1;
 
   const shapeData = (() => {
     if (stepsData?.[0]?.step1Data?.[0]?.shapename) {
@@ -770,6 +774,22 @@ const SettingPage = () => {
     fetchData();
   }
 
+  const totalPages = Math.ceil(
+    afterFilterCount / storeInit.PageSize
+  );
+
+  const handlePageInputChange = (event) => {
+    if (event.key === 'Enter') {
+      let newPage = parseInt(inputPage, 10);
+      if (newPage < 1) newPage = 1;
+      if (newPage > totalPages) newPage = totalPages;
+      setCurrPage(newPage);
+      setInputPage(newPage);
+      handelPageChange("", newPage);
+    }
+  };
+
+
   const handelPageChange = (event, value) => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     let output = selectedValues.filter((ele) => ele.value)
@@ -1338,36 +1358,63 @@ const SettingPage = () => {
               })
             )}
           </div>
-          {storeInit?.IsProductListPagination == 1 &&
-            Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginBlock: "3%",
-                  width: '100%'
-                }}
-              >
-                <Pagination
-                  count={Math.ceil(afterFilterCount / storeInit.PageSize)}
-                  size={maxwidth464px ? "small" : "large"}
-                  shape="circular"
-                  onChange={handelPageChange}
-                  page={currPage}
-                  showFirstButton
-                  showLastButton
-                  disabled={false}
-                  renderItem={(item) => (
-                    <PaginationItem
-                      {...item}
-                      sx={{
-                        pointerEvents: item.page === currPage ? 'none' : 'auto',
-                      }}
-                    />
-                  )}
+          {isEditablePage === 1 ? (
+            <>
+              {storeInit?.IsProductListPagination == 1 &&
+                Math.ceil(
+                  afterFilterCount / storeInit.PageSize
+                ) > 1 &&
+                <EditablePagination
+                  currentPage={currPage}
+                  totalItems={afterFilterCount}
+                  itemsPerPage={storeInit.PageSize}
+                  onPageChange={handelPageChange}
+                  inputPage={inputPage}
+                  setInputPage={setInputPage}
+                  handlePageInputChange={handlePageInputChange}
+                  maxwidth464px={maxwidth464px}
+                  totalPages={totalPages}
+                  currPage={currPage}
+                  isShowButton={false}
                 />
-              </div>
-            )}
+              }
+            </>
+          ) : (
+            <>
+              {storeInit?.IsProductListPagination == 1 &&
+                Math.ceil(afterFilterCount / storeInit.PageSize)
+                > 1 && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "5%",
+                      width: '100%'
+                    }}
+                    className="smr_pagination_portion"
+                  >
+                    <Pagination
+                      count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                      size={maxwidth464px ? "small" : "large"}
+                      shape="circular"
+                      onChange={handelPageChange}
+                      page={currPage}
+                      showFirstButton
+                      showLastButton
+                      disabled={false}
+                      renderItem={(item) => (
+                        <PaginationItem
+                          {...item}
+                          sx={{
+                            pointerEvents: item.page === currPage ? 'none' : 'auto',
+                          }}
+                        />
+                      )}
+                    />
+                  </div>
+                )}
+            </>
+          )}
         </div >
       </div >
       {modalOpen && <MakeRingProcessModal />}

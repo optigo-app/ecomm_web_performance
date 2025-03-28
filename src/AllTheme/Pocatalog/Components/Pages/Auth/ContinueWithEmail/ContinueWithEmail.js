@@ -11,15 +11,19 @@ export default function ContinueWithEmail() {
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [storeInit, setStoreInit] = useState({});
     const navigation = useNavigate();
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(false)
     const search = location?.search
     const state = location?.state?.SecurityKey ? location?.state : "";
-    console.log('state: ', location?.state);
     const redirectEmailUrl = `/LoginWithEmail/${search}`;
     const redirectSignUpUrl = `/register/${search}`;
     const cancelRedireactUrl = `/LoginOption/${search}`;
+
+    useEffect(() => {
+        setStoreInit(JSON.parse(sessionStorage.getItem('storeInit')));
+    }, [])
 
     // const validateEmail = (email) => {
     //     const regex = /^[a-zA-Z][\w@$&#]*@[a-zA-Z]+\.[a-zA-Z]+(\.[a-zA-Z]+)?$/;
@@ -75,11 +79,14 @@ export default function ContinueWithEmail() {
                     sessionStorage.setItem("registerEmail", trimmedEmail);
                 }
             } else {
-                if (process.env.NODE_ENV === "development") {
-                    alert(response.Data.rd[0].OTP)
+                if (storeInit?.IsEcomOtpVerification != 0) {
+                    if (process.env.NODE_ENV === "development") {
+                        alert(response.Data.rd[0].OTP)
+                    }
+                    setIsOpen(true)
+                } else {
+                    navigation(redirectSignUpUrl, { state: { email: trimmedEmail, SecurityKey: SecurityKey } });
                 }
-                setIsOpen(true)
-                // navigation(redirectSignUpUrl, { state: { email: trimmedEmail,SecurityKey : location?.state?.SecurityKey } });
             }
         }).catch((err) => console.log(err))
 
@@ -125,12 +132,14 @@ export default function ContinueWithEmail() {
                 </div>
             )}
             <div>
-                <OTPContainer emailId={email.trim()} isOpen={isOpen} type='email' setIsOpen={() => setIsOpen(!isOpen)} onClose={() => setIsOpen(false)}
-                    navigation={navigation}
-                    location={location}
-                    onResend={handleSubmit}
-                    isLoading={isLoading}
-                />
+                {(storeInit?.IsEcomOtpVerification && storeInit?.IsEcomOtpVerification === 1) ? (
+                    <OTPContainer emailId={email.trim()} isOpen={isOpen} type='email' setIsOpen={() => setIsOpen(!isOpen)} onClose={() => setIsOpen(false)}
+                        navigation={navigation}
+                        location={location}
+                        onResend={handleSubmit}
+                        isLoading={isLoading}
+                    />
+                ) : null}
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',

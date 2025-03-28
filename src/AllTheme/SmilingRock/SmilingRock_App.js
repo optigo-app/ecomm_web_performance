@@ -57,6 +57,7 @@ import PromotionalBanner from "./Components/Pages/Home/PromotionBanner/Promotion
 import FooterNew from "./Components/Pages/Home/Footer/New/FooterNew";
 import WhatsAppChat from './Components/Pages/Home/ChatMenu/ChatMenu'
 import HomePageBlock1 from "./Components/Pages/Home/HomePageBlocks/Block1/HomePageBlock1";
+import HomePageBlock2 from "./Components/Pages/Home/HomePageBlocks/Block2/HomePageBlock2";
 
 const SmilingRock_App = () => {
   const { openPromotionalBanner, handleCloseBanner } = usePromotionalBanner();
@@ -146,7 +147,7 @@ const SmilingRock_App = () => {
               navigation("/accountdwsr");
             }
             else {
-              navigation("/");
+              // navigation("/");
             }
           }
         })
@@ -193,7 +194,7 @@ const SmilingRock_App = () => {
               navigation("/accountdwsr");
             }
             else {
-              navigation("/");
+              // navigation("/");
             }
 
             // else if (sessionStorage.getItem("previousUrl")) {
@@ -242,7 +243,7 @@ const SmilingRock_App = () => {
           onClose={handleCloseBanner}
         />
       )}
-      {(!location.pathname.startsWith("/accountdwsr") && !location.pathname.startsWith("/block1")) && (
+      {(!location.pathname.startsWith("/accountdwsr") && !location.pathname.startsWith("/block1") && !location.pathname.startsWith("/block2")) && (
         <div>
           {localData?.Headerno == 1 && <Header />}
           {localData?.Headerno == 2 && <Header2 />}
@@ -353,8 +354,12 @@ const SmilingRock_App = () => {
         <Route path="/paymentFailure" element={<PaymentFailure />} />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/block1" element={<HomePageBlock1 />} />
+        <Route path="/block2" element={<HomePageBlock2 />} />
       </Routes>
-      {!location.pathname.startsWith("/block1") && <FooterNew />}
+      {(
+        !location.pathname.startsWith("/block1") &&
+        !location.pathname.startsWith("/block2")
+      ) && <FooterNew />}
       <WhatsAppChat phoneNo='9099887762' />
     </div>
   );

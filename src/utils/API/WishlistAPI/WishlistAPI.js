@@ -29,6 +29,8 @@ export const fetchWishlistDetails = async (visiterId) => {
             IsWishList:1,
             IsPLW: storeInit?.IsPLW,
             CurrencyRate: `${data?.CurrencyRate ?? storeInit?.CurrencyRate}`,
+            WebDiscount: islogin ? `${data?.WebDiscount ?? 0}` : `${0}`,
+            IsZeroPriceProductShow: `${storeInit?.IsZeroPriceProductShow ?? 0}`,
         });
 
         const encodedCombinedValue = btoa(combinedValue);
