@@ -38,6 +38,7 @@ export const DesignSetListAPI = async (obj, dno, visiterId) => {
     IsStockWebsite: `${storeinit?.IsStockWebsite}`,
     WebDiscount: islogin ? `${loginInfo?.WebDiscount ?? 0}` : `${0}`,
     IsZeroPriceProductShow: `${storeinit?.IsZeroPriceProductShow ?? 0}`,
+    IsSolitaireWebsite: `${storeinit?.IsSolitaireWebsite ?? 0}`,
   }
 
   let encData = JSON.stringify(data)
