@@ -2495,8 +2495,11 @@ const Lookbook = () => {
 
             </div>
           </div>
-          <div className="lpDiv">
-            {/* <MuiPagination
+          {storeInit?.IsProductListPagination == 1 &&
+            Math.ceil(dstCount / itemsPerPage)
+            > 1 && (
+              <div className="lpDiv">
+                {/* <MuiPagination
               count={Math.ceil(dstCount / itemsPerPage)}
               size={maxwidth464px ? "small" : "large"}
               shape="circular"
@@ -2513,20 +2516,21 @@ const Lookbook = () => {
                 />
               )}
             /> */}
-            <EditablePagination
-              currentPage={currentPage}
-              totalItems={dstCount}
-              itemsPerPage={itemsPerPage}
-              onPageChange={handelPageChange}
-              inputPage={inputPage}
-              setInputPage={setInputPage}
-              handlePageInputChange={handlePageInputChange}
-              maxwidth464px={maxwidth464px}
-              totalPages={totalPages}
-              currPage={currentPage}
-              isShowButton={false}
-            />
-          </div>
+                <EditablePagination
+                  currentPage={currentPage}
+                  totalItems={dstCount}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={handelPageChange}
+                  inputPage={inputPage}
+                  setInputPage={setInputPage}
+                  handlePageInputChange={handlePageInputChange}
+                  maxwidth464px={maxwidth464px}
+                  totalPages={totalPages}
+                  currPage={currentPage}
+                  isShowButton={false}
+                />
+              </div>
+            )}
         </div>
       )}
       <div>

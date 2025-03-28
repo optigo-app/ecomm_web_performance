@@ -20,22 +20,25 @@ export const DesignSetListAPI = async (obj, dno, visiterId) => {
     DiaQCid: `${obj?.diaQc == undefined ? (loginInfo?.cmboDiaQCid ?? storeinit?.cmboDiaQCid) : obj?.diaQc}`,
     CsQCid: `${obj?.csQc == undefined ? (loginInfo?.cmboCSQCid ?? storeinit?.cmboCSQCid) : obj?.csQc}`,
     Laboursetid: `${storeinit?.IsB2BWebsite == 0 && islogin == false
-        ? storeinit?.pricemanagement_laboursetid
-        : loginInfo?.pricemanagement_laboursetid
+      ? storeinit?.pricemanagement_laboursetid
+      : loginInfo?.pricemanagement_laboursetid
       }`,
     diamondpricelistname: `${storeinit?.IsB2BWebsite == 0 && islogin == false
-        ? storeinit?.diamondpricelistname
-        : loginInfo?.diamondpricelistname
+      ? storeinit?.diamondpricelistname
+      : loginInfo?.diamondpricelistname
       }`,
     colorstonepricelistname: `${storeinit?.IsB2BWebsite == 0 && islogin == false
-        ? storeinit?.colorstonepricelistname
-        : loginInfo?.colorstonepricelistname
+      ? storeinit?.colorstonepricelistname
+      : loginInfo?.colorstonepricelistname
       }`,
     SettingPriceUniqueNo: `${storeinit?.IsB2BWebsite == 0 && islogin == false
-        ? storeinit?.SettingPriceUniqueNo
-        : loginInfo?.SettingPriceUniqueNo
+      ? storeinit?.SettingPriceUniqueNo
+      : loginInfo?.SettingPriceUniqueNo
       }`,
     IsStockWebsite: `${storeinit?.IsStockWebsite}`,
+    WebDiscount: islogin ? `${loginInfo?.WebDiscount ?? 0}` : `${0}`,
+    IsZeroPriceProductShow: `${storeinit?.IsZeroPriceProductShow ?? 0}`,
+    IsSolitaireWebsite: `${storeinit?.IsSolitaireWebsite ?? 0}`,
   }
 
   let encData = JSON.stringify(data)

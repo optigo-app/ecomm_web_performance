@@ -61,7 +61,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-bottom: 40px;
     }
   }
 
@@ -180,18 +179,18 @@
     color: $titleColor;
     border: 1px solid $backgroundColor;
     background: none;
-  
+
     &.selected {
       background: $backgroundColor;
       color: #fff;
     }
-  
+
     &.unselected {
       background: #fff;
       color: $backgroundColor;
     }
   }
-  
+
 
   .lb-switch-field {
     display: flex;
@@ -245,6 +244,15 @@
 
   .smr1_lookBookFilterSubDiv {
     margin: 10px 10px 0px 10px;
+
+
+    .mala_filter_text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
   }
 
   .mala_lookBookImgDivMain {

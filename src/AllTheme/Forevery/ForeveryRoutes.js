@@ -224,7 +224,7 @@ const ForEveryRoutes = () => {
           <>
             <Route path="/" element={<Home />} />
             {/* <Route path="/test" element={<Test />} /> */}
-            {/* <Route path="/zara" element={<ZaraStyleSlider />} /> */}
+            <Route path="/zara" element={<ZaraStyleSlider />} />
             <Route
               path="/LoginOption"
               element={

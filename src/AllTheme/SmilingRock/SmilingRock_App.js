@@ -56,6 +56,8 @@ import usePromotionalBanner from "./Components/hook/usePromotionBanner";
 import PromotionalBanner from "./Components/Pages/Home/PromotionBanner/PromotionBanner";
 import FooterNew from "./Components/Pages/Home/Footer/New/FooterNew";
 import WhatsAppChat from './Components/Pages/Home/ChatMenu/ChatMenu'
+import HomePageBlock1 from "./Components/Pages/Home/HomePageBlocks/Block1/HomePageBlock1";
+import HomePageBlock2 from "./Components/Pages/Home/HomePageBlocks/Block2/HomePageBlock2";
 
 const SmilingRock_App = () => {
   const { openPromotionalBanner, handleCloseBanner } = usePromotionalBanner();
@@ -143,8 +145,9 @@ const SmilingRock_App = () => {
               navigation(redirectEmailUrl);
             } else if (location.pathname.startsWith('/accountdwsr')) {
               navigation("/accountdwsr");
-            } else {
-              navigation("/");
+            }
+            else {
+              // navigation("/");
             }
           }
         })
@@ -189,9 +192,11 @@ const SmilingRock_App = () => {
               navigation(redirectEmailUrl);
             } else if (location.pathname.startsWith("/accountdwsr")) {
               navigation("/accountdwsr");
-            } else {
-              navigation("/");
             }
+            else {
+              // navigation("/");
+            }
+
             // else if (sessionStorage.getItem("previousUrl")) {
             //   navigation(sessionStorage.getItem("previousUrl"));
             // } else {
@@ -238,7 +243,7 @@ const SmilingRock_App = () => {
           onClose={handleCloseBanner}
         />
       )}
-      {!location.pathname.startsWith("/accountdwsr") && (
+      {(!location.pathname.startsWith("/accountdwsr") && !location.pathname.startsWith("/block1") && !location.pathname.startsWith("/block2")) && (
         <div>
           {localData?.Headerno == 1 && <Header />}
           {localData?.Headerno == 2 && <Header2 />}
@@ -340,7 +345,7 @@ const SmilingRock_App = () => {
           <Route path="/myWishList" element={<Wishlist />} />
           <Route path="/Delivery" element={<Delivery />} />
           <Route path="/Payment" element={<Payment />} />
-          <Route path="/Confirmation" element={<Confirmation />} /> 
+          <Route path="/Confirmation" element={<Confirmation />} />
           <Route path="/account" element={<Account />} />
           {/* <Route path="/accountdwsr" element={<DWSRprintComp />} /> */}
         </Route>
@@ -348,9 +353,14 @@ const SmilingRock_App = () => {
         <Route path="/Lookbook" element={<Lookbook />} />
         <Route path="/paymentFailure" element={<PaymentFailure />} />
         <Route path="*" element={<PageNotFound />} />
+        <Route path="/block1" element={<HomePageBlock1 />} />
+        <Route path="/block2" element={<HomePageBlock2 />} />
       </Routes>
-      <FooterNew />
-      <WhatsAppChat phoneNo='9099887762'/>
+      {(
+        !location.pathname.startsWith("/block1") &&
+        !location.pathname.startsWith("/block2")
+      ) && <FooterNew />}
+      <WhatsAppChat phoneNo='9099887762' />
     </div>
   );
 };

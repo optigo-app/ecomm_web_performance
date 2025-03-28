@@ -41,7 +41,10 @@ export const fetchSingleProdDT = async (selectedItem, sizedata, diaId, csQid, se
             Size: size,
             IsFromDesDet: "1",
             CurrencyRate: `${data?.CurrencyRate ?? storeInit?.CurrencyRate}`,
-            DomainForNo: `${storeInit?.DomainForNo ?? ""}`
+            DomainForNo: `${storeInit?.DomainForNo ?? ""}`,
+            WebDiscount: islogin ? `${data?.WebDiscount ?? 0}` : `${0}`,
+            IsZeroPriceProductShow: `${storeInit?.IsZeroPriceProductShow ?? 0}`,
+            IsSolitaireWebsite: `${storeInit?.IsSolitaireWebsite ?? 0}`,
         });
 
 

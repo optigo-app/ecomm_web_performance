@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./productlist.scss";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -37,6 +37,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { Helmet } from "react-helmet";
 import debounce from 'lodash.debounce';  // Import lodash debounce
 import ReactPlayer from "react-player";
+import EditablePagination from "../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
 
 
 
@@ -114,6 +115,9 @@ const ProductList = () => {
   const [imageMap, setImageMap] = useState({});
   const [afterCountStatus, setAfterCountStatus] = useState(false);
   let cookie = Cookies.get('visiterId')
+  const [inputPage, setInputPage] = useState(currPage);
+
+  const isEditablePage = 1;
 
   const [customFlag, setCustomFlag] = useState(false);
 
@@ -635,6 +639,7 @@ const ProductList = () => {
     fetchData();
 
     setCurrPage(1);
+    setInputPage(1);
     if (location?.key) {
       setLocationKey(location?.key)
     }
@@ -860,13 +865,27 @@ const ProductList = () => {
     // console.log("finalOutput",finalOutput)
 
     setCurrPage(1);
+    setInputPage(1);
     sessionStorage.setItem('key', JSON.stringify(output))
     return output
   }
 
-  useEffect(() => {
+  const prevFilterChecked = useRef();
 
+  useEffect(() => {
     setAfterCountStatus(true);
+
+    // Store the previous filterChecked state
+    const previousChecked = prevFilterChecked.current;
+    prevFilterChecked.current = filterChecked;
+
+    // If filterChecked length is greater than 0 or the value changes, reset page to 1
+    if (Object.keys(filterChecked).length > 0 || (previousChecked && JSON.stringify(previousChecked) !== JSON.stringify(filterChecked))) {
+      setCurrPage(1);
+      setInputPage(1);
+    }
+
+
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
@@ -1020,23 +1039,64 @@ const ProductList = () => {
     setSortBySelect("Recommended")
   }, [location?.key])
 
-  const handelPageChange = (event, value) => {
+  const totalPages = Math.ceil(
+    afterFilterCount / storeInit.PageSize
+  );
 
-    // console.log("pagination",value);
+  const handlePageInputChange = (event) => {
+    if (event.key === 'Enter') {
+      let newPage = parseInt(inputPage, 10);
+      if (newPage < 1) newPage = 1;
+      if (newPage > totalPages) newPage = totalPages;
+      setCurrPage(newPage);
+      setInputPage(newPage);
+      handelPageChange("", newPage);
+    }
+  };
+
+  const handelPageChange = (event, value) => {
 
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
     setIsProdLoading(true)
     setCurrPage(value)
+    setInputPage(value);
     setTimeout(() => {
       window.scroll({
         top: 0,
         behavior: 'smooth'
       })
     }, 100)
-    let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
-    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+
+    let diafilter =
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+    let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
+    let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
+    let netRange = { netMin: isNet ? sliderValue1[0] : "", netMax: isNet ? sliderValue1[1] : "" }
 
     ProductListApi(output, value, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
@@ -1128,13 +1188,39 @@ const ProductList = () => {
 
     let output = FilterValueWithCheckedOnly()
 
+    let diafilter =
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
     if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true)
-      let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-      let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
-      let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+      let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
+      let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
+      let netRange = { netMin: isNet ? sliderValue1[0] : "", netMax: isNet ? sliderValue1[1] : "" }
+
       // DiaRange, netRange ,grossRange
-      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -1417,12 +1503,38 @@ const ProductList = () => {
     setIsOnlyProdLoading(true)
 
     let sortby = e.target?.value;
-    let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-    let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
-    let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+    let diafilter =
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+    let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
+    let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
+    let netRange = { netMin: isNet ? sliderValue1[0] : "", netMax: isNet ? sliderValue1[1] : "" }
 
     // , DiaRange, netRange, grossRange
-    await ProductListApi(output, 1, obj, prodListType, cookie, sortby)
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortby, DiaRange, netRange, grossRange)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -4171,38 +4283,63 @@ const ProductList = () => {
                                     })}
                                   </div >
                                 </div>
-                                {storeInit?.IsProductListPagination == 1 &&
-                                  Math.ceil(afterFilterCount / storeInit.PageSize)
-                                  > 1 && (
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        marginTop: "5%",
-                                        width: '100%'
-                                      }}
-                                      className="smr_pagination_portion"
-                                    >
-                                      <Pagination
-                                        count={Math.ceil(afterFilterCount / storeInit.PageSize)}
-                                        size={maxwidth464px ? "small" : "large"}
-                                        shape="circular"
-                                        onChange={handelPageChange}
-                                        page={currPage}
-                                        showFirstButton
-                                        showLastButton
-                                        disabled={false}
-                                        renderItem={(item) => (
-                                          <PaginationItem
-                                            {...item}
-                                            sx={{
-                                              pointerEvents: item.page === currPage ? 'none' : 'auto',
-                                            }}
-                                          />
-                                        )}
+                                {isEditablePage === 1 ? (
+                                  <>
+                                    {storeInit?.IsProductListPagination == 1 &&
+                                      Math.ceil(
+                                        afterFilterCount / storeInit.PageSize
+                                      ) > 1 &&
+                                      <EditablePagination
+                                        currentPage={currPage}
+                                        totalItems={afterFilterCount}
+                                        itemsPerPage={storeInit.PageSize}
+                                        onPageChange={handelPageChange}
+                                        inputPage={inputPage}
+                                        setInputPage={setInputPage}
+                                        handlePageInputChange={handlePageInputChange}
+                                        maxwidth464px={maxwidth464px}
+                                        totalPages={totalPages}
+                                        currPage={currPage}
+                                        isShowButton={false}
                                       />
-                                    </div>
-                                  )}
+                                    }
+                                  </>
+                                ) : (
+                                  <>
+                                    {storeInit?.IsProductListPagination == 1 &&
+                                      Math.ceil(afterFilterCount / storeInit.PageSize)
+                                      > 1 && (
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            marginTop: "5%",
+                                            width: '100%'
+                                          }}
+                                          className="smr_pagination_portion"
+                                        >
+                                          <Pagination
+                                            count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                                            size={maxwidth464px ? "small" : "large"}
+                                            shape="circular"
+                                            onChange={handelPageChange}
+                                            page={currPage}
+                                            showFirstButton
+                                            showLastButton
+                                            disabled={false}
+                                            renderItem={(item) => (
+                                              <PaginationItem
+                                                {...item}
+                                                sx={{
+                                                  pointerEvents: item.page === currPage ? 'none' : 'auto',
+                                                }}
+                                              />
+                                            )}
+                                          />
+                                        </div>
+                                      )}
+                                  </>
+                                )}
                               </>
                             )}
                           </div>

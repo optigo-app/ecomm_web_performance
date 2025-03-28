@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Pagination, PaginationItem, TextField, Typography } from '@mui/material';
+import './EditablePagination.scss';
 
 const EditablePagination = ({
   currentPage,
@@ -58,9 +59,8 @@ const EditablePagination = ({
           className="main_pagiantion_input"
           value={inputPage}
           onBlur={() => {
-            // Check if the input is empty, and if so, set the page to the currentPage
             if (!inputPage) {
-              setInputPage(currPage); // Reset to the current page if the input is empty
+              setInputPage(currPage);
             }
           }}
           onChange={(e) => handleOnChange(e)}

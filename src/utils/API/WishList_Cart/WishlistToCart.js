@@ -6,8 +6,8 @@ export const handleWishlistToCartAPI = async (param, item, visiterId) => {
     const islogin = JSON.parse(sessionStorage.getItem("LoginUser"));
     const { FrontEnd_RegNo } = storeInit;
     const data = JSON.parse(storedData);
-    const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data.id ?? 0;
-    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data.userid ?? "";
+    const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : data.id ?? 0;
+    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : data.userid ?? "";
     try {
         let combinedValue;
         if (param == 'isSelectAll') {
@@ -16,6 +16,9 @@ export const handleWishlistToCartAPI = async (param, item, visiterId) => {
                 ischeckall: "1",
                 FrontEnd_RegNo: `${FrontEnd_RegNo}`,
                 Customerid: `${customerId ?? 0}`,
+                WebDiscount: islogin ? `${data?.WebDiscount ?? 0}` : `${0}`,
+                IsZeroPriceProductShow: `${storeInit?.IsZeroPriceProductShow ?? 0}`,
+                IsSolitaireWebsite: `${storeInit?.IsSolitaireWebsite ?? 0}`,
             });
         } else {
             combinedValue = JSON.stringify({
@@ -23,6 +26,9 @@ export const handleWishlistToCartAPI = async (param, item, visiterId) => {
                 ischeckall: "0",
                 FrontEnd_RegNo: `${FrontEnd_RegNo}`,
                 Customerid: `${customerId ?? 0}`,
+                WebDiscount: islogin ? `${data?.WebDiscount ?? 0}` : `${0}`,
+                IsZeroPriceProductShow: `${storeInit?.IsZeroPriceProductShow ?? 0}`,
+                IsSolitaireWebsite: `${storeInit?.IsSolitaireWebsite ?? 0}`,
             });
         }
 

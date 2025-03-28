@@ -2,13 +2,14 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup) => {
     try {
+        const islogin = JSON.parse(sessionStorage.getItem("LoginUser"));
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const { FrontEnd_RegNo } = storeInit;
         const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"))
         const UserEmail = sessionStorage.getItem("registerEmail")
 
         // console.log('jbjasd--', updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup);
-        
+
         const combinedValue = JSON.stringify({
             ForEvt: "Cart",
             FrontEnd_RegNo: `${FrontEnd_RegNo}`,
@@ -24,7 +25,10 @@ export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDDa
                     "Size": `${sizeId ?? 0}`,
                     "Unitcost": `${updatedItems?.FinalCost ?? 0}`,
                     "markup": `${updatedItems?.SizeMarkUp ?? 0}`,
-                    "UnitCostWithmarkup": `${updatedItems?.UnitCostWithMarkUp ?? 0}`
+                    "UnitCostWithmarkup": `${updatedItems?.UnitCostWithMarkUp ?? 0}`,
+                    "WebDiscount": islogin ? `${loginUserDetail?.WebDiscount ?? 0}` : `${0}`,
+                    IsZeroPriceProductShow: `${storeInit?.IsZeroPriceProductShow ?? 0}`,
+                    IsSolitaireWebsite: `${storeInit?.IsSolitaireWebsite ?? 0}`,
                 }],
             DomainForNo: `${storeInit?.DomainForNo ?? ""}`
         });

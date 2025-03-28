@@ -11,6 +11,14 @@ export function storImagePath() {
   // return `${storeinit?.UploadLogicalPath}/${storeinit?.ukey}/${storeinit?.ufcc}`
 }
 
+export function storImagePathNew() {
+  let statiPath = `${window?.location?.protocol}//${(window.location.hostname === 'localhost'
+    || window.location.hostname === 'zen')
+    ? REACT_APP_WEB
+    : window.location.hostname}`
+  return `${statiPath}/Website_Store`
+}
+
 export const getDomainName = async () => {
   try {
     const { hostname } = window.location;
@@ -142,7 +150,7 @@ const fetchWithRetry = (url, retries = 3, delay = 1000) => {
           if (n === 0) {
             reject(error)
           } else {
-            setTimeout(() => attemptFetch(n - 1), delay); 
+            setTimeout(() => attemptFetch(n - 1), delay);
           }
         });
     };
@@ -158,11 +166,12 @@ export const fetchAPIUrlFromStoreInit = async () => {
   } else {
     try {
       const path = `${storInitDataPath()}/StoreInit.json`;
-      console.log("Fetching StoreInit.json from:", path);
 
       const fetchedData = await fetchWithRetry(path, 3, 200);
 
-      sessionStorage.setItem("storeInit", JSON.stringify(fetchedData.rd[0]));
+      if (fetchedData && !getStoreInitData) {
+        sessionStorage.setItem("storeInit", JSON.stringify(fetchedData.rd[0]));
+      }
 
       return fetchedData;
     } catch (error) {

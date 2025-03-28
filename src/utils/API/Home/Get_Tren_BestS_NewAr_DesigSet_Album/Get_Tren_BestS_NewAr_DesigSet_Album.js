@@ -41,6 +41,9 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filt
             Max_GrossWeight: '',
             Min_NetWt: '',
             Max_NetWt: '',
+            WebDiscount: userLogin ? `${userData?.WebDiscount ?? 0}` : `${0}`,
+            IsZeroPriceProductShow : `${storeInit?.IsZeroPriceProductShow ?? 0}`,
+            IsSolitaireWebsite: `${storeInit?.IsSolitaireWebsite ?? 0}`,
         };
 
         // Extend params for specific modes
