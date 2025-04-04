@@ -1,0 +1,154 @@
+.diamond-showcase-section {
+    width: 100%;
+    background-color: white;
+    padding: 3rem 0;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.diamond_showcase_grid {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center;
+    flex-direction: row;
+}
+
+.image-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.image-box {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.image {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-position: 50.0% 50.0%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.content-container {
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.arrow-buttons_div {
+    position: relative;
+
+    .arrow-buttons {
+        display: flex;
+        width: 100%;
+        gap: 10px;
+        position: absolute;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2rem;
+
+        .arrow-left {
+            width: 10%;
+            cursor: pointer;
+        }
+
+        .arrow-right {
+            width: 10%;
+            cursor: pointer;
+        }
+    }
+}
+
+.title {
+    font-size: 2rem;
+    font-family: 'Georgia', serif;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.description {
+    color: #555;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+
+.explore-button {
+    background-color: #333;
+    color: white;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    text-transform: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.explore-button:hover {
+    background-color: #555;
+}
+
+.floating-icon {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background-color: #333;
+    border-radius: 50%;
+    padding: 0.8rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.icon {
+    fill: white;
+}
+
+.diamond_showcase_swiper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    // .swiper-button-next,
+    // .swiper-button-prev {
+    //     background-size: cover;
+    //     /* Ensures the image covers the button */
+    //     background-position: center;
+    //     /* Centers the image */
+    //     border-radius: 50%;
+    //     padding: 10px;
+    //     color: white;
+    //     width: 40px;
+    //     height: 40px;
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: center;
+    // }
+
+    // .swiper-button-next {
+    //     background-image: url('../assets/arrow2.svg');
+    //     right: 46.5%;
+    //     position: absolute;
+    //     z-index: 100;
+    //     top: 60%;
+    //     cursor: pointer;
+    // }
+
+    // .swiper-button-prev {
+    //     background-image: url('../assets/arrow1.svg');
+    //     /* Replace with the correct path */
+    //     left: 46.5%;
+    //     position: absolute;
+    //     z-index: inherit;
+    //     top: 60%;
+    //     cursor: pointer;
+    // }
+}

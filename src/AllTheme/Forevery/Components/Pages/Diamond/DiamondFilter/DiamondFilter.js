@@ -53,6 +53,7 @@ import { for_Loader, for_customizationSteps } from "../../../Recoil/atom";
 import { useRecoilState } from "recoil";
 import { getImagePath } from "../../../Config/ShapeFinder";
 import { pairDiamonds } from "../../../Config/PairMaker";
+import EditablePagination from "../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
 
 const ACTIONS = {
   SET_FILTER_DATA: "SET_FILTER_DATA",
@@ -184,12 +185,15 @@ const DiamondFilter = () => {
     Culet: [],
   });
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const   IsFilterMenuCalled = useRef(false);
+  const IsFilterMenuCalled = useRef(false);
 
   const [AccordianChecked, setAccordianChecked] = useState(false);
   const [sliderLabels, setSliderLabels] = useState([]);
   const maxwidth464px = useMediaQuery("(max-width:464px)");
   const [currentPage, setCurrentPage] = useState(1);
+  const [inputPage, setInputPage] = useState(currentPage);
+
+  const isEditablePage = 1;
 
   const loginInfo = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
   useEffect(() => {
@@ -402,9 +406,13 @@ const DiamondFilter = () => {
       let newPath;
       if (shape !== "") {
         newPath = location?.pathname.replace(shape, name);
+        setCurrentPage(1);
+        setInputPage(1);
         Navigate(newPath);
       } else {
         newPath = `/certified-loose-lab-grown-diamonds/diamond/${name}`
+        setCurrentPage(1);
+        setInputPage(1);
         Navigate(newPath);
       }
     }
@@ -442,6 +450,7 @@ const DiamondFilter = () => {
   const handleSortChange = (value, label, categories) => {
     setSortValue(value);
     setCurrentPage(1);
+    setInputPage(1);
     //("Selected Sort Value:", value);
     //(label, "eikedekdb", categories);
     setselectedsort({
@@ -627,14 +636,30 @@ const DiamondFilter = () => {
 
   useEffect(() => {
     const { filterData, diamondList } = state;
-    if(isFilterDataFetched){
+    if (isFilterDataFetched) {
       const mergedData = filterData && diamondList ? { ...filterData, ...diamondList } : {};
       sessionStorage.setItem("filterMenu", JSON.stringify(mergedData));
     }
   }, [isFilterDataFetched]);
 
+  const totalPages = Math.ceil(
+    diaCount / storeInitData?.PageSize
+  );
+
+  const handlePageInputChange = (event) => {
+    if (event.key === 'Enter') {
+      let newPage = parseInt(inputPage, 10);
+      if (newPage < 1) newPage = 1;
+      if (newPage > totalPages) newPage = totalPages;
+      setCurrentPage(newPage);
+      setInputPage(newPage);
+      handlePageChange("", newPage);
+    }
+  };
+
   const handlePageChange = async (event, newPage) => {
     setCurrentPage(newPage);
+    setInputPage(newPage)
     setIsLoading(true);
     try {
       const response = await DiamondListData(
@@ -663,6 +688,8 @@ const DiamondFilter = () => {
 
   const handleSliderChange = useCallback(
     debounce((sliderType, newValue, min, max) => {
+      setCurrentPage(1);
+      setInputPage(1);
       setSliderState((prevState) => ({
         ...prevState,
         [sliderType]: newValue,
@@ -714,6 +741,8 @@ const DiamondFilter = () => {
   );
 
   const handleFilterChange = (filterType, value) => {
+    setCurrentPage(1);
+    setInputPage(1);
     setFiltersData((prevData) => {
       const newFiltersData = { ...prevData };
       if (
@@ -1591,15 +1620,15 @@ const DiamondFilter = () => {
             </div>
             <div className="flex_for_mob">
               <div className="sorting_options">
-              {open === "Sort" && <div className="wrapper-fg"
-              style={{
-                position: "absolute",
-                top: "0",
-                padding: "8px 80px",
-                backgroundColor: "transparent",
-                color: "transparent",
-              }}
-            >22</div>}
+                {open === "Sort" && <div className="wrapper-fg"
+                  style={{
+                    position: "absolute",
+                    top: "0",
+                    padding: "8px 80px",
+                    backgroundColor: "transparent",
+                    color: "transparent",
+                  }}
+                >22</div>}
                 <span
                   onClick={() => handleOpen("Sort")}
                   className="title_for_sort"
@@ -1670,7 +1699,7 @@ const DiamondFilter = () => {
                                         }
                                         loading="lazy"
                                         onClick={() => HandleDiamondRoute(val)}
-                                        preload="metadata" 
+                                        preload="metadata"
                                       />
                                     ) : val?.image_file_url !== "" ? (
                                       <img
@@ -1763,7 +1792,7 @@ const DiamondFilter = () => {
                                     style={{ cursor: "default", width: "100%" }}
                                     title={`${dia?.shapename} ${dia?.carat?.toFixed(3)} CARAT ${dia?.colorname} ${dia?.clarityname} ${dia?.cutname}`}
                                   >
-                                    <img src={image}  alt={dia?.shapename ?? "Shape Not Available"} className="earr_paired_diamond_img" />
+                                    <img src={image} alt={dia?.shapename ?? "Shape Not Available"} className="earr_paired_diamond_img" />
                                   </abbr>
                                 );
                               })}
@@ -1811,37 +1840,70 @@ const DiamondFilter = () => {
                     })}
                   </div>}
                 <div>
-                  {storeInitData?.IsProductListPagination == 1 &&
-                    Math.ceil(diaCount / storeInitData.PageSize) > 1 && (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          marginBlock: "3%",
-                          width: "100%",
-                        }}
-                      >
-                        <div style={{ background: "red" }}></div>
-                        <Pagination
-                          count={Math.ceil(diaCount / storeInitData.PageSize)}
-                          size={maxwidth464px ? "small" : "large"}
-                          shape="circular"
-                          onChange={handlePageChange}
-                          page={currentPage}
-                          showFirstButton
-                          showLastButton
-                          disabled={false}
-                          renderItem={(item) => (
-                            <PaginationItem
-                              {...item}
-                              sx={{
-                                pointerEvents: item.page === currentPage ? 'none' : 'auto',
-                              }}
+                  {isEditablePage === 1 ? (
+                    <>
+                      {storeInitData?.IsProductListPagination == 1 &&
+                        Math.ceil(diaCount / storeInitData?.PageSize > 1) &&
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            marginBlock: "3%",
+                            width: "100%",
+                          }}
+                        >
+                          <div style={{ background: "red" }}></div>
+                          <EditablePagination
+                            currentPage={currentPage}
+                            totalItems={diaCount}
+                            itemsPerPage={storeInitData.PageSize}
+                            onPageChange={handlePageChange}
+                            inputPage={inputPage}
+                            setInputPage={setInputPage}
+                            handlePageInputChange={handlePageInputChange}
+                            maxwidth464px={maxwidth464px}
+                            totalPages={totalPages}
+                            currPage={currentPage}
+                            isShowButton={false}
+                          />
+                        </div>
+                      }
+                    </>
+                  ) : (
+                    <>
+                      {storeInitData?.IsProductListPagination == 1 &&
+                        Math.ceil(diaCount / storeInitData?.PageSize) > 1 && (
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              marginBlock: "3%",
+                              width: "100%",
+                            }}
+                          >
+                            <div style={{ background: "red" }}></div>
+                            <Pagination
+                              count={Math.ceil(diaCount / storeInitData?.PageSize)}
+                              size={maxwidth464px ? "small" : "large"}
+                              shape="circular"
+                              onChange={handlePageChange}
+                              page={currentPage}
+                              showFirstButton
+                              showLastButton
+                              disabled={false}
+                              renderItem={(item) => (
+                                <PaginationItem
+                                  {...item}
+                                  sx={{
+                                    pointerEvents: item.page === currentPage ? 'none' : 'auto',
+                                  }}
+                                />
+                              )}
                             />
-                          )}
-                        />
-                      </div>
-                    )}
+                          </div>
+                        )}
+                    </>
+                  )}
                 </div>
               </>
             ) : (

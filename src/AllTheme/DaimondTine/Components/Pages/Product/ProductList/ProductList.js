@@ -44,6 +44,7 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import GoogleAnalytics from 'react-ga4'
 import { formatRedirectTitleLine, formatTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import EditablePagination from "../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
 
 const ProductList = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -112,6 +113,7 @@ const ProductList = () => {
   let location = useLocation();
   let navigate = useNavigate();
 
+  const [inputPage, setInputPage] = useState(currPage);
   let cookie = Cookies.get("visiterId");
 
 
@@ -121,6 +123,8 @@ const ProductList = () => {
   // useEffect(()=>{
   //   setMenuData(menuList)
   // },[])
+
+  const isEditablePage = 1;
 
   useEffect(() => {
     setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
@@ -346,6 +350,7 @@ const ProductList = () => {
     }
 
     setCurrPage(1)
+    setInputPage(1);
   }, [location?.key]);
 
   // useEffect(() => {
@@ -619,6 +624,7 @@ const ProductList = () => {
 
     // if
     setCurrPage(1);
+    setInputPage(1);
 
     return output;
   };
@@ -1347,12 +1353,28 @@ const ProductList = () => {
 
   }, [selectedMetalId, selectedDiaId, selectedCsId])
 
+  const totalPages = Math.ceil(
+    afterFilterCount / storeInit.PageSize
+  );
+
+  const handlePageInputChange = (event) => {
+    if (event.key === 'Enter') {
+      let newPage = parseInt(inputPage, 10);
+      if (newPage < 1) newPage = 1;
+      if (newPage > totalPages) newPage = totalPages;
+      setCurrPage(newPage);
+      setInputPage(newPage);
+      handelPageChange("", newPage);
+    }
+  };
+
   const handelPageChange = (event, value) => {
     // console.log("pagination",value);
 
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     setIsProdLoading(true);
+    setCurrPage(value);
     setCurrPage(value);
     setTimeout(() => {
       window.scroll({
@@ -3383,37 +3405,63 @@ const ProductList = () => {
                                     </div>
                                   </div>
                                 })}
-                                {storeInit?.IsProductListPagination == 1 &&
-                                  Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        marginTop: "5%",
-                                        width: '100%',
-                                        // marginBottom:'5%'
-                                      }}
-                                      className="smr_pagination_portion"
-                                    >
-                                      <Pagination
-                                        count={Math.ceil(afterFilterCount / storeInit.PageSize)}
-                                        size={maxwidth464px ? "small" : "large"}
-                                        shape="circular"
-                                        onChange={handelPageChange}
-                                        page={currPage}
-                                        showFirstButton
-                                        showLastButton
-                                        renderItem={(item) => (
-                                          <PaginationItem
-                                            {...item}
-                                            sx={{
-                                              pointerEvents: item.page === currPage ? 'none' : 'auto',
-                                            }}
-                                          />
-                                        )}
+                                {isEditablePage === 1 ? (
+                                  <>
+                                    {storeInit?.IsProductListPagination == 1 &&
+                                      Math.ceil(
+                                        afterFilterCount / storeInit.PageSize
+                                      ) > 1 &&
+                                      <EditablePagination
+                                        currentPage={currPage}
+                                        totalItems={afterFilterCount}
+                                        itemsPerPage={storeInit.PageSize}
+                                        onPageChange={handelPageChange}
+                                        inputPage={inputPage}
+                                        setInputPage={setInputPage}
+                                        handlePageInputChange={handlePageInputChange}
+                                        maxwidth464px={maxwidth464px}
+                                        totalPages={totalPages}
+                                        currPage={currPage}
+                                        isShowButton={false}
                                       />
-                                    </div>
-                                  )}
+                                    }
+                                  </>
+                                ) : (
+                                  <>
+                                    {storeInit?.IsProductListPagination == 1 &&
+                                      Math.ceil(afterFilterCount / storeInit.PageSize)
+                                      > 1 && (
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            marginTop: "5%",
+                                            width: '100%',
+                                            // marginBottom:'5%'
+                                          }}
+                                          className="smr_pagination_portion"
+                                        >
+                                          <Pagination
+                                            count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                                            size={maxwidth464px ? "small" : "large"}
+                                            shape="circular"
+                                            onChange={handelPageChange}
+                                            page={currPage}
+                                            showFirstButton
+                                            showLastButton
+                                            renderItem={(item) => (
+                                              <PaginationItem
+                                                {...item}
+                                                sx={{
+                                                  pointerEvents: item.page === currPage ? 'none' : 'auto',
+                                                }}
+                                              />
+                                            )}
+                                          />
+                                        </div>
+                                      )}
+                                  </>
+                                )}
                               </div>
                             ) : (
                               <div

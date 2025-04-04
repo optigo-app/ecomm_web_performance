@@ -444,6 +444,7 @@ const SettingPage = () => {
     }
     // fetchData('')
     setCurrPage(1)
+    setInputPage(1);
 
   }, [location?.key]);
 
@@ -796,6 +797,7 @@ const SettingPage = () => {
     const diamondShape = output?.find((ele) => ele.dropdownIndex === 2);
     setIsProdLoading(true);
     setCurrPage(value)
+    setInputPage(value)
     setTimeout(() => {
       window.scroll({
         top: 0,
@@ -826,6 +828,7 @@ const SettingPage = () => {
 
     setIsOnlySettLoading(true)
     setCurrPage(1);
+    setInputPage(1);
 
     let sortby = e.target?.value
 
@@ -845,12 +848,16 @@ const SettingPage = () => {
   }
 
   const handlePriceSliderChange = (event, newValue) => {
+    setCurrPage(1);
+    setInputPage(1);
     const roundedValue = newValue.map(val => parseInt(val));
     setPriceRangeValue(roundedValue)
     handleButton(4, roundedValue);
   };
 
   useEffect(() => {
+    setCurrPage(1);
+    setInputPage(1);
     let output = selectedValues.filter((ele) => ele.value)
     let priceValue = output.find((item) => item?.dropdownIndex === 4)
     const diamondShape = output?.find((ele) => ele.dropdownIndex === 2);

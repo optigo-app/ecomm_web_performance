@@ -925,6 +925,7 @@
                 align-items: center;
                 height: 50rem;
                 max-height: 100%;
+                position: relative;
             }
 
             .zigzag-image {
@@ -1108,7 +1109,7 @@
 
                             .smr1_titleline {
                                 span {
-                                    font-size: 20px;
+                                    font-size: 15px;
                                     font-family: $homePageFontFamily;
                                     display: inline-block;
                                     max-width: 100%;
@@ -1341,9 +1342,17 @@
     .smr_lookBookSubImageDiv {
         width: 40%;
         // box-shadow: rgba(0, 0, 0, 0.10) 0px 5px 15px;
-        margin: 5px;
+        margin: 2.5px;
         padding: 15px;
         background-color: transparent;
+
+        @media (max-width: 1200px) {
+            padding: 9px;
+        }
+
+        @media (max-width: 900px) {
+            padding: 15px;
+        }
 
         @media (max-width: 768px) {
             padding: 10px;
@@ -1353,6 +1362,7 @@
             padding: 10px;
             width: 120px;
         }
+
     }
 
     .metal-buttons-container button {
@@ -1411,7 +1421,14 @@
     }
 
     .smr1_ecat_title {
+        font-size: 13px;
+        font-weight: bold;
+        margin: 5px 0;
+        color: #333;
         font-family: $homePageFontFamily;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     @keyframes popupAnimation {
@@ -2078,6 +2095,48 @@
     //     height: 57rem;
     // }
 
+    .zigzag-images {
+        height: 50rem;
+        overflow-y: scroll;
+
+        @media (max-width: 1750px) {
+            height: 45rem;
+        }
+
+        @media (max-width: 1600px) {
+            height: 40rem;
+        }
+
+        @media (max-width: 1450px) {
+            height: 35rem;
+        }
+
+        @media (max-width: 1300px) {
+            height: 30rem;
+        }
+
+        @media (max-width: 1150px) {
+            height: 25rem;
+        }
+
+        @media (max-width: 900px) {
+            overflow-y: scroll;
+            width: 100%;
+        }
+    }
+
+    .view-more-btn {
+        position: absolute;
+        right: 2rem;
+        bottom: 15px;
+        background: none;
+        border: none;
+        text-decoration: underline;
+        font-size: 17px;
+        padding-inline: 15px;
+        padding-block: 10px;
+    }
+
     .swiper-button-prev:after,
     .swiper-button-next:after {
         font-family: swiper-icons;
@@ -2138,6 +2197,12 @@
 
     }
 
+    @media (max-width: 900px) {
+        --swiper-navigation-size: 18px;
+        height: 60rem;
+        overflow-y: auto;
+    }
+
     @media (max-width: 768px) {
         --swiper-navigation-size: 16px;
 
@@ -2152,6 +2217,31 @@
         }
 
     }
+
+    @media (max-width: 650px) {
+        --swiper-navigation-size: 18px;
+        height: 50rem;
+        overflow-y: auto;
+    }
+
+    @media (max-width: 550px) {
+        --swiper-navigation-size: 18px;
+        height: 40rem;
+        overflow-y: auto;
+    }
+
+    @media (max-width: 450px) {
+        --swiper-navigation-size: 18px;
+        height: 30rem;
+        overflow-y: auto;
+    }
+
+    @media (max-width: 350px) {
+        --swiper-navigation-size: 18px;
+        height: 25rem;
+        overflow-y: auto;
+    }
+
 
     @media (max-width: 480px) {
         --swiper-navigation-size: 14px;
