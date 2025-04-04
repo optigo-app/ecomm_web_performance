@@ -1,0 +1,260 @@
+.main_albumcard_mainDiv {
+    .main_albumcard_div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+        width: 85%;
+        margin-inline: auto;
+        // background-color: #008B8B;
+        background-color: #efeded;
+        padding: 25px;
+        border-radius: 8px;
+        margin-top: 5rem;
+
+        @media (max-width: 1530px) {
+            gap: 0.2rem;
+            justify-content: center;
+        }
+
+        @media (max-width: 1140px) {
+            gap: 0;
+        }
+
+        @media (max-width: 950px) {
+            gap: 1.5rem;
+            padding-top: 3rem;
+        }
+
+        @media (max-width: 730px) {
+            gap: 1rem;
+        }
+
+        @media (max-width: 650px) {
+            gap: 0.5rem;
+            padding-top: 1.5rem;
+        }
+
+        .main_Card_Container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 500px;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            width: 100%;
+            // /* Default width for large screens */
+
+            // @media (max-width: 1750px) {
+            //     width: 21%;
+            // }
+
+            // @media (max-width: 1650px) {
+            //     width: 23%;
+            // }
+
+            // @media (max-width: 1530px) {
+            //     width: 24%;
+            //     height: 360px;
+            // }
+
+            // @media (max-width: 1400px) {
+            //     width: 24%;
+            // }
+
+            // @media (max-width: 1200px) {
+            //     width: 24%;
+            // }
+
+            // @media (max-width: 1140px) {
+            //     width: 25%;
+            // }
+
+            // @media (max-width: 950px) {
+            //     width: 45%;
+            //     height: 420px;
+            // }
+
+            // @media (max-width: 730px) {
+            //     width: 45%;
+            //     height: 350px;
+            // }
+
+            // @media (max-width: 650px) {
+            //     width: 49%;
+            // }
+
+            // @media (max-width: 580px) {
+            //     width: 80%;
+            // }
+
+            // @media (max-width: 375px) {
+            //     width: 90%;
+            // }
+
+            // @media (max-width: 335px) {
+            //     width: 95%;
+            // }
+
+            &:hover {
+                transform: scale(1.3);
+
+                @media (max-width: 1530px) {
+                    transform: scale(1.15);
+                }
+
+                @media (max-width: 1400px) {
+                    transform: scale(1.15);
+                }
+
+                @media (max-width: 1400px) {
+                    transform: scale(1.2);
+                }
+
+                @media (max-width: 1100px) {
+                    transform: scale(1.15);
+                }
+
+                @media (max-width: 1000px) {
+                    transform: scale(1.1);
+                }
+
+                @media (max-width: 950px) {
+                    transform: scale(1.2);
+                }
+
+                @media (max-width: 800px) {
+                    transform: scale(1.2);
+                }
+
+                @media (max-width: 730px) {
+                    transform: scale(1.2);
+                }
+
+                @media (max-width: 580px) {
+                    transform: scale(1.2);
+                }
+            }
+
+            .main_Card_image_div {
+                height: 100%;
+                width: 85%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+
+                @media (max-width: 1400px) {
+                    width: 88%;
+                }
+
+                @media (max-width: 1000px) {
+                    width: 85%;
+                }
+
+                @media (max-width: 950px) {
+                    width: 85%;
+                }
+
+                @media (max-width: 800px) {
+                    width: 90%;
+                }
+
+                @media (max-width: 730px) {
+                    width: 90%;
+                }
+
+                @media (max-width: 650px) {
+                    width: 90%;
+                }
+
+                @media (max-width: 580px) {
+                    width: 98%;
+                }
+
+                @media (max-width: 480px) {
+                    width: 80%;
+                }
+
+                @media (max-width: 420px) {
+                    width: 90%;
+                }
+
+                @media (max-width: 375px) {
+                    width: 90%;
+                }
+
+                @media (max-width: 335px) {
+                    width: 98%;
+                }
+
+                .main_card_left_star {
+                    position: absolute;
+                    left: -15px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+
+                .main_card_right_star {
+                    position: absolute;
+                    right: -15px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+
+                .main_Card_image {
+                    width: 85%;
+                    height: 75%;
+                    object-fit: cover;
+                    border-top-left-radius: 200px 200px;
+                    border-top-right-radius: 200px 200px;
+                    border-bottom-left-radius: 200px 200px;
+                    border-bottom-right-radius: 200px 200px;
+                    border: 1.5px solid #965500;
+
+                    padding: 20px;
+
+                    &:hover {
+                        border: 2.5px solid #965500;
+                    }
+
+                    @media (max-width: 1530px) {
+                        height: 20rem;
+                    }
+
+                    @media (max-width: 1400px) {
+                        height: 20rem;
+                    }
+
+                    @media (max-width: 1120px) {
+                        height: 20rem;
+                    }
+
+                    @media (max-width: 950px) {
+                        height: 24rem;
+                    }
+
+                    @media (max-width: 800px) {
+                        height: 24rem;
+                    }
+
+                    @media (max-width: 730px) {
+                        height: 24rem;
+                    }
+
+                    @media (max-width: 650px) {
+                        height: 19rem;
+                    }
+
+                    @media (max-width: 580px) {
+                        height: 20rem;
+                    }
+
+                }
+            }
+        }
+    }
+}

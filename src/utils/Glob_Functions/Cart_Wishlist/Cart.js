@@ -584,33 +584,20 @@ const useCart = () => {
       if (pd?.ImageCount > 0) {
         primaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1~${mtcCode?.colorcode}.${pd?.ImageExtension}`;
         secondaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1.${pd?.ImageExtension}`;
-      }
-      else {
+      } else {
         primaryImage = secondaryImage = imageNotFound;
       }
-      // if (pd?.ImageCount > 0) {
-      //   primaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
-      //   secondaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1.${pd?.ImageExtension}`;
-      // } 
-      // else {
-      //   primaryImage = secondaryImage = imageNotFound;
-      // }
 
-      loadImage(primaryImage)
-        .then((imgSrc) => {
-          resolve(imgSrc);
-        })
-        .catch(() => {
-          loadImage(secondaryImage)
-            .then((imgSrc) => {
-              resolve(imgSrc);
-            })
-            .catch(() => {
-              resolve(imageNotFound);
-            });
+      Promise.all([
+        loadImage(primaryImage).catch(() => null),
+        loadImage(secondaryImage).catch(() => null),
+      ])
+        .then(([primaryImageResult, secondaryImageResult]) => {
+          resolve(primaryImageResult || secondaryImageResult || imageNotFound);
         });
     });
   };
+
 
   // const CartCardImageFunc = (pd) => {
   //   const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
@@ -638,26 +625,52 @@ const useCart = () => {
     setLoadingIndex(0)
   }, [cartData])
 
-  useEffect(() => {
-    if (loadingIndex >= finalCartData?.length) return
 
-    const loadNextProductImages = () => {
+  useEffect(() => {
+    if (loadingIndex >= finalCartData?.length) return;
+
+    const loadNextProductImages = async () => {
       setFinalCartData(prevData => {
-        const newData = [...prevData]
+        const newData = [...prevData];
         newData[loadingIndex] = {
           ...newData[loadingIndex],
-          images: CartCardImageFunc(newData[loadingIndex]),
-          loading: false
-        }
-        return newData
-      })
+          loading: true,  // Mark as loading while waiting for the image to load
+        };
+        return newData;
+      });
 
-      setLoadingIndex(prevIndex => prevIndex + 1)
-    }
+      try {
+        // Wait for the image to be loaded
+        const image = await CartCardImageFunc(finalCartData[loadingIndex]);
+        setFinalCartData(prevData => {
+          const newData = [...prevData];
+          newData[loadingIndex] = {
+            ...newData[loadingIndex],
+            images: image,
+            loading: false, // Mark loading as done
+          };
+          return newData;
+        });
+      } catch (error) {
+        console.error('Error loading image:', error);
+        setFinalCartData(prevData => {
+          const newData = [...prevData];
+          newData[loadingIndex] = {
+            ...newData[loadingIndex],
+            images: imageNotFound, // Fallback image if error
+            loading: false,
+          };
+          return newData;
+        });
+      }
 
-    const timer = setTimeout(loadNextProductImages, 20)
-    return () => clearTimeout(timer)
-  }, [loadingIndex, finalCartData, CartCardImageFunc])
+      setLoadingIndex(prevIndex => prevIndex + 1);  // Move to next product
+    };
+    loadNextProductImages();
+    // const timer = setTimeout(loadNextProductImages, 20);
+    // return () => clearTimeout(timer);
+  }, [loadingIndex, finalCartData, CartCardImageFunc]);
+
 
   const compressAndEncode = (inputString) => {
     try {

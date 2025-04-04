@@ -1,0 +1,163 @@
+.jewelry-showcase {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f8fafc;
+    border-radius: 1rem;
+    margin-inline: auto;
+    width: 95%;
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+
+        @media (min-width: 768px) {
+            flex-direction: row;
+        }
+    }
+
+    &__left {
+        width: 100%;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+
+        @media (min-width: 768px) {
+            width: 15%;
+            text-align: left;
+        }
+    }
+
+    &__icon {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+
+    .icon {
+        width: 3rem;
+        height: 3rem;
+        color: #f59e0b; // amber-500
+    }
+
+    &__title {
+        font-size: 1.5rem;
+        font-family: serif;
+        margin-bottom: 1rem;
+
+        @media (min-width: 768px) {
+            font-size: 2rem;
+        }
+    }
+
+    &__description {
+        color: #4b5563; // gray-700
+        margin-bottom: 1.5rem;
+    }
+
+    &__right {
+        display: flex;
+        overflow-x: scroll;
+        padding-top: 1.5rem;
+
+        @media (min-width: 768px) {
+            width: 85%;
+            gap: 5px;
+            overflow: hidden;
+        }
+    }
+
+    &__item {
+        position: relative;
+        transition: all 0.5s ease-in-out;
+        flex-shrink: 0;
+        overflow: hidden;
+
+        &.hovered {
+            flex-grow: 1;
+            width: 50%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
+
+        &.not-hovered {
+            width: 19.5%;
+
+            .jewelry-showcase__item:hover {
+                width: 10%;
+            }
+
+        }
+    }
+
+    &__image {
+        height: 500px;
+        position: relative;
+        width: 100%;
+
+        img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    &__overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        // background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+
+        &.visible {
+            opacity: 1;
+        }
+    }
+
+    .overlay-content {
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .overlay-title {
+        color: black;
+        font-size: 1.25rem;
+        font-weight: medium;
+        margin-bottom: 0.25rem;
+    }
+
+    .overlay-color {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 9999px;
+        color: black;
+        font-size: 0.75rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .overlay-description {
+        // color: rgba(255, 255, 255, 0.9);
+        color: black;
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .overlay-price {
+        color: black;
+        font-weight: bold;
+    }
+}

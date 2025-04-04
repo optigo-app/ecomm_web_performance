@@ -1,0 +1,103 @@
+@import '../../../../../scss/variable.scss';
+
+.smr1_footer-section {
+    .add_hoq_new_kl {
+        font-size: 13px !important;
+        font-weight: 400;
+        list-style: 0.5px;
+    }
+
+    .address_hoq {
+        font-size: 13px !important;
+        font-weight: 400;
+        list-style: 0.5px;
+    }
+
+    &:nth-child(2) {
+        margin-right: 2rem;
+        width: 25%;
+
+        @media (max-width: 900px) {
+            margin-right: 5rem;
+        }
+    }
+
+    h4 {
+        font-size: 15px;
+        margin-top: 35px;
+        font-stretch: 100%;
+        font-family: $homePageFontFamily;
+        color: black;
+        font-weight: 500;
+    }
+
+    p {
+        color: #696969;
+        line-height: 1.6;
+        margin-bottom: 14px;
+        font-family: $homePageFontFamily;
+        font-weight: 400 !important;
+        padding-right: 2rem;
+    }
+
+    .social-links {
+        a {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+
+        li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            letter-spacing: 1px;
+
+            a {
+                // color: rgb(58, 58, 58);
+                color: #000;
+                text-decoration: none;
+                font-weight: 400;
+                transition: color 0.3s;
+            }
+        }
+    }
+
+    .smr1_subscribe-form {
+        display: flex;
+        border-bottom: 2px solid black;
+        padding: 5px 0;
+
+        input[type="email"] {
+            flex: 1;
+            padding: 8px;
+            font-size: 14px;
+            margin-right: 10px;
+            background-color: transparent;
+            outline: none;
+            border: none;
+            font-weight: 500;
+            color: black;
+            outline: none;
+            font-family: $homePageFontFamily;
+        }
+
+        button {
+            padding: 3px 20px;
+            font-size: 14px;
+            color: black;
+            border: none;
+            font-weight: 500;
+            color: black;
+            background-color: transparent;
+            cursor: pointer;
+            font-family: $homePageFontFamily;
+        }
+    }
+}

@@ -1251,8 +1251,8 @@ const HeroSectionSlider = () => {
                             exit={{ opacity: 0, y: -50 }}
                             transition={{ duration: 1 }}
                         >
-                            <h2>Welcome to the Hero Section!</h2>
-                            <p>Here is some text that fades in and moves up when this image is active.</p>
+                            {/* <h2>Welcome to the Hero Section!</h2>
+                            <p>Here is some text that fades in and moves up when this image is active.</p> */}
                         </motion.div>
                     </AnimatePresence>
                 </SwiperSlide>
@@ -1268,8 +1268,8 @@ const HeroSectionSlider = () => {
                             exit={{ opacity: 0, y: -50 }}
                             transition={{ duration: 1 }}
                         >
-                            <h2>Another Hero Section!</h2>
-                            <p>This text fades in and moves up when the second image is active.</p>
+                            {/* <h2>Another Hero Section!</h2>
+                            <p>This text fades in and moves up when the second image is active.</p> */}
                         </motion.div>
                     </AnimatePresence>
                 </SwiperSlide>
@@ -1296,12 +1296,6 @@ const AlbumSection = () => {
 
             const storeInitData = JSON.parse(sessionStorage.getItem("storeInit"));
             const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
-
-            if (!storeInitData || !loginUserDetail) {
-                setIsLoading(false);
-                return;
-            }
-
             setStoreInit(storeInitData);
 
             const { IsB2BWebsite } = storeInitData;
@@ -1326,7 +1320,7 @@ const AlbumSection = () => {
         };
 
         fetchAlbumData();
-    }, [islogin]);
+    }, []);
 
 
     const columnCount = {
@@ -2030,6 +2024,7 @@ const EcatDesignSet = () => {
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const is600Width = useMediaQuery("(max-width: 600px)");
+    const shadow = "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px";
 
     const handleImageError = (index) => {
         setImageLoadError((prev) => ({ ...prev, [index]: true }));
@@ -2184,6 +2179,7 @@ const EcatDesignSet = () => {
                         <Swiper
                             spaceBetween={10}
                             slidesPerView={1}
+                            autoHeight={true}
                             modules={[Navigation]}
                             navigation={{
                                 nextEl: ".custom-swiper-button-next",
@@ -2194,7 +2190,9 @@ const EcatDesignSet = () => {
                             {designSetLstData.map((designSet, index) => {
                                 const images = designSet.images || [];
                                 return (
-                                    <SwiperSlide key={index}>
+                                    <SwiperSlide key={index}
+                                        sx={{ position: 'relative', }}
+                                    >
                                         <Box className="swiper-slide-content" sx={{
                                             display: 'flex',
                                             alignItems: 'center',
@@ -2255,12 +2253,11 @@ const EcatDesignSet = () => {
                                                     alignItems: 'center',
                                                     justifyContent: (parseDesignDetails(designSet?.Designdetail)?.length <= 2) ? 'flex-start' : 'space-between',
                                                     flex: '1 40%',
-                                                    height: '100%', // Ensure the zigzag section takes full height
                                                     position: 'relative',
                                                     marginTop: (parseDesignDetails(designSet?.Designdetail)?.length <= 2) ? '20px' : '0',
                                                 }}
                                             >
-                                                {(parseDesignDetails(designSet?.Designdetail))?.slice(0, 3)?.map((detail, subIndex) => {
+                                                {(parseDesignDetails(designSet?.Designdetail))?.map((detail, subIndex) => {
                                                     const imageSrc = imageSources[detail?.designno] || imageNotFound;
                                                     const transformValue = subIndex % 2 === 0 ? 'translateX(-4rem)' : 'translateX(4rem)';
                                                     const StyletransformValue = (subIndex % 2 === 0 && is600Width) ? 'translateX(-3rem)' : 'translateX(3rem)';
@@ -2270,7 +2267,7 @@ const EcatDesignSet = () => {
                                                             whileInView={handleInView}
                                                             style={{
                                                                 transform: is600Width ? StyletransformValue : transformValue,
-                                                                boxShadow: showImages ? "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px" : "none",
+                                                                boxShadow: showImages ? shadow : "none",
                                                             }}
                                                             viewport={{ once: true }}
                                                             key={subIndex} className="smr_lookBookSubImageDiv"
@@ -2308,7 +2305,7 @@ const EcatDesignSet = () => {
                                                                         viewport={{ once: true, margin: '0px' }}
                                                                     />
                                                                     <div style={{ marginTop: "10px" }}>
-                                                                        <h3 className='smr1_ecat_title' style={{ fontSize: "16px", fontWeight: "bold", margin: "5px 0", color: "#333" }}>
+                                                                        <h3 className='smr1_ecat_title'>
                                                                             {formatTitleLine(detail?.TitleLine)}
                                                                         </h3>
                                                                         <span style={{ marginBottom: "0" }}>
@@ -2326,7 +2323,11 @@ const EcatDesignSet = () => {
                                             </Box>
 
                                         </Box>
-
+                                        {/* {parseDesignDetails(designSet?.Designdetail).length > 3 && (
+                                            <button style={{ boxShadow: shadow }} className="view-more-btn">
+                                                View More
+                                            </button>
+                                        )} */}
                                     </SwiperSlide>
                                 )
                             })}

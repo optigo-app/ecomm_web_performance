@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Home from './Components/Pages/Home/Index'
 import CartDetails from './Components/Pages/Cart/Cart'
@@ -36,7 +36,7 @@ import History from './Components/Pages/Home/StaticPages/History/History'
 import Appointment from './Components/Pages/Home/StaticPages/BookAppointment/Appointment'
 import CountdownTimerFnc from './Components/Pages/Home/CountdownTimer/CountdownTimerFnc'
 import RedirectModal from './Components/Pages/Home/CountdownTimer/RedirectModal'
-import { storImagePath } from '../../utils/Glob_Functions/GlobalFunction'
+import { storImagePath } from '../../utils/Glob_Functions/GlobalFunction';
 
 const Elveester_app = () => {
 
@@ -155,4 +155,4 @@ const Elveester_app = () => {
   )
 }
 
-export default Elveester_app
+export default Elveester_app;

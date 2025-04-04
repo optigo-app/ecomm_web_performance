@@ -1,0 +1,61 @@
+.main_BannerCar_div {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background-color: #efeded;
+    padding: 2rem;
+    margin-block: 4rem;
+    margin-inline: auto;
+    width: 95%;
+
+    .main_Bannercar_wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        height: 100%;
+        align-items: center;
+        width: 100%;
+        margin-inline: auto;
+        gap: 15px;
+
+        .main_BannerCar_left_div {
+            display: flex;
+            flex: 1 10%;
+            height: 35%;
+
+            img {
+                height: 20.5rem;
+            }
+        }
+
+        .main_BannerCar_right_div {
+            display: flex;
+            flex: 1 90%;
+            width: 80%;
+            height: 100%;
+
+            .slide-content {
+                border: 1px solid rgb(192, 192, 192);
+                padding: 13px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 95%;
+                background-color: white;
+
+                .slide-image {
+                    width: 100%;
+                }
+
+                .slide-details {
+                    text-align: left;
+                    width: 100%;
+                    margin-top: 5px;
+                }
+            }
+
+        }
+    }
+
+}

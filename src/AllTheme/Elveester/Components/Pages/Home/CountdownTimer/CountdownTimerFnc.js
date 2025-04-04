@@ -29,12 +29,26 @@ const CountdownTimerFnc = () => {
         let timerID;
 
         if (timerStatus != 0 && isloginStatus === 'true') {
-            timerID = setInterval(() => tick(entryDate, expiryDate), 1000);
+            timerID = setInterval(() => {
+                const newCountdown = calculateCountdown(entryDate, expiryDate);
+                setCountdown(newCountdown);
+                setRedModal(false);
+    
+                if (newCountdown.days === 0 && newCountdown.hours === 0 && newCountdown.minutes === 0) {
+                    clearInterval(timerID); // Ensure timer stops before login redirect
+                    setRedModal(true);
+                    setShowTimer(false);
+                    handleLogin();
+                }
+            }, 1000);
+    
             setCountDownStatus(true);
-            setShowTimer(true)
+            setShowTimer(true);
         }
 
-        return () => clearInterval(timerID);
+        return () => {
+            if (timerID) clearInterval(timerID);
+        };
     }, [entryDate, expiryDate, timerStatus, isloginStatus]);
 
     function calculateCountdown(startDate, endDate) {
