@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Productdetail.scss";
 import Footer from "../../Home/Footer/Footer";
 import { useAsyncError, useLocation, useNavigate } from "react-router-dom";
@@ -599,7 +599,7 @@ const ProductDetail = () => {
     //   `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
     //   }${productData?.designno}?p=${encodeObj}`
     // );
-     navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
+    navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
 
     // step 1
     setSingleProd1({});
@@ -1394,6 +1394,41 @@ const ProductDetail = () => {
     });
   }, [designSetList]);
 
+  const [isClamped, setIsClamped] = useState(false);
+
+  const descriptionRef = useRef(null); // Using useRef instead of document.querySelector
+  const descriptionText = singleProd1?.description ?? singleProd?.description;
+
+  useEffect(() => {
+    setIsClamped(false);
+    setIsExpanded(false);
+
+    const checkTextOverflow = () => {
+      const descriptionElement = descriptionRef.current;
+      if (descriptionElement) {
+        const isOverflowing =
+          descriptionElement.scrollHeight > descriptionElement.clientHeight;
+        setIsClamped(isOverflowing);
+      }
+    };
+
+    checkTextOverflow();
+
+    window.addEventListener('resize', checkTextOverflow);
+    return () => {
+      window.removeEventListener('resize', checkTextOverflow);
+    };
+  }, [descriptionText, descriptionRef])
+
+  useEffect(() => {
+    setIsClamped(false);
+    setIsExpanded(false);
+  }, [location?.key])
+
+  const toggleText = () => {
+    setIsExpanded((prevState) => !prevState);
+  };
+
   return (
     <>
       <Helmet>
@@ -1590,7 +1625,7 @@ const ProductDetail = () => {
                                 {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
                               </span>
                             </span>
-                            {singleProd?.description && (
+                            {/* {singleProd?.description && (
                               <div
                                 style={{
                                   display: "flex",
@@ -1630,6 +1665,25 @@ const ProductDetail = () => {
                                 >
                                   {isExpanded ? "Show less" : "Read more"}
                                 </a>
+                              </div>
+                            )} */}
+                            {descriptionText?.length > 0 && (
+                              <div className={`roop_prod_description ${isExpanded ? 'roop_show-more' : ''}`}>
+                                <p className="roop_description-text" ref={descriptionRef}>
+                                  {descriptionText}
+                                </p>
+
+                                {(isClamped && !isExpanded) && ( // Show "Show More" only if text is clamped and not expanded
+                                  <span className="roop_toggle-text" onClick={toggleText}>
+                                    Show More
+                                  </span>
+                                )}
+
+                                {isExpanded && ( // Show "Show Less" when the description is expanded
+                                  <span className="roop_toggle-text" onClick={toggleText}>
+                                    Show Less
+                                  </span>
+                                )}
                               </div>
                             )}
                           </div>

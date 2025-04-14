@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { Storeinit } from '../../utils/API/Home/Storeinit/Storeinit';
+import { useRecoilValue } from 'recoil';
+import { IsSecurityKey } from './Components/Recoil/atom';
 
 const PrivateRoutes = ({ isLoginStatus }) => {
     const [isLoading, setIsLoading] = useState(true);
     const location = useLocation();
+    const getSecurityKey = useRecoilValue(IsSecurityKey);
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
     useEffect(() => {
@@ -40,12 +43,10 @@ const PrivateRoutes = ({ isLoginStatus }) => {
   
 
     if (storeInit?.IsB2BWebsite != 0) {
-        if (isLoginStatus != true) {
+        if (isLoginStatus != true && getSecurityKey == 1) {
             if (location.pathname.startsWith('/p')
                 || location.pathname.startsWith('/d')
-                || location.pathname.startsWith('/cartPage')
-                || location.pathname.startsWith('/myWishList')
-                || location.pathname.startsWith('/Lookbook')) {
+                || location.pathname.startsWith('/cartPage')) {
                 let storeInt = JSON.parse(sessionStorage.getItem("storeInit"));
                 if (!storeInt) {
                     Storeinit();

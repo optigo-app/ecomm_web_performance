@@ -27,6 +27,7 @@ import {
   proCat_CartCount,
   proCat_WishCount,
   proCat_loginState,
+  sliderData,
   soketProductData,
 } from "../../../Recoil/atom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -130,6 +131,26 @@ const ProductDetail = () => {
     );
   };
 
+  const decodeAndDecompress = (encodedString) => {
+    try {
+      const binaryString = atob(encodedString);
+
+      const uint8Array = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        uint8Array[i] = binaryString.charCodeAt(i);
+      }
+
+      const decompressed = Pako.inflate(uint8Array, { to: "string" });
+
+      const jsonObject = JSON.parse(decompressed);
+
+      return jsonObject;
+    } catch (error) {
+      console.error("Error decoding and decompressing:", error);
+      return null;
+    }
+  };
+
   const maxwidth1023px = useMediaQuery('(max-width: 1023px)')
 
   useEffect(() => {
@@ -145,6 +166,11 @@ const ProductDetail = () => {
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [isClamped, setIsClamped] = useState(false);
+  let navVal = location?.search.split("?p=")[1];
+  let decodeobj = decodeAndDecompress(navVal);
+
+  const [nextindex, setNextIndex] = useState(decodeobj?.in);
+  const [prevIndex, setPrevIndex] = useState();
 
   const descriptionRef = useRef(null); // Using useRef instead of document.querySelector
   const descriptionText = singleProd1?.description ?? singleProd?.description;
@@ -169,7 +195,7 @@ const ProductDetail = () => {
       window.removeEventListener('resize', checkTextOverflow);
     };
   }, [descriptionText, descriptionRef])
-  
+
   useEffect(() => {
     setIsClamped(false);
     setIsExpanded(false);
@@ -180,88 +206,112 @@ const ProductDetail = () => {
   };
 
   useEffect(() => {
-    let allListData = sessionStorage.getItem("deatilSliderData");
+    const fetchData = async () => {
+      let allListData = sessionStorage.getItem("deatilSliderData");
 
-    if (allListData) {
-      try {
-        allListData = JSON.parse(allListData);
+      if (!allListData) {
+        let navVal = location?.search.split("?p=")[1];
+        let decodeobj = decodeAndDecompress(navVal);
+        let obj = { mt: decodeobj?.m, dia: decodeobj?.d, cs: decodeobj?.c };
 
-        if (Array.isArray(allListData) && allListData.length > 0) {
-          console.log("Valid array data:", allListData);
-        } else if (typeof allListData === 'object' && allListData !== null) {
-          console.log("Valid object data:", allListData);
-        } else {
-          console.error("Invalid data format in sessionStorage");
+        try {
+          const res = await ProductListApi(decodeobj?.f, 1, obj, decodeobj?.pl, cookie, decodeobj?.sb,
+            decodeobj?.di, decodeobj?.ne, decodeobj?.gr);
+          let data = sessionStorage.setItem(
+            "deatilSliderData",
+            JSON.stringify(res?.pdList)
+          );
+          if (data) {
+            allListData = sessionStorage.getItem("deatilSliderData");
+          }
+        } catch (error) {
+          console.error("Error fetching product list:", error);
         }
-      } catch (error) {
-        console.error("Error parsing JSON data from sessionStorage:", error);
       }
-    } else {
-      console.error("No data found in sessionStorage for 'deatilSliderData'");
-    }
 
-    const finalProdWithPrice = allListData && allListData?.map((product) => {
-      let pdImgList = [];
+      if (allListData) {
+        try {
+          allListData = JSON.parse(allListData);
 
-      if (product?.ImageCount > 0) {
-        for (let i = 1; i <= product?.ImageCount; i++) {
-          let imgString =
-            storeInit?.CDNDesignImageFol +
-            product?.designno +
-            "~" +
-            i +
-            "." +
-            product?.ImageExtension;
-          pdImgList.push(imgString);
+          if (Array.isArray(allListData) && allListData.length > 0) {
+            // console.log("Valid array data:", allListData);
+          } else if (typeof allListData === 'object' && allListData !== null) {
+            // console.log("Valid object data:", allListData);
+          } else {
+            console.error("Invalid data format in sessionStorage");
+            return;
+          }
+        } catch (error) {
+          console.error("Error parsing JSON data from sessionStorage:", error);
+          return;
         }
       } else {
-        pdImgList.push(imageNotFound);
-      }
-
-      let images = pdImgList;
-
-      let StatusId = product?.StatusId ?? 0;
-
-      if (SoketData && SoketData?.length != 0) {
-        let filterdata = SoketData?.find(
-          (ele) => ele?.designno === product?.designno
-        );
-        StatusId = filterdata?.StatusId ?? 0;
-      }
-
-      return {
-        ...product,
-        images,
-        StatusId,
-      };
-    });
-
-    const fetchImageData = async () => {
-      if (!Array.isArray(finalProdWithPrice) || finalProdWithPrice.length === 0) {
-        console.error("finalProdWithPrice is not a valid array or is empty");
+        console.error("No data found in sessionStorage for 'deatilSliderData'");
         return;
       }
-      try {
-        const processedData = await Promise.all(
-          finalProdWithPrice.map(async (ele) => {
-            const src = `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`;
-            const isImageAvailable = await checkImageAvailability(src);
-            return {
-              ...ele,
-              imageSrc: isImageAvailable ? src : imageNotFound,
-            };
-          })
-        );
 
-        setAllListDataSlide(finalProdWithPrice);
-        setImageData(processedData);
-      } catch (error) {
-        console.error("Error processing image data:", error);
-      }
+      const finalProdWithPrice = allListData.map((product) => {
+        const pdImgList = [];
+
+        if (product?.ImageCount > 0) {
+          for (let i = 1; i <= product?.ImageCount; i++) {
+            pdImgList.push(
+              `${storeInit?.CDNDesignImageFol}${product?.designno}~${i}.${product?.ImageExtension}`
+            );
+          }
+        } else {
+          pdImgList.push(imageNotFound);
+        }
+
+        let StatusId = product?.StatusId ?? 0;
+
+        if (SoketData && SoketData?.length !== 0) {
+          const filterdata = SoketData?.find((ele) => ele?.designno === product?.designno);
+          StatusId = filterdata?.StatusId ?? 0;
+        }
+
+        return {
+          ...product,
+          images: pdImgList,
+          StatusId,
+        };
+      });
+
+      // Process image data asynchronously
+      const fetchImageData = async () => {
+        if (!Array.isArray(finalProdWithPrice) || finalProdWithPrice.length === 0) {
+          console.error("finalProdWithPrice is not a valid array or is empty");
+          return;
+        }
+
+        try {
+          const processedData = await Promise.all(
+            finalProdWithPrice.map(async (ele) => {
+              const src = `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`;
+              const isImageAvailable = await checkImageAvailability(src);
+              return {
+                ...ele,
+                imageSrc: isImageAvailable ? src : imageNotFound,
+              };
+            })
+          );
+
+          setAllListDataSlide(finalProdWithPrice); // State update for final product data
+          setImageData(processedData); // State update for image data
+        } catch (error) {
+          console.error("Error processing image data:", error);
+        }
+      };
+
+      fetchImageData(); // Invoke image processing after final data processing
+
+      // Update cart status based on singleProd
+      const isInCart = singleProd?.IsInCart !== 0; // Simplified check
+      setAddToCartFlag(isInCart);
     };
-    fetchImageData();
-    let isincart = singleProd?.IsInCart == 0 ? false : true;
-    setAddToCartFlag(isincart);
+
+    // Call the fetchData function within useEffect
+    fetchData();
   }, [singleProd]);
 
   useEffect(() => {
@@ -704,26 +754,6 @@ const ProductDetail = () => {
     if (storeinit) setStoreInit(storeinit);
   }, []);
 
-  const decodeAndDecompress = (encodedString) => {
-    try {
-      const binaryString = atob(encodedString);
-
-      const uint8Array = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        uint8Array[i] = binaryString.charCodeAt(i);
-      }
-
-      const decompressed = Pako.inflate(uint8Array, { to: "string" });
-
-      const jsonObject = JSON.parse(decompressed);
-
-      return jsonObject;
-    } catch (error) {
-      console.error("Error decoding and decompressing:", error);
-      return null;
-    }
-  };
-
   useEffect(() => {
     let url = `${location?.pathname}${location?.search}`;
     let navVal = location?.search.split("?p=")[1];
@@ -893,14 +923,14 @@ const ProductDetail = () => {
                 .catch((err) => console.log("similarbrandErr", err));
             }
 
-            if (storeinitInside?.IsProductDetailDesignSet === 1) {
-              await DesignSetListAPI(obj1, resp?.pdList[0]?.designno, cookie)
-                .then((res) => {
-                  // console.log("designsetList",res?.Data?.rd[0])
-                  setDesignSetList(res?.Data?.rd);
-                })
-                .catch((err) => console.log("designsetErr", err));
-            }
+            // if (storeinitInside?.IsProductDetailDesignSet === 1) {
+            //   await DesignSetListAPI(obj1, resp?.pdList[0]?.designno, cookie)
+            //     .then((res) => {
+            //       // console.log("designsetList",res?.Data?.rd[0])
+            //       setDesignSetList(res?.Data?.rd);
+            //     })
+            //     .catch((err) => console.log("designsetErr", err));
+            // }
 
             await SaveLastViewDesign(cookie, resp?.pdList[0]?.autocode, resp?.pdList[0]?.designno).then((res) => {
               setSaveLastView(res?.Data?.rd)
@@ -914,35 +944,7 @@ const ProductDetail = () => {
         });
     };
 
-    // const productlistDataFetch20 = async () => {
-    //   let obj = { mt: decodeobj?.m, dia: decodeobj?.d, cs: decodeobj?.c };
-
-    //   await ProductListApi(
-    //     {},
-    //     1,
-    //     obj,
-    //     decodeobj?.pl,
-    //     cookie,
-    //     decodeobj?.sb,
-    //     {},
-    //     {},
-    //     {},
-    //     "",
-    //     decodeobj?.b,
-    //     decodeobj?.n
-    //   )
-    //     .then((res) => {
-    //       if (res) {
-    //         console.log("productList", res);
-    //         setAlbumView(res?.pdList);
-    //       }
-    //       return res;
-    //     })
-    //     .catch((err) => console.log("err", err));
-    // };
-
     FetchProductData();
-    // productlistDataFetch20();
 
     window.scroll({
       top: 0,
@@ -1426,20 +1428,31 @@ const ProductDetail = () => {
     }
   };
 
-  const handleMoveToDetail = (productData) => {
-    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const handleMoveToDetail = (productData, index) => {
+    setNextIndex(index);
+    const logininfoDetail = JSON.parse(
+      sessionStorage.getItem("loginUserDetail")
+    );
 
     let obj = {
       a: productData?.autocode,
       b: productData?.designno,
-      m: loginInfo?.MetalId,
-      d: loginInfo?.cmboDiaQCid,
-      c: loginInfo?.cmboCSQCid,
-      f: {},
+      m: decodeobj?.m,
+      d:
+        decodeobj?.d,
+      c: decodeobj?.c,
+      f: decodeobj?.f,
+      // n: decodeURI(extractedPart)
+      n: decodeobj?.n,
+      pl: decodeobj?.pl,
+      sb: decodeobj?.sb,
+      sk: decodeobj?.sk,
+      di: decodeobj?.di,
+      ne: decodeobj?.ne,
+      gr: decodeobj?.gr,
+      in: index
     };
-
     let encodeObj = compressAndEncode(JSON.stringify(obj));
-
     navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
     setProdLoading(true);
     setIsImageLoad(true)
@@ -1552,52 +1565,89 @@ const ProductDetail = () => {
   };
 
   const swiperMainRef = useRef(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleProductDetail = (index) => {
-    handleMoveToDetail(allListDataSlide[index]);
+    handleMoveToDetail(allListDataSlide[index], index);
   };
 
   const onSlideChange = (swiper) => {
-    setCurrentIndex(swiper.activeIndex);
-    handleProductDetail(swiper.activeIndex);
+    setNextIndex(swiper.activeIndex);
+    // handleProductDetail(swiper.activeIndex);
   };
 
+  const fetchImageData = async (index) => {
+    const selectedData = allListDataSlide[index];
+
+    if (!selectedData) return;
+
+    const imageLink = await checkImageAvailability(selectedData?.images?.[0]);
+
+    if (imageLink === undefined || imageLink === false) {
+      setImageSrc(imageNotFound);
+      setSelectedThumbImg({ link: imageNotFound, type: 'img' });
+    } else {
+      setImageSrc(imageLink);
+      setSelectedThumbImg({ link: imageLink, type: 'img' });
+    }
+  };
+
+  const innerSwiperRef = useRef(null);
+
   const handleNext = async () => {
-    const nextIndex = (currentIndex + 1) % allListDataSlide?.length;
+    const nextIndex = (nextindex + 1) % allListDataSlide?.length;
+    setNextIndex(nextIndex)
+    console.log("TCL: handleNext -> nextIndex", nextIndex)
     swiperMainRef?.current.swiper.slideTo(nextIndex);
-    const selectedData = nextIndex;
-    if (selectedData) {
-      const imageLink = await checkImageAvailability(selectedData?.images?.[0]);
-      if (imageLink === undefined || imageLink === false) {
-        setImageSrc(imageNotFound)
-        setSelectedThumbImg({ link: imageNotFound, type: "img" });
-      }
-      else {
-        setImageSrc(imageLink);
-        setSelectedThumbImg({ link: imageLink, type: "img" });
+
+    const innerSwiper = innerSwiperRef?.current?.swiper;
+    if (innerSwiper && imageData?.length) {
+      console.log("inn", innerSwiper)
+      const slidesPerView = innerSwiper.params.slidesPerView;
+      const currentSlide = innerSwiper.activeIndex;
+
+      if (nextIndex >= currentSlide + slidesPerView) {
+        innerSwiper.slideTo(nextIndex - slidesPerView + 1);
+      } else if (nextIndex < currentSlide) {
+        innerSwiper.slideTo(nextIndex);
       }
     }
-    handleProductDetail(nextIndex);
+
+    // Fetch image data only if it's a new index
+    if (nextIndex !== nextindex) {
+      await fetchImageData(nextIndex);
+      handleProductDetail(nextIndex);
+      setProdLoading(true);
+      setIsImageLoad(true);
+    }
   };
 
   const handlePrev = async () => {
-    const prevIndex = (currentIndex - 1 + allListDataSlide?.length) % allListDataSlide?.length;
-    swiperMainRef.current.swiper.slideTo(prevIndex);
-    const selectedData = prevIndex;
-    if (selectedData) {
-      const imageLink = await checkImageAvailability(selectedData?.images?.[0]);
-      if (imageLink === undefined || imageLink === false) {
-        setImageSrc(imageNotFound)
-        setSelectedThumbImg({ link: imageNotFound, type: "img" });
-      }
-      else {
-        setImageSrc(imageLink);
-        setSelectedThumbImg({ link: imageLink, type: "img" });
+    const prevIndex = (nextindex - 1 + allListDataSlide?.length) % allListDataSlide?.length;
+    setPrevIndex(prevIndex)
+    console.log("TCL: handlePrev -> prevIndex", prevIndex)
+    swiperMainRef?.current.swiper.slideTo(prevIndex);
+
+    const innerSwiper = innerSwiperRef?.current?.swiper;
+    if (innerSwiper && imageData?.length) {
+      const slidesPerView = innerSwiper.params.slidesPerView;
+      const currentSlide = innerSwiper.activeIndex;
+
+      if (prevIndex < currentSlide) {
+        innerSwiper.slideTo(prevIndex);
+      } else if (prevIndex >= currentSlide + slidesPerView) {
+        innerSwiper.slideTo(prevIndex - slidesPerView + 1);
       }
     }
-    handleProductDetail(prevIndex);
+
+    // Fetch image data only if it's a new index
+    if (prevIndex !== nextindex) {
+      await fetchImageData(prevIndex);
+      handleProductDetail(prevIndex);
+      setProdLoading(true);
+      setIsImageLoad(true);
+    }
   };
+
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -1612,7 +1662,7 @@ const ProductDetail = () => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [allListDataSlide, currentIndex, handleNext, handlePrev]);
+  }, [allListDataSlide, nextindex]);
 
   useEffect(() => {
     const checkImages = async () => {
@@ -1723,8 +1773,18 @@ const ProductDetail = () => {
                                 e.target.src = imageNotFound;
                                 e.target.alt = 'no-image-found';
                               }}
+                              onLoad={() => {
+                                if (nextindex > 0) {
+                                  setTimeout(() => {
+                                    setProdLoading(false);
+                                    setImagePromise(false);
+                                  }, 500);
+                                } else {
+                                  setProdLoading(false);
+                                  setImagePromise(false);
+                                }
+                              }}
                               alt={""}
-                              onLoad={() => setIsImageLoad(false)}
                               className="proCat_prod_img"
                             />
                           ) : (
@@ -1759,8 +1819,18 @@ const ProductDetail = () => {
                                 <img
                                   src={ele}
                                   alt={""}
-                                  onLoad={() => setIsImageLoad(false)}
                                   className="proCat_prod_thumb_img"
+                                  onLoad={() => {
+                                    if (nextindex > 0) {
+                                      setTimeout(() => {
+                                        setProdLoading(false);
+                                        setImagePromise(false);
+                                      }, 500);
+                                    } else {
+                                      setProdLoading(false);
+                                      setImagePromise(false);
+                                    }
+                                  }}
                                   onClick={() => {
                                     setSelectedThumbImg({
                                       link: ele,
@@ -2761,11 +2831,11 @@ const ProductDetail = () => {
                       <div className="proCat_moreProduct_cardContainer">
                         <p className="proCat_details_title">More Products</p>
                         <div className="proCat_swiper_container">
-                          {imageData?.map((ele) => (
+                          {imageData?.map((ele, index) => (
                             <div
                               key={ele?.autocode}
                               className="procat_design_slide_detailpage_card"
-                              onClick={() => handleMoveToDetail(ele)}
+                              onClick={() => handleMoveToDetail(ele, index)}
                               style={{
                                 border: singleProd?.designno === ele?.designno ? "1px solid #d8a4a4" : "",
                               }}
@@ -2786,6 +2856,7 @@ const ProductDetail = () => {
                         <p className="proCat_details_title">More Products</p>
                         <div className="proCat_swiper_container">
                           <Swiper
+                            ref={innerSwiperRef}
                             style={{
                               width: "100%",
                             }}
@@ -2810,14 +2881,14 @@ const ProductDetail = () => {
                             keyboard={{ enabled: true }}
                             pagination={false}
                           >
-                            {imageData?.map((ele) => (
+                            {imageData?.map((ele, index) => (
                               <SwiperSlide
                                 style={{
                                   width: "100%",
                                 }}
                                 key={ele?.autocode}
                                 className="proCat_Swiper_slide_custom"
-                                onClick={() => handleMoveToDetail(ele)}
+                                onClick={() => handleMoveToDetail(ele, index)}
                               >
                                 <div
                                   className="procat_design_slide_detailpage"
@@ -3244,13 +3315,13 @@ const ProductDetail = () => {
                       <p className="proCat_details_title"> Similar Designs</p>
                       <div className="proCat_stockitem_container">
                         <div className="proCat_stock_item_card">
-                          {SimilarBrandArr?.map((ele) => (
+                          {SimilarBrandArr?.map((ele, index) => (
                             <div
                               className="proCat_stockItemCard"
                               onClick={
                                 () =>
                                   // setTimeout(() =>
-                                  handleMoveToDetail(ele)
+                                  handleMoveToDetail(ele, index)
                                 // , 500)
                               }
                             >

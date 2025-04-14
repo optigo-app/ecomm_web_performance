@@ -20,9 +20,7 @@ const albumData = [
 
 const AlbumCard = () => {
     const [validImages, setValidImages] = useState([]);
-    console.log("TCL: AlbumCard -> validImages", validImages)
     const [albumData, setAlbumData] = useState([]);
-    console.log("TCL: AlbumCard -> albumData", albumData)
     const [isLoading, setIsLoading] = useState(false);
     const [storeInit, setStoreInit] = useState({});
     const islogin = false; // You can replace with actual login state
@@ -130,6 +128,7 @@ const AlbumCard = () => {
                                         src={item.src}
                                         alt={item.name}
                                         onError={(e) => (e.target.src = 'path_to_default_image.jpg')}
+                                        onClick={() => handleNavigate(item)}
                                     />
                                     {/* <div className='main_card_right_star'>
                                         <Star />

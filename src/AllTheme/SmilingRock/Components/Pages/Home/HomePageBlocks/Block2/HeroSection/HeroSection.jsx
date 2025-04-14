@@ -204,7 +204,7 @@ export default function HeroSection() {
                 )}
 
                 <div className="main_overlay"></div>
-                <header className={`main_header ${isHovered ? 'scrolled' : ''} ${isFixed ? 'fixed scrolled' : ''}`} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+                <header className={`main_header ${isHovered ? 'scrolled' : ''} ${isFixed ? 'fixed scrolled' : ''}`} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => { setIsHovered(false); setDrawerShowOverlay(false) }}>
                     <div className="main_container">
                         {!isFixed && (
                             <div className="logo">
@@ -250,8 +250,7 @@ export default function HeroSection() {
                                         )}
                                     </li>
                                     <li><a href="/contact" className="menu-link">Contact</a></li> */}
-                                    <TopSectionMenu drawerShowOverlay={drawerShowOverlay} setDrawerShowOverlay={setDrawerShowOverlay} toggleDrawerOverlay={toggleDrawerOverlay} isHovered={isHovered}
-                                        isFixed={isFixed} />
+                                    <TopSectionMenu drawerShowOverlay={drawerShowOverlay} setDrawerShowOverlay={setDrawerShowOverlay} toggleDrawerOverlay={toggleDrawerOverlay} isHovered={isHovered} isFixed={isFixed} setIsHovered={setIsHovered} />
                                 </ul>
                             )}
 
@@ -326,7 +325,7 @@ const HeroSectionSlider = ({ banner1, banner2 }) => {
     );
 };
 
-const TopSectionMenu = ({ drawerShowOverlay, setDrawerShowOverlay, toggleDrawerOverlay, isHovered, isFixed }) => {
+const TopSectionMenu = ({ drawerShowOverlay, setDrawerShowOverlay, toggleDrawerOverlay, isHovered, isFixed, setIsHovered }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isHeaderFixed, setIsHeaderFixed] = useState(false);
     const [menuData, setMenuData] = useState([]);
@@ -1008,7 +1007,10 @@ const TopSectionMenu = ({ drawerShowOverlay, setDrawerShowOverlay, toggleDrawerO
             )}
             <div
                 onMouseEnter={handleDropdownOpen}
-                onMouseLeave={handleDropdownClose}
+                onMouseLeave={() => {
+                    handleDropdownClose();
+                    setIsHovered(false);
+                }}
                 className={`shop-dropdown ${isDropdownOpen ? "open" : ""} ${isHeaderFixed ? "fixed" : ""
                     }`}
             >
@@ -1027,7 +1029,7 @@ const TopSectionMenu = ({ drawerShowOverlay, setDrawerShowOverlay, toggleDrawerO
                     onMouseLeave={handleDropdownClose}
                 >
                 </div>
-                <TopNavBar menuItems={menuItems} handelMenu={handelMenu} isHovered={isHovered} isFixed={isFixed} />
+                <TopNavBar menuItems={menuItems} handelMenu={handelMenu} isHovered={isHovered} isFixed={isFixed} setIsHovered={setIsHovered} />
             </div>
         </>
     )
@@ -1052,6 +1054,7 @@ const TopNavBar = ({ menuItems = [], handelMenu = () => { }, isHovered, isFixed,
     };
 
     const handleMouseLeave = () => {
+        setIsHovered(false);
         timeoutRef.current = setTimeout(() => {
             setHoveredIndex(null);
             setExpandedMenu(null);
@@ -1083,6 +1086,7 @@ const TopNavBar = ({ menuItems = [], handelMenu = () => { }, isHovered, isFixed,
                         hoveredIndex={hoveredIndex}
                         selectedData={selectedData}
                         handelMenu={handelMenu}
+                        setIsHovered={setIsHovered}
                     />
                     {menuItems?.map((menuItem, index) => (
                         <div

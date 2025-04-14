@@ -44,7 +44,6 @@ const CartItem = ({
   handleSave,
   handleCancel,
   openHandleUpdateCartModal }) => {
-  // console.log("ki", item)
 
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
@@ -55,6 +54,15 @@ const CartItem = ({
   const visiterId = Cookies.get('visiterId');
   const [open, setOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState();
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  // const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.${item?.ImageExtension}`;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  useEffect(() => {
+    console.log("item", item)
+  }, [item])
+
+  const isLoading = item?.loading;
 
   const handleOpen1 = () => setOpen1(true);
   const handleClose1 = () => setOpen1(false);
@@ -67,21 +75,23 @@ const CartItem = ({
   const mobileScreen = useMediaQuery('(max-width: 710px)');
 
   useEffect(() => {
-    if (item?.ImageCount > 0) {
-      CartCardImageFunc(item).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(undefined);
-    }
-  }, [item]);
-
-  useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
     const isCartUpdateStatus = sessionStorage.getItem('cartUpdation');
     setCountStatus(isCartUpdateStatus)
   }, [onRemove])
+
+  // useEffect(() => {
+  //   if (storeInitData?.Themeno !== 3) {
+  //     if (item?.ImageCount > 0) {
+  //       CartCardImageFunc(item).then((src) => {
+  //         setImageSrc(src);
+  //       });
+  //     } else {
+  //       setImageSrc(undefined);
+  //     }
+  //   }
+  // }, [item])
 
   const handleRemarkChangeInternal = (e) => {
     setRemark(e.target.value);
@@ -155,7 +165,6 @@ const CartItem = ({
     });
   }, [])
 
-
   return (
     // <Grid item
     //   xs={12}
@@ -188,7 +197,7 @@ const CartItem = ({
           </div>
         }
         <div className='elv_cardImage_div' >
-          {imageSrc === undefined ? (
+          {(storeInitData?.Themeno !== 3 ? imageSrc === undefined : isLoading === true) ? (
             <Skeleton
               sx={{
                 width: '13rem',
@@ -204,6 +213,8 @@ const CartItem = ({
           ) : (
             <CardMedia
               component="img"
+              className='elv_cart_image'
+              alt=""
               sx={{
                 width: '13rem',
                 height: '11rem',
@@ -213,11 +224,14 @@ const CartItem = ({
                 '@media (max-width: 710px)': { width: '9rem', height: '12rem' },
                 '@media (max-width: 650px)': { width: '8rem', height: '12rem' },
               }}
-              image={imageSrc}
-              alt="product image"
+              image={item?.images}
               onClick={() => onSelect(item)}
               onError={(e) => {
-                e.target.src = imageSrc || noImageFound;
+                if (item?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound;
+                } else {
+                  e.target.src = noImageFound;
+                }
               }}
               loading="lazy"
             />

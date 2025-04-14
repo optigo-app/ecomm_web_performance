@@ -5,8 +5,8 @@
 // export const REACT_APP_WEB = "diamondtine.web";
 export const REACT_APP_WEB = "hoq.web";
 // export const REACT_APP_WEB = "malakan.web";
-// export const REACT_APP_WEB = "rpjewel.web";
-// export const REACT_APP_WEB = "stamford.web";
+export const REACT_APP_WEB = "rpjewel.web";
+// export const REACT_APP_WEB = "stamford.web"; 
 // export const REACT_APP_WEB = "lovein.web";
 // export const REACT_APP_WEB = "ornaz.web";
 // export const REACT_APP_WEB = "demostore";

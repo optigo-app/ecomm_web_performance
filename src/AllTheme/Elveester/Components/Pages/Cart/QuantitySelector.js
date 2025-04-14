@@ -6,7 +6,7 @@ const QuantitySelector = ({ selectedItem, qtyCount, handleIncrement, handleDecre
   return (
     <div className="elv_cart-quantity">
       <button className="elv_bttn elv_bttn-left" onClick={() => handleDecrement(selectedItem)}>
-        <span>-</span> 
+        <span>-</span>
       </button>
       <input
         type="number"

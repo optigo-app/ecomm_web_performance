@@ -5,13 +5,16 @@
         align-items: center;
         gap: 2rem;
         flex-wrap: wrap;
-        width: 85%;
+        width: 90%;
         margin-inline: auto;
         // background-color: #008B8B;
-        background-color: #efeded;
+        background-color: #f7f7f7;
         padding: 25px;
+        padding-block: 25px;
+        padding-inline: 50px;
         border-radius: 8px;
         margin-top: 5rem;
+        position: relative;
 
         @media (max-width: 1530px) {
             gap: 0.2rem;
@@ -36,6 +39,89 @@
             padding-top: 1.5rem;
         }
 
+        /* Custom navigation buttons */
+        .custom-swiper-button-next,
+        .custom-swiper-button-prev {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .custom-swiper-button-next {
+            right: 0;
+
+            &::selection {
+                background: transparent;
+                color: inherit;
+            }
+        }
+
+        .custom-swiper-button-prev {
+            left: 0;
+
+            &::selection {
+                background: transparent;
+                color: inherit;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .swiper-container-wrapper {
+                padding: 0 50px;
+            }
+
+            .custom-swiper-button-next,
+            .custom-swiper-button-prev {
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .swiper-container-wrapper {
+                padding: 0 40px;
+            }
+
+            .custom-swiper-button-next,
+            .custom-swiper-button-prev {
+                width: 40px;
+                height: 40px;
+            }
+
+            .swiper-pagination-bullet {
+                width: 8px !important;
+                height: 8px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .swiper-container-wrapper {
+                padding: 0 30px;
+            }
+
+            .custom-swiper-button-next,
+            .custom-swiper-button-prev {
+                width: 35px;
+                height: 35px;
+            }
+
+            .swiper-pagination-bullet {
+                width: 6px !important;
+                height: 6px !important;
+            }
+        }
+
         .main_Card_Container {
             display: flex;
             flex-direction: column;
@@ -44,7 +130,6 @@
             height: 500px;
             border-radius: 8px;
             overflow: hidden;
-            transition: transform 0.3s ease-in-out;
             width: 100%;
             // /* Default width for large screens */
 
@@ -99,46 +184,6 @@
             //     width: 95%;
             // }
 
-            &:hover {
-                transform: scale(1.3);
-
-                @media (max-width: 1530px) {
-                    transform: scale(1.15);
-                }
-
-                @media (max-width: 1400px) {
-                    transform: scale(1.15);
-                }
-
-                @media (max-width: 1400px) {
-                    transform: scale(1.2);
-                }
-
-                @media (max-width: 1100px) {
-                    transform: scale(1.15);
-                }
-
-                @media (max-width: 1000px) {
-                    transform: scale(1.1);
-                }
-
-                @media (max-width: 950px) {
-                    transform: scale(1.2);
-                }
-
-                @media (max-width: 800px) {
-                    transform: scale(1.2);
-                }
-
-                @media (max-width: 730px) {
-                    transform: scale(1.2);
-                }
-
-                @media (max-width: 580px) {
-                    transform: scale(1.2);
-                }
-            }
-
             .main_Card_image_div {
                 height: 100%;
                 width: 85%;
@@ -146,6 +191,47 @@
                 justify-content: center;
                 align-items: center;
                 position: relative;
+                transition: transform 0.3s ease-in-out;
+
+                &:hover {
+                    transform: scale(1.3);
+
+                    @media (max-width: 1530px) {
+                        transform: scale(1.15);
+                    }
+
+                    @media (max-width: 1400px) {
+                        transform: scale(1.15);
+                    }
+
+                    @media (max-width: 1400px) {
+                        transform: scale(1.2);
+                    }
+
+                    @media (max-width: 1100px) {
+                        transform: scale(1.15);
+                    }
+
+                    @media (max-width: 1000px) {
+                        transform: scale(1.1);
+                    }
+
+                    @media (max-width: 950px) {
+                        transform: scale(1.2);
+                    }
+
+                    @media (max-width: 800px) {
+                        transform: scale(1.2);
+                    }
+
+                    @media (max-width: 730px) {
+                        transform: scale(1.2);
+                    }
+
+                    @media (max-width: 580px) {
+                        transform: scale(1.2);
+                    }
+                }
 
                 @media (max-width: 1400px) {
                     width: 88%;
@@ -214,7 +300,7 @@
                     border-bottom-left-radius: 200px 200px;
                     border-bottom-right-radius: 200px 200px;
                     border: 1.5px solid #965500;
-
+                    cursor: pointer;
                     padding: 20px;
 
                     &:hover {

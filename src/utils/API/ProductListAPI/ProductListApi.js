@@ -6,9 +6,6 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
   let MenuParams = {};
   let serachVar = ""
 
-  console.log('filterObj: ', filterObj);
-  console.log("mainData", sortby);
-
   if (Array.isArray(mainData)) {
     if (mainData?.length > 0) {
       Object.values(mainData[0])?.forEach((ele, index) => {

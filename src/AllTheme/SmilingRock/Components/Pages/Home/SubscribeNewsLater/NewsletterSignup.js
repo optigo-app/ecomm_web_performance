@@ -11,28 +11,70 @@ const NewsletterSignup = () => {
     setEmail(e.target.value);
   };
 
-  const handleSubmit = () => {
-    setLoading(true); 
-    if (email) {
-      fetch(
-        `http://www.orail.co.in/demo/icontact/standard/Ajax/SendMailToSubscriber.aspx?officeid=1&groupid=1468&emailid=${email}`
-      )
+  // const handleSubmit = () => {
+  //   setLoading(true);
+  //   if (email) {
+  //     fetch(
+  //       `http://www.orail.co.in/demo/icontact/standard/Ajax/SendMailToSubscriber.aspx?officeid=1&groupid=1468&emailid=${email}`
+  //     )
+  //       .then((response) => response.text())
+  //       .then((result) => {
+  //         setResult(result);
+  //       })
+  //       .catch((error) => {
+  //         setResult(error);
+  //       })
+  //       .finally(() => {
+  //         setLoading(false);
+  //       });
+  //   } else {
+  //     setResult("Please enter your email.");
+  //     setLoading(false);
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
+    setLoading(true);
+
+    const isValidEmail = (email) => {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return regex.test(email);
+    };
+
+    e.preventDefault();
+    if (email.trim() === "") {
+      setLoading(false);
+      setResult("Email is required.");
+      return;
+    } else if (!isValidEmail(email)) {
+      setLoading(false);
+      setResult("Please enter a valid email address.");
+      return;
+    } else {
+      setResult("");
+    }
+
+    const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
+    const newslater = storeInit?.newslatter;
+    if (newslater && email) {
+      const requestOptions = {
+        method: "GET",
+        redirect: "follow",
+      };
+      const newsletterUrl = `${newslater}${email}`;
+      fetch(newsletterUrl)
         .then((response) => response.text())
         .then((result) => {
-          setResult(result); 
+          setResult(result); setLoading(false); setTimeout(() => {
+            setResult(""); // Clear the result after 3000 ms
+            setEmail('')
+
+          }, 3000);
         })
-        .catch((error) => {
-          setResult(error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    } else {
-      alert("Please enter your email.");
-      setLoading(false); 
+        .catch((error) => setResult(error));
     }
   };
-  
+
   const alreadySubs = 'Already Subscribed.';
 
   return (
@@ -56,7 +98,7 @@ const NewsletterSignup = () => {
           />{
             loading ? <span className="for-error-message-news">Loading...</span> : (
               <>
-                {result && <span className="for-error-message-news" style={{ color: result === alreadySubs ? '#FF0000' : '#04AF70 ' }}>{result}</span>}
+                {result && <span className="for-error-message-news" style={{ color: result.startsWith("Thank You!") ? '#04AF70' : '#FF0000' }}>{result}</span>}
               </>
             )}
         </div>

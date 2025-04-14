@@ -24,18 +24,24 @@ const WishlistItems = ({
     handleWishlistToCart,
     handleMoveToDetail
 }) => {
-
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const [imageSrc, setImageSrc] = useState();
 
-    useEffect(() => {
-        if (item?.ImageCount !== 0) {
-            WishCardImageFunc(item).then(
-                setImageSrc
-            );
-        } else {
-            setImageSrc(noImageFound);
-        }
-    }, [item]);
+    const CDNDesignImageFolThumb = storeInit?.CDNDesignImageFolThumb;
+    // const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.${item?.ImageExtension}`;
+    const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+    const isLoading = item?.loading;
+
+    // useEffect(() => {
+    //     if (item?.ImageCount !== 0) {
+    //         WishCardImageFunc(item).then(
+    //             setImageSrc
+    //         );
+    //     } else {
+    //         setImageSrc(noImageFound);
+    //     }
+    // }, [item]);
 
     const setWishCountVal = useSetRecoilState(el_WishCount)
     const setCartCountVal = useSetRecoilState(el_CartCount)
@@ -62,7 +68,6 @@ const WishlistItems = ({
         }
     };
 
-    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     useEffect(() => {
@@ -71,7 +76,6 @@ const WishlistItems = ({
             behavior: "smooth",
         });
     }, [])
-
     return (
         <>
             {/* <div className='elv_wishlist_card_main'>
@@ -105,7 +109,7 @@ const WishlistItems = ({
                 <Card className='elv_WlListCard'>
                     <div className='cardContent'>
 
-                        {imageSrc === undefined ? (
+                        {isLoading === true ? (
                             <CardMedia
                                 style={{ width: "100%" }}
                                 className="elv_WlListImage"
@@ -131,10 +135,18 @@ const WishlistItems = ({
                         ) : (
                             <CardMedia
                                 component="img"
-                                image={imageSrc}
+                                // image={WishCardImageFunc(item)}
+                                image={item?.images}
                                 alt={item?.TitleLine}
-                                onError={(e) => e.target.src = noImageFound}
+                                onError={(e) => {
+                                    if (item?.ImageCount > 0) {
+                                        e.target.src = fullImagePath ? fullImagePath : noImageFound
+                                    } else {
+                                        e.target.src = noImageFound
+                                    }
+                                }}
                                 className='elv_WlListImage'
+                                loading='lazy'
                                 onClick={() => handleMoveToDetail(item)}
                             />
                         )}

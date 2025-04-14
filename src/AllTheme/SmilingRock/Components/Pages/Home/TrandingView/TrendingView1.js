@@ -11,8 +11,6 @@ import Cookies from 'js-cookie';
 import { motion } from 'framer-motion';
 
 
-
-
 const TrendingView1 = ({ data }) => {
     const trendingRef = useRef(null);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));

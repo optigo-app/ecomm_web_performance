@@ -20,7 +20,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { CartCount, DiamondRangeArr, MetalColor_Image, WishCount } from "../../../Recoil/atom";
+import { CartCount, DiamondRangeArr, MetalColor_Image, smr_loginState, WishCount } from "../../../Recoil/atom";
 import pako from "pako";
 import colorPicker from '../../../Assets/color-picker.svg';
 import { SearchProduct } from "../../../../../../utils/API/SearchProduct/SearchProduct";
@@ -43,6 +43,7 @@ import EditablePagination from "../../../../../RoopJewellers/Components/Pages/Re
 
 const ProductList = () => {
 
+  const islogin = useRecoilValue(smr_loginState);
 
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
@@ -1131,8 +1132,8 @@ const ProductList = () => {
       "autocode": ele?.autocode,
       "Metalid": (selectedMetalId ?? ele?.MetalPurityid),
       "MetalColorId": ele?.MetalColorid,
-      "DiaQCid": (selectedDiaId ?? loginInfo?.cmboDiaQCid),
-      "CsQCid": (selectedCsId ?? loginInfo?.cmboCSQCid),
+      "DiaQCid": (selectedDiaId ?? islogin == true ? loginInfo?.cmboDiaQCid : storeInit?.cmboDiaQCid),
+      "CsQCid": (selectedCsId ?? islogin == true ? loginInfo?.cmboCSQCid : storeInit?.cmboCSQCid),
       "Size": ele?.DefaultSize,
       "Unitcost": ele?.UnitCost,
       "markup": ele?.DesignMarkUp,

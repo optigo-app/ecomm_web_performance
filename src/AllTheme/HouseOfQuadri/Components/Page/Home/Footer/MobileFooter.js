@@ -11,7 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
-const MobileFooter = ({ socialLinkStr, companyInfoData  : StoreData }) => {
+const MobileFooter = ({ socialLinkStr, companyInfoData: StoreData }) => {
   const [email, setemail] = useState("");
   const navigation = useNavigate();
   const ismobile = useMediaQuery('(max-width:502px)')
@@ -22,7 +22,7 @@ const MobileFooter = ({ socialLinkStr, companyInfoData  : StoreData }) => {
   const [result, setResult] = useState();
   const [loading, setLoading] = useState(true);
 
- 
+
   useEffect(() => {
     let interval;
     const fetchData = () => {
@@ -73,7 +73,25 @@ const MobileFooter = ({ socialLinkStr, companyInfoData  : StoreData }) => {
 
   const HandleFormSubmit = async (e) => {
     setLoading1(true);
+
+    const isValidEmail = (email) => {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return regex.test(email);
+    };
+
     e.preventDefault();
+    if (email.trim() === "") {
+      setLoading1(false);
+      setResult("Email is required.");
+      return;
+    } else if (!isValidEmail(email)) {
+      setLoading1(false);
+      setResult("Please enter a valid email address.");
+      return;
+    } else {
+      setResult("");
+    }
+
     const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
     const newslater = storeInit?.newslatter;
     if (newslater && email) {
@@ -84,15 +102,18 @@ const MobileFooter = ({ socialLinkStr, companyInfoData  : StoreData }) => {
       const newsletterUrl = `${newslater}${email}`;
       fetch(newsletterUrl)
         .then((response) => response.text())
-        .then((result) => { setResult(result); setLoading1(false) ; setTimeout(() => {
-          setResult(""); // Clear the result after 3000 ms
-          setemail('')
-        }, 3000); })
+        .then((result) => {
+          setResult(result); setLoading1(false); setTimeout(() => {
+            setResult(""); // Clear the result after 3000 ms
+            setemail('')
+
+          }, 3000);
+        })
         .catch((error) => setResult(error));
     }
   };
 
- 
+
   const alreadySubs = 'Already Subscribed.';
 
   return (
@@ -112,13 +133,13 @@ const MobileFooter = ({ socialLinkStr, companyInfoData  : StoreData }) => {
             <AccordionDetails>
               <div className="details">
                 <p className="address" style={{
-                  fontSize  :!ismobile ? "14.2px"  :"13px"
+                  fontSize: !ismobile ? "14.2px" : "13px"
                 }}>
-                {companyInfoData?.FrontEndAddress},
-        <br />
-        {companyInfoData?.FrontEndCity} 
-        <br />
-        {companyInfoData?.FrontEndZipCode}
+                  {companyInfoData?.FrontEndAddress},
+                  <br />
+                  {companyInfoData?.FrontEndCity}
+                  <br />
+                  {companyInfoData?.FrontEndZipCode}
                 </p>
                 <p className="phoneno">Mobile : {companyInfoData?.FrontEndContactno1}</p>
                 <p className="email">
@@ -130,7 +151,7 @@ const MobileFooter = ({ socialLinkStr, companyInfoData  : StoreData }) => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    flexDirection: !ismobile ? "row-reverse"  :"column",
+                    flexDirection: !ismobile ? "row-reverse" : "column",
                     gap: "1rem",
                   }}
                 >
@@ -138,14 +159,14 @@ const MobileFooter = ({ socialLinkStr, companyInfoData  : StoreData }) => {
                     return (
                       <React.Fragment key={i}>
                         <Link
-                        key={i}
+                          key={i}
                           to={val?.SLink}
                           style={{
                             display: "flex",
                             alignItems: "center",
                             gap: "5px",
-                            textDecoration  :"none",
-                            color  :"black"
+                            textDecoration: "none",
+                            color: "black"
                           }}
                           target="_blank"
                         >
@@ -199,22 +220,22 @@ const MobileFooter = ({ socialLinkStr, companyInfoData  : StoreData }) => {
                   </button>
                 </form>
                 {
-        loading1 ? <span className="hoq_error_message" style={{ color: 'black' }}>Loading...</span> : (
-          <>
-            {result && (
-              <span
-                className="hoq_error_message"
-                style={{
-                  color: result === alreadySubs ? "#FF0000" : "#04AF70",
-                  marginTop: "0px",
-                  display: "block",
-                }}
-              >
-                {result}
-              </span>
-            )}
-          </>
-        )}
+                  loading1 ? <span className="hoq_error_message" style={{ color: 'black' }}>Loading...</span> : (
+                    <>
+                      {result && (
+                        <span
+                          className="hoq_error_message"
+                          style={{
+                            color: result.startsWith("Thank You!") ? "#04AF70" : "#FF0000",
+                            marginTop: "0px",
+                            display: "block",
+                          }}
+                        >
+                          {result}
+                        </span>
+                      )}
+                    </>
+                  )}
               </div>
             </AccordionDetails>
           </Accordion>
@@ -279,11 +300,11 @@ const MobileFooter = ({ socialLinkStr, companyInfoData  : StoreData }) => {
                     <Link to="/our-story">Our Story</Link>
                   </li>
                   <li>
-          <Link to="/bespoke-jewelry">Bespoke Jewellery</Link>
-        </li>  
-           <li>
-          <Link to="/appointment">Appointment</Link>
-        </li>
+                    <Link to="/bespoke-jewelry">Bespoke Jewellery</Link>
+                  </li>
+                  <li>
+                    <Link to="/appointment">Appointment</Link>
+                  </li>
                   <li>
                     <Link to="/size-guide">Size Guide</Link>
                   </li>
@@ -306,25 +327,25 @@ const MobileFooter = ({ socialLinkStr, companyInfoData  : StoreData }) => {
         <div className="brand_logo">
           <div className="pay">
             <img
-              src={storImagePath()+`/images/footer/mastercard.webp`}
+              src={storImagePath() + `/images/footer/mastercard.webp`}
               alt=""
             />
           </div>
           <div className="pay">
             <img
-              src={storImagePath()+`/images/footer/gpay.webp`}
+              src={storImagePath() + `/images/footer/gpay.webp`}
               alt=""
             />
           </div>
           <div className="pay">
             <img
-              src={storImagePath()+`/images/footer/visa.webp`}
+              src={storImagePath() + `/images/footer/visa.webp`}
               alt=""
             />
           </div>
           <div className="pay">
             <img
-              src={storImagePath()+`/images/footer/paytm.webp`}
+              src={storImagePath() + `/images/footer/paytm.webp`}
               alt=""
             />
           </div>

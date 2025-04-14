@@ -132,6 +132,36 @@ const ProductDetail = () => {
     setIsExpanded(prevState => !prevState);
   };
 
+  const [isClamped, setIsClamped] = useState(false);
+
+  const descriptionRef = useRef(null);
+  const descriptionText = singleProd1?.description ?? singleProd?.description;
+
+  useEffect(() => {
+    setIsClamped(false);
+    setIsExpanded(false);
+
+    const checkTextOverflow = () => {
+      const descriptionElement = descriptionRef.current;
+      if (descriptionElement) {
+        const isOverflowing =
+          descriptionElement.scrollHeight > descriptionElement.clientHeight;
+        setIsClamped(isOverflowing);
+      }
+    };
+
+    checkTextOverflow();
+
+    window.addEventListener('resize', checkTextOverflow);
+    return () => {
+      window.removeEventListener('resize', checkTextOverflow);
+    };
+  }, [descriptionText, descriptionRef])
+
+  useEffect(() => {
+    setIsClamped(false);
+    setIsExpanded(false);
+  }, [location?.key])
 
   const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
   const diaQcLocal = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
@@ -224,40 +254,52 @@ const ProductDetail = () => {
   const handleWishList = async (e, elv) => {
     setWishListFlag(e?.target?.checked);
 
-    const metal =
-      metalTypeCombo?.find((ele) => {
-        return ele?.metaltype == metalType
-      }) ?? metalTypeCombo;
+    let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+    let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    const dia =
-      diaQcCombo?.find((ele) => {
-        return ele?.Quality == selectDiaQc.split(",")[0] &&
-          ele?.color == selectDiaQc.split(",")[1]
-      }) ?? diaQcCombo;
+    let metal = metalTypeCombo?.filter((ele) => ele?.metaltype == metalType);
 
-    const cs =
-      csQcCombo?.find((ele) => {
-        return ele?.Quality == selectCsQC.split(",")[0] &&
-          ele?.color == selectCsQC.split(",")[1]
-      }) ?? csQcCombo;
+    let dia = diaQcCombo?.filter(
+      (ele) =>
+        ele?.Quality == selectDiaQc.split(",")[0] &&
+        ele?.color == selectDiaQc.split(",")[1]
+    );
 
-    const mcArr =
-      metalColorCombo?.find((ele) => {
-        return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
-      }) ?? metalColorCombo;
+    let cs = csQcCombo?.filter(
+      (ele) =>
+        ele?.Quality == selectCsQC.split(",")[0] &&
+        ele?.color == selectCsQC.split(",")[1]
+    );
 
-    const prodObj = {
+    let mcArr = metalColorCombo?.filter((ele) => {
+      if (metalColor) {
+        return ele?.colorcode == metalColor;
+      } else {
+        return (
+          ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
+        );
+      }
+    })[0];
+
+    let prodObj = {
       autocode: singleProd?.autocode,
-      Metalid: metal?.Metalid,
+      Metalid: metal?.length
+        ? metal[0]?.Metalid
+        : logininfoInside?.MetalId ?? storeinitInside?.MetalId,
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId ?? 0},${dia?.ColorId ?? 0}`,
-      CsQCid: `${cs?.QualityId ?? 0},${cs?.ColorId ?? 0}`,
-      Size: sizeData ?? singleProd?.DefaultSize,
+      DiaQCid: dia?.length
+        ? `${dia[0]?.QualityId},${dia[0]?.ColorId}`
+        : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
+      CsQCid: cs?.length
+        ? `${cs[0]?.QualityId},${cs[0]?.ColorId}`
+        : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
+      Size: sizeData ?? singleProd1?.DefaultSize ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
-      UnitCostWithmarkup: singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
+      UnitCostWithmarkup:
+        singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
       Remark: "",
-    }
+    };
 
     if (e.target.checked === true) {
       let res = await CartAndWishListAPI("Wish", prodObj, cookie);
@@ -460,14 +502,20 @@ const ProductDetail = () => {
 
   }, [selectedThumbImg, pdVideoArr]);
 
+  const fallbackImg = `${storeInit?.CDNDesignImageFol}${singleProd?.designno}~1.${singleProd?.ImageExtension}`
+
   const handleError = (e) => {
-    e.target.onerror = null; // Prevent looping
-    e.target.src = noImageFound; // Fallback image
+    if (singleProd?.ImageCount > 0) {
+      e.target.src = fallbackImg;
+    } else {
+      e.target.onerror = null;
+      e.target.src = noImageFound;
+    }
   };
 
   const handleVideoError = (e) => {
-    e.target.onerror = null; // Prevent looping
-    e.target.poster = noImageFound; // Fallback image
+    e.target.onerror = null;
+    e.target.poster = noImageFound;
   };
 
   useEffect(() => {
@@ -523,8 +571,8 @@ const ProductDetail = () => {
 
     setloadingdata(true);
     const FetchProductData = async () => {
-      const res1 = await FilterListAPI(decodeobj?.g, cookie);
-      setFilterData(res1)
+      // const res1 = await FilterListAPI(decodeobj?.g, cookie);
+      // setFilterData(res1)
       // let obj = {
       //   mt: metalArr,
       //   diaQc: `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`,
@@ -766,7 +814,6 @@ const ProductDetail = () => {
   // }
 
   const handleMetalWiseColorImg = async (e) => {
-
     let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     let mcArr;
 
@@ -776,23 +823,26 @@ const ProductDetail = () => {
       )[0];
     }
 
-    setMetalColor(e.target.value)
+    setMetalColor(e.target.value);
 
-    let imgLink = storeInit?.CDNDesignImageFol +
+    let imgLink =
+      storeInit?.CDNDesignImageFol +
       (singleProd ?? singleProd1)?.designno +
       "~" +
-      (thumbImgIndex + 1) + "~" + mcArr?.colorcode +
+      (thumbImgIndex + 1) +
+      "~" +
+      mcArr?.colorcode +
       "." +
       (singleProd ?? singleProd1)?.ImageExtension;
 
     // setMetalWiseColorImg(imgLink)
 
-    let isImg = await checkImageAvailability(imgLink)
+    let isImg = await checkImageAvailability(imgLink);
 
     if (isImg) {
-      setMetalWiseColorImg(imgLink)
+      setMetalWiseColorImg(imgLink);
     } else {
-      setMetalWiseColorImg()
+      setMetalWiseColorImg();
     }
 
     let pd = singleProd;
@@ -806,7 +856,8 @@ const ProductDetail = () => {
           singleProd?.designno +
           "~" +
           i +
-          "~" + mcArr?.colorcode +
+          "~" +
+          mcArr?.colorcode +
           "." +
           singleProd?.ImageExtension;
         pdImgListCol.push(imgString);
@@ -826,16 +877,28 @@ const ProductDetail = () => {
       }
     }
 
-
     let isImgCol;
 
     if (pdImgListCol?.length > 0) {
-      isImgCol = await checkImageAvailability(pdImgListCol[0])
+      isImgCol = await checkImageAvailability(pdImgListCol[0]);
     }
 
-    if (pdImgListCol?.length > 0 && (isImgCol == true)) {
-      setPdThumbImg(pdImgListCol)
-      setSelectedThumbImg({ "link": pdImgListCol[thumbImgIndex], "type": 'img' });
+    let FinalPdColImgList = [];
+
+    if (pdImgListCol?.length > 0) {
+      for (let i = 0; i < pdImgListCol?.length; i++) {
+        let isImgAvl = await checkImageAvailability(pdImgListCol[i]);
+        if (isImgAvl) {
+          FinalPdColImgList.push(pdImgListCol[i]);
+        } else {
+          FinalPdColImgList.push(imageNotFound);
+        }
+      }
+    }
+
+    if (FinalPdColImgList?.length > 0 && (isImgCol == true)) {
+      setPdThumbImg(FinalPdColImgList)
+      setSelectedThumbImg({ "link": FinalPdColImgList[thumbImgIndex], "type": 'img' });
       setThumbImgIndex(thumbImgIndex)
 
     }
@@ -844,14 +907,9 @@ const ProductDetail = () => {
         setSelectedThumbImg({ "link": pdImgList[thumbImgIndex], "type": 'img' });
         setPdThumbImg(pdImgList)
         setThumbImgIndex(thumbImgIndex)
-        setPdLoadImage(false)
       }
     }
-
-
-
-    // console.log("pdImgList",pdImgList,pdImgListCol)
-  }
+  };
 
   const handleMetalWiseColorImgWithFlag = async (e) => {
 
@@ -913,9 +971,8 @@ const ProductDetail = () => {
 
     let IsColImg = false;
     if (colImg?.length > 0) {
-      IsColImg = await checkImageAvailability(colImg)
+      IsColImg = await checkImageAvailability(colImg);
     }
-
 
     if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
@@ -932,7 +989,8 @@ const ProductDetail = () => {
           pdImgList.push(imgString);
         }
       }
-    } else {
+    }
+    else {
       finalprodListimg = imageNotFound;
     }
 
@@ -958,7 +1016,7 @@ const ProductDetail = () => {
       for (let i = 0; i < pdImgList?.length; i++) {
         let isImgAvl = await checkImageAvailability(pdImgList[i])
         if (isImgAvl) {
-          FinalPdImgList.push(pdImgList[i])
+          FinalPdImgList.push(pdImgList[i]);
         }
       }
     }
@@ -1253,7 +1311,7 @@ const ProductDetail = () => {
             <>
               {maxWidth1400 ? (
                 <>
-                  {loadingdata || pdLoadImage ? (
+                  {loadingdata || pdLoadImage || selectedThumbImg?.link == "" ? (
                     <Skeleton className='elv_prod_det_default_1400' variant="rectangular" />
                   ) : (
                     <div className='elv_ProductDet_max1400'>
@@ -1274,7 +1332,7 @@ const ProductDetail = () => {
                               // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
                               src={imageSrc}
                               ref={el => imageRefs.current[1] = el}
-                              loading="lazy"
+                              loading="eager"
                               onError={handleError}
                               alt={""}
                               onLoad={() => setIsImageLoad(false)}
@@ -1306,6 +1364,7 @@ const ProductDetail = () => {
                               e.target.onerror = null;
                               e.target.src = noImageFound;
                             }}
+                            loading="eager"
                             alt={""}
                             className="elv_ProductDet_prod_image_max1400"
                           />
@@ -1332,10 +1391,8 @@ const ProductDetail = () => {
                                 });
                                 setThumbImgIndex(i);
                               }}
-                              onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = noImageFound
-                              }}
+                              loading="eager"
+                              onError={handleError}
                             />
                           ))}
                         {pdVideoArr?.map((data) => (
@@ -1382,11 +1439,12 @@ const ProductDetail = () => {
                       <Skeleton className='elv_prod_det_default_thumb' variant="square" />
                     ) : (
                       <div className='elv_ProductDet_prod_img_list'>
-                        {(pdThumbImg?.length > 1) &&
+                        {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
                           pdThumbImg?.map((ele, i) => (
                             <img
                               src={ele}
                               alt={""}
+                              loading="eager"
                               onLoad={() => setIsImageLoad(false)}
                               className='elv_ProductDet_image'
                               onClick={() => {
@@ -1396,10 +1454,7 @@ const ProductDetail = () => {
                                 });
                                 setThumbImgIndex(i);
                               }}
-                              onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = noImageFound
-                              }}
+                              onError={handleError}
                             />
                           ))}
                         {pdVideoArr?.map((data) => (
@@ -1456,7 +1511,7 @@ const ProductDetail = () => {
                                 <img
                                   src={imageSrc}
                                   ref={el => imageRefs.current[1] = el}
-                                  loading="lazy"
+                                  loading="eager"
                                   onError={handleError} // Pass the error handler
                                   alt=""
                                   onLoad={() => setIsImageLoad(false)}
@@ -1468,6 +1523,7 @@ const ProductDetail = () => {
                                   loop
                                   autoPlay
                                   playsInline
+                                  loading="eager"
                                   muted
                                   style={{
                                     width: "100%",
@@ -1488,6 +1544,7 @@ const ProductDetail = () => {
                                   e.target.src = noImageFound;
                                 }}
                                 alt=""
+                                loading="eager"
                                 className={`elv_ProductDet_prod_image`}
                               />
                               // )
@@ -1524,7 +1581,7 @@ const ProductDetail = () => {
                                   // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
                                   src={imageSrc}
                                   ref={el => imageRefs.current[1] = el}
-                                  loading="lazy"
+                                  loading="eager"
                                   onError={handleError}
                                   alt={""}
                                   onLoad={() => setIsImageLoad(false)}
@@ -1559,6 +1616,7 @@ const ProductDetail = () => {
                                   e.target.src = noImageFound;
                                 }}
                                 alt={""}
+                                loading="eager"
                                 className="elv_ProductDet_prod_image_max1000"
                               />
                               // )
@@ -1580,10 +1638,8 @@ const ProductDetail = () => {
                                     });
                                     setThumbImgIndex(i);
                                   }}
-                                  onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = noImageFound
-                                  }}
+                                  loading="eager"
+                                  onError={handleError}
                                 />
                               ))}
                             {pdVideoArr?.map((data) => (
@@ -1631,7 +1687,8 @@ const ProductDetail = () => {
                           <div className="collection-breadcrumb">
                             <span className="text-muted-foreground">Collection</span>
                             <span className="separator">-</span>
-                            <span className="text-timeless">{getCollName}</span>
+                            {/* <span className="text-timeless">{getCollName}</span> */}
+                            <span className="text-timeless">{(singleProd ?? singleProd1)?.collection}</span>
                           </div>
                           <div className='elv_productDet_metal_style_max1000'>
                             <div className='elv_ProductDet_prod_text_div_max1000'>
@@ -1667,11 +1724,30 @@ const ProductDetail = () => {
                                     {(singleProd1?.description ?? singleProd?.description)}
                                   </p>
                                   <span className="toggle-text" onClick={toggleText}>
-                                    {isExpanded ? 'Read Less' : 'Read More'}
+                                    {isExpanded ? 'Show Less' : 'Show More'}
                                   </span>
                                 </div>
                               </>
                             )}
+                            {/* {descriptionText?.length > 0 && (
+                              <div className={`elv_prod_description_1 ${isExpanded ? 'elv_show-more_1' : ''}`}>
+                                <p className="elv_description-text_1" ref={descriptionRef}>
+                                  {descriptionText}
+                                </p>
+
+                                {(isClamped && !isExpanded) && ( // Show "Show More" only if text is clamped and not expanded
+                                  <span className="elv_toggle-text_1" onClick={toggleText}>
+                                    Show More
+                                  </span>
+                                )}
+
+                                {isExpanded && ( // Show "Show Less" when the description is expanded
+                                  <span className="elv_toggle-text_1" onClick={toggleText}>
+                                    Show Less
+                                  </span>
+                                )}
+                              </div>
+                            )} */}
                           </div>
                           <hr className='elv_ProductDet_divider' />
                         </div>
@@ -1894,7 +1970,7 @@ const ProductDetail = () => {
                                   // className="filtercategoryLable"
 
                                   >
-                                    <Typography className='elv_price_break'>Price Breakup</Typography>
+                                    <span className='elv_price_break'>Price Breakup</span>
                                   </AccordionSummary>
                                   <AccordionDetails
                                     sx={{
@@ -1904,7 +1980,7 @@ const ProductDetail = () => {
                                       // minHeight: "fit-content",
                                       // maxHeight: "300px",
                                       // overflow: "auto",
-                                      padding: '0 0 16px 0',
+                                      padding: '0 6px 16px 6px',
 
                                     }}
                                   >
@@ -2079,7 +2155,8 @@ const ProductDetail = () => {
                         <div className="collection-breadcrumb">
                           <span className="text-muted-foreground">Collection</span>
                           <span className="separator">-</span>
-                          <span className="text-timeless">{getCollName}</span>
+                          {/* <span className="text-timeless">{getCollName}</span> */}
+                          <span className="text-timeless">{(singleProd ?? singleProd1)?.collection}</span>
                         </div>
                         <div className='elv_productDet_metal_style'>
                           {singleProd?.MetalTypePurity !== "" &&
@@ -2118,7 +2195,7 @@ const ProductDetail = () => {
                                   {(singleProd1?.description ?? singleProd?.description)}
                                 </p>
                                 <span className="toggle-text" onClick={toggleText}>
-                                  {isExpanded ? 'Read Less' : 'Read More'}
+                                  {isExpanded ? 'Show Less' : 'Show More'}
                                 </span>
                               </div>
                             </>
@@ -2346,7 +2423,7 @@ const ProductDetail = () => {
                                 // className="filtercategoryLable"
 
                                 >
-                                  <Typography className='elv_price_break'>Price Breakup</Typography>
+                                  <span className='elv_price_break'>Price Breakup</span>
                                 </AccordionSummary>
                                 <AccordionDetails
                                   sx={{
@@ -2356,7 +2433,7 @@ const ProductDetail = () => {
                                     // minHeight: "fit-content",
                                     // maxHeight: "300px",
                                     // overflow: "auto",
-                                    padding: '0 0 16px 0',
+                                    padding: '0 6px 16px 6px',
 
                                   }}
                                 >

@@ -20,13 +20,13 @@ import { formatter, storImagePath } from '../../../../../utils/Glob_Functions/Gl
 import { handleOrderRemark } from '../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import MobileCartDetails from './MobileCartDetails';
 import ConfirmationDialog from '../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
-import {  } from 'react-toastify';
 
 const CartPage = () => {
   const {
     isloding,
     ispriceloding,
     cartData,
+    finalCartData,
     selectedItem,
     selectedItems,
     multiSelect,
@@ -82,10 +82,19 @@ const CartPage = () => {
   }, [])
 
   const getTotalPrice = [];
-  const totalPrice = cartData?.reduce((total, item) => total + item?.FinalCost, 0)
-  getTotalPrice?.push({
-    total: totalPrice
-  })
+  let totalPrice;
+  if (storeinit?.Themeno === 3) {
+    totalPrice = finalCartData?.reduce((total, item) => total + item?.FinalCost, 0)
+    getTotalPrice?.push({
+      total: totalPrice
+    })
+  } else {
+    totalPrice = cartData?.reduce((total, item) => total + item?.FinalCost, 0)
+    getTotalPrice?.push({
+      total: totalPrice
+    })
+  }
+
   useEffect(() => {
     sessionStorage.setItem('totalProdPrice', JSON.stringify(getTotalPrice[0]));
   }, [getTotalPrice])
@@ -246,7 +255,7 @@ const CartPage = () => {
                 </span>
               </div>
             </div>
-            {cartData.length ? (
+            {finalCartData.length ? (
               <div className="elv_filteration_block_div">
                 <div className="elv_Cartblock_rows">
                   {isMobileResp2 ? (
@@ -258,7 +267,7 @@ const CartPage = () => {
                         </div>
                         <Modal open={openPriceModal} onClose={handleClosePriceModal}>
                           <Box sx={modalStyle}>
-                           { storeinit?.IsPriceShow == 1 &&  <span className="elv_total_price_title">
+                            {storeinit?.IsPriceShow == 1 && <span className="elv_total_price_title">
                               Total Price: &nbsp;
                               {storeinit?.IsPriceShow == 1 && (
                                 <span>
@@ -274,7 +283,7 @@ const CartPage = () => {
                             </span>}
                             <div className="elv_Cartblock_rows_2" >
                               <span className="elv_items_title">
-                                <span style={{ fontWeight: '600' }}>{cartData?.length}</span>
+                                <span style={{ fontWeight: '600' }}>{finalCartData?.length}</span>
                                 <span>&nbsp;items</span>
                               </span>
                             </div>
@@ -305,14 +314,14 @@ const CartPage = () => {
                       </div>
                       <div className="elv_Cartblock_rows_2" >
                         <span className="elv_items_title">
-                          <span>{cartData?.length}</span>
+                          <span>{finalCartData?.length}</span>
                           <span>&nbsp;items</span>
                         </span>
                       </div>
                     </>
                   )}
                   <div className="elv_Cartblock_rows_3" >
-                    {cartData?.length ? (
+                    {finalCartData?.length ? (
                       <span onClick={handleOpen} className="elv_clearAll_title">
                         Clear All
                       </span>
@@ -346,7 +355,7 @@ const CartPage = () => {
                     </Modal> */}
                   </div>
                   <div className="elv_Cartblock_rows_4" >
-                    {cartData?.length ? (
+                    {finalCartData?.length ? (
                       <span onClick={handleOpen1} className="elv_remarks_title">
                         <span>{orderRemark ? "View & Edit Order Remark" : "Add Order Remark"}</span>
                       </span>
@@ -363,7 +372,7 @@ const CartPage = () => {
                       onSave1={handleOrderRemarkFun}
                     />
                   </div>
-                  {cartData?.length ? (
+                  {finalCartData?.length ? (
                     <div className="elv_Cartblock_rows_5" onClick={handleMoveToOrder}>
                       <span className="elv_placeOrder_title">
                         Place Order
@@ -380,11 +389,11 @@ const CartPage = () => {
               </div>
             ) : ('')}
 
-            {cartData?.length !== 0 ? (
+            {finalCartData?.length !== 0 ? (
               <div className='elv_cartDetailsData_div'>
                 <div className='elv_CartProducts_div'>
                   <CartList
-                    items={cartData}
+                    items={finalCartData}
                     CartCardImageFunc={CartCardImageFunc}
                     showRemark={showRemark}
                     productRemark={productRemark}

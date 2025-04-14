@@ -2736,7 +2736,25 @@ const Footer = () => {
 
     const HandleFormSubmit = async (e) => {
         setLoading1(true);
+
+        const isValidEmail = (email) => {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        };
+
         e.preventDefault();
+        if (email.trim() === "") {
+            setLoading1(false);
+            setResult("Email is required.");
+            return;
+        } else if (!isValidEmail(email)) {
+            setLoading1(false);
+            setResult("Please enter a valid email address.");
+            return;
+        } else {
+            setResult("");
+        }
+
         const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
         const newslater = storeInit?.newslatter;
         if (newslater && email) {
@@ -2901,8 +2919,10 @@ const Footer = () => {
     )
 }
 
-const NewsLetter = ({ onsubmit, email, setemail, loading1, result }) => {
+const NewsLetter = ({ onsubmit, email, setemail, loading1, result, setResult }) => {
     const alreadySubs = 'Already Subscribed.';
+    const success = "Thank you"
+
     return (
         <div className="smr1_footer-section">
             <h4>NEWSLETTER</h4>
@@ -2927,7 +2947,7 @@ const NewsLetter = ({ onsubmit, email, setemail, loading1, result }) => {
                             <span
                                 className="hoq_error_message"
                                 style={{
-                                    color: result === alreadySubs ? "#FF0000" : "#04AF70",
+                                    color: result.startsWith("Thank You!") ? "#04AF70" : "#FF0000",
                                     marginTop: "0px",
                                     display: "block",
                                 }}

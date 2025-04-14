@@ -313,6 +313,11 @@
                         object-fit: contain;
                         cursor: pointer;
                     }
+
+                    .elv_cart_image {
+                        text-indent: -100vw;
+                        overflow: hidden;
+                    }
                 }
 
                 .elv_ProductCard_details {
@@ -422,8 +427,23 @@
 
             .elv_cartImage {
                 width: 100%;
-                height: 100%;
+                height: 380px;
                 object-fit: contain;
+                text-indent: -100vw;
+                overflow: hidden;
+                cursor: pointer;
+
+                @media (max-width: 1700px) {
+                    height: 350px;
+                }
+
+                @media (max-width: 1500px) {
+                    height: 330px;
+                }
+
+                @media (max-width: 1200px) {
+                    height: 300px;
+                }
             }
         }
     }

@@ -42,23 +42,24 @@ const TopSection = ({ banner }) => {
     };
 
     return (
-        <div className="top-section-container" style={{height: islogin ? "auto" : "900px"}}>
+        <div className="top-section-container">
             {!islogin ? (
                 <>
                     {loading ? (
-                        <div className="loader-container">
-                            <Skeleton variant="rectangular" width="100%" height="100%" animation="wave" />
+                        <div className="loader-container content_1">
+                            <Skeleton variant="rectangular" width="100%" className='content_1' animation="wave" />
                         </div>
                     ) : (
-                        <ReactPlayer
-                            url={checkVideo}
-                            playing={true}
-                            muted={true}
+                        <video
+                            src={checkVideo}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
                             controls={!videoStarted}
-                            loop={true}
                             width="100%"
                             height="auto"
-                            onPlay={handleVideoPlay}
+                            onPlay={() => setVideoStarted(true)}
                         />
                     )}
                 </>
@@ -66,7 +67,19 @@ const TopSection = ({ banner }) => {
                 <>
                     {loading ? (
                         <div className="loader-container">
-                            <Skeleton variant="rectangular" width="100%" height="100%" animation="wave" />
+                            <Skeleton
+                                variant="rectangular"
+                                width="100%"
+                                sx={{
+                                    height: {
+                                        xs: '40vh',
+                                        sm: '50vh',
+                                        md: '60vh',
+                                        lg: '65vh',
+                                        xl: '70vh'
+                                    }
+                                }}
+                                animation="wave" />
                         </div>
                     ) : (
                         <>

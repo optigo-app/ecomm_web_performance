@@ -202,8 +202,8 @@
 
     .main_overlay {
         position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.2);
+        // inset: 0;
+        // background: rgba(0, 0, 0, 0.2);
     }
 
     .main_header {
@@ -211,7 +211,7 @@
         left: 0;
         right: 0;
         z-index: 10;
-        transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;   
         padding-top: 40px;
 
         &.fixed {
@@ -220,7 +220,7 @@
             left: 0;
             right: 0;
             width: 100%;
-            z-index: 1000;
+            z-index: 100;
             background: white;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding-top: 10px;
@@ -238,6 +238,8 @@
             }
 
             .nav {
+                align-items: center;
+
                 .search-btn {
                     color: black;
                 }
@@ -257,8 +259,8 @@
 
                     .cart-count,
                     .wish-count {
-                        top: 0;
-                        right: 0;
+                        top: -18px;
+                        right: -5px;
                         background: black;
                         color: white;
                     }
@@ -364,14 +366,14 @@
                 .cart-count,
                 .wish-count {
                     position: absolute;
-                    top: 0px;
-                    right: 0px;
+                    top: -5px;
+                    right: -5px;
                     background: white;
                     color: black;
                     font-size: 12px;
                     border-radius: 50%;
-                    width: 16px;
-                    height: 16px;
+                    width: 23px;
+                    height: 20px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
