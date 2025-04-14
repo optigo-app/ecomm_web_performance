@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react"
-import { Modal, Box, Typography, TextField, Button, CircularProgress } from "@mui/material"
+import { Modal, Box, Typography, TextField, Button, CircularProgress, Slide } from "@mui/material"
 import { MdEmail, MdSmartphone, MdClose } from "react-icons/md"
 import { Timer } from "./Timer"
 import "./OTPVerificationModal.scss"
@@ -118,7 +118,11 @@ isLoading
 
 
   return (
-    <Modal open={isOpen} onClose={onClose} aria-labelledby="otp-modal-title" className="otp-verification-modal">
+    <Modal
+      
+    
+    open={isOpen} onClose={onClose} aria-labelledby="otp-modal-title" className="otp-verification-modal">
+       <Slide direction="down" in={isOpen} mountOnEnter  unmountOnExit>
       <Box className="modal-content" sx={{
         bgcolor: `${bgcolor} !important`
       }}>
@@ -190,6 +194,7 @@ isLoading
            {!loading ? `Verify ${type === "email" ? "Email" : "Mobile"}` : <CircularProgress size={20} />}
         </Button>
       </Box>
+      </Slide>
     </Modal>
   )
 }

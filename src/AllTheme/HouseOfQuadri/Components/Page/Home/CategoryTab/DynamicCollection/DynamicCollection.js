@@ -2020,24 +2020,24 @@ const DynamicCollection = () => {
     }
 
     // Fetching color images
-    if (data?.ColorImageCount > 0) {
-      for (let i = 1; i <= data?.ColorImageCount; i++) {
-        let imgString =
-          storeInit?.CDNDesignImageFol +
-          data?.designno +
-          "~" +
-          i +
-          "~" +
-          mcArr?.colorcode +
-          "." +
-          data?.ImageExtension;
+    // if (data?.ColorImageCount > 0) {
+    //   for (let i = 1; i <= data?.ColorImageCount; i++) {
+    //     let imgString =
+    //       storeInit?.CDNDesignImageFol +
+    //       data?.designno +
+    //       "~" +
+    //       i +
+    //       "~" +
+    //       mcArr?.colorcode +
+    //       "." +
+    //       data?.ImageExtension;
 
-        const IsImg = await checkImageAvailability(imgString);
-        if (IsImg) {
-          pdImgList.push(imgString);
-        }
-      }
-    }
+    //     const IsImg = await checkImageAvailability(imgString);
+    //     if (IsImg) {
+    //       pdImgList.push(imgString);
+    //     }
+    //   }
+    // }
 
     if (data?.ImageCount > 0 && pdImgList.length === 0) {
       for (let i = 2; i <= data?.ImageCount; i++) {

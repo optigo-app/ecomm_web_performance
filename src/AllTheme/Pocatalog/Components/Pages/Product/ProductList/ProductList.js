@@ -142,6 +142,8 @@ const ProductList = () => {
 
   const isEditablePage = 1;
 
+  console.log(islogin , "islogin")
+
   useEffect(() => {
     setCSSVariable();
 
@@ -250,6 +252,7 @@ const ProductList = () => {
   // },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
+    console.log("reached to this")
     let url = `${location?.pathname}${location?.search}`;
     let navVal = url?.split('/')[3];
     let securityKey = navVal?.split('K=')[1]
@@ -1019,6 +1022,8 @@ const ProductList = () => {
         decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0]) ??
         "",
     };
+
+
 
     if (e.target.checked == true) {
       CartAndWishListAPI(type, prodObj, cookie)
