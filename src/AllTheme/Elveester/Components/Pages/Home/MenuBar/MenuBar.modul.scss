@@ -7,6 +7,7 @@
     display: block;
     overflow: visible;
   }
+
   .el_login_header_menu_main {
     position: fixed;
     // width: 100%;
@@ -17,9 +18,10 @@
     border: 2px solid white;
     height: 100vh;
     overflow-y: auto;
+    overflow-x: hidden;
 
     @media screen and (max-width: 1366px) {
-      width: 22rem; 
+      width: 22rem;
     }
   }
 
@@ -301,7 +303,7 @@
     }
 
     .elv_login_header_menu_div {
-      padding-inline: 10px;
+      padding-inline: 15px;
     }
   }
 

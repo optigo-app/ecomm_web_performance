@@ -30,16 +30,36 @@ const CartDetails = ({
   decodeEntities,
   handleMoveToDetail }) => {
 
-  const [imageSrc, setImageSrc] = useState();
+  // useEffect(() => {
+  //   console.log("TCL: selectedItem", selectedItem)
+  // }, [selectedItem])
+
+  const [storeInitData, setStoreInitData] = useState();
+
   useEffect(() => {
-    if (selectedItem?.ImageCount > 0) {
-      CartCardImageFunc(selectedItem).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [selectedItem]);
+    const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
+    setStoreInitData(storeinitData)
+  }, [])
+
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  // const fullImagePath = `${CDNDesignImageFolThumb}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`;
+  const fullImagePath = `${CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`;
+
+  const isLoading = selectedItem?.loading;
+
+  const [imageSrc, setImageSrc] = useState();
+
+  // useEffect(() => {
+  //   if (storeInitData?.Themeno !== 3) {
+  //     if (selectedItem?.ImageCount > 0) {
+  //       CartCardImageFunc(selectedItem).then((src) => {
+  //         setImageSrc(src);
+  //       });
+  //     } else {
+  //       setImageSrc(noImageFound);
+  //     }
+  //   }
+  // }, [selectedItem, storeInitData]);
 
   return (
     <div className="elv_cart-container">
@@ -50,7 +70,7 @@ const CartDetails = ({
         {/* {imageSrc !== undefined && (
           <img src={imageSrc} alt="Cluster Diamond" className='elv_cartImage' onClick={() => handleMoveToDetail(selectedItem)} />
         )} */}
-        {imageSrc === undefined ? (
+        {(storeInitData?.Themeno !== 3 ? imageSrc === undefined : isLoading === true) ? (
           <CardMedia
             width="100%"
             height={400}
@@ -80,10 +100,21 @@ const CartDetails = ({
           </CardMedia>
         ) : (
           <img
-            src={imageSrc}
-            alt="image"
+            src={selectedItem?.images ? selectedItem?.images :
+              selectedItem?.ImageCount > 1 ? `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.jpg` :
+                `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`
+            }
+            alt=""
             className='elv_cartImage'
             onClick={() => handleMoveToDetail(selectedItem)}
+            onError={((e) => {
+              if (selectedItem?.ImageCount > 0) {
+                e.target.src = fullImagePath ? fullImagePath : noImageFound;
+              } else {
+                e.target.src = noImageFound;
+              }
+            })}
+            loading='lazy'
           />
         )}
       </div>

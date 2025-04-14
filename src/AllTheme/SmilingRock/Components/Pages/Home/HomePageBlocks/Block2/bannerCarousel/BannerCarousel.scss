@@ -2,11 +2,37 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    background-color: #efeded;
+    // background-color: #efeded;
+    background-color: #f7f7f7;
     padding: 2rem;
     margin-block: 4rem;
     margin-inline: auto;
     width: 95%;
+    position: relative;
+
+    .arrow-buttons_div_banner {
+        position: relative;
+
+        .arrow-buttons_banner {
+            width: 100%;
+            gap: 10px;
+            position: absolute;
+            top: -0.3rem;
+            right: 0.3rem;
+            display: flex;
+            justify-content: flex-end;
+
+            .arrow-left_banner {
+                width: 2%;
+                cursor: pointer;
+            }
+
+            .arrow-right_banner {
+                width: 2%;
+                cursor: pointer;
+            }
+        }
+    }
 
     .main_Bannercar_wrapper {
         display: flex;
@@ -17,6 +43,7 @@
         width: 100%;
         margin-inline: auto;
         gap: 15px;
+        margin-top: 3rem;
 
         .main_BannerCar_left_div {
             display: flex;
@@ -24,7 +51,7 @@
             height: 35%;
 
             img {
-                height: 20.5rem;
+                height: 27.2rem;
             }
         }
 
@@ -36,24 +63,60 @@
 
             .slide-content {
                 border: 1px solid rgb(192, 192, 192);
-                padding: 13px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                width: 95%;
+                width: 90%;
+                margin-inline: auto;
+                margin-top: 20px;
                 background-color: white;
 
                 .slide-image {
                     width: 100%;
+                    object-fit: contain;
+                    cursor: pointer;
+                    border-bottom: 1px solid rgb(192, 192, 192);
                 }
 
                 .slide-details {
                     text-align: left;
                     width: 100%;
                     margin-top: 5px;
+                    padding: 10px;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .smr_newArrTitle {
+                    width: 100%;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: block;
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: #333;
+                    line-height: 1.2;
+                }
+
+            }
+
+            .price {
+                font-size: 16px;
+                font-weight: bold;
+                color: #444;
+                margin-top: 5px;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+
+                .smr_currencyFont {
+                    font-size: 16px;
                 }
             }
+
+
 
         }
     }

@@ -20,6 +20,7 @@ const Wishlist = () => {
     CurrencyData,
     updateCount,
     countDataUpdted,
+    finalWishData,
     itemInCart,
     decodeEntities,
     WishCardImageFunc,
@@ -184,7 +185,7 @@ const Wishlist = () => {
           </div>
           <div className="elv_WlBtnGroupMainDiv">
             {/* <div className="elv_Wl-title">My Wishlist</div> */}
-            {wishlistData.length ? (
+            {finalWishData.length ? (
               <div className='elv_wishlist_buttons'>
                 <button className='elv_wishlist_clearAll_btn' onClick={handleRemoveAllDialog}>Clear all</button>
                 <button className='elv_wishlist_atcall_btn' onClick={handleAddtoCartAllfun}>add all to cart</button>
@@ -195,7 +196,7 @@ const Wishlist = () => {
           {!isWLLoading ? (
             <WishlistData
               isloding={isWLLoading}
-              items={wishlistData}
+              items={finalWishData}
               updateCount={updateCount}
               countDataUpdted={countDataUpdted}
               curr={CurrencyData}

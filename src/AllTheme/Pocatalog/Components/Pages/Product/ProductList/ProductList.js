@@ -40,6 +40,7 @@ import {
   proCat_DiamondRangeArr,
   proCat_WishCount,
   proCat_loginState,
+  sliderData,
   soketProductData,
 } from "../../../Recoil/atom";
 import pako from "pako";
@@ -84,6 +85,7 @@ const ProductList = () => {
   let maxwidth464px = useMediaQuery("(max-width:464px)");
 
   const [productListData, setProductListData] = useState([]);
+  const setSliderData = useSetRecoilState(sliderData);
   const islogin = useRecoilValue(proCat_loginState);
   const [priceListData, setPriceListData] = useState([]);
   const [finalProductListData, setFinalProductListData] = useState([]);
@@ -125,6 +127,9 @@ const ProductList = () => {
   const [isRollOverVideo, setIsRollOverVideo] = useState({});
   const [afterCountStatus, setAfterCountStatus] = useState(false);
   const [loadingIndex, setLoadingIndex] = useState(0)
+  const [diaRange, setDiaRange] = useState("")
+  const [netRange, setNetRange] = useState("")
+  const [grossRange, setGrossRange] = useState("")
   const [securityKey, setSecurityKey] = useState();
   const SoketData = useRecoilValue(soketProductData);
   const formatter = new Intl.NumberFormat("en-IN");
@@ -333,7 +338,6 @@ const ProductList = () => {
       if (AlbumVar) {
         productlisttype = AlbumVar.split("=")[1];
       }
-      console.log('AlbumVar.split("=")[1]: ', AlbumVar.split("=")[1]);
 
       setIsProdLoading(true);
       setprodListType(productlisttype);
@@ -377,6 +381,9 @@ const ProductList = () => {
         grossMax: isGross ? sliderValue2[1] ?? "" : ""
       };
 
+      setDiaRange(DiaRange);
+      setNetRange(netRange);
+      setGrossRange(grossRange);
 
       // await ProductListApi({}, 1, obj, productlisttype, cookie,sortBySelect ,DiaRange, netRange ,grossRange)
       await ProductListApi({}, 1, obj, productlisttype, cookie, sortBySelect,
@@ -796,6 +803,7 @@ const ProductList = () => {
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
+            sessionStorage.setItem('deatilSliderData', JSON.stringify(res?.pdList));
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
             setAfterCountStatus(false);
           }
@@ -1191,7 +1199,7 @@ const ProductList = () => {
     }
   };
 
-  const handleMoveToDetail = (productData) => {
+  const handleMoveToDetail = (productData, i) => {
     const logininfoDetail = JSON.parse(
       sessionStorage.getItem("loginUserDetail")
     );
@@ -1213,6 +1221,10 @@ const ProductList = () => {
       pl: prodListType ?? "",
       sb: sortBySelect ?? "",
       sk: securityKey,
+      di: diaRange,
+      ne: netRange,
+      gr: grossRange,
+      in: i,
     };
     decodeAndDecompress();
     let encodeObj = compressAndEncode(JSON.stringify(obj));
@@ -3517,7 +3529,7 @@ const ProductList = () => {
                                               });
                                             }
                                           }}
-                                          onClick={() => handleMoveToDetail(productData)}
+                                          onClick={() => handleMoveToDetail(productData, i)}
                                           onMouseLeave={() => {
                                             handleLeaveImgRolloverImg(productData);
                                             setIsRollOverVideo({

@@ -1,14 +1,14 @@
 import { atom } from "recoil";
 
 export const proCat_companyLogo = atom({
-  key:'poca_companyLogo',
-  default:[]
+  key: 'poca_companyLogo',
+  default: []
 })
 
 
 export const proCat_companyLogoM = atom({
-  key:'poca_companyLogoM',
-  default:[]
+  key: 'poca_companyLogoM',
+  default: []
 })
 
 export const proCat_loginState = atom({
@@ -52,7 +52,17 @@ export const AlmacarinoFlag = atom({
 
 export const IsOtpNewUi = atom({
   key: 'ProcatalogIsOtpUi',
-  default: true ,
+  default: true,
+})
+
+export const IsSecurityKey = atom({
+  key: 'ProcatalogIsSecurityKey',
+  default: "",
+})
+
+export const sliderData = atom({
+  key: 'ProcatalogSliderData',
+  default: [],
 })
 
 

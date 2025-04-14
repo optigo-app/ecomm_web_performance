@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
+import React, { memo, useEffect, useState, useRef, useLayoutEffect } from "react";
 import "./Header.modul.scss";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -238,7 +238,7 @@ const Header = () => {
   const isMounted = useRef(false);
 
   useEffect(() => {
-    if(!isMounted.current){
+    if (!isMounted.current) {
       isMounted.current = true;
       return;
     }
@@ -1186,4 +1186,4 @@ const Header = () => {
 };
 
 
-export default Header;
+export default memo(Header);

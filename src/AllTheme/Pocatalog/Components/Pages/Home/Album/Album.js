@@ -4,8 +4,8 @@ import "./Album.modul.scss";
 import { Get_Procatalog } from "../../../../../../utils/API/Home/Get_Procatalog/Get_Procatalog";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useRecoilState } from "recoil";
-import { proCat_loginState } from "../../../Recoil/atom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { IsSecurityKey, proCat_loginState } from "../../../Recoil/atom";
 import imageNotFound from "../../../Assets/image-not-found.jpg";
 import { Box, CardMedia, Modal, Skeleton } from "@mui/material";
 import AlbumSkeleton from "./AlbumSkeleton/AlbumSkeleton";
@@ -25,6 +25,7 @@ const Album = () => {
   const [imagesReady, setImagesReady] = useState(false);
   const navigate = useNavigate();
   const [islogin, setISLoginSet] = useRecoilState(proCat_loginState);
+  const setSecurityKey = useSetRecoilState(IsSecurityKey);
   const [open, setOpen] = useState(false);
   const storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
   const [selectedImage, setSelectedImage] = useState("");
@@ -135,7 +136,7 @@ const Album = () => {
     const url = `/p/${encodeURIComponent(data?.AlbumName)}/K=${btoa(securityKey)}/?A=${btoa(`AlbumName=${albumName}`)}`;
     const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
     const Newdata = data?.AlbumDetail ? JSON.parse(data?.AlbumDetail) : [];
-
+    setSecurityKey(securityKey);
     const state = { SecurityKey: securityKey };
   
     if (data?.IsDual === 1 && Newdata?.length > 1) {
@@ -148,8 +149,7 @@ const Album = () => {
       setDesignSubData(finalNewData);
     } else {
       sessionStorage.setItem('redirectURL', url);
-      console.log("islogin || data?.AlbumSecurityId === 0",islogin || data?.AlbumSecurityId === 0)
-      navigate(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl, { state });
+      navigate((islogin || data?.AlbumSecurityId === 0) ? url : redirectUrl, { state });
     }
   };
   
@@ -191,11 +191,12 @@ const Album = () => {
   const handleNavigateSub = (data) => {
     const albumName = data?.AlbumName;
     const securityKey = data?.AlbumSecurityId;
+    setSecurityKey(securityKey);
     const url = `/p/${encodeURIComponent(data?.AlbumName)}/K=${btoa(securityKey)}/?A=${btoa(`AlbumName=${albumName}`)}`;
     const state = { SecurityKey: securityKey };
     const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
     sessionStorage.setItem('redirectURL', url)
-    navigate(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl, { state });
+    navigate((islogin || data?.AlbumSecurityId === 0) ? url : redirectUrl, { state });
   };
   
   const prevLoadedProducts = useRef([]); 

@@ -2097,7 +2097,7 @@
 
     .zigzag-images {
         height: 50rem;
-        overflow-y: scroll;
+        overflow-y: auto;
 
         @media (max-width: 1750px) {
             height: 45rem;

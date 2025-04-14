@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Productdetail.scss";
 import Footer from "../../Home/Footer/Footer";
 import { useAsyncError, useLocation, useNavigate } from "react-router-dom";
@@ -106,8 +106,13 @@ const ProductDetail = () => {
 
   const [stockItemArr, setStockItemArr] = useState([]);
   const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const [cartArr, setCartArr] = useState({})
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
 
 
   let cookie = Cookies.get('visiterId')
@@ -1223,6 +1228,41 @@ const ProductDetail = () => {
 
   }
 
+  const [isClamped, setIsClamped] = useState(false);
+
+  const descriptionRef = useRef(null); // Using useRef instead of document.querySelector
+  const descriptionText = singleProd1?.description ?? singleProd?.description;
+
+  useEffect(() => {
+    setIsClamped(false);
+    setIsExpanded(false);
+
+    const checkTextOverflow = () => {
+      const descriptionElement = descriptionRef.current;
+      if (descriptionElement) {
+        const isOverflowing =
+          descriptionElement.scrollHeight > descriptionElement.clientHeight;
+        setIsClamped(isOverflowing);
+      }
+    };
+
+    checkTextOverflow();
+
+    window.addEventListener('resize', checkTextOverflow);
+    return () => {
+      window.removeEventListener('resize', checkTextOverflow);
+    };
+  }, [descriptionText, descriptionRef])
+
+  useEffect(() => {
+    setIsClamped(false);
+    setIsExpanded(false);
+  }, [location?.key])
+
+  const toggleText = () => {
+    setIsExpanded((prevState) => !prevState);
+  };
+
   return (
     <>
       <Helmet>
@@ -1418,6 +1458,67 @@ const ProductDetail = () => {
                                   {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
                                 </span>
                               </span>
+                              {/* {singleProd?.description && (
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    marginTop: "12px",
+                                  }}
+                                >
+                                  <p
+                                    style={{
+                                      color: "#7d7f85",
+                                      fontSize: "14px",
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                      display: isExpanded
+                                        ? "block"
+                                        : "-webkit-box",
+                                      WebkitBoxOrient: "vertical",
+                                      WebkitLineClamp: isExpanded ? "none" : 3,
+                                      height: isExpanded ? "auto" : "4.5em",
+                                      margin: "0px",
+                                    }}
+                                  >
+                                    {singleProd?.description}
+                                  </p>
+                                  <a
+                                    href="#"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      toggleExpand();
+                                    }}
+                                    style={{
+                                      color: "#7d7f85",
+                                      fontSize: "13px",
+                                      fontWeight: "500",
+                                      cursor: "pointer",
+                                    }}
+                                  >
+                                    {isExpanded ? "Show less" : "Read more"}
+                                  </a>
+                                </div>
+                              )} */}
+                              {descriptionText?.length > 0 && (
+                                <div className={`stam_prod_description ${isExpanded ? 'stam_show-more' : ''}`}>
+                                  <p className="stam_description-text" ref={descriptionRef}>
+                                    {descriptionText}
+                                  </p>
+
+                                  {(isClamped && !isExpanded) && ( // Show "Show More" only if text is clamped and not expanded
+                                    <span className="stam_toggle-text" onClick={toggleText}>
+                                      Show More
+                                    </span>
+                                  )}
+
+                                  {isExpanded && ( // Show "Show Less" when the description is expanded
+                                    <span className="stam_toggle-text" onClick={toggleText}>
+                                      Show Less
+                                    </span>
+                                  )}
+                                </div>
+                              )}
                             </div>
                           </div>
 

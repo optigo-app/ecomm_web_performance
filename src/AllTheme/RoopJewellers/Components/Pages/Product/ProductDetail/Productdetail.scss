@@ -1066,3 +1066,36 @@
         }
     }
 }
+
+.roop_prod_description {
+    position: relative;
+  }
+  
+  .roop_description-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-align: justify;
+    transition: height 0.3s ease;
+    margin: 0;
+    color: #7d7f85;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: -2px;
+  }
+  
+  .roop_show-more .roop_description-text {
+    -webkit-line-clamp: unset;
+    height: none;
+  }
+  
+  .roop_toggle-text {
+    display: block;
+    cursor: pointer;
+    color: #7d7f85;
+    font-weight: 600;
+    text-align: right;
+    text-decoration: underline;
+    font-size: 12px !important;
+  }

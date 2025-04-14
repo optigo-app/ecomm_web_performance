@@ -11,7 +11,7 @@ export default function Footer() {
   const [storeInitData, setStoreInitData] = useState();
   const [companyInfoData, setCompanuInfoData] = useState();
   const [socialMediaData, setSocialMediaData] = useState([]);
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [islogin, setIsLogin] = useRecoilState(dt_loginState);
   const [selectedFooteVal, setSelectedVal] = useState(0);
@@ -22,22 +22,46 @@ export default function Footer() {
     setEmail(event.target.value);
   };
 
-  const handleSubmitNewlater = () => {
+  const handleSubmitNewlater = async (e) => {
     setLoading(true);
-    const storeInit = JSON?.parse(sessionStorage.getItem('storeInit'));
+
+    const isValidEmail = (email) => {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return regex.test(email);
+    };
+
+    e.preventDefault();
+    if (email.trim() === "") {
+      setLoading(false);
+      setResult("Email is required.");
+      return;
+    } else if (!isValidEmail(email)) {
+      setLoading(false);
+      setResult("Please enter a valid email address.");
+      return;
+    } else {
+      setResult("");
+    }
+
+    const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
     const newslater = storeInit?.newslatter;
     if (newslater && email) {
       const requestOptions = {
         method: "GET",
-        redirect: "follow"
+        redirect: "follow",
       };
       const newsletterUrl = `${newslater}${email}`;
       fetch(newsletterUrl)
         .then((response) => response.text())
-        .then((result) => { setResult(result); setLoading(false) })
+        .then((result) => {
+          setResult(result); setLoading(false); setTimeout(() => {
+            setResult(""); // Clear the result after 3000 ms
+            setEmail('')
+
+          }, 3000);
+        })
         .catch((error) => setResult(error));
     }
-
   };
 
   const alreadySubs = 'Already Subscribed.';
@@ -96,7 +120,7 @@ export default function Footer() {
           <div className="subScriMain">
             {/* <p className='subScriMainTitle'>STAY CONNECTED FOR LATEST COLLECTIONS OFFERS</p> */}
             <p className="subScriMainTitle">LATEST COLLECTIONS & OFFERS</p>
-            <div
+            <form
               style={{
                 width: "100%",
                 marginTop: "10px",
@@ -106,13 +130,14 @@ export default function Footer() {
                 alignItems: "center",
                 paddingBottom: "20px",
               }}
+              onSubmit={handleSubmitNewlater}
             >
               <input
                 type="text"
                 className="footerInputBox"
                 placeholder="Your email here"
                 value={email}
-                onChange={handleEmailChange}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
               {
@@ -122,7 +147,7 @@ export default function Footer() {
                       <span
                         className="elv_error_message"
                         style={{
-                          color: result === alreadySubs ? "#FF0000" : "#04AF70",
+                          color: result.startsWith("Thank You!") ? "#04AF70" : "#FF0000",
                           marginTop: "0px",
                           display: "block",
                         }}
@@ -135,7 +160,7 @@ export default function Footer() {
               <button className="FooterSubBtn" onClick={handleSubmitNewlater}>
                 SUBSCRIBE
               </button>
-            </div>
+            </form>
           </div>
         </div>
         <div>

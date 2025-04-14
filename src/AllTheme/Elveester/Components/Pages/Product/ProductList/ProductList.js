@@ -5,7 +5,7 @@ import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import MuiAccordion from "@mui/material/Accordion";
 import Typography from "@mui/material/Typography";
-import { Drawer, PaginationItem, useMediaQuery, useTheme } from "@mui/material";
+import { Drawer, PaginationItem, Skeleton, useMediaQuery, useTheme } from "@mui/material";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import noImageFound from "../../../Assets/image-not-found.jpg";
@@ -78,6 +78,7 @@ const ProductList = () => {
 
   // Designing States
   const [showFilter, setShowFilter] = useState(false);
+  const [showFilterTemp, setShowFilterTemp] = useState(false);
   const [trend, setTrend] = useState("Recommended");
   const [carat, setCarat] = useState("");
   const [clarity, setClarity] = useState("VS#GH");
@@ -139,34 +140,46 @@ const ProductList = () => {
 
   let maxwidth464px = useMediaQuery("(max-width:464px)");
 
+  // useEffect(() => {
+  //   // Update the activeIcon based on the value of openGridModal
+  //   setActiveIcon(
+  //     openGridModal ? "double_view" : filter ? "view_grid" : "apps"
+  //   );
+  //   if (showFilter) {
+  //     setActiveIcon(
+  //       openGridModal ? "double_view" : filter ? "apps" : "view_grid"
+  //     );
+  //   } else {
+  //     setActiveIcon(
+  //       openGridModal ? "double_view" : filter ? "view_grid" : "apps"
+  //     );
+  //   }
+  // }, [openGridModal, filter, showFilter]);
 
-  console.log("rerendering")
 
-  // cleared
+
+  // Temporary purpose
   useEffect(() => {
-    // Update the activeIcon based on the value of openGridModal
-    setActiveIcon(
-      openGridModal ? "double_view" : filter ? "view_grid" : "apps"
-    );
-    if (showFilter) {
-      setActiveIcon(
-        openGridModal ? "double_view" : filter ? "apps" : "view_grid"
-      );
-    } else {
-      setActiveIcon(
-        openGridModal ? "double_view" : filter ? "view_grid" : "apps"
-      );
-    }
-  }, [openGridModal, filter, showFilter]);
+    let icon = "view_grid"; // default
 
-  let getDesignImageFol = storeInit?.CDNDesignImageFol;
+    if (openGridModal) {
+      icon = "double_view";
+    } else if (showFilterTemp) {
+      icon = "apps";
+    } else if (showFilter) {
+      icon = "view_grid";
+    }
+
+    setActiveIcon(icon);
+  }, [openGridModal, filter, showFilter, showFilterTemp]);
+
+
+
+  // let getDesignImageFol = storeInit?.CDNDesignImageFol;
+  let getDesignImageFol = storeInit?.CDNDesignImageFolThumb;
 
   const handleCheckboxChange = (e, listname, val) => {
     const { name, checked } = e.target;
-
-    // console.log("output filterCheckedVal",{checked,type:listname,id:name.replace(/[a-zA-Z]/g, ''),value:val});
-
-    // console.log("output filterCheckedVal",e, listname, val);
 
     setFilterChecked((prev) => ({
       ...prev,
@@ -346,10 +359,24 @@ const ProductList = () => {
       setOpenDrawer(false);
     }
 
-    if (width <= 1400 && width >= 701) {
+    // if (width <= 1400 && width >= 701) {
+    //   setShowFilter(true);
+    // } else {
+    //   setShowFilter(false);
+    // }
+
+    // Temporary purpose
+    if (width <= 1400 && width >= 1000) {
       setShowFilter(true);
     } else {
       setShowFilter(false);
+    }
+
+    // Temporary
+    if (width <= 1001 && width >= 699) {
+      setShowFilterTemp(true);
+    } else {
+      setShowFilterTemp(false);
     }
 
     if (width <= 700 && width >= 0) {
@@ -864,6 +891,9 @@ const ProductList = () => {
       grossMax: isGross ? sliderValue2[1] ?? "" : ""
     };
 
+    setCurrPage(1);
+    setInputPage(1);
+
     setIsOnlyProdLoading(true);
     let sortby = e.target?.value;
 
@@ -884,12 +914,52 @@ const ProductList = () => {
   const handelCustomCombo = (obj) => {
     let output = FilterValueWithCheckedOnly();
 
+    let diafilter =
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
     if (location?.state?.SearchVal === undefined) {
-      let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
-      let grossRange = { grossMin: sliderValue2[0] ?? "", grossMax: sliderValue2[1] ?? "" }
-      let netRange = { netMin: sliderValue1[0] ?? "", netMax: sliderValue1[1] ?? "" }
+      let DiaRange = {
+        DiaMin: isDia ? sliderValue[0] ?? "" : "",
+        DiaMax: isDia ? sliderValue[1] ?? "" : ""
+      };
+
+      let netRange = {
+        netMin: isNet ? sliderValue1[0] ?? "" : "",
+        netMax: isNet ? sliderValue1[1] ?? "" : ""
+      };
+
+      let grossRange = {
+        grossMin: isGross ? sliderValue2[0] ?? "" : "",
+        grossMax: isGross ? sliderValue2[1] ?? "" : ""
+      };
+
+      setCurrPage(1);
+      setInputPage(1);
+
       setIsOnlyProdLoading(true);
-      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -1001,7 +1071,6 @@ const ProductList = () => {
   }, [location?.key])
 
   const handleCartandWish = async (e, ele, type) => {
-    console.log("event", e.target.checked, ele, type);
 
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const prodObj = {
@@ -1033,7 +1102,6 @@ const ProductList = () => {
     if (e.target.checked) {
       await CartAndWishListAPI(type, prodObj, cookie)
         .then((res) => {
-          console.log(res?.Data?.rd[0]);
           if (res) {
             let cartC = res?.Data?.rd[0]?.Cartlistcount;
             let wishC = res?.Data?.rd[0]?.Wishlistcount;
@@ -1045,7 +1113,6 @@ const ProductList = () => {
     } else {
       await RemoveCartAndWishAPI(type, ele?.autocode, cookie)
         .then((res1) => {
-          console.log("res1: ", res1);
           if (res1) {
             let cartC = res1?.Data?.rd[0]?.Cartlistcount;
             let wishC = res1?.Data?.rd[0]?.Wishlistcount;
@@ -1060,11 +1127,13 @@ const ProductList = () => {
   const getDesignVideoFol = storeInit?.CDNVPath;
 
   const getDynamicImages = (designno, extension) => {
-    return `${getDesignImageFol}${designno}~${1}.${extension}`;
+    // return `${getDesignImageFol}${designno}~${1}.${extension}`;
+    return `${getDesignImageFol}${designno}~${1}.jpg`;
   };
   const getDynamicRollImages = (designno, count, extension) => {
     if (count > 1) {
-      return `${getDesignImageFol}${designno}~${2}.${extension}`;
+      // return `${getDesignImageFol}${designno}~${2}.${extension}`;
+      return `${getDesignImageFol}${designno}~${2}.jpg`;
     }
     return;
   };
@@ -1825,6 +1894,7 @@ const ProductList = () => {
     return isFilterChecked || isSliderChanged;
   };
 
+  let iconConfig = { name: "view_grid" };
 
   return (
     <>
@@ -2357,32 +2427,32 @@ const ProductList = () => {
                           </>
                         ) : (
                           <>
-                            {activeIconsBtns?.map((iconConfig, index) => {
+                            {/* {activeIconsBtns?.map((iconConfig, index) => {
                               const isActive = iconConfig.name === activeIcon;
-                              const IconComponent =
-                                iconConfig.name === "window"
-                                  ? WindowIcon
-                                  : iconConfig.name === "apps"
-                                    ? AppsIcon
-                                    : null;
+                              const IconComponent = 
+                              iconConfig.name === "window"
+                                ? WindowIcon
+                                : iconConfig.name === "apps"
+                                  ? AppsIcon
+                                  : null;
 
                               return (
-                                IconComponent && (
-                                  <IconComponent
-                                    key={index}
-                                    onClick={() =>
-                                      handleActiveIcons(iconConfig.name)
-                                    }
-                                    style={{
-                                      paddingRight: "8px",
-                                      fontSize: "1.8rem",
-                                      color: isActive ? "#000" : "#A2A2A2",
-                                      cursor: "pointer",
-                                    }}
-                                  />
-                                )
+                                IconComponent && ( */}
+                            <TfiLayoutGrid4Alt
+                              // key={index}
+                              onClick={() =>
+                                handleActiveIcons("view_grid")
+                              }
+                              style={{
+                                paddingRight: "8px",
+                                fontSize: "1.8rem",
+                                color: "#000",
+                                cursor: "pointer",
+                              }}
+                            />
+                            {/* )
                               );
-                            })}
+                            })} */}
                           </>
                         )}
                       </div>
@@ -2397,7 +2467,7 @@ const ProductList = () => {
                         }`}
                     >
                       <div className="elv_grid_view">
-                        {activeIconsBtns.map((iconConfig, index) => {
+                        {/* {activeIconsBtns.map((iconConfig, index) => {
                           const isActive = iconConfig.name === activeIcon;
                           let IconComponent = null;
 
@@ -2415,43 +2485,64 @@ const ProductList = () => {
                               IconComponent = null;
                           }
 
-                          return (
-                            IconComponent && (
-                              <IconComponent
-                                key={index}
-                                onClick={() =>
-                                  handleActiveIcons(iconConfig.name)
-                                }
-                                sx={{
-                                  paddingRight:
-                                    iconConfig.name === "view_grid"
-                                      ? "2px"
-                                      : "8px",
-                                  fontSize:
-                                    iconConfig.name === "view_grid"
-                                      ? "2.1rem"
-                                      : "2rem",
-                                  color: isActive ? "#000" : "#A2A2A2",
-                                  cursor: "pointer",
-                                }}
-                                fontSize={
-                                  iconConfig?.name === "view_grid"
-                                    ? "1.25rem"
-                                    : "2rem"
-                                }
-                                color={isActive ? "#000" : "#A2A2A2"}
-                                paddingRight={
-                                  iconConfig.name === "view_grid"
-                                    ? "2px"
-                                    : "8px"
-                                }
-                                cursor={"pointer"}
-                              />
-                            )
+                          return ( 
+                        IconComponent && ( */}
+                        <TfiLayoutGrid4Alt
+                          // key={index}
+                          onClick={() =>
+                            handleActiveIcons("view_grid")
+                          }
+                          sx={{
+                            paddingRight:
+                              iconConfig.name === "view_grid"
+                                ? "2px"
+                                : "8px",
+                            fontSize:
+                              iconConfig.name === "view_grid"
+                                ? "2.1rem"
+                                : "2rem",
+                            color: "#000",
+                            cursor: "pointer",
+                          }}
+                          fontSize={
+                            iconConfig?.name === "view_grid"
+                              ? "1.25rem"
+                              : "2rem"
+                          }
+                          color={"#000"}
+                          paddingRight={
+                            iconConfig.name === "view_grid"
+                              ? "2px"
+                              : "8px"
+                          }
+                          cursor={"pointer"}
+                        />
+                        {/* )
                           );
-                        })}
+                        })} */}
                       </div>
                     </div>
+
+                    {/* <div
+                      className={`${filter ? "elv_filteration_rows_5_filter" : "elv_filteration_rows_5"}`}
+                    >
+                      <div className="elv_grid_view">
+                        <TfiLayoutGrid4Alt
+                          key="view_grid"
+                          onClick={() => handleActiveIcons("view_grid")}
+                          sx={{
+                            paddingRight: "2px",
+                            fontSize: "2.1rem",
+                            color: activeIcon === "view_grid" ? "#000" : "#A2A2A2",
+                            cursor: "pointer",
+                          }}
+                          fontSize="1.25rem"
+                          color={activeIcon === "view_grid" ? "#000" : "#A2A2A2"}
+                          paddingRight="2px"
+                          cursor="pointer"
+                        />
+                      </div>
+                    </div> */}
                   </>
                 )}
               </div>
@@ -3210,6 +3301,8 @@ const ProductList = () => {
                                                 filter={filter}
                                                 filterData={filterData}
                                                 noImageFound={noImageFound}
+                                                productIndex={productIndex}
+                                                activeIcon={activeIcon}
                                               />
                                             )
                                           }
@@ -3298,19 +3391,40 @@ const Product_Card = ({
   filter,
   noImageFound,
   filterData,
+  productIndex,
+  activeIcon,
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [storeInit, setStoreInit] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const maxwidth1000px = useMediaQuery('(max-width:1000px)');
+
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
   };
 
+  const formatTitleLine = (titleLine) => {
+    // Implement the formatTitleLine function if needed
+    return titleLine;
+  };
+
   useEffect(() => {
     const data = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(data);
   }, []);
+
+  // Add staggered loading effect
+  useEffect(() => {
+    const delay = (productIndex + 1) * 150;
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [productIndex]);
 
   return (
     <>
@@ -3387,139 +3501,155 @@ const Product_Card = ({
               onMouseOver={() => setIsHover(true)}
               onMouseOut={() => setIsHover(false)}
             >
-              <div className="elvWeb_app_product_label">
-                {productData?.IsInReadyStock == 1 && (
-                  <span className="elvWeb_app_instock">In Stock</span>
-                )}
-                {productData?.IsBestSeller == 1 && (
-                  <span className="elvWeb_app_bestSeller">Best Seller</span>
-                )}
-                {productData?.IsTrending == 1 && (
-                  <span className="elvWeb_app_intrending">Trending</span>
-                )}
-                {productData?.IsNewArrival == 1 && (
-                  <span className="elvWeb_app_newarrival">New</span>
-                )}
-              </div>
-              {/* {isHover && (videoUrl !== undefined || RollImageUrl !== undefined) ? (
+              {isLoading ? (
+                <Skeleton
+                  variant="rectangular"
+                  width="100%"
+                  height={!maxwidth1000px
+                    ? (activeIcon === "apps" ? "412px" :
+                      activeIcon === "window" ? "600px" :
+                        activeIcon === "view_grid" ? "250px" : "100%")
+                    : "100%"}
+                  animation="wave"
+                  sx={{
+                    minHeight: "250px",
+                    backgroundColor: "#f0f0f0"
+                  }}
+                />
+              ) : (
                 <>
-                  {videoUrl !== undefined ? (
-                    <div className="elv_rollup_video">
-                      <video src={videoUrl} autoPlay muted loop onError={(e) => { e.target.poster = noImageFound; e.stopPropagation() }}></video>
-                    </div>
-                  ) : null}
+                  <div className="elvWeb_app_product_label">
+                    {productData?.IsInReadyStock == 1 && (
+                      <span className="elvWeb_app_instock">In Stock</span>
+                    )}
+                    {productData?.IsBestSeller == 1 && (
+                      <span className="elvWeb_app_bestSeller">Best Seller</span>
+                    )}
+                    {productData?.IsTrending == 1 && (
+                      <span className="elvWeb_app_intrending">Trending</span>
+                    )}
+                    {productData?.IsNewArrival == 1 && (
+                      <span className="elvWeb_app_newarrival">New</span>
+                    )}
+                  </div>
 
-                  {videoUrl === undefined && RollImageUrl !== undefined ? (
-                    <div className="elv_rollup_img">
-                      <img src={RollImageUrl} alt="Roll Up Image" onError={(e) => { e.target.src = noImageFound; e.stopPropagation() }} />
-                    </div>
-                  ) : null}
-                </>
-              ) : null} */}
-              <div className="elv_rollup_video">
-                {videoUrl !== undefined ? (
-                  <video
-                    src={videoUrl}
-                    autoPlay
-                    muted
-                    loop
-                    onError={(e) => { e.target.poster = noImageFound; e.stopPropagation() }}
-                  ></video>
-                ) : (
-                  RollImageUrl !== undefined && (
-                    <div className="elv_rollup_img">
-                      <img
-                        src={RollImageUrl}
-                        alt="Roll Up Image"
-                        onError={(e) => { e.target.src = noImageFound; e.stopPropagation() }}
-                      />
-                    </div>
-                  )
-                )}
-              </div>
-              <img
-                className={
-                  showFilter && filter == false ? class3 != null || class3 != undefined ? class3 : class2 : filterData?.length > 0 ? class2 : class3}
-                loading={lazy}
-                src={imageUrl}
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.stopPropagation();
-                  e.target.src = noImageFound;
-                }}
-                style={{
-                  opacity: isHover && (RollImageUrl || videoUrl) ? "0" : "1",
-                  transition: '0s ease-in-out',
-                }}
-              />
-            </div>
-          </div>
-          <div className="elv_pd">
-            {productData?.TitleLine ? (
-              <span className="elv_prod_titleline_visible">
-                {formatTitleLine(productData?.TitleLine) && productData?.TitleLine}
-              </span>
-            ) : (
-              <span className="elv_prod_titleline_invisible">
-                {formatTitleLine(productData?.TitleLine) && productData?.TitleLine}
-              </span>
-            )}
-          </div>
-          <div className="elv_filtered_prod_details">
-            <div className="elv_filtered_prod_weights">
-              {storeInit?.IsMetalWeight == 1 &&
-                Number(productData?.Nwt) !== 0 && (
-                  <div style={{ display: "flex" }}>
-                    <span className="elv_prod_weight_span_1">NWT&nbsp;: </span>
-                    <span className="elv_prod_weight_span_2">
-                      &nbsp;
-                      {productData?.Nwt.toFixed(3)}
-                    </span>
+                  <div className="elv_rollup_video">
+                    {videoUrl !== undefined ? (
+                      <video
+                        src={videoUrl}
+                        autoPlay
+                        muted
+                        loop
+                        onError={(e) => { e.target.poster = noImageFound; e.stopPropagation() }}
+                      ></video>
+                    ) : (
+                      RollImageUrl !== undefined && (
+                        <div className="elv_rollup_img">
+                          <img
+                            src={RollImageUrl}
+                            alt="Roll Up Image"
+                            onError={(e) => { e.target.src = noImageFound; e.stopPropagation() }}
+                          />
+                        </div>
+                      )
+                    )}
                   </div>
-                )}
-              {storeInit?.IsDiamondWeight == 1 &&
-                Number(productData?.Dwt) !== 0 && (
-                  <div style={{ display: "flex" }}>
-                    <span className="elv_prod_weight_span_1">DWT&nbsp;: </span>
-                    <span className="elv_prod_weight_span_2">
-                      &nbsp;
-                      {productData?.Dwt?.toFixed(3)}
-                      {storeInit?.IsDiamondPcs === 1
-                        ? `/${productData?.Dpcs}`
-                        : null}
-                    </span>
-                  </div>
-                )}
-              {storeInit?.IsGrossWeight == 1 &&
-                Number(productData?.Gwt) !== 0 && (
-                  <div style={{ display: "flex" }}>
-                    <span className="elv_prod_weight_span_1">GWT&nbsp;: </span>
-                    <span className="elv_prod_weight_span_2">
-                      &nbsp;
-                      {productData?.Gwt?.toFixed(3)}
-                    </span>
-                  </div>
-                )}
-            </div>
-            <div className="elv_filtered_prod_price">
-              <span className="elv_prod_weight_span_1_design">
-                {productData?.designno}
-              </span>
-              {storeInit?.IsPriceShow == 1 && (
-                <span className="elv_price_div">
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: decodeEntities(loginCurrency?.CurrencyCode),
+                  <img
+                    className={
+                      showFilter && filter == false ? class3 != null || class3 != undefined ? class3 : class2 : filterData?.length > 0 ? class2 : class3}
+                    loading="lazy"
+                    src={imageUrl}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.stopPropagation();
+                      e.target.src = noImageFound;
                     }}
-                    style={{ paddingRight: "0.4rem" }}
+                    style={{
+                      opacity: isHover && (RollImageUrl || videoUrl) ? "0" : "1",
+                      transition: '0s ease-in-out',
+                    }}
                   />
-                  <span className="elv_price_tags">
-                    {formatter(productData?.UnitCostWithMarkUp)}
-                  </span>
-                </span>
+                </>
               )}
             </div>
           </div>
+
+          {isLoading ? (
+            <div className="elv_filtered_prod_details">
+              <Skeleton width="80%" height={20} animation="wave" />
+              <Skeleton width="60%" height={20} animation="wave" />
+              <Skeleton width="40%" height={20} animation="wave" />
+            </div>
+          ) : (
+            <>
+              <div className="elv_pd">
+                {productData?.TitleLine ? (
+                  <span className="elv_prod_titleline_visible">
+                    {formatTitleLine(productData?.TitleLine) && productData?.TitleLine}
+                  </span>
+                ) : (
+                  <span className="elv_prod_titleline_invisible">
+                    {formatTitleLine(productData?.TitleLine) && productData?.TitleLine}
+                  </span>
+                )}
+              </div>
+              <div className="elv_filtered_prod_details">
+                <div className="elv_filtered_prod_weights">
+                  {storeInit?.IsMetalWeight == 1 &&
+                    Number(productData?.Nwt) !== 0 && (
+                      <div style={{ display: "flex" }}>
+                        <span className="elv_prod_weight_span_1">NWT&nbsp;: </span>
+                        <span className="elv_prod_weight_span_2">
+                          &nbsp;
+                          {productData?.Nwt.toFixed(3)}
+                        </span>
+                      </div>
+                    )}
+                  {storeInit?.IsDiamondWeight == 1 &&
+                    Number(productData?.Dwt) !== 0 && (
+                      <div style={{ display: "flex" }}>
+                        <span className="elv_prod_weight_span_1">DWT&nbsp;: </span>
+                        <span className="elv_prod_weight_span_2">
+                          &nbsp;
+                          {productData?.Dwt?.toFixed(3)}
+                          {storeInit?.IsDiamondPcs === 1
+                            ? `/${productData?.Dpcs}`
+                            : null}
+                        </span>
+                      </div>
+                    )}
+                  {storeInit?.IsGrossWeight == 1 &&
+                    Number(productData?.Gwt) !== 0 && (
+                      <div style={{ display: "flex" }}>
+                        <span className="elv_prod_weight_span_1">GWT&nbsp;: </span>
+                        <span className="elv_prod_weight_span_2">
+                          &nbsp;
+                          {productData?.Gwt?.toFixed(3)}
+                        </span>
+                      </div>
+                    )}
+                </div>
+                <div className="elv_filtered_prod_price">
+                  <span className="elv_prod_weight_span_1_design">
+                    {productData?.designno}
+                  </span>
+                  {storeInit?.IsPriceShow == 1 && (
+                    <span className="elv_price_div">
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: decodeEntities(loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode),
+                        }}
+                        style={{ paddingRight: "0.4rem" }}
+                      />
+                      <span className="elv_price_tags">
+                        {formatter(productData?.UnitCostWithMarkUp)}
+                      </span>
+                    </span>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>

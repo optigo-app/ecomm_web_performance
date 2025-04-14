@@ -4,7 +4,6 @@
   background-color: $backgroundColor;
   height: 100%;
   min-height: 100vh !important;
-  background-color: red !important;
 }
 
 .proCat_prodDetail_outerContain {
@@ -23,8 +22,26 @@
 }
 
 .proCat_prod_image_shortInfo {
-  width: 100%;
+  width: 95%;
   display: flex;
+  height: 80vh;
+  margin-inline: auto;
+
+  @media (max-width: 1550px) {
+    width: 93%;
+  }
+
+  @media (max-width: 1350px) {
+    width: 90%;
+  }
+
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
+
+  @media (max-width: 1400px) {
+    height: 100%;
+  }
 }
 
 .proCat_prod_image_Sec {
@@ -87,6 +104,7 @@
   gap: 5px;
   height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
 
   @media (max-width: 1200px) {
     height: inherit;
@@ -344,6 +362,14 @@
   text-transform: uppercase;
   padding-inline: 7px;
   border-radius: 6px;
+}
+
+.proCat_app_Make_to_order {
+  background-color: #c1c1f5;
+  color: black;
+  text-transform: uppercase;
+  border-radius: 6px;
+  padding-inline: 5px;
 }
 
 .proCat_material_details_portion_inner {
@@ -796,7 +822,7 @@
   cursor: pointer;
   color: #7d7f85;
   font-weight: 600;
-  text-align: left;
+  text-align: right;
   text-decoration: underline;
   font-size: 0.9rem;
   font-size: 13px !important;

@@ -325,7 +325,14 @@
     width: 100%;
     display: flex;
     justify-content: center;
-}
+  
+    @media (max-width: 790px) {
+      display: block;
+      overflow-x: scroll;
+      width: 100%;
+      scrollbar-width: thin;
+    }
+  }
 
 .smr_stock_item_card {
     display: flex;
@@ -770,3 +777,36 @@
         margin: 70px 20px;
     }
 }
+
+.smrt_prod_description {
+    position: relative;
+  }
+  
+  .smrt_description-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-align: justify;
+    transition: height 0.3s ease;
+    margin: 0;
+    color: #7d7f85;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: -2px;
+  }
+  
+  .smrt_show-more .smrt_description-text {
+    -webkit-line-clamp: unset;
+    height: none;
+  }
+  
+  .smrt_toggle-text {
+    display: block;
+    cursor: pointer;
+    color: #7d7f85;
+    font-weight: 600;
+    text-align: right;
+    text-decoration: underline;
+    font-size: 12px !important;
+  }

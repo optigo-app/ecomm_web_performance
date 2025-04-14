@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import './Footer.modul.scss'
 import { IoLocationOutline } from "react-icons/io5";
 import { IoMdCall } from "react-icons/io";
-import { Link } from 'react-router-dom';
+import { Form, Link } from 'react-router-dom';
 import { IoMdMail } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -12,7 +12,7 @@ const Footer = () => {
 
     const [companyInfoData, setCompanuInfoData] = useState();
     const [socialMediaData, setSocialMediaData] = useState([]);
-    const [email, setEmail] = useState();
+    const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState();
     const [selectedFooteVal, setSelectedVal] = useState(0);
@@ -61,23 +61,46 @@ const Footer = () => {
         };
     }, []);
 
-    const handleSubmitNewlater = () => {
+    const handleSubmitNewlater = async (e) => {
         setLoading(true);
-        const storeInit = JSON?.parse(sessionStorage?.getItem('storeInit'));
+
+        const isValidEmail = (email) => {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        };
+
+        e.preventDefault();
+        if (email?.trim() === "") {
+            setLoading(false);
+            setResult("Email is required.");
+            return;
+        } else if (!isValidEmail(email)) {
+            setLoading(false);
+            setResult("Please enter a valid email address.");
+            return;
+        } else {
+            setResult("");
+        }
+
+        const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
         const newslater = storeInit?.newslatter;
         if (newslater && email) {
             const requestOptions = {
                 method: "GET",
-                redirect: "follow"
+                redirect: "follow",
             };
-            // const updateUrl = newslater?.replace("https://", "http://");
             const newsletterUrl = `${newslater}${email}`;
             fetch(newsletterUrl)
                 .then((response) => response.text())
-                .then((result) => { setResult(result); setLoading(false) })
+                .then((result) => {
+                    setResult(result); setLoading(false); setTimeout(() => {
+                        setResult(""); // Clear the result after 3000 ms
+                        setEmail('')
+
+                    }, 3000);
+                })
                 .catch((error) => setResult(error));
         }
-
     };
 
     const alreadySubs = 'Already Subscribed.';
@@ -111,19 +134,19 @@ const Footer = () => {
                     <p className='elvBox1TitDesc'>Sign up for our updates
                         Subscribe to our emails to get exclusive first access to new products, surveys, and events.</p>
                     <div className="ElveFooter1Input" style={{ marginTop: "20px" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <form style={{ display: "flex", alignItems: "center", gap: "10px" }} onSubmit={handleSubmitNewlater}>
                             <input
                                 type="email"
                                 placeholder="Enter Your Email"
                                 className="eleBox1InputBox"
                                 value={email}
-                                onChange={handleEmailChange}
+                                onChange={(e) => setEmail(e.target.value)}
                                 style={{ flex: "1" }}
                             />
-                            <button className="elevBox1Btn" onClick={handleSubmitNewlater}>
+                            <button type='submit' className="elevBox1Btn">
                                 SIGN UP
                             </button>
-                        </div>
+                        </form>
                         {
                             loading ? <span className="elv_error_message">Loading...</span> : (
                                 <>
@@ -131,7 +154,7 @@ const Footer = () => {
                                         <span
                                             className="elv_error_message"
                                             style={{
-                                                color: result === alreadySubs ? "#FF0000" : "#04AF70",
+                                                color: result.startsWith("Thank You!") ? "#04AF70" : "#FF0000",
                                                 marginTop: "0px",
                                                 display: "block",
                                             }}
@@ -228,4 +251,4 @@ const Footer = () => {
     )
 }
 
-export default Footer
+export default memo(Footer);

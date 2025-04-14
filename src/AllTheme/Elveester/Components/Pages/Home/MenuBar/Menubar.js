@@ -255,6 +255,18 @@ const Menubar = () => {
         setToggle(false)
     }
 
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     return (
         <>
             <div className="el_display_background">
@@ -267,11 +279,31 @@ const Menubar = () => {
                                     open={toggle}
                                     onClose={handleToggle}
                                     className="el_display_background"
-                                    sx={{ width: maxWidth1366px ? "22rem" : maxWidth768px ? "20rem" : maxWidth425px ? "18rem" : maxWidth375px ? "17rem" : "22rem" }}
+                                    sx={{
+                                        width:
+                                            windowWidth <= 375
+                                                ? "65%"
+                                                : windowWidth <= 425
+                                                    ? "65%"
+                                                    : windowWidth <= 768
+                                                        ? "20rem"
+                                                        : windowWidth <= 1366
+                                                            ? "22rem"
+                                                            : "22rem",
+                                    }}
                                     PaperProps={{
                                         sx: {
-                                            width: maxWidth1366px ? "22rem" : maxWidth768px ? "20rem" : maxWidth425px ? "18rem" : maxWidth375px ? "17rem" : "22rem",
-                                            background: maxWidth1366px && "#fff",
+                                            width:
+                                                windowWidth <= 375
+                                                    ? "65%"
+                                                    : windowWidth <= 425
+                                                        ? "65%"
+                                                        : windowWidth <= 768
+                                                            ? "20rem"
+                                                            : windowWidth <= 1366
+                                                                ? "22rem"
+                                                                : "22rem",
+                                            background: windowWidth <= 1366 ? "#fff" : undefined, // White background for large screens
                                         },
                                     }}
                                 >

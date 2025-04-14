@@ -282,9 +282,22 @@
 
     .elv_WlListImage {
         width: 100%;
-        height: 100%;
+        height: 380px;
         object-fit: contain;
         cursor: pointer;
+
+        @media (max-width: 1700px) {
+            height: 350px;
+        }
+
+        @media (max-width: 1500px) {
+            height: 330px;
+        }
+
+        @media (max-width: 1200px) {
+            height: 300px;
+        }
+
     }
 
     .cardText {

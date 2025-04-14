@@ -53,6 +53,7 @@ import { Helmet } from "react-helmet";
 import {
   mala_CartCount,
   mala_DiamondRangeArr,
+  mala_loginState,
   mala_WishCount,
 } from "../../../Recoil/atom";
 import "./GiveFilterMenu.scss";
@@ -64,6 +65,7 @@ import ProductCard_Skeleton from "./productCard_skeleton/Productcard_skeleton";
 import EditablePagination from "../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
 const ProductList = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const [storeInit, setStoreInit] = useState({});
 
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -83,6 +85,8 @@ const ProductList = () => {
     setCsQcCombo(CsQcCombo);
   }, []);
 
+  const islogin = useRecoilValue(mala_loginState);
+
   let location = useLocation();
   let navigate = useNavigate();
   let minwidth1201px = useMediaQuery("(min-width:1201px)");
@@ -95,7 +99,6 @@ const ProductList = () => {
   const [finalProductListData, setFinalProductListData] = useState([]);
   const [isProdLoading, setIsProdLoading] = useState();
   const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
-  const [storeInit, setStoreInit] = useState({});
   const [filterData, setFilterData] = useState([]);
   const [filterChecked, setFilterChecked] = useState({});
   const [afterFilterCount, setAfterFilterCount] = useState();
@@ -173,7 +176,7 @@ const ProductList = () => {
 
     let csid = loginUserDetailInside?.cmboCSQCid ?? storeInitInside?.cmboCSQCid;
     setSelectedCsId(csid);
-  }, []);
+  }, [location]);
 
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
@@ -1080,8 +1083,8 @@ const ProductList = () => {
       autocode: ele?.autocode,
       Metalid: selectedMetalId ?? ele?.MetalPurityid,
       MetalColorId: ele?.MetalColorid,
-      DiaQCid: selectedDiaId ?? loginInfo?.cmboDiaQCid,
-      CsQCid: selectedCsId ?? loginInfo?.cmboCSQCid,
+      DiaQCid: selectedDiaId ?? islogin == true ? loginInfo?.cmboDiaQCid : storeInit?.cmboDiaQCid,
+      CsQCid: selectedCsId ?? islogin == true ? loginInfo?.cmboCSQCid : storeInit?.cmboCSQCid,
       Size: ele?.DefaultSize,
       Unitcost: ele?.UnitCost,
       markup: ele?.DesignMarkUp,

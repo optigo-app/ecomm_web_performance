@@ -269,11 +269,11 @@ const Customization = ({
                   }
                 </div>
               </div>
-              {/* {selectedItem?.IsMrpBase == 1 && (
+              {selectedItem?.IsMrpBase == 1 && (
                 <div className='elv_UpdateCartBtn'>
                   <button className="elv_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Apply</button>
                 </div>
-              )} */}
+              )}
             </div>
           </div>
         </>

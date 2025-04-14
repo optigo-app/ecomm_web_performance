@@ -415,6 +415,11 @@
         .elv_copyrights_text {
             font-size: 17px;
         }
+    }
 
+    @media (max-width: 375px) {
+        .elv_copyrights_text {
+            font-size: 14px;
+        }
     }
 }

@@ -58,7 +58,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatRedirectTitleLine, formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import EditablePagination from "../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
 
 const Lookbook = () => {
@@ -528,10 +528,11 @@ const Lookbook = () => {
       f: {},
     };
     let encodeObj = compressAndEncode(JSON?.stringify(obj));
-    navigate(
-      `/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
-      }${designNo}?p=${encodeObj}`
-    );
+    // navigate(
+    //   `/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
+    //   }${designNo}?p=${encodeObj}`
+    // );
+    navigate(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
   };
 
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -2404,7 +2405,7 @@ const Lookbook = () => {
             <>
               {storeInit?.IsProductListPagination == 1 &&
                 Math.ceil(dstCount / itemsPerPage)
-                > 1 && (  
+                > 1 && (
                   <div className="lpDiv">
                     <MuiPagination
                       count={Math.ceil(dstCount / itemsPerPage)}

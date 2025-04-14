@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Productdetail.scss";
 import Footer from "../../Home/Footer/Footer";
 import { useAsyncError, useLocation, useNavigate } from "react-router-dom";
@@ -1433,6 +1433,41 @@ const ProductDetail = () => {
 
   const KayraCreation = 1;
 
+  const [isClamped, setIsClamped] = useState(false);
+
+  const descriptionRef = useRef(null); // Using useRef instead of document.querySelector
+  const descriptionText = singleProd1?.description ?? singleProd?.description;
+
+  useEffect(() => {
+    setIsClamped(false);
+    setIsExpanded(false);
+
+    const checkTextOverflow = () => {
+      const descriptionElement = descriptionRef.current;
+      if (descriptionElement) {
+        const isOverflowing =
+          descriptionElement.scrollHeight > descriptionElement.clientHeight;
+        setIsClamped(isOverflowing);
+      }
+    };
+
+    checkTextOverflow();
+
+    window.addEventListener('resize', checkTextOverflow);
+    return () => {
+      window.removeEventListener('resize', checkTextOverflow);
+    };
+  }, [descriptionText, descriptionRef])
+
+  useEffect(() => {
+    setIsClamped(false);
+    setIsExpanded(false);
+  }, [location?.key])
+
+  const toggleText = () => {
+    setIsExpanded((prevState) => !prevState);
+  };
+
   return (
     <>
       <Helmet>
@@ -1748,7 +1783,7 @@ const ProductDetail = () => {
                                     )?.toFixed(3)}
                                   </span>
                                 </span>}
-                              {singleProd?.description && (
+                              {/* {singleProd?.description && (
                                 <div
                                   style={{
                                     display: "flex",
@@ -1788,6 +1823,25 @@ const ProductDetail = () => {
                                   >
                                     {isExpanded ? "Show less" : "Read more"}
                                   </a>
+                                </div>
+                              )} */}
+                              {descriptionText?.length > 0 && (
+                                <div className={`smrt_prod_description ${isExpanded ? 'smrt_show-more' : ''}`}>
+                                  <p className="smrt_description-text" ref={descriptionRef}>
+                                    {descriptionText}
+                                  </p>
+
+                                  {(isClamped && !isExpanded) && ( // Show "Show More" only if text is clamped and not expanded
+                                    <span className="smrt_toggle-text" onClick={toggleText}>
+                                      Show More
+                                    </span>
+                                  )}
+
+                                  {isExpanded && ( // Show "Show Less" when the description is expanded
+                                    <span className="smrt_toggle-text" onClick={toggleText}>
+                                      Show Less
+                                    </span>
+                                  )}
                                 </div>
                               )}
                             </div>

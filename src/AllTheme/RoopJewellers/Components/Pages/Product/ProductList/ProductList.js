@@ -62,6 +62,7 @@ import { Helmet } from "react-helmet";
 import {
   roop_CartCount,
   roop_DiamondRangeArr,
+  roop_loginState,
   roop_WishCount,
 } from "../../../Recoil/atom";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
@@ -70,27 +71,10 @@ import { IoClose } from "react-icons/io5";
 import EditablePagination from "../../ReusableComponent/EditablePagination/EditablePagination";
 
 const ProductList = () => {
-  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-
-  useEffect(() => {
-    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
-    setStoreInit(storeinit);
-
-    let mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
-    setMetalTypeCombo(mtCombo);
-
-    let diaQcCombo = JSON.parse(
-      sessionStorage.getItem("diamondQualityColorCombo")
-    );
-    setDiaQcCombo(diaQcCombo);
-
-    let CsQcCombo = JSON.parse(
-      sessionStorage.getItem("ColorStoneQualityColorCombo")
-    );
-    setCsQcCombo(CsQcCombo);
-  }, []);
-
   let location = useLocation();
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+
   let navigate = useNavigate();
   let minwidth1201px = useMediaQuery("(min-width:1201px)");
   let maxwidth1674px = useMediaQuery("(max-width:1674px)");
@@ -99,12 +83,13 @@ const ProductList = () => {
   let maxwidth425px = useMediaQuery("(max-width:425px)");
   let maxwidth375px = useMediaQuery("(max-width:375px)");
 
+  const islogin = useRecoilValue(roop_loginState);
+
   const [productListData, setProductListData] = useState([]);
   const [priceListData, setPriceListData] = useState([]);
   const [finalProductListData, setFinalProductListData] = useState([]);
   const [isProdLoading, setIsProdLoading] = useState(true);
   const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
-  const [storeInit, setStoreInit] = useState({});
   const [filterData, setFilterData] = useState([]);
   const [filterChecked, setFilterChecked] = useState({});
   const [afterFilterCount, setAfterFilterCount] = useState();
@@ -119,14 +104,9 @@ const ProductList = () => {
   const [csQcCombo, setCsQcCombo] = useState([]);
   const [metalType, setMetaltype] = useState([]);
   const [diamondType, setDiamondType] = useState([]);
-  const [selectedMetalId, setSelectedMetalId] = useState(
-    loginUserDetail?.MetalId
-  );
-  const [selectedDiaId, setSelectedDiaId] = useState(
-    loginUserDetail?.cmboDiaQCid
-  );
-  console.log("TCL: ProductList -> selectedDiaId", typeof selectedDiaId)
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
+  const [selectedMetalId, setSelectedMetalId] = useState();
+  const [selectedDiaId, setSelectedDiaId] = useState();
+  const [selectedCsId, setSelectedCsId] = useState();
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -171,24 +151,31 @@ const ProductList = () => {
     );
   };
 
-
   useEffect(() => {
-    setCSSVariable();
-    const storeInitInside = JSON.parse(sessionStorage.getItem("storeInit"));
-    const loginUserDetailInside = JSON.parse(
-      sessionStorage.getItem("loginUserDetail")
-    );
+    const mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
+    setMetalTypeCombo(mtCombo);
 
-    let mtid = loginUserDetailInside?.MetalId ?? storeInitInside?.MetalId;
+    const diaQcCombo = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
+    setDiaQcCombo(diaQcCombo);
+
+    const CsQcCombo = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
+    setCsQcCombo(CsQcCombo);
+
+    const loginUserDetailInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
+    let mtid = islogin ? loginUserDetailInside?.MetalId : storeInit?.MetalId;
     setSelectedMetalId(mtid);
 
-    let diaid =
-      loginUserDetailInside?.cmboDiaQCid ?? storeInitInside?.cmboDiaQCid;
+    let diaid = islogin ? loginUserDetailInside?.cmboDiaQCid : storeInit?.cmboDiaQCid;
     setSelectedDiaId(diaid);
 
-    let csid = loginUserDetailInside?.cmboCSQCid ?? storeInitInside?.cmboCSQCid;
+    let csid = islogin ? loginUserDetailInside?.cmboCSQCid : storeInit?.cmboCSQCid;
     setSelectedCsId(csid);
-  }, []);
+  }, [islogin]);
+
+  useEffect(() => {
+    console.log("selectedMetalId changed:", selectedMetalId);
+  }, [selectedMetalId]);
 
   useEffect(() => {
     const { hostname } = window.location;
@@ -275,11 +262,11 @@ const ProductList = () => {
   // },[location?.key])
 
   useEffect(() => {
-    setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
-    setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
-    setSelectedCsId(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
+    setSelectedMetalId(islogin == true ? loginUserDetail?.MetalId : storeInit?.MetalId);
+    setSelectedDiaId(islogin == true ? loginUserDetail?.cmboDiaQCid : storeInit?.cmboDiaQCid);
+    setSelectedCsId(islogin == true ? loginUserDetail?.cmboCSQCid : storeInit?.cmboCSQCid);
     setSortBySelect("Recommended");
-  }, [location?.pathname]);
+  }, [location, islogin]);
 
   const callAllApi = () => {
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
@@ -945,9 +932,9 @@ const ProductList = () => {
       setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
       setFilterChecked({});
       setSortBySelect("Recommended");
-      setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
-      setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
-      setSelectedCsId(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
+      setSelectedMetalId(islogin == true ? loginUserDetail?.MetalId : storeInit?.MetalId);
+      setSelectedDiaId(islogin == true ? loginUserDetail?.cmboDiaQCid : storeInit?.cmboDiaQCid);
+      setSelectedCsId(islogin == true ? loginUserDetail?.cmboCSQCid : storeInit?.cmboCSQCid);
 
       if (Object.keys(filterChecked).length > 0) {
         setIsClearAllClicked(true);
@@ -1081,17 +1068,17 @@ const ProductList = () => {
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
-      autocode: ele?.autocode,
-      Metalid: selectedMetalId ?? ele?.MetalPurityid,
-      MetalColorId: ele?.MetalColorid,
-      DiaQCid: selectedDiaId ?? loginInfo?.cmboDiaQCid,
-      CsQCid: selectedCsId ?? loginInfo?.cmboCSQCid,
-      Size: ele?.DefaultSize,
-      Unitcost: ele?.UnitCost,
-      markup: ele?.DesignMarkUp,
-      UnitCostWithmarkup: ele?.UnitCostWithMarkUp,
-      Remark: "",
-    };
+      "autocode": ele?.autocode,
+      "Metalid": (selectedMetalId ?? ele?.MetalPurityid),
+      "MetalColorId": ele?.MetalColorid,
+      "DiaQCid": (islogin ? loginInfo?.cmboDiaQCid : storeInit?.cmboDiaQCid),
+      "CsQCid": (islogin ? loginInfo?.cmboCSQCid : storeInit?.cmboCSQCid),
+      "Size": ele?.DefaultSize,
+      "Unitcost": ele?.UnitCost,
+      "markup": ele?.DesignMarkUp,
+      "UnitCostWithmarkup": ele?.UnitCostWithMarkUp,
+      "Remark": ""
+    }
 
     if (e.target.checked == true) {
       CartAndWishListAPI(type, prodObj, cookie)
@@ -1205,27 +1192,54 @@ const ProductList = () => {
     }
   };
 
+  // useEffect(() => {
+  //   let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+  //   let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
+  //   sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
+  //   if (
+  //     loginInfo?.MetalId !== selectedMetalId ||
+  //     loginInfo?.cmboDiaQCid !== selectedDiaId ||
+  //     loginInfo?.cmboCSQCid !== selectedCsId
+  //   ) {
+  //     if (
+  //       selectedMetalId !== "" ||
+  //       selectedDiaId !== "" ||
+  //       selectedCsId !== ""
+  //     ) {
+  //       handelCustomCombo(obj);
+  //     }
+  //   }
+  // }, [selectedMetalId, selectedDiaId, selectedCsId]);
+
   useEffect(() => {
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    const obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    sessionStorage.setItem("short_cutCombo_val", JSON.stringify(obj));
 
-    sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
-    console.log("kiki", loginInfo?.MetalId !== selectedMetalId, loginInfo?.cmboDiaQCid !== selectedDiaId, loginInfo?.cmboCSQCid !== selectedCsId)
-    if (
-      loginInfo?.MetalId !== selectedMetalId ||
-      loginInfo?.cmboDiaQCid !== selectedDiaId ||
-      loginInfo?.cmboCSQCid !== selectedCsId
-    ) {
-      if (
-        selectedMetalId !== "" ||
-        selectedDiaId !== "" ||
-        selectedCsId !== ""
-      ) {
-        handelCustomCombo(obj);
+    if (loginInfo) {
+      if (selectedMetalId != undefined || selectedDiaId != undefined || selectedCsId != undefined) {
+        if (loginInfo.MetalId !== selectedMetalId || loginInfo.cmboDiaQCid !== selectedDiaId || loginInfo.cmboCSQCid != selectedCsId) {
+          handelCustomCombo(obj);
+        }
+      }
+    } else {
+      if (storeInit) {
+        if (selectedMetalId != undefined || selectedDiaId != undefined || selectedCsId != undefined) {
+          if (
+            storeInit?.MetalId != selectedMetalId ||
+            storeInit?.cmboDiaQCid != selectedDiaId ||
+            storeInit?.cmboCSQCid != selectedCsId
+          ) {
+            handelCustomCombo(obj);
+          }
+        }
       }
     }
   }, [selectedMetalId, selectedDiaId, selectedCsId]);
+
 
   const compressAndEncode = (inputString) => {
     try {
@@ -2232,7 +2246,6 @@ const ProductList = () => {
 
     return isFilterChecked || isSliderChanged;
   };
-
 
   return (
     <>

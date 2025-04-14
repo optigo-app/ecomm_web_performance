@@ -115,6 +115,7 @@ const useCart = () => {
 
       if (response?.Data?.rd[0]?.stat != 0) {
         setCartData(response?.Data?.rd);
+        setFinalCartData(response.Data?.rd);
         if (response?.Data?.rd?.length > 0) {
           setSelectedItem(response?.Data?.rd[0]);
           let item = response?.Data?.rd[0]
@@ -195,8 +196,14 @@ const useCart = () => {
   // remove
   const handleRemoveItem = async (item) => {
     let param = "Cart";
-    let cartfilter = cartData?.filter(cartItem => cartItem?.id !== item?.id);
-    setCartData(cartfilter);
+    let cartfilter;
+    if (storeInit?.Themeno === 3) {
+      cartfilter = finalCartData?.filter(cartItem => cartItem?.id !== item?.id);
+      setFinalCartData(cartfilter);
+    } else {
+      cartfilter = cartData?.filter(cartItem => cartItem?.id !== item?.id);
+      setCartData(cartfilter);
+    }
 
     setTimeout(() => {
       if (cartfilter && isMaxWidth1050) {
@@ -230,7 +237,7 @@ const useCart = () => {
         setSelectedItem([]);
         getCartData();
         setCartData([]);
-        setSelectedItem([]);
+        setFinalCartData([]);
         return resStatus;
       } else {
         console.log('Failed to remove product or product not found');
@@ -290,41 +297,89 @@ const useCart = () => {
 
   // update cart
   const handleUpdateCart = async (updatedItems) => {
+    console.log("TCL: handleUpdateCart -> updatedItems", updatedItems)
     setSelectedItems([]);
     setMultiSelect(false);
     setOpenModal(false);
-    try {
-      const response = await updateCartAPI(updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup);
-      let resStatus = response?.Data.rd[0]
-      if (resStatus?.msg == "success") {
-        setOpenMobileModal(false);
-        setHandleUpdate(resStatus)
-        // toast.success('Cart Updated Successfully')
 
-        const Price = updatedItems?.UnitCostWithMarkUp * qtyCount;
-        const updatedCartData = cartData.map(cart =>
-          cart?.id === updatedItems?.id ? {
-            ...cart,
-            metaltypename: mtType ?? updatedItems?.metaltypename,
-            metalcolorname: mtColor ?? updatedItems?.metalcolorname,
-            diamondquality: diaQua ?? updatedItems?.diamondquality,
-            diamondcolor: diaColor ?? updatedItems?.diamondcolor,
-            colorstonecolor: csColor ?? updatedItems?.colorstonecolor,
-            colorstonequality: csQua ?? updatedItems?.colorstonequality,
-            FinalCost: Price ?? updatedItems?.FinalCost,
-            UnitCostWithMarkUp: finalPrice?.UnitCostWithMarkUp ?? updatedItems?.UnitCostWithMarkUp,
-            Quantity: qtyCount,
-            Size: sizeId
-          } : cart
-        );
-        setCartData(updatedCartData)
-        return resStatus;
-      } else {
-        console.log('Failed to update product or product not found');
+    if (storeInit?.Themeno === 3) {
+      const response1 = await updateQuantity(updatedItems.id, updatedItems?.Quantity, visiterId);
+      let resStatus1 = response1?.Data.rd[0];
+
+      if (resStatus1?.stat_msg == "success") {
+        try {
+          const response = await updateCartAPI(updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup);
+          let resStatus = response?.Data.rd[0];
+          const mtcCode = metalColorCombo?.find(option => option?.id === metalCOLORID);
+          if (resStatus?.msg == "success") {
+            setOpenMobileModal(false);
+            setHandleUpdate(resStatus)
+            // toast.success('Cart Updated Successfully')
+            let updatedCartData;
+
+            const Price = updatedItems?.UnitCostWithMarkUp * qtyCount;
+            updatedCartData = finalCartData.map(cart =>
+              cart?.id === updatedItems?.id ? {
+                ...cart,
+                metaltypename: mtType ?? updatedItems?.metaltypename,
+                metalcolorname: mtColor ?? updatedItems?.metalcolorname,
+                diamondquality: diaQua ?? updatedItems?.diamondquality,
+                diamondcolor: diaColor ?? updatedItems?.diamondcolor,
+                colorstonecolor: csColor ?? updatedItems?.colorstonecolor,
+                // images: `${storeInit?.CDNDesignImageFol}${updatedItems?.designno}~1~${mtcCode?.colorcode}.${updatedItems?.ImageExtension}`,
+                images: `${storeInit?.CDNDesignImageFolThumb}${updatedItems?.designno}~1~${mtcCode?.colorcode}.${updatedItems?.ImageExtension}`,
+                loading: false,
+                colorstonequality: csQua ?? updatedItems?.colorstonequality,
+                FinalCost: Price ?? updatedItems?.FinalCost,
+                UnitCostWithMarkUp: finalPrice?.UnitCostWithMarkUp ?? updatedItems?.UnitCostWithMarkUp,
+                Quantity: qtyCount,
+                Size: sizeId
+              } : cart
+            );
+            setFinalCartData(updatedCartData)
+            return resStatus;
+          } else {
+            console.log('Failed to update product or product not found');
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
       }
-    } catch (error) {
-      console.error("Error:", error);
+    } else {
+      try {
+        const response = await updateCartAPI(updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup);
+        let resStatus = response?.Data.rd[0]
+        if (resStatus?.msg == "success") {
+          setOpenMobileModal(false);
+          setHandleUpdate(resStatus)
+          // toast.success('Cart Updated Successfully')
+
+          const Price = updatedItems?.UnitCostWithMarkUp * qtyCount;
+          const updatedCartData = cartData.map(cart =>
+            cart?.id === updatedItems?.id ? {
+              ...cart,
+              metaltypename: mtType ?? updatedItems?.metaltypename,
+              metalcolorname: mtColor ?? updatedItems?.metalcolorname,
+              diamondquality: diaQua ?? updatedItems?.diamondquality,
+              diamondcolor: diaColor ?? updatedItems?.diamondcolor,
+              colorstonecolor: csColor ?? updatedItems?.colorstonecolor,
+              colorstonequality: csQua ?? updatedItems?.colorstonequality,
+              FinalCost: Price ?? updatedItems?.FinalCost,
+              UnitCostWithMarkUp: finalPrice?.UnitCostWithMarkUp ?? updatedItems?.UnitCostWithMarkUp,
+              Quantity: qtyCount,
+              Size: sizeId
+            } : cart
+          );
+          setCartData(updatedCartData)
+          return resStatus;
+        } else {
+          console.log('Failed to update product or product not found');
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
+
   };
 
   const handleCancelUpdateCart = () => {
@@ -350,10 +405,18 @@ const useCart = () => {
       const response = await handleProductRemark(data, productRemark, visiterId);
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.stat == 1) {
-        const updatedCartData = cartData.map(cart =>
-          cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
-        );
-        setCartData(updatedCartData);
+        let updatedCartData;
+        if (storeInit?.Themeno === 3) {
+          updatedCartData = finalCartData.map(cart =>
+            cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
+          );
+          setFinalCartData(updatedCartData);
+        } else {
+          updatedCartData = cartData.map(cart =>
+            cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
+          );
+          setCartData(updatedCartData);
+        }
         // setProductRemark("");
       }
     } catch (error) {
@@ -367,27 +430,39 @@ const useCart = () => {
 
   // for quantity
   const updateCartAndSelectedItem = (item, quantity, priceQty) => {
-    const updatedCartData = cartData.map(cart =>
-      cart.id === item.id ? { ...cart, Quantity: quantity } : cart
-    );
-    setCartData(updatedCartData);
+    let updatedCartData;
+
+    if (storeInit?.Themeno === 3) {
+      updatedCartData = finalCartData.map(cart =>
+        cart.id === item.id ? { ...cart, Quantity: quantity } : cart
+      );
+      setFinalCartData(updatedCartData);
+    } else {
+      updatedCartData = cartData.map(cart =>
+        cart.id === item.id ? { ...cart, Quantity: quantity } : cart
+      );
+      setCartData(updatedCartData);
+    }
 
     const updatedSelectedItem = selectedItem.id === item.id ? { ...selectedItem, Quantity: quantity, FinalCost: priceQty } : selectedItem;
     setSelectedItem(updatedSelectedItem);
   };
 
   const handleIncrement = async (item) => {
+    console.log("TCL: handleIncrement -> item", item)
     const newQuantity = (item?.Quantity || 0) + 1;
     const priceQty = (item?.UnitCostWithMarkUp) * newQuantity;
 
     updateCartAndSelectedItem(item, newQuantity, priceQty);
     setQtyCount(prevCount => prevCount + 1);
 
-    try {
-      const response = await updateQuantity(item.id, newQuantity, visiterId);
-      // console.log("Quantity updated successfully:", response);
-    } catch (error) {
-      console.error("Failed to update quantity:", error);
+    if (storeInit?.Themeno != 3) {
+      try {
+        const response = await updateQuantity(item.id, newQuantity, visiterId);
+        // console.log("Quantity updated successfully:", response);
+      } catch (error) {
+        console.error("Failed to update quantity:", error);
+      }
     }
   };
 
@@ -399,15 +474,16 @@ const useCart = () => {
       updateCartAndSelectedItem(item, newQuantity, priceQty);
       setQtyCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));
 
-      try {
-        const response = await updateQuantity(item.id, newQuantity, visiterId);
-        // console.log("Quantity updated successfully:", response);
-      } catch (error) {
-        console.error("Failed to update quantity:", error);
+      if (storeInit?.Themeno != 3) {
+        try {
+          const response = await updateQuantity(item.id, newQuantity, visiterId);
+          // console.log("Quantity updated successfully:", response);
+        } catch (error) {
+          console.error("Failed to update quantity:", error);
+        }
       }
     }
   };
-
 
   // for dropdown changes
   const handleMetalTypeChange = async (event) => {
@@ -429,16 +505,20 @@ const useCart = () => {
     }
   };
 
-  const handleMetalColorChange = (event) => {
+  const handleMetalColorChange = (event, selectedId) => {
     const selectedTypeName = event.target.value;
-    const selectedID = event.target.name;
-    setMtColor(selectedTypeName)
-    setSelectedItem(prevItem => ({ ...prevItem, metalcolorname: selectedTypeName }));
-
-    // const updatedMTCData = cartData?.map(cart =>
-    //   cart.id == selectedID ? { ...cart, metalcolorname: selectedTypeName } : cart
-    // );
-    // setCartData(updatedMTCData);
+    // const selectedID = event.target.name;
+    setMtColor(selectedTypeName);
+    if (storeInit?.Themeno === 3) {
+      setSelectedItem(prevItem => ({
+        ...prevItem, metalcolorname: selectedTypeName,
+        // images: `${storeInit?.CDNDesignImageFol}${selectedItem?.designno}~1~${selectedTypeName}.${selectedItem?.ImageExtension}`,
+        images: `${storeInit?.CDNDesignImageFolThumb}${selectedItem?.designno}~1~${selectedTypeName}.${selectedItem?.ImageExtension}`,
+        loading: false
+      }));
+    } else {
+      setSelectedItem(prevItem => ({ ...prevItem, metalcolorname: selectedTypeName }));
+    }
 
     const selectedMetal = metalColorCombo.find(option => option.metalcolorname === selectedTypeName);
     if (selectedMetal) {
@@ -446,6 +526,7 @@ const useCart = () => {
       setMetalCOLORID(selectedMetalId);
     }
   };
+
 
   const handleDiamondChange = (event) => {
     const value = event.target.value;
@@ -568,36 +649,63 @@ const useCart = () => {
   }
 
   const CartCardImageFunc = (pd) => {
-    return new Promise((resolve) => {
-      const loadImage = (src) => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.src = src;
-          img.onload = () => resolve(src);
-          img.onerror = () => reject(src);
-        });
-      };
-
+    if (storeInit?.Themeno === 3) {
       const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
-      let primaryImage, secondaryImage;
+      let primaryImage;
 
       if (pd?.ImageCount > 0) {
-        primaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1~${mtcCode?.colorcode}.${pd?.ImageExtension}`;
-        secondaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1.${pd?.ImageExtension}`;
+        // primaryImage = `${storeInit?.CDNDesignImageFolThumb}${pd?.designno}~1~${mtcCode?.colorcode}.${pd?.ImageExtension}`;
+        primaryImage = `${storeInit?.CDNDesignImageFolThumb}${pd?.designno}~1~${mtcCode?.colorcode}.jpg`;
       } else {
-        primaryImage = secondaryImage = imageNotFound;
+        primaryImage = imageNotFound;
       }
+      return primaryImage;
+    } else {
+      return new Promise((resolve) => {
+        const loadImage = (src) => {
+          return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = () => resolve(src);
+            img.onerror = () => reject(src);
+          });
+        };
 
-      Promise.all([
-        loadImage(primaryImage).catch(() => null),
-        loadImage(secondaryImage).catch(() => null),
-      ])
-        .then(([primaryImageResult, secondaryImageResult]) => {
-          resolve(primaryImageResult || secondaryImageResult || imageNotFound);
-        });
-    });
+        const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
+        let primaryImage, secondaryImage;
+
+        if (pd?.ImageCount > 0) {
+          primaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1~${mtcCode?.colorcode}.${pd?.ImageExtension}`;
+          secondaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1.${pd?.ImageExtension}`;
+        }
+        else {
+          primaryImage = secondaryImage = imageNotFound;
+        }
+        // if (pd?.ImageCount > 0) {
+        //   primaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
+        //   secondaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1.${pd?.ImageExtension}`;
+        // } 
+        // else {
+        //   primaryImage = secondaryImage = imageNotFound;
+        // }
+
+        loadImage(primaryImage)
+          .then((imgSrc) => {
+            resolve(imgSrc);
+          })
+          .catch(() => {
+            loadImage(secondaryImage)
+              .then((imgSrc) => {
+                resolve(imgSrc);
+              })
+              .catch(() => {
+                resolve(imageNotFound);
+              });
+          });
+      });
+    }
+
   };
-
 
   // const CartCardImageFunc = (pd) => {
   //   const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
@@ -623,54 +731,32 @@ const useCart = () => {
 
     setFinalCartData(initialProducts)
     setLoadingIndex(0)
-  }, [cartData])
-
+  }, [cartData, cartStatus])
 
   useEffect(() => {
-    if (loadingIndex >= finalCartData?.length) return;
+    if (loadingIndex >= finalCartData?.length) return
 
-    const loadNextProductImages = async () => {
+    const loadNextProductImages = () => {
       setFinalCartData(prevData => {
-        const newData = [...prevData];
+        const newData = [...prevData]
         newData[loadingIndex] = {
           ...newData[loadingIndex],
-          loading: true,  // Mark as loading while waiting for the image to load
-        };
-        return newData;
-      });
+          images: CartCardImageFunc(newData[loadingIndex]),
+          loading: false
+        }
+        return newData
+      })
 
-      try {
-        // Wait for the image to be loaded
-        const image = await CartCardImageFunc(finalCartData[loadingIndex]);
-        setFinalCartData(prevData => {
-          const newData = [...prevData];
-          newData[loadingIndex] = {
-            ...newData[loadingIndex],
-            images: image,
-            loading: false, // Mark loading as done
-          };
-          return newData;
-        });
-      } catch (error) {
-        console.error('Error loading image:', error);
-        setFinalCartData(prevData => {
-          const newData = [...prevData];
-          newData[loadingIndex] = {
-            ...newData[loadingIndex],
-            images: imageNotFound, // Fallback image if error
-            loading: false,
-          };
-          return newData;
-        });
-      }
-
-      setLoadingIndex(prevIndex => prevIndex + 1);  // Move to next product
-    };
-    loadNextProductImages();
-    // const timer = setTimeout(loadNextProductImages, 20);
-    // return () => clearTimeout(timer);
-  }, [loadingIndex, finalCartData, CartCardImageFunc]);
-
+      setLoadingIndex(prevIndex => prevIndex + 1)
+    }
+    if (storeInit?.Themeno === 3) {
+      const timer = setTimeout(loadNextProductImages, 130)
+      return () => clearTimeout(timer)
+    } else {
+      const timer = setTimeout(loadNextProductImages, 20)
+      return () => clearTimeout(timer)
+    }
+  }, [loadingIndex, finalCartData, CartCardImageFunc])
 
   const compressAndEncode = (inputString) => {
     try {

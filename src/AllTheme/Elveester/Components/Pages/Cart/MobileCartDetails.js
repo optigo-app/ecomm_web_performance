@@ -44,6 +44,11 @@ const MobileCartDetails = ({
   const loginInfo = JSON.parse(sessionStorage.getItem('loginUserDetail'));
   const [imageSrc, setImageSrc] = useState();
 
+  const CDNDesignImageFol = storeInitData?.CDNDesignImageFol;
+  const fullImagePath = `${CDNDesignImageFol}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`;
+
+  const isLoading = selectedItem?.loading;
+
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
@@ -77,15 +82,17 @@ const MobileCartDetails = ({
 
   }
 
-  useEffect(() => {
-    if (selectedItem?.ImageCount > 0) {
-      CartCardImageFunc(selectedItem).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [selectedItem]);
+  // useEffect(() => {
+  //   if (storeInitData?.Themeno !== 3) {
+  //     if (selectedItem?.ImageCount > 0) {
+  //       CartCardImageFunc(selectedItem).then((src) => {
+  //         setImageSrc(src);
+  //       });
+  //     } else {
+  //       setImageSrc(noImageFound);
+  //     }
+  //   }
+  // }, [selectedItem]);
 
   return (
     <Modal open={open} onClose={handleClose} className="elvMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
@@ -102,7 +109,7 @@ const MobileCartDetails = ({
             />
           )} */}
 
-          {imageSrc === undefined ? (
+          {isLoading === true ? (
             <CardMedia
               sx={{
                 width: "100%",
@@ -118,11 +125,15 @@ const MobileCartDetails = ({
             </CardMedia>
           ) : (
             <img
-              src={imageSrc}
+              src={selectedItem?.images ? selectedItem?.images : "png"}
               alt="Cluster Diamond"
               className='elvMo_cartImage'
               onClick={() => handleMoveToDetail(selectedItem)}
               style={{ border: 'none' }}
+              onError={((e) => {
+                e.target.src = fullImagePath ? fullImagePath : noImageFound;
+              })}
+              loading='lazy'
             />
           )}
         </div>

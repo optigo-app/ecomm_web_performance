@@ -1087,7 +1087,7 @@ const ProductDetail = () => {
     //   `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
     //   }${productData?.designno}?p=${encodeObj}`
     // );
-     navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
+    navigate(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
 
     // step 1
     setSingleProd1({});
@@ -1199,6 +1199,41 @@ const ProductDetail = () => {
     });
 
     return SizeSorted;
+  };
+
+  const [isClamped, setIsClamped] = useState(false);
+
+  const descriptionRef = useRef(null); // Using useRef instead of document.querySelector
+  const descriptionText = singleProd1?.description ?? singleProd?.description;
+
+  useEffect(() => {
+    setIsClamped(false);
+    setIsExpanded(false);
+
+    const checkTextOverflow = () => {
+      const descriptionElement = descriptionRef.current;
+      if (descriptionElement) {
+        const isOverflowing =
+          descriptionElement.scrollHeight > descriptionElement.clientHeight;
+        setIsClamped(isOverflowing);
+      }
+    };
+
+    checkTextOverflow();
+
+    window.addEventListener('resize', checkTextOverflow);
+    return () => {
+      window.removeEventListener('resize', checkTextOverflow);
+    };
+  }, [descriptionText, descriptionRef])
+
+  useEffect(() => {
+    setIsClamped(false);
+    setIsExpanded(false);
+  }, [location?.key])
+
+  const toggleText = () => {
+    setIsExpanded((prevState) => !prevState);
   };
 
   return (
@@ -1383,7 +1418,7 @@ const ProductDetail = () => {
                       </div>
                     ))}
 
-                  {singleProd?.description &&
+                  {/* {singleProd?.description &&
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                       <p
                         style={{
@@ -1415,7 +1450,26 @@ const ProductDetail = () => {
                         {isExpanded ? 'Show less' : 'Read more'}
                       </a>
                     </div>
-                  }
+                  } */}
+                  {descriptionText?.length > 0 && (
+                    <div className={`diam_prod_description ${isExpanded ? 'diam_show-more' : ''}`}>
+                      <p className="diam_description-text" ref={descriptionRef}>
+                        {descriptionText}
+                      </p>
+
+                      {(isClamped && !isExpanded) && ( // Show "Show More" only if text is clamped and not expanded
+                        <span className="diam_toggle-text" onClick={toggleText}>
+                          Show More
+                        </span>
+                      )}
+
+                      {isExpanded && ( // Show "Show Less" when the description is expanded
+                        <span className="diam_toggle-text" onClick={toggleText}>
+                          Show Less
+                        </span>
+                      )}
+                    </div>
+                  )}
                   <div
                     style={{
                       display: "flex",
@@ -1676,7 +1730,7 @@ const ProductDetail = () => {
                     </div>
                   </div>
 
-                  { storeInit?.IsPriceShow == 1 && storeInit?.IsPriceBreakUp == 1 && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 && (
+                  {storeInit?.IsPriceShow == 1 && storeInit?.IsPriceBreakUp == 1 && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 && (
                     <Accordion
                       elevation={0}
                       sx={{
@@ -2174,7 +2228,7 @@ const ProductDetail = () => {
                     <th className="dt_stockItem_table_td">
                       Metal Color-Purity
                     </th>
-                { storeInit?.IsPriceShow == 1 &&    <th className="dt_stockItem_table_td">Price</th>}
+                    {storeInit?.IsPriceShow == 1 && <th className="dt_stockItem_table_td">Price</th>}
                     <th className="dt_stockItem_table_td">
                       Add To Cart
                     </th>
@@ -2297,7 +2351,7 @@ const ProductDetail = () => {
                         </span>
                         {/* </div> */}
                       </td>
-                    { storeInit?.IsPriceShow == 1 &&  <td className="dt_stockItem_table_td">
+                      {storeInit?.IsPriceShow == 1 && <td className="dt_stockItem_table_td">
                         <span className="dt_table_Price">
                           <span className="smr_currencyFont">
                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
@@ -2398,7 +2452,7 @@ const ProductDetail = () => {
                             {ele?.designno}
                           </span>
 
-                         { storeInit?.IsPriceShow == 1 && <div
+                          {storeInit?.IsPriceShow == 1 && <div
                             style={{
                               display: "flex",
                               justifyContent: "center",
@@ -2542,13 +2596,13 @@ const ProductDetail = () => {
                                     <p>
                                       {ele?.designno} - {ele?.CategoryName}
                                       <br />
-                                      {   storeInit?.IsPriceShow == 1 &&   
+                                      {storeInit?.IsPriceShow == 1 &&
                                         <span className="dt_currencyFont">
                                           {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }
                                       &nbsp;
-                                      { storeInit?.IsPriceShow == 1 && 
+                                      {storeInit?.IsPriceShow == 1 &&
                                         formatter.format(
                                           ele?.UnitCostWithMarkUp
                                         )

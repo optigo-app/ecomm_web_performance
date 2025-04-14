@@ -550,12 +550,9 @@ const Lookbook = () => {
       d: loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
       c: loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid,
       f: {},
+      g: [["", ""], ["", "", ""]],
     };
     let encodeObj = compressAndEncode(JSON?.stringify(obj));
-    // navigate(
-    //   `/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
-    //   }${designNo}?p=${encodeObj}`
-    // );
     navigate(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
   };
 
