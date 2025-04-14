@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { Storeinit } from "../../utils/API/Home/Storeinit/Storeinit";
 

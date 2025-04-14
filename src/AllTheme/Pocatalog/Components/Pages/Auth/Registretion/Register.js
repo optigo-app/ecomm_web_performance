@@ -50,6 +50,7 @@ export default function Register() {
 
   const setIsLoginState = useSetRecoilState(proCat_loginState);
   const [IsMobileThrough, setIsMobileThrough] = useState(false)
+  const AllCode = JSON?.parse(sessionStorage?.getItem('CountryCodeListApi')) ?? [];
 
   const handleKeyDown = (event, nextRef) => {
     if (event.key === "Enter") {
@@ -234,7 +235,6 @@ export default function Register() {
       errors.mobileNo = "Mobile No. is required";
 
     }
-    const AllCode = JSON?.parse(sessionStorage?.getItem('CountryCodeListApi')) ?? [];
     const phonecode = AllCode?.find((val) => val?.mobileprefix == Countrycodestate);
     const requiredLength = phonecode?.PhoneLength;
     const isValid = new RegExp(`^\\d{${requiredLength}}$`).test(mobileNo.trim());
@@ -253,8 +253,7 @@ export default function Register() {
       setPasswordError("Password is required");
       errors.password = "Password is required";
     } else if (!validatePassword(password)) {
-      errors.password =
-        "Password must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character!";
+      errors.password = "Password must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character!";
     }
 
     if (!confirmPassword.trim()) {
@@ -280,8 +279,9 @@ export default function Register() {
       //     "p": encodedCombinedValue
       //   }
       //   const response = await CommonAPI(body);
+      const shortcode = AllCode?.find((val) => val?.mobileprefix == Countrycodestate)?.CountryShortName;
 
-      RegisterAPI(firstName, lastName, email, mobileNo, hashedPassword, Countrycodestate)
+      RegisterAPI(firstName, lastName, email, mobileNo, hashedPassword, Countrycodestate, shortcode)
         .then((response) => {
           setIsLoading(false);
           if (response.Data.rd[0].stat === 1) {

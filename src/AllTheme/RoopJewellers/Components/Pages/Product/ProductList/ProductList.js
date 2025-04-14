@@ -117,12 +117,15 @@ const ProductList = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
+  const [metalType, setMetaltype] = useState([]);
+  const [diamondType, setDiamondType] = useState([]);
   const [selectedMetalId, setSelectedMetalId] = useState(
     loginUserDetail?.MetalId
   );
   const [selectedDiaId, setSelectedDiaId] = useState(
     loginUserDetail?.cmboDiaQCid
   );
+  console.log("TCL: ProductList -> selectedDiaId", typeof selectedDiaId)
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
@@ -146,6 +149,7 @@ const ProductList = () => {
   const [isRollOverVideo, setIsRollOverVideo] = useState({});
   const [IsVaara, setIsVaara] = useState(false);
   const [inputPage, setInputPage] = useState(currPage);
+  const [isClearAllClicked, setIsClearAllClicked] = useState(false);
 
   const [afterCountStatus, setAfterCountStatus] = useState(false);
 
@@ -370,6 +374,22 @@ const ProductList = () => {
     }
   }, [location?.key, productListData, filterChecked]);
   // },[location?.state?.menu,productListData,filterChecked])
+
+  useEffect(() => {
+
+    let metalTypeDrpdown = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
+    setMetaltype(metalTypeDrpdown);
+
+    let diamondTypeDrpdown = JSON.parse(
+      sessionStorage.getItem("diamondQualityColorCombo")
+    );
+    setDiamondType(diamondTypeDrpdown);
+
+    let CsQcCombo = JSON.parse(
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
+    );
+    setCsQcCombo(CsQcCombo);
+  }, []);
 
   const fetchData = async () => {
     setSortBySelect("Recommended");
@@ -844,7 +864,7 @@ const ProductList = () => {
     const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
     const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
-    if (location?.key === locationKey) {
+    if (location?.key === locationKey && (Object.keys(filterChecked)?.length > 0 || isClearAllClicked === true)) {
       setIsOnlyProdLoading(true);
       let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
       let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
@@ -898,7 +918,6 @@ const ProductList = () => {
       JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
     // if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
-    console.log("hello", isFilterChecked || isSliderChanged)
     if (isFilterChecked || isSliderChanged) {
       let diafilter =
         filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
@@ -929,6 +948,10 @@ const ProductList = () => {
       setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
       setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
       setSelectedCsId(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
+
+      if (Object.keys(filterChecked).length > 0) {
+        setIsClearAllClicked(true);
+      }
     }
     setAccExpanded(false);
   };
@@ -1040,8 +1063,8 @@ const ProductList = () => {
   const handleOnChange = (event) => {
     const newValue = event.target.value
     if (newValue === "" || /^[0-9]+$/.test(newValue)) {
-        setInputPage(newValue)
-    } 
+      setInputPage(newValue)
+    }
   }
 
   // // Handle blur (when user leaves the input field)
@@ -1118,7 +1141,7 @@ const ProductList = () => {
     }
   }, [productListData]);
 
-  const handelCustomCombo = (obj) => {
+  const handelCustomCombo = async (obj) => {
     let output = FilterValueWithCheckedOnly();
 
     if (location?.state?.SearchVal === undefined) {
@@ -1163,7 +1186,8 @@ const ProductList = () => {
         grossMax: isGross ? sliderValue2[1] ?? "" : ""
       };
 
-      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+      await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -1187,7 +1211,7 @@ const ProductList = () => {
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
-
+    console.log("kiki", loginInfo?.MetalId !== selectedMetalId, loginInfo?.cmboDiaQCid !== selectedDiaId, loginInfo?.cmboCSQCid !== selectedCsId)
     if (
       loginInfo?.MetalId !== selectedMetalId ||
       loginInfo?.cmboDiaQCid !== selectedDiaId ||
@@ -1200,8 +1224,6 @@ const ProductList = () => {
       ) {
         handelCustomCombo(obj);
       }
-    } else {
-      handelCustomCombo(obj);
     }
   }, [selectedMetalId, selectedDiaId, selectedCsId]);
 
@@ -2286,11 +2308,11 @@ const ProductList = () => {
                     setSelectedMetalId(e.target.value);
                   }}
                 >
-                  {metalTypeCombo?.map((metalele) => (
+                  {metalType?.map((metalele, index) => (
                     <option
                       className="option"
-                      key={metalele?.Metalid}
-                      value={metalele?.Metalid}
+                      key={index}
+                      value={`${metalele?.Metalid}`}
                     >
                       {metalele?.metaltype.toUpperCase()}
                     </option>
@@ -2323,7 +2345,7 @@ const ProductList = () => {
                   value={selectedDiaId}
                   onChange={(e) => setSelectedDiaId(e.target.value)}
                 >
-                  {diaQcCombo?.map((diaQc) => (
+                  {diamondType?.map((diaQc) => (
                     <option
                       className="option"
                       key={diaQc?.QualityId}
@@ -3185,10 +3207,10 @@ const ProductList = () => {
                     handleScrollHeight={handleScrollHeight}
                     loginUserDetail={loginUserDetail}
                     storeInit={storeInit}
-                    metalTypeCombo={metalTypeCombo}
+                    metalType={metalType}
                     selectedMetalId={selectedMetalId}
                     setSelectedMetalId={setSelectedMetalId}
-                    diaQcCombo={diaQcCombo}
+                    diamondType={diamondType}
                     selectedDiaId={selectedDiaId}
                     setSelectedDiaId={setSelectedDiaId}
                     csQcCombo={csQcCombo}
@@ -3752,14 +3774,14 @@ const ProductList = () => {
                                         value={inputPage}
                                         onBlur={() => {
                                           if (!inputPage) {
-                                            setInputPage(currPage); 
+                                            setInputPage(currPage);
                                           }
                                         }}
                                         onChange={(e) => handleOnChange(e)}
                                         onKeyDown={(e) => {
                                           if (e.key === "Enter" && inputPage != "") {
                                             handlePageInputChange(e);
-                                          } else if(e.key === "Enter" && inputPage == "") {
+                                          } else if (e.key === "Enter" && inputPage == "") {
                                             setInputPage(currPage);
                                           }
                                         }}
@@ -3814,10 +3836,10 @@ const GivaFilterMenu = ({
   RangeFilterView,
   RangeFilterView1,
   RangeFilterView2,
-  metalTypeCombo,
+  metalType,
   selectedMetalId,
   setSelectedMetalId,
-  diaQcCombo,
+  diamondType,
   selectedDiaId,
   setSelectedDiaId,
   selectedCsId,
@@ -4386,7 +4408,7 @@ const GivaFilterMenu = ({
             )}
             <div className="div_check" ref={menuRef}>
               {storeInit?.IsMetalCustComb === 1 &&
-                metalTypeCombo?.length > 0 && (
+                metalType?.length > 0 && (
                   <div className="filter_menu_giva_roop">
                     <div
                       style={{ cursor: "pointer" }}
@@ -4408,23 +4430,23 @@ const GivaFilterMenu = ({
                             padding: "0 15px",
                           }}
                         >
-                          {metalTypeCombo?.map((metalele, i) => {
+                          {metalType?.map((metalele, i) => {
                             return (
                               <div key={i}>
                                 <FormControlLabel
                                   className="giva_roop_options_flex"
-                                  value={metalele?.Metalid}
+                                  value={`${metalele?.Metalid}`}
                                   control={
                                     <Checkbox
                                       name={metalele?.Metalid}
                                       checked={
-                                        selectedMetalId === metalele?.Metalid
+                                        selectedMetalId == metalele?.Metalid
                                       }
                                       style={{
                                         padding: 0,
                                       }}
                                       onChange={(e) => {
-                                        setSelectedMetalId(metalele?.Metalid);
+                                        setSelectedMetalId(`${metalele?.Metalid}`);
                                         setCurrPage(1);
                                         setInputPage(1);
                                       }}
@@ -4447,7 +4469,7 @@ const GivaFilterMenu = ({
                 )}
             </div>
             <div className="div_check" ref={menuRef}>
-              {storeInit?.IsDiamondCustComb === 1 && diaQcCombo?.length > 0 && (
+              {storeInit?.IsDiamondCustComb === 1 && diamondType?.length > 0 && (
                 <div className="filter_menu__roop">
                   <div
                     style={{ cursor: "pointer" }}
@@ -4468,25 +4490,27 @@ const GivaFilterMenu = ({
                           padding: "0 15px",
                         }}
                       >
-                        {diaQcCombo?.map((diaQc, i) => (
+                        {diamondType?.map((diaQc, i) => (
                           <div key={i}>
                             <FormControlLabel
                               className="giva_roop_options_flex"
                               value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
                               control={
                                 <Checkbox
-                                  name={diaQc?.Metalid}
+                                  name={diaQc?.QualityId}
                                   checked={
-                                    selectedDiaId ===
-                                    `${diaQc?.QualityId},${diaQc?.ColorId}`
+                                    typeof selectedDiaId === 'string'
+                                      ? selectedDiaId === `${diaQc?.QualityId},${diaQc?.ColorId}`
+                                      : selectedDiaId?.qualityId === diaQc?.QualityId && selectedDiaId?.colorId === diaQc?.ColorId
                                   }
                                   style={{
                                     padding: 0,
                                   }}
                                   onChange={(e) => {
-                                    setSelectedDiaId(
-                                      `${diaQc?.QualityId},${diaQc?.ColorId}`
-                                    );
+                                    setSelectedDiaId({
+                                      qualityId: Number(diaQc?.QualityId),
+                                      colorId: Number(diaQc?.ColorId),
+                                    });
                                     setCurrPage(1);
                                     setInputPage(1);
                                   }}

@@ -22,7 +22,7 @@ import { stam_companyLogo, stam_companyLogoM } from "./AllTheme/StamFordJewels/C
 import { lov_companyLogo, lov_companyLogoM, lov_loginState } from "./AllTheme/LoveIn/Components/Recoil/atom";
 import { companyLogo, companyLogoM, loginState, smr_companyLogo, smr_companyLogoM, smr_loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
 
-const ForEveryRoutes = React.lazy(() => import("./AllTheme/Forevery/ForeveryRoutes"));
+// const ForEveryRoutes = React.lazy(() => import("./AllTheme/Forevery/ForeveryRoutes"));
 const SmilingRock_App = React.lazy(() => import("./AllTheme/SmilingRock/SmilingRock_App"));
 const HouseOfQuadri_App = React.lazy(() => import("./AllTheme/HouseOfQuadri/HouseOfQuadri_App"));
 const Elveester_App = React.lazy(() => import("./AllTheme/Elveester/Elveester_App"));
@@ -35,7 +35,7 @@ const RoopJewellers_App = React.lazy(() => import("./AllTheme/RoopJewellers/Roop
 const LoveIn_App = React.lazy(() => import("./AllTheme/LoveIn/LoveIn_App"));
 const Ornaz_App = React.lazy(() => import("./AllTheme/Ornaz/Ornaz_App"));
 const Procatalog_App = React.lazy(() => import("./AllTheme/Pocatalog/Procatalog_App"));
-// const HemratnaProcatalog_App = React.lazy(() => import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App"));
+const HemratnaProcatalog_App = React.lazy(() => import("./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App"));
 
 
 
@@ -354,20 +354,20 @@ const Themes = ({ htmlContent }) => {
   return (
     <>
       <Suspense fallback={<></>}>
-        {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
-         {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
-         {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
+        {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
         {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
-        {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
-        {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
-        {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
-        {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
-        {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
-        {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
-        {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
-        {htmlContent?.rd[0]?.Themeno === 13 && <LoveIn_App />}
-        {htmlContent?.rd[0]?.Themeno === 14 && <Ornaz_App />} 
-        {/* {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}   */}
+        {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />} 
+        {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />} 
+        {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />} 
+        {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />} 
+        {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />} 
+        {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />} 
+        {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />} 
+        {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />} 
+        {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />} 
+        {htmlContent?.rd[0]?.Themeno === 13 && <LoveIn_App />} 
+        {htmlContent?.rd[0]?.Themeno === 14 && <Ornaz_App />}  
+       {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}   
       </Suspense>
     </>
   );

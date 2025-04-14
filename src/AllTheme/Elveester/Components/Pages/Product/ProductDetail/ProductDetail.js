@@ -2037,10 +2037,10 @@ const ProductDetail = () => {
                               />
                             }
                             {
-                              isPriceloading ?
+                              (isPriceloading || pdLoadImage || loadingdata) ?
                                 <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
                                 :
-                                <span style={{ marginInline: "0.3rem" }}>{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
+                                <span style={{ marginInline: "0.3rem" }}>{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp ?? 0)}</span>
                             }
                           </span>
                         </div>}
@@ -2489,10 +2489,10 @@ const ProductDetail = () => {
                             />
                           }
                           {
-                            isPriceloading ?
+                            (isPriceloading || pdLoadImage || loadingdata) ?
                               <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
                               :
-                              <span style={{ marginInline: "0.3rem" }}>{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
+                              <span style={{ marginInline: "0.3rem" }}>{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp ?? 0)}</span>
                           }
                         </span>
                       </div>}

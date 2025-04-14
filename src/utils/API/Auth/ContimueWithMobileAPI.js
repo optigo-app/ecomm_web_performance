@@ -11,7 +11,7 @@ export const ContimueWithMobileAPI = async (mobileNo, code) => {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { FrontEnd_RegNo } = storeInit;
         const combinedValue = JSON.stringify({
-            country_code: code ?? '91', mobileno: `${mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, domainname: domainname
+            country_code: code ?? '', mobileno: `${mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, domainname: domainname
         });
         const encodedCombinedValue = btoa(combinedValue);
         const body = {

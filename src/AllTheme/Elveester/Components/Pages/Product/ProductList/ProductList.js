@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useState } from "react";
+import React, { lazy, memo, useEffect, useState } from "react";
 import "./ProductList.modul.scss";
 import { Link, useLocation } from "react-router-dom";
 import { styled } from "@mui/material/styles";
@@ -139,6 +139,10 @@ const ProductList = () => {
 
   let maxwidth464px = useMediaQuery("(max-width:464px)");
 
+
+  console.log("rerendering")
+
+  // cleared
   useEffect(() => {
     // Update the activeIcon based on the value of openGridModal
     setActiveIcon(
@@ -217,12 +221,13 @@ const ProductList = () => {
     return output;
   };
 
+  // cleared
   useEffect(() => {
     setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
     setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
     setTrend('Recommended')
   }, [location?.key])
-
+  // cleared
   useEffect(() => {
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
@@ -354,6 +359,7 @@ const ProductList = () => {
     }
   };
 
+  // cleared
   useEffect(() => {
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -907,7 +913,6 @@ const ProductList = () => {
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
-
     if (
       loginInfo?.MetalId !== selectedMetalId ||
       loginInfo?.cmboDiaQCid !== selectedDiaId ||
@@ -985,7 +990,9 @@ const ProductList = () => {
       setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
       setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
       setFilterChecked({});
-      setIsClearAllClicked(true);
+      if (Object.keys(filterChecked).length > 0) {
+        setIsClearAllClicked(true);
+      }
     }
   };
 
@@ -3166,44 +3173,46 @@ const ProductList = () => {
                                     isActive && (
                                       <React.Fragment key={index}>
                                         {productListData.map(
-                                          (item, productIndex) => (
-                                            <Product_Card
-                                              key={productIndex}
-                                              class1={iconConfig.class1}
-                                              class2={iconConfig.class2}
-                                              class3={iconConfig.class3}
-                                              productData={item}
-                                              calcVal={iconConfig.calcWidth}
-                                              handleCartandWish={
-                                                handleCartandWish
-                                              }
-                                              cartArr={cartArr}
-                                              wishArr={wishArr}
-                                              loginCurrency={loginCurrency}
-                                              imageUrl={getDynamicImages(
-                                                item.designno,
-                                                item.ImageExtension
-                                              )}
-                                              videoUrl={getDynamicVideo(
-                                                item.designno,
-                                                item.VideoCount,
-                                                item.VideoExtension
-                                              )}
-                                              RollImageUrl={getDynamicRollImages(
-                                                item.designno,
-                                                item.ImageCount,
-                                                item.ImageExtension
-                                              )}
-                                              handleMoveToDetail={
-                                                handleMoveToDetail
-                                              }
-                                              formatter={formatter}
-                                              showFilter={showFilter}
-                                              filter={filter}
-                                              filterData={filterData}
-                                              noImageFound={noImageFound}
-                                            />
-                                          )
+                                          (item, productIndex) => {
+                                            return (
+                                              <Product_Card
+                                                key={productIndex}
+                                                class1={iconConfig.class1}
+                                                class2={iconConfig.class2}
+                                                class3={iconConfig.class3}
+                                                productData={item}
+                                                calcVal={iconConfig.calcWidth}
+                                                handleCartandWish={
+                                                  handleCartandWish
+                                                }
+                                                cartArr={cartArr}
+                                                wishArr={wishArr}
+                                                loginCurrency={loginCurrency}
+                                                imageUrl={getDynamicImages(
+                                                  item.designno,
+                                                  item.ImageExtension
+                                                )}
+                                                videoUrl={getDynamicVideo(
+                                                  item.designno,
+                                                  item.VideoCount,
+                                                  item.VideoExtension
+                                                )}
+                                                RollImageUrl={getDynamicRollImages(
+                                                  item.designno,
+                                                  item.ImageCount,
+                                                  item.ImageExtension
+                                                )}
+                                                handleMoveToDetail={
+                                                  handleMoveToDetail
+                                                }
+                                                formatter={formatter}
+                                                showFilter={showFilter}
+                                                filter={filter}
+                                                filterData={filterData}
+                                                noImageFound={noImageFound}
+                                              />
+                                            )
+                                          }
                                         )}
                                       </React.Fragment>
                                     )
@@ -3302,6 +3311,7 @@ const Product_Card = ({
     const data = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(data);
   }, []);
+
   return (
     <>
       <div
@@ -3391,7 +3401,7 @@ const Product_Card = ({
                   <span className="elvWeb_app_newarrival">New</span>
                 )}
               </div>
-              {isHover && (videoUrl !== undefined || RollImageUrl !== undefined) ? (
+              {/* {isHover && (videoUrl !== undefined || RollImageUrl !== undefined) ? (
                 <>
                   {videoUrl !== undefined ? (
                     <div className="elv_rollup_video">
@@ -3405,7 +3415,28 @@ const Product_Card = ({
                     </div>
                   ) : null}
                 </>
-              ) : null}
+              ) : null} */}
+              <div className="elv_rollup_video">
+                {videoUrl !== undefined ? (
+                  <video
+                    src={videoUrl}
+                    autoPlay
+                    muted
+                    loop
+                    onError={(e) => { e.target.poster = noImageFound; e.stopPropagation() }}
+                  ></video>
+                ) : (
+                  RollImageUrl !== undefined && (
+                    <div className="elv_rollup_img">
+                      <img
+                        src={RollImageUrl}
+                        alt="Roll Up Image"
+                        onError={(e) => { e.target.src = noImageFound; e.stopPropagation() }}
+                      />
+                    </div>
+                  )
+                )}
+              </div>
               <img
                 className={
                   showFilter && filter == false ? class3 != null || class3 != undefined ? class3 : class2 : filterData?.length > 0 ? class2 : class3}

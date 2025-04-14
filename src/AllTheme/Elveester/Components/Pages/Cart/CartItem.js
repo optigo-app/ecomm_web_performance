@@ -44,6 +44,7 @@ const CartItem = ({
   handleSave,
   handleCancel,
   openHandleUpdateCartModal }) => {
+  // console.log("ki", item)
 
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
@@ -187,62 +188,40 @@ const CartItem = ({
           </div>
         }
         <div className='elv_cardImage_div' >
-          {/* {imageSrc === undefined ? (
-            <CardMedia
-              sx={{
-                width: "13rem",
-                height: "11rem",
-                '@media (max-width: 1550px)': {
-                  width: "11rem",
-                },
-                '@media (max-width: 1110px)': {
-                  width: "9rem",
-                  height: "9rem",
-                },
-                '@media (max-width: 710px)': {
-                  width: "9rem",
-                  height: "12rem",
-                },
-                '@media (max-width: 650px)': {
-                  width: "8rem",
-                  height: "12rem",
-                },
-              }}
-            >
-              <Skeleton
-                animation="wave"
-                variant="rect"
-                width="100%"
-                height="100%"
-              />
-            </CardMedia>
-          ) : ( */}
           {imageSrc === undefined ? (
-            <img className='elv_cardImage_img' src={noImageFound} alt=""
-              onClick={
-                () => {
-                  // handleIsSelected();
-                  onSelect(item)
-                }
-              }
-              onError={(e) => {
-                e.target.src = noImageFound
+            <Skeleton
+              sx={{
+                width: '13rem',
+                height: '11rem',
+                '@media (max-width: 1550px)': { width: '11rem' },
+                '@media (max-width: 1110px)': { width: '9rem', height: '9rem' },
+                '@media (max-width: 710px)': { width: '9rem', height: '12rem' },
+                '@media (max-width: 650px)': { width: '8rem', height: '12rem' },
               }}
+              animation="wave"
+              variant="rectangular"
             />
-          ) :
-            <img className='elv_cardImage_img' src={imageSrc} alt=""
-              onClick={
-                () => {
-                  // handleIsSelected();
-                  onSelect(item)
-                }
-              }
-              onError={(e) => {
-                e.target.src = noImageFound
+          ) : (
+            <CardMedia
+              component="img"
+              sx={{
+                width: '13rem',
+                height: '11rem',
+                objectFit: 'cover',
+                '@media (max-width: 1550px)': { width: '11rem' },
+                '@media (max-width: 1110px)': { width: '9rem', height: '9rem' },
+                '@media (max-width: 710px)': { width: '9rem', height: '12rem' },
+                '@media (max-width: 650px)': { width: '8rem', height: '12rem' },
               }}
+              image={imageSrc}
+              alt="product image"
+              onClick={() => onSelect(item)}
+              onError={(e) => {
+                e.target.src = imageSrc || noImageFound;
+              }}
+              loading="lazy"
             />
-          }
-          {/* )} */}
+          )}
         </div>
         <div className='elv_ProductCard_details'>
           <div className={`elv_Product_details ${mobileScreen && item?.Remarks !== '' ? 'with-remarks' : ''}`}>

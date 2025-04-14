@@ -561,6 +561,7 @@ module.exports = function (webpackEnv) {
               // by webpacks internal loaders.
               exclude: [/^$/, /\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
               type: 'asset/resource',
+              
             },
             // ** STOP ** Are you adding a new loader?
             // Make sure to add the new loader(s) before the "file" loader.
@@ -584,12 +585,15 @@ module.exports = function (webpackEnv) {
       //   minRatio: 0.8,
       //   deleteOriginalAssets: false,
       // }),
+     
+
       new HtmlWebpackPlugin(
         Object.assign(
           {},
           {
             inject: true,
             template: paths.appHtml,
+            scriptLoading: 'defer',
           },
           isEnvProduction
             ? {
@@ -693,6 +697,23 @@ module.exports = function (webpackEnv) {
         // to make lazy-loading failure scenarios less likely.
         // See https://github.com/cra-template/pwa/issues/13#issuecomment-722667270
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+      }),
+      new CompressionPlugin({
+        filename: '[path][base].br',
+        algorithm: 'brotliCompress',
+        test: /\.(js|css|html|svg)$/,
+        compressionOptions: { level: 11 },
+        threshold: 10240,
+        minRatio: 0.8,
+        deleteOriginalAssets: false,
+      }),
+      new CompressionPlugin({
+        filename: '[path][base].gz',
+        algorithm: 'gzip',
+        test: /\.(js|css|html|svg)$/,
+        threshold: 10240,
+        minRatio: 0.8,
+        deleteOriginalAssets: false,
       }),
       // TypeScript type checking
       useTypeScript &&
