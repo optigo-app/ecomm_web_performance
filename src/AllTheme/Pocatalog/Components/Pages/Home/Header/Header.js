@@ -170,7 +170,7 @@ const Header = () => {
     sessionStorage.removeItem("registerEmail");
     sessionStorage.removeItem("selectedAddressId");
     window.localStorage.removeItem("AuthToken");
-    Cookies.remove('visiterId')
+    Cookies.remove('visiterId');
   };
 
 
