@@ -23,6 +23,7 @@ const Wishlist = () => {
     updateCount,
     countDataUpdted,
     itemInCart,
+    finalWishData,
     decodeEntities,
     WishCardImageFunc,
     handleRemoveItem,
@@ -97,7 +98,7 @@ const Wishlist = () => {
           {isMobileScreen &&
             <div className="roop_Wl-title">My Wishlist</div>
           }
-          {wishlistData?.length != 0 &&
+          {finalWishData?.length != 0 &&
             <>
               <div className="roop_WlButton-group">
                 <button
@@ -120,7 +121,7 @@ const Wishlist = () => {
         {!isWLLoading ? (
           <WishlistData
             isloding={isWLLoading}
-            items={wishlistData}
+            items={finalWishData}
             updateCount={updateCount}
             countDataUpdted={countDataUpdted}
             curr={CurrencyData}

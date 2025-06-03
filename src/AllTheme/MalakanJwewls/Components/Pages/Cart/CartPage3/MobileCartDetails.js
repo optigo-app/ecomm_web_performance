@@ -44,6 +44,11 @@ const MobileCartDetails = ({
   const [storeInitData, setStoreInitData] = useState();
   const loginInfo = JSON.parse(sessionStorage.getItem('loginUserDetail'))
 
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`;
+
+  const isLoading = selectedItem?.loading;
+
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
@@ -64,22 +69,22 @@ const MobileCartDetails = ({
     }
   }
 
-  useEffect(() => {
-    if (selectedItem?.ImageCount > 0) {
-      CartCardImageFunc(selectedItem).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [selectedItem]);
+  // useEffect(() => {
+  //   if (selectedItem?.ImageCount > 0) {
+  //     CartCardImageFunc(selectedItem).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [selectedItem]);
 
 
   return (
     <Modal open={open} onClose={handleClose} className="mala3Mo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="mala3Mo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="mala3Mo_Cart-imageDiv">
-          {imageSrc === undefined ? (
+          {isLoading === true ? (
             <CardMedia
               style={{ width: "100%", height: '25rem' }}
             >
@@ -92,11 +97,28 @@ const MobileCartDetails = ({
             </CardMedia>
           ) : (
             <img
-              src={imageSrc}
-              alt="Cluster Diamond"
+              src={selectedItem?.images ? selectedItem?.images :
+                selectedItem?.ImageCount > 1 ? `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.jpg` :
+                  `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`
+              }
+              alt=" "
+              style={{
+                border: 'none',
+                outline: 'none',
+                boxShadow: 'none',
+                '&:focus': { outline: 'none' },
+                '&:active': { outline: 'none' },
+              }}
               className='mala3Mo_cartImage'
               onClick={() => handleMoveToDetail(selectedItem)}
-              style={{ border: 'none' }}
+              onError={(e) => {
+                if (selectedItem?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound
+                } else {
+                  e.target.src = noImageFound;
+                }
+              }}
+              loading="lazy"
             />
           )}
         </div>

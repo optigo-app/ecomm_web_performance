@@ -40,6 +40,7 @@ const CartPage = () => {
     mrpbasedPriceFlag,
     openMobileModal,
     setOpenMobileModal,
+    finalCartData,
     isSelectedAll,
     handleSelectAll,
     handlecloseMobileModal,
@@ -82,7 +83,7 @@ const CartPage = () => {
   const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
   const handlePlaceOrder = () => {
     let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-    let priceData = cartData?.reduce(
+    let priceData = finalCartData?.reduce(
       (total, item) => total + item?.FinalCost,
       0
     );
@@ -170,14 +171,14 @@ const CartPage = () => {
     <div className='mala3_MainBGDiv'>
       {isMobileScreen &&
         <div className="mala3_cart-title" style={{
-          paddingTop:"1rem"
+          paddingTop: "1rem"
         }}>Cart</div>
       }
       <div className='cartMainPageDiv' style={{
-        paddingTop:"1rem"
+        paddingTop: "1rem"
       }}>
         <div className="cartBtnGroupMainDiv">
-          {!isloding && cartData.length !== 0 &&
+          {!isloding && finalCartData.length !== 0 &&
             <div className='mala3_cartButton-groups'>
               <button
                 className='mala3_ReomoveAllCartbtn'
@@ -190,7 +191,7 @@ const CartPage = () => {
           }{!isMobileScreen &&
             <div className="mala3_cart-title">My Cart</div>
           }
-          {!isloding && cartData.length !== 0 &&
+          {!isloding && finalCartData.length !== 0 &&
             <div className='mala3_placeOrderMainbtnDivs'>
               <button onClick={handlePlaceOrder}>Place Order</button>
             </div>
@@ -215,11 +216,11 @@ const CartPage = () => {
                 />
               }
             </div>
-            {!isloding && cartData.length != 0 ? (
+            {!isloding && finalCartData.length != 0 ? (
               <div className="mala3_cartMainPage">
                 <div className="mala3_cart-left-sides">
                   <CartList
-                    items={cartData}
+                    items={finalCartData}
                     CartCardImageFunc={CartCardImageFunc}
                     showRemark={showRemark}
                     productRemark={productRemark}

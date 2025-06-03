@@ -2,6 +2,7 @@
 
 .elv_customer_mainDiv {
     font-family: $fontSansSerif !important;
+
     .elv_customer_div {
         .elv_customer_image_1 {
             max-height: 780px;
@@ -68,7 +69,7 @@
             word-wrap: break-word;
             font-size: 25px;
             font-weight: 700;
-            padding-block: 1rem;
+            padding-block: 0.5rem;
             text-align: center;
         }
 

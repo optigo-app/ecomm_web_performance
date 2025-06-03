@@ -2,14 +2,18 @@ import React, { useState } from 'react'
 import './SearchPage.css'
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { IoArrowBack } from 'react-icons/io5';
 import { PiArrowCounterClockwiseBold } from "react-icons/pi";
+import { toast, ToastContainer } from 'react-toastify';
 import Pako from 'pako';
+import { smrMA_loginState } from '../../Recoil/atom';
 
 export default function SearchPage() {
 
     const [searchText, setSearchText] = useState(null)
+    const [isError, setisError] = useState(false);
+    const islogin = useRecoilValue(smrMA_loginState);
 
     const navigation = useNavigate();
 
@@ -31,7 +35,8 @@ export default function SearchPage() {
     };
 
     const searchDataFucn = (e) => {
-        if (e.key === "Enter" || 'Enter'== e) {
+        if (e.key === "Enter" || 'Enter' == e) {
+            setisError(false)
             if (searchText) {
                 let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
                 let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -45,7 +50,16 @@ export default function SearchPage() {
                 };
 
                 let encodeObj = btoa(JSON.stringify(obj))
+                // if (islogin === true) {
                 navigation(`/p/${searchText}?S=${encodeObj}`);
+                // } else {
+                //     // toast.error('Please Sign in first', {
+                //     //     hideProgressBar: true,
+                //     //     duration: 5000,
+                //     // });
+                //     setisError(true)
+                //     return;
+                // }
                 setSearchText("")
             }
         }
@@ -77,9 +91,27 @@ export default function SearchPage() {
                             }
                         }}
                     />
-                    <SearchIcon onClick={()=>searchDataFucn("Enter")} style={{ color: '#7d7f85' }} />
+                    <SearchIcon onClick={() => searchDataFucn("Enter")} style={{ color: '#7d7f85' }} />
                 </div>
             </div>
+
+            {/* {isError && (
+                <div style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                    color: "#B00020", // Typical red for errors
+                    fontWeight: "bold",
+                    fontSize: "1.25rem",
+                    padding: "1rem",
+                    borderRadius: "8px",
+                    margin: "0 1rem",
+                    textAlign: "center",
+                }}>
+                    ❌ Access Denied: Please sign in to continue.
+                </div>
+            )} */}
 
             {/* <div>
                 <p className='searchTreadingTitle'>TRENDING SEARCHES</p>

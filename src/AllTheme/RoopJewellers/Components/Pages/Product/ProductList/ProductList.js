@@ -32,6 +32,7 @@ import {
   PaginationItem,
   Skeleton,
   Slider,
+  Stack,
   TextField,
   Typography,
   useMediaQuery,
@@ -47,6 +48,7 @@ import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import pako from "pako";
+import { toast } from 'react-toastify';
 import { SearchProduct } from "../../../../../../utils/API/SearchProduct/SearchProduct";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
 import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
@@ -113,6 +115,16 @@ const ProductList = () => {
   const [rollOverImgPd, setRolloverImgPd] = useState({});
   const [locationKey, setLocationKey] = useState();
   const [prodListType, setprodListType] = useState();
+  const [inputGross, setInputGross] = useState([]);
+  const [inputNet, setInputNet] = useState([]);
+  const [inputDia, setInputDia] = useState([]);
+  const [isReset, setIsReset] = useState(false)
+  const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
+  const [appliedRange1, setAppliedRange1] = useState(null);
+  const [appliedRange2, setAppliedRange2] = useState(null);
+  const [appliedRange3, setAppliedRange3] = useState(null);
 
   const [imageAvailability, setImageAvailability] = useState({});
 
@@ -172,10 +184,6 @@ const ProductList = () => {
     let csid = islogin ? loginUserDetailInside?.cmboCSQCid : storeInit?.cmboCSQCid;
     setSelectedCsId(csid);
   }, [islogin]);
-
-  useEffect(() => {
-    console.log("selectedMetalId changed:", selectedMetalId);
-  }, [selectedMetalId]);
 
   useEffect(() => {
     const { hostname } = window.location;
@@ -267,6 +275,28 @@ const ProductList = () => {
     setSelectedCsId(islogin == true ? loginUserDetail?.cmboCSQCid : storeInit?.cmboCSQCid);
     setSortBySelect("Recommended");
   }, [location, islogin]);
+
+  let getDesignImageFol = storeInit?.CDNDesignImageFolThumb;
+  const getDesignVideoFol = storeInit?.CDNVPath;
+
+  const getDynamicRollImages = (designno, count, extension) => {
+    if (count > 1) {
+      return `${getDesignImageFol}${designno}~${2}.jpg`;
+    }
+    return;
+  };
+
+  const getDynamicImages = (designno, extension) => {
+    return `${getDesignImageFol}${designno}~${1}.jpg`;
+  };
+
+  const getDynamicVideo = (designno, count, extension) => {
+    if (extension && count > 0) {
+      const url = `${getDesignVideoFol}${designno}~${1}.${extension}`;
+      return url;
+    }
+    return;
+  };
 
   const callAllApi = () => {
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
@@ -455,6 +485,7 @@ const ProductList = () => {
     }
 
     setIsProdLoading(true);
+    setAfterCountStatus(true);
     //  if(location?.state?.SearchVal === undefined){
     setprodListType(productlisttype);
     let diafilter =
@@ -572,6 +603,7 @@ const ProductList = () => {
       .finally(() => {
         setIsProdLoading(false);
         setIsOnlyProdLoading(false);
+        setAfterCountStatus(false);
         window.scroll({
           top: 0,
           behavior: "smooth",
@@ -598,13 +630,20 @@ const ProductList = () => {
 
       if (product?.ImageCount > 0) {
         for (let i = 1; i <= product?.ImageCount; i++) {
+          // let imgString =
+          //   storeInit?.CDNDesignImageFol +
+          //   product?.designno +
+          //   "~" +
+          //   i +
+          //   "." +
+          //   product?.ImageExtension;
           let imgString =
-            storeInit?.CDNDesignImageFol +
+            storeInit?.CDNDesignImageFolThumb +
             product?.designno +
             "~" +
             i +
             "." +
-            product?.ImageExtension;
+            "jpg";
           // let imgString = storeInit?.DesignImageFol + product?.designno + "_" + i + "." + product?.ImageExtension
           pdImgList.push(imgString);
         }
@@ -717,13 +756,20 @@ const ProductList = () => {
 
     if (pd?.ImageCount > 0) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
+        // let imgString =
+        //   storeInit?.CDNDesignImageFol +
+        //   pd?.designno +
+        //   "~" +
+        //   i +
+        //   "." +
+        //   pd?.ImageExtension;
         let imgString =
-          storeInit?.CDNDesignImageFol +
+          storeInit?.CDNDesignImageFolThumb +
           pd?.designno +
           "~" +
           i +
           "." +
-          pd?.ImageExtension;
+          "jpg";
         // let imgString = storeInit?.DesignImageFol + pd?.designno + "_" + i + "." + pd?.ImageExtension
         pdImgList.push(imgString);
       }
@@ -871,6 +917,7 @@ const ProductList = () => {
         .catch((err) => console.log("err", err))
         .finally(() => {
           setIsOnlyProdLoading(false);
+          setAfterCountStatus(false);
         });
     }
   }, [filterChecked]);
@@ -900,9 +947,10 @@ const ProductList = () => {
         : [];
     const isFilterChecked = Object.values(filterChecked).some((ele) => ele.checked);
     const isSliderChanged =
-      JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]) ||
-      JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]) ||
-      JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+      JSON.stringify(sliderValue) !== JSON.stringify((diafilter?.Min != null || diafilter?.Max != null) ? [diafilter?.Min, diafilter?.Max] : []) ||
+      JSON.stringify(sliderValue1) !== JSON.stringify((diafilter1?.Min != null || diafilter1?.Max != null) ? [diafilter1?.Min, diafilter1?.Max] : []) ||
+      JSON.stringify(sliderValue2) !== JSON.stringify((diafilter2?.Min != null || diafilter2?.Max != null) ? [diafilter2?.Min, diafilter2?.Max] : []);
+
 
     // if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
     if (isFilterChecked || isSliderChanged) {
@@ -930,17 +978,21 @@ const ProductList = () => {
       setSliderValue([diafilter?.Min, diafilter?.Max]);
       setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
       setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
+      setInputDia([diafilter?.Min, diafilter?.Max]);
+      setInputNet([diafilter1?.Min, diafilter1?.Max]);
+      setInputGross([diafilter2?.Min, diafilter2?.Max]);
+      setAppliedRange1(["", ""])
+      setAppliedRange2(["", ""])
+      setAppliedRange3(["", ""])
+      setShow(false);
+      setShow1(false);
+      setShow2(false);
+      setIsReset(false);
       setFilterChecked({});
-      setSortBySelect("Recommended");
-      setSelectedMetalId(islogin == true ? loginUserDetail?.MetalId : storeInit?.MetalId);
-      setSelectedDiaId(islogin == true ? loginUserDetail?.cmboDiaQCid : storeInit?.cmboDiaQCid);
-      setSelectedCsId(islogin == true ? loginUserDetail?.cmboCSQCid : storeInit?.cmboCSQCid);
-
-      if (Object.keys(filterChecked).length > 0) {
+      if (Object.keys(filterChecked).length > 0 || isSliderChanged) {
         setIsClearAllClicked(true);
       }
     }
-    setAccExpanded(false);
   };
 
   useEffect(() => {
@@ -1219,19 +1271,19 @@ const ProductList = () => {
 
     sessionStorage.setItem("short_cutCombo_val", JSON.stringify(obj));
 
-    if (loginInfo) {
+    if (loginInfo && Object.keys(loginInfo).length > 0) {
       if (selectedMetalId != undefined || selectedDiaId != undefined || selectedCsId != undefined) {
         if (loginInfo.MetalId !== selectedMetalId || loginInfo.cmboDiaQCid !== selectedDiaId || loginInfo.cmboCSQCid != selectedCsId) {
           handelCustomCombo(obj);
         }
       }
     } else {
-      if (storeInit) {
+      if (storeInit && Object.keys(storeInit).length > 0) {
         if (selectedMetalId != undefined || selectedDiaId != undefined || selectedCsId != undefined) {
           if (
-            storeInit?.MetalId != selectedMetalId ||
-            storeInit?.cmboDiaQCid != selectedDiaId ||
-            storeInit?.cmboCSQCid != selectedCsId
+            storeInit?.MetalId !== selectedMetalId ||
+            storeInit?.cmboDiaQCid !== selectedDiaId ||
+            storeInit?.cmboCSQCid !== selectedCsId
           ) {
             handelCustomCombo(obj);
           }
@@ -1959,196 +2011,606 @@ const ProductList = () => {
     },
   }
 
+  const resetRangeFilter = async ({
+    filterName,
+    setSliderValue,
+    setTempSliderValue,
+    handleRangeFilterApi,
+    prodListType,
+    cookie,
+    setIsShowBtn,
+    show, setShow,
+    setAppliedRange,
+  }) => {
+    try {
+      const res1 = await FilterListAPI(prodListType, cookie);
+      const optionsRaw = res1?.find((f) => f?.Name === filterName)?.options;
 
-  const RangeFilterView = (ele) => {
+      if (optionsRaw) {
+        const { Min = 0, Max = 100 } = JSON.parse(optionsRaw)?.[0] || {};
+        const resetValue = [Min, Max];
+        setSliderValue(resetValue);
+        setTempSliderValue(resetValue);
+        handleRangeFilterApi("");
+        setAppliedRange(["", ""])
+        // handleRangeFilterApi(resetValue);
+        setIsShowBtn?.(false);
+        if (show) setShow(false)
+      }
+    } catch (error) {
+      console.error(`Failed to reset filter "${filterName}":`, error);
+    }
+  };
+
+  const RangeFilterView = ({ ele, sliderValue, setSliderValue, handleRangeFilterApi, prodListType, cookie, setShow, show, setAppliedRange1, appliedRange1 }) => {
+    const parsedOptions = JSON.parse(ele?.options || "[]")?.[0] || {};
+    const min = Number(parsedOptions.Min || 0);  // Ensure min is a number
+    const max = Number(parsedOptions.Max || 100);
+    const [tempSliderValue, setTempSliderValue] = useState(sliderValue);
+    const [isShowBtn, setIsShowBtn] = useState(false);
+    const inputRefs = useRef([]);
+
+    useEffect(() => {
+      inputRefs.current = tempSliderValue.map((_, i) => inputRefs.current[i] ?? React.createRef());
+    }, [tempSliderValue]);
+
+    const handleKeyDown = (index) => (e) => {
+      if (e.key === 'Enter') {
+        if (index < tempSliderValue.length - 1) {
+          inputRefs.current[index + 1]?.current?.focus();
+        } else {
+          handleSave(); // last input triggers apply
+        }
+      }
+    };
+
+    useEffect(() => {
+      if (Array.isArray(sliderValue) && sliderValue.length === 2) {
+        setTempSliderValue(sliderValue);
+      }
+    }, [sliderValue]);
+
+    const handleInputChange = (index) => (event) => {
+      const value = event.target.value === "" ? "" : Number(event.target.value);
+      const updated = [...tempSliderValue];
+      updated[index] = value;
+      setTempSliderValue(updated);
+      setIsShowBtn(updated[0] !== sliderValue[0] || updated[1] !== sliderValue[1]);
+    };
+
+    const handleSliderChange = (_, newValue) => {
+      setTempSliderValue(newValue);
+      setIsShowBtn(newValue[0] !== sliderValue[0] || newValue[1] !== sliderValue[1]);
+    };
+
+    const handleSave = () => {
+      const [minDiaWt, maxDiaWt] = tempSliderValue;
+
+      // Empty or undefined
+      if (minDiaWt == null || maxDiaWt == null || minDiaWt === '' || maxDiaWt === '') {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Not a number
+      if (isNaN(minDiaWt) || isNaN(maxDiaWt)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Negative values
+      if (minDiaWt < 0 || maxDiaWt < 0) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Equal values
+      if (Number(minDiaWt) === Number(maxDiaWt)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Min > Max
+      if (Number(minDiaWt) > Number(maxDiaWt)) {
+        toast.error("Please enter valid range values.", {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Below actual min
+      if (minDiaWt < min) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Above actual max
+      if (maxDiaWt > max) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      setSliderValue(tempSliderValue);
+      setTempSliderValue(tempSliderValue);
+      handleRangeFilterApi(tempSliderValue);
+      setIsShowBtn(false);
+      setAppliedRange1([min, max])
+      setShow(true)
+    };
+
     return (
-      <>
-        <div>
-          <div>
-            <Slider
-              // value={sliderValue}
-              // onChange={(event, newValue) => setSliderValue(newValue)}
-              // onChangeCommitted={handleSliderChange}
-              // valueLabelDisplay="auto"
-              // aria-labelledby="range-slider"
-              // min={JSON?.parse(ele?.options)[0]?.Min}
-              // max={JSON?.parse(ele?.options)[0]?.Max}
-              // step={0.001}
-              // sx={{ marginTop: "25px" }}
+      <div style={{ position: "relative" }}>
 
-              value={sliderValue}
-              onChange={(event, newValue) => setSliderValue(newValue)}
-              onChangeCommitted={handleSliderChange}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{
-                marginTop: "25px",
-                transition: "all 0.2s ease-out", // Smooth transition on value change
-              }}
-              disableSwap
-            />
+        {appliedRange1 && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "4px",
+              position: "absolute",
+              top: "-12px",
+              width: "100%",
+            }}
+          >
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange1[0] !== "" ? `Min: ${appliedRange1[0]}` : ""}
+            </Typography>
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange1[1] !== "" ? `Max: ${appliedRange1[1]}` : ""}
+            </Typography>
           </div>
-          <div style={{ display: "flex", gap: "10px" }}>
+        )}
+
+        <Slider
+          value={tempSliderValue}
+          onChange={handleSliderChange}
+          min={min}
+          max={max}
+          step={0.001}
+          disableSwap
+          valueLabelDisplay="off"
+          sx={{ marginTop: 1, transition: "all 0.2s ease-out" }}
+        />
+
+        <div style={{ display: "flex", gap: "10px", justifyContent: "space-around" }}>
+          {tempSliderValue.map((val, index) => (
             <Input
-              value={sliderValue[0]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
+              key={index}
+              value={val}
+              inputRef={inputRefs.current[index]}
+              onKeyDown={handleKeyDown(index)}
+              onChange={handleInputChange(index)}
+              inputProps={{ step: 0.001, min, max, type: "number" }}
+              sx={{ textAlign: "center" }}
             />
-            <Input
-              value={sliderValue[1]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-            />
-          </div>
+          ))}
         </div>
-      </>
+
+        <Stack direction="row" justifyContent="flex-end" gap={1} mt={1}>
+          {show &&
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={() =>
+              resetRangeFilter({
+                filterName: "Diamond",
+                setSliderValue: setSliderValue,
+                setTempSliderValue,
+                handleRangeFilterApi: handleRangeFilterApi,
+                prodListType,
+                cookie,
+                setIsShowBtn,
+                show: show,
+                setShow: setShow,
+                setAppliedRange: setAppliedRange1,
+              })
+            } color="error">
+              Reset
+            </Button>
+          }
+          {isShowBtn && (
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={handleSave} color="success">
+              Apply
+            </Button>
+          )}
+        </Stack>
+      </div>
     );
   };
-  const RangeFilterView1 = (ele) => {
-    // console.log("netwt",ele)
+
+  const RangeFilterView1 = ({ ele, sliderValue1, setSliderValue1, handleRangeFilterApi1, prodListType, cookie, show1,
+    setShow1, setAppliedRange2, appliedRange2 }) => {
+    const parsedOptions = JSON.parse(ele?.options || "[]")?.[0] || {};
+    const min = parsedOptions.Min || "";
+    const max = parsedOptions.Max || "";
+    const [tempSliderValue, setTempSliderValue] = useState(sliderValue1);
+    const [isShowBtn, setIsShowBtn] = useState(false);
+    const inputRefs = useRef([]);
+
+    useEffect(() => {
+      inputRefs.current = tempSliderValue.map((_, i) => inputRefs.current[i] ?? React.createRef());
+    }, [tempSliderValue]);
+
+    const handleKeyDown = (index) => (e) => {
+      if (e.key === 'Enter') {
+        if (index < tempSliderValue.length - 1) {
+          inputRefs.current[index + 1]?.current?.focus();
+        } else {
+          handleSave(); // last input triggers apply
+        }
+      }
+    };
+
+    useEffect(() => {
+      if (Array.isArray(sliderValue1) && sliderValue1.length === 2) {
+        setTempSliderValue(sliderValue1);
+      }
+    }, [sliderValue1]);
+
+
+    useEffect(() => {
+      if (Array.isArray(sliderValue1) && sliderValue1.length === 2) {
+        setTempSliderValue(sliderValue1);
+      }
+    }, [sliderValue1]);
+
+    const handleInputChange = (index) => (event) => {
+      const newValue = event.target.value === "" ? "" : Number(event.target.value);
+      const updated = [...tempSliderValue];
+      updated[index] = newValue;
+      setTempSliderValue(updated);
+      setIsShowBtn(updated[0] !== sliderValue1[0] || updated[1] !== sliderValue1[1]);
+    };
+
+    const handleSliderChange = (_, newValue) => {
+      setTempSliderValue(newValue);
+      setIsShowBtn(newValue[0] !== sliderValue1[0] || newValue[1] !== sliderValue1[1]);
+    };
+
+    const handleSave = () => {
+      const [minNetWt, maxNetWt] = tempSliderValue;
+
+      if (minNetWt == null || maxNetWt == null || minNetWt === '' || maxNetWt === '') {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (isNaN(minNetWt) || isNaN(maxNetWt)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (minNetWt < 0 || maxNetWt < 0) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // 👇 New specific validation
+      if (Number(minNetWt) === Number(maxNetWt)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (Number(minNetWt) > Number(maxNetWt)) {
+        toast.error("Please enter valid range values.", {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (minNetWt < min) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (maxNetWt > max) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      setSliderValue1(tempSliderValue);
+      setTempSliderValue(tempSliderValue)
+      handleRangeFilterApi1(tempSliderValue);
+      setAppliedRange2([min, max])
+
+      setIsShowBtn(false);
+      setShow1(true)
+    };
+
     return (
-      <>
-        <div>
-          <div>
-            <Slider
-              // value={sliderValue1}
-              // onChange={() => (event, newValue) => setSliderValue1(newValue)}
-              // onChangeCommitted={handleSliderChange1}
-              // valueLabelDisplay="auto"
-              // aria-labelledby="range-slider"
-              // min={JSON?.parse(ele?.options)[0]?.Min}
-              // max={JSON?.parse(ele?.options)[0]?.Max}
-              // step={0.001}
-              // sx={{ marginTop: "25px" }}
-              value={sliderValue1}
-              onChange={(event, newValue) => setSliderValue1(newValue)}
-              onChangeCommitted={handleSliderChange1}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{
-                marginTop: "25px",
-                transition: "all 0.2s ease-out", // Smooth transition on value change
-              }}
-              disableSwap
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={sliderValue1[0]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange1(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
+      <div style={{ position: "relative" }}>
 
-            />
-            <Input
-              value={sliderValue1[1]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange1(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-
-            />
+        {appliedRange2 && (
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "4px", position: "absolute", top: '-12px', width: "100%" }}>
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange2[0] !== "" ? `Min: ${appliedRange2[0]}` : ""}
+            </Typography>
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange2[1] !== "" ? `Max: ${appliedRange2[1]}` : ""}
+            </Typography>
           </div>
+        )}
+
+        <Slider
+          value={tempSliderValue}
+          onChange={handleSliderChange}
+          valueLabelDisplay="off"
+          min={min}
+          max={max}
+          step={0.001}
+          disableSwap
+          sx={{
+            marginTop: "5px",
+            transition: "all 0.2s ease-out",
+            '& .MuiSlider-valueLabel': { display: 'none' },
+          }}
+        />
+        <div style={{ display: "flex", gap: "10px", justifyContent: "space-around" }}>
+          {tempSliderValue.map((val, index) => (
+            <Input
+              key={index}
+              inputRef={inputRefs.current[index]}
+              onKeyDown={handleKeyDown(index)}
+              value={val}
+              onChange={handleInputChange(index)}
+              inputProps={{ step: 0.001, min, max, type: "number" }}
+              sx={{ textAlign: "center" }}
+            />
+          ))}
         </div>
-      </>
+        <Stack flexDirection="row" justifyContent="flex-end" gap={1} mt={1}>
+          {show1 &&
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={() =>
+              resetRangeFilter({
+                filterName: "NetWt",
+                setSliderValue: setSliderValue1,
+                setTempSliderValue,
+                handleRangeFilterApi: handleRangeFilterApi1,
+                prodListType,
+                cookie,
+                setIsShowBtn,
+                show: show1,
+                setShow: setShow1,
+                setAppliedRange: setAppliedRange2,
+              })
+            } color="error">
+              Reset
+            </Button>
+          }
+          {isShowBtn && (
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={handleSave} color="success">
+              Apply
+            </Button>
+          )}
+        </Stack>
+      </div>
     );
   };
-  const RangeFilterView2 = (ele) => {
+
+  const RangeFilterView2 = ({ ele, sliderValue2, setSliderValue2, handleRangeFilterApi2, prodListType, cookie, show2, setShow2, setAppliedRange3, appliedRange3 }) => {
+    const parsedOptions = JSON.parse(ele?.options || "[]")?.[0] || {};
+    const min = parsedOptions.Min ?? "";
+    const max = parsedOptions.Max ?? "";
+    const [tempSliderValue, setTempSliderValue] = useState(sliderValue2);
+    const [isShowBtn, setIsShowBtn] = useState(false);
+    const inputRefs = useRef([]);
+
+    useEffect(() => {
+      inputRefs.current = tempSliderValue.map((_, i) => inputRefs.current[i] ?? React.createRef());
+    }, [tempSliderValue]);
+
+    const handleKeyDown = (index) => (e) => {
+      if (e.key === 'Enter') {
+        if (index < tempSliderValue.length - 1) {
+          inputRefs.current[index + 1]?.current?.focus();
+        } else {
+          handleSave(); // last input triggers apply
+        }
+      }
+    };
+
+    useEffect(() => {
+      if (Array.isArray(sliderValue2) && sliderValue2.length === 2) {
+        setTempSliderValue(sliderValue2);
+      }
+    }, [sliderValue2]);
+
+
+    const handleInputChange = (index) => (event) => {
+      const newValue = event.target.value === "" ? "" : Number(event.target.value);
+      const updated = [...tempSliderValue];
+      updated[index] = newValue;
+      setTempSliderValue(updated);
+      setIsShowBtn(
+        updated[0] !== sliderValue2[0] || updated[1] !== sliderValue2[1]
+      );
+    };
+
+    const handleSliderChange = (_, newValue) => {
+      setTempSliderValue(newValue);
+      setIsShowBtn(
+        newValue[0] !== sliderValue2[0] || newValue[1] !== sliderValue2[1]
+      );
+    };
+
+    const handleSave = () => {
+      const [minWeight, maxWeight] = tempSliderValue;
+
+      // Validation: Empty or undefined
+      if (minWeight == null || maxWeight == null || minWeight === '' || maxWeight === '') {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Validation: Not a number
+      if (isNaN(minWeight) || isNaN(maxWeight)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Validation: Negative values
+      if (minWeight < 0 || maxWeight < 0) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // 👇 New specific validation
+      if (Number(minWeight) === Number(maxWeight)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Validation: Min > Max
+      if (Number(minWeight) > Number(maxWeight)) {
+        toast.error("Please enter valid range values.", {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Validation: Range must stay within allowed min and max
+      if (minWeight < min) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (maxWeight > max) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // If validation passes, update the parent state and handle the API call
+      setSliderValue2(tempSliderValue);
+      setTempSliderValue(tempSliderValue)
+      handleRangeFilterApi2(tempSliderValue);
+      setAppliedRange3([min, max]);
+      setIsShowBtn(false);
+      setShow2(true)
+    };
+
     return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={sliderValue2}
-              onChange={(event, newValue) => setSliderValue2(newValue)}
-              onChangeCommitted={handleSliderChange2}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{ marginTop: "25px" }}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={sliderValue2[0]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange2(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
+      <div style={{ position: "relative" }}>
 
-            />
-            <Input
-              value={sliderValue2[1]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange2(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-
-            />
+        {appliedRange3 && (
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "4px", position: "absolute", top: '-12px', width: "100%" }}>
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange3[0] !== "" ? `Min: ${appliedRange3[0]}` : ""}
+            </Typography>
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange3[1] !== "" ? `Max: ${appliedRange3[1]}` : ""}
+            </Typography>
           </div>
+        )}
+
+        <Slider
+          value={tempSliderValue}
+          onChange={handleSliderChange}
+          valueLabelDisplay="off"
+          min={min}
+          max={max}
+          step={0.001}
+          disableSwap
+          sx={{
+            marginTop: "5px",
+            transition: "all 0.2s ease-out",
+            '& .MuiSlider-valueLabel': { display: 'none' },
+          }}
+        />
+
+        <div style={{ display: "flex", gap: "10px", justifyContent: "space-around" }}>
+          {tempSliderValue.map((val, index) => (
+            <Input
+              key={index}
+              inputRef={inputRefs.current[index]}
+              value={val}
+              onKeyDown={handleKeyDown(index)}
+              onChange={handleInputChange(index)}
+              inputProps={{ step: 0.001, type: "number" }}
+              sx={{ textAlign: "center" }}
+            />
+          ))}
         </div>
-      </>
+
+        <Stack direction="row" justifyContent="flex-end" gap={1} mt={1}>
+          {show2 &&
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={() =>
+              resetRangeFilter({
+                filterName: "Gross",
+                setSliderValue: setSliderValue2,
+                setTempSliderValue,
+                handleRangeFilterApi: handleRangeFilterApi2,
+                prodListType,
+                cookie,
+                setIsShowBtn,
+                show: show2,
+                setShow: setShow2,
+                setAppliedRange: setAppliedRange3,
+              })
+            } color="error">
+              Reset
+            </Button>
+          }
+          {isShowBtn && (
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={handleSave} color="success">
+              Apply
+            </Button>
+          )}
+        </Stack>
+      </div>
     );
   };
 
@@ -2216,7 +2678,35 @@ const ProductList = () => {
     checkAllImages();
   }, [finalProductListData]);
 
+  // useEffect(() => {
+  //   const loadImagesSequentially = async () => {
+
+  //     const availability = {};
+
+  //     for (const item of finalProductListData) {
+  //       const hasImage = !!(item?.images?.[0]); // Check if image exists
+  //       const autocode = item?.autocode;
+
+  //       availability[autocode] = hasImage;
+
+  //       // Progressive update
+  //       setImageAvailability((prev) => ({
+  //         ...prev,
+  //         [autocode]: hasImage,
+  //       }));
+
+  //       // 150ms delay before moving to the next one
+  //       await new Promise((resolve) => setTimeout(resolve, 150));
+  //     }
+  //   };
+
+  //   if (finalProductListData?.length > 0) {
+  //     loadImagesSequentially();
+  //   }
+  // }, [finalProductListData]);
+
   const showClearAllButton = () => {
+
     let diafilter =
       filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
         ?.length > 0
@@ -2240,9 +2730,9 @@ const ProductList = () => {
         : [];
     const isFilterChecked = Object.values(filterChecked).some((ele) => ele.checked);
     const isSliderChanged =
-      JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]) ||
-      JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]) ||
-      JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+      JSON.stringify(sliderValue) !== JSON.stringify((diafilter?.Min != null || diafilter?.Max != null) ? [diafilter?.Min, diafilter?.Max] : []) ||
+      JSON.stringify(sliderValue1) !== JSON.stringify((diafilter1?.Min != null || diafilter1?.Max != null) ? [diafilter1?.Min, diafilter1?.Max] : []) ||
+      JSON.stringify(sliderValue2) !== JSON.stringify((diafilter2?.Min != null || diafilter2?.Max != null) ? [diafilter2?.Min, diafilter2?.Max] : []);
 
     return isFilterChecked || isSliderChanged;
   };
@@ -2795,6 +3285,7 @@ const ProductList = () => {
                           sx={{
                             borderBottom: "1px solid #c7c8c9",
                             borderRadius: 0,
+                            marginInline: "5px",
                             "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                               borderBottomLeftRadius: "0px",
                               borderBottomRightRadius: "0px",
@@ -2818,6 +3309,10 @@ const ProductList = () => {
 
                               "&.MuiAccordionSummary-root": {
                                 padding: 0,
+                              },
+
+                              "&.Mui-expanded": {
+                                marginInline: "5px",
                               },
                             }}
                             // className="filtercategoryLable"
@@ -2839,7 +3334,8 @@ const ProductList = () => {
                           >
                             {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                             <Box sx={SharedStyleForRange}>
-                              {RangeFilterView(ele)}
+                              {/* {RangeFilterView(ele)} */}
+                              <RangeFilterView ele={ele} sliderValue={sliderValue} setSliderValue={setSliderValue} handleRangeFilterApi={handleRangeFilterApi} prodListType={prodListType} cookie={cookie} show={show} setShow={setShow} appliedRange1={appliedRange1} setAppliedRange1={setAppliedRange1} />
                             </Box>
                           </AccordionDetails>
                         </Accordion>
@@ -2850,6 +3346,7 @@ const ProductList = () => {
                           sx={{
                             borderBottom: "1px solid #c7c8c9",
                             borderRadius: 0,
+                            marginInline: "5px",
                             "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                               borderBottomLeftRadius: "0px",
                               borderBottomRightRadius: "0px",
@@ -2874,6 +3371,10 @@ const ProductList = () => {
                               "&.MuiAccordionSummary-root": {
                                 padding: 0,
                               },
+
+                              "&.Mui-expanded": {
+                                marginInline: "5px",
+                              },
                             }}
                             // className="filtercategoryLable"
                             onClick={() => handleScrollHeight()}
@@ -2894,7 +3395,8 @@ const ProductList = () => {
                           >
                             {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                             <Box sx={SharedStyleForRange}>
-                              {RangeFilterView1(ele)}
+                              {/* {RangeFilterView1(ele)} */}
+                              <RangeFilterView1 ele={ele} sliderValue1={sliderValue1} setSliderValue1={setSliderValue1} handleRangeFilterApi1={handleRangeFilterApi1} prodListType={prodListType} cookie={cookie} show1={show1} setShow1={setShow1} appliedRange2={appliedRange2} setAppliedRange2={setAppliedRange2} />
                             </Box>
                           </AccordionDetails>
                         </Accordion>
@@ -2907,6 +3409,7 @@ const ProductList = () => {
                             sx={{
                               borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
+                              marginInline: "5px",
                               "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                                 borderBottomLeftRadius: "0px",
                                 borderBottomRightRadius: "0px",
@@ -2931,6 +3434,10 @@ const ProductList = () => {
                                 "&.MuiAccordionSummary-root": {
                                   padding: 0,
                                 },
+
+                                "&.Mui-expanded": {
+                                  marginInline: "5px",
+                                },
                               }}
                               // className="filtercategoryLable"
                               onClick={() => handleScrollHeight()}
@@ -2950,7 +3457,8 @@ const ProductList = () => {
                               }}
                             >
                               <Box sx={SharedStyleForRange}>
-                                {RangeFilterView2(ele)}
+                                {/* {RangeFilterView2(ele)} */}
+                                <RangeFilterView2 ele={ele} sliderValue2={sliderValue2} setSliderValue2={setSliderValue2} handleRangeFilterApi2={handleRangeFilterApi2} prodListType={prodListType} cookie={cookie} show2={show2} setShow2={setShow2} appliedRange3={appliedRange3} setAppliedRange3={setAppliedRange3} />
                               </Box>
                             </AccordionDetails>
                           </Accordion>
@@ -3206,7 +3714,6 @@ const ProductList = () => {
                     // </div>
                     // </div>
                   }
-
                   <GivaFilterMenu
                     RangeFilterView={RangeFilterView}
                     RangeFilterView1={RangeFilterView1}
@@ -3243,7 +3750,28 @@ const ProductList = () => {
                     sliderValue={sliderValue}
                     sliderValue1={sliderValue1}
                     sliderValue2={sliderValue2}
+                    setSliderValue={setSliderValue}
+                    setSliderValue1={setSliderValue1}
+                    setSliderValue2={setSliderValue2}
+                    handleRangeFilterApi={handleRangeFilterApi}
+                    handleRangeFilterApi1={handleRangeFilterApi1}
+                    handleRangeFilterApi2={handleRangeFilterApi2}
+                    prodListType={prodListType}
+                    cookie={cookie}
+                    show={show}
+                    show1={show1}
+                    show2={show2}
+                    setShow={setShow}
+                    setShow1={setShow1}
+                    setShow2={setShow2}
+                    appliedRange1={appliedRange1}
+                    appliedRange2={appliedRange2}
+                    appliedRange3={appliedRange3}
+                    setAppliedRange1={setAppliedRange1}
+                    setAppliedRange2={setAppliedRange2}
+                    setAppliedRange3={setAppliedRange3}
                   />
+
 
                   <div className="roop_mainPortion">
                     <div
@@ -3301,428 +3829,25 @@ const ProductList = () => {
 
                               >
                                 {finalProductListData?.map((productData, i) => {
-                                  const isChecked =
-                                    cartArr[productData?.autocode] ??
-                                    productData?.IsInCart === 1;
-                                  const isAvailable =
-                                    imageAvailability[productData?.autocode];
+                                  const isAllWeight = productData?.Gwt > 0 && productData?.Nwt > 0 && productData?.Dwt > 0 && productData?.CSwt > 0;
+                                  const isChecked = cartArr[productData?.autocode] ?? productData?.IsInCart === 1;
                                   return (
-                                    <div className="roop_productCard">
-                                      <div className="roop_cart_and_wishlist_icon">
-                                        {/* <Checkbox
-                                        icon={
-                                          <LocalMallOutlinedIcon
-                                            sx={{
-                                              fontSize: "22px",
-                                              color: "#7d7f85",
-                                              opacity: ".7",
-                                            }}
-                                          />
-                                        }
-                                        checkedIcon={
-                                          <LocalMallIcon
-                                            sx={{
-                                              fontSize: "22px",
-                                              color: "#000",
-                                            }}
-                                          />
-                                        }
-                                        disableRipple={false}
-                                        sx={{ padding: "10px" }}
-                                        onChange={(e) =>
-                                          handleCartandWish(e, productData, "Cart")
-                                        }
-                                        checked={
-                                          cartArr[productData?.autocode] ??
-                                            productData?.IsInCart === 1
-                                            ? true
-                                            : false
-                                        }
-                                      /> */}
-                                        <Checkbox
-                                          icon={
-                                            <MdFavoriteBorder
-                                              opacity="0.7"
-                                              fontSize="22px"
-                                              color="#7d7f85"
-                                            />
-                                          }
-                                          checkedIcon={
-                                            <MdFavorite
-                                              fontSize="22px"
-                                              color="#D14A61"
-                                            />
-                                          }
-                                          disableRipple={false}
-                                          sx={{ padding: "10px" }}
-                                          onChange={(e) =>
-                                            handleCartandWish(
-                                              e,
-                                              productData,
-                                              "Wish"
-                                            )
-                                          }
-                                          checked={
-                                            wishArr[productData?.autocode] ??
-                                            productData?.IsInWish === 1
-                                          }
-                                        />
-                                      </div>
-
-                                      <div className="smrWeb_app_product_label">
-                                        {productData?.IsInReadyStock == 1 && (
-                                          <span className="smrWeb_app_instock">
-                                            In Stock
-                                          </span>
-                                        )}
-                                        {productData?.IsBestSeller == 1 && (
-                                          <span className="smrWeb_app_bestSeller">
-                                            Best Seller
-                                          </span>
-                                        )}
-                                        {productData?.IsTrending == 1 && (
-                                          <span className="smrWeb_app_intrending">
-                                            Trending
-                                          </span>
-                                        )}
-                                        {productData?.IsNewArrival == 1 && (
-                                          <span className="smrWeb_app_newarrival">
-                                            New
-                                          </span>
-                                        )}
-                                      </div>
-                                      <div
-                                        onMouseEnter={() => {
-                                          handleImgRollover(productData);
-                                          if (productData?.VideoCount > 0) {
-                                            setIsRollOverVideo({
-                                              [productData?.autocode]: true,
-                                            });
-                                          } else {
-                                            setIsRollOverVideo({
-                                              [productData?.autocode]: false,
-                                            });
-                                          }
-                                        }}
-                                        onClick={() =>
-                                          handleMoveToDetail(productData)
-                                        }
-                                        onMouseLeave={() => {
-                                          handleLeaveImgRolloverImg(
-                                            productData
-                                          );
-                                          setIsRollOverVideo({
-                                            [productData?.autocode]: false,
-                                          });
-                                        }}
-                                        className="roop_ImgandVideoContainer"
-                                      >
-                                        {isRollOverVideo[
-                                          productData?.autocode
-                                        ] == true ? (
-                                          <video
-                                            // src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
-                                            src={
-                                              productData?.VideoCount > 0
-                                                ? storeInit?.CDNVPath +
-                                                productData?.designno +
-                                                "~" +
-                                                1 +
-                                                "." +
-                                                productData?.VideoExtension
-                                                : ""
-                                            }
-                                            // src={productData?.VideoCount > 0 ?
-                                            //   (storeInit?.DesignImageFol).slice(0, -13) +
-                                            //   "video/" +
-                                            //   productData?.designno +
-                                            //   "_" +
-                                            //   1 +
-                                            //   "." +
-                                            //   productData?.VideoExtension : ""}
-                                            loop={true}
-                                            autoPlay={true}
-                                            className="roop_productCard_video"
-                                            onError={(e) => {
-                                              e.target.poster = imageNotFound;
-                                            }}
-                                          // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
-                                          />
-                                        ) : (
-                                          <>
-                                            {isAvailable === undefined ? (
-                                              <CardMedia
-                                                style={{
-                                                  width: "100%",
-                                                  height: "100%",
-                                                }}
-                                                className="roop_productCard_cardMainSkeleton"
-                                              >
-                                                <Skeleton
-                                                  animation="wave"
-                                                  variant="rect"
-                                                  width={"100%"}
-                                                  height="100%"
-                                                  style={{
-                                                    backgroundColor:
-                                                      "#e8e8e86e",
-                                                  }}
-                                                />
-                                              </CardMedia>
-                                            ) : (
-                                              <img
-                                                className="roop_productListCard_Image"
-                                                id={`roop_productListCard_Image${productData?.autocode}`}
-                                                // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                                                // src={ ProdCardImageFunc(productData,0)}
-                                                src={
-                                                  rollOverImgPd[
-                                                    productData?.autocode
-                                                  ]
-                                                    ? rollOverImgPd[
-                                                    productData?.autocode
-                                                    ]
-                                                    : productData?.images[0]
-                                                }
-                                                onError={(e) => {
-                                                  e.target.src = imageNotFound;
-                                                }}
-                                                // {Old code}
-                                                // src={
-                                                //   rollOverImgPd[productData?.autocode]
-                                                //     ? rollOverImgPd[productData?.autocode]
-                                                //     : productData?.images?.length > 0
-                                                //       ? productData?.images[0]
-                                                //       : imageNotFound
-                                                // }
-                                                alt=""
-                                              // onClick={() =>
-                                              //   handleMoveToDetail(productData)
-                                              // }
-                                              // onMouseEnter={() => {
-                                              //   handleImgRollover(productData);
-                                              // }}
-                                              // onMouseLeave={() => {
-                                              //   handleLeaveImgRolloverImg(productData);
-                                              // }}
-                                              />
-                                            )}
-                                          </>
-                                        )}
-                                      </div>
-                                      <div className="roop_prod_card_info">
-                                        <div className="roop_prod_Title">
-                                          <span
-                                            className="roop1_prod_title_with_width"
-                                          // className={
-                                          //   (productData?.TitleLine?.length > 30)
-                                          //     ?
-                                          //     "roop1_prod_title_with_width"
-                                          //     :
-                                          //     "roop1_prod_title_with_no_width"
-                                          // }
-                                          >
-                                            {/* {productData?.designno}{" "}
-                                            {productData?.TitleLine &&
-                                              productData?.designno
-                                              ? " - "
-                                              : ""}
-                                            {productData?.TitleLine} */}
-                                            {productData?.designno !== "" && productData?.designno}
-                                            {formatTitleLine(productData?.TitleLine) && " - " + productData?.TitleLine}
-                                          </span>
-                                        </div>
-                                        {/* <div style={{ display: !maxwidth425px ? "none" : "block" }}>
-                                          <span className="roop_price">
-                                            <span className="roop_currencyFont">
-                                              {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                            </span>
-                                            <span className="roop_pricePort">
-                                              {formatter(
-                                                productData?.UnitCostWithMarkUp
-                                              )}
-                                            </span>
-                                          </span>
-                                        </div> */}
-                                        <div className="roop_prod_Allwt">
-                                          <div
-                                            className="roop_prod_div"
-                                            style={{
-                                              letterSpacing: maxwidth590px
-                                                ? "0px"
-                                                : "1px",
-                                            }}
-                                          >
-                                            <div className="roop_prod_wt_div">
-                                              {storeInit?.IsGrossWeight == 1 &&
-                                                Number(productData?.Gwt) !==
-                                                0 && (
-                                                  <span className="roop_prod_wt">
-                                                    <span className="roop_main_keys">
-                                                      GWT:
-                                                    </span>
-                                                    <span className="roop_main_val">
-                                                      {productData?.Gwt?.toFixed(
-                                                        3
-                                                      )}
-                                                    </span>
-                                                  </span>
-                                                )}
-                                              {Number(productData?.Nwt) !==
-                                                0 && (
-                                                  <>
-                                                    <span className="roop_prod_wt">
-                                                      <span className="roop_main_keys">
-                                                        NWT:
-                                                      </span>
-                                                      <span className="roop_main_val">
-                                                        {productData?.Nwt?.toFixed(
-                                                          3
-                                                        )}
-                                                      </span>
-                                                    </span>
-                                                  </>
-                                                )}
-                                            </div>
-                                            <div className="roop_prod_wt_div">
-                                              {storeInit?.IsPriceShow == 1 && <span className="roop_price">
-                                                <span className="roop_currencyFont">
-                                                  {loginUserDetail?.CurrencyCode ??
-                                                    storeInit?.CurrencyCode}
-                                                </span>
-                                                <span className="roop_pricePort">
-                                                  {formatter(
-                                                    productData?.UnitCostWithMarkUp
-                                                  )}
-                                                </span>
-                                              </span>}
-                                              {storeInit?.IsDiamondWeight ==
-                                                1 &&
-                                                Number(productData?.Dwt) !==
-                                                0 && (
-                                                  <span className="roop_prod_wt">
-                                                    <span className="roop_main_keys">
-                                                      DWT:
-                                                    </span>
-                                                    <span className="roop_main_val">
-                                                      {productData?.Dwt?.toFixed(
-                                                        3
-                                                      )}
-                                                      {storeInit?.IsDiamondPcs ===
-                                                        1
-                                                        ? `/${productData?.Dpcs}`
-                                                        : null}
-                                                    </span>
-                                                  </span>
-                                                )}
-                                            </div>
-                                            {/* </span> */}
-                                            {/* <span className="roop_por"> */}
-                                            {/* {storeInit?.IsDiamondWeight == 1 &&
-                                            Number(productData?.Dwt) !== 0 && (
-                                              <>
-                                                <span style={{ fontSize: '13px', marginInline: '5px' }}>|</span>
-                                                <span className="roop_prod_wt">
-                                                  <span className="roop_main_keys">
-                                                    DWT:
-                                                  </span>
-                                                  <span className="roop_main_val">
-                                                    {(productData?.Dwt)?.toFixed(3)}
-                                                    {storeInit?.IsDiamondPcs === 1
-                                                      ? `/${productData?.Dpcs}`
-                                                      : null}
-                                                  </span>
-                                                </span>
-                                              </>
-                                            )} */}
-                                            {/* {storeInit?.IsStoneWeight == 1 &&
-                                            Number(productData?.CSwt) !== 0 && (
-                                              <>
-                                                <span style={{ fontSize: '13px', marginInline: '5px' }}>|</span>
-                                                <span className="roop_prod_wt">
-                                                  <span className="roop_main_keys">
-                                                    CWT:
-                                                  </span>
-                                                  <span className="roop_main_val">
-                                                    {(productData?.CSwt)?.toFixed(3)}
-                                                    {storeInit?.IsStonePcs === 1
-                                                      ? `/${productData?.CSpcs}`
-                                                      : null}
-                                                  </span>
-                                                </span>
-                                              </>
-                                            )} */}
-                                            {/* </span> */}
-                                          </div>
-                                        </div>
-                                        {/* <div className="roop_prod_mtcolr_price">
-                                        <span className="roop_prod_metal_col">
-                                          {findMetalColor(
-                                            productData?.MetalColorid
-                                          )?.[0]?.metalcolorname.toUpperCase()}
-                                          -
-                                          {
-                                            findMetalType(
-                                              productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
-                                            )[0]?.metaltype
-                                          }
-                                        </span>
-                                        <span>/</span>
-                                      </div> */}
-                                        {/* <div className="roop_prod_mtcolr_price" onClick={(e) => handleCartandWish(e, productData, "Cart")}>
-                                        <button className="roop_prodBtn">Add To Cart</button>
-                                      </div> */}
-
-                                        <FormControlLabel
-                                          control={
-                                            <Checkbox
-                                              icon={
-                                                <BsHandbag
-                                                  style={{
-                                                    color: "#fff",
-                                                    fontSize: maxwidth375px
-                                                      ? "15px"
-                                                      : "17px",
-                                                  }}
-                                                />
-                                              }
-                                              checkedIcon={
-                                                <BsHandbag
-                                                  style={{
-                                                    color: "#fff",
-                                                    fontSize: maxwidth375px
-                                                      ? "15px"
-                                                      : "17px",
-                                                  }}
-                                                />
-                                              }
-                                              checked={
-                                                cartArr[
-                                                productData?.autocode
-                                                ] ?? productData?.IsInCart === 1
-                                              }
-                                              onChange={(e) =>
-                                                handleCartandWish(
-                                                  e,
-                                                  productData,
-                                                  "Cart"
-                                                )
-                                              }
-                                            />
-                                          }
-                                          label={
-                                            <span
-                                              className={`roop_proBtn_text`}
-                                            >
-                                              {isChecked
-                                                ? "Remove from Cart"
-                                                : "Add to Cart"}
-                                            </span>
-                                          }
-                                          className="roop_prodBtn"
-                                        />
-                                      </div>
-                                    </div>
+                                    <Product_Card
+                                      productData={productData}
+                                      cartArr={cartArr}
+                                      handleCartandWish={handleCartandWish}
+                                      wishArr={wishArr}
+                                      videoUrl={getDynamicVideo(productData.designno, productData.VideoCount, productData.VideoExtension)}
+                                      RollImageUrl={getDynamicRollImages(productData.designno, productData.ImageCount, productData.ImageExtension)}
+                                      imageUrl={getDynamicImages(productData.designno, productData.ImageExtension)}
+                                      handleMoveToDetail={handleMoveToDetail}
+                                      storeInit={storeInit}
+                                      selectedMetalId={selectedMetalId}
+                                      loginUserDetail={loginUserDetail}
+                                      productIndex={i}
+                                      isAllWeight={isAllWeight}
+                                      isChecked={isChecked}
+                                    />
                                   );
                                 })}
                               </div>
@@ -3871,7 +3996,27 @@ const GivaFilterMenu = ({
   showClearAllButton,
   sliderValue,
   sliderValue1,
-  sliderValue2
+  sliderValue2,
+  setSliderValue,
+  setSliderValue1,
+  setSliderValue2,
+  handleRangeFilterApi,
+  handleRangeFilterApi1,
+  handleRangeFilterApi2,
+  prodListType,
+  cookie,
+  show,
+  show1,
+  show2,
+  setShow,
+  setShow1,
+  setShow2,
+  appliedRange1,
+  appliedRange2,
+  appliedRange3,
+  setAppliedRange1,
+  setAppliedRange2,
+  setAppliedRange3
 }) => {
   const [showMenu, setshowMenu] = useState(-1);
   const menuRef = useRef(null);
@@ -4239,6 +4384,7 @@ const GivaFilterMenu = ({
                               sx={{
                                 borderBottom: "1px solid #c7c8c9",
                                 borderRadius: 0,
+                                marginInline: "5px",
                                 "&.MuiPaper-root.MuiAccordion-root:last-of-type":
                                 {
                                   borderBottomLeftRadius: "0px",
@@ -4266,6 +4412,10 @@ const GivaFilterMenu = ({
                                   "&.MuiAccordionSummary-root": {
                                     padding: 0,
                                   },
+
+                                  "&.Mui-expanded": {
+                                    marginInline: "5px",
+                                  },
                                 }}
                               // className="filtercategoryLable"
                               >
@@ -4287,7 +4437,8 @@ const GivaFilterMenu = ({
                               >
                                 {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                                 <Box sx={SharedStyleForRange}>
-                                  {RangeFilterView(ele)}
+                                  {/* {RangeFilterView(ele)} */}
+                                  <RangeFilterView ele={ele} sliderValue={sliderValue} setSliderValue={setSliderValue} handleRangeFilterApi={handleRangeFilterApi} prodListType={prodListType} cookie={cookie} show={show} setShow={setShow} appliedRange1={appliedRange1} setAppliedRange1={setAppliedRange1} />
                                 </Box>
                               </AccordionDetails>
                             </Accordion>
@@ -4298,6 +4449,7 @@ const GivaFilterMenu = ({
                               sx={{
                                 borderBottom: "1px solid #c7c8c9",
                                 borderRadius: 0,
+                                marginInline: "5px",
                                 "&.MuiPaper-root.MuiAccordion-root:last-of-type":
                                 {
                                   borderBottomLeftRadius: "0px",
@@ -4323,6 +4475,10 @@ const GivaFilterMenu = ({
                                   "&.MuiAccordionSummary-root": {
                                     padding: 0,
                                   },
+
+                                  "&.Mui-expanded": {
+                                    marginInline: "5px",
+                                  },
                                 }}
                                 // className="filtercategoryLable"
                                 onClick={() => handleScrollHeight()}
@@ -4346,7 +4502,8 @@ const GivaFilterMenu = ({
                               >
                                 {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                                 <Box sx={SharedStyleForRange}>
-                                  {RangeFilterView1(ele)}
+                                  {/* {RangeFilterView1(ele)} */}
+                                  <RangeFilterView1 ele={ele} sliderValue1={sliderValue1} setSliderValue1={setSliderValue1} handleRangeFilterApi1={handleRangeFilterApi1} prodListType={prodListType} cookie={cookie} show1={show1} setShow1={setShow1} appliedRange2={appliedRange2} setAppliedRange2={setAppliedRange2} />
                                 </Box>
                               </AccordionDetails>
                             </Accordion>
@@ -4360,6 +4517,7 @@ const GivaFilterMenu = ({
                                 sx={{
                                   borderBottom: "1px solid #c7c8c9",
                                   borderRadius: 0,
+                                  marginInline: "5px",
                                   "&.MuiPaper-root.MuiAccordion-root:last-of-type":
                                   {
                                     borderBottomLeftRadius: "0px",
@@ -4385,6 +4543,10 @@ const GivaFilterMenu = ({
                                     "&.MuiAccordionSummary-root": {
                                       padding: 0,
                                     },
+
+                                    "&.Mui-expanded": {
+                                      marginInline: "5px",
+                                    },
                                   }}
                                   // className="filtercategoryLable"
                                   onClick={() => handleScrollHeight()}
@@ -4406,7 +4568,8 @@ const GivaFilterMenu = ({
                                   }}
                                 >
                                   <Box sx={SharedStyleForRange}>
-                                    {RangeFilterView2(ele)}
+                                    {/* {RangeFilterView2(ele)} */}
+                                    <RangeFilterView2 ele={ele} sliderValue2={sliderValue2} setSliderValue2={setSliderValue2} handleRangeFilterApi2={handleRangeFilterApi2} prodListType={prodListType} cookie={cookie} show2={show2} setShow2={setShow2} appliedRange3={appliedRange3} setAppliedRange3={setAppliedRange3} />
                                   </Box>
                                 </AccordionDetails>
                               </Accordion>
@@ -4902,3 +5065,429 @@ const ClearAllAndTotalResult = ({
     </div>
   );
 };
+
+const Product_Card = ({
+  productData,
+  cartArr,
+  handleCartandWish,
+  wishArr,
+  videoUrl,
+  RollImageUrl,
+  imageUrl,
+  handleMoveToDetail,
+  storeInit,
+  selectedMetalId,
+  loginUserDetail,
+  productIndex,
+  isAllWeight,
+  isChecked,
+}) => {
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isHover, setIsHover] = useState(false);
+  let maxwidth590px = useMediaQuery("(max-width:590px)");
+  let maxwidth375px = useMediaQuery("(max-width:375px)");
+
+  useEffect(() => {
+    const delay = (productIndex + 1) * 100;
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [productIndex]);
+
+  return (
+    <div className="roop_productCard">
+      <div className="roop_cart_and_wishlist_icon">
+        {/* <Checkbox
+      icon={
+        <LocalMallOutlinedIcon
+          sx={{
+            fontSize: "22px",
+            color: "#7d7f85",
+            opacity: ".7",
+          }}
+        />
+      }
+      checkedIcon={
+        <LocalMallIcon
+          sx={{
+            fontSize: "22px",
+            color: "#000",
+          }}
+        />
+      }
+      disableRipple={false}
+      sx={{ padding: "10px" }}
+      onChange={(e) =>
+        handleCartandWish(e, productData, "Cart")
+      }
+      checked={
+        cartArr[productData?.autocode] ??
+          productData?.IsInCart === 1
+          ? true
+          : false
+      }
+    /> */}
+        <Checkbox
+          icon={
+            <MdFavoriteBorder
+              opacity="0.7"
+              fontSize="22px"
+              color="#7d7f85"
+            />
+          }
+          checkedIcon={
+            <MdFavorite
+              fontSize="22px"
+              color="#D14A61"
+            />
+          }
+          disableRipple={false}
+          sx={{ padding: "10px" }}
+          onChange={(e) =>
+            handleCartandWish(
+              e,
+              productData,
+              "Wish"
+            )
+          }
+          checked={
+            wishArr[productData?.autocode] ??
+            productData?.IsInWish === 1
+          }
+        />
+      </div>
+
+      <div className="smrWeb_app_product_label">
+        {productData?.IsInReadyStock == 1 && (
+          <span className="smrWeb_app_instock">
+            In Stock
+          </span>
+        )}
+        {productData?.IsBestSeller == 1 && (
+          <span className="smrWeb_app_bestSeller">
+            Best Seller
+          </span>
+        )}
+        {productData?.IsTrending == 1 && (
+          <span className="smrWeb_app_intrending">
+            Trending
+          </span>
+        )}
+        {productData?.IsNewArrival == 1 && (
+          <span className="smrWeb_app_newarrival">
+            New
+          </span>
+        )}
+      </div>
+      {isLoading ?
+        <CardMedia
+          style={{ width: "100%" }}
+          className="cardMainSkeleton"
+        >
+          <Skeleton
+            animation="wave"
+            variant="rect"
+            width={"100%"}
+            height="350px"
+            sx={{
+              height: {
+                sm: "200px",
+                xs: "250px",
+                md: "312px",
+                lg: "350px",
+              }
+            }}
+            style={{ backgroundColor: "#e8e8e86e" }}
+          />
+        </CardMedia> :
+        <div
+          onClick={() =>
+            handleMoveToDetail(productData)
+          }
+          onMouseMove={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
+          className="roop_ImgandVideoContainer"
+          style={{ position: 'relative', overflow: 'hidden' }}
+        >
+          <div>
+            {isLoading ? (
+              <CardMedia
+                style={{ width: '100%', height: '100%' }}
+                className="roop_productCard_cardMainSkeleton"
+              >
+                <Skeleton
+                  animation="wave"
+                  variant="rect"
+                  width="100%"
+                  height="100%"
+                  style={{ backgroundColor: '#e8e8e86e' }}
+                />
+              </CardMedia>
+            ) : (
+              <>
+                {/* Hover Content (Video or RollImage) */}
+                <div style={{ display: isHover ? "block" : "none" }}>
+                  {videoUrl !== undefined ? (
+                    <video
+                      className="roop_productCard_video"
+                      src={videoUrl}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      onError={(e) => {
+                        e.target.poster = imageNotFound;
+                      }}
+                    />
+                  ) : (videoUrl === undefined && RollImageUrl !== undefined) ? (
+                    <img
+                      className="roop_productListCard_Image"
+                      src={RollImageUrl}
+                      onError={(e) => {
+                        if (productData?.ImageCount > 0) {
+                          e.target.src = RollImageUrl;
+                        }
+                        e.target.src = imageNotFound;
+                      }}
+                    />
+                  ) : null}
+                </div>
+
+                {/* Default Image */}
+                <img
+                  className="roop_productListCard_Image"
+                  src={imageUrl}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.stopPropagation();
+                    e.target.src = imageNotFound;
+                  }}
+                  style={{
+                    opacity: isHover && (RollImageUrl || videoUrl) ? "0" : "1",
+                    transition: '0s ease-in-out',
+                  }}
+                />
+              </>
+            )}
+          </div>
+        </div>
+      }
+      <div className="roop_prod_card_info">
+        <div className="roop_prod_Title">
+          <span
+            className="roop1_prod_title_with_width"
+          // className={
+          //   (productData?.TitleLine?.length > 30)
+          //     ?
+          //     "roop1_prod_title_with_width"
+          //     :
+          //     "roop1_prod_title_with_no_width"
+          // }
+          >
+            {/* {productData?.designno}{" "}
+          {productData?.TitleLine &&
+            productData?.designno
+            ? " - "
+            : ""}
+          {productData?.TitleLine} */}
+            {productData?.designno !== "" && productData?.designno}
+            {formatTitleLine(productData?.TitleLine) && " - " + productData?.TitleLine}
+          </span>
+        </div>
+        {/* <div style={{ display: !maxwidth425px ? "none" : "block" }}>
+        <span className="roop_price">
+          <span className="roop_currencyFont">
+            {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+          </span>
+          <span className="roop_pricePort">
+            {formatter(
+              productData?.UnitCostWithMarkUp
+            )}
+          </span>
+        </span>
+      </div> */}
+        <div className="roop_prod_Allwt">
+          <div
+            className="roop_prod_div"
+            style={{
+              letterSpacing: maxwidth590px
+                ? "0px"
+                : "1px",
+            }}
+          >
+            <div className="roop_prod_wt_div">
+              {storeInit?.IsGrossWeight == 1 &&
+                Number(productData?.Gwt) !==
+                0 && (
+                  <span className="roop_prod_wt">
+                    <span className="roop_main_keys">
+                      GWT:
+                    </span>
+                    <span className="roop_main_val">
+                      {productData?.Gwt?.toFixed(
+                        3
+                      )}
+                    </span>
+                  </span>
+                )}
+              {Number(productData?.Nwt) !==
+                0 && (
+                  <>
+                    <span className="roop_prod_wt">
+                      <span className="roop_main_keys">
+                        NWT:
+                      </span>
+                      <span className="roop_main_val">
+                        {productData?.Nwt?.toFixed(
+                          3
+                        )}
+                      </span>
+                    </span>
+                  </>
+                )}
+            </div>
+            <div className="roop_prod_wt_div">
+              {storeInit?.IsPriceShow == 1 && <span className="roop_price">
+                <span className="roop_currencyFont">
+                  {loginUserDetail?.CurrencyCode ??
+                    storeInit?.CurrencyCode}
+                </span>
+                <span className="roop_pricePort">
+                  {formatter(
+                    productData?.UnitCostWithMarkUp
+                  )}
+                </span>
+              </span>}
+              {storeInit?.IsDiamondWeight ==
+                1 &&
+                Number(productData?.Dwt) !==
+                0 && (
+                  <span className="roop_prod_wt">
+                    <span className="roop_main_keys">
+                      DWT:
+                    </span>
+                    <span className="roop_main_val">
+                      {productData?.Dwt?.toFixed(
+                        3
+                      )}
+                      {storeInit?.IsDiamondPcs ===
+                        1
+                        ? `/${productData?.Dpcs}`
+                        : null}
+                    </span>
+                  </span>
+                )}
+            </div>
+            {/* </span> */}
+            {/* <span className="roop_por"> */}
+            {/* {storeInit?.IsDiamondWeight == 1 &&
+          Number(productData?.Dwt) !== 0 && (
+            <>
+              <span style={{ fontSize: '13px', marginInline: '5px' }}>|</span>
+              <span className="roop_prod_wt">
+                <span className="roop_main_keys">
+                  DWT:
+                </span>
+                <span className="roop_main_val">
+                  {(productData?.Dwt)?.toFixed(3)}
+                  {storeInit?.IsDiamondPcs === 1
+                    ? `/${productData?.Dpcs}`
+                    : null}
+                </span>
+              </span>
+            </>
+          )} */}
+            {/* {storeInit?.IsStoneWeight == 1 &&
+          Number(productData?.CSwt) !== 0 && (
+            <>
+              <span style={{ fontSize: '13px', marginInline: '5px' }}>|</span>
+              <span className="roop_prod_wt">
+                <span className="roop_main_keys">
+                  CWT:
+                </span>
+                <span className="roop_main_val">
+                  {(productData?.CSwt)?.toFixed(3)}
+                  {storeInit?.IsStonePcs === 1
+                    ? `/${productData?.CSpcs}`
+                    : null}
+                </span>
+              </span>
+            </>
+          )} */}
+            {/* </span> */}
+          </div>
+        </div>
+        {/* <div className="roop_prod_mtcolr_price">
+      <span className="roop_prod_metal_col">
+        {findMetalColor(
+          productData?.MetalColorid
+        )?.[0]?.metalcolorname.toUpperCase()}
+        -
+        {
+          findMetalType(
+            productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
+          )[0]?.metaltype
+        }
+      </span>
+      <span>/</span>
+    </div> */}
+        {/* <div className="roop_prod_mtcolr_price" onClick={(e) => handleCartandWish(e, productData, "Cart")}>
+      <button className="roop_prodBtn">Add To Cart</button>
+    </div> */}
+
+        <FormControlLabel
+          control={
+            <Checkbox
+              icon={
+                <BsHandbag
+                  style={{
+                    color: "#fff",
+                    fontSize: maxwidth375px
+                      ? "15px"
+                      : "17px",
+                  }}
+                />
+              }
+              checkedIcon={
+                <BsHandbag
+                  style={{
+                    color: "#fff",
+                    fontSize: maxwidth375px
+                      ? "15px"
+                      : "17px",
+                  }}
+                />
+              }
+              checked={
+                cartArr[
+                productData?.autocode
+                ] ?? productData?.IsInCart === 1
+              }
+              onChange={(e) =>
+                handleCartandWish(
+                  e,
+                  productData,
+                  "Cart"
+                )
+              }
+            />
+          }
+          label={
+            <span
+              className={`roop_proBtn_text`}
+            >
+              {isChecked
+                ? "Remove from Cart"
+                : "Add to Cart"}
+            </span>
+          }
+          className="roop_prodBtn"
+        />
+      </div>
+    </div>
+  )
+}

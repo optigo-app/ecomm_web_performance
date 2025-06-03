@@ -25,6 +25,9 @@ import {
   for_companyLogoM,
   for_customizationSteps,
   for_customizationSteps1,
+  for_isEarringFlowOn,
+  for_isPendantFlowOn,
+  for_isRingFlowOn,
   for_loginState,
 } from "../../../Recoil/atom";
 import Cookies from "js-cookie";
@@ -855,6 +858,9 @@ const FirstNavMenu = ({
   const [showModal, setShowModal] = useState(false);
   const [showModal1, setShowModal1] = useState(false);
   const [checkIndex, setCheckIndex] = useState();
+  const isPendantFlowOn = useRecoilValue(for_isPendantFlowOn);
+  const isRingFlowOn = useRecoilValue(for_isRingFlowOn);
+  const isEarringFlowOn = useRecoilValue(for_isEarringFlowOn);
   const banner = useHomeBannerImages();
   const [typeFlow, setTypeFlow] = useState();
 
@@ -1309,117 +1315,127 @@ const FirstNavMenu = ({
           </h3>
           <div className="for_ring_section">
             <div className="for_start_flow_div">
-              <div className="for_col_1">
-                <h3>create your own diamond ring</h3>
-                <div class="ring-types">
-                  {checkSteps ? (
-                    <span class="ring-type" onClick={() => handleCheckSteps("Ring", 1, "", "/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==")}>
-                      <GiDiamondRing size={15} /> start with a setting
-                    </span>
-                  ) : (
-                    <span
-                      class="ring-type"
-                      onClick={() => {
-                        HandleSettingNavigation("Ring");
-                      }}
-                    >
-                      <GiDiamondRing size={15} /> start with a setting
-                    </span>
-                  )}
-                  {checkSteps ? (
-                    <span class="ring-type" onClick={() => handleCheckSteps("Diamond", 0, "", "", "Ring")}>
-                      <IoDiamondOutline size={15} /> Start With a Diamond
-                    </span>
-                  ) : (
-                    <span
-                      class="ring-type"
-                      onClick={() => HandleDiamondNavigation('ring')}
-                    >
-                      <IoDiamondOutline size={15} /> Start With a Diamond
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="for_col_1">
-                <h3>create your own diamond pendant</h3>
-                <div class="ring-types">
-                  {checkSteps ? (
-                    <span class="ring-type" onClick={() => handleCheckSteps("Pendant", 2, "", "/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ==")}>
-                      <GiDiamondRing size={15} /> start with a setting
-                    </span>
-                  ) : (
-                    <span
-                      class="ring-type"
-                      onClick={() => {
-                        HandleSettingNavigation("Pendant");
-                      }}
-                    >
-                      <GiDiamondRing size={15} /> start with a setting
-                    </span>
-                  )}
-                  {checkSteps ? (
-                    <span class="ring-type" onClick={() => handleCheckSteps("Diamond", 0, "", "", "Pendant")}>
-                      <IoDiamondOutline size={15} /> Start With a Diamond
-                    </span>
-                  ) : (
-                    <span
-                      class="ring-type"
-                      onClick={() => HandleDiamondNavigation('pendant')}
-                    >
-                      <IoDiamondOutline size={15} /> Start With a Diamond
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="ear_for_col_1">
-              <h3>create your own diamond earring</h3>
-              <div class="ring-types">
-                {checkSteps ? (
-                  <span class="ring-type" onClick={() => handleCheckSteps("Earring", 3, "", "/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ==")}>
-                    <GiCrystalEarrings size={27} /> start with a setting
-                  </span>
-                ) : (
-                  <span
-                    class="ring-type"
-                    onClick={() => {
-                      HandleSettingNavigation("Earring");
-                    }}
-                  >
-                    <GiCrystalEarrings size={27} /> start with a setting
-                  </span>
-                )}
-                {checkSteps ? (
-                  <span class="ring-type" onClick={() => handleCheckSteps("Diamond", 0, "", "", "Earring")}>
-                    <IoDiamondOutline size={15} /><IoDiamondOutline size={15} /> Start With a Diamond
-                  </span>
-                ) : (
-                  <span
-                    class="ring-type"
-                    onClick={() => HandleDiamondNavigation("earring")}
-                  >
-                    <IoDiamondOutline size={15} /><IoDiamondOutline size={15} /> Start With a Diamond
-                  </span>
-                )}
-              </div>
-            </div>
-            <div className="for_col_2">
-              <h3>shop By style</h3>
-              <div class="ring-types-col">
-                {styleArr?.map((item, index) => (
-                  <>
+              {isRingFlowOn === 1 &&
+                <div className="for_col_1">
+                  <h3>create your own diamond ring</h3>
+                  <div class="ring-types">
                     {checkSteps ? (
-                      <span key={index} onClick={() => handleCheckSteps("Ring", 1, item?.title, item?.link1)}>
-                        {item?.title}
+                      <span class="ring-type" onClick={() => handleCheckSteps("Ring", 1, "", "/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==")}>
+                        <GiDiamondRing size={15} /> start with a setting
                       </span>
                     ) : (
-                      <span key={index} onClick={() => handleStyleSettFlow(item?.link, item?.link1)}>
-                        {item?.title}
+                      <span
+                        class="ring-type"
+                        onClick={() => {
+                          HandleSettingNavigation("Ring");
+                        }}
+                      >
+                        <GiDiamondRing size={15} /> start with a setting
                       </span>
                     )}
-                  </>
-                ))}
+                    {checkSteps ? (
+                      <span class="ring-type" onClick={() => handleCheckSteps("Diamond", 0, "", "", "Ring")}>
+                        <IoDiamondOutline size={15} /> Start With a Diamond
+                      </span>
+                    ) : (
+                      <span
+                        class="ring-type"
+                        onClick={() => HandleDiamondNavigation('ring')}
+                      >
+                        <IoDiamondOutline size={15} /> Start With a Diamond
+                      </span>
+                    )}
+                  </div>
+                </div>
+              }
+              {isPendantFlowOn === 1 &&
+                <div className="for_col_1">
+                  <h3>create your own diamond pendant</h3>
+                  <div class="ring-types">
+                    {checkSteps ? (
+                      <span class="ring-type" onClick={() => handleCheckSteps("Pendant", 2, "", "/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ==")}>
+                        <GiDiamondRing size={15} /> start with a setting
+                      </span>
+                    ) : (
+                      <span
+                        class="ring-type"
+                        onClick={() => {
+                          HandleSettingNavigation("Pendant");
+                        }}
+                      >
+                        <GiDiamondRing size={15} /> start with a setting
+                      </span>
+                    )}
+                    {checkSteps ? (
+                      <span class="ring-type" onClick={() => handleCheckSteps("Diamond", 0, "", "", "Pendant")}>
+                        <IoDiamondOutline size={15} /> Start With a Diamond
+                      </span>
+                    ) : (
+                      <span
+                        class="ring-type"
+                        onClick={() => HandleDiamondNavigation('pendant')}
+                      >
+                        <IoDiamondOutline size={15} /> Start With a Diamond
+                      </span>
+                    )}
+                  </div>
+                </div>
+              }
+            </div>
+            {isEarringFlowOn === 1 &&
+              <div className="ear_for_col_1">
+                <h3>create your own diamond earring</h3>
+                <div class="ring-types">
+                  {checkSteps ? (
+                    <span class="ring-type" onClick={() => handleCheckSteps("Earring", 3, "", "/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ==")}>
+                      <GiCrystalEarrings size={27} /> start with a setting
+                    </span>
+                  ) : (
+                    <span
+                      class="ring-type"
+                      onClick={() => {
+                        HandleSettingNavigation("Earring");
+                      }}
+                    >
+                      <GiCrystalEarrings size={27} /> start with a setting
+                    </span>
+                  )}
+                  {checkSteps ? (
+                    <span class="ring-type" onClick={() => handleCheckSteps("Diamond", 0, "", "", "Earring")}>
+                      <IoDiamondOutline size={15} /><IoDiamondOutline size={15} /> Start With a Diamond
+                    </span>
+                  ) : (
+                    <span
+                      class="ring-type"
+                      onClick={() => HandleDiamondNavigation("earring")}
+                    >
+                      <IoDiamondOutline size={15} /><IoDiamondOutline size={15} /> Start With a Diamond
+                    </span>
+                  )}
+                </div>
               </div>
+            }
+            <div className="for_col_2">
+              {isRingFlowOn === 1 &&
+                <>
+                  <h3>shop By style</h3>
+                  <div class="ring-types-col">
+                    {styleArr?.map((item, index) => (
+                      <>
+                        {checkSteps ? (
+                          <span key={index} onClick={() => handleCheckSteps("Ring", 1, item?.title, item?.link1)}>
+                            {item?.title}
+                          </span>
+                        ) : (
+                          <span key={index} onClick={() => handleStyleSettFlow(item?.link, item?.link1)}>
+                            {item?.title}
+                          </span>
+                        )}
+                      </>
+                    ))}
+                  </div>
+                </>
+              }
             </div>
             <div className="for_col_3">
               <h3 onClick={() => navigate('/bespoke-jewelry')}>
@@ -1434,92 +1450,94 @@ const FirstNavMenu = ({
             </div>
           </div>
         </div>
-        <div className="for_second_col">
-          <h3>
-            {" "}
-            <a href="lab-grown-wedding-rings" style={styleHref}>
-              Wedding Ring
-            </a>
-          </h3>
-          <div className="for_ring_section">
-            <div className="for_col_1">
-              <h3
-                onClick={() =>
-                  navigate(
-                    `/certified-loose-lab-grown-diamonds/settings/Ring/Women/M=${encodeLink(
-                      categoryLinks.Women
-                    )}`
-                  )
-                }
-              >
-                <img src={`${storImagePath()}/Forevery/women.png`} alt="" />{" "}
-                Women
-              </h3>
-              <div class="ring-types">
-                {womenArr?.map((item, index) => (
-                  <>
-                    {checkSteps ? (
-                      <span
-                        key={index}
-                        class="ring-type"
-                        onClick={() => handleCheckSteps("Ring", 1, item?.title, item?.link1)}
-                      >
-                        {item?.title}
-                      </span>
-                    ) : (
-                      <span
-                        key={index}
-                        class="ring-type"
-                        // onClick={() => navigate(item?.link)}
-                        onClick={() => handleCategorySettFlow(item?.link, item?.link1)}
-                      >
-                        {item?.title}
-                      </span >
-                    )}
-                  </>
+        {isRingFlowOn === 1 &&
+          <div className="for_second_col">
+            <h3>
+              {" "}
+              <a href="lab-grown-wedding-rings" style={styleHref}>
+                Wedding Ring
+              </a>
+            </h3>
+            <div className="for_ring_section">
+              <div className="for_col_1">
+                <h3
+                  onClick={() =>
+                    navigate(
+                      `/certified-loose-lab-grown-diamonds/settings/Ring/Women/M=${encodeLink(
+                        categoryLinks.Women
+                      )}`
+                    )
+                  }
+                >
+                  <img src={`${storImagePath()}/Forevery/women.png`} alt="" />{" "}
+                  Women
+                </h3>
+                <div class="ring-types">
+                  {womenArr?.map((item, index) => (
+                    <>
+                      {checkSteps ? (
+                        <span
+                          key={index}
+                          class="ring-type"
+                          onClick={() => handleCheckSteps("Ring", 1, item?.title, item?.link1)}
+                        >
+                          {item?.title}
+                        </span>
+                      ) : (
+                        <span
+                          key={index}
+                          class="ring-type"
+                          // onClick={() => navigate(item?.link)}
+                          onClick={() => handleCategorySettFlow(item?.link, item?.link1)}
+                        >
+                          {item?.title}
+                        </span >
+                      )}
+                    </>
 
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="for_col_2">
-              <h3
-                onClick={() =>
-                  navigate(
-                    `/certified-loose-lab-grown-diamonds/settings/Ring/Men/M=${encodeLink(
-                      categoryLinks.Men
-                    )}`
-                  )
-                }
-              >
-                <img src={`${storImagePath()}/Forevery/boy.png`} alt="" /> Men
-              </h3>
+              <div className="for_col_2">
+                <h3
+                  onClick={() =>
+                    navigate(
+                      `/certified-loose-lab-grown-diamonds/settings/Ring/Men/M=${encodeLink(
+                        categoryLinks.Men
+                      )}`
+                    )
+                  }
+                >
+                  <img src={`${storImagePath()}/Forevery/boy.png`} alt="" /> Men
+                </h3>
 
-              <div class="ring-types">
-                {menArr?.map((item, index) => (
-                  <>
-                    {checkSteps ? (
-                      <span
-                        key={index}
-                        class="ring-type"
-                        onClick={() => handleCheckSteps("Ring", 1, item?.title, item?.link1)}
-                      >
-                        {item?.title}
-                      </span>
-                    ) : (
-                      <span
-                        key={index}
-                        class="ring-type"
-                        onClick={() => handleCategorySettFlow(item?.link, item?.link1)}
-                      >
-                        {item?.title}
-                      </span >
-                    )}
-                  </>
-                ))}
+                <div class="ring-types">
+                  {menArr?.map((item, index) => (
+                    <>
+                      {checkSteps ? (
+                        <span
+                          key={index}
+                          class="ring-type"
+                          onClick={() => handleCheckSteps("Ring", 1, item?.title, item?.link1)}
+                        >
+                          {item?.title}
+                        </span>
+                      ) : (
+                        <span
+                          key={index}
+                          class="ring-type"
+                          onClick={() => handleCategorySettFlow(item?.link, item?.link1)}
+                        >
+                          {item?.title}
+                        </span >
+                      )}
+                    </>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        }
         <div className="for_third_col">
           {/* <img src={commonImage} alt="" /> */}
           <img src={banner?.navbarMenu?.image?.[0]} alt="" />
@@ -1552,6 +1570,9 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const banner = useHomeBannerImages();
   const location = useLocation();
   const [checkIndex, setCheckIndex] = useState();
+  const isPendantFlowOn = useRecoilValue(for_isPendantFlowOn);
+  const isRingFlowOn = useRecoilValue(for_isRingFlowOn);
+  const isEarringFlowOn = useRecoilValue(for_isEarringFlowOn);
   // const [urlData, setUrlData] = useState();
   // const [urlDiaData, setUrlDiaData] = useState();
 
@@ -1710,7 +1731,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
           Navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UGVuZGFudC9jYXRlZ29yeQ==`);
         }
       }
-      if (value === "Diamond Earring" && steps3?.[2]?.step3 !== true) {
+      if (value === "Diamond Earrings" && steps3?.[2]?.step3 !== true) {
         if (!steps3) {
           Navigate(`/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ==`);
         } else {
@@ -1897,74 +1918,84 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
 
   return (
     <div className="Second_Nav_first_Menu">
-      <div className="for_first_col">
-        <h3>
-          <a href="/diamond" style={styleHref}>
-            Lab Grown Diamonds
-          </a>{" "}
-        </h3>
-        <div className="for_ring_section">
-          <div className="for_col_2">
-            <h3>Shop By Style</h3>
-            <div className="ring-types-col">
-              {diamondShapes?.map((val, i) => {
-                return (
-                  <>
-                    {checkSteps ? (
-                      <span onClick={() => handleCheckSteps(val?.name, " ", 0)}>
-                        <img src={val?.img} alt="" width={15} height={15} />
-                        {val?.name}
-                      </span>
-                    ) : (
-                      <span onClick={() => HandleDiamondNavigation(val?.name)}>
-                        <img src={val?.img} alt="" width={15} height={15} />
-                        {val?.name}
-                      </span>
-                    )}
-                  </>
-                );
-              })}
-              <span className="view-all-last" onClick={navigateToAllDiamond}>View All</span>
+      {isRingFlowOn === 1 &&
+        <div className="for_first_col">
+          <h3>
+            <a href="/diamond" style={styleHref}>
+              Lab Grown Diamonds
+            </a>{" "}
+          </h3>
+          <div className="for_ring_section">
+            <div className="for_col_2">
+              <h3>Shop By Style</h3>
+              <div className="ring-types-col">
+                {diamondShapes?.map((val, i) => {
+                  return (
+                    <>
+                      {checkSteps ? (
+                        <span onClick={() => handleCheckSteps(val?.name, " ", 0)}>
+                          <img src={val?.img} alt="" width={15} height={15} />
+                          {val?.name}
+                        </span>
+                      ) : (
+                        <span onClick={() => HandleDiamondNavigation(val?.name)}>
+                          <img src={val?.img} alt="" width={15} height={15} />
+                          {val?.name}
+                        </span>
+                      )}
+                    </>
+                  );
+                })}
+                <span className="view-all-last" onClick={navigateToAllDiamond}>View All</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="for_second_col">
-        <h3>Build Your Jewelry</h3>
-        <div className="for_ring_section">
-          {SideItems?.map((val, i) => {
-            return (
-              <>
-                {checkSteps ? (
-                  <span
-                    className="ring-type"
-                    key={i}
-                    onClick={() => {
-                      handleCheckSteps(val?.name, val?.link, val?.name === "Diamond Rings" ? 1 : val?.name === "Diamond Pendant" ? 2 : 3);
-                    }}
-                  >
-                    <img src={val?.img} alt="" width={18} height={18} />
-                    {val?.name}
-                  </span>
-                ) :
-                  <>
-                    <span
-                      className="ring-type"
-                      key={i}
-                      onClick={() => {
-                        handleCheckStepsForSett(val?.link, val?.name === "Diamond Rings" ? "Ring" : val?.name === "Diamond Pendant" ? "Pendant" : "Earring", val?.name === "Diamond Rings" ? 1 : val?.name === "Diamond Pendant" ? 2 : 3);  // Pass the correct value
-                      }}
-                    >
-                      <img src={val?.img} alt="" width={18} height={18} />
-                      {val?.name}
-                    </span>
-                  </>
-                }
-              </>
-            )
-          })}
+      }
+      {(isRingFlowOn === 1 || isPendantFlowOn === 1 || isEarringFlowOn === 1) && (
+        <div className="for_second_col">
+          <h3>Build Your Jewelry</h3>
+          <div className="for_ring_section">
+            {SideItems?.map((val, i) => {
+              const isVisible =
+                (val?.name === "Diamond Rings" && isRingFlowOn === 1) ||
+                (val?.name === "Diamond Pendant" && isPendantFlowOn === 1) ||
+                (val?.name === "Diamond Earrings" && isEarringFlowOn === 1);
+
+              if (!isVisible) return null;
+
+              const itemType =
+                val?.name === "Diamond Rings"
+                  ? "Ring"
+                  : val?.name === "Diamond Pendant"
+                    ? "Pendant"
+                    : "Earring";
+
+              const step =
+                val?.name === "Diamond Rings"
+                  ? 1
+                  : val?.name === "Diamond Pendant"
+                    ? 2
+                    : 3;
+
+              return (
+                <span
+                  className="ring-type"
+                  key={i}
+                  onClick={() => {
+                    checkSteps
+                      ? handleCheckSteps(val?.name, val?.link, step)
+                      : handleCheckStepsForSett(val?.link, itemType, step);
+                  }}
+                >
+                  <img src={val?.img} alt="" width={18} height={18} />
+                  {val?.name}
+                </span>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
       <div className="for_third_col">
         {/* <img src={commonImage} alt="" /> */}
         <img src={banner?.navbarMenu?.image?.[0]} alt="" />

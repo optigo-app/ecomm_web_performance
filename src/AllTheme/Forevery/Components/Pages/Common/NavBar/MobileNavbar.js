@@ -15,13 +15,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
 import AddIcon from "@mui/icons-material/Add";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   for_CartCount,
   for_NavbarItems,
   for_WishCount,
   for_customizationSteps,
   for_customizationSteps1,
+  for_isEarringFlowOn,
+  for_isPendantFlowOn,
+  for_isRingFlowOn,
   for_loginState,
 } from "../../../Recoil/atom";
 import LoginIcon from "@mui/icons-material/Login";
@@ -37,6 +40,11 @@ export default function MobileNav({ open, onClose }) {
   const [cartCountNum, setCartCountNum] = useRecoilState(for_CartCount);
   const [wishCountNum, setWishCountNum] = useRecoilState(for_WishCount);
   const [islogin, setislogin] = useRecoilState(for_loginState);
+
+  const isPendantFlowOn = useRecoilValue(for_isPendantFlowOn);
+  const isRingFlowOn = useRecoilValue(for_isRingFlowOn);
+  const isEarringFlowOn = useRecoilValue(for_isEarringFlowOn);
+
   const [menuItems, setMenuItems] = useRecoilState(for_NavbarItems);
   const [LoginUserDetails, setLoginUserDetails] = React.useState(null);
   const navigate = useNavigate();
@@ -995,324 +1003,332 @@ export default function MobileNav({ open, onClose }) {
                   }}
                 >
                   {/* Level 1 */}
-                  <Accordion
-                    elevation={0}
-                    sx={{
-                      borderRadius: 0,
-                      margin: 0,
-                      "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                        borderBottomLeftRadius: "0px",
-                        borderBottomRightRadius: "0px",
-                      },
-                      "&.MuiPaper-root.MuiAccordion-root:before": {
-                        background: "none",
-                      },
-                      "&.MuiPaper-root.MuiAccordion-root:before": {
-                        background: "none",
-                      },
-                    }}
-                  >
-                    <AccordionSummary
-                      expandIcon={
-                        <ExpandMoreIcon
-                          sx={{
-                            width: "40px",
-                            fontSize: "1.6rem",
-                            color: "#000",
-                          }}
-                        />
-                      }
-                      aria-controls="panel1-content"
-                      id="panel1-header"
+                  {isRingFlowOn === 1 &&
+                    <Accordion
+                      elevation={0}
                       sx={{
-                        color: "black",
                         borderRadius: 0,
-                        fontWeight: "500",
-
-                        "&.MuiAccordionSummary-root": {
-                          padding: 0,
+                        margin: 0,
+                        "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                          borderBottomLeftRadius: "0px",
+                          borderBottomRightRadius: "0px",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before": {
+                          background: "none",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before": {
+                          background: "none",
                         },
                       }}
                     >
-                      <span className="title_for_accordian">
-                        Create your own diamond ring
-                      </span>
-                    </AccordionSummary>
-                    <AccordionDetails sx={{
-                      padding: "0"
-                    }}>
-                      {/* Data here Subrata */}
-                      <div class="diamond_list_for_list">
-                        {checkSteps ? (
-                          <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("Ring", 1, "", "/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==")}>
-                            <GiDiamondRing size={15} /> start with a setting
-                          </span>
-                        ) : (
-                          <span
-                            class="diamond_shape_step_li"
-                            onClick={() => {
-                              HandleSettingNavigation("Ring");
+                      <AccordionSummary
+                        expandIcon={
+                          <ExpandMoreIcon
+                            sx={{
+                              width: "40px",
+                              fontSize: "1.6rem",
+                              color: "#000",
                             }}
-                          >
-                            <GiDiamondRing size={15} /> start with a setting
-                          </span>
-                        )}
-                        {checkSteps ? (
-                          <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("Diamond", 0, "", "", "Ring")}>
-                            <IoDiamondOutline size={15} /> Start With a Diamond
-                          </span>
-                        ) : (
-                          <span
-                            class="diamond_shape_step_li"
-                            onClick={() => HandleDiamondNavigationFirstLevel('ring')}
-                          >
-                            <IoDiamondOutline size={15} /> Start With a Diamond
-                          </span>
-                        )}
-                      </div>
-                      <Modal
-                        open={showModal}
-                        handleConfirm={handleConfirm}
-                        handleClose={handleToggle}
-                        handleRemoveData={handleRemoveDataFirstLevel}
-                        index={checkIndex}
-                      />
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion
-                    elevation={0}
-                    sx={{
-                      borderRadius: 0,
-                      margin: 0,
-                      "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                        borderBottomLeftRadius: "0px",
-                        borderBottomRightRadius: "0px",
-                      },
-                      "&.MuiPaper-root.MuiAccordion-root:before": {
-                        background: "none",
-                      },
-                      "&.MuiPaper-root.MuiAccordion-root:before": {
-                        background: "none",
-                      },
-                    }}
-                  >
-                    <AccordionSummary
-                      expandIcon={
-                        <ExpandMoreIcon
-                          sx={{
-                            width: "40px",
-                            fontSize: "1.6rem",
-                            color: "#000",
-                          }}
-                        />
-                      }
-                      aria-controls="panel1-content"
-                      id="panel1-header"
-                      sx={{
-                        color: "black",
-                        borderRadius: 0,
-                        fontWeight: "500",
+                          />
+                        }
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{
+                          color: "black",
+                          borderRadius: 0,
+                          fontWeight: "500",
 
-                        "&.MuiAccordionSummary-root": {
-                          padding: 0,
-                        },
-                      }}
-                    >
-                      <span className="title_for_accordian">
-                        Create your own diamond Pendant
-                      </span>
-                    </AccordionSummary>
-                    <AccordionDetails sx={{
-                      padding: "0"
-                    }}>
-                      {/* Data here Subrata */}
-                      <div class="diamond_list_for_list">
-                        {checkSteps ? (
-                          <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("Pendant", 2, "", "/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ==")}>
-                            <GiDiamondRing size={15} /> start with a setting
-                          </span>
-                        ) : (
-                          <span
-                            class="diamond_shape_step_li"
-                            onClick={() => {
-                              HandleSettingNavigation("Pendant");
-                            }}
-                          >
-                            <GiDiamondRing size={15} /> start with a setting
-                          </span>
-                        )}
-                        {checkSteps ? (
-                          <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("Diamond", 0, "", "", "Pendant")}>
-                            <IoDiamondOutline size={15} /> Start With a Diamond
-                          </span>
-                        ) : (
-                          <span
-                            class="diamond_shape_step_li"
-                            onClick={() => HandleDiamondNavigationFirstLevel('pendant')}
-                          >
-                            <IoDiamondOutline size={15} /> Start With a Diamond
-                          </span>
-                        )}
-                      </div>
-                      <Modal
-                        open={showModal}
-                        handleConfirm={handleConfirm}
-                        handleClose={handleToggle}
-                        handleRemoveData={handleRemoveDataFirstLevel}
-                        index={checkIndex}
-                      />
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion
-                    elevation={0}
-                    sx={{
-                      borderRadius: 0,
-                      margin: 0,
-                      "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                        borderBottomLeftRadius: "0px",
-                        borderBottomRightRadius: "0px",
-                      },
-                      "&.MuiPaper-root.MuiAccordion-root:before": {
-                        background: "none",
-                      },
-                      "&.MuiPaper-root.MuiAccordion-root:before": {
-                        background: "none",
-                      },
-                    }}
-                  >
-                    <AccordionSummary
-                      expandIcon={
-                        <ExpandMoreIcon
-                          sx={{
-                            width: "40px",
-                            fontSize: "1.6rem",
-                            color: "#000",
-                          }}
-                        />
-                      }
-                      aria-controls="panel1-content"
-                      id="panel1-header"
-                      sx={{
-                        color: "black",
-                        borderRadius: 0,
-                        fontWeight: "500",
-
-                        "&.MuiAccordionSummary-root": {
-                          padding: 0,
-                        },
-                      }}
-                    >
-                      <span className="title_for_accordian">
-                        Create your own diamond Earring
-                      </span>
-                    </AccordionSummary>
-                    <AccordionDetails sx={{
-                      padding: "0"
-                    }}>
-                      {/* Data here Subrata */}
-                      <div class="diamond_list_for_list">
-                        {checkSteps ? (
-                          <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("Earring", 3, "", "/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ==")}>
-                            <GiCrystalEarrings size={15} /> start with a setting
-                          </span>
-                        ) : (
-                          <span
-                            class="diamond_shape_step_li"
-                            onClick={() => {
-                              HandleSettingNavigation("Earring");
-                            }}
-                          >
-                            <GiCrystalEarrings size={15} /> start with a setting
-                          </span>
-                        )}
-                        {checkSteps ? (
-                          <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("Diamond", 0, "", "", "Earring")}>
-                            <span>
-                              <IoDiamondOutline size={15} /><IoDiamondOutline size={15} /> Start With a Diamond
+                          "&.MuiAccordionSummary-root": {
+                            padding: 0,
+                          },
+                        }}
+                      >
+                        <span className="title_for_accordian">
+                          Create your own diamond ring
+                        </span>
+                      </AccordionSummary>
+                      <AccordionDetails sx={{
+                        padding: "0"
+                      }}>
+                        {/* Data here Subrata */}
+                        <div class="diamond_list_for_list">
+                          {checkSteps ? (
+                            <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("Ring", 1, "", "/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==")}>
+                              <GiDiamondRing size={15} /> start with a setting
                             </span>
-                          </span>
-                        ) : (
-                          <span
-                            class="diamond_shape_step_li"
-                            onClick={() => HandleDiamondNavigationFirstLevel('earring')}
-                          >
-                            <span>
-                              <IoDiamondOutline size={15} /><IoDiamondOutline size={15} /> Start With a Diamond
+                          ) : (
+                            <span
+                              class="diamond_shape_step_li"
+                              onClick={() => {
+                                HandleSettingNavigation("Ring");
+                              }}
+                            >
+                              <GiDiamondRing size={15} /> start with a setting
                             </span>
-                          </span>
-                        )}
-                      </div>
-                      <Modal
-                        open={showModal}
-                        handleConfirm={handleConfirm}
-                        handleClose={handleToggle}
-                        handleRemoveData={handleRemoveDataFirstLevel}
-                        index={checkIndex}
-                      />
-                    </AccordionDetails>
-                  </Accordion>
+                          )}
+                          {checkSteps ? (
+                            <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("Diamond", 0, "", "", "Ring")}>
+                              <IoDiamondOutline size={15} /> Start With a Diamond
+                            </span>
+                          ) : (
+                            <span
+                              class="diamond_shape_step_li"
+                              onClick={() => HandleDiamondNavigationFirstLevel('ring')}
+                            >
+                              <IoDiamondOutline size={15} /> Start With a Diamond
+                            </span>
+                          )}
+                        </div>
+                        <Modal
+                          open={showModal}
+                          handleConfirm={handleConfirm}
+                          handleClose={handleToggle}
+                          handleRemoveData={handleRemoveDataFirstLevel}
+                          index={checkIndex}
+                        />
+                      </AccordionDetails>
+                    </Accordion>
+                  }
+                  {isPendantFlowOn === 1 &&
+                    <Accordion
+                      elevation={0}
+                      sx={{
+                        borderRadius: 0,
+                        margin: 0,
+                        "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                          borderBottomLeftRadius: "0px",
+                          borderBottomRightRadius: "0px",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before": {
+                          background: "none",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before": {
+                          background: "none",
+                        },
+                      }}
+                    >
+                      <AccordionSummary
+                        expandIcon={
+                          <ExpandMoreIcon
+                            sx={{
+                              width: "40px",
+                              fontSize: "1.6rem",
+                              color: "#000",
+                            }}
+                          />
+                        }
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{
+                          color: "black",
+                          borderRadius: 0,
+                          fontWeight: "500",
+
+                          "&.MuiAccordionSummary-root": {
+                            padding: 0,
+                          },
+                        }}
+                      >
+                        <span className="title_for_accordian">
+                          Create your own diamond Pendant
+                        </span>
+                      </AccordionSummary>
+                      <AccordionDetails sx={{
+                        padding: "0"
+                      }}>
+                        {/* Data here Subrata */}
+                        <div class="diamond_list_for_list">
+                          {checkSteps ? (
+                            <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("Pendant", 2, "", "/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ==")}>
+                              <GiDiamondRing size={15} /> start with a setting
+                            </span>
+                          ) : (
+                            <span
+                              class="diamond_shape_step_li"
+                              onClick={() => {
+                                HandleSettingNavigation("Pendant");
+                              }}
+                            >
+                              <GiDiamondRing size={15} /> start with a setting
+                            </span>
+                          )}
+                          {checkSteps ? (
+                            <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("Diamond", 0, "", "", "Pendant")}>
+                              <IoDiamondOutline size={15} /> Start With a Diamond
+                            </span>
+                          ) : (
+                            <span
+                              class="diamond_shape_step_li"
+                              onClick={() => HandleDiamondNavigationFirstLevel('pendant')}
+                            >
+                              <IoDiamondOutline size={15} /> Start With a Diamond
+                            </span>
+                          )}
+                        </div>
+                        <Modal
+                          open={showModal}
+                          handleConfirm={handleConfirm}
+                          handleClose={handleToggle}
+                          handleRemoveData={handleRemoveDataFirstLevel}
+                          index={checkIndex}
+                        />
+                      </AccordionDetails>
+                    </Accordion>
+                  }
+                  {isEarringFlowOn === 1 &&
+                    <Accordion
+                      elevation={0}
+                      sx={{
+                        borderRadius: 0,
+                        margin: 0,
+                        "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                          borderBottomLeftRadius: "0px",
+                          borderBottomRightRadius: "0px",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before": {
+                          background: "none",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before": {
+                          background: "none",
+                        },
+                      }}
+                    >
+                      <AccordionSummary
+                        expandIcon={
+                          <ExpandMoreIcon
+                            sx={{
+                              width: "40px",
+                              fontSize: "1.6rem",
+                              color: "#000",
+                            }}
+                          />
+                        }
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{
+                          color: "black",
+                          borderRadius: 0,
+                          fontWeight: "500",
+
+                          "&.MuiAccordionSummary-root": {
+                            padding: 0,
+                          },
+                        }}
+                      >
+                        <span className="title_for_accordian">
+                          Create your own diamond Earring
+                        </span>
+                      </AccordionSummary>
+                      <AccordionDetails sx={{
+                        padding: "0"
+                      }}>
+                        {/* Data here Subrata */}
+                        <div class="diamond_list_for_list">
+                          {checkSteps ? (
+                            <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("Earring", 3, "", "/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ==")}>
+                              <GiCrystalEarrings size={15} /> start with a setting
+                            </span>
+                          ) : (
+                            <span
+                              class="diamond_shape_step_li"
+                              onClick={() => {
+                                HandleSettingNavigation("Earring");
+                              }}
+                            >
+                              <GiCrystalEarrings size={15} /> start with a setting
+                            </span>
+                          )}
+                          {checkSteps ? (
+                            <span class="diamond_shape_step_li" onClick={() => handleCheckSteps("Diamond", 0, "", "", "Earring")}>
+                              <span>
+                                <IoDiamondOutline size={15} /><IoDiamondOutline size={15} /> Start With a Diamond
+                              </span>
+                            </span>
+                          ) : (
+                            <span
+                              class="diamond_shape_step_li"
+                              onClick={() => HandleDiamondNavigationFirstLevel('earring')}
+                            >
+                              <span>
+                                <IoDiamondOutline size={15} /><IoDiamondOutline size={15} /> Start With a Diamond
+                              </span>
+                            </span>
+                          )}
+                        </div>
+                        <Modal
+                          open={showModal}
+                          handleConfirm={handleConfirm}
+                          handleClose={handleToggle}
+                          handleRemoveData={handleRemoveDataFirstLevel}
+                          index={checkIndex}
+                        />
+                      </AccordionDetails>
+                    </Accordion>
+                  }
                   {/* Level 1 */}
-                  <Accordion
-                    elevation={0}
-                    sx={{
-                      borderRadius: 0,
-                      margin: 0,
-                      "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                        borderBottomLeftRadius: "0px",
-                        borderBottomRightRadius: "0px",
-                      },
-                      "&.MuiPaper-root.MuiAccordion-root:before": {
-                        background: "none",
-                      },
-                      "&.MuiPaper-root.MuiAccordion-root:before": {
-                        background: "none",
-                      },
-                    }}
-                  >
-                    <AccordionSummary
-                      expandIcon={
-                        <ExpandMoreIcon
-                          sx={{
-                            width: "40px",
-                            fontSize: "1.6rem",
-                            color: "#000",
-                          }}
-                        />
-                      }
-                      aria-controls="panel1-content"
-                      id="panel1-header"
+                  {isRingFlowOn === 1 &&
+                    <Accordion
+                      elevation={0}
                       sx={{
-                        color: "black",
                         borderRadius: 0,
-                        fontWeight: "500",
-
-                        "&.MuiAccordionSummary-root": {
-                          padding: 0,
+                        margin: 0,
+                        "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                          borderBottomLeftRadius: "0px",
+                          borderBottomRightRadius: "0px",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before": {
+                          background: "none",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before": {
+                          background: "none",
                         },
                       }}
                     >
-                      <span className="title_for_accordian">Shop by style</span>
-                    </AccordionSummary>
-                    <AccordionDetails sx={{
-                      padding: "0"
-                    }}>
-                      <div className="diamond_list_for_list">
-                        {styleArr?.map((item, index) => (
-                          <>
-                            {checkSteps ? (
-                              <span className="diamond_shape_step_li" key={index} onClick={() => handleCheckSteps("Ring", 1, item?.title, item?.link1)}>
-                                {item?.title}
-                              </span>
-                            ) : (
-                              <span className="diamond_shape_step_li" key={index} onClick={() => handleStyleSettFlow(item?.link, item?.link1)}>
-                                {item?.title}
-                              </span>
-                            )}
-                          </>
-                        ))}
-                      </div>
-                    </AccordionDetails>
-                  </Accordion>
+                      <AccordionSummary
+                        expandIcon={
+                          <ExpandMoreIcon
+                            sx={{
+                              width: "40px",
+                              fontSize: "1.6rem",
+                              color: "#000",
+                            }}
+                          />
+                        }
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{
+                          color: "black",
+                          borderRadius: 0,
+                          fontWeight: "500",
+
+                          "&.MuiAccordionSummary-root": {
+                            padding: 0,
+                          },
+                        }}
+                      >
+                        <span className="title_for_accordian">Shop by style</span>
+                      </AccordionSummary>
+                      <AccordionDetails sx={{
+                        padding: "0"
+                      }}>
+                        <div className="diamond_list_for_list">
+                          {styleArr?.map((item, index) => (
+                            <>
+                              {checkSteps ? (
+                                <span className="diamond_shape_step_li" key={index} onClick={() => handleCheckSteps("Ring", 1, item?.title, item?.link1)}>
+                                  {item?.title}
+                                </span>
+                              ) : (
+                                <span className="diamond_shape_step_li" key={index} onClick={() => handleStyleSettFlow(item?.link, item?.link1)}>
+                                  {item?.title}
+                                </span>
+                              )}
+                            </>
+                          ))}
+                        </div>
+                      </AccordionDetails>
+                    </Accordion>
+                  }
                   {/* Level 1 */}
                   <div
                     style={{
@@ -1333,210 +1349,212 @@ export default function MobileNav({ open, onClose }) {
                   </div>
 
                   {/* Level 1 */}
-                  <Accordion
-                    elevation={0}
-                    sx={{
-                      borderRadius: 0,
-                      margin: 0,
-                      "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                        borderBottomLeftRadius: "0px",
-                        borderBottomRightRadius: "0px",
-                      },
-                      "&.MuiPaper-root.MuiAccordion-root:before": {
-                        background: "none",
-                      },
-                      "&.MuiPaper-root.MuiAccordion-root:before": {
-                        background: "none",
-                      },
-                    }}
-                  >
-                    <AccordionSummary
-                      expandIcon={
-                        <ExpandMoreIcon
-                          sx={{
-                            width: "40px",
-                            fontSize: "1.6rem",
-                            color: "#000",
-                          }}
-                        />
-                      }
-                      aria-controls="panel1-content"
-                      id="panel1-header"
+                  {isRingFlowOn === 1 &&
+                    <Accordion
+                      elevation={0}
                       sx={{
-                        color: "black",
                         borderRadius: 0,
-                        fontWeight: "500",
-
-                        "&.MuiAccordionSummary-root": {
-                          padding: 0,
+                        margin: 0,
+                        "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                          borderBottomLeftRadius: "0px",
+                          borderBottomRightRadius: "0px",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before": {
+                          background: "none",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before": {
+                          background: "none",
                         },
                       }}
                     >
-                      <span className="title_for_accordian">Wedding Ring</span>
-                    </AccordionSummary>
-                    <AccordionDetails
-                      className="diamond_list_for_list"
-                      sx={{
-                        padding: "0", margin: "0"
-                      }}>
-                      {/* level 1 */}
-                      <Accordion
-                        elevation={0}
+                      <AccordionSummary
+                        expandIcon={
+                          <ExpandMoreIcon
+                            sx={{
+                              width: "40px",
+                              fontSize: "1.6rem",
+                              color: "#000",
+                            }}
+                          />
+                        }
+                        aria-controls="panel1-content"
+                        id="panel1-header"
                         sx={{
+                          color: "black",
                           borderRadius: 0,
-                          margin: 0,
-                          "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                            borderBottomLeftRadius: "0px",
-                            borderBottomRightRadius: "0px",
-                          },
-                          "&.MuiPaper-root.MuiAccordion-root:before": {
-                            background: "none",
-                          },
-                          "&.MuiPaper-root.MuiAccordion-root:before": {
-                            background: "none",
+                          fontWeight: "500",
+
+                          "&.MuiAccordionSummary-root": {
+                            padding: 0,
                           },
                         }}
                       >
-                        <AccordionSummary
-                          expandIcon={
-                            <ExpandMoreIcon
-                              sx={{
-                                width: "40px",
-                                fontSize: "1.6rem",
-                                color: "#000",
-                              }}
-                            />
-                          }
-                          aria-controls="panel1-content"
-                          id="panel1-header"
-                          sx={{
-                            color: "black",
-                            borderRadius: 0,
-                            fontWeight: "500",
-
-                            "&.MuiAccordionSummary-root": {
-                              padding: 0,
-                            },
-                          }}
-                        >
-                          <span className="diamond_shape_step_li" onClick={() =>
-                            navigate(
-                              `/certified-loose-lab-grown-diamonds/settings/Ring/Women/M=${encodeLink(
-                                categoryLinks.Women
-                              )}`
-                            )
-                          }>
-                            <img src={`${storImagePath()}/Forevery/women.png`} alt="" />
-                            Womens</span>
-                        </AccordionSummary>
-                        <AccordionDetails sx={{
-                          padding: 0
-                        }}>
-                          <div class="diamond_list_for_list">
-                            {womenArr?.map((item, index) => (
-                              <>
-                                {checkSteps ? (
-                                  <span
-                                    key={index}
-                                    class="diamond_shape_step_li"
-                                    onClick={() => handleCheckSteps("Ring", 1, item?.title, item?.link1)}
-                                  >
-                                    {item?.title}
-                                  </span>
-                                ) : (
-                                  <span
-                                    key={index}
-                                    class="diamond_shape_step_li"
-                                    onClick={() => handleCategorySettFlow(item?.link, item?.link1)}
-                                  >
-                                    {item?.title}
-                                  </span>
-                                )}
-                              </>
-                            ))}
-                          </div>
-                        </AccordionDetails>
-                      </Accordion>
-                      {/* level 2 */}
-                      <Accordion
-                        elevation={0}
+                        <span className="title_for_accordian">Wedding Ring</span>
+                      </AccordionSummary>
+                      <AccordionDetails
+                        className="diamond_list_for_list"
                         sx={{
-                          borderRadius: 0,
-                          margin: 0,
-                          "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                            borderBottomLeftRadius: "0px",
-                            borderBottomRightRadius: "0px",
-                          },
-                          "&.MuiPaper-root.MuiAccordion-root:before": {
-                            background: "none",
-                          },
-                          "&.MuiPaper-root.MuiAccordion-root:before": {
-                            background: "none",
-                          },
-                        }}
-                      >
-                        <AccordionSummary
-                          expandIcon={
-                            <ExpandMoreIcon
-                              sx={{
-                                width: "40px",
-                                fontSize: "1.6rem",
-                                color: "#000",
-                              }}
-                            />
-                          }
-                          aria-controls="panel1-content"
-                          id="panel1-header"
+                          padding: "0", margin: "0"
+                        }}>
+                        {/* level 1 */}
+                        <Accordion
+                          elevation={0}
                           sx={{
-                            color: "black",
                             borderRadius: 0,
-                            fontWeight: "500",
-
-                            "&.MuiAccordionSummary-root": {
-                              padding: 0,
+                            margin: 0,
+                            "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                              borderBottomLeftRadius: "0px",
+                              borderBottomRightRadius: "0px",
+                            },
+                            "&.MuiPaper-root.MuiAccordion-root:before": {
+                              background: "none",
+                            },
+                            "&.MuiPaper-root.MuiAccordion-root:before": {
+                              background: "none",
                             },
                           }}
                         >
-                          <span className="diamond_shape_step_li" onClick={() =>
-                            navigate(
-                              `/certified-loose-lab-grown-diamonds/settings/Ring/Men/M=${encodeLink(
-                                categoryLinks.Men
-                              )}`
-                            )
-                          }>
-                            <img src={`${storImagePath()}/Forevery/boy.png`} alt="" /> Men
-                          </span>
-                        </AccordionSummary>
-                        <AccordionDetails sx={{
-                          padding: 0
-                        }}>
-                          <div class="diamond_list_for_list">
-                            {menArr?.map((item, index) => (
-                              <>
-                                {checkSteps ? (
-                                  <span
-                                    key={index}
-                                    class="diamond_shape_step_li"
-                                    onClick={() => handleCheckSteps("Ring", 1, item?.title, item?.link1)}
-                                  >
-                                    {item?.title}
-                                  </span>
-                                ) : (
-                                  <span
-                                    key={index}
-                                    class="diamond_shape_step_li"
-                                    onClick={() => handleCategorySettFlow(item?.link, item?.link1)}
-                                  >
-                                    {item?.title}
-                                  </span>
-                                )}
-                              </>
-                            ))}
-                          </div>
-                        </AccordionDetails>
-                      </Accordion>
-                    </AccordionDetails>
-                  </Accordion>
+                          <AccordionSummary
+                            expandIcon={
+                              <ExpandMoreIcon
+                                sx={{
+                                  width: "40px",
+                                  fontSize: "1.6rem",
+                                  color: "#000",
+                                }}
+                              />
+                            }
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                            sx={{
+                              color: "black",
+                              borderRadius: 0,
+                              fontWeight: "500",
+
+                              "&.MuiAccordionSummary-root": {
+                                padding: 0,
+                              },
+                            }}
+                          >
+                            <span className="diamond_shape_step_li" onClick={() =>
+                              navigate(
+                                `/certified-loose-lab-grown-diamonds/settings/Ring/Women/M=${encodeLink(
+                                  categoryLinks.Women
+                                )}`
+                              )
+                            }>
+                              <img src={`${storImagePath()}/Forevery/women.png`} alt="" />
+                              Womens</span>
+                          </AccordionSummary>
+                          <AccordionDetails sx={{
+                            padding: 0
+                          }}>
+                            <div class="diamond_list_for_list">
+                              {womenArr?.map((item, index) => (
+                                <>
+                                  {checkSteps ? (
+                                    <span
+                                      key={index}
+                                      class="diamond_shape_step_li"
+                                      onClick={() => handleCheckSteps("Ring", 1, item?.title, item?.link1)}
+                                    >
+                                      {item?.title}
+                                    </span>
+                                  ) : (
+                                    <span
+                                      key={index}
+                                      class="diamond_shape_step_li"
+                                      onClick={() => handleCategorySettFlow(item?.link, item?.link1)}
+                                    >
+                                      {item?.title}
+                                    </span>
+                                  )}
+                                </>
+                              ))}
+                            </div>
+                          </AccordionDetails>
+                        </Accordion>
+                        {/* level 2 */}
+                        <Accordion
+                          elevation={0}
+                          sx={{
+                            borderRadius: 0,
+                            margin: 0,
+                            "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                              borderBottomLeftRadius: "0px",
+                              borderBottomRightRadius: "0px",
+                            },
+                            "&.MuiPaper-root.MuiAccordion-root:before": {
+                              background: "none",
+                            },
+                            "&.MuiPaper-root.MuiAccordion-root:before": {
+                              background: "none",
+                            },
+                          }}
+                        >
+                          <AccordionSummary
+                            expandIcon={
+                              <ExpandMoreIcon
+                                sx={{
+                                  width: "40px",
+                                  fontSize: "1.6rem",
+                                  color: "#000",
+                                }}
+                              />
+                            }
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                            sx={{
+                              color: "black",
+                              borderRadius: 0,
+                              fontWeight: "500",
+
+                              "&.MuiAccordionSummary-root": {
+                                padding: 0,
+                              },
+                            }}
+                          >
+                            <span className="diamond_shape_step_li" onClick={() =>
+                              navigate(
+                                `/certified-loose-lab-grown-diamonds/settings/Ring/Men/M=${encodeLink(
+                                  categoryLinks.Men
+                                )}`
+                              )
+                            }>
+                              <img src={`${storImagePath()}/Forevery/boy.png`} alt="" /> Men
+                            </span>
+                          </AccordionSummary>
+                          <AccordionDetails sx={{
+                            padding: 0
+                          }}>
+                            <div class="diamond_list_for_list">
+                              {menArr?.map((item, index) => (
+                                <>
+                                  {checkSteps ? (
+                                    <span
+                                      key={index}
+                                      class="diamond_shape_step_li"
+                                      onClick={() => handleCheckSteps("Ring", 1, item?.title, item?.link1)}
+                                    >
+                                      {item?.title}
+                                    </span>
+                                  ) : (
+                                    <span
+                                      key={index}
+                                      class="diamond_shape_step_li"
+                                      onClick={() => handleCategorySettFlow(item?.link, item?.link1)}
+                                    >
+                                      {item?.title}
+                                    </span>
+                                  )}
+                                </>
+                              ))}
+                            </div>
+                          </AccordionDetails>
+                        </Accordion>
+                      </AccordionDetails>
+                    </Accordion>
+                  }
                 </span>
               </AccordionDetails>
             </Accordion>
@@ -1602,169 +1620,210 @@ export default function MobileNav({ open, onClose }) {
                 }}
               >
                 {/* Level 1 */}
-                <Accordion
-                  elevation={0}
-                  sx={{
-                    borderRadius: 0,
-                    margin: 0,
-                    "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                      borderBottomLeftRadius: "0px",
-                      borderBottomRightRadius: "0px",
-                    },
-                    "&.MuiPaper-root.MuiAccordion-root:before": {
-                      background: "none",
-                    },
-                    "&.MuiPaper-root.MuiAccordion-root:before": {
-                      background: "none",
-                    },
-                  }}
-                >
-                  <AccordionSummary
-                    expandIcon={
-                      <ExpandMoreIcon
-                        sx={{
-                          width: "40px",
-                          fontSize: "1.6rem",
-                          color: "#000",
-                        }}
-                      />
-                    }
-                    aria-controls="panel1-content"
-                    id="panel1-header"
+                {isRingFlowOn === 1 &&
+                  <Accordion
+                    elevation={0}
                     sx={{
-                      color: "black",
                       borderRadius: 0,
-                      fontWeight: "500",
-
-                      "&.MuiAccordionSummary-root": {
-                        padding: 0,
+                      margin: 0,
+                      "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                        borderBottomLeftRadius: "0px",
+                        borderBottomRightRadius: "0px",
+                      },
+                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                        background: "none",
+                      },
+                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                        background: "none",
                       },
                     }}
                   >
-                    <span className="diamond_shape_step_li">Shop By Style</span>
-                  </AccordionSummary>
-                  <AccordionDetails
-                    sx={{
-                      padding: "0",
-                    }}
-                  >
-                    <div className="diamond_list_for_list">
-                      {diamondShapes?.map((val, i) => {
-                        return (
-                          <>
-                            {checkSteps ? (
-                              <span
-                                className="diamond_shape_step_li"
-                                onClick={() => handleCheckStepssSecondMenu(val?.name, " ", 0)}
-                              >
-                                <img
-                                  src={val?.img}
-                                  alt=""
-                                  width={15}
-                                  height={15}
-                                />
-                                {val?.name}
-                              </span>
-                            ) : (
-                              <span
-                                className="diamond_shape_step_li"
-                                onClick={() => HandleDiamondNavigation(val?.name)}
-                              >
-                                <img
-                                  src={val?.img}
-                                  alt=""
-                                  width={15}
-                                  height={15}
-                                />
-                                {val?.name}
-                              </span>
-                            )}
-                          </>
-                        );
-                      })}
-                    </div>
-                  </AccordionDetails>
-                </Accordion>
+                    <AccordionSummary
+                      expandIcon={
+                        <ExpandMoreIcon
+                          sx={{
+                            width: "40px",
+                            fontSize: "1.6rem",
+                            color: "#000",
+                          }}
+                        />
+                      }
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                      sx={{
+                        color: "black",
+                        borderRadius: 0,
+                        fontWeight: "500",
+
+                        "&.MuiAccordionSummary-root": {
+                          padding: 0,
+                        },
+                      }}
+                    >
+                      <span className="diamond_shape_step_li">Shop By Style</span>
+                    </AccordionSummary>
+                    <AccordionDetails
+                      sx={{
+                        padding: "0",
+                      }}
+                    >
+                      <div className="diamond_list_for_list">
+                        {diamondShapes?.map((val, i) => {
+                          return (
+                            <>
+                              {checkSteps ? (
+                                <span
+                                  className="diamond_shape_step_li"
+                                  onClick={() => handleCheckStepssSecondMenu(val?.name, " ", 0)}
+                                >
+                                  <img
+                                    src={val?.img}
+                                    alt=""
+                                    width={15}
+                                    height={15}
+                                  />
+                                  {val?.name}
+                                </span>
+                              ) : (
+                                <span
+                                  className="diamond_shape_step_li"
+                                  onClick={() => HandleDiamondNavigation(val?.name)}
+                                >
+                                  <img
+                                    src={val?.img}
+                                    alt=""
+                                    width={15}
+                                    height={15}
+                                  />
+                                  {val?.name}
+                                </span>
+                              )}
+                            </>
+                          );
+                        })}
+                      </div>
+                    </AccordionDetails>
+                  </Accordion>
+                }
+                
                 {/* Level 2 */}
-                <Accordion
-                  elevation={0}
-                  sx={{
-                    borderRadius: 0,
-                    margin: 0,
-                    "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                      borderBottomLeftRadius: "0px",
-                      borderBottomRightRadius: "0px",
-                    },
-                    "&.MuiPaper-root.MuiAccordion-root:before": {
-                      background: "none",
-                    },
-                    "&.MuiPaper-root.MuiAccordion-root:before": {
-                      background: "none",
-                    },
-                  }}
-                >
-                  <AccordionSummary
-                    expandIcon={
-                      <ExpandMoreIcon
-                        sx={{
-                          width: "40px",
-                          fontSize: "1.6rem",
-                          color: "#000",
-                        }}
-                      />
-                    }
-                    aria-controls="panel1-content"
-                    id="panel1-header"
+                {(isRingFlowOn === 1 || isPendantFlowOn === 1 || isEarringFlowOn === 1) && (
+                  <Accordion
+                    elevation={0}
                     sx={{
-                      color: "black",
                       borderRadius: 0,
-                      fontWeight: "500",
-
-                      "&.MuiAccordionSummary-root": {
-                        padding: 0,
+                      margin: 0,
+                      "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                        borderBottomLeftRadius: "0px",
+                        borderBottomRightRadius: "0px",
+                      },
+                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                        background: "none",
+                      },
+                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                        background: "none",
                       },
                     }}
                   >
-                    <span className="diamond_shape_step_li">
-                      Build Your Jewelry
-                    </span>
-                  </AccordionSummary>
-                  <AccordionDetails
-                    sx={{
-                      padding: "0",
-                    }}
-                  >
-                    <div className="diamond_list_for_list">
-                      {SideItems?.slice(0, 1)?.map((val, i) => (
-                        <>
-                          {checkSteps ? (
-                            <span
-                              className="diamond_shape_step_li"
-                              key={i}
-                              onClick={() => {
-                                handleCheckSteps(val?.name, val?.link, val?.name === "Diamond Rings" ? 1 : val?.name === "Diamond Pendant" ? 2 : 3);
-                              }}
-                            >
-                              <img src={val?.img} alt="" width={18} height={18} />
-                              {val?.name}
-                            </span>
-                          ) : (
-                            <span
-                              className="diamond_shape_step_li"
-                              key={i}
-                              onClick={() => {
-                                handleCheckStepsForSett(val?.link, val?.name === "Diamond Rings" ? "Ring" : val?.name === "Diamond Pendant" ? "Pendant" : "Earring", val?.name === "Diamond Rings" ? 1 : val?.name === "Diamond Pendant" ? 2 : 3);  // Pass the correct value
-                              }}
-                            >
-                              <img src={val?.img} alt="" width={18} height={18} />
-                              {val?.name}
-                            </span>
-                          )}
-                        </>
-                      ))}
-                    </div>
-                  </AccordionDetails>
-                </Accordion>
+                    <AccordionSummary
+                      expandIcon={
+                        <ExpandMoreIcon
+                          sx={{
+                            width: "40px",
+                            fontSize: "1.6rem",
+                            color: "#000",
+                          }}
+                        />
+                      }
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                      sx={{
+                        color: "black",
+                        borderRadius: 0,
+                        fontWeight: "500",
+
+                        "&.MuiAccordionSummary-root": {
+                          padding: 0,
+                        },
+                      }}
+                    >
+                      <span className="diamond_shape_step_li">
+                        Build Your Jewelry
+                      </span>
+                    </AccordionSummary>
+                    <AccordionDetails
+                      sx={{
+                        padding: "0",
+                      }}
+                    >
+                      <div className="diamond_list_for_list">
+                        {SideItems?.map((val, i) => {
+
+                          const isVisible =
+                            (val?.name === "Diamond Rings" && isRingFlowOn === 1) ||
+                            (val?.name === "Diamond Pendant" && isPendantFlowOn === 1) ||
+                            (val?.name === "Diamond Earrings" && isEarringFlowOn === 1);
+
+                          if (!isVisible) return null;
+
+                          const itemType =
+                            val?.name === "Diamond Rings"
+                              ? "Ring"
+                              : val?.name === "Diamond Pendant"
+                                ? "Pendant"
+                                : "Earring";
+
+                          const step =
+                            val?.name === "Diamond Rings"
+                              ? 1
+                              : val?.name === "Diamond Pendant"
+                                ? 2
+                                : 3;
+
+                          return (
+                            <>
+                              {/* {checkSteps ? (
+                                <span
+                                  className="diamond_shape_step_li"
+                                  key={i}
+                                  onClick={() => {
+                                    handleCheckSteps(val?.name, val?.link, val?.name === "Diamond Rings" ? 1 : val?.name === "Diamond Pendant" ? 2 : 3);
+                                  }}
+                                >
+                                  <img src={val?.img} alt="" width={18} height={18} />
+                                  {val?.name}
+                                </span>
+                              ) : (
+                                <span
+                                  className="diamond_shape_step_li"
+                                  key={i}
+                                  onClick={() => {
+                                    handleCheckStepsForSett(val?.link, val?.name === "Diamond Rings" ? "Ring" : val?.name === "Diamond Pendant" ? "Pendant" : "Earring", val?.name === "Diamond Rings" ? 1 : val?.name === "Diamond Pendant" ? 2 : 3);  // Pass the correct value
+                                  }}
+                                >
+                                  <img src={val?.img} alt="" width={18} height={18} />
+                                  {val?.name}
+                                </span>
+                              )} */}
+                              <span
+                                className="diamond_shape_step_li"
+                                key={i}
+                                onClick={() => {
+                                  checkSteps
+                                    ? handleCheckSteps(val?.name, val?.link, step)
+                                    : handleCheckStepsForSett(val?.link, itemType, step);
+                                }}
+                              >
+                                <img src={val?.img} alt="" width={18} height={18} />
+                                {val?.name}
+                              </span>
+                            </>
+                          )
+                        })}
+                      </div>
+                    </AccordionDetails>
+                  </Accordion>
+                )}
               </AccordionDetails>
             </Accordion>
             <CheckingDiaSetModal

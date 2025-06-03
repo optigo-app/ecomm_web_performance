@@ -558,14 +558,14 @@ export default function TermsAndConditions() {
     //   </main>
     // </div>
     <div className="vaara-terms">
-        <Banner/>
+      <Banner />
       <main className="vaara-main">
         <h1 className="vaara-title">Terms and Conditions</h1>
 
         <div className="vaara-content">
-          <p className="vaara-introduction">{VaratermsData.introduction.text}</p>
+          <p className="vaara-introduction">{SonasonstermsData.introduction.text}</p>
 
-          {VaratermsData.sections.map((section, index) => (
+          {SonasonstermsData.sections.map((section, index) => (
             <section key={index} className="vaara-section">
               <h2 className="vaara-section-title">{section.title}</h2>
               {section.content.map((item, itemIndex) => (
@@ -577,7 +577,7 @@ export default function TermsAndConditions() {
             </section>
           ))}
 
-          <p className="vaara-conclusion">{VaratermsData.conclusion.text}</p>
+          <p className="vaara-conclusion">{SonasonstermsData.conclusion.text}</p>
         </div>
       </main>
     </div>
@@ -601,19 +601,18 @@ export default function TermsAndConditions() {
 //   );
 // };
 const Banner = ({ title = "Terms and Conditions" }) => {
-    const Image = `url(${
-      storImagePath() + "/images/1tnc.png"
+  const Image = `url(${storImagePath() + "/images/1tnc.png"
     })`;
-    return (
-      <>
-        <div
-          className="vaara-banner"
-          style={{
-            backgroundImage: Image,
-          }}
-        >
-          <h1>{title}</h1>
-        </div>
-      </>
-    );
-  };
+  return (
+    <>
+      <div
+        className="vaara-banner"
+        style={{
+          backgroundImage: Image,
+        }}
+      >
+        <h1>{title}</h1>
+      </div>
+    </>
+  );
+};

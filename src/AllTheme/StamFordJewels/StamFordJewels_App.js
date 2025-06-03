@@ -1,43 +1,48 @@
-import React, { useEffect, useState } from "react";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import Home from "./Components/Pages/Home/Index";
-import Header from "./Components/Pages/Home/Header/Header";
-import Cart from "./Components/Pages/Cart/CartMain";
-import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
-import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
-import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import ProductList from "./Components/Pages/Product/ProductList/ProductList";
-import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
-import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
-import ServicePolicy from "./Components/Pages/FooterPages/servicePolicy/ServicePolicy";
-import ExpertAdvice from "./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice";
-import FunFact from "./Components/Pages/FooterPages/FunFact/FunFact";
-import Register from "./Components/Pages/Auth/Registretion/Register";
-import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile";
-import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
-import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode";
-import AboutUs from "./Components/Pages/aboutUs/AboutUs";
-import Wishlist from "./Components/Pages/Wishlist/Wishlist";
-import PageNotFound from "./Components/Pages/404Page/PageNotFound";
-import PrivateRoutes from "./PrivateRoutes";
+import React, { Suspense, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
-import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
-import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
-import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
-import Header2 from "./Components/Pages/Home/Header/Header2";
-import Account from "./Components/Pages/Account/Account";
-import Cookies from "js-cookie";
+import './Components/scss/variable.scss'
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
-import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
+import PrivateRoutes from "./PrivateRoutes";
+import Cookies from "js-cookie";
+import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import loaderImg from "../StamFordJewels/Components/Assets/mobileLogo.png";
 import { stam_CartNo, stam_companyLogo, stam_companyLogoM, stam_loginState } from "./Components/Recoil/atom";
 import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
-import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
-import Footer from "./Components/Pages/Home/Footer/Footer";
-import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
-import TermsPolicy from "./Components/Pages/FooterPages/TermsPolicy/TermsPolicy";
-import PrivacyPolicy from "./Components/Pages/FooterPages/PrivacyPolicy/PrivacyPolicy";
+import { Box, CircularProgress } from "@mui/material";
+
+const Home = React.lazy(() => import("./Components/Pages/Home/Index"));
+const Header = React.lazy(() => import("./Components/Pages/Home/Header/Header"));
+const Footer = React.lazy(() => import("./Components/Pages/Home/Footer/Footer"));
+const Cart = React.lazy(() => import("./Components/Pages/Cart/CartMain"));
+const StamScrollToTop = React.lazy(() => import("./Components/Pages/BackToTop/StamScrollToTop"));
+const LoginOption = React.lazy(() => import("./Components/Pages/Auth/LoginOption/LoginOption"));
+const ContinueWithEmail = React.lazy(() => import("./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail"));
+const LoginWithEmail = React.lazy(() => import("./Components/Pages/Auth/LoginWithEmail/LoginWithEmail"));
+const ProductList = React.lazy(() => import("./Components/Pages/Product/ProductList/ProductList"));
+const ProductDetail = React.lazy(() => import("./Components/Pages/Product/ProductDetail/ProductDetail"));
+const ContactUs = React.lazy(() => import("./Components/Pages/FooterPages/contactUs/ContactUs"));
+const ServicePolicy = React.lazy(() => import("./Components/Pages/FooterPages/servicePolicy/ServicePolicy"));
+const ExpertAdvice = React.lazy(() => import("./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice"));
+const FunFact = React.lazy(() => import("./Components/Pages/FooterPages/FunFact/FunFact"));
+const Register = React.lazy(() => import("./Components/Pages/Auth/Registretion/Register"));
+const ContimueWithMobile = React.lazy(() => import("./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile"));
+const LoginWithEmailCode = React.lazy(() => import("./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode"));
+const LoginWithMobileCode = React.lazy(() => import("./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode"));
+const AboutUs = React.lazy(() => import("./Components/Pages/aboutUs/AboutUs"));
+const Wishlist = React.lazy(() => import("./Components/Pages/Wishlist/Wishlist"));
+const PageNotFound = React.lazy(() => import("./Components/Pages/404Page/PageNotFound"));
+const Delivery = React.lazy(() => import("./Components/Pages/OrderFlow/DeliveryPage/Delivery"));
+const Payment = React.lazy(() => import("./Components/Pages/OrderFlow/PaymentPage/Payment"));
+const Confirmation = React.lazy(() => import("./Components/Pages/OrderFlow/ConfirmationPage/Confirmation"));
+const ForgotPass = React.lazy(() => import("./Components/Pages/Auth/forgotPass/ForgotPass"));
+const Header2 = React.lazy(() => import("./Components/Pages/Home/Header/Header2"));
+const Account = React.lazy(() => import("./Components/Pages/Account/Account"));
+const Lookbook = React.lazy(() => import("./Components/Pages/Home/LookBook/Lookbook"));
+const TermsPolicy = React.lazy(() => import("./Components/Pages/FooterPages/TermsPolicy/TermsPolicy"));
+const PrivacyPolicy = React.lazy(() => import("./Components/Pages/FooterPages/PrivacyPolicy/PrivacyPolicy"));
+const Category = React.lazy(() => import("./Components/Pages/Home/Category/Category"));
 
 const StamFordJewels_App = () => {
   const islogin = useRecoilValue(stam_loginState);
@@ -52,7 +57,6 @@ const StamFordJewels_App = () => {
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(stam_companyLogo);
   const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(stam_companyLogoM);
   const [htmlContent, setHtmlContent] = useState("");
-  console.log('htmlContent: ', htmlContent);
 
   useEffect(() => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -124,6 +128,27 @@ const StamFordJewels_App = () => {
   }
 
 
+  const LoadingFallback = () => (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+      }}
+    >
+      <img
+        src={loaderImg}
+        alt="Loading..."
+        height="100%"
+        width="auto"
+        loading="lazy"
+        style={{
+          animation: 'scaleUpDown 1.5s ease-in-out infinite', // Apply the animation here
+        }}
+      />
+    </Box>
+  );
 
 
   return (
@@ -131,72 +156,75 @@ const StamFordJewels_App = () => {
       <Helmet>
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
-      <div style={{ minHeight: '700px' }}>
-        {localData?.Headerno === 1 && <Header />}
-        {localData?.Headerno === 2 && <Header2 />}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/LoginOption"
-            element={<LoginOption />}
-          />
-          <Route
-            path="/ContinueWithEmail"
-            element={<ContinueWithEmail />}
-          />
-          <Route
-            path="/ContinueWithMobile"
-            element={<ContimueWithMobile />}
-          />
-          <Route
-            path="/LoginWithEmailCode"
-            element={<LoginWithEmailCode />}
-          />
-          <Route
-            path="/LoginWithMobileCode"
-            element={<LoginWithMobileCode />}
-          />
-          <Route
-            path="/ForgotPass"
-            element={<ForgotPass />}
-          />
-          <Route
-            path="/LoginWithEmail"
-            element={<LoginWithEmail />}
-          />
-          <Route
-            path="/register"
-            element={<Register />}
-          />
-          <Route path="/ContactUs" element={<ContactUs />} />
-          {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
-          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-          <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
-          <Route path="/FunFact" element={<FunFact />} />
-          <Route path="/aboutUs" element={<AboutUs />} />
-          <Route path="/TermsPolicy" element={<TermsPolicy />} />
-          <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
-            <Route path="/p/*" element={<ProductList />} />
-            <Route path="/d/*" element={<ProductDetail />} />
-            <Route path="/cartPage" element={<Cart />} />
-            <Route path="/myWishList" element={<Wishlist />} />
-            <Route path="/Delivery" element={<Delivery />} />
-            <Route path="/Payment" element={<Payment />} />
-            <Route path="/Confirmation" element={<Confirmation />} />
-            <Route path="/account" element={<Account />} />
-          </Route>
-          <Route path="/Lookbook" element={<Lookbook />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </div>
-      {
-        (location.pathname != "payment") ||
-          (location.pathname != "Delivery") ||
-          (location.pathname != "Confirmation") ?
-          <Footer />
-          :
-          ''
-      }
+      <Suspense fallback={<LoadingFallback />}>
+        <div style={{ minHeight: '700px' }}>
+          {localData?.Headerno === 1 && <Header />}
+          {localData?.Headerno === 2 && <Header2 />}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/LoginOption"
+              element={<LoginOption />}
+            />
+            <Route
+              path="/ContinueWithEmail"
+              element={<ContinueWithEmail />}
+            />
+            <Route
+              path="/ContinueWithMobile"
+              element={<ContimueWithMobile />}
+            />
+            <Route
+              path="/LoginWithEmailCode"
+              element={<LoginWithEmailCode />}
+            />
+            <Route
+              path="/LoginWithMobileCode"
+              element={<LoginWithMobileCode />}
+            />
+            <Route
+              path="/ForgotPass"
+              element={<ForgotPass />}
+            />
+            <Route
+              path="/LoginWithEmail"
+              element={<LoginWithEmail />}
+            />
+            <Route
+              path="/register"
+              element={<Register />}
+            />
+            <Route path="/ContactUs" element={<ContactUs />} />
+            <Route path="/shubu" element={<Category />} />
+            {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
+            <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+            <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
+            <Route path="/FunFact" element={<FunFact />} />
+            <Route path="/aboutUs" element={<AboutUs />} />
+            <Route path="/TermsPolicy" element={<TermsPolicy />} />
+            <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
+              <Route path="/p/*" element={<ProductList />} />
+              <Route path="/d/*" element={<ProductDetail />} />
+              <Route path="/cartPage" element={<Cart />} />
+              <Route path="/myWishList" element={<Wishlist />} />
+              <Route path="/Delivery" element={<Delivery />} />
+              <Route path="/Payment" element={<Payment />} />
+              <Route path="/Confirmation" element={<Confirmation />} />
+              <Route path="/account" element={<Account />} />
+            </Route>
+            <Route path="/Lookbook" element={<Lookbook />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </div >
+        {
+          (location.pathname != "payment") ||
+            (location.pathname != "Delivery") ||
+            (location.pathname != "Confirmation") ?
+            <Footer />
+            :
+            ''
+        }
+      </Suspense>
       <StamScrollToTop />
     </>
   );

@@ -2,6 +2,7 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
 const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", visiterId, sortby = "", diaRange = {}, netWt = {}, gross = {}, Shape = "", dno = "", album = "") => {
+  console.log("TCL: ProductListApi -> filterObj", filterObj)
 
   let MenuParams = {};
   let serachVar = ""
@@ -86,7 +87,9 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
   let diaQc = (obj?.dia === undefined ? (loginInfo?.cmboDiaQCid ?? storeinit?.cmboDiaQCid) : obj?.dia)
   let csQc = (obj?.cs === undefined ? (loginInfo?.cmboCSQCid ?? storeinit?.cmboCSQCid) : obj?.cs)
   let mtid = (obj?.mt === undefined ? (loginInfo?.MetalId ?? storeinit?.MetalId) : obj?.mt)
-  let filPrice = filterObj?.Price?.length > 0 ? filterObj?.Price : ''
+  let filPrice = Array.isArray(filterObj?.Price) && filterObj.Price.length > 0
+    ? filterObj.Price
+    : '';
 
   const priceData = Array.isArray(filterObj)
     ? filterObj.find(item => item.dropdownIndex === 4) || {}
@@ -99,10 +102,17 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
     ? { Minval: priceData.value[0], Maxval: priceData.value[1] }
     : {};
 
-  // console.log(
-  //   "data",
-  //   Object.keys(foreveryPrice)?.length > 0 ? foreveryPrice : filPrice
-  // );
+  const hasValidMin = filterObj.PriceMin !== null && filterObj.PriceMin !== undefined;
+  const hasValidMax = filterObj.PriceMax !== null && filterObj.PriceMax !== undefined;
+
+  const elveePrice = (hasValidMin || hasValidMax)
+    ? {
+      Minval: hasValidMin ? filterObj.PriceMin : filPrice[0]?.Minval,
+      Maxval: hasValidMax ? filterObj.PriceMax : filPrice[0]?.Maxval
+    }
+    : {};
+
+  const isNonEmptyObject = (obj) => obj && Object.keys(obj).length > 0;
 
   const data = {
     PackageId: `${(loginInfo?.PackageId ?? storeinit?.PackageId) ?? ''}`,
@@ -138,7 +148,12 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
     Min_NetWt: `${netWt?.netMin ?? ""}`,
     Max_NetWt: `${netWt?.netMax ?? ""}`,
     // FilPrice: filterObj?.Price?.length > 0 ? `${JSON.stringify(filterObj?.Price)}` : '',
-    FilPrice: Object.keys(foreveryPrice)?.length > 0 ? foreveryPrice : (filPrice ?? ""),
+    FilPrice:
+      isNonEmptyObject(foreveryPrice)
+        ? foreveryPrice
+        : isNonEmptyObject(elveePrice)
+          ? elveePrice
+          : filPrice ?? "",
     // FilPrice: filPrice,
     // Max_Price: '',
     // Min_Price: '',

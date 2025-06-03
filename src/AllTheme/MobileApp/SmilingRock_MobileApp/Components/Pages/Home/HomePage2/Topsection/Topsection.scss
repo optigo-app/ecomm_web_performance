@@ -1,0 +1,30 @@
+@import '../../../../scss/variable.scss';
+
+.main_topSectop_card {
+
+    .srmm_topSection_contents_header {
+        // font-family: $primaryFontFamily1 !important;
+        font-size: $fontSize5_1 !important;
+        font-weight: 600 !important;
+        margin-bottom: 5px !important;
+    }
+
+    .srmm_topSection_contents {
+        // font-family: $primaryFontFamily1 !important;
+        width: 95%;
+        margin-inline: auto;
+    }
+
+    .srmm_topSection_button {
+        border: 2px solid black !important;
+        width: 100% !important;
+        height: 45px !important;
+        border-radius: 10px !important;
+        margin-top: 15px !important;
+        text-transform: capitalize !important;
+        color: #000 !important;
+        font-size: 15.5px !important;
+        // font-family: $primaryFontFamily1 !important;
+    }
+
+}

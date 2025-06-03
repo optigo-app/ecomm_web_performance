@@ -571,30 +571,30 @@ const Header = () => {
               <div className="el_withoutL_Header_Main ">
                 <div className="el_withoutL_ul_Main">
                   <div className="el_whioutL_headerDiv1">
-                    <div
+                    <h4
                       className="el_whioutL_li"
                       style={{ cursor: "pointer" }}
                       // onClick={() => ScrollToView("brandsComponentID")}
                       onClick={() => HandleMoveToMenu('brandsComponentID')}
                     >
                       Our Brands
-                    </div>
-                    <div
+                    </h4>
+                    <h4
                       className="el_whioutL_li"
                       style={{ cursor: "pointer" }}
                       // onClick={() => ScrollToView("elveeGiftMainId")}
                       onClick={() => HandleMoveToMenu('elveeGiftMainId')}
                     >
                       Product
-                    </div>
-                    <div
+                    </h4>
+                    <h4
                       className="el_whioutL_li"
                       style={{ cursor: "pointer" }}
                       // onClick={() => ScrollToView("craftmenshipId")}
                       onClick={() => HandleMoveToMenu('craftmenshipId')}
                     >
                       Our Craftsmanship
-                    </div>
+                    </h4>
                   </div >
                   <div className="el_whioutL_headerDiv2">
                     <a href='/'>
@@ -609,7 +609,7 @@ const Header = () => {
                   </div>
                   <div className="el_whioutL_headerDiv3">
                     <div className="el_whioutL_headerDiv3_sub1">
-                      <div
+                      <h4
                         className="el_whioutL_li"
                         style={{ cursor: "pointer" }}
                         // onClick={() => ScrollToView("mainGalleryConatinerID")}
@@ -617,8 +617,8 @@ const Header = () => {
 
                       >
                         Gallery
-                      </div>
-                      <div
+                      </h4>
+                      <h4
                         className="el_whioutL_li"
                         style={{ cursor: "pointer" }}
                         // onClick={() => ScrollToView("mainSocialMediaConatinerID")}
@@ -626,14 +626,14 @@ const Header = () => {
 
                       >
                         Social Media
-                      </div>
-                      <div
+                      </h4>
+                      <h4
                         className="el_whioutL_li"
                         style={{ cursor: "pointer" }}
                         onClick={() => navigation("/contact-us")}
                       >
                         Contact
-                      </div>
+                      </h4>
                     </div>
                     <div className="el_whioutL_headerDiv3_sub2">
                       <p

@@ -193,15 +193,18 @@ const Footer = ({ fromPage }) => {
               style={{ marginLeft: "100px", width: "30%" }}
             >
               {socialMediaData?.length != 0 && (
-                <p
-                  style={{
-                    color: "#7d7f85",
-                    fontSize: "17px",
-                    fontWeight: 600,
-                  }}
-                >
-                  Follow Us
-                </p>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <p
+                    style={{
+                      color: "#7d7f85",
+                      fontSize: "17px",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Follow Us
+                  </p>
+                  <p style={{ color: "white" }}>020625</p>
+                </div>
               )}
               <div className="footerIconMain">
                 {socialMediaData && socialMediaData?.map((social, index) => (

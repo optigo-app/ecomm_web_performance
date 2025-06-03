@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./Album.modul.scss";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import imageNotFound from "../../../Assets/image-not-found.jpg";
-import { Box, Modal } from "@mui/material";
+import { Box, CardMedia, Modal, Skeleton } from "@mui/material";
 import AlbumSkeleton from "./AlbumSkeleton/AlbumSkeleton";
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { PC_ApploginState } from "../../../Recoil/atom";
+import { IsSecurityKey_ProCat, PC_ApploginState } from "../../../Recoil/atom";
 import { Get_Procatalog } from "../../../../../../../utils/API/Home/Get_Procatalog/Get_Procatalog";
+import LazyLoad from "react-lazyload";
 
 const Album = () => {
   const [albumData, setAlbumData] = useState([]);
@@ -20,31 +21,36 @@ const Album = () => {
   const [designSubData, setDesignSubData] = useState([]);
   const [openAlbumName, setOpenAlbumName] = useState("");
   const [isLoding, setIsLoding] = useState(true);
+  const setSecurityKey = useSetRecoilState(IsSecurityKey_ProCat);
   const [imagesReady, setImagesReady] = useState(false);
   const navigate = useNavigate();
   const [islogin, setISLoginSet] = useRecoilState(PC_ApploginState);
   const [open, setOpen] = useState(false);
   const storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
   const [selectedImage, setSelectedImage] = useState("");
+  const [loadedProducts, setLoadedProducts] = useState([])
+  const [isFetching, setIsFetching] = useState(false);
 
 
   useEffect(() => {
     setImageUrl(storeinit?.AlbumImageFol || "");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  useEffect(() => {
-    const checkImages = async () => {
-      const status = {};
-      for (const data of designSubData) {
-        const imageUrlI = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
-        const available = await checkImageAvailability(imageUrlI);
-        status[imageUrlI] = available;
-      }
-      setImageStatusModel(status);
-    };
 
-    checkImages();
-  }, [designSubData, imageUrl]);
+  // useEffect(() => {
+  //   const checkImages = async () => {
+  //     const status = {};
+  //     for (const data of designSubData) {
+  //       const imageUrlI = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
+  //       const available = await checkImageAvailability(imageUrlI);
+  //       status[imageUrlI] = available;
+  //     }
+  //     setImageStatusModel(status);
+  //   };
+
+  //   checkImages();
+  // }, [designSubData, imageUrl]);
 
   useEffect(() => {
     const fetchAlbumData = async () => {
@@ -65,18 +71,26 @@ const Album = () => {
     };
 
     fetchAlbumData();
-  }, [islogin]);
+  }, [islogin, isFetching]);
 
 
   const fetchAndSetAlbumData = async (value, finalID) => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-    
+
     if (!storeInit) {
-      setTimeout(() => fetchAndSetAlbumData(value, finalID), 500);
+      if (!isFetching) {
+        setIsFetching(true); // Set fetching flag
+        setTimeout(() => {
+          setIsFetching(false); // Reset flag after timeout
+          fetchAndSetAlbumData(value, finalID);
+        }, 500);
+      }
       return;
     }
+
     try {
-      const response = await Get_Procatalog("GETProcatalog", finalID, value);
+      // const response = await Get_Procatalog("GETProcatalog", finalID, value);
+      const response = await Get_Procatalog("GET_Procatalog", finalID, value);
       if (response?.Data?.rd) {
         const albums = response.Data.rd;
         setAlbumData(albums);
@@ -85,105 +99,138 @@ const Album = () => {
         const fallbackImages = {};
         for (const data of albums) {
           const fullImageUrl = `${storeInit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
-          let imageAvailable;
-          if(data?.AlbumImageName !== ""){
-            imageAvailable = await checkImageAvailability(fullImageUrl);
-          }else{
-            imageAvailable = false;
-          }
-          if (!imageAvailable && data?.AlbumDetail) {
-            const albumDetails = JSON.parse(data.AlbumDetail);
-            albumDetails.forEach((detail) => {
-              if (detail?.Designdetail) {
-                const designDetails = JSON.parse(detail.Designdetail);
-                designDetails.forEach((design) => {
-                  if (design.ImageCount > 1) {
-                    // const fallbackImage = `${storeInit?.DesignImageFol}${design.designno}_1.${design.ImageExtension}`;
-                    const fallbackImage = `${storeInit?.CDNDesignImageFol}${design.designno}~1.${design.ImageExtension}`;
-                    fallbackImages[fullImageUrl] = fallbackImage;
-                  }
-                });
 
-              }
-            });
+          if (![storeInit?.AlbumImageFol, data?.AlbumImageFol, data?.AlbumImageName].every(Boolean) && data?.AlbumDetail) {
+            const albumDetails = JSON.parse(data.AlbumDetail);
+            if (albumDetails?.length > 0) {
+              const fallbackImage = `${storeInit?.CDNDesignImageFol}${albumDetails?.[0]?.Image_Name}`;
+              fallbackImages[fullImageUrl] = fallbackImage;
+            }
           }
-          status[fullImageUrl] = imageAvailable;
+          status[fullImageUrl] = fullImageUrl;
         }
-        setImageStatus(status);
-        setFallbackImages(fallbackImages);
-        setIsLoding(false);
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsFetching(false); // Reset the fetching flag once the fetch completes
     }
   };
 
-  function checkImageAvailability(imageUrl) {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => resolve(true);
-      img.onerror = () => resolve(false);
-      img.src = imageUrl;
-    });
-  }
+  // function checkImageAvailability(imageUrl) {
+  //   return new Promise((resolve) => {
+  //     const img = new Image();
+  //     img.onload = () => resolve(true);
+  //     img.onerror = () => resolve(false);
+  //     img.src = imageUrl;
+  //   });
+  // }
 
   const handleNavigate = (data) => {
-    const url = `/p/${encodeURIComponent(data?.AlbumName)}/?A=${btoa(`AlbumName=${data?.AlbumName}`)}`;
+    const albumName = data?.AlbumName;
+    const securityKey = data?.AlbumSecurityId;
+    const url = `/p/${encodeURIComponent(data?.AlbumName)}/K=${btoa(securityKey)}/?A=${btoa(`AlbumName=${albumName}`)}`;
     const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
+    const Newdata = data?.AlbumDetail ? JSON.parse(data?.AlbumDetail) : [];
+    setSecurityKey(securityKey);
+    const state = { SecurityKey: securityKey };
 
-    if (data?.IsDual === 1) {
-      const Newdata = JSON.parse(data?.AlbumDetail || '[]');
-      let finalNewData = Newdata?.map((data) => {
-        if (data?.AlbumImageName) {
-          let imgLink = storeinit?.AlbumImageFol + data?.AlbumImageFol + '/' + data?.AlbumImageName;
-          return { ...data, imageKey: imgLink }
-        } else {
-          let data1 = JSON.parse(data?.Designdetail);
+    if (data?.IsDual === 1 && Newdata?.length > 1) {
+      const finalNewData = Newdata.map((item) => {
+        let imgLink = item?.Image_Name ? `${storeinit?.CDNDesignImageFol}${item?.Image_Name}` : imageNotFound;
+        return { ...item, imageKey: imgLink };
+      });
 
-          let finalImg = data1?.map((data) => {
-            if (data?.ImageCount > 0 && data?.ImageExtension !== '') {
-              let imgLink = storeinit?.CDNDesignImageFol + data?.designno + "~" + '1' + "." + data?.ImageExtension;
-              if (checkImageAvailability(imgLink)) {
-                return imgLink ;
-              }
-            }
-          })?.find(item => item !== undefined);
-          let finalImgData = finalImg ?? imageNotFound;
-          return { ...data, imageKey: finalImgData }
-        }
-      })
       handleOpen();
       setDesignSubData(finalNewData);
-      setOpenAlbumName(data?.AlbumName);
     } else {
-      if(islogin || data?.AlbumSecurityId === 0){
-        navigate(url);
-      }else{
-        localStorage.setItem('redirectURLLocal', url)
-        navigate('/signin');
-      }
+      sessionStorage.setItem('redirectURL', url);
+      navigate((islogin || data?.AlbumSecurityId === 0) ? url : redirectUrl, { state });
     }
   };
 
   const handleNavigateSub = (data) => {
-    const url = `/p/${encodeURIComponent(data?.AlbumName)}/?A=${btoa(`AlbumName=${data?.AlbumName}`)}`;
+    const albumName = data?.AlbumName;
+    const securityKey = data?.AlbumSecurityId;
+    setSecurityKey(securityKey);
+    const url = `/p/${encodeURIComponent(data?.AlbumName)}/K=${btoa(securityKey)}/?A=${btoa(`AlbumName=${albumName}`)}`;
+    const state = { SecurityKey: securityKey };
     const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
     sessionStorage.setItem('redirectURL', url)
-    if(islogin || data?.AlbumSecurityId === 0){
-      navigate(url);
-    }else{
-      localStorage.setItem('redirectURLLocal', url)
-      navigate('/signin');
-    }
+    console.log("islogin || data?.AlbumSecurityId === 0", islogin || data?.AlbumSecurityId === 0)
+    navigate((islogin || data?.AlbumSecurityId === 0) ? url : redirectUrl, { state });
   };
+
+  const prevLoadedProducts = useRef([]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const ImageMaking = useCallback(async (data) => {
+    if (data.AlbumImageName && data.AlbumImageFol) {
+      const imgSrc = `${storeinit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`
+      // if (await checkImageAvailability(imgSrc)) {
+      // }
+      return imgSrc
+    }
+
+    if (![storeinit?.AlbumImageFol, data?.AlbumImageFol, data?.AlbumImageName].every(Boolean) && data?.AlbumDetail) {
+      const albumDetails = JSON.parse(data.AlbumDetail);
+      if (albumDetails?.length > 0) {
+        const fallbackImage = `${storeinit?.CDNDesignImageFol}${albumDetails?.[0]?.Image_Name}`;
+        return fallbackImage;
+      }
+    }
+
+    // if (data.AlbumDetail) {
+    //   const albumDetails = JSON.parse(data.AlbumDetail)
+    //   for (const detail of albumDetails) {
+    //     if (detail?.Designdetail) {
+    //       const designDetails = JSON.parse(detail.Designdetail)
+    //       for (const design of designDetails) {
+    //         if (design.ImageCount > 0) {
+    //           const imgSrc = `${storeinit?.CDNDesignImageFol}${design.designno}~1.${design.ImageExtension}`
+    //           // if (await checkImageAvailability(imgSrc)) {
+    //           // }
+    //           return imgSrc
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+
+    return imageNotFound
+  }, [storeinit])
+
+  useEffect(() => {
+    const loadAllImages = async () => {
+      const images = [];
+
+      for (let index = 0; index < albumData.length; index++) {
+        const data = albumData[index];
+        const imgSrc = await ImageMaking(data);
+        images.push({ id: index, src: imgSrc });
+      }
+
+      if (images.length > 0 && loadedProducts.length !== images.length) {
+        setLoadedProducts(images);
+      }
+    };
+
+    if (albumData.length > 0) {
+      loadAllImages();
+    }
+  }, [albumData, ImageMaking]);
+
+  useEffect(() => {
+    if (albumData.length > 0 && !imagesReady) {
+      setImagesReady(true);
+    }
+  }, [albumData]);
+
   if (!imagesReady) {
     return <AlbumSkeleton />;
   }
-
 
   return (
     <div className="proCatApp_alubmMainDiv">
@@ -251,6 +298,9 @@ const Album = () => {
                       src={data?.imageKey}
                       className="proCatApp_AlbumImageMainPopup_img"
                       alt={openAlbumName}
+                      onError={(e) => {
+                        e.target.src = imageNotFound;
+                      }}
                     />
                     {islogin || data?.AlbumSecurityId === 0 ? (
                       ""
@@ -278,34 +328,35 @@ const Album = () => {
       <p className="proCatApp_albumTitle">ALBUMS</p>
       <div className="proCatApp_albumALL_div" style={{ minHeight: !albumData.length && '600px' }}>
         {albumData.map((data, index) => {
-          let imgSrc = imageNotFound; 
-          let isImageFound = false;
-      
-          if (data.AlbumImageName && data.AlbumImageFol) {
-              imgSrc = `${storeinit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
-              isImageFound = true; 
-          }
-      
-          if (!isImageFound && data.AlbumDetail) {
-              const albumDetails = JSON.parse(data.AlbumDetail);
-              albumDetails.forEach((detail) => {
-                  if (detail?.Designdetail) {
-                      const designDetails = JSON.parse(detail.Designdetail);
-                      designDetails.some((design) => {
-                          if (design.ImageCount > 0) {
-                              imgSrc = `${storeinit?.CDNDesignImageFol}${design.designno}~1.${design.ImageExtension}`;
-                              isImageFound = true;  // Break the loop after finding the first valid image
-                              return true;
-                          }
-                          return false;
-                      });
-                  }
-              });
-          }
-           
-           if (!isImageFound) {
-             imgSrc = imageNotFound;
-           }
+          const isLoading = loadedProducts[index]?.id !== index;
+          // let imgSrc = imageNotFound;
+          // let isImageFound = false;
+
+          // if (data.AlbumImageName && data.AlbumImageFol) {
+          //   imgSrc = `${storeinit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
+          //   isImageFound = true;
+          // }
+
+          // if (!isImageFound && data.AlbumDetail) {
+          //   const albumDetails = JSON.parse(data.AlbumDetail);
+          //   albumDetails.forEach((detail) => {
+          //     if (detail?.Designdetail) {
+          //       const designDetails = JSON.parse(detail.Designdetail);
+          //       designDetails.some((design) => {
+          //         if (design.ImageCount > 0) {
+          //           imgSrc = `${storeinit?.CDNDesignImageFol}${design.designno}~1.${design.ImageExtension}`;
+          //           isImageFound = true;  // Break the loop after finding the first valid image
+          //           return true;
+          //         }
+          //         return false;
+          //       });
+          //     }
+          //   });
+          // }
+
+          // if (!isImageFound) {
+          //   imgSrc = imageNotFound;
+          // }
 
           return (
             <div
@@ -314,14 +365,33 @@ const Album = () => {
               onClick={() => handleNavigate(data)}
             >
               <div style={{ position: "relative" }}>
-                <img
-                  src={imgSrc}
-                  className="smr_AlbumImageMain_img"
-                  alt={data?.AlbumName}
-                  onError={(e)=>{
-                    e.target.src = imageNotFound ;
-                  }}
-                />
+                {isLoading ? (
+                  <CardMedia
+                    style={{ width: "100%" }}
+                    className="cardMainSkeleton"
+                  >
+                    <Skeleton
+                      animation="wave"
+                      variant="rect"
+                      width={"100%"}
+                      height="280px"
+                      style={{ backgroundColor: "#e8e8e86e" }}
+                    />
+                  </CardMedia>
+                ) : (
+                  <LazyLoad height='280px' offset={100} once>
+                    <img
+                      src={loadedProducts[index]?.src}
+                      data-src={loadedProducts[index]?.src}
+                      className="smr_AlbumImageMain_img"
+                      alt={data?.AlbumName}
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.src = imageNotFound;
+                      }}
+                    />
+                  </LazyLoad>
+                )}
                 {islogin || data?.AlbumSecurityId === 0 ? (
                   ""
                 ) : (

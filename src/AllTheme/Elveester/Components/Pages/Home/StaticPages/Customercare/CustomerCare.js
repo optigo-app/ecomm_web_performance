@@ -42,7 +42,7 @@ const CustomerCare = () => {
                 <img className='elv_customer_image_1' src={servicesBanner?.image?.[0]} alt="customerServices.jpg" />
                 {/* <img className='elv_customer_image_1' src={`${storImagePath()}/images/HomePage/CustomerService/CustomerServiceMainBanner1Img.jpg`} alt="customerServices.jpg" /> */}
                 <div className='elv_customer_details_div'>
-                    <h3 className='elv_customer_head_title'>AFTER SALES SERVICE</h3>
+                    <h1 className='elv_customer_head_title'>AFTER SALES SERVICE</h1>
                     <div className='elv_customer_details'>
                         <p>Our commitment is to provide you with the highest level of jewelry care services. Our experts will be delighted to offer you advice and services to personalize your jewels, restore them, or simply preserve their beauty and longevity.</p>
 
@@ -52,7 +52,7 @@ const CustomerCare = () => {
                                     <div className='elv_customer_card' key={index}>
                                         <img className='elv_customer_card_img' src={i?.image} alt="" />
                                         <div className='elv_customer_card_title'>
-                                            <span>{i?.title}</span>
+                                            <h3>{i?.title}</h3>
                                         </div>
                                         <div className={index === 2 ? 'elv_customer_card_desc_1' : 'elv_customer_card_desc'}>
                                             <p>{i?.desc}</p>

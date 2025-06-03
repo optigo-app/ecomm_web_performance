@@ -58,10 +58,6 @@ const CartItem = ({
   // const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.${item?.ImageExtension}`;
   const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
 
-  useEffect(() => {
-    console.log("item", item)
-  }, [item])
-
   const isLoading = item?.loading;
 
   const handleOpen1 = () => setOpen1(true);

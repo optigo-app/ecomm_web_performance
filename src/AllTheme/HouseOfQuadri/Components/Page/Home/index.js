@@ -1,4 +1,4 @@
-import React, { useEffect,  lazy, Suspense } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import useHomeBannerImages from './../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
 import "./index.modul.scss";
 

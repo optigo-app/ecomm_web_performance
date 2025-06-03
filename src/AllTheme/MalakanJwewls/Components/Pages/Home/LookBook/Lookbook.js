@@ -192,7 +192,8 @@ const Lookbook = () => {
 
     setStoreInit(storeInit);
     setImageUrl(storeInit?.DesignSetImageFol);
-    setImageUrlDesignSet(storeInit?.CDNDesignImageFol);
+    // setImageUrlDesignSet(storeInit?.CDNDesignImageFol);
+    setImageUrlDesignSet(storeInit?.CDNDesignImageFolThumb);
 
     const { IsB2BWebsite } = storeInit || {};
     const visiterID = Cookies.get("visiterId");
@@ -663,7 +664,8 @@ const Lookbook = () => {
     if (filteredDesignSetLstData && Array.isArray(filteredDesignSetLstData)) {
       const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
         parseDesignDetails(slide?.Designdetail).map(async (detail) => {
-          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`;
+          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.jpg`;
+          // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`;
           // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
           const isAvailable = await checkImageAvailability(designImageUrl);
           return {
@@ -1642,7 +1644,8 @@ const Lookbook = () => {
                                         <img
                                           className="mala_lookBookSubImage"
                                           loading="lazy"
-                                          src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
+                                          // src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
+                                          src={`${imageUrlDesignSet}${detail?.designno}~1.jpg`}
                                           alt={`Sub image ${subIndex} for slide ${index}`}
                                           onError={(e) => {
                                             e.target.src = imageNotFound;
@@ -1720,7 +1723,8 @@ const Lookbook = () => {
                                             <img
                                               className="mala_lookBookSubImage"
                                               loading="lazy"
-                                              src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                              // src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                              src={`${imageUrlDesignSet}${detail?.designno}~1.jpg`}
                                               alt={`Sub image ${subIndex} for slide ${index}`}
                                               onError={(e) => {
                                                 e.target.src = imageNotFound;
@@ -1896,7 +1900,8 @@ const Lookbook = () => {
                                                 <img
                                                   src={
                                                     ele?.ImageCount > 0
-                                                      ? `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`
+                                                      // ? `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`
+                                                      ? `${storeInit?.CDNDesignImageFolThumb}${ele?.designno}~1.jpg`
                                                       : imageNotFound
                                                   }
                                                   alt=""

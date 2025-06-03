@@ -4,8 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
+import { Autoplay } from 'swiper/modules';
 
 var BrandsContent = [
     {
@@ -64,7 +63,7 @@ const PromoComponent2 = ({ banner }) => {
                     <SwiperSlide key={index}>
                         <div className='promo-daimondBoxMain'>
                             <div className='promo-daimondBox1'>
-                                <p className='promo_dia_title_1'>{item?.title}</p>
+                                <h1 className='promo_dia_title_1'>{item?.title}</h1>
                                 <p className='promo_dia_title_desc_1'>{item.description}</p>
                             </div>
                             <div className='promo-daimondBox2'>

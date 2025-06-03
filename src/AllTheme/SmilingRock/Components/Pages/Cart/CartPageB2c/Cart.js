@@ -22,6 +22,7 @@ function Cart(props) {
     countData,
     mrpbasedPriceFlag,
     openMobileModal,
+    finalCartData,
     handlecloseMobileModal,
     CartCardImageFunc,
     handleSelectItem,

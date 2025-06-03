@@ -13,8 +13,9 @@ import { useRecoilValue } from 'recoil';
 import { mala_loginState } from '../../../Recoil/atom';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import Pako from 'pako';
+import { Skeleton } from '@mui/material';
 
-const TrendingView1 = ({data}) => {
+const TrendingView1 = ({ data }) => {
 
     const trandingViewData = [
         '/images/HomePage/TrendingViewBanner/tranding1.png',
@@ -77,7 +78,8 @@ const TrendingView1 = ({data}) => {
             if (!trendingData?.length) return;
 
             const imagePromises = trendingData.map(async (trend) => {
-                const imgSrc = `${storeInit?.CDNDesignImageFol}${trend?.designno}~1.${trend?.ImageExtension}`
+                // const imgSrc = `${storeInit?.CDNDesignImageFol}${trend?.designno}~1.${trend?.ImageExtension}`
+                const imgSrc = `${storeInit?.CDNDesignImageFolThumb}${trend?.designno}~1.jpg`
                 // const validImage = await checkImageAvailability(imgSrc);
                 return { ...trend, src: imgSrc };
             });
@@ -155,16 +157,16 @@ const TrendingView1 = ({data}) => {
                 <div className="stam_trendingProduct-grid">
                     <div className='malakan_leftSideBestTR'>
                         {/* privaa */}
-                        {/* <img src={`${storImagePath()}/images/HomePage/bg1.jpg`} alt="trendingBanner" /> */}
-                        {/* <img src={`${storImagePath()}/images/HomePage/bg1.png`} alt="trendingBanner" /> */}
-                        <img src={data?.image?.[0]} alt="trendingBanner" />
+                        {/* <img src={`${storImagePath()}/images/HomePage/bg1.jpg`} loading="lazy" alt="trendingBanner" /> */}
+                        {/* <img src={`${storImagePath()}/images/HomePage/bg1.png`} loading="lazy" alt="trendingBanner" /> */}
+                        <img src={data?.image?.[0]} alt="trendingBanner" loading="lazy" />
                     </div>
                     {/* <div className='malakan_rightSideTR'> */}
 
                     {/* {trandingViewData.slice(0, 4).map((imagePath, index) => (
                         <div key={index} className="product-card">
                             <div className='stam_btimageDiv'>
-                                <img src={`${storImagePath()}${imagePath}`} alt={`trending-${index}`} />
+                                <img src={`${storImagePath()}${imagePath}`} loading="lazy" alt={`trending-${index}`} />
                             </div>
                         </div>
                     ))} */}
@@ -172,126 +174,148 @@ const TrendingView1 = ({data}) => {
                     {/* </div> */}
                 </div>
             </div>
-            <div className="malakan_trendSet_Main">
-                {/* <p className="malakan_trend_title">Trending</p> */}
-
-                <div className="malakan_trend_main_sub"
-                    style={{
-                        width: GenerateWidthBaseOnContent().width
+            {isLoading ?
+                <Skeleton
+                    variant="rectangular"
+                    width="100%"
+                    height="540px"
+                    animation="wave"
+                    sx={{
+                        '@media (max-width: 1650px)': {
+                            height: "475px !important",
+                        },
+                        '@media (max-width: 1200px)': {
+                            height: "380px !important",
+                        },
+                        '@media (max-width: 1000px)': {
+                            height: "330px !important",
+                        },
+                        '@media (max-width: 600px)': {
+                            height: "340px !important",
+                        }
                     }}
-                >
-                    <Swiper
-                        modules={[Navigation]}
-                        spaceBetween={20}
-                        navigation={trendingData?.length > 4}
-                        // loop={true}
+                />
+                :
+                <div className="malakan_trendSet_Main">
+                    {/* <p className="malakan_trend_title">Trending</p> */}
+                    <div className="malakan_trend_main_sub"
                         style={{
-                            width: '100%'
+                            width: GenerateWidthBaseOnContent().width
                         }}
-                        breakpoints={{
-                            768: {
-                                slidesPerView: 4,
-                                spaceBetween: 20
-                            },
-                            500: {
-                                slidesPerView: 3,
-                                spaceBetween: 10
-                            },
-                            400: {
-                                slidesPerView: 2,
-                                spaceBetween: 10
-                            },
-                            0: {
-                                slidesPerView: 1,
-                                spaceBetween: 10
-                            },
-                        }}
-                        className='malakan_trend_main_swiper'
                     >
+                        <Swiper
+                            modules={[Navigation]}
+                            spaceBetween={20}
+                            navigation={trendingData?.length > 4}
+                            // loop={true}
+                            style={{
+                                width: '100%'
+                            }}
+                            breakpoints={{
+                                768: {
+                                    slidesPerView: 4,
+                                    spaceBetween: 20
+                                },
+                                500: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 10
+                                },
+                                400: {
+                                    slidesPerView: 2,
+                                    spaceBetween: 10
+                                },
+                                0: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 10
+                                },
+                            }}
+                            className='malakan_trend_main_swiper'
+                        >
 
-                        {validImages?.map((item, index) => {
-                            return (
-                                <SwiperSlide key={index} className='mala_trend_slider'>
-                                    <div className="malakan_trend__image_div" >
-                                        <img
-                                            className="malakan_trendImg"
-                                            loading="lazy"
-                                            src={item?.src}
-                                            alt={`Trending-${index}`}
-                                            onError={(e) => {
-                                                e.target.src = imageNotFound
-                                            }}
-                                            onClick={() => handleNavigate(item?.designno, item?.autocode, item?.TitleLine)}
-                                        />
-                                        <p className="malakan_trend_Div_name">{item?.name}</p>
-                                        <div className="product-info">
-                                            <h3>{item?.designno !== "" && item?.designno} {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}</h3>
-                                            {storeInit?.IsGrossWeight == 1 &&
-                                                <>
-                                                    <span className='malakan_btdetailDT'>GWT: </span>
-                                                    <span className='malakan_btdetailDT'>{(item?.Gwt || 0)?.toFixed(3)}</span>
-                                                </>
-                                            }
-                                            {Number(item?.Nwt) !== 0 && (
-                                                <>
-                                                    <span className='malakan_btpipe'>|</span>
-                                                    <span className='malakan_btdetailDT'>NWT : </span>
-                                                    <span className='malakan_btdetailDT'>{(item?.Nwt || 0)?.toFixed(3)}</span>
-                                                </>
-                                            )}
-                                            {storeInit?.IsDiamondWeight == 1 &&
-                                                <>
-                                                    {(item?.Dwt != "0" || item?.Dpcs != "0") &&
-                                                        <>
-                                                            <span className='malakan_btpipe'>|</span>
-                                                            <span className='malakan_btdetailDT'>DWT: </span>
-                                                            <span className='malakan_btdetailDT'>{(item?.Dwt || 0)?.toFixed(3)}/{(item?.Dpcs || 0)}</span>
-                                                        </>
-                                                    }
-                                                </>
-                                            }
-                                            {storeInit?.IsStoneWeight == 1 &&
-                                                <>
-                                                    {(item?.CSwt != "0" || item?.CSpcs != "0") &&
-                                                        <>
-                                                            <span className='malakan_btpipe'>|</span>
-                                                            <span className='malakan_btdetailDT'>CWT: </span>
-                                                            <span className='malakan_btdetailDT'>{(item?.CSwt || 0)?.toFixed(3)}/{(item?.CSpcs || 0)}</span>
-                                                        </>
-                                                    }
-                                                </>
-                                            }
-                                     {storeInit?.IsPriceShow == 1 &&       <p>
-                                                <span className="malakan_currencyFont">
-                                                    {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
-                                                </span>&nbsp;
-                                                <span>{formatter(item?.UnitCostWithMarkUp)}</span></p>}
+                            {validImages?.map((item, index) => {
+                                return (
+                                    <SwiperSlide key={index} className='mala_trend_slider'>
+                                        <div className="malakan_trend__image_div" >
+                                            <img
+                                                className="malakan_trendImg"
+                                                loading="lazy"
+                                                src={item?.src}
+                                                alt={`Trending-${index}`}
+                                                onError={(e) => {
+                                                    e.target.src = imageNotFound
+                                                }}
+                                                onClick={() => handleNavigate(item?.designno, item?.autocode, item?.TitleLine)}
+                                            />
+                                            <p className="malakan_trend_Div_name">{item?.name}</p>
+                                            <div className="product-info">
+                                                <h3>{item?.designno !== "" && item?.designno} {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}</h3>
+                                                {storeInit?.IsGrossWeight == 1 &&
+                                                    <>
+                                                        <span className='malakan_btdetailDT'>GWT: </span>
+                                                        <span className='malakan_btdetailDT'>{(item?.Gwt || 0)?.toFixed(3)}</span>
+                                                    </>
+                                                }
+                                                {Number(item?.Nwt) !== 0 && (
+                                                    <>
+                                                        <span className='malakan_btpipe'>|</span>
+                                                        <span className='malakan_btdetailDT'>NWT : </span>
+                                                        <span className='malakan_btdetailDT'>{(item?.Nwt || 0)?.toFixed(3)}</span>
+                                                    </>
+                                                )}
+                                                {storeInit?.IsDiamondWeight == 1 &&
+                                                    <>
+                                                        {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                                                            <>
+                                                                <span className='malakan_btpipe'>|</span>
+                                                                <span className='malakan_btdetailDT'>DWT: </span>
+                                                                <span className='malakan_btdetailDT'>{(item?.Dwt || 0)?.toFixed(3)}/{(item?.Dpcs || 0)}</span>
+                                                            </>
+                                                        }
+                                                    </>
+                                                }
+                                                {storeInit?.IsStoneWeight == 1 &&
+                                                    <>
+                                                        {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                                                            <>
+                                                                <span className='malakan_btpipe'>|</span>
+                                                                <span className='malakan_btdetailDT'>CWT: </span>
+                                                                <span className='malakan_btdetailDT'>{(item?.CSwt || 0)?.toFixed(3)}/{(item?.CSpcs || 0)}</span>
+                                                            </>
+                                                        }
+                                                    </>
+                                                }
+                                                {storeInit?.IsPriceShow == 1 && <p>
+                                                    <span className="malakan_currencyFont">
+                                                        {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(item?.UnitCostWithMarkUp)}</span></p>}
+                                            </div>
                                         </div>
-                                    </div>
-                                </SwiperSlide>
-                            )
-                        })}
-                        {validImages?.length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
-                            width: "25%",
-                            height: "auto",
-                            borderRadius: "4px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center"
-                        }}>
-                            <div className="data_album">
-                                <button style={{
-                                    border: "none",
-                                    backgroundColor: "transparent",
-                                    fontWeight: "500",
-                                    textDecoration: "underline",
-                                    color: "grey"
-                                }} className='btn_more_A' onClick={() => HandleTrendingMore()}>View More</button>
-                            </div>
-                        </SwiperSlide>}
-                    </Swiper>
-                </div>
-            </div >
+                                    </SwiperSlide>
+                                )
+                            })}
+                            {validImages?.length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
+                                width: "25%",
+                                height: "auto",
+                                borderRadius: "4px",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center"
+                            }}>
+                                <div className="data_album">
+                                    <button style={{
+                                        border: "none",
+                                        backgroundColor: "transparent",
+                                        fontWeight: "500",
+                                        textDecoration: "underline",
+                                        color: "grey"
+                                    }} className='btn_more_A' onClick={() => HandleTrendingMore()}>View More</button>
+                                </div>
+                            </SwiperSlide>}
+                        </Swiper>
+                    </div>
+                </div >
+            }
         </>
     );
 };

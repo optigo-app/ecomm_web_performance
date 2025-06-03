@@ -41,11 +41,27 @@ const CartItem = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState();
+  const [isLoading, setisLoading] = useState(true);
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
+
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  // const isLoading = item?.loading;
+
+  useEffect(() => {
+    const delay = (index + 1) * 100;
+
+    const timer = setTimeout(() => {
+      setisLoading(false);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [index]);
 
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
@@ -118,15 +134,15 @@ const CartItem = ({
     return text.substring(0, maxLength) + '...';
   }
 
-  useEffect(() => {
-    if (item?.ImageCount > 0) {
-      CartCardImageFunc(item).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [item]);
+  // useEffect(() => {
+  //   if (item?.ImageCount > 0) {
+  //     CartCardImageFunc(item).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [item]);
 
   return (
     <Grid
@@ -153,7 +169,7 @@ const CartItem = ({
       >
         <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           {/* {imageSrc !== undefined && */}
-          {imageSrc === undefined ? (
+          {isLoading === true ? (
             <CardMedia
               sx={{
                 width: "13rem",
@@ -173,10 +189,25 @@ const CartItem = ({
           ) : (
             <CardMedia
               component="img"
-              image={imageSrc}
-              alt={item?.TitleLine}
+              image={item?.images}
+              alt=" "
+              loading='lazy'
+              sx={{
+                border: 'none',
+                outline: 'none',
+                boxShadow: 'none',
+                '&:focus': { outline: 'none' },
+                '&:active': { outline: 'none' },
+              }}
               className='smr_cartListImage'
               onClick={() => onSelect(item)}
+              onError={(e) => {
+                if (item?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound
+                } else {
+                  e.target.src = noImageFound;
+                }
+              }}
             />
           )}
           <div className='smr_rightContentDataDiv'>

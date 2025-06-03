@@ -200,7 +200,7 @@ const Appointment = () => {
                 </div>
                 <div className="grid_layout_card">
                     <div className="service_bar_1">
-                        <span>Select your subject</span>
+                        <h2>Select your subject</h2>
                     </div>
                     <div className="layout_elvee_grid">
                         {appointment.map((val, i) => {
@@ -227,7 +227,7 @@ const Appointment = () => {
                                     <div className="image_card_elevee">
                                         <img src={val.src} alt={val.alt} />
                                     </div>
-                                    <div className="det_elvee_card">{val.alt}</div>
+                                    <h3 className="det_elvee_card">{val.alt}</h3>
                                 </div>
                             )
                         })}

@@ -20,7 +20,7 @@ import { useState } from "react";
 const FaqSecData = () => {
     return (
         <div className="elv_main_FaqSection">
-            <h2 className="elv_faq_title">FAQ</h2>
+            <h1 className="elv_faq_title">FAQ</h1>
             <FAQComponent
                 data={websiteFaqs}
                 title={

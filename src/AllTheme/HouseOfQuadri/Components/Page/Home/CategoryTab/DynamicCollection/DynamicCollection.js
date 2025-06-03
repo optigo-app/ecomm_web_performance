@@ -35,6 +35,7 @@ import {
   AccordionSummary,
   Badge,
   Box,
+  Button,
   Checkbox,
   Drawer,
   FormControlLabel,
@@ -42,6 +43,7 @@ import {
   PaginationItem,
   Skeleton,
   Slider,
+  Stack,
   useMediaQuery,
 } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -49,6 +51,7 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { FilterListAPI } from "../../../../../../../utils/API/FilterAPI/FilterListAPI";
 import { MdOutlineExpandMore } from "react-icons/md";
 import { MdFilterListAlt } from "react-icons/md";
+import { toast } from 'react-toastify';
 import FiberNewIcon from "@mui/icons-material/FiberNew";
 import GradeIcon from "@mui/icons-material/Grade";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
@@ -68,6 +71,7 @@ import imagnotfound from './../../../../Assets/noImageFound.jpg';
 import { ProductListConfig, ProductListConfig2, ReactStoriesConfig } from "../../../../Config/ReactStoriesConfig";
 import StoryLine from "../../../../../../../utils/Glob_Functions/StoryLine/StoryLine";
 import EditablePagination from "../../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
+import RangeFilter from "../../../../../../../utils/Glob_Functions/RangeFilter/RangeFilter";
 
 
 const DynamicCollection = () => {
@@ -117,11 +121,21 @@ const DynamicCollection = () => {
   const [afterCountStatus, setAfterCountStatus] = useState(false);
   const [inputPage, setInputPage] = useState(currentPage);
 
-
   const [selectedDiaId, setSelectedDiaId] = useState(
     loginUserDetail?.cmboDiaQCid
   );
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
+  const [inputGross, setInputGross] = useState([]);
+  const [inputNet, setInputNet] = useState([]);
+  const [inputDia, setInputDia] = useState([]);
+  const [isReset, setIsReset] = useState(false)
+  const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
+  const [appliedRange1, setAppliedRange1] = useState(null);
+  const [appliedRange2, setAppliedRange2] = useState(null);
+  const [appliedRange3, setAppliedRange3] = useState(null);
+  const [isClearAllClicked, setIsClearAllClicked] = useState(false);
 
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -144,7 +158,7 @@ const DynamicCollection = () => {
   useEffect(() => {
     setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
     setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
-    setSelectedCsId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+    // setSelectedCsId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
     setSortBySelect('Recommended')
   }, [location?.key])
 
@@ -160,7 +174,6 @@ const DynamicCollection = () => {
     let onlyTrueFilterValue = Object.values(filterChecked).filter(
       (ele) => ele.checked
     );
-    console.log("🚀 ~ FilterValueWithCheckedOnly ~ onlyTrueFilterValue:", onlyTrueFilterValue)
 
     if (onlyTrueFilterValue?.length > 0) {
       setCurrentPage(1);
@@ -697,199 +710,6 @@ const DynamicCollection = () => {
 
   // new range filter for diammond net wt  gross wet
 
-  const RangeFilterView = (ele) => {
-    return (
-      <>
-        <div>
-          <div>
-            <Slider
-              // value={sliderValue}
-              // onChange={(event, newValue) => setSliderValue(newValue)}
-              // onChangeCommitted={handleSliderChange}
-              // valueLabelDisplay="auto"
-              // aria-labelledby="range-slider"
-              // min={JSON?.parse(ele?.options)[0]?.Min}
-              // max={JSON?.parse(ele?.options)[0]?.Max}
-              // step={0.001}
-              // sx={{ marginTop: "25px" }}
-
-              value={sliderValue}
-              onChange={(event, newValue) => setSliderValue(newValue)}
-              onChangeCommitted={handleSliderChange}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{
-                marginTop: "25px",
-                transition: "all 0.2s ease-out", // Smooth transition on value change
-              }}
-              disableSwap
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={sliderValue[0]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-            />
-            <Input
-              value={sliderValue[1]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
-  const RangeFilterView1 = (ele) => {
-    // console.log("netwt",ele)
-    return (
-      <>
-        <div>
-          <div>
-            <Slider
-              // value={sliderValue1}
-              // onChange={() => (event, newValue) => setSliderValue1(newValue)}
-              // onChangeCommitted={handleSliderChange1}
-              // valueLabelDisplay="auto"
-              // aria-labelledby="range-slider"
-              // min={JSON?.parse(ele?.options)[0]?.Min}
-              // max={JSON?.parse(ele?.options)[0]?.Max}
-              // step={0.001}
-              // sx={{ marginTop: "25px" }}
-              value={sliderValue1}
-              onChange={(event, newValue) => setSliderValue1(newValue)}
-              onChangeCommitted={handleSliderChange1}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{
-                marginTop: "25px",
-                transition: "all 0.2s ease-out", // Smooth transition on value change
-              }}
-              disableSwap
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={sliderValue1[0]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange1(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-
-            />
-            <Input
-              value={sliderValue1[1]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange1(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
-  const RangeFilterView2 = (ele) => {
-    return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={sliderValue2}
-              onChange={(event, newValue) => setSliderValue2(newValue)}
-              onChangeCommitted={handleSliderChange2}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{ marginTop: "25px" }}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={sliderValue2[0]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange2(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-
-            />
-            <Input
-              value={sliderValue2[1]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange2(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
-
-
   // Product Fetching Api
   useEffect(() => {
     setIsProdLoading(true);
@@ -1111,7 +931,7 @@ const DynamicCollection = () => {
     const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
     const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
-    if (location?.key === locationKey) {
+    if (location?.key === locationKey && (Object.keys(filterChecked)?.length > 0 || isClearAllClicked === true)) {
 
       setIsProdLoading(true);
       setIsOnlyProdLoading(true);
@@ -1133,17 +953,20 @@ const DynamicCollection = () => {
         .finally(() => {
           setIsProdLoading(false);
           setIsOnlyProdLoading(false);
+          setIsClearAllClicked(false);
         });
     }
   }, [filterChecked]);
 
   // Image Hover
   const ImageUrl = (designNo, ext) => {
-    return storeInit?.CDNDesignImageFol + designNo + "~" + 1 + "." + ext;
+    // return storeInit?.CDNDesignImageFol + designNo + "~" + 1 + "." + ext;
+    return storeInit?.CDNDesignImageFolThumb + designNo + "~" + 1 + "." + ext;
   };
   const RollUpImageUrl2 = (designNo, ext, imagCount) => {
     if (imagCount > 1) {
-      return storeInit?.CDNDesignImageFol + designNo + "~" + 2 + "." + ext;
+      // return storeInit?.CDNDesignImageFol + designNo + "~" + 2 + "." + ext;
+      return storeInit?.CDNDesignImageFolThumb + designNo + "~" + 2 + "." + ext;
     }
     return;
   };
@@ -1692,9 +1515,9 @@ const DynamicCollection = () => {
         : [];
     const isFilterChecked = Object.values(filterChecked).some((ele) => ele.checked);
     const isSliderChanged =
-      JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]) ||
-      JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]) ||
-      JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+      JSON.stringify(sliderValue) !== JSON.stringify((diafilter?.Min != null || diafilter?.Max != null) ? [diafilter?.Min, diafilter?.Max] : []) ||
+      JSON.stringify(sliderValue1) !== JSON.stringify((diafilter1?.Min != null || diafilter1?.Max != null) ? [diafilter1?.Min, diafilter1?.Max] : []) ||
+      JSON.stringify(sliderValue2) !== JSON.stringify((diafilter2?.Min != null || diafilter2?.Max != null) ? [diafilter2?.Min, diafilter2?.Max] : []);
 
     // if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
     if (isFilterChecked || isSliderChanged) {
@@ -1722,9 +1545,20 @@ const DynamicCollection = () => {
       setSliderValue([diafilter?.Min, diafilter?.Max]);
       setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
       setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
+      setInputDia([diafilter?.Min, diafilter?.Max]);
+      setInputNet([diafilter1?.Min, diafilter1?.Max]);
+      setInputGross([diafilter2?.Min, diafilter2?.Max]);
+      setAppliedRange1(["", ""])
+      setAppliedRange2(["", ""])
+      setAppliedRange3(["", ""])
+      setShow(false);
+      setShow1(false);
+      setShow2(false);
       setFilterChecked({});
+      if (Object.keys(filterChecked).length > 0 || isSliderChanged) {
+        setIsClearAllClicked(true);
+      }
     }
-    setAccExpanded(false);
   };
 
   useEffect(() => {
@@ -1971,6 +1805,7 @@ const DynamicCollection = () => {
   );
 
   const showClearAllButton = () => {
+
     let diafilter =
       filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
         ?.length > 0
@@ -1994,12 +1829,13 @@ const DynamicCollection = () => {
         : [];
     const isFilterChecked = Object.values(filterChecked).some((ele) => ele.checked);
     const isSliderChanged =
-      JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]) ||
-      JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]) ||
-      JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+      JSON.stringify(sliderValue) !== JSON.stringify((diafilter?.Min != null || diafilter?.Max != null) ? [diafilter?.Min, diafilter?.Max] : []) ||
+      JSON.stringify(sliderValue1) !== JSON.stringify((diafilter1?.Min != null || diafilter1?.Max != null) ? [diafilter1?.Min, diafilter1?.Max] : []) ||
+      JSON.stringify(sliderValue2) !== JSON.stringify((diafilter2?.Min != null || diafilter2?.Max != null) ? [diafilter2?.Min, diafilter2?.Max] : []);
 
     return isFilterChecked || isSliderChanged;
   };
+
   function checkImageAvailability(imageUrl) {
     return new Promise((resolve) => {
       const img = new Image();
@@ -2761,7 +2597,21 @@ const DynamicCollection = () => {
                             >
                               {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                               <Box sx={{ width: 203, height: 88 }}>
-                                {RangeFilterView(ele)}
+                                {/* {RangeFilterView(ele)} */}
+                                {/* <RangeFilterView ele={ele} sliderValue={sliderValue} setSliderValue={setSliderValue} handleRangeFilterApi={handleRangeFilterApi} prodListType={prodListType} cookie={cookie} show={show} setShow={setShow} appliedRange1={appliedRange1} setAppliedRange1={setAppliedRange1} /> */}
+                                <RangeFilter
+                                  ele={ele}
+                                  sliderValue={sliderValue}
+                                  setSliderValue={setSliderValue}
+                                  handleRangeFilterApi={handleRangeFilterApi}
+                                  prodListType={prodListType}
+                                  cookie={cookie}
+                                  show={show}
+                                  setShow={setShow}
+                                  filterName="Diamond"
+                                  setAppliedRange={setAppliedRange1}
+                                  appliedRange={appliedRange1}
+                                />
                               </Box>
                             </AccordionDetails>
                           </Accordion>
@@ -2825,7 +2675,21 @@ const DynamicCollection = () => {
                             >
                               {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                               <Box sx={{ width: 204, height: 88 }}>
-                                {RangeFilterView1(ele)}
+                                {/* {RangeFilterView1(ele)} */}
+                                {/* <RangeFilterView1 ele={ele} sliderValue1={sliderValue1} setSliderValue1={setSliderValue1} handleRangeFilterApi1={handleRangeFilterApi1} prodListType={prodListType} cookie={cookie} show1={show1} setShow1={setShow1} appliedRange2={appliedRange2} setAppliedRange2={setAppliedRange2} /> */}
+                                <RangeFilter
+                                  ele={ele}
+                                  sliderValue={sliderValue1}
+                                  setSliderValue={setSliderValue1}
+                                  handleRangeFilterApi={handleRangeFilterApi1}
+                                  prodListType={prodListType}
+                                  cookie={cookie}
+                                  show={show1}
+                                  setShow={setShow1}
+                                  filterName="NetWt"
+                                  setAppliedRange={setAppliedRange2}
+                                  appliedRange={appliedRange2}
+                                />
                               </Box>
                             </AccordionDetails>
                           </Accordion>
@@ -2888,7 +2752,21 @@ const DynamicCollection = () => {
                               }}
                             >
                               <Box sx={{ width: 204, height: 88 }}>
-                                {RangeFilterView2(ele)}
+                                {/* {RangeFilterView2(ele)} */}
+                                {/* <RangeFilterView2 ele={ele} sliderValue2={sliderValue2} setSliderValue2={setSliderValue2} handleRangeFilterApi2={handleRangeFilterApi2} prodListType={prodListType} cookie={cookie} show2={show2} setShow2={setShow2} appliedRange3={appliedRange3} setAppliedRange3={setAppliedRange3} /> */}
+                                <RangeFilter
+                                  ele={ele}
+                                  sliderValue={sliderValue2}
+                                  setSliderValue={setSliderValue2}
+                                  handleRangeFilterApi={handleRangeFilterApi2}
+                                  prodListType={prodListType}
+                                  cookie={cookie}
+                                  show={show2}
+                                  setShow={setShow2}
+                                  filterName="Gross"
+                                  setAppliedRange={setAppliedRange3}
+                                  appliedRange={appliedRange3}
+                                />
                               </Box>
                             </AccordionDetails>
                           </Accordion>
@@ -2963,11 +2841,17 @@ const DynamicCollection = () => {
                   <C_Card
                     key={i}
                     index={i}
-                    img={ImageUrl(val?.designno, val?.ImageExtension)}
+                    // img={ImageUrl(val?.designno, val?.ImageExtension)}
+                    img={ImageUrl(val?.designno, "jpg")}
                     videoUrl={VideoUrl(1, val?.designno, val?.VideoExtension)}
+                    // rollUpImage={RollUpImageUrl2(
+                    //   val?.designno,
+                    //   val?.ImageExtension,
+                    //   val?.ImageCount
+                    // )}
                     rollUpImage={RollUpImageUrl2(
                       val?.designno,
-                      val?.ImageExtension,
+                      "jpg",
                       val?.ImageCount
                     )}
                     // CurrenyCode={
@@ -2982,6 +2866,7 @@ const DynamicCollection = () => {
                     selectedMetalId={selectedMetalId}
                     handleCartandWish={handleCartandWish}
                     cartArr={cartArr}
+                    productIndex={i}
                     wishArr={wishArr}
                     CurrencyCode={loginUserDetail?.CurrencyCode}
                     CurrencyCode2={storeInit?.CurrencyCode}
@@ -3149,6 +3034,7 @@ const C_Card = ({
   handleMoveToDetail,
   handleCartandWish,
   cartArr,
+  productIndex,
   wishArr,
   CurrencyCode,
   CurrencyCode2,
@@ -3157,6 +3043,7 @@ const C_Card = ({
 
   const [isHover, setisHover] = useState(false);
   const [isPlusClicked, SetisPlusClicked] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [resetKey, setResetKey] = useState(0); // A key to reset the story component
   const selectedProduct = StoryLineProductList && StoryLineProductList?.find(product => product?.designo == designo);
 
@@ -3164,89 +3051,119 @@ const C_Card = ({
     setResetKey(prevKey => prevKey + 1);
   };
 
+  // Add staggered loading effect
+  useEffect(() => {
+    const delay = (productIndex + 1) * 150;
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [productIndex]);
+
   return (
     <div className="C_Card" onMouseLeave={() => SetisPlusClicked(false)}>
-      <div className="hoq_product_label">
-        {productData?.IsInReadyStock == 1 && (
-          <span className="hoq_instock">In Stock</span>
-        )}
-        {productData?.IsBestSeller == 1 && (
-          <span className="hoq_bestSeller">Best Seller</span>
-        )}
-        {productData?.IsTrending == 1 && (
-          <span className="hoq_intrending">Trending</span>
-        )}
-        {productData?.IsNewArrival == 1 && (
-          <span className="hoq_newarrival">New</span>
-        )}
-      </div>
-      <div className="hoq_plus">
-        <Checkbox
-          icon={
-            <LocalMallOutlinedIcon
-              sx={{
-                fontSize: "26px",
-                color: "#7d7f85",
-                opacity: ".7",
-              }}
-            />
-          }
-          checkedIcon={
-            <LocalMallIcon
-              sx={{
-                fontSize: "26px",
-                color: "#009500",
-              }}
-            />
-          }
-          disableRipple={false}
-          sx={{ padding: "10px" }}
-          onChange={(e) => handleCartandWish(e, productData, "Cart")}
-          checked={
-            cartArr[productData?.autocode] ?? productData?.IsInCart === 1
-              ? true
-              : false
-          }
+      {isLoading ? (
+        <Skeleton
+          sx={{
+            width: '100%',
+            height: {
+              xs: '200px !important',
+              sm: '300px !important',
+              md: '500px !important',
+            },
+            display: 'block',
+          }}
+          key={productIndex}
+          variant="rectangular"
+          width={"100%"}
+          height={"100%"}
+          className="hoq_CartSkelton_1"
         />
-        <Checkbox
-          icon={
-            <FavoriteBorderIcon
-              sx={{
-                fontSize: "26px",
-                color: "#7d7f85",
-                opacity: ".7",
-              }}
+      ) : (
+        <>
+          <div className="hoq_product_label">
+            {productData?.IsInReadyStock == 1 && (
+              <span className="hoq_instock">In Stock</span>
+            )}
+            {productData?.IsBestSeller == 1 && (
+              <span className="hoq_bestSeller">Best Seller</span>
+            )}
+            {productData?.IsTrending == 1 && (
+              <span className="hoq_intrending">Trending</span>
+            )}
+            {productData?.IsNewArrival == 1 && (
+              <span className="hoq_newarrival">New</span>
+            )}
+          </div>
+          <div className="hoq_plus">
+            <Checkbox
+              icon={
+                <LocalMallOutlinedIcon
+                  sx={{
+                    fontSize: "26px",
+                    color: "#7d7f85",
+                    opacity: ".7",
+                  }}
+                />
+              }
+              checkedIcon={
+                <LocalMallIcon
+                  sx={{
+                    fontSize: "26px",
+                    color: "#009500",
+                  }}
+                />
+              }
+              disableRipple={false}
+              sx={{ padding: "10px" }}
+              onChange={(e) => handleCartandWish(e, productData, "Cart")}
+              checked={
+                cartArr[productData?.autocode] ?? productData?.IsInCart === 1
+                  ? true
+                  : false
+              }
             />
-          }
-          checkedIcon={
-            <FavoriteIcon
-              sx={{
-                fontSize: "26px",
-                color: "#e31b23",
-              }}
+            <Checkbox
+              icon={
+                <FavoriteBorderIcon
+                  sx={{
+                    fontSize: "26px",
+                    color: "#7d7f85",
+                    opacity: ".7",
+                  }}
+                />
+              }
+              checkedIcon={
+                <FavoriteIcon
+                  sx={{
+                    fontSize: "26px",
+                    color: "#e31b23",
+                  }}
+                />
+              }
+              disableRipple={false}
+              sx={{ padding: "10px" }}
+              onChange={(e) => handleCartandWish(e, productData, "Wish")}
+              // checked={productData?.IsInWish}
+              checked={
+                wishArr[productData?.autocode] ?? productData?.IsInWish === 1
+                  ? true
+                  : false
+              }
             />
-          }
-          disableRipple={false}
-          sx={{ padding: "10px" }}
-          onChange={(e) => handleCartandWish(e, productData, "Wish")}
-          // checked={productData?.IsInWish}
-          checked={
-            wishArr[productData?.autocode] ?? productData?.IsInWish === 1
-              ? true
-              : false
-          }
-        />
-      </div>
-      <div
-        onClick={() => handleMoveToDetail(productData)}
-        className="image"
-        style={{ border: "none" }}
-        onMouseOver={() => setisHover(true)}
-        onMouseOut={() => setisHover(false)}
-        onMouseEnter={handleMouseEnter}
-      >
-        {selectedProduct && <StoryLine storeInit={storeInit} resetKey={resetKey} selectedProduct={selectedProduct} />}
-        {/* {isHover && (videoUrl || rollUpImage) ? (
+          </div>
+          <div
+            onClick={() => handleMoveToDetail(productData)}
+            className="image"
+            style={{ border: "none" }}
+            onMouseOver={() => setisHover(true)}
+            onMouseOut={() => setisHover(false)}
+            onMouseEnter={handleMouseEnter}
+          >
+            {selectedProduct && <StoryLine storeInit={storeInit} resetKey={resetKey} selectedProduct={selectedProduct} />}
+            {/* {isHover && (videoUrl || rollUpImage) ? (
             <>
               {videoUrl ? (
                 <div className="rollup_video">
@@ -3280,112 +3197,115 @@ const C_Card = ({
               }}
             />
           )} */}
-        <img
-          src={img}
-          alt=""
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = imagnotfound;
-          }}
-        />
-      </div>
+            <img
+              src={img}
+              alt=""
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = imagnotfound;
+              }}
+              loading="lazy"
+            />
+          </div>
 
-      <div className="det">
-        <h2 className="">
-          {/* {!title?.length > 0 ? designo : designo + "-" + title} */}
-          {designo !== "" && designo}
-          {formatTitleLine(title) && " - " + title}
-        </h2>
-        <small className="jewel_parameter">
-          {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
-            <>
-              <span className="smr_prod_wt">
-                <span className="smr_keys">GWT:</span>
-                <span className="smr_val">{productData?.Gwt?.toFixed(3)}</span>
-              </span>
-            </>
-          )}
-          {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
-            <>
-              {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && <span>|</span>}
-              <span className="smr_prod_wt">
-                <span className="smr_keys">NWT:</span>
-                <span className="smr_val">{productData?.Nwt?.toFixed(3)} </span>
-              </span>
-            </>
-          )}
-
-          {/* </span> */}
-          {/* <span className="smr_por"> */}
-          {storeInit?.IsDiamondWeight == 1 &&
-            Number(productData?.Dwt) !== 0 && (
-              <>
-                {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && <span>|</span>}
-                <span className="smr_prod_wt">
-                  <span className="smr_keys">DWT:</span>
-                  <span className="smr_val">
-                    {productData?.Dwt?.toFixed(3)}
-                    {storeInit?.IsDiamondPcs === 1
-                      ? `/${productData?.Dpcs?.toFixed(0)}`
-                      : null}
+          <div className="det">
+            <h2 className="">
+              {/* {!title?.length > 0 ? designo : designo + "-" + title} */}
+              {designo !== "" && designo}
+              {formatTitleLine(title) && " - " + title}
+            </h2>
+            <small className="jewel_parameter">
+              {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
+                <>
+                  <span className="smr_prod_wt">
+                    <span className="smr_keys">GWT:</span>
+                    <span className="smr_val">{productData?.Gwt?.toFixed(3)}</span>
                   </span>
-                </span>
-              </>
-            )}
-          {storeInit?.IsStoneWeight == 1 && Number(productData?.CSwt) !== 0 && (
-            <>
+                </>
+              )}
+              {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
+                <>
+                  {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && <span>|</span>}
+                  <span className="smr_prod_wt">
+                    <span className="smr_keys">NWT:</span>
+                    <span className="smr_val">{productData?.Nwt?.toFixed(3)} </span>
+                  </span>
+                </>
+              )}
+
+              {/* </span> */}
+              {/* <span className="smr_por"> */}
               {storeInit?.IsDiamondWeight == 1 &&
-                Number(productData?.Dwt) !== 0 && <span>|</span>}
-              <span className="smr_prod_wt">
-                <span className="smr_keys">CWT:</span>
-                <span className="smr_val">
-                  {productData?.CSwt?.toFixed(3)}
-                  {storeInit?.IsStonePcs === 1
-                    ? `/${productData?.CSpcs?.toFixed(0)}`
-                    : null}
-                </span>
-              </span>
-            </>
-          )}
-          {/* </span> */}
-        </small>
-        <div className="hoq_prod_mtcolr_price">
-          {
-            <span className="hoq_prod_metal_col">
-              {findMetalColor(
-                productData?.MetalColorid
-              )?.[0]?.metalcolorname?.toUpperCase()}
-              {findMetalColor(
-                productData?.MetalColorid
-              )?.[0]?.metalcolorname && "-"}
+                Number(productData?.Dwt) !== 0 && (
+                  <>
+                    {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && <span>|</span>}
+                    <span className="smr_prod_wt">
+                      <span className="smr_keys">DWT:</span>
+                      <span className="smr_val">
+                        {productData?.Dwt?.toFixed(3)}
+                        {storeInit?.IsDiamondPcs === 1
+                          ? `/${productData?.Dpcs?.toFixed(0)}`
+                          : null}
+                      </span>
+                    </span>
+                  </>
+                )}
+              {storeInit?.IsStoneWeight == 1 && Number(productData?.CSwt) !== 0 && (
+                <>
+                  {storeInit?.IsDiamondWeight == 1 &&
+                    Number(productData?.Dwt) !== 0 && <span>|</span>}
+                  <span className="smr_prod_wt">
+                    <span className="smr_keys">CWT:</span>
+                    <span className="smr_val">
+                      {productData?.CSwt?.toFixed(3)}
+                      {storeInit?.IsStonePcs === 1
+                        ? `/${productData?.CSpcs?.toFixed(0)}`
+                        : null}
+                    </span>
+                  </span>
+                </>
+              )}
+              {/* </span> */}
+            </small>
+            <div className="hoq_prod_mtcolr_price">
               {
-                findMetalType(
-                  productData?.IsMrpBase == 1
-                    ? productData?.MetalPurityid
-                    : selectedMetalId ?? productData?.MetalPurityid
-                )[0]?.metaltype
-              }
-            </span>
-          }
-          {storeInit?.IsPriceShow === 1 && (
-            <>
-              <span> / </span>
-              <span className="hoq_price">
-                <span
-                  className="hoq_currencyFont"
-                  style={{ paddingRight: "0.1rem" }}
-                  dangerouslySetInnerHTML={{
-                    __html: decodeEntities(CurrencyCode ?? CurrencyCode2),
-                  }}
-                />
-                <span className="hoq_pricePort">
-                  {productData?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
+                <span className="hoq_prod_metal_col">
+                  {findMetalColor(
+                    productData?.MetalColorid
+                  )?.[0]?.metalcolorname?.toUpperCase()}
+                  {findMetalColor(
+                    productData?.MetalColorid
+                  )?.[0]?.metalcolorname && "-"}
+                  {
+                    findMetalType(
+                      productData?.IsMrpBase == 1
+                        ? productData?.MetalPurityid
+                        : selectedMetalId ?? productData?.MetalPurityid
+                    )[0]?.metaltype
+                  }
                 </span>
-              </span>
-            </>
-          )}
-        </div>
-      </div>
+              }
+              {storeInit?.IsPriceShow === 1 && (
+                <>
+                  <span> / </span>
+                  <span className="hoq_price">
+                    <span
+                      className="hoq_currencyFont"
+                      style={{ paddingRight: "0.1rem" }}
+                      dangerouslySetInnerHTML={{
+                        __html: decodeEntities(CurrencyCode ?? CurrencyCode2),
+                      }}
+                    />
+                    <span className="hoq_pricePort">
+                      {productData?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
+                    </span>
+                  </span>
+                </>
+              )}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

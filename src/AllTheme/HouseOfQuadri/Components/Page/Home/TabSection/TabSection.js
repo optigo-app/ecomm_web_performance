@@ -79,7 +79,8 @@ const TabSection = () => {
     }
     let data = JSON.parse(sessionStorage.getItem("storeInit"));
     // setImageUrl(data?.DesignImageFol);
-    setImageUrl(data?.CDNDesignImageFol);
+    // setImageUrl(data?.CDNDesignImageFol);
+    setImageUrl(data?.CDNDesignImageFolThumb);
 
 
     Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID)
@@ -93,9 +94,10 @@ const TabSection = () => {
 
   const ImageGenrate = (product) => {
     return product?.ImageCount >= 1
-      ? `${imageUrl}${newArrivalData && product?.designno}~1.${
-          newArrivalData && product?.ImageExtension
-        }`
+      // ? `${imageUrl}${newArrivalData && product?.designno}~1.${
+      //     newArrivalData && product?.ImageExtension
+      //   }`
+      ? `${imageUrl}${newArrivalData && product?.designno}~1.jpg`
       : "noImageFound";
   };
 
@@ -154,7 +156,7 @@ const TabSection = () => {
         {newArrivalData?.slice(0, 4)?.map((val, i) => {
           return (
             <div
-            key={i}
+              key={i}
               className="TabCard_main"
               style={{ backgroundColor: " #b8b4b823", cursor: "pointer" }}
               onClick={() => handleMoveToDetail(val)}
@@ -162,7 +164,7 @@ const TabSection = () => {
               <div className="cardhover">
                 <img
                   src={ImageGenrate(val)}
-          // src={imageUrl}
+                  // src={imageUrl}
 
                   alt={val?.id}
                   style={{ mixBlendMode: "multiply", objectFit: "contain" }}
@@ -170,6 +172,7 @@ const TabSection = () => {
                     e.target.src = noimage;
                     e.target.alt = "Fallback image";
                   }}
+                  loading="lazy"
                 />
                 {/* <div className="overlay_img">
                   <img src={val?.BackerImg} alt={val?.id} />

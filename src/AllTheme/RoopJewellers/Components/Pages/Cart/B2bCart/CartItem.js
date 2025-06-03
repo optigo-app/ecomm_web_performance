@@ -58,6 +58,11 @@ const CartItem = ({
     setStoreInitData(storeinitData)
   }, [])
 
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  const isLoading = item?.loading;
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -118,17 +123,15 @@ const CartItem = ({
     return text.substring(0, maxLength) + '...';
   }
 
-  useEffect(() => {
-    if (item?.ImageCount > 0) {
-      CartCardImageFunc(item).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [item]);
-
-  console.log('ggsdhsgghdghasgd', imageSrc)
+  // useEffect(() => {
+  //   if (item?.ImageCount > 0) {
+  //     CartCardImageFunc(item).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [item]);
 
   return (
     <Grid
@@ -154,7 +157,7 @@ const CartItem = ({
       // onTouchEnd={cancelPress}
       >
         <Box className="roop_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
-          {imageSrc === undefined ? (
+          {isLoading === true ? (
             <CardMedia
               sx={{
                 width: "13rem",
@@ -174,10 +177,25 @@ const CartItem = ({
           ) : (
             <CardMedia
               component="img"
-              image={imageSrc}
-              alt={item?.TitleLine}
+              image={item?.images}
+              alt=" "
+              sx={{
+                border: 'none',
+                outline: 'none',
+                boxShadow: 'none',
+                '&:focus': { outline: 'none' },
+                '&:active': { outline: 'none' },
+              }}
               className='roop_cartListImage'
               onClick={() => onSelect(item)}
+              loading="lazy"
+              onError={(e) => {
+                if (item?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound
+                } else {
+                  e.target.src = noImageFound;
+                }
+              }}
             />
           )}
           <div className='roop_rightContentDataDiv'>

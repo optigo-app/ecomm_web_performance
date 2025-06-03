@@ -1,5 +1,6 @@
 .printPage {
-  visibility: hidden !important;
+  // visibility: hidden !important;
+  // display: grid !important;
   display: none !important;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 10px;
@@ -115,7 +116,8 @@
   .print-logo {
     height: 50px;
   }
-  p{
+
+  p {
     padding: 0;
     margin: 0;
   }

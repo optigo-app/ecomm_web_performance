@@ -31,35 +31,74 @@ const Album1 = () => {
     const [slideHeight, setSlideHeight] = useState(null);
     const swiperSlideRef = useRef(null);
 
+    // useEffect(() => {
+    //     setLoadingHome(true);
+    //     let data = JSON?.parse(sessionStorage.getItem("storeInit"));
+    //     setImageUrl(data?.AlbumImageFol);
+    //     setStoreInit(data)
+    //     const observer = new IntersectionObserver(
+    //         (entries) => {
+    //             entries.forEach((entry) => {
+    //                 if (entry.isIntersecting) {
+    //                     apiCall();
+    //                     observer.unobserve(entry.target);
+    //                 }
+    //             });
+    //         },
+    //         {
+    //             root: null,
+    //             threshold: 0.5,
+    //         }
+    //     );
+
+    //     if (albumRef.current) {
+    //         observer.observe(albumRef.current);
+    //     }
+    //     return () => {
+    //         if (albumRef.current) {
+    //             observer.unobserve(albumRef.current);
+    //         }
+    //     };
+    // }, []);
+
     useEffect(() => {
         setLoadingHome(true);
-        let data = JSON?.parse(sessionStorage.getItem("storeInit"));
-        setImageUrl(data?.AlbumImageFol);
-        setStoreInit(data)
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        apiCall();
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            {
-                root: null,
-                threshold: 0.5,
-            }
-        );
+        const storedData = sessionStorage.getItem("storeInit");
+        const data = storedData ? JSON.parse(storedData) : null;
 
-        if (albumRef.current) {
-            observer.observe(albumRef.current);
+        if (data && data.AlbumImageFol !== imageUrl) {
+            setImageUrl(data.AlbumImageFol);
         }
-        return () => {
-            if (albumRef.current) {
-                observer.unobserve(albumRef.current);
+        if (data && data !== storeInit) {
+            setStoreInit(data);
+        }
+
+        const handleScroll = () => {
+            if (!albumRef.current) return;
+
+            const rect = albumRef.current.getBoundingClientRect();
+            const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+
+            if (isInView) {
+                apiCall();
+                window.removeEventListener("scroll", handleScroll); // only trigger once
             }
         };
+
+        window.addEventListener("scroll", handleScroll);
+        // Also check immediately in case it's already in view
+        handleScroll();
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
     }, []);
+
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         apiCall();
+    //     }, 1200)
+    // }, [])
 
     const apiCall = () => {
         setIsloding(true);
@@ -164,141 +203,141 @@ const Album1 = () => {
         <>
             {!isloding ? (
                 // <div >
-                    <div
-                        ref={albumRef}
-                    >
-                        {albumData?.length != 0 &&
-                            <div className="smr_album-container" >
-                                <div className='smr_ablbumtitleDiv'>
-                                    <span className='smr_albumtitle'>ALBUM</span>
-                                    {/* <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/AlbumName/?A=${btoa('AlbumName')}`)}>
+                <div
+                    ref={albumRef}
+                >
+                    {albumData?.length != 0 &&
+                        <div className="smr_album-container" >
+                            <div className='smr_ablbumtitleDiv'>
+                                <span className='smr_albumtitle'>ALBUM</span>
+                                {/* <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/AlbumName/?A=${btoa('AlbumName')}`)}>
                     View more
                   </Link> */}
-                                </div>
-                                <Box className="tabs"
-                                    sx={{
-                                        flexGrow: 1,
-                                        maxWidth: "100%",
-                                    }}>
-                                    <Tabs
-                                        value={selectedAlbum}
-                                        onChange={handleChangeTab}
-                                        variant="scrollable"
-                                        scrollButtons="auto"
-                                        aria-label="scrollable auto tabs example"
-                                        TabIndicatorProps={{
-                                            style: { display: 'none' }
-                                        }}
-                                        className='smr_Albumtabs'
-                                    >
-                                        {albumData?.map((album) => (
-                                            <Tab
-                                                key={album?.Albumid}
-                                                label={album?.AlbumName}
-                                                value={album?.AlbumName}
-                                                className={selectedAlbum === album?.AlbumName ? 'active smr_Albumtab' : 'smr_Albumtab'}
-                                            />
-                                        ))}
-                                    </Tabs>
-                                </Box>
-                                <div className="smr_swiper_container"
-                                    style={{
-                                        width: GenerateWidthBaseOnContent().width,
-                                    }}
-                                >
-                                    {albumData && albumData?.map((album) =>
-                                        album?.AlbumName === selectedAlbum ? (
-                                            <Swiper
-                                                style={{
-                                                    width: "100%"
-                                                }}
-                                                key={album?.Albumid}
-                                                spaceBetween={10}
-                                                slidesPerView={4}
-                                                breakpoints={{
-                                                    1024: {
-                                                        slidesPerView: 4,
-                                                    },
-                                                    768: {
-                                                        slidesPerView: 2,
-                                                    },
-                                                    0: {
-                                                        slidesPerView: 2,
-                                                    }
-                                                }}
-                                                lazy={true}
-                                                navigation={true}
-                                                // navigation={!isMobileScreen && (JSON?.parse(album?.Designdetail).length > 4 ? true : false)}
-                                                modules={[Keyboard, FreeMode, Navigation]}
-                                                keyboard={{ enabled: true }}
-                                            // pagination={false}
-                                            >
-                                                {album && JSON?.parse(album?.Designdetail)?.map((design, index) => (
-                                                    <SwiperSlide
-                                                        style={{
-                                                            width: '300px'
-                                                        }}
-                                                        ref={index === 0 ? swiperSlideRef : null}
-                                                        key={design?.autocode} className="swiper-slide-custom">
-                                                        <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
-                                                            <img
-                                                                src={
-                                                                    design?.ImageCount > 0
-                                                                        ? `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`
-                                                                        : imageNotFound
-                                                                }
-                                                                alt={design?.TitleLine}
-                                                                loading="lazy"
-                                                                onError={(e) => {
-                                                                    e.target.src = imageNotFound;
-                                                                    e.target.alt = "no-image-found"
-                                                                }}
-                                                            />
-                                                        </div>
-                                                      {storeInit?.IsPriceShow == 1 &&  <div className="design-info">
-                                                            <p className='smr_album1price'>
-                                                                <span
-                                                                    className="smr_currencyFont"
-                                                                    dangerouslySetInnerHTML={{
-                                                                        __html: decodeEntities(
-                                                                            islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
-                                                                        ),
-                                                                    }}
-                                                                /> {formatter(design?.UnitCostWithMarkUp)}
-                                                            </p>
-                                                        </div>}
-                                                    </SwiperSlide>
-                                                ))}
-                                                {GenerateWidthBaseOnContent().length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
-                                                    width: "25%",
-                                                    height: "auto",
-                                                    borderRadius: "4px",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    justifyContent: "center"
-                                                }}>
-                                                    <div className="data_album">
-                                                        <button style={{
-                                                            border: "none",
-                                                            backgroundColor: "transparent",
-                                                            fontWeight: "500",
-                                                            textDecoration: "underline",
-                                                            color: "grey"
-                                                        }} className='btn_more_A' onClick={() => HandleAlbumMore()}>View More</button>
-                                                    </div>
-                                                </SwiperSlide>}
-                                            </Swiper>
-                                        ) : null
-                                    )}
-                                </div>
                             </div>
-                        }
-                    </div>
+                            <Box className="tabs"
+                                sx={{
+                                    flexGrow: 1,
+                                    maxWidth: "100%",
+                                }}>
+                                <Tabs
+                                    value={selectedAlbum}
+                                    onChange={handleChangeTab}
+                                    variant="scrollable"
+                                    scrollButtons="auto"
+                                    aria-label="scrollable auto tabs example"
+                                    TabIndicatorProps={{
+                                        style: { display: 'none' }
+                                    }}
+                                    className='smr_Albumtabs'
+                                >
+                                    {albumData?.map((album) => (
+                                        <Tab
+                                            key={album?.Albumid}
+                                            label={album?.AlbumName}
+                                            value={album?.AlbumName}
+                                            className={selectedAlbum === album?.AlbumName ? 'active smr_Albumtab' : 'smr_Albumtab'}
+                                        />
+                                    ))}
+                                </Tabs>
+                            </Box>
+                            <div className="smr_swiper_container"
+                                style={{
+                                    width: GenerateWidthBaseOnContent().width,
+                                }}
+                            >
+                                {albumData && albumData?.map((album) =>
+                                    album?.AlbumName === selectedAlbum ? (
+                                        <Swiper
+                                            style={{
+                                                width: "100%"
+                                            }}
+                                            key={album?.Albumid}
+                                            spaceBetween={10}
+                                            slidesPerView={4}
+                                            breakpoints={{
+                                                1024: {
+                                                    slidesPerView: 4,
+                                                },
+                                                768: {
+                                                    slidesPerView: 2,
+                                                },
+                                                0: {
+                                                    slidesPerView: 2,
+                                                }
+                                            }}
+                                            lazy={true}
+                                            navigation={true}
+                                            // navigation={!isMobileScreen && (JSON?.parse(album?.Designdetail).length > 4 ? true : false)}
+                                            modules={[Keyboard, FreeMode, Navigation]}
+                                            keyboard={{ enabled: true }}
+                                        // pagination={false}
+                                        >
+                                            {album && JSON?.parse(album?.Designdetail)?.map((design, index) => (
+                                                <SwiperSlide
+                                                    style={{
+                                                        width: '300px'
+                                                    }}
+                                                    ref={index === 0 ? swiperSlideRef : null}
+                                                    key={design?.autocode} className="swiper-slide-custom">
+                                                    <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
+                                                        <img
+                                                            src={
+                                                                design?.ImageCount > 0
+                                                                    // ? `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`
+                                                                    ? `${storeInit?.CDNDesignImageFolThumb}${design?.designno}~1.jpg`
+                                                                    : imageNotFound
+                                                            }
+                                                            alt={design?.TitleLine}
+                                                            loading="lazy"
+                                                            onError={(e) => {
+                                                                e.target.src = imageNotFound;
+                                                                e.target.alt = "no-image-found"
+                                                            }}
+                                                        />
+                                                    </div>
+                                                    {storeInit?.IsPriceShow == 1 && <div className="design-info">
+                                                        <p className='smr_album1price'>
+                                                            <span
+                                                                className="smr_currencyFont"
+                                                                dangerouslySetInnerHTML={{
+                                                                    __html: decodeEntities(
+                                                                        islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
+                                                                    ),
+                                                                }}
+                                                            /> {formatter(design?.UnitCostWithMarkUp)}
+                                                        </p>
+                                                    </div>}
+                                                </SwiperSlide>
+                                            ))}
+                                            {GenerateWidthBaseOnContent().length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
+                                                width: "25%",
+                                                height: "auto",
+                                                borderRadius: "4px",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center"
+                                            }}>
+                                                <div className="data_album">
+                                                    <button style={{
+                                                        border: "none",
+                                                        backgroundColor: "transparent",
+                                                        fontWeight: "500",
+                                                        textDecoration: "underline",
+                                                        color: "grey"
+                                                    }} className='btn_more_A' onClick={() => HandleAlbumMore()}>View More</button>
+                                                </div>
+                                            </SwiperSlide>}
+                                        </Swiper>
+                                    ) : null
+                                )}
+                            </div>
+                        </div>
+                    }
+                </div>
                 // {/* </div> */}
             ) :
                 <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '20px' }}>
                     <AlbumSkeletonCards />
-
                 </div>
             }
         </>

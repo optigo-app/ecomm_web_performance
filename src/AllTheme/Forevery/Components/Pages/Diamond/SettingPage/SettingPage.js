@@ -165,6 +165,29 @@ const SettingPage = () => {
     }
   }, [location?.key]);
 
+  useEffect(() => {
+    const getUrlDiaShape = location?.pathname?.split('/')[4]?.split('=')[1] ?? "";
+
+    // Get current saved shape from step1
+    const savedShape = steps?.find(step => step.step1)?.shape ?? "";
+
+    if (
+      getUrlDiaShape &&
+      savedShape?.toLowerCase() !== getUrlDiaShape?.toLowerCase() &&
+      steps?.[1]?.step2 == true
+    ) {
+      // Update step1 shape if different
+      const updatedSteps = steps.map(step => {
+        if (step.step1) {
+          return { ...step, shape: getUrlDiaShape.charAt(0).toUpperCase() + getUrlDiaShape.slice(1).toLowerCase() };
+        }
+        return step;
+      });
+
+      sessionStorage.setItem("customizeSteps", JSON.stringify(updatedSteps));
+    }
+  }, [location?.key]);
+
   const styleLinks = {
     Solitaire: "Solitaire/style",
     Halo: "Halo/style",

@@ -53,6 +53,11 @@ const CartItem = ({
 
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  const isLoading = item?.loading;
+
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
@@ -154,7 +159,7 @@ const CartItem = ({
       // onTouchEnd={cancelPress}
       >
         <Box className="mala_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
-          {imageSrc === undefined ? (
+          {isLoading === true ? (
             <CardMedia
               sx={{
                 width: "13rem",
@@ -174,10 +179,18 @@ const CartItem = ({
           ) : (
             <CardMedia
               component="img"
-              image={imageSrc != undefined && imageSrc}
+              image={item?.images}
               alt={item?.TitleLine}
               className='mala_cartListImage'
               onClick={() => onSelect(item)}
+              onError={(e) => {
+                if (item?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound
+                } else {
+                  e.target.src = noImageFound;
+                }
+              }}
+              loading="lazy"
             />
           )}
           <div className='mala_rightContentDataDiv'>

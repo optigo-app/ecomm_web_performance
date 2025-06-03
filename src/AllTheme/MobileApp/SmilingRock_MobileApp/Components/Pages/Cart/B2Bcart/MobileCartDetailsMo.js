@@ -59,6 +59,11 @@ const MobileCartDetails = ({
     setColorStoneCombo(CSQtyColorData);
   }, [])
 
+  const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`;
+
+  const isLoading = selectedItem?.loading;
 
   const handleUpdateCart = async (selectedItem) => {
     const resUpdate = await onUpdateCart(selectedItem)
@@ -67,21 +72,21 @@ const MobileCartDetails = ({
     }
   }
 
-  useEffect(() => {
-    if (selectedItem?.ImageCount > 0) {
-      CartCardImageFunc(selectedItem).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [selectedItem]);
+  // useEffect(() => {
+  //   if (selectedItem?.ImageCount > 0) {
+  //     CartCardImageFunc(selectedItem).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [selectedItem]);
 
   return (
     <Modal open={open} onClose={handleClose} className="smrmo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="smrmo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="smrmo_Cart-imageDiv">
-          {imageSrc === undefined ? (
+          {isLoading === true ? (
             <CardMedia
               sx={{
                 width: "100%",
@@ -97,11 +102,21 @@ const MobileCartDetails = ({
             </CardMedia>
           ) : (
             <img
-              src={imageSrc}
+              src={selectedItem?.images ? selectedItem?.images :
+                selectedItem?.ImageCount > 1 ? `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.jpg` :
+                  `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`
+              }
               alt="Cluster Diamond"
               className='smrmo_cartImage'
               onClick={() => handleMoveToDetail(selectedItem)}
               style={{ border: 'none' }}
+              onError={(e) => {
+                if (selectedItem?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound
+                } else {
+                  e.target.src = noImageFound;
+                }
+              }}
             />
           )}
 

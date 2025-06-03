@@ -67,7 +67,7 @@ const PromotionalBanner = ({ onClose, disablescreen }) => {
           </button>
         </div>
         <div className="main_pb_banner">
-          <img src={image.banner2} alt="pb_b" />
+          <img src={image.banner2} alt="pb_b" loading="lazy" />
         </div>
         <div className="jewelry-info">
           <h2 className="jewelry-heading">Exclusive Jewelry Collection</h2>
@@ -89,7 +89,7 @@ const PromotionalBanner = ({ onClose, disablescreen }) => {
 export default PromotionalBanner;
 
 // {
-/* 
+/*
                 <div className="promotional-banner">
 <div className="banner-content">
 <div className="main-content">

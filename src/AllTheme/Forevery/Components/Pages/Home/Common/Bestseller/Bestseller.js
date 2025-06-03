@@ -4,12 +4,19 @@ import { FaChevronDown } from "react-icons/fa";
 import btnstyle from "../../../../scss/Button.module.scss";
 import { storImagePath } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { for_isEarringFlowOn, for_isPendantFlowOn, for_isRingFlowOn } from "../../../../Recoil/atom";
 
 
 const Bestseller = () => {
   const videoRef = useRef(null);
   const VidePath = `${storImagePath()}/Forevery/created-labgrown.mp4`;
   const Navigation = useNavigate();
+
+  const isPendantFlowOn = useRecoilValue(for_isPendantFlowOn);
+  const isRingFlowOn = useRecoilValue(for_isRingFlowOn);
+  const isEarringFlowOn = useRecoilValue(for_isEarringFlowOn);
+
   useEffect(() => {
     const videoElement = videoRef.current;
 
@@ -169,21 +176,27 @@ const Bestseller = () => {
             handcrafted ring settings made to endure a lifetime.
           </p>
           <div className="for_col_btn">
-            <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
-              onClick={() => HandleSettingNavigation("Ring")}
-            >
-              Customize Ring
-            </button>
-            <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
-              onClick={() => HandleSettingNavigation("Earring")}
-            >
-              Customize Earring
-            </button>
-            <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
-              onClick={() => HandleSettingNavigation("Pendant")}
-            >
-              Customize Pendant
-            </button>
+            {isRingFlowOn === 1 &&
+              <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
+                onClick={() => HandleSettingNavigation("Ring")}
+              >
+                Customize Ring
+              </button>
+            }
+            {isEarringFlowOn === 1 &&
+              <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
+                onClick={() => HandleSettingNavigation("Earring")}
+              >
+                Customize Earring
+              </button>
+            }
+            {isPendantFlowOn === 1 &&
+              <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
+                onClick={() => HandleSettingNavigation("Pendant")}
+              >
+                Customize Pendant
+              </button>
+            }
           </div>
         </div>
       </div>

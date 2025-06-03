@@ -17,6 +17,7 @@ import { Skeleton } from "@mui/material";
 
 const WishlistItems = ({
   item,
+  index,
   selectedValue,
   itemInCart,
   updateCount,
@@ -30,23 +31,39 @@ const WishlistItems = ({
   handleMoveToDetail,
 }) => {
   const [imageSrc, setImageSrc] = useState();
+  const [isLoading, setisLoading] = useState(true);
 
   const setWishCountVal = useSetRecoilState(WishCount);
   const setCartCountVal = useSetRecoilState(CartCount);
   const visiterId = Cookies.get("visiterId");
 
   const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+  const CDNDesignImageFolThumb = storeInit?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  // const isLoading = item?.loading;
+
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
-    if (item?.ImageCount > 0) {
-      WishCardImageFunc(item).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [item]);
+    const delay = (index + 1) * 100;
+
+    const timer = setTimeout(() => {
+      setisLoading(false);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [index]);
+
+  // useEffect(() => {
+  //   if (item?.ImageCount > 0) {
+  //     WishCardImageFunc(item).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [item]);
 
   const handleWishlistToCartFun = async (item) => {
     const returnValue = await handleWishlistToCart(item);
@@ -75,39 +92,61 @@ const WishlistItems = ({
           xs={itemsLength <= 2 ? 6 : 6}
           sm={itemsLength <= 2 ? 4 : 4}
           md={itemsLength <= 2 ? 4 : 4}
-          lg={itemsLength <= 2 ? 3 : 3}
+          lg={itemsLength <= 2 ? 2.4 : 2.4}
           className="smr_wlListGrid"
         >
           <Card className="smr_WlListCard">
             <div className="cardContent">
-              {imageSrc === undefined ? (
+              {isLoading === true ? (
                 <CardMedia
                   style={{ width: "100%" }}
                   className="smr_WlListImage"
                 >
                   <Skeleton
                     animation="wave"
-                    variant="rect"
-                    width="100%"
-                    height={280}
+                    variant="rectangular"
                     sx={{
-                      backgroundColor: "#e8e8e86e",
-                      '@media (max-width: 960px)': {
-                        height: "240px !important",
+                      width: {
+                        xs: '100%',
+                        sm: '260px',      // ~599px
+                        md: '270px',      // ~880px
+                        lg: '300px',      // ~1050px
+                        xl: '365px',      // default
                       },
-                      '@media (max-width: 600px)': {
-                        height: "150px !important",
+                      height: {
+                        xs: '100%',
+                        sm: '260px',      // ~599px
+                        md: '270px',      // ~880px
+                        lg: '300px',      // ~1050px
+                        xl: '365px',      // default
                       },
+                      aspectRatio: '1 / 1',
+                      backgroundColor: '#e8e8e86e',
                     }}
                   />
                 </CardMedia>
               ) : (
                 <CardMedia
                   component="img"
-                  image={imageSrc}
-                  alt={item?.TitleLine}
+                  image={item?.images}
+                  alt=" "
+                  sx={{
+                    border: 'none',
+                    outline: 'none',
+                    boxShadow: 'none',
+                    '&:focus': { outline: 'none' },
+                    '&:active': { outline: 'none' },
+                  }}
+                  loading="lazy"
                   className="smr_WlListImage"
                   onClick={() => handleMoveToDetail(item)}
+                  onError={(e) => {
+                    if (item?.ImageCount > 0) {
+                      e.target.src = fullImagePath ? fullImagePath : noImageFound
+                    } else {
+                      e.target.src = noImageFound;
+                    }
+                  }}
                 />
               )}
               <CardContent className="smr_cardContent">
@@ -222,13 +261,51 @@ const WishlistItems = ({
         >
           <Card className="smr_WlListCard">
             <div className="cardContent">
-              <CardMedia
-                component="img"
-                image={imageSrc}
-                alt={item?.TitleLine}
-                className="smr_WlListImage2"
-                onClick={() => handleMoveToDetail(item)}
-              />
+              {isLoading === true ? (
+                <CardMedia
+                  style={{ width: "100%" }}
+                  className="roop_WlListImage"
+                >
+                  <Skeleton
+                    animation="wave"
+                    variant="rectangular"
+                    sx={{
+                      width: {
+                        xs: '100%',
+                        sm: '260px',      // ~599px
+                        md: '270px',      // ~880px
+                        lg: '300px',      // ~1050px
+                        xl: '365px',      // default
+                      },
+                      height: {
+                        xs: '100%',
+                        sm: '260px',      // ~599px
+                        md: '270px',      // ~880px
+                        lg: '300px',      // ~1050px
+                        xl: '365px',      // default
+                      },
+                      aspectRatio: '1 / 1',
+                      backgroundColor: '#e8e8e86e',
+                    }}
+                  />
+                </CardMedia>
+              ) : (
+                <CardMedia
+                  component="img"
+                  image={item?.images}
+                  alt={item?.TitleLine}
+                  className="smr_WlListImage2"
+                  loading="lazy"
+                  onClick={() => handleMoveToDetail(item)}
+                  onError={(e) => {
+                    if (item?.ImageCount > 0) {
+                      e.target.src = fullImagePath ? fullImagePath : noImageFound
+                    } else {
+                      e.target.src = noImageFound;
+                    }
+                  }}
+                />
+              )}
               <div className="smr_Wl-CartbtnDiv">
                 <button
                   className="smr_Wl-Cartbtn"

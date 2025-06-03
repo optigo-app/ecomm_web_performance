@@ -1,7 +1,7 @@
 @import '../../../scss/variable';
 
 .roop_mainTrending1Div {
-    margin-top: 3rem;
+    margin-top: 2rem;
 
     // @media (max-width: 1200px) {
     //     margin-top: -3rem;
@@ -32,7 +32,7 @@
         flex-direction: column;
         justify-content: space-between;
         padding: 0px 10px;
-        margin-bottom: 70px;
+        margin-bottom: 30px;
 
         @media (max-width: 1500px) {
             margin-bottom: 1.5rem;
@@ -254,7 +254,23 @@
 }
 
 .roop_trendSet_Main {
+    height: 540px;
 
+    @media (max-width: 1650px) {
+        height: 475px;
+    }
+
+    @media (max-width: 1200px) {
+        height: 380px;
+    }
+
+    @media (max-width: 1000px) {
+        height: 330px;
+    }
+
+    @media (max-width: 600px) {
+        height: 340px;
+    }
 
     .roop_trend_title {
         font-size: 40px;
@@ -268,6 +284,7 @@
         flex-wrap: wrap;
         // padding-inline: 250px;
         padding-inline: 10px;
+
         // padding-inline: 100px;
         .swiper-button-prev,
         .swiper-button-next {
@@ -286,6 +303,7 @@
                 font-size: 16px;
             }
         }
+
         .swiper-button-disabled {
             opacity: 0.5;
             cursor: pointer;

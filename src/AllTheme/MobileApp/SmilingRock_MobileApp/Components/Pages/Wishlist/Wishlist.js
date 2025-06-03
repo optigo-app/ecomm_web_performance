@@ -19,6 +19,7 @@ const Wishlist = () => {
     updateCount,
     countDataUpdted,
     itemInCart,
+    finalWishData,
     decodeEntities,
     WishCardImageFunc,
     handleRemoveItem,
@@ -46,7 +47,7 @@ const Wishlist = () => {
   const handleConfirmRemoveAll = async () => {
     setDialogOpen(false);
     const returnValue = await handleRemoveAll();
-    if(returnValue?.msg == "success"){
+    if (returnValue?.msg == "success") {
       GetCountAPI(visiterId).then((res) => {
         setWishCountVal(res?.wishcount);
       })
@@ -81,8 +82,6 @@ const Wishlist = () => {
     });
   }
 
-  console.log("cartdataCount--", wishlistData);
-
   return (
     <div className="smrMA_MainWlDiv">
       <p className="SmiCartListTitle" style={{
@@ -91,7 +90,7 @@ const Wishlist = () => {
         <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigation(-1)} />My Wishlist
       </p>
       <div className="smrMo_WlBtnGroupMainDiv" style={{
-        marginTop:'1rem'
+        marginTop: '1rem'
       }}>
         {/* <div className="WlBtnGroupMainDiv">
           <div className="smrMo_Wl-title">My Wishlist</div>
@@ -117,7 +116,7 @@ const Wishlist = () => {
         {!isWLLoading ? (
           <WishlistData
             isloding={isWLLoading}
-            items={wishlistData}
+            items={finalWishData}
             updateCount={updateCount}
             countDataUpdted={countDataUpdted}
             curr={CurrencyData}
@@ -141,7 +140,7 @@ const Wishlist = () => {
           title="Remove All Items"
           content="Are you sure you want to remove all Items?"
         />
-        {wishlistData?.length !== 0 &&
+        {finalWishData?.length !== 0 &&
           <div className='smrMo_WlButton-group'>
             <button fullWidth className='smrMo_ReomoveAllWLbtn' onClick={handleRemoveAllDialog}>Clear All</button>
             <button fullWidth className='smrMo_WlAddToCartBtn' onClick={handleAddtoCartAllfun}>Add To Cart All</button>

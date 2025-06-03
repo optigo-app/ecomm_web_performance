@@ -125,14 +125,21 @@ const MobileCartDetails = ({
             </CardMedia>
           ) : (
             <img
-              src={selectedItem?.images ? selectedItem?.images : "png"}
+              src={selectedItem?.images ? selectedItem?.images :
+                selectedItem?.ImageCount > 1 ? `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.jpg` :
+                  `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`
+              }
               alt="Cluster Diamond"
               className='elvMo_cartImage'
               onClick={() => handleMoveToDetail(selectedItem)}
               style={{ border: 'none' }}
-              onError={((e) => {
-                e.target.src = fullImagePath ? fullImagePath : noImageFound;
-              })}
+              onError={(e) => {
+                if (selectedItem?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound
+                } else {
+                  e.target.src = noImageFound;
+                }
+              }}
               loading='lazy'
             />
           )}

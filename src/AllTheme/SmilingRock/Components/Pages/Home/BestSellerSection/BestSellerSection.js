@@ -53,7 +53,8 @@ const BestSellerSection = () => {
         setStoreInit(storeinit)
 
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
-        setImageUrl(data?.DesignImageFol);
+        // setImageUrl(data?.DesignImageFol);
+        setImageUrl(data?.DesignImageFolThumb);
 
         Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller" , finalID).then((response) => {
             if (response?.Data?.rd) {
@@ -88,8 +89,10 @@ const BestSellerSection = () => {
         if (!bestSellerData?.length) return;
         const validatedData = await Promise.all(
             bestSellerData.map(async (item) => {
-                const defaultImageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
-                const RollOverImageURL = `${imageUrl}${item?.designno}~2.${item?.ImageExtension}`;
+                const defaultImageURL = `${imageUrl}${item?.designno}~1.jpg`;
+                const RollOverImageURL = `${imageUrl}${item?.designno}~2.jpg`;
+                // const defaultImageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
+                // const RollOverImageURL = `${imageUrl}${item?.designno}~2.${item?.ImageExtension}`;
                 // const validatedURL1 = await checkImageAvailability(defaultImageURL);
                 // const validatedURL2 = await checkImageAvailability(RollOverImageURL);
                 // return { ...item, defaultImageURL: validatedURL1, RollOverImageURL: validatedURL2 };
@@ -165,6 +168,7 @@ const BestSellerSection = () => {
                                                         e.target.src = imageNotFound;
                                                         e.target.alt = "no-image-found"
                                                     }}
+                                                    loading='lazy'
                                                         onMouseEnter={() => handleMouseEnterRing1(data)} onMouseLeave={handleMouseLeaveRing1}
                                                     />
                                                 </div>
@@ -193,7 +197,7 @@ const BestSellerSection = () => {
                     <p className='smr_BestSallerViewAll' onClick={() =>  navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)}>SHOP COLLECTION</p>
         </div>
         <div className='linkingLoveImage'>
-            <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.png`} className='linkingLoveImageDesign' />
+            <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.png`} loading='lazy' className='linkingLoveImageDesign' />
         </div>
     </div>
     </div>

@@ -32,21 +32,29 @@ const CartDetails = ({
 }) => {
 
   const [imageSrc, setImageSrc] = useState();
-  useEffect(() => {
-    if (selectedItem?.ImageCount > 0) {
-      CartCardImageFunc(selectedItem).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [selectedItem]);
+
+  const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
+  const CDNDesignImageFolThumb = storeinitData?.CDNDesignImageFolThumb;
+  // const fullImagePath = `${CDNDesignImageFolThumb}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`;
+  const fullImagePath = `${CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`;
+
+  const isLoading = selectedItem?.loading;
+
+  // useEffect(() => {
+  //   if (selectedItem?.ImageCount > 0) {
+  //     CartCardImageFunc(selectedItem).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [selectedItem]);
 
   return (
     <div className="hoq_cart-container">
       <div className="hoq_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='hoq_cartImage' /> */}
-        {imageSrc === undefined ? (
+        {isLoading === true ? (
           <CardMedia
             width="100%"
             height={400}
@@ -76,10 +84,28 @@ const CartDetails = ({
           </CardMedia>
         ) : (
           <img
-            src={imageSrc}
-            alt="image"
+            src={selectedItem?.images ? selectedItem?.images :
+              selectedItem?.ImageCount > 1 ? `${storeinitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.jpg` :
+                `${storeinitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`
+            }
+            alt=" "
+            sx={{
+              border: 'none',
+              outline: 'none',
+              boxShadow: 'none',
+              '&:focus': { outline: 'none' },
+              '&:active': { outline: 'none' },
+            }}
             className="hoq_cartDetailImage"
             onClick={() => handleMoveToDetail(selectedItem)}
+            onError={((e) => {
+              if (selectedItem?.ImageCount > 0) {
+                e.target.src = fullImagePath ? fullImagePath : noImageFound;
+              } else {
+                e.target.src = noImageFound;
+              }
+            })}
+            loading='lazy'
           />
         )}
       </div>

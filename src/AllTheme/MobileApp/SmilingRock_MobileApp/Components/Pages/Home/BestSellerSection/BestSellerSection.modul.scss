@@ -9,9 +9,28 @@
 }
 
 .smrMA_bestSallerMain {
-    max-height: 800px; 
     height: auto;
     margin-top: 0px;
+
+    @media (max-width: 600px) {
+        height: 400px;
+    }
+
+    @media (max-width: 550px) {
+        height: 700px;
+    }
+
+    @media (max-width: 480px) {
+        height: 650px;
+    }
+
+    @media (max-width: 420px) {
+        height: 500px;
+    }
+
+    @media (max-width: 350px) {
+        height: 470px;
+    }
 
     .linkingLoveMain {
         display: flex;

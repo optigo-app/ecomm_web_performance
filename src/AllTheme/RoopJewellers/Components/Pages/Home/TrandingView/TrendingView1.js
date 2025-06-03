@@ -13,7 +13,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { roop_album_length, roop_loginState } from '../../../Recoil/atom';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import Pako from 'pako';
-import { useMediaQuery } from '@mui/material';
+import { Skeleton, useMediaQuery } from '@mui/material';
 
 const TrendingView1 = ({ data }) => {
 
@@ -68,20 +68,13 @@ const TrendingView1 = ({ data }) => {
             })
     }, [islogin]);
 
-    const checkImageAvailability = (url) => {
-        return new Promise((resolve) => {
-            const img = new Image();
-            img.onload = () => resolve(url);
-            img.onerror = () => resolve(imageNotFound);
-            img.src = url;
-        });
-    };
     useEffect(() => {
         const getValidImages = async () => {
             if (!trendingData?.length) return;
 
             const imagePromises = trendingData.map(async (trend) => {
-                const imgSrc = `${storeInit?.CDNDesignImageFol}${trend?.designno}~1.${trend?.ImageExtension}`
+                // const imgSrc = `${storeInit?.CDNDesignImageFol}${trend?.designno}~1.${trend?.ImageExtension}`
+                const imgSrc = `${storeInit?.CDNDesignImageFolThumb}${trend?.designno}~1.jpg`;
                 // const validImage = await checkImageAvailability(imgSrc);
                 return { ...trend, src: imgSrc };
             });
@@ -151,7 +144,9 @@ const TrendingView1 = ({ data }) => {
 
     return (
         <>
-            <div className='roop_mainTrending1Div' style={{ marginTop: maxWidth1200px && albumLength > 0 ? '-3rem' : "2rem" }}>
+            <div className='roop_mainTrending1Div'
+            //  style={{ marginTop: maxWidth1200px && albumLength > 0 ? '-3rem' : "2rem" }}
+            >
                 <div className='smr_trending1TitleDiv'>
                     <span className='smr_trending1Title' id='smr_Trending'>Trending</span>
                 </div>
@@ -159,28 +154,28 @@ const TrendingView1 = ({ data }) => {
                     <div className='smr_leftSideBestTR'>
 
                         {/* For shinjini*/}
-                        {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} /> */}
+                        {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} loading="lazy" /> */}
 
                         {/* For sonasons, ojasvi */}
-                        {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} /> */}
-                        {/* <img src={data?.image?.[1]} /> */}
+                        {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} loading="lazy" /> */}
+                        <img src={data?.image?.[1]} loading='lazy' />
 
                         {/* For pacific */}
-                        {/* <img src={data?.image?.[2]} /> */}
+                        {/* <img src={data?.image?.[2]} loading="lazy" /> */}
 
                         {/* // for vara  */}
-                        <img src={data?.image?.[0]}
+                        {/* <img src={data?.image?.[0]}
                             alt="Trending Jewellery Collection Banner"
                             loading='lazy'
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"  // Responsive image size based on viewport width
-                        />
+                        /> */}
                     </div>
                     {/* <div className='smr_rightSideTR'> */}
 
                     {/* {trandingViewData.slice(0, 4).map((imagePath, index) => (
                         <div key={index} className="product-card">
                             <div className='stam_btimageDiv'>
-                                <img src={`${storImagePath()}${imagePath}`} alt={`trending-${index}`} />
+                                <img src={`${storImagePath()}${imagePath}`}loading="lazy" alt={`trending-${index}`} />
                             </div>
                         </div>
                     ))} */}
@@ -188,131 +183,152 @@ const TrendingView1 = ({ data }) => {
                     {/* </div> */}
                 </div>
             </div>
-            <div className="roop_trendSet_Main">
-                {/* <p className="roop_trend_title">Trending</p> */}
+            {isLoading ? <Skeleton
+                variant="rectangular"
+                width="100%"
+                height="540px"
+                animation="wave"
+                sx={{
+                    '@media (max-width: 1650px)': {
+                        height: "475px !important",
+                    },
+                    '@media (max-width: 1200px)': {
+                        height: "380px !important",
+                    },
+                    '@media (max-width: 1000px)': {
+                        height: "330px !important",
+                    },
+                    '@media (max-width: 600px)': {
+                        height: "340px !important",
+                    }
+                }}
+            /> :
+                <div className="roop_trendSet_Main">
+                    {/* <p className="roop_trend_title">Trending</p> */}
 
-                <div className="roop_trend_main_sub"
-                    style={{
-                        width: GenerateWidthBaseOnContent().width,
-                    }}
-                >
-                    <Swiper
+                    <div className="roop_trend_main_sub"
                         style={{
-                            width: "100%"
+                            width: GenerateWidthBaseOnContent().width,
                         }}
-                        modules={[Navigation]}
-                        spaceBetween={20}
-                        navigation={trendingData?.length > 4}
-                        // loop={true}
-                        breakpoints={{
-                            768: {
-                                slidesPerView: 4,
-                                spaceBetween: 20
-                            },
-                            500: {
-                                slidesPerView: 3,
-                                spaceBetween: 20
-                            },
-                            400: {
-                                slidesPerView: 2,
-                                spaceBetween: 10
-                            },
-                            0: {
-                                slidesPerView: 1,
-                                spaceBetween: 10
-                            },
-                        }}
-                        className='roop_trend_main_swiper'
                     >
+                        <Swiper
+                            style={{
+                                width: "100%"
+                            }}
+                            modules={[Navigation]}
+                            spaceBetween={20}
+                            navigation={trendingData?.length > 4}
+                            // loop={true}
+                            breakpoints={{
+                                768: {
+                                    slidesPerView: 4,
+                                    spaceBetween: 20
+                                },
+                                500: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 20
+                                },
+                                400: {
+                                    slidesPerView: 2,
+                                    spaceBetween: 10
+                                },
+                                0: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 10
+                                },
+                            }}
+                            className='roop_trend_main_swiper'
+                        >
 
-                        {validImages?.map((item, index) => {
-                            return (
-                                <SwiperSlide
-                                    style={{
-                                        width: '100%'
-                                    }}
-                                    key={index}>
-                                    <div className="roop_trend__image_div" >
-                                        <img
-                                            className="roop_trendImg"
-                                            loading="lazy"
-                                            src={item?.src}
-                                            alt={item?.name}
-                                            onError={(e) => e.target.src = imageNotFound}
-                                            onClick={() => handleNavigate(item?.designno, item?.autocode, item?.TitleLine)}
-                                            aria-label={`View details of ${item?.name}`}
-                                        />
-                                        <p className="roop_trend_Div_name">{item?.name}</p>
-                                        <div className="product-info">
-                                            <h3>{item?.designno !== "" && item?.designno} {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}</h3>
-                                            {storeInit?.IsGrossWeight == 1 &&
-                                                <>
-                                                    <span className='roop_btdetailDT'>GWT: </span>
-                                                    <span className='roop_btdetailDT'>{(item?.Gwt || 0)?.toFixed(3)}</span>
-                                                </>
-                                            }
-                                            {Number(item?.Nwt) !== 0 && (
-                                                <>
-                                                    <span className='roop_btpipe'>|</span>
-                                                    <span className='roop_btdetailDT'>NWT : </span>
-                                                    <span className='roop_btdetailDT'>{(item?.Nwt || 0)?.toFixed(3)}</span>
-                                                </>
-                                            )}
-                                            {storeInit?.IsDiamondWeight == 1 &&
-                                                <>
-                                                    {(item?.Dwt != "0" || item?.Dpcs != "0") &&
-                                                        <>
-                                                            <span className='roop_btpipe'>|</span>
-                                                            <span className='roop_btdetailDT'>DWT: </span>
-                                                            <span className='roop_btdetailDT'>{(item?.Dwt || 0)?.toFixed(3)}/{(item?.Dpcs || 0)}</span>
-                                                        </>
-                                                    }
-                                                </>
-                                            }
-                                            {storeInit?.IsStoneWeight == 1 &&
-                                                <>
-                                                    {(item?.CSwt != "0" || item?.CSpcs != "0") &&
-                                                        <>
-                                                            <span className='roop_btpipe'>|</span>
-                                                            <span className='roop_btdetailDT'>CWT: </span>
-                                                            <span className='roop_btdetailDT'>{(item?.CSwt || 0)?.toFixed(3)}/{(item?.CSpcs || 0)}</span>
-                                                        </>
-                                                    }
-                                                </>
-                                            }
-                                            {storeInit?.IsPriceShow == 1 && <p>
-                                                <span className="roop_currencyFont">
-                                                    {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
-                                                </span>&nbsp;
-                                                <span>{formatter(item?.UnitCostWithMarkUp)}</span></p>
-                                            }
+                            {validImages?.map((item, index) => {
+                                return (
+                                    <SwiperSlide
+                                        style={{
+                                            width: '100%'
+                                        }}
+                                        key={index}>
+                                        <div className="roop_trend__image_div" >
+                                            <img
+                                                className="roop_trendImg"
+                                                loading="lazy"
+                                                src={item?.src}
+                                                alt={item?.name}
+                                                onError={(e) => e.target.src = imageNotFound}
+                                                onClick={() => handleNavigate(item?.designno, item?.autocode, item?.TitleLine)}
+                                                aria-label={`View details of ${item?.name}`}
+                                            />
+                                            <p className="roop_trend_Div_name">{item?.name}</p>
+                                            <div className="product-info">
+                                                <h3>{item?.designno !== "" && item?.designno} {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}</h3>
+                                                {storeInit?.IsGrossWeight == 1 &&
+                                                    <>
+                                                        <span className='roop_btdetailDT'>GWT: </span>
+                                                        <span className='roop_btdetailDT'>{(item?.Gwt || 0)?.toFixed(3)}</span>
+                                                    </>
+                                                }
+                                                {Number(item?.Nwt) !== 0 && (
+                                                    <>
+                                                        <span className='roop_btpipe'>|</span>
+                                                        <span className='roop_btdetailDT'>NWT : </span>
+                                                        <span className='roop_btdetailDT'>{(item?.Nwt || 0)?.toFixed(3)}</span>
+                                                    </>
+                                                )}
+                                                {storeInit?.IsDiamondWeight == 1 &&
+                                                    <>
+                                                        {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                                                            <>
+                                                                <span className='roop_btpipe'>|</span>
+                                                                <span className='roop_btdetailDT'>DWT: </span>
+                                                                <span className='roop_btdetailDT'>{(item?.Dwt || 0)?.toFixed(3)}/{(item?.Dpcs || 0)}</span>
+                                                            </>
+                                                        }
+                                                    </>
+                                                }
+                                                {storeInit?.IsStoneWeight == 1 &&
+                                                    <>
+                                                        {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                                                            <>
+                                                                <span className='roop_btpipe'>|</span>
+                                                                <span className='roop_btdetailDT'>CWT: </span>
+                                                                <span className='roop_btdetailDT'>{(item?.CSwt || 0)?.toFixed(3)}/{(item?.CSpcs || 0)}</span>
+                                                            </>
+                                                        }
+                                                    </>
+                                                }
+                                                {storeInit?.IsPriceShow == 1 && <p>
+                                                    <span className="roop_currencyFont">
+                                                        {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(item?.UnitCostWithMarkUp)}</span></p>
+                                                }
+                                            </div>
                                         </div>
-                                    </div>
-                                </SwiperSlide>
-                            )
-                        })}
-                        {validImages?.length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
-                            width: "25%",
-                            height: "auto",
-                            borderRadius: "4px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center"
-                        }}>
-                            <div className="data_album">
-                                <button style={{
-                                    border: "none",
-                                    backgroundColor: "transparent",
-                                    fontWeight: "500",
-                                    textDecoration: "underline",
-                                    color: "grey"
-                                }} aria-label="View more trending products"
-                                    className='btn_more_A' onClick={() => HandleTrendingMore()}>View More</button>
-                            </div>
-                        </SwiperSlide>}
-                    </Swiper>
-                </div>
-            </div >
+                                    </SwiperSlide>
+                                )
+                            })}
+                            {validImages?.length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
+                                width: "25%",
+                                height: "auto",
+                                borderRadius: "4px",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center"
+                            }}>
+                                <div className="data_album">
+                                    <button style={{
+                                        border: "none",
+                                        backgroundColor: "transparent",
+                                        fontWeight: "500",
+                                        textDecoration: "underline",
+                                        color: "grey"
+                                    }} aria-label="View more trending products"
+                                        className='btn_more_A' onClick={() => HandleTrendingMore()}>View More</button>
+                                </div>
+                            </SwiperSlide>}
+                        </Swiper>
+                    </div>
+                </div >
+            }
         </>
     );
 };

@@ -1,0 +1,87 @@
+@import '../../scss/variable.scss';
+
+.smrm_menuPageMain {
+
+    .smrm_menuVieAllLink {
+        text-decoration: underline;
+        background-color: transparent;
+        border: none;
+        font-family: $primaryFontFamily1;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+
+
+    .smrm .Mui-selected {
+        color: black !important;
+        font-weight: 600 !important;
+    }
+
+    .smrm {
+        font-family: $primaryFontFamily1;
+        font-weight: 600;
+    }
+
+    .smrm {
+        height: 30px;
+        margin: 0px 0px 0px 15px !important;
+        display: flex;
+        font-size: 17px;
+        align-items: center;
+        width: 100%;
+        font-family: $primaryFontFamily1;
+        margin: 0px;
+    }
+
+    .smrm_shop_title {
+        padding: 0 1rem;
+        font-size: 20px;
+        font-weight: 600;
+        font-family: $primaryFontFamily1 !important;
+    }
+
+    .smrm_tabMainSmilingMobile {
+        display: flex;
+        gap: 2px;
+        padding: 0 1.3rem;
+        margin-top: 0.5rem;
+        flex-direction: column;
+    }
+
+    .smrm_tabMainSmilingMobileItems {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        font-size: 16px;
+        cursor: pointer;
+        white-space: nowrap;
+        color: black;
+        padding-block: 0.8rem;
+        border-bottom: 1px solid rgb(235, 235, 235);
+        font-family: $primaryFontFamily1 !important;
+    }
+
+    .smrm_tabMainMenu {
+        margin-top: 5px;
+        // border-bottom: 1px solid lightgray;
+    }
+
+    .smrm_menuMainSwipe {
+        height: 600px;
+        overflow: auto;
+    }
+
+    .smrm_menuMainSwipe::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    .smrm_menuMainTitle {
+        font-family: $primaryFontFamily1;
+    }
+
+    .smrm_SuMenuTitle {
+        font-family: $primaryFontFamily1;
+    }
+}

@@ -100,7 +100,7 @@ const NewArrival = () => {
             {newArrivalData?.length != 0 &&
                 <div className='smr_NewArrivalMain'>
                     <div className='smilingBridesMain'>
-                        <img src={`${storImagePath()}/images/HomePage/NewArrival/banner.png`} className='linkingLoveImageDesign' />
+                        <img src={`${storImagePath()}/images/HomePage/NewArrival/banner.png`} loading='lazy' className='linkingLoveImageDesign' />
                         <div className='smilingBrides'>
                             <p className='smilingBridesMainTitle'>NEW ARRIVAL </p>
                             <button className='enagementBtn' onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>NEW ARRIVAL COLLECTION</button>

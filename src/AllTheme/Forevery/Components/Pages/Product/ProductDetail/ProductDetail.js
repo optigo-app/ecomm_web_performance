@@ -115,6 +115,7 @@ const ProductDetail = () => {
   const earringSteps = JSON.parse(sessionStorage.getItem('customizeSteps2Earring'));
   const getSettingTypeName = location?.pathname.split('/');
   const [showModal1, setShowModal1] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
   const [shippingDate, setShippingDate] = useState('');
   const [navbarImage, setNavbarImage] = useState();
   const getRingImages = JSON.parse(sessionStorage.getItem('setImage')) ?? "";
@@ -123,6 +124,10 @@ const ProductDetail = () => {
 
   const handleToggle1 = () => {
     setShowModal1(!showModal1);
+  }
+
+  const handleToggle2 = () => {
+    setShowModal2(!showModal2);
   }
 
   const shapeData = (() => {
@@ -1596,7 +1601,7 @@ const ProductDetail = () => {
 
           navigate(`/certified-loose-lab-grown-diamonds/diamond/${shapeName}`);
         } else {
-          alert("Please choose your setting which have a diamond shape")
+          setShowModal2(true);
         }
       }
 
@@ -2478,6 +2483,12 @@ const ProductDetail = () => {
                             productData={singleProd1 ?? singleProd}
                             setImage={setImage}
                           />
+                          {showModal2 &&
+                            <AlertModel
+                              open={showModal2}
+                              handleClose={handleToggle2}
+                            />
+                          }
                         </>
                       ) : (
                         <>
@@ -2492,6 +2503,12 @@ const ProductDetail = () => {
                             productData={singleProd1 ?? singleProd}
                             setImage={setImage}
                           />
+                          {showModal2 &&
+                            <AlertModel
+                              open={showModal2}
+                              handleClose={handleToggle2}
+                            />
+                          }
                         </>
                       )}
                     </>
@@ -4191,6 +4208,61 @@ const CheckingSettingSetModal = ({ open, data, Steps, handleClose, productData, 
                 }}
               >
                 No
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+
+
+const AlertModel = ({ open, handleClose }) => {
+  return (
+    <>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        sx={{
+          zIndex: 9999999,
+          "& .MuiDialog-root": {
+            zIndex: 9999,
+          },
+          "& .MuiDialog-paper": {
+            backgroundColor: "transparent",
+            border: "1px solid white",
+            zIndex: 9999,
+          },
+          "& .MuiDialogContent-root": {
+            padding: "10px",
+          },
+        }}
+      >
+        <DialogContent
+          sx={{
+            minWidth: 260,
+            padding: "0px",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <div className="for_modal_cancel_btn_nav_div" onClick={handleClose}>
+            <RxCross1 className="for_modal_cancel_nav_btn" size={"12px"} />
+          </div>
+          <div className="for_modal_inner_nav_div_1">
+            <span className="for_modal_nav_title">
+              Please choose your setting which have a diamond shape.
+            </span>
+            <div className="for_modal_buttons_nav_div_1">
+              <button
+                onClick={() => {
+                  handleClose();
+                }}
+              >
+                OK
               </button>
             </div>
           </div>

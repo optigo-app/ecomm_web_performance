@@ -5,17 +5,17 @@
   // background-color: #f1f0ee;
   // border: 1px solid $border-color;
 
-  @if $border-color ==#e06e6e {
-    background: #ff7d7d !important;
+  @if $border-color ==#B76E79 {
+    background: #f9aab0 !important;
     // background: linear-gradient(30deg, #ec8a55 0, #fcede2 55%, #fcede2 60%, #ec8a55 100%) !important;
     border: 1px solid darken($border-color, 20%) !important;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
 
-  @else if $border-color ==#848484 {
-    background: #c9c4c4 !important;
+  @else if $border-color ==#C0C0C0 {
+    background: #C0C0C0 !important;
     // background: linear-gradient(30deg, #b3b2af 0, #f7f7f7 55%, #f7f7f7 60%, #b3b2af 100%) !important;
-    border: 1px solid darken($border-color, 20%) !important;
+    border: 1px solid darken(#838383, 20%) !important;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
 
@@ -27,19 +27,19 @@
   }
 
   border-radius: 50%;
-  width: 35%;
+  width: 28%;
   text-align: center;
   color: #707070;
   font-size: 12px;
   font-weight: 300;
-  height: 21px;
+  height: 20px;
   cursor: pointer;
   transition: transform 0.2s ease-in;
 }
 
 @mixin metal-type-style-clicked($border-color) {
   @include metal-type-style($border-color);
-  transform: scale(1.2); // Scales the clicked div
+  transform: scale(1.15);
   z-index: 100000; // Ensures the clicked div is above others
 }
 
@@ -178,7 +178,7 @@
 
 .smr_filter_portion_outter {
   // padding: 6% 18%;
-  padding: 6% 12% 6% 18% !important;
+  padding: 6% 10% 6% 18% !important;
 }
 
 .smr_mobile_filter_portion_outter {
@@ -272,95 +272,127 @@
 }
 
 .smr_productList_metaltype_Maindiv {
-  bottom: 7rem;
-  right: 0rem;
   display: flex;
-  gap: 10px;
+  width: 100%;
+  // gap: 10px;
+  padding-left: 5px;
   justify-content: center;
-  position: absolute;
-  width: 60px;
-  flex-direction: column;
   align-items: center;
-  z-index: 1000;
 }
+
+// .smr_productList_metaltype_div {
+//   position: relative;
+//   display: flex;
+//   justify-content: center;
+// }
 
 .smr_productList_metaltype_div {
-  position: relative;
-  display: flex;
-  justify-content: center;
-}
-
-.smr_productList_metaltype_div .image {
-  width: 33%;
-  display: block;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-inline: auto;
-}
-
-.metal-buttons-container {
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   gap: 10px;
   justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: bottom 0.3s ease, opacity 0.3s ease;
-  z-index: 100;
-}
-
-.metal-buttons-container button {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.smr_productList_metaltype_div:hover .metal-buttons-container {
-  bottom: 0;
   position: relative;
-  opacity: 1;
-  pointer-events: all;
+  padding: 5px;
+  margin-bottom: 3px;
+  width: 23%;
+  align-items: center;
+  z-index: 100;
+
+  .smr_metaltype_gold {
+    @include metal-type-style(#c9a63a);
+  }
+
+  .smr_metaltype_gold_clicked {
+    @include metal-type-style-clicked(#c9a63a)
+  }
+
+  .smr_metaltype_white {
+    @include metal-type-style(#C0C0C0);
+  }
+
+  .smr_metaltype_white_clicked {
+    @include metal-type-style-clicked(#C0C0C0)
+  }
+
+  .smr_metaltype_rose {
+    @include metal-type-style(#B76E79);
+  }
+
+  .smr_metaltype_rose_clicked {
+    @include metal-type-style-clicked(#B76E79)
+  }
 }
 
-.smr_productList_metaltype_div:hover {
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: center;
-  height: 6rem;
-  gap: 9px;
-}
+// .smr_productList_metaltype_div .image {
+//   width: 33%;
+//   display: block;
+//   border-radius: 8px;
+//   cursor: pointer;
+//   margin-inline: auto;
+// }
 
-.smr_metaltype_gold {
-  @include metal-type-style(#c9a63a);
-}
+// .metal-buttons-container {
+//   position: absolute;
+//   bottom: -10px;
+//   left: 50%;
+//   transform: translateX(-50%);
+//   display: flex;
+//   gap: 10px;
+//   justify-content: center;
+//   flex-direction: column;
+//   align-items: center;
+//   opacity: 0;
+//   pointer-events: none;
+//   transition: bottom 0.3s ease, opacity 0.3s ease;
+//   z-index: 100;
+// }
 
-.smr_metaltype_gold_clicked {
-  @include metal-type-style-clicked(#c9a63a);
-}
+// .metal-buttons-container button {
+//   width: 15px;
+//   height: 15px;
+//   border-radius: 50%;
+//   border: none;
+//   cursor: pointer;
+//   transition: transform 0.2s ease;
+// }
 
-.smr_metaltype_white {
-  @include metal-type-style(#848484);
-}
+// .smr_productList_metaltype_div:hover .metal-buttons-container {
+//   bottom: 0;
+//   position: relative;
+//   opacity: 1;
+//   pointer-events: all;
+// }
 
-.smr_metaltype_white_clicked {
-  @include metal-type-style-clicked(#848484);
-}
+// .smr_productList_metaltype_div:hover {
+//   display: flex;
+//   flex-direction: column-reverse;
+//   justify-content: center;
+//   height: 6rem;
+//   gap: 9px;
+// }
 
-.smr_metaltype_rose {
-  @include metal-type-style(#e06e6e);
-}
+// .smr_metaltype_gold {
+//   @include metal-type-style(#c9a63a);
+// }
 
-.smr_metaltype_rose_clicked {
-  @include metal-type-style-clicked(#e06e6e);
-}
+// .smr_metaltype_gold_clicked {
+//   @include metal-type-style-clicked(#c9a63a);
+// }
+
+// .smr_metaltype_white {
+//   @include metal-type-style(#848484);
+// }
+
+// .smr_metaltype_white_clicked {
+//   @include metal-type-style-clicked(#848484);
+// }
+
+// .smr_metaltype_rose {
+//   @include metal-type-style(#e06e6e);
+// }
+
+// .smr_metaltype_rose_clicked {
+//   @include metal-type-style-clicked(#e06e6e);
+// }
 
 // .smr_productList_metaltype_div {
 //   bottom: 7rem;
@@ -417,7 +449,21 @@
 }
 
 .smr_prod_card_info {
-  height: 90px;
+  // height: 106px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.smr_prodCard_1 {
+  display: flex;
+  flex-direction: column;
+  flex: 1 100%;
+}
+
+.smr_prodCard_2 {
+  display: flex;
+  flex: 1 30%;
 }
 
 .smr_prod_Title {
@@ -425,6 +471,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-bottom: 2.5px;
   font-family: $primaryFontFamily;
   flex-direction: row-reverse;
 
@@ -476,11 +523,10 @@
 
 .smr_prod_Allwt {
   display: flex;
-  // flex-direction: row;
-  justify-content: center;
+  justify-content: center !important;
   align-items: center;
-  // padding-inline: 30px;
   gap: 3px;
+  margin-left: 5px;
   font-family: $primaryFontFamily;
 }
 
@@ -507,11 +553,12 @@
 .smr_prod_mtcolr_price {
   display: flex;
   justify-content: center;
+  align-items: center;
   font-size: 14px;
   font-weight: 500;
   gap: 3px;
   font-family: $primaryFontFamily;
-  padding: 7px;
+  padding-left: 5px;
   align-items: baseline;
 }
 
@@ -522,14 +569,8 @@
   color: $primaryfontcolor;
   gap: 2px;
   font-size: 14px;
-  // font-weight: 600;
-
-  // .smr_currencyFont{
-
-  // }
-  // .smr_pricePort{
-
-  // }
+  color: black;
+  font-weight: 600;
 }
 
 .smr_mui_checkbox_label {
@@ -582,7 +623,7 @@
 
 .smrWeb_app_product_label {
   position: absolute;
-  bottom: 100px;
+  bottom: 110px;
   display: flex;
   flex-direction: column-reverse;
   gap: 3px;
@@ -590,7 +631,18 @@
   width: 60px
 }
 
+// .smrWeb_app_product_label {
+//   display: flex;
+//   flex-direction: column-reverse;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 3px;
+//   font-size: 14px;
+//   width: 100%
+// }
+
 .smrWeb_app_instock {
+  border-radius: 50px;
   background-color: #00d300;
   color: white;
   text-transform: uppercase;
@@ -602,13 +654,13 @@
   // padding: 0px 5px;
   /* background-color: white !important; */
   /* border: 1px solid red !important; */
-  /* border-radius: 50px; */
   /* color: red !important; */
   // margin-left: 5px;
+  border-radius: 50px;
   background-color: #006B6B;
   color: white;
   text-transform: uppercase;
-  width: 70px;
+  width: 85px;
   font-size: 10px;
 }
 
@@ -617,7 +669,6 @@
   // color: black;
   padding: 0px 5px;
   background-color: white !important;
-  padding: 0px 5px;
   border: 1px solid #ff8c00 !important;
   border-radius: 50px;
   color: #ff8c00 !important;
@@ -625,6 +676,7 @@
 }
 
 .smr_app_newarrival {
+  border-radius: 50px;
   background-color: darkblue;
   color: white;
   text-transform: uppercase;
@@ -633,6 +685,7 @@
 }
 
 .smrWeb_app_newarrival {
+  border-radius: 50px;
   background-color: deeppink;
   color: white;
   text-transform: uppercase;
@@ -645,7 +698,7 @@
   // padding: 0px 5px;
   /* background-color: white !important; */
   /* border: 1px solid red !important; */
-  /* border-radius: 50px; */
+  border-radius: 50px;
   /* color: red !important; */
   // margin-left: 5px;
   background-color: purple;

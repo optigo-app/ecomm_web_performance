@@ -341,9 +341,10 @@
                   }
                 }
               }
-              .for_third_col{
+
+              .for_third_col {
                 @media screen and (max-width: 1300px) {
-                  img{
+                  img {
                     width: 100%;
                   }
                 }
@@ -438,7 +439,7 @@
                 display: flex;
                 justify-content: end;
                 align-items: center;
-              
+
               }
             }
 
@@ -1271,6 +1272,75 @@
     gap: 5px;
     margin-inline: auto;
     width: 15rem;
+    margin-top: 0.5rem;
+
+    button {
+      background-color: black;
+      font-family: $primaryFontFamily;
+      font-size: $fontSize1;
+      color: white;
+      text-transform: capitalize;
+      padding: 8px;
+      transition: all 0.2s ease-in-out !important;
+
+      &:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
+          0 6px 6px rgba(0, 0, 0, 0.23) !important;
+        opacity: 0.9 !important;
+      }
+    }
+  }
+}
+
+.for_modal_inner_nav_div_1 {
+  position: relative;
+  background-color: white;
+  width: 578px;
+  height: 130px;
+  border: 1px solid black;
+  z-index: 1;
+  text-align: center;
+  padding: 28px 25px 29px;
+  overflow: hidden;
+
+  .for_modal_nav_title {
+    color: #000;
+    font-size: 16px;
+    font-weight: 700 !important;
+    font-family: $primaryFontFamily;
+  }
+
+  .for_modal_buttons_nav_div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-inline: auto;
+    width: 15rem;
+    margin-top: 1.5rem;
+
+    button {
+      background-color: black;
+      font-family: $primaryFontFamily;
+      font-size: $fontSize1;
+      color: white;
+      text-transform: capitalize;
+      padding: 8px;
+      transition: all 0.2s ease-in-out !important;
+
+      &:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
+          0 6px 6px rgba(0, 0, 0, 0.23) !important;
+        opacity: 0.9 !important;
+      }
+    }
+  }
+
+  .for_modal_buttons_nav_div_1 {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-inline: auto;
+    width: 10rem;
     margin-top: 0.5rem;
 
     button {

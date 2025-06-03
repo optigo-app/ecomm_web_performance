@@ -1,11 +1,16 @@
 import React, { memo, Suspense, useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
+import './Components/scss/elvee_modules.scss';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { Box, CircularProgress } from '@mui/material';
+import loaderImg from  '../Elveester/Components/Assets/webLogo.png';
 import { el_companyLogo, el_companyLogoM, el_loginState, redirectModal, timerExpiredState } from './Components/Recoil/atom'
 import { storImagePath } from '../../utils/Glob_Functions/GlobalFunction';
 import CountdownTimerFnc from './Components/Pages/Home/CountdownTimer/CountdownTimerFnc';
+import ReactGA from "react-ga4";
 import RedirectModal from './Components/Pages/Home/CountdownTimer/RedirectModal';
+import MetaData from './Components/meta/MetaData';
+import MetaPage from './Components/meta/Metapage';
 const PrivateRoutes = React.lazy(() => import('./PrivateRoutes'));
 // import PrivateRoutes from './PrivateRoutes';
 const Home = React.lazy(() => import('./Components/Pages/Home/Index'));
@@ -36,7 +41,6 @@ const Privacy = React.lazy(() => import('./Components/Pages/Home/StaticPages/Pri
 const ContactForm = React.lazy(() => import('./Components/Pages/Home/StaticPages/Contact/Contact'));
 const Career = React.lazy(() => import('./Components/Pages/Home/StaticPages/Career/Career'));
 const Faqs = React.lazy(() => import('./Components/Pages/Home/StaticPages/Faqs/Faqs'));
-const New1 = React.lazy(() => import('./Components/Pages/Product/ProductDetail/New.1'));
 const History = React.lazy(() => import('./Components/Pages/Home/StaticPages/History/History'));
 const Appointment = React.lazy(() => import('./Components/Pages/Home/StaticPages/BookAppointment/Appointment'));
 
@@ -69,6 +73,32 @@ const Elveester_app = () => {
     }
   }, [loginData, islogin]);
 
+  const measurementId = "G-NVTM8JJJ19";
+
+  useEffect(() => {
+    // Initialize only once
+    ReactGA.initialize(measurementId);
+  }, []);
+
+  useEffect(() => {
+    // Send pageview
+    const timeoutId = setTimeout(() => {
+      ReactGA.send({
+        hitType: "pageview",
+        page: location.pathname + location.search,
+        title: document.title || "Elvee",
+      });
+
+      // Optional: Send event on navigation
+      ReactGA.event({
+        category: "Navigation",
+        action: "Visited Route",
+        label: location.pathname,
+      });
+    }, 5000); // Short delay to avoid race conditions
+
+    return () => clearTimeout(timeoutId);
+  }, [location]);
 
   useEffect(() => {
     let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
@@ -97,12 +127,23 @@ const Elveester_app = () => {
         minHeight: '100vh'
       }}
     >
-      <CircularProgress sx={{ color: 'rgba(255, 87, 34, 0.8)' }} />
+      {/* <CircularProgress sx={{ color: 'rgba(255, 87, 34, 0.8)' }} /> */}
+      <img
+        src={loaderImg}
+        alt="Loading..."
+        height="100%"
+        width="auto"
+        loading="lazy"
+        style={{
+          animation: 'scaleUpDown 1.5s ease-in-out infinite', // Apply the animation here
+        }}
+      />
     </Box>
   );
 
   return (
     <div>
+      <MetaPage />
       {getRedModal === true && <RedirectModal />}
       {showHeader && <Header />}
       <Suspense fallback={<LoadingFallback />}>
@@ -144,17 +185,9 @@ const Elveester_app = () => {
             <Route path="/Confirmation" element={<ConfirmationPage />} />
             <Route path="/p/*" element={<ProductList />} />
             <Route path="/d/*" element={<ProductDetail />} />
-            {/* <Route path="/d/*" element={<ProductDetail />} /> */}
             <Route path="/Lookbook" element={<Lookbook />} />
             <Route path="/account" element={<Account />} />
           </Route>
-          {/* <Route path="/LoginOption" element={<LoginOption />} />
-        <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />
-        <Route path="/ContimueWithMobile" element={<ContimueWithMobile />} />
-        <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
-        <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />
-        <Route path="/LoginWithMobileCode" element={<LoginWithMobileCode />} />
-        <Route path="/Register" element={<Register />} /> */}
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route path="/history" element={<History />} />
           <Route path="/term&condition" element={<Terms />} />

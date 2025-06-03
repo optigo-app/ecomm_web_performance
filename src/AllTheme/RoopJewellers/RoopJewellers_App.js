@@ -1,9 +1,11 @@
-import React, { Suspense, lazy,useState,useEffect } from 'react';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import './Components/scss/variable.scss';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import PrivateRoutes from "./PrivateRoutes";
 import Cookies from "js-cookie";
 import { Helmet } from "react-helmet";
+import loaderImg from './Components/Assets/webLogo.png';
 import { roop_CartNo, roop_companyLogo, roop_loginState } from "./Components/Recoil/atom";
 import { storImagePath, storInitDataPath } from "../../utils/Glob_Functions/GlobalFunction";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
@@ -38,7 +40,8 @@ import Wishlist from "./Components/Pages/Wishlist/Wishlist";
 // import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
 // import Header2 from "./Components/Pages/Home/Header/Header2";
 import Account from "./Components/Pages/Account/Account";
-import AXboutUs from './Components/Pages/aboutUs/AQbout';
+// import AXboutUs from './Components/Pages/aboutUs/AQbout';
+import { Box, CircularProgress } from '@mui/material';
 // import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 // import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
 // import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
@@ -61,6 +64,7 @@ const ContimueWithMobile = lazy(() => import("./Components/Pages/Auth/ContimueWi
 const LoginWithEmailCode = lazy(() => import("./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode"));
 const LoginWithMobileCode = lazy(() => import("./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode"));
 const AboutUs = lazy(() => import("./Components/Pages/aboutUs/AboutUs"));
+const AXboutUs = lazy(() => import("./Components/Pages/aboutUs/AQbout"));
 // const Wishlist = lazy(() => import("./Components/Pages/Wishlist/Wishlist"));
 const PageNotFound = lazy(() => import("./Components/Pages/404Page/PageNotFound"));
 const Delivery = lazy(() => import("./Components/Pages/OrderFlow/DeliveryPage/Delivery"));
@@ -92,7 +96,7 @@ const RoopJewellers_App = () => {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-     fetch(`${storInitDataPath()}/StoreInit.json`)
+    fetch(`${storInitDataPath()}/StoreInit.json`)
       .then((response) => response.text())
       .then((text) => {
         try {
@@ -100,12 +104,12 @@ const RoopJewellers_App = () => {
           setHtmlContent(jsonData);
         } catch (error) {
           console.error("Error parsing JSON:", error);
-          return ;
+          return;
         }
       })
       .catch((error) => {
         console.error("Error fetching the file:", error);
-        return ;
+        return;
       });
   }, []);
 
@@ -170,118 +174,133 @@ const RoopJewellers_App = () => {
     }
   }
 
-  
-  const Vaara = 1 ;
 
-  const Vara = Vaara == 0 ? <AboutUs/> : <AboutUsVara/>
+  const Vaara = 0;
 
-  console.log(location)
+  const Vara = Vaara == 0 ? <AXboutUs /> : <AboutUsVara />
+
+  const LoadingFallback = () => (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh'
+      }}
+    >
+      {/* <CircularProgress sx={{ color: 'rgba(255, 87, 34, 0.8)' }} /> */}
+      <img
+        src={loaderImg}
+        alt="Loading..."
+        height="100%"
+        width="auto"
+        loading="lazy"
+        style={{
+          animation: 'scaleUpDown 1.5s ease-in-out infinite', // Apply the animation here
+        }}
+      />
+    </Box>
+  );
+
   return (
     <>
-    <Suspense fallback={<>
-      <div className="loading" style={{
-        width:"100%",
-        height:"100vh",
-        backgroundColor:"#fff",
-        position:"fixed",
-      }}>
-
-      </div>
+      <Suspense fallback={<>
+        <LoadingFallback />
       </>}>
-      <Helmet>
-        <title>{localData?.BrowserTitle}</title>
-      </Helmet>
-      <div style={{ minHeight: '85vh' }}>
-        {/* <div style={{ minHeight: '700px' }}> */}
-        {localData?.Headerno === 1 && <Header />}
-        {/* {localData?.Headerno === 2 && <Header2 />} */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/LoginOption"
-            element={<LoginOption />}
-          />
-          
-          <Route
-            path="/ContinueWithEmail"
-            element={<ContinueWithEmail />}
-          />
-          <Route
-            path="/ContimueWithMobile"
-            element={<ContimueWithMobile />}
-          />
-          <Route
-            path="/LoginWithEmailCode"
-            element={<LoginWithEmailCode />}
-          />
-          <Route
-            path="/LoginWithMobileCode"
-            element={<LoginWithMobileCode />}
-          />
-          <Route
-            path="/ForgotPass"
-            element={<ForgotPass />}
-          />
-          <Route
-            path="/LoginWithEmail"
-            element={<LoginWithEmail />}
-          />
-          <Route
-            path="/register"
-            element={<Register />}
-          />
-          <Route path="/ContactUs" element={<ContactUs />} />
-          {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
+        <Helmet>
+          <title>{localData?.BrowserTitle}</title>
+        </Helmet>
+        <div style={{ minHeight: '85vh' }}>
+          {/* <div style={{ minHeight: '700px' }}> */}
+          {localData?.Headerno === 1 && <Header />}
+          {/* {localData?.Headerno === 2 && <Header2 />} */}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/LoginOption"
+              element={<LoginOption />}
+            />
 
-          {/* For sonsons, shinjini, pacific, ojasvi */}
-          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+            <Route
+              path="/ContinueWithEmail"
+              element={<ContinueWithEmail />}
+            />
+            <Route
+              path="/ContimueWithMobile"
+              element={<ContimueWithMobile />}
+            />
+            <Route
+              path="/LoginWithEmailCode"
+              element={<LoginWithEmailCode />}
+            />
+            <Route
+              path="/LoginWithMobileCode"
+              element={<LoginWithMobileCode />}
+            />
+            <Route
+              path="/ForgotPass"
+              element={<ForgotPass />}
+            />
+            <Route
+              path="/LoginWithEmail"
+              element={<LoginWithEmail />}
+            />
+            <Route
+              path="/register"
+              element={<Register />}
+            />
+            <Route path="/ContactUs" element={<ContactUs />} />
+            {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
 
-          {/* For vara */}
-          <Route
-            path="/ManagementTeam"
-            element={<ManagementTeam />}
-          />
-           <Route
-            path="/terms-and-conditions"
-            
-            element={<TermsAndConditions />}
-          />
-          {/* For sonasons and vara */}
-          <Route path="/aboutUs" element={Vara} />
+            {/* For sonsons, shinjini, pacific, ojasvi */}
+            <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
 
-          {/* For shinjini, Pacific, ojasvi */}
-          {/* <Route path="/aboutUs" element={<AXboutUs />} /> */}
-          {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
-          {/* <Route path="/FunFact" element={<FunFact />} /> */}
-          <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
-            <Route path="/p/*" element={<ProductList />} />
-            <Route path="/d/*" element={<ProductDetail />} />
-            <Route path="/cartPage" element={<Cart />} />
-            <Route path="/myWishList" element={<Wishlist />} />
-            <Route path="/Delivery" element={<Delivery />} />
-            <Route path="/Payment" element={<Payment />} />
-            <Route path="/Confirmation" element={<Confirmation />} />
-            <Route path="/account" element={<Account />} />
-          </Route>
-          {storeinit?.IsDesignSetInMenu == 1 && (
-            <Route path="/Lookbook" element={<Lookbook />} />
-          )}
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </div>
-      {
-        (location.pathname != "payment") ||
-          (location.pathname != "Delivery") ||
-          (location.pathname != "Confirmation") ?
-          <Footer />
-          :
-          ''
+            {/* For vara */}
+            {/* <Route
+              path="/ManagementTeam"
+              element={<ManagementTeam />}
+            /> */}
+            <Route
+              path="/terms-and-conditions"
+
+              element={<TermsAndConditions />}
+            />
+            {/* For sonasons and vara */}
+            <Route path="/aboutUs" element={Vara} />
+
+            {/* For shinjini, Pacific, ojasvi */}
+            {/* <Route path="/aboutUs" element={<AXboutUs />} /> */}
+            {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
+            {/* <Route path="/FunFact" element={<FunFact />} /> */}
+            <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
+              <Route path="/p/*" element={<ProductList />} />
+              <Route path="/d/*" element={<ProductDetail />} />
+              <Route path="/cartPage" element={<Cart />} />
+              <Route path="/myWishList" element={<Wishlist />} />
+              <Route path="/Delivery" element={<Delivery />} />
+              <Route path="/Payment" element={<Payment />} />
+              <Route path="/Confirmation" element={<Confirmation />} />
+              <Route path="/account" element={<Account />} />
+            </Route>
+            {storeinit?.IsDesignSetInMenu == 1 && (
+              <Route path="/Lookbook" element={<Lookbook />} />
+            )}
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </div>
+        {
+          (location.pathname != "payment") ||
+            (location.pathname != "Delivery") ||
+            (location.pathname != "Confirmation") ?
+            <Footer />
+            :
+            ''
         }
 
         {/* For vara */}
         {/* {  location.pathname !== "/404" &&           <BrandsComponent/>} */}
-      <StamScrollToTop />
-    </Suspense>
+        <StamScrollToTop />
+      </Suspense>
     </>
 
   );

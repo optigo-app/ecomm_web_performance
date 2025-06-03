@@ -1,26 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { lazy, useEffect, useState } from 'react'
 import './Account.scss'
+import Cookies from 'js-cookie';
 import { Box, Tab, Tabs, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
-import Footer from '../Home/Footer/Footer';
 import { el_loginState, loginState } from '../../Recoil/atom';
-import { useSetRecoilState } from 'recoil';
-
-import YourProfile from './YourProfile/YourProfile';
-import ChangePassword from './changePassword/ChangePassword';
-import ManageAddress from './address/ManageAddress';
-import OrderHistory from './AccountOrderHistory/OrderHisoty';
-
-
-import AccountLedger from './AccountLeger/AccountLedger';
-import Sales from './Sales/Sales';
-import DesignWiseSalesReport from "./DesignWiseSalesReport/DesignWiseSalesReport"
-import SalesReport from './SalesReport/SalesReport';
-import QuotationJob from './QuotationJob/QuotationJob';
-import QuotationQuote from './QuotationQuote/QuotationQuote';
-import PendingMemo from './PendingMemo/PendingMemo';
-
-
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import HomeIcon from "@mui/icons-material/Home";
@@ -29,13 +12,24 @@ import SummarizeIcon from "@mui/icons-material/Summarize";
 import ShieldIcon from "@mui/icons-material/Shield";
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
-
-
+import { useSetRecoilState } from 'recoil';
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
-import Plm from './PLM/Plm';
-import Cookies from 'js-cookie';
-import NewOrderHistoryElvee from './AccountOrderHistory/NewOrderHistoryElvee';
-import {handleScrollTop} from '../../../../../utils/Glob_Functions/GlobalFunction'
+import { handleScrollTop } from '../../../../../utils/Glob_Functions/GlobalFunction'
+
+const YourProfile = lazy(() => import('./YourProfile/YourProfile'));
+const ChangePassword = lazy(() => import('./changePassword/ChangePassword'));
+const ManageAddress = lazy(() => import('./address/ManageAddress'));
+const OrderHistory = lazy(() => import('./AccountOrderHistory/OrderHisoty'));
+const Footer = lazy(() => import('../Home/Footer/Footer'));
+const AccountLedger = lazy(() => import('./AccountLeger/AccountLedger'));
+const Sales = lazy(() => import('./Sales/Sales'));
+const DesignWiseSalesReport = lazy(() => import('./DesignWiseSalesReport/DesignWiseSalesReport'));
+const SalesReport = lazy(() => import('./SalesReport/SalesReport'));
+const QuotationJob = lazy(() => import('./QuotationJob/QuotationJob'));
+const QuotationQuote = lazy(() => import('./QuotationQuote/QuotationQuote'));
+const PendingMemo = lazy(() => import('./PendingMemo/PendingMemo'));
+const Plm = lazy(() => import('./PLM/Plm'));
+const NewOrderHistoryElvee = lazy(() => import('./AccountOrderHistory/NewOrderHistoryElvee'));
 
 
 function CustomTabPanel(props) {
@@ -138,10 +132,10 @@ export default function Account() {
         window.location.reload();
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         const init = JSON.parse(sessionStorage.getItem('storeInit')) ?? {};
         setStoreinit(init);
-     },[])
+    }, [])
 
     return (
         <div className='accountTab_Account_elvee'>
@@ -151,19 +145,19 @@ export default function Account() {
                         <div className='sticky_header_web_sm_elvee'>
                             <p className='SmilingAccountTitle youraccountpagesec elvee_fs_pt'>Your Account</p>
                             <div className='smlingAccountTabWebView_elvee yourAccount d_none_acc_elvee'>
-                                    <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
-                                        <Tabs value={value} onChange={handleChange } onClick={handleScrollTop}  aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
-                                            <Tab label="Your Profile" className='elvee_fs_pt' {...a11yProps(0)} />
-                                            <Tab label="ORDER HISTORY" className='elvee_fs_pt' {...a11yProps(1)} />
-                                            <Tab label="MANAGE ADDRESSES" className='elvee_fs_pt' {...a11yProps(2)} />
-                                            {accountValidation() && <Tab label="ACCOUNT" className='elvee_fs_pt' {...a11yProps(3)} />}
-                                            <Tab label="CHANGE PASSWORD" className='elvee_fs_pt' {...a11yProps(accountValidation() ? 4 : 3)} />
-                                            {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                                            { loginUSerDeatil?.IsPLWOn === 1 && <Tab label="PLM" className='elvee_fs_pt' {...a11yProps(5)} />}
-                                            <Tab label="Log Out" className='elvee_fs_pt' onClick={handleLogout} />
-                                        </Tabs>
-                                        {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
-                                    </Box>
+                                <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
+                                    <Tabs value={value} onChange={handleChange} onClick={handleScrollTop} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
+                                        <Tab label="Your Profile" className='elvee_fs_pt' {...a11yProps(0)} />
+                                        <Tab label="ORDER HISTORY" className='elvee_fs_pt' {...a11yProps(1)} />
+                                        <Tab label="MANAGE ADDRESSES" className='elvee_fs_pt' {...a11yProps(2)} />
+                                        {accountValidation() && <Tab label="ACCOUNT" className='elvee_fs_pt' {...a11yProps(3)} />}
+                                        <Tab label="CHANGE PASSWORD" className='elvee_fs_pt' {...a11yProps(accountValidation() ? 4 : 3)} />
+                                        {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                        {loginUSerDeatil?.IsPLWOn === 1 && <Tab label="PLM" className='elvee_fs_pt' {...a11yProps(5)} />}
+                                        <Tab label="Log Out" className='elvee_fs_pt' onClick={handleLogout} />
+                                    </Tabs>
+                                    {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
+                                </Box>
                             </div>
                             {/* <div className='smlingAccountTabMobileView YourAccountPageTabs yourAccount' style={{display:'none'}}>
                                     <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
@@ -179,24 +173,26 @@ export default function Account() {
                                     </Box>
                                 
                             </div> */}
-                            <div className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount iconsTabAcc_elvee" style={{paddingTop:'1%', display: "flex", alignItems: "center", justifyContent: "center"}}>
-                <Tabs value={value} orientation="horizontal" variant="scrollable"   onClick={handleScrollTop} onChange={handleChange} className='elvee_fs_pt' TabIndicatorProps={{ style: { backgroundColor: "black",
-                        marginTop: "5px", // This changes the underline color to black
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                    },
-                    }}
-                    style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", }} >
-                    <Tab icon={<AccountBoxIcon titleAccess="Your Profile" />} {...a11yProps(0)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
-                    <Tab icon={<ListAltIcon titleAccess="Order History" />} {...a11yProps(1)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
-                    <Tab icon={<PersonPinIcon titleAccess="Manage Address" />} {...a11yProps(2)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
-                    {accountValidation() && ( <Tab icon={<AutoStoriesIcon titleAccess="Accounts" />} {...a11yProps(3)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} /> )}
-                    <Tab icon={ <LockResetIcon titleAccess="Change Password" {...a11yProps(accountValidation() ? 4 : 3)} /> } style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
-                    {loginUSerDeatil?.IsPLWOn === 1 && ( <Tab icon={<ShieldIcon titleAccess="PLM" />} {...a11yProps(5)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} /> )}
-                </Tabs>
-                </div>
+                            <div className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount iconsTabAcc_elvee" style={{ paddingTop: '1%', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Tabs value={value} orientation="horizontal" variant="scrollable" onClick={handleScrollTop} onChange={handleChange} className='elvee_fs_pt' TabIndicatorProps={{
+                                    style: {
+                                        backgroundColor: "black",
+                                        marginTop: "5px", // This changes the underline color to black
+                                        display: "flex", alignItems: "center", justifyContent: "center",
+                                    },
+                                }}
+                                    style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", }} >
+                                    <Tab icon={<AccountBoxIcon titleAccess="Your Profile" />} {...a11yProps(0)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                                    <Tab icon={<ListAltIcon titleAccess="Order History" />} {...a11yProps(1)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                                    <Tab icon={<PersonPinIcon titleAccess="Manage Address" />} {...a11yProps(2)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                                    {accountValidation() && (<Tab icon={<AutoStoriesIcon titleAccess="Accounts" />} {...a11yProps(3)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />)}
+                                    <Tab icon={<LockResetIcon titleAccess="Change Password" {...a11yProps(accountValidation() ? 4 : 3)} />} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                                    {loginUSerDeatil?.IsPLWOn === 1 && (<Tab icon={<ShieldIcon titleAccess="PLM" />} {...a11yProps(5)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />)}
+                                </Tabs>
+                            </div>
                         </div>
                         <div className='smling-AccountTabMain_elvee'>
-                            <Box sx={{ width: '100%', padding:'0px' }}>
+                            <Box sx={{ width: '100%', padding: '0px' }}>
 
                                 <CustomTabPanel value={value} index={0}>
                                     <div>
@@ -206,11 +202,11 @@ export default function Account() {
 
                                 <CustomTabPanel value={value} index={1}>
                                     <div>
-                                
+
                                         <NewOrderHistoryElvee />
                                     </div>
                                 </CustomTabPanel>
-                                
+
                                 <CustomTabPanel value={value} index={2} className="manageAddressSec">
                                     <ManageAddress />
                                 </CustomTabPanel>
@@ -222,10 +218,10 @@ ollable" onChange={handleChangeSub} aria-label="basic tabs example"
                                             sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
                                             {
                                                 accountInner?.map((e, i) => {
-                                                    if(Storeinit?.IsPriceShow == 0 && e.tabComp === "AccountLedger"){
+                                                    if (Storeinit?.IsPriceShow == 0 && e.tabComp === "AccountLedger") {
                                                         return <Tab sx={{
                                                             display: 'none',
-                                                        }} /> ;
+                                                        }} />;
                                                     }
                                                     return <Tab label={e?.tabLabel} className='elvee_fs_pt' {...a11yProps(i)} sx={{ color: "#7d7f85" }} key={i} />
                                                 })

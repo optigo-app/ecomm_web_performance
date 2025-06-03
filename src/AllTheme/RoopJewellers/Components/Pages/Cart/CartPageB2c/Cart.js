@@ -22,6 +22,7 @@ function Cart(props) {
     countData,
     mrpbasedPriceFlag,
     openMobileModal,
+    finalCartData,
     handlecloseMobileModal,
     CartCardImageFunc,
     handleSelectItem,
@@ -63,7 +64,7 @@ function Cart(props) {
       <Basket
         isOpen={isOpen}
         closeDrawer={handleCloseDrawer}
-        items={cartData}
+        items={finalCartData}
         qtyCount={qtyCount}
         CurrencyData={CurrencyData}
         CartCardImageFunc={CartCardImageFunc}

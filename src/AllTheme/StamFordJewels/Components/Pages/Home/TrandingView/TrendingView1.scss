@@ -235,6 +235,34 @@
 }
 
 .stam_trendSet_Main {
+
+  height: 630px;
+
+  @media (max-width: 1650px) {
+    height: 590px;
+  }
+
+  @media (max-width: 1450px) {
+    height: 550px;
+  }
+
+  @media (max-width: 1400px) {
+    height: 500px;
+  }
+
+  @media (max-width: 1200px) {
+    height: 515px;
+  }
+
+  @media (max-width: 1000px) {
+    height: 430px;
+  }
+
+  @media (max-width: 400px) {
+    height: 600px;
+  }
+
+
   .stam_trending1TitleDiv {
     text-align: center;
     padding-block: 10px;
@@ -344,7 +372,7 @@
       }
     }
 
-    .prod_info_data{
+    .prod_info_data {
       font-size: $fontSize1;
       font-family: $primaryFontFamily;
       color: $titleColor;
@@ -408,21 +436,27 @@
     @media (max-width: 1400px) {
       height: 60%;
     }
+
     @media (max-width: 1024px) {
       height: 55%;
     }
+
     @media (max-width: 767px) {
       height: 65%;
     }
+
     @media (max-width: 600px) {
       height: 55%;
     }
+
     @media (max-width: 503px) {
       height: 50%;
     }
+
     @media (max-width: 499px) {
       height: 63%;
     }
+
     @media (max-width: 399px) {
       height: 75%;
     }
@@ -543,12 +577,13 @@
     position: relative !important;
     bottom: 35px !important;
     left: 50% !important;
-    transform: translateX(-50%) !important; 
+    transform: translateX(-50%) !important;
     text-align: center !important;
 
     @media (max-width: 1500px) {
       bottom: 20px !important;
     }
+
     @media (max-width: 1000px) {
       bottom: 45px !important;
     }

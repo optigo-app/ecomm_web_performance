@@ -82,11 +82,12 @@ const WishlistData = ({
           </div>
         }
         <Grid container spacing={2} className='smr_wlListGrid'>
-          {items.map(item => (
+          {items.map((item, index) => (
             <WishlistItems
               key={item.id}
               selectedValue={alignment}
               item={item}
+              index={index}
               updateCount={updateCount}
               countDataUpdted={countDataUpdted}
               currency={curr}

@@ -19,7 +19,6 @@ const WishlistData = ({
   handelMenu
 }) => {
 
-  console.log('itemLength', items?.length);
   const [alignment, setAlignment] = React.useState('1');
 
   // const handleChange = (event, newAlignment) => {
