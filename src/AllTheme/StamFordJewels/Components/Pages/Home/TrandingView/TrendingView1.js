@@ -12,8 +12,9 @@ import { useRecoilValue } from 'recoil';
 import { stam_loginState } from '../../../Recoil/atom';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import Pako from 'pako';
+import { Skeleton } from '@mui/material';
 
-const TrendingView1 = ({data}) => {
+const TrendingView1 = ({ data }) => {
 
     const trandingViewData = [
         '/images/HomePage/TrendingViewBanner/tranding1.png',
@@ -68,7 +69,8 @@ const TrendingView1 = ({data}) => {
             if (!trendingData?.length) return;
 
             const imagePromises = trendingData.map(async (trend) => {
-                const imgSrc = `${storeInit?.CDNDesignImageFol}${trend?.designno}~1.${trend?.ImageExtension}`
+                // const imgSrc = `${storeInit?.CDNDesignImageFol}${trend?.designno}~1.${trend?.ImageExtension}`
+                const imgSrc = `${storeInit?.CDNDesignImageFolThumb}${trend?.designno}~1.jpg`
                 return { ...trend, src: imgSrc };
             });
 
@@ -139,145 +141,173 @@ const TrendingView1 = ({data}) => {
             <div className='stam_mainTrending1Div'>
                 <div className="stam_trendingProduct-grid">
                     <div className='stam_leftSideBestTR'>
-                        {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trendingBanner.png`} */}
+                        {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trendingBanner.png`} loading="lazy" */}
                         <img src={data?.image?.[0]}
+                            loading="lazy"
                             alt="Trending Jewellery Collection Banner"
                         />
                     </div>
                 </div>
             </div>
-            <div className="stam_trendSet_Main">
-                <div className='stam_trending1TitleDiv'>
-                    <span className='stam_trending1Title' id='stam_Trending'>TRENDING ON SONASONS</span>
-                    <p className='stam_trending1Title_para'>Discover the latest in luxury with our trending jewellery, elegance that sets the style.</p>
-                </div>
+            {isLoading ? <Skeleton
+                variant="rectangular"
+                width="100%"
+                height="630px"
+                animation="wave"
+                sx={{
+                    '@media (max-width: 1650px)': {
+                        height: "590px !important",
+                    },
+                    '@media (max-width: 1450px)': {
+                        height: "550px !important",
+                    },
+                    '@media (max-width: 1400px)': {
+                        height: "500px !important",
+                    },
+                    '@media (max-width: 1200px)': {
+                        height: "515px !important",
+                    },
+                    '@media (max-width: 1000px)': {
+                        height: "430px !important",
+                    },
+                    '@media (max-width: 400px)': {
+                        height: "600px !important",
+                    },
+                }}
+            /> :
+                <div className="stam_trendSet_Main">
+                    <div className='stam_trending1TitleDiv'>
+                        <span className='stam_trending1Title' id='stam_Trending'>TRENDING ON SONASONS</span>
+                        <p className='stam_trending1Title_para'>Discover the latest in luxury with our trending jewellery, elegance that sets the style.</p>
+                    </div>
 
-                <div className="stam_trend_main_sub"
-                    style={{
-                        width: GenerateWidthBaseOnContent().width,
-                    }}
-                >
-                    <Swiper
+                    <div className="stam_trend_main_sub"
                         style={{
-                            width: "100%"
+                            width: GenerateWidthBaseOnContent().width,
                         }}
-                        modules={[Pagination]}
-                        pagination={{ clickable: true }}
-                        spaceBetween={15}
-                        breakpoints={{
-                            1200: {
-                                slidesPerView: 5,
-                                spaceBetween: 10
-                            },
-                            768: {
-                                slidesPerView: 4,
-                                spaceBetween: 5
-                            },
-                            500: {
-                                slidesPerView: 3,
-                                spaceBetween: 5
-                            },
-                            400: {
-                                slidesPerView: 2,
-                                spaceBetween: 5
-                            },
-                            0: {
-                                slidesPerView: 1,
-                                spaceBetween: 5
-                            },
-                        }}
-                        className='stam_trend_main_swiper'
                     >
+                        <Swiper
+                            style={{
+                                width: "100%"
+                            }}
+                            modules={[Pagination]}
+                            pagination={{ clickable: true }}
+                            spaceBetween={15}
+                            breakpoints={{
+                                1200: {
+                                    slidesPerView: 5,
+                                    spaceBetween: 10
+                                },
+                                768: {
+                                    slidesPerView: 4,
+                                    spaceBetween: 5
+                                },
+                                500: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 5
+                                },
+                                400: {
+                                    slidesPerView: 2,
+                                    spaceBetween: 5
+                                },
+                                0: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 5
+                                },
+                            }}
+                            className='stam_trend_main_swiper'
+                        >
 
-                        {validImages?.map((item, index) => {
-                            return (
-                                <SwiperSlide
-                                    style={{
-                                        width: '100%'
-                                    }}
-                                    key={index}>
-                                    <div className="stam_trend__image_div" >
-                                        <img
-                                            className="stam_trendImg"
-                                            loading="lazy"
-                                            src={item?.src}
-                                            alt={item?.name}
-                                            onError={(e) => e.target.src = imageNotFound}
-                                            onClick={() => handleNavigate(item?.designno, item?.autocode, item?.TitleLine)}
-                                            aria-label={`View details of ${item?.name}`}
-                                        />
-                                        <p className="stam_trend_Div_name">{item?.name}</p>
-                                        <div className="product-info">
-                                        <h3>{item?.designno !== "" && item?.designno} {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}</h3>
-                                            <div className='prod_info_data'>
-                                                {storeInit?.IsGrossWeight == 1 &&
-                                                    <>
-                                                        <span className='stam_btdetailDT'>GWT: </span>
-                                                        <span className='stam_btdetailDT'>{(item?.Gwt || 0)?.toFixed(3)}</span>
-                                                    </>
-                                                }
-                                                {Number(item?.Nwt) !== 0 && (
-                                                    <>
-                                                        <span className='stam_btpipe'>|</span>
-                                                        <span className='stam_btdetailDT'>NWT : </span>
-                                                        <span className='stam_btdetailDT'>{(item?.Nwt || 0)?.toFixed(3)}</span>
-                                                    </>
-                                                )}
-                                                {storeInit?.IsDiamondWeight == 1 &&
-                                                    <>
-                                                        {(item?.Dwt != "0" || item?.Dpcs != "0") &&
-                                                            <>
-                                                                <span className='stam_btpipe'>|</span>
-                                                                <span className='stam_btdetailDT'>DWT: </span>
-                                                                <span className='stam_btdetailDT'>{(item?.Dwt || 0)?.toFixed(3)}/{(item?.Dpcs || 0)}</span>
-                                                            </>
-                                                        }
-                                                    </>
-                                                }
-                                                {storeInit?.IsStoneWeight == 1 &&
-                                                    <>
-                                                        {(item?.CSwt != "0" || item?.CSpcs != "0") &&
-                                                            <>
-                                                                <span className='stam_btpipe'>|</span>
-                                                                <span className='stam_btdetailDT'>CWT: </span>
-                                                                <span className='stam_btdetailDT'>{(item?.CSwt || 0)?.toFixed(3)}/{(item?.CSpcs || 0)}</span>
-                                                            </>
-                                                        }
-                                                    </>
-                                                }
+                            {validImages?.map((item, index) => {
+                                return (
+                                    <SwiperSlide
+                                        style={{
+                                            width: '100%'
+                                        }}
+                                        key={index}>
+                                        <div className="stam_trend__image_div" >
+                                            <img
+                                                className="stam_trendImg"
+                                                loading="lazy"
+                                                src={item?.src}
+                                                alt={item?.name}
+                                                onError={(e) => e.target.src = imageNotFound}
+                                                onClick={() => handleNavigate(item?.designno, item?.autocode, item?.TitleLine)}
+                                                aria-label={`View details of ${item?.name}`}
+                                            />
+                                            <p className="stam_trend_Div_name">{item?.name}</p>
+                                            <div className="product-info">
+                                                <h3>{item?.designno !== "" && item?.designno} {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}</h3>
+                                                <div className='prod_info_data'>
+                                                    {storeInit?.IsGrossWeight == 1 &&
+                                                        <>
+                                                            <span className='stam_btdetailDT'>GWT: </span>
+                                                            <span className='stam_btdetailDT'>{(item?.Gwt || 0)?.toFixed(3)}</span>
+                                                        </>
+                                                    }
+                                                    {Number(item?.Nwt) !== 0 && (
+                                                        <>
+                                                            <span className='stam_btpipe'>|</span>
+                                                            <span className='stam_btdetailDT'>NWT : </span>
+                                                            <span className='stam_btdetailDT'>{(item?.Nwt || 0)?.toFixed(3)}</span>
+                                                        </>
+                                                    )}
+                                                    {storeInit?.IsDiamondWeight == 1 &&
+                                                        <>
+                                                            {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                                                                <>
+                                                                    <span className='stam_btpipe'>|</span>
+                                                                    <span className='stam_btdetailDT'>DWT: </span>
+                                                                    <span className='stam_btdetailDT'>{(item?.Dwt || 0)?.toFixed(3)}/{(item?.Dpcs || 0)}</span>
+                                                                </>
+                                                            }
+                                                        </>
+                                                    }
+                                                    {storeInit?.IsStoneWeight == 1 &&
+                                                        <>
+                                                            {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                                                                <>
+                                                                    <span className='stam_btpipe'>|</span>
+                                                                    <span className='stam_btdetailDT'>CWT: </span>
+                                                                    <span className='stam_btdetailDT'>{(item?.CSwt || 0)?.toFixed(3)}/{(item?.CSpcs || 0)}</span>
+                                                                </>
+                                                            }
+                                                        </>
+                                                    }
+                                                </div>
+                                                {storeInit?.IsPriceShow == 1 && <p>
+                                                    <span className="stam_currencyFont">
+                                                        {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(item?.UnitCostWithMarkUp)}</span></p>}
                                             </div>
-                                            {storeInit?.IsPriceShow == 1 &&   <p>
-                                                <span className="stam_currencyFont">
-                                                    {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
-                                                </span>&nbsp;
-                                                <span>{formatter(item?.UnitCostWithMarkUp)}</span></p>}
                                         </div>
-                                    </div>
-                                </SwiperSlide>
-                            )
-                        })}
-                        {validImages?.length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
-                            width: "25%",
-                            height: "auto",
-                            borderRadius: "4px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center"
-                        }}>
-                            <div className="data_album">
-                                <button style={{
-                                    border: "none",
-                                    backgroundColor: "transparent",
-                                    fontWeight: "500",
-                                    textDecoration: "underline",
-                                    color: "grey"
-                                }} aria-label="View more trending products"
-                                    className='btn_more_A' onClick={() => HandleTrendingMore()}>View More</button>
-                            </div>
-                        </SwiperSlide>}
-                    </Swiper>
-                </div>
-            </div >
+                                    </SwiperSlide>
+                                )
+                            })}
+                            {validImages?.length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
+                                width: "25%",
+                                height: "auto",
+                                borderRadius: "4px",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center"
+                            }}>
+                                <div className="data_album">
+                                    <button style={{
+                                        border: "none",
+                                        backgroundColor: "transparent",
+                                        fontWeight: "500",
+                                        textDecoration: "underline",
+                                        color: "grey"
+                                    }} aria-label="View more trending products"
+                                        className='btn_more_A' onClick={() => HandleTrendingMore()}>View More</button>
+                                </div>
+                            </SwiperSlide>}
+                        </Swiper>
+                    </div>
+                </div >
+            }
         </>
     );
 };

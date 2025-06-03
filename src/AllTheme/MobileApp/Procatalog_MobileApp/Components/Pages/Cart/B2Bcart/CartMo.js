@@ -30,6 +30,7 @@ const CartPage = () => {
     mrpbasedPriceFlag,
     openMobileModal,
     setOpenMobileModal,
+    finalCartData,
     handlecloseMobileModal,
     CartCardImageFunc,
     handleSelectItem,
@@ -75,11 +76,11 @@ const CartPage = () => {
       <div className='smrMo_cartMainPageDiv'>
         {!isloding ? (
           <>
-            {cartData.length !== 0 ? (
+            {finalCartData.length !== 0 ? (
               <div className="smrMo_cartMainPage">
                 <div className="smrMo_cartList">
                   <CartList
-                    items={cartData}
+                    items={finalCartData}
                     CartCardImageFunc={CartCardImageFunc}
                     showRemark={showRemark}
                     productRemark={productRemark}

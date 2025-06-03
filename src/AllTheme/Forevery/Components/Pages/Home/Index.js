@@ -16,6 +16,8 @@ import InstagramSection from "./Common/InstagramSection/InstagramSection";
 import NewArrivalCarousel from "./Common/ProductCarousel/CarouselReUse";
 import useHomeBannerImages from "../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner";
 import { GetAPIUrlFromStoreInit } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import { useRecoilValue } from "recoil";
+import { for_isRingFlowOn } from "../../Recoil/atom";
 
 function Home() {
   const banner = useHomeBannerImages();
@@ -26,6 +28,7 @@ function Home() {
       top: 0,
     });
   }, []);
+  const isRingFlowOn = useRecoilValue(for_isRingFlowOn);
 
   return (
     <>
@@ -35,7 +38,9 @@ function Home() {
             <TopVideoSection data={banner?.mainBanner} />
             <ShoptheCollections />
             <LabgrownDiamondInfo data={banner?.middleBanner} />
-            <ShapeSection />
+            {isRingFlowOn === 1 &&
+              <ShapeSection />
+            }
             {/* <DiamondLifeTime data={banner?.middleBanner} /> */}
             {data?.IsHomeTrending == 1 && <ProductCarousel />}
             <Bestseller />

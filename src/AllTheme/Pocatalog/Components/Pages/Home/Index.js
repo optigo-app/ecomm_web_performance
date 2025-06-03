@@ -1,18 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Index.modul.scss'
 import TopSection from './TopVideo/TopSection';
-import TheDifference from './TheDifference/TheDifference';
-import PromotionBaner1 from './PromotionBanner1/PromotionBaner1';
-import ShopByCategory from './ShopByCategory/ShopByCategory';
-import PromoSetSection from './BestSellerSection/BestSellerSection';
-import SustainAbility from './SustainAbility/SustainAbility';
-import BottomBanner from './BottomBanner/BottomBanner';
-import Footer from './Footer/Footer';
-import TrendingView from './TrandingView/TrendingView';
-import DesignSet from './DesignSet/DesignSet';
 import Album from './Album/Album';
-import NewArrival from './NewArrival/NewArrival';
-import BestSellerSection from './BestSellerSection/BestSellerSection';
 import { Helmet } from 'react-helmet';
 
 function Home() {

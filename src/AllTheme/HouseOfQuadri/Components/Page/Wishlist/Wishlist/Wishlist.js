@@ -21,6 +21,7 @@ const Wishlist = () => {
     updateCount,
     countDataUpdted,
     itemInCart,
+    finalWishData,
     decodeEntities,
     WishCardImageFunc,
     handleRemoveItem,
@@ -104,7 +105,7 @@ const Wishlist = () => {
       <div className="WlMainPageDiv">
         <div className="WlBtnGroupMainDiv">
           <div className="hoq_Wl-title">My Wishlist</div>
-          {wishlistData?.length != 0 &&
+          {finalWishData?.length != 0 &&
             <>
               <div className="hoq_WlButton-group">
                 <Link
@@ -126,7 +127,7 @@ const Wishlist = () => {
         {!isWLLoading ? (
           <WishlistData
             isloding={isWLLoading}
-            items={wishlistData}
+            items={finalWishData}
             updateCount={updateCount}
             countDataUpdted={countDataUpdted}
             curr={CurrencyData}

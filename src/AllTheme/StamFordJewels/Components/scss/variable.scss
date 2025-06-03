@@ -10,7 +10,22 @@ $btn1ActivebgColor: #7d7f85;
 $stambackcolor: #fff2e6;
 $stamMainBackColor: #fbf8f3;
 
+@keyframes scaleUpDown {
+    0% {
+        transform: scale(1);
+        /* Start at normal size */
+    }
 
+    50% {
+        transform: scale(1.1);
+        /* Scale up to 110% */
+    }
+
+    100% {
+        transform: scale(1);
+        /* Scale back to normal size */
+    }
+}
 
 
 //fontcolors

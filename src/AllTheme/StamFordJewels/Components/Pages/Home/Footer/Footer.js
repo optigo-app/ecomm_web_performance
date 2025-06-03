@@ -247,7 +247,7 @@ const Footer = ({ fromPage }) => {
           </div>
         </div>
       </div>
-      <p className="stam_footer_bottom_line">©2024 Sonsons</p>
+      <p className="stam_footer_bottom_line">©2025 Sonsons</p>
     </footer>
   );
 };

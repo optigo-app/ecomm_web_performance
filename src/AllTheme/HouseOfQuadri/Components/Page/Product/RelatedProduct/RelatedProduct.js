@@ -29,15 +29,22 @@ const RelatedProduct = ({
 
                     // storeInit?.CDNDesignImageFol + ele?.designno + "~" + "1" + "." + ele?.ImageExtension
                     hoq?.ImageCount > 0
-                      ? storeInit?.CDNDesignImageFol +
-                        hoq?.designno +
-                        "~" +
-                        "1" +
-                        "." +
-                        hoq?.ImageExtension
+                      // ? storeInit?.CDNDesignImageFol +
+                      //   hoq?.designno +
+                      //   "~" +
+                      //   "1" +
+                      //   "." +
+                      //   hoq?.ImageExtension
+                      ? storeInit?.CDNDesignImageFolThumb +
+                      hoq?.designno +
+                      "~" +
+                      "1" +
+                      "." +
+                      "jpg"
                       : noimage
                   }
                   alt={hoq?.id}
+                  loading="lazy"
                   style={{
                     objectFit: "contain !important",
                   }}

@@ -15,15 +15,17 @@ import { formatRedirectTitleLine, formatter, storImagePath } from '../../../../.
 import Cookies from 'js-cookie';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { smrMA_homeLoading, smrMA_loginState } from '../../../Recoil/atom';
+import { Skeleton } from '@mui/material';
 
 
-const TrendingView = ({data}) => {
+const TrendingView = ({ data }) => {
 
     const trendingRef = useRef(null);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const [trandingViewData, setTrandingViewData] = useState([]);
     const navigation = useNavigate();
     const [storeInit, setStoreInit] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
     const islogin = useRecoilValue(smrMA_loginState);
     const [imageUrls, setImageUrls] = useState([]);
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -81,6 +83,7 @@ const TrendingView = ({data}) => {
     };
 
     const callAPI = () => {
+        setIsLoading(true)
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeinit)
         let storeInitData = JSON.parse(sessionStorage.getItem('storeInit'))
@@ -100,15 +103,19 @@ const TrendingView = ({data}) => {
             if (response?.Data?.rd) {
                 const data = response.Data.rd;
                 const urls = await Promise.all(data?.map(async (item) => {
-                    const url = `${storeInitData?.CDNDesignImageFol}${item.designno}~1.${item.ImageExtension}`;
-                    const available = await checkImageAvailability(url);
-                    return { ...item, src: available }
+                    // const url = `${storeInitData?.CDNDesignImageFol}${item.designno}~1.${item.ImageExtension}`;
+                    const url = `${storeInitData?.CDNDesignImageFolThumb}${item.designno}~1.jpg`;
+                    // const available = await checkImageAvailability(url);
+                    return { ...item, src: url }
                 }));
                 // setTrandingViewData(data);
                 setTrandingViewData(urls);
                 // setImageUrls(urls);
             }
-        }).catch((err) => console.log(err));
+        }).catch((err) => console.log(err))
+            .finally(() => {
+                setIsLoading(false);
+            });
     }
 
     const compressAndEncode = (inputString) => {
@@ -135,17 +142,17 @@ const TrendingView = ({data}) => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-    //   const link = `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`;
-      const link = `/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`;
+        //   const link = `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`;
+        const link = `/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`;
         if (IsB2BWebsite == 1) {
             if (islogin) {
                 navigation(link)
             } else {
-                localStorage.setItem('redirectLookBook',link);
+                localStorage.setItem('redirectLookBook', link);
                 navigation('/signin')
             }
         } else {
-                navigation(link)
+            navigation(link)
         }
     }
 
@@ -157,12 +164,12 @@ const TrendingView = ({data}) => {
 
     const handleNavigate = () => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
-        const link = `/p/Trending/?T=${btoa('Trending')}` ;
+        const link = `/p/Trending/?T=${btoa('Trending')}`;
         if (storeinit?.IsB2BWebsite == 1) {
             if (islogin) {
                 navigation(link)
             } else {
-                localStorage.setItem('redirectLookBook',link);
+                localStorage.setItem('redirectLookBook', link);
                 navigation('/signin')
             }
         } else {
@@ -178,12 +185,12 @@ const TrendingView = ({data}) => {
                 <div className='linkRingLove' key={i}>
                     <div>
                         <div className='linkLoveRing1' onClick={() => handleNavigation(trandingViewData[i]?.designno, trandingViewData[i]?.autocode, trandingViewData[i]?.TitleLine)}>
-                            <img src={trandingViewData[i]?.src || imageNotFound} className='likingLoveImages' alt='Trending Item' />
+                            <img src={trandingViewData[i]?.src || imageNotFound} className='likingLoveImages' loading="lazy" onError={(e) => e.target.src = imageNotFound} alt='Trending Item' />
                         </div>
                         <div className='linkLoveRing1Desc'>
                             <p className='ring1Desc'>{trandingViewData[i]?.designno}</p>
 
-                       {storeInit?.IsPriceShow == 1 &&     <p className='smr_bestSellerPrice'>
+                            {storeInit?.IsPriceShow == 1 && <p className='smr_bestSellerPrice'>
                                 <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
                                 {formatter(trandingViewData[i]?.UnitCostWithMarkUp)}
                             </p>}
@@ -192,12 +199,12 @@ const TrendingView = ({data}) => {
                     {trandingViewData[i + 1] && (
                         <div>
                             <div className='linkLoveRing2' onClick={() => handleNavigation(trandingViewData[i + 1]?.designno, trandingViewData[i + 1]?.autocode, trandingViewData[i + 1]?.TitleLine)}>
-                                <img src={trandingViewData[i + 1]?.src || imageNotFound} className='likingLoveImages' alt='Trending Item' />
+                                <img src={trandingViewData[i + 1]?.src || imageNotFound} onError={(e) => e.target.src = imageNotFound} loading="lazy" className='likingLoveImages' alt='Trending Item' />
                             </div>
                             <div className='linkLoveRing1Desc'>
                                 <p className='ring1Desc'>{trandingViewData[i + 1]?.designno}</p>
 
-                             {storeInit?.IsPriceShow == 1 &&   <p className='smr_bestSellerPrice'>
+                                {storeInit?.IsPriceShow == 1 && <p className='smr_bestSellerPrice'>
                                     <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
                                     {formatter(trandingViewData[i + 1]?.UnitCostWithMarkUp)}
                                 </p>}
@@ -212,19 +219,46 @@ const TrendingView = ({data}) => {
 
     return (
         <div className='smrMA_trendingViewTopMain' ref={trendingRef}>
-            <div className='smr_trendingViewTopMain_div'>
-                <div className='smr_trendingViewTopMain_Imgdiv'>
-                    {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.webp`} className='linkingLoveImageDesign' /> */}
-                    <img src={data?.image?.[0]} className='linkingLoveImageDesign' />
+            {isLoading ?
+                <div>
+                    {/* Image Skeleton */}
+                    <Skeleton
+                        variant="rectangular"
+                        width="100%"
+                        height={500}
+                        sx={{
+                            marginTop: 2,
+                            '@media (max-width: 600px)': { height: '620px !important' },
+                            '@media (max-width: 420px)': { height: '550px !important' },
+                        }}
+                    />
+
+                    {/* Product Card Skeletons (Slider Placeholder) */}
+                    <div style={{ display: 'flex', gap: 16, padding: '0 16px', marginTop: '1rem', width: "100%" }}>
+                        {[1, 2].map((_, index) => (
+                            <div key={index} style={{ width: '100%' }}>
+                                <Skeleton variant="square" width='100%' height={150} />
+                                <Skeleton variant="text" width="100%" height={20} sx={{ marginTop: 1 }} />
+                                <Skeleton variant="text" width="80%" height={20} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <div className='smr_trendingViewTopMain_Sliderdiv'>
-                    <p className='linkingTitle'>Trending View</p>
-                    <p className='smr_TrendingViewAll' onClick={handleNavigate}>SHOP COLLECTION</p>
-                    <Slider {...settings}>
-                        {renderSlides()}
-                    </Slider>
+                :
+                <div className='smr_trendingViewTopMain_div'>
+                    <div className='smr_trendingViewTopMain_Imgdiv'>
+                        {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.webp`} className='linkingLoveImageDesign' /> */}
+                        <img src={data?.image?.[0]} className='linkingLoveImageDesign' loading="lazy" onError={(e) => e.target.src = imageNotFound} />
+                    </div>
+                    <div className='smr_trendingViewTopMain_Sliderdiv'>
+                        <p className='linkingTitle'>Trending View</p>
+                        <p className='smr_TrendingViewAll' onClick={handleNavigate}>SHOP COLLECTION</p>
+                        <Slider {...settings}>
+                            {renderSlides()}
+                        </Slider>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     )
 }

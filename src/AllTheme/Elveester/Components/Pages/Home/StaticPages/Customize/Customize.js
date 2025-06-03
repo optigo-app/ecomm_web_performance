@@ -30,7 +30,7 @@ const Customize = () => {
                 <img className='elv_customize_image_1' src={customizeBanner?.image?.[0]} alt="" />
                 {/* <img className='elv_customize_image_1' src={`${storImagePath()}/images/HomePage/Customize/CustomizeMainBanner.jpg`} alt="" /> */}
                 <div className='elv_customize_details_main'>
-                    <h3 className='elv_customise_head_title'>BUILD YOUR OWN UNIQUE DESIGN</h3>
+                    <h1 className='elv_customise_head_title'>BUILD YOUR OWN UNIQUE DESIGN</h1>
                     <div className="">
                         <h5 className='elv_customise_head_title_1'>TYPES OF DESIGNS</h5>
                         <p className='elv_customize_title_para'>Our designers will work with you and help you to confidently select the elements in jewelry that you will like. It is our responsibility to make sure that we discover your needs before we execute a project for you. We are so confident in the custom jewelry design process that we create all of our customized jewelry on approval.</p>

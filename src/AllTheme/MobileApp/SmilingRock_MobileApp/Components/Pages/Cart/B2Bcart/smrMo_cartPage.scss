@@ -78,7 +78,8 @@ $cartUpdateBtncolor: #b1b1b1;
   padding-bottom: 150px;
 
   .smrmo_mui_CartBox {
-    justify-content: space-around !important;
+    justify-content: flex-start !important;
+    gap: 15px;
 
     .smrMo_cartListImage {
       max-width: 130px;
@@ -118,7 +119,8 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smrMO_Placeorderbtn {
       font-family: $primaryFontFamily !important;
-      background-color: rgb(214 176 139)!important;
+      // background-color: rgb(214 176 139)!important;
+      background-color: #000 !important;
       color: #fff !important;
       font-size: $fontSize2 !important;
       border: none !important;
@@ -148,7 +150,7 @@ $cartUpdateBtncolor: #b1b1b1;
   @media (min-width: 1440px) {
     .smrmo_mui_CartBox {
       display: flex;
-      justify-content: space-around;
+      justify-content: flex-start;
     }
 
     .smrMo_cartListImage {
@@ -440,7 +442,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
     .smrMo_cartListImage {
-      max-width: 180px;
+      max-width: 50% !important;
       max-height: 180px;
     }
 

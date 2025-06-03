@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react'
-import { smrMA_companyLogo, smrMA_loginState } from './Components/Recoil/atom'
+import { smrMA_companyLogo, smrMA_companyLogo1, smrMA_loginState } from './Components/Recoil/atom'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import PrivateRoutes from './PrivateRoutes'
 import { storImagePath } from '../../../utils/Glob_Functions/GlobalFunction'
@@ -79,105 +79,156 @@ import HelpCenter from './Components/Pages/StaticPages/HelpCenter';
 import ManageAddressMAPP from './Components/Pages/Account/address/ManageAddressMAPP';
 import Lookbook from './Components/Pages/Home/LookBook/Lookbook';
 import NewOrderHistoryMapp from './Components/Pages/Account/AccountOrderHistory/NewOrderHistoryMapp';
+import { Box, CircularProgress } from '@mui/material'
+import Home1 from './Components/Pages/Home/HomePage1'
+import HomeTab1 from './Components/Pages/Home/HomePage1/HomeTab1'
+import Header1 from './Components/Pages/Home/HomePage1/Header/Header1'
+import Menu1 from './Components/Pages/MenuPage/Menu1'
+import Home2 from './Components/Pages/Home/HomePage2'
+import Header2 from './Components/Pages/Home/HomePage2/Header/Header2'
+import HomeTab2 from './Components/Pages/Home/HomePage2/HomeTab2'
 
 const SmilingRock_MobileApp_App = React.memo(() => {
 
   const location = useLocation();
   const smrMA_setCompanyTitleLogo = useSetRecoilState(smrMA_companyLogo);
+  const smrMA_setCompanyTitleLogo1 = useSetRecoilState(smrMA_companyLogo1);
   useEffect(() => {
     const mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+    const mobileLogo1 = `${storImagePath()}/logoIcon/mobileLogo1.png`;
     smrMA_setCompanyTitleLogo(mobileLogo);
-  }, [smrMA_setCompanyTitleLogo]);
+    smrMA_setCompanyTitleLogo1(mobileLogo1);
+  }, [smrMA_setCompanyTitleLogo, smrMA_setCompanyTitleLogo1]);
+
+  const LoadingFallback = () => (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh'
+      }}
+    >
+      <CircularProgress sx={{ color: 'rgba(255, 87, 34, 0.8)' }} />
+    </Box>
+  );
+
+  const homePage1 = 2;
 
   return (
     <div>
-      <Suspense fallback={<></>} >
-      {(location.pathname === "/accountledgertable" ||
-        location.pathname === "/accountledgerexcel" ||
-        location.pathname === "/accountledgerdebit" ||
-        location.pathname === "/accountledgercredit" ||
-        location.pathname === "/AccountWothoutLogin" ||
-        location.pathname === "/WithoutLoginCart" ||
-        location.pathname === "/account" ||
-        location.pathname === "/ChangePassword" ||
-        location.pathname === "/Delivery" ||
-        location.pathname === "/MobileViewComp" ||
-        location.pathname === "/OrderHistory" ||
-        location.pathname === "/ManageAddress" ||
-        location.pathname === "/YourProfile" ||
-        location.pathname === "/QuotationQuote" ||
-        location.pathname === "/QuotationJob" ||
-        location.pathname === "/AccountLedger" ||
-        location.pathname === "/Sales" ||
-        location.pathname === "/SalesReport" ||
-        location.pathname === "/DesignWiseSalesReport" ||
-        location.pathname === "/payment" ||
-        location.pathname === "/SearchPage" ||
-        location.pathname === "/CartPage" ||
-        location.pathname === "/Confirmation" ||
-        location.pathname === "/myWishList" ||
-        location.pathname === "/PrivacyPolicy" ||
-        location.pathname === "/DeliveryShipping" ||
-        location.pathname === "/TermsCondition" ||
-        location.pathname === "/HelpCenter" ||
-        location.pathname === "/Coupons" ||
-        location.pathname === "/privacy-policy" ||
-        location.pathname === "/copyright" ||
-        location.pathname === "/support" ||
-        location.pathname === "/Lookbook" ||
-        location.pathname === "/Coupons" ||
-        location.pathname === "/Memo" ||
-        location.pathname === "/account-delete" ||
-        location.pathname === "/CurrentVersion") ?
-        null : <Header />}
-        
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/WithoutLoginCart" element={<WithoutLoginCart />} />
-        <Route path="/AccountWothoutLogin" element={<AccountWothoutLogin />} />
-        <Route path="/Menu" element={<Menu />} />
-        {/* <Route path="/TermsCondition" element={<TermsCondition />} /> */}
-        <Route path="/Lookbook" element={<Lookbook />} />
-        <Route path="/DeliveryShipping" element={<DeliveryShipping />} />
-        {/* <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}> */}
-        <Route path="/CartPage" element={<CartPage />} />
-        <Route path="/Account" element={<Account />} />
-        <Route path="/HelpCenter" element={<HelpCenter />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/account-delete" element={<AccountDelete />} />
-        <Route path="/copyright" element={<Copyright />} />
-        <Route path="/support" element={<Support />} />
-        <Route path="/Delivery" element={<Delivery />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/Confirmation" element={<Confirmation />} />
-        <Route path="/Coupons" element={<Confirmation />} />
-        <Route path="/myWishList" element={<Wishlist />} />
-        <Route path="/p/*" element={<ProductList />} />
-        <Route path="/d/*" element={<ProductDetail />} />
-        <Route path="/SearchPage" element={<SearchPage />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/AccountLedger" element={<AccountLedger />} />
-        <Route path="/QuotationQuote" element={<QuotationQuote />} />
-        <Route path="/QuotationJob" element={<QuotationJob />} />
-        <Route path="/Sales" element={<Sales />} />
-        <Route path="/SalesReport" element={<SalesReport />} />
-        <Route path="/Memo" element={<PendingMemo />} />
-        <Route path="/DesignWiseSalesReport" element={<DesignWiseSalesReport />} />
-        <Route path="/YourProfile" element={<YourProfile />} />
-        {/* <Route path="/OrderHistory" element={<OrderHistory />} /> */}
-        <Route path="/OrderHistory" element={<NewOrderHistoryMapp />} />
-        <Route path="/ManageAddress" element={<ManageAddressMAPP />} />
-        <Route path="/ChangePassword" element={<ChangePassword />} />
-        <Route path="/MobileViewComp" element={<MobileViewComp />} />
-        <Route path="/logout" element={<div></div>} />
-        {/* </Route> */}
-        <Route path="/p/*" element={<ProductList />} />
-        <Route path="/d/*" element={<ProductDetail />} />
-      </Routes>
-      {(location.pathname.split('/')[1] === "p") || (location.pathname === "myWishList") || (location.pathname.split('/')[1] === "d") ?
-        '' : <HomeTab />}
+      <Suspense fallback={<LoadingFallback />} >
+        {(location.pathname === "/accountledgertable" ||
+          location.pathname === "/accountledgerexcel" ||
+          location.pathname === "/accountledgerdebit" ||
+          location.pathname === "/accountledgercredit" ||
+          location.pathname === "/AccountWithoutLogin" ||
+          location.pathname === "/WithoutLoginCart" ||
+          location.pathname === "/account" ||
+          location.pathname === "/ChangePassword" ||
+          location.pathname === "/Delivery" ||
+          location.pathname === "/MobileViewComp" ||
+          location.pathname === "/OrderHistory" ||
+          location.pathname === "/ManageAddress" ||
+          location.pathname === "/YourProfile" ||
+          location.pathname === "/QuotationQuote" ||
+          location.pathname === "/QuotationJob" ||
+          location.pathname === "/AccountLedger" ||
+          location.pathname === "/Sales" ||
+          location.pathname === "/SalesReport" ||
+          location.pathname === "/DesignWiseSalesReport" ||
+          location.pathname === "/payment" ||
+          location.pathname === "/SearchPage" ||
+          location.pathname === "/CartPage" ||
+          location.pathname === "/Confirmation" ||
+          location.pathname === "/myWishList" ||
+          location.pathname === "/PrivacyPolicy" ||
+          location.pathname === "/DeliveryShipping" ||
+          location.pathname === "/TermsCondition" ||
+          location.pathname === "/HelpCenter" ||
+          location.pathname === "/Coupons" ||
+          location.pathname === "/privacy-policy" ||
+          location.pathname === "/copyright" ||
+          location.pathname === "/support" ||
+          location.pathname === "/Lookbook" ||
+          location.pathname === "/Coupons" ||
+          location.pathname === "/Memo" ||
+          location.pathname === "/account-delete" ||
+          location.pathname === "/CurrentVersion") ?
+          // null : <Header />}
+          // null : homePage1 === 1 ? <Header1 /> : <Header />}
+          null : homePage1 === 2 ? <Header2 /> : <Header />}
 
-        </Suspense>
+        <Routes>
+          {/* <Route path="/" element={<Home />} /> */}
+          {/* <Route path="/" element={<Home1 />} />
+          <Route path="/home1" element={<Home1 />} /> */}
+          <Route path="/" element={<Home2 />} />
+          {/* <Route path="/home2" element={<Home2 />} /> */}
+          <Route path="/WithoutLoginCart" element={<WithoutLoginCart />} />
+          <Route path="/AccountWithoutLogin" element={<AccountWothoutLogin />} />
+          {/* <Route path="/Menu" element={<Menu />} /> */}
+          <Route path="/Menu" element={<Menu1 />} />
+          {/* <Route path="/TermsCondition" element={<TermsCondition />} /> */}
+          <Route path="/Lookbook" element={<Lookbook />} />
+          <Route path="/DeliveryShipping" element={<DeliveryShipping />} />
+          {/* <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}> */}
+          <Route path="/CartPage" element={<CartPage />} />
+          <Route path="/Account" element={<Account />} />
+          <Route path="/HelpCenter" element={<HelpCenter />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/account-delete" element={<AccountDelete />} />
+          <Route path="/copyright" element={<Copyright />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/Delivery" element={<Delivery />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/Confirmation" element={<Confirmation />} />
+          <Route path="/Coupons" element={<Confirmation />} />
+          <Route path="/myWishList" element={<Wishlist />} />
+          <Route path="/p/*" element={<ProductList />} />
+          <Route path="/d/*" element={<ProductDetail />} />
+          <Route path="/SearchPage" element={<SearchPage />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/AccountLedger" element={<AccountLedger />} />
+          <Route path="/QuotationQuote" element={<QuotationQuote />} />
+          <Route path="/QuotationJob" element={<QuotationJob />} />
+          <Route path="/Sales" element={<Sales />} />
+          <Route path="/SalesReport" element={<SalesReport />} />
+          <Route path="/Memo" element={<PendingMemo />} />
+          <Route path="/DesignWiseSalesReport" element={<DesignWiseSalesReport />} />
+          <Route path="/YourProfile" element={<YourProfile />} />
+          {/* <Route path="/OrderHistory" element={<OrderHistory />} /> */}
+          <Route path="/OrderHistory" element={<NewOrderHistoryMapp />} />
+          <Route path="/ManageAddress" element={<ManageAddressMAPP />} />
+          <Route path="/ChangePassword" element={<ChangePassword />} />
+          <Route path="/MobileViewComp" element={<MobileViewComp />} />
+          <Route path="/logout" element={<div></div>} />
+          {/* </Route> */}
+          <Route path="/p/*" element={<ProductList />} />
+          <Route path="/d/*" element={<ProductDetail />} />
+        </Routes>
+        {/* {!["p", "d"].includes(location.pathname.split('/')[1]) &&
+          location.pathname !== "myWishList" &&
+          <HomeTab />} */}
+        {/* {homePage1 === 1 ? (
+          !["p", "d"].includes(location.pathname.split('/')[1]) &&
+          location.pathname !== "myWishList" &&
+          <HomeTab1 />
+        ) : (
+          !["p", "d"].includes(location.pathname.split('/')[1]) &&
+          location.pathname !== "myWishList" &&
+          <HomeTab1 />
+        )} */}
+        {homePage1 === 1 ? (
+          !["p", "d"].includes(location.pathname.split('/')[1]) &&
+          location.pathname !== "myWishList" &&
+          <HomeTab2 />
+        ) : (
+          !["p", "d"].includes(location.pathname.split('/')[1]) &&
+          location.pathname !== "myWishList" &&
+          <HomeTab2 />
+        )}
+      </Suspense>
     </div>
   )
 });

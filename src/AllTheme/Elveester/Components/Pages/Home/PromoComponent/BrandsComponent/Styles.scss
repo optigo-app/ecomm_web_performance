@@ -21,6 +21,7 @@
         font-weight: 600;
         text-transform: capitalize;
         line-height: 2px;
+        margin-bottom: 0.5rem;
         font-family: $fontSansSerif;
         color: rgba(29, 50, 88, 0.8) !important;
     }
@@ -72,7 +73,7 @@
 
 .elv_affi_div {
     text-align: center;
-    margin: 80px 0px 60px 0px !important;
+    margin: 80px 0px 50px 0px !important;
 
     .elv_AffiliationComponents {
         color: rgba(29, 50, 88, 0.8) !important;
@@ -80,6 +81,7 @@
         font-weight: 600;
         text-transform: capitalize;
         line-height: 2px;
+        margin-bottom: 0.8rem;
         font-family: $fontSansSerif;
 
         @media (max-width: 500px) {

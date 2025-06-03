@@ -2,12 +2,15 @@ import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Routes, Route, Outlet, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
+import './Components/scss/Variable.scss'
+import loaderImg from './Components/Assets/webLogo.png';
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import { Hoq_companyLogo, Hoq_loginState } from "./Components/Recoil/atom";
 import PrivateRoutes from "./PrivateRoutes";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Bespoke from "./Components/Page/Home/Bespokejewelry/Index";
 import AppointMent from "./Components/Page/Home/Appointment/Wrapper";
+import { Box } from "@mui/material";
 
 // import Navbar from "./Components/Page/Home/Navbar/Navbar";
 // import Footer from "./Components/Page/Home/Footer/Footer";
@@ -93,7 +96,7 @@ const HouseOfQuadri_App = () => {
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-  const [companyTitleLogo, setCompanyTitleLogo] =    useRecoilState(Hoq_companyLogo);
+  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(Hoq_companyLogo);
   const [loading, setLoading] = useState(true);
 
   // useEffect(() => {
@@ -234,59 +237,82 @@ const HouseOfQuadri_App = () => {
     return null;
   }
 
+  const LoadingFallback = () => (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh'
+      }}
+    >
+      {/* <CircularProgress sx={{ color: 'rgba(255, 87, 34, 0.8)' }} /> */}
+      <img
+        src={loaderImg}
+        alt="Loading..."
+        height="100%"
+        width="auto"
+        loading="lazy"
+        style={{
+          animation: 'scaleUpDown 1.5s ease-in-out infinite', // Apply the animation here
+        }}
+      />
+    </Box>
+  );
+
   return (
     <>
-    <Suspense fallback={<></>}>
-      <Navbar StoreData={StoreData} />
-      <ChatMenu />
-      <Routes>
-        {/* <Route path="/checker" element={<ContactPage />} /> */}
-        {/* Auth Flow  */}
-        <Route path="/LoginOption" element={!islogin && <LoginOption />} />
-        <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />
-        <Route path="/ContinueWithMobile" element={<ContimueWithMobile />} />
-        <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
-        <Route path="/Register" element={<Register />} />
-        <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />
-        <Route path="/LoginWithMobileCode" element={<LoginWithMobileCode />} />
-        <Route path="/ForgotPass" element={<ForgotPass />} />
-        {/* Auth Flow Ends */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/collections/" element={<CollectionPage />} />
-        <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
-          <Route path="/p/*" element={<DynamicCollection />} />
-          <Route path="/d/*" element={<ProductPage />} />
-          <Route path="/wishlist" element={<WishlistPage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/Delivery" element={<Delivery />} />
-          <Route path="/Payment" element={<Payment />} />
-          <Route path="/Confirmation" element={<Confirmation />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/Lookbook" element={<Lookbook />} />
-        </Route>
-        {/* static Page */}
-        <Route path="/Shipping-Policy" element={<ShippingPage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/bespoke-jewelry" element={<Bespoke />} />
-        <Route path="/appointment" element={<AppointMent />} />
-        {/* <Route path="/return-exchange-policy" element={<ReturnPolicy />} /> */}
-        <Route path="/terms-conditions" element={<TermsConditionPage />} />
-        <Route path="/faq" element={<FaqSection />} />
-        <Route path="/contacts" element={<ContactForm />} />
-        <Route path="/size-guide" element={<SizeGuide />} />
-        <Route path="/why-quality-matters" element={<QualityMatters />} />
-        {/* <Route path="/blogs" element={<Blogs />} /> */}
-        <Route path="/our-story" element={<OurStory />} />
-        <Route path="/lab-grown-diamond" element={<LabGrownDiamond />} />
-        {/* <Route path="/diamond-education" element={<DiamondEducation />} /> */}
-        <Route path="/customization" element={<Customization />} />
-        <Route
-          path="/quality-certification"
-          element={<QualityCertification />}
-        />
-      </Routes>
-      <Footer StoreData={StoreData} />
-    </Suspense>
+      <Suspense fallback={<LoadingFallback />}>
+        <Navbar StoreData={StoreData} />
+        <ChatMenu />
+        <Routes>
+          {/* <Route path="/checker" element={<ContactPage />} /> */}
+          {/* Auth Flow  */}
+          <Route path="/LoginOption" element={!islogin && <LoginOption />} />
+          <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />
+          <Route path="/ContinueWithMobile" element={<ContimueWithMobile />} />
+          <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
+          <Route path="/Register" element={<Register />} />
+          <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />
+          <Route path="/LoginWithMobileCode" element={<LoginWithMobileCode />} />
+          <Route path="/ForgotPass" element={<ForgotPass />} />
+          {/* Auth Flow Ends */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/collections/" element={<CollectionPage />} />
+          <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
+            <Route path="/p/*" element={<DynamicCollection />} />
+            <Route path="/d/*" element={<ProductPage />} />
+            <Route path="/wishlist" element={<WishlistPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/Delivery" element={<Delivery />} />
+            <Route path="/Payment" element={<Payment />} />
+            <Route path="/Confirmation" element={<Confirmation />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/Lookbook" element={<Lookbook />} />
+          </Route>
+          {/* static Page */}
+          <Route path="/Shipping-Policy" element={<ShippingPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/bespoke-jewelry" element={<Bespoke />} />
+          <Route path="/appointment" element={<AppointMent />} />
+          {/* <Route path="/return-exchange-policy" element={<ReturnPolicy />} /> */}
+          <Route path="/terms-conditions" element={<TermsConditionPage />} />
+          <Route path="/faq" element={<FaqSection />} />
+          <Route path="/contacts" element={<ContactForm />} />
+          <Route path="/size-guide" element={<SizeGuide />} />
+          <Route path="/why-quality-matters" element={<QualityMatters />} />
+          {/* <Route path="/blogs" element={<Blogs />} /> */}
+          <Route path="/our-story" element={<OurStory />} />
+          <Route path="/lab-grown-diamond" element={<LabGrownDiamond />} />
+          {/* <Route path="/diamond-education" element={<DiamondEducation />} /> */}
+          <Route path="/customization" element={<Customization />} />
+          <Route
+            path="/quality-certification"
+            element={<QualityCertification />}
+          />
+        </Routes>
+        <Footer StoreData={StoreData} />
+      </Suspense>
     </>
   );
 };

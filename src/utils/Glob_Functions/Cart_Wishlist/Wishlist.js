@@ -108,7 +108,7 @@ const Usewishlist = () => {
     console.log('isdiamond: ', isdiamond);
     const visiterId = Cookies.get('visiterId');
     let param = "wish";
-    if (storeInit?.Themeno === 3) {
+    if (storeInit?.Themeno === 3 || storeInit?.Themeno === 4 || storeInit?.Themeno === 11 || storeInit?.Themeno === 12 || storeInit?.Themeno === 10 || storeInit?.Themeno === 7 || storeInit?.Themeno === 1) {
       setFinalWishData(finalWishData.filter(cartItem => cartItem.id !== item.id));
     } else {
       setWishlistData(wishlistData.filter(cartItem => cartItem.id !== item.id));
@@ -164,7 +164,7 @@ const Usewishlist = () => {
         let resStatus = response?.Data?.rd[0];
 
         if (resStatus?.msg === "success") {
-          if (storeInit?.Themeno === 3) {
+          if (storeInit?.Themeno === 3 || storeInit?.Themeno === 4 || storeInit?.Themeno === 11 || storeInit?.Themeno === 12 || storeInit?.Themeno === 10 || storeInit?.Themeno === 7 || storeInit?.Themeno === 1) {
             const updatedWishlistData = finalWishData.map(wish =>
               wish.id === item.id ? { ...wish, IsInCart: 1 } : wish
             );
@@ -262,7 +262,7 @@ const Usewishlist = () => {
   // };
 
   const WishCardImageFunc = (pd) => {
-    if (storeInit?.Themeno === 3) {
+    if (storeInit?.Themeno === 3 || storeInit?.Themeno === 4 || storeInit?.Themeno === 11 || storeInit?.Themeno === 12 || storeInit?.Themeno === 10 || storeInit?.Themeno === 7 || storeInit?.Themeno === 1) {
       const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
       let primaryImage;
 
@@ -288,8 +288,10 @@ const Usewishlist = () => {
         let primaryImage, secondaryImage;
 
         if (pd?.ImageCount > 0) {
-          primaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1~${mtcCode?.colorcode}.${pd?.ImageExtension}`;
-          secondaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1.${pd?.ImageExtension}`;
+          primaryImage = `${storeInit?.CDNDesignImageFolThumb}${pd?.designno}~1~${mtcCode?.colorcode}.jpg`;
+          secondaryImage = `${storeInit?.CDNDesignImageFolThumb}${pd?.designno}~1.jpg`;
+          // primaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1~${mtcCode?.colorcode}.${pd?.ImageExtension}`;
+          // secondaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1.${pd?.ImageExtension}`;
         } else {
           primaryImage = secondaryImage = imageNotFound;
         }
@@ -317,23 +319,74 @@ const Usewishlist = () => {
     }
   };
 
+  // useEffect(() => {
+  //   if (!wishlistData) return;
+
+  //   // Initialize finalWishData if it's not already populated (default values)
+  //   if (finalWishData.length === 0) {
+  //     const initialProducts = wishlistData.map(data => ({
+  //       ...data,
+  //       images: [],
+  //       loading: true
+  //     }));
+  //     setFinalWishData(initialProducts);
+  //     setLoadingIndex(0); // Start with the first item
+  //   }
+
+  //   if (loadingIndex >= finalWishData?.length) return;
+
+  //   // Step 2: Load images sequentially for each product
+  //   const loadNextProductImages = () => {
+  //     setFinalWishData(prevData => {
+  //       const newData = [...prevData];
+  //       newData[loadingIndex] = {
+  //         ...newData[loadingIndex],
+  //         images: WishCardImageFunc(newData[loadingIndex]),
+  //         loading: false
+  //       };
+  //       return newData;
+  //     });
+
+  //     setLoadingIndex(prevIndex => prevIndex + 1);
+  //   };
+
+  //   if (storeInit?.Themeno === 3) {
+  //     const timer = setTimeout(loadNextProductImages, 130)
+  //     return () => clearTimeout(timer)
+  //   }
+  //   if (storeInit?.Themeno === 1) {
+  //     loadNextProductImages();
+  //   }
+  //   if (storeInit?.Themeno === 11 || storeInit?.Themeno === 12 || storeInit?.Themeno === 10 || storeInit?.Themeno === 7) {
+  //     const timer = setTimeout(loadNextProductImages, 150)
+  //     return () => clearTimeout(timer)
+  //   }
+  //   else {
+  //     const timer = setTimeout(loadNextProductImages, 20)
+  //     return () => clearTimeout(timer)
+  //   }
+
+  // }, [wishlistData, loadingIndex, finalWishData, WishCardImageFunc]);
+
+
+  // Initialize finalWishData once when wishlistData changes
   useEffect(() => {
     if (!wishlistData) return;
 
-    // Initialize finalWishData if it's not already populated (default values)
-    if (finalWishData.length === 0) {
-      const initialProducts = wishlistData.map(data => ({
-        ...data,
-        images: [],
-        loading: true
-      }));
-      setFinalWishData(initialProducts);
-      setLoadingIndex(0); // Start with the first item
-    }
+    const initialProducts = wishlistData.map(data => ({
+      ...data,
+      images: [],
+      loading: true
+    }));
 
-    if (loadingIndex >= finalWishData?.length) return;
+    setFinalWishData(initialProducts);
+    setLoadingIndex(0);
+  }, [wishlistData]);
 
-    // Step 2: Load images sequentially for each product
+  // Load images sequentially after finalWishData is set
+  useEffect(() => {
+    if (loadingIndex >= finalWishData.length) return;
+
     const loadNextProductImages = () => {
       setFinalWishData(prevData => {
         const newData = [...prevData];
@@ -345,18 +398,17 @@ const Usewishlist = () => {
         return newData;
       });
 
-      setLoadingIndex(prevIndex => prevIndex + 1);
+      setLoadingIndex(prev => prev + 1);
     };
 
-    if (storeInit?.Themeno === 3) {
-      const timer = setTimeout(loadNextProductImages, 130)
-      return () => clearTimeout(timer)
-    } else {
-      const timer = setTimeout(loadNextProductImages, 20)
-      return () => clearTimeout(timer)
-    }
+    let delay = 20; // default
+    if (storeInit?.Themeno === 3) delay = 130;
+    if (storeInit?.Themeno === 1) delay = 0;
+    if ([10, 11, 12, 7].includes(storeInit?.Themeno)) delay = 150;
 
-  }, [wishlistData, loadingIndex, finalWishData, WishCardImageFunc]);
+    const timer = setTimeout(loadNextProductImages, delay);
+    return () => clearTimeout(timer);
+  }, [loadingIndex, finalWishData.length, storeInit, WishCardImageFunc]);
 
 
   const compressAndEncode = (inputString) => {

@@ -44,40 +44,71 @@ const TrendingView1 = ({ data }) => {
         // nextArrow: false,
     };
 
+    // useEffect(() => {
+    //     setLoadingHome(true);
+
+    //     const observer = new IntersectionObserver(
+    //         (entries) => {
+    //             entries.forEach((entry) => {
+    //                 if (entry.isIntersecting) {
+    //                     callAPI();
+    //                     observer.unobserve(entry.target);
+    //                 }
+    //             });
+    //         },
+    //         {
+    //             root: null,
+    //             threshold: 0.5,
+    //         }
+    //     );
+
+    //     if (trendingRef.current) {
+    //         observer.observe(trendingRef.current);
+    //     }
+    //     return () => {
+    //         if (trendingRef.current) {
+    //             observer.unobserve(trendingRef.current);
+    //         }
+    //     };
+    // }, [])
+
     useEffect(() => {
         setLoadingHome(true);
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        callAPI();
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            {
-                root: null,
-                threshold: 0.5,
-            }
-        );
+        const handleScroll = () => {
+            if (!trendingRef.current) return;
 
-        if (trendingRef.current) {
-            observer.observe(trendingRef.current);
-        }
-        return () => {
-            if (trendingRef.current) {
-                observer.unobserve(trendingRef.current);
+            const rect = trendingRef.current.getBoundingClientRect();
+            const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+
+            if (isInView) {
+                callAPI();
+                window.removeEventListener("scroll", handleScroll); // ensure it's called only once
             }
         };
-    }, [])
+
+        window.addEventListener("scroll", handleScroll);
+        // Immediately check on mount
+        handleScroll();
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         callAPI()
+    //     }, 1200)
+    // }, [])
 
     const callAPI = () => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeinit)
 
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
-        setImageUrl(data?.CDNDesignImageFol);
+        // setImageUrl(data?.CDNDesignImageFol);
+        setImageUrl(data?.CDNDesignImageFolThumb);
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const visiterID = Cookies.get('visiterId');
@@ -127,7 +158,8 @@ const TrendingView1 = ({ data }) => {
         if (!trandingViewData?.length) return;
         const validatedData = await Promise.all(
             trandingViewData.map(async (item) => {
-                const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
+                const imageURL = `${imageUrl}${item?.designno}~1.jpg`;
+                // const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
                 // const validatedURL = await checkImageAvailability(imageURL);
                 // return { ...item, validatedImageURL: validatedURL };
                 return { ...item, validatedImageURL: imageURL };
@@ -183,7 +215,7 @@ const TrendingView1 = ({ data }) => {
                         <div className='smr_leftSideBestTR'>
                             {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/web-210128-BW-PF21_S219259.jpg?v=1646112530&width=2000" alt="modalimages" /> */}
                             {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImgHom2.png`} alt="modalimages" /> */}
-                            <img src={data?.image[0]} alt="modalimages" />
+                            <img src={data?.image[0]} alt="modalimages" loading='lazy' />
 
                             <div className="smr_lookbookImageRightDT">
                                 {/* <p>SHORESIDE COLLECTION</p>
@@ -216,6 +248,7 @@ const TrendingView1 = ({ data }) => {
                                             onError={(e) => {
                                                 e.target.src = imageNotFound
                                             }}
+                                            loading='lazy'
                                             alt={data.name}
                                         />
                                     </div>

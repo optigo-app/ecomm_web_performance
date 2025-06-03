@@ -29,6 +29,21 @@
   src: url("../fonts/LibreBaskerville-Regular.ttf");
 }
 
+@keyframes scaleUpDown {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+
 // Background colors
 $backgroundColor: var(--background-color);
 $btn1bgColor: #fff;

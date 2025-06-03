@@ -47,7 +47,7 @@ const DesignSet = ({
             // slidesPerView={3}
             navigation
             pagination={{ clickable: true }}
-            // scrollbar={{ draggable: true }}
+          // scrollbar={{ draggable: true }}
           >
             {designSetList?.map((designSetList) => (
               <SwiperSlide>
@@ -60,12 +60,13 @@ const DesignSet = ({
                       src={
                         designSetList?.DefaultImageName
                           ? storeInit?.DesignSetImageFol +
-                            designSetList?.designsetuniqueno +
-                            "/" +
-                            designSetList?.DefaultImageName
+                          designSetList?.designsetuniqueno +
+                          "/" +
+                          designSetList?.DefaultImageName
                           : imageNotFound
                       }
                       alt={""}
+                      loading="lazy"
                       className="hoq_ctl_img"
                     />
                   </div>
@@ -107,21 +108,28 @@ const DesignSet = ({
                                 // storeInit?.CDNDesignImageFol + ele1?.designno + "~" + "1" + "." + ele1?.ImageExtension
 
                                 ele?.ImageCount > 0
-                                  ? storeInit?.CDNDesignImageFol +
-                                    ele?.designno +
-                                    "~" +
-                                    "1" +
-                                    "." +
-                                    ele?.ImageExtension
+                                  // ? storeInit?.CDNDesignImageFol +
+                                  //   ele?.designno +
+                                  //   "~" +
+                                  //   "1" +
+                                  //   "." +
+                                  //   ele?.ImageExtension
+                                  ? storeInit?.CDNDesignImageFolThumb +
+                                  ele?.designno +
+                                  "~" +
+                                  "1" +
+                                  "." +
+                                  "jpg"
                                   : imageNotFound
                               }
                               alt={""}
                               // src={
                               //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
                               // }
+                              loading="lazy"
                               className="hoqthelook_img"
-                              onError={(e)=>{
-                                e.target.src = noimage ;
+                              onError={(e) => {
+                                e.target.src = noimage;
                               }}
                             />
                           </div>
@@ -135,22 +143,22 @@ const DesignSet = ({
                               className="hoqthelook_prodinfo_inner"
                             >
                               <p>
-                              <span className="name_hoq_ds">  {ele?.designno} - {ele?.CategoryName}</span>
+                                <span className="name_hoq_ds">  {ele?.designno} - {ele?.CategoryName}</span>
                                 <br />
                                 {check && (<>
                                   <span className="hoq_currencyFont">
                                     {loginInfo?.CurrencyCode ??
                                       storeInit?.CurrencyCode}
                                   </span>
-                                
-                                &nbsp;
-                                <span className="hoq_currencyFont">  {
-                                  formatter(
-                                  ele?.UnitCostWithMarkUp
-                                  )
-                                
-                                }</span>
-                              </>)}
+
+                                  &nbsp;
+                                  <span className="hoq_currencyFont">  {
+                                    formatter(
+                                      ele?.UnitCostWithMarkUp
+                                    )
+
+                                  }</span>
+                                </>)}
                               </p>
                             </div>
                             {/* <div>

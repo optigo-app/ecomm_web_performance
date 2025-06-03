@@ -35,15 +35,20 @@ const ExampleComponent = ({
         setStoreInitData(storeinitData)
     }, [])
 
-    useEffect(() => {
-        if (cartData?.ImageCount > 0) {
-            CartCardImageFunc(cartData).then((src) => {
-                setImageSrc(src);
-            });
-        } else {
-            setImageSrc(noImageFound);
-        }
-    }, [cartData]);
+    const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+    const fullImagePath = `${CDNDesignImageFolThumb}${cartData?.designno}~1.jpg`;
+
+    const isLoading = cartData?.loading;
+
+    // useEffect(() => {
+    //     if (cartData?.ImageCount > 0) {
+    //         CartCardImageFunc(cartData).then((src) => {
+    //             setImageSrc(src);
+    //         });
+    //     } else {
+    //         setImageSrc(noImageFound);
+    //     }
+    // }, [cartData]);
 
     // const handleRemovecartData = (cartData) => {
     //     onRemove(cartData)
@@ -71,7 +76,7 @@ const ExampleComponent = ({
             <tbody>
                 <tr key={cartData.id} className="stam_B2C-cartData-row">
                     <td className='stam_b2cCartImagetd'>
-                        {imageSrc === undefined ? (
+                        {isLoading === true ? (
                             <CardMedia
                                 sx={{
                                     width: "10rem",
@@ -97,8 +102,23 @@ const ExampleComponent = ({
                         ) : (
                             <img
                                 className='stam_b2ccartImage'
-                                src={imageSrc}
-                                alt={`cartData images`}
+                                src={cartData?.images}
+                                alt={` `}
+                                style={{
+                                    border: 'none',
+                                    outline: 'none',
+                                    boxShadow: 'none',
+                                    '&:focus': { outline: 'none' },
+                                    '&:active': { outline: 'none' },
+                                }}
+                                onError={(e) => {
+                                    if (cartData?.ImageCount > 0) {
+                                        e.target.src = fullImagePath ? fullImagePath : noImageFound
+                                    } else {
+                                        e.target.src = noImageFound;
+                                    }
+                                }}
+                                loading="lazy"
                             />
                         )}
                     </td>

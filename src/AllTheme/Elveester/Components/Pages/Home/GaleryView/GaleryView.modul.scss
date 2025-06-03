@@ -24,7 +24,7 @@
 
   .elv_gallery_div {
     text-align: center;
-    margin: 65px 0px 50px 0px !important;
+    margin: 65px 0px 40px 0px !important;
 
     .galeryComponents {
       color: rgba(29, 50, 88, 0.8) !important;
@@ -32,6 +32,7 @@
       font-weight: 600;
       text-transform: capitalize;
       line-height: 2px;
+      margin-bottom: 1rem;
       font-family: $fontSansSerif;
 
       @media (max-width: 500px) {

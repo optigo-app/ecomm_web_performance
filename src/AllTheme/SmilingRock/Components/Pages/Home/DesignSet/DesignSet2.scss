@@ -19,15 +19,21 @@
         font-size: 28px;
         text-align: center;
         margin: 0px;
-         color: $textColor;
-    font-size: 27px;
-    font-family: $Pratafonts !important;
-    font-weight: 500 !important;
+        color: $textColor;
+        font-size: 27px;
+        font-family: $Pratafonts !important;
+        font-weight: 500 !important;
         margin-block: 2%;
-        a{
+
+        a {
             font-weight: 300 !important;
-            font-size: 14px !important;
         }
+    }
+
+    .smr_designSetViewmoreBtn_2 {
+        margin-left: 12px;
+        font-size: 18px;
+        color: gray;
     }
 
     .card {
@@ -52,17 +58,20 @@
         position: absolute;
         top: 30%;
         right: 7%;
-        z-index: 1 ;
+        z-index: 1;
 
         @media (max-width:1460px) {
             top: 15%;
-            }
-         @media (max-width:987px) {
+        }
+
+        @media (max-width:987px) {
             top: 10%;
-            }
-            @media (max-width:883px) {
-                top: 8%;
-                }
+        }
+
+        @media (max-width:883px) {
+            top: 8%;
+        }
+
         @media (max-width: 768px) {
             top: 20%;
             right: 5%;

@@ -51,6 +51,7 @@
 //       {/* {localData?.Blockno === 3 && (
 //         <div>
 //           <img
+// loading="lazy"
 //             src={`${storImagePath()}/images/HomePage/MainBanner/mainTopBanner.jpg`}
 //             style={{ width: "100%" }}
 //           />
@@ -70,18 +71,21 @@ import "./TopSection.modul.scss";
 import { REACT_APP_WEB } from "../../../../../../env";
 
 const TopSection = ({ data, obj: mediaData }) => {
+  console.log("TCL: TopSection -> data", data)
+  const { mainBanner, srcsetMedias } = data;
+
   const [loading, setLoading] = useState(false);
   const [videoStarted, setVideoStarted] = useState(false);
   const videoRef = useRef(null);
   const [localData, setLocalData] = useState();
   const [selectedExtension, setSelectedExtension] = useState("jpg"); // Default extension
   const [mediaSrc, setMediaSrc] = useState(""); // To store the selected media source
-  console.log('mediaSrc: ', mediaSrc);
+  const [bestVideo, setBestVideo] = useState('');
+  const [isVideoReady, setIsVideoReady] = useState(false);
 
   useEffect(() => {
     let localData = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localData);
-    console.log("localDatalocalData", localData);
   }, []);
 
   useEffect(() => {
@@ -111,9 +115,61 @@ const TopSection = ({ data, obj: mediaData }) => {
     setSelectedExtension(e.target.value);
   };
 
+  const handleCanPlay = () => {
+    // When the video is ready to play (buffering complete enough to start)
+    setIsVideoReady(true);
+  };
+
+  // Video resolutions based on viewport width
+  const videoSources = [
+    {
+      src: `${storImagePath()}/Banner/homepagemainvideo-360p.webm`, // 360p video version
+      media: '(max-width: 480px)', // For small screens (mobile)
+      type: 'video/webm'
+    },
+    {
+      src: `${storImagePath()}/Banner/homepagemainvideo-720p.webm`, // 720p video version
+      media: '(max-width: 1024px)', // For tablets and small screens
+      type: 'video/webm'
+    },
+    {
+      src: `${storImagePath()}/Banner/homepagemainvideo-1080p.webm`, // 1080p video version
+      media: '(max-width: 1500px)', // For larger screens (desktop)
+      type: 'video/webm'
+    },
+    {
+      src: `${storImagePath()}/Banner/homepagemainvideo.webm`, // default video
+      media: '(min-width: 1501px)', // For larger screens (desktop)
+      type: 'video/webm'
+    },
+  ];
+
+  // Poster images for different screen sizes
+  const posterImages = [
+    {
+      src: `${storImagePath()}/Banner/home-image-400.png`, // 400 version for mobile
+      media: '(max-width: 480px)',
+    },
+    {
+      src: `${storImagePath()}/Banner/home-image-800.png`, // 800 version for tablets
+      media: '(max-width: 1024px)',
+    },
+    {
+      src: `${storImagePath()}/Banner/home-image-1200.png`, // 1200 version for desktop
+      media: '(max-width: 1500px)',
+    },
+    {
+      src: `${storImagePath()}/Banner/Homepagemainbanner1.webp`, // default image
+      media: '(min-width: 1501px)',
+    }
+  ];
+
+  const bestPoster = posterImages.find(({ media }) => window.matchMedia(media).matches)?.src;
+  const bestVideoSource = videoSources.find(({ media }) => window.matchMedia(media).matches)?.src;
+
   return (
     <div className="stam_topVideoMain" style={{ minHeight: "550px" }}>
-      <div>
+      {/* <div>
         <label htmlFor="extension-dropdown">Select Image Type: </label>
         <select
           id="extension-dropdown"
@@ -130,9 +186,9 @@ const TopSection = ({ data, obj: mediaData }) => {
           <option value="mkv">.mkv</option>
           <option value="webm">.webm</option>
         </select>
-      </div>
+      </div> */}
 
-      {["mp4", "webm", "mkv"].includes(selectedExtension) ? (
+      {/* {["mp4", "webm", "mkv"].includes(selectedExtension) ? (
         <video
           width="500"
           autoPlay
@@ -147,9 +203,35 @@ const TopSection = ({ data, obj: mediaData }) => {
         <img
           src={mediaSrc}
           alt="Selected Media"
+          loading="lazy"
           style={{ width: "100%" }}
         />
+      )} */}
+
+      {!isVideoReady && (
+        <img
+          src={bestPoster}
+          alt="Video Poster"
+          style={{
+            width: '100%', height: 'auto',
+            aspectRatio: '16/8.45'
+          }}
+        />
       )}
+
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        controls={false}
+        loop
+        style={{ width: '100%', height: 'auto', aspectRatio: '16/8.45' }}
+        src={bestVideoSource}
+        onPlay={handleVideoPlay}
+        onCanPlay={handleCanPlay} // Fires when the video is ready to start playing
+      >
+        Your browser does not support the video tag.
+      </video>
     </div>
   );
 };

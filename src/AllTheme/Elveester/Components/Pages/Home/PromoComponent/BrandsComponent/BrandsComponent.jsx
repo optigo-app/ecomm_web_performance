@@ -27,7 +27,7 @@ export default BrandsComponent
 const Title = () => {
     return (
         <div className='brandsCompoents_div'>
-            <h3 className='elv_brand_title_h3'>introducing our exclusive brands</h3>
+            <h1 className='elv_brand_title_h3'>introducing our exclusive brands</h1>
             <p className='elv_brand_subtitle_p'>Unveiling the Finest in Exclusive Brands</p>
         </div>
     )

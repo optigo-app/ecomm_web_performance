@@ -77,7 +77,7 @@ const Lookbook = () => {
   const [selectedCsId, setSelectedCsId] = useState(
     loginUserDetail?.cmboCSQCid ?? ""
   );
-  const [imageSources , setImageSources] = useState([]);
+  const [imageSources, setImageSources] = useState([]);
   const [productListData, setProductListData] = useState([]);
   const [locationKey, setLocationKey] = useState();
   const islogin = useRecoilValue(smrMA_loginState);
@@ -170,7 +170,8 @@ const Lookbook = () => {
 
     let data = JSON.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.DesignSetImageFol);
-    setImageUrlDesignSet(data?.CDNDesignImageFol);
+    // setImageUrlDesignSet(data?.CDNDesignImageFol);
+    setImageUrlDesignSet(data?.CDNDesignImageFolThumb);
 
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -577,7 +578,8 @@ const Lookbook = () => {
     if (filteredDesignSetLstData && Array.isArray(filteredDesignSetLstData)) {
       const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
         parseDesignDetails(slide?.Designdetail).map(async (detail) => {
-          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`;
+          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.jpg`;
+          // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`;
           // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
           const isAvailable = await checkImageAvailability(designImageUrl);
           return {
@@ -888,7 +890,7 @@ const Lookbook = () => {
                           </AccordionDetails>
                         </Accordion>
                       )}
-                    {    storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
+                    {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                       <Accordion
                         elevation={0}
                         sx={{
@@ -1036,8 +1038,8 @@ const Lookbook = () => {
               bgcolor: "background.paper",
               boxShadow: 24,
               p: 2,
-              margin:"0",
-              padding:'0 16px !important'
+              margin: "0",
+              padding: '0 16px !important'
             }}
             className="smr_lookBookCategoryPoupuBox"
           >
@@ -1118,19 +1120,19 @@ const Lookbook = () => {
                 )}
               </React.Fragment>
             ))}
-             <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-             {showSelectAll && (
-               <button
-               variant="contained"
-               onClick={handleSelectAll}
-               // style={{ marginTop: '10px' }}  
-               className="smrMA_selctAllCategoryBtn"
-               >
+            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+              {showSelectAll && (
+                <button
+                  variant="contained"
+                  onClick={handleSelectAll}
+                  // style={{ marginTop: '10px' }}  
+                  className="smrMA_selctAllCategoryBtn"
+                >
                   Select All
                 </button>
               )}
-              </div>
-                       </Box>
+            </div>
+          </Box>
         </Modal>
         {isProdLoading ? (
           // true ?
@@ -1280,7 +1282,7 @@ const Lookbook = () => {
                                 </AccordionDetails>
                               </Accordion>
                             )}
-                          { storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
+                          {storeInit?.IsPriceShow == 1 && ele?.id?.includes("Price") && (
                             <Accordion
                               elevation={0}
                               sx={{
@@ -1533,7 +1535,7 @@ const Lookbook = () => {
                                       className="smr1_lookBookImgDeatilSub"
                                       style={{ display: "flex", alignItems: "center" }}
                                     >
-                                     { storeInit?.IsPriceShow == 1 && <p
+                                      {storeInit?.IsPriceShow == 1 && <p
                                         style={{
                                           margin: "0px 10px 0px 0px",
                                           fontSize: "15px",
@@ -1590,7 +1592,8 @@ const Lookbook = () => {
                                             <img
                                               className="smr_lookBookSubImage"
                                               loading="lazy"
-                                              src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
+                                              // src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
+                                              src={`${imageUrlDesignSet}${detail?.designno}~1.jpg`}
                                               alt={`Sub image ${subIndex} for slide ${index}`}
                                               onClick={() =>
                                                 handleNavigation(
@@ -1657,7 +1660,7 @@ const Lookbook = () => {
                       />
                     )}
                     hidePrevButton={currentPage === 1}
-                    hideNextButton={currentPage  === Math.ceil(dstCount / itemsPerPage)}
+                    hideNextButton={currentPage === Math.ceil(dstCount / itemsPerPage)}
                   />
                 </div>
               </div>

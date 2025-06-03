@@ -422,6 +422,7 @@ const CartPage = () => {
     mrpbasedPriceFlag,
     openMobileModal,
     setOpenMobileModal,
+    finalCartData,
     isSelectedAll,
     handleSelectAll,
     handlecloseMobileModal,
@@ -463,7 +464,7 @@ const CartPage = () => {
 
   const handlePlaceOrder = () => {
     if (storeInit?.IsPLW == 0) {
-      let priceData = cartData.reduce(
+      let priceData = finalCartData.reduce(
         (total, item) => total + item?.FinalCost,
         0
       );
@@ -546,7 +547,7 @@ const CartPage = () => {
         <div className="cartBtnGroupMainDiv">
           {isMobileScreen && <div className="hoq_cart-title">My Cart</div>}
           <div className="hoq_cartmainRowDiv">
-            {!isloding && cartData.length != 0 && (
+            {!isloding && finalCartData.length != 0 && (
               <div className="hoq_cartButton-groups">
                 <Link
                   className="hoq_ReomoveAllCartbtn"
@@ -558,7 +559,7 @@ const CartPage = () => {
               </div>
             )}
             {!isMobileScreen && <div className="hoq_cart-title">My Cart</div>}
-            {!isloding && cartData.length != 0 && (
+            {!isloding && finalCartData.length != 0 && (
               <div className="hoq_placeOrderMainbtnDivs">
                 <button
                   className="hoq_place-order-btn"
@@ -630,11 +631,11 @@ const CartPage = () => {
                 />
               )}
             </div>
-            {cartData.length !== 0 ? (
+            {finalCartData.length !== 0 ? (
               <div className="hoq_cartMainPage">
                 <div className="hoq_cart-left-sides">
                   <CartList
-                    items={cartData}
+                    items={finalCartData}
                     CartCardImageFunc={CartCardImageFunc}
                     showRemark={showRemark}
                     productRemark={productRemark}

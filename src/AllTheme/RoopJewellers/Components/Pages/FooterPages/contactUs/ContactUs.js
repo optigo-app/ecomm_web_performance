@@ -22,8 +22,8 @@ export default function ContactUs() {
     useEffect(() => {
         // fetch(`${storImagePath()}/html/ShinjiniContactPage.html`)  /* for Shinjini only  */
         // fetch(`${storImagePath()}/html/PacificContactPage.html`)  /* for Pacific only  */
-        fetch(`${storImagePath()}/html/VaraContactPage.html`)  /* for vara only  */
-            // fetch(`${storImagePath()}/html/SonasonsContactPage.html`)  /* for sonsons only  */
+        // fetch(`${storImagePath()}/html/VaraContactPage.html`)  /* for vara only  */
+        fetch(`${storImagePath()}/html/SonasonsContactPage.html`)  /* for sonsons only  */
             // fetch(`${storImagePath()}/html/OjasviContactPage.html`)  /* for ojasvi only  */
             .then((response) => response.text())
             .then((html) => {
@@ -206,7 +206,7 @@ export default function ContactUs() {
                         </div>
                     </div>
                 </div>
-               <PageLoader loading={loading} />
+                <PageLoader loading={loading} />
             </div>
         </div>
     )

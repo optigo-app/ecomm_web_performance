@@ -4,7 +4,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, Grid, Snackbar, useMediaQuery } from '@mui/material';
+import { Button, Grid, Skeleton, Snackbar, useMediaQuery } from '@mui/material';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
@@ -21,30 +21,47 @@ const CartItem = ({
   onSelect,
   onRemove,
   itemLength,
-  handleMoveToDetail
+  handleMoveToDetail,
+  index
 }) => {
-  const [imageSrc, setImageSrc] = useState();
+  // const [imageSrc, setImageSrc] = useState();
   const [dialogOpen, setDialogOpen] = useState(false);
   const setCartCountVal = useSetRecoilState(PC_AppCartCount)
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [showToast, setShowToast] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
 
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
   }, [])
 
+
   useEffect(() => {
-    if (item?.ImageCount > 0) {
-      CartCardImageFunc(item).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [item]);
+    const delay = (index + 1) * 130;
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [index]);
+
+
+  // useEffect(() => {
+  //   if (item?.ImageCount > 0) {
+  //     CartCardImageFunc(item).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [item]);
 
   const handleRemoveAllDialog = () => {
     setDialogOpen(true);
@@ -93,12 +110,38 @@ const CartItem = ({
       className='smrMo_cartListCardGrid'>
       <Card className='smrMo_cartListCard' >
         <Box onClick={() => handleMoveToDetail(item)} className="smrmo_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
-          {imageSrc != undefined && <CardMedia
-            component="img"
-            image={imageSrc}
-            alt={item?.TitleLine}
-            className='smrMo_cartListImage'
-          />}
+          {isLoading === true ? (
+            <CardMedia
+              sx={{
+                height: "10rem",
+                borderRadius: "8px",
+                paddingLeft: "5px",
+                paddingTop: "5px",
+              }}
+            >
+              <Skeleton
+                animation="wave"
+                variant="rect"
+                width="10rem"
+                height="100%"
+              />
+            </CardMedia>
+          ) : (
+            <CardMedia
+              component="img"
+              image={item?.images}
+              alt=''
+              style={{ border: 'none', outline: 'none' }}
+              className='smrMo_cartListImage'
+              onError={(e) => {
+                if (item?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound
+                } else {
+                  e.target.src = noImageFound;
+                }
+              }}
+            />
+          )}
           <div>
             <CardContent className='smrMo_cartcontentData'>
               <Typography variant="body2" className='smrmo_DesignNoTExt'>

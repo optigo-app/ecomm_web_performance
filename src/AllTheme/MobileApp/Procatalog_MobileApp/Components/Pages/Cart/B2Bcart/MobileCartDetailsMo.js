@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Divider, Skeleton, Button } from '@mui/material';
+import { Modal, Divider, Skeleton, Button, CardMedia } from '@mui/material';
 import './smrMo_cartPage.scss';
 import QuantitySelector from './QuantitySelectorMo';
 import CloseIcon from "@mui/icons-material/Close";
@@ -59,6 +59,11 @@ const MobileCartDetails = ({
     setColorStoneCombo(CSQtyColorData);
   }, [])
 
+  const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`;
+
+  const isLoading = selectedItem?.loading;
 
   const handleUpdateCart = async (selectedItem) => {
     const resUpdate = await onUpdateCart(selectedItem)
@@ -67,27 +72,53 @@ const MobileCartDetails = ({
     }
   }
 
-  useEffect(() => {
-    if (selectedItem?.ImageCount > 0) {
-      CartCardImageFunc(selectedItem).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [selectedItem]);
+  // useEffect(() => {
+  //   if (selectedItem?.ImageCount > 0) {
+  //     CartCardImageFunc(selectedItem).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [selectedItem]);
 
   return (
     <Modal open={open} onClose={handleClose} className="smrmo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="smrmo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="smrmo_Cart-imageDiv">
-          <img
-            src={imageSrc}
-            alt="Cluster Diamond"
-            className='smrmo_cartImage'
-            onClick={() => handleMoveToDetail(selectedItem)}
-            style={{ border: 'none' }}
-          />
+          {isLoading === true ? (
+            <CardMedia
+              sx={{
+                width: "100%",
+                height: "25rem",
+              }}
+            >
+              <Skeleton
+                animation="wave"
+                variant="rect"
+                width="100%"
+                height="100%"
+              />
+            </CardMedia>
+          ) : (
+            <img
+              src={selectedItem?.images ? selectedItem?.images :
+                selectedItem?.ImageCount > 1 ? `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.jpg` :
+                  `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`
+              }
+              alt="Cluster Diamond"
+              className='smrmo_cartImage'
+              onClick={() => handleMoveToDetail(selectedItem)}
+              style={{ border: 'none' }}
+              onError={(e) => {
+                if (selectedItem?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound
+                } else {
+                  e.target.src = noImageFound;
+                }
+              }}
+            />
+          )}
         </div>
         <div className="smrMo_Cart_R-details">
           <p className='smrMo_cart-Titleline'>{selectedItem?.designno}{formatTitleLine(selectedItem?.TitleLine) ? `-${selectedItem.TitleLine}` : ''}</p>
@@ -168,7 +199,7 @@ const MobileCartDetails = ({
                   }
                 </>
               }
-             {sizeCombo?.rd?.length !== 0 &&
+              {sizeCombo?.rd?.length !== 0 &&
                 <div className="option">
                   <label htmlFor="size">Size:</label>
                   <select id="size" name={selectedItem?.id} defaultValue={selectedItem?.Mastermanagement_CategorySize} value={selectedItem?.size} onChange={handleSizeChange}>
@@ -176,7 +207,7 @@ const MobileCartDetails = ({
                       <option value={selectedItem?.size}>{selectedItem?.size}</option>
                     ) :
                       <>
-                         {sizeCombo?.rd?.map(option => (
+                        {sizeCombo?.rd?.map(option => (
                           <option key={option?.id} value={option?.sizename}>{option?.sizename}</option>
                         ))}
                       </>

@@ -21,7 +21,7 @@ const ReadyToShip = () => {
   useEffect(() => {
     const loginUserDetail = JSON.parse(sessionStorage?.getItem("loginUserDetail"));
     const storeInit = JSON.parse(sessionStorage?.getItem("storeInit"));
-    const  IsB2BWebsite  = storeInit?.IsB2BWebsite;
+    const IsB2BWebsite = storeInit?.IsB2BWebsite;
     const visiterID = Cookies.get("visiterId");
     let finalID;
     if (IsB2BWebsite == 0) {
@@ -35,19 +35,20 @@ const ReadyToShip = () => {
 
     let data = JSON.parse(sessionStorage.getItem("storeInit"));
     // setImageUrl(data?.DesignImageFol);
-    setImageUrl(data?.CDNDesignImageFol);
+    // setImageUrl(data?.CDNDesignImageFol);
+    setImageUrl(data?.CDNDesignImageFolThumb);
 
-   const BestSeller =async()=>{
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID)
-    .then((response) => {
-      if (response?.Data?.rd) {
-        setBestSellerData(response?.Data?.rd);
-      }
-    })
-    .catch((err) => console.log(err));
-   }
+    const BestSeller = async () => {
+      Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID)
+        .then((response) => {
+          if (response?.Data?.rd) {
+            setBestSellerData(response?.Data?.rd);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
 
-   BestSeller()
+    BestSeller()
   }, []);
 
   const compressAndEncode = (inputString) => {
@@ -80,17 +81,19 @@ const ReadyToShip = () => {
   };
 
   const ImageUrl = (designNo, ext) => {
-    return storeInit?.CDNDesignImageFol + designNo + "~" + 1 + "." + ext;
+    // return storeInit?.CDNDesignImageFol + designNo + "~" + 1 + "." + ext;
+    return storeInit?.CDNDesignImageFolThumb + designNo + "~" + 1 + "." + ext;
   };
   const RollUpImageUrl2 = (designNo, ext, imagCount) => {
     if (imagCount > 1) {
-      return storeInit?.CDNDesignImageFol + designNo + "~" + 2 + "." + ext;
+      // return storeInit?.CDNDesignImageFol + designNo + "~" + 2 + "." + ext;
+      return storeInit?.CDNDesignImageFolThumb + designNo + "~" + 2 + "." + ext;
     }
     return;
   };
 
-  if(bestSellerData?.length === 0){
-    return  <div style={{marginTop  :"-2rem"}}></div>;
+  if (bestSellerData?.length === 0) {
+    return <div style={{ marginTop: "-2rem" }}></div>;
   }
 
   return (
@@ -104,19 +107,19 @@ const ReadyToShip = () => {
         </button>
       </div>
       <div className="tab_card">
-        {bestSellerData?.slice(0,4)?.map((data, i) => {
+        {bestSellerData?.slice(0, 4)?.map((data, i) => {
           return (
             <CARD
-            key={i}
-              imgurl={ImageUrl(data?.designno, data?.ImageExtension)}
+              key={i}
+              imgurl={ImageUrl(data?.designno, "jpg")}
               data={data}
-              i={i} 
+              i={i}
               rollUpImage={RollUpImageUrl2(
                 data?.designno,
-                data?.ImageExtension,
+                "jpg",
                 data?.ImageCount
               )}
-              condition={storeInit?.IsPriceShow === 1 }
+              condition={storeInit?.IsPriceShow === 1}
               designNo={data?.designno}
               CurrCode={
                 loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode
@@ -176,20 +179,21 @@ const CARD = ({
             e.target.src =
               noimage;
           }}
+          loading="lazy"
         />
         {ImageCount > 1 && (
           <div className="overlay_img" style={{ backgroundColor: "#F5F5F5" }}>
-            <img  onError={(e) => {
-            e.target.onerror = null;
-            e.target.src =
-              noimage;
-          }} src={rollUpImage} style={{ mixBlendMode: "multiply" }} />
+            <img onError={(e) => {
+              e.target.onerror = null;
+              e.target.src =
+                noimage;
+            }} src={rollUpImage} loading="lazy" style={{ mixBlendMode: "multiply" }} />
           </div>
         )}
       </div>
       <div className="tab_hover_Details">
         <h3>{designNo}</h3>
-       {condition && <small>
+        {condition && <small>
           {CurrCode}
           &nbsp;
           {formatter.format(price)}

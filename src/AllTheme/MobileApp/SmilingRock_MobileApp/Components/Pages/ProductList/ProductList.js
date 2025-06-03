@@ -31,11 +31,12 @@ import { BsFilterLeft } from "react-icons/bs";
 import Cookies from 'js-cookie'
 import { IoIosClose } from "react-icons/io";
 import notFound from '../../Assets/notpl.svg'
+import RangeFilter from "../../../../../../utils/Glob_Functions/RangeFilter/RangeFilter";
 
 const ProductList = () => {
 
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-  const ExloreLink =  JSON.parse(sessionStorage.getItem('menuUrl')) ?? '/';
+  const ExloreLink = JSON.parse(sessionStorage.getItem('menuUrl')) ?? '/';
   let location = useLocation();
   let navigate = useNavigate();
   let minwidth1201px = useMediaQuery('(min-width:1201px)')
@@ -85,7 +86,6 @@ const ProductList = () => {
 
 
   const [prodListType, setprodListType] = useState();
-  console.log('prodListType: ', prodListType);
   const setCartCountVal = useSetRecoilState(smrMA_CartCount)
   const setWishCountVal = useSetRecoilState(smrMA_WishCount)
   let cookie = Cookies.get('visiterId')
@@ -93,6 +93,16 @@ const ProductList = () => {
   const [sliderValue1, setSliderValue1] = useState([]);
   const [sliderValue2, setSliderValue2] = useState([]);
   const [sortBySelect, setSortBySelect] = useState('Recommended');
+  const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
+  const [inputGross, setInputGross] = useState([]);
+  const [inputNet, setInputNet] = useState([]);
+  const [inputDia, setInputDia] = useState([]);
+  const [appliedRange1, setAppliedRange1] = useState(null);
+  const [appliedRange2, setAppliedRange2] = useState(null);
+  const [appliedRange3, setAppliedRange3] = useState(null);
+
 
   const [afterCountStatus, setAfterCountStatus] = useState(false);
 
@@ -248,8 +258,6 @@ const ProductList = () => {
 
     let csid = loginUserDetail?.cmboCSQCid ?? storeinit?.cmboCSQCid;
     setSelectedCsId(csid)
-
-    console.log("selectedCustom", mtid, diaid, csid);
 
   }, [location?.key])
 
@@ -571,7 +579,6 @@ const ProductList = () => {
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
           }
-          console.log("productList", res);
           if (res?.pdList) {
             setIsProductListData(true)
           }
@@ -602,6 +609,9 @@ const ProductList = () => {
               setSliderValue([diafilter?.Min, diafilter?.Max])
               setSliderValue1([diafilter1?.Min, diafilter1?.Max])
               setSliderValue2([diafilter2?.Min, diafilter2?.Max])
+              setInputDia([diafilter?.Min, diafilter?.Max]);
+              setInputNet([diafilter1?.Min, diafilter1?.Max]);
+              setInputGross([diafilter2?.Min, diafilter2?.Max]);
               forWardResp1 = res
             }).catch((err) => console.log("err", err))
           }
@@ -609,10 +619,12 @@ const ProductList = () => {
         }).finally(() => {
           setIsProdLoading(false)
           setIsOnlyProdLoading(false)
-          window.scroll({
-            top: 0,
-            behavior: 'smooth'
-          })
+          setTimeout(() => {
+            window.scroll({
+              top: 0,
+              behavior: 'smooth'
+            })
+          }, 100)
         })
         .catch((err) => console.log("err", err))
       // }
@@ -621,10 +633,16 @@ const ProductList = () => {
 
     fetchData();
 
+    setTimeout(() => {
+      window.scroll({
+        top: 0,
+        behavior: 'smooth'
+      })
+    }, 100)
+
     if (location?.key) {
       setLocationKey(location?.key)
     }
-
   }, [location?.key])
 
   useEffect(() => {
@@ -645,7 +663,8 @@ const ProductList = () => {
 
       if (product?.ImageCount > 0) {
         for (let i = 1; i <= product?.ImageCount; i++) {
-          let imgString = storeInit?.CDNDesignImageFol + product?.designno + "~" + i + "." + product?.ImageExtension
+          // let imgString = storeInit?.CDNDesignImageFol + product?.designno + "~" + i + "." + product?.ImageExtension
+          let imgString = storeInit?.CDNDesignImageFolThumb + product?.designno + "~" + i + "." + "jpg";
           pdImgList.push(imgString)
         }
       }
@@ -721,7 +740,8 @@ const ProductList = () => {
 
     if (pd?.ImageCount > 0) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
-        let imgString = storeInit?.CDNDesignImageFol + pd?.designno + "~" + i + "." + pd?.ImageExtension
+        // let imgString = storeInit?.CDNDesignImageFol + pd?.designno + "~" + i + "." + pd?.ImageExtension
+        let imgString = storeInit?.CDNDesignImageFolThumb + pd?.designno + "~" + i + "." + "jpg"
         pdImgList.push(imgString)
       }
     }
@@ -806,6 +826,8 @@ const ProductList = () => {
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
+    setCurrPage(1);
+
     let diafilter =
       filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
         ?.length > 0
@@ -836,9 +858,20 @@ const ProductList = () => {
     if (location?.key === locationKey) {
       // setIsOnlyProdLoading(true)
       setIsProdLoading(true)
-      let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
-      let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
-      let netRange = { netMin: isNet ? sliderValue1[0] : "", netMax: isNet ? sliderValue1[1] : "" }
+      let DiaRange = {
+        DiaMin: isDia ? (sliderValue[0] !== inputDia[0] ? sliderValue[0] : "") : "",
+        DiaMax: isDia ? (sliderValue[1] !== inputDia[1] ? sliderValue[1] : "") : ""
+      };
+
+      let grossRange = {
+        grossMin: isGross ? (sliderValue2[0] !== inputGross[0] ? sliderValue2[0] : "") : "",
+        grossMax: isGross ? (sliderValue2[1] !== inputGross[1] ? sliderValue2[1] : "") : ""
+      };
+
+      let netRange = {
+        netMin: isNet ? (sliderValue1[0] !== inputNet[0] ? sliderValue1[0] : "") : "",
+        netMax: isNet ? (sliderValue1[1] !== inputNet[1] ? sliderValue1[1] : "") : ""
+      };
 
       // ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
       ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
@@ -940,6 +973,12 @@ const ProductList = () => {
       setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
       setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
       setFilterChecked({});
+      setInputDia([diafilter?.Min, diafilter?.Max]);
+      setInputNet([diafilter1?.Min, diafilter1?.Max]);
+      setInputGross([diafilter2?.Min, diafilter2?.Max]);
+      setShow(false);
+      setShow1(false);
+      setShow2(false);
     }
     setAccExpanded(false);
   };
@@ -991,7 +1030,6 @@ const ProductList = () => {
       })
   }
   const handleCartandWish = (e, ele, type) => {
-    console.log("event", e.target.checked, ele, type);
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
@@ -1145,7 +1183,6 @@ const ProductList = () => {
       f: output
     }
 
-    console.log('movetodetail', obj);
     // console.log("selectedMetalId",selectedDiaId);
 
     // compressAndEncode(JSON.stringify(obj))
@@ -1804,21 +1841,31 @@ const ProductList = () => {
   const [imageAvailability, setImageAvailability] = useState({});
 
   useEffect(() => {
-    const chechAllImages = async () => {
-      let availability = {};
+    const loadImagesSequentially = async () => {
 
-      const checks = finalProductListData?.map(async (item) => {
-        const imageUrl = item?.images?.[0] || imageNotFound;
-        const isAvailable = await checkImageAvailability(imageUrl);
-        availability[item?.autocode] = isAvailable;
-      });
+      const availability = {};
 
-      await Promise.all(checks);
-      setImageAvailability(availability);
+      for (const item of finalProductListData) {
+        const hasImage = !!(item?.images?.[0]); // Check if image exists
+        const autocode = item?.autocode;
+
+        availability[autocode] = hasImage;
+
+        // Progressive update
+        setImageAvailability((prev) => ({
+          ...prev,
+          [autocode]: hasImage,
+        }));
+
+        // 150ms delay before moving to the next one
+        await new Promise((resolve) => setTimeout(resolve, 150));
+      }
+    };
+
+    if (finalProductListData?.length > 0) {
+      loadImagesSequentially();
     }
-
-    chechAllImages();
-  }, [finalProductListData])
+  }, [finalProductListData]);
 
   const BreadCumsObj = () => {
     // Check if location.search exists and handle decoding and splitting safely
@@ -2389,11 +2436,25 @@ const ProductList = () => {
                           minHeight: "fit-content",
                           maxHeight: "300px",
                           overflow: "auto",
+                          paddingBottom: "48px",
                         }}
                       >
                         {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                         <Box sx={{ width: 203, height: 88 }}>
-                          {RangeFilterView(ele)}
+                          {/* {RangeFilterView(ele)} */}
+                          <RangeFilter
+                            ele={ele}
+                            sliderValue={sliderValue}
+                            setSliderValue={setSliderValue}
+                            handleRangeFilterApi={handleRangeFilterApi}
+                            prodListType={prodListType}
+                            cookie={cookie}
+                            show={show}
+                            setShow={setShow}
+                            filterName="Diamond"
+                            setAppliedRange={setAppliedRange1}
+                            appliedRange={appliedRange1}
+                          />
                         </Box>
                       </AccordionDetails>
                     </Accordion>
@@ -2445,11 +2506,25 @@ const ProductList = () => {
                           minHeight: "fit-content",
                           maxHeight: "300px",
                           overflow: "auto",
+                          paddingBottom: "48px",
                         }}
                       >
                         {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                         <Box sx={{ width: 204, height: 88 }}>
-                          {RangeFilterView1(ele)}
+                          {/* {RangeFilterView1(ele)} */}
+                          <RangeFilter
+                            ele={ele}
+                            sliderValue={sliderValue1}
+                            setSliderValue={setSliderValue1}
+                            handleRangeFilterApi={handleRangeFilterApi1}
+                            prodListType={prodListType}
+                            cookie={cookie}
+                            show={show1}
+                            setShow={setShow1}
+                            filterName="NetWt"
+                            setAppliedRange={setAppliedRange2}
+                            appliedRange={appliedRange2}
+                          />
                         </Box>
                       </AccordionDetails>
                     </Accordion>
@@ -2501,10 +2576,24 @@ const ProductList = () => {
                           minHeight: "fit-content",
                           maxHeight: "300px",
                           overflow: "auto",
+                          paddingBottom: "48px",
                         }}
                       >
                         <Box sx={{ width: 204, height: 88 }}>
-                          {RangeFilterView2(ele)}
+                          {/* {RangeFilterView2(ele)} */}
+                          <RangeFilter
+                            ele={ele}
+                            sliderValue={sliderValue2}
+                            setSliderValue={setSliderValue2}
+                            handleRangeFilterApi={handleRangeFilterApi2}
+                            prodListType={prodListType}
+                            cookie={cookie}
+                            show={show2}
+                            setShow={setShow2}
+                            filterName="Gross"
+                            setAppliedRange={setAppliedRange3}
+                            appliedRange={appliedRange3}
+                          />
                         </Box>
                       </AccordionDetails>
                     </Accordion>
@@ -2803,29 +2892,29 @@ const ProductList = () => {
                         filterProdListEmpty ?
                           <div style={{ display: 'flex', justifyContent: 'center', width: '100%', alignItems: 'center', height: '100svh', position: 'absolute', top: 0, bottom: 0 }}>
                             <span className="smr_prod_datanotfound" style={{ textAlign: 'center' }}>
-                              <img src={notFound} alt="Product not found" style={{ maxWidth: '200px', marginBottom: '20px' }} />
-                              <div style={{ color: '#555', maxWidth: '60%', margin: '0 auto', lineHeight: '20px' ,display:'flex',flexDirection:'column',alignItems:'center' }}>
+                              <img src={notFound} alt="Product not found" loading="lazy" style={{ maxWidth: '200px', marginBottom: '20px' }} />
+                              <div style={{ color: '#555', maxWidth: '60%', margin: '0 auto', lineHeight: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <span style={{ fontSize: '20px' }}>
                                   We couldn't find any products matching your search.
                                 </span>
                                 <button
-                            style={{
-                                width: '180px',
-                                backgroundColor: '#D6B08B',
-                                border: 'none',
-                                color: 'white',
-                                fontSize: '18px',
-                                fontWeight: 500,
-                                borderRadius: '4px',
-                                cursor: 'pointer',
-                                transition: 'background-color 0.3s',
-                                padding:'10px' ,
-                                marginTop:'15px'
-                            }}
-                            onClick={() => navigate(ExloreLink)}
-                        >
-                            Explore
-                        </button>
+                                  style={{
+                                    width: '180px',
+                                    backgroundColor: '#D6B08B',
+                                    border: 'none',
+                                    color: 'white',
+                                    fontSize: '18px',
+                                    fontWeight: 500,
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    transition: 'background-color 0.3s',
+                                    padding: '10px',
+                                    marginTop: '15px'
+                                  }}
+                                  onClick={() => navigate(ExloreLink)}
+                                >
+                                  Explore
+                                </button>
                               </div>
                             </span>
                           </div>
@@ -2843,7 +2932,7 @@ const ProductList = () => {
                                       {finalProductListData?.map((productData, i) => {
                                         const isAvailable = imageAvailability[productData?.autocode];
                                         return (
-                                          <div className="smrMA_productCard" style={{ width: (isSingleView && '98%') || (isDoubleView && '49%') }}>
+                                          <div className="smrMA_productCard" style={{ width: (isSingleView && '98%') || (isDoubleView && '49%'), height: isDoubleView ? "270px" : "100%" }}>
                                             <div className="cart_and_wishlist_icon">
                                               {/* <Button className="smr_cart-icon"> */}
                                               <Checkbox
@@ -2915,25 +3004,26 @@ const ProductList = () => {
                                                 <span className="smrMA_app_newarrival">New</span>
                                               }
                                             </div>
-                                            {/* {isAvailable === undefined
+                                            {!imageAvailability[productData?.autocode]
                                               ? <CardMedia style={{ width: '100%', height: '30vh' }} className='roop_productCard_cardMainSkeleton'>
-                                                <Skeleton animation="wave" variant="rect" width={'100%'} height='40vh' style={{ backgroundColor: '#e8e8e86e' }} />
-                                              </CardMedia> : */}
-                                            <img
-                                              className="smr_productCard_Image"
-                                              style={{ height: (isSingleView && '412px') || (isDoubleView && '200px'), minHeight: (isSingleView && '412px') || (isDoubleView && '200px') }}
-
-                                              id={`smr_productCard_Image${productData?.autocode}`}
-                                              // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                                              // src={ ProdCardImageFunc(productData,0)}
-                                              src={productData?.images?.length > 0 ? productData?.images[0] : imageNotFound}
-                                              alt=""
-                                              onClick={() => handleMoveToDetail(productData)}
-                                              onMouseEnter={() => { handleImgRollover(productData, i) }}
-                                              onError={(e) => {
-                                                e.target.src = imageNotFound;
-                                              }}
-                                            />
+                                                <Skeleton animation="wave" variant="rect" width={'100%'} height='270px' style={{ backgroundColor: '#e8e8e86e' }} />
+                                              </CardMedia> :
+                                              <img
+                                                className="smr_productCard_Image"
+                                                style={{ height: (isSingleView && '412px') || (isDoubleView && '200px'), minHeight: (isSingleView && '412px') || (isDoubleView && '200px'), width: '100%', objectFit: "cover" }}
+                                                loading="lazy"
+                                                id={`smr_productCard_Image${productData?.autocode}`}
+                                                // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol + productData?.DesignFolderName + '/' + storeInit?.ImgMe + '/' + productData?.DefaultImageName : imageNotFound}
+                                                // src={ProdCardImageFunc(productData, 0)}
+                                                src={productData?.images?.length > 0 ? productData?.images[0] : imageNotFound}
+                                                alt=""
+                                                onClick={() => handleMoveToDetail(productData)}
+                                                onMouseEnter={() => { handleImgRollover(productData, i) }}
+                                                onError={(e) => {
+                                                  e.target.src = imageNotFound;
+                                                }}
+                                              />
+                                            }
                                             <div className="smr_prod_Title" >
                                               <span
                                                 className={
@@ -3001,7 +3091,7 @@ const ProductList = () => {
                                               </div>
                                             </div>
                                             <div className="smrMA_prod_mtcolr_price">
-                                              <span className="smr_prod_metal_col">
+                                              <span className="smr_prod_metal_col" style={{ fontSize: "11.2px" }}>
                                                 {findMetalColor(
                                                   productData?.MetalColorid
                                                 )?.[0]?.metalcolorname.toUpperCase()}
@@ -3153,7 +3243,6 @@ const BreadCumView = ({ BreadCumsObj, handleBreadcums, IsBreadCumShow }) => {
   const pathSegments = pathname.split('/');
 
   const secondSegment = pathSegments.length > 2 ? decodeURIComponent(pathSegments[2]) : null;
-  console.log(location?.search.charAt(1) == "S" ? "" : BreadCumsObj()?.menuname)
   return (
     <div className="breadcrumb_fmg">
       <div className="empty_sorting_div_fmg">

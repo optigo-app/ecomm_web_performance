@@ -2,6 +2,11 @@
 
 .roop_newwArr1MainDiv {
     margin-top: 3rem;
+
+    @media (max-width: 399px) {
+        margin-top: 9rem;
+    }
+
     .roop_NewArr1Title {
         text-align: center;
         color: $titleColor;
@@ -22,6 +27,41 @@
     }
 
     .roop_NewArrival1product-list {
+
+        height: 545px;
+
+        @media (max-width: 1650px) {
+            height: 480px;
+        }
+
+        @media (max-width: 1440px) {
+            height: 420px;
+        }
+
+        @media (max-width: 1000px) {
+            height: 360px;
+        }
+
+        @media (max-width: 900px) {
+            height: 720px;
+        }
+
+        @media (max-width: 768px) {
+            height: 700px;
+        }
+
+        @media (max-width: 600px) {
+            height: 640px;
+        }
+
+        @media (max-width: 450px) {
+            height: 600px;
+        }
+
+        @media (max-width: 325px) {
+            height: 520px;
+        }
+
         padding: 0px 10px;
         display: flex;
         flex-wrap: wrap;

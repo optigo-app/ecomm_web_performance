@@ -4,10 +4,13 @@ import { education } from "../../../data/dummydata";
 import NewsletterSignup from "../../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
 import btnstyle from "../../../scss/Button.module.scss";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { for_isRingFlowOn } from "../../../Recoil/atom";
 const Education = () => {
   const navigate = useNavigate();
   const addCategory = `Ring/category`;
   const filterKeyVal = btoa(addCategory);
+  const isRingFlowOn = useRecoilValue(for_isRingFlowOn);
 
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
   const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
@@ -91,7 +94,7 @@ const Education = () => {
                     <p className="descri-t">{val?.description}</p>
                     <button
                       onClick={() => {
-                        if (val?.title === "Engagement Rings") {
+                        if (val?.title === "Engagement Rings" && isRingFlowOn === 1) {
                           handleSettingNavigation();
                         }
                       }}

@@ -9,23 +9,23 @@ const Collection = ({ banner }) => {
             <div className='gorGiftMain'>
                 <div className='gorGiftBox1'>
                     <div>
-                        <p className='gorGiftBoxMainTitleWeb'>WOMEN</p>
-                        <img loading="lazy" src={banner?.image?.[0]} className='gorGiftBox1Images' alt='gift-for-womens' />
+                        <h1 className='gorGiftBoxMainTitleWeb'>WOMEN</h1>
+                        <img loading="lazy" src={banner?.image?.[0]} className='gorGiftBox1Images' height="45%" width="45%" alt='gift-for-womens' />
                         {/* <img loading="lazy" src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetBanner1Img1.jpg`} className='gorGiftBox1Images' /> */}
                     </div>
                     <div className='gorGiftBox1Sub1'>
-                        <p className='gorGiftBoxMainTitleWeb'>KIDS</p>
-                        <img loading="lazy" src={banner?.image?.[1]} className='gorGiftBox1Images' alt='gift-for-kids' />
+                        <h1 className='gorGiftBoxMainTitleWeb'>KIDS</h1>
+                        <img loading="lazy" src={banner?.image?.[1]} className='gorGiftBox1Images' height="45%" width="45%" alt='gift-for-kids' />
                     </div>
                 </div>
                 <div className='gorGiftBox1'>
                     <div>
-                        <p className='gorGiftBoxMainTitleWeb'>MEN</p>
-                        <img loading="lazy" src={banner?.image?.[2]} className='gorGiftBox1Images' alt='gift-for-men' />
+                        <h1 className='gorGiftBoxMainTitleWeb'>MEN</h1>
+                        <img loading="lazy" src={banner?.image?.[2]} className='gorGiftBox1Images' height="45%" width="45%" alt='gift-for-men' />
                     </div>
                     <div className='gorGiftBox2Sub1' >
-                        <p className='gorGiftBoxMainTitleWeb'>GIFTS</p>
-                        <img loading="lazy" src={banner?.image?.[3]} className='gorGiftBox1Images' alt='gifts' />
+                        <h1 className='gorGiftBoxMainTitleWeb'>GIFTS</h1>
+                        <img loading="lazy" src={banner?.image?.[3]} className='gorGiftBox1Images' height="45%" width="45%" alt='gifts' />
                     </div>
                 </div>
             </div>

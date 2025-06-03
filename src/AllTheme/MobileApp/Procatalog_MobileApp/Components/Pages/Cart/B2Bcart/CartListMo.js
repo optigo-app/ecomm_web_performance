@@ -24,7 +24,7 @@ const CartList = ({
   handleCancel,
   handleMoveToDetail
 }) => {
-  
+
   const [storeInitData, setStoreInitData] = useState();
   const [totalPrice, setTotalPrice] = useState();
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ const CartList = ({
   return (
     <div className="smrMo_RightCartList">
       <Grid container spacing={2} className='smrMo_GridCardComponent'>
-        {items.map(item => (
+        {items.map((item, index) => (
           <CartItem
             key={item.id}
             item={item}
@@ -75,6 +75,7 @@ const CartList = ({
             handleSave={handleSave}
             handleCancel={handleCancel}
             handleMoveToDetail={handleMoveToDetail}
+            index={index}
           />
         ))}
       </Grid>

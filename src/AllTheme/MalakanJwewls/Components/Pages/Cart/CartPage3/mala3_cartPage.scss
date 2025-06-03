@@ -129,13 +129,24 @@ $borderColor: rgba(232, 232, 232, 1);
 
               &__image {
                 flex: 1;
-                max-height: 200px;
 
                 img {
                   width: 100%;
+                  height: 200px;
                   max-height: 200px;
-                  height: auto;
                   object-fit: cover;
+
+                  @media (max-width: 1700px) {
+                    height: 150px !important;
+                  }
+
+                  @media (max-width: 1000px) {
+                    height: 100px !important;
+                  }
+
+                  @media (max-width: 650px) {
+                    height: 200px !important;
+                  }
                 }
               }
 
@@ -443,16 +454,16 @@ $borderColor: rgba(232, 232, 232, 1);
                   display: flex;
                   flex-direction: column;
                   font-family: $primaryFontFamily !important;
-                  
+
                   label {
                     color: $titleColor;
                     font-weight: bold;
                     margin-bottom: 5px;
                     // font-size: $fontSize2;
                     // privaa
-                    font-size: $fontSize1; 
+                    font-size: $fontSize1;
                   }
-                  
+
                   select {
                     color: $titleColor;
                     padding: 10px;
@@ -462,7 +473,7 @@ $borderColor: rgba(232, 232, 232, 1);
                     border: 1px solid $borderColor;
                     // font-size: $fontSize2;
                     // privaa
-                    font-size: $fontSize1; 
+                    font-size: $fontSize1;
                   }
                 }
               }
@@ -504,7 +515,7 @@ $borderColor: rgba(232, 232, 232, 1);
                     font-weight: bold;
                     // font-size: $fontSize2;
                     // privaa
-                    font-size: $fontSize1; 
+                    font-size: $fontSize1;
                     margin-bottom: 5px;
                   }
 
@@ -513,7 +524,7 @@ $borderColor: rgba(232, 232, 232, 1);
                     padding: 10px;
                     // font-size: $fontSize2;
                     // privaa
-                    font-size: $fontSize1; 
+                    font-size: $fontSize1;
                   }
 
                   select {
@@ -525,7 +536,7 @@ $borderColor: rgba(232, 232, 232, 1);
                     border: 1px solid $borderColor;
                     // font-size: $fontSize2; 
                     // privaa
-                    font-size: $fontSize1; 
+                    font-size: $fontSize1;
                   }
                 }
               }

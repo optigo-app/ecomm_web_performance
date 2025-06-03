@@ -1,0 +1,51 @@
+@import "../../../scss/variable.scss";
+
+.srmm_loginCompo_div {
+    width: 92%;
+    margin-inline: auto;
+    margin-top: 4rem;
+
+    .srmm_text_1 {
+        font-size: 22px;
+        color: black;
+        font-family: $primaryFontFamily1 !important;
+        margin-bottom: 4px;
+    }
+
+    .srmm_text_2 {
+        font-size: 17px;
+        color: rgb(53, 52, 52);
+        margin-bottom: 15px;
+        font-family: $primaryFontFamily1 !important;
+    }
+
+    .srmm_loginCompo_buttons_div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        gap: 1rem;
+        margin-bottom: 2rem;
+
+        .srmm_button_1 {
+            display: flex !important;
+            flex: 1 50% !important;
+            color: black !important;
+            height: 40px !important;
+            border: 1px solid black;
+            border-radius: 10px;
+            font-family: $primaryFontFamily1 !important;
+        }
+
+        .srmm_button_2 {
+            display: flex;
+            flex: 1 50%;
+            background: black;
+            height: 40px;
+            color: white;
+            border: 1px solid black;
+            border-radius: 10px;
+            font-family: $primaryFontFamily1 !important;
+        }
+    }
+}

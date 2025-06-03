@@ -29,7 +29,7 @@ const AboutUs = () => {
                 <img className='elv_aboutus_mainImg' src={aboutusBanner?.image?.[0]} alt="aboutus.jpg" />
                 {/* <img className='elv_aboutus_mainImg' src={`${storImagePath()}/images/HomePage/AboutUs/AboutUsMainBannerImg.jpg`} alt="aboutus.jpg" /> */}
                 <div className='elv_aboutus_details_div'>
-                    <h2 className='elv_aboutus_head_title'>ABOUT US</h2>
+                    <h1 className='elv_aboutus_head_title'>ABOUT US</h1>
                     <div className='elv_aboutus_details'>
                         <div className="elv_aboutus_details_leftside">
                             <Box sx={{ width: '100%', typography: 'body1' }}>

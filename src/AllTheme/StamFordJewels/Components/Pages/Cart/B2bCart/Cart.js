@@ -41,6 +41,7 @@ const CartPage = () => {
     mrpbasedPriceFlag,
     openMobileModal,
     setOpenMobileModal,
+    finalCartData,
     isSelectedAll,
     handleSelectAll,
     handlecloseMobileModal,
@@ -82,9 +83,9 @@ const CartPage = () => {
 
   const handlePlaceOrder = () => {
     if (storeInit?.IsPLW == 0) {
-      let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
+      let priceData = finalCartData.reduce((total, item) => total + item?.FinalCost, 0)
       sessionStorage.setItem('TotalPriceData', priceData)
-      navigate("/Delivery",{replace  :true})
+      navigate("/Delivery", { replace: true })
     } else {
       handlePay();
     }
@@ -165,7 +166,7 @@ const CartPage = () => {
             <div className="stam_cart-title">My Cart</div>
           }
           <div className='stam_cartmainRowDiv'>
-            {!isloding && cartData?.length != 0 &&
+            {!isloding && finalCartData?.length != 0 &&
               <div className='stam_cartButton-groups'>
                 <Link
                   className='stam_ReomoveAllCartbtn'
@@ -179,7 +180,7 @@ const CartPage = () => {
             {!isMobileScreen &&
               <div className="stam_cart-title">My Cart</div>
             }
-            {!isloding && cartData?.length != 0 &&
+            {!isloding && finalCartData?.length != 0 &&
               <div className='stam_placeOrderMainbtnDivs'>
                 <button className="stam_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div>
@@ -244,11 +245,11 @@ const CartPage = () => {
                 />
               }
             </div>
-            {cartData.length !== 0 ? (
+            {finalCartData.length !== 0 ? (
               <div className="stam_cartMainPage">
                 <div className="stam_cart-left-sides">
                   <CartList
-                    items={cartData}
+                    items={finalCartData}
                     CartCardImageFunc={CartCardImageFunc}
                     showRemark={showRemark}
                     productRemark={productRemark}

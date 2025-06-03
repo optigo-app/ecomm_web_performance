@@ -42,12 +42,28 @@ const CartItem = ({
   openHandleUpdateCartModal
 }) => {
   const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [isLoading, setisLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item?.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
+
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  // const isLoading = item?.loading;
+
+  useEffect(() => {
+    const delay = (index + 1) * 100;
+
+    const timer = setTimeout(() => {
+      setisLoading(false);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [index]);
 
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
@@ -100,15 +116,15 @@ const CartItem = ({
     return text.substring(0, maxLength) + '...';
   }
 
-  useEffect(() => {
-    if (item?.ImageCount > 0) {
-      CartCardImageFunc(item).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [item]);
+  // useEffect(() => {
+  //   if (item?.ImageCount > 0) {
+  //     CartCardImageFunc(item).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [item]);
 
   const diamondData = diamondValue?.find((dia) => dia?.stockno == item?.Sol_StockNo);
 
@@ -124,7 +140,7 @@ const CartItem = ({
       >
         <div className="smr3_cart-item">
           <div className="smr3_cart-item__image">
-            {imageSrc === undefined ? (
+            {isLoading === true ? (
               <CardMedia
                 width="85%"
                 height={150}
@@ -161,7 +177,25 @@ const CartItem = ({
                 />
               </CardMedia>
             ) : (
-              <img src={imageSrc} alt='Product-image' />
+              <img
+                src={item?.images}
+                alt=' '
+                sx={{
+                  border: 'none',
+                  outline: 'none',
+                  boxShadow: 'none',
+                  '&:focus': { outline: 'none' },
+                  '&:active': { outline: 'none' },
+                }} style={{ border: "none", outline: "none" }}
+                loading='lazy'
+                onError={(e) => {
+                  if (item?.ImageCount > 0) {
+                    e.target.src = fullImagePath ? fullImagePath : noImageFound
+                  } else {
+                    e.target.src = noImageFound;
+                  }
+                }}
+              />
             )}
           </div>
           <div className="smr3_cart-item__details">

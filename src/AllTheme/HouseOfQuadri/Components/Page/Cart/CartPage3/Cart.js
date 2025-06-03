@@ -40,6 +40,7 @@ const CartPage = () => {
     mrpbasedPriceFlag,
     openMobileModal,
     setOpenMobileModal,
+    finalCartData,
     isSelectedAll,
     handleSelectAll,
     handlecloseMobileModal,
@@ -82,7 +83,7 @@ const CartPage = () => {
   const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
   const handlePlaceOrder = () => {
     let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-    let priceData = cartData?.reduce(
+    let priceData = finalCartData?.reduce(
       (total, item) => total + item?.FinalCost,
       0
     );
@@ -173,7 +174,7 @@ const CartPage = () => {
       }
       <div className='cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
-          {!isloding && cartData.length !== 0 &&
+          {!isloding && finalCartData.length !== 0 &&
             <div className='Hoq3_cartButton-groups'>
               <Link
                 className='Hoq3_ReomoveAllCartbtn'
@@ -186,7 +187,7 @@ const CartPage = () => {
           }{!isMobileScreen &&
             <div className="Hoq3_cart-title">My Cart</div>
           }
-          {!isloding && cartData.length !== 0 &&
+          {!isloding && finalCartData.length !== 0 &&
             <div className='Hoq3_placeOrderMainbtnDivs'>
               <button onClick={handlePlaceOrder}>Place Order</button>
             </div>
@@ -211,11 +212,11 @@ const CartPage = () => {
                 />
               }
             </div>
-            {!isloding && cartData.length != 0 ? (
+            {!isloding && finalCartData.length != 0 ? (
               <div className="Hoq3_cartMainPage">
                 <div className="Hoq3_cart-left-sides">
                   <CartList
-                    items={cartData}
+                    items={finalCartData}
                     CartCardImageFunc={CartCardImageFunc}
                     showRemark={showRemark}
                     productRemark={productRemark}

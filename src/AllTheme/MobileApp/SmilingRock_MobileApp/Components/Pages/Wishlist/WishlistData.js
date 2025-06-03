@@ -23,8 +23,6 @@ const WishlistData = ({
     handelMenu();
   }
 
-  console.log('itemLength', items?.length);
-
   return (
     <div className="smrMo_WlListData">
       <>

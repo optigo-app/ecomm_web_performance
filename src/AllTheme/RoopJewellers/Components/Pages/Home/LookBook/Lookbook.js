@@ -234,7 +234,8 @@ const Lookbook = () => {
 
     setStoreInit(storeInit);
     setImageUrl(storeInit?.DesignSetImageFol);
-    setImageUrlDesignSet(storeInit?.CDNDesignImageFol);
+    // setImageUrlDesignSet(storeInit?.CDNDesignImageFol);
+    setImageUrlDesignSet(storeInit?.CDNDesignImageFolThumb);
 
     const { IsB2BWebsite } = storeInit || {};
     const visiterID = Cookies.get("visiterId");
@@ -689,7 +690,8 @@ const Lookbook = () => {
     if (filteredDesignSetLstData && Array.isArray(filteredDesignSetLstData)) {
       const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
         parseDesignDetails(slide?.Designdetail).map(async (detail) => {
-          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`;
+          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.jpg`;
+          // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`;
           // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
           // const isAvailable = await checkImageAvailability(designImageUrl);
           return {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState ,lazy, Suspense, useMemo} from "react";
+import React, { useEffect, useState, lazy, Suspense, useMemo } from "react";
 import "./Home.modul.scss";
 import { smrMA_CartCount, smrMA_homeLoading, smrMA_loginState, smrMA_WishCount } from "../../Recoil/atom";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -65,7 +65,7 @@ const Home = () => {
                 let data = JSON.stringify(response?.Data?.rd)
                 sessionStorage.setItem('CurrencyCombo', data)
               }
-            }).catch((err) => {return err})
+            }).catch((err) => { return err })
 
 
             MetalColorCombo(response?.Data?.rd[0]?.id).then((response) => {
@@ -73,7 +73,7 @@ const Home = () => {
                 let data = JSON.stringify(response?.Data?.rd)
                 sessionStorage.setItem('MetalColorCombo', data)
               }
-            }).catch((err) => {return err})
+            }).catch((err) => { return err })
 
 
             MetalTypeComboAPI(response?.Data?.rd[0]?.id).then((response) => {
@@ -81,7 +81,7 @@ const Home = () => {
                 let data = JSON.stringify(response?.Data?.rd)
                 sessionStorage.setItem('metalTypeCombo', data)
               }
-            }).catch((err) => {return err})
+            }).catch((err) => { return err })
 
 
             navigation("/");
@@ -92,7 +92,7 @@ const Home = () => {
             }
           }
         })
-        .catch((err) => {return err});
+        .catch((err) => { return err });
     }
 
     const queryParams = new URLSearchParams(window.location.search);
@@ -140,11 +140,11 @@ const Home = () => {
           setTimeout(() => {
             if (redirectLookBook) {
               navigation(redirectLookBook);
-            }else {
+            } else {
               navigation("/");
             }
           }, 0);
-       
+
 
           GetCountAPI(visiterID).then((res) => {
             if (res) {
@@ -153,7 +153,7 @@ const Home = () => {
             }
           }).catch((err) => {
             if (err) {
-             {return err}
+              { return err }
             }
           })
 
@@ -162,7 +162,7 @@ const Home = () => {
               let data = JSON.stringify(response?.Data?.rd)
               sessionStorage.setItem('CurrencyCombo', data)
             }
-          }).catch((err) => {return err})
+          }).catch((err) => { return err })
 
 
           MetalColorCombo(response?.Data?.rd[0]?.id).then((response) => {
@@ -170,7 +170,7 @@ const Home = () => {
               let data = JSON.stringify(response?.Data?.rd)
               sessionStorage.setItem('MetalColorCombo', data)
             }
-          }).catch((err) => {return err})
+          }).catch((err) => { return err })
 
 
           MetalTypeComboAPI(response?.Data?.rd[0]?.id).then((response) => {
@@ -178,7 +178,7 @@ const Home = () => {
               let data = JSON.stringify(response?.Data?.rd)
               sessionStorage.setItem('metalTypeCombo', data)
             }
-          }).catch((err) => {return err})
+          }).catch((err) => { return err })
 
 
           navigation("/");
@@ -189,13 +189,13 @@ const Home = () => {
           }
         }
       })
-      .catch((err) => {return err});
+      .catch((err) => { return err });
   };
 
   const memoizedLocalData = useMemo(() => {
     const data = JSON.parse(sessionStorage.getItem("storeInit"));
     return data;
-  }, []); 
+  }, []);
 
   useEffect(() => {
     setLocalData(memoizedLocalData);
@@ -204,14 +204,14 @@ const Home = () => {
   return (
     <div className="smrMA_Home_main">
       {/* <ProductListBanner/> */}
-            <Suspense fallback={<div></div>}>
-      <TopSection data={banner?.mainBanner}/>
-      {localData?.IsHomeBestSeller === 1 && <BestSellerSection  data={banner?.bestsellerBanner}/>}
-      {localData?.IsHomeAlbum === 1 && <Album  />}
-      <PromotionBaner1 data={banner?.newArrivalBanner}/>
-      {localData?.IsHomeNewArrival === 1 && <NewArrival />}
-      {localData?.IsHomeTrending === 1 && <TrendingView  data={banner?.trendingBanner}/>}
-      {localData?.IsHomeDesignSet === 1 && <DesignSet />}
+      <Suspense fallback={<div></div>}>
+        <TopSection data={banner?.mainBanner} />
+        {localData?.IsHomeBestSeller === 1 && <BestSellerSection data={banner?.bestsellerBanner} />}
+        {localData?.IsHomeAlbum === 1 && <Album />}
+        <PromotionBaner1 data={banner?.newArrivalBanner} />
+        {localData?.IsHomeNewArrival === 1 && <NewArrival />}
+        {localData?.IsHomeTrending === 1 && <TrendingView data={banner?.trendingBanner} />}
+        {localData?.IsHomeDesignSet === 1 && <DesignSet />}
       </Suspense>
       {/* {isLoadingHome == true ?
         <div className="smrMA_Home_loader">

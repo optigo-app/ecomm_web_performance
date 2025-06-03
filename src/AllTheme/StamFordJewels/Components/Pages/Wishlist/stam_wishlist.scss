@@ -12,15 +12,69 @@
         display: flex;
         flex-direction: column;
         height: 100%;
-        
+
     }
 
     .stam_WlListImage {
-        width: 100%;
-        // max-height: 400px;
+        width: 365px;
         object-fit: contain;
         cursor: pointer;
-        // height: 300px;
+        height: 365px;
+
+        @media (max-width: 1700px) {
+            width: 340px;
+            height: 340px;
+        }
+
+        @media (max-width: 1600px) {
+            width: 300px;
+            height: 300px;
+        }
+
+        @media (max-width: 1460px) {
+            width: 270px;
+            height: 270px;
+        }
+
+        @media (max-width: 1300px) {
+            width: 240px;
+            height: 240px;
+        }
+
+        @media (max-width: 1199px) {
+            width: 365px;
+            height: 365px;
+        }
+
+        @media (max-width: 1050px) {
+            width: 300px;
+            height: 300px;
+        }
+
+        @media (max-width: 880px) {
+            width: 270px;
+            height: 270px;
+        }
+
+        @media (max-width: 780px) {
+            width: 220px;
+            height: 220px;
+        }
+
+        @media (max-width: 650px) {
+            width: 190px;
+            height: 190px;
+        }
+
+        @media (max-width: 599px) {
+            width: 260px;
+            height: 260px;
+        }
+
+        @media (max-width: 520px) {
+            width: 100%;
+            height: 100%;
+        }
     }
 
     .stam_WlListImage2 {
@@ -40,6 +94,7 @@
         @media (max-width: 1350px) {
             height: 60px;
         }
+
         @media (max-width: 500px) {
             height: 80px;
         }

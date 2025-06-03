@@ -407,9 +407,9 @@ export default function PrivacyPolicy() {
                 <h1 className="shinjini-title">Privacy Policy</h1>
 
                 <div className="shinjini-content">
-                    <p className="shinjini-introduction">{PacificData.introduction.text}</p>
+                    <p className="shinjini-introduction">{SonasonsprivacyData.introduction.text}</p>
 
-                    {PacificData.sections.map((section, index) => (
+                    {SonasonsprivacyData.sections.map((section, index) => (
                         <section key={index} className="shinjini-section">
                             <h2 className="shinjini-section-title">{section.title}</h2>
                             {section.content.map((item, itemIndex) => (

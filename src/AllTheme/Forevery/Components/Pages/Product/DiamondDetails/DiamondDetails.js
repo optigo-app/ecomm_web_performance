@@ -26,7 +26,7 @@ import { IoIosPlayCircle } from 'react-icons/io';
 import { CartAndWishListAPI } from '../../../../../../utils/API/CartAndWishList/CartAndWishListAPI';
 import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { for_CartCount, for_Loader, for_WishCount, for_customizationSteps, for_customizationSteps1 } from '../../../Recoil/atom';
+import { for_CartCount, for_Loader, for_WishCount, for_customizationSteps, for_customizationSteps1, for_isEarringFlowOn, for_isPendantFlowOn, for_isRingFlowOn } from '../../../Recoil/atom';
 import Faq from '../../ReusableComponent/Faq/Faq';
 import { responsiveConfig } from '../../../Config/ProductSliderConfig';
 import RelatedProduct from '../ProductDetail/RelatedProduct/RelatedProduct';
@@ -71,6 +71,9 @@ const DiamondDetails = () => {
     const isRing = JSON?.parse(sessionStorage.getItem('isRing')) ?? "";
     const isPendant = JSON?.parse(sessionStorage.getItem('isPendant')) ?? "";
     const isEarringpair = JSON?.parse(sessionStorage.getItem('isPair')) ?? "";
+    const isPendantFlowOn = useRecoilValue(for_isPendantFlowOn);
+    const isRingFlowOn = useRecoilValue(for_isRingFlowOn);
+    const isEarringFlowOn = useRecoilValue(for_isEarringFlowOn);
 
     let isPair;
     if (steps3?.[0]?.Status === 'active' || JSON.parse(sessionStorage.getItem('isPair'))) {
@@ -2050,7 +2053,7 @@ const DiamondDetails = () => {
                                                                     choose this diamond
                                                                 </button>
                                                                 <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno1={singleDiaData[0]?.stockno} stockno2={singleDiaData[1]?.stockno} shape1={singleDiaData[0]?.shapename}
-                                                                    shape2={singleDiaData[1]?.shapename} isPair={true} />
+                                                                    shape2={singleDiaData[1]?.shapename} isPair={true} isRingFlowOn={isRingFlowOn} isPendantFlowOn={isPendantFlowOn} isEarringFlowOn={isEarringFlowOn} />
                                                             </>
                                                         )}
                                                     </>
@@ -2439,7 +2442,7 @@ const DiamondDetails = () => {
                                                                     choose this diamond
                                                                 </button>
                                                                 <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno1={singleDiaData[0]?.stockno} stockno2={singleDiaData[1]?.stockno} shape1={singleDiaData[0]?.shapename}
-                                                                    shape2={singleDiaData[1]?.shapename} isPair={true} />
+                                                                    shape2={singleDiaData[1]?.shapename} isPair={true} isRingFlowOn={isRingFlowOn} isPendantFlowOn={isPendantFlowOn} isEarringFlowOn={isEarringFlowOn} />
                                                             </>
                                                         )}
                                                     </>
@@ -3294,7 +3297,7 @@ const DiamondDetails = () => {
                                                                 <button disabled={isPriceloading} onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                                     choose this diamond
                                                                 </button>
-                                                                <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno1={singleDiaData[0]?.stockno} shape1={singleDiaData[0]?.shapename} isPair={false} />
+                                                                <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno1={singleDiaData[0]?.stockno} shape1={singleDiaData[0]?.shapename} isPair={false} isRingFlowOn={isRingFlowOn} isPendantFlowOn={isPendantFlowOn} isEarringFlowOn={isEarringFlowOn} />
                                                             </>
                                                         )}
                                                     </>
@@ -3462,7 +3465,7 @@ const DiamondDetails = () => {
                                                             <button disabled={isPriceloading} onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                                 choose this diamond
                                                             </button>
-                                                            <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno1={singleDiaData[0]?.stockno} shape1={singleDiaData[0]?.shapename} isPair={false} />
+                                                            <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno1={singleDiaData[0]?.stockno} shape1={singleDiaData[0]?.shapename} isPair={false} isRingFlowOn={isRingFlowOn} isPendantFlowOn={isPendantFlowOn} isEarringFlowOn={isEarringFlowOn} />
 
                                                         </>
                                                     )}
@@ -5025,6 +5028,9 @@ const Modal = ({
     shape1,
     shape2,
     isPair,
+    isRingFlowOn,
+    isPendantFlowOn,
+    isEarringFlowOn
 }) => {
     return (
         <>
@@ -5061,10 +5067,12 @@ const Modal = ({
                                 What would you like to do?
                             </span>
                             <div className="for_modal_buttons_div">
-                                <button onClick={() => {
-                                    handleButtonChange('earring', "", [stockno1, stockno2], [shape1, shape2], "");
-                                    handleClose();
-                                }}>Add A Earring</button>
+                                {isEarringFlowOn === 1 &&
+                                    <button onClick={() => {
+                                        handleButtonChange('earring', "", [stockno1, stockno2], [shape1, shape2], "");
+                                        handleClose();
+                                    }}>Add A Earring</button>
+                                }
                                 <button onClick={() => {
                                     handleButtonChange('cart', "", [stockno1, stockno2], "", "");
                                     handleClose();
@@ -5106,11 +5114,15 @@ const Modal = ({
                                 What would you like to do?
                             </span>
                             <div className="for_modal_buttons_div">
-                                <button onClick={() => {
-                                    handleButtonChange('ring', "", stockno1, shape1, "");
-                                    handleClose();
-                                }}>Add your diamond to a ring</button>
-                                <button onClick={() => { handleButtonChange('pendant', "", stockno1, shape1, ""); handleClose(); }}>add your diamond to a pendant</button>
+                                {isRingFlowOn === 1 &&
+                                    <button onClick={() => {
+                                        handleButtonChange('ring', "", stockno1, shape1, "");
+                                        handleClose();
+                                    }}>Add your diamond to a ring</button>
+                                }
+                                {isPendantFlowOn === 1 &&
+                                    <button onClick={() => { handleButtonChange('pendant', "", stockno1, shape1, ""); handleClose(); }}>add your diamond to a pendant</button>
+                                }
                                 <button onClick={() => {
                                     handleButtonChange('cart', "", stockno1, "", "");
                                     handleClose();

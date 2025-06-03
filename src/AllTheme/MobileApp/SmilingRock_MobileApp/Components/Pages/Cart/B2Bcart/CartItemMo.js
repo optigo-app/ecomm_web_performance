@@ -25,26 +25,32 @@ const CartItem = ({
 }) => {
   const [imageSrc, setImageSrc] = useState();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const setCartCountVal = useSetRecoilState(smrMA_CartCount)
+  const setCartCountVal = useSetRecoilState(smrMA_CartCount);
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [showToast, setShowToast] = useState(false);
+
+  const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  const isLoading = item?.loading;
 
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
   }, [])
 
-  useEffect(() => {
-    if (item?.ImageCount > 0) {
-      CartCardImageFunc(item).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [item]);
+  // useEffect(() => {
+  //   if (item?.ImageCount > 0) {
+  //     CartCardImageFunc(item).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [item]);
 
   const handleRemoveAllDialog = () => {
     setDialogOpen(true);
@@ -93,37 +99,35 @@ const CartItem = ({
       className='smrMo_cartListCardGrid'>
       <Card className='smrMo_cartListCard' >
         <Box onClick={() => handleMoveToDetail(item)} className="smrmo_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
-          {imageSrc === undefined ? (
+          {isLoading === true ? (
             <CardMedia
               sx={{
-                width: "100%",
-                height: "11rem",
-                borderRadius:"8px",
-                paddingLeft:"5px",
-                paddingTop:"5px",
-                '@media (max-width: 425px)': {
-                  width: "9.5rem",
-                },
+                height: "10rem",
+                borderRadius: "8px",
+                paddingLeft: "5px",
+                paddingTop: "5px",
               }}
             >
               <Skeleton
                 animation="wave"
                 variant="rect"
-                width="11rem"
+                width="10rem"
                 height="100%"
-                sx={{
-                  '@media (max-width: 425px)': {
-                    width: "9.5rem",
-                  },
-                }}
               />
             </CardMedia>
           ) : (
             <CardMedia
               component="img"
-              image={imageSrc}
+              image={item?.images}
               alt={item?.TitleLine}
               className='smrMo_cartListImage'
+              onError={(e) => {
+                if (item?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound
+                } else {
+                  e.target.src = noImageFound;
+                }
+              }}
             />
           )}
 

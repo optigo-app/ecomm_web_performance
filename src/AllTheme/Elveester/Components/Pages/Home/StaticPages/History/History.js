@@ -27,7 +27,7 @@ const History = () => {
                 <img className='elv_history_mainImg' src={historyBanner?.image?.[0]} alt="aboutus.png" />
                 {/* <img className='elv_history_mainImg' src={`${storImagePath()}/images/HomePage/History/HistoryMainBanner.jpg`} alt="aboutus.png" /> */}
                 <div className='elv_history_details_div'>
-                    <h3 className='elv_history_head_title'>our history</h3>
+                    <h1 className='elv_history_head_title'>our history</h1>
                     <div className='elv_history_details'>
                         <p className='elv_history_paragraph'>Welcome to our History page, where we invite you to embark on an exciting journey through the annals of time. From ancient civilizations to modern-day marvels, we've curated a captivating collection of historical events, stories, and personalities that have shaped the world we live in today. Join us as we unravel the threads of history, gaining insights into the past and discovering how it influences our present and future.</p>
                     </div>

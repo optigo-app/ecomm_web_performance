@@ -15,6 +15,7 @@ const TopSection = ({ banner }) => {
 
     const checkVideo = banner?.video?.[0];
     const checkImag = banner?.image?.[0];
+    const checkImag1 = banner?.image?.[0];
 
     useEffect(() => {
         window.scroll({
@@ -24,7 +25,7 @@ const TopSection = ({ banner }) => {
 
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 1000);
+        }, 50);
 
         return () => clearTimeout(timer);
     }, []);
@@ -47,7 +48,7 @@ const TopSection = ({ banner }) => {
                 <>
                     {loading ? (
                         <div className="loader-container content_1">
-                            <Skeleton variant="rectangular" width="100%" className='content_1' animation="wave" />
+                            <Skeleton variant="rectangular" width="100%" className='content_1' sx={{ backgroundColor: "#F8F8F8" }} animation="wave" />
                         </div>
                     ) : (
                         <video
@@ -56,7 +57,7 @@ const TopSection = ({ banner }) => {
                             muted
                             loop
                             playsInline
-                            controls={!videoStarted}
+                            controls={false}
                             width="100%"
                             height="auto"
                             onPlay={() => setVideoStarted(true)}
@@ -72,6 +73,7 @@ const TopSection = ({ banner }) => {
                                 width="100%"
                                 sx={{
                                     height: {
+                                        backgroundColor: "#F8F8F8",
                                         xs: '40vh',
                                         sm: '50vh',
                                         md: '60vh',
@@ -92,7 +94,7 @@ const TopSection = ({ banner }) => {
                                 alt="Main Banner"
                             />
                             {!imageLoaded && (
-                                <Skeleton variant="rectangular" width="100%" height="100%" animation="wave" />
+                                <Skeleton variant="rectangular" width="100%" height="100%" sx={{ backgroundColor: "#F8F8F8" }} animation="wave" />
                             )}
                             <CountdownTimer />
                         </>

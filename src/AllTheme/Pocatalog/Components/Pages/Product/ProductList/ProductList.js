@@ -147,8 +147,6 @@ const ProductList = () => {
 
   const isEditablePage = 1;
 
-  console.log(islogin , "islogin")
-
   useEffect(() => {
     setCSSVariable();
 
@@ -474,6 +472,28 @@ const ProductList = () => {
     setInputPage(1)
   }, [location?.key]);
 
+  let getDesignImageFol = storeInit?.CDNDesignImageFolThumb;
+  const getDesignVideoFol = storeInit?.CDNVPath;
+
+  const getDynamicRollImages = (designno, count, extension) => {
+    if (count > 1) {
+      return `${getDesignImageFol}${designno}~${2}.jpg`;
+    }
+    return;
+  };
+
+  const getDynamicImages = (designno, extension) => {
+    return `${getDesignImageFol}${designno}~${1}.jpg`;
+  };
+
+  const getDynamicVideo = (designno, count, extension) => {
+    if (extension && count > 0) {
+      const url = `${getDesignVideoFol}${designno}~${1}.${extension}`;
+      return url;
+    }
+    return;
+  };
+
   // useEffect(() => {
   //   const finalProdWithPrice = productListData.map((product) => {
   //     let pdImgList = [];
@@ -542,17 +562,17 @@ const ProductList = () => {
 
     setFinalProductListData(initialProducts);
 
-    const timer = setTimeout(() => {
-      const updateData = productListData?.map((product) => ({
-        ...product,
-        images: generateImageList(product),
-        loading: false,
-      }));
+    // const timer = setTimeout(() => {
+    const updateData = productListData?.map((product) => ({
+      ...product,
+      images: generateImageList(product),
+      loading: false,
+    }));
 
-      setFinalProductListData(updateData);
-    }, 20);
+    setFinalProductListData(updateData);
+    // }, 150);
 
-    return () => clearTimeout(timer);
+    // return () => clearTimeout(timer);
 
   }, [productListData, generateImageList]);
 
@@ -3506,190 +3526,26 @@ const ProductList = () => {
                             >
                               <div className="smr_inner_portion">
                                 {finalProductListData?.map((productData, i) => {
-                                  const isLoading = productData && productData?.loading === true;
                                   return (
-                                    <div className="procat_productCard" >
-                                      {isLoading ? (
-                                        <CardMedia style={{ width: "100%" }} className="cardMainSkeleton">
-                                          <Skeleton
-                                            animation="wave"
-                                            variant="rect"
-                                            width={"100%"}
-                                            height="280px"
-                                            style={{ backgroundColor: "#e8e8e86e" }}
-                                          />
-                                        </CardMedia>
-                                      ) : (
-                                        <div
-                                          onMouseEnter={() => {
-                                            // Check if video is available
-                                            if (productData?.VideoCount > 0) {
-                                              setIsRollOverVideo({
-                                                [productData?.autocode]: true,
-                                              });
-                                            } else {
-                                              handleImgRollover(productData);
-                                              setIsRollOverVideo({
-                                                [productData?.autocode]: false,
-                                              });
-                                            }
-                                          }}
-                                          onClick={() => handleMoveToDetail(productData, i)}
-                                          onMouseLeave={() => {
-                                            handleLeaveImgRolloverImg(productData);
-                                            setIsRollOverVideo({
-                                              [productData?.autocode]: false,
-                                            });
-                                          }}
-                                          className="proCat_ImgandVideoContainer"
-                                          style={{ position: "relative" }}
-                                        >
-                                          {isRollOverVideo[productData?.autocode] ? (
-                                            <video
-                                              src={
-                                                productData?.VideoCount > 0
-                                                  ? storeInit?.CDNVPath + productData?.designno + "~" + 1 + "." + productData?.VideoExtension
-                                                  : ""
-                                              }
-                                              loop={true}
-                                              autoPlay={true}
-                                              className="proCat_productCard_video"
-                                              onError={(e) => {
-                                                e.target.poster = imageNotFound;
-                                              }}
-                                              disablePictureInPicture={true}
-                                              disableRemotePlayback={true}
-                                            />
-                                          ) : (
-                                            <img
-                                              className="proCat_productListCard_Image"
-                                              id={`smr_productListCard_Image${productData?.autocode}`}
-                                              src={
-                                                rollOverImgPd[productData?.autocode]
-                                                  ? rollOverImgPd[productData?.autocode]
-                                                  : productData?.images?.[0]
-                                                    ? productData?.images[0]
-                                                    : imageNotFound
-                                              }
-                                              alt={`Product image ${i + 1}`}
-                                              // alt=""
-                                              onError={(e) => {
-                                                e.target.src = imageNotFound;
-                                              }}
-                                            />
-                                          )}
-                                        </div>
-                                      )}
+                                    <Product_Card
+                                      productData={productData}
+                                      setIsRollOverVideo={setIsRollOverVideo}
+                                      handleImgRollover={handleImgRollover}
+                                      handleMoveToDetail={handleMoveToDetail}
+                                      i={i}
+                                      videoUrl={getDynamicVideo(productData.designno, productData.VideoCount, productData.VideoExtension)}
+                                      RollImageUrl={getDynamicRollImages(productData.designno, productData.ImageCount, productData.ImageExtension)}
+                                      imageUrl={getDynamicImages(productData.designno, productData.ImageExtension)}
+                                      handleLeaveImgRolloverImg={handleLeaveImgRolloverImg}
+                                      isRollOverVideo={isRollOverVideo}
+                                      storeInit={storeInit}
+                                      rollOverImgPd={rollOverImgPd}
+                                      loginUserDetail={loginUserDetail}
+                                      formatter={formatter}
+                                      handleCartandWish={handleCartandWish}
+                                      cartArr={cartArr}
 
-                                      <div className="proCat_app_product_label">
-                                        {productData?.StatusId == 1 ? (
-                                          <span className="proCat_app_instock">
-                                            In Stock
-                                          </span>
-                                        ) : productData?.StatusId == 2 ? (
-                                          <span className="proCat_app_MEMO">
-                                            In memo
-                                          </span>
-                                        ) : (
-                                          <span className="proCat_app_Make_to_order">
-                                            Make To Order
-                                          </span>
-                                        )}
-                                      </div>
-
-
-                                      <div className="proCat_prod_card_info">
-                                        <span className="proCat1_prod_title_with_no_width">
-                                          {productData?.designno} {formatTitleLine(productData?.TitleLine) && " - " + productData?.TitleLine}
-                                        </span>
-                                        <p
-                                          className="proCatPriceMobile"
-                                          style={{
-                                            display: "flex",
-                                            margin: "0px",
-                                          }}
-                                        >
-                                          {productData?.Gwt &&
-                                            `GWT - ${productData?.Gwt} / `}
-                                          {storeInit?.IsPriceShow == 1 && (
-                                            <span className="proCat_price">
-                                              <span className="smr_currencyFont">
-                                                {(loginUserDetail?.CurrencyCode ??
-                                                  storeInit?.CurrencyCode) + " "}
-                                                {formatter.format(
-                                                  productData?.UnitCostWithMarkUp
-                                                )}
-                                              </span>
-                                            </span>
-                                          )}
-                                        </p>
-                                      </div>
-                                      <FormControlLabel
-                                        control={
-                                          <Checkbox
-                                            icon={
-                                              <LocalMallOutlinedIcon
-                                                sx={{
-                                                  fontSize: "22px",
-                                                  color: "#594646",
-                                                }}
-                                              />
-                                            }
-                                            checkedIcon={
-                                              <LocalMallIcon
-                                                sx={{
-                                                  fontSize: "22px",
-                                                  color: "#474747d1",
-                                                }}
-                                              />
-                                              // <LocalMallIcon
-                                              //   sx={{
-                                              //     fontSize: "22px",
-                                              //     color: "red",
-                                              //   }}
-                                              // />
-                                            }
-                                            disableRipple={false}
-                                            onChange={(e) =>
-                                              handleCartandWish(
-                                                e,
-                                                productData,
-                                                "Cart"
-                                              )
-                                            }
-                                            checked={
-                                              cartArr[productData?.autocode] ??
-                                                productData?.IsInCart === 1
-                                                ? true
-                                                : false
-                                            }
-                                          />
-                                        }
-                                        label={
-                                          !(cartArr[productData?.autocode] ??
-                                            productData?.IsInCart === 1
-                                            ? true
-                                            : false) ? (
-                                            <span className="btnColorProCatProduct">
-                                              Add To Cart
-                                            </span>
-                                          ) : (
-                                            <span className="btnColorProCatProductRemoveCart">
-                                              Remove From Cart
-                                            </span>
-                                          )
-                                        }
-                                        // sx={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center',backgroundColor:'#474747d1',marginLeft:'0px',color:'white'}}
-                                        className={
-                                          !(cartArr[productData?.autocode] ??
-                                            productData?.IsInCart === 1
-                                            ? true
-                                            : false)
-                                            ? "procat_cart_btn btnColorProCatProduct"
-                                            : "procat_cart_btn_alter btnColorProCatProductRemoveCart"
-                                        }
-                                      />
-                                    </div>
+                                    />
                                   )
                                 })}
                               </div>
@@ -3770,6 +3626,259 @@ const ProductList = () => {
 };
 
 export default memo(ProductList);
+
+const Product_Card = ({
+  productData,
+  setIsRollOverVideo,
+  handleImgRollover,
+  handleMoveToDetail,
+  i,
+  videoUrl,
+  RollImageUrl,
+  imageUrl,
+  handleLeaveImgRolloverImg,
+  isRollOverVideo,
+  storeInit,
+  rollOverImgPd,
+  loginUserDetail,
+  formatter,
+  handleCartandWish,
+  cartArr,
+}) => {
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isHover, setIsHover] = useState(false);
+
+  useEffect(() => {
+    const delay = (i + 1) * 150;
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [i]);
+  return (
+    <div className="procat_productCard" >
+      {isLoading ? (
+        <CardMedia style={{ width: "100%" }} className="cardMainSkeleton">
+          <Skeleton
+            animation="wave"
+            variant="rect"
+            width={"100%"}
+            height="270px"
+            sx={{
+              '@media (max-width: 1750px)': {
+                height: "250px !important",
+              },
+              '@media (max-width: 1500px)': {
+                height: "230px",
+              },
+              '@media (max-width: 1350px)': {
+                height: "210px",
+              },
+              '@media (max-width: 1200px)': {
+                height: "270px",
+              },
+              '@media (max-width: 1100px)': {
+                height: "250px",
+              },
+              '@media (max-width: 1040px)': {
+                height: "270px",
+              },
+              '@media (max-width: 600px)': {
+                height: "250px",
+              },
+              '@media (max-width: 600px)': {
+                height: "500px",
+              },
+            }}
+            style={{ backgroundColor: "#e8e8e86e" }}
+          />
+        </CardMedia>
+      ) : (
+        <div
+          onClick={() =>
+            handleMoveToDetail(productData)
+          }
+          onMouseMove={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
+          className="roop_ImgandVideoContainer"
+          style={{ position: 'relative', overflow: 'hidden' }}
+        >
+          {isLoading ? (
+            <CardMedia
+              style={{ width: '100%', height: '100%' }}
+              className="proCat_productCard_cardMainSkeleton"
+            >
+              <Skeleton
+                animation="wave"
+                variant="rect"
+                width="100%"
+                height="100%"
+                style={{ backgroundColor: '#e8e8e86e' }}
+              />
+            </CardMedia>
+          ) : (
+            <>
+              {/* Hover Content (Video or RollImage) */}
+              <div style={{ display: isHover ? "block" : "none" }}>
+                {videoUrl !== undefined ? (
+                  <video
+                    className="proCat_productCard_video"
+                    src={videoUrl}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    onError={(e) => {
+                      e.target.poster = imageNotFound;
+                    }}
+                  />
+                ) : (videoUrl === undefined && RollImageUrl !== undefined) ? (
+                  <img
+                    className="proCat_productListCard_Image"
+                    src={RollImageUrl}
+                    onError={(e) => {
+                      if (productData?.ImageCount > 0) {
+                        e.target.src = RollImageUrl;
+                      }
+                      e.target.src = imageNotFound;
+                    }}
+                  />
+                ) : null}
+              </div>
+
+              {/* Default Image */}
+              <img
+                className="proCat_productListCard_Image"
+                src={imageUrl}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.stopPropagation();
+                  e.target.src = imageNotFound;
+                }}
+                style={{
+                  opacity: isHover && (RollImageUrl || videoUrl) ? "0" : "1",
+                  transition: '0s ease-in-out',
+                }}
+              />
+            </>
+          )}
+        </div>
+      )}
+
+      <div className="proCat_app_product_label">
+        {productData?.StatusId == 1 ? (
+          <span className="proCat_app_instock">
+            In Stock
+          </span>
+        ) : productData?.StatusId == 2 ? (
+          <span className="proCat_app_MEMO">
+            In memo
+          </span>
+        ) : (
+          <span className="proCat_app_Make_to_order">
+            Make To Order
+          </span>
+        )}
+      </div>
+
+
+      <div className="proCat_prod_card_info">
+        <span className="proCat1_prod_title_with_no_width">
+          {productData?.designno} {formatTitleLine(productData?.TitleLine) && " - " + productData?.TitleLine}
+        </span>
+        <p
+          className="proCatPriceMobile"
+          style={{
+            display: "flex",
+            margin: "0px",
+          }}
+        >
+          {productData?.Gwt &&
+            `GWT - ${productData?.Gwt} / `}
+          {storeInit?.IsPriceShow == 1 && (
+            <span className="proCat_price">
+              <span className="smr_currencyFont">
+                {(loginUserDetail?.CurrencyCode ??
+                  storeInit?.CurrencyCode) + " "}
+                {formatter.format(
+                  productData?.UnitCostWithMarkUp
+                )}
+              </span>
+            </span>
+          )}
+        </p>
+      </div>
+      <FormControlLabel
+        control={
+          <Checkbox
+            icon={
+              <LocalMallOutlinedIcon
+                sx={{
+                  fontSize: "22px",
+                  color: "#594646",
+                }}
+              />
+            }
+            checkedIcon={
+              <LocalMallIcon
+                sx={{
+                  fontSize: "22px",
+                  color: "#474747d1",
+                }}
+              />
+              // <LocalMallIcon
+              //   sx={{
+              //     fontSize: "22px",
+              //     color: "red",
+              //   }}
+              // />
+            }
+            disableRipple={false}
+            onChange={(e) =>
+              handleCartandWish(
+                e,
+                productData,
+                "Cart"
+              )
+            }
+            checked={
+              cartArr[productData?.autocode] ??
+                productData?.IsInCart === 1
+                ? true
+                : false
+            }
+          />
+        }
+        label={
+          !(cartArr[productData?.autocode] ??
+            productData?.IsInCart === 1
+            ? true
+            : false) ? (
+            <span className="btnColorProCatProduct">
+              Add To Cart
+            </span>
+          ) : (
+            <span className="btnColorProCatProductRemoveCart">
+              Remove From Cart
+            </span>
+          )
+        }
+        // sx={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center',backgroundColor:'#474747d1',marginLeft:'0px',color:'white'}}
+        className={
+          !(cartArr[productData?.autocode] ??
+            productData?.IsInCart === 1
+            ? true
+            : false)
+            ? "procat_cart_btn btnColorProCatProduct"
+            : "procat_cart_btn_alter btnColorProCatProductRemoveCart"
+        }
+      />
+    </div>
+  )
+}
 
 // import React, { useEffect, useState } from "react";
 // import "./productlist.scss";

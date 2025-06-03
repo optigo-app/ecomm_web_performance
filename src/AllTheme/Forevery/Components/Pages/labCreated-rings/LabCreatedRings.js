@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { storImagePath } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import btnstyle from "../../scss/Button.module.scss";
 import { Link } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { for_customizationSteps1, for_customizationSteps } from '../../Recoil/atom';
+import { useRecoilState, useRecoilValue } from "recoil";
+import { for_customizationSteps1, for_customizationSteps, for_isRingFlowOn } from '../../Recoil/atom';
 import { metalcollection } from "../../data/NavbarMenu";
 import { RxCross1 } from "react-icons/rx";
 import ShapeSection from "../Home/Common/ShapeSection/ShapeSection";
@@ -25,6 +25,7 @@ const LabCreatedRings = () => {
   const navigate = useNavigate();
   const addCategory = `Ring/category`;
   const filterKeyVal = btoa(addCategory);
+  const isRingFlowOn = useRecoilValue(for_isRingFlowOn);
 
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
   const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
@@ -134,9 +135,15 @@ const LabCreatedRings = () => {
   return (
     <div className="for_LabCreatedRings">
       <Banner handleSettingNavigation={handleSettingNavigation} />
-      <CategoryGrid data={ringscollection} handleStyleSettFlow={handleStyleSettFlow} />
-      <DesignyourOwn />
-      <ShapeSection />
+      {isRingFlowOn === 1 &&
+        <CategoryGrid data={ringscollection} handleStyleSettFlow={handleStyleSettFlow} />
+      }
+      {isRingFlowOn === 1 &&
+        <DesignyourOwn />
+      }
+      {isRingFlowOn === 1 &&
+        <ShapeSection />
+      }
       <Metalcolor />
       <RingCarousel showmore={true} />
       <BannerNew handleSettingNavigation={handleSettingNavigation} />
@@ -151,6 +158,7 @@ const Banner = ({ handleSettingNavigation }) => {
   const navigate = useNavigate();
   const addCategory = `Ring/category`;
   const filterKeyVal = btoa(addCategory);
+  const isRingFlowOn = useRecoilValue(for_isRingFlowOn);
 
   return (
     <>
@@ -169,12 +177,14 @@ const Banner = ({ handleSettingNavigation }) => {
             styles, we have something for “Everyone”. Choose a ring that
             represents your commitment to each other and to the planet.
           </p>
-          <button
-            className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
-            onClick={handleSettingNavigation}
-          >
-            SHOP ENGAGEMENT RING
-          </button>
+          {isRingFlowOn === 1 &&
+            <button
+              className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
+              onClick={handleSettingNavigation}
+            >
+              SHOP ENGAGEMENT RING
+            </button>
+          }
         </div>
       </div>
       <div className="breadCrumb-lab">
@@ -547,6 +557,7 @@ const BannerNew = ({ handleSettingNavigation }) => {
   const navigate = useNavigate();
   const addCategory = `Ring/category`;
   const filterKeyVal = btoa(addCategory);
+  const isRingFlowOn = useRecoilValue(for_isRingFlowOn);
 
   return (
     <>
@@ -589,15 +600,17 @@ const BannerNew = ({ handleSettingNavigation }) => {
             proposal they will never forget. Browse our collection now and find
             the perfect diamond jewelry for your love story.
           </p>
-          <button
-            style={{
-              color: "white",
-            }}
-            onClick={handleSettingNavigation}
-            className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
-          >
-            View All Engagement Ring
-          </button>
+          {isRingFlowOn === 1 &&
+            <button
+              style={{
+                color: "white",
+              }}
+              onClick={handleSettingNavigation}
+              className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
+            >
+              View All Engagement Ring
+            </button>
+          }
         </div>
       </div >
     </>

@@ -36,18 +36,23 @@ const WishlistItems = ({
     const visiterId = Cookies.get("visiterId");
 
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const CDNDesignImageFolThumb = storeInit?.CDNDesignImageFolThumb;
+    const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+    const isLoading = item?.loading;
+
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const mobileView = useMediaQuery('(max-width: 450px)');
 
-    useEffect(() => {
-        if (item?.ImageCount > 0) {
-            WishCardImageFunc(item).then((src) => {
-                setImageSrc(src);
-            });
-        } else {
-            setImageSrc(noImageFound);
-        }
-    }, [item]);
+    // useEffect(() => {
+    //     if (item?.ImageCount > 0) {
+    //         WishCardImageFunc(item).then((src) => {
+    //             setImageSrc(src);
+    //         });
+    //     } else {
+    //         setImageSrc(noImageFound);
+    //     }
+    // }, [item]);
 
     const handleWishlistToCartFun = async (item) => {
         const returnValue = await handleWishlistToCart(item);
@@ -75,40 +80,61 @@ const WishlistItems = ({
                     item
                     xs={itemsLength <= 2 ? 6 : 6}
                     sm={itemsLength <= 2 ? 4 : 4}
-                    md={itemsLength <= 2 ? 4 : 3}
-                    lg={itemsLength <= 2 ? 3 : 2}
+                    md={itemsLength <= 2 ? 4 : 4}
+                    lg={itemsLength <= 2 ? 2.4 : 2.4}
                     className="stam_wlListGrid"
                 >
                     <Card className="stam_WlListCard">
                         <div className="cardContent">
-                            {imageSrc === undefined ? (
+                            {isLoading === true ? (
                                 <CardMedia
                                     style={{ width: "100%" }}
-                                    className="roop_WlListImage"
+                                    className="stam_WlListImage"
                                 >
                                     <Skeleton
                                         animation="wave"
-                                        variant="rect"
-                                        width="100%"
-                                        height={280}
+                                        variant="rectangular"
                                         sx={{
-                                            backgroundColor: "#e8e8e86e",
-                                            '@media (max-width: 600px)': {
-                                                height: 200,
+                                            width: {
+                                                xs: '100%',
+                                                sm: '260px',      // ~599px
+                                                md: '270px',      // ~880px
+                                                lg: '300px',      // ~1050px
+                                                xl: '365px',      // default
                                             },
-                                            '@media (max-width: 960px)': {
-                                                height: 240,
-                                            }
+                                            height: {
+                                                xs: '100%',
+                                                sm: '260px',      // ~599px
+                                                md: '270px',      // ~880px
+                                                lg: '300px',      // ~1050px
+                                                xl: '365px',      // default
+                                            },
+                                            aspectRatio: '1 / 1',
+                                            backgroundColor: '#e8e8e86e',
                                         }}
                                     />
                                 </CardMedia>
                             ) : (
                                 <CardMedia
                                     component="img"
-                                    image={imageSrc}
-                                    alt={item?.TitleLine}
+                                    image={item?.images}
+                                    sx={{
+                                        border: 'none',
+                                        outline: 'none',
+                                        boxShadow: 'none',
+                                        '&:focus': { outline: 'none' },
+                                        '&:active': { outline: 'none' },
+                                    }}
+                                    alt=" "
                                     className="stam_WlListImage"
                                     onClick={() => handleMoveToDetail(item)}
+                                    onError={(e) => {
+                                        if (item?.ImageCount > 0) {
+                                            e.target.src = fullImagePath ? fullImagePath : noImageFound
+                                        } else {
+                                            e.target.src = noImageFound;
+                                        }
+                                    }}
                                 />
                             )}
                             <CardContent className="stam_cardContent">
@@ -225,13 +251,50 @@ const WishlistItems = ({
                 >
                     <Card className="stam_WlListCard">
                         <div className="cardContent">
-                            <CardMedia
-                                component="img"
-                                image={imageSrc}
-                                alt={item?.TitleLine}
-                                className="stam_WlListImage2"
-                                onClick={() => handleMoveToDetail(item)}
-                            />
+                            {isLoading === true ? (
+                                <CardMedia
+                                    style={{ width: "100%" }}
+                                    className="stam_WlListImage2"
+                                >
+                                    <Skeleton
+                                        animation="wave"
+                                        variant="rectangular"
+                                        sx={{
+                                            width: {
+                                                xs: '100%',
+                                                sm: '260px',      // ~599px
+                                                md: '270px',      // ~880px
+                                                lg: '300px',      // ~1050px
+                                                xl: '365px',      // default
+                                            },
+                                            height: {
+                                                xs: '100%',
+                                                sm: '260px',      // ~599px
+                                                md: '270px',      // ~880px
+                                                lg: '300px',      // ~1050px
+                                                xl: '365px',      // default
+                                            },
+                                            aspectRatio: '1 / 1',
+                                            backgroundColor: '#e8e8e86e',
+                                        }}
+                                    />
+                                </CardMedia>
+                            ) : (
+                                <CardMedia
+                                    component="img"
+                                    image={item?.images}
+                                    alt={item?.TitleLine}
+                                    className="stam_WlListImage2"
+                                    onClick={() => handleMoveToDetail(item)}
+                                    onError={(e) => {
+                                        if (item?.ImageCount > 0) {
+                                            e.target.src = fullImagePath ? fullImagePath : noImageFound
+                                        } else {
+                                            e.target.src = noImageFound;
+                                        }
+                                    }}
+                                />
+                            )}
                             <div className="stam_Wl-CartbtnDiv">
                                 <button
                                     className="stam_Wl-Cartbtn"

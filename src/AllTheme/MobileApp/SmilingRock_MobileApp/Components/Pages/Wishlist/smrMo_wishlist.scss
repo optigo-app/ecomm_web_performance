@@ -9,6 +9,7 @@
   text-overflow: ellipsis;
   height: auto;
 }
+
 .smrMo_WlListCard {
   display: flex;
   flex-direction: column;
@@ -25,10 +26,9 @@
 
   .smrMo_WlListImage {
     width: 100%;
-    object-fit: cover;
+    object-fit: contain;
     cursor: pointer;
     height: 200px;
-    max-height: 250px;
   }
 
   .cardText {
@@ -83,17 +83,20 @@
       border-radius: none !important;
       font-family: $primaryFontFamily !important;
       font-size: $fontSize3;
-      color: #000;
+      color: #505050;
       text-transform: capitalize;
-      background-color: rgb(192, 187, 177);
+      // background-color: rgb(192, 187, 177);
+      background-color: #E5E5E5;
       cursor: pointer;
       transition: background-color 0.3s, color 0.3s;
     }
 
     .smrMo_WlAddToCartBtn {
       font-family: $primaryFontFamily !important;
-      background-color: #ffd814 !important;
-      color: #000 !important;
+      // background-color: #ffd814 !important;
+      background-color: #000 !important;
+      // color: #000 !important;
+      color: #FFFFFF !important;
       font-size: $fontSize3 !important;
       height: 45px;
       width: 50%;
@@ -161,40 +164,47 @@
   padding: 0 !important;
   cursor: pointer;
 }
+
 .card_content_mapp {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+
   .title_mapp_sec {
     @include truncate(1);
     color: $titleColor !important;
     font-size: $fontSize1 !important;
     font-family: $primaryFontFamily;
   }
+
   .price_mapp_sec {
     @include truncate(1);
     color: $titleColor !important;
     font-size: $fontSize1 !important;
     font-family: $primaryFontFamily;
   }
-  .two_col_grid_mapp{
+
+  .two_col_grid_mapp {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
     gap: 2px;
     padding: 0 4px;
-    .col{
-        flex: 1;
-        display: flex;
-        align-items: center;
-        color: gray;
-        font-size: 10px;
-        font-family: $primaryFontFamily;
-        &:nth-child(odd){
-            justify-content: flex-start;
-        }
-        justify-content: flex-end;
+
+    .col {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      color: gray;
+      font-size: 10px;
+      font-family: $primaryFontFamily;
+
+      &:nth-child(odd) {
+        justify-content: flex-start;
+      }
+
+      justify-content: flex-end;
     }
   }
 }
@@ -294,6 +304,7 @@
 }
 
 @media (max-width: 1050px) {
+
   // .WlBtnGroupMainDiv {
   //     .smrMo_WlButton-group {
   //         .smrMo_WlAddToCartBtn {

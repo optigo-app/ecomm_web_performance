@@ -159,8 +159,8 @@ const TermsPolicy = () => {
       title: "Customer Support",
       content: [
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vehicula sollicitudin nibh, et imperdiet sapien volutpat id. Nulla facilisi. Suspendisse potenti.",
-        "Email: support@jewelry.com",
-        "Phone: 1-800-123-4567",
+        // "Email: support@jewelry.com",
+        // "Phone: 1-800-123-4567",
         "Live chat available on our website."
       ]
     },
@@ -245,152 +245,152 @@ const TermsPolicy = () => {
   return (
 
     // Shree diamonds Data
-        <div class="malkan_contactMain">
-      <main class="malkan_sp-service-policy">
-        <div class="content_malkana">
-          <div class="title">
-            <h2>Terms & Conditions</h2>
-          </div>
-
-          <div class="malkan_sp-service-policy__content">
-            <h3>1. General</h3>
-            <p>
-              1.1 SHREE DIAMOND reserves the right to amend these Terms at any time. Any changes will take effect immediately upon posting on the Website.
-            </p>
-
-            <h3>2. Products and Services</h3>
-            <p>
-              2.1 All products displayed on the Website are subject to availability. SHREE DIAMOND reserves the right to discontinue any product or service without prior notice.
-            </p>
-            <p>
-              2.2 Product images on the Website are for illustrative purposes only. While we strive to ensure accuracy, slight variations in color, design, or size may occur.
-            </p>
-            <p>
-              2.3 Prices displayed on the Website are in [insert currency] and may be inclusive or exclusive of applicable taxes, depending on the jurisdiction.
-            </p>
-
-            <h3>3. Orders and Payments</h3>
-            <p>
-              3.1 By placing an order on the Website, you agree to purchase the selected item(s) under these terms.
-            </p>
-            <p>
-              3.2 Orders are confirmed only upon receipt of full payment. SHREE DIAMOND accepts payments via [list accepted payment methods].
-            </p>
-            <p>
-              3.3 SHREE DIAMOND reserves the right to cancel or refuse any order for reasons including but not limited to:
-            </p>
-            <ul>
-              <li>Product unavailability</li>
-              <li>Errors in pricing or product information</li>
-              <li>Suspicion of fraudulent activity</li>
-            </ul>
-            <p>
-              3.4 If an order is canceled, any payments made will be refunded under our Refund Policy.
-            </p>
-
-            <h3>4. Shipping and Delivery</h3>
-            <p>
-              4.1 Shipping charges and estimated delivery times are provided at checkout and may vary based on location.
-            </p>
-            <p>
-              4.2 SHREE DIAMOND is not responsible for delays caused by unforeseen circumstances, including but not limited to customs clearance, natural disasters, or courier issues.
-            </p>
-            <p>
-              4.3 The risk of loss or damage to the products passes to you upon delivery.
-            </p>
-
-            <h3>5. Returns and Refunds</h3>
-            <p>
-              5.1 Returns are accepted only if initiated within [insert time frame, e.g., 14 days] of receiving the product and if the product meets the conditions outlined in our Return Policy.
-            </p>
-            <p>
-              5.2 Custom-made or personalized jewelry is non-returnable and non-refundable unless defective or damaged.
-            </p>
-            <p>
-              5.3 Refunds, if applicable, will be processed within [insert time frame, e.g., 7-14 business days] of approval.
-            </p>
-
-            <h3>6. Intellectual Property</h3>
-            <p>
-              6.1 All content on the Website, including but not limited to text, images, logos, and designs, is the property of SHREE DIAMOND or its licensors and is protected under applicable intellectual property laws.
-            </p>
-            <p>
-              6.2 Unauthorized use, reproduction, or distribution of any content from the Website is strictly prohibited.
-            </p>
-
-            <h3>7. Limitation of Liability</h3>
-            <p>
-              7.1 SHREE DIAMOND will not be liable for any direct, indirect, incidental, or consequential damages arising from your use of the Website or your purchase of products, except as required by applicable law.
-            </p>
-            <p>
-              7.2 The Website is provided on an "as is" and "as available" basis. We make no guarantees regarding the accuracy, completeness, or reliability of the information provided.
-            </p>
-
-            <h3>8. Privacy Policy</h3>
-            <p>
-              8.1 By using the Website, you consent to the collection, use, and storage of your personal information as outlined in our Privacy Policy.
-            </p>
-            <p>
-              8.2 SHREE DIAMOND is committed to protecting your privacy and ensuring that your data is secure.
-            </p>
-
-            <h3>9. Governing Law and Dispute Resolution</h3>
-            <p>
-              9.1 These Terms are governed by the laws of [insert applicable jurisdiction].
-            </p>
-            <p>
-              9.2 Any disputes arising under these Terms shall be resolved through arbitration or mediation in [insert location] or as otherwise agreed upon by the parties.
-            </p>
-
-            <h3>10. Contact Us</h3>
-            <p>
-              For questions or concerns regarding these Terms or your experience with SHREE DIAMOND, please contact us at:
-            </p>
-            <ul>
-              <li>Email: <a style={{
-                color:"white"
-              }} href="mailto:shreediamondandjewels@gmail.com">shreediamondandjewels@gmail.com</a></li>
-              <li>Phone: 9837121598, 9719169165</li>
-              <li>Address: 30, Dhamawala Bazar, Opp. Saraswati Market, Dehradun, Uttarakhand</li>
-            </ul>
-          </div>
-        </div>
-      </main>
-    </div>
-
-
-    // Sonsons
-    // <div className="malkan_contactMain">
-    //   <main className="malkan_sp-service-policy">
-    //     <div className="content_malkana">
-    //       <div className="title">
-    //         <h2>Terms & Policy</h2>
+    //     <div class="malkan_contactMain">
+    //   <main class="malkan_sp-service-policy">
+    //     <div class="content_malkana">
+    //       <div class="title">
+    //         <h2>Terms & Conditions</h2>
     //       </div>
-    //       <div className="malkan_sp-service-policy__content">
+
+    //       <div class="malkan_sp-service-policy__content">
+    //         <h3>1. General</h3>
     //         <p>
-    //           {/* At Sonasons Luxury Jewelry, we are committed to providing exceptional service to our valued customers. Our service policy is designed to ensure your complete satisfaction with every purchase and interaction. */}
-    //           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at ante ac lorem interdum interdum. Ut porttitor nibh eu ex tincidunt, vitae fringilla tortor luctus.
+    //           1.1 SHREE DIAMOND reserves the right to amend these Terms at any time. Any changes will take effect immediately upon posting on the Website.
     //         </p>
 
-    //         {termsPolicyDummyData.map((section, index) => (
-    //           <div key={index}>
-    //             <h2 className="malkan_sp-service-policy__subtitle">{section.title}</h2>
-    //             {section.content.map((item, itemIndex) => (
-    //               <p key={itemIndex}>{item}</p>
-    //             ))}
-    //             {section.content.some(item => item.includes('•')) && (
-    //               <ul>
-    //                 {section.content.filter(item => item.includes('•')).map((listItem, listIndex) => (
-    //                   <li key={listIndex}>{listItem.replace('• ', '')}</li>
-    //                 ))}
-    //               </ul>
-    //             )}
-    //           </div>
-    //         ))}
+    //         <h3>2. Products and Services</h3>
+    //         <p>
+    //           2.1 All products displayed on the Website are subject to availability. SHREE DIAMOND reserves the right to discontinue any product or service without prior notice.
+    //         </p>
+    //         <p>
+    //           2.2 Product images on the Website are for illustrative purposes only. While we strive to ensure accuracy, slight variations in color, design, or size may occur.
+    //         </p>
+    //         <p>
+    //           2.3 Prices displayed on the Website are in [insert currency] and may be inclusive or exclusive of applicable taxes, depending on the jurisdiction.
+    //         </p>
+
+    //         <h3>3. Orders and Payments</h3>
+    //         <p>
+    //           3.1 By placing an order on the Website, you agree to purchase the selected item(s) under these terms.
+    //         </p>
+    //         <p>
+    //           3.2 Orders are confirmed only upon receipt of full payment. SHREE DIAMOND accepts payments via [list accepted payment methods].
+    //         </p>
+    //         <p>
+    //           3.3 SHREE DIAMOND reserves the right to cancel or refuse any order for reasons including but not limited to:
+    //         </p>
+    //         <ul>
+    //           <li>Product unavailability</li>
+    //           <li>Errors in pricing or product information</li>
+    //           <li>Suspicion of fraudulent activity</li>
+    //         </ul>
+    //         <p>
+    //           3.4 If an order is canceled, any payments made will be refunded under our Refund Policy.
+    //         </p>
+
+    //         <h3>4. Shipping and Delivery</h3>
+    //         <p>
+    //           4.1 Shipping charges and estimated delivery times are provided at checkout and may vary based on location.
+    //         </p>
+    //         <p>
+    //           4.2 SHREE DIAMOND is not responsible for delays caused by unforeseen circumstances, including but not limited to customs clearance, natural disasters, or courier issues.
+    //         </p>
+    //         <p>
+    //           4.3 The risk of loss or damage to the products passes to you upon delivery.
+    //         </p>
+
+    //         <h3>5. Returns and Refunds</h3>
+    //         <p>
+    //           5.1 Returns are accepted only if initiated within [insert time frame, e.g., 14 days] of receiving the product and if the product meets the conditions outlined in our Return Policy.
+    //         </p>
+    //         <p>
+    //           5.2 Custom-made or personalized jewelry is non-returnable and non-refundable unless defective or damaged.
+    //         </p>
+    //         <p>
+    //           5.3 Refunds, if applicable, will be processed within [insert time frame, e.g., 7-14 business days] of approval.
+    //         </p>
+
+    //         <h3>6. Intellectual Property</h3>
+    //         <p>
+    //           6.1 All content on the Website, including but not limited to text, images, logos, and designs, is the property of SHREE DIAMOND or its licensors and is protected under applicable intellectual property laws.
+    //         </p>
+    //         <p>
+    //           6.2 Unauthorized use, reproduction, or distribution of any content from the Website is strictly prohibited.
+    //         </p>
+
+    //         <h3>7. Limitation of Liability</h3>
+    //         <p>
+    //           7.1 SHREE DIAMOND will not be liable for any direct, indirect, incidental, or consequential damages arising from your use of the Website or your purchase of products, except as required by applicable law.
+    //         </p>
+    //         <p>
+    //           7.2 The Website is provided on an "as is" and "as available" basis. We make no guarantees regarding the accuracy, completeness, or reliability of the information provided.
+    //         </p>
+
+    //         <h3>8. Privacy Policy</h3>
+    //         <p>
+    //           8.1 By using the Website, you consent to the collection, use, and storage of your personal information as outlined in our Privacy Policy.
+    //         </p>
+    //         <p>
+    //           8.2 SHREE DIAMOND is committed to protecting your privacy and ensuring that your data is secure.
+    //         </p>
+
+    //         <h3>9. Governing Law and Dispute Resolution</h3>
+    //         <p>
+    //           9.1 These Terms are governed by the laws of [insert applicable jurisdiction].
+    //         </p>
+    //         <p>
+    //           9.2 Any disputes arising under these Terms shall be resolved through arbitration or mediation in [insert location] or as otherwise agreed upon by the parties.
+    //         </p>
+
+    //         <h3>10. Contact Us</h3>
+    //         <p>
+    //           For questions or concerns regarding these Terms or your experience with SHREE DIAMOND, please contact us at:
+    //         </p>
+    //         <ul>
+    //           <li>Email: <a style={{
+    //             color:"white"
+    //           }} href="mailto:shreediamondandjewels@gmail.com">shreediamondandjewels@gmail.com</a></li>
+    //           <li>Phone: 9837121598, 9719169165</li>
+    //           <li>Address: 30, Dhamawala Bazar, Opp. Saraswati Market, Dehradun, Uttarakhand</li>
+    //         </ul>
     //       </div>
     //     </div>
     //   </main>
     // </div>
+
+
+    // Sonsons
+    <div className="malkan_contactMain">
+      <main className="malkan_sp-service-policy">
+        <div className="content_malkana">
+          <div className="title">
+            <h2>Terms & Policy</h2>
+          </div>
+          <div className="malkan_sp-service-policy__content">
+            <p>
+              {/* At Sonasons Luxury Jewelry, we are committed to providing exceptional service to our valued customers. Our service policy is designed to ensure your complete satisfaction with every purchase and interaction. */}
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at ante ac lorem interdum interdum. Ut porttitor nibh eu ex tincidunt, vitae fringilla tortor luctus.
+            </p>
+
+            {termsPolicyDummyData.map((section, index) => (
+              <div key={index}>
+                <h2 className="malkan_sp-service-policy__subtitle">{section.title}</h2>
+                {section.content.map((item, itemIndex) => (
+                  <p key={itemIndex}>{item}</p>
+                ))}
+                {section.content.some(item => item.includes('•')) && (
+                  <ul>
+                    {section.content.filter(item => item.includes('•')).map((listItem, listIndex) => (
+                      <li key={listIndex}>{listItem.replace('• ', '')}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
+    </div>
 
 
 

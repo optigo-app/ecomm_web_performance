@@ -40,7 +40,7 @@ const Terms = () => {
                     )}
                 </div>
                 <div className='elv_terms_descriptions_div'>
-                    <h3 className='elv_terms_head_title'>TERMS AND CONDITIONS</h3>
+                    <h1 className='elv_terms_head_title'>TERMS AND CONDITIONS</h1>
                     <div className='elv_terms_desc'>
                         <p>These terms and conditions apply to Web site located at www.elvee.in and It is a basic terms and condition and please it carefully. By using the site, you agree to be bound by these TERMS AND CONDITIONS.</p>
 
@@ -48,7 +48,7 @@ const Terms = () => {
                             return (
                                 <>
                                     <div key={index} className='mt-5'>
-                                        <span className='elv_terms_title_main'>{i?.title}</span>
+                                        <h3 className='elv_terms_title_main'>{i?.title}</h3>
                                         <p className='elv_terms_para_main'>
                                             {i?.desc}
                                         </p>

@@ -1,38 +1,37 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './Styles.scss';
-import { useNavigate } from 'react-router-dom';
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const PromoComponent1 = ({ banner }) => {
 
-    const navigate = useNavigate();
-    
-    const imageSrc = banner?.image?.[0] || `${storImagePath()}/images/HomePage/Promo/Banner/PromoBanner1.jpg`;
+    const basePath = `${storImagePath()}/Banner`;
 
-    useEffect(() => {
-        const link = document.createElement('link');
-        link.rel = 'preload';
-        link.href = imageSrc; 
-        link.as = 'image'; 
-        link.type = 'image/png'; 
-        document.head.appendChild(link);
-        // Clean up the link element when the component unmounts
-        return () => {
-            document.head.removeChild(link);
-        };
-    }, [imageSrc]);
+    const imageSrc = banner?.image?.[0] || `${storImagePath()}/images/HomePage/Promo/Banner/PromoBanner1.jpg`;
 
     return (
         <div className='promo_first_div'>
             <div className='promo-daimondBoxMain'>
                 <div className='promo-daimondBox2'>
-                    {/* Adding loading="lazy" for image optimization */}
-                    <img
-                        src={imageSrc}
-                        // loading="lazy" 
-                        className='promo-daimondBox2-image'
-                        alt={'Promo Banner'} // Dynamic alt text if available
-                    />
+                    <picture>
+                        <source
+                            srcSet={`
+                                ${basePath}/middle-image-400.webp 480w,
+                                ${basePath}/middle-image-800.webp 800w,
+                                ${basePath}/middle-image-1200.webp 1200w,
+                                ${basePath}/middlebanner1.webp 1500w
+                            `}
+                            sizes="(max-width: 480px) 480px,
+                                   (max-width: 1024px) 800px,
+                                   (max-width: 1500px) 1200px,
+                                   1500px"
+                            type="image/webp"
+                        />
+                        <img
+                            src={`${basePath}/middlebanner1.webp`}
+                            alt="Promo Banner"
+                            className='promo-daimondBox2-image'
+                        />
+                    </picture>
                 </div>
                 <div className='promo-daimondBox_1'>
                     <p className='promo_dia_desc'>

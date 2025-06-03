@@ -33,32 +33,61 @@ const DesignSet2 = ({ data }) => {
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
   const setLoadingHome = useSetRecoilState(homeLoading);
 
-  useEffect(() => {
-    setLoadingHome(true);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            callAPI();
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        root: null,
-        threshold: 0.5,
-      }
-    );
+  // useEffect(() => {
+  //   setLoadingHome(true);
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting) {
+  //           callAPI();
+  //           observer.unobserve(entry.target);
+  //         }
+  //       });
+  //     },
+  //     {
+  //       root: null,
+  //       threshold: 0.5,
+  //     }
+  //   );
 
-    if (designSetRef.current) {
-      observer.observe(designSetRef.current);
-    }
-    return () => {
-      if (designSetRef.current) {
-        observer.unobserve(designSetRef.current);
-      }
-    };
-  }, []);
+  //   if (designSetRef.current) {
+  //     observer.observe(designSetRef.current);
+  //   }
+  //   return () => {
+  //     if (designSetRef.current) {
+  //       observer.unobserve(designSetRef.current);
+  //     }
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   setLoadingHome(true);
+
+  //   const handleScroll = () => {
+  //     if (!designSetRef.current) return;
+
+  //     const rect = designSetRef.current.getBoundingClientRect();
+  //     const isInView = rect.top < window.innerHeight * 1 && rect.bottom > 0;
+
+  //     if (isInView) {
+  //       callAPI();
+  //       window.removeEventListener("scroll", handleScroll); // ensure it's called only once
+  //     }
+  //   };
+
+  //   window.addEventListener("scroll", handleScroll);
+  //   // Immediately check on mount
+  //   handleScroll();
+
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
+
+
+  useEffect(() => {
+    callAPI();
+  }, [])
 
   const callAPI = () => {
     const loginUserDetail = JSON.parse(
@@ -78,7 +107,8 @@ const DesignSet2 = ({ data }) => {
 
     let data = JSON.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.CDNDesignImageFol);
-    setImageUrlDesignSet(data?.CDNDesignImageFol);
+    // setImageUrlDesignSet(data?.CDNDesignImageFol);
+    setImageUrlDesignSet(data?.CDNDesignImageFolThumb);
 
     Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
       .then((response) => {
@@ -138,8 +168,7 @@ const DesignSet2 = ({ data }) => {
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
     navigate(
-      `/d/${titleLine?.replace(/\s+/g, `_`)}${
-        titleLine?.length > 0 ? "_" : ""
+      `/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
       }${designNo}?p=${encodeObj}`
     );
   };
@@ -188,7 +217,7 @@ const DesignSet2 = ({ data }) => {
               <p className="smr1_desognSetTitle">
                 COMPLETE YOUR LOOK
                 <span onClick={(e) => handleNavigate(e)}>
-                  <a href="/Lookbook" className="smr_designSetViewmoreBtn">
+                  <a href="/Lookbook" className="smr_designSetViewmoreBtn_2">
                     View More
                   </a>
                 </span>
@@ -262,7 +291,8 @@ const DesignSet2 = ({ data }) => {
                                   <div className="smr_ds2ImageDiv">
                                     <img
                                       loading="lazy"
-                                      src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
+                                      // src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
+                                      src={`${imageUrlDesignSet}${detail?.designno}~1.jpg`}
                                       alt={`Sub image ${subIndex} for slide ${index}`}
                                       onClick={() =>
                                         handleNavigation(
@@ -286,7 +316,7 @@ const DesignSet2 = ({ data }) => {
                                   {detail?.TitleLine && " - "}{" "}
                                   {detail?.TitleLine != "" && detail?.TitleLine}
                                 </div>
-                                {storeInit?.IsPriceShow == 1 &&  <div className="fs2 centerall">
+                                {storeInit?.IsPriceShow == 1 && <div className="fs2 centerall">
                                   <p>
                                     <span
                                       className="smr_currencyFont"
@@ -317,15 +347,15 @@ const DesignSet2 = ({ data }) => {
                     </Swiper>
                   </div>
                   {ShowButton() && (
-                  <div className="btnflex">
-                    <button className="btncst" onClick={handlePrevious}>
-                      &lt;
-                    </button>
-                    <button className="btncst" onClick={handleNext}>
-                      &gt;
-                    </button>
-                  </div>
-                )}
+                    <div className="btnflex">
+                      <button className="btncst" onClick={handlePrevious}>
+                        &lt;
+                      </button>
+                      <button className="btncst" onClick={handleNext}>
+                        &gt;
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
               // </SwiperSlide>

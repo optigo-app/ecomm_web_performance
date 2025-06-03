@@ -74,6 +74,15 @@ const ProductDetail = () => {
   const [isDataFound, setIsDataFound] = useState(false)
   const [metalWiseColorImg, setMetalWiseColorImg] = useState()
   const [vison360, setVision360] = useState()
+  const [selectedMetalColor, setSelectedMetalColor] = useState();
+  const [metalColorImages, setMetalColorImages] = useState([]);
+  const [normalImages, setNormalImages] = useState([]);
+  console.log("TCL: ProductDetail -> normalImages", normalImages)
+
+  const colorImageKeys = Object.keys(metalColorImages || {});
+
+  const hasColorImages = colorImageKeys.includes(selectedMetalColor);
+  const colorImagesForSelected = hasColorImages ? metalColorImages[selectedMetalColor] : [];
 
   const [designSetList, setDesignSetList] = useState();
 
@@ -90,7 +99,6 @@ const ProductDetail = () => {
 
   const [pdVideoArr, setPdVideoArr] = useState([]);
   const [ImagePromise, setImagePromise] = useState(true);
-
 
   // console.log("SizeCombo",SizeCombo);
 
@@ -162,6 +170,29 @@ const ProductDetail = () => {
     let isincart = singleProd?.IsInCart == 0 ? false : true;
     setAddToCartFlag(isincart);
   }, [singleProd]);
+
+  const [filteredVideos, setFilteredVideos] = useState([]);
+
+  useEffect(() => {
+    if (!pdVideoArr || !selectedMetalColor) return;
+
+    const colorMatched = pdVideoArr.filter((url) => {
+      const parts = url.split("~");
+      const colorPart = parts[2]?.split(".")[0];
+      return colorPart === selectedMetalColor;
+    });
+
+    if (colorMatched.length > 0) {
+      setFilteredVideos(colorMatched);
+    } else {
+      // Fallback: videos without any color in the filename
+      const noColorVideos = pdVideoArr.filter((url) => {
+        const parts = url.split("~");
+        return parts.length === 2; // means format is like MCJ66~1.mp4
+      });
+      setFilteredVideos(noColorVideos);
+    }
+  }, [pdVideoArr, selectedMetalColor]);
 
   const handleCart = (cartflag) => {
     let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -725,13 +756,16 @@ const ProductDetail = () => {
     try {
       const result = await checkImage(img);
       imageCache[img] = result;
-      if (!prodLoading) {
-        setImagePromise(false);
-      }
       return result;
     } catch (error) {
       imageCache[img] = imageNotFound;
       return imageNotFound;
+    } finally {
+      if (!isImageload && !prodLoading) {
+        setTimeout(() => {
+          setImagePromise(false);
+        }, 0);
+      }
     }
   };
 
@@ -750,151 +784,321 @@ const ProductDetail = () => {
     });
   };
 
+  // const ProdCardImageFunc = async () => {
+  //   let finalprodListimg;
+  //   let pdImgList = [];
+  //   let pdvideoList = [];
+
+  //   const imageVideoDetail = singleProd?.ImageVideoDetail;
+
+  //   let parsedData = [];
+  //   try {
+  //     parsedData = imageVideoDetail === "0" ? [] : JSON.parse(imageVideoDetail || "[]");
+  //   } catch (err) {
+  //     console.error("Invalid JSON in ImageVideoDetail:", err);
+  //     return;
+  //   }
+
+  //   const filterDataForColorImageCount = parsedData.filter(
+  //     (ele) => ele?.CN && ele?.TI == 2
+  //   );
+
+  //   const filterDataForNormalImageCount = parsedData.filter(
+  //     (ele) => ele?.CN == "" && ele?.TI == 1
+  //   );
+
+  //   const filterDataForColorVideoCount = parsedData.filter(
+  //     (ele) => ele?.CN != "" && ele?.TI == 4
+  //   );
+
+  //   const filterDataForNormalVideoCount = parsedData.filter(
+  //     (ele) => ele?.CN == "" && ele?.Ex == 'mp4'
+  //   );
+
+  //   const colorVideoCount = filterDataForColorVideoCount.length > 0
+  //     ? filterDataForColorVideoCount.length : null;
+
+  //   const normalVideoCount = filterDataForNormalVideoCount.length > 0
+  //     ? filterDataForNormalVideoCount.length : null;
+
+  //   const normalImageCount = filterDataForNormalImageCount.length > 0
+  //     ? Math.max(...filterDataForNormalImageCount.map(item => item.Nm))
+  //     : null;
+
+  //   const countColumns1 = filterDataForColorImageCount.reduce((acc, curr) => {
+  //     const color = curr.CN;
+  //     acc[color] = (acc[color] || 0) + 1;
+  //     return acc;
+  //   }, {});
+
+  //   const countValues = Object.values(countColumns1);
+  //   const maxColorCount = countValues.length > 0 ? Math.max(...countValues) : 0;
+
+  //   const getColorImageExtension = filterDataForColorImageCount?.map((ele) => ele?.Ex);
+  //   const getNormalImageExtension = filterDataForNormalImageCount?.map((ele) => ele?.Ex);
+  //   const getColorVideoExtension = filterDataForColorVideoCount?.map((ele) => ele?.Ex);
+  //   const getColorVideoMetalColor = filterDataForColorVideoCount?.map((ele) => ele?.CN);
+  //   const getColorVideoNumber = filterDataForColorVideoCount?.map((ele) => ele?.Nm);
+
+  //   const getNormalVideoExtension = filterDataForNormalVideoCount?.map((ele) => ele?.Ex);
+  //   const getNormalVideoNumber = filterDataForNormalVideoCount?.map((ele) => ele?.Nm);
+
+  //   let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+
+  //   let pd = singleProd;
+
+  //   let colImg;
+  //   let colVideo;
+
+  //   let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
+  //   let mcArr;
+
+  //   if (mtColorLocal?.length) {
+  //     mcArr = mtColorLocal?.filter(
+  //       (ele) => ele?.id == singleProd?.MetalColorid
+  //     )[0];
+  //   }
+  //   setSelectedMetalColor(mcArr?.colorcode);
+
+  //   if (maxColorCount > 0) {
+  //     for (let i = 1; i <= maxColorCount; i++) {
+  //       let imgString =
+  //         storeInit?.CDNDesignImageFol +
+  //         singleProd?.designno +
+  //         "~" +
+  //         i +
+  //         "~" +
+  //         mcArr?.colorcode +
+  //         "." +
+  //         getColorImageExtension[i - 1];
+
+  //       let IsImg = await checkImageAvailability(imgString);
+  //       if (IsImg) {
+  //         pdImgList.push(imgString);
+  //       }
+  //     }
+
+  //     if (pdImgList?.length > 0) {
+  //       colImg = pdImgList[0];
+  //     }
+  //   }
+
+  //   let IsColImg = false;
+  //   if (colImg?.length > 0) {
+  //     IsColImg = await checkImageAvailability(colImg);
+  //   }
+
+  //   if (normalImageCount > 0 && !IsColImg) {
+  //     for (let i = 1; i <= normalImageCount; i++) {
+  //       let imgString =
+  //         storeInit?.CDNDesignImageFol +
+  //         pd?.designno +
+  //         "~" +
+  //         i +
+  //         "." +
+  //         getNormalImageExtension[i - 1];
+
+  //       let IsImg = await checkImageAvailability(imgString);
+  //       if (IsImg) {
+  //         pdImgList.push(imgString);
+  //       }
+  //     }
+  //   } else {
+  //     finalprodListimg = imageNotFound;
+  //   }
+
+  //   if (colorVideoCount > 0) {
+  //     for (let i = 0; i <= colorVideoCount - 1; i++) {
+  //       let videoString =
+  //         (storeInit?.CDNVPath) +
+  //         pd?.designno +
+  //         "~" +
+  //         getColorVideoNumber[i] +
+  //         "~" +
+  //         getColorVideoMetalColor[i] +
+  //         "." +
+  //         getColorVideoExtension[i];
+  //       pdvideoList.push(videoString);
+  //     }
+  //   }
+
+  //   if (normalVideoCount > 0) {
+  //     for (let i = 0; i <= normalVideoCount - 1; i++) {
+  //       let videoString =
+  //         (storeInit?.CDNVPath) +
+  //         pd?.designno +
+  //         "~" +
+  //         getNormalVideoNumber[i] +
+  //         "." +
+  //         getNormalVideoExtension[i];
+  //       pdvideoList.push(videoString);
+  //     }
+  //   }
+
+  //   let FinalPdImgList = [];
+
+  //   if (pdImgList?.length > 0) {
+  //     for (let i = 0; i < pdImgList?.length; i++) {
+  //       let isImgAvl = await checkImageAvailability(pdImgList[i]);
+  //       if (isImgAvl) {
+  //         FinalPdImgList.push(pdImgList[i]);
+  //       }
+  //     }
+  //   }
+
+  //   if (FinalPdImgList?.length > 0) {
+  //     finalprodListimg = FinalPdImgList[0];
+  //     setSelectedThumbImg({ link: FinalPdImgList[0], type: "img" });
+
+  //     const thumbImagePath = FinalPdImgList.map(url => {
+  //       const fileName = url.split('Design_Image/')[1];
+  //       return `${storeInit?.CDNDesignImageFolThumb}${fileName?.split('.')[0]}.jpg`; // Full CDN path
+  //     });
+  //     setPdThumbImg(thumbImagePath);
+
+  //     setThumbImgIndex(0);
+  //   }
+  //   else {
+  //     // Step 2 
+  //     setSelectedThumbImg({ link: imageNotFound, type: "img" });
+  //     setThumbImgIndex();
+  //   }
+
+
+
+  //   if (pdvideoList?.length > 0) {
+  //     setPdVideoArr(pdvideoList);
+  //   } else {
+  //     setPdVideoArr([]);
+  //   }
+
+  //   // if(FinalPdImgList?.length == 0 && pdvideoList?.length == 0){
+  //   //   setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+  //   // }
+
+  //   if (
+  //     storeinitInside?.IsVision360 == 1 &&
+  //     storeinitInside?.Vision360URL?.length > 0
+  //   ) {
+  //     let VisionLink = storeinitInside?.Vision360URL?.replace(
+  //       "{{designno}}",
+  //       singleProd?.designno
+  //     );
+  //     setVision360(VisionLink);
+  //   }
+
+  //   const img = await loadAndCheckImages(finalprodListimg);
+  //   return img;
+  // };
+
+  // useEffect(() => {
+  //   ProdCardImageFunc();
+  //   // setp 3
+  // }, [singleProd, singleProd1, location?.key]);
+
 
   const ProdCardImageFunc = async () => {
-    let finalprodListimg;
-    let pdImgList = [];
-    let pdvideoList = [];
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo")) || [];
+    const imageVideoDetail = singleProd?.ImageVideoDetail;
+    const pd = singleProd;
 
-    let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
-
-    let pd = singleProd;
-
-    let colImg;
-
-    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
-    let mcArr;
-
-    if (mtColorLocal?.length) {
-      mcArr =
-        mtColorLocal?.filter(
-          (ele) => ele?.id == singleProd?.MetalColorid
-        )[0]
+    let parsedData = [];
+    try {
+      parsedData = imageVideoDetail === "0" ? [] : JSON.parse(imageVideoDetail || "[]");
+    } catch (err) {
+      console.error("Invalid JSON in ImageVideoDetail:", err);
+      return;
     }
 
-    if (singleProd?.ColorImageCount > 0) {
-      for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
-        let imgString =
-          storeInit?.CDNDesignImageFol +
-          singleProd?.designno +
-          "~" +
-          i +
-          "~" + mcArr?.colorcode +
-          "." +
-          singleProd?.ImageExtension;
+    // Filter categorized media
+    const normalImages = [], colorImages = [], normalVideos = [], colorVideos = [];
+    parsedData.forEach(item => {
+      if (item?.TI === 1 && !item?.CN) normalImages.push(item);
+      else if (item?.TI === 2 && item?.CN) colorImages.push(item);
+      else if (item?.TI === 4 && item?.CN) colorVideos.push(item);
+      else if (item?.Ex === "mp4" && !item?.CN) normalVideos.push(item);
+    });
 
-        let IsImg = checkImageAvailability(imgString)
-        if (IsImg) {
-          pdImgList.push(imgString);
+    const getMaxCountByColor = (list) => {
+      return list.reduce((acc, curr) => {
+        const color = curr.CN;
+        acc[color] = (acc[color] || 0) + 1;
+        return acc;
+      }, {});
+    };
+
+    const maxColorCount = Math.max(...Object.values(getMaxCountByColor(colorImages)), 0);
+    const normalImageCount = normalImages.length ? Math.max(...normalImages.map(i => i.Nm)) : 0;
+
+    // Get metal color code
+    const mcArr = mtColorLocal.find(ele => ele.id === singleProd?.MetalColorid);
+    setSelectedMetalColor(mcArr?.colorcode);
+
+    const buildImageURL = (i, isColor = false) => {
+      const base = storeInit?.CDNDesignImageFol;
+      return isColor
+        ? `${base}${pd.designno}~${i}~${mcArr?.colorcode}.${colorImages[i - 1]?.Ex}`
+        : `${base}${pd.designno}~${i}.${normalImages[i - 1]?.Ex}`;
+    };
+
+    const pdImgList = [];
+    if (maxColorCount > 0) {
+      for (let i = 1; i <= maxColorCount; i++) {
+        const colorImageUrl = buildImageURL(i, true);
+        const isColorImageAvailable = await checkImageAvailability(colorImageUrl);
+
+        // Only push the image if it is available
+        if (isColorImageAvailable) {
+          pdImgList.push(colorImageUrl);
         }
       }
+    }
 
-      if (pdImgList?.length > 0) {
-        colImg = pdImgList[0]
+    // If no color image was added, push normal images
+    if (pdImgList.length === 0 && normalImageCount > 0) {
+      for (let i = 1; i <= normalImageCount; i++) {
+        pdImgList.push(buildImageURL(i));
       }
     }
 
+    let finalprodListimg = pdImgList.length ? pdImgList[0] : imageNotFound;
+    setSelectedThumbImg({ link: finalprodListimg, type: "img" });
 
-    let IsColImg = false;
-    if (colImg?.length > 0) {
-      IsColImg = await checkImageAvailability(colImg)
-    }
-
-    if (pd?.ImageCount > 0 && !IsColImg) {
-      for (let i = 1; i <= pd?.ImageCount; i++) {
-        let imgString =
-          storeInit?.CDNDesignImageFol +
-          pd?.designno +
-          "~" +
-          i +
-          "." +
-          pd?.ImageExtension;
-
-        let IsImg = checkImageAvailability(imgString)
-        if (IsImg) {
-          pdImgList.push(imgString);
-        }
-      }
+    if (pdImgList.length) {
+      const thumbImagePath = pdImgList.map(url => {
+        const fileName = url.split("Design_Image/")[1];
+        return `${storeInit?.CDNDesignImageFolThumb}${fileName?.split('.')[0]}.jpg`;
+      });
+      setPdThumbImg(thumbImagePath);
+      setThumbImgIndex(0);
     } else {
-      finalprodListimg = ErrornoiMAGE;
-    }
-
-    if (pd?.VideoCount > 0) {
-      for (let i = 1; i <= pd?.VideoCount; i++) {
-        let videoString =
-          (storeInit?.CDNVPath) +
-          pd?.designno +
-          "~" +
-          i +
-          "." +
-          pd?.VideoExtension;
-
-        pdvideoList.push(videoString);
-      }
-    }
-    else {
-      pdvideoList = [];
-    }
-
-    let FinalPdImgList = [];
-
-    if (pdImgList?.length > 0) {
-      for (let i = 0; i < pdImgList?.length; i++) {
-        let isImgAvl = await checkImageAvailability(pdImgList[i])
-        if (isImgAvl) {
-          FinalPdImgList.push(pdImgList[i])
-        }
-      }
-    }
-
-    if (FinalPdImgList?.length > 0) {
-      finalprodListimg = FinalPdImgList[0];
-      setSelectedThumbImg({ "link": FinalPdImgList[0], "type": 'img' });
-      setPdThumbImg(FinalPdImgList);
-      setThumbImgIndex(0)
-    }
-    else {
-      // Step 2 
-      setSelectedThumbImg({ link: ErrornoiMAGE, type: "img" });
-      setPdThumbImg();
       setThumbImgIndex();
     }
 
-    if (pdvideoList?.length > 0) {
-      setPdVideoArr(pdvideoList);
-    } else {
-      setPdVideoArr([]);
-    }
+    // Video processing
+    const buildVideoURL = (video, isColor = false) => {
+      const base = storeInit?.CDNVPath;
+      return isColor
+        ? `${base}${pd.designno}~${video.Nm}~${video.CN}.${video.Ex}`
+        : `${base}${pd.designno}~${video.Nm}.${video.Ex}`;
+    };
 
-    if (storeinitInside?.IsVision360 == 1 && storeinitInside?.Vision360URL?.length > 0) {
+    const pdvideoList = [
+      ...colorVideos.map(v => buildVideoURL(v, true)),
+      ...normalVideos.map(v => buildVideoURL(v))
+    ];
 
-      // const CheckUrl = async (url) => {
-      //   try {
-      //     const response = await axios.head(url);
-      //     return response.status >= 200 && response.status < 300; 
-      //   } catch (error) {
-      //     console.error('Error checking URL:', error);
-      //     return false;
-      //   }
-      // };
+    setPdVideoArr(pdvideoList.length ? pdvideoList : []);
 
-      setVision360(`${storeinitInside?.Vision360URL}${singleProd?.designno}`)
-
-      //  console.log("checkurl",CheckUrl(`https://www.google.com/`))
-
-    }
-
-
-    // return finalprodListimg;
     const img = await loadAndCheckImages(finalprodListimg);
     return img;
   };
 
-
   useEffect(() => {
     ProdCardImageFunc();
-    // setp 3
   }, [singleProd, singleProd1, location?.key]);
+
 
   useEffect(() => {
     if (isImageload === false) {
@@ -902,7 +1106,7 @@ const ProductDetail = () => {
         setSelectedThumbImg({ "link": ErrornoiMAGE, "type": 'img' });
       }
     }
-  }, [isImageload])
+  }, [isImageload, pdThumbImg, pdVideoArr])
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -911,106 +1115,153 @@ const ProductDetail = () => {
   };
 
 
-  const handleMetalWiseColorImg = async (e) => {
 
-    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
-    let mcArr;
+  // const handleMetalWiseColorImg = async (e) => {
+  //   let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
+  //   let mcArr;
 
-    if (mtColorLocal?.length) {
-      mcArr =
-        mtColorLocal?.filter(
-          (ele) => ele?.colorcode == e.target.value
-        )[0]
-    }
+  //   const imageVideoDetail = singleProd?.ImageVideoDetail;
 
-    setSelectMtColor(e.target.value)
+  //    let parsedData = [];
+  // try {
+  //   parsedData = imageVideoDetail === "0" ? [] : JSON.parse(imageVideoDetail || "[]");
+  // } catch (err) {
+  //   console.error("Invalid JSON in ImageVideoDetail:", err);
+  //   return;
+  // }
+  //   const filterDataForColorImageCount = parsedData.filter(
+  //     (ele) => ele?.CN && ele?.TI == 2
+  //   );
 
-    let imgLink = storeInit?.CDNDesignImageFol +
-      (singleProd ?? singleProd1)?.designno +
-      "~" +
-      (thumbImgIndex + 1) + "~" + mcArr?.colorcode +
-      "." +
-      (singleProd ?? singleProd1)?.ImageExtension;
+  //   const filterDataForNormalImageCount = parsedData.filter(
+  //     (ele) => ele?.CN == "" && ele?.TI == 1
+  //   );
 
-    // setMetalWiseColorImg(imgLink)
+  //   const normalImageCount = filterDataForNormalImageCount.length > 0
+  //     ? Math.max(...filterDataForNormalImageCount.map(item => item.Nm))
+  //     : null;
 
-    let isImg = await checkImageAvailability(imgLink)
+  //   const getColorImageExtension = filterDataForColorImageCount?.map((ele) => ele?.Ex);
+  //   const getNormalImageExtension = filterDataForNormalImageCount?.map((ele) => ele?.Ex);
 
-    if (isImg) {
-      setMetalWiseColorImg(imgLink)
-    } else {
-      setMetalWiseColorImg()
-    }
+  //   const countColumns1 = filterDataForColorImageCount.reduce((acc, curr) => {
+  //     const color = curr.CN;
+  //     acc[color] = (acc[color] || 0) + 1;
+  //     return acc;
+  //   }, {});
 
-    let pd = singleProd;
-    let pdImgListCol = [];
-    let pdImgList = [];
+  //   const countValues = Object.values(countColumns1);
+  //   const maxColorCount = countValues.length > 0 ? Math.max(...countValues) : 0;
 
-    if (singleProd?.ColorImageCount > 0) {
-      for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
-        let imgString =
-          storeInit?.CDNDesignImageFol +
-          singleProd?.designno +
-          "~" +
-          i +
-          "~" + mcArr?.colorcode +
-          "." +
-          singleProd?.ImageExtension;
-        pdImgListCol.push(imgString);
-      }
-    }
+  //   if (mtColorLocal?.length) {
+  //     mcArr = mtColorLocal?.filter(
+  //       (ele) => ele?.colorcode == e.target.value
+  //     )[0];
+  //   }
 
-    if (singleProd?.ImageCount > 0) {
-      for (let i = 1; i <= singleProd?.ImageCount; i++) {
-        let imgString =
-          storeInit?.CDNDesignImageFol +
-          singleProd?.designno +
-          "~" +
-          i +
-          "." +
-          singleProd?.ImageExtension;
-        pdImgList.push(imgString);
-      }
-    }
+  //   setSelectedMetalColor(mcArr?.colorcode);
 
+  //   setSelectMtColor(e.target.value);
 
-    let isImgCol;
+  //   let imgLink =
+  //     storeInit?.CDNDesignImageFol +
+  //     (singleProd ?? singleProd1)?.designno +
+  //     "~" +
+  //     (thumbImgIndex + 1) +
+  //     "~" +
+  //     mcArr?.colorcode +
+  //     "." +
+  //     (singleProd ?? singleProd1)?.ImageExtension;
 
-    if (pdImgListCol?.length > 0) {
-      isImgCol = await checkImageAvailability(pdImgListCol[0])
-    }
+  //   // setMetalWiseColorImg(imgLink)
 
-    let FinalPdColImgList = [];
+  //   let isImg = await checkImageAvailability(imgLink);
 
-    if (pdImgListCol?.length > 0) {
-      for (let i = 0; i < pdImgListCol?.length; i++) {
-        let isImgAvl = await checkImageAvailability(pdImgListCol[i])
-        if (isImgAvl) {
-          FinalPdColImgList.push(pdImgListCol[i])
-        } else {
-          FinalPdColImgList.push(ErrornoiMAGE)
-        }
-      }
-    }
+  //   if (isImg) {
+  //     setMetalWiseColorImg(imgLink);
+  //   } else {
+  //     setMetalWiseColorImg();
+  //   }
 
-    if (FinalPdColImgList?.length > 0 && (isImgCol == true)) {
-      setPdThumbImg(FinalPdColImgList)
-      setSelectedThumbImg({ "link": FinalPdColImgList[thumbImgIndex], "type": 'img' });
-      setThumbImgIndex(thumbImgIndex)
+  //   let pd = singleProd;
+  //   let pdImgListCol = [];
+  //   let pdImgList = [];
 
-    }
-    else {
-      if (pdImgList?.length > 0) {
-        setSelectedThumbImg({ "link": pdImgList[thumbImgIndex], "type": 'img' });
-        setPdThumbImg(pdImgList)
-        setThumbImgIndex(thumbImgIndex)
-      }
-    }
+  //   if (maxColorCount > 0) {
+  //     for (let i = 1; i <= maxColorCount; i++) {
+  //       let imgString =
+  //         storeInit?.CDNDesignImageFol +
+  //         singleProd?.designno +
+  //         "~" +
+  //         i +
+  //         "~" +
+  //         mcArr?.colorcode +
+  //         "." +
+  //         (singleProd ?? singleProd1)?.ImageExtension;
+  //       pdImgListCol.push(imgString);
+  //     }
+  //   }
 
+  //   if (normalImageCount > 0) {
+  //     for (let i = 1; i <= normalImageCount; i++) {
+  //       let imgString =
+  //         storeInit?.CDNDesignImageFol +
+  //         singleProd?.designno +
+  //         "~" +
+  //         i +
+  //         "." +
+  //         (singleProd ?? singleProd1)?.ImageExtension;
+  //       pdImgList.push(imgString);
+  //     }
+  //   }
 
+  //   let isImgCol;
 
-    // console.log("pdImgList",pdImgList,pdImgListCol)
-  }
+  //   if (pdImgListCol?.length > 0) {
+  //     isImgCol = await checkImageAvailability(pdImgListCol[0]);
+  //   }
+
+  //   let FinalPdColImgList = [];
+
+  //   if (pdImgListCol?.length > 0) {
+  //     for (let i = 0; i < pdImgListCol?.length; i++) {
+  //       let isImgAvl = await checkImageAvailability(pdImgListCol[i]);
+  //       if (isImgAvl) {
+  //         FinalPdColImgList.push(pdImgListCol[i]);
+  //       } else {
+  //         FinalPdColImgList.push(imageNotFound);
+  //       }
+  //     }
+  //   }
+
+  //   if (FinalPdColImgList?.length > 0 && (isImgCol == true)) {
+
+  //     const thumbImagePath = FinalPdColImgList.map(url => {
+  //       const fileName = url.split('Design_Image/')[1];
+  //       return `${storeInit?.CDNDesignImageFolThumb}${fileName?.split('.')[0]}.jpg`; // Full CDN path
+  //     });
+
+  //     setPdThumbImg(thumbImagePath)
+  //     if (FinalPdColImgList[thumbImgIndex] === undefined) {
+  //       setSelectedThumbImg({ "link": FinalPdColImgList[thumbImgIndex - 1], "type": 'img' });
+  //     } else {
+  //       setSelectedThumbImg({ "link": FinalPdColImgList[thumbImgIndex], "type": 'img' });
+  //     }
+  //     setThumbImgIndex(thumbImgIndex)
+
+  //   }
+  //   else {
+  //     if (pdImgList?.length > 0) {
+  //       if (pdImgList[thumbImgIndex] === undefined) {
+  //         setSelectedThumbImg({ "link": pdImgList[thumbImgIndex - 1], "type": 'img' });
+  //       } else {
+  //         setSelectedThumbImg({ "link": pdImgList[thumbImgIndex], "type": 'img' });
+  //       }
+  //       setPdThumbImg(pdImgList)
+  //       setThumbImgIndex(thumbImgIndex)
+  //     }
+  //   }
+  // };
 
   // useEffect(()=>{
 
@@ -1034,6 +1285,114 @@ const ProductDetail = () => {
   // },[singleProd])
 
   // console.log("stock",stockItemArr,SimilarBrandArr);
+
+  const handleMetalWiseColorImg = async (e) => {
+    const selectedColorCode = e.target.value;
+    const mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo") || "[]");
+    const mcArr = mtColorLocal.find(ele => ele?.colorcode === selectedColorCode);
+
+    const prod = singleProd ?? singleProd1;
+    const { designno, ImageExtension } = prod || {};
+    const baseCDN = storeInit?.CDNDesignImageFol;
+    const thumbCDN = storeInit?.CDNDesignImageFolThumb;
+
+    setSelectedMetalColor(mcArr?.colorcode);
+    setSelectMtColor(selectedColorCode);
+
+    // Parse image/video data
+    let parsedData = [];
+    try {
+      parsedData = prod?.ImageVideoDetail && prod.ImageVideoDetail !== "0"
+        ? JSON.parse(prod.ImageVideoDetail)
+        : [];
+    } catch (err) {
+      console.error("Invalid JSON in ImageVideoDetail:", err);
+      return;
+    }
+
+    // Filter color and normal images
+    const colorImgs = parsedData.filter(ele => ele?.CN && ele?.TI === 2);
+    const normalImgs = parsedData.filter(ele => !ele?.CN && ele?.TI === 1);
+
+    const maxColorImgCount = Math.max(
+      0,
+      ...Object.values(
+        colorImgs.reduce((acc, { CN }) => {
+          acc[CN] = (acc[CN] || 0) + 1;
+          return acc;
+        }, {})
+      )
+    );
+
+    const normalImageCount = normalImgs.length > 0
+      ? Math.max(...normalImgs.map(item => item.Nm))
+      : 0;
+
+    // Build image URLs
+    const buildColorImageList = () => Array.from({ length: maxColorImgCount }, (_, i) =>
+      `${baseCDN}${designno}~${i + 1}~${mcArr?.colorcode}.${ImageExtension}`
+    );
+
+    const buildNormalImageList = () => Array.from({ length: normalImageCount }, (_, i) =>
+      `${baseCDN}${designno}~${i + 1}.${ImageExtension}`
+    );
+
+    let pdImgListCol = [];
+    let pdImgList = [];
+    let colorImagesAvailable = false;
+
+    // Check color image availability dynamically
+    if (colorImgs.length > 0) {
+      const tempColorList = buildColorImageList().filter(Boolean);
+
+      const checkImages = tempColorList.length > 3
+        ? tempColorList.slice(0, 3) // Optional cap for performance
+        : tempColorList;
+
+      const availabilityChecks = await Promise.all(
+        checkImages.map(url => checkImageAvailability(url))
+      );
+
+      colorImagesAvailable = availabilityChecks.some(Boolean);
+      if (colorImagesAvailable) {
+        pdImgListCol = tempColorList;
+      }
+    }
+
+    // Fallback to normal images if no color images are available
+    if (!colorImagesAvailable && normalImgs.length > 0) {
+      pdImgList = buildNormalImageList();
+    }
+
+    // Set images to UI
+    if (colorImagesAvailable && pdImgListCol.length > 0) {
+      const thumbImagePath = pdImgListCol.map(url => {
+        const fileName = url.split('Design_Image/')[1]?.split('.')[0];
+        return `${thumbCDN}${fileName}.jpg`;
+      });
+
+      setPdThumbImg(thumbImagePath);
+
+      const mainImg = pdImgListCol[thumbImgIndex] || pdImgListCol[thumbImgIndex - 1];
+      setSelectedThumbImg({ link: mainImg, type: 'img' });
+      setThumbImgIndex(thumbImgIndex);
+
+      const defaultMainImg = `${baseCDN}${designno}~${thumbImgIndex + 1}~${mcArr?.colorcode}.${ImageExtension}`;
+      setMetalWiseColorImg(defaultMainImg);
+
+    } else if (pdImgList.length > 0) {
+      const thumbImagePath = pdImgList.map(url => {
+        const fileName = url.split('Design_Image/')[1]?.split('.')[0];
+        return `${thumbCDN}${fileName}.jpg`;
+      });
+      console.log("TCL: handleMetalWiseColorImg -> thumbImagePath", thumbImagePath)
+      setPdThumbImg(thumbImagePath);
+      const fallbackImg = pdImgList[thumbImgIndex] || pdImgList[thumbImgIndex - 1];
+      setSelectedThumbImg({ link: fallbackImg, type: 'img' });
+      setThumbImgIndex(thumbImgIndex);
+    }
+  };
+
 
   const handleCartandWish = (e, ele, type) => {
     // console.log("event", e.target.checked, ele, type);
@@ -1218,7 +1577,6 @@ const ProductDetail = () => {
     let SizeSorted = SizeArr?.sort((a, b) => {
       const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0, -2), 10);
       const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0, -2), 10);
-      console.log("SizeSorted", a?.sizename?.toUpperCase())
 
       return nameA - nameB;
     })
@@ -1309,16 +1667,61 @@ const ProductDetail = () => {
                         className="stam_main_prod_img"
                         style={{ display: (isImageload || ImagePromise) ? "none" : "block" }}
                       >
-                        {(selectedThumbImg?.type == "img") ? (
-                          <img
-                            src={selectedThumbImg?.link}
-                            // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                            // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
-                            onError={(e) => e.target.src = imageNotFound}
-                            alt={""}
-                            onLoad={() => setIsImageLoad(false)}
-                            className="stam_prod_img"
-                          />
+                        {selectedThumbImg?.type === "img" ? (
+                          <>
+                            {hasColorImages && Object.keys(metalColorImages).length > 0 ? (
+                              <>
+                                {/* Render selected color images first */}
+                                {metalColorImages[selectedMetalColor] && (
+                                  <div style={{ display: "block" }}>
+                                    {metalColorImages[selectedMetalColor].map((imgUrl, idx) =>
+                                      imgUrl === selectedThumbImg?.link ? (
+                                        <img
+                                          key={idx}
+                                          src={imgUrl}
+                                          alt={`${selectedMetalColor} image ${idx + 1}`}
+                                          className="stam_prod_img"
+                                          loading="lazy"
+                                          onError={(e) => (e.target.src = imageNotFound)}
+                                          onLoad={() => setIsImageLoad(false)}
+                                          style={{ width: "100%", marginBottom: "8px" }}
+                                        />
+                                      ) : null
+                                    )}
+                                  </div>
+                                )}
+
+                                {/* Render all other color images in the background */}
+                                {Object.entries(metalColorImages).map(([colorKey, images]) =>
+                                  colorKey !== selectedMetalColor ? (
+                                    <div key={colorKey} style={{ display: "none" }}>
+                                      {images.map((imgUrl, idx) => (
+                                        <img
+                                          key={idx}
+                                          src={imgUrl}
+                                          alt=""
+                                          className="stam_prod_img"
+                                          loading="lazy"
+                                          onError={(e) => (e.target.src = imageNotFound)}
+                                          style={{ width: "100%", marginBottom: "8px" }}
+                                        />
+                                      ))}
+                                    </div>
+                                  ) : null
+                                )}
+                              </>
+                            ) : (
+                              <img
+                                src={selectedThumbImg?.link}
+                                alt=""
+                                className="stam_prod_img"
+                                loading="lazy"
+                                onError={(e) => (e.target.src = imageNotFound)}
+                                onLoad={() => setIsImageLoad(false)}
+                                style={{ display: hasColorImages ? "none" : "block" }}
+                              />
+                            )}
+                          </>
                         ) : (
                           <div className="stam_prod_video">
                             <video
@@ -1329,13 +1732,13 @@ const ProductDetail = () => {
                                 width: "100%",
                                 objectFit: "cover",
                                 marginTop: "40px",
-                                // height: "90%",
                                 borderRadius: "8px",
                               }}
-                              onError={(e) => e.target.poster = imageNotFound}
+                              onError={(e) => (e.target.poster = imageNotFound)}
                             />
                           </div>
                         )}
+
 
                         <div className="stam_main_thumb_prod_img">
                           {((pdThumbImg?.length > 1 || pdVideoArr?.length > 0) || storeInit?.IsVision360 == 1) &&
@@ -1348,16 +1751,15 @@ const ProductDetail = () => {
                                 className="stam_prod_thumb_img"
                                 onClick={() => {
                                   setSelectedThumbImg({
-                                    link: ele,
+                                    link: ele.replace('Design_Thumb/', ''),
                                     type: "img",
                                   });
                                   setThumbImgIndex(i);
                                 }}
-                              // onError={()=>{
-                              // }}
+                                loading="lazy"
                               />
                             ))}
-                          {pdVideoArr?.map((data) => (
+                          {filteredVideos?.map((data) => (
                             <div
                               style={{
                                 position: "relative",
@@ -1402,6 +1804,7 @@ const ProductDetail = () => {
                                   });
                                 }}
                                 onError={(e) => e.target.src = imageNotFound}
+                                loading="lazy"
                               />
                             ) :
                               null
@@ -2423,10 +2826,12 @@ const ProductDetail = () => {
                                 className="stam_productCard_Image"
                                 src={
                                   ele?.ImageCount > 0
-                                    ? storeInit?.CDNDesignImageFol + ele?.designno + "~" + "1" + "." + ele?.ImageExtension
+                                    // ? storeInit?.CDNDesignImageFol + ele?.designno + "~" + "1" + "." + ele?.ImageExtension
+                                    ? storeInit?.CDNDesignImageFolThumb + ele?.designno + "~" + "1" + "." + "jpg"
                                     : imageNotFound
                                 }
                                 alt={""}
+                                loading="lazy"
                                 onError={(e) => e.target.src = imageNotFound}
                               />
                               <div
@@ -2522,6 +2927,7 @@ const ProductDetail = () => {
                                       imageNotFound
                                   }
                                   alt={""}
+                                  loading="lazy"
                                   onError={(e) => e.target.src = imageNotFound}
                                   className="ctl_img"
                                 />
@@ -2563,7 +2969,8 @@ const ProductDetail = () => {
                                           src={
                                             ele?.ImageCount > 0
                                               ?
-                                              storeInit?.CDNDesignImageFol + ele?.designno + "~" + "1" + "." + ele?.ImageExtension
+                                              // storeInit?.CDNDesignImageFol + ele?.designno + "~" + "1" + "." + ele?.ImageExtension
+                                              storeInit?.CDNDesignImageFolThumb + ele?.designno + "~" + "1" + "." + "jpg"
                                               : imageNotFound
                                           }
                                           alt={""}
@@ -2573,6 +2980,7 @@ const ProductDetail = () => {
                                           onError={(e) => {
                                             e.target.src = imageNotFound;
                                           }}
+                                          loading="lazy"
                                           className="srthelook_img"
                                         />
                                       </div>

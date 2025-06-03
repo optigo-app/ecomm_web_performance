@@ -23,7 +23,7 @@ export default function Craftmenship({ banner }) {
     return (
         <div className='el_craftmenshipId_main' name='craftmenshipId' id="craftmenshipId">
             <div className='elv_craftman_div'>
-                <p className='craftmenship'>Our Craftmenship</p>
+                <h1 className='craftmenship'>Our Craftmenship</h1>
                 <span className='elv_craft_subtitle'>Crafting Timeless Elegance with Precision</span>
             </div>
             <Swiper

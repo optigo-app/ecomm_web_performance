@@ -11,6 +11,7 @@ import Cookies from 'js-cookie';
 import { smrMA_homeLoading, smrMA_loginState } from '../../../Recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
+import { Skeleton } from '@mui/material';
 
 const BestSellerSection = ({data}) => {
 
@@ -18,6 +19,7 @@ const BestSellerSection = ({data}) => {
     const [imageUrl, setImageUrl] = useState();
     const [bestSellerData , setBestSellerData] = useState('')
     const[storeInit,setStoreInit]=useState({});
+    const [isLoading,setIsLoading] = useState(false);
     const [imageUrls, setImageUrls] = useState([]);
     const navigation = useNavigate();
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -64,6 +66,7 @@ const BestSellerSection = ({data}) => {
   }, [])
 
   const callAllApi = () => {
+    setIsLoading(true);
     const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
     const { IsB2BWebsite } = storeInit;
@@ -85,14 +88,15 @@ const BestSellerSection = ({data}) => {
     setStoreInit(storeinit)
 
     let data = JSON.parse(sessionStorage.getItem('storeInit'))
-    setImageUrl(data?.CDNDesignImageFol);
+    // setImageUrl(data?.CDNDesignImageFol);
+    setImageUrl(data?.CDNDesignImageFolThumb);
 
     Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID).then((response) => {
       setLoadingHome(false);
         if (response?.Data?.rd) {
             setBestSellerData(response?.Data?.rd);
         }
-    }).catch((err) =>{ return err})
+    }).catch((err) =>{ return err}).finally(() => setIsLoading(false));
 
 }
 
@@ -209,9 +213,10 @@ const BestSellerSection = ({data}) => {
           if (!bestSellerData?.length) return;
           const validatedData = await Promise.all(
               bestSellerData.map(async (item) => {
-                  const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
-                  const validatedURL = await checkImageAvailability(imageURL);
-                  return { ...item, validatedImageURL: validatedURL };
+                  const imageURL = `${imageUrl}${item?.designno}~1.jpg`;
+                //   const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
+                //   const validatedURL = await checkImageAvailability(imageURL);
+                  return { ...item, validatedImageURL: imageURL };
               })
           );
           setValidatedData(validatedData);
@@ -242,6 +247,10 @@ const BestSellerSection = ({data}) => {
                               src={validatedData[i]?.validatedImageURL}
                               className='likingLoveImages'
                               alt='Bestselling Items'
+                              onError={(e) => {
+                                e.target.src = imageNotFound; 
+                            }}
+                                loading="lazy"
                           />
                       </div>
                       <div className='linkLoveRing1Desc'>
@@ -271,6 +280,10 @@ const BestSellerSection = ({data}) => {
                                   src={validatedData[i + 1]?.validatedImageURL}
                                   className='likingLoveImages'
                                   alt='Bestselling Items'
+                                  onError={(e) => {
+                                    e.target.src = imageNotFound; 
+                                }}
+                                    loading="lazy"
                               />
                           </div>
                           <div className='linkLoveRing1Desc'>
@@ -292,23 +305,55 @@ const BestSellerSection = ({data}) => {
   };
 
     return (
-    <div className='smrMA_bestSallerMain'  ref={bestSallerRef}>
-      {bestSellerData?.length != 0 &&
-          <div className='linkingLoveMain'>
-            <div className='linkingLove'>
-            <p className='linkingTitle'>Best Seller</p>
-            <p className='lsmr_BestSallerViewAll'  onClick={handleNavigate}>SHOP COLLECTION</p>
-            <Slider {...settings} >
-              {renderSlides()}
-            </Slider>
-          </div>
-          <div className='linkingLoveImage'>
-            {/* <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.webp`} className='linkingLoveImageDesign' /> */}
-            <img src={data?.image?.[0]} className='linkingLoveImageDesign' />
-          </div>
-        </div>
-      }
-    </div>
+        <div className='smrMA_bestSallerMain' ref={bestSallerRef}>
+        {isLoading ? (
+                <div className="linkingLoveMain">
+                    {/* Image Skeleton */}
+                    <Skeleton
+                        variant="rectangular"
+                        width="100%"
+                        height={500}
+                        sx={{
+                            marginTop: 2,
+                            '@media (max-width: 600px)': { height: '350px !important' },
+                            '@media (max-width: 550px)': { height: '450px !important' },
+                            '@media (max-width: 480px)': { height: '400px !important' },
+                            '@media (max-width: 420px)': { height: '270px !important' },
+                            '@media (max-width: 350px)': { height: '240px !important' },
+                        }}
+                    />
+
+                    {/* Product Card Skeletons (Slider Placeholder) */}
+                    <div style={{ display: 'flex', gap: 16, padding: '0 16px', marginTop: '1rem', width: "100%" }}>
+                        {[1, 2].map((_, index) => (
+                            <div key={index} style={{ width: '100%' }}>
+                                <Skeleton variant="square" width='100%' height={150} />
+                                <Skeleton variant="text" width="100%" height={20} sx={{ marginTop: 1 }} />
+                                <Skeleton variant="text" width="80%" height={20} />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+        ) : (
+          bestSellerData?.length !== 0 && (
+            <div className='linkingLoveMain'>
+              <div className='linkingLove'>
+                <p className='linkingTitle'>Best Seller</p>
+                <p className='lsmr_BestSallerViewAll' onClick={handleNavigate}>SHOP COLLECTION</p>
+                <Slider {...settings}>
+                  {renderSlides()}
+                </Slider>
+              </div>
+              <div className='linkingLoveImage'>
+                <img src={data?.image?.[0]} className='linkingLoveImageDesign' loading='lazy' alt="Best Seller" onError={(e) => {
+                    e.target.src = imageNotFound; 
+                }} 
+                />
+              </div>
+            </div>
+          )
+        )}
+      </div>
   )
 }
 

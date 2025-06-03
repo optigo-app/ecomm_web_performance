@@ -1,8 +1,10 @@
-import React, { memo, Suspense, useEffect, useState } from "react";
+import React, { lazy, memo, Suspense, useEffect, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import './Components/scss/variable.scss';
 import Home from "./Components/Pages/Home/Index";
 import Header from "./Components/Pages/Home/Header/Header";
 import Cart from "./Components/Pages/Cart/CartMain";
+import loaderImg from './Components/Assets/webLogo.png';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   companyLogo,
@@ -10,56 +12,85 @@ import {
   proCat_companyLogoM,
   proCat_loginState,
 } from "./Components/Recoil/atom";
-import { Helmet } from "react-helmet";
-import { Storeinit } from "../../utils/API/Home/Storeinit/Storeinit";
-import { MetalTypeComboAPI } from "../../utils/API/Combo/MetalTypeComboAPI";
-import { ColorStoneQualityColorComboAPI } from "../../utils/API/Combo/ColorStoneQualityColorComboAPI";
-import { CurrencyComboAPI } from "../../utils/API/Combo/CurrencyComboAPI";
-import { DiamondQualityColorComboAPI } from "../../utils/API/Combo/DiamondQualityColorComboAPI";
-import { MetalColorCombo } from "../../utils/API/Combo/MetalColorCombo";
-// import ProductList from "./Components/Pages/Product/ProductList/ProductList";
-
-// import AboutUs from "./Components/Pages/aboutUs/AboutUs";
-import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
-import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
-import ServicePolicy from "./Components/Pages/FooterPages/servicePolicy/ServicePolicy";
-import ExpertAdvice from "./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice";
-import FunFact from "./Components/Pages/FooterPages/FunFact/FunFact";
-// new changes here
-import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/index";
-import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/index";
-import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
-import Register from "./Components/Pages/Auth/Registretion/index";
-
-import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
-import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode";
-import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
-
-import Wishlist from "./Components/Pages/Wishlist/Wishlist";
-import PageNotFound from "./Components/Pages/404Page/PageNotFound";
-import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
-import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
-import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
-import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
-import Header2 from "./Components/Pages/Home/Header/Header2";
-import Account from "./Components/Pages/Account/Account";
-import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
-import Footer from "./Components/Pages/Home/Footer/Footer";
-import ProcatAppChatMenu from "./Components/Pages/Home/ChatMenu/ProcatAppChatMenu";
-import AboutUs from "./Components/Pages/Static/AboutUs/AboutUs";
-import TermsCondition from "./Components/Pages/Static/TermsPolicy/TermsPolicy";
-import PrivacyPolicy from "./Components/Pages/Static/PrivacyPolicy/PrivacyPolicy";
-import AboutUs2 from "./Components/Pages/Static/AboutUs/AboutUs2";
-import RefundPolicy from "./Components/Pages/Static/RefundPolicy/RefundPolicy";
-import ShippingPolicy from "./Components/Pages/Static/ShippingPolicy/ShippingPolicy";
-import ConnectionManager from "../../utils/SoketConnection/ConnectionManager";
 import Cookies from "js-cookie";
 import ProCat_PrivateRoutes from "./ProCat_PrivateRoutes";
 import { storImagePath, storInitDataPath, } from "../../utils/Glob_Functions/GlobalFunction";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import { verifyToken, getLocalStorageValue } from "../../utils/Glob_Functions/Tokenizer";
+import { Box } from "@mui/material";
+// import ProductList from "./Components/Pages/Product/ProductList/ProductList";
 
+// import AboutUs from "./Components/Pages/aboutUs/AboutUs";
+// import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
+// import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
+// import ServicePolicy from "./Components/Pages/FooterPages/servicePolicy/ServicePolicy";
+// import ExpertAdvice from "./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice";
+// import FunFact from "./Components/Pages/FooterPages/FunFact/FunFact";
+// // new changes here
+// import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/index";
+// import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/index";
+// import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
+// import Register from "./Components/Pages/Auth/Registretion/index";
 
+// import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
+// import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode";
+// import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
+
+// import Wishlist from "./Components/Pages/Wishlist/Wishlist";
+// import PageNotFound from "./Components/Pages/404Page/PageNotFound";
+// import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
+// import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
+// import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
+// import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
+// import Header2 from "./Components/Pages/Home/Header/Header2";
+// import Account from "./Components/Pages/Account/Account";
+// import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
+// import Footer from "./Components/Pages/Home/Footer/Footer";
+// import ProcatAppChatMenu from "./Components/Pages/Home/ChatMenu/ProcatAppChatMenu";
+// import AboutUs from "./Components/Pages/Static/AboutUs/AboutUs";
+// import TermsCondition from "./Components/Pages/Static/TermsPolicy/TermsPolicy";
+// import PrivacyPolicy from "./Components/Pages/Static/PrivacyPolicy/PrivacyPolicy";
+// import AboutUs2 from "./Components/Pages/Static/AboutUs/AboutUs2";
+// import RefundPolicy from "./Components/Pages/Static/RefundPolicy/RefundPolicy";
+// import ShippingPolicy from "./Components/Pages/Static/ShippingPolicy/ShippingPolicy";
+// import ConnectionManager from "../../utils/SoketConnection/ConnectionManager";
+
+const ProductDetail = lazy(() => import("./Components/Pages/Product/ProductDetail/ProductDetail"));
+const ContactUs = lazy(() => import("./Components/Pages/FooterPages/contactUs/ContactUs"));
+const ServicePolicy = lazy(() => import("./Components/Pages/FooterPages/servicePolicy/ServicePolicy"));
+const ExpertAdvice = lazy(() => import("./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice"));
+const FunFact = lazy(() => import("./Components/Pages/FooterPages/FunFact/FunFact"));
+
+// New changes here
+const ContinueWithEmail = lazy(() => import("./Components/Pages/Auth/ContinueWithEmail/index"));
+const ContimueWithMobile = lazy(() => import("./Components/Pages/Auth/ContimueWithMobile/index"));
+const LoginWithEmail = lazy(() => import("./Components/Pages/Auth/LoginWithEmail/LoginWithEmail"));
+const Register = lazy(() => import("./Components/Pages/Auth/Registretion/index"));
+
+const LoginWithEmailCode = lazy(() => import("./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode"));
+const LoginWithMobileCode = lazy(() => import("./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode"));
+const LoginOption = lazy(() => import("./Components/Pages/Auth/LoginOption/LoginOption"));
+
+const Wishlist = lazy(() => import("./Components/Pages/Wishlist/Wishlist"));
+const PageNotFound = lazy(() => import("./Components/Pages/404Page/PageNotFound"));
+const Delivery = lazy(() => import("./Components/Pages/OrderFlow/DeliveryPage/Delivery"));
+const Payment = lazy(() => import("./Components/Pages/OrderFlow/PaymentPage/Payment"));
+const Confirmation = lazy(() => import("./Components/Pages/OrderFlow/ConfirmationPage/Confirmation"));
+const ForgotPass = lazy(() => import("./Components/Pages/Auth/forgotPass/ForgotPass"));
+
+const Header2 = lazy(() => import("./Components/Pages/Home/Header/Header2"));
+const Account = lazy(() => import("./Components/Pages/Account/Account"));
+const Lookbook = lazy(() => import("./Components/Pages/Home/LookBook/Lookbook"));
+const Footer = lazy(() => import("./Components/Pages/Home/Footer/Footer"));
+const ProcatAppChatMenu = lazy(() => import("./Components/Pages/Home/ChatMenu/ProcatAppChatMenu"));
+
+const AboutUs = lazy(() => import("./Components/Pages/Static/AboutUs/AboutUs"));
+const TermsCondition = lazy(() => import("./Components/Pages/Static/TermsPolicy/TermsPolicy"));
+const PrivacyPolicy = lazy(() => import("./Components/Pages/Static/PrivacyPolicy/PrivacyPolicy"));
+const AboutUs2 = lazy(() => import("./Components/Pages/Static/AboutUs/AboutUs2"));
+const RefundPolicy = lazy(() => import("./Components/Pages/Static/RefundPolicy/RefundPolicy"));
+const ShippingPolicy = lazy(() => import("./Components/Pages/Static/ShippingPolicy/ShippingPolicy"));
+const ConnectionManager = lazy(() => import("../../utils/SoketConnection/ConnectionManager"));
 const ProductList = React.lazy(() => import("./Components/Pages/Product/ProductList/ProductList"));
 
 const Procatalog_App = () => {
@@ -237,78 +268,103 @@ const Procatalog_App = () => {
     }
   }
 
+  const LoadingFallback = () => (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh'
+      }}
+    >
+      {/* <CircularProgress sx={{ color: 'rgba(255, 87, 34, 0.8)' }} /> */}
+      <img
+        src={loaderImg}
+        alt="Loading..."
+        height="100%"
+        width="auto"
+        loading="lazy"
+        style={{
+          animation: 'scaleUpDown 1.5s ease-in-out infinite', // Apply the animation here
+        }}
+      />
+    </Box>
+  );
+
   return (
     <div className="setFullThemeBack">
-      {localData?.Headerno === 1 && <Header />}
-      {localData?.Headerno === 2 && <Header2 />}
-      <ConnectionManager />
-      {/* <ProcatAppChatMenu /> */}
-      <div className="proCatMinHeightSet">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/LoginOption" element={<LoginOption />} />
-          <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />
-          {/* Changes here */}
-          {(!htmlContent?.rd?.[0]?.IsWebMobileLoginOff || htmlContent?.rd?.[0]?.IsWebMobileLoginOff === 0) && <Route path="/ContimueWithMobile" element={<ContimueWithMobile />} />}
-          <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />
-          {(!htmlContent?.rd?.[0]?.IsWebMobileLoginOff || htmlContent?.rd?.[0]?.IsWebMobileLoginOff === 0) && <Route
-            path="/LoginWithMobileCode"
-            element={<LoginWithMobileCode />}
-          />}
-          <Route path="/ForgotPass" element={<ForgotPass />} />
-          <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
-          <Route path="/register" element={<Register />} />
-          {/* <Route path="/ContactUs" element={<ContactUs />} /> */}
-          {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
-          <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
-          {/* <Route path="/FunFact" element={<FunFact />} /> */}
-          {/* <Route path="/Lookbook" element={<Lookbook />} /> */}
-          <Route path="/aboutUs" element={<AboutUs2 />} />
-          <Route path="/privacy-policy" element={<TermsCondition />} />
-          <Route path="/terms-and-conditions" element={<PrivacyPolicy />} />
-          <Route path="/refund-policy" element={<RefundPolicy />} />
-          <Route path="/shipping-policy" element={<ShippingPolicy />} />
+      <Suspense fallback={<LoadingFallback />}>
+        {localData?.Headerno === 1 && <Header />}
+        {localData?.Headerno === 2 && <Header2 />}
+        <ConnectionManager />
+        {/* <ProcatAppChatMenu /> */}
+        <div className="proCatMinHeightSet">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/LoginOption" element={<LoginOption />} />
+            <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />
+            {/* Changes here */}
+            {(!htmlContent?.rd?.[0]?.IsWebMobileLoginOff || htmlContent?.rd?.[0]?.IsWebMobileLoginOff === 0) && <Route path="/ContimueWithMobile" element={<ContimueWithMobile />} />}
+            <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />
+            {(!htmlContent?.rd?.[0]?.IsWebMobileLoginOff || htmlContent?.rd?.[0]?.IsWebMobileLoginOff === 0) && <Route
+              path="/LoginWithMobileCode"
+              element={<LoginWithMobileCode />}
+            />}
+            <Route path="/ForgotPass" element={<ForgotPass />} />
+            <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
+            <Route path="/register" element={<Register />} />
+            {/* <Route path="/ContactUs" element={<ContactUs />} /> */}
+            {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
+            <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
+            {/* <Route path="/FunFact" element={<FunFact />} /> */}
+            {/* <Route path="/Lookbook" element={<Lookbook />} /> */}
+            <Route path="/aboutUs" element={<AboutUs2 />} />
+            <Route path="/privacy-policy" element={<TermsCondition />} />
+            <Route path="/terms-and-conditions" element={<PrivacyPolicy />} />
+            <Route path="/refund-policy" element={<RefundPolicy />} />
+            <Route path="/shipping-policy" element={<ShippingPolicy />} />
 
-          <Route
-            path="/"
-            element={<ProCat_PrivateRoutes isLoginStatus={islogin} />}
+            <Route
+              path="/"
+              element={<ProCat_PrivateRoutes isLoginStatus={islogin} />}
+            >
+              <Route path="/p/*" element={<Suspense fallback={<></>}><ProductList /></Suspense>} />
+              <Route path="/d/*" element={<ProductDetail />} />
+              <Route path="/cartPage" element={<Cart />} />
+              <Route path="/myWishList" element={<Wishlist />} />
+              <Route path="/Delivery" element={<Delivery />} />
+              <Route path="/Payment" element={<Payment />} />
+              <Route path="/Confirmation" element={<Confirmation />} />
+              <Route path="/account" element={<Account />} />
+            </Route>
+
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </div>
+        <Footer />
+        <div>
+          <p
+            style={{
+              paddingBlock: "30px",
+              margin: "0px",
+              textAlign: "center",
+              color: "black",
+              cursor: "pointer",
+              fontSize: "13px",
+              fontWeight: 500,
+              letterSpacing: "1px",
+            }}
+            onClick={() =>
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              })
+            }
           >
-            <Route path="/p/*" element={<Suspense fallback={<></>}><ProductList /></Suspense>} />
-            <Route path="/d/*" element={<ProductDetail />} />
-            <Route path="/cartPage" element={<Cart />} />
-            <Route path="/myWishList" element={<Wishlist />} />
-            <Route path="/Delivery" element={<Delivery />} />
-            <Route path="/Payment" element={<Payment />} />
-            <Route path="/Confirmation" element={<Confirmation />} />
-            <Route path="/account" element={<Account />} />
-          </Route>
-
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </div>
-      <Footer />
-      <div>
-        <p
-          style={{
-            paddingBlock: "30px",
-            margin: "0px",
-            textAlign: "center",
-            color: "black",
-            cursor: "pointer",
-            fontSize: "13px",
-            fontWeight: 500,
-            letterSpacing: "1px",
-          }}
-          onClick={() =>
-            window.scrollTo({
-              top: 0,
-              behavior: "smooth",
-            })
-          }
-        >
-          BACK TO TOP
-        </p>
-      </div>
+            BACK TO TOP
+          </p>
+        </div>
+      </Suspense >
     </div>
   );
 };

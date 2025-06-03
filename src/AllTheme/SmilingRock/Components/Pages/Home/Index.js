@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import useHomeBannerImages from './../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
 import "./Index.modul.scss";
+import { useRecoilValue } from "recoil";
+import { homeLoading } from "../../Recoil/atom";
 import TopSection from "./TopVideo/TopSection";
 import TheDifference from "./TheDifference/TheDifference";
-import PromotionBaner1 from "./PromotionBanner1/PromotionBaner1";
-import PromotionBaner2 from "./PromotionBanner1/PromotionBaner2";
-import ShopByCategory from "./ShopByCategory/ShopByCategory";
-import PromoSetSection from "./BestSellerSection/BestSellerSection";
-import SustainAbility from "./SustainAbility/SustainAbility";
 import BottomBanner from "./BottomBanner/BottomBanner";
-import Footer from "./Footer/Footer";
 import TrendingView from "./TrandingView/TrendingView";
 import TrendingView1 from "./TrandingView/TrendingView1";
 import DesignSet from "./DesignSet/DesignSet1";
@@ -21,11 +17,34 @@ import NewArrival1 from "./NewArrival/NewArrival1";
 import BestSellerSection from "./BestSellerSection/BestSellerSection";
 import BestSellerSection1 from "./BestSellerSection/BestSellerSection1";
 import BrandsComponent from "./BrandComponent/BrandComponents";
-import { useRecoilValue } from "recoil";
-import { homeLoading } from "../../Recoil/atom";
 import NewsletterSignup from "./SubscribeNewsLater/NewsletterSignup";
 import BespokeBanner from "./Bespokejewelry/BespokeBanner/BespokeBanner";
 import AppointmentBanner from "./Appointment/AppointmentBanner/AppointmentBanner";
+
+// const TopSection = React.lazy(() => import('./TopVideo/TopSection'));
+// const TheDifference = React.lazy(() => import('./TheDifference/TheDifference'));
+// const PromotionBaner1 = React.lazy(() => import('./PromotionBanner1/PromotionBaner1'));
+// const PromotionBaner2 = React.lazy(() => import('./PromotionBanner1/PromotionBaner2'));
+// const ShopByCategory = React.lazy(() => import('./ShopByCategory/ShopByCategory'));
+// const PromoSetSection = React.lazy(() => import('./BestSellerSection/BestSellerSection'));
+// const SustainAbility = React.lazy(() => import('./SustainAbility/SustainAbility'));
+// const BottomBanner = React.lazy(() => import('./BottomBanner/BottomBanner'));
+// const Footer = React.lazy(() => import('./Footer/Footer'));
+// const TrendingView = React.lazy(() => import('./TrandingView/TrendingView'));
+// const TrendingView1 = React.lazy(() => import('./TrandingView/TrendingView1'));
+// const DesignSet = React.lazy(() => import('./DesignSet/DesignSet1'));
+// const DesignSet1 = React.lazy(() => import('./DesignSet/DesignSet2'));
+// const Album = React.lazy(() => import('./Album/Album'));
+// const Album1 = React.lazy(() => import('./Album/Album1'));
+// const NewArrival = React.lazy(() => import('./NewArrival/NewArrival'));
+// const NewArrival1 = React.lazy(() => import('./NewArrival/NewArrival1'));
+// const BestSellerSection = React.lazy(() => import('./BestSellerSection/BestSellerSection'));
+// const BestSellerSection1 = React.lazy(() => import('./BestSellerSection/BestSellerSection1'));
+// const BrandsComponent = React.lazy(() => import('./BrandComponent/BrandComponents'));
+// const NewsletterSignup = React.lazy(() => import('./SubscribeNewsLater/NewsletterSignup'));
+// const BespokeBanner = React.lazy(() => import('./Bespokejewelry/BespokeBanner/BespokeBanner'));
+// const AppointmentBanner = React.lazy(() => import('./Appointment/AppointmentBanner/AppointmentBanner'));
+
 
 function Home() {
   const [localData, setLocalData] = useState();
@@ -60,7 +79,7 @@ function Home() {
       {localData?.YearCode !== "" && (
         <div className="smiling_home_index_main" style={{
           overflow: "hidden",
-        }}>
+        }} >
           <div>
             {/* style={{ backgroundColor: "white" }} */}
             {/* {htmlContent?.rd[0]?.Blockno === 1 && ( */}

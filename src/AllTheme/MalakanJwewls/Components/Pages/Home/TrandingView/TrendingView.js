@@ -138,12 +138,12 @@ const TrendingView = () => {
 
     const handleMouseEnterRing1 = (data) => {
         if (data?.ImageCount > 1) {
-            setHoveredItem(data.SrNo); 
+            setHoveredItem(data.SrNo);
             setRing1ImageChange(true)
         }
     }
     const handleMouseLeaveRing1 = () => {
-        setHoveredItem(null); 
+        setHoveredItem(null);
         setRing1ImageChange(false)
     }
 
@@ -170,12 +170,12 @@ const TrendingView = () => {
         setRing4ImageChange(false)
     }
 
-    
+
     const chunkedData = [];
     for (let i = 0; i < trandingViewData?.length; i += 3) {
         chunkedData.push(trandingViewData?.slice(i, i + 3));
     }
-    
+
     console.log('trandingViewDatatrandingViewData', trandingViewData);
     console.log('chunkedDatachunkedData', chunkedData);
     return (
@@ -184,21 +184,22 @@ const TrendingView = () => {
                 <div className='mala_trendingViewTopMain'>
                     <div className='mala_trendingViewTopMain_div'>
                         <div className='mala_trendingViewTopMain_Imgdiv'>
-                            <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.jpg`} className='linkingLoveImageDesign' />
+                            <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.jpg`} loading="lazy" className='linkingLoveImageDesign' />
                         </div>
                         <div className='mala_trendingViewTopMain_Sliderdiv'>
                             <p className='linkingTitle'>Trending View</p>
                             <Slider {...settings} >
                                 {chunkedData?.map((chunk, index) => (
-                                        <div className='linkRingLove'>
-                                              {chunk?.map((data, dataIndex) => (
+                                    <div className='linkRingLove'>
+                                        {chunk?.map((data, dataIndex) => (
                                             <div className='mala_TrendingMainDiv'>
                                                 <div className='linkLoveRing1' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
-                                                    <img src={hoveredItem === data.SrNo  ?
+                                                    <img src={hoveredItem === data.SrNo ?
                                                         `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                         :
                                                         `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                     } className='likingLoveImages'
+                                                        loading="lazy"
                                                         onMouseEnter={() => handleMouseEnterRing1(data)} onMouseLeave={handleMouseLeaveRing1}
                                                     />
                                                 </div>
@@ -206,14 +207,14 @@ const TrendingView = () => {
                                                     <p className='ring1Desc'>{data?.TitleLine}</p>
                                                     <p className='ring1Desc'>
                                                         <span className="mala_currencyFont">
-                                                           {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                            {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                         </span> &nbsp;
                                                         {formatter(data?.UnitCostWithMarkUp)}</p>
                                                 </div>
                                             </div>
-                                             ))}
-                                        </div>
-                                    ))
+                                        ))}
+                                    </div>
+                                ))
                                 }
                             </Slider>
                             <p className='mala_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>SHOP COLLECTION</p>

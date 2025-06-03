@@ -31,24 +31,29 @@ const CartDetails = ({
   handleMoveToDetail
 }) => {
 
-  const [storeInitData, setStoreInitData] = useState();
   const [imageSrc, setImageSrc] = useState();
 
-  useEffect(() => {
-    if (selectedItem?.ImageCount > 0) {
-      CartCardImageFunc(selectedItem).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [selectedItem]);
+  const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
+  const CDNDesignImageFolThumb = storeinitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`;
+
+  const isLoading = selectedItem?.loading;
+
+  // useEffect(() => {
+  //   if (selectedItem?.ImageCount > 0) {
+  //     CartCardImageFunc(selectedItem).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [selectedItem]);
 
   return (
     <div className="roop_cart-container">
       <div className="roop_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='roop_cartImage' /> */}
-        {imageSrc === undefined ? (
+        {isLoading === true ? (
           <CardMedia
             width="100%"
             height={400}
@@ -78,10 +83,28 @@ const CartDetails = ({
           </CardMedia>
         ) : (
           <img
-            src={imageSrc}
-            alt="image"
+            src={selectedItem?.images ? selectedItem?.images :
+              selectedItem?.ImageCount > 1 ? `${storeinitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.jpg` :
+                `${storeinitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`
+            }
+            alt=" "
+            style={{
+              border: 'none',
+              outline: 'none',
+              boxShadow: 'none',
+              '&:focus': { outline: 'none' },
+              '&:active': { outline: 'none' },
+            }}
             className='roop_cartDetailImage'
             onClick={() => handleMoveToDetail(selectedItem)}
+            loading="lazy"
+            onError={(e) => {
+              if (selectedItem?.ImageCount > 0) {
+                e.target.src = fullImagePath ? fullImagePath : noImageFound
+              } else {
+                e.target.src = noImageFound;
+              }
+            }}
           />
         )}
       </div>

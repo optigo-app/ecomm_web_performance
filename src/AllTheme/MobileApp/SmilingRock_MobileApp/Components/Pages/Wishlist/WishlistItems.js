@@ -31,6 +31,12 @@ const WishlistItems = ({
   const setCartCountVal = useSetRecoilState(smrMA_CartCount);
   const visiterId = "";
 
+  const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+  const CDNDesignImageFolThumb = storeInit?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  const isLoading = item?.loading;
+
   const handleWishlistToCartFun = async (item) => {
     const returnValue = await handleWishlistToCart(item);
     if (returnValue?.msg == "success") {
@@ -49,17 +55,17 @@ const WishlistItems = ({
     }
   };
 
-  useEffect(() => {
-    if (item?.ImageCount > 0) {
-      WishCardImageFunc(item).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [item]);
+  // useEffect(() => {
+  //   if (item?.ImageCount > 0) {
+  //     WishCardImageFunc(item).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [item]);
 
-  const {IsPriceShow} = JSON.parse(sessionStorage.getItem('storeInit')) ?? {};
+  const { IsPriceShow } = JSON.parse(sessionStorage.getItem('storeInit')) ?? {};
 
   return (
     <Grid
@@ -72,7 +78,7 @@ const WishlistItems = ({
     >
       <Card className="smrMo_WlListCard">
         <div className="cardContent">
-          {imageSrc === undefined ? (
+          {isLoading === true ? (
             <CardMedia style={{ width: "100%" }} className="roop_WlListImage">
               <Skeleton
                 animation="wave"
@@ -93,15 +99,23 @@ const WishlistItems = ({
           ) : (
             <CardMedia
               component="img"
-              image={imageSrc}
+              image={item?.images}
+              loading="lazy"
               alt={item?.TitleLine}
               className="smrMo_WlListImage"
               onClick={() => handleMoveToDetail(item)}
+              onError={(e) => {
+                if (item?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound
+                } else {
+                  e.target.src = noImageFound;
+                }
+              }}
             />
           )}
-   
-     <Informationtab item={item} decodeEntities={decodeEntities} currency={currency}  IsPriceShow={IsPriceShow == 1 }/>
-     {/* <OldInformationtab item={item} decodeEntities={decodeEntities} currency={currency}/> */}
+
+          <Informationtab item={item} decodeEntities={decodeEntities} currency={currency} IsPriceShow={IsPriceShow == 1} />
+          {/* <OldInformationtab item={item} decodeEntities={decodeEntities} currency={currency}/> */}
           <div className="smrMo_Wl-CartbtnDiv">
             <button
               className="smrMo_Wl-Cartbtn"
@@ -126,91 +140,91 @@ export default WishlistItems;
 
 
 
-const Informationtab = ({item,decodeEntities,  currency ,IsPriceShow})=>{
+const Informationtab = ({ item, decodeEntities, currency, IsPriceShow }) => {
   return <>
-       <div className="card_content_mapp">
-          <div className="price_mapp_sec">
-                                {item?.metalcolorname !== "" && (
-                                    <span>{item.metalcolorname}</span>
-                                )}
-                                {item?.metalcolorname !== "" && item?.metaltypename !== "" && (
-                                    <span> - </span>
-                                )}
-                                {item?.metaltypeName !== "" && (
-                                    <span>{item?.metaltypename}</span>
-                                )}
-                                {' / '}
-                               {IsPriceShow && <>
-                                <span className="smrMo_currencyFont" dangerouslySetInnerHTML={{
-                                    __html: decodeEntities(currency),
-                                }} />
-                                {' '}
-                                {item?.UnitCost !== "" && (
-                                    <span>{(item?.UnitCost).toFixed(3)}</span>
-                                )}
-                               </>}
-                            </div>
-            <div className="title_mapp_sec">
-              {item?.designno != "" && item?.designno}
-              {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}
-            </div>
-            <div className="two_col_grid_mapp">
-                <div className="col">NWT : {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</div>
-                <div className="col">GWT : {(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</div>
-                <div className="col">DWT : {(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</div>
-                <div className="col">CWT : {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</div>
-            </div>
-        
+    <div className="card_content_mapp">
+      <div className="price_mapp_sec">
+        {item?.metalcolorname !== "" && (
+          <span>{item.metalcolorname}</span>
+        )}
+        {item?.metalcolorname !== "" && item?.metaltypename !== "" && (
+          <span> - </span>
+        )}
+        {item?.metaltypeName !== "" && (
+          <span>{item?.metaltypename}</span>
+        )}
+        {' / '}
+        {IsPriceShow && <>
+          <span className="smrMo_currencyFont" dangerouslySetInnerHTML={{
+            __html: decodeEntities(currency),
+          }} />
+          {' '}
+          {item?.UnitCost !== "" && (
+            <span>{(item?.UnitCost).toFixed(3)}</span>
+          )}
+        </>}
+      </div>
+      <div className="title_mapp_sec">
+        {item?.designno != "" && item?.designno}
+        {formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}
+      </div>
+      <div className="two_col_grid_mapp">
+        <div className="col">NWT : {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</div>
+        <div className="col">GWT : {(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</div>
+        <div className="col">DWT : {(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</div>
+        <div className="col">CWT : {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</div>
+      </div>
 
-          </div>
+
+    </div>
   </>
 }
 
 
-const OldInformationtab = ({item ,decodeEntities ,currency})=>{
+const OldInformationtab = ({ item, decodeEntities, currency }) => {
   return <>
-         <CardContent className='smrMo_cardContent'>
-                        <div className='cardText'>
-                            <Typography variant="body2" className='smrMo_card-ContentData smrMo_WlTitleline'>
-                                {item?.designno != "" && item?.designno}{formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}
-                            </Typography>
-                            <Typography variant="body2" className='smrMo_card-ContentData'>
-                                <span className='smrMo_wishDT'>NWT : </span>
-                                <span className='smrMo_wishDT'>{(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
-                                <span className='smrMo_pipe'> | </span>
-                                <span className='smrMo_wishDT'>GWT: </span>
-                                <span className='smrMo_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                <span className='smrMo_pipe'>  </span> <br/>
-                                <span className='smrMo_wishDT'>DWT: </span>
-                                <span>{(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                <span className='smrMo_pipe'> | </span>
-                                <span className='smrMo_wishDT'>CWT: </span>
-                                <span>{(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
-                            </Typography>
-                            <Typography variant="body2" className='smrMo_card-ContentData'>
-                                {item?.metalcolorname !== "" && (
-                                    <span>{item.metalcolorname}</span>
-                                )}
-                                {item?.metalcolorname !== "" && item?.metaltypename !== "" && (
-                                    <span> - </span>
-                                )}
-                                {item?.metaltypeName !== "" && (
-                                    <span>{item?.metaltypename}</span>
-                                )}
-                                {' / '}
-                                <span className="smrMo_currencyFont" dangerouslySetInnerHTML={{
-                                    __html: decodeEntities(currency),
-                                }} />
-                                {' '}
-                                {item?.UnitCost !== "" && (
-                                    <span>{(item?.UnitCost).toFixed(3)}</span>
-                                )}
-                            </Typography>
+    <CardContent className='smrMo_cardContent'>
+      <div className='cardText'>
+        <Typography variant="body2" className='smrMo_card-ContentData smrMo_WlTitleline'>
+          {item?.designno != "" && item?.designno}{formatTitleLine(item?.TitleLine) && " - " + item?.TitleLine}
+        </Typography>
+        <Typography variant="body2" className='smrMo_card-ContentData'>
+          <span className='smrMo_wishDT'>NWT : </span>
+          <span className='smrMo_wishDT'>{(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+          <span className='smrMo_pipe'> | </span>
+          <span className='smrMo_wishDT'>GWT: </span>
+          <span className='smrMo_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+          <span className='smrMo_pipe'>  </span> <br />
+          <span className='smrMo_wishDT'>DWT: </span>
+          <span>{(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+          <span className='smrMo_pipe'> | </span>
+          <span className='smrMo_wishDT'>CWT: </span>
+          <span>{(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+        </Typography>
+        <Typography variant="body2" className='smrMo_card-ContentData'>
+          {item?.metalcolorname !== "" && (
+            <span>{item.metalcolorname}</span>
+          )}
+          {item?.metalcolorname !== "" && item?.metaltypename !== "" && (
+            <span> - </span>
+          )}
+          {item?.metaltypeName !== "" && (
+            <span>{item?.metaltypename}</span>
+          )}
+          {' / '}
+          <span className="smrMo_currencyFont" dangerouslySetInnerHTML={{
+            __html: decodeEntities(currency),
+          }} />
+          {' '}
+          {item?.UnitCost !== "" && (
+            <span>{(item?.UnitCost).toFixed(3)}</span>
+          )}
+        </Typography>
 
-                        </div>
-                        <div className='designNoWlList'>
-                            <p className='smrMo_DesignNoTExt'>{item?.designno}</p>
-                        </div> 
-          </CardContent>
+      </div>
+      <div className='designNoWlList'>
+        <p className='smrMo_DesignNoTExt'>{item?.designno}</p>
+      </div>
+    </CardContent>
   </>
 }

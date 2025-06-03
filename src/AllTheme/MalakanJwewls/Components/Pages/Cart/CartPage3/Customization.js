@@ -53,7 +53,7 @@ const Customization = ({
   const handleUpdateCart = async (selectedItem) => {
     const resUpdate = await onUpdateCart(selectedItem)
     if (resUpdate?.msg == "success") {
-      // toast.success('Cart Updated Successfully');
+      toast.success('Cart Updated Successfully');
     }
   }
 

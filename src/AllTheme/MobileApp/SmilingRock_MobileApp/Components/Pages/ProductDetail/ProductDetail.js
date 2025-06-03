@@ -88,6 +88,7 @@ const ProductDetail = () => {
   const [prodLoading, setProdLoading] = useState(false);
   const [isDataFound, setIsDataFound] = useState(false);
   const [SizeCombo, setSizeCombo] = useState();
+  const [selectedMetalColor, setSelectedMetalColor] = useState();
 
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
@@ -188,6 +189,29 @@ const ProductDetail = () => {
     let isincart = singleProd?.IsInCart == 0 ? false : true;
     setAddToCartFlag(isincart);
   }, [singleProd]);
+
+  const [filteredVideos, setFilteredVideos] = useState([]);
+
+  useEffect(() => {
+    if (!pdVideoArr || !selectedMetalColor) return;
+
+    const colorMatched = pdVideoArr.filter((url) => {
+      const parts = url.split("~");
+      const colorPart = parts[2]?.split(".")[0];
+      return colorPart === selectedMetalColor;
+    });
+
+    if (colorMatched.length > 0) {
+      setFilteredVideos(colorMatched);
+    } else {
+      // Fallback: videos without any color in the filename
+      const noColorVideos = pdVideoArr.filter((url) => {
+        const parts = url.split("~");
+        return parts.length === 2; // means format is like MCJ66~1.mp4
+      });
+      setFilteredVideos(noColorVideos);
+    }
+  }, [pdVideoArr, selectedMetalColor]);
 
   const handleCart = (cartflag) => {
     // let metal =
@@ -463,19 +487,19 @@ const ProductDetail = () => {
           diaArr = diaQcLocal?.filter(
             (ele) =>
               ele?.QualityId ==
-                (decodeobj?.d
-                  ? decodeobj?.d?.split(",")[0]
-                  : (
-                      logininfoInside?.cmboDiaQCid ??
-                      storeinitInside?.cmboDiaQCid
-                    ).split(",")[0]) &&
+              (decodeobj?.d
+                ? decodeobj?.d?.split(",")[0]
+                : (
+                  logininfoInside?.cmboDiaQCid ??
+                  storeinitInside?.cmboDiaQCid
+                ).split(",")[0]) &&
               ele?.ColorId ==
-                (decodeobj?.d
-                  ? decodeobj?.d?.split(",")[1]
-                  : (
-                      logininfoInside?.cmboDiaQCid ??
-                      storeinitInside?.cmboDiaQCid
-                    ).split(",")[1])
+              (decodeobj?.d
+                ? decodeobj?.d?.split(",")[1]
+                : (
+                  logininfoInside?.cmboDiaQCid ??
+                  storeinitInside?.cmboDiaQCid
+                ).split(",")[1])
           )[0];
         }
 
@@ -483,17 +507,17 @@ const ProductDetail = () => {
           csArr = csQcLocal?.filter(
             (ele) =>
               ele?.QualityId ==
-                (decodeobj?.c
-                  ? decodeobj?.c?.split(",")[0]
-                  : (
-                      logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
-                    ).split(",")[0]) &&
+              (decodeobj?.c
+                ? decodeobj?.c?.split(",")[0]
+                : (
+                  logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
+                ).split(",")[0]) &&
               ele?.ColorId ==
-                (decodeobj?.c
-                  ? decodeobj?.c?.split(",")[1]
-                  : (
-                      logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
-                    ).split(",")[1])
+              (decodeobj?.c
+                ? decodeobj?.c?.split(",")[1]
+                : (
+                  logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
+                ).split(",")[1])
           )[0];
         }
 
@@ -781,7 +805,6 @@ const ProductDetail = () => {
         .then(async (res) => {
           if (res) {
             setSingleProd(res?.pdList[0]);
-            console.log("singleprod", res?.pdList[0]);
             if (
               res?.pdList[0]?.ImageExtension === "" &&
               res?.pdList[0]?.VideoExtension === ""
@@ -799,7 +822,7 @@ const ProductDetail = () => {
               setProdLoading(false);
             }
 
-            if (!res?.pdList[0] || res?.status?.Status != 200 || res?.status?.Message != "Success" ) {
+            if (!res?.pdList[0] || res?.status?.Status != 200 || res?.status?.Message != "Success") {
               setisPriceLoading(false);
               setProdLoading(false);
               setIsDataFound(true);
@@ -816,9 +839,9 @@ const ProductDetail = () => {
               prod && prod.DefaultSize !== ""
                 ? prod?.DefaultSize
                 : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
-                    ?.sizename === undefined
-                ? SizeCombo?.rd[0]?.sizename
-                : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
+                  ?.sizename === undefined
+                  ? SizeCombo?.rd[0]?.sizename
+                  : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
                     ?.sizename;
 
             setSizeData(initialsize);
@@ -1085,7 +1108,6 @@ const ProductDetail = () => {
   }
 
   const loadAndCheckImages = async (img) => {
-    console.log(img, "123");
     try {
       const result = await checkImage(img); // check the image
       return result;
@@ -1110,122 +1132,101 @@ const ProductDetail = () => {
   };
 
   const ProdCardImageFunc = async () => {
-    let finalprodListimg;
-    let pdImgList = [];
-    let pdvideoList = [];
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo")) || [];
+    const imageVideoDetail = singleProd?.ImageVideoDetail;
+    const pd = singleProd;
 
-    let pd = singleProd;
-
-    let colImg;
-
-    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
-    let mcArr;
-
-    if (mtColorLocal?.length) {
-      mcArr = mtColorLocal?.filter(
-        (ele) => ele?.id == singleProd?.MetalColorid
-      )[0];
+    let parsedData = [];
+    try {
+      parsedData = imageVideoDetail === "0" ? [] : JSON.parse(imageVideoDetail || "[]");
+    } catch (err) {
+      console.error("Invalid JSON in ImageVideoDetail:", err);
+      return;
     }
 
-    if (singleProd?.ColorImageCount > 0) {
-      for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
-        let imgString =
-          storeInit?.CDNDesignImageFol +
-          singleProd?.designno +
-          "~" +
-          i +
-          "~" +
-          mcArr?.colorcode +
-          "." +
-          singleProd?.ImageExtension;
+    // Filter categorized media
+    const normalImages = [], colorImages = [], normalVideos = [], colorVideos = [];
+    parsedData.forEach(item => {
+      if (item?.TI === 1 && !item?.CN) normalImages.push(item);
+      else if (item?.TI === 2 && item?.CN) colorImages.push(item);
+      else if (item?.TI === 4 && item?.CN) colorVideos.push(item);
+      else if (item?.Ex === "mp4" && !item?.CN) normalVideos.push(item);
+    });
 
-        let IsImg = checkImageAvailability(imgString);
-        if (IsImg) {
-          pdImgList.push(imgString);
-        }
-      }
+    const getMaxCountByColor = (list) => {
+      return list.reduce((acc, curr) => {
+        const color = curr.CN;
+        acc[color] = (acc[color] || 0) + 1;
+        return acc;
+      }, {});
+    };
 
-      if (pdImgList?.length > 0) {
-        colImg = pdImgList[0];
-      }
-    }
+    const maxColorCount = Math.max(...Object.values(getMaxCountByColor(colorImages)), 0);
+    const normalImageCount = normalImages.length ? Math.max(...normalImages.map(i => i.Nm)) : 0;
 
-    let IsColImg = false;
-    if (colImg?.length > 0) {
-      IsColImg = await checkImageAvailability(colImg);
-    }
+    // Get metal color code
+    const mcArr = mtColorLocal.find(ele => ele.id === singleProd?.MetalColorid);
+    setSelectedMetalColor(mcArr?.colorcode);
 
-    // console.log("colImg", IsColImg)
+    const buildImageURL = (i, isColor = false) => {
+      const base = storeInit?.CDNDesignImageFol;
+      return isColor
+        ? `${base}${pd.designno}~${i}~${mcArr?.colorcode}.${colorImages[i - 1]?.Ex}`
+        : `${base}${pd.designno}~${i}.${normalImages[i - 1]?.Ex}`;
+    };
 
-    if (singleProd?.ImageCount > 0 && !IsColImg) {
-      for (let i = 1; i <= pd?.ImageCount; i++) {
-        let imgString =
-          storeInit?.CDNDesignImageFol +
-          singleProd?.designno +
-          "~" +
-          i +
-          "." +
-          singleProd?.ImageExtension;
+    const pdImgList = [];
+    if (maxColorCount > 0) {
+      for (let i = 1; i <= maxColorCount; i++) {
+        const colorImageUrl = buildImageURL(i, true);
+        const isColorImageAvailable = await checkImageAvailability(colorImageUrl);
 
-        let IsImg = checkImageAvailability(imgString);
-        if (IsImg) {
-          pdImgList.push(imgString);
-        }
-      }
-    } else {
-      finalprodListimg = "no-image.jpg";
-    }
-
-    // console.log("SearchData", singleProd?.VideoCount);
-
-    if (singleProd?.VideoCount > 0) {
-      for (let i = 1; i <= singleProd?.VideoCount; i++) {
-        let videoString =
-          storeInit?.CDNVPath +
-          singleProd?.designno +
-          "~" +
-          i +
-          "." +
-          singleProd?.VideoExtension;
-        pdvideoList.push(videoString);
-      }
-    } else {
-      pdvideoList = [];
-    }
-
-    let FinalPdImgList = [];
-
-    if (pdImgList?.length > 0) {
-      for (let i = 0; i < pdImgList?.length; i++) {
-        let isImgAvl = await checkImageAvailability(pdImgList[i]);
-        if (isImgAvl) {
-          FinalPdImgList.push(pdImgList[i]);
+        // Only push the image if it is available
+        if (isColorImageAvailable) {
+          pdImgList.push(colorImageUrl);
         }
       }
     }
 
-    console.log("FinalPdImgList", FinalPdImgList);
+    // If no color image was added, push normal images
+    if (pdImgList.length === 0 && normalImageCount > 0) {
+      for (let i = 1; i <= normalImageCount; i++) {
+        pdImgList.push(buildImageURL(i));
+      }
+    }
 
-    if (FinalPdImgList?.length > 0) {
-      console.log("FinalPdImgList", FinalPdImgList);
-      finalprodListimg = FinalPdImgList[0];
-      setSelectedThumbImg({ link: FinalPdImgList[0], type: "img" });
-      setPdThumbImg(FinalPdImgList);
+    let finalprodListimg = pdImgList.length ? pdImgList[0] : imageNotFound;
+    setSelectedThumbImg({ link: finalprodListimg, type: "img" });
+
+    if (pdImgList.length) {
+      const thumbImagePath = pdImgList.map(url => {
+        const fileName = url.split("Design_Image/")[1];
+        return `${storeInit?.CDNDesignImageFolThumb}${fileName?.split('.')[0]}.jpg`;
+      });
+      setPdThumbImg(thumbImagePath);
       setThumbImgIndex(0);
     } else {
-      setSelectedThumbImg({ link: imageNotFound, type: "img", noimage: true });
-      setPdThumbImg([]);
       setThumbImgIndex();
     }
 
-    if (pdvideoList?.length > 0) {
-      setPdVideoArr(pdvideoList);
-    } else {
-      setPdVideoArr([]);
-    }
-    const image = await loadAndCheckImages(finalprodListimg);
-    console.log(image, "image");
-    return finalprodListimg;
+    // Video processing
+    const buildVideoURL = (video, isColor = false) => {
+      const base = storeInit?.CDNVPath;
+      return isColor
+        ? `${base}${pd.designno}~${video.Nm}~${video.CN}.${video.Ex}`
+        : `${base}${pd.designno}~${video.Nm}.${video.Ex}`;
+    };
+
+    const pdvideoList = [
+      ...colorVideos.map(v => buildVideoURL(v, true)),
+      ...normalVideos.map(v => buildVideoURL(v))
+    ];
+
+    setPdVideoArr(pdvideoList.length ? pdvideoList : []);
+
+    const img = await loadAndCheckImages(finalprodListimg);
+    return img;
   };
 
   useEffect(() => {
@@ -1238,95 +1239,112 @@ const ProductDetail = () => {
     return txt.value;
   };
 
-  const handleMetalWiseColorImg = async (e) => {
-    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
-    let mcArr;
 
-    if (mtColorLocal?.length) {
-      mcArr = mtColorLocal?.filter(
-        (ele) => ele?.colorcode == e.target.value
-      )[0];
+  const handleMetalWiseColorImg = async (e) => {
+    const selectedColorCode = e.target.value;
+    const mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo") || "[]");
+    const mcArr = mtColorLocal.find(ele => ele?.colorcode === selectedColorCode);
+
+    const prod = singleProd ?? singleProd1;
+    const { designno, ImageExtension } = prod || {};
+    const baseCDN = storeInit?.CDNDesignImageFol;
+    const thumbCDN = storeInit?.CDNDesignImageFolThumb;
+
+    setSelectedMetalColor(mcArr?.colorcode);
+    setSelectMtColor(selectedColorCode);
+
+    // Parse image/video data
+    let parsedData = [];
+    try {
+      parsedData = prod?.ImageVideoDetail && prod.ImageVideoDetail !== "0"
+        ? JSON.parse(prod.ImageVideoDetail)
+        : [];
+    } catch (err) {
+      console.error("Invalid JSON in ImageVideoDetail:", err);
+      return;
     }
 
-    setSelectMtColor(e.target.value);
+    // Filter color and normal images
+    const colorImgs = parsedData.filter(ele => ele?.CN && ele?.TI === 2);
+    const normalImgs = parsedData.filter(ele => !ele?.CN && ele?.TI === 1);
 
-    let imgLink =
-      storeInit?.CDNDesignImageFol +
-      singleProd?.designno +
-      "~" +
-      (thumbImgIndex + 1) +
-      "~" +
-      mcArr?.colorcode +
-      "." +
-      singleProd?.ImageExtension;
+    const maxColorImgCount = Math.max(
+      0,
+      ...Object.values(
+        colorImgs.reduce((acc, { CN }) => {
+          acc[CN] = (acc[CN] || 0) + 1;
+          return acc;
+        }, {})
+      )
+    );
 
-    let pd = singleProd;
+    const normalImageCount = normalImgs.length > 0
+      ? Math.max(...normalImgs.map(item => item.Nm))
+      : 0;
+
+    // Build image URLs
+    const buildColorImageList = () => Array.from({ length: maxColorImgCount }, (_, i) =>
+      `${baseCDN}${designno}~${i + 1}~${mcArr?.colorcode}.${ImageExtension}`
+    );
+
+    const buildNormalImageList = () => Array.from({ length: normalImageCount }, (_, i) =>
+      `${baseCDN}${designno}~${i + 1}.${ImageExtension}`
+    );
+
     let pdImgListCol = [];
     let pdImgList = [];
+    let colorImagesAvailable = false;
 
-    if (singleProd?.ColorImageCount > 0) {
-      for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
-        let imgString =
-          storeInit?.CDNDesignImageFol +
-          singleProd?.designno +
-          "~" +
-          i +
-          "~" +
-          mcArr?.colorcode +
-          "." +
-          singleProd?.ImageExtension;
-        pdImgListCol.push(imgString);
+    // Check color image availability dynamically
+    if (colorImgs.length > 0) {
+      const tempColorList = buildColorImageList().filter(Boolean);
+
+      const checkImages = tempColorList.length > 3
+        ? tempColorList.slice(0, 3) // Optional cap for performance
+        : tempColorList;
+
+      const availabilityChecks = await Promise.all(
+        checkImages.map(url => checkImageAvailability(url))
+      );
+
+      colorImagesAvailable = availabilityChecks.some(Boolean);
+      if (colorImagesAvailable) {
+        pdImgListCol = tempColorList;
       }
     }
 
-    if (singleProd?.ImageCount > 0) {
-      for (let i = 1; i <= singleProd?.ImageCount; i++) {
-        let imgString =
-          storeInit?.CDNDesignImageFol +
-          singleProd?.designno +
-          "~" +
-          i +
-          "." +
-          singleProd?.ImageExtension;
-        pdImgList.push(imgString);
-      }
+    // Fallback to normal images if no color images are available
+    if (!colorImagesAvailable && normalImgs.length > 0) {
+      pdImgList = buildNormalImageList();
     }
 
-    let isImgCol;
-
-    if (pdImgListCol?.length > 0) {
-      isImgCol = await checkImageAvailability(pdImgListCol[0]);
-    }
-
-    let FinalPdColImgList = [];
-
-    if (pdImgListCol?.length > 0) {
-      for (let i = 0; i < pdImgListCol?.length; i++) {
-        let isImgAvl = await checkImageAvailability(pdImgListCol[i]);
-        if (isImgAvl) {
-          FinalPdColImgList.push(pdImgListCol[i]);
-        } else {
-          FinalPdColImgList.push(imageNotFound);
-        }
-      }
-    }
-
-    if (FinalPdColImgList?.length > 0 && isImgCol == true) {
-      setPdThumbImg(FinalPdColImgList);
-      setSelectedThumbImg({
-        link: FinalPdColImgList[thumbImgIndex],
-        type: "img",
+    // Set images to UI
+    if (colorImagesAvailable && pdImgListCol.length > 0) {
+      const thumbImagePath = pdImgListCol.map(url => {
+        const fileName = url.split('Design_Image/')[1]?.split('.')[0];
+        return `${thumbCDN}${fileName}.jpg`;
       });
-      setThumbImgIndex(thumbImgIndex);
-    } else {
-      if (pdImgList?.length > 0) {
-        setSelectedThumbImg({ link: pdImgList[thumbImgIndex], type: "img" });
-        setPdThumbImg(pdImgList);
-        setThumbImgIndex(thumbImgIndex);
-      }
-    }
 
-    // console.log("pdImgList",pdImgList,pdImgListCol)
+      setPdThumbImg(thumbImagePath);
+
+      const mainImg = pdImgListCol[thumbImgIndex] || pdImgListCol[thumbImgIndex - 1];
+      setSelectedThumbImg({ link: mainImg, type: 'img' });
+      setThumbImgIndex(thumbImgIndex);
+
+      const defaultMainImg = `${baseCDN}${designno}~${thumbImgIndex + 1}~${mcArr?.colorcode}.${ImageExtension}`;
+      // setMetalWiseColorImg(defaultMainImg);
+
+    } else if (pdImgList.length > 0) {
+      const thumbImagePath = pdImgList.map(url => {
+        const fileName = url.split('Design_Image/')[1]?.split('.')[0];
+        return `${thumbCDN}${fileName}.jpg`;
+      });
+      console.log("TCL: handleMetalWiseColorImg -> thumbImagePath", thumbImagePath)
+      setPdThumbImg(thumbImagePath);
+      const fallbackImg = pdImgList[thumbImgIndex] || pdImgList[thumbImgIndex - 1];
+      setSelectedThumbImg({ link: fallbackImg, type: 'img' });
+      setThumbImgIndex(thumbImgIndex);
+    }
   };
 
   // useEffect(()=>{
@@ -1449,7 +1467,6 @@ const ProductDetail = () => {
   };
   const mediaItems = [...pdThumbImg, ...pdVideoArr];
 
-  console.log(ShowNoImage, "ShowNoImage");
   return (
     <>
       <div className="smrMA_prodDetail_bodyContain">
@@ -1468,24 +1485,24 @@ const ProductDetail = () => {
               //   Data not Found!!
               // </div>
               <div className="product-not-found">
-              <div className="content">
-                <div className="icon-wrapper">
-                  <FaBoxOpen className="icon" />
-                </div>
-                <h2 className="title">Product Not Found</h2>
-                <p className="description">We couldn't find the product you're looking for.</p>
-                <div className="button-wrapper">
-                  <Link to="/" className="button">
-                    Return to Homepage
-                  </Link>
+                <div className="content">
+                  <div className="icon-wrapper">
+                    <FaBoxOpen className="icon" />
+                  </div>
+                  <h2 className="title">Product Not Found</h2>
+                  <p className="description">We couldn't find the product you're looking for.</p>
+                  <div className="button-wrapper">
+                    <Link to="/" className="button">
+                      Return to Homepage
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
             ) : (
               <>
                 <div
                   className="smr_prod_detail_main"
-                  style={{ marginTop: "50px" ,marginBottom: "40px",}}
+                  style={{ marginTop: "50px", marginBottom: "40px", }}
                 >
                   <div className="smr_prod_image_shortInfo">
                     <div className="smr_prod_image_Sec">
@@ -1506,6 +1523,7 @@ const ProductDetail = () => {
                           style={{ scale: "0.5" }}
                           // onLoad={() => setIsImageLoad(false)}
                           className="smr_prod_img"
+                          loading="lazy"
                         />
                       )}
 
@@ -1537,11 +1555,10 @@ const ProductDetail = () => {
                               const isVideo = videoFormats.test(mediaItem);
                               return `
                                 <button class="${className} flex items-center justify-center w-8 h-8 rounded-full bg-transparent">
-                                  ${
-                                    isVideo
-                                      ? '<svg style="margin-top: 4px;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 10.5L10 8V16L14 13.5V10.5Z" fill="currentColor"/></svg>'
-                                      : '<svg style="margin-top: 10px;" width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#000000" d="M8 3a5 5 0 100 10A5 5 0 008 3z"></path></g></svg>'
-                                  }
+                                  ${isVideo
+                                  ? '<svg style="margin-top: 4px;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 10.5L10 8V16L14 13.5V10.5Z" fill="currentColor"/></svg>'
+                                  : '<svg style="margin-top: 10px;" width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#000000" d="M8 3a5 5 0 100 10A5 5 0 008 3z"></path></g></svg>'
+                                }
                                 </button>
                               `;
                             },
@@ -1597,8 +1614,7 @@ const ProductDetail = () => {
                             isImageload === false &&
                             !(pdThumbImg?.length || pdVideoArr?.length)
                           ) &&
-                            [...pdThumbImg, ...pdVideoArr]?.map((ele, i) => {
-                              console.log("img", ele);
+                            [...pdThumbImg, ...filteredVideos]?.map((ele, i) => {
                               // Check if the element is a valid string and then check the format
                               // if (typeof ele !== 'string') return null;
 
@@ -1637,6 +1653,7 @@ const ProductDetail = () => {
                                           type: "img",
                                         })
                                       }
+                                      loading="lazy"
                                       alt=""
                                       onLoad={() => setIsImageLoad(false)}
                                       className="smr_prod_img"
@@ -1717,7 +1734,7 @@ const ProductDetail = () => {
                               {singleProd?.designno}
                             </span>
                             {singleProd?.MetalTypePurity !== "" &&
-                            selectMtType ? (
+                              selectMtType ? (
                               <span className="smr_prod_short_key">
                                 Metal Purity :{" "}
                                 <span className="smr_prod_short_val">
@@ -1740,8 +1757,8 @@ const ProductDetail = () => {
                               </span>
                             </span>
                             {diaList?.length > 0 &&
-                            singleProd?.DiaQuaCol !== "" &&
-                            selectDiaQc ? (
+                              singleProd?.DiaQuaCol !== "" &&
+                              selectDiaQc ? (
                               <span className="smr_prod_short_key">
                                 Diamond Quality & Color:{" "}
                                 <span className="smr_prod_short_val">
@@ -1824,14 +1841,13 @@ const ProductDetail = () => {
                                   onChange={(e) => handleMetalWiseColorImg(e)}
                                 >
                                   {metalColorCombo?.map((ele) => {
-                                    console.log(ele,"mid")
-                                   return <option
+                                    return <option
                                       key={ele?.id}
                                       value={ele?.colorcode}
                                     >
                                       {ele?.metalcolorname}
                                     </option>
-})}
+                                  })}
                                 </select>
                               )}
                             </div>
@@ -1931,8 +1947,8 @@ const ProductDetail = () => {
                         )}
 
                         {
-                        storeInit?.IsPriceShow == 1 &&
-                        storeInit?.IsPriceBreakUp == 1 &&
+                          storeInit?.IsPriceShow == 1 &&
+                          storeInit?.IsPriceBreakUp == 1 &&
                           singleProd1?.IsMrpBase !== 1 &&
                           singleProd?.IsMrpBase !== 1 && (
                             <Accordion
@@ -1941,10 +1957,10 @@ const ProductDetail = () => {
                                 borderBottom: "1px solid #c7c8c9",
                                 borderRadius: 0,
                                 "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                  {
-                                    borderBottomLeftRadius: "0px",
-                                    borderBottomRightRadius: "0px",
-                                  },
+                                {
+                                  borderBottomLeftRadius: "0px",
+                                  borderBottomRightRadius: "0px",
+                                },
                                 "&.MuiPaper-root.MuiAccordion-root:before": {
                                   background: "none",
                                 },
@@ -1965,7 +1981,7 @@ const ProductDetail = () => {
                                     padding: 0,
                                   },
                                 }}
-                                // className="filtercategoryLable"
+                              // className="filtercategoryLable"
                               >
                                 <Typography
                                   sx={{
@@ -2315,7 +2331,7 @@ const ProductDetail = () => {
                                   (singleProd1?.Misc_SettingCost
                                     ? singleProd1?.Misc_SettingCost
                                     : singleProd?.Misc_SettingCost) !==
-                                0 ? (
+                                  0 ? (
                                   <div
                                     style={{
                                       display: "flex",
@@ -2381,8 +2397,8 @@ const ProductDetail = () => {
                             </Accordion>
                           )}
 
-                            
-                         
+
+
                         {
                           storeInit?.IsPriceShow == 1 &&
                           <div className="smr_price_portion">
@@ -2409,12 +2425,12 @@ const ProductDetail = () => {
                             ) : (
                               formatter.format(
                                 singleProd1?.UnitCostWithMarkUp ??
-                                  singleProd?.UnitCostWithMarkUp
+                                singleProd?.UnitCostWithMarkUp
                               )
                             )}
                           </div>
                         }
-                        
+
                         {!isPriceloading && (
                           <div>
                             <div className="Smr_CartAndWish_portion">
@@ -2482,210 +2498,210 @@ const ProductDetail = () => {
                             )}
                           </div>
                         )}
-                          <Accordion
-                              elevation={0}
+                        <Accordion
+                          elevation={0}
+                          sx={{
+                            borderBottom: "1px solid #c7c8c9",
+                            borderRadius: 0,
+                            "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                            {
+                              borderBottomLeftRadius: "0px",
+                              borderBottomRightRadius: "0px",
+                            },
+                            "&.MuiPaper-root.MuiAccordion-root:before": {
+                              background: "none",
+                            },
+                            width: "95.5%",
+                            marginTop: '1rem'
+                          }}
+                        >
+                          <AccordionSummary
+                            expandIcon={
+                              <ExpandMoreIcon sx={{ width: "20px" }} />
+                            }
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                            sx={{
+                              color: "#7d7f85 !important",
+                              borderRadius: 0,
+
+                              "&.MuiAccordionSummary-root": {
+                                padding: 0,
+                              },
+                            }}
+                          // className="filtercategoryLable"
+                          >
+                            <Typography
                               sx={{
-                                borderBottom: "1px solid #c7c8c9",
-                                borderRadius: 0,
-                                "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                  {
-                                    borderBottomLeftRadius: "0px",
-                                    borderBottomRightRadius: "0px",
-                                  },
-                                "&.MuiPaper-root.MuiAccordion-root:before": {
-                                  background: "none",
-                                },
-                                width: "95.5%",
-                                marginTop:'1rem'
+                                fontFamily: "TT Commons Regular",
+                                fontSize: "18px",
                               }}
                             >
-                              <AccordionSummary
-                                expandIcon={
-                                  <ExpandMoreIcon sx={{ width: "20px" }} />
-                                }
-                                aria-controls="panel1-content"
-                                id="panel1-header"
-                                sx={{
-                                  color: "#7d7f85 !important",
-                                  borderRadius: 0,
+                              Product Details
+                            </Typography>
+                          </AccordionSummary>
+                          <AccordionDetails
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "4px",
+                              // minHeight: "fit-content",
+                              // maxHeight: "300px",
+                              // overflow: "auto",
+                              padding: "0 0 16px 0",
+                            }}
+                          >
+                            <div className="smrMA_material_details_portion">
 
-                                  "&.MuiAccordionSummary-root": {
-                                    padding: 0,
-                                  },
-                                }}
-                                // className="filtercategoryLable"
-                              >
-                                <Typography
-                                  sx={{
-                                    fontFamily: "TT Commons Regular",
-                                    fontSize: "18px",
-                                  }}
-                                >
-                                  Product Details
-                                </Typography>
-                              </AccordionSummary>
-                              <AccordionDetails
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  gap: "4px",
-                                  // minHeight: "fit-content",
-                                  // maxHeight: "300px",
-                                  // overflow: "auto",
-                                  padding: "0 0 16px 0",
-                                }}
-                              >
-                                   <div className="smrMA_material_details_portion">
-                 
-                  <div style={{ width: "100%"}}>
-                    {diaList?.length > 0 && (
-                      <div
-                        className="smr_material_details_portion_inner"
-                        style={{ marginLeft: "0px" }}
-                      >
-                        <ul style={{ margin: "0px 0px 3px 0px" }}>
-                          <li className="prod_detail_info_title">{`Diamond Detail(${diaList?.reduce(
-                            (accumulator, data) => accumulator + data.M,
-                            0
-                          )}/${diaList
-                            ?.reduce(
-                              (accumulator, data) => accumulator + data?.N,
-                              0
-                            )
-                            .toFixed(3)}ct)`}</li>
-                        </ul>
-                        <ul className="smr_mt_detail_title_ul">
-                          <li className="smr_proDeatilList_mobileapp">Shape</li>
-                          <li className="smr_proDeatilList_mobileapp">
-                            Clarity
-                          </li>
-                          <li className="smr_proDeatilList_mobileapp">Color</li>
-                          <li className="smr_proDeatilList_mobileapp">
-                            Pcs&nbsp;/&nbsp;Wt
-                          </li>
-                        </ul>
-                        {diaList?.map((data) => (
-                          <ul className="smr_mt_detail_title_ul">
-                            <li className="smr_proDeatilList_mobileapp1">
-                              {data?.F}
-                            </li>
-                            <li className="smr_proDeatilList_mobileapp1">
-                              {data?.H}
-                            </li>
-                            <li className="smr_proDeatilList_mobileapp1">
-                              {data?.J}
-                            </li>
-                            <li className="smr_proDeatilList_mobileapp1">
-                              {data.M}&nbsp;/&nbsp;{data?.N?.toFixed(3)}
-                            </li>
-                          </ul>
-                        ))}
-                      </div>
-                    )}
+                              <div style={{ width: "100%" }}>
+                                {diaList?.length > 0 && (
+                                  <div
+                                    className="smr_material_details_portion_inner"
+                                    style={{ marginLeft: "0px" }}
+                                  >
+                                    <ul style={{ margin: "0px 0px 3px 0px" }}>
+                                      <li className="prod_detail_info_title">{`Diamond Detail(${diaList?.reduce(
+                                        (accumulator, data) => accumulator + data.M,
+                                        0
+                                      )}/${diaList
+                                        ?.reduce(
+                                          (accumulator, data) => accumulator + data?.N,
+                                          0
+                                        )
+                                        .toFixed(3)}ct)`}</li>
+                                    </ul>
+                                    <ul className="smr_mt_detail_title_ul">
+                                      <li className="smr_proDeatilList_mobileapp">Shape</li>
+                                      <li className="smr_proDeatilList_mobileapp">
+                                        Clarity
+                                      </li>
+                                      <li className="smr_proDeatilList_mobileapp">Color</li>
+                                      <li className="smr_proDeatilList_mobileapp">
+                                        Pcs&nbsp;/&nbsp;Wt
+                                      </li>
+                                    </ul>
+                                    {diaList?.map((data) => (
+                                      <ul className="smr_mt_detail_title_ul">
+                                        <li className="smr_proDeatilList_mobileapp1">
+                                          {data?.F}
+                                        </li>
+                                        <li className="smr_proDeatilList_mobileapp1">
+                                          {data?.H}
+                                        </li>
+                                        <li className="smr_proDeatilList_mobileapp1">
+                                          {data?.J}
+                                        </li>
+                                        <li className="smr_proDeatilList_mobileapp1">
+                                          {data.M}&nbsp;/&nbsp;{data?.N?.toFixed(3)}
+                                        </li>
+                                      </ul>
+                                    ))}
+                                  </div>
+                                )}
 
-                    {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
-                      <div
-                        className="smr_material_details_portion_inner"
-                        style={{ marginLeft: "0px" }}
-                      >
-                        <ul style={{ margin: "0px 0px 3px 0px" }}>
-                          <li className="prod_detail_info_title">{`ColorStone Detail(${csList
-                            ?.filter((ele) => ele?.D !== "MISC")
-                            ?.reduce(
-                              (accumulator, data) => accumulator + data.M,
-                              0
-                            )}/${csList
-                            ?.filter((ele) => ele?.D !== "MISC")
-                            ?.reduce(
-                              (accumulator, data) => accumulator + data?.N,
-                              0
-                            )
-                            .toFixed(3)}ct)`}</li>
-                        </ul>
-                        <ul className="smr_mt_detail_title_ul">
-                          <li className="smr_proDeatilList_mobileapp">Shape</li>
-                          <li className="smr_proDeatilList_mobileapp">
-                            Clarity
-                          </li>
-                          <li className="smr_proDeatilList_mobileapp">Color</li>
-                          <li className="smr_proDeatilList_mobileapp">
-                            Pcs&nbsp;/&nbsp;Wt
-                          </li>
-                        </ul>
-                        {csList
-                          ?.filter((ele) => ele?.D !== "MISC")
-                          ?.map((data) => (
-                            <ul className="smr_mt_detail_title_ul">
-                              <li className="smr_proDeatilList_mobileapp1">
-                                {data?.F}
-                              </li>
-                              <li className="smr_proDeatilList_mobileapp1">
-                                {data?.H}
-                              </li>
-                              <li className="smr_proDeatilList_mobileapp1">
-                                {data?.J}
-                              </li>
-                              <li className="smr_proDeatilList_mobileapp1">
-                                {data.M}&nbsp;/&nbsp;{data?.N?.toFixed(3)}
-                              </li>
-                            </ul>
-                          ))}
-                      </div>
-                    )}
+                                {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
+                                  <div
+                                    className="smr_material_details_portion_inner"
+                                    style={{ marginLeft: "0px" }}
+                                  >
+                                    <ul style={{ margin: "0px 0px 3px 0px" }}>
+                                      <li className="prod_detail_info_title">{`ColorStone Detail(${csList
+                                        ?.filter((ele) => ele?.D !== "MISC")
+                                        ?.reduce(
+                                          (accumulator, data) => accumulator + data.M,
+                                          0
+                                        )}/${csList
+                                          ?.filter((ele) => ele?.D !== "MISC")
+                                          ?.reduce(
+                                            (accumulator, data) => accumulator + data?.N,
+                                            0
+                                          )
+                                          .toFixed(3)}ct)`}</li>
+                                    </ul>
+                                    <ul className="smr_mt_detail_title_ul">
+                                      <li className="smr_proDeatilList_mobileapp">Shape</li>
+                                      <li className="smr_proDeatilList_mobileapp">
+                                        Clarity
+                                      </li>
+                                      <li className="smr_proDeatilList_mobileapp">Color</li>
+                                      <li className="smr_proDeatilList_mobileapp">
+                                        Pcs&nbsp;/&nbsp;Wt
+                                      </li>
+                                    </ul>
+                                    {csList
+                                      ?.filter((ele) => ele?.D !== "MISC")
+                                      ?.map((data) => (
+                                        <ul className="smr_mt_detail_title_ul">
+                                          <li className="smr_proDeatilList_mobileapp1">
+                                            {data?.F}
+                                          </li>
+                                          <li className="smr_proDeatilList_mobileapp1">
+                                            {data?.H}
+                                          </li>
+                                          <li className="smr_proDeatilList_mobileapp1">
+                                            {data?.J}
+                                          </li>
+                                          <li className="smr_proDeatilList_mobileapp1">
+                                            {data.M}&nbsp;/&nbsp;{data?.N?.toFixed(3)}
+                                          </li>
+                                        </ul>
+                                      ))}
+                                  </div>
+                                )}
 
-                    {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
-                      <div
-                        className="smr_material_details_portion_inner"
-                        style={{ marginLeft: "0px" }}
-                      >
-                        <ul style={{ margin: "0px 0px 3px 0px" }}>
-                          <li className="prod_detail_info_title">{`MISC Detail(${csList
-                            ?.filter((ele) => ele?.D === "MISC")
-                            ?.reduce(
-                              (accumulator, data) => accumulator + data.M,
-                              0
-                            )}/${csList
-                            ?.filter((ele) => ele?.D === "MISC")
-                            ?.reduce(
-                              (accumulator, data) => accumulator + data?.N,
-                              0
-                            )
-                            .toFixed(3)}ct)`}</li>
-                        </ul>
-                        <ul className="smr_mt_detail_title_ul">
-                          <li className="smr_proDeatilList_mobileapp">Shape</li>
-                          <li className="smr_proDeatilList_mobileapp">
-                            Clarity
-                          </li>
-                          <li className="smr_proDeatilList_mobileapp">Color</li>
-                          <li className="smr_proDeatilList_mobileapp">
-                            Pcs&nbsp;/&nbsp;Wt
-                          </li>
-                        </ul>
-                        {csList
-                          ?.filter((ele) => ele?.D === "MISC")
-                          ?.map((data) => (
-                            <ul className="smr_mt_detail_title_ul">
-                              <li className="smr_proDeatilList_mobileapp1">
-                                {data?.F}
-                              </li>
-                              <li className="smr_proDeatilList_mobileapp1">
-                                {data?.H}
-                              </li>
-                              <li className="smr_proDeatilList_mobileapp1">
-                                {data?.J}
-                              </li>
-                              <li className="smr_proDeatilList_mobileapp1">
-                                {data.M}&nbsp;/&nbsp;{data?.N?.toFixed(3)}
-                              </li>
-                            </ul>
-                          ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-                              </AccordionDetails>
-                            </Accordion>
+                                {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
+                                  <div
+                                    className="smr_material_details_portion_inner"
+                                    style={{ marginLeft: "0px" }}
+                                  >
+                                    <ul style={{ margin: "0px 0px 3px 0px" }}>
+                                      <li className="prod_detail_info_title">{`MISC Detail(${csList
+                                        ?.filter((ele) => ele?.D === "MISC")
+                                        ?.reduce(
+                                          (accumulator, data) => accumulator + data.M,
+                                          0
+                                        )}/${csList
+                                          ?.filter((ele) => ele?.D === "MISC")
+                                          ?.reduce(
+                                            (accumulator, data) => accumulator + data?.N,
+                                            0
+                                          )
+                                          .toFixed(3)}ct)`}</li>
+                                    </ul>
+                                    <ul className="smr_mt_detail_title_ul">
+                                      <li className="smr_proDeatilList_mobileapp">Shape</li>
+                                      <li className="smr_proDeatilList_mobileapp">
+                                        Clarity
+                                      </li>
+                                      <li className="smr_proDeatilList_mobileapp">Color</li>
+                                      <li className="smr_proDeatilList_mobileapp">
+                                        Pcs&nbsp;/&nbsp;Wt
+                                      </li>
+                                    </ul>
+                                    {csList
+                                      ?.filter((ele) => ele?.D === "MISC")
+                                      ?.map((data) => (
+                                        <ul className="smr_mt_detail_title_ul">
+                                          <li className="smr_proDeatilList_mobileapp1">
+                                            {data?.F}
+                                          </li>
+                                          <li className="smr_proDeatilList_mobileapp1">
+                                            {data?.H}
+                                          </li>
+                                          <li className="smr_proDeatilList_mobileapp1">
+                                            {data?.J}
+                                          </li>
+                                          <li className="smr_proDeatilList_mobileapp1">
+                                            {data.M}&nbsp;/&nbsp;{data?.N?.toFixed(3)}
+                                          </li>
+                                        </ul>
+                                      ))}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </AccordionDetails>
+                        </Accordion>
                       </div>
                     </div>
                   </div>
@@ -2992,16 +3008,16 @@ const ProductDetail = () => {
                               >
                                 <span>
                                   {ele?.MetalColorName} - {ele?.metaltypename}
-                                  {ele?.metalPurity} 
+                                  {ele?.metalPurity}
                                   {storeInit?.IsPriceShow == 1 && <>
                                     /{" "}
-                                  <span className="smr_currencyFont">
-                                    {loginInfo?.CurrencyCode ??
-                                      storeInit?.CurrencyCode}
-                                  </span>
+                                    <span className="smr_currencyFont">
+                                      {loginInfo?.CurrencyCode ??
+                                        storeInit?.CurrencyCode}
+                                    </span>
                                   </>}
                                 </span>
-                               { storeInit?.IsPriceShow == 1 && <span>
+                                {storeInit?.IsPriceShow == 1 && <span>
                                   &nbsp;{formatter.format(ele?.Amount)}
                                 </span>}
                               </div>
@@ -3033,18 +3049,26 @@ const ProductDetail = () => {
                                 className="smrMA_productCard_Image"
                                 src={
                                   ele?.ImageCount > 0
-                                    ? storeInit?.CDNDesignImageFol +
-                                      ele?.designno +
-                                      "~" +
-                                      "1" +
-                                      "." +
-                                      ele?.ImageExtension
+                                    ?
+                                    // storeInit?.CDNDesignImageFol +
+                                    // ele?.designno +
+                                    // "~" +
+                                    // "1" +
+                                    // "." +
+                                    // ele?.ImageExtension
+                                    storeInit?.CDNDesignImageFolThumb +
+                                    ele?.designno +
+                                    "~" +
+                                    "1" +
+                                    "." +
+                                    "jpg"
                                     : imageNotFound
                                 }
                                 alt={""}
                                 onError={(e) => {
                                   e.target.src = imageNotFound;
                                 }}
+                                loading="lazy"
                               />
                               <div
                                 className="smr_stockutem_shortinfo"
@@ -3120,7 +3144,7 @@ const ProductDetail = () => {
                         // slidesPerView={3}
                         navigation
                         pagination={{ clickable: true }}
-                        // scrollbar={{ draggable: true }}
+                      // scrollbar={{ draggable: true }}
                       >
                         {designSetList?.map((designSetList) => (
                           <SwiperSlide>
@@ -3131,13 +3155,14 @@ const ProductDetail = () => {
                                   src={
                                     designSetList?.DefaultImageName
                                       ? storeInit?.DesignSetImageFol +
-                                        designSetList?.designsetuniqueno +
-                                        "/" +
-                                        designSetList?.DefaultImageName
+                                      designSetList?.designsetuniqueno +
+                                      "/" +
+                                      designSetList?.DefaultImageName
                                       : imageNotFound
                                   }
                                   alt={"design set"}
                                   className="ctl_img"
+                                  loading="lazy"
                                 />
                               </div>
 
@@ -3192,12 +3217,19 @@ const ProductDetail = () => {
                                           <img
                                             src={
                                               ele?.ImageCount > 0
-                                                ? storeInit?.CDNDesignImageFol +
-                                                  ele?.designno +
-                                                  "~" +
-                                                  "1" +
-                                                  "." +
-                                                  ele?.ImageExtension
+                                                ?
+                                                // storeInit?.CDNDesignImageFol +
+                                                // ele?.designno +
+                                                // "~" +
+                                                // "1" +
+                                                // "." +
+                                                // ele?.ImageExtension
+                                                storeInit?.CDNDesignImageFolThumb +
+                                                ele?.designno +
+                                                "~" +
+                                                "1" +
+                                                "." +
+                                                "jpg"
                                                 : imageNotFound
                                             }
                                             alt={""}
@@ -3205,6 +3237,7 @@ const ProductDetail = () => {
                                             onError={(e) => {
                                               e.target.src = imageNotFound;
                                             }}
+                                            loading="lazy"
                                           />
                                         </div>
                                         <div className="srthelook_prodinfo">
@@ -3220,18 +3253,18 @@ const ProductDetail = () => {
                                               {ele?.designno} -{" "}
                                               {ele?.CategoryName}
                                               <br />
-                                              {storeInit?.IsPriceShow == 1 && <> 
+                                              {storeInit?.IsPriceShow == 1 && <>
                                                 <span className="smr_currencyFont">
                                                   {loginInfo?.CurrencyCode ??
                                                     storeInit?.CurrencyCode}
                                                 </span>
-                                              
-                                              &nbsp;
-                                              {formatter.format(
-                                                ele?.UnitCostWithMarkUp
-                                              )}
 
-</>}
+                                                &nbsp;
+                                                {formatter.format(
+                                                  ele?.UnitCostWithMarkUp
+                                                )}
+
+                                              </>}
                                             </p>
                                           </div>
                                           {/* <div>

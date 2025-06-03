@@ -12,6 +12,7 @@ import { Pagination, Navigation } from 'swiper/modules';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
+import { Skeleton } from '@mui/material';
 
 function JewellerySet() {
 
@@ -21,8 +22,6 @@ function JewellerySet() {
   const [isLoading, setIsLoading] = useState(false);
   const [storeInit, setStoreInit] = useState({});
   const [validImages, setValidImages] = useState([]);
-  const [slideHeight, setSlideHeight] = useState(null);
-  const swiperSlideRef = useRef(null);
   const setAlbumLength = useSetRecoilState(roop_album_length);
 
   useEffect(() => {
@@ -54,8 +53,7 @@ function JewellerySet() {
       })
       .catch((err) => {
         console.error("Error fetching album data:", err);
-      })
-      .finally(() => {
+      }).finally(() => {
         setIsLoading(false);
       })
   }, [islogin]);
@@ -102,6 +100,7 @@ function JewellerySet() {
 
     getValidImages();
   }, [albumData, storeInit, imageNotFound]);
+
   // useEffect(() => {
   //   const getValidImages = async () => {
   //     if (!albumData?.length) return;
@@ -129,17 +128,6 @@ function JewellerySet() {
     navigation(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl);
   };
 
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-
   const GenerateWidthBaseOnContent = useCallback(() => {
     const length = albumData && validImages?.length;
     let w;
@@ -155,67 +143,89 @@ function JewellerySet() {
     return { width: w, length: length }
   }, [albumData])
 
-  useEffect(() => {
-
-    if (swiperSlideRef.current) {
-      setSlideHeight(swiperSlideRef.current.offsetHeight);
-    }
-  }, [albumData]);
-
   if (albumData?.length === 0) {
     return;
   }
+
   return (
-    <div className={`roop_jewlSet_Main rls-inducing-div ${isVisible ? 'show' : ''}`} role="region" aria-labelledby="album-gallery" >
-      {/* <p className="roop_jewl_title">Discover our carefully curated Jewellery Album</p> */}
-      <p className="roop_jewl_title" id="album-gallery">Album</p>
-
-      <div className="roop_jewls_main_sub"
-        style={{
-          width: GenerateWidthBaseOnContent()?.width,
-        }}
-        role="list" 
-      >
-        <Swiper
-          modules={[Navigation]}
-          spaceBetween={30}
-          navigation={albumData?.length > 2}
-          style={{
-            width: "100%"
+    <>
+      {isLoading ?
+        <Skeleton
+          variant="rectangular"
+          width="100%"
+          height="663px"
+          animation="wave"
+          sx={{
+            '@media (max-width: 1535px)': {
+              height: "550px !important",
+            },
+            '@media (max-width: 1374px)': {
+              height: "450px !important",
+            },
+            '@media (max-width: 1200px)': {
+              height: "400px !important",
+            },
+            '@media (max-width: 900px)': {
+              height: "350px !important",
+            }
           }}
-          // loop={true}
-          breakpoints={{
-            768: {
-              slidesPerView: 3,
-            },
-            500: {
-              slidesPerView: 2,
-            },
-            0: {
-              slidesPerView: 1,
-            },
-          }}
-          className='roop_album_main_swiper'
-        >
+        />
+        :
+        <div className="roop_jewlSet_Main" role="region" aria-labelledby="album-gallery" >
+          {/* <p className="roop_jewl_title">Discover our carefully curated Jewellery Album</p> */}
+          <p className="roop_jewl_title" id="album-gallery">Album</p>
 
-          {validImages?.map((item, index) => (
-            <SwiperSlide key={index} role="listitem">
-              <div className="roop_jewls__image_div">
-                <img
-                  className="roop_jewelImg"
-                  loading="lazy"
-                  src={item?.src}
-                  alt={item?.name ?? 'Jewellery Item'}  // Ensure alt text is descriptive
-                  onClick={() => handleNavigate(item)}
-                  aria-label={`Navigate to details of ${item?.name}`}  // Accessibility for clicking
-                />
-                <p className="roop_jewls_Div_name">{item?.name}</p>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-    </div >
+          <div className="roop_jewls_main_sub"
+            style={{
+              width: GenerateWidthBaseOnContent()?.width,
+            }}
+            role="list"
+          >
+            <Swiper
+              modules={[Navigation]}
+              spaceBetween={30}
+              navigation={albumData?.length > 2}
+              style={{
+                width: "100%"
+              }}
+              // loop={true}
+              breakpoints={{
+                768: {
+                  slidesPerView: 3,
+                },
+                500: {
+                  slidesPerView: 2,
+                },
+                0: {
+                  slidesPerView: 1,
+                },
+              }}
+              className='roop_album_main_swiper'
+            >
+
+              {validImages?.map((item, index) => (
+                <SwiperSlide key={index} role="listitem">
+                  <div className="roop_jewls__image_div">
+                    <img
+                      className="roop_jewelImg"
+                      loading="lazy"
+                      src={item?.src}
+                      onError={(e) => {
+                        e.target.src = imageNotFound
+                      }}
+                      alt={item?.name ?? 'Jewellery Item'}  // Ensure alt text is descriptive
+                      onClick={() => handleNavigate(item)}
+                      aria-label={`Navigate to details of ${item?.name}`}  // Accessibility for clicking
+                    />
+                    <p className="roop_jewls_Div_name">{item?.name}</p>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </div >
+      }
+    </>
   )
 }
 

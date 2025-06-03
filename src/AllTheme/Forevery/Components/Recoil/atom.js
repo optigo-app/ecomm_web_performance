@@ -95,3 +95,18 @@ export const for_filterDiamond = atom({
   default: [],
 })
 
+export const for_isPendantFlowOn = atom({
+  key: "for_pendantFlowOn",
+  default: [],
+})
+
+export const for_isRingFlowOn = atom({
+  key: "for_ringFlowOn",
+  default: [],
+})
+
+export const for_isEarringFlowOn = atom({
+  key: "for_earringFlowOn",
+  default: [],
+})
+

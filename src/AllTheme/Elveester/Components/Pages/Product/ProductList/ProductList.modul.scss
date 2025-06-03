@@ -50,6 +50,20 @@
     margin-inline: 13%;
     margin-top: 30px;
     padding: 0px 0px 20px 0px;
+
+    @media (max-width: 1700px) {
+      margin-inline: 11%;
+    }
+
+    @media (max-width: 1630px) {
+      margin-inline: 9%;
+    }
+    @media (max-width: 1550px) {
+      margin-inline: 7%;
+    }
+    @media (max-width: 1480px) {
+      margin-inline: 5%;
+    }
   }
 
   .elv_Productlists_details {
@@ -364,7 +378,7 @@
     // flex: 1 1 20%;
     position: sticky;
     top: 5rem;
-    height: 100vh;
+    height: 90vh;
     overflow-y: auto;
     width: 20%;
     transition: width 1s ease-in-out;
@@ -878,7 +892,7 @@
   @keyframes enlarge_image_3 {
     0% {
       // height: 320px;
-      height: 390px;
+      height: 360px;
       width: 100%;
     }
 
@@ -1149,6 +1163,8 @@
     flex-direction: row-reverse;
     // font-family: "TT Commons Regular";
     font-family: $fontSansSerif !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 
   .pagination-container {

@@ -187,7 +187,8 @@ const Lookbook = () => {
 
     setStoreInit(storeInit);
     setImageUrl(storeInit?.DesignSetImageFol);
-    setImageUrlDesignSet(storeInit?.CDNDesignImageFol);
+    // setImageUrlDesignSet(storeInit?.CDNDesignImageFol);
+    setImageUrlDesignSet(storeInit?.CDNDesignImageFolThumb);
 
     const { IsB2BWebsite } = storeInit || {};
     const visiterID = Cookies.get("visiterId");
@@ -717,7 +718,8 @@ const Lookbook = () => {
       const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
         parseDesignDetails(slide?.Designdetail).map(async (detail) => {
           // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
-          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`;
+          // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`;
+          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.jpg`;
           const isAvailable = await checkImageAvailability(designImageUrl);
           return {
             designno: detail?.designno,
@@ -2182,7 +2184,8 @@ const Lookbook = () => {
                                                 <img
                                                   src={
                                                     ele?.ImageCount > 0
-                                                      ? `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`
+                                                      // ? `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`
+                                                      ? `${storeInit?.CDNDesignImageFolThumb}${ele?.designno}~1.jpg`
                                                       : imageNotFound
                                                   }
                                                   alt=""

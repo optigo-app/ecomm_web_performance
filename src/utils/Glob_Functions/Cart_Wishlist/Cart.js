@@ -197,7 +197,7 @@ const useCart = () => {
   const handleRemoveItem = async (item) => {
     let param = "Cart";
     let cartfilter;
-    if (storeInit?.Themeno === 3) {
+    if (storeInit?.Themeno === 3 || storeInit?.Themeno === 4 || storeInit?.Themeno === 11 || storeInit?.Themeno === 12 || storeInit?.Themeno === 10 || storeInit?.Themeno === 7 || storeInit?.Themeno === 1 || storeInit?.Themeno === 9) {
       cartfilter = finalCartData?.filter(cartItem => cartItem?.id !== item?.id);
       setFinalCartData(cartfilter);
     } else {
@@ -297,12 +297,11 @@ const useCart = () => {
 
   // update cart
   const handleUpdateCart = async (updatedItems) => {
-    console.log("TCL: handleUpdateCart -> updatedItems", updatedItems)
     setSelectedItems([]);
     setMultiSelect(false);
     setOpenModal(false);
 
-    if (storeInit?.Themeno === 3) {
+    if (storeInit?.Themeno === 3 || storeInit?.Themeno === 4 || storeInit?.Themeno === 11 || storeInit?.Themeno === 12 || storeInit?.Themeno === 10 || storeInit?.Themeno === 7 || storeInit?.Themeno === 1 || storeInit?.Themeno === 9) {
       const response1 = await updateQuantity(updatedItems.id, updatedItems?.Quantity, visiterId);
       let resStatus1 = response1?.Data.rd[0];
 
@@ -406,7 +405,7 @@ const useCart = () => {
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.stat == 1) {
         let updatedCartData;
-        if (storeInit?.Themeno === 3) {
+        if (storeInit?.Themeno === 3 || storeInit?.Themeno === 4 || storeInit?.Themeno === 11 || storeInit?.Themeno === 12 || storeInit?.Themeno === 10 || storeInit?.Themeno === 7 || storeInit?.Themeno === 1 || storeInit?.Themeno === 9) {
           updatedCartData = finalCartData.map(cart =>
             cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
           );
@@ -432,7 +431,7 @@ const useCart = () => {
   const updateCartAndSelectedItem = (item, quantity, priceQty) => {
     let updatedCartData;
 
-    if (storeInit?.Themeno === 3) {
+    if (storeInit?.Themeno === 3 || storeInit?.Themeno === 4 || storeInit?.Themeno === 11 || storeInit?.Themeno === 12 || storeInit?.Themeno === 10 || storeInit?.Themeno === 7 || storeInit?.Themeno === 1 || storeInit?.Themeno === 9) {
       updatedCartData = finalCartData.map(cart =>
         cart.id === item.id ? { ...cart, Quantity: quantity } : cart
       );
@@ -509,7 +508,7 @@ const useCart = () => {
     const selectedTypeName = event.target.value;
     // const selectedID = event.target.name;
     setMtColor(selectedTypeName);
-    if (storeInit?.Themeno === 3) {
+    if (storeInit?.Themeno === 3 || storeInit?.Themeno === 4 || storeInit?.Themeno === 11 || storeInit?.Themeno === 12 || storeInit?.Themeno === 10 || storeInit?.Themeno === 7 || storeInit?.Themeno === 1 || storeInit?.Themeno === 9) {
       setSelectedItem(prevItem => ({
         ...prevItem, metalcolorname: selectedTypeName,
         // images: `${storeInit?.CDNDesignImageFol}${selectedItem?.designno}~1~${selectedTypeName}.${selectedItem?.ImageExtension}`,
@@ -649,7 +648,7 @@ const useCart = () => {
   }
 
   const CartCardImageFunc = (pd) => {
-    if (storeInit?.Themeno === 3) {
+    if (storeInit?.Themeno === 3 || storeInit?.Themeno === 4 || storeInit?.Themeno === 11 || storeInit?.Themeno === 12 || storeInit?.Themeno === 10 || storeInit?.Themeno === 7 || storeInit?.Themeno === 1 || storeInit?.Themeno === 9) {
       const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
       let primaryImage;
 
@@ -675,8 +674,10 @@ const useCart = () => {
         let primaryImage, secondaryImage;
 
         if (pd?.ImageCount > 0) {
-          primaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1~${mtcCode?.colorcode}.${pd?.ImageExtension}`;
-          secondaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1.${pd?.ImageExtension}`;
+          primaryImage = `${storeInit?.CDNDesignImageFolThumb}${pd?.designno}~1~${mtcCode?.colorcode}.jpg`;
+          secondaryImage = `${storeInit?.CDNDesignImageFolThumb}${pd?.designno}~1.jpg`;
+          // primaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1~${mtcCode?.colorcode}.${pd?.ImageExtension}`;
+          // secondaryImage = `${storeInit?.CDNDesignImageFol}${pd?.designno}~1.${pd?.ImageExtension}`;
         }
         else {
           primaryImage = secondaryImage = imageNotFound;
@@ -749,10 +750,14 @@ const useCart = () => {
 
       setLoadingIndex(prevIndex => prevIndex + 1)
     }
-    if (storeInit?.Themeno === 3) {
+    if (storeInit?.Themeno === 3 || storeInit?.Themeno === 4 || storeInit?.Themeno === 11 || storeInit?.Themeno === 12 || storeInit?.Themeno === 10 || storeInit?.Themeno === 7 || storeInit?.Themeno === 9) {
       const timer = setTimeout(loadNextProductImages, 130)
       return () => clearTimeout(timer)
-    } else {
+    }
+    if (storeInit?.Themeno === 1) {
+      loadNextProductImages();
+    }
+    else {
       const timer = setTimeout(loadNextProductImages, 20)
       return () => clearTimeout(timer)
     }

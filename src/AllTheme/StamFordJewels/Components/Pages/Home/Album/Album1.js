@@ -10,7 +10,7 @@ import imageNotFound from '../../../Assets/image-not-found.jpg';
 import Pako from 'pako';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
-import { Box, Link, Tab, Tabs, tabsClasses, useMediaQuery } from '@mui/material';
+import { Box, Link, Skeleton, Tab, Tabs, tabsClasses, useMediaQuery } from '@mui/material';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { stam_loginState } from '../../../Recoil/atom';
 
@@ -19,6 +19,7 @@ const Album1 = () => {
     const [albumData, setAlbumData] = useState();
     const [imageUrl, setImageUrl] = useState();
     const navigation = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     const islogin = useRecoilValue(stam_loginState);
     const [storeInit, setStoreInit] = useState({});
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
@@ -28,6 +29,7 @@ const Album1 = () => {
     const swiperSlideRef = useRef(null);
 
     useEffect(() => {
+        setIsLoading(true);
         let data = JSON?.parse(sessionStorage.getItem("storeInit"));
         setImageUrl(data?.AlbumImageFol);
         setStoreInit(data)
@@ -50,7 +52,8 @@ const Album1 = () => {
                     setAlbumData(response?.Data?.rd);
                 }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
+            .finally(() => setIsLoading(false));
     }, []);
 
     const compressAndEncode = (inputString) => {
@@ -152,68 +155,95 @@ const Album1 = () => {
     }
 
     return (
-        <div className={`stam_jewlSet_Main stam-inducing-div ${isVisible ? 'show' : ''}`} role="region" aria-labelledby="album-gallery" >
-            {/* <p className="stam_jewl_title">Discover our carefully curated Jewellery Album</p> */}
-            {/* <p className="stam_jewl_title" id="album-gallery">ALBUM COLLECTIONS</p>
+        <>
+            {isLoading ?
+                <Skeleton
+                    variant="rectangular"
+                    width="100%"
+                    height="594px"
+                    animation="wave"
+                    sx={{
+                        '@media (max-width: 1350px)': {
+                            height: "533px !important",
+                        },
+                        '@media (max-width: 1100px)': {
+                            height: "453px !important",
+                        },
+                        '@media (max-width: 1080px)': {
+                            height: "393px !important",
+                        },
+                        '@media (max-width: 1000px)': {
+                            height: "355px !important",
+                        },
+                        '@media (max-width: 649px)': {
+                            height: "386px !important",
+                        }
+                    }}
+                /> :
+                <div className={`stam_jewlSet_Main`} role="region" aria-labelledby="album-gallery" >
+                    {/* <p className="stam_jewl_title">Discover our carefully curated Jewellery Album</p> */}
+                    {/* <p className="stam_jewl_title" id="album-gallery">ALBUM COLLECTIONS</p>
             <p className="stam_jewl_title_para">Browse our curated collections of albums, crafted to perfection for every style and occasions.</p> */}
 
-            <div class="header-container">
-                <h1 class="header-title">ALBUM COLLECTIONS</h1>
-                <p class="header-description">
-                    Browse our curated collections of albums, crafted to perfection for every style and occasions.
-                </p>
-            </div>
+                    <div class="header-container">
+                        <h1 class="header-title">ALBUM COLLECTIONS</h1>
+                        <p class="header-description">
+                            Browse our curated collections of albums, crafted to perfection for every style and occasions.
+                        </p>
+                    </div>
 
-            <div className="stam_jewls_main_sub"
-                style={{
-                    width: GenerateWidthBaseOnContent()?.width,
-                }}
-            >
-                <Swiper
-                    modules={[Pagination]}
-                    pagination={{ clickable: true }}
-                    spaceBetween={20}
-                    // slidesPerView={4} 
-                    style={{
-                        width: '100%',
-                    }}
-                    breakpoints={{
-                        850: {
-                            slidesPerView: 4
-                        },
-                        650: {
-                            slidesPerView: 3
-                        },
-                        450: {
-                            slidesPerView: 2
-                        },
-                        0: {
-                            slidesPerView: 1
-                        }
+                    <div className="stam_jewls_main_sub"
+                        style={{
+                            width: GenerateWidthBaseOnContent()?.width,
+                        }}
+                    >
+                        <Swiper
+                            modules={[Pagination]}
+                            pagination={{ clickable: true }}
+                            spaceBetween={20}
+                            // slidesPerView={4} 
+                            style={{
+                                width: '100%',
+                            }}
+                            breakpoints={{
+                                850: {
+                                    slidesPerView: 4
+                                },
+                                650: {
+                                    slidesPerView: 3
+                                },
+                                450: {
+                                    slidesPerView: 2
+                                },
+                                0: {
+                                    slidesPerView: 1
+                                }
 
-                    }}
-                    className="stam_album_main_swiper"
-                >
-                    {validImages?.map((item, index) => (
-                        <SwiperSlide key={index} role="listitem">
-                            <div className='stam_jewel_div'>
-                                <div className="stam_jewls__image_div">
-                                    <img
-                                        className="stam_jewelImg"
-                                        loading="lazy"
-                                        src={item?.src}
-                                        alt={item?.name ?? 'Jewellery Item'}
-                                        onClick={() => handleNavigate(item)}
-                                        aria-label={`Navigate to details of ${item?.name}`}
-                                    />
-                                </div>
-                                <p className="stam_jewls_Div_name">{item?.name}</p>
-                            </div>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            </div>
-        </div >
+                            }}
+                            className="stam_album_main_swiper"
+                        >
+                            {validImages?.map((item, index) => (
+                                <SwiperSlide key={index} role="listitem">
+                                    <div className='stam_jewel_div'>
+                                        <div className="stam_jewls__image_div">
+                                            <img
+                                                className="stam_jewelImg"
+                                                loading="lazy"
+                                                src={item?.src}
+                                                alt={item?.name ?? 'Jewellery Item'}
+                                                onClick={() => handleNavigate(item)}
+                                                aria-label={`Navigate to details of ${item?.name}`}
+                                            />
+                                        </div>
+                                        <p className="stam_jewls_Div_name">{item?.name}</p>
+                                    </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
+                </div >
+            }
+        </>
 
 
     );

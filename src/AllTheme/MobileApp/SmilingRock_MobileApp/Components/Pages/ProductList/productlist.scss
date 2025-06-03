@@ -5,6 +5,7 @@
   height: 100%;
   width: 100%;
   padding-top: 60px;
+
   .search_re {
     width: 100%;
     height: 80px;
@@ -97,23 +98,28 @@
 .smr_mainPortion {
   width: 100%;
   display: flex;
+
   .breadcrumb_mapp {
     width: 100%;
+
     .breadcrumb_fmg {
       width: 100%;
       display: flex;
       align-items: center;
       padding-bottom: 4px;
       padding-left: 4px;
-      span{
+
+      span {
         font-size: 12.5px !important;
       }
+
       .empty_sorting_div_fmg {
         display: flex;
         align-items: center;
         margin-top: 0.4rem;
         margin-bottom: -0.4rem;
         color: rgba(77, 77, 77, 0.966) !important;
+
         span {
           cursor: pointer !important;
           font-size: 12.5px;
@@ -243,6 +249,7 @@
   font-family: $primaryFontFamily;
   flex-direction: row-reverse;
 }
+
 .smr_prod_title_with_width {
   font-size: 14px;
   text-transform: uppercase;
@@ -327,6 +334,7 @@
   padding: 2px 7px;
   align-items: baseline;
 }
+
 .smrMA_price {
   display: flex;
   align-items: center;
@@ -511,11 +519,10 @@
 // }
 
 .smrMA_app_instock {
-  background: linear-gradient(
-    135deg,
-    #00ffff,
-    #80e0e0
-  ); /* Light cyan to very soft cyan */
+  background: linear-gradient(135deg,
+      #00ffff,
+      #80e0e0);
+  /* Light cyan to very soft cyan */
   color: white;
   text-transform: uppercase;
   width: 50px;
@@ -523,11 +530,10 @@
 }
 
 .smrMA_app_bestSeller {
-  background: linear-gradient(
-    135deg,
-    #ff8c00,
-    #ffcc99
-  ); /* Soft orange mix with pastel peach */
+  background: linear-gradient(135deg,
+      #ff8c00,
+      #ffcc99);
+  /* Soft orange mix with pastel peach */
   color: white;
   text-transform: uppercase;
   width: 50px;
@@ -535,11 +541,10 @@
 }
 
 .smrMA_app_intrending {
-  background: linear-gradient(
-    135deg,
-    #ffcc66,
-    #ffd699
-  ); /* Soft yellow-orange mix */
+  background: linear-gradient(135deg,
+      #ffcc66,
+      #ffd699);
+  /* Soft yellow-orange mix */
   color: white;
   text-transform: uppercase;
   width: 50px;
@@ -547,11 +552,10 @@
 }
 
 .smrMA_app_newarrival {
-  background: linear-gradient(
-    135deg,
-    #00bcd4,
-    #80e0f0
-  ); /* Light cyan with pastel blue */
+  background: linear-gradient(135deg,
+      #00bcd4,
+      #80e0f0);
+  /* Light cyan with pastel blue */
   color: white;
   text-transform: uppercase;
   width: 50px;
@@ -660,6 +664,7 @@
     height: 250px;
     min-height: 250px;
   }
+
   .smr_prod_title_with_width {
     font-size: 10px;
   }
@@ -706,6 +711,7 @@
     display: none;
   }
 }
+
 @media screen and (max-width: 1860px) {
   .smr_keys {
     font-size: 10px !important;
@@ -721,10 +727,12 @@
     padding-inline: 0 !important;
   }
 }
+
 @media screen and (max-width: 590px) {
   .smr_app_prod_Allwt {
     height: 20px;
   }
+
   .smr_keys {
     font-size: 9px !important;
   }
@@ -739,11 +747,13 @@
     height: 200px;
     min-height: 200px;
   }
+
   .smr_productList {
     width: 100%;
     margin: 0px 0px 0px 2px !important;
   }
 }
+
 @media screen and (max-width: 900px) {
   .smr_productList {
     width: 100%;

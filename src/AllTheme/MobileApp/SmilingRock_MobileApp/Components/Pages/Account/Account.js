@@ -107,7 +107,8 @@ export default function Account() {
     sessionStorage.clear();
     sessionStorage.setItem("LoginUser", false);
     setTimeout(() => {
-    navigation("/logout");
+      navigation("/");
+      window.location.reload();
     }, 300);
   };
 
@@ -236,7 +237,7 @@ export default function Account() {
                   Help Center
                 </p>
               </div> */}
-                    <div
+              <div
                 className="boxMainTopSection"
                 style={{ marginRight: "0px" }}
                 onClick={() => naviagation("/support")}
@@ -252,9 +253,9 @@ export default function Account() {
                   Support
                 </p>
               </div>
-              
+
             </div>
-            
+
           </div>
         </div>
         <div className="smlingMA-AccountTabMain">
@@ -304,7 +305,7 @@ export default function Account() {
               <MdAutoDelete />
             </div>
             <div className="menuMainAccount"
-            onClick={() => naviagation("/copyright")}
+              onClick={() => naviagation("/copyright")}
             >
               <p className="menuMainAccountTitle">Copyright</p>
               <BiCopyright />

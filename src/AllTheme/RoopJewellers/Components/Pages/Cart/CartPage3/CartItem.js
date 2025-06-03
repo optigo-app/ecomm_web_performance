@@ -54,6 +54,11 @@ const CartItem = ({
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
   const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1000px)');
 
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  const isLoading = item?.loading;
+
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
@@ -101,15 +106,15 @@ const CartItem = ({
     return text.substring(0, maxLength) + '...';
   }
 
-  useEffect(() => {
-    if (item?.ImageCount > 0) {
-      CartCardImageFunc(item).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [item]);
+  // useEffect(() => {
+  //   if (item?.ImageCount > 0) {
+  //     CartCardImageFunc(item).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [item]);
 
   const diamondData = diamondValue?.find((dia) => dia?.stockno == item?.Sol_StockNo);
 
@@ -128,9 +133,26 @@ const CartItem = ({
 
             {/* <img src={imageSrc} alt='Product-image' /> */}
 
-            {imageSrc === undefined ? (
+            {isLoading === true ? (
               <CardMedia
-                style={{ width: "100%", height: '11rem' }}
+                width="100%"
+                height={200}
+                sx={{
+                  width: "100%",
+                  height: "200px !important",
+                  '@media (max-width: 1700px)': {
+                    width: "100%",
+                    height: "150px !important",
+                  },
+                  '@media (max-width: 1000px)': {
+                    width: "100%",
+                    height: "100px !important",
+                  },
+                  '@media (max-width: 650px)': {
+                    width: "15rem",
+                    height: "200px !important",
+                  },
+                }}
               >
                 <Skeleton
                   animation="wave"
@@ -141,8 +163,23 @@ const CartItem = ({
               </CardMedia>
             ) : (
               <img
-                src={imageSrc}
-                alt='Product-image'
+                src={item?.images}
+                alt=" "
+                style={{
+                  border: 'none',
+                  outline: 'none',
+                  boxShadow: 'none',
+                  '&:focus': { outline: 'none' },
+                  '&:active': { outline: 'none' },
+                }}
+                onError={(e) => {
+                  if (item?.ImageCount > 0) {
+                    e.target.src = fullImagePath ? fullImagePath : noImageFound
+                  } else {
+                    e.target.src = noImageFound;
+                  }
+                }}
+                loading="lazy"
               />
             )}
           </div>

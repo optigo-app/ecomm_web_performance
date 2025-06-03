@@ -2,9 +2,22 @@
 
 .smrMA_trendingViewTopMain {
   position: relative;
-  max-height: 1000px;
-  height: auto;
-  
+
+  @media (max-width: 600px) {
+    height: 880px;
+  }
+
+  @media (max-width: 550px) {
+    height: 850px;
+  }
+
+  @media (max-width: 480px) {
+    height: 850px;
+  }
+
+  @media (max-width: 420px) {
+    height: 770px;
+  }
 
   .smr_trendingtile {
     color: $homePageFontColor;
@@ -228,6 +241,7 @@
     .smr_trendingViewTopMain_Imgdiv {
       width: 100%;
     }
+
     .smr_trendingViewTopMain_div {
       display: flex;
       margin-top: 0px;

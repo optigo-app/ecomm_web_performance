@@ -14,11 +14,13 @@ import { smrMA_homeLoading, smrMA_loginState } from "../../../Recoil/atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import Cookies from "js-cookie";
 import { formatRedirectTitleLine, formatTitleLine } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
+import { Skeleton } from "@mui/material";
 
 const DesignSet = () => {
   const designSetRef = useRef(null);
   const [imageUrl, setImageUrl] = useState();
   const [designSetList, setDesignSetList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const navigation = useNavigate();
   const [storeInit, setStoreInit] = useState({});
@@ -55,6 +57,7 @@ const DesignSet = () => {
   }, []);
 
   const callAPI = () => {
+    setIsLoading(true);
     const loginUserDetail = JSON.parse(
       sessionStorage.getItem("loginUserDetail")
     );
@@ -79,7 +82,8 @@ const DesignSet = () => {
           setDesignSetList(response?.Data?.rd);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false))
   };
 
   const ProdCardImageFunc = (pd) => {
@@ -175,59 +179,84 @@ const DesignSet = () => {
 
 
   return (
-    <div className="smrMA_designSetMain" ref={designSetRef}>
-      <div className="smr_designSetMainDiv">
-        <div className="designset_title_smrmp">
-          <p className="smapp_linkingTitle">Complete Your Look</p>
-          <p className="smapp_TrendingViewAll" onClick={handleNavigate}>
-            View More
-          </p>
-        </div>
-        <div className="smr_designSetDiv1">
-          <img
-            className="smr_designSetDiv1_img"
-            loading="lazy"
-            src={`${imageUrl}${designSetList[0]?.designsetuniqueno}/${designSetList[0]?.DefaultImageName}`}
-            onClick={() =>
-              handleNavigation(
-                designSetList[0]?.designno,
-                designSetList[0]?.autocode,
-                designSetList[0]?.TitleLine ? designSetList[0]?.TitleLine : ""
-              )
-            }
+    <div className="smrMA_designSetMain_1" ref={designSetRef}>
+      {isLoading ?
+        <div>
+          {/* Image Skeleton */}
+          <Skeleton
+            variant="rectangular"
+            width="100%"
+            height={500}
+            sx={{
+              marginTop: 2,
+              '@media (max-width: 600px)': { height: '620px !important' },
+              '@media (max-width: 420px)': { height: '440px !important' },
+            }}
           />
-        </div>
-        <div className="smr_designSetDiv2">
-          {itemsToShow?.map((slide, index) => (
-            <div className="smr_designSetDiv" key={index}>
-              <img
-                className="image"
-                loading="lazy"
-                src={ProdCardImageFunc(slide)}
-                alt={`Slide ${index}`}
-                onClick={() =>
-                  handleNavigation(
-                    slide?.designno,
-                    slide?.autocode,
-                    slide?.TitleLine ? slide?.TitleLine : ""
-                  )
-                }
-              />
-              <p className="smr_designList_title">{formatTitleLine(slide?.TitleLine) && slide?.TitleLine}</p>
-              {/* <p className="smr_designList_title">
-                                <span
-                                    dangerouslySetInnerHTML={{
-                                        __html: decodeEntities(storeInit?.Currencysymbol),
-                                    }}
-                                />{' '}
-                                {slide?.UnitCost}
-                            </p> */}
-            </div>
-          ))}
-          {/* {!showAll && <p className='smr_designSetImageViewAll' onClick={handleViewAll}>View All</p>} */}
-        </div>
-      </div>
 
+          {/* Product Card Skeletons (Slider Placeholder) */}
+          <div style={{ display: 'flex', gap: 2, padding: '0', marginTop: '1rem', width: "100%" }}>
+            {[1, 2, 3, 4].map((_, index) => (
+              <div key={index} style={{ width: '100%' }}>
+                <Skeleton variant="square" width='100%' height={150} />
+              </div>
+            ))}
+          </div>
+        </div>
+        :
+        <div className="smr_designSetMainDiv">
+          <div className="designset_title_smrmp">
+            <p className="smapp_linkingTitle">Complete Your Look</p>
+            <p className="smapp_TrendingViewAll" onClick={handleNavigate}>
+              View More
+            </p>
+          </div>
+          <div className="smr_designSetDiv1">
+            <img
+              className="smr_designSetDiv1_img"
+              loading="lazy"
+              src={`${imageUrl}${designSetList[0]?.designsetuniqueno}/${designSetList[0]?.DefaultImageName}`}
+              onClick={() =>
+                handleNavigation(
+                  designSetList[0]?.designno,
+                  designSetList[0]?.autocode,
+                  designSetList[0]?.TitleLine ? designSetList[0]?.TitleLine : ""
+                )
+              }
+            />
+          </div>
+          <div className="smr_designSetDiv2">
+            {itemsToShow?.map((slide, index) => (
+              <div className="smr_designSetDiv" key={index}>
+                <img
+                  className="image"
+                  loading="lazy"
+                  src={ProdCardImageFunc(slide)}
+                  alt={`Slide ${index}`}
+                  onClick={() =>
+                    handleNavigation(
+                      slide?.designno,
+                      slide?.autocode,
+                      slide?.TitleLine ? slide?.TitleLine : ""
+                    )
+                  }
+                  onError={(e) => e.target.src = imageNotFound}
+                />
+                <p className="smr_designList_title">{formatTitleLine(slide?.TitleLine) && slide?.TitleLine}</p>
+                {/* <p className="smr_designList_title">
+                               <span
+                                   dangerouslySetInnerHTML={{
+                                       __html: decodeEntities(storeInit?.Currencysymbol),
+                                   }}
+                               />{' '}
+                               {slide?.UnitCost}
+                           </p> */}
+              </div>
+            ))}
+            {/* {!showAll && <p className='smr_designSetImageViewAll' onClick={handleViewAll}>View All</p>} */}
+          </div>
+        </div>
+      }
       {/* <div>
                 <p className="designSetTitle">Design Set</p>
             </div>

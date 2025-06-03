@@ -3,6 +3,8 @@ import "./Footer.scss";
 import { useNavigate } from "react-router-dom";
 import { BsPlus } from "react-icons/bs";
 import { HiOutlineMinusSmall } from "react-icons/hi2";
+import { useRecoilValue } from "recoil";
+import { for_isRingFlowOn } from "../../../Recoil/atom";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -11,6 +13,7 @@ const Footer = () => {
   const [localData, setLocalData] = useState();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [activeSection, setActiveSection] = useState(null);
+  const isRingFlowOn = useRecoilValue(for_isRingFlowOn);
 
   useEffect(() => {
     const handleResize = () => {
@@ -118,7 +121,7 @@ const Footer = () => {
         { name: "Engagement Rings", path: "/lab-created-engagement-rings", disabled: false },
         { name: "Wedding Rings", path: "/lab-grown-wedding-rings", disabled: false },
         { name: "Fine Jewelry", path: "/lab-grown-fine-jewelry", disabled: false },
-        { name: 'Certified Loose Diamonds', path: '/certified-loose-lab-grown-diamonds/diamond/', disabled: false },
+        { name: 'Certified Loose Diamonds', path: isRingFlowOn === 1 ? '/certified-loose-lab-grown-diamonds/diamond/' : "/", disabled: false },
         // { name: 'Letter Diamonds Jewelry', path: '/letter-diamonds' ,disabled: false }
       ],
     },

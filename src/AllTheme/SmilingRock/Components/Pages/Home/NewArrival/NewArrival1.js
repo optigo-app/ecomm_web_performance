@@ -24,53 +24,83 @@ const NewArrival = () => {
     const setLoadingHome = useSetRecoilState(homeLoading);
     const [validatedData, setValidatedData] = useState([]);
 
+    // useEffect(() => {
+    //     setLoadingHome(true);
+    //     const observer = new IntersectionObserver(
+    //         (entries) => {
+    //             entries.forEach((entry) => {
+    //                 if (entry.isIntersecting) {
+    //                     callAPI();
+    //                     observer.unobserve(entry.target);
+    //                 }
+    //             });
+    //         },
+    //         {
+    //             root: null,
+    //             threshold: 0.5,
+    //         }
+    //     );
+
+    //     if (newArrivalRef.current) {
+    //         observer.observe(newArrivalRef.current);
+    //     }
+    //     return () => {
+    //         if (newArrivalRef.current) {
+    //             observer.unobserve(newArrivalRef.current);
+    //         }
+    //     };
+
+    //     // const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+    //     // const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
+    //     // const visiterID = Cookies.get('visiterId');
+    //     // let finalID;
+    //     // if (storeInit?.IsB2BWebsite == 0) {
+    //     //     finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+    //     // } else {
+    //     //     finalID = loginUserDetail?.id || '0';
+    //     // }
+    //     // let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+    //     // setStoreInit(storeinit)
+
+    //     // let data = JSON.parse(sessionStorage.getItem('storeInit'))
+    //     // setImageUrl(data?.DesignImageFol);
+
+    //     // Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID).then((response) => {
+    //     //     if (response?.Data?.rd) {
+    //     //         setNewArrivalData(response?.Data?.rd);
+    //     //     }
+    //     // }).catch((err) => console.log(err))
+    // }, [])
+
     useEffect(() => {
         setLoadingHome(true);
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        callAPI();
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            {
-                root: null,
-                threshold: 0.5,
-            }
-        );
 
-        if (newArrivalRef.current) {
-            observer.observe(newArrivalRef.current);
-        }
-        return () => {
-            if (newArrivalRef.current) {
-                observer.unobserve(newArrivalRef.current);
+        const handleScroll = () => {
+            if (!newArrivalRef.current) return;
+
+            const rect = newArrivalRef.current.getBoundingClientRect();
+            const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+
+            if (isInView) {
+                callAPI();
+                window.removeEventListener("scroll", handleScroll); // ensure it's called only once
             }
         };
 
-        // const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
-        // const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-        // const visiterID = Cookies.get('visiterId');
-        // let finalID;
-        // if (storeInit?.IsB2BWebsite == 0) {
-        //     finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
-        // } else {
-        //     finalID = loginUserDetail?.id || '0';
-        // }
-        // let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
-        // setStoreInit(storeinit)
+        window.addEventListener("scroll", handleScroll);
+        // Immediately check on mount
+        handleScroll();
 
-        // let data = JSON.parse(sessionStorage.getItem('storeInit'))
-        // setImageUrl(data?.DesignImageFol);
-
-        // Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID).then((response) => {
-        //     if (response?.Data?.rd) {
-        //         setNewArrivalData(response?.Data?.rd);
-        //     }
-        // }).catch((err) => console.log(err))
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
     }, [])
+
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         callAPI();
+    //     },1200)
+    // }, [])
 
     const callAPI = () => {
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
@@ -86,7 +116,8 @@ const NewArrival = () => {
         setStoreInit(storeinit)
 
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
-        setImageUrl(data?.CDNDesignImageFol);
+        // setImageUrl(data?.CDNDesignImageFol);
+        setImageUrl(data?.CDNDesignImageFolThumb);
 
         Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID).then((response) => {
             setLoadingHome(false);
@@ -109,7 +140,8 @@ const NewArrival = () => {
         if (!newArrivalData?.length) return;
         const validatedData = await Promise.all(
             newArrivalData.map(async (item) => {
-                const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
+                const imageURL = `${imageUrl}${item?.designno}~1.jpg`;
+                // const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
                 // const validatedURL = await checkImageAvailability(imageURL);
                 // return { ...item, validatedImageURL: validatedURL };
                 return { ...item, validatedImageURL: imageURL };
@@ -187,7 +219,7 @@ const NewArrival = () => {
                     viewport={{ once: true, amount: 0.2 }}
                 >
                     <Typography variant='h5' className='smrN_NewArr1Title'>NEW ARRIVAL
-                        <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
+                        <Link className='smr_designSetViewmoreBtn' sx={{ marginLeft: "12px !important", fontSize: "18px", color: "gray" }} onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
                             View more
                         </Link>
                     </Typography>
@@ -208,10 +240,11 @@ const NewArrival = () => {
                                             onError={(e) => {
                                                 e.target.src = imageNotFound
                                             }}
+                                            loading='lazy'
                                         />
                                     </div>
                                     <CardContent className='smr_newarrproduct-info'>
-                                        <Typography  className="smr_newArrTitle">
+                                        <Typography className="smr_newArrTitle">
                                             {product?.designno}
                                             {formatTitleLine(product?.TitleLine) && " - "}
                                             {formatTitleLine(product?.TitleLine) && product?.TitleLine}
@@ -253,7 +286,7 @@ const NewArrival = () => {
                                                 </>
                                             }
                                         </Typography>
-                                        {storeInit?.IsPriceShow == 1 &&  <p className='smr_newArrPrice'>
+                                        {storeInit?.IsPriceShow == 1 && <p className='smr_newArrPrice'>
                                             <span
                                                 className="smr_currencyFont"
                                                 dangerouslySetInnerHTML={{

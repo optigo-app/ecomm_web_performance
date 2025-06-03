@@ -1,9 +1,11 @@
 import { Helmet } from "react-helmet";
 import React, { useEffect, useState } from "react";
 import { lazy } from "react";
+import './Components/scss/variable.scss';
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Cookies from "js-cookie";
+import loaderImg from './Components/Assets/webLogo.png';
 import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
 import { mala_companyLogo, mala_companyLogoM, mala_loginState } from "./Components/Recoil/atom";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
@@ -48,6 +50,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import PageNotFound from "./Components/Pages/404Page/PageNotFound";
 import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
 import { Suspense } from "react";
+import { Box } from "@mui/material";
 
 // Lazy load components that are not immediately needed
 const Cart = lazy(() => import("./Components/Pages/Cart/CartMain"));
@@ -123,8 +126,8 @@ const MalakanJewels_App = () => {
     mala_setCompanyTitleLogoM(mobileLogo);
   });
 
- 
-    useEffect(() => {
+
+  useEffect(() => {
     const cookieValue = Cookies.get("userLoginCookie");
     if (cookieValue && islogin === false) {
       LoginWithEmailAPI("", "", "", "", cookieValue)
@@ -144,7 +147,7 @@ const MalakanJewels_App = () => {
             } else {
               // navigation("/");
             }
-       
+
           }
         })
         .catch((err) => console.log(err));
@@ -172,8 +175,31 @@ const MalakanJewels_App = () => {
     }
   }
 
+  const LoadingFallback = () => (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh'
+      }}
+    >
+      {/* <CircularProgress sx={{ color: 'rgba(255, 87, 34, 0.8)' }} /> */}
+      <img
+        src={loaderImg}
+        alt="Loading..."
+        height="100%"
+        width="auto"
+        loading="lazy"
+        style={{
+          animation: 'scaleUpDown 1.5s ease-in-out infinite', // Apply the animation here
+        }}
+      />
+    </Box>
+  );
+
   return (
-    <Suspense fallback={<></>}>
+    <Suspense fallback={<LoadingFallback />}>
       <Helmet>
         <title>{localData?.BrowserTitle}</title>
       </Helmet>

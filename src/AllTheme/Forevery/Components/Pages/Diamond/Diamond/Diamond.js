@@ -15,6 +15,8 @@ import NewsletterSignup from "../../ReusableComponent/SubscribeNewsLater/Newslet
 import { Dialog, DialogContent, useMediaQuery } from "@mui/material";
 import MountModel from "../../ReusableComponent/MountModel/MountModel";
 import { RxCross1 } from "react-icons/rx";
+import { useRecoilValue } from "recoil";
+import { for_isRingFlowOn } from "../../../Recoil/atom";
 
 const Diamond = () => {
   const Banner = `${storImagePath()}/Forevery/diamond/banner.jpg`;
@@ -28,6 +30,7 @@ const Diamond = () => {
   const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2Ring"));
   const steps2 = JSON.parse(sessionStorage.getItem("customizeSteps2Pendant"));
   const steps3 = JSON.parse(sessionStorage.getItem("customizeSteps2Earring"));
+  const isRingFlowOn = useRecoilValue(for_isRingFlowOn);
 
 
   const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1 ?? steps2 ?? steps3)?.[2]?.url}`;
@@ -49,84 +52,84 @@ const Diamond = () => {
     (steps2?.[2] !== undefined && steps2?.[2] !== null) ||
     (steps3?.[2] !== undefined && steps3?.[2] !== null);
 
-    const handleCheckSteps = (value, link, index) => {
-      let isStepValid = false;
-      let shapeVal;
-  
-      // if (value === "Diamond Rings" && steps1?.[2]?.step3 === true) {
-      if (value === "Diamond Rings") {
-        if (steps?.[2] !== undefined && steps?.[2] !== null) {
-          isStepValid = checkSteps
-        } else {
-          shapeVal = "Round"
-          sessionStorage.setItem('isRing', true)
-          sessionStorage.removeItem('isPair')
-          sessionStorage.removeItem('isPendant')
-          sessionStorage.removeItem('customizeSteps')
-          sessionStorage.removeItem("custStepData");
-          window.location.href = "/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ=="
-        }
-        // } else if (value === "Diamond Pendant" && steps2?.[2]?.step3 === true) {
-      } else if (value === "Diamond Pendant") {
-        if (steps?.[2] !== undefined && steps?.[2] !== null) {
-          isStepValid = checkSteps
-        } else {
-          shapeVal = "Round"
-          sessionStorage.setItem('isPendant', true)
-          sessionStorage.removeItem('isPair')
-          sessionStorage.removeItem('isRing')
-          sessionStorage.removeItem('customizeSteps')
-          sessionStorage.removeItem("custStepData");
-          window.location.href = "/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ=="
-        }
-      } else if (value === "Diamond Earrings") {
-        if (steps?.[2] !== undefined && steps?.[2] !== null) {
-          isStepValid = checkSteps
-        } else {
-          shapeVal = "Round"
-          sessionStorage.setItem('isPair', true)
-          sessionStorage.removeItem('isPendant')
-          sessionStorage.removeItem('isRing')
-          sessionStorage.removeItem('customizeSteps')
-          sessionStorage.removeItem("custStepData");
-          window.location.href = "/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ=="
-        }
-      }
-      else if (value !== "Diamond Rings" && value !== "Diamond Pendant" && value !== "Diamond Earrings") {
+  const handleCheckSteps = (value, link, index) => {
+    let isStepValid = false;
+    let shapeVal;
+
+    // if (value === "Diamond Rings" && steps1?.[2]?.step3 === true) {
+    if (value === "Diamond Rings") {
+      if (steps?.[2] !== undefined && steps?.[2] !== null) {
         isStepValid = checkSteps
+      } else {
+        shapeVal = "Round"
+        sessionStorage.setItem('isRing', true)
+        sessionStorage.removeItem('isPair')
+        sessionStorage.removeItem('isPendant')
+        sessionStorage.removeItem('customizeSteps')
+        sessionStorage.removeItem("custStepData");
+        window.location.href = "/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ=="
       }
-  
-      if (isStepValid) {
-        setShowModal(true);
-        setCheckIndex(index);
-        setShape((value === "Diamond Rings" || value === "Diamond Pendant") ? shapeVal : value);
+      // } else if (value === "Diamond Pendant" && steps2?.[2]?.step3 === true) {
+    } else if (value === "Diamond Pendant") {
+      if (steps?.[2] !== undefined && steps?.[2] !== null) {
+        isStepValid = checkSteps
+      } else {
+        shapeVal = "Round"
+        sessionStorage.setItem('isPendant', true)
+        sessionStorage.removeItem('isPair')
+        sessionStorage.removeItem('isRing')
+        sessionStorage.removeItem('customizeSteps')
+        sessionStorage.removeItem("custStepData");
+        window.location.href = "/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ=="
       }
-      else {
-        Navigate(link);
-        if (value === "Diamond Rings" && steps1?.[2]?.step3 !== true) {
-          if (!steps1) {
-            Navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
-          } else {
-            Navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
-  
-          }
-        }
-        if (value === "Diamond Pendant" && steps2?.[2]?.step3 !== true) {
-          if (!steps2) {
-            Navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ==`);
-          } else {
-            Navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UGVuZGFudC9jYXRlZ29yeQ==`);
-          }
-        }
-        if (value === "Diamond Earring" && steps3?.[2]?.step3 !== true) {
-          if (!steps3) {
-            Navigate(`/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ==`);
-          } else {
-            Navigate(`/certified-loose-lab-grown-diamonds/settings/Earring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=RWFycmluZy9jYXRlZ29yeQ==`);
-          }
-        }
-      };
+    } else if (value === "Diamond Earrings") {
+      if (steps?.[2] !== undefined && steps?.[2] !== null) {
+        isStepValid = checkSteps
+      } else {
+        shapeVal = "Round"
+        sessionStorage.setItem('isPair', true)
+        sessionStorage.removeItem('isPendant')
+        sessionStorage.removeItem('isRing')
+        sessionStorage.removeItem('customizeSteps')
+        sessionStorage.removeItem("custStepData");
+        window.location.href = "/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ=="
+      }
     }
+    else if (value !== "Diamond Rings" && value !== "Diamond Pendant" && value !== "Diamond Earrings") {
+      isStepValid = checkSteps
+    }
+
+    if (isStepValid) {
+      setShowModal(true);
+      setCheckIndex(index);
+      setShape((value === "Diamond Rings" || value === "Diamond Pendant") ? shapeVal : value);
+    }
+    else {
+      Navigate(link);
+      if (value === "Diamond Rings" && steps1?.[2]?.step3 !== true) {
+        if (!steps1) {
+          Navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
+        } else {
+          Navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UmluZy9jYXRlZ29yeQ==`);
+
+        }
+      }
+      if (value === "Diamond Pendant" && steps2?.[2]?.step3 !== true) {
+        if (!steps2) {
+          Navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ==`);
+        } else {
+          Navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=UGVuZGFudC9jYXRlZ29yeQ==`);
+        }
+      }
+      if (value === "Diamond Earring" && steps3?.[2]?.step3 !== true) {
+        if (!steps3) {
+          Navigate(`/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ==`);
+        } else {
+          Navigate(`/certified-loose-lab-grown-diamonds/settings/Earring/diamond_shape=${(steps?.[0]?.shape ?? steps1?.[1]?.shape ?? steps2?.[1]?.shape)}/M=RWFycmluZy9jYXRlZ29yeQ==`);
+        }
+      }
+    };
+  }
 
   const createYesUrl = `/certified-loose-lab-grown-diamonds/diamond/`;
 
@@ -256,98 +259,100 @@ const Diamond = () => {
           </button>
         </div>
       </div>
-      <div className="loose_diamond_carousel">
-        <div className="heading">
-          <span>explore loose diamonds</span>
-          <small></small>
+      {isRingFlowOn === 1 &&
+        <div className="loose_diamond_carousel">
+          <div className="heading">
+            <span>explore loose diamonds</span>
+            <small></small>
+          </div>
+          <div className="for_carousel">
+            <Swiper
+              slidesPerView={5}
+              freeMode={true}
+              ref={swiperRef}
+              loop={true}
+              breakpoints={{
+                546: {
+                  slidesPerView: 5,
+                },
+                545: {
+                  slidesPerView: 3,
+                },
+                420: {
+                  slidesPerView: 3,
+                },
+                416: {
+                  slidesPerView: 1,
+                },
+                0: {
+                  slidesPerView: 1,
+                },
+              }}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}
+              navigation={true}
+              modules={[FreeMode, Pagination, Autoplay, Navigation]}
+              className="fo_mySwiper"
+            >
+              {LooseDiamond?.map((val, i) => {
+                return (
+                  <SwiperSlide>
+                    {checkSteps ? (
+                      <div
+                        className="shape_card_ca"
+                        // onClick={() =>
+                        //   Navigate(
+                        //     `/certified-loose-lab-grown-diamonds/diamond/${val?.name}`
+                        //   )
+                        // }
+                        onClick={() => handleCheckSteps(val?.name, " ", 0)}
+                      >
+                        <img src={val?.img} alt="" />
+                        <span>{val?.name}</span>
+                      </div>
+                    ) : (
+                      <div
+                        className="shape_card_ca"
+                        // onClick={() =>
+                        //   Navigate(
+                        //     `/certified-loose-lab-grown-diamonds/diamond/${val?.name}`
+                        //   )
+                        // }
+                        onClick={() => HandleDiamondNavigation(val?.name)}
+                      >
+                        <img src={val?.img} alt="" />
+                        <span>{val?.name}</span>
+                      </div>
+                    )}
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+            <MountModel
+              open={showModal}
+              handleConfirm={handleConfirm}
+              handleClose={handleToggle}
+              handleRemoveData={handleRemoveData}
+              index={shape}
+            />
+            <CheckingDiaSetModal
+              open={showModal1}
+              link1={createYesUrl}
+              handleNoConfirm={handleNoConfirm}
+              handleClose={handleToggle1}
+              handleRemoveData={handleRemoveData}
+              index={checkIndex}
+              shape={shape}
+            />
+          </div>
+          <div className="p">
+            round cut diamonds maximize light return and sparkle, and are the most
+            brilliant of the diamond cuts.
+          </div>
         </div>
-        <div className="for_carousel">
-          <Swiper
-            slidesPerView={5}
-            freeMode={true}
-            ref={swiperRef}
-            loop={true}
-            breakpoints={{
-              546: {
-                slidesPerView: 5,
-              },
-              545: {
-                slidesPerView: 3,
-              },
-              420: {
-                slidesPerView: 3,
-              },
-              416: {
-                slidesPerView: 1,
-              },
-              0: {
-                slidesPerView: 1,
-              },
-            }}
-            autoplay={{
-              delay: 2500,
-              disableOnInteraction: false,
-            }}
-            navigation={true}
-            modules={[FreeMode, Pagination, Autoplay, Navigation]}
-            className="fo_mySwiper"
-          >
-            {LooseDiamond?.map((val, i) => {
-              return (
-                <SwiperSlide>
-                  {checkSteps ? (
-                    <div
-                      className="shape_card_ca"
-                      // onClick={() =>
-                      //   Navigate(
-                      //     `/certified-loose-lab-grown-diamonds/diamond/${val?.name}`
-                      //   )
-                      // }
-                      onClick={() => handleCheckSteps(val?.name, " ", 0)}
-                    >
-                      <img src={val?.img} alt="" />
-                      <span>{val?.name}</span>
-                    </div>
-                  ) : (
-                    <div
-                      className="shape_card_ca"
-                      // onClick={() =>
-                      //   Navigate(
-                      //     `/certified-loose-lab-grown-diamonds/diamond/${val?.name}`
-                      //   )
-                      // }
-                      onClick={() => HandleDiamondNavigation(val?.name)}
-                    >
-                      <img src={val?.img} alt="" />
-                      <span>{val?.name}</span>
-                    </div>
-                  )}
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-          <MountModel
-            open={showModal}
-            handleConfirm={handleConfirm}
-            handleClose={handleToggle}
-            handleRemoveData={handleRemoveData}
-            index={shape}
-          />
-          <CheckingDiaSetModal
-            open={showModal1}
-            link1={createYesUrl}
-            handleNoConfirm={handleNoConfirm}
-            handleClose={handleToggle1}
-            handleRemoveData={handleRemoveData}
-            index={checkIndex}
-            shape={shape}
-          />
-        </div>
-        <div className="p">
-          round cut diamonds maximize light return and sparkle, and are the most
-          brilliant of the diamond cuts.
-        </div>
-      </div>
+      }
       <div className="lab_created_diamond">
         <div
           className="image"

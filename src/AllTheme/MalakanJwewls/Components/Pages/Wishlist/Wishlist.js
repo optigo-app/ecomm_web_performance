@@ -23,6 +23,7 @@ const Wishlist = () => {
     updateCount,
     countDataUpdted,
     itemInCart,
+    finalWishData,
     decodeEntities,
     WishCardImageFunc,
     handleRemoveItem,
@@ -90,8 +91,6 @@ const Wishlist = () => {
     });
   }
 
-  console.log("cartdataCount--", wishlistData);
-
   return (
     <div className="mala_MainWishlist_Div">
       <div className="mala_wishlist_sub">
@@ -99,7 +98,7 @@ const Wishlist = () => {
           {isMobileScreen &&
             <div className="mala_Wl-title">My Wishlist</div>
           }
-          {wishlistData?.length != 0 &&
+          {finalWishData?.length != 0 &&
             <>
               <div className="mala_WlButton-group">
                 <button
@@ -122,7 +121,7 @@ const Wishlist = () => {
         {!isWLLoading ? (
           <WishlistData
             isloding={isWLLoading}
-            items={wishlistData}
+            items={finalWishData}
             updateCount={updateCount}
             countDataUpdted={countDataUpdted}
             curr={CurrencyData}

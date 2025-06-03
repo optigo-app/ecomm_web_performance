@@ -49,6 +49,11 @@ const CartItem = ({
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
 
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  const isLoading = item?.loading;
+
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
   const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1000px)');
@@ -100,15 +105,15 @@ const CartItem = ({
     return text.substring(0, maxLength) + '...';
   }
 
-  useEffect(() => {
-    if (item?.ImageCount > 0) {
-      CartCardImageFunc(item).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [item]);
+  // useEffect(() => {
+  //   if (item?.ImageCount > 0) {
+  //     CartCardImageFunc(item).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [item]);
 
   const diamondData = diamondValue?.find((dia) => dia?.stockno == item?.Sol_StockNo);
 
@@ -124,7 +129,7 @@ const CartItem = ({
       >
         <div className="Hoq3_cart-item">
           <div className="Hoq3_cart-item__image">
-            {imageSrc === undefined ? (
+            {isLoading === true ? (
               <CardMedia
                 width="85%"
                 height={150}
@@ -161,7 +166,25 @@ const CartItem = ({
                 />
               </CardMedia>
             ) : (
-              <img src={imageSrc} alt='Product-image' />
+              <img
+                src={item?.images}
+                alt=" "
+                style={{
+                  border: 'none',
+                  outline: 'none',
+                  boxShadow: 'none',
+                  '&:focus': { outline: 'none' },
+                  '&:active': { outline: 'none' },
+                }}
+                onError={(e) => {
+                  if (item?.ImageCount > 0) {
+                    e.target.src = fullImagePath ? fullImagePath : noImageFound;
+                  } else {
+                    e.target.src = noImageFound;
+                  }
+                }}
+                loading="lazy"
+              />
             )}
           </div>
           <div className="Hoq3_cart-item__details">

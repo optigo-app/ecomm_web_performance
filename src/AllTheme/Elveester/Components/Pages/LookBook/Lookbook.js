@@ -248,7 +248,8 @@ const Lookbook = () => {
 
     setStoreInit(storeInit);
     setImageUrl(storeInit?.DesignSetImageFol);
-    setImageUrlDesignSet(storeInit?.CDNDesignImageFol);
+    // setImageUrlDesignSet(storeInit?.CDNDesignImageFol);
+    setImageUrlDesignSet(storeInit?.CDNDesignImageFolThumb);
 
     const { IsB2BWebsite } = storeInit || {};
     const visiterID = Cookies.get("visiterId");
@@ -2229,7 +2230,8 @@ const Lookbook = () => {
                                                   <img
                                                     src={
                                                       ele?.ImageCount > 0
-                                                        ? `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`
+                                                        // ? `${storeInit?.CDNDesignImageFol}${ele?.designno}~1.${ele?.ImageExtension}`
+                                                        ? `${storeInit?.CDNDesignImageFolThumb}${ele?.designno}~1.jpg`
                                                         : imageNotFound
                                                     }
                                                     onError={(e) => {

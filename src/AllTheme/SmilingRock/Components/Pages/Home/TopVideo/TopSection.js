@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import "./TopSection.modul.scss";
 
-const TopSection = ({data}) => {
+const TopSection = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [videoStarted, setVideoStarted] = useState(false);
   const videoRef = useRef(null);
@@ -10,7 +10,7 @@ const TopSection = ({data}) => {
 
   useEffect(() => {
     let localData = JSON.parse(sessionStorage.getItem("storeInit"));
-    if(localData){
+    if (localData) {
       setLocalData(localData);
     }
   }, []);
@@ -19,35 +19,33 @@ const TopSection = ({data}) => {
     setLoading(false);
     setTimeout(() => { }, 0);
 
-    videoRef.current.controls = false;
+    // Check if videoRef is not null before accessing its properties
+    if (videoRef.current) {
+      videoRef.current.controls = false;
+    }
   };
 
   const handleVideoPlay = () => {
     setVideoStarted(true);
   };
 
-
-
   return (
     <div className="smr_topVideoMain" style={{ minHeight: "550px" }}>
-        <video
-          ref={videoRef}
-          width="500"
-          autoPlay
-          muted
-          controls={false}
-          loop
-          style={{ height: "auto", width: "100%" }}
-          onLoadedData={handleVideoLoad}
-          onPlay={handleVideoPlay}
-          // poster={`${storImagePath()}/images/HomePage/TopSection/poster.png`}
-          // controls={!videoStarted}
-        >
-          <source
-            src={data?.video[0]}
-            type="video/mp4"
-          />
-        </video>
+      <video
+        ref={videoRef}
+        width="500"
+        autoPlay
+        muted
+        controls={false}
+        loop
+        style={{ height: "auto", width: "100%" }}
+        onLoadedData={handleVideoLoad}
+        onPlay={handleVideoPlay}
+        loading="lazy"
+        poster={`${storImagePath()}/Banner/homepageVideoPoster.webp`}
+      >
+        <source src={data?.video[0].replace(".mp4", ".webm")} type="video/webm" />
+      </video>
       {/* {localData?.Blockno === 2 && (
         <div>
           <img

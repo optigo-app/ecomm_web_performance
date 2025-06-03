@@ -5,7 +5,7 @@ import {
   Routes,
   useLocation,
   useNavigate,
-  unstable_HistoryRouter ,  
+  unstable_HistoryRouter,
 } from "react-router-dom";
 import Home from "./Components/Pages/Home/Index";
 import Cart from "./Components/Pages/Cart/CartMain";
@@ -16,6 +16,9 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   for_companyLogo,
   for_companyLogoM,
+  for_isEarringFlowOn,
+  for_isPendantFlowOn,
+  for_isRingFlowOn,
   for_loginState,
   for_nav_height,
 } from "./Components/Recoil/atom";
@@ -77,11 +80,14 @@ import SearchData from "./Components/Pages/Product/SearchData/SearchData";
 const ForEveryRoutes = () => {
   const { openPromotionalBanner, handleCloseBanner } =
     usePromotionalBanner();
-    const banner = useHomeBannerImages();
+  const banner = useHomeBannerImages();
   const islogin = useRecoilValue(for_loginState);
   const [localData, setLocalData] = useState();
   const navigation = useNavigate();
   const setIsLoginState = useSetRecoilState(for_loginState);
+  const setIsPendantFlowOn = useSetRecoilState(for_isPendantFlowOn);
+  const setIsRingFlowOn = useSetRecoilState(for_isRingFlowOn);
+  const setIsEarringFlowOn = useSetRecoilState(for_isEarringFlowOn);
   const location = useLocation();
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
@@ -106,17 +112,24 @@ const ForEveryRoutes = () => {
 
   const [urlHistory, setUrlHistory] = useState([]);
 
+  const isPendantFlowOn = 0; // 1 means flow on and 0 means flow off
+  const isRingFlowOn = 1; // 1 means flow on and 0 means flow off
+  const isEarringFlowOn = 0; // 1 means flow on and 0 means flow off
+
   // Update URL history on location change
   useEffect(() => {
     setUrlHistory((prevHistory) => [...prevHistory, location.pathname]);
+    setIsPendantFlowOn(isPendantFlowOn);
+    setIsRingFlowOn(isRingFlowOn);
+    setIsEarringFlowOn(isEarringFlowOn);
   }, [location]);
-  const handleBackButton = ()=>{
+  const handleBackButton = () => {
     localStorage.setItem('useHistory', JSON.stringify(urlHistory));
     const history = JSON.parse(localStorage.getItem('useHistory'));
   }
-  useEffect(()=>{
-  handleBackButton();
-  },[location])
+  useEffect(() => {
+    handleBackButton();
+  }, [location])
 
   // useEffect(() => {
   //   let data = sessionStorage.getItem("storeInit");
@@ -145,7 +158,7 @@ const ForEveryRoutes = () => {
   });
 
   useEffect(() => {
-    sessionStorage.setItem('filterMenu',JSON.stringify({}))
+    sessionStorage.setItem('filterMenu', JSON.stringify({}))
     const cookieValue = Cookies.get("userLoginCookie");
     const loginUser = sessionStorage.getItem("LoginUser");
 
@@ -176,7 +189,7 @@ const ForEveryRoutes = () => {
     const localD = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localD);
   }, []);
- 
+
 
 
   if (islogin === true) {
@@ -196,9 +209,9 @@ const ForEveryRoutes = () => {
     }
   }
 
-  
 
-  
+
+
   return (
     <>
       <Helmet>
@@ -215,9 +228,9 @@ const ForEveryRoutes = () => {
       <div
         className="body"
         style={{
-          marginTop: `${navHeight+15}px`,
+          marginTop: `${navHeight + 15}px`,
           overflow: "hidden",
-          paddingBottom:"2rem"
+          paddingBottom: "2rem"
         }}
       >
         <Routes>

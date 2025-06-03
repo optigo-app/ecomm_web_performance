@@ -34,3 +34,8 @@ export const soketProductData_ProCatApp = atom({
   key: 'pma_soketProductData',
   default: []
 })
+
+export const IsSecurityKey_ProCat = atom({
+  key: 'ProcatalogIsSecurityKey',
+  default: "",
+})

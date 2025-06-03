@@ -16,7 +16,7 @@ function BottomSection({ data }) {
       {/* </div>
       </div> */}
 
-      <img src={data?.image?.[0]} className='mala_bottom_main_img' alt="GET IN TOUCH" />
+      <img src={data?.image?.[1]} className='mala_bottom_main_img' alt="GET IN TOUCH" />
     </div>
   );
 }

@@ -13,6 +13,7 @@ import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { Pagination } from "swiper/modules";
 import { formatRedirectTitleLine, formatter } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 import notfound from '../../../Assets/image-not-found.jpg';
+import { Skeleton } from "@mui/material";
 
 const NewArrival = () => {
 
@@ -23,6 +24,7 @@ const NewArrival = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [storeInit, setStoreInit] = useState({});
   const islogin = useRecoilValue(smrMA_loginState);
+  const [isLoading, setIsLoading] = useState(false);
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const setLoadingHome = useSetRecoilState(smrMA_homeLoading);
   const [isAPICalled, setIsAPICalled] = useState(false);
@@ -68,7 +70,7 @@ const NewArrival = () => {
 
 
   const callAPI = () => {
-
+    setIsLoading(true);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
@@ -92,15 +94,19 @@ const NewArrival = () => {
         if (response?.Data?.rd) {
           const itemsWithImageCheck = await Promise.all(
             response.Data.rd.map(async (item) => {
-              const imgURL = `${storeinit?.CDNDesignImageFol}${item.designno}~1.${item.ImageExtension}`;
-              const imageAvailable = await checkImageAvailability(imgURL);
-              return { ...item, src: imageAvailable  , imageAvailable : imageAvailable ? true : false };
+              // const imgURL = `${storeinit?.CDNDesignImageFol}${item.designno}~1.${item.ImageExtension}`;
+              const imgURL = `${storeinit?.CDNDesignImageFolThumb}${item.designno}~1.jpg`;
+              // const imageAvailable = await checkImageAvailability(imgURL);
+              return { ...item, src: imgURL };
             })
           );
           setNewArrivalData(itemsWithImageCheck);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   const compressAndEncode = (inputString) => {
@@ -127,12 +133,12 @@ const NewArrival = () => {
     let encodeObj = compressAndEncode(JSON.stringify(obj));
     // const link =  `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
     //       }${designNo}?p=${encodeObj}`;
-    const link =  `/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`;
+    const link = `/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`;
     if (storeinit?.IsB2BWebsite == 1) {
       if (islogin) {
         navigation(link);
       } else {
-        localStorage.setItem('redirectLookBook',link);
+        localStorage.setItem('redirectLookBook', link);
         navigation("/signin");
       }
     } else {
@@ -147,50 +153,67 @@ const NewArrival = () => {
   };
 
   useEffect(() => {
-   console.log(newArrivalData, "newArrivalData")
+    console.log(newArrivalData, "newArrivalData")
   }, [newArrivalData])
 
   return (
     <div style={{ marginBottom: newArrivalData?.length == 0 && '5px' }} ref={newArrivalRef}>
-      {newArrivalData?.length != 0 &&
+      {isLoading ? (
+        <div className="linkingLoveMain">
+
+          {/* Product Card Skeletons (Slider Placeholder) */}
+          <div style={{ display: 'flex', gap: 5, padding: '0 5px', marginBlock: '1rem', width: "100%" }}>
+            {[1, 2].map((_, index) => (
+              <div key={index} style={{ width: '100%' }}>
+                <Skeleton variant="square" width='100%' height={150} />
+                <Skeleton variant="text" width="100%" height={20} sx={{ marginTop: 1 }} />
+                <Skeleton variant="text" width="80%" height={20} />
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        newArrivalData?.length != 0 &&
         <div className="smrMA_NewArrivalMain">
           <Swiper {...swiperParams}
             className="smaMA_newArrivalBoxcMain"
           >
             {newArrivalData?.map((item, index) => {
               return <SwiperSlide
-              key={index}
-              style={{ maxWidth: "18rem", marginInline: "auto" }}
-              className="smaMA_newArrivalBoxcMainSub"
-            >
-              <div
-                className="smr_newArrialDiv1"
-                onClick={() =>
-                  handleNavigation(
-                    item.designno,
-                    item.autocode,
-                    item.TitleLine
-                  )
-                }
+                key={index}
+                style={{ maxWidth: "18rem", marginInline: "auto" }}
+                className="smaMA_newArrivalBoxcMainSub"
               >
-                <img
-                  src={item.imageAvailable
-                    ? `${item?.src}`
-                    // ? `${imageUrl}${item.designno}_1.${item.ImageExtension}`
-                    : notfound}
-                  className="smilingMainImages"
-                  alt={item.TitleLine}
-                />
-                <p className="ring1Desc">{item.designno}</p>
-               {storeInit?.IsPriceShow == 1 && <p className='smr_nwArrivalTitle'>
-                  <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
-                  {formatter(item.UnitCostWithMarkUp)}
-                </p>}
-              </div>
-            </SwiperSlide>
+                <div
+                  className="smr_newArrialDiv1"
+                  onClick={() =>
+                    handleNavigation(
+                      item.designno,
+                      item.autocode,
+                      item.TitleLine
+                    )
+                  }
+                >
+                  <img
+                    src={`${item?.src}`}
+                    className="smilingMainImages"
+                    alt={item.TitleLine}
+                    onError={(e) => {
+                      e.target.src = imageNotFound;
+                    }}
+                    loading="lazy"
+                  />
+                  <p className="ring1Desc">{item.designno}</p>
+                  {storeInit?.IsPriceShow == 1 && <p className='smr_nwArrivalTitle'>
+                    <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
+                    {formatter(item.UnitCostWithMarkUp)}
+                  </p>}
+                </div>
+              </SwiperSlide>
             })}
           </Swiper>
         </div>
+      )
       }
     </div>
   );

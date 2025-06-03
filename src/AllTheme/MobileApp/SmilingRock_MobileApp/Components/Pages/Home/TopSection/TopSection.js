@@ -55,6 +55,7 @@ export default function TopSection({ data }) {
             <div key={index} className="homePageSliderImagwMain">
               <img
                 src={path}
+                loading="lazy"
                 className="homePageSliderImagw"
                 alt={`Banner ${index + 1}`}
               />

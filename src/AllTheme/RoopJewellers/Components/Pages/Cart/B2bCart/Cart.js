@@ -41,6 +41,7 @@ const CartPage = () => {
     mrpbasedPriceFlag,
     openMobileModal,
     setOpenMobileModal,
+    finalCartData,
     isSelectedAll,
     handleSelectAll,
     handlecloseMobileModal,
@@ -84,7 +85,7 @@ const CartPage = () => {
   const handlePlaceOrder = () => {
     if (storeInit?.IsPLW == 0) {
       let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-      let priceData = cartData?.reduce(
+      let priceData = finalCartData?.reduce(
         (total, item) => total + item?.FinalCost,
         0
       );
@@ -173,7 +174,7 @@ const CartPage = () => {
             <div className="roop_cart-title">My Cart</div>
           }
           <div className='roop_cartmainRowDiv'>
-            {!isloding && cartData?.length != 0 &&
+            {!isloding && finalCartData?.length != 0 &&
               <div className='roop_cartButton-groups'>
                 <button
                   className='roop_ReomoveAllCartbtn'
@@ -187,7 +188,7 @@ const CartPage = () => {
             {!isMobileScreen &&
               <div className="roop_cart-title">My Cart</div>
             }
-            {!isloding && cartData?.length != 0 &&
+            {!isloding && finalCartData?.length != 0 &&
               <div className='roop_placeOrderMainbtnDivs'>
                 <button className="roop_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div>
@@ -252,11 +253,11 @@ const CartPage = () => {
                 />
               }
             </div>
-            {cartData.length !== 0 ? (
+            {finalCartData.length !== 0 ? (
               <div className="roop_cartMainPage">
                 <div className="roop_cart-left-sides">
                   <CartList
-                    items={cartData}
+                    items={finalCartData}
                     CartCardImageFunc={CartCardImageFunc}
                     showRemark={showRemark}
                     productRemark={productRemark}

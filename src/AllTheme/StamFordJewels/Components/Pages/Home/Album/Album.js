@@ -55,6 +55,7 @@ const Album = () => {
             <img
               src={imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName}
               className="stam_AlbumImageMain_img"
+              loading="lazy"
             />
             <p className="stam_albumName">{data?.AlbumName}</p>
           </div>

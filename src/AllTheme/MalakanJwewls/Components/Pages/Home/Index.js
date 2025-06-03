@@ -1,12 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy } from "react";
 import "./Index.modul.scss";
-import TopSection from "./TopVideo/TopSection";
-import TheDifference from "./TheDifference/TheDifference";
-import PromotionBaner2 from "./PromotionBanner1/PromotionBaner2";
-import ShopBanner from "./ShopBanner/ShopBanner";
-import BottomSection from "./BottomSection/BottomSection";
-import TrendingView1 from "./TrandingView/TrendingView1";
 import useHomeBannerImages from "./../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner";
+
+const TopSection = lazy(() => import("./TopVideo/TopSection"));
+const TheDifference = lazy(() => import("./TheDifference/TheDifference"));
+const PromotionBaner2 = lazy(() => import("./PromotionBanner1/PromotionBaner2"));
+const ShopBanner = lazy(() => import("./ShopBanner/ShopBanner"));
+const BottomSection = lazy(() => import("./BottomSection/BottomSection"));
+const TrendingView1 = lazy(() => import("./TrandingView/TrendingView1"));
+
+// import TopSection from "./TopVideo/TopSection";
+// import TheDifference from "./TheDifference/TheDifference";
+// import PromotionBaner2 from "./PromotionBanner1/PromotionBaner2";
+// import ShopBanner from "./ShopBanner/ShopBanner";
+// import BottomSection from "./BottomSection/BottomSection";
+// import TrendingView1 from "./TrandingView/TrendingView1";
 
 
 function Home() {
@@ -42,7 +50,7 @@ function Home() {
             <PromotionBaner2 data={banner?.middleBanner} />
             <TrendingView1 data={banner?.trendingBanner} />
             <TheDifference data={banner?.bottomBanner} />
-            <BottomSection data={banner?.bottomBanner}/>
+            <BottomSection data={banner?.bottomBanner} />
           </div>
         </div>
       </div>

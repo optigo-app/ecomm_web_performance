@@ -30,6 +30,7 @@ import {
   PaginationItem,
   Skeleton,
   Slider,
+  Stack,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -38,6 +39,7 @@ import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import pako from "pako";
+import { toast } from 'react-toastify';
 import { SearchProduct } from "../../../../../../utils/API/SearchProduct/SearchProduct";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
 import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
@@ -63,13 +65,15 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ProductCard_Skeleton from "./productCard_skeleton/Productcard_skeleton";
 import EditablePagination from "../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
+import RangeFilter from "../../../../../../utils/Glob_Functions/RangeFilter/RangeFilter";
 const ProductList = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-  const [storeInit, setStoreInit] = useState({});
+  let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+  // const [storeInit, setStoreInit] = useState({});
 
   useEffect(() => {
-    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
-    setStoreInit(storeinit);
+    // let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+    // setStoreInit(storeinit);
 
     let mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     setMetalTypeCombo(mtCombo);
@@ -111,19 +115,24 @@ const ProductList = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
-  const [selectedMetalId, setSelectedMetalId] = useState(
-    loginUserDetail?.MetalId ?? storeInit?.MetalId
-  );
-  const [selectedDiaId, setSelectedDiaId] = useState(
-    loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid
-  );
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
+  const [selectedMetalId, setSelectedMetalId] = useState();
+  const [selectedDiaId, setSelectedDiaId] = useState();
+  const [selectedCsId, setSelectedCsId] = useState();
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [rollOverImgPd, setRolloverImgPd] = useState({});
   const [locationKey, setLocationKey] = useState();
   const [prodListType, setprodListType] = useState();
+  const [inputGross, setInputGross] = useState([]);
+  const [inputNet, setInputNet] = useState([]);
+  const [inputDia, setInputDia] = useState([]);
+  const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
+  const [appliedRange1, setAppliedRange1] = useState(null);
+  const [appliedRange2, setAppliedRange2] = useState(null);
+  const [appliedRange3, setAppliedRange3] = useState(null);
 
   const [sortBySelect, setSortBySelect] = useState("Recommended");
 
@@ -141,6 +150,7 @@ const ProductList = () => {
 
   const [afterCountStatus, setAfterCountStatus] = useState(false);
   const [loadingIndex, setLoadingIndex] = useState(-1)
+  const [isClearAllClicked, setIsClearAllClicked] = useState(false);
 
   const [value, setValue] = React.useState([]);
 
@@ -161,22 +171,26 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    setCSSVariable();
-    const storeInitInside = JSON.parse(sessionStorage.getItem("storeInit"));
-    const loginUserDetailInside = JSON.parse(
-      sessionStorage.getItem("loginUserDetail")
-    );
+    const mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
+    setMetalTypeCombo(mtCombo);
 
-    let mtid = loginUserDetailInside?.MetalId ?? storeInitInside?.MetalId;
+    const diaQcCombo = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
+    setDiaQcCombo(diaQcCombo);
+
+    const CsQcCombo = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
+    setCsQcCombo(CsQcCombo);
+
+    const loginUserDetailInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
+    let mtid = islogin ? loginUserDetailInside?.MetalId : storeInit?.MetalId;
     setSelectedMetalId(mtid);
 
-    let diaid =
-      loginUserDetailInside?.cmboDiaQCid ?? storeInitInside?.cmboDiaQCid;
+    let diaid = islogin ? loginUserDetailInside?.cmboDiaQCid : storeInit?.cmboDiaQCid;
     setSelectedDiaId(diaid);
 
-    let csid = loginUserDetailInside?.cmboCSQCid ?? storeInitInside?.cmboCSQCid;
+    let csid = islogin ? loginUserDetailInside?.cmboCSQCid : storeInit?.cmboCSQCid;
     setSelectedCsId(csid);
-  }, [location]);
+  }, [islogin]);
 
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
@@ -253,11 +267,11 @@ const ProductList = () => {
   // },[location?.key])
 
   useEffect(() => {
-    setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
-    setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
-    setSelectedCsId(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
-    setSortBySelect('Recommended')
-  }, [location?.key])
+    setSelectedMetalId(islogin == true ? loginUserDetail?.MetalId : storeInit?.MetalId);
+    setSelectedDiaId(islogin == true ? loginUserDetail?.cmboDiaQCid : storeInit?.cmboDiaQCid);
+    setSelectedCsId(islogin == true ? loginUserDetail?.cmboCSQCid : storeInit?.cmboCSQCid);
+    setSortBySelect("Recommended");
+  }, [location, islogin]);
 
   const callAllApi = () => {
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
@@ -424,6 +438,7 @@ const ProductList = () => {
       }
 
       setIsProdLoading(true);
+      setAfterCountStatus(true);
       //  if(location?.state?.SearchVal === undefined){
       setprodListType(productlisttype);
       let diafilter =
@@ -535,6 +550,7 @@ const ProductList = () => {
         })
         .finally(() => {
           setIsProdLoading(false);
+          setAfterCountStatus(false);
           setIsOnlyProdLoading(false);
           window.scroll({
             top: 0,
@@ -673,20 +689,47 @@ const ProductList = () => {
   //   setFinalProductListData(finalProdWithPrice);
   // }, [productListData, priceListData]);
 
+  let getDesignImageFol = storeInit?.CDNDesignImageFolThumb;
+  const getDesignVideoFol = storeInit?.CDNVPath;
 
+  const getDynamicRollImages = (designno, count, extension) => {
+    if (count > 1) {
+      return `${getDesignImageFol}${designno}~${2}.jpg`;
+    }
+    return;
+  };
+
+  const getDynamicImages = (designno, extension) => {
+    return `${getDesignImageFol}${designno}~${1}.jpg`;
+  };
+
+  const getDynamicVideo = (designno, count, extension) => {
+    if (extension && count > 0) {
+      const url = `${getDesignVideoFol}${designno}~${1}.${extension}`;
+      return url;
+    }
+    return;
+  };
 
   const generateImageList = useCallback((product) => {
     let storeInitX = JSON.parse(sessionStorage.getItem("storeInit"));
     let pdImgList = []
     if (product?.ImageCount > 0) {
       for (let i = 1; i <= product?.ImageCount; i++) {
+        // let imgString =
+        //   storeInitX?.CDNDesignImageFol +
+        //   product?.designno +
+        //   "~" +
+        //   i +
+        //   "." +
+        //   product?.ImageExtension
         let imgString =
-          storeInitX?.CDNDesignImageFol +
+          storeInitX?.CDNDesignImageFolThumb +
           product?.designno +
           "~" +
           i +
           "." +
-          product?.ImageExtension
+          "jpg"
         pdImgList?.push(imgString)
       }
     } else {
@@ -744,8 +787,15 @@ const ProductList = () => {
 
     if (pd?.ImageCount > 0) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
+        // let imgString =
+        //   storeInit?.CDNDesignImageFol +
+        //   pd?.designno +
+        //   "~" +
+        //   i +
+        //   "." +
+        //   pd?.ImageExtension;
         let imgString =
-          storeInit?.CDNDesignImageFol +
+          storeInit?.CDNDesignImageFolThumb +
           pd?.designno +
           "~" +
           i +
@@ -845,7 +895,7 @@ const ProductList = () => {
 
     // If filterChecked length is greater than 0 or the value changes, reset page to 1
     if (Object.keys(filterChecked).length > 0 || (previousChecked && JSON.stringify(previousChecked) !== JSON.stringify(filterChecked))) {
-      setCurrPage(1);
+      setCurrPage(1);  // Reset page to 1 if filters are applied or changed
       setInputPage(1);
     }
 
@@ -877,7 +927,7 @@ const ProductList = () => {
     const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
     const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
-    if (location?.key === locationKey) {
+    if (location?.key === locationKey && (Object.keys(filterChecked)?.length > 0 || isClearAllClicked === true)) {
       setIsOnlyProdLoading(true);
       let DiaRange = { DiaMin: isDia ? sliderValue[0] : "", DiaMax: isDia ? sliderValue[1] : "" }
       let grossRange = { grossMin: isGross ? sliderValue2[0] : "", grossMax: isGross ? sliderValue2[1] : "" }
@@ -897,6 +947,7 @@ const ProductList = () => {
         .catch((err) => console.log("err", err))
         .finally(() => {
           setIsOnlyProdLoading(false);
+          setAfterCountStatus(false);
         });
     }
   }, [filterChecked]);
@@ -933,10 +984,12 @@ const ProductList = () => {
         )[0]
         : [];
     const isFilterChecked = Object.values(filterChecked).some((ele) => ele.checked);
+
     const isSliderChanged =
-      JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]) ||
-      JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]) ||
-      JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+      JSON.stringify(sliderValue) !== JSON.stringify((diafilter?.Min != null || diafilter?.Max != null) ? [diafilter?.Min, diafilter?.Max] : []) ||
+      JSON.stringify(sliderValue1) !== JSON.stringify((diafilter1?.Min != null || diafilter1?.Max != null) ? [diafilter1?.Min, diafilter1?.Max] : []) ||
+      JSON.stringify(sliderValue2) !== JSON.stringify((diafilter2?.Min != null || diafilter2?.Max != null) ? [diafilter2?.Min, diafilter2?.Max] : []);
+
 
     // if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
     if (isFilterChecked || isSliderChanged) {
@@ -964,13 +1017,20 @@ const ProductList = () => {
       setSliderValue([diafilter?.Min, diafilter?.Max]);
       setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
       setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
+      setInputDia([diafilter?.Min, diafilter?.Max]);
+      setInputNet([diafilter1?.Min, diafilter1?.Max]);
+      setInputGross([diafilter2?.Min, diafilter2?.Max]);
+      setAppliedRange1(["", ""])
+      setAppliedRange2(["", ""])
+      setAppliedRange3(["", ""])
+      setShow(false);
+      setShow1(false);
+      setShow2(false);
       setFilterChecked({});
-      setSortBySelect("Recommended");
-      setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
-      setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
-      setSelectedCsId(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
+      if (Object.keys(filterChecked).length > 0 || isSliderChanged) {
+        setIsClearAllClicked(true);
+      }
     }
-    setAccExpanded(false);
   };
 
   useEffect(() => {
@@ -1080,17 +1140,17 @@ const ProductList = () => {
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
-      autocode: ele?.autocode,
-      Metalid: selectedMetalId ?? ele?.MetalPurityid,
-      MetalColorId: ele?.MetalColorid,
-      DiaQCid: selectedDiaId ?? islogin == true ? loginInfo?.cmboDiaQCid : storeInit?.cmboDiaQCid,
-      CsQCid: selectedCsId ?? islogin == true ? loginInfo?.cmboCSQCid : storeInit?.cmboCSQCid,
-      Size: ele?.DefaultSize,
-      Unitcost: ele?.UnitCost,
-      markup: ele?.DesignMarkUp,
-      UnitCostWithmarkup: ele?.UnitCostWithMarkUp,
-      Remark: "",
-    };
+      "autocode": ele?.autocode,
+      "Metalid": (selectedMetalId ?? ele?.MetalPurityid),
+      "MetalColorId": ele?.MetalColorid,
+      "DiaQCid": (islogin ? loginInfo?.cmboDiaQCid : storeInit?.cmboDiaQCid),
+      "CsQCid": (islogin ? loginInfo?.cmboCSQCid : storeInit?.cmboCSQCid),
+      "Size": ele?.DefaultSize,
+      "Unitcost": ele?.UnitCost,
+      "markup": ele?.DesignMarkUp,
+      "UnitCostWithmarkup": ele?.UnitCostWithMarkUp,
+      "Remark": ""
+    }
 
     if (e.target.checked == true) {
       CartAndWishListAPI(type, prodObj, cookie)
@@ -1200,26 +1260,29 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    const obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    sessionStorage.setItem("short_cutCombo_val", JSON.stringify(obj));
 
-    sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
-
-    if (
-      loginInfo?.MetalId !== selectedMetalId ||
-      loginInfo?.cmboDiaQCid !== selectedDiaId ||
-      loginInfo?.cmboCSQCid !== selectedCsId
-    ) {
-      if (
-        selectedMetalId !== "" ||
-        selectedDiaId !== "" ||
-        selectedCsId !== ""
-      ) {
-        handelCustomCombo(obj);
+    if (loginInfo && Object.keys(loginInfo).length > 0) {
+      if (selectedMetalId != undefined || selectedDiaId != undefined || selectedCsId != undefined) {
+        if (loginInfo.MetalId !== selectedMetalId || loginInfo.cmboDiaQCid !== selectedDiaId || loginInfo.cmboCSQCid != selectedCsId) {
+          handelCustomCombo(obj);
+        }
       }
     } else {
-      handelCustomCombo(obj);
+      if (storeInit && Object.keys(storeInit).length > 0) {
+        if (selectedMetalId != undefined || selectedDiaId != undefined || selectedCsId != undefined) {
+          if (
+            storeInit?.MetalId !== selectedMetalId ||
+            storeInit?.cmboDiaQCid !== selectedDiaId ||
+            storeInit?.cmboCSQCid !== selectedCsId
+          ) {
+            handelCustomCombo(obj);
+          }
+        }
+      }
     }
   }, [selectedMetalId, selectedDiaId, selectedCsId]);
 
@@ -1923,183 +1986,606 @@ const ProductList = () => {
     },
   }
 
+  const resetRangeFilter = async ({
+    filterName,
+    setSliderValue,
+    setTempSliderValue,
+    handleRangeFilterApi,
+    prodListType,
+    cookie,
+    setIsShowBtn,
+    show, setShow,
+    setAppliedRange,
+  }) => {
+    try {
+      const res1 = await FilterListAPI(prodListType, cookie);
+      const optionsRaw = res1?.find((f) => f?.Name === filterName)?.options;
 
-  const RangeFilterView = (ele) => {
+      if (optionsRaw) {
+        const { Min = 0, Max = 100 } = JSON.parse(optionsRaw)?.[0] || {};
+        const resetValue = [Min, Max];
+        setSliderValue(resetValue);
+        setTempSliderValue(resetValue);
+        handleRangeFilterApi("");
+        setAppliedRange(["", ""])
+        // handleRangeFilterApi(resetValue);
+        setIsShowBtn?.(false);
+        if (show) setShow(false)
+      }
+    } catch (error) {
+      console.error(`Failed to reset filter "${filterName}":`, error);
+    }
+  };
+
+  const RangeFilterView = ({ ele, sliderValue, setSliderValue, handleRangeFilterApi, prodListType, cookie, setShow, show, setAppliedRange1, appliedRange1 }) => {
+    const parsedOptions = JSON.parse(ele?.options || "[]")?.[0] || {};
+    const min = Number(parsedOptions.Min || 0);  // Ensure min is a number
+    const max = Number(parsedOptions.Max || 100);
+    const [tempSliderValue, setTempSliderValue] = useState(sliderValue);
+    const [isShowBtn, setIsShowBtn] = useState(false);
+    const inputRefs = useRef([]);
+
+    useEffect(() => {
+      inputRefs.current = tempSliderValue.map((_, i) => inputRefs.current[i] ?? React.createRef());
+    }, [tempSliderValue]);
+
+    const handleKeyDown = (index) => (e) => {
+      if (e.key === 'Enter') {
+        if (index < tempSliderValue.length - 1) {
+          inputRefs.current[index + 1]?.current?.focus();
+        } else {
+          handleSave(); // last input triggers apply
+        }
+      }
+    };
+
+    useEffect(() => {
+      if (Array.isArray(sliderValue) && sliderValue.length === 2) {
+        setTempSliderValue(sliderValue);
+      }
+    }, [sliderValue]);
+
+    const handleInputChange = (index) => (event) => {
+      const value = event.target.value === "" ? "" : Number(event.target.value);
+      const updated = [...tempSliderValue];
+      updated[index] = value;
+      setTempSliderValue(updated);
+      setIsShowBtn(updated[0] !== sliderValue[0] || updated[1] !== sliderValue[1]);
+    };
+
+    const handleSliderChange = (_, newValue) => {
+      setTempSliderValue(newValue);
+      setIsShowBtn(newValue[0] !== sliderValue[0] || newValue[1] !== sliderValue[1]);
+    };
+
+    const handleSave = () => {
+      const [minDiaWt, maxDiaWt] = tempSliderValue;
+
+      // Empty or undefined
+      if (minDiaWt == null || maxDiaWt == null || minDiaWt === '' || maxDiaWt === '') {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Not a number
+      if (isNaN(minDiaWt) || isNaN(maxDiaWt)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Negative values
+      if (minDiaWt < 0 || maxDiaWt < 0) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Equal values
+      if (Number(minDiaWt) === Number(maxDiaWt)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Min > Max
+      if (Number(minDiaWt) > Number(maxDiaWt)) {
+        toast.error("Please enter valid range values.", {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Below actual min
+      if (minDiaWt < min) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Above actual max
+      if (maxDiaWt > max) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      setSliderValue(tempSliderValue);
+      setTempSliderValue(tempSliderValue);
+      handleRangeFilterApi(tempSliderValue);
+      setIsShowBtn(false);
+      setAppliedRange1([min, max])
+      setShow(true)
+    };
+
     return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={sliderValue}
-              onChange={(event, newValue) => setSliderValue(newValue)}
-              onChangeCommitted={handleSliderChange}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{
-                marginTop: "25px",
-                transition: "all 0.2s ease-out", // Smooth transition on value change
-              }}
-              disableSwap
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={sliderValue[0]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
+      <div style={{ position: "relative" }}>
 
-            />
-            <Input
-              value={sliderValue[1]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-
-            />
+        {appliedRange1 && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "4px",
+              position: "absolute",
+              top: "-12px",
+              width: "100%",
+            }}
+          >
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange1[0] !== "" ? `Min: ${appliedRange1[0]}` : ""}
+            </Typography>
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange1[1] !== "" ? `Max: ${appliedRange1[1]}` : ""}
+            </Typography>
           </div>
+        )}
+
+        <Slider
+          value={tempSliderValue}
+          onChange={handleSliderChange}
+          min={min}
+          max={max}
+          step={0.001}
+          disableSwap
+          valueLabelDisplay="off"
+          sx={{ marginTop: 1, transition: "all 0.2s ease-out" }}
+        />
+
+        <div style={{ display: "flex", gap: "10px", justifyContent: "space-around" }}>
+          {tempSliderValue.map((val, index) => (
+            <Input
+              key={index}
+              value={val}
+              inputRef={inputRefs.current[index]}
+              onKeyDown={handleKeyDown(index)}
+              onChange={handleInputChange(index)}
+              inputProps={{ step: 0.001, min, max, type: "number" }}
+              sx={{ textAlign: "center" }}
+            />
+          ))}
         </div>
-      </>
+
+        <Stack direction="row" justifyContent="flex-end" gap={1} mt={1}>
+          {show &&
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={() =>
+              resetRangeFilter({
+                filterName: "Diamond",
+                setSliderValue: setSliderValue,
+                setTempSliderValue,
+                handleRangeFilterApi: handleRangeFilterApi,
+                prodListType,
+                cookie,
+                setIsShowBtn,
+                show: show,
+                setShow: setShow,
+                setAppliedRange: setAppliedRange1,
+              })
+            } color="error">
+              Reset
+            </Button>
+          }
+          {isShowBtn && (
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={handleSave} color="success">
+              Apply
+            </Button>
+          )}
+        </Stack>
+      </div>
     );
   };
-  const RangeFilterView1 = (ele) => {
-    // console.log("netwt",ele)
+
+  const RangeFilterView1 = ({ ele, sliderValue1, setSliderValue1, handleRangeFilterApi1, prodListType, cookie, show1,
+    setShow1, setAppliedRange2, appliedRange2 }) => {
+    const parsedOptions = JSON.parse(ele?.options || "[]")?.[0] || {};
+    const min = parsedOptions.Min || "";
+    const max = parsedOptions.Max || "";
+    const [tempSliderValue, setTempSliderValue] = useState(sliderValue1);
+    const [isShowBtn, setIsShowBtn] = useState(false);
+    const inputRefs = useRef([]);
+
+    useEffect(() => {
+      inputRefs.current = tempSliderValue.map((_, i) => inputRefs.current[i] ?? React.createRef());
+    }, [tempSliderValue]);
+
+    const handleKeyDown = (index) => (e) => {
+      if (e.key === 'Enter') {
+        if (index < tempSliderValue.length - 1) {
+          inputRefs.current[index + 1]?.current?.focus();
+        } else {
+          handleSave(); // last input triggers apply
+        }
+      }
+    };
+
+    useEffect(() => {
+      if (Array.isArray(sliderValue1) && sliderValue1.length === 2) {
+        setTempSliderValue(sliderValue1);
+      }
+    }, [sliderValue1]);
+
+
+    useEffect(() => {
+      if (Array.isArray(sliderValue1) && sliderValue1.length === 2) {
+        setTempSliderValue(sliderValue1);
+      }
+    }, [sliderValue1]);
+
+    const handleInputChange = (index) => (event) => {
+      const newValue = event.target.value === "" ? "" : Number(event.target.value);
+      const updated = [...tempSliderValue];
+      updated[index] = newValue;
+      setTempSliderValue(updated);
+      setIsShowBtn(updated[0] !== sliderValue1[0] || updated[1] !== sliderValue1[1]);
+    };
+
+    const handleSliderChange = (_, newValue) => {
+      setTempSliderValue(newValue);
+      setIsShowBtn(newValue[0] !== sliderValue1[0] || newValue[1] !== sliderValue1[1]);
+    };
+
+    const handleSave = () => {
+      const [minNetWt, maxNetWt] = tempSliderValue;
+
+      if (minNetWt == null || maxNetWt == null || minNetWt === '' || maxNetWt === '') {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (isNaN(minNetWt) || isNaN(maxNetWt)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (minNetWt < 0 || maxNetWt < 0) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // 👇 New specific validation
+      if (Number(minNetWt) === Number(maxNetWt)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (Number(minNetWt) > Number(maxNetWt)) {
+        toast.error("Please enter valid range values.", {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (minNetWt < min) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (maxNetWt > max) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      setSliderValue1(tempSliderValue);
+      setTempSliderValue(tempSliderValue)
+      handleRangeFilterApi1(tempSliderValue);
+      setAppliedRange2([min, max])
+
+      setIsShowBtn(false);
+      setShow1(true)
+    };
+
     return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={sliderValue1}
-              onChange={(event, newValue) => setSliderValue1(newValue)}
-              onChangeCommitted={handleSliderChange1}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{
-                marginTop: "25px",
-                transition: "all 0.2s ease-out", // Smooth transition on value change
-              }}
-              disableSwap
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={sliderValue1[0]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange1(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
+      <div style={{ position: "relative" }}>
 
-            />
-            <Input
-              value={sliderValue1[1]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange1(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-
-            />
+        {appliedRange2 && (
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "4px", position: "absolute", top: '-12px', width: "100%" }}>
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange2[0] !== "" ? `Min: ${appliedRange2[0]}` : ""}
+            </Typography>
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange2[1] !== "" ? `Max: ${appliedRange2[1]}` : ""}
+            </Typography>
           </div>
+        )}
+
+        <Slider
+          value={tempSliderValue}
+          onChange={handleSliderChange}
+          valueLabelDisplay="off"
+          min={min}
+          max={max}
+          step={0.001}
+          disableSwap
+          sx={{
+            marginTop: "5px",
+            transition: "all 0.2s ease-out",
+            '& .MuiSlider-valueLabel': { display: 'none' },
+          }}
+        />
+        <div style={{ display: "flex", gap: "10px", justifyContent: "space-around" }}>
+          {tempSliderValue.map((val, index) => (
+            <Input
+              key={index}
+              inputRef={inputRefs.current[index]}
+              onKeyDown={handleKeyDown(index)}
+              value={val}
+              onChange={handleInputChange(index)}
+              inputProps={{ step: 0.001, min, max, type: "number" }}
+              sx={{ textAlign: "center" }}
+            />
+          ))}
         </div>
-      </>
+        <Stack flexDirection="row" justifyContent="flex-end" gap={1} mt={1}>
+          {show1 &&
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={() =>
+              resetRangeFilter({
+                filterName: "NetWt",
+                setSliderValue: setSliderValue1,
+                setTempSliderValue,
+                handleRangeFilterApi: handleRangeFilterApi1,
+                prodListType,
+                cookie,
+                setIsShowBtn,
+                show: show1,
+                setShow: setShow1,
+                setAppliedRange: setAppliedRange2,
+              })
+            } color="error">
+              Reset
+            </Button>
+          }
+          {isShowBtn && (
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={handleSave} color="success">
+              Apply
+            </Button>
+          )}
+        </Stack>
+      </div>
     );
   };
-  const RangeFilterView2 = (ele) => {
+
+  const RangeFilterView2 = ({ ele, sliderValue2, setSliderValue2, handleRangeFilterApi2, prodListType, cookie, show2, setShow2, setAppliedRange3, appliedRange3 }) => {
+    const parsedOptions = JSON.parse(ele?.options || "[]")?.[0] || {};
+    const min = parsedOptions.Min ?? "";
+    const max = parsedOptions.Max ?? "";
+    const [tempSliderValue, setTempSliderValue] = useState(sliderValue2);
+    const [isShowBtn, setIsShowBtn] = useState(false);
+    const inputRefs = useRef([]);
+
+    useEffect(() => {
+      inputRefs.current = tempSliderValue.map((_, i) => inputRefs.current[i] ?? React.createRef());
+    }, [tempSliderValue]);
+
+    const handleKeyDown = (index) => (e) => {
+      if (e.key === 'Enter') {
+        if (index < tempSliderValue.length - 1) {
+          inputRefs.current[index + 1]?.current?.focus();
+        } else {
+          handleSave(); // last input triggers apply
+        }
+      }
+    };
+
+    useEffect(() => {
+      if (Array.isArray(sliderValue2) && sliderValue2.length === 2) {
+        setTempSliderValue(sliderValue2);
+      }
+    }, [sliderValue2]);
+
+
+    const handleInputChange = (index) => (event) => {
+      const newValue = event.target.value === "" ? "" : Number(event.target.value);
+      const updated = [...tempSliderValue];
+      updated[index] = newValue;
+      setTempSliderValue(updated);
+      setIsShowBtn(
+        updated[0] !== sliderValue2[0] || updated[1] !== sliderValue2[1]
+      );
+    };
+
+    const handleSliderChange = (_, newValue) => {
+      setTempSliderValue(newValue);
+      setIsShowBtn(
+        newValue[0] !== sliderValue2[0] || newValue[1] !== sliderValue2[1]
+      );
+    };
+
+    const handleSave = () => {
+      const [minWeight, maxWeight] = tempSliderValue;
+
+      // Validation: Empty or undefined
+      if (minWeight == null || maxWeight == null || minWeight === '' || maxWeight === '') {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Validation: Not a number
+      if (isNaN(minWeight) || isNaN(maxWeight)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Validation: Negative values
+      if (minWeight < 0 || maxWeight < 0) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // 👇 New specific validation
+      if (Number(minWeight) === Number(maxWeight)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Validation: Min > Max
+      if (Number(minWeight) > Number(maxWeight)) {
+        toast.error("Please enter valid range values.", {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Validation: Range must stay within allowed min and max
+      if (minWeight < min) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (maxWeight > max) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // If validation passes, update the parent state and handle the API call
+      setSliderValue2(tempSliderValue);
+      setTempSliderValue(tempSliderValue)
+      handleRangeFilterApi2(tempSliderValue);
+      setAppliedRange3([min, max]);
+      setIsShowBtn(false);
+      setShow2(true)
+    };
+
     return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={sliderValue2}
-              onChange={(event, newValue) => setSliderValue2(newValue)}
-              onChangeCommitted={handleSliderChange2}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{
-                marginTop: "25px",
-                transition: "all 0.2s ease-out", // Smooth transition on value change
-              }}
-              disableSwap
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={sliderValue2[0]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange2(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
+      <div style={{ position: "relative" }}>
 
-            />
-            <Input
-              value={sliderValue2[1]?.toFixed(3)}
-              margin="dense"
-              onChange={handleInputChange2(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-                readOnly: true,  // Disable manual editing
-              }}
-              readOnly
-              sx={{ cursor: 'not-allowed', textAlign: "center" }}  // Change cursor to 'not-allowed'
-
-            />
+        {appliedRange3 && (
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "4px", position: "absolute", top: '-12px', width: "100%" }}>
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange3[0] !== "" ? `Min: ${appliedRange3[0]}` : ""}
+            </Typography>
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange3[1] !== "" ? `Max: ${appliedRange3[1]}` : ""}
+            </Typography>
           </div>
+        )}
+
+        <Slider
+          value={tempSliderValue}
+          onChange={handleSliderChange}
+          valueLabelDisplay="off"
+          min={min}
+          max={max}
+          step={0.001}
+          disableSwap
+          sx={{
+            marginTop: "5px",
+            transition: "all 0.2s ease-out",
+            '& .MuiSlider-valueLabel': { display: 'none' },
+          }}
+        />
+
+        <div style={{ display: "flex", gap: "10px", justifyContent: "space-around" }}>
+          {tempSliderValue.map((val, index) => (
+            <Input
+              key={index}
+              inputRef={inputRefs.current[index]}
+              value={val}
+              onKeyDown={handleKeyDown(index)}
+              onChange={handleInputChange(index)}
+              inputProps={{ step: 0.001, type: "number" }}
+              sx={{ textAlign: "center" }}
+            />
+          ))}
         </div>
-      </>
+
+        <Stack direction="row" justifyContent="flex-end" gap={1} mt={1}>
+          {show2 &&
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={() =>
+              resetRangeFilter({
+                filterName: "Gross",
+                setSliderValue: setSliderValue2,
+                setTempSliderValue,
+                handleRangeFilterApi: handleRangeFilterApi2,
+                prodListType,
+                cookie,
+                setIsShowBtn,
+                show: show2,
+                setShow: setShow2,
+                setAppliedRange: setAppliedRange3,
+              })
+            } color="error">
+              Reset
+            </Button>
+          }
+          {isShowBtn && (
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={handleSave} color="success">
+              Apply
+            </Button>
+          )}
+        </Stack>
+      </div>
     );
   };
 
@@ -2230,8 +2716,35 @@ const ProductList = () => {
     checkAllImages();
   }, [finalProductListData]);
 
+  // useEffect(() => {
+  //   const loadImagesSequentially = async () => {
+
+  //     const availability = {};
+
+  //     for (const item of finalProductListData) {
+  //       const hasImage = !!(item?.images?.[0]); // Check if image exists
+  //       const autocode = item?.autocode;
+
+  //       availability[autocode] = hasImage;
+
+  //       // Progressive update
+  //       setImageAvailability((prev) => ({
+  //         ...prev,
+  //         [autocode]: hasImage,
+  //       }));
+
+  //       // 150ms delay before moving to the next one
+  //       await new Promise((resolve) => setTimeout(resolve, 150));
+  //     }
+  //   };
+
+  //   if (finalProductListData?.length > 0) {
+  //     loadImagesSequentially();
+  //   }
+  // }, [finalProductListData]);
 
   const showClearAllButton = () => {
+
     let diafilter =
       filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
         ?.length > 0
@@ -2255,9 +2768,9 @@ const ProductList = () => {
         : [];
     const isFilterChecked = Object.values(filterChecked).some((ele) => ele.checked);
     const isSliderChanged =
-      JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]) ||
-      JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]) ||
-      JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+      JSON.stringify(sliderValue) !== JSON.stringify((diafilter?.Min != null || diafilter?.Max != null) ? [diafilter?.Min, diafilter?.Max] : []) ||
+      JSON.stringify(sliderValue1) !== JSON.stringify((diafilter1?.Min != null || diafilter1?.Max != null) ? [diafilter1?.Min, diafilter1?.Max] : []) ||
+      JSON.stringify(sliderValue2) !== JSON.stringify((diafilter2?.Min != null || diafilter2?.Max != null) ? [diafilter2?.Min, diafilter2?.Max] : []);
 
     return isFilterChecked || isSliderChanged;
   };
@@ -2844,7 +3357,8 @@ const ProductList = () => {
                           >
                             {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                             <Box sx={SharedStyleForRange}>
-                              {RangeFilterView(ele)}
+                              {/* {RangeFilterView(ele)} */}
+                              <RangeFilterView ele={ele} sliderValue={sliderValue} setSliderValue={setSliderValue} handleRangeFilterApi={handleRangeFilterApi} prodListType={prodListType} cookie={cookie} show={show} setShow={setShow} appliedRange1={appliedRange1} setAppliedRange1={setAppliedRange1} />
                             </Box>
                           </AccordionDetails>
                         </Accordion>
@@ -2899,7 +3413,8 @@ const ProductList = () => {
                           >
                             {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                             <Box sx={SharedStyleForRange}>
-                              {RangeFilterView1(ele)}
+                              {/* {RangeFilterView1(ele)} */}
+                              <RangeFilterView1 ele={ele} sliderValue1={sliderValue1} setSliderValue1={setSliderValue1} handleRangeFilterApi1={handleRangeFilterApi1} prodListType={prodListType} cookie={cookie} show1={show1} setShow1={setShow1} appliedRange2={appliedRange2} setAppliedRange2={setAppliedRange2} />
                             </Box>
                           </AccordionDetails>
                         </Accordion>
@@ -2953,7 +3468,8 @@ const ProductList = () => {
                             }}
                           >
                             <Box sx={SharedStyleForRange}>
-                              {RangeFilterView2(ele)}
+                              {/* {RangeFilterView2(ele)} */}
+                              <RangeFilterView2 ele={ele} sliderValue2={sliderValue2} setSliderValue2={setSliderValue2} handleRangeFilterApi2={handleRangeFilterApi2} prodListType={prodListType} cookie={cookie} show2={show2} setShow2={setShow2} appliedRange3={appliedRange3} setAppliedRange3={setAppliedRange3} />
                             </Box>
                           </AccordionDetails>
                         </Accordion>
@@ -3242,6 +3758,26 @@ const ProductList = () => {
                     sliderValue={sliderValue}
                     sliderValue1={sliderValue1}
                     sliderValue2={sliderValue2}
+                    setSliderValue={setSliderValue}
+                    setSliderValue1={setSliderValue1}
+                    setSliderValue2={setSliderValue2}
+                    handleRangeFilterApi={handleRangeFilterApi}
+                    handleRangeFilterApi1={handleRangeFilterApi1}
+                    handleRangeFilterApi2={handleRangeFilterApi2}
+                    prodListType={prodListType}
+                    cookie={cookie}
+                    show={show}
+                    show1={show1}
+                    show2={show2}
+                    setShow={setShow}
+                    setShow1={setShow1}
+                    setShow2={setShow2}
+                    appliedRange1={appliedRange1}
+                    appliedRange2={appliedRange2}
+                    appliedRange3={appliedRange3}
+                    setAppliedRange1={setAppliedRange1}
+                    setAppliedRange2={setAppliedRange2}
+                    setAppliedRange3={setAppliedRange3}
                   />
                   <div className="mala_mainPortion">
                     <div
@@ -3284,426 +3820,24 @@ const ProductList = () => {
                                 {finalProductListData?.map((productData, i) => {
                                   const isAllWeight = productData?.Gwt > 0 && productData?.Nwt > 0 && productData?.Dwt > 0 && productData?.CSwt > 0;
                                   const isChecked = cartArr[productData?.autocode] ?? productData?.IsInCart === 1;
-                                  const isAvailable = imageAvailability[productData?.autocode];
-                                  const isLoading = productData && productData?.loading === true;
-                                  return <>
-                                    <div className="mala_productCard">
-                                      <div className="cart_and_wishlist_icon">
-                                        {/* <Button className="mala_cart-icon"> */}
-                                        {/* <Checkbox
-                                        icon={
-                                          <LocalMallOutlinedIcon
-                                            sx={{
-                                              fontSize: "22px",
-                                              color: "#7d7f85",
-                                              opacity: ".7",
-                                            }}
-                                          />
-                                        }
-                                        checkedIcon={
-                                          <LocalMallIcon
-                                            sx={{
-                                              fontSize: "22px",
-                                              color: "#009500",
-                                            }}
-                                          />
-                                        }
-                                        disableRipple={false}
-                                        sx={{ padding: "10px" }}
-                                        onChange={(e) =>
-                                          handleCartandWish(
-                                            e,
-                                            productData,
-                                            "Cart"
-                                          )
-                                        }
-                                        checked={
-                                          cartArr[productData?.autocode] ??
-                                          productData?.IsInCart === 1
-                                            ? true
-                                            : false
-                                        }
-                                      /> */}
-
-                                        {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
-                                        {/* </Button> */}
-                                        {/* <Button className="mala_wish-icon"> */}
-                                        <Checkbox
-                                          icon={
-                                            <FavoriteBorderIcon
-                                              sx={{
-                                                fontSize: "26px",
-                                                color: "#7d7f85",
-                                                opacity: ".7",
-                                              }}
-                                            />
-                                          }
-                                          checkedIcon={
-                                            <FavoriteIcon
-                                              sx={{
-                                                fontSize: "26px",
-                                                color: "red",
-                                              }}
-                                            />
-                                          }
-                                          disableRipple={false}
-                                          sx={{ padding: "10px" }}
-                                          onChange={(e) =>
-                                            handleCartandWish(
-                                              e,
-                                              productData,
-                                              "Wish"
-                                            )
-                                          }
-                                          // checked={productData?.IsInWish}
-                                          checked={
-                                            wishArr[productData?.autocode] ??
-                                              productData?.IsInWish === 1
-                                              ? true
-                                              : false
-                                          }
-                                        // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
-                                        // onChange={(e) => handelWishList(e, products)}
-                                        />
-                                        {/* </Button> */}
-                                      </div>
-
-                                      <div className="smrWeb_app_product_label">
-                                        {productData?.IsInReadyStock == 1 && (
-                                          <span className="smrWeb_app_instock">
-                                            In Stock
-                                          </span>
-                                        )}
-                                        {productData?.IsBestSeller == 1 && (
-                                          <span className="smrWeb_app_bestSeller">
-                                            Best Seller
-                                          </span>
-                                        )}
-                                        {productData?.IsTrending == 1 && (
-                                          <span className="smrWeb_app_intrending">
-                                            Trending
-                                          </span>
-                                        )}
-                                        {productData?.IsNewArrival == 1 && (
-                                          <span className="smrWeb_app_newarrival">
-                                            New
-                                          </span>
-                                        )}
-                                      </div>
-                                      {isLoading ?
-                                        <CardMedia
-                                          style={{ width: "100%" }}
-                                          className="cardMainSkeleton"
-                                        >
-                                          <Skeleton
-                                            animation="wave"
-                                            variant="rect"
-                                            width={"100%"}
-                                            height="380px"
-                                            sx={{
-                                              height: {
-                                                sm: "380px",
-                                                xs: "300px",
-                                                md: "380px",
-                                                lg: "380px",
-                                              }
-                                            }}
-                                            style={{ backgroundColor: "#e8e8e86e" }}
-                                          />
-                                        </CardMedia> :
-                                        <div
-                                          onMouseEnter={() => {
-                                            handleImgRollover(productData);
-                                            if (productData?.VideoCount > 0) {
-                                              setIsRollOverVideo({
-                                                [productData?.autocode]: true,
-                                              });
-                                            } else {
-                                              setIsRollOverVideo({
-                                                [productData?.autocode]: false,
-                                              });
-                                            }
-                                          }}
-                                          onClick={() =>
-                                            handleMoveToDetail(productData)
-                                          }
-                                          onMouseLeave={() => {
-                                            handleLeaveImgRolloverImg(productData);
-                                            setIsRollOverVideo({
-                                              [productData?.autocode]: false,
-                                            });
-                                          }}
-                                          className="mala_ImgandVideoContainer"
-                                        >
-                                          {isRollOverVideo[productData?.autocode] ==
-                                            true ? (
-                                            <video
-                                              //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
-                                              src={
-                                                productData?.VideoCount > 0
-                                                  ? (storeInit?.CDNVPath) +
-                                                  productData?.designno +
-                                                  "~" +
-                                                  1 +
-                                                  "." +
-                                                  productData?.VideoExtension
-                                                  : ""
-                                              }
-                                              loop={true}
-                                              autoPlay={true}
-                                              className="mala_productCard_video"
-                                              onError={(e) => {
-                                                e.target.poster = imageNotFound
-                                              }}
-                                            // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
-                                            />
-                                          ) : (
-                                            <img
-                                              className="mala_productListCard_Image"
-                                              id={`mala_productListCard_Image${productData?.autocode}`}
-                                              // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                                              // src={ ProdCardImageFunc(productData,0)}
-                                              src={
-                                                rollOverImgPd[productData?.autocode]
-                                                  ? rollOverImgPd[productData?.autocode]
-                                                  : productData?.images[0]
-                                                // ? productData?.images[0]
-                                                // : isAvailable === undefined ? <ProductCard_Skeleton /> : imageNotFound
-                                              }
-                                              onError={(e) => {
-                                                e.target.src = imageNotFound
-                                              }}
-                                              // {old}
-                                              // src={
-                                              //   rollOverImgPd[productData?.autocode]
-                                              //     ? rollOverImgPd[
-                                              //     productData?.autocode
-                                              //     ]
-                                              //     : productData?.images?.length > 0
-                                              //       ? productData?.images[0]
-                                              //       : imageNotFound
-                                              // }
-                                              alt=""
-
-                                            />
-                                          )}
-                                        </div>
-                                      }
-                                      <div className="mala_prod_card_info" style={{ height: isAllWeight ? "110px" : "90px" }}>
-                                        <div className="mala_prod_Title">
-                                          <span
-                                            className={
-                                              "titleline_malakan"
-                                            }
-                                          >
-                                            {/* {productData?.TitleLine?.length > 0 &&
-                                            "-"}
-                                          {productData?.TitleLine}{" "} */}
-                                            {productData?.designno !== "" && productData?.designno}
-                                            {formatTitleLine(productData?.TitleLine) && " - " + productData?.TitleLine}
-                                          </span>
-                                          {/* <span className="mala_prod_designno">
-                                          {productData?.designno}
-                                        </span> */}
-                                        </div>
-                                        <div className="mala_prod_Allwt">
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              justifyContent: "center",
-                                              alignItems: "center",
-                                              letterSpacing: maxwidth590px ? "0px" : "1px",
-                                              flexWrap: "wrap",
-                                              overflow: "hidden",
-                                              whiteSpace: "nowrap",
-                                              textOverflow: "ellipsis",
-                                            }}
-                                          >
-                                            {/* <span className="mala_por"> */}
-
-                                            {storeInit?.IsGrossWeight == 1 &&
-                                              Number(productData?.Gwt) !== 0 && (
-                                                <span className="mala_prod_wt">
-                                                  <span className="mala_main_keys">
-                                                    GWT:
-                                                  </span>
-                                                  <span className="mala_main_val">
-                                                    {productData?.Gwt?.toFixed(3)}
-                                                  </span>
-                                                </span>
-                                              )}
-                                            {Number(productData?.Nwt) !== 0 && (
-                                              <>
-                                                <span
-                                                  style={{
-                                                    fontSize: "8px",
-                                                    marginInline: "5px",
-                                                  }}
-                                                >
-                                                  |
-                                                </span>
-                                                <span className="mala_prod_wt">
-                                                  <span className="mala_main_keys">
-                                                    NWT:
-                                                  </span>
-                                                  <span className="mala_main_val">
-                                                    {productData?.Nwt?.toFixed(3)}
-                                                  </span>
-                                                </span>
-                                              </>
-                                            )}
-                                            {/* </span> */}
-                                            {/* <span className="mala_por"> */}
-                                            {storeInit?.IsDiamondWeight == 1 &&
-                                              Number(productData?.Dwt) !== 0 && (
-                                                <>
-                                                  <span
-                                                    style={{
-                                                      fontSize: "8px",
-                                                      marginInline: "5px",
-                                                    }}
-                                                  >
-                                                    |
-                                                  </span>
-                                                  <span className="mala_prod_wt">
-                                                    <span className="mala_main_keys">
-                                                      DWT:
-                                                    </span>
-                                                    <span className="mala_main_val">
-                                                      {productData?.Dwt?.toFixed(
-                                                        3
-                                                      )}
-                                                      {storeInit?.IsDiamondPcs ===
-                                                        1
-                                                        ? `/${productData?.Dpcs}`
-                                                        : null}
-                                                    </span>
-                                                  </span>
-                                                </>
-                                              )}
-                                            {storeInit?.IsStoneWeight == 1 &&
-                                              Number(productData?.CSwt) !== 0 && (
-                                                <>
-                                                  <span
-                                                    style={{
-                                                      fontSize: "8px",
-                                                      marginInline: "5px",
-                                                    }}
-                                                  >
-                                                    |
-                                                  </span>
-                                                  <span className="mala_prod_wt">
-                                                    <span className="mala_main_keys">
-                                                      CWT:
-                                                    </span>
-                                                    <span className="mala_main_val">
-                                                      {productData?.CSwt?.toFixed(
-                                                        3
-                                                      )}
-                                                      {storeInit?.IsStonePcs === 1
-                                                        ? `/${productData?.CSpcs}`
-                                                        : null}
-                                                    </span>
-                                                  </span>
-                                                </>
-                                              )}
-                                            {/* </span> */}
-                                          </div>
-                                        </div>
-                                        <div className="mala_prod_mtcolr_price" style={{
-                                          fontWeight: "900"
-                                        }}>
-                                          <span className="mala_prod_metal_col">
-                                            {findMetalColor(
-                                              productData?.MetalColorid
-                                            )?.[0]?.metalcolorname.toUpperCase()}
-                                            {findMetalColor(productData?.MetalColorid)?.[0]?.metalcolorname && findMetalType(
-                                              productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
-                                            )[0]?.metaltype
-                                              ? " - "
-                                              : ""}
-                                            {
-                                              findMetalType(
-                                                productData?.IsMrpBase == 1
-                                                  ? productData?.MetalPurityid
-                                                  : selectedMetalId ??
-                                                  productData?.MetalPurityid
-                                              )[0]?.metaltype
-                                            }
-                                          </span>
-                                          {storeInit?.IsPriceShow == 1 && <>
-                                            <span>/</span>
-                                            <span className="mala_price" style={{
-                                              fontWeight: "900"
-                                            }}>
-                                              {/*  <span
-                                        className="mala_currencyFont"
-                                        dangerouslySetInnerHTML={{
-                                          __html: decodeEntities(
-                                            storeInit?.Currencysymbol
-                                          ),
-                                        }}
-                                      /> */}
-                                              <span className="mala_currencyFont" style={{
-                                                color: "grey"
-                                              }}>
-                                                {loginUserDetail?.CurrencyCode ??
-                                                  storeInit?.CurrencyCode}
-                                              </span>
-                                              <span className="mala_pricePort" style={{
-                                                color: "grey"
-                                              }}>
-                                                {/* {productData?.ismrpbase === 1
-                                              ? productData?.mrpbaseprice
-                                              : PriceWithMarkupFunction(
-                                                productData?.markup,
-                                                productData?.price,
-                                                storeInit?.CurrencyRate
-                                              )?.toFixed(2)} */}
-                                                {formatter(
-                                                  productData?.UnitCostWithMarkUp
-                                                )}
-                                              </span>
-                                            </span>
-                                          </>}
-
-                                        </div>
-                                        {/* <div className="fmg_mal1_prodBtn">
-                                          <FormControlLabel
-                                            control={
-                                              <Checkbox
-                                                icon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
-                                                checkedIcon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
-                                                onChange={(e) => handleCartandWish(e, productData, "Cart")}
-                                                checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1}
-                                              />
-                                            }
-                                            label={<span className={`fmg_mal1_prodBtn_proBtn_text`}>{isChecked ? "Remove from Cart" : "Add to Cart"}</span>}
-                                          />
-                                        </div> */}
-                                        <FormControlLabel
-                                          control={
-                                            <Checkbox
-                                              icon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
-                                              checkedIcon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
-                                              checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1}
-                                              onChange={(e) => handleCartandWish(e, productData, "Cart")}
-                                            />
-                                          }
-                                          label={
-                                            <span
-                                              className={`fmg_mal1_prodBtn_proBtn_text`}
-                                            >
-                                              {isChecked
-                                                ? "Remove from Cart"
-                                                : "Add to Cart"}
-                                            </span>
-                                          }
-                                          className="fmg_mal1_prodBtn"
-                                        />
-                                      </div>
-                                    </div>
-                                  </>
+                                  return (
+                                    <Product_Card
+                                      productData={productData}
+                                      cartArr={cartArr}
+                                      handleCartandWish={handleCartandWish}
+                                      wishArr={wishArr}
+                                      videoUrl={getDynamicVideo(productData.designno, productData.VideoCount, productData.VideoExtension)}
+                                      RollImageUrl={getDynamicRollImages(productData.designno, productData.ImageCount, productData.ImageExtension)}
+                                      imageUrl={getDynamicImages(productData.designno, productData.ImageExtension)}
+                                      handleMoveToDetail={handleMoveToDetail}
+                                      storeInit={storeInit}
+                                      selectedMetalId={selectedMetalId}
+                                      loginUserDetail={loginUserDetail}
+                                      productIndex={i}
+                                      isAllWeight={isAllWeight}
+                                      isChecked={isChecked}
+                                    />
+                                  )
                                 })}
                               </div>
                             </div>
@@ -3856,7 +3990,27 @@ const GivaFilterMenu = ({
   showClearAllButton,
   sliderValue,
   sliderValue1,
-  sliderValue2
+  sliderValue2,
+  setSliderValue,
+  setSliderValue1,
+  setSliderValue2,
+  handleRangeFilterApi,
+  handleRangeFilterApi1,
+  handleRangeFilterApi2,
+  prodListType,
+  cookie,
+  show,
+  show1,
+  show2,
+  setShow,
+  setShow1,
+  setShow2,
+  appliedRange1,
+  appliedRange2,
+  appliedRange3,
+  setAppliedRange1,
+  setAppliedRange2,
+  setAppliedRange3
 }) => {
   const [showMenu, setshowMenu] = useState(-1);
   const CustomLabel = ({ text }) => (
@@ -4229,7 +4383,8 @@ const GivaFilterMenu = ({
                             >
                               {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                               <Box sx={{ width: 203, height: 88 }}>
-                                {RangeFilterView(ele)}
+                                {/* {RangeFilterView(ele)} */}
+                                <RangeFilterView ele={ele} sliderValue={sliderValue} setSliderValue={setSliderValue} handleRangeFilterApi={handleRangeFilterApi} prodListType={prodListType} cookie={cookie} show={show} setShow={setShow} appliedRange1={appliedRange1} setAppliedRange1={setAppliedRange1} />
                               </Box>
                             </AccordionDetails>
                           </Accordion>
@@ -4285,7 +4440,8 @@ const GivaFilterMenu = ({
                             >
                               {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                               <Box sx={{ width: 204, height: 88 }}>
-                                {RangeFilterView1(ele)}
+                                {/* {RangeFilterView1(ele)} */}
+                                <RangeFilterView1 ele={ele} sliderValue1={sliderValue1} setSliderValue1={setSliderValue1} handleRangeFilterApi1={handleRangeFilterApi1} prodListType={prodListType} cookie={cookie} show1={show1} setShow1={setShow1} appliedRange2={appliedRange2} setAppliedRange2={setAppliedRange2} />
                               </Box>
                             </AccordionDetails>
                           </Accordion>
@@ -4340,7 +4496,8 @@ const GivaFilterMenu = ({
                               }}
                             >
                               <Box sx={{ width: 204, height: 88 }}>
-                                {RangeFilterView2(ele)}
+                                {/* {RangeFilterView2(ele)} */}
+                                <RangeFilterView2 ele={ele} sliderValue2={sliderValue2} setSliderValue2={setSliderValue2} handleRangeFilterApi2={handleRangeFilterApi2} prodListType={prodListType} cookie={cookie} show2={show2} setShow2={setShow2} appliedRange3={appliedRange3} setAppliedRange3={setAppliedRange3} />
                               </Box>
                             </AccordionDetails>
                           </Accordion>
@@ -4379,12 +4536,12 @@ const GivaFilterMenu = ({
                             control={
                               <Checkbox
                                 name={metalele?.Metalid}
-                                checked={selectedMetalId === metalele?.Metalid}
+                                checked={selectedMetalId == metalele?.Metalid}
                                 style={{
                                   padding: 0,
                                 }}
                                 onChange={(e) => {
-                                  setSelectedMetalId(metalele?.Metalid);
+                                  setSelectedMetalId(`${metalele?.Metalid}`);
                                   setCurrPage(1);
                                   setInputPage(1);
                                 }}
@@ -4433,12 +4590,19 @@ const GivaFilterMenu = ({
                               control={
                                 <Checkbox
                                   name={`${diaQc.Quality.toUpperCase()},${diaQc.color.toUpperCase()}}`}
-                                  checked={selectedDiaId === `${diaQc?.QualityId},${diaQc?.ColorId}`}
+                                  checked={
+                                    typeof selectedDiaId === 'string'
+                                      ? selectedDiaId === `${diaQc?.QualityId},${diaQc?.ColorId}`
+                                      : selectedDiaId?.qualityId === diaQc?.QualityId && selectedDiaId?.colorId === diaQc?.ColorId
+                                  }
                                   style={{
                                     padding: 0,
                                   }}
                                   onChange={(e) => {
-                                    setSelectedDiaId(`${diaQc?.QualityId},${diaQc?.ColorId}`);
+                                    setSelectedDiaId({
+                                      qualityId: Number(diaQc?.QualityId),
+                                      colorId: Number(diaQc?.ColorId),
+                                    });
                                     setCurrPage(1);
                                     setInputPage(1);
                                   }}
@@ -4803,6 +4967,452 @@ const ClearAllAndTotalResult = ({ afterFilterCount, filterChecked, afterCountSta
     </span>
   </div>
 }
+
+const Product_Card = ({
+  productData,
+  cartArr,
+  handleCartandWish,
+  wishArr,
+  videoUrl,
+  RollImageUrl,
+  imageUrl,
+  handleMoveToDetail,
+  storeInit,
+  selectedMetalId,
+  loginUserDetail,
+  productIndex,
+  isAllWeight,
+  isChecked,
+}) => {
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isHover, setIsHover] = useState(false);
+  let maxwidth590px = useMediaQuery("(max-width:590px)");
+
+  useEffect(() => {
+    const delay = (productIndex + 1) * 100;
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [productIndex]);
+
+  return (
+    <div className="mala_productCard">
+      <div className="cart_and_wishlist_icon">
+        {/* <Button className="mala_cart-icon"> */}
+        {/* <Checkbox
+      icon={
+        <LocalMallOutlinedIcon
+          sx={{
+            fontSize: "22px",
+            color: "#7d7f85",
+            opacity: ".7",
+          }}
+        />
+      }
+      checkedIcon={
+        <LocalMallIcon
+          sx={{
+            fontSize: "22px",
+            color: "#009500",
+          }}
+        />
+      }
+      disableRipple={false}
+      sx={{ padding: "10px" }}
+      onChange={(e) =>
+        handleCartandWish(
+          e,
+          productData,
+          "Cart"
+        )
+      }
+      checked={
+        cartArr[productData?.autocode] ??
+        productData?.IsInCart === 1
+          ? true
+          : false
+      }
+    /> */}
+
+        {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
+        {/* </Button> */}
+        {/* <Button className="mala_wish-icon"> */}
+        <Checkbox
+          icon={
+            <FavoriteBorderIcon
+              sx={{
+                fontSize: "26px",
+                color: "#7d7f85",
+                opacity: ".7",
+              }}
+            />
+          }
+          checkedIcon={
+            <FavoriteIcon
+              sx={{
+                fontSize: "26px",
+                color: "red",
+              }}
+            />
+          }
+          disableRipple={false}
+          sx={{ padding: "10px" }}
+          onChange={(e) =>
+            handleCartandWish(
+              e,
+              productData,
+              "Wish"
+            )
+          }
+          // checked={productData?.IsInWish}
+          checked={
+            wishArr[productData?.autocode] ??
+              productData?.IsInWish === 1
+              ? true
+              : false
+          }
+        // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
+        // onChange={(e) => handelWishList(e, products)}
+        />
+        {/* </Button> */}
+      </div>
+
+      <div className="smrWeb_app_product_label">
+        {productData?.IsInReadyStock == 1 && (
+          <span className="smrWeb_app_instock">
+            In Stock
+          </span>
+        )}
+        {productData?.IsBestSeller == 1 && (
+          <span className="smrWeb_app_bestSeller">
+            Best Seller
+          </span>
+        )}
+        {productData?.IsTrending == 1 && (
+          <span className="smrWeb_app_intrending">
+            Trending
+          </span>
+        )}
+        {productData?.IsNewArrival == 1 && (
+          <span className="smrWeb_app_newarrival">
+            New
+          </span>
+        )}
+      </div>
+      {isLoading ?
+        <CardMedia
+          style={{ width: "100%" }}
+          className="cardMainSkeleton"
+        >
+          <Skeleton
+            animation="wave"
+            variant="rect"
+            width={"100%"}
+            height="380px"
+            sx={{
+              height: {
+                sm: "380px",
+                xs: "300px",
+                md: "380px",
+                lg: "380px",
+              }
+            }}
+            style={{ backgroundColor: "#e8e8e86e" }}
+          />
+        </CardMedia> :
+        <div
+          onClick={() =>
+            handleMoveToDetail(productData)
+          }
+          onMouseMove={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
+          className="mala_ImgandVideoContainer"
+          style={{ position: 'relative', overflow: 'hidden' }}
+        >
+          <div>
+            {isLoading ? (
+              <CardMedia
+                style={{ width: '100%', height: '100%' }}
+                className="mala_productCard_cardMainSkeleton"
+              >
+                <Skeleton
+                  animation="wave"
+                  variant="rect"
+                  width="100%"
+                  height="100%"
+                  style={{ backgroundColor: '#e8e8e86e' }}
+                />
+              </CardMedia>
+            ) : (
+              <>
+                {/* Hover Content (Video or RollImage) */}
+                <div style={{ display: isHover ? "block" : "none" }}>
+                  {videoUrl !== undefined ? (
+                    <video
+                      className="mala_productCard_video"
+                      src={videoUrl}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      onError={(e) => {
+                        e.target.poster = imageNotFound;
+                      }}
+                    />
+                  ) : (videoUrl === undefined && RollImageUrl !== undefined) ? (
+                    <img
+                      className="mala_productListCard_Image"
+                      src={RollImageUrl}
+                      onError={(e) => {
+                        if (productData?.ImageCount > 0) {
+                          e.target.src = RollImageUrl;
+                        }
+                        e.target.src = imageNotFound;
+                      }}
+                    />
+                  ) : null}
+                </div>
+
+                {/* Default Image */}
+                <img
+                  className="mala_productListCard_Image"
+                  src={imageUrl}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.stopPropagation();
+                    e.target.src = imageNotFound;
+                  }}
+                  style={{
+                    opacity: isHover && (RollImageUrl || videoUrl) ? "0" : "1",
+                    transition: '0s ease-in-out',
+                  }}
+                />
+              </>
+            )}
+          </div>
+        </div>
+      }
+      <div className="mala_prod_card_info" style={{ height: isAllWeight ? "110px" : "90px" }}>
+        <div className="mala_prod_Title">
+          <span
+            className={
+              "titleline_malakan"
+            }
+          >
+            {/* {productData?.TitleLine?.length > 0 &&
+          "-"}
+        {productData?.TitleLine}{" "} */}
+            {productData?.designno !== "" && productData?.designno}
+            {formatTitleLine(productData?.TitleLine) && " - " + productData?.TitleLine}
+          </span>
+          {/* <span className="mala_prod_designno">
+        {productData?.designno}
+      </span> */}
+        </div>
+        <div className="mala_prod_Allwt">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              letterSpacing: maxwidth590px ? "0px" : "1px",
+              flexWrap: "wrap",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {/* <span className="mala_por"> */}
+
+            {storeInit?.IsGrossWeight == 1 &&
+              Number(productData?.Gwt) !== 0 && (
+                <span className="mala_prod_wt">
+                  <span className="mala_main_keys">
+                    GWT:
+                  </span>
+                  <span className="mala_main_val">
+                    {productData?.Gwt?.toFixed(3)}
+                  </span>
+                </span>
+              )}
+            {Number(productData?.Nwt) !== 0 && (
+              <>
+                <span
+                  style={{
+                    fontSize: "8px",
+                    marginInline: "5px",
+                  }}
+                >
+                  |
+                </span>
+                <span className="mala_prod_wt">
+                  <span className="mala_main_keys">
+                    NWT:
+                  </span>
+                  <span className="mala_main_val">
+                    {productData?.Nwt?.toFixed(3)}
+                  </span>
+                </span>
+              </>
+            )}
+            {/* </span> */}
+            {/* <span className="mala_por"> */}
+            {storeInit?.IsDiamondWeight == 1 &&
+              Number(productData?.Dwt) !== 0 && (
+                <>
+                  <span
+                    style={{
+                      fontSize: "8px",
+                      marginInline: "5px",
+                    }}
+                  >
+                    |
+                  </span>
+                  <span className="mala_prod_wt">
+                    <span className="mala_main_keys">
+                      DWT:
+                    </span>
+                    <span className="mala_main_val">
+                      {productData?.Dwt?.toFixed(
+                        3
+                      )}
+                      {storeInit?.IsDiamondPcs ===
+                        1
+                        ? `/${productData?.Dpcs}`
+                        : null}
+                    </span>
+                  </span>
+                </>
+              )}
+            {storeInit?.IsStoneWeight == 1 &&
+              Number(productData?.CSwt) !== 0 && (
+                <>
+                  <span
+                    style={{
+                      fontSize: "8px",
+                      marginInline: "5px",
+                    }}
+                  >
+                    |
+                  </span>
+                  <span className="mala_prod_wt">
+                    <span className="mala_main_keys">
+                      CWT:
+                    </span>
+                    <span className="mala_main_val">
+                      {productData?.CSwt?.toFixed(
+                        3
+                      )}
+                      {storeInit?.IsStonePcs === 1
+                        ? `/${productData?.CSpcs}`
+                        : null}
+                    </span>
+                  </span>
+                </>
+              )}
+            {/* </span> */}
+          </div>
+        </div>
+        <div className="mala_prod_mtcolr_price" style={{
+          fontWeight: "900"
+        }}>
+          <span className="mala_prod_metal_col">
+            {findMetalColor(
+              productData?.MetalColorid
+            )?.[0]?.metalcolorname.toUpperCase()}
+            {findMetalColor(productData?.MetalColorid)?.[0]?.metalcolorname && findMetalType(
+              productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
+            )[0]?.metaltype
+              ? " - "
+              : ""}
+            {
+              findMetalType(
+                productData?.IsMrpBase == 1
+                  ? productData?.MetalPurityid
+                  : selectedMetalId ??
+                  productData?.MetalPurityid
+              )[0]?.metaltype
+            }
+          </span>
+          {storeInit?.IsPriceShow == 1 && <>
+            <span>/</span>
+            <span className="mala_price" style={{
+              fontWeight: "900"
+            }}>
+              {/*  <span
+      className="mala_currencyFont"
+      dangerouslySetInnerHTML={{
+        __html: decodeEntities(
+          storeInit?.Currencysymbol
+        ),
+      }}
+    /> */}
+              <span className="mala_currencyFont" style={{
+                color: "grey"
+              }}>
+                {loginUserDetail?.CurrencyCode ??
+                  storeInit?.CurrencyCode}
+              </span>
+              <span className="mala_pricePort" style={{
+                color: "grey"
+              }}>
+                {/* {productData?.ismrpbase === 1
+            ? productData?.mrpbaseprice
+            : PriceWithMarkupFunction(
+              productData?.markup,
+              productData?.price,
+              storeInit?.CurrencyRate
+            )?.toFixed(2)} */}
+                {formatter(
+                  productData?.UnitCostWithMarkUp
+                )}
+              </span>
+            </span>
+          </>}
+
+        </div>
+        {/* <div className="fmg_mal1_prodBtn">
+        <FormControlLabel
+          control={
+            <Checkbox
+              icon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
+              checkedIcon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
+              onChange={(e) => handleCartandWish(e, productData, "Cart")}
+              checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1}
+            />
+          }
+          label={<span className={`fmg_mal1_prodBtn_proBtn_text`}>{isChecked ? "Remove from Cart" : "Add to Cart"}</span>}
+        />
+      </div> */}
+        <FormControlLabel
+          control={
+            <Checkbox
+              icon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
+              checkedIcon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
+              checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1}
+              onChange={(e) => handleCartandWish(e, productData, "Cart")}
+            />
+          }
+          label={
+            <span
+              className={`fmg_mal1_prodBtn_proBtn_text`}
+            >
+              {isChecked
+                ? "Remove from Cart"
+                : "Add to Cart"}
+            </span>
+          }
+          className="fmg_mal1_prodBtn"
+        />
+      </div>
+    </div>
+  )
+}
+
 
 // {previous filter section  in malakaan}
 

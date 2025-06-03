@@ -23,6 +23,7 @@ const Wishlist = () => {
     updateCount,
     countDataUpdted,
     itemInCart,
+    finalWishData,
     decodeEntities,
     WishCardImageFunc,
     handleRemoveItem,
@@ -92,14 +93,14 @@ const Wishlist = () => {
 
   return (
     <div className="smr_MainWlDiv" style={{
-      paddingBottom:"4rem"
+      paddingBottom: "4rem"
     }}>
       <div className="WlMainPageDiv">
         <div className="WlBtnGroupMainDiv">
           {isMobileScreen &&
             <div className="smr_Wl-title">My Wishlist</div>
           }
-          {wishlistData?.length != 0 &&
+          {finalWishData?.length != 0 &&
             <>
               <div className="smr_WlButton-group">
                 <Link
@@ -122,7 +123,7 @@ const Wishlist = () => {
         {!isWLLoading ? (
           <WishlistData
             isloding={isWLLoading}
-            items={wishlistData}
+            items={finalWishData}
             updateCount={updateCount}
             countDataUpdted={countDataUpdted}
             curr={CurrencyData}

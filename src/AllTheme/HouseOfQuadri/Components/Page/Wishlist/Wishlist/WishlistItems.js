@@ -35,6 +35,13 @@ const WishlistItems = ({
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [imageSrc, setImageSrc] = useState();
 
+  const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+  const CDNDesignImageFolThumb = storeInit?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  const isLoading = item?.loading;
+
+
   const handleWishlistToCartFun = async (item) => {
     const returnValue = await handleWishlistToCart(item);
     if (returnValue?.msg == "success") {
@@ -62,15 +69,15 @@ const WishlistItems = ({
     }
   };
 
-  useEffect(() => {
-    if (item?.ImageCount > 0) {
-      WishCardImageFunc(item).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [item]);
+  // useEffect(() => {
+  //   if (item?.ImageCount > 0) {
+  //     WishCardImageFunc(item).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [item]);
 
   return (
     <Grid
@@ -85,7 +92,7 @@ const WishlistItems = ({
     >
       <Card className="hoq_WlListCard" square sx={{ border: "none" }}>
         <div className="cardContent">
-          {imageSrc === undefined ? (
+          {isLoading === true ? (
             <CardMedia
               style={{ width: "100%" }}
               className="hoq_WlListImage"
@@ -94,11 +101,14 @@ const WishlistItems = ({
                 animation="wave"
                 variant="rect"
                 width="100%"
-                height={280}
+                height={300}
                 sx={{
                   backgroundColor: "#e8e8e86e",
-                  '@media (max-width: 960px)': {
-                    height: "240px !important",
+                  '@media (max-width: 1700px)': {
+                    height: "250px !important",
+                  },
+                  '@media (max-width: 900px)': {
+                    height: "200px !important",
                   },
                   '@media (max-width: 600px)': {
                     height: "150px !important",
@@ -109,10 +119,25 @@ const WishlistItems = ({
           ) : (
             <CardMedia
               component="img"
-              image={imageSrc}
-              alt={item?.TitleLine}
+              image={item?.images}
+              loading="lazy"
+              alt=" "
+              sx={{
+                border: 'none',
+                outline: 'none',
+                boxShadow: 'none',
+                '&:focus': { outline: 'none' },
+                '&:active': { outline: 'none' },
+              }}
               className="hoq_WlListImage"
               onClick={() => handleMoveToDetail(item)}
+              onError={(e) => {
+                if (item?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound
+                } else {
+                  e.target.src = noImageFound
+                }
+              }}
             />
           )}
           <CardContent

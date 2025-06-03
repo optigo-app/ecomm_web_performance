@@ -295,8 +295,12 @@
 
   .roop_productListCard_Image {
     cursor: pointer;
+    object-fit: scale-down;
+    background-position: 50%;
+    background-size: cover;
+    height: 350px;
+    min-height: 350px;
     width: 100%;
-    object-fit: contain;
   }
 
   .roop_prod_card_info {
@@ -330,31 +334,74 @@
   //   // }
   // }
 
-  .roop_ImgandVideoContainer {
-    border-radius: 8px;
-    min-height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+  // .roop_ImgandVideoContainer {
+  //   border-radius: 8px;
+  //   min-height: 300px;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   overflow: hidden;
 
-    @media (max-width: 500px) {
-      height: 20vh;
+  //   @media (max-width: 500px) {
+  //     height: 20vh;
+  //     min-height: 250px;
+  //   }
+
+  //   @media (max-width: 375px) {
+  //     height: 20vh;
+  //     min-height: 200px;
+  //   }
+
+  //   img,
+  //   video {
+  //     width: 100%;
+  //     height: 100%;
+  //     object-fit: contain;
+  //     border-radius: 8px;
+  //   }
+  // }
+
+  .roop_ImgandVideoContainer {
+    height: 350px;
+    min-height: 350px;
+
+    @media (max-width: 1700px) {
+      height: 330px;
+      min-height: 330px;
+    }
+
+    @media (max-width: 1200px) {
+      height: 300px;
+      min-height: 300px;
+    }
+
+    @media (max-width: 800px) {
+      height: 280px;
+      min-height: 280px;
+    }
+
+    @media (max-width: 720px) {
+      height: 312px;
+      min-height: 312px;
+    }
+
+    @media (max-width: 650px) {
+      height: 250px;
       min-height: 250px;
     }
 
-    @media (max-width: 375px) {
-      height: 20vh;
+    @media (max-width: 420px) {
+      height: 20px;
       min-height: 200px;
     }
+  }
 
-    img,
-    video {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      border-radius: 8px;
-    }
+  .roop_productCard_video {
+    object-fit: contain;
+    height: 350px;
+    min-height: 350px;
+    width: 100%;
+    // min-width:399px;
   }
 
   // .roop_productCard:hover .roop_ImgandVideoContainer {
@@ -572,6 +619,7 @@
     width: 60px;
     left: 0.2rem;
     top: 1rem;
+    z-index: 100;
   }
 
   .smrWeb_app_instock {
@@ -664,14 +712,14 @@
   //     width: 98.7%;
   // }
 
-  .roop_productCard_video {
-    object-fit: contain;
-    // height: 412px;
-    // min-height: 412px;
-    width: 98%;
-    // width: 100%;
-    // min-width:399px;
-  }
+  // .roop_productCard_video {
+  //   object-fit: contain;
+  //   // height: 412px;
+  //   // min-height: 412px;
+  //   width: 98%;
+  //   // width: 100%;
+  //   // min-width:399px;
+  // }
 
   // .roop_backtotop{
   //   width:100%;
@@ -698,8 +746,7 @@
     }
 
     .roop_productListCard_Image {
-      object-fit: contain;
-      // object-fit: cover;
+      object-fit: scale-down;
       height: 350px;
       min-height: 350px;
     }
@@ -733,8 +780,7 @@
     // }
 
     .roop_productListCard_Image {
-      object-fit: contain;
-      // object-fit: cover;
+      object-fit: scale-down;
       height: 312px;
       min-height: 312px;
     }
@@ -797,10 +843,9 @@
 
   @media screen and (max-width: 650px) {
     .roop_productListCard_Image {
-      object-fit: contain;
-      // object-fit: cover;
-      height: 100%;
-      // min-height: 250px;
+      object-fit: scale-down;
+      height: 250px;
+      min-height: 250px;
     }
 
     .roop_productCard_video {
@@ -881,9 +926,9 @@
 
   @media screen and (max-width:425px) {
     .roop_productListCard_Image {
-      object-fit: contain;
-      // height: 200px;
-      // min-height: 200px;
+      object-fit: scale-down;
+      height: 200px;
+      min-height: 200px;
     }
 
     .roop_productCard_video {

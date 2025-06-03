@@ -25,6 +25,11 @@ const ExampleComponent = ({
     const [storeInitData, setStoreInitData] = useState();
     const visiterId = Cookies.get('visiterId');
 
+    const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+    const fullImagePath = `${CDNDesignImageFolThumb}${cartData?.designno}~1.jpg`;
+
+    const isLoading = cartData?.loading;
+
     const shipsDate = cartData?.shipsdate;
     const dayOfMonth = moment(shipsDate).format('D');
 
@@ -35,15 +40,15 @@ const ExampleComponent = ({
         setStoreInitData(storeinitData)
     }, [])
 
-    useEffect(() => {
-        if (cartData?.ImageCount > 0) {
-            CartCardImageFunc(cartData).then((src) => {
-                setImageSrc(src);
-            });
-        } else {
-            setImageSrc(noImageFound);
-        }
-    }, [cartData]);
+    // useEffect(() => {
+    //     if (cartData?.ImageCount > 0) {
+    //         CartCardImageFunc(cartData).then((src) => {
+    //             setImageSrc(src);
+    //         });
+    //     } else {
+    //         setImageSrc(noImageFound);
+    //     }
+    // }, [cartData]);
 
     // const handleRemovecartData = (cartData) => {
     //     onRemove(cartData)
@@ -71,7 +76,7 @@ const ExampleComponent = ({
             <tbody>
                 <tr key={cartData.id} className="smr_B2C-cartData-row">
                     <td className='smr_b2cCartImagetd'>
-                        {imageSrc === undefined ? (
+                        {isLoading === true ? (
                             <CardMedia
                                 sx={{
                                     width: "10rem",
@@ -97,8 +102,23 @@ const ExampleComponent = ({
                         ) : (
                             <img
                                 className='smr_b2ccartImage'
-                                src={imageSrc}
-                                alt={`cartData images`}
+                                src={cartData?.images}
+                                alt={` `}
+                                sx={{
+                                    border: 'none',
+                                    outline: 'none',
+                                    boxShadow: 'none',
+                                    '&:focus': { outline: 'none' },
+                                    '&:active': { outline: 'none' },
+                                }}
+                                onError={(e) => {
+                                    if (cartData?.ImageCount > 0) {
+                                        e.target.src = fullImagePath ? fullImagePath : noImageFound
+                                    } else {
+                                        e.target.src = noImageFound;
+                                    }
+                                }}
+                                loading="lazy"
                             />
                         )}
                     </td>

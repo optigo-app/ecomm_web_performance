@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import { motion } from 'framer-motion';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 
-const ProductGrid = ({data}) => {
+const ProductGrid = ({ data }) => {
 
     const bestSallerRef = useRef(null);
     const [imageUrl, setImageUrl] = useState();
@@ -100,7 +100,8 @@ const ProductGrid = ({data}) => {
         setStoreInit(storeinit)
 
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
-        setImageUrl(data?.CDNDesignImageFol);
+        // setImageUrl(data?.CDNDesignImageFol);
+        setImageUrl(data?.CDNDesignImageFolThumb);
         setLoadingHome(false);
         Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID).then((response) => {
             if (response?.Data?.rd) {
@@ -111,33 +112,63 @@ const ProductGrid = ({data}) => {
 
     }
 
+    // useEffect(() => {
+    //     setLoadingHome(true);
+    //     const observer = new IntersectionObserver(
+    //         (entries) => {
+    //             entries.forEach((entry) => {
+    //                 if (entry.isIntersecting) {
+    //                     callAllApi()
+    //                     observer.unobserve(entry.target);
+    //                 }
+    //             });
+    //         },
+    //         {
+    //             root: null,
+    //             threshold: 0.5,
+    //         }
+    //     );
+
+    //     if (bestSallerRef.current) {
+    //         observer.observe(bestSallerRef.current);
+    //     }
+    //     return () => {
+    //         if (bestSallerRef.current) {
+    //             observer.unobserve(bestSallerRef.current);
+    //         }
+    //     };
+    // }, [])
+
+
     useEffect(() => {
         setLoadingHome(true);
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        callAllApi()
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            {
-                root: null,
-                threshold: 0.5,
-            }
-        );
 
-        if (bestSallerRef.current) {
-            observer.observe(bestSallerRef.current);
-        }
-        return () => {
-            if (bestSallerRef.current) {
-                observer.unobserve(bestSallerRef.current);
+        const handleScroll = () => {
+            if (!bestSallerRef.current) return;
+
+            const rect = bestSallerRef.current.getBoundingClientRect();
+            const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+
+            if (isInView) {
+                callAllApi();
+                window.removeEventListener("scroll", handleScroll); // ensure it's called only once
             }
         };
-    }, [])
 
+        window.addEventListener("scroll", handleScroll);
+        // Immediately check on mount
+        handleScroll();
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         callAllApi();
+    //     }, 1200)
+    // }, [])
 
     const compressAndEncode = (inputString) => {
         try {
@@ -164,7 +195,8 @@ const ProductGrid = ({data}) => {
         if (!bestSellerData?.length) return;
         const validatedData = await Promise.all(
             bestSellerData.map(async (item) => {
-                const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
+                const imageURL = `${imageUrl}${item?.designno}~1.jpg`;
+                // const imageURL = `${imageUrl}${item?.designno}~1.${item?.ImageExtension}`;
                 // const validatedURL = await checkImageAvailability(imageURL);
                 return { ...item, validatedImageURL: imageURL };
             })
@@ -247,6 +279,7 @@ const ProductGrid = ({data}) => {
                                                 onError={(e) => {
                                                     e.target.src = imageNotFound;
                                                 }}
+                                                loading='lazy'
                                             />
                                         </div>
                                         <div className="product-info">
@@ -286,7 +319,7 @@ const ProductGrid = ({data}) => {
                                                     }
                                                 </>
                                             }
-                                          {storeInit?.IsPriceShow == 1 &&  <p>
+                                            {storeInit?.IsPriceShow == 1 && <p>
                                                 <span className="smr_currencyFont">
                                                     {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
                                                 </span>&nbsp;

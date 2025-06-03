@@ -9,8 +9,27 @@
 
 
 .smrMA_NewArrivalMain {
-    max-height: 1000px;
-    height: auto;
+    height: 400px;
+
+    @media (max-width: 600px) {
+        height: 320px;
+    }
+
+    @media (max-width: 550px) {
+        height: 300px;
+    }
+
+    @media (max-width: 480px) {
+        height: 280px;
+    }
+
+    @media (max-width: 420px) {
+        height: 230px;
+    }
+
+    @media (max-width: 350px) {
+        height: 190px;
+    }
 
     .smaMA_newArrivalBoxcMainSub {
         width: 40% !important;

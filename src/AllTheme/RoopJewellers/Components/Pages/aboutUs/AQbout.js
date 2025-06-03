@@ -323,53 +323,53 @@ export default function AXboutUs() {
     */
 
     // For vara, shinjini, ojasvi, sonasons
-    // <div className="shinjini-terms">
-    //   <Banner />
-    //   <main className="shinjini-main">
-    //     <h1 className="shinjini-title">About us</h1>
-
-    //     <div className="shinjini-content">
-    //       <p className="shinjini-introduction">{Dummydata.introduction.text}</p>
-
-    //       {Dummydata.sections.map((section, index) => (
-    //         <section key={index} className="shinjini-section">
-    //           <h2 className="shinjini-section-title">{section.title}</h2>
-    //           {section.content.map((item, itemIndex) => (
-    //             <div key={itemIndex} className="shinjini-section-content">
-    //               <h3 className="shinjini-subtitle">{item.subtitle}</h3>
-    //               <p className="shinjini-text">{item.text}</p>
-    //             </div>
-    //           ))}
-    //         </section>
-    //       ))}
-
-    //       <p className="shinjini-conclusion">{Dummydata.conclusion.text}</p>
-    //     </div>
-    //   </main>
-    // </div>
-
-    // For Pacific
     <div className="shinjini-terms">
       <Banner />
       <main className="shinjini-main">
         <h1 className="shinjini-title">About us</h1>
 
         <div className="shinjini-content">
-          <p className="shinjini-introduction">{PacificData.introduction.text}</p>
+          <p className="shinjini-introduction">{SonasonsAbout.introduction.text}</p>
 
-          {PacificData.sections.map((section, index) => (
+          {SonasonsAbout.sections.map((section, index) => (
             <section key={index} className="shinjini-section">
+              <h2 className="shinjini-section-title">{section.title}</h2>
               {section.content.map((item, itemIndex) => (
                 <div key={itemIndex} className="shinjini-section-content">
+                  <h3 className="shinjini-subtitle">{item.subtitle}</h3>
                   <p className="shinjini-text">{item.text}</p>
                 </div>
               ))}
             </section>
           ))}
 
+          <p className="shinjini-conclusion">{SonasonsAbout.conclusion.text}</p>
         </div>
       </main>
     </div>
+
+    // For Pacific
+    // <div className="shinjini-terms">
+    //   <Banner />
+    //   <main className="shinjini-main">
+    //     <h1 className="shinjini-title">About us</h1>
+
+    //     <div className="shinjini-content">
+    //       <p className="shinjini-introduction">{SonasonsAbout.introduction.text}</p>
+
+    //       {SonasonsAbout.sections.map((section, index) => (
+    //         <section key={index} className="shinjini-section">
+    //           {section.content.map((item, itemIndex) => (
+    //             <div key={itemIndex} className="shinjini-section-content">
+    //               <p className="shinjini-text">{item.text}</p>
+    //             </div>
+    //           ))}
+    //         </section>
+    //       ))}
+
+    //     </div>
+    //   </main>
+    // </div>
   );
 }
 
