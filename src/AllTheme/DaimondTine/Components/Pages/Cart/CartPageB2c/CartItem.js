@@ -44,6 +44,10 @@ const CartItem = ({
     setStoreInitData(storeinitData);
   }, []);
 
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${cartData?.designno}~1.jpg`;
+  const isLoading = cartData?.loading;
+
   const handleRemovecartData = async (cartData) => {
     const returnValue = await onRemoveItem(cartData);
     if (returnValue?.msg == "success") {
@@ -53,15 +57,15 @@ const CartItem = ({
     }
   };
 
-  useEffect(() => {
-    if (cartData?.ImageCount > 0) {
-      CartCardImageFunc(cartData).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [cartData]);
+  // useEffect(() => {
+  //   if (cartData?.ImageCount > 0) {
+  //     CartCardImageFunc(cartData).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [cartData]);
 
   function truncateText(text, maxLength) {
     if (text.length <= maxLength) {
@@ -86,7 +90,7 @@ const CartItem = ({
           style={{
             padding: "25px 0"
           }}>
-          {imageSrc === undefined ? (
+          {isLoading === true ? (
             <CardMedia
               style={{ width: "60%", height: 150 }}
             >
@@ -99,9 +103,24 @@ const CartItem = ({
             </CardMedia>
           ) : (
             <img
-              src={imageSrc}
-              alt={cartData?.name}
+              src={cartData?.images}
+              alt=" "
+              loading='lazy'
+              style={{
+                border: 'none',
+                outline: 'none',
+                boxShadow: 'none',
+                '&:focus': { outline: 'none' },
+                '&:active': { outline: 'none' },
+              }}
               onClick={() => handleMoveToDetail(cartData)}
+              onError={(e) => {
+                if (cartData?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound
+                } else {
+                  e.target.src = noImageFound;
+                }
+              }}
             />
           )}
           <div className="product-details">

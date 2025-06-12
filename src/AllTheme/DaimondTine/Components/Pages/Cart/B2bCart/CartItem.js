@@ -40,7 +40,7 @@ const CartItem = ({
   openHandleUpdateCartModal
 }) => {
   const [open, setOpen] = useState(false);
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
   const setCartCountVal = useSetRecoilState(dt_CartCount)
@@ -58,6 +58,10 @@ const CartItem = ({
     setStoreInitData(storeinitData)
   }, [])
 
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  const isLoading = item?.loading;
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -118,15 +122,15 @@ const CartItem = ({
     return text.substring(0, maxLength) + '...';
   }
 
-  useEffect(() => {
-    if (item?.ImageCount > 0) {
-      CartCardImageFunc(item).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [item]);
+  // useEffect(() => {
+  //   if (item?.ImageCount > 0) {
+  //     CartCardImageFunc(item).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [item]);
 
   return (
     <Grid
@@ -153,7 +157,7 @@ const CartItem = ({
       >
         <Box className="dt_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           {/* {imageSrc !== undefined && */}
-          {imageSrc === undefined ? (
+          {isLoading === false ? (
             <CardMedia
               width="60%"
               height={150}
@@ -180,10 +184,25 @@ const CartItem = ({
           ) : (
             <CardMedia
               component="img"
-              image={imageSrc}
-              alt={item?.TitleLine}
+              image={item?.images}
+              alt=" "
+              loading='lazy'
+              sx={{
+                border: 'none',
+                outline: 'none',
+                boxShadow: 'none',
+                '&:focus': { outline: 'none' },
+                '&:active': { outline: 'none' },
+              }}
               className='dt_cartListImage'
               onClick={() => onSelect(item)}
+              onError={(e) => {
+                if (item?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound
+                } else {
+                  e.target.src = noImageFound;
+                }
+              }}
             />
           )}
           <div className='dt_rightContentDataDiv'>

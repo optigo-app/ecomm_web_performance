@@ -28,6 +28,7 @@ const PrivateRoutes = ({ isLoginStatus }) => {
                 || location.pathname.startsWith('/d')
                 || location.pathname.startsWith('/cartPage')
                 || location.pathname.startsWith('/myWishList')
+                || location.pathname.startsWith('/productfeed')
                 || location.pathname.startsWith('/Lookbook')) {
                 // || location.pathname.startsWith('/accountdwsr')) {
                 let storeInt = JSON.parse(sessionStorage.getItem("storeInit"));

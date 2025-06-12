@@ -79,6 +79,7 @@
             p {
               margin: 0;
               font-size: $fontSize1;
+              margin-left: 15px;
             }
           }
         }
@@ -245,8 +246,10 @@
 @media (max-width: 999px) {
   .dt_MainWishDiv {
     padding-top: 57px;
+
     .cart {
       flex-direction: row;
+
       .cart-items {
         .price {
           font-size: $fontSize2;

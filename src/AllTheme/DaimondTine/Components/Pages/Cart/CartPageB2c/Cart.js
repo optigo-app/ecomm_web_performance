@@ -19,6 +19,7 @@ function Cart(props) {
     cartData,
     qtyCount,
     CurrencyData,
+    finalCartData,
     CartCardImageFunc,
     handleIncrement,
     handleDecrement,
@@ -29,7 +30,7 @@ function Cart(props) {
     showRemark,
     productRemark,
     handleRemarkChange,
-    handleAddReamrk ,
+    handleAddReamrk,
     handleSave
 
   } = useCart();
@@ -48,21 +49,20 @@ function Cart(props) {
 
   useEffect(() => {
     setTimeout(() => {
-      if (cartData) {
-        let priceData = cartData?.reduce(
+      if (finalCartData) {
+        let priceData = finalCartData?.reduce(
           (total, item) => total + item?.FinalCost,
           0
         );
         setTotalPrice(priceData);
       }
     }, 300);
-  }, [cartData]);
-  console.log(cartData,"1212")
+  }, [finalCartData]);
 
   const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
   const handlePlaceOrder = () => {
     let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-    let priceData = cartData?.reduce(
+    let priceData = finalCartData?.reduce(
       (total, item) => total + item?.FinalCost,
       0
     );
@@ -70,15 +70,15 @@ function Cart(props) {
     GoogleAnalytics.event({
       action: `Checkout Started by User ${loginInfo?.firstname || 'Guest'}`,
       category: `Checkout Interaction on Cart Page`,
-      label:`Cart Total ${totalPrice} and Total Items ${cartData?.length}`,
-      value: loginInfo?.firstname 
+      label: `Cart Total ${totalPrice} and Total Items ${finalCartData?.length}`,
+      value: loginInfo?.firstname
     });
-    
+
     if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
       navigate(redirectUrl);
       // navigate('/loginOption')
     } else {
-      navigate("/Delivery",{replace  :true});
+      navigate("/Delivery", { replace: true });
     }
     window.scrollTo(0, 0);
   };
@@ -120,7 +120,7 @@ function Cart(props) {
               </p>
               {/* <span style={{ color: "rgb(175, 133, 56)", fontSize: 18 }}>
                 Shop
-              </span> dtimes */}  
+              </span> dtimes */}
             </div>
           </div>
         </div>
@@ -146,7 +146,7 @@ function Cart(props) {
         </Box>
       ) : (
         <>
-          {cartData?.length !== 0 ? (
+          {finalCartData?.length !== 0 ? (
             <>
               <div className="cart">
                 {!isMobileScreen ? (
@@ -161,9 +161,9 @@ function Cart(props) {
                         </tr>
                       </thead>
                       <tbody style={{
-                        padding:"15px 0"
+                        padding: "15px 0"
                       }}>
-                        {cartData?.map((item) => (
+                        {finalCartData?.map((item) => (
                           <CartItem
                             key={item.id}
                             cartData={item}
@@ -179,7 +179,7 @@ function Cart(props) {
                             // new value aded for remarks crud
                             showRemark={showRemark}
                             productRemark={productRemark}
-         handleAddReamrk={handleAddReamrk}
+                            handleAddReamrk={handleAddReamrk}
                             handleRemarkChange={handleRemarkChange}
                             handleSave={handleSave}
                           />
@@ -189,7 +189,7 @@ function Cart(props) {
                   </div>
                 ) :
                   <>
-                    {cartData?.map((item) => (
+                    {finalCartData?.map((item) => (
                       <ResponsiveCartUi
                         stat="cart"
                         cartData={item}
@@ -202,12 +202,12 @@ function Cart(props) {
                         handleDecrement={handleDecrement}
                         onRemoveItem={handleRemoveItem}
                         handleMoveToDetail={handleMoveToDetail}
-                            // new value aded for remarks crud
-                            showRemark={showRemark}
-                            productRemark={productRemark}
-         handleAddReamrk={handleAddReamrk}
-                            handleRemarkChange={handleRemarkChange}
-                            handleSave={handleSave}
+                        // new value aded for remarks crud
+                        showRemark={showRemark}
+                        productRemark={productRemark}
+                        handleAddReamrk={handleAddReamrk}
+                        handleRemarkChange={handleRemarkChange}
+                        handleSave={handleSave}
                       />
                     ))}
                   </>

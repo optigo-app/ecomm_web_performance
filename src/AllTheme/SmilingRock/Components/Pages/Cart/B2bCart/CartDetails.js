@@ -36,6 +36,8 @@ const CartDetails = ({
   const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
   const CDNDesignImageFolThumb = storeinitData?.CDNDesignImageFolThumb;
   const fullImagePath = `${CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`;
+  const CDNDesignImageFol = storeinitData?.CDNDesignImageFol;
+  const fullImagePath1 = `${CDNDesignImageFol}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`;
 
   const isLoading = selectedItem?.loading;
 
@@ -48,6 +50,32 @@ const CartDetails = ({
   //     setImageSrc(noImageFound);
   //   }
   // }, [selectedItem]);
+
+  const defaultUrl = selectedItem?.images?.replace("/Design_Thumb", "");
+  const firstPart = defaultUrl?.split(".")[0]
+  const secondPart = selectedItem?.ImageExtension;
+  const finalSelectedUrl = `${firstPart}.${secondPart}`;
+
+  const [imgSrc, setImgSrc] = useState('');
+
+  useEffect(() => {
+    let imageURL = selectedItem?.images
+      ? finalSelectedUrl
+      : selectedItem?.ImageCount > 1
+        ? `${storeinitData?.CDNDesignImageFol}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.${selectedItem?.ImageExtension}`
+        : `${storeinitData?.CDNDesignImageFol}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`;
+
+    const img = new Image();
+    img.onload = () => setImgSrc(imageURL);
+    img.onerror = () => {
+      if (selectedItem?.ImageCount > 0) {
+        setImgSrc(fullImagePath1 || noImageFound);
+      } else {
+        setImgSrc(noImageFound);
+      }
+    };
+    img.src = imageURL;
+  }, [selectedItem, storeinitData, finalSelectedUrl]);
 
   return (
     <div className="smr_cart-container">
@@ -83,12 +111,13 @@ const CartDetails = ({
           </CardMedia>
         ) : (
           <img
-            src={selectedItem?.images ? selectedItem?.images :
-              selectedItem?.ImageCount > 1 ? `${storeinitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.jpg` :
-                `${storeinitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`
-            }
+            // src={selectedItem?.images ? finalSelectedUrl :
+            //   selectedItem?.ImageCount > 1 ? `${storeinitData?.CDNDesignImageFol}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.${selectedItem?.ImageExtension}` :
+            //     `${storeinitData?.CDNDesignImageFol}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`
+            // }
+            src={imgSrc}
             alt=" "
-            sx={{
+            style={{
               border: 'none',
               outline: 'none',
               boxShadow: 'none',
@@ -97,14 +126,7 @@ const CartDetails = ({
             }}
             className='smr_cartDetailImage'
             onClick={() => handleMoveToDetail(selectedItem)}
-            loading="lazy"
-            onError={(e) => {
-              if (selectedItem?.ImageCount > 0) {
-                e.target.src = fullImagePath ? fullImagePath : noImageFound
-              } else {
-                e.target.src = noImageFound;
-              }
-            }}
+            loading="eager"
           />
         )}
       </div>

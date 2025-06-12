@@ -57,6 +57,11 @@ const MobileCartDetails = ({
     setColorStoneCombo(CSQtyColorData);
   }, [])
 
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`;
+
+  const isLoading = selectedItem?.loading;
+
   const handleUpdateCart = async (selectedItem) => {
     const resUpdate = await onUpdateCart(selectedItem)
     if (resUpdate?.msg == "success") {
@@ -64,22 +69,22 @@ const MobileCartDetails = ({
     }
   }
 
-  useEffect(() => {
-    if (selectedItem?.ImageCount > 0) {
-      CartCardImageFunc(selectedItem).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [selectedItem]);
+  // useEffect(() => {
+  //   if (selectedItem?.ImageCount > 0) {
+  //     CartCardImageFunc(selectedItem).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [selectedItem]);
 
 
   return (
     <Modal open={open} onClose={handleClose} className="dtMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="dtMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="dtMo_Cart-imageDiv">
-          {imageSrc === undefined ? (
+          {isLoading === true ? (
             <CardMedia
               className="dtMo_cart-image"
               width="100%"
@@ -106,11 +111,28 @@ const MobileCartDetails = ({
             </CardMedia>
           ) : (
             <img
-              src={imageSrc}
-              alt="Cluster Diamond"
+              src={selectedItem?.images ? selectedItem?.images :
+                selectedItem?.ImageCount > 1 ? `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.jpg` :
+                  `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`
+              }
+              alt=" "
               className='dtMo_cartImage'
               onClick={() => handleMoveToDetail(selectedItem)}
-              style={{ border: 'none' }}
+              style={{
+                border: 'none',
+                outline: 'none',
+                boxShadow: 'none',
+                '&:focus': { outline: 'none' },
+                '&:active': { outline: 'none' },
+              }}
+              loading="lazy"
+              onError={(e) => {
+                if (selectedItem?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound
+                } else {
+                  e.target.src = noImageFound;
+                }
+              }}
             />
           )}
         </div>

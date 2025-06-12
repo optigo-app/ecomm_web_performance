@@ -61,44 +61,38 @@ const Album1 = () => {
     //     };
     // }, []);
 
-    useEffect(() => {
-        setLoadingHome(true);
-        const storedData = sessionStorage.getItem("storeInit");
-        const data = storedData ? JSON.parse(storedData) : null;
-
-        if (data && data.AlbumImageFol !== imageUrl) {
-            setImageUrl(data.AlbumImageFol);
-        }
-        if (data && data !== storeInit) {
-            setStoreInit(data);
-        }
-
-        const handleScroll = () => {
-            if (!albumRef.current) return;
-
-            const rect = albumRef.current.getBoundingClientRect();
-            const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
-
-            if (isInView) {
-                apiCall();
-                window.removeEventListener("scroll", handleScroll); // only trigger once
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        // Also check immediately in case it's already in view
-        handleScroll();
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
-
     // useEffect(() => {
-    //     setTimeout(() => {
-    //         apiCall();
-    //     }, 1200)
-    // }, [])
+    //     setLoadingHome(true);
+    //     const storedData = sessionStorage.getItem("storeInit");
+    //     const data = storedData ? JSON.parse(storedData) : null;
+
+    //     if (data && data.AlbumImageFol !== imageUrl) {
+    //         setImageUrl(data.AlbumImageFol);
+    //     }
+    //     if (data && data !== storeInit) {
+    //         setStoreInit(data);
+    //     }
+
+    //     const handleScroll = () => {
+    //         if (!albumRef.current) return;
+
+    //         const rect = albumRef.current.getBoundingClientRect();
+    //         const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+
+    //         if (isInView) {
+    //             apiCall();
+    //             window.removeEventListener("scroll", handleScroll); // only trigger once
+    //         }
+    //     };
+
+    //     window.addEventListener("scroll", handleScroll);
+    //     // Also check immediately in case it's already in view
+    //     handleScroll();
+
+    //     return () => {
+    //         window.removeEventListener("scroll", handleScroll);
+    //     };
+    // }, []);
 
     const apiCall = () => {
         setIsloding(true);
@@ -124,6 +118,12 @@ const Album1 = () => {
             .catch((err) => console.log(err));
     }
 
+    useEffect(() => {
+        // setTimeout(() => {
+        apiCall();
+        // }, 1200)
+    }, [])
+
     const compressAndEncode = (inputString) => {
         try {
             const uint8Array = new TextEncoder().encode(inputString);
@@ -139,7 +139,9 @@ const Album1 = () => {
         navigation(`/p/${album?.AlbumName}/?A=${btoa(`AlbumName=${album?.AlbumName}`)}`)
     }
 
-    const handleNavigation = (designNo, autoCode, titleLine) => {
+    const productRefs = useRef({});
+
+    const handleNavigation = (designNo, autoCode, titleLine, index) => {
         let obj = {
             a: autoCode,
             b: designNo,
@@ -148,10 +150,30 @@ const Album1 = () => {
             c: loginUserDetail?.cmboCSQCid,
             f: {}
         }
+        sessionStorage.setItem('scrollToProduct', `product-${index}`);
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     }
+
+    useEffect(() => {
+        const scrollToId = sessionStorage.getItem('scrollToProduct');
+        if (!scrollToId) {
+            return;
+        }
+
+        // Wait for albumData to load
+        if (scrollToId) {
+            const el = productRefs.current[scrollToId];
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+                sessionStorage.removeItem('scrollToProduct');
+            }
+        }
+    }, [albumData, selectedAlbum]);
 
     const handleChangeTab = (event, newValue) => {
         setTimeout(() => {
@@ -279,7 +301,7 @@ const Album1 = () => {
                                                     }}
                                                     ref={index === 0 ? swiperSlideRef : null}
                                                     key={design?.autocode} className="swiper-slide-custom">
-                                                    <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
+                                                    <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine, index)}>
                                                         <img
                                                             src={
                                                                 design?.ImageCount > 0
@@ -287,6 +309,8 @@ const Album1 = () => {
                                                                     ? `${storeInit?.CDNDesignImageFolThumb}${design?.designno}~1.jpg`
                                                                     : imageNotFound
                                                             }
+                                                            id={`product-${index}`}
+                                                            ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                                             alt={design?.TitleLine}
                                                             loading="lazy"
                                                             onError={(e) => {

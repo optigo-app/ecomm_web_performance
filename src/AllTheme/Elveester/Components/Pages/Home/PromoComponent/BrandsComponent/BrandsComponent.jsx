@@ -3,7 +3,6 @@ import './Styles.scss'
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction'
 
 const BrandsComponent = ({ banner }) => {
-    console.log('banner: ', banner);
     return (
         <div id='brandsComponentID' name={'brandsComponentID'} >
             <Title />

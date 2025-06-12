@@ -25,10 +25,10 @@ const PrivateRoutes = ({ isLoginStatus }) => {
     location?.pathname
   )}${location?.search}`;
   if (storeInit?.IsB2BWebsite != 0) {
-    if (isLoginStatus != true) {
+    if (!isLoginStatus) {
       if (
-        location.pathname.startsWith("/p") ||
-        location.pathname.startsWith("/d") ||
+        location.pathname.startsWith("/p/*") ||
+        location.pathname.startsWith("/d/*") ||
         location.pathname.startsWith("/cartPage") ||
         location.pathname.startsWith("/myWishList") ||
         location.pathname.startsWith("/Delivery") ||

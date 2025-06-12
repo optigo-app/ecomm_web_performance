@@ -1,10 +1,12 @@
-.procatalog_wra_About{
+.procatalog_wra_About {
   width: 88%;
   background-color: white;
   margin: 0 auto;
-  @media screen and (max-width: 1200px) { 
+
+  @media screen and (max-width: 1200px) {
     width: 98%;
   }
+
   .procatalog-banner-ab {
     position: relative;
     width: 100%;
@@ -12,39 +14,42 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  text-align: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: whitesmoke;
-  opacity: 0.9;
-  margin-bottom: 2rem;
-  @media screen and (max-width: 768px) {
-    height: 200px;
-    h1 {
-      font-size: 1.5rem;
+    text-align: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: whitesmoke;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+
+    @media screen and (max-width: 768px) {
+      height: 200px;
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media screen and (max-width: 420px) {
+      height: 120px;
     }
   }
-  
-@media screen and (max-width: 420px) { 
-  height: 120px;
-}
-}
 
 
-.procatalog_about-us {
-  color: #333;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  
-  
-  .main-content {
-    padding: 40px 0;
-     
-    @media screen and (max-width:720px) {
-      padding: 30px 0;
+  .procatalog_about-us {
+    color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+
+
+    .main-content {
+      padding: 40px 0;
+
+      @media screen and (max-width:720px) {
+        padding: 30px 0;
       }
+
       // h1 {
       //         color: gray;
       //   font-size: 36px;
@@ -55,31 +60,34 @@
       //   text-decoration-style: wavy;
       //   text-decoration-color: #98B8D9;
       // }
-      
+
       .brand-story {
         h2 {
           font-size: 28px;
           margin-bottom: 20px;
           text-align: center;
+
           @media screen and (max-width:720px) {
             font-size: 26px;
           }
         }
-  
+
         .story-section {
           margin-bottom: 30px;
-  
+
           h3 {
             font-size: 20px;
             margin-bottom: 10px;
+
             @media screen and (max-width:720px) {
               font-size: 18px;
             }
           }
-          
+
           p {
             line-height: 1.6;
             text-align: justify;
+
             @media screen and (max-width:720px) {
               font-size: 14px;
               line-height: 1.3;

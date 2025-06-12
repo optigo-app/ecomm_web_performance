@@ -25,6 +25,8 @@ import Plm from './PLM/Plm';
 import Cookies from 'js-cookie';
 import NewOrderHistory from './AccountOrderHistory/NewOrderHistory';
 import { handleScrollTop } from '../../../../../utils/Glob_Functions/GlobalFunction';
+import TicketSystem from './TicketSystem/TicketSystem';
+import Calllog from './CallLog/Calllog';
 
 
 function CustomTabPanel(props) {
@@ -150,7 +152,9 @@ export default function Account() {
                                             <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
                                             {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
                                             <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                            {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                            <Tab label="TICKET SYSTEM" {...a11yProps(5)} />
+                                            <Tab label="CALL LOG" {...a11yProps(6)} />
+                                            {/* <Tab label="PLM" {...a11yProps(7)} /> */}
                                             {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
                                             <Tab label="Log Out" onClick={handleLogout} />
                                         </Tabs>
@@ -165,7 +169,9 @@ export default function Account() {
                                             <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
                                             {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
                                             <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                            {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                            <Tab label="TICKET SYSTEM" {...a11yProps(5)} />
+                                            <Tab label="CALL LOG" {...a11yProps(6)} />
+                                            {/* <Tab label="PLM" {...a11yProps(7)} /> */}
                                             {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
                                          0   <Tab label="Log Out" onClick={handleLogout} />
                                         </Tabs>
@@ -246,11 +252,19 @@ export default function Account() {
                             </CustomTabPanel>
                             {<CustomTabPanel value={value} index={5}>
                                 <div>
+                                    <TicketSystem />
+                                </div>
+                            </CustomTabPanel>}
+                            {<CustomTabPanel value={value} index={6}>
+                                <div>
+                                    <Calllog />
+                                </div>
+                            </CustomTabPanel>}
+                            {<CustomTabPanel value={value} index={7}>
+                                <div>
                                     <Plm />
                                 </div>
                             </CustomTabPanel>}
-
-
                         </Box>
                     </div>
 

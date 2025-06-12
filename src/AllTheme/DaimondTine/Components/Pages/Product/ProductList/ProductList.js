@@ -45,6 +45,7 @@ import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import GoogleAnalytics from 'react-ga4'
 import { formatRedirectTitleLine, formatTitleLine } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import EditablePagination from "../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
+import RangeFilter from "../../../../../../utils/Glob_Functions/RangeFilter/RangeFilter";
 
 const ProductList = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -99,6 +100,15 @@ const ProductList = () => {
   const [isRollOverVideo, setIsRollOverVideo] = useState({});
   const [cartArr, setCartArr] = useState({});
   const [wishArr, setWishArr] = useState({});
+  const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
+  const [inputGross, setInputGross] = useState([]);
+  const [inputNet, setInputNet] = useState([]);
+  const [inputDia, setInputDia] = useState([]);
+  const [appliedRange1, setAppliedRange1] = useState(null);
+  const [appliedRange2, setAppliedRange2] = useState(null);
+  const [appliedRange3, setAppliedRange3] = useState(null);
   let maxwidth464px = useMediaQuery('(max-width:464px)')
 
   const [sliderValue, setSliderValue] = useState([]);
@@ -384,18 +394,48 @@ const ProductList = () => {
   //   setFinalProductListData(finalProdWithPrice);
   // }, [productListData]);
 
+  let getDesignImageFol = storeInit?.CDNDesignImageFolThumb;
+  const getDesignVideoFol = storeInit?.CDNVPath;
+
+  const getDynamicRollImages = (designno, count, extension) => {
+    if (count > 1) {
+      // return `${getDesignImageFol}${designno}~${2}.${extension}`;
+      return `${getDesignImageFol}${designno}~${2}.jpg`;
+    }
+    return;
+  };
+
+  const getDynamicImages = (designno, extension) => {
+    return `${getDesignImageFol}${designno}~${1}.jpg`;
+  };
+
+  const getDynamicVideo = (designno, count, extension) => {
+    if (extension && count > 0) {
+      const url = `${getDesignVideoFol}${designno}~${1}.${extension}`;
+      return url;
+    }
+    return;
+  };
+
   const generateImageList = useCallback((product) => {
     let storeInitX = JSON.parse(sessionStorage.getItem("storeInit"));
     let pdImgList = []
     if (product?.ImageCount > 0) {
       for (let i = 1; i <= product?.ImageCount; i++) {
+        // let imgString =
+        //   storeInitX?.CDNDesignImageFol +
+        //   product?.designno +
+        //   "~" +
+        //   i +
+        //   "." +
+        //   product?.ImageExtension
         let imgString =
-          storeInitX?.CDNDesignImageFol +
+          storeInitX?.CDNDesignImageFolThumb +
           product?.designno +
           "~" +
           i +
           "." +
-          product?.ImageExtension
+          "jpg"
         pdImgList?.push(imgString)
       }
     } else {
@@ -1373,7 +1413,7 @@ const ProductList = () => {
 
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-    setIsProdLoading(true);
+    // setIsProdLoading(true);
     setCurrPage(value);
     setCurrPage(value);
     setTimeout(() => {
@@ -1408,7 +1448,7 @@ const ProductList = () => {
       .catch((err) => console.log("err", err))
       .finally(() => {
         setTimeout(() => {
-          setIsProdLoading(false);
+          // setIsProdLoading(false);
         }, 100);
       });
   };
@@ -1476,6 +1516,12 @@ const ProductList = () => {
       setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
       setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
       setFilterChecked({});
+      setInputDia([diafilter?.Min, diafilter?.Max]);
+      setInputNet([diafilter1?.Min, diafilter1?.Max]);
+      setInputGross([diafilter2?.Min, diafilter2?.Max]);
+      setShow(false);
+      setShow1(false);
+      setShow2(false);
     }
     // setAccExpanded(false);
   };
@@ -1494,7 +1540,7 @@ const ProductList = () => {
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-    setIsOnlyProdLoading(true);
+    // setIsOnlyProdLoading(true);
 
     let sortby = e.target?.value;
     let DiaRange = { DiaMin: sliderValue[0] ?? "", DiaMax: sliderValue[1] ?? "" }
@@ -1511,7 +1557,7 @@ const ProductList = () => {
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
-        setIsOnlyProdLoading(false);
+        // setIsOnlyProdLoading(false);
       });
   };
 
@@ -2250,7 +2296,20 @@ const ProductList = () => {
                               >
                                 {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                                 <Box sx={{ width: "94%", height: 88 }}>
-                                  {RangeFilterView(ele)}
+                                  {/* {RangeFilterView(ele)} */}
+                                  <RangeFilter
+                                    ele={ele}
+                                    sliderValue={sliderValue}
+                                    setSliderValue={setSliderValue}
+                                    handleRangeFilterApi={handleRangeFilterApi}
+                                    prodListType={prodListType}
+                                    cookie={cookie}
+                                    show={show}
+                                    setShow={setShow}
+                                    filterName="Diamond"
+                                    setAppliedRange={setAppliedRange1}
+                                    appliedRange={appliedRange1}
+                                  />
                                 </Box>
                               </AccordionDetails>
                             </Accordion>
@@ -2306,7 +2365,20 @@ const ProductList = () => {
                               >
                                 {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                                 <Box sx={{ width: "94%", height: 88 }}>
-                                  {RangeFilterView1(ele)}
+                                  {/* {RangeFilterView1(ele)} */}
+                                  <RangeFilter
+                                    ele={ele}
+                                    sliderValue={sliderValue1}
+                                    setSliderValue={setSliderValue1}
+                                    handleRangeFilterApi={handleRangeFilterApi1}
+                                    prodListType={prodListType}
+                                    cookie={cookie}
+                                    show={show1}
+                                    setShow={setShow1}
+                                    filterName="NetWt"
+                                    setAppliedRange={setAppliedRange2}
+                                    appliedRange={appliedRange2}
+                                  />
                                 </Box>
                               </AccordionDetails>
                             </Accordion>
@@ -2361,7 +2433,20 @@ const ProductList = () => {
                                 }}
                               >
                                 <Box sx={{ width: "94%", height: 88 }}>
-                                  {RangeFilterView2(ele)}
+                                  {/* {RangeFilterView2(ele)} */}
+                                  <RangeFilter
+                                    ele={ele}
+                                    sliderValue={sliderValue2}
+                                    setSliderValue={setSliderValue2}
+                                    handleRangeFilterApi={handleRangeFilterApi2}
+                                    prodListType={prodListType}
+                                    cookie={cookie}
+                                    show={show2}
+                                    setShow={setShow2}
+                                    filterName="Gross"
+                                    setAppliedRange={setAppliedRange3}
+                                    appliedRange={appliedRange3}
+                                  />
                                 </Box>
                               </AccordionDetails>
                             </Accordion>
@@ -3037,7 +3122,20 @@ const ProductList = () => {
                                       }}
                                     >
                                       <Box sx={{ width: "94%", height: 88 }}>
-                                        {RangeFilterView(ele)}
+                                        {/* {RangeFilterView(ele)} */}
+                                        <RangeFilter
+                                          ele={ele}
+                                          sliderValue={sliderValue}
+                                          setSliderValue={setSliderValue}
+                                          handleRangeFilterApi={handleRangeFilterApi}
+                                          prodListType={prodListType}
+                                          cookie={cookie}
+                                          show={show}
+                                          setShow={setShow}
+                                          filterName="Diamond"
+                                          setAppliedRange={setAppliedRange1}
+                                          appliedRange={appliedRange1}
+                                        />
                                       </Box>
                                     </AccordionDetails>
                                   </Accordion>
@@ -3089,7 +3187,20 @@ const ProductList = () => {
                                       }}
                                     >
                                       <Box sx={{ width: "94%", height: 88 }}>
-                                        {RangeFilterView1(ele)}
+                                        {/* {RangeFilterView1(ele)} */}
+                                        <RangeFilter
+                                          ele={ele}
+                                          sliderValue={sliderValue1}
+                                          setSliderValue={setSliderValue1}
+                                          handleRangeFilterApi={handleRangeFilterApi1}
+                                          prodListType={prodListType}
+                                          cookie={cookie}
+                                          show={show1}
+                                          setShow={setShow1}
+                                          filterName="NetWt"
+                                          setAppliedRange={setAppliedRange2}
+                                          appliedRange={appliedRange2}
+                                        />
                                       </Box>
                                     </AccordionDetails>
                                   </Accordion>
@@ -3145,7 +3256,20 @@ const ProductList = () => {
                                       }}
                                     >
                                       <Box sx={{ width: "94%", height: 88 }}>
-                                        {RangeFilterView2(ele)}
+                                        {/* {RangeFilterView2(ele)} */}
+                                        <RangeFilter
+                                          ele={ele}
+                                          sliderValue={sliderValue2}
+                                          setSliderValue={setSliderValue2}
+                                          handleRangeFilterApi={handleRangeFilterApi2}
+                                          prodListType={prodListType}
+                                          cookie={cookie}
+                                          show={show2}
+                                          setShow={setShow2}
+                                          filterName="Gross"
+                                          setAppliedRange={setAppliedRange3}
+                                          appliedRange={appliedRange3}
+                                        />
                                       </Box>
                                     </AccordionDetails>
                                   </Accordion>
@@ -3180,230 +3304,26 @@ const ProductList = () => {
                             {!filterProdListEmpty ? (
                               <div className={`smilingAllProductDataMainMobile`}>
                                 {finalProductListData?.map((productData, i) => {
-                                  const isLoading = productData && productData?.loading === true;
-                                  return <div className={`main-ProdcutListConatiner`}>
-                                    <div className={`listing-card`}>
-                                      <div className="listing-image">
-                                        <div>
-                                          {isLoading ?
-                                            <CardMedia
-                                              style={{ width: "100%" }}
-                                              className="cardMainSkeleton"
-                                            >
-                                              <Skeleton
-                                                animation="wave"
-                                                variant="rect"
-                                                width={"100%"}
-                                                height="280px"
-                                                style={{ backgroundColor: "#e8e8e86e" }}
-                                              />
-                                            </CardMedia> :
-                                            <div
-                                              onMouseEnter={() => {
-                                                handleImgRollover(productData);
-                                                if (productData?.VideoCount > 0) {
-                                                  setIsRollOverVideo({
-                                                    [productData?.autocode]: true,
-                                                  });
-                                                } else {
-                                                  setIsRollOverVideo({
-                                                    [productData?.autocode]: false,
-                                                  });
-                                                }
-                                              }}
-                                              onClick={() =>
-                                                handleMoveToDetail(productData)
-                                              }
-                                              onMouseLeave={() => {
-                                                handleLeaveImgRolloverImg(
-                                                  productData
-                                                );
-                                                setIsRollOverVideo({
-                                                  [productData?.autocode]: false,
-                                                });
-                                              }}
-                                              className="dt_ImgandVideoContainer"
-                                            >
-                                              {isRollOverVideo[
-                                                productData?.autocode
-                                              ] == true ? (
-                                                <video
-                                                  src={
-                                                    productData?.VideoCount > 0
-                                                      ? (storeInit?.CDNVPath) +
-                                                      productData?.designno +
-                                                      "~" +
-                                                      1 +
-                                                      "." +
-                                                      productData?.VideoExtension
-                                                      : ""
-                                                  }
-                                                  loop={true}
-                                                  autoPlay={true}
-                                                  muted
-                                                  playsInline
-                                                  className="dt_productCard_video"
-                                                  onError={(e) => {
-                                                    e.target.poster = imageNotFound;
-                                                  }}
-                                                />
-                                              ) : (
-                                                <img
-                                                  className="dt_productListCard_Image"
-                                                  id={`dt_productListCard_Image${productData?.autocode}`}
-                                                  src={
-                                                    rollOverImgPd[
-                                                      productData?.autocode
-                                                    ]
-                                                      ? rollOverImgPd[
-                                                      productData?.autocode
-                                                      ]
-                                                      : productData?.images?.length >
-                                                        0
-                                                        ? productData?.images[0]
-                                                        : imageNotFound
-                                                  }
-                                                  alt="aa"
-                                                  onError={(e) => {
-                                                    e.target.src = imageNotFound;
-                                                  }}
-                                                />
-                                              )}
-                                            </div>}
-                                          <div className="dt_product_label">
-                                            {productData?.IsInReadyStock == 1 ? (
-                                              <span className="dt_instock">
-                                                In Stock
-                                              </span>
-                                            )
-                                              :
-                                              (
-                                                <span className="dt_instock">
-                                                  Make To Order
-                                                </span>
-                                              )
-                                            }
-                                            {productData?.IsBestSeller == 1 && (
-                                              <span className="dt_bestSeller">
-                                                Best Seller
-                                              </span>
-                                            )}
-                                            {productData?.IsTrending == 1 && (
-                                              <span className="dt_intrending">
-                                                Trending
-                                              </span>
-                                            )}
-                                            {productData?.IsNewArrival == 1 && (
-                                              <span className="dt_newarrival">
-                                                New Arrival
-                                              </span>
-                                            )}
-                                          </div>
-                                          <Button
-                                            className="cart-icon"
-                                            style={{ display: "none" }}
-                                          >
-                                            <Checkbox
-                                              icon={
-                                                <LocalMallOutlinedIcon
-                                                  sx={{
-                                                    fontSize: "22px",
-                                                    color: "#7d7f85",
-                                                    opacity: ".7",
-                                                  }}
-                                                />
-                                              }
-                                              checkedIcon={
-                                                <LocalMallIcon
-                                                  sx={{
-                                                    fontSize: "22px",
-                                                    color: "#009500",
-                                                  }}
-                                                />
-                                              }
-                                              disableRipple={true}
-                                              sx={{ padding: "5px" }}
-                                              onChange={(e) =>
-                                                handleCartandWish(
-                                                  e,
-                                                  productData,
-                                                  "Cart"
-                                                )
-                                              }
-                                              checked={
-                                                cartArr[productData?.autocode] ??
-                                                  productData?.IsInCart === 1
-                                                  ? true
-                                                  : false
-                                              }
-                                            />
-                                          </Button>
-                                          <Button className={"wishlist-icon"}>
-                                            <Checkbox
-                                              icon={
-                                                <FavoriteBorderIcon
-                                                  sx={{
-                                                    fontSize: "22px",
-                                                    color: "#7d7f85",
-                                                    opacity: ".7",
-                                                  }}
-                                                />
-                                              }
-                                              checkedIcon={
-                                                <FavoriteIcon
-                                                  sx={{
-                                                    fontSize: "22px",
-                                                    color: "#e31b23",
-                                                  }}
-                                                />
-                                              }
-                                              disableRipple={true}
-                                              sx={{ padding: "5px" }}
-                                              onChange={(e) =>
-                                                handleCartandWish(
-                                                  e,
-                                                  productData,
-                                                  "Wish"
-                                                )
-                                              }
-                                              checked={
-                                                wishArr[productData?.autocode] ??
-                                                  productData?.IsInWish === 1
-                                                  ? true
-                                                  : false
-                                              }
-                                            />
-                                          </Button>
-                                        </div>
-                                      </div>
-
-                                      {productData?.TitleLine?.length !== 0 ? (
-                                        <div className="listing-details">
-                                          <p
-                                            className="prodTitle"
-                                            title={`${productData?.TitleLine}`}
-                                          >
-                                            {/* {productData?.designno} {" - "}  */}
-                                            {formatTitleLine(productData?.TitleLine) && productData?.TitleLine}
-                                          </p>
-                                        </div>
-                                      ) : (
-                                        <div className="listing-details">
-                                          {/* <p
-                                       className="prodTitle"
-                                       title={`${productData?.designno}`}
-                                     >
-                                       {productData?.designno}
-                                     </p> */}
-                                        </div>
-                                      )}
-                                      {storeInit?.IsPriceShow == 1 && <div style={{ margin: '0px', fontSize: '15px', display: 'flex', justifyContent: 'center', width: '100%', gap: '5px' }}>
-                                        {/* <label className="from">Form:</label> */}
-                                        <div className="currencyFont" style={{ fontSize: '16px', color: '#8d8d8d' }}>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}</div>
-                                        <div style={{ fontFamily: 'Roboto, sans-serif', fontSize: '16px', color: '#8d8d8d' }}>{formatter.format(productData?.UnitCostWithMarkUp)}</div>
-                                      </div>}
-                                    </div>
-                                  </div>
+                                  return (
+                                    <Product_Card
+                                      productData={productData}
+                                      setIsRollOverVideo={setIsRollOverVideo}
+                                      handleMoveToDetail={handleMoveToDetail}
+                                      videoUrl={getDynamicVideo(productData.designno, productData.VideoCount, productData.VideoExtension)}
+                                      RollImageUrl={getDynamicRollImages(productData.designno, productData.ImageCount, productData.ImageExtension)}
+                                      imageUrl={getDynamicImages(productData.designno, productData.ImageExtension)}
+                                      handleLeaveImgRolloverImg={handleLeaveImgRolloverImg}
+                                      isRollOverVideo={isRollOverVideo}
+                                      storeInit={storeInit}
+                                      rollOverImgPd={rollOverImgPd}
+                                      handleCartandWish={handleCartandWish}
+                                      cartArr={cartArr}
+                                      wishArr={wishArr}
+                                      loginUserDetail={loginUserDetail}
+                                      formatter={formatter}
+                                      productIndex={i}
+                                    />
+                                  )
                                 })}
                                 {isEditablePage === 1 ? (
                                   <>
@@ -3512,3 +3432,257 @@ const ProductList = () => {
 };
 
 export default ProductList;
+
+
+const Product_Card = ({
+  productData,
+  handleMoveToDetail,
+  storeInit,
+  videoUrl,
+  RollImageUrl,
+  imageUrl,
+  handleCartandWish,
+  cartArr,
+  wishArr,
+  loginUserDetail,
+  formatter,
+  productIndex
+}) => {
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isHover, setIsHover] = useState(false);
+
+  useEffect(() => {
+    const delay = (productIndex + 1) * 100;
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [productIndex]);
+
+  return (
+    <div className={`main-ProdcutListConatiner`}>
+      <div className={`listing-card`}>
+        <div className="listing-image">
+          <div>
+            {isLoading ?
+              <CardMedia
+                style={{ width: "100%" }}
+                className="cardMainSkeleton"
+              >
+                <Skeleton
+                  animation="wave"
+                  variant="rect"
+                  width={"100%"}
+                  height="280px"
+                  style={{ backgroundColor: "#e8e8e86e" }}
+                />
+              </CardMedia> :
+              <div
+                onClick={() =>
+                  handleMoveToDetail(productData)
+                }
+                onMouseMove={() => setIsHover(true)}
+                onMouseLeave={() => setIsHover(false)}
+                className="dt_ImgandVideoContainer"
+              >
+                <div>
+                  {isLoading ? (
+                    <CardMedia
+                      style={{ width: '100%', height: '100%' }}
+                      className="dt_productCard_cardMainSkeleton"
+                    >
+                      <Skeleton
+                        animation="wave"
+                        variant="rect"
+                        width="100%"
+                        height="100%"
+                        style={{ backgroundColor: '#e8e8e86e' }}
+                      />
+                    </CardMedia>
+                  ) : (
+                    <>
+                      {/* Hover Content (Video or RollImage) */}
+                      <div style={{ display: isHover ? "block" : "none" }}>
+                        {videoUrl !== undefined ? (
+                          <video
+                            className="dt_productCard_video"
+                            src={videoUrl}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            onError={(e) => {
+                              e.target.poster = imageNotFound;
+                            }}
+                          />
+                        ) : (videoUrl === undefined && RollImageUrl !== undefined) ? (
+                          <img
+                            className="dt_productListCard_Image"
+                            src={RollImageUrl}
+                            onError={(e) => {
+                              if (productData?.ImageCount > 0) {
+                                e.target.src = RollImageUrl;
+                              }
+                              e.target.src = imageNotFound;
+                            }}
+                          />
+                        ) : null}
+                      </div>
+
+                      {/* Default Image */}
+                      <img
+                        className="dt_productListCard_Image"
+                        src={imageUrl}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.stopPropagation();
+                          e.target.src = imageNotFound;
+                        }}
+                        style={{
+                          opacity: isHover && (RollImageUrl || videoUrl) ? "0" : "1",
+                          transition: '0s ease-in-out',
+                        }}
+                      />
+                    </>
+                  )}
+                </div>
+              </div>}
+            <div className="dt_product_label">
+              {productData?.IsInReadyStock == 1 ? (
+                <span className="dt_instock">
+                  In Stock
+                </span>
+              )
+                :
+                (
+                  <span className="dt_instock">
+                    Make To Order
+                  </span>
+                )
+              }
+              {productData?.IsBestSeller == 1 && (
+                <span className="dt_bestSeller">
+                  Best Seller
+                </span>
+              )}
+              {productData?.IsTrending == 1 && (
+                <span className="dt_intrending">
+                  Trending
+                </span>
+              )}
+              {productData?.IsNewArrival == 1 && (
+                <span className="dt_newarrival">
+                  New Arrival
+                </span>
+              )}
+            </div>
+            <Button
+              className="cart-icon"
+              style={{ display: "none" }}
+            >
+              <Checkbox
+                icon={
+                  <LocalMallOutlinedIcon
+                    sx={{
+                      fontSize: "22px",
+                      color: "#7d7f85",
+                      opacity: ".7",
+                    }}
+                  />
+                }
+                checkedIcon={
+                  <LocalMallIcon
+                    sx={{
+                      fontSize: "22px",
+                      color: "#009500",
+                    }}
+                  />
+                }
+                disableRipple={true}
+                sx={{ padding: "5px" }}
+                onChange={(e) =>
+                  handleCartandWish(
+                    e,
+                    productData,
+                    "Cart"
+                  )
+                }
+                checked={
+                  cartArr[productData?.autocode] ??
+                    productData?.IsInCart === 1
+                    ? true
+                    : false
+                }
+              />
+            </Button>
+            <Button className={"wishlist-icon"}>
+              <Checkbox
+                icon={
+                  <FavoriteBorderIcon
+                    sx={{
+                      fontSize: "22px",
+                      color: "#7d7f85",
+                      opacity: ".7",
+                    }}
+                  />
+                }
+                checkedIcon={
+                  <FavoriteIcon
+                    sx={{
+                      fontSize: "22px",
+                      color: "#e31b23",
+                    }}
+                  />
+                }
+                disableRipple={true}
+                sx={{ padding: "5px" }}
+                onChange={(e) =>
+                  handleCartandWish(
+                    e,
+                    productData,
+                    "Wish"
+                  )
+                }
+                checked={
+                  wishArr[productData?.autocode] ??
+                    productData?.IsInWish === 1
+                    ? true
+                    : false
+                }
+              />
+            </Button>
+          </div>
+        </div>
+
+        {productData?.TitleLine?.length !== 0 ? (
+          <div className="listing-details">
+            <p
+              className="prodTitle"
+              title={`${productData?.TitleLine}`}
+            >
+              {/* {productData?.designno} {" - "}  */}
+              {formatTitleLine(productData?.TitleLine) && productData?.TitleLine}
+            </p>
+          </div>
+        ) : (
+          <div className="listing-details">
+            {/* <p
+     className="prodTitle"
+     title={`${productData?.designno}`}
+   >
+     {productData?.designno}
+   </p> */}
+          </div>
+        )}
+        {storeInit?.IsPriceShow == 1 && <div style={{ margin: '0px', fontSize: '15px', display: 'flex', justifyContent: 'center', width: '100%', gap: '5px' }}>
+          {/* <label className="from">Form:</label> */}
+          <div className="currencyFont" style={{ fontSize: '16px', color: '#8d8d8d' }}>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}</div>
+          <div style={{ fontFamily: 'Roboto, sans-serif', fontSize: '16px', color: '#8d8d8d' }}>{formatter.format(productData?.UnitCostWithMarkUp)}</div>
+        </div>}
+      </div>
+    </div>
+  )
+}

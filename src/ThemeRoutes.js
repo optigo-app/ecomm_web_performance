@@ -321,8 +321,33 @@ const LoadingFallback = () => (
   </Box>
 )
 
+const ElveeLoadingFallback = () => (
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100vh',
+      backgroundColor: '#fff',
+    }}
+  >
+    <img
+      src="/Gif_Loder.gif"
+      alt="Loading..."
+      width="auto"
+      loading="lazy"
+      style={{
+        maxWidth: '200px',
+        width: '100%',
+        height: 'auto',
+      }}
+    />
+  </Box>
+);
+
 const Themes = ({ themeNumber }) => {
   return (
+    // <Suspense fallback={<ElveeLoadingFallback />}>
     <Suspense fallback={<LoadingFallback />}>
       {themeNumber === 8 && <ForEveryRoutes />}
       {themeNumber === 3 && <Elveester_App />}

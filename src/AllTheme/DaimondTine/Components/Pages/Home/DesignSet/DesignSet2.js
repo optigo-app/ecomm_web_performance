@@ -17,7 +17,7 @@ import { formatRedirectTitleLine, formatter, formatTitleLine, storImagePath } fr
 import { dt_homeLoading, dt_loginState } from "../../../Recoil/atom";
 import GoogleAnalytics from 'react-ga4';
 
-const DesignSet2 = ({data}) => {
+const DesignSet2 = ({ data }) => {
   const designSetRef = useRef(null);
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState();
@@ -78,7 +78,8 @@ const DesignSet2 = ({data}) => {
     // setImageUrlDesignSet(data?.DesignImageFol);
 
     setImageUrl(data?.CDNDesignImageFol);
-    setImageUrlDesignSet(data?.CDNDesignImageFol);
+    // setImageUrlDesignSet(data?.CDNDesignImageFol);
+    setImageUrlDesignSet(data?.CDNDesignImageFolThumb);
 
 
     Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
@@ -271,7 +272,8 @@ const DesignSet2 = ({data}) => {
                                 <div className="smr_ds2ImageDiv">
                                   <img
                                     loading="lazy"
-                                    src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
+                                    // src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
+                                    src={`${imageUrlDesignSet}${detail?.designno}~1.jpg`}
                                     alt={`Sub image ${subIndex} for slide ${index}`}
                                     onClick={() =>
                                       handleNavigation(
@@ -289,7 +291,7 @@ const DesignSet2 = ({data}) => {
                                 </div>
                               </div>
                               <div className="fs1 centerall">{formatTitleLine(detail?.TitleLine) ? `${detail.TitleLine}` : ''}</div>
-                             { storeInit?.IsPriceShow == 1 && <div className="fs2 centerall">
+                              {storeInit?.IsPriceShow == 1 && <div className="fs2 centerall">
                                 <p>
                                   <span
                                     className="smr_currencyFont"

@@ -1,6 +1,6 @@
 import React, { lazy, memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "./ProductList.modul.scss";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import MuiAccordion from "@mui/material/Accordion";
@@ -67,6 +67,7 @@ const ProductList = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   let cookie = Cookies.get("visiterId");
   const navigate = useNavigate();
+  const getBreadCrumData = JSON.parse(sessionStorage.getItem("breadcrumbData")) ?? "";
 
   let maxwidth700px = useMediaQuery("(max-width:700px)");
   let maxwidth1000px = useMediaQuery("(max-width:1000px)");
@@ -81,6 +82,35 @@ const ProductList = () => {
   } else {
     drawerWidth = "20rem";
   }
+
+  const baseUrl = window.location.origin;
+
+  const breadcrumbData = [
+    { name: "Homne", url: baseUrl },
+    {
+      name: "Product",
+      url: `${baseUrl}${location?.pathname}${location?.search}`
+    }
+  ];
+
+  useEffect(() => {
+    sessionStorage.setItem("breadcrumbData", JSON.stringify(`${baseUrl}${location?.pathname}${location?.search}`));
+  }, [])
+
+  const generateBreadcrumbJsonLd = (breadcrumbs) => {
+    return {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": breadcrumbs.map((breadcrumb, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "name": breadcrumb.name,
+        "item": breadcrumb.url
+      }))
+    };
+  };
+
+  const jsonLd = generateBreadcrumbJsonLd(breadcrumbData);
 
   // Designing States
   const [showFilter, setShowFilter] = useState(false);
@@ -2449,6 +2479,9 @@ const ProductList = () => {
         {/* <JsonLd data={productSchema} /> */}
         <script type="application/ld+json">
           {JSON.stringify(productSchema, null, 2)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(jsonLd, null, 2)}
         </script>
       </Helmet>
       <div className="elv_Productlists_Main_div">

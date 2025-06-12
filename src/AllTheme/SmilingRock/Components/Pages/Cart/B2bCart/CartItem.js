@@ -54,7 +54,7 @@ const CartItem = ({
   // const isLoading = item?.loading;
 
   useEffect(() => {
-    const delay = (index + 1) * 100;
+    const delay = (index + 1) * 200;
 
     const timer = setTimeout(() => {
       setisLoading(false);

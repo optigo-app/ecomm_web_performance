@@ -23,6 +23,7 @@ const NewArrival = () => {
     const islogin = useRecoilValue(smr_loginState);
     const setLoadingHome = useSetRecoilState(homeLoading);
     const [validatedData, setValidatedData] = useState([]);
+    const productRefs = useRef({});
 
     // useEffect(() => {
     //     setLoadingHome(true);
@@ -72,34 +73,28 @@ const NewArrival = () => {
     //     // }).catch((err) => console.log(err))
     // }, [])
 
-    useEffect(() => {
-        setLoadingHome(true);
-
-        const handleScroll = () => {
-            if (!newArrivalRef.current) return;
-
-            const rect = newArrivalRef.current.getBoundingClientRect();
-            const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
-
-            if (isInView) {
-                callAPI();
-                window.removeEventListener("scroll", handleScroll); // ensure it's called only once
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        // Immediately check on mount
-        handleScroll();
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, [])
-
     // useEffect(() => {
-    //     setTimeout(() => {
-    //         callAPI();
-    //     },1200)
+    //     setLoadingHome(true);
+
+    //     const handleScroll = () => {
+    //         if (!newArrivalRef.current) return;
+
+    //         const rect = newArrivalRef.current.getBoundingClientRect();
+    //         const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+
+    //         if (isInView) {
+    //             callAPI();
+    //             window.removeEventListener("scroll", handleScroll); // ensure it's called only once
+    //         }
+    //     };
+
+    //     window.addEventListener("scroll", handleScroll);
+    //     // Immediately check on mount
+    //     handleScroll();
+
+    //     return () => {
+    //         window.removeEventListener("scroll", handleScroll);
+    //     };
     // }, [])
 
     const callAPI = () => {
@@ -126,6 +121,12 @@ const NewArrival = () => {
             }
         }).catch((err) => console.log(err))
     }
+
+    useEffect(() => {
+        // setTimeout(() => {
+        callAPI();
+        // },1200)
+    }, [])
 
     const checkImageAvailability = (url) => {
         return new Promise((resolve) => {
@@ -165,7 +166,7 @@ const NewArrival = () => {
         }
     };
 
-    const handleNavigation = (designNo, autoCode, titleLine) => {
+    const handleNavigation = (designNo, autoCode, titleLine, index) => {
         let obj = {
             a: autoCode,
             b: designNo,
@@ -174,10 +175,36 @@ const NewArrival = () => {
             c: loginUserDetail?.cmboCSQCid,
             f: {}
         }
+        sessionStorage.setItem('scrollToProduct2', `product-${index}`);
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     }
+
+    useEffect(() => {
+        const scrollDataStr = sessionStorage.getItem('scrollToProduct2');
+        if (!scrollDataStr) return;
+
+        const maxRetries = 10;
+        let retries = 0;
+
+        const tryScroll = () => {
+            const el = productRefs.current[scrollDataStr];
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+                sessionStorage.removeItem('scrollToProduct2');
+            } else if (retries < maxRetries) {
+                retries++;
+                setTimeout(tryScroll, 200); // retry until ref is ready
+            }
+        };
+
+        tryScroll();
+
+    }, [newArrivalData]);
 
     const decodeEntities = (html) => {
         var txt = document.createElement("textarea");
@@ -219,24 +246,26 @@ const NewArrival = () => {
                     viewport={{ once: true, amount: 0.2 }}
                 >
                     <Typography variant='h5' className='smrN_NewArr1Title'>NEW ARRIVAL
-                        <Link className='smr_designSetViewmoreBtn' sx={{ marginLeft: "12px !important", fontSize: "18px", color: "gray" }} onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
+                        <Link sx={{ marginLeft: "10px !important", fontSize: "18px", color: "gray" }} onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
                             View more
                         </Link>
                     </Typography>
                     <Grid container spacing={1} className='smr_NewArrival1product-list'>
                         {validatedData?.slice(0, 4)?.map((product, index) => (
                             <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
-                                <Card className='smr_NewArrproduct-card' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
+                                <Card className='smr_NewArrproduct-card' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine, index)}>
                                     <div className='smr_newArr1Image'>
                                         <CardMedia
                                             component="img"
                                             className='smr_newArrImage'
                                             // image="https://www.bringitonline.in/uploads/2/2/4/5/22456530/female-diamond-necklace-jewellery-photoshoot-jewellery-photography-jewellery-photographers-jewellery-model-shoot-jewellery-product-shoot-bringitonline_orig.jpeg"
-                                            image={product?.ImageCount >= 1 ?
+                                            image={product?.ImageCount >= 1 ?   
                                                 product?.validatedImageURL
                                                 // `${imageUrl}${newArrivalData && product?.designno}~1.${newArrivalData && product?.ImageExtension}`
                                                 : imageNotFound}
                                             alt={product?.TitleLine}
+                                            id={`product-${index}`}
+                                            ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                             onError={(e) => {
                                                 e.target.src = imageNotFound
                                             }}

@@ -940,7 +940,7 @@ const ProductDetail = () => {
   };
 
   const checkImage = (imageUrl) => {
-    return new Promise((resolve, reject) => {       
+    return new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => {
         resolve(imageUrl);  // Image loaded successfully
