@@ -48,6 +48,10 @@ const ResponsiveCartUi = ({
     setStoreInitData(storeinitData);
   }, []);
 
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${cartData?.designno}~1.jpg`;
+  const isLoading = cartData?.loading;
+
   const handleRemovecartData = async (cartData) => {
     const returnValue = await onRemoveItem(cartData);
     if (returnValue?.msg == "success") {
@@ -57,15 +61,15 @@ const ResponsiveCartUi = ({
     }
   };
 
-  useEffect(() => {
-    if (cartData?.ImageCount > 0) {
-      CartCardImageFunc(cartData).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [cartData]);
+  // useEffect(() => {
+  //   if (cartData?.ImageCount > 0) {
+  //     CartCardImageFunc(cartData).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [cartData]);
 
   function truncateText(text, maxLength) {
     if (text.length <= maxLength) {
@@ -87,7 +91,7 @@ const ResponsiveCartUi = ({
   return (
     <div className="dt_res-card-container">
       <div className="dt_res-card">
-        {imageSrc === undefined ? (
+        {isLoading === true ? (
           <CardMedia
             className="dt_res-card-image"
             style={{ width: "100%" }}
@@ -108,7 +112,26 @@ const ResponsiveCartUi = ({
             />
           </CardMedia>
         ) : (
-          <img src={imageSrc} alt="Product Image" className="dt_res-card-image" />
+          <img
+            src={cartData?.images}
+            alt=" "
+            loading='lazy'
+            style={{
+              border: 'none',
+              outline: 'none',
+              boxShadow: 'none',
+              '&:focus': { outline: 'none' },
+              '&:active': { outline: 'none' },
+            }}
+            onError={(e) => {
+              if (cartData?.ImageCount > 0) {
+                e.target.src = fullImagePath ? fullImagePath : noImageFound
+              } else {
+                e.target.src = noImageFound;
+              }
+            }}
+            className="dt_res-card-image"
+          />
         )}
         <h3 className="dt_res-card-title">
           {cartData?.designno}

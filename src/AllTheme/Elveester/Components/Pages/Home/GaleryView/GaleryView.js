@@ -55,7 +55,7 @@ export default function GaleryView({ banner }) {
   return (
     <div className='el_mainGalleryConatinerID' id='mainGalleryConatinerID' name='mainGalleryConatinerID123'>
       <div className='elv_gallery_div'>
-        <h1 className='galeryComponents'>Gallery</h1>
+        <h2 className='galeryComponents'>Gallery</h2>
         <span className='elv_gallery_subtitle'>Where Every Piece Tells a Story.</span>
       </div>
       <Swiper

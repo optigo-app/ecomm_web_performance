@@ -30,6 +30,7 @@ const TrendingView1 = ({ data }) => {
     const [hoveredItem, setHoveredItem] = useState(null);
     const setLoadingHome = useSetRecoilState(homeLoading);
     const [validatedData, setValidatedData] = useState([]);
+    const productRefs = useRef({});
 
     const isOdd = (num) => num % 2 !== 0;
 
@@ -72,35 +73,35 @@ const TrendingView1 = ({ data }) => {
     //     };
     // }, [])
 
-    useEffect(() => {
-        setLoadingHome(true);
-
-        const handleScroll = () => {
-            if (!trendingRef.current) return;
-
-            const rect = trendingRef.current.getBoundingClientRect();
-            const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
-
-            if (isInView) {
-                callAPI();
-                window.removeEventListener("scroll", handleScroll); // ensure it's called only once
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        // Immediately check on mount
-        handleScroll();
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
-
     // useEffect(() => {
-    //     setTimeout(() => {
-    //         callAPI()
-    //     }, 1200)
-    // }, [])
+    //     setLoadingHome(true);
+
+    //     const handleScroll = () => {
+    //         if (!trendingRef.current) return;
+
+    //         const rect = trendingRef.current.getBoundingClientRect();
+    //         const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+
+    //         if (isInView) {
+    //             callAPI();
+    //             window.removeEventListener("scroll", handleScroll); // ensure it's called only once
+    //         }
+    //     };
+
+    //     window.addEventListener("scroll", handleScroll);
+    //     // Immediately check on mount
+    //     handleScroll();
+
+    //     return () => {
+    //         window.removeEventListener("scroll", handleScroll);
+    //     };
+    // }, []);
+
+    useEffect(() => {
+        // setTimeout(() => {
+        callAPI()
+        // }, 1200)
+    }, [])
 
     const callAPI = () => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -183,7 +184,7 @@ const TrendingView1 = ({ data }) => {
             return null;
         }
     };
-    const handleNavigation = (designNo, autoCode, titleLine) => {
+    const handleNavigation = (designNo, autoCode, titleLine, index) => {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit')) ?? "";
         const { IsB2BWebsite } = storeInit;
 
@@ -195,10 +196,36 @@ const TrendingView1 = ({ data }) => {
             c: loginUserDetail?.cmboCSQCid,
             f: {}
         }
+        sessionStorage.setItem('scrollToProduct3', `product-${index}`);
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     }
+
+    useEffect(() => {
+        const scrollDataStr = sessionStorage.getItem('scrollToProduct3');
+        if (!scrollDataStr) return;
+
+        const maxRetries = 10;
+        let retries = 0;
+
+        const tryScroll = () => {
+            const el = productRefs.current[scrollDataStr];
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+                sessionStorage.removeItem('scrollToProduct3');
+            } else if (retries < maxRetries) {
+                retries++;
+                setTimeout(tryScroll, 200); // retry until ref is ready
+            }
+        };
+
+        tryScroll();
+
+    }, [trandingViewData]);
 
     const chunkedData = [];
     for (let i = 0; i < validatedData?.length; i += 3) {
@@ -237,7 +264,7 @@ const TrendingView1 = ({ data }) => {
                                     }}
                                     viewport={{ once: true, amount: 0.2 }}
                                 >
-                                    <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
+                                    <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine, index)}>
                                         <img
                                             src={data?.ImageCount >= 1 ?
                                                 data?.validatedImageURL
@@ -245,6 +272,8 @@ const TrendingView1 = ({ data }) => {
                                                 :
                                                 imageNotFound
                                             }
+                                            id={`product-${index}`}
+                                            ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                             onError={(e) => {
                                                 e.target.src = imageNotFound
                                             }}

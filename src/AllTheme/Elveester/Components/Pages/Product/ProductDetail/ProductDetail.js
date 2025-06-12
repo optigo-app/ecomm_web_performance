@@ -75,6 +75,7 @@ const ProductDetail = () => {
   const [showPlaceholder, setShowPlaceholder] = useState(false);
   const { imageRefs, handleMouseMove, handleMouseLeave } = useImageZoom(2.2);
   const [selectedMetalColor, setSelectedMetalColor] = useState();
+  const getBreadCrumData = JSON.parse(sessionStorage.getItem("breadcrumbData")) ?? "";
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -153,6 +154,35 @@ const ProductDetail = () => {
       "price": product?.UnitCostWithMarkUp,
     },
   };
+
+  const baseUrl = window.location.origin;
+
+  const breadcrumbData = [
+    { name: "Homne", url: baseUrl },
+    {
+      name: "Product",
+      url: `${getBreadCrumData}`,
+    },
+    {
+      name: "Product Detail",
+      url: `${baseUrl}${location?.pathname}${location?.search}`,
+    },
+  ];
+
+  const generateBreadcrumbJsonLd = (breadcrumbs) => {
+    return {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": breadcrumbs.map((breadcrumb, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "name": breadcrumb.name,
+        "item": breadcrumb.url
+      }))
+    };
+  };  
+
+  const jsonLd = generateBreadcrumbJsonLd(breadcrumbData);
 
   const [filteredVideos, setFilteredVideos] = useState([]);
 
@@ -1462,6 +1492,9 @@ const ProductDetail = () => {
         </title>
         <script type="application/ld+json">
           {JSON.stringify(productSchema, null, 2)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(jsonLd, null, 2)}
         </script>
       </Helmet>
       <div className='elv_ProductDetMain_div'>

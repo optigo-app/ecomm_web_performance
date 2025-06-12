@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 import GoogleAnalytics from 'react-ga4';
 
-const BestSellerSection1 = ({data}) => {
+const BestSellerSection1 = ({ data }) => {
     const bestSallerRef = useRef(null);
     const [imageUrl, setImageUrl] = useState();
     const [bestSellerData, setBestSellerData] = useState('')
@@ -79,7 +79,8 @@ const BestSellerSection1 = ({data}) => {
 
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
         // setImageUrl(data?.DesignImageFol);
-        setImageUrl(data?.CDNDesignImageFol);
+        // setImageUrl(data?.CDNDesignImageFol);
+        setImageUrl(data?.CDNDesignImageFolThumb);
 
         Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID).then((response) => {
             if (response?.Data?.rd) {
@@ -106,10 +107,9 @@ const BestSellerSection1 = ({data}) => {
         GoogleAnalytics.event({
             action: "Navigate to Product Detail",
             category: `Product Interaction Through Best Seller Section`,
-            label: designNo || titleLine ,
+            label: designNo || titleLine,
             value: loginUserDetail?.firstname ?? 'User Not Login',
-          });
-        console.log('aaaaaaaaaaa', designNo, autoCode, titleLine);
+        });
         let obj = {
             a: autoCode,
             b: designNo,
@@ -159,13 +159,14 @@ const BestSellerSection1 = ({data}) => {
                                     <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                         <img
                                             src={data?.ImageCount >= 1 ?
-                                                `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                // `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.jpg`
                                                 :
                                                 imageNotFound
                                             }
                                             alt={data.name}
-                                            onError={(e)=>{
-                                                e.target.src = imageNotFound ;
+                                            onError={(e) => {
+                                                e.target.src = imageNotFound;
                                                 e.target.alt = "no-image-image"
                                             }}
                                         />
@@ -207,7 +208,7 @@ const BestSellerSection1 = ({data}) => {
                                                 }
                                             </>
                                         } */}
-                                   { storeInit?.IsPriceShow == 1 &&     <p>
+                                        {storeInit?.IsPriceShow == 1 && <p>
                                             <span
                                                 className="smr_currencyFont"
                                                 dangerouslySetInnerHTML={{

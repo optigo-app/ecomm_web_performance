@@ -25,7 +25,7 @@ const WishItem = ({
     handleMoveToDetail
 }) => {
     const [loding, setloding] = useState(false);
-    const [imageSrc, setImageSrc] = useState(noImageFound);
+    const [imageSrc, setImageSrc] = useState();
     const [storeInitData, setStoreInitData] = useState();
     const setWishlistCount = useSetRecoilState(dt_WishCount);
     const setCartCount = useSetRecoilState(dt_CartCount);
@@ -36,6 +36,11 @@ const WishItem = ({
         const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
         setStoreInitData(storeinitData)
     }, [])
+
+    const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+    const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+    const isLoading = item?.loading;
 
     const handleWishlistToCartFun = async (item) => {
         setloding(true);
@@ -58,21 +63,21 @@ const WishItem = ({
         }
     };
 
-    useEffect(() => {
-        if (item?.ImageCount > 0) {
-            WishCardImageFunc(item).then((src) => {
-                setImageSrc(src);
-            });
-        } else {
-            setImageSrc(noImageFound);
-        }
-    }, [item]);
+    // useEffect(() => {
+    //     if (item?.ImageCount > 0) {
+    //         WishCardImageFunc(item).then((src) => {
+    //             setImageSrc(src);
+    //         });
+    //     } else {
+    //         setImageSrc(noImageFound);
+    //     }
+    // }, [item]);
 
     return (
         <tr>
             <td className="product" onClick={() => handleMoveToDetail(item)}>
 
-                {imageSrc === undefined ? (
+                {isLoading === true ? (
                     <CardMedia
                         style={{ width: "100%" }}
                         className="roop_WlListImage"
@@ -89,10 +94,21 @@ const WishItem = ({
                     </CardMedia>
                 ) : (
                     <img
-                        src={imageSrc}
-                        alt={item?.name}
+                        src={item?.images}
+                        alt=" "
+                        style={{
+                            border: 'none',
+                            outline: 'none',
+                            boxShadow: 'none',
+                            '&:focus': { outline: 'none' },
+                            '&:active': { outline: 'none' },
+                        }}
                         onError={(e) => {
-                            e.target.src = noImageFound;
+                            if (item?.ImageCount > 0) {
+                                e.target.src = fullImagePath ? fullImagePath : noImageFound
+                            } else {
+                                e.target.src = noImageFound;
+                            }
                         }}
                     />
                 )}

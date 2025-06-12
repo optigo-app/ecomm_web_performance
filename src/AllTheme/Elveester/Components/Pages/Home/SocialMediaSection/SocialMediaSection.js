@@ -39,7 +39,7 @@ export default function SocialMediaSection({ banner }) {
   return (
     <div className='mainSocialMediaConatiner' id='mainSocialMediaConatinerID' name='mainSocialMediaConatinerID'>
       <div className='elv_socialMed_div'>
-        <h1 className='socialmediaptag'>Social Media</h1>
+        <h2 className='socialmediaptag'>Social Media</h2>
         <span className='elv_social_subtitle'>Stay Connected, Stay Inspired.</span>
       </div>
       <Swiper

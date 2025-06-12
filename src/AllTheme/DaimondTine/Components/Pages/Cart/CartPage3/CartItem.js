@@ -41,7 +41,7 @@ const CartItem = ({
   handleCancel,
   openHandleUpdateCartModal
 }) => {
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item?.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
@@ -59,6 +59,11 @@ const CartItem = ({
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
   }, [])
+
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  const isLoading = item?.loading;
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -100,15 +105,15 @@ const CartItem = ({
     return text.substring(0, maxLength) + '...';
   }
 
-  useEffect(() => {
-    if (item?.ImageCount > 0) {
-      CartCardImageFunc(item).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [item]);
+  // useEffect(() => {
+  //   if (item?.ImageCount > 0) {
+  //     CartCardImageFunc(item).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [item]);
 
   return (
     <>
@@ -121,7 +126,7 @@ const CartItem = ({
       >
         <div className="dt3_cart-item">
           <div className="dt3_cart-item__image">
-            {imageSrc === undefined ? (
+            {isLoading === true ? (
               <CardMedia
                 width="85%"
                 height={150}
@@ -160,8 +165,23 @@ const CartItem = ({
             ) : (
               <CardMedia
                 component="img"
-                image={imageSrc}
-                alt='Product-image'
+                image={item?.images}
+                alt=" "
+                loading='lazy'
+                sx={{
+                  border: 'none',
+                  outline: 'none',
+                  boxShadow: 'none',
+                  '&:focus': { outline: 'none' },
+                  '&:active': { outline: 'none' },
+                }}
+                onError={(e) => {
+                  if (item?.ImageCount > 0) {
+                    e.target.src = fullImagePath ? fullImagePath : noImageFound
+                  } else {
+                    e.target.src = noImageFound;
+                  }
+                }}
               />
             )}
           </div>

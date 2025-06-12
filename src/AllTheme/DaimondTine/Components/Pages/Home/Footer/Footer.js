@@ -192,11 +192,18 @@ export default function Footer() {
               >
                 FAQs
               </p>
-              <p className="FoooterTextLink" onClick={openPdf}>
+              {/* <p className="FoooterTextLink" onClick={openPdf}>
                 Size Guide
+              </p> */}
+              <p className="FoooterTextLink"
+                onClick={() => {
+                  navigation("/impact");
+                  window.scroll(0, 0);
+                }}>
+                Impact
               </p>
               {/* <p className='FoooterTextLink'>Gift Cards</p> */}
-              <p
+              {/* <p
                 className="FoooterTextLink"
                 onClick={() => {
                   navigation("/MaterialCore");
@@ -204,6 +211,15 @@ export default function Footer() {
                 }}
               >
                 Material & Care
+              </p> */}
+              <p
+                className="FoooterTextLink"
+                onClick={() => {
+                  navigation("/aboutus");
+                  window.scroll(0, 0);
+                }}
+              >
+                About us
               </p>
               <p
                 className="FoooterTextLink"
@@ -299,7 +315,7 @@ export default function Footer() {
           {/* <img src={titleImg} className='logoImgFooter' /> */}
           {/* <p className='FooterBottomText'>Copyright © 2024 Sonasons. All Rights Reserved.</p> */}
           <p className="FooterBottomText">
-            Copyright © 2024 Diamondtine. All Rights Reserved.
+            Copyright © 2025 Sonasons. All Rights Reserved.
           </p>
         </div>
       </div>

@@ -54,7 +54,7 @@ const AffiliationData = ({ banner }) => {
     return (
         <div>
             <div className='elv_affi_div'>
-                <h1 className='elv_AffiliationComponents'>Affiliation</h1>
+                <h2 className='elv_AffiliationComponents'>Affiliation</h2>
                 <span className='elv_affi_subtitle'>Partnering for Excellence and Trust.</span>
             </div>
             <div className='AffiliationClassComponents' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

@@ -20,6 +20,7 @@ function Wishlist() {
     updateCount,
     countDataUpdted,
     itemInCart,
+    finalWishData,
     decodeEntities,
     WishCardImageFunc,
     handleRemoveItem,
@@ -99,7 +100,7 @@ function Wishlist() {
           </Box>
         ) : (
           <>
-            {wishlistData?.length !== 0 ? (
+            {finalWishData?.length !== 0 ? (
               <>
                 {!isMobileScreen ? (
                   <div className="cart">
@@ -112,7 +113,7 @@ function Wishlist() {
                           </tr>
                         </thead>
                         <tbody>
-                          {wishlistData?.map(item => (
+                          {finalWishData?.map(item => (
                             <WishItem
                               key={item.id}
                               item={item}
@@ -122,7 +123,7 @@ function Wishlist() {
                               itemInCart={itemInCart}
                               decodeEntities={decodeEntities}
                               WishCardImageFunc={WishCardImageFunc}
-                              itemsLength={wishlistData?.length}
+                              itemsLength={finalWishData?.length}
                               handleRemoveItem={handleRemoveItem}
                               handleWishlistToCart={handleWishlistToCart}
                               handleMoveToDetail={handleMoveToDetail}
@@ -134,7 +135,7 @@ function Wishlist() {
                   </div>
                 ) :
                   <>
-                    {wishlistData?.map(item => (
+                    {finalWishData?.map(item => (
                       <ResponsiveWishUi
                         key={item.id}
                         item={item}
@@ -144,7 +145,7 @@ function Wishlist() {
                         itemInCart={itemInCart}
                         decodeEntities={decodeEntities}
                         WishCardImageFunc={WishCardImageFunc}
-                        itemsLength={wishlistData?.length}
+                        itemsLength={finalWishData?.length}
                         handleRemoveItem={handleRemoveItem}
                         handleWishlistToCart={handleWishlistToCart}
                         handleMoveToDetail={handleMoveToDetail}

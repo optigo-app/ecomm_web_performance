@@ -34,6 +34,8 @@ const Usewishlist = () => {
   const [finalWishData, setFinalWishData] = useState([]);
   const [loadingIndex, setLoadingIndex] = useState(0)
 
+  const validThemenos = [3, 4, 11, 12, 10, 7, 1, 2];
+
   useEffect(() => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -108,7 +110,7 @@ const Usewishlist = () => {
     console.log('isdiamond: ', isdiamond);
     const visiterId = Cookies.get('visiterId');
     let param = "wish";
-    if (storeInit?.Themeno === 3 || storeInit?.Themeno === 4 || storeInit?.Themeno === 11 || storeInit?.Themeno === 12 || storeInit?.Themeno === 10 || storeInit?.Themeno === 7 || storeInit?.Themeno === 1) {
+    if (validThemenos.includes(storeInit?.Themeno)) {
       setFinalWishData(finalWishData.filter(cartItem => cartItem.id !== item.id));
     } else {
       setWishlistData(wishlistData.filter(cartItem => cartItem.id !== item.id));
@@ -164,7 +166,7 @@ const Usewishlist = () => {
         let resStatus = response?.Data?.rd[0];
 
         if (resStatus?.msg === "success") {
-          if (storeInit?.Themeno === 3 || storeInit?.Themeno === 4 || storeInit?.Themeno === 11 || storeInit?.Themeno === 12 || storeInit?.Themeno === 10 || storeInit?.Themeno === 7 || storeInit?.Themeno === 1) {
+          if (validThemenos.includes(storeInit?.Themeno)) {
             const updatedWishlistData = finalWishData.map(wish =>
               wish.id === item.id ? { ...wish, IsInCart: 1 } : wish
             );
@@ -262,7 +264,7 @@ const Usewishlist = () => {
   // };
 
   const WishCardImageFunc = (pd) => {
-    if (storeInit?.Themeno === 3 || storeInit?.Themeno === 4 || storeInit?.Themeno === 11 || storeInit?.Themeno === 12 || storeInit?.Themeno === 10 || storeInit?.Themeno === 7 || storeInit?.Themeno === 1) {
+    if (validThemenos.includes(storeInit?.Themeno)) {
       const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
       let primaryImage;
 
@@ -404,7 +406,7 @@ const Usewishlist = () => {
     let delay = 20; // default
     if (storeInit?.Themeno === 3) delay = 130;
     if (storeInit?.Themeno === 1) delay = 0;
-    if ([10, 11, 12, 7].includes(storeInit?.Themeno)) delay = 150;
+    if ([10, 11, 12, 7, 2].includes(storeInit?.Themeno)) delay = 150;
 
     const timer = setTimeout(loadNextProductImages, delay);
     return () => clearTimeout(timer);

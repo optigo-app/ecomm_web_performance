@@ -317,12 +317,14 @@ const ProductList = () => {
     },
   ]
 
-  let getDesignImageFol = storeInit?.CDNDesignImageFol;
+  // let getDesignImageFol = storeInit?.CDNDesignImageFol;
+  let getDesignImageFol = storeInit?.CDNDesignImageFolThumb;
   const getDesignVideoFol = storeInit?.CDNVPath;;
   // const getDesignVideoFol = (storeInit?.DesignImageFol)?.slice(0, -13) + "video/";
 
   const getDynamicImages = (designno, extension) => {
-    return `${getDesignImageFol}${designno}~${1}.${extension}`;
+    // return `${getDesignImageFol}${designno}~${1}.${extension}`;
+    return `${getDesignImageFol}${designno}~${1}.jpg`;
   };
 
   const getDynamicYellowImage = (item, designno, extension) => {
@@ -337,10 +339,12 @@ const ProductList = () => {
 
       const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
       const colorImage = item?.ImageCount > 0
-        ? `${baseImagePath}~Yellow.${extension}`
+        // ? `${baseImagePath}~Yellow.${extension}`
+        ? `${baseImagePath}~Yellow.jpg`
         : noImageFound;
       const defaultImage = item?.ImageCount > 0
-        ? `${baseImagePath}.${extension}`
+        // ? `${baseImagePath}.${extension}`
+        ? `${baseImagePath}.jpg`
         : noImageFound;
 
       loadImage(colorImage)
@@ -363,10 +367,12 @@ const ProductList = () => {
 
       const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
       const colorImage = item?.ImageCount > 0
-        ? `${baseImagePath}~White.${extension}`
+        // ? `${baseImagePath}~White.${extension}`
+        ? `${baseImagePath}~White.jpg`
         : noImageFound;
       const defaultImage = item?.ImageCount > 0
-        ? `${baseImagePath}.${extension}`
+        // ? `${baseImagePath}.${extension}`
+        ? `${baseImagePath}.jpg`
         : noImageFound;
 
       loadImage(colorImage)
@@ -389,10 +395,12 @@ const ProductList = () => {
 
       const baseImagePath = `${getDesignImageFol}${designno}~${1}`;
       const colorImage = item?.ImageCount > 0
-        ? `${baseImagePath}~Rose.${extension}`
+        // ? `${baseImagePath}~Rose.${extension}`
+        ? `${baseImagePath}~Rose.jpg`
         : noImageFound;
       const defaultImage = item?.ImageCount > 0
-        ? `${baseImagePath}.${extension}`
+        // ? `${baseImagePath}.${extension}`
+        ? `${baseImagePath}.jpg`
         : noImageFound;
 
       loadImage(colorImage)
@@ -416,9 +424,13 @@ const ProductList = () => {
       const defaultImagePath = `${getDesignImageFol}${designno}~${1}`;
       const baseImagePath = `${getDesignImageFol}${designno}~${2}`;
       const colorImage = item?.ImageCount > 0
-        ? `${baseImagePath}~Yellow.${extension}`
+        // ? `${baseImagePath}~Yellow.${extension}`
+        ? `${baseImagePath}~Yellow.jpg`
         : noImageFound;
-      const defaultImage = item?.ImageCount > 0 ? `${baseImagePath}.${extension}` : defaultImagePath;
+      const defaultImage = item?.ImageCount > 0 ?
+        //  `${baseImagePath}.${extension}` 
+        `${baseImagePath}.jpg`
+        : defaultImagePath;
 
       loadImage(colorImage)
         .then(resolve)
@@ -441,9 +453,13 @@ const ProductList = () => {
       const defaultImagePath = `${getDesignImageFol}${designno}~${1}`;
       const baseImagePath = `${getDesignImageFol}${designno}~${2}`;
       const colorImage = item?.ImageCount > 0
-        ? `${baseImagePath}~White.${extension}`
+        // ? `${baseImagePath}~White.${extension}`
+        ? `${baseImagePath}~White.jpg`
         : noImageFound;
-      const defaultImage = item?.ImageCount > 0 ? `${baseImagePath}.${extension}` : defaultImagePath;
+      const defaultImage = item?.ImageCount > 0 ?
+        // `${baseImagePath}.${extension}`
+        `${baseImagePath}.jpg`
+        : defaultImagePath;
 
       loadImage(colorImage)
         .then(resolve)
@@ -466,9 +482,13 @@ const ProductList = () => {
       const defaultImagePath = `${getDesignImageFol}${designno}~${1}`;
       const baseImagePath = `${getDesignImageFol}${designno}~${2}`;
       const colorImage = item?.ImageCount > 0
-        ? `${baseImagePath}~Rose.${extension}`
+        // ? `${baseImagePath}~Rose.${extension}`
+        ? `${baseImagePath}~Rose.jpg`
         : noImageFound;
-      const defaultImage = item?.ImageCount > 0 ? `${baseImagePath}.${extension}` : defaultImagePath;
+      const defaultImage = item?.ImageCount > 0 ?
+        // `${baseImagePath}.${extension}`
+        `${baseImagePath}.jpg`
+        : defaultImagePath;
 
       loadImage(colorImage)
         .then(resolve)
@@ -511,7 +531,8 @@ const ProductList = () => {
 
   const getDynamicRollImages = (designno, count, extension) => {
     if (count > 1) {
-      return `${getDesignImageFol}${designno}~${2}.${extension}`;
+      // return `${getDesignImageFol}${designno}~${2}.${extension}`;
+      return `${getDesignImageFol}${designno}~${2}.jpg`;
     }
     return;
   };

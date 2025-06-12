@@ -66,8 +66,9 @@ const NewArrival = () => {
         setStoreInit(storeinit)
 
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
-        // setImageUrl(data?.DesignImageFol);
-        setImageUrl(data?.CDNDesignImageFol);
+        // setImageUrl(data?.DesignImageFol);   
+        // setImageUrl(data?.CDNDesignImageFol);
+        setImageUrl(data?.CDNDesignImageFolThumb);
 
         Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID).then((response) => {
             if (response?.Data?.rd) {
@@ -135,7 +136,8 @@ const NewArrival = () => {
                                 <div className='dt_newArrivalMian'>
                                     <img
                                         style={{ height: "100%", width: "100%" }}
-                                        src={`${imageUrl}/${product?.designno}~1.${product.ImageExtension}`}
+                                        // src={`${imageUrl}/${product?.designno}~1.${product.ImageExtension}`}
+                                        src={`${imageUrl}/${product?.designno}~1.jpg`}
                                         // src={product.image}
                                         alt={product.title}
                                         loading='lazy'

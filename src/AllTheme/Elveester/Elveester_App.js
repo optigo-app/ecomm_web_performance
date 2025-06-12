@@ -3,7 +3,8 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import './Components/scss/elvee_modules.scss';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { Box, CircularProgress } from '@mui/material';
-import loaderImg from  '../Elveester/Components/Assets/webLogo.png';
+// import loaderImg from '../Elveester/Components/Assets/webLogo.png';
+import loaderImg from '../Elveester/Components/Assets/Gif_Loder.gif';
 import { el_companyLogo, el_companyLogoM, el_loginState, redirectModal, timerExpiredState } from './Components/Recoil/atom'
 import { storImagePath } from '../../utils/Glob_Functions/GlobalFunction';
 import CountdownTimerFnc from './Components/Pages/Home/CountdownTimer/CountdownTimerFnc';
@@ -11,6 +12,7 @@ import ReactGA from "react-ga4";
 import RedirectModal from './Components/Pages/Home/CountdownTimer/RedirectModal';
 import MetaData from './Components/meta/MetaData';
 import MetaPage from './Components/meta/Metapage';
+import { HelmetProvider } from 'react-helmet-async';
 const PrivateRoutes = React.lazy(() => import('./PrivateRoutes'));
 // import PrivateRoutes from './PrivateRoutes';
 const Home = React.lazy(() => import('./Components/Pages/Home/Index'));
@@ -48,6 +50,7 @@ const Elveester_app = () => {
 
   const location = useLocation();
   const islogin = useRecoilValue(el_loginState)
+  console.log("TCL: Elveester_app -> islogin", islogin)
   const [showHeader, setShowHeader] = useState(true);
   const [showFooter, setShowFooter] = useState(true);
   const timerData = useSetRecoilState(timerExpiredState);
@@ -73,7 +76,7 @@ const Elveester_app = () => {
     }
   }, [loginData, islogin]);
 
-  const measurementId = "G-NVTM8JJJ19";
+  const measurementId = "G-X8LQN5ML45";
 
   useEffect(() => {
     // Initialize only once
@@ -124,83 +127,90 @@ const Elveester_app = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: '100vh'
+        minHeight: '100vh',
+        backgroundColor: '#fff',
       }}
     >
       {/* <CircularProgress sx={{ color: 'rgba(255, 87, 34, 0.8)' }} /> */}
       <img
         src={loaderImg}
         alt="Loading..."
-        height="100%"
         width="auto"
         loading="lazy"
         style={{
-          animation: 'scaleUpDown 1.5s ease-in-out infinite', // Apply the animation here
+          maxWidth: '200px',
+          width: '100%',
+          height: 'auto',
         }}
+      // style={{
+      //   animation: 'scaleUpDown 1.5s ease-in-out infinite', // Apply the animation here
+      // }}
       />
     </Box>
   );
 
   return (
     <div>
-      <MetaPage />
-      {getRedModal === true && <RedirectModal />}
-      {showHeader && <Header />}
-      <Suspense fallback={<LoadingFallback />}>
-        <Routes>
-          {/* Auth Flow  */}
-          <Route path="/LoginOption" element={<LoginOption />} />
-          <Route
-            path="/ContinueWithEmail"
-            element={!islogin && <ContinueWithEmail />}
-          />
-          <Route
-            path="/ContimueWithMobile"
-            element={!islogin && <ContimueWithMobile />}
-          />
-          <Route
-            path="/LoginWithEmail"
-            element={!islogin && <LoginWithEmail />}
-          />
-          <Route path="/Register" element={!islogin && <Register />} />
-          <Route
-            path="/LoginWithEmailCode"
-            element={!islogin && <LoginWithEmailCode />}
-          />
-          <Route
-            path="/LoginWithMobileCode"
-            element={!islogin && <LoginWithMobileCode />}
-          />
-          <Route
-            path="/ForgotPass"
-            element={!islogin && <ForgotPass />}
-          />
+      <HelmetProvider>
+        <MetaPage />
+        {getRedModal === true && <RedirectModal />}
+        {showHeader && <Header />}
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            {/* Auth Flow  */}
+            <Route path="/LoginOption" element={<LoginOption />} />
+            <Route
+              path="/ContinueWithEmail"
+              element={!islogin && <ContinueWithEmail />}
+            />
+            <Route
+              path="/ContimueWithMobile"
+              element={!islogin && <ContimueWithMobile />}
+            />
+            <Route
+              path="/LoginWithEmail"
+              element={!islogin && <LoginWithEmail />}
+            />
+            <Route path="/Register" element={!islogin && <Register />} />
+            <Route
+              path="/LoginWithEmailCode"
+              element={!islogin && <LoginWithEmailCode />}
+            />
+            <Route
+              path="/LoginWithMobileCode"
+              element={!islogin && <LoginWithMobileCode />}
+            />
+            <Route
+              path="/ForgotPass"
+              element={!islogin && <ForgotPass />}
+            />
 
-          <Route path="/" element={<Home />} />
-          <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
-            <Route path="/cartPage" element={<CartDetails />} />
-            <Route path="/myWishList" element={<Wishlist />} />
-            <Route path="/Delivery" element={<Delivery />} />
-            <Route path="/payment" element={<PaymentPage />} />
-            <Route path="/Confirmation" element={<ConfirmationPage />} />
-            <Route path="/p/*" element={<ProductList />} />
-            <Route path="/d/*" element={<ProductDetail />} />
-            <Route path="/Lookbook" element={<Lookbook />} />
-            <Route path="/account" element={<Account />} />
-          </Route>
-          <Route path="/aboutUs" element={<AboutUs />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/term&condition" element={<Terms />} />
-          <Route path="/customerServices" element={<CustomerCare />} />
-          <Route path="/customize" element={<Customize />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/contact-us" element={<ContactForm />} />
-          <Route path="/careers" element={<Career />} />
-          <Route path="/appointment" element={<Appointment />} />
-          <Route path="/faqs" element={<Faqs />} />
-        </Routes>
-      </Suspense>
-      {showFooter && <Footer />}
+            <Route path="/" element={<Home />} />
+            <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
+              <Route path="/cartPage" element={<CartDetails />} />
+              <Route path="/myWishList" element={<Wishlist />} />
+              <Route path="/Delivery" element={<Delivery />} />
+              <Route path="/payment" element={<PaymentPage />} />
+              <Route path="/Confirmation" element={<ConfirmationPage />} />
+              <Route path="/p/*" element={<ProductList />} />
+              <Route path="/d/*" element={<ProductDetail />} />
+              <Route path="/Lookbook" element={<Lookbook />} />
+              <Route path="/account" element={<Account />} />
+            </Route>
+            <Route path="/aboutUs" element={<AboutUs />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/term&condition" element={<Terms />} />
+            <Route path="/customerServices" element={<CustomerCare />} />
+            <Route path="/customize" element={<Customize />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/contact-us" element={<ContactForm />} />
+            <Route path="/careers" element={<Career />} />
+            <Route path="/appointment" element={<Appointment />} />
+            <Route path="/faqs" element={<Faqs />} />
+          </Routes>
+        </Suspense>
+        {showFooter && <Footer />}
+      </HelmetProvider>
     </div>
   )
 }

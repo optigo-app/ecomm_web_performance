@@ -32,6 +32,7 @@ const DesignSet2 = ({ data }) => {
   const [swiper, setSwiper] = useState(null);
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
   const setLoadingHome = useSetRecoilState(homeLoading);
+  const productRefs = useRef({});
 
   // useEffect(() => {
   //   setLoadingHome(true);
@@ -84,11 +85,6 @@ const DesignSet2 = ({ data }) => {
   //   };
   // }, []);
 
-
-  useEffect(() => {
-    callAPI();
-  }, [])
-
   const callAPI = () => {
     const loginUserDetail = JSON.parse(
       sessionStorage.getItem("loginUserDetail")
@@ -119,6 +115,10 @@ const DesignSet2 = ({ data }) => {
       })
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    callAPI();
+  }, [])
 
   const ProdCardImageFunc = (pd) => {
     let finalprodListimg;
@@ -157,7 +157,7 @@ const DesignSet2 = ({ data }) => {
     }
   };
 
-  const handleNavigation = (designNo, autoCode, titleLine) => {
+  const handleNavigation = (designNo, autoCode, titleLine, index) => {
     let obj = {
       a: autoCode,
       b: designNo,
@@ -166,12 +166,38 @@ const DesignSet2 = ({ data }) => {
       c: loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid,
       f: {},
     };
+    sessionStorage.setItem('scrollToProduct4', `product-${index}`);
     let encodeObj = compressAndEncode(JSON.stringify(obj));
     navigate(
       `/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
       }${designNo}?p=${encodeObj}`
     );
   };
+
+  useEffect(() => {
+    const scrollDataStr = sessionStorage.getItem('scrollToProduct4');
+    if (!scrollDataStr) return;
+
+    const maxRetries = 10;
+    let retries = 0;
+
+    const tryScroll = () => {
+      const el = productRefs.current[scrollDataStr];
+      if (el) {
+        el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+        sessionStorage.removeItem('scrollToProduct4');
+      } else if (retries < maxRetries) {
+        retries++;
+        setTimeout(tryScroll, 200); // retry until ref is ready
+      }
+    };
+
+    tryScroll();
+
+  }, [designSetList]);
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -216,11 +242,13 @@ const DesignSet2 = ({ data }) => {
             <div className="smr_DesignSetTitleDiv">
               <p className="smr1_desognSetTitle">
                 COMPLETE YOUR LOOK
-                <span onClick={(e) => handleNavigate(e)}>
-                  <a href="/Lookbook" className="smr_designSetViewmoreBtn_2">
-                    View More
-                  </a>
-                </span>
+                {storeInit?.IsB2BWebsite !== 1 && (
+                  <span onClick={(e) => handleNavigate(e)}>
+                    <a href="/Lookbook" className="smr_designSetViewmoreBtn_2">
+                      View More
+                    </a>
+                  </span>
+                )}
               </p>
             </div>
             {/* <Swiper
@@ -248,6 +276,8 @@ const DesignSet2 = ({ data }) => {
                     src={data?.image[0]}
                     alt=""
                     className="imgBG"
+                    id={`product-${index}`}
+                    ref={(el) => (productRefs.current[`product-${index}`] = el)}
                   />
                 ) : (
                   <div
@@ -300,7 +330,8 @@ const DesignSet2 = ({ data }) => {
                                           detail?.autocode,
                                           detail?.TitleLine
                                             ? detail?.TitleLine
-                                            : ""
+                                            : "",
+                                          index
                                         )
                                       }
                                       onError={(e) => {

@@ -77,7 +77,6 @@ const ProductDetail = () => {
   const [selectedMetalColor, setSelectedMetalColor] = useState();
   const [metalColorImages, setMetalColorImages] = useState([]);
   const [normalImages, setNormalImages] = useState([]);
-  console.log("TCL: ProductDetail -> normalImages", normalImages)
 
   const colorImageKeys = Object.keys(metalColorImages || {});
 
@@ -1742,23 +1741,28 @@ const ProductDetail = () => {
 
                         <div className="stam_main_thumb_prod_img">
                           {((pdThumbImg?.length > 1 || pdVideoArr?.length > 0) || storeInit?.IsVision360 == 1) &&
-                            pdThumbImg?.map((ele, i) => (
-                              <img
-                                src={ele}
-                                alt={""}
-                                onLoad={() => setIsImageLoad(false)}
-                                onError={(e) => e.target.src = imageNotFound}
-                                className="stam_prod_thumb_img"
-                                onClick={() => {
-                                  setSelectedThumbImg({
-                                    link: ele.replace('Design_Thumb/', ''),
-                                    type: "img",
-                                  });
-                                  setThumbImgIndex(i);
-                                }}
-                                loading="lazy"
-                              />
-                            ))}
+                            pdThumbImg?.map((ele, i) => {
+                              const firstHalf = ele?.split("/Design_Thumb")[0];
+                              const secondhalf = ele?.split("/Design_Thumb")[1]?.split('.')[0];
+                              return (
+                                <img
+                                  src={ele}
+                                  alt={""}
+                                  onLoad={() => setIsImageLoad(false)}
+                                  onError={(e) => e.target.src = imageNotFound}
+                                  className="stam_prod_thumb_img"
+                                  onClick={() => {
+                                    setSelectedThumbImg({
+                                      // link: ele.replace('Design_Thumb/', ''),
+                                      link: `${firstHalf}${secondhalf}.${singleProd?.ImageExtension}`,
+                                      type: "img",
+                                    });
+                                    setThumbImgIndex(i);
+                                  }}
+                                  loading="lazy"
+                                />
+                              )
+                            })}
                           {filteredVideos?.map((data) => (
                             <div
                               style={{

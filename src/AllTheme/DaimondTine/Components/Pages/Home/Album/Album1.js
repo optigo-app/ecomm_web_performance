@@ -22,7 +22,6 @@ const Album1 = () => {
     const [albumData, setAlbumData] = useState('');
     const [imageUrl, setImageUrl] = useState();
     const [imageStatus, setImageStatus] = useState({});
-    console.log('imageStatus: ', imageStatus);
     const navigation = useNavigate();
     const islogin = useRecoilValue(dt_loginState);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -117,7 +116,7 @@ const Album1 = () => {
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
-          navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
+        navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     }
 
     const handleChangeTab = (event, newValue) => {
@@ -165,7 +164,8 @@ const Album1 = () => {
             albumData.forEach(album => {
                 const designs = JSON?.parse(album?.Designdetail) || [];
                 designs.forEach((design) => {
-                    const imageSrc = `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
+                    // const imageSrc = `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
+                    const imageSrc = `${storeInit?.CDNDesignImageFolThumb}${design?.designno}~1.jpg`;
                     newImageStatus[imageSrc] = true;
                 });
             });
@@ -250,9 +250,9 @@ const Album1 = () => {
                         {albumData && albumData?.map((album) =>
                             album?.AlbumName === selectedAlbum ? (
                                 <Swiper
-                                style={{
-                                    width:"100%"
-                                }}
+                                    style={{
+                                        width: "100%"
+                                    }}
                                     key={album?.Albumid}
                                     spaceBetween={10}
                                     lazy={true}
@@ -275,7 +275,8 @@ const Album1 = () => {
                                 >
                                     {album?.Designdetail && JSON?.parse(album?.Designdetail)?.map((design) => {
                                         // const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
-                                        const imageSrc = `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
+                                        // const imageSrc = `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
+                                        const imageSrc = `${storeInit?.CDNDesignImageFolThumb}${design?.designno}~1.jpg`;
                                         const isImageAvailable = imageStatus[imageSrc] !== false;
                                         return (
                                             <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
@@ -293,7 +294,7 @@ const Album1 = () => {
                                                     <p className='smr_album1price'>
                                                         {design?.designno}
                                                     </p>
-                                                 { storeInit?.IsPriceShow == 1 &&   <p className='smr_album1price'>
+                                                    {storeInit?.IsPriceShow == 1 && <p className='smr_album1price'>
                                                         <span
                                                             className="smr_currencyFont"
                                                             dangerouslySetInnerHTML={{

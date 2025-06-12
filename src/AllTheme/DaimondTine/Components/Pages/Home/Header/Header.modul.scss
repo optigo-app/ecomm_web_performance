@@ -1,6 +1,8 @@
 @import '../../../scss/variable.scss';
 
 .dai_headerMain {
+  background-color: white;
+
   .dai_headerMainTop {
     display: flex;
     height: 30px;
@@ -13,26 +15,29 @@
     padding-left: 0 !important;
     color: #acabab;
     justify-content: space-between;
-   
+
   }
-.first-dt{
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-.two-dt{
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.three-dt{
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
+
+  .first-dt {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .two-dt {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .three-dt {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
 
   .div_contact_info {
     display: flex;
@@ -43,7 +48,7 @@
     font-family: "Rosarivo", cursive;
     ;
   }
-  
+
 
   .level1MenuData {
     font-family: $homePageFontFamily;

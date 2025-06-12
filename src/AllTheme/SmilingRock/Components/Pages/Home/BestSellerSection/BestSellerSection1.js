@@ -23,6 +23,7 @@ const ProductGrid = ({ data }) => {
     const [hoveredItem, setHoveredItem] = useState(null);
     const setLoadingHome = useSetRecoilState(homeLoading);
     const [validatedData, setValidatedData] = useState([]);
+    const productRefs = useRef({});
 
     const settings = {
         dots: true,
@@ -140,35 +141,35 @@ const ProductGrid = ({ data }) => {
     // }, [])
 
 
-    useEffect(() => {
-        setLoadingHome(true);
-
-        const handleScroll = () => {
-            if (!bestSallerRef.current) return;
-
-            const rect = bestSallerRef.current.getBoundingClientRect();
-            const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
-
-            if (isInView) {
-                callAllApi();
-                window.removeEventListener("scroll", handleScroll); // ensure it's called only once
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        // Immediately check on mount
-        handleScroll();
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
-
     // useEffect(() => {
-    //     setTimeout(() => {
-    //         callAllApi();
-    //     }, 1200)
-    // }, [])
+    //     setLoadingHome(true);
+
+    //     const handleScroll = () => {
+    //         if (!bestSallerRef.current) return;
+
+    //         const rect = bestSallerRef.current.getBoundingClientRect();
+    //         const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+
+    //         if (isInView) {
+    //             callAllApi();
+    //             window.removeEventListener("scroll", handleScroll); // ensure it's called only once
+    //         }
+    //     };
+
+    //     window.addEventListener("scroll", handleScroll);
+    //     // Immediately check on mount
+    //     handleScroll();
+
+    //     return () => {
+    //         window.removeEventListener("scroll", handleScroll);
+    //     };
+    // }, []);
+
+    useEffect(() => {
+        // setTimeout(() => {
+        callAllApi();
+        // }, 1200)
+    }, [])
 
     const compressAndEncode = (inputString) => {
         try {
@@ -208,7 +209,7 @@ const ProductGrid = ({ data }) => {
         validateImageURLs();
     }, [bestSellerData]);
 
-    const handleNavigation = (designNo, autoCode, titleLine) => {
+    const handleNavigation = (designNo, autoCode, titleLine, index) => {
         let obj = {
             a: autoCode,
             b: designNo,
@@ -217,12 +218,36 @@ const ProductGrid = ({ data }) => {
             c: loginUserDetail?.cmboCSQCid,
             f: {}
         }
+        sessionStorage.setItem('scrollToProduct1', `product-${index}`);
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`);
         navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     }
 
+    useEffect(() => {
+        const scrollDataStr = sessionStorage.getItem('scrollToProduct1');
+        if (!scrollDataStr) return;
 
+        const maxRetries = 10;
+        let retries = 0;
+
+        const tryScroll = () => {
+            const el = productRefs.current[scrollDataStr];
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+                sessionStorage.removeItem('scrollToProduct1');
+            } else if (retries < maxRetries) {
+                retries++;
+                setTimeout(tryScroll, 200); // retry until ref is ready
+            }
+        };
+
+        tryScroll();
+
+    }, [bestSellerData]);
 
     const handleMouseEnterRing1 = (data) => {
         if (data?.ImageCount > 1) {
@@ -267,7 +292,7 @@ const ProductGrid = ({ data }) => {
                                         }}
                                         viewport={{ once: true, amount: 0.2 }}
                                     >
-                                        <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
+                                        <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine, index)}>
                                             <img
                                                 src={data?.ImageCount >= 1 ?
                                                     data?.validatedImageURL
@@ -275,6 +300,8 @@ const ProductGrid = ({ data }) => {
                                                     :
                                                     imageNotFound
                                                 }
+                                                id={`product-${index}`}
+                                                ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                                 alt={data.name}
                                                 onError={(e) => {
                                                     e.target.src = imageNotFound;

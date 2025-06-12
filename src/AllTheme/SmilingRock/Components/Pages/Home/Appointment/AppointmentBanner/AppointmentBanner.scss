@@ -2,10 +2,11 @@
 
 .smr_AppointmentBanner {
   width: 100%;
-  height: 100vh;
+  height: 650px;
   display: grid;
   place-content: center;
   font-family: $Pratafonts;
+  margin-bottom: 4rem;
   @media screen and (max-width: 920px) {
     height: auto;
   }

@@ -1,6 +1,7 @@
 import React, { memo, Suspense, useEffect, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import './Components/scss/variable.scss';
+import { HelmetProvider } from 'react-helmet-async';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   companyLogo,
@@ -21,6 +22,7 @@ import Cookies from "js-cookie";
 import { Helmet } from "react-helmet";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import { Box } from "@mui/material";
+import ProductFeedGenerator from "./Components/Pages/Home/ProductFeedGenerator";
 // import Home from "./Components/Pages/Home/Index";
 // import Header from "./Components/Pages/Home/Header/Header";
 // import Cart from "./Components/Pages/Cart/CartMain";
@@ -63,29 +65,38 @@ import { Box } from "@mui/material";
 // import HomePageBlock2 from "./Components/Pages/Home/HomePageBlocks/Block2/HomePageBlock2";
 // import PrintPageCard from "./Components/Pages/Cart/PrintCartPage";
 
+import LoginOption from './Components/Pages/Auth/LoginOption/LoginOption';
+import ContinueWithEmail from './Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail';
+import LoginWithEmail from './Components/Pages/Auth/LoginWithEmail/LoginWithEmail';
+import Register from './Components/Pages/Auth/Registretion/Register';
+import ContimueWithMobile from './Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile';
+import LoginWithEmailCode from './Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode';
+import LoginWithMobileCode from './Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode';
+import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass';
+
 const Home = React.lazy(() => import('./Components/Pages/Home/Index'));
 const Header = React.lazy(() => import('./Components/Pages/Home/Header/Header'));
 const Cart = React.lazy(() => import('./Components/Pages/Cart/CartMain'));
-const LoginOption = React.lazy(() => import('./Components/Pages/Auth/LoginOption/LoginOption'));
-const ContinueWithEmail = React.lazy(() => import('./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'));
-const LoginWithEmail = React.lazy(() => import('./Components/Pages/Auth/LoginWithEmail/LoginWithEmail'));
+// const LoginOption = React.lazy(() => import('./Components/Pages/Auth/LoginOption/LoginOption'));
+// const ContinueWithEmail = React.lazy(() => import('./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'));
+// const LoginWithEmail = React.lazy(() => import('./Components/Pages/Auth/LoginWithEmail/LoginWithEmail'));
+// const ForgotPass = React.lazy(() => import('./Components/Pages/Auth/forgotPass/ForgotPass'));
+// const ContimueWithMobile = React.lazy(() => import('./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile'));
+// const LoginWithEmailCode = React.lazy(() => import('./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode'));
+// const LoginWithMobileCode = React.lazy(() => import('./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode'));
+// const Register = React.lazy(() => import('./Components/Pages/Auth/Registretion/Register'));
 const ProductList = React.lazy(() => import('./Components/Pages/Product/ProductList/ProductList'));
 const ProductDetail = React.lazy(() => import('./Components/Pages/Product/ProductDetail/ProductDetail'));
 const ContactUs = React.lazy(() => import('./Components/Pages/FooterPages/contactUs/ContactUs'));
 const ServicePolicy = React.lazy(() => import('./Components/Pages/FooterPages/servicePolicy/ServicePolicy'));
 const ExpertAdvice = React.lazy(() => import('./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice'));
 const FunFact = React.lazy(() => import('./Components/Pages/FooterPages/FunFact/FunFact'));
-const Register = React.lazy(() => import('./Components/Pages/Auth/Registretion/Register'));
-const ContimueWithMobile = React.lazy(() => import('./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile'));
-const LoginWithEmailCode = React.lazy(() => import('./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode'));
-const LoginWithMobileCode = React.lazy(() => import('./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode'));
 const AboutUs = React.lazy(() => import('./Components/Pages/aboutUs/AboutUs'));
 const Wishlist = React.lazy(() => import('./Components/Pages/Wishlist/Wishlist'));
 const PageNotFound = React.lazy(() => import('./Components/Pages/404Page/PageNotFound'));
 const Delivery = React.lazy(() => import('./Components/Pages/OrderFlow/DeliveryPage/Delivery'));
 const Payment = React.lazy(() => import('./Components/Pages/OrderFlow/PaymentPage/Payment'));
 const Confirmation = React.lazy(() => import('./Components/Pages/OrderFlow/ConfirmationPage/Confirmation'));
-const ForgotPass = React.lazy(() => import('./Components/Pages/Auth/forgotPass/ForgotPass'));
 const Header2 = React.lazy(() => import('./Components/Pages/Home/Header/Header2'));
 const Account = React.lazy(() => import('./Components/Pages/Account/Account'));
 const Lookbook = React.lazy(() => import('./Components/Pages/Home/LookBook/Lookbook'));
@@ -305,133 +316,135 @@ const SmilingRock_App = () => {
 
   return (
     <div div className="ggg">
-      <Helmet>{/* <title>{localData?.BrowserTitle}</title> */}</Helmet>
-      {openPromotionalBanner && (
-        <PromotionalBanner
-          disablescreen={openPromotionalBanner}
-          onClose={handleCloseBanner}
-        />
-      )}
-      <Suspense fallback={<LoadingFallback />}>
-        {(!location.pathname.startsWith("/accountdwsr") && !location.pathname.startsWith("/block1") && !location.pathname.startsWith("/block2")) && (
-          <div>
-            {localData?.Headerno == 1 && <Header />}
-            {localData?.Headerno == 2 && <Header2 />}
-          </div>
+      <HelmetProvider>
+        {openPromotionalBanner && (
+          <PromotionalBanner
+            disablescreen={openPromotionalBanner}
+            onClose={handleCloseBanner}
+          />
         )}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/LoginOption"
-            element={
-              <div className="smr_authFlowBakcColor">
-                <LoginOption />
-              </div>
-            }
-          />
-          <Route
-            path="/ContinueWithEmail"
-            element={
-              <div className="smr_authFlowBakcColor">
-                <ContinueWithEmail />
-              </div>
-            }
-          />
-          {/* Maiora not needed */}
-          {/* for kAYRA CRAETEION NEEDED */}
+        <Suspense fallback={<LoadingFallback />}>
+          {(!location.pathname.startsWith("/accountdwsr") && !location.pathname.startsWith("/block1") && !location.pathname.startsWith("/block2")) && (
+            <div>
+              {localData?.Headerno == 1 && <Header />}
+              {localData?.Headerno == 2 && <Header2 />}
+            </div>
+          )}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/LoginOption"
+              element={
+                <div className="smr_authFlowBakcColor">
+                  <LoginOption />
+                </div>
+              }
+            />
+            <Route
+              path="/ContinueWithEmail"
+              element={
+                <div className="smr_authFlowBakcColor">
+                  <ContinueWithEmail />
+                </div>
+              }
+            />
+            {/* Maiora not needed */}
+            {/* for kAYRA CRAETEION NEEDED */}
 
-          <Route
-            path="/ContimueWithMobile"
-            element={
-              <div className="smr_authFlowBakcColor">
-                <ContimueWithMobile />
-              </div>
-            }
-          />
-          <Route
-            path="/LoginWithEmailCode"
-            element={
-              <div className="smr_authFlowBakcColor">
-                <LoginWithEmailCode />
-              </div>
-            }
-          />
-          {/* Maiora not needed */}
-          {/* for kAYRA CRAETEION NEEDED */}
+            <Route
+              path="/ContimueWithMobile"
+              element={
+                <div className="smr_authFlowBakcColor">
+                  <ContimueWithMobile />
+                </div>
+              }
+            />
+            <Route
+              path="/LoginWithEmailCode"
+              element={
+                <div className="smr_authFlowBakcColor">
+                  <LoginWithEmailCode />
+                </div>
+              }
+            />
+            {/* Maiora not needed */}
+            {/* for kAYRA CRAETEION NEEDED */}
 
-          <Route
-            path="/LoginWithMobileCode"
-            element={
-              <div className="smr_authFlowBakcColor">
-                <LoginWithMobileCode />
-              </div>
-            }
-          />
-          <Route
-            path="/ForgotPass"
-            element={
-              <div className="smr_authFlowBakcColor">
-                <ForgotPass />
-              </div>
-            }
-          />
-          <Route
-            path="/LoginWithEmail"
-            element={
-              <div className="smr_authFlowBakcColor">
-                <LoginWithEmail />
-              </div>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <div className="smr_authFlowBakcColor">
-                <Register />
-              </div>
-            }
-          />
-          <Route path="/ContactUs" element={<ContactUs />} />
-          {/* Maiora needed servicePolicy */}
-          {/* Kayra not needed */}
-          {/* sonasons needed */}
-          <Route path="/servicePolicy" element={<ServicePolicy />} />
-          <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
-          <Route path="/bespoke-jewelry" element={<Bespoke />} />
-          <Route path="/appointment" element={<Wrapper />} />
-          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+            <Route
+              path="/LoginWithMobileCode"
+              element={
+                <div className="smr_authFlowBakcColor">
+                  <LoginWithMobileCode />
+                </div>
+              }
+            />
+            <Route
+              path="/ForgotPass"
+              element={
+                <div className="smr_authFlowBakcColor">
+                  <ForgotPass />
+                </div>
+              }
+            />
+            <Route
+              path="/LoginWithEmail"
+              element={
+                <div className="smr_authFlowBakcColor">
+                  <LoginWithEmail />
+                </div>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <div className="smr_authFlowBakcColor">
+                  <Register />
+                </div>
+              }
+            />
+            <Route path="/ContactUs" element={<ContactUs />} />
+            {/* Maiora needed servicePolicy */}
+            {/* Kayra not needed */}
+            {/* sonasons needed */}
+            <Route path="/servicePolicy" element={<ServicePolicy />} />
+            <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
+            <Route path="/bespoke-jewelry" element={<Bespoke />} />
+            <Route path="/appointment" element={<Wrapper />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+            <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
 
-          {/* Maiora not needed fun facts */}
-          {/* Kayra needed */}
-          <Route path="/FunFact" element={<FunFact />} />
-          <Route path="/aboutUs" element={<AboutUs />} />
-          <Route path="/TermsPolicy" element={<TermsPolicy />} />
-          <Route path="/natural-diamond" element={<NatualDiamond />} />
-          <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
-            <Route path="/p/*" element={<ProductList />} />
-            <Route path="/d/*" element={<ProductDetail />} />
-            <Route path="/cartPage" element={<Cart />} />
-            <Route path="/myWishList" element={<Wishlist />} />
-            <Route path="/Delivery" element={<Delivery />} />
-            <Route path="/Payment" element={<Payment />} />
-            <Route path="/Confirmation" element={<Confirmation />} />
-            <Route path="/account" element={<Account />} />
-            {/* <Route path="/accountdwsr" element={<DWSRprintComp />} /> */}
-          </Route>
-          <Route path="/accountdwsr" element={<DWSRprintComp />} />
-          <Route path="/Lookbook" element={<Lookbook />} />
-          <Route path="/paymentFailure" element={<PaymentFailure />} />
-          <Route path="*" element={<PageNotFound />} />
-          <Route path="/block1" element={<HomePageBlock1 />} />
-          <Route path="/block2" element={<HomePageBlock2 />} />
-        </Routes>
-        {(
-          !location.pathname.startsWith("/block1") &&
-          !location.pathname.startsWith("/block2")
-        ) && <FooterNew />}
-      </Suspense>
-      <WhatsAppChat phoneNo='9099887762' />
+            {/* Maiora not needed fun facts */}
+            {/* Kayra needed */}
+            <Route path="/FunFact" element={<FunFact />} />
+            <Route path="/aboutUs" element={<AboutUs />} />
+            <Route path="/TermsPolicy" element={<TermsPolicy />} />
+            <Route path="/natural-diamond" element={<NatualDiamond />} />
+            <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
+              <Route path="/p/*" element={<ProductList />} />
+              <Route path="/d/*" element={<ProductDetail />} />
+              <Route path="/cartPage" element={<Cart />} />
+              <Route path="/myWishList" element={<Wishlist />} />
+              <Route path="/Delivery" element={<Delivery />} />
+              <Route path="/Payment" element={<Payment />} />
+              <Route path="/productfeed" element={<ProductFeedGenerator />} />
+              <Route path="/Confirmation" element={<Confirmation />} />
+              <Route path="/account" element={<Account />} />
+              {/* <Route path="/accountdwsr" element={<DWSRprintComp />} /> */}
+            </Route>
+            <Route path="/accountdwsr" element={<DWSRprintComp />} />
+            <Route path="/Lookbook" element={<Lookbook />} />
+            <Route path="/paymentFailure" element={<PaymentFailure />} />
+            <Route path="*" element={<PageNotFound />} />
+            <Route path="/block1" element={<HomePageBlock1 />} />
+            <Route path="/block2" element={<HomePageBlock2 />} />
+          </Routes>
+          {(
+            !location.pathname.startsWith("/block1") &&
+            !location.pathname.startsWith("/block2")
+          ) && <FooterNew />}
+        </Suspense>
+        <WhatsAppChat phoneNo='9099887762' />
+      </HelmetProvider>
     </div>
   );
 };

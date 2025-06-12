@@ -63,7 +63,7 @@ const PromoComponent2 = ({ banner }) => {
                     <SwiperSlide key={index}>
                         <div className='promo-daimondBoxMain'>
                             <div className='promo-daimondBox1'>
-                                <h1 className='promo_dia_title_1'>{item?.title}</h1>
+                                <h2 className='promo_dia_title_1'>{item?.title}</h2>
                                 <p className='promo_dia_title_desc_1'>{item.description}</p>
                             </div>
                             <div className='promo-daimondBox2'>

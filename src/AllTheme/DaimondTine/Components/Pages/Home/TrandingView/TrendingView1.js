@@ -12,7 +12,7 @@ import GoogleAnalytics from 'react-ga4';
 
 
 
-const TrendingView1 = ({data}) => {
+const TrendingView1 = ({ data }) => {
     const trendingRef = useRef(null);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const [trandingViewData, setTrandingViewData] = useState([]);
@@ -75,7 +75,8 @@ const TrendingView1 = ({data}) => {
         setStoreInit(storeinit)
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
         // setImageUrl(data?.DesignImageFol);
-        setImageUrl(data?.CDNDesignImageFol);
+        // setImageUrl(data?.CDNDesignImageFol);
+        setImageUrl(data?.CDNDesignImageFolThumb);
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const IsB2BWebsite = storeInit?.IsB2BWebsite;
@@ -130,9 +131,9 @@ const TrendingView1 = ({data}) => {
         GoogleAnalytics.event({
             action: "Navigate to Product Detail",
             category: `Product Interaction Through Trending Section`,
-            label: designNo || titleLine ,
+            label: designNo || titleLine,
             value: loginUserDetail?.firstname ?? 'User Not Login',
-          });
+        });
         let obj = {
             a: autoCode,
             b: designNo,
@@ -182,14 +183,15 @@ const TrendingView1 = ({data}) => {
                                     <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                         <img
                                             src={data?.ImageCount >= 1 ?
-                                                `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                // `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.jpg`
                                                 :
                                                 imageNotFound
                                             }
                                             alt={data.name}
-                                            onError={(e)=>{
-                                                e.target.src = imageNotFound ;
-                                              }}
+                                            onError={(e) => {
+                                                e.target.src = imageNotFound;
+                                            }}
                                         />
                                     </div>
                                     <div className="trending_ifno_web_product_info">
@@ -229,7 +231,7 @@ const TrendingView1 = ({data}) => {
                                                 }
                                             </>
                                         } */}
-                                        { storeInit?.IsPriceShow == 1 && <p>
+                                        {storeInit?.IsPriceShow == 1 && <p>
                                             <span
                                                 className="smr_currencyFont"
                                                 dangerouslySetInnerHTML={{
@@ -291,7 +293,7 @@ const TrendingView1 = ({data}) => {
                                                 </div>
                                             </div>
                                         } */}
-                                      { storeInit?.IsPriceShow == 1 &&  <p>
+                                        {storeInit?.IsPriceShow == 1 && <p>
                                             <span
                                                 className="smr_currencyFont"
                                                 dangerouslySetInnerHTML={{
