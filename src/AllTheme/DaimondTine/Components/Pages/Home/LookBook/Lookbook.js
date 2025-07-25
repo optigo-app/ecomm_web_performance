@@ -1142,7 +1142,8 @@ const Lookbook = () => {
       {isProdLoading ? (
         // true ?
         <div style={{ marginInline: "6%", backgroundColor: "white" }}>
-          <ProductListSkeleton />
+          {/* <ProductListSkeleton /> */}
+          <LookbookSkeleton param={1} />
         </div>
       ) : (
         <div className="dt_LookBookSubMainDiv">

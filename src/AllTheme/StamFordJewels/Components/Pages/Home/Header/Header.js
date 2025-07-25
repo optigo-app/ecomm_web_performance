@@ -22,6 +22,7 @@ import pako from "pako";
 import CartDrawer from "../../Cart/CartPageB2c/Cart";
 import useCountdown from "../../CountDownTimer/CountDownTimer";
 import { stam_cartB2CDrawer, stam_CartCount, stam_CartNo, stam_companyLogo, stam_companyLogoM, stam_loginState, stam_WishCount } from "../../../Recoil/atom";
+import useGlobalPreventSave from "../../../../../../utils/Glob_Functions/useGlobalPreventSave";
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -67,6 +68,8 @@ const Header = () => {
         }
       });
   }, []);
+
+  useGlobalPreventSave();
 
   const { showTimer, countdown } = useCountdown();
 
@@ -441,7 +444,7 @@ const Header = () => {
     }
   }
   return (
-    <div className="stam_headerMain_div">
+    <div className="stam_headerMain_div" draggable={true} onContextMenu={(e) => { e.preventDefault() }}>
       {serachsShowOverlay && (
         <>
           <div className="stam_smlingSearchoverlay">
@@ -523,22 +526,38 @@ const Header = () => {
                   onClick={toggleDrawerOverlay}
                 />
               </div>
-              <div className="stam_mobileHeader_top_div2_web">
-                <a href="/">
+              <div className="stam_mobileHeader_top_div2_web"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              >
+                <a href="/"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
+                >
                   <img
                     src={compnyLogo}
                     loading="lazy"
                     className="stam_logo_header"
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 </a>
               </div>
 
-              <div className="stam_mobileHeader_top_div2_mobile">
-                <a href="/">
+              <div className="stam_mobileHeader_top_div2_mobile"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              >
+                <a href="/"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
+                >
                   <img
                     src={compnyLogoM}
                     loading="lazy"
                     className="stam_logo_header"
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 </a>
               </div>
@@ -797,7 +816,7 @@ const Header = () => {
               </List>
             </div>
             <div>
-            <p
+              <p
                 className="stam_menuStaicMobilePage"
                 onClick={() => {
                   setDrawerShowOverlay(false);
@@ -890,22 +909,38 @@ const Header = () => {
 
       <div className="stam_Top_header">
         <div className="stam_Top_header_sub">
-          <div className="stam_Top_header_div2_web">
-            <a href="/">
+          <div className="stam_Top_header_div2_web"
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
+          >
+            <a href="/"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+            >
               <img
                 src={compnyLogo}
                 loading="lazy"
                 className="stam_logo_header"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
               />
             </a>
           </div>
 
-          <div className="stam_Top_header_div2_mobile">
-            <a href="/">
+          <div className="stam_Top_header_div2_mobile"
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
+          >
+            <a href="/"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+            >
               <img
                 src={compnyLogoM}
                 loading="lazy"
                 className="stam_logo_header"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
               />
             </a>
           </div>
@@ -1192,21 +1227,37 @@ const Header = () => {
             }  ${serachsShowOverlay ? "searchoverly" : ""}`}
         >
           <div className="stam_Top_header_sub" style={{ width: "100%" }}>
-            <div className="stam_Top_header_div2_web">
-              <a href="/">
+            <div className="stam_Top_header_div2_web"
+              onContextMenu={(e) => e.preventDefault()}
+              draggable={false}
+            >
+              <a href="/"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              >
                 <img
                   src={compnyLogo}
                   loading="lazy"
                   className="stam_logo_header_Fixed"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </a>
             </div>
-            <div className="stam_Top_header_div2_mobile">
-              <a href="/">
+            <div className="stam_Top_header_div2_mobile"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+            >
+              <a href="/"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              >
                 <img
                   src={compnyLogoM}
                   loading="lazy"
                   className="stam_logo_header_Fixed"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </a>
             </div>

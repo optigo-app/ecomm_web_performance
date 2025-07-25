@@ -34,7 +34,8 @@ import SummarizeIcon from "@mui/icons-material/Summarize";
 import ShieldIcon from "@mui/icons-material/Shield";
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
-import {handleScrollTop } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import { handleScrollTop } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import useGlobalPreventSave from "../../../../../utils/Glob_Functions/useGlobalPreventSave";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -98,6 +99,8 @@ export default function Account() {
   const handleChangeSub = (event, newValue) => {
     setValue1(newValue);
   };
+
+  useGlobalPreventSave();
 
   // const handleLogout = () => {
   //     setIsLoginState('false')
@@ -164,14 +167,14 @@ export default function Account() {
     };
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     const init = JSON.parse(sessionStorage.getItem('storeInit')) ?? {};
     setStoreinit(init);
- },[])
+  }, [])
 
 
   return (
-    <div className="accountTab_Account_stam">
+    <div className="accountTab_Account_stam" onContextMenu={(e) => e.preventDefault()}>
       <div className="accountPagTabSection">
         <div>
           <div className="stam-AccountMain">
@@ -295,10 +298,10 @@ export default function Account() {
                         scrollButtons="auto"
                       >
                         {accountInner?.map((e, i) => {
-                             if(Storeinit?.IsPriceShow == 0 && e.tabComp === "AccountLedger"){
-                              return <Tab sx={{
-                                  display: 'none',
-                              }} /> ;
+                          if (Storeinit?.IsPriceShow == 0 && e.tabComp === "AccountLedger") {
+                            return <Tab sx={{
+                              display: 'none',
+                            }} />;
                           }
                           return (
                             <Tab

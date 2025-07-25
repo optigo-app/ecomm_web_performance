@@ -48,7 +48,7 @@ const TopSection = ({ banner }) => {
                 <>
                     {loading ? (
                         <div className="loader-container content_1">
-                            <Skeleton variant="rectangular" width="100%" className='content_1' sx={{ backgroundColor: "#F8F8F8" }} animation="wave" />
+                            <Skeleton variant="rectangular" width="100%" className='content_1' sx={{ backgroundColor: "#ededed" }} animation="wave" />
                         </div>
                     ) : (
                         <video
@@ -73,7 +73,7 @@ const TopSection = ({ banner }) => {
                                 width="100%"
                                 sx={{
                                     height: {
-                                        backgroundColor: "#F8F8F8",
+                                        backgroundColor: "#ededed",
                                         xs: '40vh',
                                         sm: '50vh',
                                         md: '60vh',
@@ -94,7 +94,7 @@ const TopSection = ({ banner }) => {
                                 alt="Main Banner"
                             />
                             {!imageLoaded && (
-                                <Skeleton variant="rectangular" width="100%" height="100%" sx={{ backgroundColor: "#F8F8F8" }} animation="wave" />
+                                <Skeleton variant="rectangular" width="100%" height="100%" sx={{ backgroundColor: "#ededed" }} animation="wave" />
                             )}
                             <CountdownTimer />
                         </>

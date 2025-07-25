@@ -61,6 +61,7 @@ import {
 import { Helmet } from "react-helmet";
 import EditablePagination from "../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
 import JsonLd from "../../../Jsonld";
+import useGlobalPreventSave from "../../../../../../utils/Glob_Functions/useGlobalPreventSave";
 
 const ProductList = () => {
   const location = useLocation();
@@ -109,6 +110,8 @@ const ProductList = () => {
       }))
     };
   };
+
+  useGlobalPreventSave();
 
   const jsonLd = generateBreadcrumbJsonLd(breadcrumbData);
 
@@ -684,19 +687,31 @@ const ProductList = () => {
             res1?.filter((ele) => ele.Name == "Price")[0]?.options
           )[0];
           setFilterPriceSlider(priceFilter);
-          let grossFilter = JSON.parse(
-            res1?.filter((ele) => ele?.Name == "Gross")[0]?.options
-          )[0];
-          let netFilter = JSON.parse(
-            res1?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-          )[0];
-          let diaFilter = JSON.parse(
-            res1?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-          )[0];
-          setFilterGrossSlider([grossFilter?.Min, grossFilter?.Max]);
+          let diafilter =
+            res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+              ?.length > 0
+              ? JSON.parse(
+                res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+              )[0]
+              : [];
+          let diafilter1 =
+            res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+              ?.length > 0
+              ? JSON.parse(
+                res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+              )[0]
+              : [];
+          let diafilter2 =
+            res?.filter((ele) => ele?.Name == "Gross")[0]?.options
+              ?.length > 0
+              ? JSON.parse(
+                res?.filter((ele) => ele?.Name == "Gross")[0]?.options
+              )[0]
+              : [];
+          setFilterGrossSlider([diafilter2?.Min, diafilter2?.Max]);
           setFilterNetWTSlider([
-            netFilter?.Min.toFixed(3),
-            netFilter?.Max.toFixed(3),
+            diafilter1?.Min.toFixed(3),
+            diafilter1?.Max.toFixed(3),
           ]);
 
           // const highestPrice = res?.pdList?.reduce((max, item) => {
@@ -717,12 +732,12 @@ const ProductList = () => {
           // let diafilter1 = res1?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0] : [];
           // let diafilter2 = res1?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0] : [];
 
-          setSliderValue([diaFilter?.Min, diaFilter?.Max]);
-          setInputDia([diaFilter?.Min, diaFilter?.Max]);
-          setSliderValue1([netFilter?.Min, netFilter?.Max]);
-          setInputNet([netFilter?.Min, netFilter?.Max]);
-          setSliderValue2([grossFilter?.Min, grossFilter?.Max]);
-          setInputGross([grossFilter?.Min, grossFilter?.Max])
+          setSliderValue(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
+          setInputDia(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
+          setSliderValue1(diafilter1?.Min != null || diafilter1?.Max != null ? [diafilter1?.Min, diafilter1?.Max] : []);
+          setInputNet(diafilter1?.Min != null || diafilter1?.Max != null ? [diafilter1?.Min, diafilter1?.Max] : []);
+          setSliderValue2(diafilter2?.Min != null || diafilter2?.Max != null ? [diafilter2?.Min, diafilter2?.Max] : []);
+          setInputGross(diafilter2?.Min != null || diafilter2?.Max != null ? [diafilter2?.Min, diafilter2?.Max] : [])
           // setFilterDiamondSlider([diaFilter?.Min, diaFilter?.Max]);
         }
       } catch (error) {
@@ -980,22 +995,28 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    const obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    sessionStorage.setItem("short_cutCombo_val", JSON.stringify(obj));
 
-    sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
-    if (
-      loginInfo?.MetalId !== selectedMetalId ||
-      loginInfo?.cmboDiaQCid !== selectedDiaId ||
-      loginInfo?.cmboCSQCid !== selectedCsId
-    ) {
-      if (
-        selectedMetalId !== "" ||
-        selectedDiaId !== "" ||
-        selectedCsId !== ""
-      ) {
-        handelCustomCombo(obj);
+    if (loginInfo && Object.keys(loginInfo).length > 0) {
+      if (selectedMetalId != undefined || selectedDiaId != undefined || selectedCsId != undefined) {
+        if (loginInfo.MetalId !== selectedMetalId || loginInfo.cmboDiaQCid !== selectedDiaId || loginInfo.cmboCSQCid != selectedCsId) {
+          handelCustomCombo(obj);
+        }
+      }
+    } else {
+      if (storeInit && Object.keys(storeInit).length > 0) {
+        if (selectedMetalId != undefined || selectedDiaId != undefined || selectedCsId != undefined) {
+          if (
+            storeInit?.MetalId !== selectedMetalId ||
+            storeInit?.cmboDiaQCid !== selectedDiaId ||
+            storeInit?.cmboCSQCid !== selectedCsId
+          ) {
+            handelCustomCombo(obj);
+          }
+        }
       }
     }
   }, [selectedMetalId, selectedDiaId, selectedCsId]);
@@ -1061,14 +1082,14 @@ const ProductList = () => {
             filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
           )[0]
           : [];
-      setSliderValue([diafilter?.Min, diafilter?.Max]);
-      setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
-      setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
+      setSliderValue(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
+      setSliderValue1(diafilter1?.Min != null || diafilter1?.Max != null ? [diafilter1?.Min, diafilter1?.Max] : []);
+      setSliderValue2(diafilter2?.Min != null || diafilter2?.Max != null ? [diafilter2?.Min, diafilter2?.Max] : []);
       setPriceRangeValue(["", ""]);
       setInputPrice(["", ""]);
-      setInputDia([diafilter?.Min, diafilter?.Max]);
-      setInputNet([diafilter1?.Min, diafilter1?.Max]);
-      setInputGross([diafilter2?.Min, diafilter2?.Max]);
+      setInputDia(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
+      setInputNet(diafilter1?.Min != null || diafilter1?.Max != null ? [diafilter1?.Min, diafilter1?.Max] : []);
+      setInputGross(diafilter2?.Min != null || diafilter2?.Max != null ? [diafilter2?.Min, diafilter2?.Max] : []);
       setAppliedRange1(["", ""])
       setAppliedRange2(["", ""])
       setAppliedRange3(["", ""])
@@ -2607,6 +2628,8 @@ const ProductList = () => {
                       className="elv_Productlist_logo"
                       src={`${storImagePath()}/images/HomePage/MainBanner/featuresImage.png`}
                       alt="Logo"
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                   </p>
                 </span>
@@ -4188,7 +4211,9 @@ const Product_Card = ({
                         loop
                         onError={(e) => {
                           e.target.poster = noImageFound; e.stopPropagation()
+                          e.onContextMenu = (e) => e.preventDefault();
                         }}
+                        onContextMenu={(e) => e.preventDefault()}
                       ></video>
                     ) : (
                       RollImageUrl !== undefined && (
@@ -4198,7 +4223,10 @@ const Product_Card = ({
                             alt="Roll Up Image"
                             onError={(e) => {
                               e.target.src = noImageFound; e.stopPropagation()
+                              e.onContextMenu = (e) => e.preventDefault();
                             }}
+                            onContextMenu={(e) => e.preventDefault()}
+                            draggable={false}
                           />
                         </div>
                       )
@@ -4213,7 +4241,10 @@ const Product_Card = ({
                       e.target.onerror = null;
                       e.stopPropagation();
                       e.target.src = noImageFound;
+                      e.onContextMenu = (e) => e.preventDefault();
                     }}
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
                     style={{
                       opacity: isHover && (RollImageUrl || videoUrl) ? "0" : "1",
                       transition: '0s ease-in-out',

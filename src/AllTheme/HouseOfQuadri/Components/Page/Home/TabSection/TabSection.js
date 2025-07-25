@@ -38,7 +38,7 @@
 
 // export default TabSection;
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 import "./TabSection.modul.scss";
 import { TabImage } from "../../../Constants/TabImages";
@@ -57,6 +57,7 @@ const TabSection = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [storeInit, setStoreInit] = useState({});
   const islogin = useRecoilValue(Hoq_loginState);
+  const productRefs = useRef({});
 
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -113,7 +114,7 @@ const TabSection = () => {
       return null;
     }
   };
-  const handleMoveToDetail = (productData) => {
+  const handleMoveToDetail = (productData, index) => {
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let obj = {
@@ -126,6 +127,7 @@ const TabSection = () => {
     };
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
+    sessionStorage.setItem('scrollToProduct2', `product-${index}`);
 
     // navigation(
     //   `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${
@@ -135,6 +137,31 @@ const TabSection = () => {
     navigation(`/d/${formatRedirectTitleLine(productData?.TitleLine)}${productData?.designno}?p=${encodeObj}`);
   };
 
+  useEffect(() => {
+    const scrollDataStr = sessionStorage.getItem('scrollToProduct2');
+    if (!scrollDataStr) return;
+
+    const maxRetries = 10;
+    let retries = 0;
+
+    const tryScroll = () => {
+      const el = productRefs.current[scrollDataStr];
+      if (el) {
+        el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+        sessionStorage.removeItem('scrollToProduct2');
+      } else if (retries < maxRetries) {
+        retries++;
+        setTimeout(tryScroll, 200); // retry until ref is ready
+      }
+    };
+
+    tryScroll();
+
+  }, [newArrivalData]);
+
   const formatter = new Intl.NumberFormat("en-IN");
 
   if (newArrivalData?.length === 0) {
@@ -142,7 +169,10 @@ const TabSection = () => {
   }
 
   return (
-    <div className="hoq_main_TabSection">
+    <div className="hoq_main_TabSection"
+      draggable={false}
+      onContextMenu={(e) => e.preventDefault()}
+    >
       <div className="header">
         <h1>New Arrivals</h1>
         <button
@@ -159,7 +189,7 @@ const TabSection = () => {
               key={i}
               className="TabCard_main"
               style={{ backgroundColor: " #b8b4b823", cursor: "pointer" }}
-              onClick={() => handleMoveToDetail(val)}
+              onClick={() => handleMoveToDetail(val, i)}
             >
               <div className="cardhover">
                 <img
@@ -167,11 +197,15 @@ const TabSection = () => {
                   // src={imageUrl}
 
                   alt={val?.id}
+                  id={`product-${i}`}
+                  ref={(el) => (productRefs.current[`product-${i}`] = el)}
                   style={{ mixBlendMode: "multiply", objectFit: "contain" }}
                   onError={(e) => {
                     e.target.src = noimage;
                     e.target.alt = "Fallback image";
                   }}
+                  draggable={true}
+                  onContextMenu={(e) => e.preventDefault()}
                   loading="lazy"
                 />
                 {/* <div className="overlay_img">

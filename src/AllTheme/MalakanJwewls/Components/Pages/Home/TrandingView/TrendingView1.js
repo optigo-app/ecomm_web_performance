@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import './TrendingView1.scss';
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -30,6 +30,7 @@ const TrendingView1 = ({ data }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [storeInit, setStoreInit] = useState({});
     const [validImages, setValidImages] = useState([]);
+    const productRefs = useRef({});
 
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     useEffect(() => {
@@ -63,7 +64,7 @@ const TrendingView1 = ({ data }) => {
             .finally(() => {
                 setIsLoading(false);
             })
-    }, [islogin]);
+    }, []);
 
     const checkImageAvailability = (url) => {
         return new Promise((resolve) => {
@@ -102,7 +103,17 @@ const TrendingView1 = ({ data }) => {
         }
     };
 
-    const handleNavigate = (designNo, autoCode, titleLine) => {
+    const backgroundImageUrl = data?.image?.[0];
+
+    const style = {
+        backgroundImage: `url(${backgroundImageUrl})`,
+        backgroundSize: 'cover',       // cover whole div
+        backgroundPosition: 'center',  // center the image
+        width: '100%',                 // adjust as needed
+        height: '650px',               // or any height you want
+    };
+
+    const handleNavigate = (designNo, autoCode, titleLine, index) => {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit')) ?? "";
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
 
@@ -114,10 +125,36 @@ const TrendingView1 = ({ data }) => {
             c: loginUserDetail?.cmboCSQCid,
             f: {}
         }
+        sessionStorage.setItem('scrollToProduct2', `product-${index}`);
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         // navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     };
+
+    useEffect(() => {
+        const scrollDataStr = sessionStorage.getItem('scrollToProduct2');
+        if (!scrollDataStr) return;
+
+        const maxRetries = 10;
+        let retries = 0;
+
+        const tryScroll = () => {
+            const el = productRefs.current[scrollDataStr];
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+                sessionStorage.removeItem('scrollToProduct2');
+            } else if (retries < maxRetries) {
+                retries++;
+                setTimeout(tryScroll, 200); // retry until ref is ready
+            }
+        };
+
+        tryScroll();
+
+    }, [trendingData]);
 
     const HandleTrendingMore = (data) => {
         const url = `/p/Trending/?T=${btoa('Trending')}`;
@@ -155,11 +192,11 @@ const TrendingView1 = ({ data }) => {
                     <span className='malakan_trending1Title'>Trending</span>
                 </div>
                 <div className="stam_trendingProduct-grid">
-                    <div className='malakan_leftSideBestTR'>
+                    <div className='malakan_leftSideBestTR' style={style}>
                         {/* privaa */}
                         {/* <img src={`${storImagePath()}/images/HomePage/bg1.jpg`} loading="lazy" alt="trendingBanner" /> */}
                         {/* <img src={`${storImagePath()}/images/HomePage/bg1.png`} loading="lazy" alt="trendingBanner" /> */}
-                        <img src={data?.image?.[0]} alt="trendingBanner" loading="lazy" />
+                        {/* <img src={data?.image?.[0]} alt="trendingBanner" loading="lazy" /> */}
                     </div>
                     {/* <div className='malakan_rightSideTR'> */}
 
@@ -240,11 +277,13 @@ const TrendingView1 = ({ data }) => {
                                                 className="malakan_trendImg"
                                                 loading="lazy"
                                                 src={item?.src}
+                                                id={`product-${index}`}
+                                                ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                                 alt={`Trending-${index}`}
                                                 onError={(e) => {
                                                     e.target.src = imageNotFound
                                                 }}
-                                                onClick={() => handleNavigate(item?.designno, item?.autocode, item?.TitleLine)}
+                                                onClick={() => handleNavigate(item?.designno, item?.autocode, item?.TitleLine, index)}
                                             />
                                             <p className="malakan_trend_Div_name">{item?.name}</p>
                                             <div className="product-info">

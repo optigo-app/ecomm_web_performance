@@ -24,16 +24,18 @@ const PrivateRoutes = ({ isLoginStatus }) => {
   const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(
     location?.pathname
   )}${location?.search}`;
+
   if (storeInit?.IsB2BWebsite != 0) {
     if (!isLoginStatus) {
       if (
-        location.pathname.startsWith("/p/*") ||
-        location.pathname.startsWith("/d/*") ||
+        location.pathname.startsWith("/p") ||
+        location.pathname.startsWith("/d") ||
         location.pathname.startsWith("/cartPage") ||
         location.pathname.startsWith("/myWishList") ||
         location.pathname.startsWith("/Delivery") ||
         location.pathname.startsWith("/payment") ||
         location.pathname.startsWith("/Confirmation") ||
+        location.pathname.startsWith("/Lookbook") ||
         location.pathname.startsWith("/account")
       ) {
         let storeInt = JSON.parse(sessionStorage.getItem("storeInit"));

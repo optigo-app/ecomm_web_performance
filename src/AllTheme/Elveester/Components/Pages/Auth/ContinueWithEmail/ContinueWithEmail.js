@@ -13,9 +13,10 @@ export default function ContinueWithEmail() {
     const location = useLocation();
 
     const search = location?.search
-    const redirectEmailUrl = `/LoginWithEmail/${search}`;
-    const redirectSignUpUrl = `/register/${search}`;
-    const cancelRedireactUrl = `/LoginOption/${search}`;
+    console.log("TCL: ContinueWithEmail -> search", search)
+    const redirectEmailUrl = `/LoginWithEmail${search}`;
+    const redirectSignUpUrl = `/register${search}`;
+    const cancelRedireactUrl = `/LoginOption${search}`;
 
     // const validateEmail = (email) => {
     //     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

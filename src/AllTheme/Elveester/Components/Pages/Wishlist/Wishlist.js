@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
 import ConfirmationDialog from '../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
+import useGlobalPreventSave from '../../../../../utils/Glob_Functions/useGlobalPreventSave';
 
 const Wishlist = () => {
   const {
@@ -89,7 +90,7 @@ const Wishlist = () => {
     });
   }, [])
 
-
+  useGlobalPreventSave();
   return (
     <>
       {isWLLoading && (
@@ -178,6 +179,8 @@ const Wishlist = () => {
                     className="elv_Productlist_logo"
                     src={`${storImagePath()}/images/HomePage/MainBanner/featuresImage.png`}
                     alt="Logo"
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 </p>
               </span>

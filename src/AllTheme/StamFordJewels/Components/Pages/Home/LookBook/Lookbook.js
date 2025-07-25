@@ -1575,6 +1575,8 @@ const Lookbook = () => {
                                   alt={`Slide ${index}`}
                                   onMouseEnter={() => handleHoverImages(index)}
                                   onMouseLeave={() => seyDataKey(null)}
+                                  draggable={true}
+                                  onContextMenu={(e) => e.preventDefault()}
                                   onError={() => handleImageError(index)}
                                   style={{
                                     height: dataKey == index ? "100%" : "250px",
@@ -1718,6 +1720,8 @@ const Lookbook = () => {
                                           className="stam_lookBookSubImage"
                                           loading="lazy"
                                           src={imageSrc}
+                                          draggable={true}
+                                          onContextMenu={(e) => e.preventDefault()}
                                           alt={`Sub image ${subIndex} for slide ${index}`}
                                           onClick={() =>
                                             handleNavigation(
@@ -1792,6 +1796,8 @@ const Lookbook = () => {
                                     loading="lazy"
                                     src={ProdCardImageFunc(slide)}
                                     alt={`Slide ${index}`}
+                                    draggable={true}
+                                    onContextMenu={(e) => e.preventDefault()}
                                     onError={() => handleImageError(index)}
                                     // onMouseEnter={() => handleHoverImages(index)}
                                     // onMouseLeave={() => seyDataKey(null)}
@@ -1957,6 +1963,8 @@ const Lookbook = () => {
                                                   : ""
                                               )
                                             }
+                                            draggable={true}
+                                            onContextMenu={(e) => e.preventDefault()}
                                           />
                                           <div
                                             style={{
@@ -2032,6 +2040,8 @@ const Lookbook = () => {
                                                       : ""
                                                   )
                                                 }
+                                                draggable={true}
+                                                onContextMenu={(e) => e.preventDefault()}
                                               />
                                               <div
                                                 style={{
@@ -2114,6 +2124,8 @@ const Lookbook = () => {
                                           style={{
                                             backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                           }}
+                                          draggable={true}
+                                          onContextMenu={(e) => e.preventDefault()}
                                         />
                                       ) : (
                                         <div
@@ -2199,6 +2211,8 @@ const Lookbook = () => {
                                                         : ""
                                                     )
                                                   }
+                                                  draggable={true}
+                                                  onContextMenu={(e) => e.preventDefault()}
                                                   onError={(e) => {
                                                     e.target.src = imageNotFound;
                                                   }}
@@ -2273,13 +2287,18 @@ const Lookbook = () => {
                                                 ),
                                               }}
                                             /> */}
-                                                    <span
-                                                      className="stam_currencyFont"
-                                                    >
-                                                      {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                                    </span>
-                                                    &nbsp;
-                                                    {formatter(ele?.UnitCostWithMarkUp)}
+                                                    {storeInit?.IsPriceShow ==
+                                                      1 && (
+                                                        <>
+                                                          <span
+                                                            className="stam_currencyFont"
+                                                          >
+                                                            {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                          </span>
+                                                          & nbsp;
+                                                          {formatter(ele?.UnitCostWithMarkUp)}
+                                                        </>
+                                                      )}
                                                   </p>
                                                 </div>
                                               </div>
@@ -2402,6 +2421,8 @@ const Lookbook = () => {
                                           width: DynamicSize.w || "66.5x",
                                           backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                         }}
+                                        draggable={true}
+                                        onContextMenu={(e) => e.preventDefault()}
                                       />
                                     ) : (
                                       <div

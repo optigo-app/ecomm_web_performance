@@ -193,7 +193,7 @@ const Customization = ({
             }
           </div>
           <div className='proCat_UpdateCartBtn'>
-            <button className="proCat_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</button>
+            <button className="proCat_cartUpdate-button btnColorProCatProduct" onClick={() => handleUpdateCart(selectedItem)}>Save</button>
           </div>
         </div>
       ) :

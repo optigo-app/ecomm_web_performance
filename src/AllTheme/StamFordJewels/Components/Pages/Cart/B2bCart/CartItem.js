@@ -188,6 +188,8 @@ const CartItem = ({
               }}
               alt=" "
               className='stam_cartListImage'
+              draggable={true}
+              onContextMenu={(e) => e.preventDefault()}
               onClick={() => onSelect(item)}
               onError={(e) => {
                 if (item?.ImageCount > 0) {

@@ -1517,6 +1517,8 @@ const Lookbook = () => {
                                   onError={() => handleImageError(index)}
                                   onMouseEnter={() => handleHoverImages(index)}
                                   onMouseLeave={() => seyDataKey(null)}
+                                  draggable={true}
+                                  onContextMenu={(e) => e.preventDefault()}
                                   style={{
                                     height: dataKey == index ? "100%" : "250px",
                                     cursor: "pointer",
@@ -1650,6 +1652,8 @@ const Lookbook = () => {
                                               detail?.TitleLine ? detail?.TitleLine : ""
                                             )
                                           }
+                                          draggable={true}
+                                          onContextMenu={(e) => e.preventDefault()}
                                           onError={(e) => {
                                             e.target.src = imageNotFound
                                           }}
@@ -1723,6 +1727,8 @@ const Lookbook = () => {
                                       cursor: "pointer",
                                       backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                     }}
+                                    draggable={true}
+                                    onContextMenu={(e) => e.preventDefault()}
                                   />
                                 ) : (
                                   <div
@@ -1881,6 +1887,8 @@ const Lookbook = () => {
                                                 : ""
                                             )
                                           }
+                                          draggable={true}
+                                          onContextMenu={(e) => e.preventDefault()}
                                           onError={(e) => {
                                             e.target.src = imageNotFound;
                                             e.target.alt = ''
@@ -1960,6 +1968,8 @@ const Lookbook = () => {
                                                     : ""
                                                 )
                                               }
+                                              draggable={true}
+                                              onContextMenu={(e) => e.preventDefault()}
                                               onError={(e) => {
                                                 e.target.src = imageNotFound
                                               }}
@@ -2048,6 +2058,8 @@ const Lookbook = () => {
                                           style={{
                                             backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                           }}
+                                          draggable={true}
+                                          onContextMenu={(e) => e.preventDefault()}
                                         />
                                       ) : (
                                         <div
@@ -2135,6 +2147,8 @@ const Lookbook = () => {
                                                         : ""
                                                     )
                                                   }
+                                                  draggable={true}
+                                                  onContextMenu={(e) => e.preventDefault()}
                                                   onError={(e) => {
                                                     e.target.src = imageNotFound
                                                   }}
@@ -2347,6 +2361,8 @@ const Lookbook = () => {
                                           width: DynamicSize.w || "66.5x",
                                           backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                         }}
+                                        draggable={true}
+                                        onContextMenu={(e) => e.preventDefault()}
                                       />
                                     ) : (
                                       <div

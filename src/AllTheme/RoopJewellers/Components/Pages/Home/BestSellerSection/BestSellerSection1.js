@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import './BestSellerSection1.scss';
 import { formatRedirectTitleLine, formatter, formatTitleLine, storImagePath, } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
@@ -26,8 +26,7 @@ const ProductGrid = () => {
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const islogin = useRecoilValue(roop_loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
-
-
+    const productRefs = useRef({});
 
     const settings = {
         dots: true,
@@ -111,7 +110,7 @@ const ProductGrid = () => {
         validateImageURLs();
     }, [bestSellerData]);
 
-    const handleNavigation = (designNo, autoCode, titleLine) => {
+    const handleNavigation = (designNo, autoCode, titleLine, index) => {
         let obj = {
             a: autoCode,
             b: designNo,
@@ -120,11 +119,37 @@ const ProductGrid = () => {
             c: loginUserDetail?.cmboCSQCid,
             f: {}
         }
+        sessionStorage.setItem('scrollToProduct4', `product-${index}`);
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
 
     }
+
+    useEffect(() => {
+        const scrollDataStr = sessionStorage.getItem('scrollToProduct4');
+        if (!scrollDataStr) return;
+
+        const maxRetries = 10;
+        let retries = 0;
+
+        const tryScroll = () => {
+            const el = productRefs.current[scrollDataStr];
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+                sessionStorage.removeItem('scrollToProduct4');
+            } else if (retries < maxRetries) {
+                retries++;
+                setTimeout(tryScroll, 200); // retry until ref is ready
+            }
+        };
+
+        tryScroll();
+
+    }, [bestSellerData]);
 
     const handleMouseEnterRing1 = (data) => {
         if (data?.ImageCount > 1) {
@@ -172,7 +197,7 @@ const ProductGrid = () => {
     return (
         <>
             {bestSellerData?.length != 0 &&
-                <div className='roop_mainBestSeler1Div'>
+                <div className='roop_mainBestSeler1Div' onContextMenu={(e) => e.preventDefault()}>
                     <div className='roop_bestseler1TitleDiv'>
                         <span className='roop_bestseler1Title'>Best Seller</span>
                     </div>
@@ -208,7 +233,7 @@ const ProductGrid = () => {
                             },
                         }}
                     /> :
-                        <div className="roop_bestSellerSet_Main">
+                        <div className="roop_bestSellerSet_Main" onContextMenu={(e) => e.preventDefault()}>
 
                             <div className="roop_bestSeller_main_sub"
                                 style={{
@@ -250,7 +275,7 @@ const ProductGrid = () => {
                                                 role="link"
                                                 aria-label={`View details for ${data?.TitleLine} - Design No: ${data?.designno}`}
 
-                                                onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
+                                                onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine, index)}>
                                                 <img
                                                     className="roop_bestSellerImg"
                                                     loading="lazy"
@@ -260,6 +285,10 @@ const ProductGrid = () => {
                                                         :
                                                         imageNotFound
                                                     }
+                                                    draggable={true}
+                                                    onContextMenu={(e) => e.preventDefault()}
+                                                    id={`product-${index}`}
+                                                    ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                                     onError={(e) => e.target.src = imageNotFound}
                                                     alt={`Best Seller Jewellery: ${data?.TitleLine || 'Design No: ' + data?.designno}`}
                                                 />

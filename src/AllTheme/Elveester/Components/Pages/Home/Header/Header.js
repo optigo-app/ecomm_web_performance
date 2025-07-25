@@ -535,20 +535,32 @@ const Header = () => {
 
   return (
     <>
-      <div className="el_header_main">
+      <div className="el_header_main" draggable={false} onContextMenu={(e) => {
+        if (location?.pathname?.startsWith('/p') || location?.pathname?.startsWith('/d') || location?.pathname?.startsWith('/myWishList') || location?.pathname?.startsWith('/cartPage')) {
+          e.preventDefault();
+        }
+      }}>
         {!islogin ? (
           isTabletResponsive ? (
             <>
               <div className="el_withoutL_Header_Main ">
                 <div className="el_withoutL_ul_Main_side">
                   <Menubar />
-                  <div className="el_whioutL_headerDiv2_side">
-                    <a href="/">
+                  <div className="el_whioutL_headerDiv2_side"
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
+                  >
+                    <a href="/"
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
+                    >
                       {compnyLogo && (
                         <img
                           src={isMobile ? compnyLogoM : compnyLogo}
                           alt="Title"
                           className="el_without_headerLogo_side"
+                          draggable={false}
+                          onContextMenu={(e) => e.preventDefault()}
                         />
                       )}
                     </a>
@@ -596,13 +608,21 @@ const Header = () => {
                       Our Craftsmanship
                     </h4>
                   </div >
-                  <div className="el_whioutL_headerDiv2">
-                    <a href='/'>
+                  <div className="el_whioutL_headerDiv2"
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
+                  >
+                    <a href='/'
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
+                    >
                       {compnyLogo && (
                         <img
                           src={isMobile ? compnyLogoM : compnyLogo}
                           alt="Title"
                           className="el_without_headerLogo"
+                          draggable={false}
+                          onContextMenu={(e) => e.preventDefault()}
                         />
                       )}
                     </a>
@@ -657,7 +677,10 @@ const Header = () => {
           >
             {!burgerMenu ? (
               <>
-                <div className="el_login_header_main_div1">
+                <div className="el_login_header_main_div1"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
+                >
                   <a
                     href="/"
                     style={{
@@ -665,12 +688,16 @@ const Header = () => {
                       justifyContent: "center",
                       alignItems: "center",
                     }}
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
                   >
                     {compnyLogo && (
                       <img
                         src={isMobile ? compnyLogoM : compnyLogo}
                         alt="Title"
                         className="el_login_header_main_div1_logo"
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
                       />
                     )}
                   </a>
@@ -764,12 +791,16 @@ const Header = () => {
                   justifyContent: "flex-end",
                   alignItems: "center",
                 }}
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
               >
                 {compnyLogo && (
                   <img
                     src={isMobile ? compnyLogoM : compnyLogo}
                     alt="Title"
                     className="el_login_header_main_div1_logo"
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 )}
               </a>
@@ -1047,16 +1078,22 @@ const Header = () => {
           <div
             className={`el_shop_dropdown_1 ${expandedMenu !== null ? "open" : ""
               }`}
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
           >
             <img
               src={`${storImagePath()}/images/Menu/Menu1.jpg`}
               alt="Image 1"
               className="dropdown-image-1"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
             />
             <img
               src={`${storImagePath()}/images/Menu/Menu2.jpg`}
               alt="Image 2"
               className="dropdown-image-2"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
             />
           </div>
           <div

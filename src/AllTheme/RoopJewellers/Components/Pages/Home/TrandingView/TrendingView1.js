@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import './TrendingView1.scss';
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -31,6 +31,7 @@ const TrendingView1 = ({ data }) => {
     const [storeInit, setStoreInit] = useState({});
     const [validImages, setValidImages] = useState([]);
     const maxWidth1200px = useMediaQuery('(max-width:1200px)');
+    const productRefs = useRef({});
 
     const [albumLength, setAlbumLength] = useRecoilState(roop_album_length);
 
@@ -97,7 +98,7 @@ const TrendingView1 = ({ data }) => {
         }
     };
 
-    const handleNavigate = (designNo, autoCode, titleLine) => {
+    const handleNavigate = (designNo, autoCode, titleLine, index) => {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit')) ?? "";
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
 
@@ -109,10 +110,36 @@ const TrendingView1 = ({ data }) => {
             c: loginUserDetail?.cmboCSQCid,
             f: {}
         }
+        sessionStorage.setItem('scrollToProduct2', `product-${index}`);
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         // navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     };
+
+    useEffect(() => {
+        const scrollDataStr = sessionStorage.getItem('scrollToProduct2');
+        if (!scrollDataStr) return;
+
+        const maxRetries = 10;
+        let retries = 0;
+
+        const tryScroll = () => {
+            const el = productRefs.current[scrollDataStr];
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+                sessionStorage.removeItem('scrollToProduct2');
+            } else if (retries < maxRetries) {
+                retries++;
+                setTimeout(tryScroll, 200); // retry until ref is ready
+            }
+        };
+
+        tryScroll();
+
+    }, [trendingData]);
 
     const HandleTrendingMore = (data) => {
         const url = `/p/Trending/?T=${btoa('Trending')}`;
@@ -154,14 +181,37 @@ const TrendingView1 = ({ data }) => {
                     <div className='smr_leftSideBestTR'>
 
                         {/* For shinjini*/}
-                        {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} loading="lazy" /> */}
+                        <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} loading="lazy"
+                            draggable={true}
+                            onContextMenu={(e) => e.preventDefault()}
+                        />
 
                         {/* For sonasons, ojasvi */}
                         {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} loading="lazy" /> */}
-                        <img src={data?.image?.[1]} loading='lazy' />
+                        {/* <img src={data?.image?.[1]} loading='lazy' /> */}
+                        {/* <img
+                            src={`${storImagePath()}/Banner/trendingbanner2.png`} // Fallback image
+                            srcSet={`
+                                ${storImagePath()}/Banner/trending-image-400.webp 400w,
+                                ${storImagePath()}/Banner/trending-image-800.webp 800w,
+                                ${storImagePath()}/Banner/trending-image-1200.webp 1200w
+                            `}
+                            sizes={`
+                                (max-width: 480px) 100vw,
+                                (max-width: 1024px) 90vw,
+                                (max-width: 1500px) 80vw,
+                                70vw
+                            `}
+                            alt=" "
+                            className="top-banner-img"
+                            loading="lazy"
+                        /> */}
 
                         {/* For pacific */}
-                        {/* <img src={data?.image?.[2]} loading="lazy" /> */}
+                        {/* <img src={data?.image?.[2]}
+                            loading="lazy"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        /> */}
 
                         {/* // for vara  */}
                         {/* <img src={data?.image?.[0]}
@@ -252,9 +302,13 @@ const TrendingView1 = ({ data }) => {
                                                 className="roop_trendImg"
                                                 loading="lazy"
                                                 src={item?.src}
+                                                id={`product-${index}`}
+                                                ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                                 alt={item?.name}
+                                                draggable={true}
+                                                onContextMenu={(e) => e.preventDefault()}
                                                 onError={(e) => e.target.src = imageNotFound}
-                                                onClick={() => handleNavigate(item?.designno, item?.autocode, item?.TitleLine)}
+                                                onClick={() => handleNavigate(item?.designno, item?.autocode, item?.TitleLine, index)}
                                                 aria-label={`View details of ${item?.name}`}
                                             />
                                             <p className="roop_trend_Div_name">{item?.name}</p>

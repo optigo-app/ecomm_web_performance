@@ -8,8 +8,8 @@ const CartPage = () => {
 
     useEffect(() => {
         const storeInit = JSON?.parse(sessionStorage.getItem('storeInit'));
-        // const cartNo = storeInit?.CartNo ?? 1;
-        const cartNo = 1;
+        const cartNo = storeInit?.CartNo ?? 1;
+        // const cartNo = 1;
 
         switch (cartNo) {
             case 1:
@@ -29,8 +29,8 @@ const CartPage = () => {
 
     return (
         <div>
-        {cartComponent}
-    </div>
+            {cartComponent}
+        </div>
     );
 };
 

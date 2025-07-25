@@ -27,6 +27,7 @@ const Album1 = () => {
     const [validImages, setValidImages] = useState([]);
     const [slideHeight, setSlideHeight] = useState(null);
     const swiperSlideRef = useRef(null);
+    const productRefs = useRef({});
 
     useEffect(() => {
         setIsLoading(true);
@@ -67,9 +68,35 @@ const Album1 = () => {
         }
     };
 
-    const handleNavigate = (album) => {
+    const handleNavigate = (album, index) => {
+        sessionStorage.setItem('scrollToProduct1', `product-${index}`);
         navigation(`/p/${album?.AlbumName}/?A=${btoa(`AlbumName=${album?.AlbumName}`)}`)
     }
+
+    useEffect(() => {
+        const scrollDataStr = sessionStorage.getItem('scrollToProduct1');
+        if (!scrollDataStr) return;
+
+        const maxRetries = 10;
+        let retries = 0;
+
+        const tryScroll = () => {
+            const el = productRefs.current[scrollDataStr];
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+                sessionStorage.removeItem('scrollToProduct1');
+            } else if (retries < maxRetries) {
+                retries++;
+                setTimeout(tryScroll, 200); // retry until ref is ready
+            }
+        };
+
+        tryScroll();
+
+    }, [albumData]);
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
 
@@ -180,7 +207,7 @@ const Album1 = () => {
                         }
                     }}
                 /> :
-                <div className={`stam_jewlSet_Main`} role="region" aria-labelledby="album-gallery" >
+                <div className={`stam_jewlSet_Main`} role="region" aria-labelledby="album-gallery" onContextMenu={(e) => e.preventDefault()}>
                     {/* <p className="stam_jewl_title">Discover our carefully curated Jewellery Album</p> */}
                     {/* <p className="stam_jewl_title" id="album-gallery">ALBUM COLLECTIONS</p>
             <p className="stam_jewl_title_para">Browse our curated collections of albums, crafted to perfection for every style and occasions.</p> */}
@@ -229,10 +256,14 @@ const Album1 = () => {
                                             <img
                                                 className="stam_jewelImg"
                                                 loading="lazy"
+                                                id={`product-${index}`}
+                                                ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                                 src={item?.src}
                                                 alt={item?.name ?? 'Jewellery Item'}
-                                                onClick={() => handleNavigate(item)}
+                                                onClick={() => handleNavigate(item, index)}
                                                 aria-label={`Navigate to details of ${item?.name}`}
+                                                draggable={true}
+                                                onContextMenu={(e) => e.preventDefault()}
                                             />
                                         </div>
                                         <p className="stam_jewls_Div_name">{item?.name}</p>

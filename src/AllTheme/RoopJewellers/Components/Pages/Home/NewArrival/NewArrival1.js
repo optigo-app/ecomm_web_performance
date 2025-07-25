@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./NewArrival1.scss";
 import {
   Grid,
@@ -33,6 +33,7 @@ const NewArrival = () => {
   const [ring1ImageChange, setRing1ImageChange] = useState(false);
   const [ring2ImageChange, setRing2ImageChange] = useState(false);
   const islogin = useRecoilValue(roop_loginState);
+  const productRefs = useRef({});
 
   const checkImageAvailability = (url) => {
     return new Promise((resolve) => {
@@ -93,7 +94,7 @@ const NewArrival = () => {
     }
   };
 
-  const handleNavigation = (designNo, autoCode, titleLine) => {
+  const handleNavigation = (designNo, autoCode, titleLine, index) => {
     let obj = {
       a: autoCode,
       b: designNo,
@@ -102,6 +103,7 @@ const NewArrival = () => {
       c: loginUserDetail?.cmboCSQCid,
       f: {},
     };
+    sessionStorage.setItem('scrollToProduct3', `product-${index}`);
     let encodeObj = compressAndEncode(JSON.stringify(obj));
     // navigation(
     //   `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
@@ -109,6 +111,31 @@ const NewArrival = () => {
     // );
     navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
   };
+
+  useEffect(() => {
+    const scrollDataStr = sessionStorage.getItem('scrollToProduct3');
+    if (!scrollDataStr) return;
+
+    const maxRetries = 10;
+    let retries = 0;
+
+    const tryScroll = () => {
+      const el = productRefs.current[scrollDataStr];
+      if (el) {
+        el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+        sessionStorage.removeItem('scrollToProduct3');
+      } else if (retries < maxRetries) {
+        retries++;
+        setTimeout(tryScroll, 200); // retry until ref is ready
+      }
+    };
+
+    tryScroll();
+
+  }, [newArrivalData]);
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -138,7 +165,7 @@ const NewArrival = () => {
     return;
   }
   return (
-    <div className="roop_newwArr1MainDiv">
+    <div className="roop_newwArr1MainDiv" onContextMenu={(e) => e.preventDefault()}>
       {newArrivalData?.length != 0 && (
         <>
           <div className="title_rp">
@@ -187,7 +214,7 @@ const NewArrival = () => {
               },
             }}
           /> :
-            <Grid container spacing={1} className="roop_NewArrival1product-list">
+            <Grid container spacing={1} className="roop_NewArrival1product-list" onContextMenu={(e) => e.preventDefault()}>
               {newArrivalData?.slice(0, 4)?.map((product, index) => (
                 <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
                   <Card
@@ -198,7 +225,8 @@ const NewArrival = () => {
                       handleNavigation(
                         product?.designno,
                         product?.autocode,
-                        product?.TitleLine
+                        product?.TitleLine,
+                        index
                       )
                     }
                   >
@@ -210,10 +238,14 @@ const NewArrival = () => {
                         image={
                           product?.ImageCount >= 1 ? product?.src : noImageFound
                         }
+                        draggable={true}
+                        onContextMenu={(e) => e.preventDefault()}
                         // image={product?.ImageCount >= 1 ?
                         //     `${imageUrl}${newArrivalData && product?.designno}_1.${newArrivalData && product?.ImageExtension}`
                         //     : noImageFound}
                         alt={product?.TitleLine}
+                        id={`product-${index}`}
+                        ref={(el) => (productRefs.current[`product-${index}`] = el)}
                         onError={(e) => e.target.src = noImageFound}
                         loading="lazy" // Use lazy loading to optimize performance
                       />

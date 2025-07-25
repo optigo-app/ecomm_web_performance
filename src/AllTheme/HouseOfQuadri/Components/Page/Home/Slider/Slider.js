@@ -18,7 +18,7 @@ const settings = {
   cssEase: "linear",
 };
 
-const TopSlider = ({data}) => {
+const TopSlider = ({ data }) => {
   const [isMobile, setIsMobile] = useState(false);
   const slider = useRef(null);
   useEffect(() => {
@@ -35,7 +35,8 @@ const TopSlider = ({data}) => {
   }, []);
 
   return (
-    <div className="hoq_main_slider">
+    <div className="hoq_main_slider" draggable={true}
+      onContextMenu={(e) => e.preventDefault()}>
       {/* <div className="controller_btn">
         <button onClick={() => slider?.current?.slickPrev()}>
           <BsChevronCompactLeft className="btn_icons" />
@@ -43,16 +44,22 @@ const TopSlider = ({data}) => {
       </div> */}
       <Slider {...settings} ref={slider}>
         {isMobile
-          ? data?.image?.slice(0,3)?.map((val, i) => (
-              <div className="slide" key={i}>
-                <img src={val || ""} alt={val+i} />
-              </div>
-            ))
-          : data?.image?.slice(0,3)?.map((val, i) => (
-              <div className="slide" key={i}>
-                <img src={ val || ""} alt={val+i} />
-              </div>
-            ))}
+          ? data?.image?.slice(0, 3)?.map((val, i) => (
+            <div className="slide" key={i}>
+              <img src={val || ""} alt={val + i}
+                draggable={true}
+                onContextMenu={(e) => e.preventDefault()}
+              />
+            </div>
+          ))
+          : data?.image?.slice(0, 3)?.map((val, i) => (
+            <div className="slide" key={i}>
+              <img src={val || ""} alt={val + i}
+                draggable={true}
+                onContextMenu={(e) => e.preventDefault()}
+              />
+            </div>
+          ))}
       </Slider>
       {/* <div className="controller_btn_2">
         <button onClick={() => slider?.current?.slickNext()}>

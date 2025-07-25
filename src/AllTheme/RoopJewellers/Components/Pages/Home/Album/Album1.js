@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Navigation, Keyboard, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -23,6 +23,7 @@ const Album1 = () => {
     const [storeInit, setStoreInit] = useState({});
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const isMobileScreen = useMediaQuery('(max-width:768px)');
+    const productRefs = useRef({});
 
     useEffect(() => {
         let data = JSON?.parse(sessionStorage.getItem("storeInit"));
@@ -65,7 +66,7 @@ const Album1 = () => {
         navigation(`/p/${album?.AlbumName}/?A=${btoa(`AlbumName=${album?.AlbumName}`)}`)
     }
 
-    const handleNavigation = (designNo, autoCode, titleLine) => {
+    const handleNavigation = (designNo, autoCode, titleLine, index) => {
 
         console.log('aaaaaaaaaaa', designNo, autoCode, titleLine);
         let obj = {
@@ -76,9 +77,35 @@ const Album1 = () => {
             c: loginUserDetail?.cmboCSQCid,
             f: {}
         }
+        sessionStorage.setItem('scrollToProduct1', `product-${index}`);
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
     }
+
+    useEffect(() => {
+        const scrollDataStr = sessionStorage.getItem('scrollToProduct1');
+        if (!scrollDataStr) return;
+
+        const maxRetries = 10;
+        let retries = 0;
+
+        const tryScroll = () => {
+            const el = productRefs.current[scrollDataStr];
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+                sessionStorage.removeItem('scrollToProduct1');
+            } else if (retries < maxRetries) {
+                retries++;
+                setTimeout(tryScroll, 200); // retry until ref is ready
+            }
+        };
+
+        tryScroll();
+
+    }, [albumData]);
 
     const handleChangeTab = (event, newValue) => {
         setTimeout(() => {
@@ -91,8 +118,6 @@ const Album1 = () => {
         txt.innerHTML = html;
         return txt.value;
     }
-
-    console.log('albumDataalbumData', albumData);
 
     return (
         <>
@@ -153,15 +178,17 @@ const Album1 = () => {
                                     keyboard={{ enabled: true }}
                                     pagination={false}
                                 >
-                                    {JSON?.parse(album?.Designdetail)?.map((design) => (
+                                    {JSON?.parse(album?.Designdetail)?.map((design, index) => (
                                         <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
-                                            <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
+                                            <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine, index)}>
                                                 <img
                                                     src={
                                                         design?.ImageCount > 0
                                                             ? `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`
                                                             : imageNotFound
                                                     }
+                                                    id={`product-${index}`}
+                                                    ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                                     alt={design?.TitleLine}
                                                     loading="lazy"
                                                     onError={(e) => {

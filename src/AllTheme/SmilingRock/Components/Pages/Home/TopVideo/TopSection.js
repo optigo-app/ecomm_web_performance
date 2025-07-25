@@ -30,7 +30,7 @@ const TopSection = ({ data }) => {
   };
 
   return (
-    <div className="smr_topVideoMain" style={{ minHeight: "550px" }}>
+    <div className="smr_topVideoMain" style={{ minHeight: "550px" }} onContextMenu={(e) => { e.preventDefault() }}>
       <video
         ref={videoRef}
         width="500"

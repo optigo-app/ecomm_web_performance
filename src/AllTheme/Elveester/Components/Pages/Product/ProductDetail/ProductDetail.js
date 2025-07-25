@@ -31,6 +31,7 @@ import { Helmet } from 'react-helmet';
 import { FilterListAPI } from '../../../../../../utils/API/FilterAPI/FilterListAPI';
 import { useImageZoom } from '../../../../../../hooks/UseImageZoom'
 import JsonLd from '../../../Jsonld';
+import useGlobalPreventSave from '../../../../../../utils/Glob_Functions/useGlobalPreventSave';
 
 
 
@@ -60,7 +61,7 @@ const ProductDetail = () => {
   const [metalWiseColorImg, setMetalWiseColorImg] = useState([]);
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [isPriceloading, setisPriceLoading] = useState(false);
-  const [selectedThumbImg, setSelectedThumbImg] = useState();
+  const [selectedThumbImg, setSelectedThumbImg] = useState({});
   const [pdThumbImg, setPdThumbImg] = useState([]);
   const [thumbImgIndex, setThumbImgIndex] = useState()
   const [pdVideoArr, setPdVideoArr] = useState([]);
@@ -76,6 +77,8 @@ const ProductDetail = () => {
   const { imageRefs, handleMouseMove, handleMouseLeave } = useImageZoom(2.2);
   const [selectedMetalColor, setSelectedMetalColor] = useState();
   const getBreadCrumData = JSON.parse(sessionStorage.getItem("breadcrumbData")) ?? "";
+
+  useGlobalPreventSave();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -139,21 +142,25 @@ const ProductDetail = () => {
   const productSchema = {
     "@context": "https://schema.org/",
     "@type": "Product",
-    "title": product?.TitleLine,
-    "image": getDynamicImages(product?.designno, product?.ImageExtension),
+    "name": product?.TitleLine,
+    "image": pdThumbImg,
     "description": product?.description,
-    "designno": product?.designno,
+    "sku": product?.designno,
     "isRelatedTo": {
       "@type": "Collection",
-      "name": product?.collection,
+      "name": product?.collection
     },
     "offers": {
       "@type": "Offer",
       "url": `${window.location.href}`,
       "priceCurrency": `${loginData?.CurrencyCode || storeInit?.CurrencyCode}`,
       "price": product?.UnitCostWithMarkUp,
-    },
+    }
   };
+  // "brand": {
+  //   "@type": "Brand",
+  //   "name": "MyBrand"
+  // },
 
   const baseUrl = window.location.origin;
 
@@ -180,7 +187,7 @@ const ProductDetail = () => {
         "item": breadcrumb.url
       }))
     };
-  };  
+  };
 
   const jsonLd = generateBreadcrumbJsonLd(breadcrumbData);
 
@@ -574,7 +581,7 @@ const ProductDetail = () => {
       if (selectedThumbImg == undefined) return;
 
       if (selectedThumbImg) {
-        setImageSrc(selectedThumbImg.link);
+        setImageSrc(selectedThumbImg?.link?.imageUrl);
       } else {
         // Set a default image if no thumbnail is selected
         setImageSrc(pdVideoArr?.length > 0 ? noImageFound : 'p.png');
@@ -892,157 +899,6 @@ const ProductDetail = () => {
   //   }
   // }
 
-  const handleMetalWiseColorImg = async (e) => {
-    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
-    let mcArr;
-
-    const imageVideoDetail = singleProd?.ImageVideoDetail;
-    const prod = singleProd ?? singleProd1;
-
-    let parsedData = [];
-    try {
-      parsedData = prod?.ImageVideoDetail && prod.ImageVideoDetail !== "0"
-        ? JSON.parse(prod.ImageVideoDetail)
-        : [];
-    } catch (err) {
-      console.error("Invalid JSON in ImageVideoDetail:", err);
-      return;
-    }
-
-    const filterDataForColorImageCount = parsedData.filter(
-      (ele) => ele?.CN && ele?.TI == 2
-    );
-
-    const filterDataForNormalImageCount = parsedData.filter(
-      (ele) => ele?.CN == "" && ele?.TI == 1
-    );
-
-    const normalImageCount = filterDataForNormalImageCount.length > 0
-      ? Math.max(...filterDataForNormalImageCount.map(item => item.Nm))
-      : null;
-
-    const getColorImageExtension = filterDataForColorImageCount?.map((ele) => ele?.Ex);
-    const getNormalImageExtension = filterDataForNormalImageCount?.map((ele) => ele?.Ex);
-
-    const countColumns1 = filterDataForColorImageCount.reduce((acc, curr) => {
-      const color = curr.CN;
-      acc[color] = (acc[color] || 0) + 1;
-      return acc;
-    }, {});
-
-    const countValues = Object.values(countColumns1);
-    const maxColorCount = countValues.length > 0 ? Math.max(...countValues) : 0;
-
-    if (mtColorLocal?.length) {
-      mcArr = mtColorLocal?.filter(
-        (ele) => ele?.colorcode == e.target.value
-      )[0];
-    }
-
-    setSelectedMetalColor(mcArr?.colorcode);
-
-    setMetalColor(e.target.value);
-
-    let imgLink =
-      storeInit?.CDNDesignImageFol +
-      (singleProd ?? singleProd1)?.designno +
-      "~" +
-      (thumbImgIndex + 1) +
-      "~" +
-      mcArr?.colorcode +
-      "." +
-      (singleProd ?? singleProd1)?.ImageExtension;
-
-    // setMetalWiseColorImg(imgLink)
-
-    let isImg = await checkImageAvailability(imgLink);
-
-    if (isImg) {
-      setMetalWiseColorImg(imgLink);
-    } else {
-      setMetalWiseColorImg();
-    }
-
-    let pd = singleProd;
-    let pdImgListCol = [];
-    let pdImgList = [];
-
-    if (maxColorCount > 0) {
-      for (let i = 1; i <= maxColorCount; i++) {
-        let imgString =
-          storeInit?.CDNDesignImageFol +
-          singleProd?.designno +
-          "~" +
-          i +
-          "~" +
-          mcArr?.colorcode +
-          "." +
-          (singleProd ?? singleProd1)?.ImageExtension;
-        pdImgListCol.push(imgString);
-      }
-    }
-
-    if (normalImageCount > 0) {
-      for (let i = 1; i <= normalImageCount; i++) {
-        let imgString =
-          storeInit?.CDNDesignImageFol +
-          singleProd?.designno +
-          "~" +
-          i +
-          "." +
-          (singleProd ?? singleProd1)?.ImageExtension;
-        pdImgList.push(imgString);
-      }
-    }
-
-    let isImgCol;
-
-    if (pdImgListCol?.length > 0) {
-      isImgCol = await checkImageAvailability(pdImgListCol[0]);
-    }
-
-    let FinalPdColImgList = [];
-
-    if (pdImgListCol?.length > 0) {
-      for (let i = 0; i < pdImgListCol?.length; i++) {
-        let isImgAvl = await checkImageAvailability(pdImgListCol[i]);
-        if (isImgAvl) {
-          FinalPdColImgList.push(pdImgListCol[i]);
-        } else {
-          FinalPdColImgList.push(imageNotFound);
-        }
-      }
-    }
-
-    if (FinalPdColImgList?.length > 0 && (isImgCol == true)) {
-
-      const thumbImagePath = FinalPdColImgList.map(url => {
-        const fileName = url.split('Design_Image/')[1];
-        return `${storeInit?.CDNDesignImageFolThumb}${fileName?.split('.')[0]}.jpg`; // Full CDN path
-      });
-
-      setPdThumbImg(thumbImagePath)
-      if (FinalPdColImgList[thumbImgIndex] === undefined) {
-        setSelectedThumbImg({ "link": FinalPdColImgList[thumbImgIndex - 1], "type": 'img' });
-      } else {
-        setSelectedThumbImg({ "link": FinalPdColImgList[thumbImgIndex], "type": 'img' });
-      }
-      setThumbImgIndex(thumbImgIndex)
-
-    }
-    else {
-      if (pdImgList?.length > 0) {
-        if (pdImgList[thumbImgIndex] === undefined) {
-          setSelectedThumbImg({ "link": pdImgList[thumbImgIndex - 1], "type": 'img' });
-        } else {
-          setSelectedThumbImg({ "link": pdImgList[thumbImgIndex], "type": 'img' });
-        }
-        setPdThumbImg(pdImgList)
-        setThumbImgIndex(thumbImgIndex)
-      }
-    }
-  };
-
   const handleMetalWiseColorImgWithFlag = async (e) => {
 
     let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
@@ -1060,13 +916,155 @@ const ProductDetail = () => {
   }
 
   const ProdCardImageFunc = async () => {
-    let finalprodListimg;
-    let pdImgList = [];
-    let pdvideoList = [];
-
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo")) || [];
     const imageVideoDetail = singleProd?.ImageVideoDetail;
-    const prod = singleProd ?? singleProd1;
+    const pd = singleProd;
 
+    let parsedData = [];
+    try {
+      parsedData = imageVideoDetail === "0" ? [] : JSON.parse(imageVideoDetail || "[]");
+    } catch (err) {
+      console.error("Invalid JSON in ImageVideoDetail:", err);
+      return;
+    }
+
+    // Filter categorized media
+    const normalImages = [], colorImages = [], normalVideos = [], colorVideos = [];
+    parsedData.forEach(item => {
+      if (item?.TI === 1 && !item?.CN) normalImages.push(item);
+      else if (item?.TI === 2 && item?.CN) colorImages.push(item);
+      else if (item?.TI === 4 && item?.CN) colorVideos.push(item);
+      else if (item?.TI === 3 && !item?.CN) normalVideos.push(item);
+    });
+
+    const getMaxCountByColor = (list) => {
+      return list.reduce((acc, curr) => {
+        const color = curr.CN;
+        acc[color] = (acc[color] || 0) + 1;
+        return acc;
+      }, {});
+    };
+
+    const maxColorCount = Math.max(...Object.values(getMaxCountByColor(colorImages)), 0);
+    const normalImageCount = normalImages.length ? Math.max(...normalImages.map(i => i.Nm)) : 0;
+
+    // Get metal color code
+    const mcArr = mtColorLocal.find(ele => ele.id === singleProd?.MetalColorid);
+    setSelectedMetalColor(mcArr?.colorcode);
+
+    const buildImageURL = (i, isColor = false) => {
+      const base = storeInit?.CDNDesignImageFol;
+      const extension = isColor ?
+        colorImages[i - 1]?.Ex :
+        normalImages[i - 1]?.Ex;
+
+      const imageUrl = isColor ?
+        `${base}${pd.designno}~${i}~${mcArr?.colorcode}.${colorImages[i - 1]?.Ex}`
+        : `${base}${pd.designno}~${i}.${normalImages[i - 1]?.Ex}`;
+
+      return { imageUrl, extension }
+    };
+
+    const pdImgList = [];
+
+    if (maxColorCount > 0) {
+      // Asynchronously populate pdImgList with color images
+      for (let i = 1; i <= maxColorCount; i++) {
+        const colorImageUrl = buildImageURL(i, true);
+        const isColorImageAvailable = await checkImageAvailability(colorImageUrl?.imageUrl);
+
+        // Only push the image if it is available
+        if (isColorImageAvailable) {
+          pdImgList.push(colorImageUrl);
+        }
+      }
+    }
+
+    // If no color image was added, push normal images
+    if (pdImgList.length === 0 && normalImageCount > 0) {
+      for (let i = 1; i <= normalImageCount; i++) {
+        pdImgList.push(buildImageURL(i));
+      }
+    }
+
+    // Now check if pdImgList is populated and set finalprodListimg after that
+    let finalprodListimg = {};
+    if (pdImgList.length > 0) {
+      finalprodListimg = pdImgList[0];
+
+      // Set the selected thumbnail image if we have a valid image
+      if (Object.keys(finalprodListimg).length > 0) {
+        setSelectedThumbImg({
+          link: {
+            imageUrl: finalprodListimg?.imageUrl,
+            extension: finalprodListimg?.extension
+          },
+          type: 'img'
+        });
+      }
+    } else {
+      console.log("No images found, pdImgList is empty.");
+    }
+
+    if (pdImgList.length) {
+      const thumbImagePath = pdImgList.map(url => {
+        const fileName = url?.imageUrl?.split("Design_Image/")[1];
+        const thumbImageUrl = `${storeInit?.CDNDesignImageFolThumb}${fileName?.split('.')[0]}.jpg`;
+        const originalImageExtension = url?.extension;
+        return { thumbImageUrl, originalImageExtension };
+      });
+      setPdThumbImg(thumbImagePath);
+      setThumbImgIndex(0);
+    } else {
+      setThumbImgIndex();
+    }
+
+    // Video processing
+    const buildVideoURL = (video, isColor = false) => {
+      const base = storeInit?.CDNVPath;
+      return isColor
+        ? `${base}${pd.designno}~${video.Nm}~${video.CN}.${video.Ex}`
+        : `${base}${pd.designno}~${video.Nm}.${video.Ex}`;
+    };
+
+    const pdvideoList = [
+      ...colorVideos.map(v => buildVideoURL(v, true)),
+      ...normalVideos.map(v => buildVideoURL(v))
+    ];
+
+    setPdVideoArr(pdvideoList.length ? pdvideoList : []);
+
+    if (finalprodListimg?.extension !== undefined && finalprodListimg?.imageUrl !== imageNotFound) {
+      setPdLoadImage(false);
+    } else if (Object.keys(finalprodListimg)?.length === 0) {
+      setPdLoadImage(false);
+    } else {
+      setPdLoadImage(true);
+    }
+
+    return finalprodListimg;
+  };
+
+  useEffect(() => {
+    setPdLoadImage(true)
+    ProdCardImageFunc();
+  }, [singleProd, location?.key]);
+
+  const handleMetalWiseColorImg = async (e) => {
+    const selectedColorCode = e.target.value;
+    const mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo") || "[]");
+    const mcArr = mtColorLocal.find(ele => ele?.colorcode === selectedColorCode);
+
+    const prod = singleProd ?? singleProd1;
+    const { designno, ImageExtension } = prod || {};
+    const baseCDN = storeInit?.CDNDesignImageFol;
+    const thumbCDN = storeInit?.CDNDesignImageFolThumb;
+
+    setSelectedMetalColor(mcArr?.colorcode);
+    setMetalColor(selectedColorCode);
+
+    // Parse image/video data
     let parsedData = [];
     try {
       parsedData = prod?.ImageVideoDetail && prod.ImageVideoDetail !== "0"
@@ -1077,183 +1075,127 @@ const ProductDetail = () => {
       return;
     }
 
-    const filterDataForColorImageCount = parsedData.filter(
-      (ele) => ele?.CN && ele?.TI == 2
+    // Filter categorized media
+    const normalImages = [], colorImages = [], normalVideos = [], colorVideos = [];
+    parsedData.forEach(item => {
+      if (item?.TI === 1 && !item?.CN) normalImages.push(item);
+      else if (item?.TI === 2 && item?.CN) colorImages.push(item);
+      else if (item?.TI === 4 && item?.CN) colorVideos.push(item);
+      else if (item?.TI === 3 && !item?.CN) normalVideos.push(item);
+    });
+
+    // Filter color and normal images
+    const colorImgs = parsedData.filter(ele => ele?.CN && ele?.TI === 2);
+    const normalImgs = parsedData.filter(ele => !ele?.CN && ele?.TI === 1);
+
+    const maxColorImgCount = Math.max(
+      0,
+      ...Object.values(
+        colorImgs.reduce((acc, { CN }) => {
+          acc[CN] = (acc[CN] || 0) + 1;
+          return acc;
+        }, {})
+      )
     );
 
-    const filterDataForNormalImageCount = parsedData.filter(
-      (ele) => ele?.CN == "" && ele?.TI == 1
+    const normalImageCount = normalImgs.length > 0
+      ? Math.max(...normalImgs.map(item => item.Nm))
+      : 0;
+
+    // Build image URLs
+    const buildColorImageList = () => Array.from({ length: maxColorImgCount }, (_, i) => {
+      const extension = colorImages[i]?.Ex;
+      const imageUrl = `${baseCDN}${designno}~${i + 1}~${mcArr?.colorcode}.${colorImages[i]?.Ex}`;
+      return { imageUrl, extension }
+    }
     );
 
-    const filterDataForColorVideoCount = parsedData.filter(
-      (ele) => ele?.CN != "" && ele?.TI == 4
+    const buildNormalImageList = () => Array.from({ length: normalImageCount }, (_, i) => {
+      const extension = normalImages[i]?.Ex;
+      const imageUrl = `${baseCDN}${designno}~${i + 1}.${normalImages[i]?.Ex}`;
+
+      return { imageUrl, extension }
+    }
     );
 
-    const filterDataForNormalVideoCount = parsedData.filter(
-      (ele) => ele?.CN == "" && ele?.Ex == 'mp4'
-    );
+    let pdImgListCol = [];
+    let pdImgList = [];
+    let colorImagesAvailable = false;
 
-    const colorVideoCount = filterDataForColorVideoCount.length > 0
-      ? filterDataForColorVideoCount.length : null;
+    // Check color image availability dynamically
+    if (colorImgs.length > 0) {
+      const tempColorList = buildColorImageList().filter(Boolean);
 
-    const normalVideoCount = filterDataForNormalVideoCount.length > 0
-      ? filterDataForNormalVideoCount.length : null;
+      const checkImages = tempColorList.length > 3
+        ? tempColorList.slice(0, 3) // Optional cap for performance
+        : tempColorList;
 
-    const normalImageCount = filterDataForNormalImageCount.length > 0
-      ? Math.max(...filterDataForNormalImageCount.map(item => item.Nm))
-      : null;
+      const availabilityChecks = await Promise.all(
+        checkImages.map(url => checkImageAvailability(url?.imageUrl))
+      );
 
-    const countColumns1 = filterDataForColorImageCount.reduce((acc, curr) => {
-      const color = curr.CN;
-      acc[color] = (acc[color] || 0) + 1;
-      return acc;
-    }, {});
-
-    const countValues = Object.values(countColumns1);
-    const maxColorCount = countValues.length > 0 ? Math.max(...countValues) : 0;
-
-    const getColorImageExtension = filterDataForColorImageCount?.map((ele) => ele?.Ex);
-    const getNormalImageExtension = filterDataForNormalImageCount?.map((ele) => ele?.Ex);
-    const getColorVideoExtension = filterDataForColorVideoCount?.map((ele) => ele?.Ex);
-    const getColorVideoMetalColor = filterDataForColorVideoCount?.map((ele) => ele?.CN);
-    const getColorVideoNumber = filterDataForColorVideoCount?.map((ele) => ele?.Nm);
-
-    const getNormalVideoExtension = filterDataForNormalVideoCount?.map((ele) => ele?.Ex);
-    const getNormalVideoNumber = filterDataForNormalVideoCount?.map((ele) => ele?.Nm);
-
-    let pd = singleProd;
-
-    let colImg;
-
-    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
-    let mcArr;
-
-    if (mtColorLocal?.length) {
-      mcArr =
-        mtColorLocal?.filter(
-          (ele) => ele?.id == singleProd?.MetalColorid
-        )[0]
-    }
-
-    setSelectedMetalColor(mcArr?.colorcode);
-
-    if (maxColorCount > 0) {
-      for (let i = 1; i <= maxColorCount; i++) {
-        let imgString =
-          storeInit?.CDNDesignImageFol +
-          singleProd?.designno +
-          "~" +
-          i +
-          "~" +
-          mcArr?.colorcode +
-          "." +
-          getColorImageExtension[i - 1];
-
-        let IsImg = await checkImageAvailability(imgString);
-        if (IsImg) {
-          pdImgList.push(imgString);
-        }
-      }
-
-      if (pdImgList?.length > 0) {
-        colImg = pdImgList[0];
+      colorImagesAvailable = availabilityChecks.some(Boolean);
+      if (colorImagesAvailable) {
+        pdImgListCol = tempColorList;
       }
     }
 
-    let IsColImg = false;
-    if (colImg?.length > 0) {
-      IsColImg = await checkImageAvailability(colImg);
+    // Fallback to normal images if no color images are available
+    if (!colorImagesAvailable && normalImgs.length > 0) {
+      pdImgList = buildNormalImageList();
     }
 
-    if (normalImageCount > 0 && !IsColImg) {
-      for (let i = 1; i <= normalImageCount; i++) {
-        let imgString =
-          storeInit?.CDNDesignImageFol +
-          pd?.designno +
-          "~" +
-          i +
-          "." +
-          getNormalImageExtension[i - 1];
-
-        let IsImg = await checkImageAvailability(imgString);
-        if (IsImg) {
-          pdImgList.push(imgString);
-        }
-      }
-    } else {
-      finalprodListimg = noImageFound;
-    }
-
-    if (colorVideoCount > 0) {
-      for (let i = 0; i <= colorVideoCount - 1; i++) {
-        let videoString =
-          (storeInit?.CDNVPath) +
-          pd?.designno +
-          "~" +
-          getColorVideoNumber[i] +
-          "~" +
-          getColorVideoMetalColor[i] +
-          "." +
-          getColorVideoExtension[i];
-        pdvideoList.push(videoString);
-      }
-    }
-
-    if (normalVideoCount > 0) {
-      for (let i = 0; i <= normalVideoCount - 1; i++) {
-        let videoString =
-          (storeInit?.CDNVPath) +
-          pd?.designno +
-          "~" +
-          getNormalVideoNumber[i] +
-          "." +
-          getNormalVideoExtension[i];
-        pdvideoList.push(videoString);
-      }
-    }
-
-    let FinalPdImgList = [];
-
-    if (pdImgList?.length > 0) {
-      for (let i = 0; i < pdImgList?.length; i++) {
-        let isImgAvl = await checkImageAvailability(pdImgList[i])
-        if (isImgAvl) {
-          FinalPdImgList.push(pdImgList[i]);
-        }
-      }
-    }
-
-    if (FinalPdImgList?.length > 0) {
-      finalprodListimg = FinalPdImgList[0];
-      setSelectedThumbImg({ "link": FinalPdImgList[0], "type": 'img' });
-      const thumbImagePath = FinalPdImgList.map(url => {
-        const fileName = url.split('Design_Image/')[1];
-        return `${storeInit?.CDNDesignImageFolThumb}${fileName?.split('.')[0]}.jpg`; // Full CDN path
+    // Set images to UI
+    if (colorImagesAvailable && pdImgListCol.length > 0) {
+      const thumbImagePath = pdImgListCol.map(url => {
+        const fileName = url?.imageUrl.split('Design_Image/')[1]?.split('.')[0];
+        const thumbImageUrl = `${thumbCDN}${fileName}.jpg`;
+        const originalImageExtension = url?.extension;
+        return { thumbImageUrl, originalImageExtension };
       });
-      setPdThumbImg(thumbImagePath);
-      // setPdThumbImg(FinalPdImgList);
-      setThumbImgIndex(0)
-    } else {
-      // step 2 
-      setSelectedThumbImg({ link: "", type: "img" });
-      setPdThumbImg();
-      setThumbImgIndex();
-    }
 
-    if (pdvideoList?.length > 0) {
-      setPdVideoArr(pdvideoList);
-      if (FinalPdImgList.length < 1) {
-        setSelectedThumbImg({ "link": pdvideoList[0], "type": 'vid' });
-      }
+      setPdThumbImg(thumbImagePath);
+
+      const safeIndex = thumbImgIndex < pdImgListCol.length ? thumbImgIndex : pdImgListCol.length - 1;
+      const mainImg = pdImgListCol[safeIndex];
+      console.log("TCL: ProductDetail -> mainImg", mainImg)
+      // setSelectedThumbImg({ link: mainImg, type: 'img' });
+      setSelectedThumbImg({
+        link: {
+          imageUrl: mainImg?.imageUrl,
+          extension: mainImg?.originalImageExtension
+        },
+        type: 'img'
+      });
+      setThumbImgIndex(safeIndex);
+
+      const defaultMainImg = `${baseCDN}${designno}~${safeIndex + 1}~${mcArr?.colorcode}.${ImageExtension}`;
+      setMetalWiseColorImg(defaultMainImg);
+
+    } else if (pdImgList.length > 0) {
+      const thumbImagePath = pdImgList.map(url => {
+        const fileName = url?.imageUrl?.split('Design_Image/')[1]?.split('.')[0];
+        const thumbImageUrl = `${thumbCDN}${fileName}.jpg`;
+        const originalImageExtension = url?.extension;
+        return { thumbImageUrl, originalImageExtension };
+      });
+
+      setPdThumbImg(thumbImagePath);
+
+      const safeIndex = thumbImgIndex < pdImgList.length ? thumbImgIndex : pdImgListCol.length - 1;
+      const fallbackImg = pdImgList[safeIndex];
+      // setSelectedThumbImg({ link: fallbackImg, type: 'img' });
+      setSelectedThumbImg({
+        link: {
+          imageUrl: fallbackImg?.imageUrl,
+          extension: fallbackImg?.originalImageExtension
+        },
+        type: 'img'
+      });
+      setThumbImgIndex(safeIndex);
     }
-    setPdLoadImage(false);
-    return finalprodListimg;
   };
 
-  useEffect(() => {
-    setPdLoadImage(true)
-    ProdCardImageFunc();
-  }, [singleProd, location?.key]);
 
   useEffect(() => {
     let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
@@ -1516,7 +1458,7 @@ const ProductDetail = () => {
             <>
               {maxWidth1400 ? (
                 <>
-                  {loadingdata || pdLoadImage || selectedThumbImg?.link == "" ? (
+                  {loadingdata || pdLoadImage || selectedThumbImg?.link?.imageUrl == "" ? (
                     <Skeleton className='elv_prod_det_default_1400' variant="rectangular" />
                   ) : (
                     <div className='elv_ProductDet_max1400'>
@@ -1534,22 +1476,25 @@ const ProductDetail = () => {
                         {selectedThumbImg || imageSrc ? (
                           selectedThumbImg?.type == "img" ? (
                             <img
-                              // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
                               src={imageSrc}
                               ref={el => imageRefs.current[1] = el}
                               loading="eager"
                               onError={handleError}
-                              alt={""}
+                              alt=""
                               onLoad={() => setIsImageLoad(false)}
                               className="elv_ProductDet_prod_image_max1400"
+                              draggable={false}
+                              onContextMenu={(e) => e.preventDefault()}
                             />
                           ) : (
                             <div>
                               <video
-                                src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                                src={pdVideoArr?.length > 0 ? selectedThumbImg?.link?.imageUrl : imageNotFound}
                                 loop
                                 autoPlay
                                 playsInline
+                                draggable={false}
+                                onContextMenu={(e) => e.preventDefault()}
                                 muted // Add this attribute to ensure autoplay works
                                 style={{
                                   width: "100%",
@@ -1572,6 +1517,8 @@ const ProductDetail = () => {
                             loading="eager"
                             alt={""}
                             className="elv_ProductDet_prod_image_max1400"
+                            draggable={false}
+                            onContextMenu={(e) => e.preventDefault()}
                           />
                           // )
                         )
@@ -1583,23 +1530,33 @@ const ProductDetail = () => {
                 ) : ( */}
                       <div className='elv_ProductDet_prod_img_list_max1400'>
                         {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
-                          pdThumbImg?.map((ele, i) => (
-                            <img
-                              src={ele}
-                              alt={""}
-                              onLoad={() => setIsImageLoad(false)}
-                              className='elv_ProductDet_image_max1400'
-                              onClick={() => {
-                                setSelectedThumbImg({
-                                  link: ele.replace('Design_Thumb/', ''),
-                                  type: "img",
-                                });
-                                setThumbImgIndex(i);
-                              }}
-                              loading="eager"
-                              onError={handleError}
-                            />
-                          ))}
+                          pdThumbImg?.map((ele, i) => {
+                            const firstHalf = ele?.thumbImageUrl?.split("/Design_Thumb")[0];
+                            const secondhalf = ele?.thumbImageUrl?.split("/Design_Thumb")[1]?.split('.')[0];
+                            return (
+                              <img
+                                src={ele?.thumbImageUrl}
+                                alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className='elv_ProductDet_image_max1400'
+                                onClick={() => {
+                                  setSelectedThumbImg({
+                                    // link: ele.replace('Design_Thumb/', ''),
+                                    link: {
+                                      "imageUrl": `${firstHalf}${secondhalf}.${ele?.originalImageExtension}`,
+                                      "extension": `${ele?.originalImageExtension}`
+                                    },
+                                    type: "img",
+                                  });
+                                  setThumbImgIndex(i);
+                                }}
+                                loading="eager"
+                                onError={handleError}
+                                draggable={false}
+                                onContextMenu={(e) => e.preventDefault()}
+                              />
+                            )
+                          })}
                         {filteredVideos?.map((data) => (
                           <div
                             style={{
@@ -1609,7 +1566,14 @@ const ProductDetail = () => {
                               alignItems: "center",
                             }}
                             onClick={() =>
-                              setSelectedThumbImg({ link: data, type: "vid" })
+                              // setSelectedThumbImg({ link: data, type: "vid" })
+                              setSelectedThumbImg({
+                                link: {
+                                  "imageUrl": data,
+                                  "extension": "mp4"
+                                },
+                                type: 'vid'
+                              })
                             }
                           >
                             <video
@@ -1619,6 +1583,8 @@ const ProductDetail = () => {
                               onError={handleVideoError}
                               className="elv_ProductDet_image_max1400"
                               style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
+                              draggable={false}
+                              onContextMenu={(e) => e.preventDefault()}
                             />
                             <IoIosPlayCircle
                               style={{
@@ -1640,28 +1606,38 @@ const ProductDetail = () => {
               ) : (
                 <>
                   {!maxWidth1000 && (
-                    <>{loadingdata || pdLoadImage ? (
+                    <>{loadingdata || pdLoadImage || selectedThumbImg?.link?.imageUrl == "" ? (
                       <Skeleton className='elv_prod_det_default_thumb' variant="square" />
                     ) : (
                       <div className='elv_ProductDet_prod_img_list'>
                         {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
-                          pdThumbImg?.map((ele, i) => (
-                            <img
-                              src={ele}
-                              alt={""}
-                              loading="eager"
-                              onLoad={() => setIsImageLoad(false)}
-                              className='elv_ProductDet_image'
-                              onClick={() => {
-                                setSelectedThumbImg({
-                                  link: ele.replace('Design_Thumb/', ''),
-                                  type: "img",
-                                });
-                                setThumbImgIndex(i);
-                              }}
-                              onError={handleError}
-                            />
-                          ))}
+                          pdThumbImg?.map((ele, i) => {
+                            const firstHalf = ele?.thumbImageUrl?.split("/Design_Thumb")[0];
+                            const secondhalf = ele?.thumbImageUrl?.split("/Design_Thumb")[1]?.split('.')[0];
+                            return (
+                              <img
+                                src={ele?.thumbImageUrl}
+                                alt={""}
+                                loading="eager"
+                                onLoad={() => setIsImageLoad(false)}
+                                className='elv_ProductDet_image'
+                                onClick={() => {
+                                  setSelectedThumbImg({
+                                    // link: ele.replace('Design_Thumb/', ''),
+                                    link: {
+                                      "imageUrl": `${firstHalf}${secondhalf}.${ele?.originalImageExtension}`,
+                                      "extension": `${ele?.originalImageExtension}`
+                                    },
+                                    type: "img",
+                                  });
+                                  setThumbImgIndex(i);
+                                }}
+                                onError={handleError}
+                                draggable={false}
+                                onContextMenu={(e) => e.preventDefault()}
+                              />
+                            )
+                          })}
                         {filteredVideos?.map((data) => (
                           <div
                             style={{
@@ -1671,7 +1647,14 @@ const ProductDetail = () => {
                               alignItems: "center",
                             }}
                             onClick={() =>
-                              setSelectedThumbImg({ link: data, type: "vid" })
+                              // setSelectedThumbImg({ link: data, type: "vid" })
+                              setSelectedThumbImg({
+                                link: {
+                                  "imageUrl": data,
+                                  "extension": "mp4"
+                                },
+                                type: 'vid'
+                              })
                             }
                           >
                             <video
@@ -1681,6 +1664,8 @@ const ProductDetail = () => {
                               onError={handleVideoError}
                               // className="elv_prod_thumb_img"
                               style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
+                              draggable={false}
+                              onContextMenu={(e) => e.preventDefault()}
                             />
                             <IoIosPlayCircle
                               style={{
@@ -1696,7 +1681,7 @@ const ProductDetail = () => {
                         ))}
                       </div>
                     )}
-                      {loadingdata || pdLoadImage ? (
+                      {loadingdata || pdLoadImage || selectedThumbImg?.link?.imageUrl == "" ? (
                         <Skeleton className='elv_prod_det_default' variant="rectangular" />
                       ) : (
                         <>
@@ -1721,15 +1706,19 @@ const ProductDetail = () => {
                                   alt=""
                                   onLoad={() => setIsImageLoad(false)}
                                   className={`elv_ProductDet_prod_image`}
+                                  draggable={false}
+                                  onContextMenu={(e) => e.preventDefault()}
                                 />
                               ) : (
                                 <video
-                                  src={pdVideoArr.length > 0 ? selectedThumbImg.link : imageNotFound}
+                                  src={pdVideoArr.length > 0 ? selectedThumbImg.link?.imageUrl : imageNotFound}
                                   loop
                                   autoPlay
                                   playsInline
                                   loading="eager"
                                   muted
+                                  draggable={false}
+                                  onContextMenu={(e) => e.preventDefault()}
                                   style={{
                                     width: "100%",
                                     objectFit: "cover",
@@ -1748,6 +1737,8 @@ const ProductDetail = () => {
                                   e.target.onerror = null;
                                   e.target.src = noImageFound;
                                 }}
+                                draggable={false}
+                                onContextMenu={(e) => e.preventDefault()}
                                 alt=""
                                 loading="eager"
                                 className={`elv_ProductDet_prod_image`}
@@ -1764,7 +1755,7 @@ const ProductDetail = () => {
               {maxWidth1000 ? (
                 <>
                   <div className='elv_ProductDet_max1000'>
-                    {loadingdata || pdLoadImage ? (
+                    {loadingdata || pdLoadImage || selectedThumbImg?.link?.imageUrl == "" ? (
                       <Skeleton className='elv_prod_det_default_max1000' variant="rectangular" />
                     ) : (
                       <>
@@ -1791,11 +1782,13 @@ const ProductDetail = () => {
                                   alt={""}
                                   onLoad={() => setIsImageLoad(false)}
                                   className="elv_ProductDet_prod_image_max1000"
+                                  draggable={false}
+                                  onContextMenu={(e) => e.preventDefault()}
                                 />
                               ) : (
                                 <div>
                                   <video
-                                    src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                                    src={pdVideoArr?.length > 0 ? selectedThumbImg?.link?.imageUrl : imageNotFound}
                                     loop
                                     autoPlay
                                     playsInline
@@ -1808,6 +1801,8 @@ const ProductDetail = () => {
                                       maxHeight: "40.625rem",
                                       borderRadius: "8px",
                                     }}
+                                    draggable={false}
+                                    onContextMenu={(e) => e.preventDefault()}
                                     onError={handleVideoError}
                                   />
                                 </div>
@@ -1823,6 +1818,8 @@ const ProductDetail = () => {
                                 alt={""}
                                 loading="eager"
                                 className="elv_ProductDet_prod_image_max1000"
+                                draggable={false}
+                                onContextMenu={(e) => e.preventDefault()}
                               />
                               // )
                             )
@@ -1830,23 +1827,33 @@ const ProductDetail = () => {
                           </div>
                           <div className='elv_ProductDet_prod_img_list_max1000'>
                             {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
-                              pdThumbImg?.map((ele, i) => (
-                                <img
-                                  src={ele}
-                                  alt={""}
-                                  onLoad={() => setIsImageLoad(false)}
-                                  className='elv_ProductDet_image_max1000'
-                                  onClick={() => {
-                                    setSelectedThumbImg({
-                                      link: ele,
-                                      type: "img",
-                                    });
-                                    setThumbImgIndex(i);
-                                  }}
-                                  loading="eager"
-                                  onError={handleError}
-                                />
-                              ))}
+                              pdThumbImg?.map((ele, i) => {
+                                const firstHalf = ele?.thumbImageUrl?.split("/Design_Thumb")[0];
+                                const secondhalf = ele?.thumbImageUrl?.split("/Design_Thumb")[1]?.split('.')[0];
+                                return (
+                                  <img
+                                    src={ele?.thumbImageUrl}
+                                    alt={""}
+                                    onLoad={() => setIsImageLoad(false)}
+                                    className='elv_ProductDet_image_max1000'
+                                    onClick={() => {
+                                      setSelectedThumbImg({
+                                        // link: ele.replace('Design_Thumb/', ''),
+                                        link: {
+                                          "imageUrl": `${firstHalf}${secondhalf}.${ele?.originalImageExtension}`,
+                                          "extension": `${ele?.originalImageExtension}`
+                                        },
+                                        type: "img",
+                                      });
+                                      setThumbImgIndex(i);
+                                    }}
+                                    loading="eager"
+                                    onError={handleError}
+                                    draggable={false}
+                                    onContextMenu={(e) => e.preventDefault()}
+                                  />
+                                )
+                              })}
                             {filteredVideos?.map((data) => (
                               <div
                                 style={{
@@ -1856,7 +1863,14 @@ const ProductDetail = () => {
                                   alignItems: "center",
                                 }}
                                 onClick={() =>
-                                  setSelectedThumbImg({ link: data, type: "vid" })
+                                  // setSelectedThumbImg({ link: data, type: "vid" })
+                                  setSelectedThumbImg({
+                                    link: {
+                                      "imageUrl": data,
+                                      "extension": "mp4"
+                                    },
+                                    type: 'vid'
+                                  })
                                 }
                               >
                                 <video
@@ -1866,6 +1880,8 @@ const ProductDetail = () => {
                                   onError={handleVideoError}
                                   className="elv_ProductDet_image_max1000"
                                   style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
+                                  draggable={false}
+                                  onContextMenu={(e) => e.preventDefault()}
                                 />
                                 <IoIosPlayCircle
                                   style={{

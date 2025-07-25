@@ -722,6 +722,8 @@ const SalesReport = () => {
                   minHeight: "114px",
                   maxHeight: "114px",
                 }}
+                draggable={true}
+                onContextMenu={(e) => e.preventDefault()}
               />
             )}
           </Box>

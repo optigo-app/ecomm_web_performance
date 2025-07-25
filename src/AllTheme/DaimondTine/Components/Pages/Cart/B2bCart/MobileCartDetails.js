@@ -59,6 +59,8 @@ const MobileCartDetails = ({
 
   const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
   const fullImagePath = `${CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`;
+  const CDNDesignImageFol = storeInitData?.CDNDesignImageFol;
+  const fullImagePath1 = `${CDNDesignImageFol}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`;
 
   const isLoading = selectedItem?.loading;
 
@@ -79,6 +81,31 @@ const MobileCartDetails = ({
   //   }
   // }, [selectedItem]);
 
+  const defaultUrl = selectedItem?.images?.replace("/Design_Thumb", "");
+  const firstPart = defaultUrl?.split(".")[0]
+  const secondPart = selectedItem?.ImageExtension;
+  const finalSelectedUrl = `${firstPart}.${secondPart}`;
+
+  const [imgSrc, setImgSrc] = useState('');
+
+  useEffect(() => {
+    let imageURL = selectedItem?.images
+      ? finalSelectedUrl
+      : selectedItem?.ImageCount > 1
+        ? `${storeInitData?.CDNDesignImageFol}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.${selectedItem?.ImageExtension}`
+        : `${storeInitData?.CDNDesignImageFol}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`;
+
+    const img = new Image();
+    img.onload = () => setImgSrc(imageURL);
+    img.onerror = () => {
+      if (selectedItem?.ImageCount > 0) {
+        setImgSrc(fullImagePath1 || noImageFound);
+      } else {
+        setImgSrc(noImageFound);
+      }
+    };
+    img.src = imageURL;
+  }, [selectedItem, storeInitData, finalSelectedUrl]);
 
   return (
     <Modal open={open} onClose={handleClose} className="dtMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
@@ -111,10 +138,11 @@ const MobileCartDetails = ({
             </CardMedia>
           ) : (
             <img
-              src={selectedItem?.images ? selectedItem?.images :
-                selectedItem?.ImageCount > 1 ? `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.jpg` :
-                  `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`
-              }
+              // src={selectedItem?.images ? selectedItem?.images :
+              //   selectedItem?.ImageCount > 1 ? `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.jpg` :
+              //     `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`
+              // }
+              src={imgSrc}
               alt=" "
               className='dtMo_cartImage'
               onClick={() => handleMoveToDetail(selectedItem)}
@@ -125,14 +153,14 @@ const MobileCartDetails = ({
                 '&:focus': { outline: 'none' },
                 '&:active': { outline: 'none' },
               }}
-              loading="lazy"
-              onError={(e) => {
-                if (selectedItem?.ImageCount > 0) {
-                  e.target.src = fullImagePath ? fullImagePath : noImageFound
-                } else {
-                  e.target.src = noImageFound;
-                }
-              }}
+              loading="eager"
+              // onError={(e) => {
+              //   if (selectedItem?.ImageCount > 0) {
+              //     e.target.src = fullImagePath ? fullImagePath : noImageFound
+              //   } else {
+              //     e.target.src = noImageFound;
+              //   }
+              // }}
             />
           )}
         </div>

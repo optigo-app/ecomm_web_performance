@@ -59,28 +59,37 @@ const TopSection = ({ data }) => {
     setVideoStarted(true);
   };
   return (
-    <div className="roop_topVideoMain" role="region" aria-labelledby="top-video-banner">
+    <div className="roop_topVideoMain" role="region" aria-labelledby="top-video-banner" onContextMenu={(e) => e.preventDefault()}>
       <div className="rp_main_slider">
         {/* for vara */}
         {/* <Slider {...settings} ref={slider}>
           {isMobile
             ? data?.image?.slice(0, 3).map((val, i) => (
               <div className="slide" key={i}>
-                <LazyImage src={val} alt={`top-section-banner-${i}`} />
+                <LazyImage src={val} alt={`top-section-banner-${i}`}
+                 draggable={true}
+            onContextMenu={(e) => e.preventDefault()}
+                />
               </div>
             ))
             : data?.image?.slice(0, 3).map((val, i) => (
               <div className="slide" key={i}>
-                <LazyImage src={val} alt={`top-section-banner-${i}`} />
+                <LazyImage src={val} alt={`top-section-banner-${i}`}
+                 draggable={true}
+            onContextMenu={(e) => e.preventDefault()}
+                />
               </div>
             ))}
         </Slider> */}
 
 
         {/* for shinjini */}
-        {/* < div className="slide">
-          <img src={`${storImagePath()}/images/HomePage/TopSection/home1.jpg`} alt={"TopBanner"} />
-        </div> */}
+        < div className="slide">
+          <img src={`${storImagePath()}/images/HomePage/TopSection/home1.jpg`} alt={"TopBanner"}
+            draggable={true}
+            onContextMenu={(e) => e.preventDefault()}
+          />
+        </div>
 
         {/* Sonasons */}
         {/* <video
@@ -95,6 +104,8 @@ const TopSection = ({ data }) => {
           onPlay={handleVideoPlay}
         >
           <source
+           draggable={true}
+            onContextMenu={(e) => e.preventDefault()}
             src={`${storImagePath()}/images/HomePage/TopSection/topVideo.mp4`}
             type="video/mp4"
           />
@@ -102,16 +113,27 @@ const TopSection = ({ data }) => {
 
         {/* {localData?.Blockno === 3 && ( */}
         {/* for sonasons, ojasvi */}
-        <div id="top-banner-image-rp">
+        {/* <div id="top-banner-image-rp">
           <img
-            src={data?.image[3]}
+            src={`${storImagePath()}/Banner/Homepagemainbanner4.png`} // Fallback image
+            srcSet={`
+                  ${storImagePath()}/Banner/home-image-400.webp 400w,
+                  ${storImagePath()}/Banner/home-image-800.webp 800w,
+                  ${storImagePath()}/Banner/home-image-1200.webp 1200w
+              `}
+            sizes={`
+                  (max-width: 480px) 100vw,
+                  (max-width: 1024px) 90vw,
+                  (max-width: 1500px) 80vw,
+                  70vw
+              `}
+               draggable={true}
+            onContextMenu={(e) => e.preventDefault()}
             alt=" "
             className="top-banner-img"
             loading="lazy"
-            width="1200"
-            height="600"
           />
-        </div>
+        </div> */}
 
         {/* for pacific */}
         {/* <div id="top-banner-image-rp">
@@ -120,6 +142,8 @@ const TopSection = ({ data }) => {
             src={data?.image[4]}
             alt="Top banner image showcasing our latest promotions"
             style={{ width: "100%" }}
+             draggable={true}
+            onContextMenu={(e) => e.preventDefault()}
           />
         </div> */}
 
@@ -161,6 +185,8 @@ const LazyImage = ({ src, alt, className }) => {
       alt={alt}
       className={className}
       loading="lazy"
+      draggable={true}
+      onContextMenu={(e) => e.preventDefault()}
     />
   );
 };

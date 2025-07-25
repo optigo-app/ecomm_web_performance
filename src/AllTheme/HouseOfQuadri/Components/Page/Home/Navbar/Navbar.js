@@ -40,6 +40,7 @@ import TemporaryDrawer from "./MobileNavbar";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import axios from "axios";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import useGlobalPreventSave from "../../../../../../utils/Glob_Functions/useGlobalPreventSave";
 
 const DeskTopLogo = `${storImagePath()}/logoIcon/webLogo.png`;
 const MobileLogoNew = `${storImagePath()}/logoIcon/mobileLogo.png`;
@@ -81,6 +82,8 @@ const Navbar = () => {
   useEffect(() => {
     sessionStorage.setItem("isCart_hOQ", cartCountNum);
   }, [cartCountNum]);
+
+  useGlobalPreventSave();
 
   // useEffect(()=>{
   //  (async function () {
@@ -422,14 +425,16 @@ const Navbar = () => {
   // }, [islogin]);
 
   useEffect(() => {
-    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
-    let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
+    const storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
+
     if (
       storeinit?.IsB2BWebsite === 0 ||
-      (storeinit?.IsB2BWebsite === 1 && isUserLogin === true)) {
+      (storeinit?.IsB2BWebsite === 1 && isUserLogin === true)
+    ) {
       getMenuApi();
     }
-  }, [islogin]);
+  }, []);
 
   return (
     <>
@@ -438,6 +443,8 @@ const Navbar = () => {
           }
       ${!isNavbarSticky ? "isScrollTop" : ""}
       `}
+        draggable={true}
+        onContextMenu={(e) => e.preventDefault()}
       >
         {/* <div className="nav_top_head">
           <span className="contact_icon">
@@ -577,23 +584,31 @@ const Navbar = () => {
               <div className="hamburger_hoq_m">
                 <Tooltip title="Search">
                   <div>
-                  <HiMenuAlt1
-                    className="search_icon_hoq"
-                    onClick={() => setisMobileMenu(!isMobileMenu)}
-                    color="#9c9c9cea"
+                    <HiMenuAlt1
+                      className="search_icon_hoq"
+                      onClick={() => setisMobileMenu(!isMobileMenu)}
+                      color="#9c9c9cea"
                     />
-                    </div>
+                  </div>
                 </Tooltip>
               </div>
             </div>
-            <div className="logo">
-              <Link to={"/"}>
+            <div className="logo"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+            >
+              <Link to={"/"}
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              >
                 <img
                   src={is500px ? MobileLogoNew : DeskTopLogo}
                   alt=""
                   onClick={() =>
                     window.scrollTo({ behavior: "smooth", top: 0, left: 0 })
                   }
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </Link>
             </div>
@@ -1190,14 +1205,21 @@ const NavbarCenter = ({
             //   marginTop: islogin ? "10px" : "30px",
             marginBottom: islogin ? "" : "-10px",
           }}
+          draggable={false}
+          onContextMenu={(e) => e.preventDefault()}
         >
-          <Link to={"/"}>
+          <Link to={"/"}
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
+          >
             <img
               src={logo}
               alt=""
               onClick={() =>
                 window.scrollTo({ behavior: "smooth", top: 0, left: 0 })
               }
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
             />
           </Link>
         </div>

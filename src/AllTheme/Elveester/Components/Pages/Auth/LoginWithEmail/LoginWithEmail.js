@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import './LoginWithEmail.modul.scss'
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import { ForgotPasswordEmailAPI } from '../../../../../../utils/API/Auth/ForgotPasswordEmailAPI';
@@ -20,11 +20,11 @@ export default function LoginWithEmail() {
     const location = useLocation();
     const [islogin, setIsLoginState] = useRecoilState(el_loginState)
     const search = location?.search
-    const updatedSearch = search.replace('?LoginRedirect=', '');
+    const replaceLink = search.replace('?LoginRedirect=', '');
+    const updatedSearch = replaceLink?.replace('?/', '')
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+    console.log("TCL: LoginWithEmail -> redirectEmailUrl", redirectEmailUrl)
     const cancelRedireactUrl = `/LoginOption/${search}`;
-
-
 
     useEffect(() => {
         const storedEmail = location.state?.email;;

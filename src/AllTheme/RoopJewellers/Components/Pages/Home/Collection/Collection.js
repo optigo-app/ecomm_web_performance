@@ -97,10 +97,10 @@ function Collection() {
       <p className='roop_whyshop_title'>
 
         {/* For Shinjini */}
-        {/* Why shop with Shinjini? */}
+        Why shop with Shinjini Jewels?
 
         {/* For Sonasons */}
-        Why Shop With Sonasons?
+        {/* Why Shop With Sonasons? */}
 
         {/* For Vara */}
         {/* Why shop with Vara? */}

@@ -171,7 +171,7 @@ function JewellerySet() {
           }}
         />
         :
-        <div className="roop_jewlSet_Main" role="region" aria-labelledby="album-gallery" >
+        <div className="roop_jewlSet_Main" role="region" aria-labelledby="album-gallery" onContextMenu={(e) => e.preventDefault()}>
           {/* <p className="roop_jewl_title">Discover our carefully curated Jewellery Album</p> */}
           <p className="roop_jewl_title" id="album-gallery">Album</p>
 
@@ -213,6 +213,8 @@ function JewellerySet() {
                       onError={(e) => {
                         e.target.src = imageNotFound
                       }}
+                      draggable={true}
+                      onContextMenu={(e) => e.preventDefault()}
                       alt={item?.name ?? 'Jewellery Item'}  // Ensure alt text is descriptive
                       onClick={() => handleNavigate(item)}
                       aria-label={`Navigate to details of ${item?.name}`}  // Accessibility for clicking

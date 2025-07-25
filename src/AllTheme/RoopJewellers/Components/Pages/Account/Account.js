@@ -20,6 +20,7 @@ import Cookies from 'js-cookie';
 import NewOrderHistory from './AccountOrderHistory/NewOrderHistory';
 import { roop_loginState } from '../../Recoil/atom';
 import { handleScrollTop } from '../../../../../utils/Glob_Functions/GlobalFunction';
+import useGlobalPreventSave from '../../../../../utils/Glob_Functions/useGlobalPreventSave';
 
 
 function CustomTabPanel(props) {
@@ -107,6 +108,8 @@ export default function Account() {
         };
     }, []);
 
+    useGlobalPreventSave();
+
     // const handleLogout = () => {
     //     setIsLoginState('false')
     //     sessionStorage.setItem('LoginUser', 'false');
@@ -148,7 +151,7 @@ export default function Account() {
      },[])
 
     return (
-        <div className='accountTab_Account_RPJ' ref={componentRef}>
+        <div className='accountTab_Account_RPJ' ref={componentRef} onContextMenu={(e) => e.preventDefault()}>
             <div className='accountPagTabSection'>
                 <div>
                     <div className='Smiling-AccountMain'>

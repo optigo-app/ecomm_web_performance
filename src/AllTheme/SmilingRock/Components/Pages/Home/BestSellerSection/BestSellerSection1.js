@@ -270,7 +270,7 @@ const ProductGrid = ({ data }) => {
     }
 
     return (
-        <div ref={bestSallerRef}>
+        <div ref={bestSallerRef} onContextMenu={(e) => { e.preventDefault() }}>
             <div>
                 {bestSellerData?.length != 0 &&
                     <div className='smr_mainBestSeler1Div' >
@@ -303,6 +303,8 @@ const ProductGrid = ({ data }) => {
                                                 id={`product-${index}`}
                                                 ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                                 alt={data.name}
+                                                draggable={true}
+                                                onContextMenu={(e) => e.preventDefault()}
                                                 onError={(e) => {
                                                     e.target.src = imageNotFound;
                                                 }}
@@ -358,7 +360,10 @@ const ProductGrid = ({ data }) => {
                             <div className='smr_rightSideBestSeler'>
                                 {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" /> */}
                                 {/* <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.png`} alt="modalimages" /> */}
-                                <img src={data?.image[0]} alt="modalimages" />
+                                <img src={data?.image[0]} alt="modalimages"
+                                    draggable={true}
+                                    onContextMenu={(e) => e.preventDefault()}
+                                />
                                 <div className="smr_lookbookImageRightDT">
                                     {/*    not need for maiora  */}
                                     {/* <p>SHORESIDE COLLECTION</p>

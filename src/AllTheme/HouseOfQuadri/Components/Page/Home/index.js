@@ -19,12 +19,12 @@ const HomePage = () => {
   const data = JSON.parse(sessionStorage.getItem("storeInit"));
   const banners = useHomeBannerImages();
 
-  useEffect(() => {
-    window.scrollTo({
-      behavior: "smooth",
-      top: 0,
-    });
-  }, []);
+  // useEffect(() => {
+  //   window.scrollTo({
+  //     behavior: "smooth",
+  //     top: 0,
+  //   });
+  // }, []);
 
   return (
     <div className="hoq_main_homepage">

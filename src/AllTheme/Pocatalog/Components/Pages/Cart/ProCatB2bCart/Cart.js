@@ -104,7 +104,7 @@ const CartPage = () => {
   const redirectUrl = `/loginOption/?LoginRedirect=/cartPage`;
   const handlePlaceOrder = () => {
     let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-    let priceData = cartData?.reduce(
+    let priceData = finalCartData?.reduce(
       (total, item) => total + item?.FinalCost,
       0
     );
@@ -113,7 +113,7 @@ const CartPage = () => {
       navigate(redirectUrl);
       // navigate('/loginOption')
     } else {
-      navigate("/Delivery",{replace  :true});
+      navigate("/Delivery", { replace: true });
     }
     window.scrollTo(0, 0);
   };
@@ -172,13 +172,13 @@ const CartPage = () => {
   const handlePay = async () => {
     const visiterId = Cookies.get('visiterId');
     const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-    
+
     if (paymentResponse?.Data?.rd[0]?.stat == 1) {
       let num = paymentResponse.Data?.rd[0]?.orderno
       sessionStorage.setItem('orderNumber', num);
       navigate('/Confirmation');
       GetCountAPI().then((res) => {
-        
+
         setCartCountVal(res?.cartcount)
       })
 
@@ -195,7 +195,7 @@ const CartPage = () => {
             <div className="proCat_cart-title">My Cart</div>
           }
           <div className='proCat_cartmainRowDiv'>
-            {!isloding && cartData?.length != 0 &&
+            {!isloding && finalCartData?.length != 0 &&
               <div className='proCat_cartButton-groups'>
                 <Link
                   className='proCat_ReomoveAllCartbtn'
@@ -209,14 +209,14 @@ const CartPage = () => {
             {!isMobileScreen &&
               <div className="proCat_cart-title">My Cart</div>
             }
-            {!isloding && cartData.length != 0 &&
+            {!isloding && finalCartData.length != 0 &&
               <div className='proCat_placeOrderMainbtnDivs'>
-                <button className="proCat_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
+                <button className="proCat_place-order-btn btnColorProCatProduct" onClick={handlePlaceOrder}>Place Order</button>
               </div>
             }
           </div>
 
-          {/* {!isloding && cartData.length != 0 &&
+          {/* {!isloding && finalCartData.length != 0 &&
             <>
               <div className="proCat_cartButton-group">
                 <button className="proCat_cartBtn proCat_cartActivebtn">List View</button>
@@ -274,11 +274,11 @@ const CartPage = () => {
                 />
               }
             </div>
-            {cartData.length != 0 ? (
+            {finalCartData.length != 0 ? (
               <div className="proCat_cartMainPage">
                 <div className="proCat_cart-left-sides">
                   <CartList
-                    items={cartData}
+                    items={finalCartData}
                     CartCardImageFunc={CartCardImageFunc}
                     showRemark={showRemark}
                     productRemark={productRemark}

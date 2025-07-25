@@ -168,7 +168,7 @@ const TopSection = ({ data, obj: mediaData }) => {
   const bestVideoSource = videoSources.find(({ media }) => window.matchMedia(media).matches)?.src;
 
   return (
-    <div className="stam_topVideoMain" style={{ minHeight: "550px" }}>
+    <div className="stam_topVideoMain" style={{ minHeight: "550px" }} onContextMenu={(e) => e.preventDefault()}>
       {/* <div>
         <label htmlFor="extension-dropdown">Select Image Type: </label>
         <select
@@ -216,6 +216,8 @@ const TopSection = ({ data, obj: mediaData }) => {
             width: '100%', height: 'auto',
             aspectRatio: '16/8.45'
           }}
+          draggable={true}
+          onContextMenu={(e) => e.preventDefault()}
         />
       )}
 
@@ -228,6 +230,8 @@ const TopSection = ({ data, obj: mediaData }) => {
         style={{ width: '100%', height: 'auto', aspectRatio: '16/8.45' }}
         src={bestVideoSource}
         onPlay={handleVideoPlay}
+        draggable={true}
+        onContextMenu={(e) => e.preventDefault()}
         onCanPlay={handleCanPlay} // Fires when the video is ready to start playing
       >
         Your browser does not support the video tag.

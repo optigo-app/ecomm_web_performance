@@ -28,35 +28,35 @@ const Album = () => {
     `${storImagePath()}/images/album-static/4.png`
   ]
 
-  useEffect(() => {
-    setLoadingHome(true);
-    let data = JSON?.parse(sessionStorage.getItem("storeInit"));
-    setStoreInit(data);
-    setImageUrl(data?.AlbumImageFol);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            apiCall();
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        root: null,
-        threshold: 0.5,
-      }
-    );
+  // useEffect(() => {
+  //   setLoadingHome(true);
+  //   let data = JSON?.parse(sessionStorage.getItem("storeInit"));
+  //   setStoreInit(data);
+  //   setImageUrl(data?.AlbumImageFol);
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting) {
+  //           apiCall();
+  //           observer.unobserve(entry.target);
+  //         }
+  //       });
+  //     },
+  //     {
+  //       root: null,
+  //       threshold: 0.5,
+  //     }
+  //   );
 
-    if (albumRef.current) {
-      observer.observe(albumRef.current);
-    }
-    return () => {
-      if (albumRef.current) {
-        observer.unobserve(albumRef.current);
-      }
-    };
-  }, []);
+  //   if (albumRef.current) {
+  //     observer.observe(albumRef.current);
+  //   }
+  //   return () => {
+  //     if (albumRef.current) {
+  //       observer.unobserve(albumRef.current);
+  //     }
+  //   };
+  // }, []);
 
   const apiCall = () => {
     setLoading(true);
@@ -83,6 +83,10 @@ const Album = () => {
         setLoading(false);
       })
   }
+
+  useEffect(() => {
+    apiCall();
+  }, [])
 
   const checkImageAvailability = (url) => {
     return new Promise((resolve) => {

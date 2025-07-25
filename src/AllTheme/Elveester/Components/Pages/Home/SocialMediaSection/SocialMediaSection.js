@@ -10,22 +10,22 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 const sliderData = [
   {
     imageUrl: "/images/HomePage/SocialMedia/socialMedia1.jpg",
-    link: 'https://www.instagram.com/p/Ce7uShwlDBi/?hl=en',
+    link: 'https://www.instagram.com/p/DLFavolo8AL/?hl=en',
     icon: `${storImagePath()}/images/HomePage/SocialLinks/instagram.png`
   },
   {
     imageUrl: "/images/HomePage/SocialMedia/socialMedia2.jpg",
-    link: 'https://in.pinterest.com/pin/706854104032666402/',
+    link: 'https://in.pinterest.com/pin/706854104054503002/',
     icon: `${storImagePath()}/images/HomePage/SocialLinks/pinterest.png`
   },
   {
     imageUrl: "/images/HomePage/SocialMedia/socialMedia3.jpg",
-    link: 'https://www.facebook.com/photo/?fbid=5153569661402827&set=a.1321180487975116',
+    link: 'https://www.facebook.com/photo?fbid=1106048178220743&set=a.555547953270771',
     icon: `${storImagePath()}/images/HomePage/SocialLinks/facebook.png`
   },
   {
     imageUrl: "/images/HomePage/SocialMedia/socialMedia4.jpg",
-    link: 'https://www.linkedin.com/feed/update/urn:li:share:7118470948286009344/?actorCompanyId=31187751',
+    link: 'https://www.linkedin.com/company/31187751/admin/page-posts/published/',
     icon: `${storImagePath()}/images/HomePage/SocialLinks/linkedin.png`
   },
 ];

@@ -33,8 +33,8 @@ export default function Register() {
   const search = location?.search
   const updatedSearch = search.replace('?LoginRedirect=', '');
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-  const cancelRedireactUrl = `/LoginOption/${search}`;
-  const singupRedirectUrl = `/LoginOption/${search}`;
+  const cancelRedireactUrl = `/LoginOption${search}`;
+  const singupRedirectUrl = `/LoginOption${search}`;
 
   const setIsLoginState = useSetRecoilState(el_loginState)
 
@@ -243,10 +243,10 @@ export default function Register() {
               className='AuthScreenMainTitle'
             >Register</p>
 
-            <form noValidate 
-            onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <form noValidate
+              onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <TextField
-               name="user-firstName"
+                name="user-firstName"
                 autoFocus
                 id="outlined-basic firstName"
                 label="First Name"
@@ -263,8 +263,8 @@ export default function Register() {
               />
 
               <TextField
-                 name="user-lastName"
-              id="outlined-basic lastName"
+                name="user-lastName"
+                id="outlined-basic lastName"
                 label="Last Name"
                 variant="outlined"
                 className='labgrowRegister'
@@ -279,8 +279,8 @@ export default function Register() {
               />
 
               <TextField
-                 name="user-mobileNo"
-              id="outlined-basic mobileNo"
+                name="user-mobileNo"
+                id="outlined-basic mobileNo"
                 label="Mobile No."
                 variant="outlined"
                 className='labgrowRegister'
@@ -295,8 +295,8 @@ export default function Register() {
               />
 
               <TextField
-                  name="user-email"
-              id="outlined-basic email"
+                name="user-email"
+                id="outlined-basic email"
                 label="Email"
                 autoComplete="ne-Email"
                 variant="outlined"
@@ -311,7 +311,7 @@ export default function Register() {
               />
 
               <TextField
-                id="outlined-password-input"               name="user-password"
+                id="outlined-password-input" name="user-password"
 
                 label="Password"
                 autoComplete="enter-NewPass-Word-12"
@@ -341,7 +341,7 @@ export default function Register() {
               />
 
               <TextField
-                            name="user-confirmPassword"
+                name="user-confirmPassword"
 
                 id="outlined-confirm-password-input Pass12"
                 label="Confirm Password"

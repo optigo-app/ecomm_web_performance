@@ -21,7 +21,7 @@ const ReviewTab = () => {
     }
   };
   return (
-    <div className="hoq_main_ReviewTab">
+    <div className="hoq_main_ReviewTab" onContextMenu={(e) => e.preventDefault()}>
       <div className="header">
         <h1>1000+ Customers have trusted Lorem Ipusm</h1>
       </div>
@@ -95,7 +95,10 @@ const ReviewTab = () => {
               <div key={index} className="review_card">
                 <div className="r_card">
                   <div className="user_info_">
-                    <img src={img} alt={`${user}'s profile`} />
+                    <img src={img} alt={`${user}'s profile`}
+                      draggable={true}
+                      onContextMenu={(e) => e.preventDefault()}
+                    />
                     <span>{user}</span>
                   </div>
                   <div className="star">
@@ -111,9 +114,8 @@ const ReviewTab = () => {
                     <p>
                       {isExpanded
                         ? reviewText.trim()
-                        : `${reviewText.trim().slice(0, 60)}${
-                            isLongReview ? "..." : ""
-                          }`}
+                        : `${reviewText.trim().slice(0, 60)}${isLongReview ? "..." : ""
+                        }`}
                     </p>
                     {isLongReview && (
                       <small

@@ -23,6 +23,7 @@ const TrendingView1 = ({ data }) => {
     const [ring4ImageChange, setRing4ImageChange] = useState(false);
     const navigation = useNavigate();
     const [storeInit, setStoreInit] = useState({});
+    const productRefs = useRef({});
 
     const [oddNumberObjects, setOddNumberObjects] = useState([]);
     const [evenNumberObjects, setEvenNumberObjects] = useState([]);
@@ -42,33 +43,33 @@ const TrendingView1 = ({ data }) => {
         // nextArrow: false,
     };
 
-    useEffect(() => {
-        setLoadingHome(true);
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        callAPI();
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            {
-                root: null,
-                threshold: 0.5,
-            }
-        );
+    // useEffect(() => {
+    //     setLoadingHome(true);
+    //     const observer = new IntersectionObserver(
+    //         (entries) => {
+    //             entries.forEach((entry) => {
+    //                 if (entry.isIntersecting) {
+    //                     callAPI();
+    //                     observer.unobserve(entry.target);
+    //                 }
+    //             });
+    //         },
+    //         {
+    //             root: null,
+    //             threshold: 0.5,
+    //         }
+    //     );
 
-        if (trendingRef.current) {
-            observer.observe(trendingRef.current);
-        }
-        return () => {
-            if (trendingRef.current) {
-                observer.unobserve(trendingRef.current);
-            }
-        };
+    //     if (trendingRef.current) {
+    //         observer.observe(trendingRef.current);
+    //     }
+    //     return () => {
+    //         if (trendingRef.current) {
+    //             observer.unobserve(trendingRef.current);
+    //         }
+    //     };
 
-    }, [])
+    // }, [])
 
     const callAPI = () => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -103,6 +104,10 @@ const TrendingView1 = ({ data }) => {
         }).catch((err) => console.log(err))
     }
 
+    useEffect(() => {
+        callAPI();
+    }, [])
+
     const ProdCardImageFunc = (pd) => {
         let finalprodListimg;
         if (pd?.ImageCount > 0) {
@@ -125,7 +130,7 @@ const TrendingView1 = ({ data }) => {
         }
     };
 
-    const handleNavigation = (designNo, autoCode, titleLine) => {
+    const handleNavigation = (designNo, autoCode, titleLine, index) => {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit')) ?? "";
         const { IsB2BWebsite } = storeInit;
         GoogleAnalytics.event({
@@ -142,10 +147,36 @@ const TrendingView1 = ({ data }) => {
             c: loginUserDetail?.cmboCSQCid,
             f: {}
         }
+        sessionStorage.setItem('scrollToProduct4', `product-${index}`);
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     }
+
+    useEffect(() => {
+        const scrollDataStr = sessionStorage.getItem('scrollToProduct4');
+        if (!scrollDataStr) return;
+
+        const maxRetries = 10;
+        let retries = 0;
+
+        const tryScroll = () => {
+            const el = productRefs.current[scrollDataStr];
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+                sessionStorage.removeItem('scrollToProduct4');
+            } else if (retries < maxRetries) {
+                retries++;
+                setTimeout(tryScroll, 200); // retry until ref is ready
+            }
+        };
+
+        tryScroll();
+
+    }, [trandingViewData]);
 
     const decodeEntities = (html) => {
         var txt = document.createElement("textarea");
@@ -159,7 +190,7 @@ const TrendingView1 = ({ data }) => {
     }
 
     return (
-        <div ref={trendingRef}>
+        <div ref={trendingRef} onContextMenu={(e) => e.preventDefault()}>
             {trandingViewData?.length != 0 &&
                 <div className='dt_mainTrending1Div'>
                     <div className='smr_trending1TitleDiv'>
@@ -169,7 +200,10 @@ const TrendingView1 = ({ data }) => {
                         <div className='smr_leftSideBestTR'>
                             {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/web-210128-BW-PF21_S219259.jpg?v=1646112530&width=2000" alt="modalimages" /> */}
                             {/* <img src={`${storImagePath()}/images/HomePage/Banner/trending.webp`} alt="modalimages" /> */}
-                            <img src={data?.image?.[0]} alt="modalimages" />
+                            <img src={data?.image?.[0]} alt="modalimages"
+                                onContextMenu={(e) => e.preventDefault()}
+                                draggable={true}
+                            />
 
                             <div className="smr_lookbookImageRightDT">
                                 <p>SHORESIDE COLLECTION</p>
@@ -180,7 +214,7 @@ const TrendingView1 = ({ data }) => {
                         <div className='smr_rightSideTR'>
                             {trandingViewData?.slice(0, 4).map((data, index) => (
                                 <div key={index} className="product-card">
-                                    <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
+                                    <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine, index)}>
                                         <img
                                             src={data?.ImageCount >= 1 ?
                                                 // `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
@@ -188,10 +222,14 @@ const TrendingView1 = ({ data }) => {
                                                 :
                                                 imageNotFound
                                             }
+                                            id={`product-${index}`}
+                                            ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                             alt={data.name}
                                             onError={(e) => {
                                                 e.target.src = imageNotFound;
                                             }}
+                                            onContextMenu={(e) => e.preventDefault()}
+                                            draggable={false}
                                         />
                                     </div>
                                     <div className="trending_ifno_web_product_info">

@@ -291,11 +291,10 @@ const Lookbook = () => {
       FilterKey: "GETDesignSet_List",
       FilterVal: "GETDesignSet_List",
     };
-    console.log("bypass 1")
     LookBookAPI(productlisttype, finalID)
       .then((res) => setFilterData(res))
       .catch((err) => console.log("err", err));
-  }, [designSetLstData]);
+  }, []);
 
   const handelFilterClearAll = () => {
     if (Object?.values(filterChecked)?.filter((ele) => ele?.checked)?.length > 0) {
@@ -1210,7 +1209,8 @@ const Lookbook = () => {
       {isProdLoading ? (
         // true ?
         <div style={{ marginInline: "6%", backgroundColor: "white" }}>
-          <ProductListSkeleton />
+          {/* <ProductListSkeleton /> */}
+          <LookbookSkelton param={1} />
         </div>
       ) : (
 

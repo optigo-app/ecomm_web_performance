@@ -186,6 +186,8 @@ const CartItem = ({
                 '&:focus': { outline: 'none' },
                 '&:active': { outline: 'none' },
               }}
+              draggable={true}
+              onContextMenu={(e) => e.preventDefault()}
               className='roop_cartListImage'
               onClick={() => onSelect(item)}
               loading="lazy"
@@ -272,7 +274,7 @@ const CartItem = ({
               )}
             </CardContent>
             <Box className="roop_cartbtngroupReRm">
-              <Link className='roop_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
+              <Link className='roop_ItemRemarkbtn' onClick={(e) => { handleOpen(); }} variant="body2">
                 {item?.Remarks ? "Update Remark" : "Add Remark"}
               </Link>
               <Link className='roop_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >

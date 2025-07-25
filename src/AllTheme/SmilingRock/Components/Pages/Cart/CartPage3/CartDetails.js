@@ -128,6 +128,8 @@ const CartDetails = ({
               '&:active': { outline: 'none' },
             }}
             alt=" "
+            draggable={true}
+            onContextMenu={(e) => e.preventDefault()}
             className='smr3_cartDetailImage'
             onClick={() => handleMoveToDetail(selectedItem)}
             loading='lazy'

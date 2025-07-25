@@ -199,19 +199,19 @@ function EnhancedTableHead(props) {
     <TableHead className="salesReporttabelHead">
       <TableRow>
         {headCells?.map((headCell) => {
-               const headCellsLits = [
-                'MetalAmount',
-                'DiamondAmount',
-                'ColorStoneAmount',
-                'LabourAmount',
-                'OtherAmount',
-                'UnitCost'
-              ];
-              const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
-              if (IsPriceShow === 0 && headCellsLits.includes(headCell?.id)) {
-                return null;  
-              }
-        return  <TableCell
+          const headCellsLits = [
+            'MetalAmount',
+            'DiamondAmount',
+            'ColorStoneAmount',
+            'LabourAmount',
+            'OtherAmount',
+            'UnitCost'
+          ];
+          const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {};
+          if (IsPriceShow === 0 && headCellsLits.includes(headCell?.id)) {
+            return null;
+          }
+          return <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
@@ -238,7 +238,7 @@ function EnhancedTableHead(props) {
                 </TableSortLabel>
             }
           </TableCell>
-})}
+        })}
       </TableRow>
     </TableHead>
   );
@@ -616,13 +616,13 @@ const SalesReport = () => {
       tableContainer.scrollTop = 0;
     }
   };
-  const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+  const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {};
 
   return (
     <div className="salesReport_Account_elvee">
       <div className="elvee_fs_pt">
         <Box>
-        { IsPriceShow == 1 &&    <Box
+          {IsPriceShow == 1 && <Box
             sx={{
               display: "flex",
               alignItems: "center",
@@ -726,6 +726,8 @@ const SalesReport = () => {
                       minHeight: "114px",
                       maxHeight: "114px",
                     }}
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 )}
               </Box>
@@ -1445,14 +1447,14 @@ const SalesReport = () => {
                             <TableCell align="center" className="elvee_fs_pt">{row.SKUNo}</TableCell>
                             <TableCell align="center" className="elvee_fs_pt">{row.designno}</TableCell>
                             <TableCell align="center" className="elvee_fs_pt">{row.MetalType}</TableCell>
-{IsPriceShow == 1 && <>
-  <TableCell align="center" className="elvee_fs_pt">{formatAmount(row.MetalAmount)}</TableCell>
-                            <TableCell align="center" className="elvee_fs_pt">{formatAmount(row.DiamondAmount)} </TableCell>
-                            <TableCell align="center" className="elvee_fs_pt">{formatAmount(row.ColorStoneAmount)} </TableCell>
-                            <TableCell align="center" className="elvee_fs_pt">{formatAmount(row.LabourAmount)}</TableCell>
-                            <TableCell align="center" className="elvee_fs_pt">{formatAmount(row.OtherAmount)}</TableCell>
-                            <TableCell align="center" className="elvee_fs_pt">{formatAmount(row.UnitCost)}</TableCell>
-</>}
+                            {IsPriceShow == 1 && <>
+                              <TableCell align="center" className="elvee_fs_pt">{formatAmount(row.MetalAmount)}</TableCell>
+                              <TableCell align="center" className="elvee_fs_pt">{formatAmount(row.DiamondAmount)} </TableCell>
+                              <TableCell align="center" className="elvee_fs_pt">{formatAmount(row.ColorStoneAmount)} </TableCell>
+                              <TableCell align="center" className="elvee_fs_pt">{formatAmount(row.LabourAmount)}</TableCell>
+                              <TableCell align="center" className="elvee_fs_pt">{formatAmount(row.OtherAmount)}</TableCell>
+                              <TableCell align="center" className="elvee_fs_pt">{formatAmount(row.UnitCost)}</TableCell>
+                            </>}
                             <TableCell align="center" className="elvee_fs_pt">{row.Category}</TableCell>
                             <TableCell align="center" className="elvee_fs_pt">{row.GrossWt}</TableCell>
                             <TableCell align="center" className="elvee_fs_pt">{row.NetWt}</TableCell>

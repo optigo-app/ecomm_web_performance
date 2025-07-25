@@ -195,6 +195,8 @@ const CartItem = ({
                     e.target.src = noImageFound;
                   }
                 }}
+                draggable={true}
+                onContextMenu={(e) => e.preventDefault()}
               />
             )}
           </div>

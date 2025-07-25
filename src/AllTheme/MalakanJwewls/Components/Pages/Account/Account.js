@@ -19,7 +19,7 @@ import QuotationQuote from "./QuotationQuote/QuotationQuote";
 import PendingMemo from "./PendingMemo/PendingMemo";
 
 import { accountDetailPages, accountValidation } from "../../../../../utils/Glob_Functions/AccountPages/AccountPage";
-import {handleScrollTop } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import { handleScrollTop } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import Plm from "./PLM/Plm";
 import Cookies from "js-cookie";
 import NewOrderHistory from "./AccountOrderHistory/NewOrderHistory";
@@ -32,6 +32,7 @@ import SummarizeIcon from "@mui/icons-material/Summarize";
 import ShieldIcon from "@mui/icons-material/Shield";
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
+import useGlobalPreventSave from "../../../../../utils/Glob_Functions/useGlobalPreventSave";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -48,7 +49,7 @@ function CustomTabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }} className="acc_mala_tab_p_0" style={{marginTop:'10px !important'}}>
+        <Box sx={{ p: 3 }} className="acc_mala_tab_p_0" style={{ marginTop: '10px !important' }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -95,6 +96,8 @@ export default function Account() {
   const handleChangeSub = (event, newValue) => {
     setValue1(newValue);
   };
+
+  useGlobalPreventSave();
 
   // const handleLogout = () => {
   //     setIsLoginState('false')
@@ -160,29 +163,29 @@ export default function Account() {
       }
     };
   }, []);
-  useEffect(()=>{
+  useEffect(() => {
     const init = JSON.parse(sessionStorage.getItem('storeInit')) ?? {};
     setStoreinit(init);
- },[])
+  }, [])
   return (
-    <div className="accountTab_Account_mala">
+    <div className="accountTab_Account_mala" onContextMenu={(e) => e.preventDefault()}>
       <div className="accountPagTabSection">
         <div>
           <div className="mala-AccountMain">
             <div className={` ${!isSticky ? 'sticky_header_web_sm_mala_isSticky' : 'sticky_header_web_sm_mala'}`} style={{
-              top  : !isSticky && '0px' ,
+              top: !isSticky && '0px',
             }}>
               <p className="malaAccountTitle youraccountpagesec" style={{ height: "40px", margin: "0px", padding: "0px" }} > Your Account </p>
-              <div className="malaAccountTabWebView mala_main_head_none" style={{paddingTop:'1%'}}>
+              <div className="malaAccountTabWebView mala_main_head_none" style={{ paddingTop: '1%' }}>
                 <Box sx={{ display: "flex", justifyContent: "center", borderBottom: 1, borderColor: "divider", }} >
                   <Tabs value={value} onChange={handleChange} onClick={handleScrollTop} aria-label="basic tabs example" >
                     {" "}
                     {/*  orientation="vertical" indicatorColor="#7d7f85" */}
                     <Tab label="Your Profile" {...a11yProps(0)} />
                     <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                    <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} /> {accountValidation() && ( <Tab label="ACCOUNT" {...a11yProps(3)} /> )}
+                    <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} /> {accountValidation() && (<Tab label="ACCOUNT" {...a11yProps(3)} />)}
                     <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} /> {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                    {loginUSerDeatil?.IsPLWOn && ( <Tab label="PLM" {...a11yProps(1)} /> )}
+                    {loginUSerDeatil?.IsPLWOn && (<Tab label="PLM" {...a11yProps(1)} />)}
                     {/* <Tab label="Log Out" onClick={handleLogout} /> */}
                   </Tabs>
                   {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
@@ -195,27 +198,29 @@ export default function Account() {
                     {/*  indicatorColor="#7d7f85" */}
                     <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: "start", width: "90%", borderColor: "divider", }} />
                     <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                    <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} /> {accountValidation() && ( <Tab label="ACCOUNT" {...a11yProps(3)} /> )}
+                    <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} /> {accountValidation() && (<Tab label="ACCOUNT" {...a11yProps(3)} />)}
                     <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
                     {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                    {loginUSerDeatil?.IsPLWOn && ( <Tab label="PLM" {...a11yProps(1)} /> )} {/* <Tab label="Log Out" onClick={handleLogout} /> */}
+                    {loginUSerDeatil?.IsPLWOn && (<Tab label="PLM" {...a11yProps(1)} />)} {/* <Tab label="Log Out" onClick={handleLogout} /> */}
                   </Tabs>
                   {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                 </Box>
               </div>
-              <div className="malaAccountTabMobileView malaYourAccountPageTabs yourAccount iconsTabAcc" style={{paddingTop:'1%', display: "flex", alignItems: "center", justifyContent: "center"}}>
-                <Tabs value={value} orientation="horizontal" variant="scrollable" onClick={handleScrollTop} onChange={handleChange} TabIndicatorProps={{ style: { backgroundColor: "black",
-                      marginTop: "5px", // This changes the underline color to black
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                    },
-                  }}
+              <div className="malaAccountTabMobileView malaYourAccountPageTabs yourAccount iconsTabAcc" style={{ paddingTop: '1%', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Tabs value={value} orientation="horizontal" variant="scrollable" onClick={handleScrollTop} onChange={handleChange} TabIndicatorProps={{
+                  style: {
+                    backgroundColor: "black",
+                    marginTop: "5px", // This changes the underline color to black
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  },
+                }}
                   style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", }} >
                   <Tab icon={<AccountBoxIcon titleAccess="Your Profile" />} {...a11yProps(0)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
                   <Tab icon={<ListAltIcon titleAccess="Order History" />} {...a11yProps(1)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
                   <Tab icon={<PersonPinIcon titleAccess="Manage Address" />} {...a11yProps(2)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
-                  {accountValidation() && ( <Tab icon={<AutoStoriesIcon titleAccess="Accounts" />} {...a11yProps(3)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} /> )}
-                  <Tab icon={ <LockResetIcon titleAccess="Change Password" {...a11yProps(accountValidation() ? 4 : 3)} /> } style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
-                  {loginUSerDeatil?.IsPLWOn && ( <Tab icon={<ShieldIcon titleAccess="PLM" />} {...a11yProps(1)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} /> )}
+                  {accountValidation() && (<Tab icon={<AutoStoriesIcon titleAccess="Accounts" />} {...a11yProps(3)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />)}
+                  <Tab icon={<LockResetIcon titleAccess="Change Password" {...a11yProps(accountValidation() ? 4 : 3)} />} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                  {loginUSerDeatil?.IsPLWOn && (<Tab icon={<ShieldIcon titleAccess="PLM" />} {...a11yProps(1)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />)}
                 </Tabs>
               </div>
             </div>
@@ -287,11 +292,11 @@ export default function Account() {
                         scrollButtons="auto"
                       >
                         {accountInner?.map((e, i) => {
-                              if(Storeinit?.IsPriceShow == 0 && e.tabComp === "AccountLedger"){
-                                return <Tab sx={{
-                                    display: 'none',
-                                }} /> ;
-                            }
+                          if (Storeinit?.IsPriceShow == 0 && e.tabComp === "AccountLedger") {
+                            return <Tab sx={{
+                              display: 'none',
+                            }} />;
+                          }
                           return (
                             <Tab
                               label={e?.tabLabel}
@@ -303,17 +308,18 @@ export default function Account() {
                         })}
                       </Tabs>
                     </Box>
-                    {accountInner?.map((e, i) => { return ( <React.Fragment key={i}> 
-                          {e?.id === 1163 && ( <CustomTabPanel value={value1} index={i} className="AcountSales" > <QuotationQuote /> </CustomTabPanel> )} 
-                          {e?.id === 1164 && ( <CustomTabPanel value={value1} index={i} className="quotationFilters" > <QuotationJob /> </CustomTabPanel> )}
-                          {e?.id === 1157 && ( <CustomTabPanel value={value1} index={i} className="salesPage" > <Sales /> </CustomTabPanel> )}
-                          {e?.id === 1314 && ( <CustomTabPanel value={value1} index={i} className="salesReport" > <SalesReport /> </CustomTabPanel> )}
-                          {e?.id === 18129 && <CustomTabPanel value={value1} index={i}> <PendingMemo /> </CustomTabPanel>}
-                          {e?.id === 17020 && ( <CustomTabPanel value={value1} index={i} className="DesignWiseSalesReport" > <DesignWiseSalesReport /> </CustomTabPanel> )}
-                          {Storeinit?.IsPriceShow ==1 && e?.id === 1159 && ( <CustomTabPanel value={value1} index={i}> <AccountLedger /> </CustomTabPanel> )} {/* {e?.id === 1314 && <CustomTabPanel value={value1} index={i}>
+                    {accountInner?.map((e, i) => {
+                      return (<React.Fragment key={i}>
+                        {e?.id === 1163 && (<CustomTabPanel value={value1} index={i} className="AcountSales" > <QuotationQuote /> </CustomTabPanel>)}
+                        {e?.id === 1164 && (<CustomTabPanel value={value1} index={i} className="quotationFilters" > <QuotationJob /> </CustomTabPanel>)}
+                        {e?.id === 1157 && (<CustomTabPanel value={value1} index={i} className="salesPage" > <Sales /> </CustomTabPanel>)}
+                        {e?.id === 1314 && (<CustomTabPanel value={value1} index={i} className="salesReport" > <SalesReport /> </CustomTabPanel>)}
+                        {e?.id === 18129 && <CustomTabPanel value={value1} index={i}> <PendingMemo /> </CustomTabPanel>}
+                        {e?.id === 17020 && (<CustomTabPanel value={value1} index={i} className="DesignWiseSalesReport" > <DesignWiseSalesReport /> </CustomTabPanel>)}
+                        {Storeinit?.IsPriceShow == 1 && e?.id === 1159 && (<CustomTabPanel value={value1} index={i}> <AccountLedger /> </CustomTabPanel>)} {/* {e?.id === 1314 && <CustomTabPanel value={value1} index={i}>
                                                   <PendingMemo />
                                               </CustomTabPanel>} */}
-                        </React.Fragment>
+                      </React.Fragment>
                       );
                     })}
                   </CustomTabPanel>
@@ -324,7 +330,7 @@ export default function Account() {
                     <ChangePassword />
                   </div>
                 </CustomTabPanel>
-                { loginUSerDeatil?.IsPLWOn && <CustomTabPanel value={value} index={5}>
+                {loginUSerDeatil?.IsPLWOn && <CustomTabPanel value={value} index={5}>
                   <div>
                     <Plm />
                   </div>

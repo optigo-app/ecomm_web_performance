@@ -29,7 +29,7 @@ const StamScrollToTop = () => {
   }, []);
 
   return (
-    <div className="roop_scroll-to-top">
+    <div className="roop_scroll-to-top" onContextMenu={(e) => e.preventDefault()}>
       {isVisible && (
         <div onClick={scrollToTop} className="rp_scroll-icon">
           <FaAngleUp style={{ height: '20px', width: '20px' }} />

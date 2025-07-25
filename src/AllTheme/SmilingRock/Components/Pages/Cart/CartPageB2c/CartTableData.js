@@ -118,6 +118,8 @@ const ExampleComponent = ({
                                         e.target.src = noImageFound;
                                     }
                                 }}
+                                draggable={true}
+                                onContextMenu={(e) => e.preventDefault()}
                                 loading="lazy"
                             />
                         )}

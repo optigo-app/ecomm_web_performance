@@ -412,27 +412,27 @@ const Header = () => {
 
     const clickSearch = () => {
         if (searchText) {
-          let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-          let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-          let obj = {
-            a: "",
-            b: searchText,
-            m: loginInfo?.MetalId ?? storeInit?.MetalId,
-            d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
-            c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
-            f: {},
-          };
-    
-          let encodeObj = btoa(JSON.stringify(obj));
-          setDrawerOpen(false);
-          navigate(`/p/${searchText}?S=${encodeObj}`);
-          setSearchText("");
+            let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+            let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+            let obj = {
+                a: "",
+                b: searchText,
+                m: loginInfo?.MetalId ?? storeInit?.MetalId,
+                d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+                c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+                f: {},
+            };
+
+            let encodeObj = btoa(JSON.stringify(obj));
+            setDrawerOpen(false);
+            navigate(`/p/${searchText}?S=${encodeObj}`);
+            setSearchText("");
         }
-      }
+    }
 
 
     return (
-        <div className='dai_headerMain'>
+        <div className='dai_headerMain' draggable={false} onContextMenu={(e) => e.preventDefault()}>
             <div className="dai_headerMainTop">
                 <div className="div_contact_info first-dt">
                     <IoCallOutline style={{ height: "20px", width: "40px" }} />
@@ -468,13 +468,21 @@ const Header = () => {
                         onKeyDown={searchDataFucn}
                     />
                 </div>
-                <div className="dt_headermainDiv2">
-                    <a href='/'>
+                <div className="dt_headermainDiv2"
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
+                >
+                    <a href='/'
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                    >
                         <img
                             alt=""
                             src={titleImg}
                             className="dt_header_logo"
                             onClick={() => navigation("/")}
+                            draggable={false}
+                            onContextMenu={(e) => e.preventDefault()}
                         />
                     </a>
                 </div>
@@ -790,8 +798,14 @@ const Header = () => {
                         alignItems: 'center',
                     }}
                 >
-                    <a href="/">
-                        {titleImg && <img src={titleImg} className="dt_mobileView_div2_logo" />}
+                    <a href="/"
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                    >
+                        {titleImg && <img src={titleImg} className="dt_mobileView_div2_logo"
+                            draggable={false}
+                            onContextMenu={(e) => e.preventDefault()}
+                        />}
                     </a>
                 </div>
                 <div className="dt_mobileView_div2_mobile"
@@ -800,8 +814,14 @@ const Header = () => {
                         alignItems: 'center',
                     }}
                 >
-                    <a href="/">
-                        {titleImgM && <img src={titleImgM} className="dt_mobileView_div2_logo" />}
+                    <a href="/"
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                    >
+                        {titleImgM && <img src={titleImgM} className="dt_mobileView_div2_logo"
+                            draggable={false}
+                            onContextMenu={(e) => e.preventDefault()}
+                        />}
                     </a>
                 </div>
                 <div className="dt_mobileView_div3">

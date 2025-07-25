@@ -232,7 +232,7 @@ const TrendingView1 = ({ data }) => {
         chunkedData.push(validatedData?.slice(i, i + 3));
     }
     return (
-        <div ref={trendingRef}>
+        <div ref={trendingRef} onContextMenu={(e) => { e.preventDefault() }}>
             {validatedData?.length != 0 &&
                 <div className='smr_mainTrending1Div' >
                     <div className='smr1_trending1TitleDiv'>
@@ -242,7 +242,10 @@ const TrendingView1 = ({ data }) => {
                         <div className='smr_leftSideBestTR'>
                             {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/web-210128-BW-PF21_S219259.jpg?v=1646112530&width=2000" alt="modalimages" /> */}
                             {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImgHom2.png`} alt="modalimages" /> */}
-                            <img src={data?.image[0]} alt="modalimages" loading='lazy' />
+                            <img src={data?.image[0]} alt="modalimages" loading='lazy'
+                                draggable={true}
+                                onContextMenu={(e) => e.preventDefault()}
+                            />
 
                             <div className="smr_lookbookImageRightDT">
                                 {/* <p>SHORESIDE COLLECTION</p>
@@ -277,6 +280,8 @@ const TrendingView1 = ({ data }) => {
                                             onError={(e) => {
                                                 e.target.src = imageNotFound
                                             }}
+                                            draggable={true}
+                                            onContextMenu={(e) => e.preventDefault()}
                                             loading='lazy'
                                             alt={data.name}
                                         />

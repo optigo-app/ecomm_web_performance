@@ -1187,7 +1187,8 @@ const Lookbook = () => {
       {isProdLoading ? (
         // true ?
         <div style={{ marginInline: "6%", backgroundColor: "white" }}>
-          <ProductListSkeleton />
+          {/* <ProductListSkeleton /> */}
+          <LookbookSkelton param={1} />
         </div>
       ) : (
 
@@ -1289,6 +1290,8 @@ const Lookbook = () => {
                                   onError={(e) => handleImageError(index, e)}
                                   onMouseEnter={() => handleHoverImages(index)}
                                   onMouseLeave={() => seyDataKey(null)}
+                                  draggable={true}
+                                  onContextMenu={(e) => e.preventDefault()}
                                   style={{
                                     height: dataKey == index ? "100%" : "250px",
                                     cursor: "pointer",
@@ -1420,6 +1423,8 @@ const Lookbook = () => {
                                             e.target.src = imageNotFound;
                                             e.target.alt = "no-images";
                                           }}
+                                          draggable={true}
+                                          onContextMenu={(e) => e.preventDefault()}
                                           onClick={() =>
                                             handleNavigation(
                                               detail?.designno,
@@ -1492,6 +1497,8 @@ const Lookbook = () => {
                                     onError={(e) => handleImageError(index, e)}
                                     // onMouseEnter={() => handleHoverImages(index)}
                                     // onMouseLeave={() => seyDataKey(null)}
+                                    draggable={true}
+                                    onContextMenu={(e) => e.preventDefault()}
                                     style={{
                                       height: "100%",
                                       cursor: "pointer",
@@ -1651,6 +1658,8 @@ const Lookbook = () => {
                                             e.target.src = imageNotFound;
                                             e.target.alt = "no-images";
                                           }}
+                                          draggable={true}
+                                          onContextMenu={(e) => e.preventDefault()}
                                           onClick={() =>
                                             handleNavigation(
                                               detail?.designno,
@@ -1730,6 +1739,8 @@ const Lookbook = () => {
                                                 e.target.src = imageNotFound;
                                                 e.target.alt = "no-images";
                                               }}
+                                              draggable={true}
+                                              onContextMenu={(e) => e.preventDefault()}
                                               onClick={() =>
                                                 handleNavigation(
                                                   detail?.designno,
@@ -1824,6 +1835,8 @@ const Lookbook = () => {
                                           style={{
                                             backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                           }}
+                                          draggable={true}
+                                          onContextMenu={(e) => e.preventDefault()}
                                         // onError={(e)=>{
                                         //                                         e.target.src = imageNotFound ;
                                         // e.target.alt = "no-images";
@@ -1910,6 +1923,8 @@ const Lookbook = () => {
                                                     e.target.src = imageNotFound;
                                                     e.target.alt = "no-images";
                                                   }}
+                                                  draggable={true}
+                                                  onContextMenu={(e) => e.preventDefault()}
                                                   onClick={() =>
                                                     handleNavigation(
                                                       ele?.designno,
@@ -2120,6 +2135,8 @@ const Lookbook = () => {
                                         onLoad={() => {
                                           handleImageLoad();
                                         }}
+                                        draggable={true}
+                                        onContextMenu={(e) => e.preventDefault()}
                                         onError={(e) => handleImageError(index, e)}
                                         style={{
                                           height: DynamicSize.h || "66.5px",

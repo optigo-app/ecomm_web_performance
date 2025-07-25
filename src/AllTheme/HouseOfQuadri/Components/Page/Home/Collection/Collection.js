@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -21,11 +21,12 @@ const Collection = () => {
   const [storeInit, setStoreInit] = useState({});
   const islogin = useRecoilValue(Hoq_loginState);
   const [swiper, setSwiper] = useState(null);
+  const productRefs = useRef({});
 
-  useEffect(()=>{
+  useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
-  },[])
+  }, [])
 
   useEffect(() => {
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -45,16 +46,16 @@ const Collection = () => {
     let data = JSON.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.DesignSetImageFol);
 
-   const Collections = async()=>{
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet", finalID)
-    .then((response) => {
-      if (response?.Data?.rd) {
-        setDesignSetList(response?.Data?.rd);
-      }
-    })
-    .catch((err) => console.log(err));
-   }
-   Collections()
+    const Collections = async () => {
+      Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet", finalID)
+        .then((response) => {
+          if (response?.Data?.rd) {
+            setDesignSetList(response?.Data?.rd);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+    Collections()
   }, []);
 
   const compressAndEncode = (inputString) => {
@@ -75,12 +76,12 @@ const Collection = () => {
         imageUrl + pd?.designsetuniqueno + "/" + pd?.DefaultImageName;
     } else {
       finalprodListimg =
-       noimage;
+        noimage;
     }
     return finalprodListimg;
   };
 
-  const handleNavigation = (designNo, autoCode, titleLine) => {
+  const handleNavigation = (designNo, autoCode, titleLine, index) => {
     let obj = {
       a: autoCode,
       b: designNo,
@@ -90,6 +91,7 @@ const Collection = () => {
       f: {},
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
+    sessionStorage.setItem('scrollToProduct1', `product-${index}`);
     // navigate(
     //   `/d/${titleLine?.replace(/\s+/g, `_`)}${
     //     titleLine?.length > 0 ? "_" : ""
@@ -98,12 +100,40 @@ const Collection = () => {
     navigate(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
   };
 
-  if(designSetList?.length === 0){
-    return  <div style={{marginTop  :"-3rem"}}></div>;
+  useEffect(() => {
+    const scrollDataStr = sessionStorage.getItem('scrollToProduct1');
+    if (!scrollDataStr) return;
+
+    const maxRetries = 10;
+    let retries = 0;
+
+    const tryScroll = () => {
+      const el = productRefs.current[scrollDataStr];
+      if (el) {
+        el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+        sessionStorage.removeItem('scrollToProduct1');
+      } else if (retries < maxRetries) {
+        retries++;
+        setTimeout(tryScroll, 200); // retry until ref is ready
+      }
+    };
+
+    tryScroll();
+
+  }, [designSetList]);
+
+  if (designSetList?.length === 0) {
+    return <div style={{ marginTop: "-3rem" }}></div>;
   }
 
   return (
-    <div className="hoq_main_Collection">
+    <div className="hoq_main_Collection" 
+    draggable={false}
+    onContextMenu={(e) => e.preventDefault()}
+    >
       <div className="heading">
         <h1>Collections</h1>
       </div>
@@ -111,36 +141,41 @@ const Collection = () => {
         {designSetList?.slice(0, 4)?.map((val, i) => {
           return (
             <div
-            key={i}
+              key={i}
               className="c_card"
               onClick={() =>
                 handleNavigation(
                   val?.designno,
                   val?.autocode,
-                  val?.TitleLine ? val?.TitleLine : ""
+                  val?.TitleLine ? val?.TitleLine : "",
+                  i
                 )
               }
-              style={{cursor  :"pointer"}}
+              style={{ cursor: "pointer" }}
             >
               <img
-                src={ ProdCardImageFunc(val)}
+                src={ProdCardImageFunc(val)}
                 alt={val?.title}
+                id={`product-${i}`}
+                ref={(el) => (productRefs.current[`product-${i}`] = el)}
                 loading="lazy"
-                onError={(e)=>{
-                  e.target.src = noimage ;
+                onError={(e) => {
+                  e.target.src = noimage;
                   e.target.alt = 'Fallback image';
                 }}
+                draggable={true}
+                onContextMenu={(e) => e.preventDefault()}
               />
               <div className="details">
                 <h3>{val?.designsetno}</h3>
                 <button
-                  // onClick={() =>
-                  //   handleNavigation(
-                  //     val?.designno,
-                  //     val?.autocode,
-                  //     val?.TitleLine ? val?.TitleLine : ""
-                  //   )
-                  // }
+                // onClick={() =>
+                //   handleNavigation(
+                //     val?.designno,
+                //     val?.autocode,
+                //     val?.TitleLine ? val?.TitleLine : ""
+                //   )
+                // }
                 >
                   Explore
                 </button>
@@ -186,7 +221,7 @@ const MobileCollection = ({
         {designSetList?.slice(0, 4)?.map((val, i) => {
           return (
             <div
-            key={i}
+              key={i}
               className="c_card"
               onClick={() =>
                 handleNavigation(
@@ -199,13 +234,13 @@ const MobileCollection = ({
               <div className="details">
                 <h3>{val?.designsetno}</h3>
                 <button
-                  // onClick={() =>
-                  //   handleNavigation(
-                  //     val?.designno,
-                  //     val?.autocode,
-                  //     val?.TitleLine ? val?.TitleLine : ""
-                  //   )
-                  // }
+                // onClick={() =>
+                //   handleNavigation(
+                //     val?.designno,
+                //     val?.autocode,
+                //     val?.TitleLine ? val?.TitleLine : ""
+                //   )
+                // }
                 >
                   Explore
                 </button>

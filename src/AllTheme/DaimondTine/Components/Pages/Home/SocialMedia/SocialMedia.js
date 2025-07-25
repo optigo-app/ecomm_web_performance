@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import { AiFillInstagram } from 'react-icons/ai';
 import GoogleAnalytics from 'react-ga4';
 
-const SocialMedia = ({data}) => {
+const SocialMedia = ({ data }) => {
 
     const photos = [
         {
@@ -24,7 +24,7 @@ const SocialMedia = ({data}) => {
             image: "/images/HomePage/Instagram/BottombBanner5.jpg",
         }
     ];
-    
+
     const Sonaphotos = [
         {
             image: "/images/HomePage/Instagram/sona/BottombBanner1.jpeg",
@@ -45,25 +45,26 @@ const SocialMedia = ({data}) => {
 
     const Url = `https://www.instagram.com/houseofdiamondtine/`;
     const Url2 = `https://www.instagram.com/`;
-    const DomainConnect = 1 ? Url : Url2 ;
+    const DomainConnect = 1 ? Url : Url2;
 
 
-    const HandleGoogleAn = (ClickedPostNo)=>{
+    const HandleGoogleAn = (ClickedPostNo) => {
         GoogleAnalytics.event({
             action: "Social Media Post Analtyics",
             category: `Social Media Post`,
-            label: `User Clicked On Post Number ${ClickedPostNo}` ,
-          });
+            label: `User Clicked On Post Number ${ClickedPostNo}`,
+        });
     }
 
     return (
-        <div className='dt_SocialMedia'>
+        <div className='dt_SocialMedia' onContextMenu={(e) => e.preventDefault()}>
             <p className='smr_bestseler1Title'>Follow Us On Instagram</p>
             <div className='dt_SocialmediawidgetsComponentsCard'>
                 <div className="dt_instagram_gallery">
-                    {data?.image?.slice(0,5)?.map((photo, index) => (
-                        <div key={index} className="dt_instagram_photo" onClick={() =>{ window.open(DomainConnect);
-                            HandleGoogleAn(index+1)
+                    {data?.image?.slice(0, 5)?.map((photo, index) => (
+                        <div key={index} className="dt_instagram_photo" onClick={() => {
+                            window.open(DomainConnect);
+                            HandleGoogleAn(index + 1)
                         }}>
                             {/* <img src={storImagePath() + photo?.image} alt={`Instagram Photo ${index + 1}`} loading='lazy' /> */}
                             <img src={photo} alt={`Instagram Photo ${index + 1}`} loading='lazy' />

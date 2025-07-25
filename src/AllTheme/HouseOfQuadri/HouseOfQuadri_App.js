@@ -11,6 +11,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Bespoke from "./Components/Page/Home/Bespokejewelry/Index";
 import AppointMent from "./Components/Page/Home/Appointment/Wrapper";
 import { Box } from "@mui/material";
+import useGlobalPreventSave from "../../utils/Glob_Functions/useGlobalPreventSave";
 
 // import Navbar from "./Components/Page/Home/Navbar/Navbar";
 // import Footer from "./Components/Page/Home/Footer/Footer";
@@ -149,13 +150,21 @@ const HouseOfQuadri_App = () => {
       }
     };
   }, []);
-  useEffect(() => {
-    window.scrollTo({
-      behavior: "smooth",
-      top: 0,
-      left: 0,
-    });
-  }, [location?.pathname]);
+
+  useGlobalPreventSave();
+
+  const handleContextMenu = (e) => {
+    e.preventDefault();
+  };
+
+  // useEffect(() => {
+  //   window.scrollTo({
+  //     behavior: "smooth",
+  //     top: 0,
+  //     left: 0,
+  //   });
+  // }, [location?.pathname]);
+
   // useEffect(() => {
   //   const cookieValue = Cookies.get("userLoginCookie");
   //   if (cookieValue) {
@@ -237,6 +246,42 @@ const HouseOfQuadri_App = () => {
     return null;
   }
 
+  function ProductListWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <DynamicCollection />
+      </div>
+    );
+  }
+  function ProductDetailWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <ProductPage />
+      </div>
+    );
+  }
+  function WishlistWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <WishlistPage />
+      </div>
+    );
+  }
+  function CartWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <CartPage />
+      </div>
+    );
+  }
+  function LookbookWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <Lookbook />
+      </div>
+    );
+  }
+
   const LoadingFallback = () => (
     <Box
       sx={{
@@ -280,15 +325,15 @@ const HouseOfQuadri_App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/collections/" element={<CollectionPage />} />
           <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
-            <Route path="/p/*" element={<DynamicCollection />} />
-            <Route path="/d/*" element={<ProductPage />} />
-            <Route path="/wishlist" element={<WishlistPage />} />
-            <Route path="/cart" element={<CartPage />} />
+            <Route path="/p/*" element={<ProductListWrapper />} />
+            <Route path="/d/*" element={<ProductDetailWrapper />} />
+            <Route path="/wishlist" element={<WishlistWrapper />} />
+            <Route path="/cart" element={<CartWrapper />} />
             <Route path="/Delivery" element={<Delivery />} />
             <Route path="/Payment" element={<Payment />} />
             <Route path="/Confirmation" element={<Confirmation />} />
             <Route path="/account" element={<Account />} />
-            <Route path="/Lookbook" element={<Lookbook />} />
+            <Route path="/Lookbook" element={<LookbookWrapper />} />
           </Route>
           {/* static Page */}
           <Route path="/Shipping-Policy" element={<ShippingPage />} />

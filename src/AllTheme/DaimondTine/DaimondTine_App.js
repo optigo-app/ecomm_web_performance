@@ -13,6 +13,7 @@ import loaderImg from './Components/Assets/webLogo.png';
 import DiamondTine_PrivateRoutes from './DiamondTine_PrivateRoutes';
 import useHomeBannerImages from '../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
 import { Box } from '@mui/material';
+import useGlobalPreventSave from '../../utils/Glob_Functions/useGlobalPreventSave';
 
 const Home = React.lazy(() => import('./Components/Pages/Home/Index'));
 const LoginOption = React.lazy(() => import('./Components/Pages/Auth/LoginOption/LoginOption'));
@@ -108,6 +109,11 @@ const DaimondTine_App = () => {
     setCompanyTitleLogoM(mobileLogo);
   });
 
+  const handleContextMenu = (e) => {
+    e.preventDefault();
+  };
+
+  useGlobalPreventSave();
 
   useEffect(() => {
     const cookieValue = Cookies.get("userLoginCookie");
@@ -181,6 +187,42 @@ const DaimondTine_App = () => {
     </Box>
   );
 
+  function ProductListWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <ProductList />
+      </div>
+    );
+  }
+  function ProductDetailWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <ProductDetail />
+      </div>
+    );
+  }
+  function WishlistWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <Wishlist />
+      </div>
+    );
+  }
+  function CartWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <CartMain />
+      </div>
+    );
+  }
+  function LookbookWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <Lookbook />
+      </div>
+    );
+  }
+
 
   return (
     <div>
@@ -206,17 +248,17 @@ const DaimondTine_App = () => {
           <Route path="/Exchange" element={<Exchange />} />
           <Route path="/Location" element={<Location />} />
           <Route path="/MaterialCore" element={<MaterialCore />} />
-          <Route path="/Lookbook" element={<Lookbook />} />
           <Route path="/" element={<DiamondTine_PrivateRoutes isLoginStatus={islogin} />}>
-            <Route path="/p/*" element={<ProductList />} />
-            <Route path="/d/*" element={<ProductDetail />} />
+            <Route path="/p/*" element={<ProductListWrapper />} />
+            <Route path="/d/*" element={<ProductDetailWrapper />} />
             <Route path="/account" element={<Account />} />
-            <Route path="/cartPage" element={<CartMain />} />
-            <Route path="/myWishList" element={<Wishlist />} />
+            <Route path="/cartPage" element={<CartWrapper />} />
+            <Route path="/myWishList" element={<WishlistWrapper />} />
             <Route path="/Delivery" element={<Delivery />} />
             <Route path="/Payment" element={<Payment />} />
             <Route path="/Confirmation" element={<Confirmation />} />
             <Route path="/failure" element={<PaymentFailure />} />
+            <Route path="/Lookbook" element={<LookbookWrapper />} />
           </Route>
         </Routes>
         <ScrollToTop />

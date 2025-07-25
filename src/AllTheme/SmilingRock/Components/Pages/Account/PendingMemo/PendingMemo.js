@@ -749,7 +749,10 @@ const PendingMemo = () => {
           <Box className="salesReportImgSec" sx={{ width: "135px", height: "135px", paddingBottom: "20px", overflow: "hidden", }} >
             <Box sx={{ border: "1px solid #d6d6d6", height: "117px", marginTop: "17px", }} >
               {hoverImg !== "" && (
-                <img src={hoverImg} alt="" style={{ width: "100%", objectFit: "contain", minHeight: "114px", maxHeight: "114px", }} />
+                <img src={hoverImg}
+                  draggable={true}
+                  onContextMenu={(e) => e.preventDefault()}
+                  alt="" style={{ width: "100%", objectFit: "contain", minHeight: "114px", maxHeight: "114px", }} />
               )}
             </Box>
           </Box>

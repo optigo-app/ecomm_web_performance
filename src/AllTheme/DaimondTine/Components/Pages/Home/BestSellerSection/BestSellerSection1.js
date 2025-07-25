@@ -20,7 +20,7 @@ const BestSellerSection1 = ({ data }) => {
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const islogin = useRecoilValue(dt_loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
-
+    const productRefs = useRef({});
 
 
     const settings = {
@@ -34,33 +34,33 @@ const BestSellerSection1 = ({ data }) => {
         // nextArrow: false,
     };
 
-    useEffect(() => {
-        setLoadingHome(true);
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        callAllApi()
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            {
-                root: null,
-                threshold: 0.5,
-            }
-        );
+    // useEffect(() => {
+    //     setLoadingHome(true);
+    //     const observer = new IntersectionObserver(
+    //         (entries) => {
+    //             entries.forEach((entry) => {
+    //                 if (entry.isIntersecting) {
+    //                     callAllApi()
+    //                     observer.unobserve(entry.target);
+    //                 }
+    //             });
+    //         },
+    //         {
+    //             root: null,
+    //             threshold: 0.5,
+    //         }
+    //     );
 
-        if (bestSallerRef.current) {
-            observer.observe(bestSallerRef.current);
-        }
-        return () => {
-            if (bestSallerRef.current) {
-                observer.unobserve(bestSallerRef.current);
-            }
-        };
+    //     if (bestSallerRef.current) {
+    //         observer.observe(bestSallerRef.current);
+    //     }
+    //     return () => {
+    //         if (bestSallerRef.current) {
+    //             observer.unobserve(bestSallerRef.current);
+    //         }
+    //     };
 
-    }, [])
+    // }, [])
 
     const callAllApi = () => {
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
@@ -90,7 +90,9 @@ const BestSellerSection1 = ({ data }) => {
         }).catch((err) => console.log(err))
     }
 
-
+    useEffect(() => {
+        callAllApi();
+    }, [])
 
     const compressAndEncode = (inputString) => {
         try {
@@ -103,7 +105,7 @@ const BestSellerSection1 = ({ data }) => {
         }
     };
 
-    const handleNavigation = (designNo, autoCode, titleLine) => {
+    const handleNavigation = (designNo, autoCode, titleLine, index) => {
         GoogleAnalytics.event({
             action: "Navigate to Product Detail",
             category: `Product Interaction Through Best Seller Section`,
@@ -118,12 +120,36 @@ const BestSellerSection1 = ({ data }) => {
             c: loginUserDetail?.cmboCSQCid,
             f: {}
         }
+        sessionStorage.setItem('scrollToProduct2', `product-${index}`);
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     }
 
+    useEffect(() => {
+        const scrollDataStr = sessionStorage.getItem('scrollToProduct2');
+        if (!scrollDataStr) return;
 
+        const maxRetries = 10;
+        let retries = 0;
+
+        const tryScroll = () => {
+            const el = productRefs.current[scrollDataStr];
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+                sessionStorage.removeItem('scrollToProduct2');
+            } else if (retries < maxRetries) {
+                retries++;
+                setTimeout(tryScroll, 200); // retry until ref is ready
+            }
+        };
+
+        tryScroll();
+
+    }, [bestSellerData]);
 
     const handleMouseEnterRing1 = (data) => {
         if (data?.ImageCount > 1) {
@@ -146,7 +172,7 @@ const BestSellerSection1 = ({ data }) => {
     }
 
     return (
-        <div ref={bestSallerRef}>
+        <div ref={bestSallerRef} onContextMenu={(e) => e.preventDefault()}>
             {bestSellerData?.length != 0 &&
                 <div className='dt_mainBestSeler1Div'>
                     <div className='smr_bestseler1TitleDiv'>
@@ -156,7 +182,7 @@ const BestSellerSection1 = ({ data }) => {
                         <div className='smr_leftSideBestSeler'>
                             {bestSellerData?.slice(0, 4).map((data, index) => (
                                 <div key={index} className="product-card">
-                                    <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
+                                    <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine, index)}>
                                         <img
                                             src={data?.ImageCount >= 1 ?
                                                 // `${imageUrl}${data.designno === undefined ? '' : data?.designno}~1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
@@ -164,11 +190,15 @@ const BestSellerSection1 = ({ data }) => {
                                                 :
                                                 imageNotFound
                                             }
+                                            id={`product-${index}`}
+                                            ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                             alt={data.name}
                                             onError={(e) => {
                                                 e.target.src = imageNotFound;
                                                 e.target.alt = "no-image-image"
                                             }}
+                                            onContextMenu={(e) => e.preventDefault()}
+                                            draggable={false}
                                         />
                                     </div>
                                     <div className="dt_bestSaller_product_info_Web">

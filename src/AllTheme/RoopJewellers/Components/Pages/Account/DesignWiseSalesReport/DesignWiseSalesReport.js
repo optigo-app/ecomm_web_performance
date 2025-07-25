@@ -842,8 +842,11 @@ const DesignWiseSalesReport = () => {
                                     }}>
 
                                         <Box sx={{ minheight: "271px" }}>
-                                            {products?.imgsrc ? (
-                                                <img className="prod_img" src={products?.imgsrc} alt='' style={{ objectFit: "contain", height: "100%", minheight: "271px", maxHeight: "271px" }} />
+                                            {isLoading === false ? (
+                                                <img className="prod_img"
+                                                    draggable={true}
+                                                    onContextMenu={(e) => e.preventDefault()}
+                                                    src={products?.imgsrc} alt='' style={{ objectFit: "contain", height: "100%", minheight: "271px", maxHeight: "271px" }} />
                                             ) : (
                                                 <Skeleton variant="rectangular" width={"100%"} height={335} style={{ marginBottom: '76px' }} />
                                             )}

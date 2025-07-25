@@ -41,6 +41,8 @@ const RelatedProduct = ({
                       storeInit?.CDNDesignImageFol + elv?.designno + "~" + "1" + "." + elv?.ImageExtension
                       : imageNotFound
                   }
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                   alt={elv?.id}
                   onError={(e) => {
                     e.target.src = imageNotFound;
@@ -52,7 +54,7 @@ const RelatedProduct = ({
               </div>
               <div className="tab_hover_Details">
                 <h3>{elv?.designno}</h3>
-                {storeInit?.IsPriceShow == 1 &&  <small>
+                {storeInit?.IsPriceShow == 1 && <small>
                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode} &nbsp;
                   {formatter.format(elv?.UnitCostWithMarkUp)}
                 </small>}

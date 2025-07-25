@@ -62,21 +62,27 @@ const CartItem = ({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  useEffect(() => {
-    if (item?.ImageCount > 0) {
-      let imageData;
-      CartCardImageFunc(item, index).then((src) => {
-        imageData = src
-        setTimeout(() => {
-          setImageSrc(imageData);
-        }, 20)
-      });
-    } else {
-      setTimeout(() => {
-        setImageSrc(noImageFound);
-      }, 20)
-    }
-  }, [item]);
+
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  const isLoading = item?.loading;
+
+  // useEffect(() => {
+  //   if (item?.ImageCount > 0) {
+  //     let imageData;
+  //     CartCardImageFunc(item, index).then((src) => {
+  //       imageData = src
+  //       setTimeout(() => {
+  //         setImageSrc(imageData);
+  //       }, 20)
+  //     });
+  //   } else {
+  //     setTimeout(() => {
+  //       setImageSrc(noImageFound);
+  //     }, 20)
+  //   }
+  // }, [item]);
 
   const handleRemarkChangeInternal = (e) => {
     setRemark(e.target.value);
@@ -135,7 +141,7 @@ const CartItem = ({
     return text.substring(0, maxLength) + '...';
   }
 
-  const isLoading = imageSrc === '' || imageSrc === undefined || imageSrc === null;
+  // const isLoading = imageSrc === '' || imageSrc === undefined || imageSrc === null;
   // const isLoading = item && item?.loading === true;
 
   return (
@@ -162,7 +168,7 @@ const CartItem = ({
       // onTouchEnd={cancelPress}
       >
         <Box className="proCat_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
-          {isLoading ? (
+          {isLoading === true ? (
             <CardMedia
               style={{ width: isMobileImage ? "100%" : "90%" }}
               className="cardMainSkeleton"
@@ -178,14 +184,26 @@ const CartItem = ({
           ) : (
             <CardMedia
               component="img"
-              image={imageSrc}
+              // image={imageSrc}
+              image={item?.images}
+              sx={{
+                border: 'none',
+                outline: 'none',
+                boxShadow: 'none',
+                '&:focus': { outline: 'none' },
+                '&:active': { outline: 'none' },
+              }}
               alt={item?.TitleLine}
               className='proCat_cartListImage'
               onClick={() => onSelect(item)}
               onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = noImageFound;
+                if (item?.ImageCount > 0) {
+                  e.target.src = fullImagePath ? fullImagePath : noImageFound
+                } else {
+                  e.target.src = noImageFound;
+                }
               }}
+              loading="lazy"
             />
           )}
 

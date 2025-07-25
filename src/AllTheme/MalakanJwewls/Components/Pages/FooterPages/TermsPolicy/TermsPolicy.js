@@ -240,12 +240,10 @@ const TermsPolicy = () => {
     }
   ];
 
-
-
   return (
 
     // Shree diamonds Data
-    //     <div class="malkan_contactMain">
+    // <div class="malkan_contactMain">
     //   <main class="malkan_sp-service-policy">
     //     <div class="content_malkana">
     //       <div class="title">
@@ -348,7 +346,7 @@ const TermsPolicy = () => {
     //         </p>
     //         <ul>
     //           <li>Email: <a style={{
-    //             color:"white"
+    //             color: "white"
     //           }} href="mailto:shreediamondandjewels@gmail.com">shreediamondandjewels@gmail.com</a></li>
     //           <li>Phone: 9837121598, 9719169165</li>
     //           <li>Address: 30, Dhamawala Bazar, Opp. Saraswati Market, Dehradun, Uttarakhand</li>
@@ -359,7 +357,7 @@ const TermsPolicy = () => {
     // </div>
 
 
-    // Sonsons
+    // Sonsons, kamalika
     <div className="malkan_contactMain">
       <main className="malkan_sp-service-policy">
         <div className="content_malkana">
@@ -391,10 +389,6 @@ const TermsPolicy = () => {
         </div>
       </main>
     </div>
-
-
-
-
 
 
 

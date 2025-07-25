@@ -13,19 +13,30 @@ import RedirectModal from './Components/Pages/Home/CountdownTimer/RedirectModal'
 import MetaData from './Components/meta/MetaData';
 import MetaPage from './Components/meta/Metapage';
 import { HelmetProvider } from 'react-helmet-async';
-const PrivateRoutes = React.lazy(() => import('./PrivateRoutes'));
-// import PrivateRoutes from './PrivateRoutes';
+
+import LoginOption from './Components/Pages/Auth/LoginOption/LoginOption';
+import ContinueWithEmail from './Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail';
+import ContimueWithMobile from './Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile';
+import LoginWithEmail from './Components/Pages/Auth/LoginWithEmail/LoginWithEmail';
+import LoginWithEmailCode from './Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode';
+import LoginWithMobileCode from './Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode';
+import Register from './Components/Pages/Auth/Registretion/Register';
+import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass';
+import PrivateRoutes from './PrivateRoutes';
+import useGlobalPreventSave from '../../utils/Glob_Functions/useGlobalPreventSave';
 const Home = React.lazy(() => import('./Components/Pages/Home/Index'));
+// const PrivateRoutes = React.lazy(() => import('./PrivateRoutes'));
 const CartDetails = React.lazy(() => import('./Components/Pages/Cart/Cart'));
 const Header = React.lazy(() => import('./Components/Pages/Home/Header/Header'));
 const Footer = React.lazy(() => import('./Components/Pages/Home/Footer/Footer'));
-const LoginOption = React.lazy(() => import('./Components/Pages/Auth/LoginOption/LoginOption'));
-const ContinueWithEmail = React.lazy(() => import('./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'));
-const ContimueWithMobile = React.lazy(() => import('./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile'));
-const LoginWithEmail = React.lazy(() => import('./Components/Pages/Auth/LoginWithEmail/LoginWithEmail'));
-const LoginWithEmailCode = React.lazy(() => import('./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode'));
-const LoginWithMobileCode = React.lazy(() => import('./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode'));
-const Register = React.lazy(() => import('./Components/Pages/Auth/Registretion/Register'));
+// const LoginOption = React.lazy(() => import('./Components/Pages/Auth/LoginOption/LoginOption'));
+// const ContinueWithEmail = React.lazy(() => import('./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'));
+// const ContimueWithMobile = React.lazy(() => import('./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile'));
+// const LoginWithEmail = React.lazy(() => import('./Components/Pages/Auth/LoginWithEmail/LoginWithEmail'));
+// const LoginWithEmailCode = React.lazy(() => import('./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode'));
+// const LoginWithMobileCode = React.lazy(() => import('./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode'));
+// const Register = React.lazy(() => import('./Components/Pages/Auth/Registretion/Register'));
+// const ForgotPass = React.lazy(() => import('./Components/Pages/Auth/forgotPass/ForgotPass'));
 const ProductList = React.lazy(() => import('./Components/Pages/Product/ProductList/ProductList'));
 const ProductDetail = React.lazy(() => import('./Components/Pages/Product/ProductDetail/ProductDetail'));
 const Delivery = React.lazy(() => import('./Components/Pages/OrderFlow/DeliveryPage/Delivery'));
@@ -34,7 +45,6 @@ const ConfirmationPage = React.lazy(() => import('./Components/Pages/OrderFlow/C
 const Wishlist = React.lazy(() => import('./Components/Pages/Wishlist/Wishlist'));
 const Account = React.lazy(() => import('./Components/Pages/Account/Account'));
 const Lookbook = React.lazy(() => import('./Components/Pages/LookBook/Lookbook'));
-const ForgotPass = React.lazy(() => import('./Components/Pages/Auth/forgotPass/ForgotPass'));
 const Customize = React.lazy(() => import('./Components/Pages/Home/StaticPages/Customize/Customize'));
 const CustomerCare = React.lazy(() => import('./Components/Pages/Home/StaticPages/Customercare/CustomerCare'));
 const Terms = React.lazy(() => import('./Components/Pages/Home/StaticPages/Terms/Terms'));
@@ -46,20 +56,32 @@ const Faqs = React.lazy(() => import('./Components/Pages/Home/StaticPages/Faqs/F
 const History = React.lazy(() => import('./Components/Pages/Home/StaticPages/History/History'));
 const Appointment = React.lazy(() => import('./Components/Pages/Home/StaticPages/BookAppointment/Appointment'));
 
+
 const Elveester_app = () => {
 
   const location = useLocation();
   const islogin = useRecoilValue(el_loginState)
-  console.log("TCL: Elveester_app -> islogin", islogin)
   const [showHeader, setShowHeader] = useState(true);
   const [showFooter, setShowFooter] = useState(true);
   const timerData = useSetRecoilState(timerExpiredState);
   const getRedModal = useRecoilValue(redirectModal);
   const setRedModal = useSetRecoilState(redirectModal);
   const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+  const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0 });
 
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
   const [el_companyTitleLogoM, el_setCompanyTitleLogoM] = useRecoilState(el_companyLogoM)
+
+  useGlobalPreventSave()
+
+  const handleContextMenu = (e) => {
+    e.preventDefault();
+    // setContextMenu({
+    //   visible: true,
+    //   x: e.pageX,
+    //   y: e.pageY,
+    // });
+  };
 
   const timer = CountdownTimerFnc();
   useEffect(() => {
@@ -149,6 +171,42 @@ const Elveester_app = () => {
     </Box>
   );
 
+  function ProductListWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <ProductList />
+      </div>
+    );
+  }
+  function ProductDetailWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <ProductDetail />
+      </div>
+    );
+  }
+  function WishlistWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <Wishlist />
+      </div>
+    );
+  }
+  function CartWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <CartDetails />
+      </div>
+    );
+  }
+  function LookbookWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <Lookbook />
+      </div>
+    );
+  }
+
   return (
     <div>
       <HelmetProvider>
@@ -187,14 +245,14 @@ const Elveester_app = () => {
 
             <Route path="/" element={<Home />} />
             <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
-              <Route path="/cartPage" element={<CartDetails />} />
-              <Route path="/myWishList" element={<Wishlist />} />
+              <Route path="/cartPage" element={<CartWrapper />} />
+              <Route path="/myWishList" element={<WishlistWrapper />} />
               <Route path="/Delivery" element={<Delivery />} />
               <Route path="/payment" element={<PaymentPage />} />
               <Route path="/Confirmation" element={<ConfirmationPage />} />
-              <Route path="/p/*" element={<ProductList />} />
-              <Route path="/d/*" element={<ProductDetail />} />
-              <Route path="/Lookbook" element={<Lookbook />} />
+              <Route path="/p/*" element={<ProductListWrapper />} />
+              <Route path="/d/*" element={<ProductDetailWrapper />} />
+              <Route path="/Lookbook" element={<LookbookWrapper />} />
               <Route path="/account" element={<Account />} />
             </Route>
             <Route path="/aboutUs" element={<AboutUs />} />

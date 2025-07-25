@@ -139,6 +139,8 @@ const WishlistItems = ({
                   }}
                   loading="lazy"
                   className="smr_WlListImage"
+                  draggable={true}
+                  onContextMenu={(e) => e.preventDefault()}
                   onClick={() => handleMoveToDetail(item)}
                   onError={(e) => {
                     if (item?.ImageCount > 0) {

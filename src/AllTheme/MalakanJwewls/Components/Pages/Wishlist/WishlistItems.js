@@ -125,6 +125,8 @@ const WishlistItems = ({
                                         '&:focus': { outline: 'none' },
                                         '&:active': { outline: 'none' },
                                     }}
+                                    draggable={true}
+                                    onContextMenu={(e) => e.preventDefault()}
                                     loading="lazy"
                                     className="mala_WlListImage"
                                     onClick={() => handleMoveToDetail(item)}

@@ -32,10 +32,12 @@ const SonasliderData = [
     },
 ];
 
-const TopSection = ({data ,promoBanner}) => {
-    console.log(promoBanner,"promoBanner")
+const TopSection = ({ data, promoBanner }) => {
+    console.log(promoBanner, "promoBanner")
     return (
-        <div className='dt_topSectionMain'>
+        <div className='dt_topSectionMain' onContextMenu={(e) => {
+            e.preventDefault();
+        }}>
             <Swiper
                 pagination={{ clickable: false }}
                 className="mySwiper"
@@ -46,16 +48,26 @@ const TopSection = ({data ,promoBanner}) => {
                 }}
                 modules={[Autoplay]}
             >
-                {data?.image?.slice(0,3).map((slide, index) => (
+                {data?.image?.slice(0, 3).map((slide, index) => (
                     <SwiperSlide key={index}>
                         {/* <img src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} className='dt_topSectionImg' style={{ width: '100%', height: '100%', minHeight: '700px', maxHeight: "800px", objectFit: 'cover' }} loading='eager' /> */}
-                        <img src={slide} alt={`Slide ${index}`} className='dt_topSectionImg' style={{ width: '100%', height: '100%', minHeight: '700px', maxHeight: "800px", objectFit: 'cover' }} loading='eager' />
+                        <img src={slide} alt={`Slide ${index}`}
+                            onContextMenu={(e) => {
+                                e.preventDefault();
+                            }}
+                            draggable={true}
+                            className='dt_topSectionImg' style={{ width: '100%', height: '100%', minHeight: '700px', maxHeight: "800px", objectFit: 'cover' }} loading='eager' />
                     </SwiperSlide>
                 ))}
             </Swiper>
             <div className="dt_imageContainer">
                 {/* <img src={`${storImagePath()}/images/HomePage/Banner/PromoBanner1.webp`} className="dt_centeredImg" alt="Diamondtine Banner" /> */}
-                <img src={promoBanner} className="dt_centeredImg" alt="Diamondtine Banner" />
+                <img src={promoBanner}
+                    onContextMenu={(e) => {
+                        e.preventDefault();
+                    }}
+                    draggable={true}
+                    className="dt_centeredImg" alt="Diamondtine Banner" />
             </div>
         </div>
     )

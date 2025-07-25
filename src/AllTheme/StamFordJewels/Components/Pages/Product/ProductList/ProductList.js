@@ -4376,6 +4376,8 @@ const Product_Card = ({
                       }
                       e.target.src = imageNotFound;
                     }}
+                    draggable={true}
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 ) : null}
               </div>
@@ -4389,6 +4391,8 @@ const Product_Card = ({
                   e.stopPropagation();
                   e.target.src = imageNotFound;
                 }}
+                draggable={true}
+                onContextMenu={(e) => e.preventDefault()}
                 style={{
                   opacity: isHover && (RollImageUrl || videoUrl) ? "0" : "1",
                   transition: '0s ease-in-out',

@@ -37,6 +37,7 @@ import {
 import { MdAccountBox } from "react-icons/md";
 import { MdAccountCircle } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
+import useGlobalPreventSave from "../../../../../../utils/Glob_Functions/useGlobalPreventSave";
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -179,6 +180,7 @@ const Header = () => {
     console.log("bypass", count)
   }, [islogin]);
 
+  useGlobalPreventSave();
 
   useEffect(() => {
     fetchData();
@@ -437,6 +439,8 @@ const Header = () => {
     }
   }
 
+
+
   // for cart drawer
 
   const toggleCartDrawer = () => {
@@ -478,7 +482,7 @@ const Header = () => {
     }
   };
   return (
-    <div className="roop_headerMain_div">
+    <div className="roop_headerMain_div" draggable={false} onContextMenu={(e) => { e.preventDefault() }}>
       {serachsShowOverlay && (
         <>
           <div className="roop_smlingSearchoverlay">
@@ -572,26 +576,42 @@ const Header = () => {
                     />
                   </div>
                   {!maxWidth500 && (
-                    <div className="roop_mobileHeader_top_div2">
-                      <a href="/">
+                    <div className="roop_mobileHeader_top_div2"
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
+                    >
+                      <a href="/"
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                      >
                         <img
                           src={compnyLogo}
                           loading="lazy"
                           className="roop_logo_header"
                           alt="roop_logo_header-mobile"
+                          draggable={false}
+                          onContextMenu={(e) => e.preventDefault()}
                         />
                       </a>
                     </div>
                   )}
 
                   {maxWidth500 && (
-                    <div className="roop_mobileHeader_top_div2">
-                      <a href="/">
+                    <div className="roop_mobileHeader_top_div2"
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
+                    >
+                      <a href="/"
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                      >
                         <img
                           src={compnyLogoM}
                           loading="lazy"
                           className="roop_logo_header"
                           alt="roop_logo_header-mobile-500"
+                          draggable={false}
+                          onContextMenu={(e) => e.preventDefault()}
                         />
                       </a>
                     </div>
@@ -1131,7 +1151,7 @@ const Header = () => {
             {/* Welcome To Vara Jewels Official Website */}
 
             {/* For Sonsosons */}
-            Welcome To Sonasons Official Website
+            {/* Welcome To Sonasons Official Website */}
 
             {/* For Pacific */}
             {/* Welcome To Pacific Diamonds Official Website */}
@@ -1140,19 +1160,27 @@ const Header = () => {
             {/* Welcome To Ojasvi Jewels Official Website */}
 
             {/* For Shinjini */}
-            {/* Welcome To Shinjini Jewels Official Website */}
+            Welcome To Shinjini Jewels Official Website
             {/* Welcome To Roop Jewellers's Official Website */}
           </p>
         </div>
         {!maxWidth1200 && (
           <div className={`roop_Top_header_sub ${isHeaderFixed ? "roop_Top_Header_fixed_main fixed" : ""}`}>
-            <div className="roop_Top2_header_div1">
-              <a href="/" className="roop_desk_logo">
+            <div className="roop_Top2_header_div1"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+            >
+              <a href="/" className="roop_desk_logo"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              >
                 <img
                   src={compnyLogo}
                   loading="lazy"
                   className="roop_logo_header"
                   alt="roop_logo_header-mobile-1200"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </a>
             </div>
@@ -1440,11 +1468,19 @@ const Header = () => {
           <div className={`roop_top_header3 ${isHeaderFixed ? "roop_Top_Header_fixed_main fixed" : ""}`}>
             {/* <div className="roop_top_header3"> */}
 
-            <div className="roop_top_header3_logo_Web">
-              <a href="/">
+            <div className="roop_top_header3_logo_Web"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+            >
+              <a href="/"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              >
                 <img
                   src={compnyLogo}
                   loading="lazy"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                   className="roop_logo_header"
                   style={{
                     visibility: !drawerShowOverlay ? "visible" : "hidden",
@@ -1455,11 +1491,19 @@ const Header = () => {
             </div>
 
 
-            <div className="roop_top_header3_logo_mobile">
-              <a href="/">
+            <div className="roop_top_header3_logo_mobile"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+            >
+              <a href="/"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              >
                 <img
                   src={compnyLogoM}
                   loading="lazy"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                   className="roop_logo_header"
                   style={{
                     visibility: !drawerShowOverlay ? "visible" : "hidden",

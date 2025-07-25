@@ -14,8 +14,8 @@ export default function ContimueWithMobile() {
     const navigation = useNavigate();
     const location = useLocation();
     const search = location?.search
-    const redirectMobileUrl = `/LoginWithMobileCode/${search}`;
-    const redirectSignUpUrl = `/register/${search}`;
+    const redirectMobileUrl = `/LoginWithMobileCode${search}`;
+    const redirectSignUpUrl = `/register${search}`;
     const handleInputChange = (e, setter, fieldName) => {
         const { value } = e.target;
         const trimmedValue = value.trim();

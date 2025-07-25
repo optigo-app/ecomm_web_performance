@@ -97,20 +97,22 @@ const WishlistItems = ({
                                         animation="wave"
                                         variant="rectangular"
                                         sx={{
-                                            width: {
-                                                xs: '100%',
-                                                sm: '260px',      // ~599px
-                                                md: '270px',      // ~880px
-                                                lg: '300px',      // ~1050px
-                                                xl: '320px',      // default
-                                            },
-                                            height: {
-                                                xs: '100%',
-                                                sm: '260px',      // ~599px
-                                                md: '270px',      // ~880px
-                                                lg: '300px',      // ~1050px
-                                                xl: '320px',      // default
-                                            },
+                                            // width: {
+                                            //     xs: '100%',
+                                            //     sm: '260px',      // ~599px
+                                            //     md: '270px',      // ~880px
+                                            //     lg: '300px',      // ~1050px
+                                            //     xl: '320px',      // default
+                                            // },
+                                            // height: {
+                                            //     xs: '100%',
+                                            //     sm: '260px',      // ~599px
+                                            //     md: '270px',      // ~880px
+                                            //     lg: '300px',      // ~1050px
+                                            //     xl: '320px',      // default
+                                            // },
+                                            width: "100%",
+                                            height: "100%",
                                             aspectRatio: '1 / 1',
                                             backgroundColor: '#e8e8e86e',
                                         }}
@@ -129,6 +131,8 @@ const WishlistItems = ({
                                         '&:active': { outline: 'none' },
                                     }}
                                     className="roop_WlListImage"
+                                    draggable={true}
+                                    onContextMenu={(e) => e.preventDefault()}
                                     onClick={() => handleMoveToDetail(item)}
                                     onError={(e) => {
                                         if (item?.ImageCount > 0) {

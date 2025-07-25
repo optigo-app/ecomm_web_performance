@@ -27,6 +27,7 @@ import NewOrderHistory from './AccountOrderHistory/NewOrderHistory';
 import { handleScrollTop } from '../../../../../utils/Glob_Functions/GlobalFunction';
 import TicketSystem from './TicketSystem/TicketSystem';
 import Calllog from './CallLog/Calllog';
+import useGlobalPreventSave from '../../../../../utils/Glob_Functions/useGlobalPreventSave';
 
 
 function CustomTabPanel(props) {
@@ -94,7 +95,7 @@ export default function Account() {
         setValue1(newValue);
     }
 
- 
+    useGlobalPreventSave();
 
     // const handleLogout = () => {
     //     setIsLoginState('false')
@@ -137,7 +138,7 @@ export default function Account() {
      },[])
 
     return (
-        <div className='account_AccountTab_SMR'>
+        <div className='account_AccountTab_SMR' onContextMenu={(e) => { e.preventDefault() }}>
         <div className=' accountPagTabSection'>
             
             <div>

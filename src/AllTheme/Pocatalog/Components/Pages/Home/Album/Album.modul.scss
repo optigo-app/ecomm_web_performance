@@ -109,6 +109,22 @@
         width: 100%;
         min-height: 280px;
         object-fit: contain;
+
+        @media (max-width: 1820px) {
+            min-height: 240px;
+        }
+
+        @media (max-width: 1580px) {
+            min-height: 200px;
+        }
+
+        @media (max-width: 1350px) {
+            min-height: 170px;
+        }
+
+        @media (max-width: 380px) {
+            min-height: 140px;
+        }
     }
 
     .proCat_albumALL_div {

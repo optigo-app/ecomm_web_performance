@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "./manageaddress.scss";
 import { Box, Button, CircularProgress, Dialog, DialogTitle, RadioGroup, TextField, Typography } from '@mui/material';
 import StayPrimaryPortraitIcon from '@mui/icons-material/StayPrimaryPortrait';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
 import { useSetRecoilState } from 'recoil';
@@ -344,12 +344,12 @@ const ManageAddress = () => {
                     padding: "15px 15px",
                     marginTop: '30px',
                     fontSize: '20px',
-                    background: '#98B8D9',
-                    color: "rgba(31, 25, 25, 0.7)",
+                    // background: '#98B8D9',
+                    // color: "rgba(31, 25, 25, 0.7)",
                     fontFamily: "PT Sans, sans-serif",
                     fontWeight: "700",
                     opacity: '.8'
-                }} className='savedAddress'>Saved Addresses</p>
+                }} className='savedAddress btnColorProCat'>Saved Addresses</p>
                 <Box sx={{ paddingLeft: "15px" }}>
                     <Button className='muiSmilingRocksBtnManage btnColorProCatProduct savedAddressManageBtn' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={() => handleOpen('', null, 'add')}>ADD NEW ADDRESS</Button></Box>
                 <RadioGroup
@@ -434,11 +434,11 @@ const ManageAddress = () => {
                     content="Are you sure you want to delete address?"
                 />
                 <Dialog open={open} onClose={handleClose} sx={{
-                    overflowX:"hidden"
+                    overflowX: "hidden"
                 }}>
                     <div className='smilingAddressPopupMain_Procat' style={{
-                    overflowX:"hidden "
-                }}>
+                        overflowX: "hidden "
+                    }}>
                         <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>{isEditMode ? 'Edit' : 'Add'} Shipping Info</DialogTitle>
                         <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', overflowX: "hidden" }}>
                             <TextField

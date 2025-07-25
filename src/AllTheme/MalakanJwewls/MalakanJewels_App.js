@@ -6,9 +6,14 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Cookies from "js-cookie";
 import loaderImg from './Components/Assets/webLogo.png';
+import loaderImg1 from './Components/Assets/shreeLogo.png';
+import loaderImg2 from './Components/Assets/kamalikaLogo.png';
 import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
 import { mala_companyLogo, mala_companyLogoM, mala_loginState } from "./Components/Recoil/atom";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
+import { Suspense } from "react";
+import { Box } from "@mui/material";
+import usePerformanceTracker from "../../utils/Glob_Functions/usePerformanceTracker";
 
 // import Home from "./Components/Pages/Home/Index";
 // import Header from "./Components/Pages/Home/Header/Header";
@@ -49,29 +54,29 @@ import Footer from "./Components/Pages/Home/Footer/Footer";
 import PrivateRoutes from "./PrivateRoutes";
 import PageNotFound from "./Components/Pages/404Page/PageNotFound";
 import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
-import { Suspense } from "react";
-import { Box } from "@mui/material";
+import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
+import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
+import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
+import Register from "./Components/Pages/Auth/Registretion/Register";
+import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile";
+import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
+import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode";
+import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
+import useGlobalPreventSave from "../../utils/Glob_Functions/useGlobalPreventSave";
+
 
 // Lazy load components that are not immediately needed
 const Cart = lazy(() => import("./Components/Pages/Cart/CartMain"));
-const LoginOption = lazy(() => import("./Components/Pages/Auth/LoginOption/LoginOption"));
-const ContinueWithEmail = lazy(() => import("./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail"));
-const LoginWithEmail = lazy(() => import("./Components/Pages/Auth/LoginWithEmail/LoginWithEmail"));
 const ProductList = lazy(() => import("./Components/Pages/Product/ProductList/ProductList"));
 const ProductDetail = lazy(() => import("./Components/Pages/Product/ProductDetail/ProductDetail"));
 const ContactUs = lazy(() => import("./Components/Pages/FooterPages/contactUs/ContactUs"));
 const ExpertAdvice = lazy(() => import("./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice"));
 const FunFact = lazy(() => import("./Components/Pages/FooterPages/FunFact/FunFact"));
-const Register = lazy(() => import("./Components/Pages/Auth/Registretion/Register"));
-const ContimueWithMobile = lazy(() => import("./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile"));
-const LoginWithEmailCode = lazy(() => import("./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode"));
-const LoginWithMobileCode = lazy(() => import("./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode"));
 const AboutUs = lazy(() => import("./Components/Pages/aboutUs/AboutUs"));
 const Wishlist = lazy(() => import("./Components/Pages/Wishlist/Wishlist"));
 const Delivery = lazy(() => import("./Components/Pages/OrderFlow/DeliveryPage/Delivery"));
 const Payment = lazy(() => import("./Components/Pages/OrderFlow/PaymentPage/Payment"));
 const Confirmation = lazy(() => import("./Components/Pages/OrderFlow/ConfirmationPage/Confirmation"));
-const ForgotPass = lazy(() => import("./Components/Pages/Auth/forgotPass/ForgotPass"));
 const Account = lazy(() => import("./Components/Pages/Account/Account"));
 const Lookbook = lazy(() => import("./Components/Pages/Home/LookBook/Lookbook"));
 const TermsPolicy = lazy(() => import("./Components/Pages/FooterPages/TermsPolicy/TermsPolicy"));
@@ -88,32 +93,31 @@ const MalakanJewels_App = () => {
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-  const [htmlContent, setHtmlContent] = useState("");
+  const [htmlContent, setHtmlContent] = useState(JSON.parse(sessionStorage.getItem('storeInit')));
   const mala_setCompanyTitleLogo = useSetRecoilState(mala_companyLogo)
   const mala_setCompanyTitleLogoM = useSetRecoilState(mala_companyLogoM)
 
-
-  useEffect(() => {
-    fetch(`${storImagePath()}/Store_Init.txt`)
-      .then((response) => response?.text())
-      .then((text) => {
-        try {
-          const jsonData = JSON?.parse(text);
-          setHtmlContent(jsonData);
-        } catch (error) {
-          console.warn("Error parsing JSON:", error);
-        }
-      })
-      .catch((error) => {
-        console.warn("Error fetching the file:", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(`${storImagePath()}/Store_Init.txt`)
+  //     .then((response) => response?.text())
+  //     .then((text) => {
+  //       try {
+  //         const jsonData = JSON?.parse(text);
+  //         setHtmlContent(jsonData);
+  //       } catch (error) {
+  //         console.warn("Error parsing JSON:", error);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.warn("Error fetching the file:", error);
+  //     });
+  // }, []);
 
   useEffect(() => {
     if (htmlContent) {
       setLocalData((prevData) => ({
         ...prevData,
-        Headerno: htmlContent?.rd[0]?.Headerno,
+        Headerno: htmlContent?.Headerno,
       }));
     }
   }, [htmlContent]);
@@ -126,6 +130,11 @@ const MalakanJewels_App = () => {
     mala_setCompanyTitleLogoM(mobileLogo);
   });
 
+  const handleContextMenu = (e) => {
+    e.preventDefault();
+  };
+
+  useGlobalPreventSave();
 
   useEffect(() => {
     const cookieValue = Cookies.get("userLoginCookie");
@@ -184,9 +193,9 @@ const MalakanJewels_App = () => {
         minHeight: '100vh'
       }}
     >
-      {/* <CircularProgress sx={{ color: 'rgba(255, 87, 34, 0.8)' }} /> */}
+      {/* <CircularProgress sx={{ color: 'rgba(255,  87, 34, 0.8)' }} /> */}
       <img
-        src={loaderImg}
+        src={loaderImg2}
         alt="Loading..."
         height="100%"
         width="auto"
@@ -197,6 +206,42 @@ const MalakanJewels_App = () => {
       />
     </Box>
   );
+
+  function ProductListWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <ProductList />
+      </div>
+    );
+  }
+  function ProductDetailWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <ProductDetail />
+      </div>
+    );
+  }
+  function WishlistWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <Wishlist />
+      </div>
+    );
+  }
+  function CartWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <Cart />
+      </div>
+    );
+  }
+  function LookbookWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <Lookbook />
+      </div>
+    );
+  }
 
   return (
     <Suspense fallback={<LoadingFallback />}>
@@ -248,16 +293,16 @@ const MalakanJewels_App = () => {
           <Route path="/FunFact" element={<FunFact />} />
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
-            <Route path="/p/*" element={<ProductList />} />
-            <Route path="/d/*" element={<ProductDetail />} />
-            <Route path="/cartPage" element={<Cart />} />
-            <Route path="/myWishList" element={<Wishlist />} />
+            <Route path="/p/*" element={<ProductListWrapper />} />
+            <Route path="/d/*" element={<ProductDetailWrapper />} />
+            <Route path="/cartPage" element={<CartWrapper />} />
+            <Route path="/myWishList" element={<WishlistWrapper />} />
             <Route path="/Delivery" element={<Delivery />} />
             <Route path="/Payment" element={<Payment />} />
             <Route path="/Confirmation" element={<Confirmation />} />
             <Route path="/account" element={<Account />} />
+            <Route path="/Lookbook" element={<LookbookWrapper />} />
           </Route>
-          <Route path="/Lookbook" element={<Lookbook />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>

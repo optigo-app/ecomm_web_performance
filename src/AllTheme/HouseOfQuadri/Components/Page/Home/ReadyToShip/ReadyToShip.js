@@ -1,6 +1,6 @@
 // import "./ReadyToShip.modul.scss";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Hoq_loginState } from "../../../Recoil/atom";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import Cookies from "js-cookie";
@@ -17,6 +17,7 @@ const ReadyToShip = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const islogin = useRecoilValue(Hoq_loginState);
   const navigation = useNavigate();
+  const productRefs = useRef({});
 
   useEffect(() => {
     const loginUserDetail = JSON.parse(sessionStorage?.getItem("loginUserDetail"));
@@ -62,7 +63,7 @@ const ReadyToShip = () => {
     }
   };
 
-  const handleNavigation = (designNo, autoCode, titleLine) => {
+  const handleNavigation = (designNo, autoCode, titleLine, index) => {
     let obj = {
       a: autoCode,
       b: designNo,
@@ -72,6 +73,7 @@ const ReadyToShip = () => {
       f: {},
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
+    sessionStorage.setItem('scrollToProduct4', `product-${index}`);
     // navigation(
     //   `/d/${titleLine.replace(/\s+/g, `_`)}${
     //     titleLine?.length > 0 ? "_" : ""
@@ -79,6 +81,31 @@ const ReadyToShip = () => {
     // );
     navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
   };
+
+  useEffect(() => {
+    const scrollDataStr = sessionStorage.getItem('scrollToProduct4');
+    if (!scrollDataStr) return;
+
+    const maxRetries = 10;
+    let retries = 0;
+
+    const tryScroll = () => {
+      const el = productRefs.current[scrollDataStr];
+      if (el) {
+        el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+        sessionStorage.removeItem('scrollToProduct4');
+      } else if (retries < maxRetries) {
+        retries++;
+        setTimeout(tryScroll, 200); // retry until ref is ready
+      }
+    };
+
+    tryScroll();
+
+  }, [bestSellerData]);
 
   const ImageUrl = (designNo, ext) => {
     // return storeInit?.CDNDesignImageFol + designNo + "~" + 1 + "." + ext;
@@ -97,7 +124,10 @@ const ReadyToShip = () => {
   }
 
   return (
-    <div className="hoq_main_TabSection">
+    <div className="hoq_main_TabSection"
+      draggable={false}
+      onContextMenu={(e) => e.preventDefault()}
+    >
       <div className="header">
         <h1>Best Seller</h1>
         <button
@@ -119,6 +149,8 @@ const ReadyToShip = () => {
                 "jpg",
                 data?.ImageCount
               )}
+              id={`product-${i}`}
+              ref={(el) => (productRefs.current[`product-${i}`] = el)}
               condition={storeInit?.IsPriceShow === 1}
               designNo={data?.designno}
               CurrCode={
@@ -129,7 +161,8 @@ const ReadyToShip = () => {
                 handleNavigation(
                   data?.designno,
                   data?.autocode,
-                  data?.TitleLine
+                  data?.TitleLine,
+                  i
                 )
               }
               ImageCount={data?.ImageCount}
@@ -179,6 +212,8 @@ const CARD = ({
             e.target.src =
               noimage;
           }}
+          draggable={true}
+          onContextMenu={(e) => e.preventDefault()}
           loading="lazy"
         />
         {ImageCount > 1 && (

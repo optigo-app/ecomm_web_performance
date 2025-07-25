@@ -15,6 +15,7 @@ import NewArrival1 from './NewArrival/NewArrival1';
 import BestSellerSection1 from './BestSellerSection/BestSellerSection1';
 import JewellerySet from './JewellerySet/JewellerySet';
 import Collection from './Collection/Collection';
+import useGlobalPreventSave from "../../../../../utils/Glob_Functions/useGlobalPreventSave";
 
 
 function Home() {
@@ -31,6 +32,7 @@ function Home() {
     setCSSVariable();
   }, []);
 
+  useGlobalPreventSave();
 
   const setCSSVariable = () => {
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
@@ -46,7 +48,7 @@ function Home() {
 
       <>
         {/* <Suspense fallback={<></>}> */}
-        <div className="roop_home_index_main" aria-labelledby="main-content">
+        <div className="roop_home_index_main" aria-labelledby="main-content" onContextMenu={(e) => e.preventDefault()}>
           <div style={{ minHeight: minHeight }} aria-hidden="false">
             <div className="roop_home_index_Submain" role="main">
               <TopSection aria-labelledby="top-section" data={banner?.mainBanner} />

@@ -38,32 +38,32 @@ const BestSellerSection = ({data}) => {
         // nextArrow: false,   
     };
 
-  useEffect(() => {
-      setLoadingHome(true);
-      const observer = new IntersectionObserver(
-          (entries) => {
-              entries.forEach((entry) => {
-                  if (entry.isIntersecting) {
-                      callAllApi()
-                      observer.unobserve(entry.target);
-                  }
-              });
-          },
-          {
-              root: null,
-              threshold: 0.5,
-          }
-      );
+//   useEffect(() => {
+//       setLoadingHome(true);
+//       const observer = new IntersectionObserver(
+//           (entries) => {
+//               entries.forEach((entry) => {
+//                   if (entry.isIntersecting) {
+//                       callAllApi()
+//                       observer.unobserve(entry.target);
+//                   }
+//               });
+//           },
+//           {
+//               root: null,
+//               threshold: 0.5,
+//           }
+//       );
 
-      if (bestSallerRef.current) {
-          observer.observe(bestSallerRef.current);
-      }
-      return () => {
-          if (bestSallerRef.current) {
-              observer.unobserve(bestSallerRef.current);
-          }
-      };
-  }, [])
+//       if (bestSallerRef.current) {
+//           observer.observe(bestSallerRef.current);
+//       }
+//       return () => {
+//           if (bestSallerRef.current) {
+//               observer.unobserve(bestSallerRef.current);
+//           }
+//       };
+//   }, [])
 
   const callAllApi = () => {
     setIsLoading(true);
@@ -100,6 +100,9 @@ const BestSellerSection = ({data}) => {
 
 }
 
+useEffect(() => {
+    callAllApi()
+},[])
 
     const compressAndEncode = (inputString) => {
         try {

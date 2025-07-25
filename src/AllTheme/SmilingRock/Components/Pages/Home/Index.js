@@ -20,6 +20,7 @@ import BrandsComponent from "./BrandComponent/BrandComponents";
 import NewsletterSignup from "./SubscribeNewsLater/NewsletterSignup";
 import BespokeBanner from "./Bespokejewelry/BespokeBanner/BespokeBanner";
 import AppointmentBanner from "./Appointment/AppointmentBanner/AppointmentBanner";
+import useGlobalPreventSave from "../../../../../utils/Glob_Functions/useGlobalPreventSave";
 
 // const TopSection = React.lazy(() => import('./TopVideo/TopSection'));
 // const TheDifference = React.lazy(() => import('./TheDifference/TheDifference'));
@@ -62,6 +63,7 @@ function Home() {
     setCSSVariable();
   }, []);
 
+  useGlobalPreventSave();
 
   const setCSSVariable = () => {
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
@@ -79,7 +81,9 @@ function Home() {
       {localData?.YearCode !== "" && (
         <div className="smiling_home_index_main" style={{
           overflow: "hidden",
-        }} >
+        }}
+          onContextMenu={(e) => { e.preventDefault() }}
+        >
           <div>
             {/* style={{ backgroundColor: "white" }} */}
             {/* {htmlContent?.rd[0]?.Blockno === 1 && ( */}
@@ -93,7 +97,7 @@ function Home() {
                 </div>
                 {/* <div className="custom_padding_inline">
                   <PromotionBaner1 />{" "}
-                </div> */}
+                </div> */}  
                 <BespokeBanner />
                 <div className="custom_padding_inline">
                   {localData?.IsHomeAlbum === 1 && <Album />}{" "}

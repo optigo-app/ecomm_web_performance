@@ -123,17 +123,17 @@ const CartItem = ({
     return text.substring(0, maxLength) + '...';
   }
 
-  useEffect(() => {
-    if (item?.ImageCount > 0) {
-      CartCardImageFunc(item).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [item]);
+  // useEffect(() => {
+  //   if (item?.ImageCount > 0) {
+  //     CartCardImageFunc(item).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [item]);
 
-  console.log('ggsdhsgghdghasgd', imageSrc)
+  // console.log('ggsdhsgghdghasgd', imageSrc)
 
   return (
     <Grid
@@ -190,6 +190,8 @@ const CartItem = ({
                   e.target.src = noImageFound;
                 }
               }}
+              draggable={true}
+              onContextMenu={(e) => e.preventDefault()}
               loading="lazy"
             />
           )}
