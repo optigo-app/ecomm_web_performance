@@ -40,6 +40,7 @@ import { Helmet } from "react-helmet";
 import debounce from 'lodash.debounce';  // Import lodash debounce
 import ReactPlayer from "react-player";
 import EditablePagination from "../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
+import useGlobalPreventSave from "../../../../../../utils/Glob_Functions/useGlobalPreventSave";
 
 
 
@@ -62,6 +63,9 @@ const ProductList = () => {
     let CsQcCombo = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
     setCsQcCombo(CsQcCombo)
   }, [])
+
+
+  useGlobalPreventSave();
 
 
   let location = useLocation();
@@ -96,9 +100,9 @@ const ProductList = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
-  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
+  const [selectedMetalId, setSelectedMetalId] = useState();
+  const [selectedDiaId, setSelectedDiaId] = useState();
+  const [selectedCsId, setSelectedCsId] = useState();
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
@@ -162,8 +166,8 @@ const ProductList = () => {
     let diaid = loginUserDetailInside?.cmboDiaQCid ?? storeInitInside?.cmboDiaQCid
     setSelectedDiaId(diaid)
 
-    let csid = loginUserDetailInside?.cmboCSQCid ?? storeInitInside?.cmboCSQCid;
-    setSelectedCsId(csid)
+    // let csid = loginUserDetailInside?.cmboCSQCid ?? storeInitInside?.cmboCSQCid;
+    // setSelectedCsId(csid)
 
   }, [])
 
@@ -1274,21 +1278,30 @@ const ProductList = () => {
   }
 
   useEffect(() => {
+    const obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    sessionStorage.setItem("short_cutCombo_val", JSON.stringify(obj));
 
-    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-
-    sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
-
-    if (customFlag || (loginInfo?.MetalId !== selectedMetalId || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId)) {
-      if (selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
-        handelCustomCombo(obj)
+    if (loginInfo && Object.keys(loginInfo).length > 0) {
+      if (selectedMetalId != undefined || selectedDiaId != undefined || selectedCsId != undefined) {
+        if (loginInfo.MetalId !== selectedMetalId || loginInfo.cmboDiaQCid !== selectedDiaId) {
+          handelCustomCombo(obj);
+        }
+      }
+    } else {
+      if (storeInit && Object.keys(storeInit).length > 0) {
+        if (selectedMetalId != undefined || selectedDiaId != undefined || selectedCsId != undefined) {
+          if (
+            storeInit?.MetalId !== selectedMetalId ||
+            storeInit?.cmboDiaQCid !== selectedDiaId
+          ) {
+            handelCustomCombo(obj);
+          }
+        }
       }
     }
-
-
-  }, [selectedMetalId, selectedDiaId, selectedCsId])
+  }, [selectedMetalId, selectedDiaId, selectedCsId]);
 
   const generateImageList = useCallback((product) => {
     let storeInitX = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -4647,7 +4660,10 @@ const Product_Card = ({
             {/* <img src="https://png.pngtree.com/template/20240229/ourmid/pngtree-jewelry-social-media-and-instagram-post-template-vector-image_2010320.jpg" alt="" /> */}
             {menuParams?.menuname === "Glossy" && (
               <div className="smr_productCard_banner">
-                <img src={`${storImagePath()}/images/HomePage/ProductListing/5.png`} loading="lazy" alt="" />
+                <img src={`${storImagePath()}/images/HomePage/ProductListing/5.png`} loading="lazy" alt=""
+                  draggable={true}
+                  onContextMenu={(e) => e.preventDefault()}
+                />
               </div>
             )}
             {menuParams?.menuname === "Amber" && (
@@ -4658,6 +4674,8 @@ const Product_Card = ({
                   muted
                   controls={false}
                   loop
+                  draggable={true}
+                  onContextMenu={(e) => e.preventDefault()}
                 >
                 </video>
               </div>
@@ -4670,6 +4688,8 @@ const Product_Card = ({
                   muted
                   controls={false}
                   loop
+                  draggable={true}
+                  onContextMenu={(e) => e.preventDefault()}
                 >
                 </video>
               </div>
@@ -4685,6 +4705,8 @@ const Product_Card = ({
                 src={`${storImagePath()}/images/HomePage/ProductListing/static4.jpg`}
                 alt="Banner 2"
                 loading="lazy"
+                draggable={true}
+                onContextMenu={(e) => e.preventDefault()}
               />
             </div>
           )}
@@ -4696,6 +4718,8 @@ const Product_Card = ({
                 muted
                 controls={false}
                 loop
+                draggable={true}
+                onContextMenu={(e) => e.preventDefault()}
               />
             </div>
           )}
@@ -4707,6 +4731,8 @@ const Product_Card = ({
                 muted
                 controls={false}
                 loop
+                draggable={true}
+                onContextMenu={(e) => e.preventDefault()}
               />
             </div>
           )}
@@ -4855,6 +4881,8 @@ const Product_Card = ({
                       }
                       e.target.src = imageNotFound;
                     }}
+                    draggable={true}
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 ) : null}
               </div>
@@ -4866,6 +4894,8 @@ const Product_Card = ({
                   e.stopPropagation();
                   e.target.src = imageNotFound
                 }}
+                draggable={true}
+                onContextMenu={(e) => e.preventDefault()}
                 style={{
                   opacity: isHover && (RollImageUrl || videoUrl) ? "0" : "1",
                   transition: '0s ease-in-out',

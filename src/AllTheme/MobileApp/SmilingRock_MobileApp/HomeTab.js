@@ -103,10 +103,10 @@ const HomeTab =React.memo(() => {
                 <span style={activeTab === "/account" ? styles.activeText : styles.text}>Account</span>
               </Button>
             </NavLink>
-            : <NavLink to="/AccountWothoutLogin" style={styles.tab} activeClassName="active" onClick={() => handleTabChange("/AccountWothoutLogin")}>
+            : <NavLink to="/AccountWithoutLogin" style={styles.tab} activeClassName="active" onClick={() => handleTabChange("/AccountWithoutLogin")}>
               <Button style={{ display: 'flex', flexDirection: 'column', color: 'rgb(102, 102, 102)' }}>
-                <FaUser style={activeTab === "/AccountWothoutLogin" ? styles.activeIcon : styles.icon} />
-                <span style={activeTab === "/AccountWothoutLogin" ? styles.activeText : styles.text}>Account</span>
+                <FaUser style={activeTab === "/AccountWithoutLogin" ? styles.activeIcon : styles.icon} />
+                <span style={activeTab === "/AccountWithoutLogin" ? styles.activeText : styles.text}>Account</span>
               </Button>
             </NavLink>}
 

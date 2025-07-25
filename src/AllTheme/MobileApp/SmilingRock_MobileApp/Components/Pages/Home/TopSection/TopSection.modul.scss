@@ -1,14 +1,23 @@
 .smrMA_TopSectionMain {
     overflow: hidden;
     height: auto;
-    min-height: 200px;  
-    max-height: 600px;  
+    min-height: 200px;
+    max-height: 600px;
+
+    @media (max-width: 500px) {
+        min-height: 565px !important;
+    }
+
+    @media (max-width: 370px) {
+        min-height: 400px !important;
+    }
+
     .video__el.is-loaded {
         opacity: 1;
         visibility: visible;
     }
 
- 
+
 
     .homePageSliderImagw {
         width: 100%;
@@ -26,9 +35,11 @@
     align-items: center;
     padding: 1.8rem 0;
     margin-top: -6px;
-    min-height: 85px;  /* Ensure this section has at least 150px height */
-    max-height: 85px;  /* Optional: Set maximum height */
-    
+    min-height: 85px;
+    /* Ensure this section has at least 150px height */
+    max-height: 85px;
+    /* Optional: Set maximum height */
+
     p {
         margin-bottom: 0rem;
     }

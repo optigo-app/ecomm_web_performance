@@ -496,6 +496,8 @@ const [Storeinit ,setStoreinit]=useState(null)
                                           src={el.finalImage} 
                                           onError={handleOrderImageError} 
                                           alt="designimage" 
+                                          draggable={true}
+                                          onContextMenu={(e) => e.preventDefault()}
                                           style={{ maxHeight: '90px', maxWidth: '90px', marginRight: '10px' }} 
                                           onClick={() => handleMoveToDetail(el)} 
                                       />

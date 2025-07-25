@@ -145,6 +145,8 @@ const WishlistItems = ({
                                         e.target.src = noImageFound
                                     }
                                 }}
+                                draggable={false}
+                                onContextMenu={(e) => e.preventDefault()}
                                 className='elv_WlListImage'
                                 loading='lazy'
                                 onClick={() => handleMoveToDetail(item)}

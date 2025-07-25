@@ -20,37 +20,38 @@ const NewArrival = () => {
     const [storeInit, setStoreInit] = useState({});
     const navigation = useNavigate();
     const setLoadingHome = useSetRecoilState(dt_homeLoading);
+    const productRefs = useRef({});
 
-    useEffect(() => {
-        setLoadingHome(true);
-        let data = JSON.parse(sessionStorage.getItem('storeInit'))
-        setStoreInit(data)
-        setImageUrl(data?.DesignImageFol);
+    // useEffect(() => {
+    //     setLoadingHome(true);
+    //     let data = JSON.parse(sessionStorage.getItem('storeInit'))
+    //     setStoreInit(data)
+    //     setImageUrl(data?.DesignImageFol);
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        callAPI();
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            {
-                root: null,
-                threshold: 0.5,
-            }
-        );
+    //     const observer = new IntersectionObserver(
+    //         (entries) => {
+    //             entries.forEach((entry) => {
+    //                 if (entry.isIntersecting) {
+    //                     callAPI();
+    //                     observer.unobserve(entry.target);
+    //                 }
+    //             });
+    //         },
+    //         {
+    //             root: null,
+    //             threshold: 0.5,
+    //         }
+    //     );
 
-        if (newArrivalRef.current) {
-            observer.observe(newArrivalRef.current);
-        }
-        return () => {
-            if (newArrivalRef.current) {
-                observer.unobserve(newArrivalRef.current);
-            }
-        };
-    }, [])
+    //     if (newArrivalRef.current) {
+    //         observer.observe(newArrivalRef.current);
+    //     }
+    //     return () => {
+    //         if (newArrivalRef.current) {
+    //             observer.unobserve(newArrivalRef.current);
+    //         }
+    //     };
+    // }, [])
 
     const callAPI = () => {
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
@@ -78,6 +79,10 @@ const NewArrival = () => {
         }).catch((err) => console.log(err))
     }
 
+    useEffect(() => {
+        callAPI();
+    }, [])
+
     const decodeEntities = (html) => {
         var txt = document.createElement("textarea");
         txt.innerHTML = html;
@@ -96,7 +101,7 @@ const NewArrival = () => {
         }
     };
 
-    const handleNavigation = (designNo, autoCode, titleLine) => {
+    const handleNavigation = (designNo, autoCode, titleLine, index) => {
         GoogleAnalytics.event({
             action: "Navigate to Product Detail",
             category: `Product Interaction Through New Arrival Section`,
@@ -111,15 +116,41 @@ const NewArrival = () => {
             c: loginUserDetail?.cmboCSQCid,
             f: {}
         }
+        sessionStorage.setItem('scrollToProduct3', `product-${index}`);
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     }
 
+    useEffect(() => {
+        const scrollDataStr = sessionStorage.getItem('scrollToProduct3');
+        if (!scrollDataStr) return;
+
+        const maxRetries = 10;
+        let retries = 0;
+
+        const tryScroll = () => {
+            const el = productRefs.current[scrollDataStr];
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+                sessionStorage.removeItem('scrollToProduct3');
+            } else if (retries < maxRetries) {
+                retries++;
+                setTimeout(tryScroll, 200); // retry until ref is ready
+            }
+        };
+
+        tryScroll();
+
+    }, [newArrivalData]);
+
     return (
         <>
             {newArrivalData?.length != 0 &&
-                <div className='dt_newArrivalMain'>
+                <div className='dt_newArrivalMain' onContextMenu={(e) => e.preventDefault()}>
                     {/* <h1 className='dt_titleNewArrival' style={{ textAlign: 'center', padding: '20px 0px 20px 0px' }}>NEW ARRIVAL</h1> */}
                     {newArrivalData?.length != 0 &&
                         <p className='smr_bestseler1Title'>
@@ -132,7 +163,7 @@ const NewArrival = () => {
 
                     <div className='dt_newArrivalGridMain' style={{ paddingInline: '10px', display: 'flex', justifyContent: 'start' }}>
                         {newArrivalData?.slice(0, 4).map((product, index) => (
-                            <div key={index} className='dt_NewArrivalProductMain' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
+                            <div key={index} className='dt_NewArrivalProductMain' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine, index)}>
                                 <div className='dt_newArrivalMian'>
                                     <img
                                         style={{ height: "100%", width: "100%" }}
@@ -140,10 +171,14 @@ const NewArrival = () => {
                                         src={`${imageUrl}/${product?.designno}~1.jpg`}
                                         // src={product.image}
                                         alt={product.title}
+                                        id={`product-${index}`}
+                                        ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                         loading='lazy'
                                         onError={(e) => {
                                             e.target.src = noimageFound;
                                         }}
+                                        onContextMenu={(e) => e.preventDefault()}
+                                        draggable={false}
                                     />
                                 </div>
                                 <div className='dt_newArrivalMainDeatil'>

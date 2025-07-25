@@ -63,22 +63,55 @@ const MobileCartDetails = ({
     }
   }
 
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`;
+  const CDNDesignImageFol = storeInitData?.CDNDesignImageFol;
+  const fullImagePath1 = `${CDNDesignImageFol}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`;
+
+  const isLoading = selectedItem?.loading;
+
+  // useEffect(() => {
+  //   if (selectedItem?.ImageCount > 0) {
+  //     CartCardImageFunc(selectedItem).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [selectedItem]);
+
+  const defaultUrl = selectedItem?.images?.replace("/Design_Thumb", "");
+  const firstPart = defaultUrl?.split(".")[0]
+  const secondPart = selectedItem?.ImageExtension;
+  const finalSelectedUrl = `${firstPart}.${secondPart}`;
+
+  const [imgSrc, setImgSrc] = useState('');
+
   useEffect(() => {
-    if (selectedItem?.ImageCount > 0) {
-      CartCardImageFunc(selectedItem).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [selectedItem]);
+    let imageURL = selectedItem?.images
+      ? finalSelectedUrl
+      : selectedItem?.ImageCount > 1
+        ? `${storeInitData?.CDNDesignImageFol}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.${selectedItem?.ImageExtension}`
+        : `${storeInitData?.CDNDesignImageFol}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`;
+
+    const img = new Image();
+    img.onload = () => setImgSrc(imageURL);
+    img.onerror = () => {
+      if (selectedItem?.ImageCount > 0) {
+        setImgSrc(fullImagePath1 || noImageFound);
+      } else {
+        setImgSrc(noImageFound);
+      }
+    };
+    img.src = imageURL;
+  }, [selectedItem, storeInitData, finalSelectedUrl]);
 
 
   return (
     <Modal open={open} onClose={handleClose} className="proCatMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="proCatMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="proCatMo_Cart-imageDiv">
-          {imageSrc === undefined ? (
+          {isLoading === true ? (
             <CardMedia
               style={{ width: "100%", height: '25rem' }}
             >
@@ -91,14 +124,18 @@ const MobileCartDetails = ({
             </CardMedia>
           ) : (
             <img
-              src={imageSrc}
+              // src={imageSrc}
+              src={imgSrc}
               className='proCatMo_cartImage'
               onClick={() => handleMoveToDetail(selectedItem)}
-              style={{ border: 'none' }}
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = noImageFound;
+              style={{
+                border: 'none',
+                outline: 'none',
+                boxShadow: 'none',
+                '&:focus': { outline: 'none' },
+                '&:active': { outline: 'none' },
               }}
+              loading="eager"
             />
           )}
         </div>

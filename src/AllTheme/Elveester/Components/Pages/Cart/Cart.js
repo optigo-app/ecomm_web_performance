@@ -20,6 +20,7 @@ import { formatter, storImagePath } from '../../../../../utils/Glob_Functions/Gl
 import { handleOrderRemark } from '../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import MobileCartDetails from './MobileCartDetails';
 import ConfirmationDialog from '../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
+import useGlobalPreventSave from '../../../../../utils/Glob_Functions/useGlobalPreventSave';
 
 const CartPage = () => {
   const {
@@ -75,6 +76,7 @@ const CartPage = () => {
   const isMobileResp2 = useMediaQuery('(max-width:600px)');
   const isMobileResp3 = useMediaQuery('(max-width:425px)');
   const [storeinit, setStoreInit] = useState();
+  useGlobalPreventSave();
 
   useEffect(() => {
     const data = JSON.parse(sessionStorage.getItem('storeInit'));

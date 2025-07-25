@@ -24,6 +24,7 @@ import useCountdown from "../../CountDownTimer/CountDownTimer";
 import { mala_cartB2CDrawer, mala_CartCount, mala_companyLogo, mala_companyLogoM, mala_loginState, mala_WishCount } from "../../../Recoil/atom";
 import { MdLogout } from "react-icons/md";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import useGlobalPreventSave from "../../../../../../utils/Glob_Functions/useGlobalPreventSave";
 
 
 const Header = () => {
@@ -53,6 +54,8 @@ const Header = () => {
 
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
   const navigation = useNavigate();
+
+  useGlobalPreventSave();
 
   useEffect(() => {
     const visiterID = Cookies.get("visiterId");
@@ -146,7 +149,7 @@ const Header = () => {
       (storeinit?.IsB2BWebsite === 1 && isUserLogin === true)) {
       getMenuApi();
     }
-  }, [islogin]);
+  }, []);
 
 
   useEffect(() => {
@@ -440,7 +443,7 @@ const Header = () => {
     }
   }
   return (
-    <div className="mala_headerMain_div">
+    <div className="mala_headerMain_div" draggable={false} onContextMenu={(e) => e.preventDefault()}>
       {serachsShowOverlay && (
         <>
           <div className="mala_smlingSearchoverlay">
@@ -925,22 +928,31 @@ const Header = () => {
             {/* Privaa don't need this */}
             {/* {location?.pathname !== '/' && ( */}
             <>
-              <a href="/" className="mala_logo_header_webLogo">
+              <a href="/" className="mala_logo_header_webLogo"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              >
                 <img
-
                   src={compnyLogo}
                   loading="lazy"
                   className="mala_logo_header"
                   alt="compnyLogo-DESKTOP"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </a>
 
-              <a href="/" className="mala_logo_header_Mobile">
+              <a href="/" className="mala_logo_header_Mobile"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              >
                 <img
                   src={compnyLogoM}
                   loading="lazy"
                   className="mala_logo_header"
                   alt="compnyLogo-MOBILE"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </a>
             </>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { IoClose } from 'react-icons/io5';
 import { FaMobileAlt } from 'react-icons/fa';
 import { IoMdMail } from 'react-icons/io';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './LoginOption.modul.scss';
 import { Helmet } from 'react-helmet';
 
@@ -10,6 +10,7 @@ import { Helmet } from 'react-helmet';
 export default function LoginOption() {
 
     const navigation = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         window.scroll({
@@ -17,6 +18,12 @@ export default function LoginOption() {
             behavior: 'smooth'
         })
     }, [])
+
+    const search = location?.search
+    console.log("TCL: LoginOption -> search", search)
+    const updatedSearch = search.replace('?LoginRedirect=', '');
+    const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+    const cancelRedireactUrl = `/LoginOption${search}`;
 
     return (
         <>
@@ -30,11 +37,11 @@ export default function LoginOption() {
                             <p className='loginDiTile'>Log in or sign up in seconds</p>
                             <p style={{ textAlign: 'center', marginTop: '0px', fontSize: '14px' }}>Use your email or mobile no. to continue with the organization.</p>
                             <div className='smilingLoginOptionMain'>
-                                <div className='loginMail' onClick={() => navigation('/ContinueWithEmail')}>
+                                <div className='loginMail' onClick={() => navigation(`/ContinueWithEmail?${redirectEmailUrl?.startsWith('?') ? redirectEmailUrl.replace('?', '') : redirectEmailUrl}`)}>
                                     <IoMdMail style={{ height: '25px', width: '25px' }} />
                                     <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Continue with email</p>
                                 </div>
-                                <div className='loginMobile' onClick={() => navigation('/ContimueWithMobile')}>
+                                <div className='loginMobile' onClick={() => navigation(`/ContimueWithMobile?${redirectEmailUrl?.startsWith('?') ? redirectEmailUrl.replace('?', '') : redirectEmailUrl}`)}>
                                     <FaMobileAlt style={{ height: '25px', width: '25px', marginRight: '10px' }} />
                                     <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Log in with mobile</p>
                                 </div>
@@ -45,7 +52,7 @@ export default function LoginOption() {
                                         textAlign: "center",
                                     }}
                                 >
-                                    <Link to={"/register"} style={{ textDecoration: "none", color: '#212529' }}>
+                                    <Link to={`/register?${redirectEmailUrl?.startsWith('?') ? redirectEmailUrl.replace('?', '') : redirectEmailUrl}`} style={{ textDecoration: "none", color: '#212529' }}>
                                         <span>Don’t have an account?</span> <span style={{ textDecoration: 'underline', fontWeight: 'bold' }}>Register</span>
                                     </Link>
                                 </div>

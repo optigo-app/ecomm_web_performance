@@ -98,7 +98,7 @@ const Header2 = () => {
             return;
         }
 
-    }, [islogin]);
+    }, []);
 
     useEffect(() => {
         fetchData();

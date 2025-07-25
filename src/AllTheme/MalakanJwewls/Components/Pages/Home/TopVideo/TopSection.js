@@ -3,11 +3,13 @@ import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunc
 import { motion } from "framer-motion";
 import "./TopSection.modul.scss";
 
-const TopSection = ({data}) => {
+const TopSection = ({ data }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const style = {
     backgroundImage: `url(${data?.image?.[0]})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
   };
 
   const fadeFromLeft = {
@@ -29,15 +31,14 @@ const TopSection = ({data}) => {
   };
 
   useEffect(() => {
+    // Preload the background image to trigger fade only after image loads
     const img = new Image();
-    img.src = storImagePath() + "/images/HomePage/TopSection/top.png";
+    img.src = data?.image?.[0];
     img.onload = handleImageLoad;
-  }, []);
+  }, [data]);
 
   return (
     <div className="mala_topVideoMain" style={style}>
-
-      {/* Privaa don't need this */}
       <motion.div
         className="details_text"
         initial="hidden"

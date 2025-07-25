@@ -504,6 +504,8 @@ const NewOrderHistory = () => {
                                           alt="designimage" 
                                           style={{ maxHeight: '90px', maxWidth: '90px', marginRight: '10px' }} 
                                           onClick={() => handleMoveToDetail(el)} 
+                                          draggable={true}
+                                          onContextMenu={(e) => e.preventDefault()}
                                       />
                                           {/* <img src={`${image_path}Design_Thumb/${el?.designno}~${1}${el?.metalcolorname ? `~${el.metalcolorname}` : ''}.jpg`} onError={handleOrderImageError} alt="#designimage" style={{maxHeight:'90px', maxWidth:'90px', marginRight:'10px'}} onClick={() => handleMoveToDetail(el)} /> */}
                                           {/* <img src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`} onError={handleOrderImageError} alt="#designimage" style={{maxHeight:'90px', maxWidth:'90px', marginRight:'10px'}} onClick={() => handleMoveToDetail(el)} /> */}

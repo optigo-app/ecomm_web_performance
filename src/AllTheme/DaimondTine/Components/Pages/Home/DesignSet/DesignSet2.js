@@ -28,35 +28,36 @@ const DesignSet2 = ({ data }) => {
   const [swiper, setSwiper] = useState(null);
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
   const setLoadingHome = useSetRecoilState(dt_homeLoading);
+  const productRefs = useRef({});
 
-  useEffect(() => {
-    setLoadingHome(true);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            callAPI();
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        root: null,
-        threshold: 0.5,
-      }
-    );
+  // useEffect(() => {
+  //   setLoadingHome(true);
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting) {
+  //           callAPI();
+  //           observer.unobserve(entry.target);
+  //         }
+  //       });
+  //     },
+  //     {
+  //       root: null,
+  //       threshold: 0.5,
+  //     }
+  //   );
 
-    if (designSetRef.current) {
-      observer.observe(designSetRef.current);
-    }
-    return () => {
-      if (designSetRef.current) {
-        observer.unobserve(designSetRef.current);
-      }
-    };
+  //   if (designSetRef.current) {
+  //     observer.observe(designSetRef.current);
+  //   }
+  //   return () => {
+  //     if (designSetRef.current) {
+  //       observer.unobserve(designSetRef.current);
+  //     }
+  //   };
 
 
-  }, []);
+  // }, []);
 
   const callAPI = () => {
     const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
@@ -91,6 +92,10 @@ const DesignSet2 = ({ data }) => {
       })
       .catch((err) => console.log(err));
   }
+
+  useEffect(() => {
+    callAPI();
+  }, [])
 
   const ProdCardImageFunc = (pd) => {
     let finalprodListimg;
@@ -128,7 +133,7 @@ const DesignSet2 = ({ data }) => {
     }
   };
 
-  const handleNavigation = (designNo, autoCode, titleLine) => {
+  const handleNavigation = (designNo, autoCode, titleLine, index) => {
     GoogleAnalytics.event({
       action: "Navigate to Product Detail",
       category: `Product Interaction Through Design Set Section`,
@@ -143,10 +148,36 @@ const DesignSet2 = ({ data }) => {
       c: loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid,
       f: {},
     };
+    sessionStorage.setItem('scrollToProduct5', `product-${index}`);
     let encodeObj = compressAndEncode(JSON.stringify(obj));
     // navigate(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
     navigate(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
   };
+
+  useEffect(() => {
+    const scrollDataStr = sessionStorage.getItem('scrollToProduct5');
+    if (!scrollDataStr) return;
+
+    const maxRetries = 10;
+    let retries = 0;
+
+    const tryScroll = () => {
+      const el = productRefs.current[scrollDataStr];
+      if (el) {
+        el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+        sessionStorage.removeItem('scrollToProduct5');
+      } else if (retries < maxRetries) {
+        retries++;
+        setTimeout(tryScroll, 200); // retry until ref is ready
+      }
+    };
+
+    tryScroll();
+
+  }, [designSetList]);
 
   const decodeEntities = (html) => {
     var txt = document.createElement('textarea');
@@ -202,7 +233,7 @@ const DesignSet2 = ({ data }) => {
   };
   return (
     <>
-      <div className="dt_DesignSet2MainDiv" ref={designSetRef}>
+      <div className="dt_DesignSet2MainDiv" ref={designSetRef} onContextMenu={(e) => e.preventDefault()}>
         {designSetList?.length !== 0 && (
           <>
             <div className='smr_DesignSetTitleDiv'>
@@ -237,6 +268,8 @@ const DesignSet2 = ({ data }) => {
                     src={data?.image?.[0]}
                     alt=""
                     className="imgBG"
+                    onContextMenu={(e) => e.preventDefault()}
+                    draggable={false}
                   />
                 ) : (
                   <div
@@ -279,9 +312,12 @@ const DesignSet2 = ({ data }) => {
                                       handleNavigation(
                                         detail?.designno,
                                         detail?.autocode,
-                                        detail?.TitleLine ? detail?.TitleLine : ""
+                                        detail?.TitleLine ? detail?.TitleLine : "",
+                                        subIndex
                                       )
                                     }
+                                    id={`product-${subIndex}`}
+                                    ref={(el) => (productRefs.current[`product-${subIndex}`] = el)}
                                     onError={(e) => {
                                       e.target.src = imageNotFound;
                                     }}

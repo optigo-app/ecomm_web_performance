@@ -64,7 +64,7 @@ const Wishlist = () => {
   const handleAddtoCartAllfun = async () => {
     const returnValue = await handleAddtoCartAll();
     if (returnValue?.msg == "success") {
-      // toast.success("All wishlist items added in cart")
+      toast.success("All wishlist items added in cart")
       GetCountAPI(visiterId).then((res) => {
         setCartCountVal(res?.cartcount);
       })

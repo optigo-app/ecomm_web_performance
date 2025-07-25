@@ -370,15 +370,83 @@ const Menu1 = () => {
                     <div style={{ marginTop: "0.8rem" }}>
                         <span className='smrm_shop_title'>SHOP</span>
                     </div>
+
                     <div className='smrm_tabMainSmilingMobile'>
-                        {menuItems.map((item, index) => (
-                            <div
-                                className='smrm_tabMainSmilingMobileItems'
-                                key={index}
-                                onClick={() => handleLoginMenuClickMainMenu(item.menuname, null, "iconclicked")}
-                            >
-                                {item.menuname}
-                                <MdChevronRight />
+                        {menuItems.map((menuItem, index) => (
+                            <div key={index}>
+                                {/* Main menu item */}
+                                <div
+                                    className='smrm_tabMainSmilingMobileItems'
+                                    onClick={() => handleLoginMenuClickMainMenu(menuItem.menuname, null, "iconclicked")}
+                                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                                >
+                                    {menuItem.menuname}
+                                    {selectedMenu === menuItem.menuname ? (
+                                        <MdExpandMore style={{ transition: "transform 0.3s" }} />
+                                    ) : (
+                                        <MdChevronRight style={{ transition: "transform 0.3s" }} />
+                                    )}
+                                </div>
+
+                                {/* Submenu with transition */}
+                                <Collapse in={selectedMenu === menuItem.menuname}>
+                                    <div style={{ margin: '10px 5%' }}>
+                                        <ButtonBase
+                                            component="div"
+                                            onClick={() => handelMenu({ menuname: menuItem?.menuname, key: menuItem?.param0name, value: menuItem?.param0dataname })}
+                                            style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
+                                        >
+                                            <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
+                                                <button className="smrm_menuVieAllLink">View All</button>
+                                            </div>
+                                        </ButtonBase>
+
+                                        <List>
+                                            {menuItem.param1?.map(subMenuItem => (
+                                                <div key={subMenuItem.param1dataid}>
+                                                    <ButtonBase
+                                                        component="div"
+                                                        onClick={() =>
+                                                            handelMenu(
+                                                                { menuname: menuItem?.menuname, key: menuItem?.param0name, value: menuItem?.param0dataname },
+                                                                { key: subMenuItem.param1name, value: subMenuItem.param1dataname }
+                                                            )
+                                                        }
+                                                        style={{ width: '100%' }}
+                                                    >
+                                                        <p className='smrm_menuMainTitle' style={{ margin: '0px 0px 0px 15px', fontSize: '17px', color: "black", width: '100%', fontWeight: 500, height: '38px', display: 'flex', alignItems: 'center' }}>
+                                                            {subMenuItem.param1dataname}
+                                                        </p>
+                                                    </ButtonBase>
+
+                                                    {/* Sub-sub menu */}
+                                                    <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
+                                                        {subMenuItem.param2?.map(subSubMenuItem =>
+                                                            subSubMenuItem.param2dataname?.trim() ? (
+                                                                <ButtonBase
+                                                                    key={subSubMenuItem.param2dataname}
+                                                                    component="div"
+                                                                    onClick={() =>
+                                                                        handelMenu(
+                                                                            { menuname: menuItem?.menuname, key: menuItem?.param0name, value: menuItem?.param0dataname },
+                                                                            { key: subMenuItem.param1name, value: subMenuItem.param1dataname },
+                                                                            { key: subSubMenuItem.param2name, value: subSubMenuItem.param2dataname }
+                                                                        )
+                                                                    }
+                                                                    style={{ width: '100%', height: '30px' }}
+                                                                >
+                                                                    <p className="smrm_SuMenuTitle" style={{ margin: '0px 0px 0px 25px', fontSize: '15px', width: '100%', color: "#595959", fontWeight: 500, height: '38px', display: 'flex', alignItems: 'center' }}>
+                                                                        {subSubMenuItem.param2dataname}
+                                                                    </p>
+                                                                </ButtonBase>
+                                                            ) : null
+                                                        )}
+                                                    </List>
+                                                </div>
+                                            ))}
+                                        </List>
+                                    </div>
+                                </Collapse>
                             </div>
                         ))}
                     </div>

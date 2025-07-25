@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react'
-import { smrMA_companyLogo, smrMA_companyLogo1, smrMA_loginState } from './Components/Recoil/atom'
+import { smrMA_companyLogo, smrMA_companyLogo1, smrMA_loginState, smrMA_logoColor } from './Components/Recoil/atom'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import PrivateRoutes from './PrivateRoutes'
 import { storImagePath } from '../../../utils/Glob_Functions/GlobalFunction'
@@ -93,6 +93,7 @@ const SmilingRock_MobileApp_App = React.memo(() => {
   const location = useLocation();
   const smrMA_setCompanyTitleLogo = useSetRecoilState(smrMA_companyLogo);
   const smrMA_setCompanyTitleLogo1 = useSetRecoilState(smrMA_companyLogo1);
+
   useEffect(() => {
     const mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
     const mobileLogo1 = `${storImagePath()}/logoIcon/mobileLogo1.png`;
@@ -155,16 +156,17 @@ const SmilingRock_MobileApp_App = React.memo(() => {
           location.pathname === "/Memo" ||
           location.pathname === "/account-delete" ||
           location.pathname === "/CurrentVersion") ?
-          // null : <Header />}
-          // null : homePage1 === 1 ? <Header1 /> : <Header />}
           null : homePage1 === 2 ? <Header2 /> : <Header />}
+        {/* // null : <Header />} */}
+        {/* // null : homePage1 === 1 ? <Header1 /> : <Header />}
+          // null : homePage1 === 2 ? <Header2 /> : <Header />} */}
 
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}
           {/* <Route path="/" element={<Home1 />} />
           <Route path="/home1" element={<Home1 />} /> */}
           <Route path="/" element={<Home2 />} />
-          {/* <Route path="/home2" element={<Home2 />} /> */}
+          <Route path="/home2" element={<Home2 />} />
           <Route path="/WithoutLoginCart" element={<WithoutLoginCart />} />
           <Route path="/AccountWithoutLogin" element={<AccountWothoutLogin />} />
           {/* <Route path="/Menu" element={<Menu />} /> */}
@@ -219,7 +221,7 @@ const SmilingRock_MobileApp_App = React.memo(() => {
           location.pathname !== "myWishList" &&
           <HomeTab1 />
         )} */}
-        {homePage1 === 1 ? (
+        {homePage1 === 2 ? (
           !["p", "d"].includes(location.pathname.split('/')[1]) &&
           location.pathname !== "myWishList" &&
           <HomeTab2 />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Category.modul.scss";
 import { diamondShapes } from "../../../Constants/CategoryList";
 import { Hoq_loginState } from "../../../Recoil/atom";
@@ -14,6 +14,7 @@ const CategoryTab = () => {
   const navigation = useNavigate();
   const islogin = useRecoilValue(Hoq_loginState);
   const showShapeSection = false;
+  const productRefs = useRef({});
 
   useEffect(() => {
     let data = JSON.parse(sessionStorage?.getItem("storeInit"));
@@ -44,16 +45,45 @@ const CategoryTab = () => {
     sHOPBYCATEGORY();
   }, []);
 
-  const handleNavigate = (name) => {
+  const handleNavigate = (name, index) => {
+    sessionStorage.setItem('scrollToProduct3', `product-${index}`);
     navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`);
   };
+
+  useEffect(() => {
+    const scrollDataStr = sessionStorage.getItem('scrollToProduct3');
+    if (!scrollDataStr) return;
+
+    const maxRetries = 10;
+    let retries = 0;
+
+    const tryScroll = () => {
+      const el = productRefs.current[scrollDataStr];
+      if (el) {
+        el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+        sessionStorage.removeItem('scrollToProduct3');
+      } else if (retries < maxRetries) {
+        retries++;
+        setTimeout(tryScroll, 200); // retry until ref is ready
+      }
+    };
+
+    tryScroll();
+
+  }, [albumData]);
 
   if (albumData?.length === 0) {
     return <div style={{ marginTop: "-2rem" }}></div>;
   }
 
   return (
-    <div className="hoq_main_CategoryTab">
+    <div className="hoq_main_CategoryTab"
+      draggable={false}
+      onContextMenu={(e) => e.preventDefault()}
+    >
       <div className="header">
         <h1>Shop By Category</h1>
       </div>
@@ -61,10 +91,12 @@ const CategoryTab = () => {
         {albumData?.slice(0, 4)?.map((data, i) => {
           return (
             <CategoryCard
-            key={i}
+              key={i}
               src={imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName}
               onClick={() => handleNavigate(data?.AlbumName)}
               name={data?.AlbumName}
+              id={`product-${i}`}
+              ref={(el) => (productRefs.current[`product-${i}`] = el)}
             />
           );
         })}
@@ -109,6 +141,8 @@ const CategoryCard = ({ src, onClick, name }) => {
             e.target.onerror = null;
             e.target.src = noimage;
           }}
+          draggable={true}
+          onContextMenu={(e) => e.preventDefault()}
         />
       </div>
       <div className="title">

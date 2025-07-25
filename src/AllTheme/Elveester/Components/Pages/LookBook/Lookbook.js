@@ -56,6 +56,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { el_CartCount, el_loginState } from "../../Recoil/atom";
 import LookbookSkeleton from "./lookbookSkelton";
 import EditablePagination from "../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
+import useGlobalPreventSave from "../../../../../utils/Glob_Functions/useGlobalPreventSave";
 
 const Lookbook = () => {
   let location = useLocation();
@@ -63,6 +64,7 @@ const Lookbook = () => {
   const [imageUrl, setImageUrl] = useState();
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
   const isMobileScreen = useMediaQuery('(max-width:800px)');
+  useGlobalPreventSave();
 
   const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
   const [designSetLstData, setDesignSetListData] = useState();
@@ -1192,7 +1194,8 @@ const Lookbook = () => {
       {isProdLoading ? (
         // true ?
         <div style={{ marginInline: "6%", backgroundColor: "white" }}>
-          <ProductListSkeleton />
+          {/* <ProductListSkeleton /> */}
+          <LookbookSkeleton param={1} />
         </div>
       ) : (
 
@@ -1625,6 +1628,8 @@ const Lookbook = () => {
                                     cursor: "pointer",
                                     backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                   }}
+                                  draggable={false}
+                                  onContextMenu={(e) => e.preventDefault()}
                                 />
                               ) : (
                                 <div
@@ -1770,6 +1775,8 @@ const Lookbook = () => {
                                               detail?.TitleLine ? detail?.TitleLine : ""
                                             )
                                           }
+                                          draggable={false}
+                                          onContextMenu={(e) => e.preventDefault()}
                                         />
                                         {/* <p style={{ margin: '0px 0px 5px 2px', color: '#ccc', fontSize: '12px' }}>{detail?.CategoryName}</p> */}
                                         <div
@@ -1844,6 +1851,8 @@ const Lookbook = () => {
                                       cursor: "pointer",
                                       backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                     }}
+                                    draggable={false}
+                                    onContextMenu={(e) => e.preventDefault()}
                                   />
                                 ) : (
                                   <div
@@ -2001,6 +2010,8 @@ const Lookbook = () => {
                                                   : ""
                                               )
                                             }
+                                            draggable={false}
+                                            onContextMenu={(e) => e.preventDefault()}
                                           />
                                           <div
                                             style={{
@@ -2076,6 +2087,8 @@ const Lookbook = () => {
                                                       : ""
                                                   )
                                                 }
+                                                draggable={false}
+                                                onContextMenu={(e) => e.preventDefault()}
                                               />
                                               <div
                                                 style={{
@@ -2158,6 +2171,8 @@ const Lookbook = () => {
                                           style={{
                                             backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                           }}
+                                          draggable={false}
+                                          onContextMenu={(e) => e.preventDefault()}
                                         />
                                       ) : (
                                         <div
@@ -2248,6 +2263,8 @@ const Lookbook = () => {
                                                           : ""
                                                       )
                                                     }
+                                                    draggable={false}
+                                                    onContextMenu={(e) => e.preventDefault()}
                                                   />
                                                 </div>
                                                 <div className="el_lb3srthelook_prodinfo" onClick={() =>
@@ -2451,6 +2468,8 @@ const Lookbook = () => {
                                           width: DynamicSize.w || "66.5x",
                                           backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                         }}
+                                        draggable={false}
+                                        onContextMenu={(e) => e.preventDefault()}
                                       />
                                     ) : (
                                       <div

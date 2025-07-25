@@ -73,6 +73,7 @@ import ContimueWithMobile from './Components/Pages/Auth/ContimueWithMobile/Conti
 import LoginWithEmailCode from './Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode';
 import LoginWithMobileCode from './Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode';
 import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass';
+import useGlobalPreventSave from "../../utils/Glob_Functions/useGlobalPreventSave";
 
 const Home = React.lazy(() => import('./Components/Pages/Home/Index'));
 const Header = React.lazy(() => import('./Components/Pages/Home/Header/Header'));
@@ -142,6 +143,14 @@ const SmilingRock_App = () => {
   };
 
   useEffect(() => {
+    // Cookies.set("skey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJpdGFzayIsImF1ZCI6IllXMXlkWFJBWldjdVkyOXQiLCJleHAiOjE3NDcxMzk2ODYsInVpZCI6IllXMXlkWFJBWldjdVkyOXQiLCJ5YyI6ImUzdHVlbVZ1ZlgxN2V6SXdmWDE3ZTI5eVlXbHNNalY5Zlh0N2IzSmhhV3d5TlgxOSIsInN2IjoiMCJ9.m4NonzyJfWdM0frEq1Cn4h1ABThBa1wgosx8Z7Mg5VI", {
+    //   expires: 1,
+    //   // domain: "calllog.web",
+    //   path: "/",
+    //   sameSite: false,
+    //   secure: false
+    // })
+
     fetch(`${storInitDataPath()}/StoreInit.json`)
       .then((response) => response.text())
       .then((text) => {
@@ -188,33 +197,6 @@ const SmilingRock_App = () => {
     // }
   }, []);
 
-  useEffect(() => {
-    const cookieValue = Cookies.get("userLoginCookie");
-    if (cookieValue && islogin == false) {
-      LoginWithEmailAPI("", "", "", "", cookieValue)
-        .then((response) => {
-          if (response?.Data?.rd[0]?.stat === 1) {
-            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
-            setIsLoginState(true);
-            sessionStorage.setItem("LoginUser", true);
-            sessionStorage.setItem("loginUserDetail", JSON.stringify(response.Data.rd[0]));
-            if (redirectEmailUrl) {
-              navigation(redirectEmailUrl);
-            } else if (location.pathname.startsWith('/accountdwsr')) {
-              navigation("/accountdwsr");
-            }
-            else {
-              // navigation("/");
-            }
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-    let localD = JSON.parse(sessionStorage.getItem("storeInit"));
-    setLocalData(localD);
-  }, []);
-
-
   // if (islogin === true) {
   //   const restrictedPaths = [
   //     '/LoginOption',
@@ -231,6 +213,12 @@ const SmilingRock_App = () => {
   //     return navigation("/");
   //   }
   // }
+
+  const handleContextMenu = (e) => {
+    e.preventDefault();
+  };
+
+  useGlobalPreventSave();
 
   useEffect(() => {
     const cookieValue = Cookies.get("userLoginCookie");
@@ -306,6 +294,8 @@ const SmilingRock_App = () => {
         alt="Loading..."
         height="100%"
         width="auto"
+        draggable={true}
+        onContextMenu={(e) => e.preventDefault()}
         loading="lazy"
         style={{
           animation: 'scaleUpDown 1.5s ease-in-out infinite', // Apply the animation here
@@ -313,6 +303,42 @@ const SmilingRock_App = () => {
       />
     </Box>
   );
+
+  function ProductListWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <ProductList />
+      </div>
+    );
+  }
+  function ProductDetailWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <ProductDetail />
+      </div>
+    );
+  }
+  function WishlistWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <Wishlist />
+      </div>
+    );
+  }
+  function CartWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <Cart />
+      </div>
+    );
+  }
+  function LookbookWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <Lookbook />
+      </div>
+    );
+  }
 
   return (
     <div div className="ggg">
@@ -420,19 +446,19 @@ const SmilingRock_App = () => {
             <Route path="/TermsPolicy" element={<TermsPolicy />} />
             <Route path="/natural-diamond" element={<NatualDiamond />} />
             <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
-              <Route path="/p/*" element={<ProductList />} />
-              <Route path="/d/*" element={<ProductDetail />} />
-              <Route path="/cartPage" element={<Cart />} />
-              <Route path="/myWishList" element={<Wishlist />} />
+              <Route path="/p/*" element={<ProductListWrapper />} />
+              <Route path="/d/*" element={<ProductDetailWrapper />} />
+              <Route path="/cartPage" element={<CartWrapper />} />
+              <Route path="/myWishList" element={<WishlistWrapper />} />
               <Route path="/Delivery" element={<Delivery />} />
               <Route path="/Payment" element={<Payment />} />
               <Route path="/productfeed" element={<ProductFeedGenerator />} />
               <Route path="/Confirmation" element={<Confirmation />} />
               <Route path="/account" element={<Account />} />
               {/* <Route path="/accountdwsr" element={<DWSRprintComp />} /> */}
+              <Route path="/Lookbook" element={<LookbookWrapper />} />
             </Route>
             <Route path="/accountdwsr" element={<DWSRprintComp />} />
-            <Route path="/Lookbook" element={<Lookbook />} />
             <Route path="/paymentFailure" element={<PaymentFailure />} />
             <Route path="*" element={<PageNotFound />} />
             <Route path="/block1" element={<HomePageBlock1 />} />

@@ -32,22 +32,56 @@ const CartDetails = ({
 }) => {
 
   const [imageSrc, setImageSrc] = useState();
-  useEffect(() => {
-    if (selectedItem?.ImageCount > 0) {
-      CartCardImageFunc(selectedItem).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [selectedItem]);
 
+  const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
+  const CDNDesignImageFolThumb = storeinitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`;
+  const CDNDesignImageFol = storeinitData?.CDNDesignImageFol;
+  const fullImagePath1 = `${CDNDesignImageFol}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`;
+
+  const isLoading = selectedItem?.loading;
+
+  // useEffect(() => {
+  //   if (selectedItem?.ImageCount > 0) {
+  //     CartCardImageFunc(selectedItem).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [selectedItem]);
+
+  const defaultUrl = selectedItem?.images?.replace("/Design_Thumb", "");
+  const firstPart = defaultUrl?.split(".")[0]
+  const secondPart = selectedItem?.ImageExtension;
+  const finalSelectedUrl = `${firstPart}.${secondPart}`;
+
+  const [imgSrc, setImgSrc] = useState('');
+
+  useEffect(() => {
+    let imageURL = selectedItem?.images
+      ? finalSelectedUrl
+      : selectedItem?.ImageCount > 1
+        ? `${storeinitData?.CDNDesignImageFol}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.${selectedItem?.ImageExtension}`
+        : `${storeinitData?.CDNDesignImageFol}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`;
+
+    const img = new Image();
+    img.onload = () => setImgSrc(imageURL);
+    img.onerror = () => {
+      if (selectedItem?.ImageCount > 0) {
+        setImgSrc(fullImagePath1 || noImageFound);
+      } else {
+        setImgSrc(noImageFound);
+      }
+    };
+    img.src = imageURL;
+  }, [selectedItem, storeinitData, finalSelectedUrl]);
 
   return (
     <div className="proCat_cart-container">
       <div className="proCat_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='proCat_cartImage' /> */}
-        {imageSrc === undefined ? (
+        {isLoading === true ? (
           <CardMedia
             width="100%"
             height={400}
@@ -77,13 +111,17 @@ const CartDetails = ({
           </CardMedia>
         ) : (
           <img
-            src={imageSrc}
+            src={imgSrc}
+            style={{
+              border: 'none',
+              outline: 'none',
+              boxShadow: 'none',
+              '&:focus': { outline: 'none' },
+              '&:active': { outline: 'none' },
+            }}
             className='proCat_cartDetailImage'
             onClick={() => handleMoveToDetail(selectedItem)}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = noImageFound;
-            }}
+            loading="eager"
           />
         )}
       </div>

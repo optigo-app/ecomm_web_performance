@@ -72,6 +72,7 @@ const Lookbook = () => {
   const loginUserDetail = JSON?.parse(
     sessionStorage.getItem("loginUserDetail")
   );
+  const [imageSources, setImageSources] = React.useState({});
   const [designSetLstData, setDesignSetListData] = useState();
   const [filterData, setFilterData] = useState([]);
   const [filterChecked, setFilterChecked] = useState({});
@@ -111,6 +112,12 @@ const Lookbook = () => {
     e.target.src = noimage;
   };
 
+  const isEditablePage = 1;
+
+  useEffect(() => {
+    setImageLoadError({})
+  }, [currentPage, filterChecked])
+
   const updateSize = () => {
     if (SwiperSlideRef.current) {
       const { offsetWidth } = SwiperSlideRef.current;
@@ -118,13 +125,6 @@ const Lookbook = () => {
       console.log("Size updated:", offsetWidth, offsetWidth);
     }
   };
-
-  const isEditablePage = 1;
-
-  useEffect(() => {
-    setImageLoadError({})
-  }, [currentPage, filterChecked])
-
 
   const handleResize = () => {
     updateSize();
@@ -161,7 +161,6 @@ const Lookbook = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
 
   const handlePrevious = () => {
     if (swiper !== null) {
@@ -237,9 +236,7 @@ const Lookbook = () => {
   }, [filterChecked, islogin]);
 
   useEffect(() => {
-    const loginUserDetail = JSON?.parse(
-      sessionStorage.getItem("loginUserDetail")
-    );
+    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get("visiterId");
@@ -282,8 +279,8 @@ const Lookbook = () => {
   };
 
   const handleFilterShow = () => {
-    setIsShowFilter(!isShowfilter);
-  };
+    setIsShowFilter(!isShowfilter)
+  }
 
   const FilterValueWithCheckedOnly = () => {
     let onlyTrueFilterValue = Object.values(filterChecked).filter(
@@ -321,9 +318,7 @@ const Lookbook = () => {
   };
 
   // useEffect(() => {
-  //   const loginUserDetail = JSON?.parse(
-  //     sessionStorage.getItem("loginUserDetail")
-  //   );
+  //   const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
   //   const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
   //   const { IsB2BWebsite } = storeInit;
 
@@ -422,6 +417,10 @@ const Lookbook = () => {
       setCartItems((prevCartItems) => {
         const updatedCartItems = prevCartItems.filter(
           (item) => item !== ele?.autocode
+        );
+        console.log(
+          "Updated cartItems inside setState callback:",
+          updatedCartItems
         );
         return updatedCartItems;
       });
@@ -529,18 +528,28 @@ const Lookbook = () => {
   };
 
   const filterDesignSetsByCategory = (designSetLstData, selectedCategories) => {
+    // Return the original data if no categories are selected
     if (selectedCategories.length === 0) return designSetLstData;
 
     return designSetLstData
-      ?.map((set) => ({
-        ...set,
-        Designdetail: JSON?.stringify(
-          JSON?.parse(set.Designdetail)?.filter((detail) =>
-            selectedCategories?.includes(detail.CategoryName)
-          )
-        ),
-      }))
-      ?.filter((set) => JSON?.parse(set.Designdetail).length > 0);
+      ?.map((set) => {
+        const details = JSON?.parse(set?.Designdetail);
+        // Filter details based on selected categories
+        const filteredDetails = details.filter((detail) =>
+          selectedCategories.includes(detail.CategoryName)
+        );
+
+        // Return the modified set only if there are filtered details
+        return {
+          ...set,
+          Designdetail: JSON.stringify(filteredDetails), // Convert back to string
+        };
+      })
+      ?.filter((set) => {
+        // Keep sets that have non-empty Designdetail
+        const details = JSON.parse(set.Designdetail);
+        return details.length > 0;
+      });
   };
 
   const filteredDesignSetLstData = filterDesignSetsByCategory(
@@ -606,23 +615,24 @@ const Lookbook = () => {
     <Tooltip {...props} classes={{ popper: className }} />
   ))(({ theme }) => ({
     [`& .${tooltipClasses.tooltip}`]: {
-      backgroundColor: "#f5f5f9",
-      color: "rgba(0, 0, 0, 0.87)",
+      backgroundColor: '#f5f5f9',
+      color: 'rgba(0, 0, 0, 0.87)',
       maxWidth: 220,
       fontSize: theme.typography.pxToRem(12),
-      border: "1px solid #dadde9",
+      border: '1px solid #dadde9',
     },
   }));
 
   const CustomTooltipContent = ({ categories }) => (
     <div>
-      <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
+      <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
         {categories.map((category, index) => (
           <li key={index}>{category}</li>
         ))}
       </ul>
     </div>
   );
+
 
   function checkImageAvailability(imageUrl) {
     return new Promise((resolve, reject) => {
@@ -633,43 +643,10 @@ const Lookbook = () => {
     });
   }
 
-  const [imageSources, setImageSources] = React.useState({});
-
-  useEffect(() => {
-    if (filteredDesignSetLstData && Array.isArray(filteredDesignSetLstData)) {
-      const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
-        parseDesignDetails(slide?.Designdetail).map(async (detail) => {
-          // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`;
-          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.jpg`;
-          // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
-          // const isAvailable = await checkImageAvailability(designImageUrl);
-          return {
-            designno: detail?.designno,
-            src: designImageUrl,
-          };
-        })
-      );
-
-      Promise.all(imagePromises).then((results) => {
-        const newImageSources = results.reduce((acc, { designno, src }) => {
-          acc[designno] = src;
-          return acc;
-        }, {});
-
-        setImageSources((prevSources) => {
-          const isDifferent = Object.keys(newImageSources).some(
-            (key) => newImageSources[key] !== prevSources[key]
-          );
-          return isDifferent ? newImageSources : prevSources;
-        });
-      });
-    }
-  }, [filteredDesignSetLstData, imageUrlDesignSet]);
-
   const CustomLabel = ({ text }) => (
     <Typography
       sx={{
-        fontFamily: "Tenor Sans , sans-serif !important",
+        fontFamily: "sans-serif",
         fontSize: {
           xs: "13.2px !important", // Mobile screens
           sm: "14.1px !important", // Tablets
@@ -682,7 +659,9 @@ const Lookbook = () => {
       {text}
     </Typography>
   );
+
   const isCategoryPresent = filterData?.some(ele => ele?.Name === "Category" && ele?.id === "category");
+
   const handlePageInputChange = (event) => {
     if (event.key === 'Enter') {
       let newPage = parseInt(inputPage, 10);
@@ -741,6 +720,37 @@ const Lookbook = () => {
       top: 0
     })
   };
+
+  useEffect(() => {
+    if (filteredDesignSetLstData && Array.isArray(filteredDesignSetLstData)) {
+      const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
+        parseDesignDetails(slide?.Designdetail).map(async (detail) => {
+          // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
+          // const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`;
+          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}~1.jpg`;
+          const isAvailable = await checkImageAvailability(designImageUrl);
+          return {
+            designno: detail?.designno,
+            src: isAvailable ? designImageUrl : imageNotFound,
+          };
+        })
+      );
+
+      Promise.all(imagePromises).then((results) => {
+        const newImageSources = results.reduce((acc, { designno, src }) => {
+          acc[designno] = src;
+          return acc;
+        }, {});
+
+        setImageSources((prevSources) => {
+          const isDifferent = Object.keys(newImageSources).some(
+            (key) => newImageSources[key] !== prevSources[key]
+          );
+          return isDifferent ? newImageSources : prevSources;
+        });
+      });
+    }
+  }, [filteredDesignSetLstData, imageUrlDesignSet]);
 
   return (
     <div className="hoq_LookBookMain">
@@ -1175,7 +1185,8 @@ const Lookbook = () => {
         isProdLoading ? (
           // true ?
           <div style={{ marginInline: "6%", backgroundColor: "white" }}>
-            <ProductListSkeleton />
+            {/* <ProductListSkeleton /> */}
+            <LookbookSkeleton param={1} />
           </div>
         ) : (
           <div className="hoq1_LookBookSubMainDiv">
@@ -1522,124 +1533,99 @@ const Lookbook = () => {
 
                 {selectedValue == 3 && (
                   <>
-                    {isPgLoading ? <LookbookSkeleton param={selectedValue} /> : (<><div className="hoq_lookBookImgDivMain">
-                      {filteredDesignSetLstData?.length == 0 ? (
-                        <div className="hoq_noProductFoundLookBookDiv">
-                          <p>No Product Found!</p>
-                        </div>
-                      ) : (
-                        <>
-                          {filteredDesignSetLstData?.map((slide, index) => (
-                            <div className="hoq_designSetDiv2" key={index}>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  width: "30%",
-                                  height: "300px",
-                                  position: "relative",
-                                }}
-                                className="hoq_designSetDiv2_sub1"
-                              >
-                                {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
-                                  <img
-                                    className="hoq_lookBookImg"
-                                    loading="lazy"
-                                    src={ProdCardImageFunc(slide)}
-                                    alt={`Slide ${index}`}
-                                    onError={(e) => handleImageError(index, e)}
-                                    // onMouseEnter={() => handleHoverImages(index)}
-                                    // onMouseLeave={() => seyDataKey(null)}
-                                    style={{
-                                      height: "100%",
-                                      cursor: "pointer",
-                                      backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
-                                    }}
-                                  />
-                                ) : (
-                                  <div
-                                    style={{
-                                      height: "100%",
-                                      width: "100%",
-                                      ...getRandomBgColor(index),
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      cursor: "pointer",
-                                      backgroundColor: "rgb(191, 200, 255)",
-                                    }}
-                                  >
-                                    {/* <p
-                                  style={{
-                                    fontSize: "30px",
-                                    color: getRandomBgColor(index).color,
-                                  }}
-                                >
-                                  {slide?.designsetno}
-                                </p> */}
-                                  </div>
-                                )}
-                                <p className="hoq_lb1designList_title">
-                                  {slide?.designsetno}
-                                </p>
-                              </div>
-
-                              <div
-                                style={{
-                                  display: dataKey == index && "none",
-                                  display: "flex",
-                                  width: "70%",
-                                  justifyContent: "space-around",
-                                  alignItems: "center",
-                                  flexDirection: "column",
-                                }}
-                                className="hoq_designSetDiv2_sub2"
-                              >
+                    {isPgLoading ? <LookbookSkeleton param={selectedValue} /> : (
+                      <div className="hoq_lookBookImgDivMain">
+                        {filteredDesignSetLstData?.length == 0 ? (
+                          <div className="hoq_noProductFoundLookBookDiv">
+                            <p>No Product Found!</p>
+                          </div>
+                        ) : (
+                          <>
+                            {filteredDesignSetLstData?.map((slide, index) => (
+                              <div className="hoq_designSetDiv2" key={index}>
                                 <div
-                                  className="hoq_lookBookImgDeatil"
                                   style={{
-                                    display: dataKey == index ? "none" : "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    width: "100%",
-                                    padding: "0px 15px",
-                                    margin: "5px",
+                                    display: "flex",
+                                    width: "30%",
+                                    height: "300px",
+                                    position: 'relative'
                                   }}
+                                  className="hoq_designSetDiv2_sub1"
                                 >
-                                  <p
-                                    className="hoq_lookBookDesc"
-                                    style={{ fontSize: "13px", margin: "2px" }}
-                                  >
-                                    {storeInit?.IsGrossWeight == 1 && (
-                                      <>
-                                        {" "}
-                                        DWT:{" "}
-                                        {calculateTotalUnitCostWithMarkUpDwt(
-                                          JSON?.parse(slide.Designdetail)
-                                        ).toFixed(3)}{" "}
-                                      </>
-                                    )}
-                                    {storeInit?.IsGrossWeight == 1 && (
-                                      <>
-                                        | GWT:{" "}
-                                        {calculateTotalUnitCostWithMarkUpGWt(
-                                          JSON?.parse(slide.Designdetail)
-                                        ).toFixed(3)}{" "}
-                                        |
-                                      </>
-                                    )}{" "}
-                                    NWT:{" "}
-                                    {calculateTotalUnitCostWithMarkUpNwt(
-                                      JSON?.parse(slide.Designdetail)
-                                    ).toFixed(3)}{" "}
-                                  </p>
+                                  {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
+                                    <img
+                                      className="hoq_lookBookImg"
+                                      loading="lazy"
+                                      src={ProdCardImageFunc(slide)}
+                                      alt={`Slide ${index}`}
+                                      onError={() => handleImageError(index)}
+                                      // onMouseEnter={() => handleHoverImages(index)}
+                                      // onMouseLeave={() => seyDataKey(null)}
+                                      style={{
+                                        height: "100%",
+                                        cursor: "pointer",
+                                        backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
+                                      }}
+                                    />
+                                  ) : (
+                                    <div
+                                      style={{
+                                        height: "100%",
+                                        width: "100%",
+                                        ...getRandomBgColor(index),
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        cursor: "pointer",
+                                        backgroundColor: "rgb(191, 200, 255)",
+                                      }}
+                                    >
+                                      {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
+                                    </div>
+                                  )}
+                                  <p className="hoq_lb1designList_title">{slide?.designsetno}</p>
+                                </div>
+
+                                <div
+                                  style={{
+                                    display: dataKey == index && "none",
+                                    display: "flex",
+                                    width: "70%",
+                                    justifyContent: "space-around",
+                                    alignItems: "center",
+                                    flexDirection: "column",
+                                  }}
+                                  className="hoq_designSetDiv2_sub2"
+                                >
                                   <div
-                                    className="hoq_lookBookImgDeatilSub"
+                                    className="hoq_lookBookImgDeatil"
                                     style={{
-                                      display: "flex",
-                                      alignItems: "center",
+                                      display: dataKey == index ? "none" : "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: 'center',
+                                      width: "100%",
+                                      padding: "0px 15px",
+                                      margin: "5px",
                                     }}
                                   >
-                                    {storeInit?.IsPriceShow == 1 && (
+                                    <p className="hoq_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
+                                      DWT:{" "}
+                                      {calculateTotalUnitCostWithMarkUpDwt(
+                                        JSON?.parse(slide.Designdetail)
+                                      ).toFixed(3)}{" "}
+                                      | GWT:{" "}
+                                      {calculateTotalUnitCostWithMarkUpGWt(
+                                        JSON?.parse(slide.Designdetail)
+                                      ).toFixed(3)}{" "}
+                                      | NWT:{" "}
+                                      {calculateTotalUnitCostWithMarkUpNwt(
+                                        JSON?.parse(slide.Designdetail)
+                                      ).toFixed(3)}{" "}
+                                    </p>
+                                    <div
+                                      className="hoq_lookBookImgDeatilSub"
+                                      style={{ display: "flex", alignItems: "center" }}
+                                    >
                                       <p
                                         style={{
                                           margin: "0px 10px 0px 0px",
@@ -1650,150 +1636,69 @@ const Lookbook = () => {
                                       >
                                         {" "}
                                         {/* <span
-                                  className="hoq_currencyFont"
-                                  dangerouslySetInnerHTML={{
-                                    __html: decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    ),
-                                  }}
-                                /> */}
-                                        <span className="hoq_currencyFont">
-                                          {loginUserDetail?.CurrencyCode ??
-                                            storeInit?.CurrencyCode}
+                                                className="hoq_currencyFont"
+                                                dangerouslySetInnerHTML={{
+                                                  __html: decodeEntities(
+                                                    storeInit?.Currencysymbol
+                                                  ),
+                                                }}
+                                              /> */}
+                                        <span
+                                          className="hoq_currencyFont"
+                                        >
+                                          {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                         &nbsp;
-                                        {formatter(
-                                          calculateTotalUnitCostWithMarkUp(
-                                            JSON?.parse(slide.Designdetail)
-                                          )
-                                        )}
+                                        {formatter(calculateTotalUnitCostWithMarkUp(
+                                          JSON?.parse(slide.Designdetail)
+                                        ))}
                                       </p>
-                                    )}
-                                    <button
-                                      className="hoq_lookBookBuyBtn"
-                                      onClick={() =>
-                                        handleByCombo(
-                                          parseDesignDetails(
-                                            slide?.Designdetail,
-                                            "Cart"
-                                          )
-                                        )
-                                      }
-                                    >
-                                      Buy Combo
-                                    </button>
-                                  </div>
-                                </div>
-                                <Swiper
-                                  slidesPerView={4}
-                                  spaceBetween={10}
-                                  navigation={true}
-                                  loop={false}
-                                  modules={[Pagination, Navigation]}
-                                  className="hoq_LookBookmySwiper hoq_lookBookThirdViewWeb"
-                                  breakpoints={{
-                                    320: {
-                                      slidesPerView: 1,
-                                      spaceBetween: 10,
-                                    },
-                                    480: {
-                                      slidesPerView: 2,
-                                      spaceBetween: 20,
-                                    },
-                                    640: {
-                                      slidesPerView: 3,
-                                      spaceBetween: 30,
-                                    },
-                                  }}
-                                >
-                                  {sortDesignDetailsBySrNo(
-                                    parseDesignDetails(slide?.Designdetail)
-                                  )?.map((detail, subIndex) => (
-                                    <div
-                                      className="hoq_lookBookSubImageDiv"
-                                      key={subIndex}
-                                    >
-                                      <SwiperSlide
-                                        className="hoq_lookBookSliderSubDiv"
-                                        style={{
-                                          marginRight: "0px",
-                                          cursor: "pointer",
-                                        }}
-                                      >
-                                        {detail?.IsInReadyStock == 1 && (
-                                          <span className="hoq_LookBookinstock">
-                                            In Stock
-                                          </span>
-                                        )}
-                                        <img
-                                          className="hoq_lookBookSubImage"
-                                          loading="lazy"
-                                          // src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
-                                          src={`${imageUrlDesignSet}${detail?.designno}~1.jpg`}
-                                          alt={`Sub image ${subIndex} for slide ${index}`}
-                                          onClick={() =>
-                                            handleNavigation(
-                                              detail?.designno,
-                                              detail?.autocode,
-                                              detail?.TitleLine
-                                                ? detail?.TitleLine
-                                                : ""
+                                      <button
+                                        className="hoq_lookBookBuyBtn"
+                                        onClick={() =>
+                                          handleByCombo(
+                                            parseDesignDetails(
+                                              slide?.Designdetail,
+                                              "Cart"
                                             )
-                                          }
-                                          onError={(e) => handleImageError(index, e)}
-                                        />
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            marginBottom: "5px",
-                                          }}
-                                        >
-                                          {cartItems.includes(detail?.autocode) ? (
-                                            <button
-                                              className="hoq_lookBookINCartBtn"
-                                              onClick={() =>
-                                                handleRemoveCart(detail)
-                                              }
-                                            >
-                                              REMOVE CART
-                                            </button>
-                                          ) : (
-                                            <button
-                                              className="hoq_lookBookAddtoCartBtn"
-                                              onClick={() =>
-                                                handleAddToCart(detail)
-                                              }
-                                            >
-                                              ADD TO CART +
-                                            </button>
-                                          )}
-                                        </div>
-                                      </SwiperSlide>
+                                          )
+                                        }
+                                      >
+                                        Buy Combo
+                                      </button>
                                     </div>
-                                  ))}
-                                </Swiper>
-
-                                <div className="hoq_LookBookMobileThridViewMain">
-                                  <div className="card">
-                                    <Swiper
-                                      className="hoq_LookBookMobileThridViewMain_swiper_w"
-                                      spaceBetween={5}
-                                      slidesPerView={1}
-                                      speed={1000}
-                                      onSwiper={setSwiper}
-                                      navigation
-                                      pagination
-                                    >
-                                      {sortDesignDetailsBySrNo(
-                                        parseDesignDetails(slide?.Designdetail)
-                                      )?.map((detail, subIndex) => (
+                                  </div>
+                                  <Swiper
+                                    slidesPerView={4}
+                                    spaceBetween={10}
+                                    navigation={true}
+                                    loop={false}
+                                    modules={[Pagination, Navigation]}
+                                    className="hoq_LookBookmySwiper hoq_lookBookThirdViewWeb"
+                                    breakpoints={{
+                                      320: {
+                                        slidesPerView: 1,
+                                        spaceBetween: 10,
+                                      },
+                                      480: {
+                                        slidesPerView: 2,
+                                        spaceBetween: 20,
+                                      },
+                                      640: {
+                                        slidesPerView: 3,
+                                        spaceBetween: 30,
+                                      },
+                                    }}
+                                  >
+                                    {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((detail, subIndex) => {
+                                      const imageSrc = imageSources[detail?.designno] || imageNotFound;
+                                      return (
                                         <div
                                           className="hoq_lookBookSubImageDiv"
                                           key={subIndex}
                                         >
                                           <SwiperSlide
-                                            key={`detail-${detail?.id}`}
+                                            className="hoq_lookBookSliderSubDiv"
                                             style={{
                                               marginRight: "0px",
                                               cursor: "pointer",
@@ -1807,8 +1712,7 @@ const Lookbook = () => {
                                             <img
                                               className="hoq_lookBookSubImage"
                                               loading="lazy"
-                                              // src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
-                                              src={`${imageUrlDesignSet}${detail?.designno}~1.jpg`}
+                                              src={imageSrc}
                                               alt={`Sub image ${subIndex} for slide ${index}`}
                                               onClick={() =>
                                                 handleNavigation(
@@ -1827,23 +1731,17 @@ const Lookbook = () => {
                                                 marginBottom: "5px",
                                               }}
                                             >
-                                              {cartItems.includes(
-                                                detail?.autocode
-                                              ) ? (
+                                              {cartItems.includes(detail?.autocode) ? (
                                                 <button
                                                   className="hoq_lookBookINCartBtn"
-                                                  onClick={() =>
-                                                    handleRemoveCart(detail)
-                                                  }
+                                                  onClick={() => handleRemoveCart(detail)}
                                                 >
                                                   REMOVE CART
                                                 </button>
                                               ) : (
                                                 <button
                                                   className="hoq_lookBookAddtoCartBtn"
-                                                  onClick={() =>
-                                                    handleAddToCart(detail)
-                                                  }
+                                                  onClick={() => handleAddToCart(detail)}
                                                 >
                                                   ADD TO CART +
                                                 </button>
@@ -1851,22 +1749,99 @@ const Lookbook = () => {
                                             </div>
                                           </SwiperSlide>
                                         </div>
-                                      ))}
-                                    </Swiper>
-                                  </div>
-                                  {/* <div className="btnflex">
-                              <button className="btncst" onClick={handlePrevious}>&lt;</button>
-                              <button className="btncst" onClick={handleNext}>&gt;</button>
-                            </div> */}
-                                </div>
+                                      )
+                                    })}
+                                  </Swiper>
 
-                                {/* } */}
+
+                                  <div className="hoq_LookBookMobileThridViewMain">
+                                    <div className="card">
+                                      <Swiper
+                                        className="hoq_LookBookMobileThridViewMain_swiper_w"
+                                        spaceBetween={5}
+                                        slidesPerView={1}
+                                        speed={1000}
+                                        onSwiper={setSwiper}
+                                        navigation
+                                        pagination
+                                      >
+                                        {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((detail, subIndex) => {
+                                          const imageSrc = imageSources[detail?.designno] || imageNotFound;
+                                          return (
+                                            <div
+                                              className="hoq_lookBookSubImageDiv"
+                                              key={subIndex}
+                                            >
+                                              <SwiperSlide
+                                                key={`detail-${detail?.id}`}
+                                                style={{
+                                                  marginRight: "0px",
+                                                  cursor: "pointer",
+                                                }}
+                                              >
+                                                {detail?.IsInReadyStock == 1 && (
+                                                  <span className="hoq_LookBookinstock">
+                                                    In Stock
+                                                  </span>
+                                                )}
+                                                <img
+                                                  className="hoq_lookBookSubImage"
+                                                  loading="lazy"
+                                                  src={imageSrc}
+                                                  alt={`Sub image ${subIndex} for slide ${index}`}
+                                                  onClick={() =>
+                                                    handleNavigation(
+                                                      detail?.designno,
+                                                      detail?.autocode,
+                                                      detail?.TitleLine
+                                                        ? detail?.TitleLine
+                                                        : ""
+                                                    )
+                                                  }
+                                                />
+                                                <div
+                                                  style={{
+                                                    display: "flex",
+                                                    justifyContent: "center",
+                                                    marginBottom: "5px",
+                                                  }}
+                                                >
+                                                  {cartItems.includes(detail?.autocode) ? (
+                                                    <button
+                                                      className="hoq_lookBookINCartBtn"
+                                                      onClick={() => handleRemoveCart(detail)}
+                                                    >
+                                                      REMOVE CART
+                                                    </button>
+                                                  ) : (
+                                                    <button
+                                                      className="hoq_lookBookAddtoCartBtn"
+                                                      onClick={() => handleAddToCart(detail)}
+                                                    >
+                                                      ADD TO CART +
+                                                    </button>
+                                                  )}
+                                                </div>
+                                              </SwiperSlide>
+                                            </div>
+                                          )
+                                        })}
+                                      </Swiper>
+                                    </div>
+                                    {/* <div className="btnflex">
+                                            <button className="btncst" onClick={handlePrevious}>&lt;</button>
+                                            <button className="btncst" onClick={handleNext}>&gt;</button>
+                                          </div> */}
+                                  </div>
+
+                                  {/* } */}
+                                </div>
                               </div>
-                            </div>
-                          ))}
-                        </>
-                      )}
-                    </div></>)}
+                            ))}
+                          </>
+                        )}
+                      </div>
+                    )}
                   </>
                 )}
 
@@ -1995,7 +1970,6 @@ const Lookbook = () => {
                                                   }
                                                   alt=""
                                                   className="hoq_lb3srthelook_img"
-                                                  onError={(e) => handleImageError(index, e)}
                                                   onClick={() =>
                                                     handleNavigation(
                                                       ele?.designno,
@@ -2005,6 +1979,9 @@ const Lookbook = () => {
                                                         : ""
                                                     )
                                                   }
+                                                  onError={(e) => {
+                                                    e.target.src = imageNotFound;
+                                                  }}
                                                 />
                                               </div>
                                               <div

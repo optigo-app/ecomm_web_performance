@@ -222,6 +222,8 @@ const CartItem = ({
               }}
               image={item?.images}
               onClick={() => onSelect(item)}
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
               onError={(e) => {
                 if (item?.ImageCount > 0) {
                   e.target.src = fullImagePath ? fullImagePath : noImageFound;

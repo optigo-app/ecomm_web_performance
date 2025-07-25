@@ -79,7 +79,7 @@ const useCart = () => {
   const isMaxWidth1050 = useMediaQuery('(max-width:1050px)');
   const cartStatus = sessionStorage.getItem('isCartDrawer')
 
-  const validThemenos = [3, 4, 11, 12, 10, 7, 1, 9, 2];
+  const validThemenos = [3, 4, 11, 12, 10, 7, 1, 9, 2, 6];
 
   useEffect(() => {
     const visiterIdVal = Cookies.get('visiterId');
@@ -135,11 +135,9 @@ const useCart = () => {
     }
   };
 
-
-
   useEffect(() => {
     getCartData();
-  }, [cartStatus]);
+  }, []);
 
   // for multiselect
   const handleSelectItem = async (item) => {
@@ -327,7 +325,7 @@ const useCart = () => {
                 diamondcolor: diaColor ?? updatedItems?.diamondcolor,
                 colorstonecolor: csColor ?? updatedItems?.colorstonecolor,
                 // images: `${storeInit?.CDNDesignImageFol}${updatedItems?.designno}~1~${mtcCode?.colorcode}.${updatedItems?.ImageExtension}`,
-                images: `${storeInit?.CDNDesignImageFolThumb}${updatedItems?.designno}~1~${mtcCode?.colorcode}.${updatedItems?.ImageExtension}`,
+                images: `${storeInit?.CDNDesignImageFolThumb}${updatedItems?.designno}~1~${mtcCode?.colorcode}.jpg`,
                 loading: false,
                 colorstonequality: csQua ?? updatedItems?.colorstonequality,
                 FinalCost: Price ?? updatedItems?.FinalCost,
@@ -754,9 +752,6 @@ const useCart = () => {
     if (validThemenos?.includes(storeInit?.Themeno)) {
       const timer = setTimeout(loadNextProductImages, 130)
       return () => clearTimeout(timer)
-    }
-    if (storeInit?.Themeno === 1) {
-      loadNextProductImages();
     }
     else {
       const timer = setTimeout(loadNextProductImages, 20)

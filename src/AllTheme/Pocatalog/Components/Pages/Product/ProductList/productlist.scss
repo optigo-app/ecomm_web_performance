@@ -78,10 +78,98 @@
   margin: 15px 0px 10px 0px;
 }
 
+.btnColorProCatProduct {
+  font-size: 14px;
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+  }
+}
+
+.btnColorProCatProductRemoveCart {
+  font-size: 14px;
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+  }
+}
+
 .proCat_productListCard_Image {
   object-fit: contain;
   width: 100%;
-  min-height: 200px;
+  height: 260px;
+
+  @media (max-width: 1750px) {
+    height: 250px;
+  }
+
+  @media (max-width: 1700px) {
+    height: 280px;
+  }
+
+  @media (max-width: 1650px) {
+    height: 265px;
+  }
+
+  @media (max-width: 1550px) {
+    height: 245px;
+  }
+
+  @media (max-width: 1470px) {
+    height: 225px;
+  }
+
+  @media (max-width: 1350px) {
+    height: 210px;
+  }
+
+  @media (max-width: 1200px) {
+    height: 270px;
+  }
+
+  @media (max-width: 1100px) {
+    height: 250px;
+  }
+
+  @media (max-width: 1040px) {
+    height: 315px;
+  }
+
+  @media (max-width: 950px) {
+    height: 290px;
+  }
+
+  @media (max-width: 870px) {
+    height: 260px;
+  }
+
+  @media (max-width: 870px) {
+    height: 260px;
+  }
+
+  @media (max-width: 780px) {
+    height: 240px;
+  }
+
+  @media (max-width: 720px) {
+    height: 220px;
+  }
+
+  @media (max-width: 600px) {
+    height: 270px;
+  }
+
+  @media (max-width: 500px) {
+    height: 240px;
+  }
+
+  @media (max-width: 450px) {
+    height: 200px;
+  }
+
+  @media (max-width: 370px) {
+    height: 170px;
+  }
 }
 
 .proCat_NameTopShow {
@@ -335,15 +423,27 @@
 // }
 
 .roop_ImgandVideoContainer {
-  height: 270px;
-  min-height: 270px;
+  height: 260px;
+  width: 100%;
 
   @media (max-width: 1750px) {
     height: 250px;
   }
 
-  @media (max-width: 1500px) {
-    height: 230px;
+  @media (max-width: 1700px) {
+    height: 280px;
+  }
+
+  @media (max-width: 1650px) {
+    height: 265px;
+  }
+
+  @media (max-width: 1550px) {
+    height: 245px;
+  }
+
+  @media (max-width: 1470px) {
+    height: 225px;
   }
 
   @media (max-width: 1350px) {
@@ -359,15 +459,39 @@
   }
 
   @media (max-width: 1040px) {
-    height: 270px;
+    height: 315px;
+  }
+
+  @media (max-width: 950px) {
+    height: 290px;
+  }
+
+  @media (max-width: 870px) {
+    height: 260px;
+  }
+
+  @media (max-width: 780px) {
+    height: 240px;
+  }
+
+  @media (max-width: 720px) {
+    height: 220px;
   }
 
   @media (max-width: 600px) {
-    height: 250px;
+    height: 270px;
   }
 
   @media (max-width: 500px) {
-    height: 100%;
+    height: 240px;
+  }
+
+  @media (max-width: 450px) {
+    height: 200px;
+  }
+
+  @media (max-width: 370px) {
+    height: 170px;
   }
 }
 
@@ -518,7 +642,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #98b8d9 !important;
+  // background-color: #98b8d9 !important;
   margin-left: 0 !important;
 }
 
@@ -534,6 +658,43 @@
 .proCat_productCard_video {
   object-fit: contain;
   width: 100%;
+  height: 260px;
+
+  @media (max-width: 1750px) {
+    height: 250px;
+  }
+
+  @media (max-width: 1700px) {
+    height: 280px;
+  }
+
+  @media (max-width: 1500px) {
+    height: 230px;
+  }
+
+  @media (max-width: 1350px) {
+    height: 210px;
+  }
+
+  @media (max-width: 1200px) {
+    height: 270px;
+  }
+
+  @media (max-width: 1100px) {
+    height: 250px;
+  }
+
+  @media (max-width: 1040px) {
+    height: 270px;
+  }
+
+  @media (max-width: 600px) {
+    height: 250px;
+  }
+
+  @media (max-width: 500px) {
+    height: 100%;
+  }
 }
 
 .smr_mui_checkbox_label {
@@ -542,7 +703,16 @@
   width: 100%;
   flex-direction: row-reverse;
   font-family: $primaryFontFamily;
-  // font-size: 12px !important;
+  font-size: 12px !important;
+}
+
+.pro_mui_checkbox_label {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-direction: row-reverse;
+  font-family: $primaryFontFamily;
+  font-size: 12px !important;
 }
 
 // .MuiTypography-root.MuiTypography-body1.MuiFormControlLabel-label.MuiTypography-root {
@@ -715,9 +885,9 @@
     margin: 5px;
   }
 
-  .proCat_productListCard_Image {
-    min-height: auto !important;
-  }
+  // .proCat_productListCard_Image {
+  //   min-height: auto !important;
+  // }
 
   .smr_prod_title_with_width {
     font-size: 12px;
@@ -754,14 +924,16 @@
 
 @media screen and (max-width: 800px) {
   .procat_productCard {
-    width: 48% !important;
+    // width: 48% !important;
+    width: 31.7% !important;
     margin: 5px;
   }
 }
 
 @media screen and (max-width: 768px) {
   .procat_productCard {
-    width: 49%;
+    width: 31.5% !important;
+    // width: 49%;
   }
 
   .smr_productCard_noFil {
@@ -856,7 +1028,7 @@
   }
 
   .procat_productCard {
-    width: 47% !important;
+    width: 48.5% !important;
     margin: 2px !important;
   }
 }

@@ -96,7 +96,7 @@ const NewOrderHistory = () => {
     // setImagePath(storeinit?.UploadLogicalPath)
     // setImagePath(storeinit?.DesignImageFolBackEnd);
     setImagePath(storeinit?.CDNDesignImageFol);
-     setstoreInit(storeinit);
+    setstoreInit(storeinit);
     try {
       const response = await getOrderHistory(storeinit, loginInfo, UserEmail);
 
@@ -328,7 +328,7 @@ const NewOrderHistory = () => {
                           <div className="fs_head_acc start_noh_acc  mx_4_noh_acc" style={{ fontWeight: 'bold', color: 'brown' }}>{e?.OrderPrefix}{e?.orderno}</div>
                           <div className="fs_head_acc start_noh_acc  mx_4_noh_acc">Item : <span style={{ color: 'brown', fontWeight: 'bold' }}>{e?.TotalQuantity}</span></div>
                         </div>
-                       {storeInit?.IsPriceShow == 1  && <div>
+                        {storeInit?.IsPriceShow == 1 && <div>
                           {<span className="fs_head_acc start_noh_acc  mx_4_noh_acc" style={{ color: 'black' }}><span className="fs_head_acc " style={{ color: 'black', fontWeight: 'bold', paddingRight: '2px' }}>Total Amount : </span> <span className="fs_head_acc " style={{ fontWeight: 'bold', paddingRight: '5px' }} dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></span> <span className="fs_head_acc " style={{ fontWeight: 'bold' }}>{formatAmount2(e?.orderAmountwithvat)}</span></span>}
                           <div className="fs_head_acc_tax start_noh_acc  lh_head_acc mx_4_noh_acc" style={{ color: 'grey', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>(<span className="fs_head_acc_tax " style={{ color: 'grey', paddingRight: '2px' }}>+ Estimated Tax : </span> <span className="fs_head_acc_tax" style={{ paddingRight: '5px' }} dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></span> <span className="fs_head_acc_tax ">{formatAmount2(e?.totaltaxAmount)}</span>)</div>
                           {/* { max400px && <span className="fs_head_acc   mx_4_noh_acc" style={{color:'black', display:'flex', justifyContent:'flex-end', alignItems:'center'}}><span style={{color:'grey', paddingRight:'2px'}}>Total : </span> <span style={{fontWeight:'bold', paddingRight:'5px'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span style={{fontWeight:'bold'}}>{formatAmount2(e?.orderAmountwithvat)}</span></span>} */}
@@ -498,11 +498,13 @@ const NewOrderHistory = () => {
                                               alt="designimage"
                                               style={{ maxHeight: '90px', maxWidth: '90px', marginRight: '10px' }}
                                               onClick={() => handleMoveToDetail(el)}
+                                              draggable={true}
+                                              onContextMenu={(e) => e.preventDefault()}
                                             />
                                             <div>
                                               <div>{el?.designno} - {`Quantity ${el?.quantity}`}</div>
                                               <div>{el?.metaltypename?.toUpperCase()?.split(" ")[1]} {el?.metalcolorname?.toUpperCase()} {el?.metaltypename?.toUpperCase()?.split(" ")[0]}</div>
-                                        {  storeInit?.IsPriceShow == 1 &&    <div style={{ fontWeight: 'bold' }}><span style={{ paddingRight: '5px' }} dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></span>
+                                              {storeInit?.IsPriceShow == 1 && <div style={{ fontWeight: 'bold' }}><span style={{ paddingRight: '5px' }} dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></span>
                                                 {formatAmount2(el?.TotalUnitCostWithDiscount)}</div>}
                                             </div>
                                           </Card>

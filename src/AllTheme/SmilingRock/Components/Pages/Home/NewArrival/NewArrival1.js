@@ -232,7 +232,7 @@ const NewArrival = () => {
     }
 
     return (
-        <div ref={newArrivalRef}>
+        <div ref={newArrivalRef} onContextMenu={(e) => { e.preventDefault() }}>
 
             {validatedData?.length != 0 &&
                 <motion.div
@@ -259,13 +259,15 @@ const NewArrival = () => {
                                             component="img"
                                             className='smr_newArrImage'
                                             // image="https://www.bringitonline.in/uploads/2/2/4/5/22456530/female-diamond-necklace-jewellery-photoshoot-jewellery-photography-jewellery-photographers-jewellery-model-shoot-jewellery-product-shoot-bringitonline_orig.jpeg"
-                                            image={product?.ImageCount >= 1 ?   
+                                            image={product?.ImageCount >= 1 ?
                                                 product?.validatedImageURL
                                                 // `${imageUrl}${newArrivalData && product?.designno}~1.${newArrivalData && product?.ImageExtension}`
                                                 : imageNotFound}
                                             alt={product?.TitleLine}
                                             id={`product-${index}`}
                                             ref={(el) => (productRefs.current[`product-${index}`] = el)}
+                                            draggable={true}
+                                            onContextMenu={(e) => e.preventDefault()}
                                             onError={(e) => {
                                                 e.target.src = imageNotFound
                                             }}

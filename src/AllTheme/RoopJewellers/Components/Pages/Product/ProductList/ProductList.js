@@ -590,9 +590,9 @@ const ProductList = () => {
                   : [];
 
               // console.log("diafilter",diafilter);
-              setSliderValue([diafilter?.Min, diafilter?.Max]);
-              setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
-              setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
+              setSliderValue(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
+              setSliderValue1(diafilter1?.Min != null || diafilter1?.Max != null ? [diafilter1?.Min, diafilter1?.Max] : []);
+              setSliderValue2(diafilter2?.Min != null || diafilter2?.Max != null ? [diafilter2?.Min, diafilter2?.Max] : []);
 
               forWardResp1 = res;
             })
@@ -975,9 +975,9 @@ const ProductList = () => {
             filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
           )[0]
           : [];
-      setSliderValue([diafilter?.Min, diafilter?.Max]);
-      setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
-      setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
+      setSliderValue(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
+      setSliderValue1(diafilter1?.Min != null || diafilter1?.Max != null ? [diafilter1?.Min, diafilter1?.Max] : []);
+      setSliderValue2(diafilter2?.Min != null || diafilter2?.Max != null ? [diafilter2?.Min, diafilter2?.Max] : []);
       setInputDia([diafilter?.Min, diafilter?.Max]);
       setInputNet([diafilter1?.Min, diafilter1?.Max]);
       setInputGross([diafilter2?.Min, diafilter2?.Max]);
@@ -4062,11 +4062,9 @@ const GivaFilterMenu = ({
           filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
         )[0]
         : [];
-    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
-    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
-    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
-
-
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify((diafilter?.Min != null || diafilter?.Max != null) ? [diafilter?.Min, diafilter?.Max] : []);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify((diafilter1?.Min != null || diafilter1?.Max != null) ? [diafilter1?.Min, diafilter1?.Max] : []);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify((diafilter2?.Min != null || diafilter2?.Max != null) ? [diafilter2?.Min, diafilter2?.Max] : []);
 
     let totalCount = 0;
 
@@ -5242,6 +5240,8 @@ const Product_Card = ({
                       onError={(e) => {
                         e.target.poster = imageNotFound;
                       }}
+                      draggable={true}
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                   ) : (videoUrl === undefined && RollImageUrl !== undefined) ? (
                     <img
@@ -5253,6 +5253,8 @@ const Product_Card = ({
                         }
                         e.target.src = imageNotFound;
                       }}
+                      draggable={true}
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                   ) : null}
                 </div>
@@ -5266,6 +5268,8 @@ const Product_Card = ({
                     e.stopPropagation();
                     e.target.src = imageNotFound;
                   }}
+                  draggable={true}
+                  onContextMenu={(e) => e.preventDefault()}
                   style={{
                     opacity: isHover && (RollImageUrl || videoUrl) ? "0" : "1",
                     transition: '0s ease-in-out',

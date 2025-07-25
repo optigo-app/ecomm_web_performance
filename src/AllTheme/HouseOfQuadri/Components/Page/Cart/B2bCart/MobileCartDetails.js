@@ -315,8 +315,10 @@ const MobileCartDetails = ({
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [imageSrc, setImageSrc] = useState();
 
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`;
   const CDNDesignImageFol = storeInitData?.CDNDesignImageFol;
-  const fullImagePath = `${CDNDesignImageFol}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`;
+  const fullImagePath1 = `${CDNDesignImageFol}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`;
 
   const isLoading = selectedItem?.loading;
 
@@ -349,15 +351,41 @@ const MobileCartDetails = ({
     return SizeSorted;
   };
 
+  const defaultUrl = selectedItem?.images?.replace("/Design_Thumb", "");
+  const firstPart = defaultUrl?.split(".")[0]
+  const secondPart = selectedItem?.ImageExtension;
+  const finalSelectedUrl = `${firstPart}.${secondPart}`;
+
+  const [imgSrc, setImgSrc] = useState('');
+
   useEffect(() => {
-    if (selectedItem?.ImageCount > 0) {
-      CartCardImageFunc(selectedItem).then((src) => {
-        setImageSrc(src);
-      });
-    } else {
-      setImageSrc(noImageFound);
-    }
-  }, [selectedItem]);
+    let imageURL = selectedItem?.images
+      ? finalSelectedUrl
+      : selectedItem?.ImageCount > 1
+        ? `${storeInitData?.CDNDesignImageFol}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.${selectedItem?.ImageExtension}`
+        : `${storeInitData?.CDNDesignImageFol}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`;
+
+    const img = new Image();
+    img.onload = () => setImgSrc(imageURL);
+    img.onerror = () => {
+      if (selectedItem?.ImageCount > 0) {
+        setImgSrc(fullImagePath1 || noImageFound);
+      } else {
+        setImgSrc(noImageFound);
+      }
+    };
+    img.src = imageURL;
+  }, [selectedItem, storeInitData, finalSelectedUrl]);
+
+  // useEffect(() => {
+  //   if (selectedItem?.ImageCount > 0) {
+  //     CartCardImageFunc(selectedItem).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [selectedItem]);
 
 
   return (
@@ -399,10 +427,11 @@ const MobileCartDetails = ({
             </CardMedia>
           ) : (
             <img
-              src={selectedItem?.images ? selectedItem?.images :
-                selectedItem?.ImageCount > 1 ? `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.jpg` :
-                  `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`
-              }
+              // src={selectedItem?.images ? selectedItem?.images :
+              //   selectedItem?.ImageCount > 1 ? `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.jpg` :
+              //     `${storeInitData?.CDNDesignImageFolThumb}${selectedItem?.designno}~1.jpg`
+              // }
+              src={imgSrc}
               className="hoq_cartImage"
               onClick={() => handleMoveToDetail(selectedItem)}
               alt=" "
@@ -413,14 +442,7 @@ const MobileCartDetails = ({
                 '&:focus': { outline: 'none' },
                 '&:active': { outline: 'none' },
               }}
-              onError={(e) => {
-                if (selectedItem?.ImageCount > 0) {
-                  e.target.src = fullImagePath ? fullImagePath : noImageFound
-                } else {
-                  e.target.src = noImageFound;
-                }
-              }}
-              loading="lazy"
+              loading="eager"
             />
           )}
         </div>

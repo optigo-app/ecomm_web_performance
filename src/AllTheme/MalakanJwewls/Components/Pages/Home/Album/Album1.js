@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Navigation, Keyboard, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -23,6 +23,7 @@ const Album1 = () => {
     const [storeInit, setStoreInit] = useState({});
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const isMobileScreen = useMediaQuery('(max-width:768px)');
+    const productRefs = useRef({});
 
     useEffect(() => {
         let data = JSON?.parse(sessionStorage.getItem("storeInit"));
@@ -76,10 +77,36 @@ const Album1 = () => {
             c: loginUserDetail?.cmboCSQCid,
             f: {}
         }
+        sessionStorage.setItem('scrollToProduct1', `product-${index}`);
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     }
+
+    useEffect(() => {
+        const scrollDataStr = sessionStorage.getItem('scrollToProduct1');
+        if (!scrollDataStr) return;
+
+        const maxRetries = 10;
+        let retries = 0;
+
+        const tryScroll = () => {
+            const el = productRefs.current[scrollDataStr];
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+                sessionStorage.removeItem('scrollToProduct1');
+            } else if (retries < maxRetries) {
+                retries++;
+                setTimeout(tryScroll, 200); // retry until ref is ready
+            }
+        };
+
+        tryScroll();
+
+    }, [albumData]);
 
     const handleChangeTab = (event, newValue) => {
         setTimeout(() => {
@@ -163,6 +190,8 @@ const Album1 = () => {
                                                             ? `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`
                                                             : imageNotFound
                                                     }
+                                                    id={`product-${index}`}
+                                                    ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                                     alt={design?.TitleLine}
                                                     loading="lazy"
                                                 />

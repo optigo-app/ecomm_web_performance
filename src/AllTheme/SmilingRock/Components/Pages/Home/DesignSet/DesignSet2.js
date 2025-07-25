@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import imageNotFound from "../../../Assets/image-not-found.jpg";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Pako from "pako";
 import Cookies from "js-cookie";
 import { motion } from "framer-motion";
@@ -23,6 +23,7 @@ import {
 
 const DesignSet2 = ({ data }) => {
   const designSetRef = useRef(null);
+  const location = useLocation();
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState();
   const [designSetList, setDesignSetList] = useState([]);
@@ -33,6 +34,8 @@ const DesignSet2 = ({ data }) => {
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
   const setLoadingHome = useSetRecoilState(homeLoading);
   const productRefs = useRef({});
+  const scrollRetries = useRef(0);
+  const maxRetries = 10;
 
   // useEffect(() => {
   //   setLoadingHome(true);
@@ -175,29 +178,49 @@ const DesignSet2 = ({ data }) => {
   };
 
   useEffect(() => {
-    const scrollDataStr = sessionStorage.getItem('scrollToProduct4');
+    const scrollDataStr = sessionStorage.getItem("scrollToProduct4");
     if (!scrollDataStr) return;
 
-    const maxRetries = 10;
-    let retries = 0;
+    const scrollToElement = () => {
+      const targetElement = document.querySelector(`[name='${scrollDataStr}']`);
+      if (targetElement) {
+        const rect = targetElement.getBoundingClientRect();
+        const offsetTop = window.pageYOffset + rect.top;
 
-    const tryScroll = () => {
-      const el = productRefs.current[scrollDataStr];
-      if (el) {
-        el.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
+        const topOffset = 142;
+
+        window.scrollTo({
+          top: offsetTop - topOffset,
+          behavior: "smooth",
         });
-        sessionStorage.removeItem('scrollToProduct4');
-      } else if (retries < maxRetries) {
-        retries++;
-        setTimeout(tryScroll, 200); // retry until ref is ready
+
+        sessionStorage.removeItem("scrollToProduct4");
+        scrollRetries.current = 0;
+
+        // Optional: re-scroll on resize if the element layout shifts
+        const resizeObserver = new ResizeObserver(() => {
+          const newRect = targetElement.getBoundingClientRect();
+          const newOffsetTop = window.pageYOffset + newRect.top;
+          window.scrollTo({
+            top: newOffsetTop - topOffset,
+            // top: newOffsetTop,
+            behavior: "smooth",
+          });
+        });
+
+        resizeObserver.observe(targetElement);
+        return () => resizeObserver.disconnect();
+      } else if (scrollRetries.current < maxRetries) {
+        scrollRetries.current++;
+        setTimeout(scrollToElement, 300); // try again after 300ms
+      } else {
+        console.warn("Max scroll retries reached. Element not found.");
       }
     };
 
-    tryScroll();
-
-  }, [designSetList]);
+    // Delay initial call to allow component to mount fully
+    setTimeout(scrollToElement, 300);
+  }, [designSetList?.length > 0, location.pathname]);
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -236,13 +259,13 @@ const DesignSet2 = ({ data }) => {
   };
   return (
     <>
-      <div className="smr_DesignSet2MainDiv" ref={designSetRef}>
+      <div className="smr_DesignSet2MainDiv" ref={designSetRef} onContextMenu={(e) => { e.preventDefault() }}>
         {designSetList?.length !== 0 && (
           <>
             <div className="smr_DesignSetTitleDiv">
               <p className="smr1_desognSetTitle">
                 COMPLETE YOUR LOOK
-                {storeInit?.IsB2BWebsite !== 1 && (
+                {((storeInit?.IsB2BWebsite !== 1) || (storeInit?.IsB2BWebsite === 1 && islogin)) && (
                   <span onClick={(e) => handleNavigate(e)}>
                     <a href="/Lookbook" className="smr_designSetViewmoreBtn_2">
                       View More
@@ -276,6 +299,8 @@ const DesignSet2 = ({ data }) => {
                     src={data?.image[0]}
                     alt=""
                     className="imgBG"
+                    draggable={true}
+                    onContextMenu={(e) => e.preventDefault()}
                     id={`product-${index}`}
                     ref={(el) => (productRefs.current[`product-${index}`] = el)}
                   />
@@ -324,6 +349,7 @@ const DesignSet2 = ({ data }) => {
                                       // src={`${imageUrlDesignSet}${detail?.designno}~1.${detail?.ImageExtension}`}
                                       src={`${imageUrlDesignSet}${detail?.designno}~1.jpg`}
                                       alt={`Sub image ${subIndex} for slide ${index}`}
+                                      name={`product-${index}`}
                                       onClick={() =>
                                         handleNavigation(
                                           detail?.designno,
@@ -334,6 +360,8 @@ const DesignSet2 = ({ data }) => {
                                           index
                                         )
                                       }
+                                      draggable={true}
+                                      onContextMenu={(e) => e.preventDefault()}
                                       onError={(e) => {
                                         e.target.src = imageNotFound;
                                         e.target.alt = "no-image-found";

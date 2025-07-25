@@ -45,10 +45,10 @@ const AddressManagement = () => {
                 <div className='proCat_addMainDiv'>
                     <div className='proCat_TitleDetailMainDiv'>
                         <div>
-                        <h1 className='proCat_deliveryTitle'>Delivery</h1>
-                        <p className='proCat_deliverydesc'>Order Will be delivered to selected address</p>
+                            <h1 className='proCat_deliveryTitle'>Delivery</h1>
+                            <p className='proCat_deliverydesc'>Order Will be delivered to selected address</p>
                         </div>
-                        <button className='proCat_ContinueOrderbtn' onClick={() => proceedToOrder(navigate)}>Continue</button>
+                        <button className='proCat_ContinueOrderbtn btnColorProCatProduct' onClick={() => proceedToOrder(navigate)}>Continue</button>
                     </div>
                     {!isLoading ? (
                         <div className='proCat_getAddrMainDiv'>
@@ -86,7 +86,7 @@ const AddressManagement = () => {
                         handleDelete={() => handleDelete()}
                     />
                     <div className='proCat_AddressBtnGroup'>
-                        <button className='proCat_AddNewAddrbtn' onClick={() => handleOpen(null)}>Add New Address</button>
+                        <button className='proCat_AddNewAddrbtn btnColorProCatProduct' onClick={() => handleOpen(null)}>Add New Address</button>
                     </div>
                 </div>
             </div>

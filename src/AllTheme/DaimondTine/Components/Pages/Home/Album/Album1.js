@@ -28,38 +28,37 @@ const Album1 = () => {
     const isMobileScreen = useMediaQuery('(max-width:768px)');
     const setLoadingHome = useSetRecoilState(dt_homeLoading);
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
+    const productRefs = useRef({});
 
-    useEffect(() => {
-        setLoadingHome(true);
-        let data = JSON?.parse(sessionStorage.getItem("storeInit"));
-        setImageUrl(data?.AlbumImageFol);
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        apiCall();
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            {
-                root: null,
-                threshold: 0.5,
-            }
-        );
+    // useEffect(() => {
+    //     setLoadingHome(true);
+    //     let data = JSON?.parse(sessionStorage.getItem("storeInit"));
+    //     setImageUrl(data?.AlbumImageFol);
+    //     const observer = new IntersectionObserver(
+    //         (entries) => {
+    //             entries.forEach((entry) => {
+    //                 if (entry.isIntersecting) {
+    //                     apiCall();
+    //                     observer.unobserve(entry.target);
+    //                 }
+    //             });
+    //         },
+    //         {
+    //             root: null,
+    //             threshold: 0.5,
+    //         }
+    //     );
 
-        if (albumRef.current) {
-            observer.observe(albumRef.current);
-        }
-        return () => {
-            if (albumRef.current) {
-                observer.unobserve(albumRef.current);
-            }
-        };
+    //     if (albumRef.current) {
+    //         observer.observe(albumRef.current);
+    //     }
+    //     return () => {
+    //         if (albumRef.current) {
+    //             observer.unobserve(albumRef.current);
+    //         }
+    //     };
 
-    }, []);
-
-
+    // }, []);
 
     const apiCall = () => {
         const loginUserDetail = JSON?.parse(sessionStorage.getItem('loginUserDetail'));
@@ -84,6 +83,11 @@ const Album1 = () => {
             .catch((err) => console.log(err));
     }
 
+    useEffect(() => {
+        apiCall();
+    }, [])
+
+
     const compressAndEncode = (inputString) => {
         try {
             const uint8Array = new TextEncoder().encode(inputString);
@@ -99,7 +103,7 @@ const Album1 = () => {
         navigation(`/p/${album?.AlbumName}/?A=${btoa(`AlbumName=${album?.AlbumName}`)}`)
     }
 
-    const handleNavigation = (designNo, autoCode, titleLine) => {
+    const handleNavigation = (designNo, autoCode, titleLine, index) => {
         GoogleAnalytics.event({
             action: "Navigate to Product Detail",
             category: `Product Interaction Through Album Section`,
@@ -114,10 +118,36 @@ const Album1 = () => {
             c: loginUserDetail?.cmboCSQCid,
             f: {}
         }
+        sessionStorage.setItem('scrollToProduct1', `product-${index}`);
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         // navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         navigation(`/d/${formatRedirectTitleLine(titleLine)}${designNo}?p=${encodeObj}`);
     }
+
+    useEffect(() => {
+        const scrollDataStr = sessionStorage.getItem('scrollToProduct1');
+        if (!scrollDataStr) return;
+
+        const maxRetries = 10;
+        let retries = 0;
+
+        const tryScroll = () => {
+            const el = productRefs.current[scrollDataStr];
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+                sessionStorage.removeItem('scrollToProduct1');
+            } else if (retries < maxRetries) {
+                retries++;
+                setTimeout(tryScroll, 200); // retry until ref is ready
+            }
+        };
+
+        tryScroll();
+
+    }, [albumData]);
 
     const handleChangeTab = (event, newValue) => {
         setTimeout(() => {
@@ -211,7 +241,7 @@ const Album1 = () => {
     }, [selectedAlbum, albumData]);
 
     return (
-        <div ref={albumRef}>
+        <div ref={albumRef} draggable={false} onContextMenu={(e) => e.preventDefault()}>
             {albumData?.length != 0 &&
                 <div className="dt_album_container">
                     <div className='smr_ablbumtitleDiv'>
@@ -273,21 +303,25 @@ const Album1 = () => {
                                     pagination={false}
                                     className='dt_album_swiper_SubDiv'
                                 >
-                                    {album?.Designdetail && JSON?.parse(album?.Designdetail)?.map((design) => {
+                                    {album?.Designdetail && JSON?.parse(album?.Designdetail)?.map((design, index) => {
                                         // const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
                                         // const imageSrc = `${storeInit?.CDNDesignImageFol}${design?.designno}~1.${design?.ImageExtension}`;
                                         const imageSrc = `${storeInit?.CDNDesignImageFolThumb}${design?.designno}~1.jpg`;
                                         const isImageAvailable = imageStatus[imageSrc] !== false;
                                         return (
                                             <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
-                                                <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
+                                                <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine, index)}>
                                                     <img
                                                         src={isImageAvailable ? imageSrc : noimageFound}
                                                         alt={design?.TitleLine}
+                                                        id={`product-${index}`}
+                                                        ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                                         loading="lazy"
                                                         onError={(e) => {
                                                             e.target.src = noimageFound;
                                                         }}
+                                                        onContextMenu={(e) => e.preventDefault()}
+                                                        draggable={false}
                                                     />
                                                 </div>
                                                 <div className="design-info">

@@ -49,8 +49,6 @@ const Header2 = () => {
         };
     }, [islogin]);
 
-
-
     useEffect(() => {
         GetCountAPI(cookie).then((res) => {
             if (res) {
@@ -145,7 +143,7 @@ const Header2 = () => {
         <Tooltip title="Search" className="smilingHeaderWhishlistIcon">
             <li style={{ listStyle: 'none' }} onClick={() => navigation("/SearchPage")}>
                 <FiSearch
-                    style={{ height: "25px", cursor: "pointer", width: "25px", color: isHeaderFixed ? getLogoColor === "#000000" ? "#000" : "#fff" : "#000" }}
+                    style={{ height: "25px", cursor: "pointer", width: "25px", color: isHeaderFixed ? getLogoColor === "#FFFFFF" ? "#000" : "#fff" : "#000" }}
                     className="mobileViewSmilingTop1Icone"
                 />
             </li>
@@ -163,7 +161,7 @@ const Header2 = () => {
             <Tooltip title="Cart">
                 <li style={{ listStyle: 'none' }} onClick={() => navigation("/CartPage")}>
                     <PiBagFill
-                        style={{ height: "25px", cursor: "pointer", width: "25px", color: isHeaderFixed ? getLogoColor === "#000000" ? "#000" : "#fff" : "#000" }}
+                        style={{ height: "25px", cursor: "pointer", width: "25px", color: isHeaderFixed ? getLogoColor === "#FFFFFF" ? "#000" : "#fff" : "#000" }}
                         className="mobileViewSmilingTop1Icone"
                     />
                 </li>
@@ -238,7 +236,7 @@ const Header2 = () => {
                     <div className='smrm_HeaderMain_1' style={{ height: height }}>
                         <div className='smrm_Top_header_sub_1'>
                             <div className='smrm_Div1Main_1' style={{ background: "transparent", backgroundColor: "transparent" }}>
-                                <img src={compnyLogo} loading='lazy' className='smrm_logo_header_1' />
+                                <img src={compnyLogo} loading='lazy' className='smrm_logo_header_1' onClick={(e) => navigation('/')} />
                                 {showIcons && (
                                     <div className='smrm_Top_header_icons'>
                                         {SearchIcon}
@@ -252,7 +250,9 @@ const Header2 = () => {
                         {!islogin && !isMenuPage && (
                             <div className={`smrm_Fixed_Header_1 ${isHeaderFixed ? "fixed" : ""}`}>
                                 <div className='smrm_Div1Main_1'>
-                                    <img src={getLogoColor === "#000000" ? compnyLogo : compnyLogo1} loading='lazy' className='smrm_logo_header_1' />
+                                    <img src={getLogoColor === "#FFFFFF" ? compnyLogo : compnyLogo1} loading='lazy' className='smrm_logo_header_1'
+                                        onClick={(e) => navigation('/')}
+                                    />
                                     {HeaderIcons}
                                 </div>
                             </div>
@@ -261,7 +261,9 @@ const Header2 = () => {
                         {islogin && (
                             <div className={`smrm_Fixed_Header_1 ${isHeaderFixed ? "fixed" : ""}`}>
                                 <div className='smrm_Div1Main_1'>
-                                    <img src={getLogoColor === "#000000" ? compnyLogo : compnyLogo1} loading='lazy' className='smrm_logo_header_1' />
+                                    <img src={getLogoColor === "#FFFFFF" ? compnyLogo : compnyLogo1} loading='lazy' className='smrm_logo_header_1'
+                                        onClick={(e) => navigation('/')}
+                                    />
                                     {HeaderIcons}
                                 </div>
                             </div>

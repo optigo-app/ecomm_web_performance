@@ -195,7 +195,7 @@ const CartPage = () => {
             }
             {!isloding && finalCartData?.length != 0 &&
               <div className='smr_placeOrderMainbtnDivs'>
-                {storeInit?.IsPLW == 1 &&
+                {storeInit?.IsPLW === 1 &&
                   <Button variant="outlined" sx={{ border: '1px solid grey !important', color: '#7d7f85' }} startIcon={<PrintIcon />} onClick={handlePrint}>
                     Print
                   </Button>

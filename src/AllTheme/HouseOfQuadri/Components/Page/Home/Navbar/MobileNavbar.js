@@ -26,6 +26,7 @@ import {
 import { useRecoilState } from "recoil";
 import { PiBagSimpleThin } from "react-icons/pi";
 import { FaSignInAlt, FaUserPlus } from "react-icons/fa"; // Import specific icons
+import useGlobalPreventSave from "../../../../../../utils/Glob_Functions/useGlobalPreventSave";
 
 export default function TemporaryDrawer({
   menuItems,
@@ -86,6 +87,8 @@ export default function TemporaryDrawer({
   const toggleDrawer = () => () => {
     setisMobileMenu(!isMobileMenu);
   };
+
+  useGlobalPreventSave();
 
   const DrawerList = (
     <Box
@@ -237,7 +240,7 @@ export default function TemporaryDrawer({
                                 value: menuItem?.param0dataname,
                               })
                             }
-                            style={{ cursor: "pointer", fontSize: "16px"  ,fontWeight  :"700"}}
+                            style={{ cursor: "pointer", fontSize: "16px", fontWeight: "700" }}
                           >
                             View All
                           </span>
@@ -348,7 +351,7 @@ export default function TemporaryDrawer({
             }}
           >
             <Link
-              to={"/LoginWithEmail"}
+              to={"/ContinueWithEmail"}
               style={{
                 textDecoration: "none",
                 color: "black",
@@ -394,6 +397,8 @@ export default function TemporaryDrawer({
         }}
         open={isMobileMenu}
         onClose={toggleDrawer(false)}
+        draggable={true}
+        onContextMenu={(e) => e.preventDefault()}
       >
         {DrawerList}
       </Drawer>

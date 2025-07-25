@@ -227,6 +227,7 @@ const Album1 = () => {
                 // <div >
                 <div
                     ref={albumRef}
+                    onContextMenu={(e) => { e.preventDefault() }}
                 >
                     {albumData?.length != 0 &&
                         <div className="smr_album-container" >
@@ -312,6 +313,8 @@ const Album1 = () => {
                                                             id={`product-${index}`}
                                                             ref={(el) => (productRefs.current[`product-${index}`] = el)}
                                                             alt={design?.TitleLine}
+                                                            draggable={true}
+                                                            onContextMenu={(e) => e.preventDefault()}
                                                             loading="lazy"
                                                             onError={(e) => {
                                                                 e.target.src = imageNotFound;

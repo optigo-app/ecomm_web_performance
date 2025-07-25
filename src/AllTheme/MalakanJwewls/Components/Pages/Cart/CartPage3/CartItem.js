@@ -170,6 +170,8 @@ const CartItem = ({
                   '&:focus': { outline: 'none' },
                   '&:active': { outline: 'none' },
                 }}
+                draggable={true}
+                onContextMenu={(e) => e.preventDefault()}
                 loading="lazy"
                 onError={(e) => {
                   if (item?.ImageCount > 0) {

@@ -66,6 +66,8 @@ const DesignSet = ({
                           designSetList?.DefaultImageName
                           : imageNotFound
                       }
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
                       alt={""}
                       className="elv_ctl_img"
                     />
@@ -115,12 +117,14 @@ const DesignSet = ({
                                   ele?.ImageExtension
                                   : imageNotFound
                               }
+                              draggable={false}
+                              onContextMenu={(e) => e.preventDefault()}
                               alt={""}
                               // src={
                               //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
                               // }
-                              onError={(e)=>{
-                                e.target.src = imageNotFound ;
+                              onError={(e) => {
+                                e.target.src = imageNotFound;
                               }}
                               className="srthelook_img"
                             />
@@ -137,19 +141,19 @@ const DesignSet = ({
                               <p>
                                 {ele?.designno} - {ele?.CategoryName}
                                 <br />
-                                {storeInit?.IsPriceShow == 1 &&  <>
+                                {storeInit?.IsPriceShow == 1 && <>
                                   <span className="elv_currencyFont">
                                     {loginInfo?.CurrencyCode ??
                                       storeInit?.CurrencyCode}
                                   </span>
-                                
-                                &nbsp;
-                                {
-                                  formatter(
-                                    ele?.UnitCostWithMarkUp
-                                  )
-                                }
-                                  </>}
+
+                                  &nbsp;
+                                  {
+                                    formatter(
+                                      ele?.UnitCostWithMarkUp
+                                    )
+                                  }
+                                </>}
                               </p>
                             </div>
                             {/* <div>

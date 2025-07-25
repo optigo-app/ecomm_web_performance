@@ -33,6 +33,7 @@ import pako from "pako";
 import CartDrawer from "../../Cart/CartPageB2c/Cart";
 import useCountdown from "../../CountDownTimer/CountDownTimer";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import useGlobalPreventSave from "../../../../../../utils/Glob_Functions/useGlobalPreventSave";
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -62,6 +63,8 @@ const Header = () => {
 
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
   const navigation = useNavigate();
+
+  useGlobalPreventSave();
 
   useEffect(() => {
     fetch(`${storImagePath()}/ExtraFlag.txt`)
@@ -175,7 +178,7 @@ const Header = () => {
     ) {
       getMenuApi();
     }
-  }, [islogin]);
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -477,7 +480,7 @@ const Header = () => {
   // ref={searchOverlayRef}
 
   return (
-    <div className="smr_headerMain_div">
+    <div className="smr_headerMain_div" draggable={true} onContextMenu={(e) => { e.preventDefault() }}>
       {serachsShowOverlay && (
         <>
           <div className="smr_smlingSearchoverlay">
@@ -559,22 +562,37 @@ const Header = () => {
                   onClick={toggleDrawerOverlay}
                 />
               </div>
-              <div className="smr_mobileHeader_top_div2_web">
-                <a href="/">
+              <div className="smr_mobileHeader_top_div2_web"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              >
+                <a href="/"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}>
                   <img
                     src={compnyLogo}
                     loading="lazy"
                     className="smr_logo_header"
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 </a>
               </div>
 
-              <div className="smr_mobileHeader_top_div2_mobile">
-                <a href="/">
+              <div className="smr_mobileHeader_top_div2_mobile"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              >
+                <a href="/"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
+                >
                   <img
                     src={compnyLogoM}
                     loading="lazy"
                     className="smr_logo_header"
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 </a>
               </div>
@@ -648,7 +666,7 @@ const Header = () => {
             <div className="smr_mobileMenuSubDivMain">
               {islogin && (
                 <div
-                  style={{  
+                  style={{
                     display: "flex",
                     border: "1px solid white",
                     alignItems: "center",
@@ -1068,21 +1086,37 @@ const Header = () => {
               />
             </ul>
           </div>
-          <div className="smiling_Top_header_div2_web">
-            <a href="/">
+          <div className="smiling_Top_header_div2_web"
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
+          >
+            <a href="/"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+            >
               <img
                 src={compnyLogo}
                 loading="lazy"
                 className="smr_logo_header"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
               />
             </a>
           </div>
-          <div className="smiling_Top_header_div2_Mobile">
-            <a href="/">
+          <div className="smiling_Top_header_div2_Mobile"
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
+          >
+            <a href="/"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+            >
               <img
                 src={compnyLogoM}
                 loading="lazy"
                 className="smr_logo_header"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
               />
             </a>
           </div>
@@ -1428,22 +1462,38 @@ const Header = () => {
                 {/* } */}
               </ul>
             </div>
-            <div className="smiling_Top_header_div2_web">
-              <a href="/">
+            <div className="smiling_Top_header_div2_web"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+            >
+              <a href="/"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              >
                 <img
                   src={compnyLogo}
                   loading="lazy"
                   className="smr_logo_header_Fixed"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </a>
             </div>
 
-            <div className="smiling_Top_header_div2_Mobile">
-              <a href="/">
+            <div className="smiling_Top_header_div2_Mobile"
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
+            >
+              <a href="/"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+              >
                 <img
                   src={compnyLogoM}
                   loading="lazy"
                   className="smr_logo_header_Fixed"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </a>
             </div>
@@ -1801,7 +1851,11 @@ const NewMenuBar = ({ menuItems = [], handelMenu = () => { } }) => {
           {SliderbannerImages?.map((image, index) => {
             return (
               <div className="image_box_s">
-                <img src={image} alt="image" className="image_s" />
+                <img src={image} alt="image" className="image_s"
+
+                  draggable={true}
+                  onContextMenu={(e) => e.preventDefault()}
+                />
               </div>
             );
           })}
@@ -2336,7 +2390,11 @@ const HoverMenu = ({ selectedData, handelMenu, expandedMenu, hoveredIndex, handl
           {SliderbannerImages?.map((image, index) => {
             return (
               <div className="image_box_s">
-                <img src={image} alt="image" className="image_s" />
+                <img src={image} alt="image" className="image_s"
+
+                  draggable={true}
+                  onContextMenu={(e) => e.preventDefault()}
+                />
               </div>
             );
           })}

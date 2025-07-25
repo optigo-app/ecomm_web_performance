@@ -124,6 +124,8 @@ const CartDetails = ({
               '&:focus': { outline: 'none' },
               '&:active': { outline: 'none' },
             }}
+            draggable={true}
+            onContextMenu={(e) => e.preventDefault()}
             className='smr_cartDetailImage'
             onClick={() => handleMoveToDetail(selectedItem)}
             loading="eager"

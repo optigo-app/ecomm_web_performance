@@ -66,28 +66,11 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ProductCard_Skeleton from "./productCard_skeleton/Productcard_skeleton";
 import EditablePagination from "../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
 import RangeFilter from "../../../../../../utils/Glob_Functions/RangeFilter/RangeFilter";
+import usePerformanceTracker from "../../../../../../utils/Glob_Functions/usePerformanceTracker";
 const ProductList = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-  // const [storeInit, setStoreInit] = useState({});
-
-  useEffect(() => {
-    // let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
-    // setStoreInit(storeinit);
-
-    let mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
-    setMetalTypeCombo(mtCombo);
-
-    let diaQcCombo = JSON.parse(
-      sessionStorage.getItem("diamondQualityColorCombo")
-    );
-    setDiaQcCombo(diaQcCombo);
-
-    let CsQcCombo = JSON.parse(
-      sessionStorage.getItem("ColorStoneQualityColorCombo")
-    );
-    setCsQcCombo(CsQcCombo);
-  }, []);
+  // const [storeInit, setStoreInit] = useState({})
 
   const islogin = useRecoilValue(mala_loginState);
 
@@ -169,6 +152,17 @@ const ProductList = () => {
       backgroundColor
     );
   };
+
+  usePerformanceTracker({
+    onComplete: ({ pageLoadTime, imageLoadTime, totalTime }) => {
+      // You can send to analytics or store somewhere
+      console.log('🔧 Performance data received in component:', {
+        pageLoadTime,
+        imageLoadTime,
+        totalTime,
+      });
+    },
+  });
 
   useEffect(() => {
     const mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
@@ -538,9 +532,9 @@ const ProductList = () => {
                     : [];
 
                 // console.log("diafilter",diafilter);
-                setSliderValue([diafilter?.Min, diafilter?.Max]);
-                setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
-                setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
+                setSliderValue(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
+                setSliderValue1(diafilter1?.Min != null || diafilter1?.Max != null ? [diafilter1?.Min, diafilter1?.Max] : []);
+                setSliderValue2(diafilter2?.Min != null || diafilter2?.Max != null ? [diafilter2?.Min, diafilter2?.Max] : []);
 
                 forWardResp1 = res;
               })
@@ -711,42 +705,44 @@ const ProductList = () => {
     return;
   };
 
-  const generateImageList = useCallback((product) => {
-    let storeInitX = JSON.parse(sessionStorage.getItem("storeInit"));
-    let pdImgList = []
-    if (product?.ImageCount > 0) {
-      for (let i = 1; i <= product?.ImageCount; i++) {
-        // let imgString =
-        //   storeInitX?.CDNDesignImageFol +
-        //   product?.designno +
-        //   "~" +
-        //   i +
-        //   "." +
-        //   product?.ImageExtension
-        let imgString =
-          storeInitX?.CDNDesignImageFolThumb +
-          product?.designno +
-          "~" +
-          i +
-          "." +
-          "jpg"
-        pdImgList?.push(imgString)
-      }
-    } else {
-      pdImgList?.push(imageNotFound)
-    }
-    return pdImgList
-  }, [])
-
   useEffect(() => {
-    const initialProducts = productListData?.map(product => ({
-      ...product,
-      images: generateImageList(product),
-      loading: false
-    }));
+    const finalProdWithPrice = productListData && productListData?.map((product) => {
+      let pdImgList = [];
 
-    setFinalProductListData(initialProducts);
-  }, [productListData, generateImageList])
+      if (product?.ImageCount > 0) {
+        for (let i = 1; i <= product?.ImageCount; i++) {
+          // let imgString =
+          //   storeInit?.CDNDesignImageFol +
+          //   product?.designno +
+          //   "~" +
+          //   i +
+          //   "." +
+          //   product?.ImageExtension;
+          let imgString =
+            storeInit?.CDNDesignImageFolThumb +
+            product?.designno +
+            "~" +
+            i +
+            "." +
+            "jpg";
+          // let imgString = storeInit?.DesignImageFol + product?.designno + "_" + i + "." + product?.ImageExtension
+          pdImgList.push(imgString);
+        }
+      } else {
+        pdImgList.push(imageNotFound);
+      }
+
+      let images = pdImgList;
+
+      return {
+        ...product,
+        images,
+      };
+    });
+
+    // console.log("finalProdWithPrice", finalProdWithPrice?.filter((ele)=>ele?.ImageCount > 0));
+    setFinalProductListData(finalProdWithPrice);
+  }, [productListData]);
 
   // useEffect(() => {
   //   const initialProducts = productListData?.map(product => ({
@@ -1014,9 +1010,9 @@ const ProductList = () => {
             filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
           )[0]
           : [];
-      setSliderValue([diafilter?.Min, diafilter?.Max]);
-      setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
-      setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
+      setSliderValue(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
+      setSliderValue1(diafilter1?.Min != null || diafilter1?.Max != null ? [diafilter1?.Min, diafilter1?.Max] : []);
+      setSliderValue2(diafilter2?.Min != null || diafilter2?.Max != null ? [diafilter2?.Min, diafilter2?.Max] : []);
       setInputDia([diafilter?.Min, diafilter?.Max]);
       setInputNet([diafilter1?.Min, diafilter1?.Max]);
       setInputGross([diafilter2?.Min, diafilter2?.Max]);
@@ -4055,9 +4051,10 @@ const GivaFilterMenu = ({
           filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
         )[0]
         : [];
-    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
-    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
-    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify((diafilter?.Min != null || diafilter?.Max != null) ? [diafilter?.Min, diafilter?.Max] : []);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify((diafilter1?.Min != null || diafilter1?.Max != null) ? [diafilter1?.Min, diafilter1?.Max] : []);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify((diafilter2?.Min != null || diafilter2?.Max != null) ? [diafilter2?.Min, diafilter2?.Max] : []);
 
 
     let totalCount = 0;
@@ -4099,7 +4096,7 @@ const GivaFilterMenu = ({
   //             if (checkedOption) {
   //                 checkedNames.push(checkedOption.Name);
   //             }
-  //         }
+  //         }  
   //     }
   //     console.log(checkedNames,"afte=er")
 
@@ -4107,7 +4104,7 @@ const GivaFilterMenu = ({
   // }
 
   function getCheckedFilterNames(FilterValueWithCheckedOnly, filterData) {
-    // Extracting checked filter values
+    // Extracting checked filter values43
     const checkedNames = [];
 
     // Loop through each entry in FilterValueWithCheckedOnly
@@ -5115,9 +5112,9 @@ const Product_Card = ({
             height="380px"
             sx={{
               height: {
-                sm: "380px",
-                xs: "300px",
-                md: "380px",
+                sm: "200px",
+                xs: "250px",
+                md: "312px",
                 lg: "380px",
               }
             }}
@@ -5162,6 +5159,8 @@ const Product_Card = ({
                       onError={(e) => {
                         e.target.poster = imageNotFound;
                       }}
+                      draggable={true}
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                   ) : (videoUrl === undefined && RollImageUrl !== undefined) ? (
                     <img
@@ -5173,6 +5172,8 @@ const Product_Card = ({
                         }
                         e.target.src = imageNotFound;
                       }}
+                      draggable={true}
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                   ) : null}
                 </div>
@@ -5186,6 +5187,8 @@ const Product_Card = ({
                     e.stopPropagation();
                     e.target.src = imageNotFound;
                   }}
+                  draggable={true}
+                  onContextMenu={(e) => e.preventDefault()}
                   style={{
                     opacity: isHover && (RollImageUrl || videoUrl) ? "0" : "1",
                     transition: '0s ease-in-out',

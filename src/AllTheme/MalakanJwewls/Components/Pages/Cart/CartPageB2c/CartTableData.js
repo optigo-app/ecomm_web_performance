@@ -111,6 +111,8 @@ const ExampleComponent = ({
                                     '&:focus': { outline: 'none' },
                                     '&:active': { outline: 'none' },
                                 }}
+                                draggable={true}
+                                onContextMenu={(e) => e.preventDefault()}
                                 onError={(e) => {
                                     if (cartData?.ImageCount > 0) {
                                         e.target.src = fullImagePath ? fullImagePath : noImageFound

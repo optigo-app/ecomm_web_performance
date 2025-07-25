@@ -4,6 +4,7 @@ import './Index.modul.scss'
 import { useRecoilValue } from 'recoil';
 import { dt_homeLoading } from '../../Recoil/atom';
 import useHomeBannerImages from './../../../../../utils/Glob_Functions/ThemesBanner/ThemesBanner';
+import useGlobalPreventSave from '../../../../../utils/Glob_Functions/useGlobalPreventSave';
 
 // Lazy load components
 // const TopSection = lazy(() => import('./TopSection/TopSection'));
@@ -33,7 +34,7 @@ function Home() {
   const isLoadingHome = useRecoilValue(dt_homeLoading);
   const banner = useHomeBannerImages();
 
-
+  useGlobalPreventSave();
 
   useEffect(() => {
     fetch(`${storInitDataPath()}/StoreInit.json`)
@@ -62,7 +63,7 @@ function Home() {
     // <Demo/>
     <>
       {htmlContent?.rd && htmlContent?.rd.length > 0 && (
-        <div>
+        <div onContextMenu={(e) => e.preventDefault()}>
           <Suspense fallback={<div></div>}>
             <TopSection data={banner?.mainBanner} promoBanner={banner?.middleBanner?.image?.[0]} />
             {htmlContent?.rd[0]?.IsHomeAlbum === 1 && <Album1 />}
@@ -70,16 +71,16 @@ function Home() {
             {htmlContent?.rd[0]?.IsHomeNewArrival === 1 && <NewArrival />}
             {htmlContent?.rd[0]?.IsHomeTrending === 1 && <TrendingView1 data={banner?.trendingBanner} />}
             {htmlContent?.rd[0]?.IsHomeDesignSet === 1 && <DesignSet2 data={banner?.lookbookBanner} />}
-            {isLoadingHome ? (
+            {/* {isLoadingHome ? (
               <div className="dat_Home_loader_container">
                 <div className="dt_Home_loader"></div>
               </div>
             ) : (
-              <>
-                <SocialMedia data={banner?.socialMediaBanner2} />
-                <Footer />
-              </>
-            )}
+              <> */}
+            <SocialMedia data={banner?.socialMediaBanner2} />
+            <Footer />
+            {/* </>
+            )} */}
           </Suspense>
         </div>
       )}

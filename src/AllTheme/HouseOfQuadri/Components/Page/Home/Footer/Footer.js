@@ -231,7 +231,7 @@ const Copyright = () => {
   return (
     <div className="footer-bottom">
       <Payment />
-      <p>© 2024 Lorem ipsum dolor sit amet.</p>
+      <p>© 2025 Lorem ipsum dolor sit amet.</p>
     </div>
   );
 };

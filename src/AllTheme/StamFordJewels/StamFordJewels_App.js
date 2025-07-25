@@ -11,6 +11,7 @@ import loaderImg from "../StamFordJewels/Components/Assets/mobileLogo.png";
 import { stam_CartNo, stam_companyLogo, stam_companyLogoM, stam_loginState } from "./Components/Recoil/atom";
 import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
 import { Box, CircularProgress } from "@mui/material";
+import useGlobalPreventSave from "../../utils/Glob_Functions/useGlobalPreventSave";
 
 const Home = React.lazy(() => import("./Components/Pages/Home/Index"));
 const Header = React.lazy(() => import("./Components/Pages/Home/Header/Header"));
@@ -84,6 +85,12 @@ const StamFordJewels_App = () => {
     setCompanyTitleLogoM(mobileLogo);
   });
 
+  const handleContextMenu = (e) => {
+    e.preventDefault();
+  };
+
+  useGlobalPreventSave();
+
   useEffect(() => {
     const cookieValue = Cookies.get("userLoginCookie");
     if (cookieValue) {
@@ -143,6 +150,8 @@ const StamFordJewels_App = () => {
         height="100%"
         width="auto"
         loading="lazy"
+        draggable={true}
+        onContextMenu={(e) => e.preventDefault()}
         style={{
           animation: 'scaleUpDown 1.5s ease-in-out infinite', // Apply the animation here
         }}
@@ -150,9 +159,44 @@ const StamFordJewels_App = () => {
     </Box>
   );
 
+  function ProductListWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <ProductList />
+      </div>
+    );
+  }
+  function ProductDetailWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <ProductDetail />
+      </div>
+    );
+  }
+  function WishlistWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <Wishlist />
+      </div>
+    );
+  }
+  function CartWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <Cart />
+      </div>
+    );
+  }
+  function LookbookWrapper() {
+    return (
+      <div onContextMenu={handleContextMenu}>
+        <Lookbook />
+      </div>
+    );
+  }
 
   return (
-    <>
+    <div draggable={false} onContextMenu={(e) => e.preventDefault(e)}>
       <Helmet>
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
@@ -203,16 +247,16 @@ const StamFordJewels_App = () => {
             <Route path="/aboutUs" element={<AboutUs />} />
             <Route path="/TermsPolicy" element={<TermsPolicy />} />
             <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
-              <Route path="/p/*" element={<ProductList />} />
-              <Route path="/d/*" element={<ProductDetail />} />
-              <Route path="/cartPage" element={<Cart />} />
-              <Route path="/myWishList" element={<Wishlist />} />
+              <Route path="/p/*" element={<ProductListWrapper />} />
+              <Route path="/d/*" element={<ProductDetailWrapper />} />
+              <Route path="/cartPage" element={<CartWrapper />} />
+              <Route path="/myWishList" element={<WishlistWrapper />} />
               <Route path="/Delivery" element={<Delivery />} />
               <Route path="/Payment" element={<Payment />} />
               <Route path="/Confirmation" element={<Confirmation />} />
               <Route path="/account" element={<Account />} />
+              <Route path="/Lookbook" element={<LookbookWrapper />} />
             </Route>
-            <Route path="/Lookbook" element={<Lookbook />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </div >
@@ -226,7 +270,7 @@ const StamFordJewels_App = () => {
         }
       </Suspense>
       <StamScrollToTop />
-    </>
+    </div>
   );
 };
 

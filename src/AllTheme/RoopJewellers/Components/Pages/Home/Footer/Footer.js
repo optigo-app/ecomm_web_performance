@@ -21,7 +21,7 @@ const Footer = ({ fromPage }) => {
   }, [])
 
   return (
-    <div>
+    <div onContextMenu={(e) => e.preventDefault()}>
       <div className='roop_Footer1_main'>
         <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
           <div className='footerIconMain'>
@@ -37,7 +37,7 @@ const Footer = ({ fromPage }) => {
           <div className='footerMoreOption'>
             <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p>
             {/* For vara */}
-            {/* <p className='footerMoreOptionData' style={{textTransform:'uppercase'}} onClick={() => { navigation('/managementTeam'); window.scrollTo(0, 0); }}>Management Team</p> */}
+            {/* <p className='footerMoreOptionData' style={{ textTransform: 'uppercase' }} onClick={() => { navigation('/managementTeam'); window.scrollTo(0, 0); }}>Management Team</p> */}
 
             {/* For sonasons ,shinjini, Pacific, ojasvi */}
             <p className='footerMoreOptionData' style={{ textTransform: 'uppercase' }} onClick={() => { navigation('/privacyPolicy'); window.scrollTo(0, 0); }}>Privacy Policy</p>
@@ -127,8 +127,8 @@ const Footer = ({ fromPage }) => {
             fontSize: '14px',
             fontWeight: 500,
             marginInline: '0',
-            marginBottom: "2%"
-          }}>© 2025, Sonasons</p>
+            marginBottom: "1%"
+          }}>© 2025, Shinjini Jewels</p>
 
           {/*  pacific diamonds */}
           {/* }}>© 2025, Pacific Diamonds</p> */}
@@ -137,7 +137,7 @@ const Footer = ({ fromPage }) => {
           {/* }}>© 2025, Varajewels</p> */}
 
           {/* For shinjini */}
-          {/* }}>© 2025, Shinjini</p> */}
+          {/* }}>© 2025, Shinjini jewels</p> */}
 
           {/* For ojasvi */}
           {/* }}>© 2025, Ojasvijewels</p> */}
@@ -148,6 +148,7 @@ const Footer = ({ fromPage }) => {
           {/* vara  */}
           {/* }}>© 2025, Sonasons</p> */}
         </div>
+        <strong style={{ color: "white" }}>25062025</strong>
       </div>
     </div >
   )

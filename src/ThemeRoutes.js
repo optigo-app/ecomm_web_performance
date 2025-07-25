@@ -25,6 +25,7 @@ import { lov_companyLogo, lov_companyLogoM, lov_loginState } from "./AllTheme/Lo
 import { companyLogo, companyLogoM, loginState, smr_companyLogo, smr_companyLogoM, smr_loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
 import { REACT_APP_WEB } from "./env";
 import { Box, CircularProgress } from "@mui/material";
+import { DefaultLoadingFallback, ElveeLoadingFallback, KamalikaJewelssLoadingFallback, LoadingFallback, OjasviLoadingFallback, PacificLoadingFallback, ShinjiniLoadingFallback, ShreeDiamondsLoadingFallback, VaraLoadingFallback } from "./LoadingFallbacks";
 
 const ForEveryRoutes = React.lazy(() => import("./AllTheme/Forevery/ForeveryRoutes"));
 const SmilingRock_App = React.lazy(() => import("./AllTheme/SmilingRock/SmilingRock_App"));
@@ -87,8 +88,6 @@ export default function ThemeRoutes() {
   const [storeInitData, setStoreInitData] = useState(null);
   const start = performance.now();
   const [currentTheme, setCurrentTheme] = useState(detectThemeNumber());
-  console.log("Theme init took", performance.now() - start, "ms");
-  console.log("TCL: ThemeRoutes -> currentTheme", currentTheme);
   const [isStoreInitLoaded, setIsStoreInitLoaded] = useState(false);
   const hasApiBeenCalled = useRef(false);
 
@@ -308,47 +307,18 @@ const MetaData2 = ({ title, isHaveSub = false }) => {
   );
 };
 
-const LoadingFallback = () => (
-  <Box
-    sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      minHeight: '100vh'
-    }}
-  >
-    <CircularProgress sx={{ color: 'rgba(255, 87, 34, 0.8)' }} />
-  </Box>
-)
-
-const ElveeLoadingFallback = () => (
-  <Box
-    sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      minHeight: '100vh',
-      backgroundColor: '#fff',
-    }}
-  >
-    <img
-      src="/Gif_Loder.gif"
-      alt="Loading..."
-      width="auto"
-      loading="lazy"
-      style={{
-        maxWidth: '200px',
-        width: '100%',
-        height: 'auto',
-      }}
-    />
-  </Box>
-);
 
 const Themes = ({ themeNumber }) => {
   return (
-    // <Suspense fallback={<ElveeLoadingFallback />}>
-    <Suspense fallback={<LoadingFallback />}>
+    // <Suspense fallback={<LoadingFallback />}>
+    // <Suspense fallback={<VaraLoadingFallback />}>
+    // <Suspense fallback={<PacificLoadingFallback />}>
+    // <Suspense fallback={<OjasviLoadingFallback />}>
+    // <Suspense fallback={<ShinjiniLoadingFallback />}>
+    // <Suspense fallback={<ShreeDiamondsLoadingFallback />}>
+    // <Suspense fallback={<KamalikaJewelssLoadingFallback />}>
+    // <Suspense fallback={<DefaultLoadingFallback />}>
+    <Suspense fallback={<ElveeLoadingFallback />}>
       {themeNumber === 8 && <ForEveryRoutes />}
       {themeNumber === 3 && <Elveester_App />}
       {themeNumber === 1 && <SmilingRock_App />}

@@ -43,34 +43,34 @@ const TrendingView = ({ data }) => {
     };
 
 
-    useEffect(() => {
-        setLoadingHome(true);
+    // useEffect(() => {
+    //     setLoadingHome(true);
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        callAPI();
-                        console.log("visble")
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            {
-                root: null,
-                threshold: 0.5,
-            }
-        );
+    //     const observer = new IntersectionObserver(
+    //         (entries) => {
+    //             entries.forEach((entry) => {
+    //                 if (entry.isIntersecting) {
+    //                     callAPI();
+    //                     console.log("visble")
+    //                     observer.unobserve(entry.target);
+    //                 }
+    //             });
+    //         },
+    //         {
+    //             root: null,
+    //             threshold: 0.5,
+    //         }
+    //     );
 
-        if (trendingRef.current) {
-            observer.observe(trendingRef.current);
-        }
-        return () => {
-            if (trendingRef.current) {
-                observer.unobserve(trendingRef.current);
-            }
-        };
-    }, [])
+    //     if (trendingRef.current) {
+    //         observer.observe(trendingRef.current);
+    //     }
+    //     return () => {
+    //         if (trendingRef.current) {
+    //             observer.unobserve(trendingRef.current);
+    //         }
+    //     };
+    // }, [])
 
 
     const checkImageAvailability = (url) => {
@@ -117,6 +117,10 @@ const TrendingView = ({ data }) => {
                 setIsLoading(false);
             });
     }
+
+    useEffect(() => {
+        callAPI();
+    }, [])
 
     const compressAndEncode = (inputString) => {
         try {

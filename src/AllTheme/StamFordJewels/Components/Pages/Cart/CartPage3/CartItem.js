@@ -204,6 +204,8 @@ const CartItem = ({
                   '&:focus': { outline: 'none' },
                   '&:active': { outline: 'none' },
                 }}
+                draggable={true}
+                onContextMenu={(e) => e.preventDefault()}
                 onError={(e) => {
                   if (item?.ImageCount > 0) {
                     e.target.src = fullImagePath ? fullImagePath : noImageFound

@@ -55,6 +55,14 @@ import { Box } from "@mui/material";
 // import ShippingPolicy from "./Components/Pages/Static/ShippingPolicy/ShippingPolicy";
 // import ConnectionManager from "../../utils/SoketConnection/ConnectionManager";
 
+import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/index";
+import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/index";
+import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
+import Register from "./Components/Pages/Auth/Registretion/index";
+import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
+import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
+import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
+
 const ProductDetail = lazy(() => import("./Components/Pages/Product/ProductDetail/ProductDetail"));
 const ContactUs = lazy(() => import("./Components/Pages/FooterPages/contactUs/ContactUs"));
 const ServicePolicy = lazy(() => import("./Components/Pages/FooterPages/servicePolicy/ServicePolicy"));
@@ -62,21 +70,14 @@ const ExpertAdvice = lazy(() => import("./Components/Pages/FooterPages/ExpertAdv
 const FunFact = lazy(() => import("./Components/Pages/FooterPages/FunFact/FunFact"));
 
 // New changes here
-const ContinueWithEmail = lazy(() => import("./Components/Pages/Auth/ContinueWithEmail/index"));
-const ContimueWithMobile = lazy(() => import("./Components/Pages/Auth/ContimueWithMobile/index"));
-const LoginWithEmail = lazy(() => import("./Components/Pages/Auth/LoginWithEmail/LoginWithEmail"));
-const Register = lazy(() => import("./Components/Pages/Auth/Registretion/index"));
 
-const LoginWithEmailCode = lazy(() => import("./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode"));
 const LoginWithMobileCode = lazy(() => import("./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode"));
-const LoginOption = lazy(() => import("./Components/Pages/Auth/LoginOption/LoginOption"));
 
 const Wishlist = lazy(() => import("./Components/Pages/Wishlist/Wishlist"));
 const PageNotFound = lazy(() => import("./Components/Pages/404Page/PageNotFound"));
 const Delivery = lazy(() => import("./Components/Pages/OrderFlow/DeliveryPage/Delivery"));
 const Payment = lazy(() => import("./Components/Pages/OrderFlow/PaymentPage/Payment"));
 const Confirmation = lazy(() => import("./Components/Pages/OrderFlow/ConfirmationPage/Confirmation"));
-const ForgotPass = lazy(() => import("./Components/Pages/Auth/forgotPass/ForgotPass"));
 
 const Header2 = lazy(() => import("./Components/Pages/Home/Header/Header2"));
 const Account = lazy(() => import("./Components/Pages/Account/Account"));

@@ -1870,7 +1870,10 @@ const DesignWiseSalesReport = () => {
 
                                         <Box sx={{ minheight: "271px" }}>
                                             {products?.imgsrc ? (
-                                                <img className="prod_img" src={products?.imgsrc} alt='' style={{ objectFit: "contain", height: "100%", minheight: "271px", maxHeight: "271px" }} onError={(e) => e.target.src = imageNotFound} />
+                                                <img className="prod_img" src={products?.imgsrc} alt='' style={{ objectFit: "contain", height: "100%", minheight: "271px", maxHeight: "271px" }}
+                                                    draggable={false}
+                                                    onContextMenu={(e) => e.preventDefault()}
+                                                    onError={(e) => e.target.src = imageNotFound} />
                                             ) : (
                                                 <Skeleton variant="rectangular" width={"100%"} height={335} style={{ marginBottom: '76px' }} />
                                             )}

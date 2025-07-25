@@ -114,6 +114,8 @@ const CartDetails = ({
                 e.target.src = noImageFound;
               }
             })}
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
             loading='lazy'
           />
         )}

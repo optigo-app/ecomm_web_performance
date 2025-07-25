@@ -15,6 +15,7 @@ import PersonPinIcon from '@mui/icons-material/PersonPin';
 import { useSetRecoilState } from 'recoil';
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import { handleScrollTop } from '../../../../../utils/Glob_Functions/GlobalFunction'
+import useGlobalPreventSave from '../../../../../utils/Glob_Functions/useGlobalPreventSave';
 
 const YourProfile = lazy(() => import('./YourProfile/YourProfile'));
 const ChangePassword = lazy(() => import('./changePassword/ChangePassword'));
@@ -137,8 +138,14 @@ export default function Account() {
         setStoreinit(init);
     }, [])
 
+    const handleContextMenu = (e) => {
+        e.preventDefault();
+    };
+
+    useGlobalPreventSave();
+
     return (
-        <div className='accountTab_Account_elvee'>
+        <div className='accountTab_Account_elvee' onContextMenu={handleContextMenu}>
             <div className='accountPagTabSection elvee_fs_pt'>
                 <div>
                     <div className='Smiling-AccountMain_elvee'>
@@ -201,8 +208,7 @@ export default function Account() {
                                 </CustomTabPanel>
 
                                 <CustomTabPanel value={value} index={1}>
-                                    <div>
-
+                                    <div onContextMenu={handleContextMenu}>
                                         <NewOrderHistoryElvee />
                                     </div>
                                 </CustomTabPanel>

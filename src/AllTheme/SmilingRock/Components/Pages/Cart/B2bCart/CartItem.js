@@ -164,7 +164,7 @@ const CartItem = ({
       // onMouseDown={handlePress('start')}
       // onMouseUp={cancelPress}
       // onMouseLeave={cancelPress}
-      // onTouchStart={handlePress('start')}
+      // onTouchStart={handlePress('start')}  
       // onTouchEnd={cancelPress}
       >
         <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
@@ -199,6 +199,8 @@ const CartItem = ({
                 '&:focus': { outline: 'none' },
                 '&:active': { outline: 'none' },
               }}
+              draggable={true}
+              onContextMenu={(e) => e.preventDefault()}
               className='smr_cartListImage'
               onClick={() => onSelect(item)}
               onError={(e) => {

@@ -28,33 +28,33 @@ const DesignSet = () => {
   const setLoadingHome = useSetRecoilState(smrMA_homeLoading);
   const [swiper, setSwiper] = useState(null);
 
-  useEffect(() => {
-    setLoadingHome(true);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            callAPI();
-            console.log("visble");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        root: null,
-        threshold: 0.5,
-      }
-    );
+  // useEffect(() => {
+  //   setLoadingHome(true);
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting) {
+  //           callAPI();
+  //           console.log("visble");
+  //           observer.unobserve(entry.target);
+  //         }
+  //       });
+  //     },
+  //     {
+  //       root: null,
+  //       threshold: 0.5,
+  //     }
+  //   );
 
-    if (designSetRef.current) {
-      observer.observe(designSetRef.current);
-    }
-    return () => {
-      if (designSetRef.current) {
-        observer.unobserve(designSetRef.current);
-      }
-    };
-  }, []);
+  //   if (designSetRef.current) {
+  //     observer.observe(designSetRef.current);
+  //   }
+  //   return () => {
+  //     if (designSetRef.current) {
+  //       observer.unobserve(designSetRef.current);
+  //     }
+  //   };
+  // }, []);
 
   const callAPI = () => {
     setIsLoading(true);
@@ -85,6 +85,10 @@ const DesignSet = () => {
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false))
   };
+
+  useEffect(() => {
+    callAPI();
+  }, [])
 
   const ProdCardImageFunc = (pd) => {
     let finalprodListimg;
@@ -223,6 +227,7 @@ const DesignSet = () => {
                   designSetList[0]?.TitleLine ? designSetList[0]?.TitleLine : ""
                 )
               }
+              onError={(e) => e.target.src = imageNotFound}
             />
           </div>
           <div className="smr_designSetDiv2">

@@ -38,35 +38,35 @@ const NewArrival = () => {
     });
   };
 
-  useEffect(() => {
-    setLoadingHome(true);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !isAPICalled) {  // Check if API has already been called
-            console.log("called ")
-            setIsAPICalled(true);  // Set flag to true so it doesn't call again
-            callAPI();
-            observer.unobserve(entry.target);  // Stop observing after the first call
-          }
-        });
-      },
-      {
-        root: null,
-        threshold: 0.5,
-      }
-    );
+  // useEffect(() => {
+  //   setLoadingHome(true);
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting && !isAPICalled) {  // Check if API has already been called
+  //           console.log("called ")
+  //           setIsAPICalled(true);  // Set flag to true so it doesn't call again
+  //           callAPI();
+  //           observer.unobserve(entry.target);  // Stop observing after the first call
+  //         }
+  //       });
+  //     },
+  //     {
+  //       root: null,
+  //       threshold: 0.5,
+  //     }
+  //   );
 
-    if (newArrivalRef.current) {
-      observer.observe(newArrivalRef.current);
-    }
-    return () => {
-      if (newArrivalRef.current) {
-        observer.unobserve(newArrivalRef.current);
-      }
-    };
+  //   if (newArrivalRef.current) {
+  //     observer.observe(newArrivalRef.current);
+  //   }
+  //   return () => {
+  //     if (newArrivalRef.current) {
+  //       observer.unobserve(newArrivalRef.current);
+  //     }
+  //   };
 
-  }, [isAPICalled]);
+  // }, [isAPICalled]);
 
 
   const callAPI = () => {
@@ -108,6 +108,10 @@ const NewArrival = () => {
         setIsLoading(false);
       });
   }
+
+  useEffect(() => {
+    callAPI();
+  }, [])
 
   const compressAndEncode = (inputString) => {
     try {
