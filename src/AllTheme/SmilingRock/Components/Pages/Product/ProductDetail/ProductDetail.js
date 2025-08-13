@@ -3192,30 +3192,29 @@ const ProductDetail = () => {
                     </div>
                   )}
 
-                {storeInit?.IsProductDetailDesignSet === 1 && (
+                {storeInit?.IsProductDetailDesignSet === 1 &&
                   <div className="smr_DesignSet_main">
-                    {designSetList?.length > 0 && designSetList?.[0]?.stat_code != 1005 && (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          width: "100%",
-                        }}
+                    {designSetList?.length > 0 && designSetList?.[0]?.stat_code != 1005 && <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        width: "100%",
+                      }}
+                    >
+                      <p
+                        className="smr_details_title"
+                      // style={{
+                      //   fontFamily: "Spectral-Bold, sans-serif",
+                      //   color: "#7d7f85",
+                      //   fontSize: "30px",
+                      //   // display:'none'
+                      // }}
                       >
-                        <p
-                          style={{
-                            fontFamily: "FreightDisp Pro Medium",
-                            color: "#7d7f85",
-                            fontSize: "30px",
-                            // display:'none'
-                          }}
-                        >
-                          Complete The Look
-                        </p>
-                      </div>
-                    )}
+                        Complete The Look
+                      </p>
+                    </div>}
 
-                    <div className="smr_Swiper_designSet">
+                    <div className="smr_Swiper_designSet" >
                       <Swiper
                         modules={[Navigation, Pagination, Scrollbar]}
                         // spaceBetween={50}
@@ -3233,22 +3232,19 @@ const ProductDetail = () => {
                                   //   "https://cdn.accentuate.io/3245609615460/4121939443812/99-v1581576944425.jpg?2048x1950"
                                   // }
                                   src={
-                                    designSetList?.DefaultImageName
-                                      ? storeInit?.DesignSetImageFol +
+                                    designSetList?.DefaultImageName ? storeInit?.DesignSetImageFol +
                                       designSetList?.designsetuniqueno +
                                       "/" +
                                       designSetList?.DefaultImageName
-                                      : imageNotFound
+                                      :
+                                      imageNotFound
                                   }
+                                  draggable={true}
+                                  onContextMenu={(e) => e.preventDefault()}
                                   alt={""}
                                   loading="lazy"
                                   className="ctl_img"
-                                  onError={(e) => {
-                                    e.target.src = imageNotFound;
-                                    e.target.alt = 'no-image-found';
-                                  }}
-                                  draggable={true}
-                                  onContextMenu={(e) => e.preventDefault()}
+                                  onError={(e) => e.target.src = imageNotFound}
                                 />
                               </div>
 
@@ -3263,103 +3259,96 @@ const ProductDetail = () => {
                                 }
                               >
                                 <p
-                                  style={{
-                                    fontFamily: "FreightDisp Pro Medium",
-                                    color: "#7d7f85",
-                                    fontSize: "30px",
-                                    display: "none",
-                                  }}
+                                  className="smr_details_title"
+                                // style={{
+                                //   fontFamily: "Spectral-Bold, sans-serif",
+                                //   color: "#7d7f85",
+                                //   fontSize: "30px",
+                                //   display: "none",
+                                // }}
                                 >
-                                  Complete The Look
+                                  {/* Complete The Look */}
                                 </p>
 
                                 {(designSetList?.Designdetail == undefined
                                   ? []
                                   : JSON.parse(designSetList?.Designdetail)
-                                )?.map((ele, i) => (
-                                  <div
-                                    className="completethelook_outer"
-                                    onClick={() => handleMoveToDetail(ele)}
-                                    style={{ borderTop: i !== 0 ? "none" : "" }}
-                                  >
+                                )?.map((ele, i) => {
+                                  // const imageUrl =
+                                  //   storeInit?.CDNDesignImageFol + ele?.designno + "~" + "1" + "." + ele?.ImageExtension;
+                                  const imageUrl =
+                                    storeInit?.CDNDesignImageFolThumb + ele?.designno + "~" + "1" + "." + "jpg";
+                                  return (
                                     <div
-                                      style={{ display: "flex", gap: "60px" }}
+                                      className="completethelook_outer"
+                                      onClick={() => handleMoveToDetail(ele)}
+                                      style={{ borderTop: i !== 0 ? "none" : "", cursor: 'pointer' }}
                                     >
-                                      <div style={{ marginLeft: "12px" }}>
-                                        <img
-                                          src={
-                                            // ele?.ImageCount > 0
-                                            //   ? storeInit?.CDNDesignImageFol +
-                                            //   ele?.designno +
-                                            //   "~" +
-                                            //   "1" +
-                                            //   "." +
-                                            //   ele?.ImageExtension
-                                            ele?.ImageCount > 0
-                                              ? storeInit?.CDNDesignImageFolThumb +
-                                              ele?.designno +
-                                              "~" +
-                                              "1" +
-                                              "." +
-                                              "jpg"
-                                              : imageNotFound
-                                          }
-                                          onError={(e) => {
-                                            e.target.src = imageNotFound;
-                                          }}
-                                          loading="lazy"
-                                          alt={""}
-                                          // src={
-                                          //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
-                                          // }
-                                          className="srthelook_img"
-                                          draggable={true}
-                                          onContextMenu={(e) => e.preventDefault()}
-                                        />
-                                      </div>
-                                      <div className="srthelook_prodinfo">
-                                        <div
-                                          style={{
-                                            fontSize: "14px",
-                                            color: "#7d7f85",
-                                            textTransform: "uppercase",
-                                          }}
-                                          className="srthelook_prodinfo_inner"
-                                        >
-                                          <p>
-                                            {ele?.designno} -{" "}
-                                            {ele?.CategoryName}
-                                            <br />
-                                            {storeInit?.IsPriceShow == 1 && <>
-                                              <span className="smr_currencyFont">
-                                                {loginInfo?.CurrencyCode ??
-                                                  storeInit?.CurrencyCode}
-                                              </span>
-
-                                              &nbsp;
-                                              {formatter.format(
-                                                ele?.UnitCostWithMarkUp
-                                              )}
-                                            </>}
-                                          </p>
+                                      <div style={{ display: "flex", gap: "60px" }}>
+                                        <div style={{ marginLeft: "12px" }}>
+                                          <img
+                                            src={
+                                              ele?.ImageCount > 0
+                                                ? imageUrl
+                                                : imageNotFound
+                                            }
+                                            alt={""}
+                                            loading="lazy"
+                                            draggable={true}
+                                            onContextMenu={(e) => e.preventDefault()}
+                                            onError={(e) => {
+                                              const imgEl = e.target;
+                                              imgEl.src = imageNotFound;
+                                            }}
+                                            // src={
+                                            //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
+                                            // }
+                                            className="srthelook_img"
+                                          />
                                         </div>
-                                        {/* <div>
-                          <span style={{ fontSize: "30px", color: "#7d7f85",padding:'5px'}} className=''>
-                            &#8250;
-                          </span>
-                        </div> */}
+                                        <div className="srthelook_prodinfo">
+                                          <div
+                                            style={{
+                                              fontSize: "14px",
+                                              color: "#7d7f85",
+                                              textTransform: "uppercase",
+                                            }}
+                                            className="srthelook_prodinfo_inner"
+                                          >
+                                            <p>
+                                              {ele?.designno} - {ele?.CategoryName}
+                                              <br />
+                                              {storeInit?.IsPriceShow == 1 && <>
+
+                                                <span className="smr_currencyFont">
+                                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                </span>
+                                                &nbsp;
+                                                {
+                                                  formatter.format(
+                                                    ele?.UnitCostWithMarkUp
+                                                  )
+                                                }
+                                              </>}
+                                            </p>
+                                          </div>
+                                          {/* <div>
+                                   <span style={{ fontSize: "30px", color: "#7d7f85",padding:'5px'}} className=''>
+                                     &#8250;
+                                   </span>
+                                 </div> */}
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                ))}
+                                  )
+                                })}
                               </div>
                             </div>
                           </SwiperSlide>
                         ))}
                       </Swiper>
                     </div>
-                  </div>
-                )}
+                  </div>}
               </>
             )}
             {/* <Footer /> */}

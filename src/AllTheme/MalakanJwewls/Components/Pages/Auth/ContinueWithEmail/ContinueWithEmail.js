@@ -164,10 +164,7 @@ export default function ContinueWithEmail() {
             }}
           >
             <TextField
-              sx={{
-                ...MuiInputPlaceholder,
-                color: 'white'
-              }}
+              sx={MuiInputPlaceholder}
               autoFocus
               id="outlined-basic"
               label="Email"

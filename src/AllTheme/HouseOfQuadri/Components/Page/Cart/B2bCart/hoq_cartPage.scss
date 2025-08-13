@@ -1203,23 +1203,26 @@
 
 $cartUpdateBtncolor: #b1b1b1;
 
-.cust_hoq_toast{
+.cust_hoq_toast {
   font-family: $fontDmSans;
   font-size: 16px;
   font-weight: 500;
 
 }
+
 .hoq_MainBGDiv {
   background-color: $backgroundColor;
   font-family: $primaryFontFamily;
   margin-bottom: 110px;
   font-family: $fontTenorSans !important;
-  .cust_hoq_toast{
+
+  .cust_hoq_toast {
     font-family: $fontDmSans;
     font-size: 16px;
     font-weight: 500;
-  
+
   }
+
   .cartMainPageDiv {
     margin-inline: 6%;
   }
@@ -1387,6 +1390,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
       .hoq_RightCartList {
         width: 100%;
+
         .hoq_cartListCardGrid {
           padding-left: 15px !important;
           padding-top: 15px !important;
@@ -1456,6 +1460,7 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 400px !important;
       box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
         rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+
       .hoq_card-ContentsData {
         padding: 2px 0px 2px 0px !important;
         font-size: $fontSize0 !important;
@@ -1746,7 +1751,8 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   .hoq_rightContentDataDiv {
-    max-width: 150px;
+    // max-width: 150px;
+    max-width: 200px;
   }
 
   .hoq_cartcontentData {
@@ -1768,7 +1774,8 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
     .hoq_ItemRemarkbtn {
-      margin-right: 20px;
+      // margin-right: 20px;
+      margin-right: 4px;
     }
   }
 
@@ -2146,6 +2153,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
             .hoq_mui_CartBox {
               height: 180px;
+
               .hoq_cartListImage {
                 max-width: 180px;
                 max-height: 180px;
@@ -2244,7 +2252,7 @@ $cartUpdateBtncolor: #b1b1b1;
         }
       }
     }
-  } 
+  }
 
   // @media (max-width: 570px) {
   //   .cartMainPageDiv {

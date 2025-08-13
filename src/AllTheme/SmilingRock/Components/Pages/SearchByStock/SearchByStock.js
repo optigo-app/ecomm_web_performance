@@ -1,0 +1,1063 @@
+import React, { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+
+const SearchByStock = () => {
+    const [selectedStockTypes, setSelectedStockTypes] = useState([]);
+    const [selectedShapes, setSelectedShapes] = useState([]);
+    const [selectedTableRows, setSelectedTableRows] = useState([]);
+    const [caratWeight, setCaratWeight] = useState('');
+    const [selectedExcludeRows, setSelectedExcludeRows] = useState([]);
+    const [selectedQuality, setSelectedQuality] = useState('');
+    const [selectedColor, setSelectedColor] = useState('');
+    const [showPopup, setShowPopup] = useState(false);
+    const navigate = useNavigate();
+    const [selectedTableData, setSelectedTableData] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
+    const [virtualSearchResults, setVirtualSearchResults] = useState([]);
+    console.log("TCL: SearchByStock -> virtualSearchResults", virtualSearchResults)
+    const [realSearchResults, setRealSearchResults] = useState([]);
+    const [selectedSize, setSelectedSize] = useState('');
+    const [virtualDatas, setVirtualDatas] = useState([]);
+    const [showDropdowns, setShowDropdowns] = useState((virtualDatas.length > 0 || selectedTableRows.length > 0));
+
+    const diamondSelectedShape = selectedShapes?.[0];
+
+    // Diamond shapes data
+    const diamondShapes = [
+        { id: 1, name: 'Round', icon: '●', description: 'Classic circular cut', price: 1800 },
+        { id: 2, name: 'Princess', icon: '◆', description: 'Square brilliant cut', price: 1700 },
+        { id: 3, name: 'Emerald', icon: '⬜', description: 'Rectangular step cut', price: 1850 },
+        { id: 4, name: 'Oval', icon: '⬭', description: 'Elongated brilliant cut', price: 1650 },
+        { id: 5, name: 'Marquise', icon: '◊', description: 'Boat-shaped cut', price: 1750 },
+        { id: 6, name: 'Pear', icon: '💧', description: 'Teardrop shape', price: 1600 },
+        { id: 7, name: 'Cushion', icon: '◽', description: 'Square with rounded corners', price: 1550 },
+        { id: 8, name: 'Heart', icon: '♡', description: 'Heart-shaped cut', price: 1900 },
+        { id: 9, name: 'Radiant', icon: '▣', description: 'Trimmed corners with brilliance', price: 1680 },
+        { id: 10, name: 'Asscher', icon: '⬛', description: 'Square step cut', price: 1720 },
+        { id: 11, name: 'Trillion', icon: '🔺', description: 'Triangular shape', price: 1650 },
+        { id: 12, name: 'Baguette', icon: '▬', description: 'Long rectangular cut', price: 1500 },
+        { id: 13, name: 'Briolette', icon: '🔷', description: 'Faceted teardrop', price: 1625 },
+        { id: 14, name: 'Old Mine', icon: '⬒', description: 'Antique cushion cut', price: 1580 },
+        { id: 15, name: 'Rose', icon: '✿', description: 'Flat bottom, faceted dome', price: 1520 },
+        { id: 16, name: 'Lozenge', icon: '◊', description: 'Diamond-shaped', price: 1490 },
+        { id: 17, name: 'Hexagon', icon: '⬡', description: 'Six-sided geometric cut', price: 1510 },
+        { id: 18, name: 'Kite', icon: '🪁', description: 'Pointed top and bottom', price: 1530 },
+        { id: 19, name: 'Shield', icon: '🛡️', description: 'Protective shield style', price: 1570 },
+        { id: 20, name: 'Bullet', icon: '➤', description: 'Pointed bullet shape', price: 1595 },
+        { id: 21, name: 'Trapezoid', icon: '▭', description: 'Wide bottom, narrow top', price: 1480 },
+        { id: 22, name: 'Hexa Brilliant', icon: '⬢', description: 'Hexagonal with facets', price: 1540 },
+        { id: 23, name: 'Pentagon', icon: '⬟', description: 'Five-sided modern cut', price: 1565 },
+        { id: 24, name: 'Arrow', icon: '➳', description: 'Pointed arrow shape', price: 1600 },
+        { id: 25, name: 'Star', icon: '★', description: 'Star motif cut', price: 1700 },
+        { id: 26, name: 'Fan', icon: '扇', description: 'Broad base tapering top', price: 1500 },
+        { id: 27, name: 'Tapered Baguette', icon: '▰', description: 'Narrowing rectangular cut', price: 1520 },
+        { id: 28, name: 'Hexa Rose', icon: '✾', description: 'Rose-cut in hexagon form', price: 1550 },
+        { id: 29, name: 'Torc', icon: '⟁', description: 'Twisted loop shape', price: 1575 },
+        { id: 30, name: 'Horseshoe', icon: '🧲', description: 'Curved horseshoe shape', price: 1585 },
+        { id: 31, name: 'Drop Leaf', icon: '🍂', description: 'Leaf-like teardrop', price: 1620 },
+        { id: 32, name: 'Crescent', icon: '🌙', description: 'Curved moon-like shape', price: 1640 },
+        { id: 33, name: 'Scissor', icon: '✂️', description: 'Step cut with sharp facets', price: 1600 },
+        { id: 34, name: 'Flame', icon: '🔥', description: 'Flame-inspired outline', price: 1670 },
+        { id: 35, name: 'Double Heart', icon: '💞', description: 'Two heart-shaped gems', price: 1900 },
+        { id: 36, name: 'Butterfly', icon: '🦋', description: 'Twin winged structure', price: 1850 },
+        { id: 37, name: 'Infinity', icon: '∞', description: 'Figure-eight design', price: 1800 },
+        { id: 38, name: 'Bowtie', icon: '🎀', description: 'Waist-like dark pattern', price: 1750 },
+        { id: 39, name: 'Spade', icon: '♠', description: 'Spade-shaped silhouette', price: 1650 },
+        { id: 40, name: 'Snowflake', icon: '❄', description: 'Intricate frosty style', price: 2000 }
+    ];
+
+    // Define a mapping of shape IDs to available sizes.
+    const shapeSizesMapping = {
+        1: ['4.5 mm', '5.0 mm', '5.5 mm'],
+        2: ['5.1 mm', '5.7 mm', '6.2 mm'],
+        3: ['6.5 mm', '7.0 mm'],
+        4: ['5.8 mm', '6.3 mm', '6.8 mm'],
+        5: ['4.2 mm', '4.7 mm', '5.3 mm'],
+        6: ['6.0 mm', '6.5 mm', '7.0 mm'],
+        7: ['5.5 mm', '6.0 mm', '6.5 mm'],
+        8: ['4.8 mm', '5.3 mm', '5.8 mm'],
+        9: ['5.6 mm', '6.1 mm'],
+        10: ['4.9 mm', '5.4 mm', '6.0 mm'],
+        11: ['3.5 mm', '4.0 mm'],
+        12: ['6.2 mm', '6.7 mm'],
+        13: ['5.5 mm', '6.0 mm', '6.5 mm'],
+        14: ['5.3 mm', '5.8 mm', '6.2 mm'],
+        15: ['4.6 mm', '5.1 mm'],
+        16: ['5.0 mm', '5.5 mm', '6.0 mm'],
+        17: ['6.6 mm', '7.1 mm'],
+        18: ['4.4 mm', '5.0 mm'],
+        19: ['6.3 mm', '6.8 mm'],
+        20: ['5.7 mm', '6.2 mm', '6.7 mm'],
+        21: ['5.0 mm', '5.6 mm'],
+        22: ['6.0 mm', '6.5 mm', '7.0 mm'],
+        23: ['5.3 mm', '5.9 mm'],
+        24: ['4.9 mm', '5.5 mm'],
+        25: ['6.1 mm', '6.6 mm'],
+        26: ['5.2 mm', '5.7 mm', '6.3 mm'],
+        27: ['6.4 mm', '6.9 mm'],
+        28: ['5.1 mm', '5.6 mm'],
+        29: ['4.8 mm', '5.3 mm', '5.9 mm'],
+        30: ['6.5 mm', '7.0 mm'],
+        31: ['5.0 mm', '5.4 mm'],
+        32: ['6.2 mm', '6.7 mm'],
+        33: ['5.8 mm', '6.3 mm'],
+        34: ['4.6 mm', '5.0 mm', '5.5 mm'],
+        35: ['6.6 mm', '7.2 mm'],
+        36: ['5.5 mm', '6.1 mm'],
+        37: ['5.3 mm', '5.9 mm'],
+        38: ['6.0 mm', '6.5 mm'],
+        39: ['5.2 mm', '5.8 mm'],
+        40: ['6.3 mm', '6.9 mm']
+    };
+
+    // Real stock table data
+    const realStockData = [
+        { id: 1, shape: 'Round', diamond: 'RD001', size: '4.5 mm', carat: 0.45, quality: 'FL', color: 'D', price: 5200 },
+        { id: 2, shape: 'Princess', diamond: 'PR002', size: '5.5 mm', carat: 1.25, quality: 'IF', color: 'E', price: 3800 },
+        { id: 3, shape: 'RND', diamond: 'PR003', size: '3.2 mm', carat: 1.88, quality: 'IF', color: 'E', price: 4500 },
+        { id: 4, shape: 'Pearl', diamond: 'PR004', size: '4.5 mm', carat: 1.54, quality: 'IF', color: 'E', price: 3522 },
+        { id: 5, shape: 'Heart', diamond: 'PR005', size: '5.4 mm', carat: 1.18, quality: 'IF', color: 'E', price: 4500 },
+        { id: 6, shape: 'Butterfly', diamond: 'PR006', size: '5.7 mm', carat: 1.21, quality: 'IF', color: 'E', price: 4646 },
+        { id: 7, shape: 'Bowtie', diamond: 'PR007', size: '9.8 mm', carat: 1.5, quality: 'IF', color: 'E', price: 6546 },
+        { id: 8, shape: 'Emerald', diamond: 'EM003', size: '8.2 mmm', carat: 10.25, quality: 'VVS1', color: 'F', price: 7200 },
+        { id: 9, shape: 'Oval', diamond: 'OV004', size: '7.5 mm', carat: 15, quality: 'VS1', color: 'G', price: 9500 },
+        { id: 10, shape: 'Round', diamond: 'RD005', size: '4.5 mm', carat: 11.25, quality: 'VS2', color: 'H', price: 2400 },
+        { id: 11, shape: 'Cushion', diamond: 'CU006', size: '4.1 mm', carat: 10.55, quality: 'SI1', color: 'I', price: 8200 },
+        { id: 12, shape: 'Snowflake', diamond: 'CU007', size: '4.1 mm', carat: 12.55, quality: 'SI1', color: 'I', price: 6500 },
+    ];
+
+    // Sample data for dropdown options
+    const qualityOptions = [
+        { value: 'FL', label: 'FL - Flawless' },
+        { value: 'IF', label: 'IF - Internally Flawless' },
+        { value: 'VVS1', label: 'VVS1 - Very Very Slightly Included 1' },
+        { value: 'VVS2', label: 'VVS2 - Very Very Slightly Included 2' },
+        { value: 'VS1', label: 'VS1 - Very Slightly Included 1' },
+        { value: 'VS2', label: 'VS2 - Very Slightly Included 2' },
+        { value: 'SI1', label: 'SI1 - Slightly Included 1' },
+        { value: 'SI2', label: 'SI2 - Slightly Included 2' },
+    ];
+
+    const colorOptions = [
+        { value: 'D', label: 'D - Colorless' },
+        { value: 'E', label: 'E - Colorless' },
+        { value: 'F', label: 'F - Colorless' },
+        { value: 'G', label: 'G - Near Colorless' },
+        { value: 'H', label: 'H - Near Colorless' },
+        { value: 'I', label: 'I - Near Colorless' },
+        { value: 'J', label: 'J - Near Colorless' },
+        { value: 'K', label: 'K - Faint Yellow' },
+    ];
+
+    const filterRealStock = realStockData?.filter((item) => {
+        if (selectedQuality && selectedColor) {
+            return item.quality === selectedQuality && item.color === selectedColor;
+        }
+        return item;
+    })
+
+    const handleStockTypeChange = (stockType) => {
+        setSelectedStockTypes(prev => {
+            let updated;
+            if (prev.includes(stockType)) {
+                updated = prev.filter(type => type !== stockType);
+
+                // Hide dropdowns only if the last stock type is removed
+                if (updated.length === 0) {
+                    setShowDropdowns(false);
+                    setSelectedQuality('');
+                    setSelectedColor('');
+                    setSearchResults([]);
+                    setVirtualSearchResults([]);
+                    setRealSearchResults([]);
+                }
+            } else {
+                updated = [...prev, stockType];
+            }
+            return updated;
+        });
+        // Reset selections when stock type changes
+        // setSelectedQuality('');
+        // setSelectedColor('');
+        // setSearchResults([]);
+    };
+
+    const handleShapeSelect = (shapeId) => {
+        setSelectedShapes((prev) => (prev[0] === shapeId ? [] : [shapeId]));
+    };
+
+    // Get the sizes for the selected shape (if available)
+    const availableSizes = diamondSelectedShape ? shapeSizesMapping[diamondSelectedShape] || [] : [];
+
+    // Get the name of the selected shape (for display purpose)
+    const selectedShape = diamondShapes.find((shape) => shape.id === diamondSelectedShape);
+
+    const handleTableRowSelect = (rowId, rowData) => {
+        setSelectedTableRows(prev => {
+            if (prev.includes(rowId)) {
+                setSelectedTableData(prevData => prevData.filter(data => data.id !== rowId));
+                return prev.filter(id => id !== rowId);
+            } else {
+                setShowDropdowns(true);
+                setSelectedTableData(prevData => [...prevData, rowData]);
+                return [...prev, rowId];
+            }
+        });
+    };
+
+    const handleExcludeTableRowSelect = (rowId) => {
+        setSelectedExcludeRows(prev => {
+            if (prev.includes(rowId)) {
+                return prev.filter(id => id !== rowId);
+            } else {
+                return [...prev, rowId];
+            }
+        });
+    };
+
+    const handleVirtualSubmit = () => {
+        if (selectedShapes.length === 0) {
+            if (selectedTableRows?.length === 0) {
+                setShowDropdowns(false);
+            }
+            alert("Please choose any diamond shape (Virtual stock)");
+            return;
+        }
+
+        if (!selectedSize) {
+            if (selectedTableRows?.length === 0) {
+                setShowDropdowns(false);
+            }
+            alert("Please select any size (Virtual stock)");
+            return;
+        }
+
+        if (!caratWeight) {
+            if (selectedTableRows?.length === 0) {
+                setShowDropdowns(false);
+            }
+            alert("Please enter carat weight (Virtual stock)");
+            return;
+        }
+
+        const shape = diamondShapes.find((s) => s.id === diamondSelectedShape);
+        const newVirtualItem = {
+            shape: shape.name,
+            price: shape.price,
+            size: selectedSize,
+            carat: caratWeight,
+        };
+
+        // update state
+        setVirtualDatas((prev) => [...prev, newVirtualItem]);
+
+        // pass the fresh item to handleSearch directly
+        handleSearch([newVirtualItem]);
+    };
+
+    const handleSearch = (newVirtualItems = []) => {
+        const newVirtualResults = [];
+        const newRealResults = [];
+
+        const virtualDataToUse = newVirtualItems.length > 0 ? newVirtualItems : virtualDatas;
+
+        if (
+            (selectedStockTypes.includes("virtual") ? virtualDataToUse.length > 0 : true) ||
+            (selectedStockTypes.includes("real") ? selectedTableRows.length > 0 : true)
+        ) {
+            // 🟣 Virtual Stock Block
+            if (selectedStockTypes.includes("virtual") && diamondSelectedShape) {
+                const shape = diamondShapes.find((s) => s.id === diamondSelectedShape);
+                const sizes = shapeSizesMapping[diamondSelectedShape] || [];
+
+                if (!selectedSize || !sizes.includes(selectedSize)) return;
+
+                virtualDataToUse.forEach((item, index) => {
+                    newVirtualResults.push({
+                        id: `virtual-${diamondSelectedShape}-${Date.now()}-${index}`,
+                        shape: item.shape,
+                        carat: item.carat,
+                        size: item.size,
+                        quality: selectedQuality,
+                        color: selectedColor,
+                        price: item.price,
+                        stockType: "virtual",
+                    });
+                });
+            }
+
+            // 🔵 Real Stock Block
+            if (selectedStockTypes.includes("real") && selectedTableRows.length > 0) {
+                selectedTableRows.forEach((rowId) => {
+                    const diamond = realStockData.find((d) => String(d.id) === String(rowId));
+                    if (!diamond) return;
+
+                    newRealResults.push({
+                        id: `real-${rowId}`,
+                        shape: diamond.shape,
+                        size: diamond.size,
+                        carat: diamond.cwt,
+                        quality: diamond.quality,
+                        color: diamond.color,
+                        stockType: "real",
+                    });
+                });
+            }
+
+            if (newVirtualResults.length > 0) {
+                setVirtualSearchResults(prev => [...prev, ...newVirtualResults]);
+            }
+
+            if (newRealResults.length > 0) {
+                setRealSearchResults(prev => [...prev, ...newRealResults]);
+            }
+        }
+    };
+
+    const handleSearchDesign = () => {
+        setShowPopup(true);
+    };
+
+    const handlePopupChoice = (choice) => {
+
+        const combined = [...virtualSearchResults, ...selectedTableData];
+        if (combined.length > 0) {
+            sessionStorage.setItem("stockData", JSON.stringify(combined));
+        }
+
+        setShowPopup(false);
+        navigate("/p/searchbystock");
+    };
+
+    const showVirtualShapes = selectedStockTypes.includes('virtual');
+    const showRealTable = selectedStockTypes.includes('real');
+    const showResults = searchResults.length > 0;
+
+    return (
+        <div style={{
+            minHeight: 'calc(100vh - 800px)', // Ensures outer wrapper fills at least a visible portion
+            background: 'var(--primary-background-smr)',
+        }}>
+            <div style={{
+                width: '100%',
+                background: '#ffffff',
+                paddingInline: '3rem',
+                paddingBlock: '2rem',
+                position: "relative",
+                boxShadow: '0 10px 40px rgba(0, 0, 0, 0.2)',
+                minHeight: 'calc(100vh - 366px)', // Ensures content fits but grows if needed
+                boxSizing: 'border-box',
+            }}>
+                <p style={{
+                    fontSize: '1.1rem',
+                    color: '#000',
+                    textAlign: 'center',
+                    marginBottom: '1rem'
+                }}>find diamonds calculated based on carat weight</p>
+
+                {/* Stock Type Selection */}
+                <div style={{ marginBottom: '3rem' }}>
+                    <h3 style={{
+                        fontSize: '1.6rem',
+                        color: '#333',
+                        marginBottom: '1rem',
+                        fontWeight: '600',
+                        textAlign: 'center'
+                    }}>Select Stock Type</h3>
+                    <div
+                        style={{
+                            display: 'flex',
+                            gap: '2rem',
+                            justifyContent: 'center',
+                            flexWrap: 'wrap',
+                        }}
+                    >
+                        {['virtual', 'real'].map((stockType) => {
+                            const isSelected = selectedStockTypes.includes(stockType);
+                            return (
+                                <label
+                                    key={stockType}
+                                    style={{
+                                        position: 'relative',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        cursor: 'pointer',
+                                        fontSize: '1rem',
+                                        fontWeight: '600',
+                                        padding: '0.8rem 1.2rem',
+                                        color: isSelected ? 'white' : '#333',
+                                        border: `2px solid ${isSelected ? 'var(--primary-color-smr)' : '#ddd'}`,
+                                        borderRadius: '15px',
+                                        background: isSelected ? 'var(--primary-background-smr)' : '#ffffff',
+                                        transition: 'all 0.3s ease',
+                                        minWidth: '200px',
+                                        justifyContent: 'flex-start',
+                                        boxShadow: isSelected
+                                            ? '0 5px 20px rgba(102, 126, 234, 0.4)'
+                                            : '0 2px 10px rgba(0, 0, 0, 0.05)',
+                                        transform: isSelected ? 'translateY(-1px)' : 'none',
+                                        gap: '1rem', // spacing between checkbox and text
+                                    }}
+                                >
+                                    <input
+                                        type="checkbox"
+                                        checked={isSelected}
+                                        onChange={() => handleStockTypeChange(stockType)}
+                                        style={{ display: 'none' }}
+                                    />
+                                    <span
+                                        style={{
+                                            width: '18px',
+                                            height: '18px',
+                                            border: '2px solid currentColor',
+                                            borderRadius: '4px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            backgroundColor: isSelected ? 'var(--primary-background-smr)' : '#fff',
+                                            fontSize: '0.85rem',
+                                            fontWeight: 'bold',
+                                            color: isSelected ? '#fff' : 'var(--primary-color-smr)',
+                                        }}
+                                    >
+                                        {isSelected && '✓'}
+                                    </span>
+                                    {stockType === 'virtual' ? 'Virtual Stock' : 'Real Stock'}
+                                </label>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                <div
+                    style={{
+                        display: 'flex',
+                        gap: '2rem',
+                        flexWrap: 'wrap',
+                        alignItems: 'flex-start',
+                        marginBottom: "6rem"
+                    }}
+                >
+                    {/* Virtual Stock - Shape Selection */}
+                    {showVirtualShapes && (
+                        <div style={{ flex: '1 1 400px', maxWidth: '50%' }}>
+                            <h3 style={{
+                                fontSize: '1.4rem',
+                                color: '#333',
+                                marginBottom: '2rem',
+                                fontWeight: '600'
+                            }}>Select Diamond Shapes (Virtual Stock)</h3>
+                            <div>
+                                {/* Shapes Selection */}
+                                <div style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
+                                    gap: '0.7rem',
+                                    marginBottom: '2rem',
+                                    height: '400px',
+                                    overflowY: 'auto'
+                                }}>
+                                    {diamondShapes.map(shape => (
+                                        <div
+                                            key={shape.id}
+                                            onClick={() => handleShapeSelect(shape.id)}
+                                            style={{
+                                                padding: '1rem',
+                                                border: `2px solid ${diamondSelectedShape === shape.id ? 'var(--primary-color-smr)' : '#ddd'}`,
+                                                borderRadius: '12px',
+                                                background: diamondSelectedShape === shape.id
+                                                    ? 'var(--primary-background-smr)'
+                                                    : '#f8f9ff',
+                                                color: diamondSelectedShape === shape.id ? 'white' : '#333',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.3s ease',
+                                                textAlign: 'center',
+                                                boxShadow: diamondSelectedShape === shape.id
+                                                    ? '0 5px 20px rgba(102, 126, 234, 0.3)'
+                                                    : '0 2px 10px rgba(0, 0, 0, 0.05)',
+                                                transform: diamondSelectedShape === shape.id ? 'translateY(-1px)' : 'none',
+
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                height: '100%',
+                                            }}
+                                        >
+                                            <h4 style={{
+                                                fontSize: '1.1rem',
+                                                fontWeight: '600',
+                                                marginBottom: 0,
+                                            }}>
+                                                {shape.name}
+                                            </h4>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Size Dropdown for the selected shape */}
+                                <div style={{
+                                    display: 'flex',
+                                    justifyContent: "flex-start",
+                                    alignItems: "center",
+                                    width: "80%",
+                                    gap: "10px",
+                                    marginTop: '2rem'
+                                }}>
+                                    <div style={{ width: "100%" }}>
+                                        <h3 style={{
+                                            fontSize: '1.2rem',
+                                            color: '#333',
+                                            marginBottom: '1rem',
+                                            fontWeight: '600'
+                                        }}>
+                                            Select Size
+                                        </h3>
+
+                                        <FormControl variant="outlined" style={{ width: "100%" }}>
+                                            <InputLabel id="size-select-label">Select Size</InputLabel>
+                                            <Select
+                                                labelId="size-select-label"
+                                                id="size-select"
+                                                value={selectedSize}
+                                                onChange={(e) => setSelectedSize(e.target.value)}
+                                                label="Select Size"
+                                                sx={{
+                                                    borderRadius: '10px',
+                                                    backgroundColor: '#fff',
+                                                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
+                                                    '& .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#ddd',
+                                                        borderWidth: '2px',
+                                                    },
+                                                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: 'var(--primary-color-smr)', // optional: change on hover
+                                                    },
+                                                }}
+                                            >
+                                                <MenuItem value="">Select Size</MenuItem>
+                                                {availableSizes.map((size, index) => (
+                                                    <MenuItem key={index} value={size}>
+                                                        {size}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                    <div style={{ width: "100%" }}>
+                                        <h3 style={{
+                                            fontSize: '1.2rem',
+                                            color: '#333',
+                                            marginBottom: '1rem',
+                                            fontWeight: '600'
+                                        }}>
+                                            Enter Carat Weight
+                                        </h3>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            step="0.01"
+                                            value={caratWeight}
+                                            onChange={(e) => setCaratWeight(e.target.value)}
+                                            onKeyDown={(e) => {
+                                                if (e?.key === "Enter") {
+                                                    handleVirtualSubmit();
+                                                }
+                                            }}
+                                            placeholder="e.g. 1.5"
+                                            style={{
+                                                width: '100%',
+                                                padding: '0.8rem',
+                                                marginBottom: "1px",
+                                                border: '2px solid #ddd',
+                                                borderRadius: '10px',
+                                                fontSize: '1rem',
+                                                background: '#ffffff',
+                                                color: '#333',
+                                                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)'
+                                            }}
+                                        />
+                                    </div>
+                                    <div style={{ width: "100%", marginTop: '2.5rem' }}>
+                                        <button
+                                            type="button"
+                                            onClick={handleVirtualSubmit}
+                                            placeholder="e.g. 1.5"
+                                            style={{
+                                                width: '50%',
+                                                padding: '0.68rem',
+                                                marginBottom: "1px",
+                                                border: '2px solid #ddd',
+                                                background: 'var(--primary-background-smr)',
+                                                borderRadius: '10px',
+                                                fontSize: '1.2rem',
+                                                fontWeight: "600",
+                                                color: '#fff',
+                                                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)'
+                                            }}
+                                        >
+                                            Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+
+                    <div style={{ flex: '1 1 400px', maxWidth: '50%' }}>
+
+                        {/* Dropdown Section */}
+                        {selectedStockTypes.includes('real') && (
+                            <div style={{ marginBottom: '3rem', marginTop: "3rem" }}>
+                                <div style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                                    gap: '2rem',
+                                    marginBottom: '2rem'
+                                }}>
+                                    <div>
+                                        <label style={{
+                                            display: 'block',
+                                            fontWeight: '600',
+                                            color: '#333',
+                                            marginBottom: '0.8rem',
+                                            fontSize: '1.2rem'
+                                        }}>Diamond Quality</label>
+                                        <div style={{ position: 'relative' }}>
+                                            <select
+                                                value={selectedQuality}
+                                                onChange={(e) => setSelectedQuality(e.target.value)}
+                                                style={{
+                                                    width: '100%',
+                                                    padding: '1.2rem',
+                                                    paddingRight: '3rem',
+                                                    border: '2px solid #ddd',
+                                                    borderRadius: '10px',
+                                                    fontSize: '1rem',
+                                                    background: '#ffffff',
+                                                    color: '#333',
+                                                    cursor: 'pointer',
+                                                    appearance: 'none',
+                                                    WebkitAppearance: 'none',
+                                                    MozAppearance: 'none',
+                                                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)'
+                                                }}
+                                            >
+                                                <option value="">Select Quality</option>
+                                                {qualityOptions.map(option => (
+                                                    <option key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </option>
+                                                ))}
+                                            </select>
+
+                                            {/* Custom arrow */}
+                                            <span style={{
+                                                position: 'absolute',
+                                                top: '50%',
+                                                right: '1rem',
+                                                pointerEvents: 'none',
+                                                transform: 'translateY(-50%)',
+                                                fontSize: '1rem',
+                                                color: '#999',
+                                            }}>
+                                                <ChevronDown />
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label style={{
+                                            display: 'block',
+                                            fontWeight: '600',
+                                            color: '#333',
+                                            marginBottom: '0.8rem',
+                                            fontSize: '1.2rem'
+                                        }}>Diamond Color</label>
+                                        <div style={{ position: 'relative' }}>
+                                            <select
+                                                value={selectedColor}
+                                                onChange={(e) => setSelectedColor(e.target.value)}
+                                                style={{
+                                                    width: '100%',
+                                                    padding: '1.2rem',
+                                                    paddingRight: '3rem',
+                                                    border: '2px solid #ddd',
+                                                    borderRadius: '10px',
+                                                    fontSize: '1rem',
+                                                    background: '#ffffff',
+                                                    color: '#333',
+                                                    cursor: 'pointer',
+                                                    appearance: 'none',
+                                                    WebkitAppearance: 'none',
+                                                    MozAppearance: 'none',
+                                                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)'
+                                                }}
+                                            >
+                                                <option value="">Select Color</option>
+                                                {colorOptions.map(option => (
+                                                    <option key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </option>
+                                                ))}
+                                            </select>
+
+                                            {/* Custom arrow */}
+                                            <span style={{
+                                                position: 'absolute',
+                                                top: '50%',
+                                                right: '1rem',
+                                                pointerEvents: 'none',
+                                                transform: 'translateY(-50%)',
+                                                fontSize: '1rem',
+                                                color: '#999',
+                                            }}>
+                                                <ChevronDown />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* {selectedQuality && selectedColor && (
+                                <button
+                                    onClick={handleSearch}
+                                    style={{
+                                        display: 'block',
+                                        margin: '0 auto',
+                                        padding: '1.2rem 1.5rem',
+                                        background: 'var(--primary-background-smr)',
+                                        color: 'white',
+                                        border: 'none',
+                                        borderRadius: '12px',
+                                        fontSize: '1.1rem',
+                                        fontWeight: '600',
+                                        cursor: 'pointer',
+                                        boxShadow: '0 5px 20px rgba(102, 126, 234, 0.4)',
+                                        transition: 'all 0.3s ease'
+                                    }}
+                                >
+                                    Search Stock
+                                </button>
+                            )} */}
+                            </div>
+                        )
+                        }
+
+                        {(selectedQuality && selectedColor) && (
+                            <>
+                                <h3 style={{
+                                    fontSize: '1.4rem',
+                                    color: '#333',
+                                    marginBottom: '2rem',
+                                    fontWeight: '600'
+                                }}>Select Diamonds (Real Stock)</h3>
+                                <div style={{
+                                    boxShadow: '0 5px 2px rgba(102, 126, 234, 0.4)',
+                                    borderRadius: '12px',
+                                }}>
+                                    <div style={{ maxHeight: '300px' }}>
+                                        <table style={{
+                                            width: '100%',
+                                            borderCollapse: 'collapse',
+                                            background: 'white',
+                                            borderRadius: '8px',
+                                            overflow: 'hidden',
+                                            boxShadow: '0 5px 20px rgba(102, 126, 234, 0.4)',
+                                            tableLayout: 'fixed'
+                                        }}>
+                                            <thead style={{ display: 'table', width: '100%', tableLayout: 'fixed' }}>
+                                                <tr style={{
+                                                    background: 'var(--primary-background-smr)',
+                                                    color: 'white'
+                                                }}>
+                                                    <th style={{ padding: '1rem', textAlign: 'left' }}>IsIncl.</th>
+                                                    <th style={{ padding: '1rem', textAlign: 'left' }}>Shape</th>
+                                                    <th style={{ padding: '1rem', textAlign: 'left' }}>Size</th>
+                                                    <th style={{ padding: '1rem', textAlign: 'left' }}>Quality</th>
+                                                    <th style={{ padding: '1rem', textAlign: 'left' }}>Color</th>
+                                                    <th style={{ padding: '1rem', textAlign: 'left' }}>CWT</th>
+                                                    <th style={{ padding: '1rem', textAlign: 'left' }}>IsExclude</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style={{
+                                                display: 'block',
+                                                maxHeight: '285px',
+                                                overflowY: 'auto',
+                                                width: '100%'
+                                            }}>
+                                                {filterRealStock.map((row, index) => (
+                                                    <tr key={row.id} style={{
+                                                        display: 'table',
+                                                        tableLayout: 'fixed',
+                                                        width: '100%',
+                                                        background: selectedTableRows.includes(row.id)
+                                                            ? 'rgba(102, 126, 234, 0.1)'
+                                                            : index % 2 === 0 ? '#f8f9ff' : 'white',
+                                                        borderBottom: '1px solid #eee'
+                                                    }}>
+                                                        <td style={{ padding: '1rem' }}>
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={selectedTableRows.includes(row.id)}
+                                                                onChange={() => handleTableRowSelect(row.id, row)}
+                                                                style={{
+                                                                    width: '18px',
+                                                                    height: '18px',
+                                                                    cursor: 'pointer'
+                                                                }}
+                                                            />
+                                                        </td>
+                                                        <td style={{ padding: '1rem', fontWeight: '500' }}>{row.shape}</td>
+                                                        <td style={{ padding: '1rem' }}>{row.size}</td>
+                                                        <td style={{ padding: '1rem' }}>{row.carat}</td>
+                                                        <td style={{ padding: '1rem' }}>{row.quality}</td>
+                                                        <td style={{ padding: '1rem' }}>{row.color}</td>
+                                                        <td style={{ padding: '1rem' }}>
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={selectedExcludeRows.includes(row.id)}
+                                                                onChange={() => handleExcludeTableRowSelect(row.id)}
+                                                                style={{
+                                                                    width: '18px',
+                                                                    height: '18px',
+                                                                    cursor: 'pointer'
+                                                                }}
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
+
+                {/* Results Section */}
+                {virtualSearchResults?.length > 0 && (
+                    <div>
+                        <h3 style={{
+                            fontSize: '2rem',
+                            color: '#333',
+                            marginBottom: '2rem',
+                            textAlign: 'center',
+                            fontWeight: '600'
+                        }}>
+                            Available Stocks
+                        </h3>
+
+                        <div style={{ maxHeight: '400px', width: "60%", marginInline: "auto" }}>
+                            <table style={{
+                                width: '100%',
+                                borderCollapse: 'collapse',
+                                background: 'white',
+                                borderRadius: '8px',
+                                overflow: 'hidden',
+                                boxShadow: '0 5px 20px rgba(102, 126, 234, 0.2)',
+                                tableLayout: 'fixed'
+                            }}>
+                                <thead style={{
+                                    display: 'table',
+                                    width: '100%',
+                                    tableLayout: 'fixed',
+                                    background: 'var(--primary-background-smr)',
+                                    color: 'white'
+                                }}>
+                                    <tr>
+                                        <th style={{ padding: '1rem', textAlign: 'left' }}>Shape</th>
+                                        <th style={{ padding: '1rem', textAlign: 'left' }}>Size</th>
+                                        <th style={{ padding: '1rem', textAlign: 'left' }}>Carat</th>
+                                        <th style={{ padding: '1rem', textAlign: 'left' }}>Stock Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody style={{
+                                    display: 'block',
+                                    maxHeight: '300px',
+                                    overflowY: 'auto',
+                                    width: '100%'
+                                }}>
+                                    {virtualSearchResults.map((diamond, index) => (
+                                        <tr key={diamond.id} style={{
+                                            display: 'table',
+                                            tableLayout: 'fixed',
+                                            width: '100%',
+                                            background: index % 2 === 0 ? '#f8f9ff' : 'white',
+                                            borderBottom: '1px solid #eee'
+                                        }}>
+                                            <td style={{ padding: '1rem', fontWeight: '500' }}>{diamond.shape} Cut</td>
+                                            <td style={{ padding: '1rem' }}>{diamond.size}</td>
+                                            <td style={{ padding: '1rem' }}>{diamond.carat} ct</td>
+                                            <td style={{
+                                                padding: '1rem',
+                                                color: diamond.stockType === 'virtual' ? '#667eea' : '#27ae60',
+                                                fontWeight: '600'
+                                            }}>
+                                                {diamond.stockType === 'virtual' ? 'Virtual' : 'Real'}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <button
+                            onClick={handleSearchDesign}
+                            style={{
+                                display: 'block',
+                                margin: '3rem auto 0',
+                                padding: '1rem 2rem',
+                                background: 'var(--primary-background-smr)',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '12px',
+                                fontSize: '1.1rem',
+                                fontWeight: '600',
+                                cursor: 'pointer',
+                                boxShadow: '0 5px 20px rgba(231, 76, 60, 0.3)',
+                                transition: 'all 0.3s ease'
+                            }}
+                        >
+                            Search Design
+                        </button>
+                    </div>
+                )
+                }
+
+                {(virtualSearchResults?.length === 0 && selectedTableData?.length > 0) && (
+                    <button
+                        onClick={handleSearchDesign}
+                        style={{
+                            display: 'block',
+                            margin: '5rem auto 0',
+                            padding: '1rem 2rem',
+                            background: 'var(--primary-background-smr)',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '12px',
+                            fontSize: '1.1rem',
+                            fontWeight: '600',
+                            cursor: 'pointer',
+                            boxShadow: '0 5px 20px rgba(231, 76, 60, 0.3)',
+                            transition: 'all 0.3s ease',
+                        }}
+                    >
+                        Search Design
+                    </button>
+                )}
+
+                {/* Popup Modal */}
+                {
+                    showPopup && (
+                        <div style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: 'rgba(0, 0, 0, 0.7)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            zIndex: 1000
+                        }}>
+                            <div style={{
+                                background: '#ffffff',
+                                padding: '2rem',
+                                borderRadius: '20px',
+                                boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
+                                maxWidth: '500px',
+                                width: '90%',
+                                position: 'relative'
+                            }}>
+                                <h3 style={{
+                                    fontSize: '2.2rem',
+                                    color: '#333',
+                                    marginBottom: '0.5rem',
+                                    textAlign: 'center',
+                                    fontWeight: '600'
+                                }}>Search Design From</h3>
+                                <p style={{
+                                    color: '#666',
+                                    textAlign: 'center',
+                                    marginBottom: '3rem',
+                                    fontSize: '1.2rem'
+                                }}>Where would you like to search for this design?</p>
+                                <div style={{
+                                    display: 'flex',
+                                    gap: '2rem',
+                                    justifyContent: 'center',
+                                    marginBottom: '1.5rem',
+                                    flexWrap: 'wrap'
+                                }}>
+                                    <button
+                                        onClick={() => handlePopupChoice('Design Master')}
+                                        style={{
+                                            padding: '1.1rem 2rem',
+                                            border: 'none',
+                                            borderRadius: '12px',
+                                            fontSize: '1.1rem',
+                                            fontWeight: '600',
+                                            cursor: 'pointer',
+                                            minWidth: '180px',
+                                            background: 'var(--primary-background-smr)',
+                                            color: 'white',
+                                            boxShadow: '0 5px 20px rgba(102, 126, 234, 0.4)',
+                                            transition: 'all 0.3s ease'
+                                        }}
+                                    >
+                                        Design Master
+                                    </button>
+                                    <button
+                                        onClick={() => handlePopupChoice('Quotation')}
+                                        style={{
+                                            padding: '1.1rem 2rem',
+                                            border: 'none',
+                                            borderRadius: '12px',
+                                            fontSize: '1.1rem',
+                                            fontWeight: '600',
+                                            cursor: 'pointer',
+                                            minWidth: '180px',
+                                            background: 'var(--primary-background-smr)',
+                                            color: 'white',
+                                            boxShadow: '0 5px 20px rgba(102, 126, 234, 0.4)',
+                                            transition: 'all 0.3s ease'
+                                        }}
+                                    >
+                                        Quotation
+                                    </button>
+                                </div>
+                                <button
+                                    onClick={() => setShowPopup(false)}
+                                    style={{
+                                        position: 'absolute',
+                                        top: '1.5rem',
+                                        right: '1.5rem',
+                                        background: 'none',
+                                        border: 'none',
+                                        fontSize: '2.5rem',
+                                        color: '#999',
+                                        cursor: 'pointer',
+                                        width: '50px',
+                                        height: '50px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        borderRadius: '50%',
+                                        transition: 'all 0.3s ease'
+                                    }}
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        </div>
+                    )
+                }
+            </div >
+        </div >
+    );
+};
+
+export default SearchByStock;

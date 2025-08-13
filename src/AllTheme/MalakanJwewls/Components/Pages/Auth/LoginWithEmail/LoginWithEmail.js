@@ -20,7 +20,7 @@ import { MetalColorCombo } from '../../../../../../utils/API/Combo/MetalColorCom
 import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { mala_CartCount, mala_loginState, mala_WishCount } from '../../../Recoil/atom';
-import {MuiInputPlaceholder} from '../style'
+import { MuiInputPlaceholder } from '../style'
 
 export default function LoginWithEmail() {
     const [email, setEmail] = useState('');
@@ -320,7 +320,7 @@ export default function LoginWithEmail() {
                         margin: '0px',
                         fontSize: '32px',
                         color: '#fff',
-             
+
                     }}
                         className='AuthScreenMainTitle'
                     >Login With Password</p>
@@ -329,14 +329,14 @@ export default function LoginWithEmail() {
                         margin: '0px',
                         fontSize: '15px',
                         color: '#fff',
-             
+
                     }}
                         className='AuthScreenSubTitle'
                     >using {email}</p>
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <TextField
-                        sx={MuiInputPlaceholder}
+                            sx={MuiInputPlaceholder}
                             autoFocus
                             id="outlined-confirm-password-input"
                             label="Password"
@@ -370,12 +370,12 @@ export default function LoginWithEmail() {
                         />
 
                         <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
-                        <Button style={{ marginTop: '10px', color: 'white',fontFamily:'Rowan1' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: 'white', fontFamily: 'Rowan1' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
 
                         <button type='submit' className='SmilingLoginCodeBtn' onClick={handleNavigation}>Login With a Code instead on email</button>
                         <p style={{ textAlign: 'center', marginTop: "1rem" }}>Go passwordless! we'll send you an email.</p>
 
-                        <p style={{ color: '#fff', cursor: 'pointer',textDecoration:"underline" }} onClick={handleForgotPassword}>Forgot Password ?</p>
+                        <p style={{ color: '#fff', cursor: 'pointer', textDecoration: "underline" }} onClick={handleForgotPassword}>Forgot Password ?</p>
                     </div>
                 </div>
             </div>

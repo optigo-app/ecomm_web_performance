@@ -376,65 +376,65 @@ export default function PrivacyPolicy() {
     const privacyData = Shinjini === 1 ? ShinjiniprivacyData : SonasonsprivacyData
     return (
         // For Ojasvi, vaara, sonasons, shinjini
-        <div className="shinjini-terms">
-            <Banner />
-            <main className="shinjini-main">
-                <h1 className="shinjini-title">Privacy Policy</h1>
-
-                <div className="shinjini-content">
-                    <p className="shinjini-introduction">{privacyData.introduction.text}</p>
-
-                    {privacyData.sections.map((section, index) => (
-                        <section key={index} className="shinjini-section">
-                            <h2 className="shinjini-section-title">{section.title}</h2>
-                            {section.content.map((item, itemIndex) => (
-                                <div key={itemIndex} className="shinjini-section-content">
-                                    <h3 className="shinjini-subtitle">{item.subtitle}</h3>
-                                    <p className="shinjini-text">{item.text}</p>
-                                </div>
-                            ))}
-                        </section>
-                    ))}
-
-                    <p className="shinjini-conclusion">{privacyData.conclusion.text}</p>
-                </div>
-            </main>
-        </div>
-
         // <div className="shinjini-terms">
         //     <Banner />
         //     <main className="shinjini-main">
         //         <h1 className="shinjini-title">Privacy Policy</h1>
 
         //         <div className="shinjini-content">
-        //             <p className="shinjini-introduction">{Dummydata.introduction.text}</p>
+        //             <p className="shinjini-introduction">{privacyData.introduction.text}</p>
 
-        //             {Dummydata.sections.map((section, index) => (
+        //             {privacyData.sections.map((section, index) => (
         //                 <section key={index} className="shinjini-section">
         //                     <h2 className="shinjini-section-title">{section.title}</h2>
         //                     {section.content.map((item, itemIndex) => (
         //                         <div key={itemIndex} className="shinjini-section-content">
-        //                             {/* Check if the item has a subtitle and render accordingly */}
-        //                             {item.subtitle && <h3 className="shinjini-subtitle">{item.subtitle}</h3>}
-
-        //                             {/* Handle the case where the 'text' array has multiple objects, some of which may contain a subtitle */}
-        //                             {Array.isArray(item.text) ? (
-        //                                 item.text.map((t, idx) => (
-        //                                     <div key={idx}>
-        //                                         {t.subtitle && <h5 className="shinjini-subtext">{t.subtitle}</h5>} {/* Handle subtitle in text array */}
-        //                                         <p className="shinjini-text">{t.text}</p>
-        //                                     </div>
-        //                                 ))
-        //                             ) : (
-        //                                 <p className="shinjini-text">{item.text}</p>
-        //                             )}
+        //                             <h3 className="shinjini-subtitle">{item.subtitle}</h3>
+        //                             <p className="shinjini-text">{item.text}</p>
         //                         </div>
         //                     ))}
         //                 </section>
         //             ))}
+
+        //             <p className="shinjini-conclusion">{privacyData.conclusion.text}</p>
         //         </div>
         //     </main>
         // </div>
+
+        <div className="shinjini-terms">
+            <Banner />
+            <main className="shinjini-main">
+                <h1 className="shinjini-title">Privacy Policy</h1>
+
+                <div className="shinjini-content">
+                    <p className="shinjini-introduction">{Dummydata.introduction.text}</p>
+
+                    {Dummydata.sections.map((section, index) => (
+                        <section key={index} className="shinjini-section">
+                            <h2 className="shinjini-section-title">{section.title}</h2>
+                            {section.content.map((item, itemIndex) => (
+                                <div key={itemIndex} className="shinjini-section-content">
+                                    {/* Check if the item has a subtitle and render accordingly */}
+                                    {item.subtitle && <h3 className="shinjini-subtitle">{item.subtitle}</h3>}
+
+                                    {/* Handle the case where the 'text' array has multiple objects, some of which may contain a subtitle */}
+                                    {Array.isArray(item.text) ? (
+                                        item.text.map((t, idx) => (
+                                            <div key={idx}>
+                                                {t.subtitle && <h5 className="shinjini-subtext">{t.subtitle}</h5>} {/* Handle subtitle in text array */}
+                                                <p className="shinjini-text">{t.text}</p>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p className="shinjini-text">{item.text}</p>
+                                    )}
+                                </div>
+                            ))}
+                        </section>
+                    ))}
+                </div>
+            </main>
+        </div>
 
     )
 }

@@ -82,6 +82,13 @@ const CartPage = () => {
   const isLargeScreen = useMediaQuery('(min-width:1000px)');
   const isMobileScreen = useMediaQuery('(max-width:768px)');
 
+  useEffect(() => {
+    const [navigation] = performance.getEntriesByType("navigation");
+    if (navigation?.type === "reload") {
+      console.warn("🔁 Page was reloaded!");
+    }
+  }, []);
+
   const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
   const handlePlaceOrder = () => {
     if (storeInit?.IsPLW == 0) {

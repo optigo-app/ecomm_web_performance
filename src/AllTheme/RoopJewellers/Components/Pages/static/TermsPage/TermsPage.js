@@ -528,59 +528,58 @@ const Dummydata = {
 };
 
 
-
 export default function TermsAndConditions() {
   const Shinjini = 1;
   const termsData = Shinjini === 1 ? ShinjinitermsData : SonasonstermsData;
   return (
-    <div className="shinjini-terms">
-      <Banner />
-      <main className="shinjini-main">
-        <h1 className="shinjini-title">Terms and Conditions</h1>
-
-        <div className="shinjini-content">
-          <p className="shinjini-introduction">{termsData.introduction.text}</p>
-
-          {termsData.sections.map((section, index) => (
-            <section key={index} className="shinjini-section">
-              <h2 className="shinjini-section-title">{section.title}</h2>
-              {section.content.map((item, itemIndex) => (
-                <div key={itemIndex} className="shinjini-section-content">
-                  <h3 className="shinjini-subtitle">{item.subtitle}</h3>
-                  <p className="shinjini-text">{item.text}</p>
-                </div>
-              ))}
-            </section>
-          ))}
-
-          <p className="shinjini-conclusion">{termsData.conclusion.text}</p>
-        </div>
-      </main>
-    </div>
-    // <div className="vaara-terms">
+    // <div className="shinjini-terms">
     //   <Banner />
-    //   <main className="vaara-main">
-    //     <h1 className="vaara-title">Terms and Conditions</h1>
+    //   <main className="shinjini-main">
+    //     <h1 className="shinjini-title">Terms and Conditions</h1>
 
-    //     <div className="vaara-content">
-    //       <p className="vaara-introduction">{Dummydata.introduction.text}</p>
+    //     <div className="shinjini-content">
+    //       <p className="shinjini-introduction">{termsData.introduction.text}</p>
 
-    //       {Dummydata.sections.map((section, index) => (
-    //         <section key={index} className="vaara-section">
-    //           <h2 className="vaara-section-title">{section.title}</h2>
+    //       {termsData.sections.map((section, index) => (
+    //         <section key={index} className="shinjini-section">
+    //           <h2 className="shinjini-section-title">{section.title}</h2>
     //           {section.content.map((item, itemIndex) => (
-    //             <div key={itemIndex} className="vaara-section-content">
-    //               <h3 className="vaara-subtitle">{item.subtitle}</h3>
-    //               <p className="vaara-text">{item.text}</p>
+    //             <div key={itemIndex} className="shinjini-section-content">
+    //               <h3 className="shinjini-subtitle">{item.subtitle}</h3>
+    //               <p className="shinjini-text">{item.text}</p>
     //             </div>
     //           ))}
     //         </section>
     //       ))}
 
-    //       <p className="vaara-conclusion">{Dummydata.conclusion.text}</p>
+    //       <p className="shinjini-conclusion">{termsData.conclusion.text}</p>
     //     </div>
     //   </main>
     // </div>
+    <div className="vaara-terms">
+      <Banner />
+      <main className="vaara-main">
+        <h1 className="vaara-title">Terms and Conditions</h1>
+
+        <div className="vaara-content">
+          <p className="vaara-introduction">{Dummydata.introduction.text}</p>
+
+          {Dummydata.sections.map((section, index) => (
+            <section key={index} className="vaara-section">
+              <h2 className="vaara-section-title">{section.title}</h2>
+              {section.content.map((item, itemIndex) => (
+                <div key={itemIndex} className="vaara-section-content">
+                  <h3 className="vaara-subtitle">{item.subtitle}</h3>
+                  <p className="vaara-text">{item.text}</p>
+                </div>
+              ))}
+            </section>
+          ))}
+
+          <p className="vaara-conclusion">{Dummydata.conclusion.text}</p>
+        </div>
+      </main>
+    </div>
   )
 }
 

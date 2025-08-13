@@ -62,6 +62,7 @@ import Register from "./Components/Pages/Auth/Registretion/index";
 import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
 import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
 import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
+import useGlobalPreventSave from "../../utils/Glob_Functions/useGlobalPreventSave";
 
 const ProductDetail = lazy(() => import("./Components/Pages/Product/ProductDetail/ProductDetail"));
 const ContactUs = lazy(() => import("./Components/Pages/FooterPages/contactUs/ContactUs"));
@@ -109,6 +110,8 @@ const Procatalog_App = () => {
     useRecoilState(proCat_companyLogoM);
   const [htmlContent, setHtmlContent] = useState("");
   const [localData, setLocalData] = useState();
+
+  useGlobalPreventSave();
 
   useEffect(() => {
     sessionStorage.removeItem("Countrycodestate")
@@ -211,7 +214,7 @@ const Procatalog_App = () => {
 
     let localD = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localD);
-  }, [islogin, redirectEmailUrl,]);
+  }, []);
 
   // old code
   // useEffect(() => {

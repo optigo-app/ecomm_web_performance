@@ -3223,20 +3223,24 @@ const ProductDetail = () => {
                                   label={
                                     cartArr[ele?.StockId] ??
                                       ele?.IsInCart === 1 ? (
-                                      <span style={{ color: "#474747d1" }}>
+                                      <span className="btnColorProCatProductRemoveCart">
                                         Remove From Cart
                                       </span>
                                     ) : (
-                                      <span style={{ color: "#594646" }}>
+                                      <span className="btnColorProCatProduct">
                                         Add To Cart
                                       </span>
                                     )
                                   }
-                                  className={
-                                    cartArr[ele?.StockId] ?? ele?.IsInCart === 1
-                                      ? "procat_cart_btn_alter"
-                                      : "procat_cart_btn"
-                                  }
+                                  className={`${ele?.IsInCart === 1 ? 'btnColorProCatProductRemoveCart' : 'btnColorProCatProduct'} procat_cart_btn`}
+                                  style={{
+                                    marginInline: 0
+                                  }}
+                                // className={
+                                //   cartArr[ele?.StockId] ?? ele?.IsInCart === 1
+                                //     ? "procat_cart_btn_alter"
+                                //     : "procat_cart_btn"
+                                // }
                                 />
                               </div>
                             </div>

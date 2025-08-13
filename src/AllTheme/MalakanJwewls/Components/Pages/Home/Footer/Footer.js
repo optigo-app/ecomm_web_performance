@@ -163,7 +163,7 @@ const Footer = ({ fromPage }) => {
       </div>
       {/* <p className="mala_footer_bottom_line">©2025 Privaa Jewels</p> */}
       {/* <p className="mala_footer_bottom_line">©2025 Kamalika Jewellers</p><strong style={{ color: "transparent" }}>27062025</strong> */}
-      <p className="mala_footer_bottom_line">©2025 Sonsons</p>
+      <p className="mala_footer_bottom_line">©2025 Sonsons</p><strong style={{ color: "transparent" }}>28072025</strong>
       {/* <p className="mala_footer_bottom_line">©2025 Shree Diamond</p><strong style={{ color: "transparent" }}>26062025</strong> */}
     </footer>
   );

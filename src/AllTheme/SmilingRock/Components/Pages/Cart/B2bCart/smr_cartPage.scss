@@ -599,7 +599,8 @@ $cartUpdateBtncolor: #b1b1b1;
 
 
     .smr_ItemRemarkbtn {
-      margin-right: 20px;
+      // margin-right: 20px;
+      margin-right: 8px;
     }
   }
 
@@ -1129,10 +1130,12 @@ $cartUpdateBtncolor: #b1b1b1;
 
                   .smr_ItemRemarkbtn {
                     margin-right: 0px;
+                    font-size: 10px;
                   }
 
                   .smr_ReomoveCartbtn {
                     margin-right: 12px;
+                    font-size: 10px;
                   }
                 }
               }

@@ -128,7 +128,7 @@ const Footer = ({ fromPage }) => {
             fontWeight: 500,
             marginInline: '0',
             marginBottom: "1%"
-          }}>© 2025, Shinjini Jewels</p>
+          }}>© 2025, PR Jewellers</p>
 
           {/*  pacific diamonds */}
           {/* }}>© 2025, Pacific Diamonds</p> */}
@@ -147,8 +147,11 @@ const Footer = ({ fromPage }) => {
 
           {/* vara  */}
           {/* }}>© 2025, Sonasons</p> */}
+
+          {/* prjewellers  */}
+          {/* }}>© 2025, PR Jewellers</p> */}
         </div>
-        <strong style={{ color: "white" }}>25062025</strong>
+        <strong style={{ color: "white" }}>05082025</strong>
       </div>
     </div >
   )

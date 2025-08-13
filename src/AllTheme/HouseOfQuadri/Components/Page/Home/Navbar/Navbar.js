@@ -434,7 +434,7 @@ const Navbar = () => {
     ) {
       getMenuApi();
     }
-  }, []);
+  }, [islogin]);
 
   return (
     <>

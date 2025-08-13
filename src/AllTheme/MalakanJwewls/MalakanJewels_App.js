@@ -82,8 +82,6 @@ const Lookbook = lazy(() => import("./Components/Pages/Home/LookBook/Lookbook"))
 const TermsPolicy = lazy(() => import("./Components/Pages/FooterPages/TermsPolicy/TermsPolicy"));
 const PrivacyPolicy = lazy(() => import("./Components/Pages/FooterPages/PrivacyPolicy/PrivacyPolicy"));
 
-
-
 const MalakanJewels_App = () => {
   const islogin = useRecoilValue(mala_loginState);
   const [localData, setLocalData] = useState();
@@ -195,7 +193,7 @@ const MalakanJewels_App = () => {
     >
       {/* <CircularProgress sx={{ color: 'rgba(255,  87, 34, 0.8)' }} /> */}
       <img
-        src={loaderImg2}
+        src={loaderImg}
         alt="Loading..."
         height="100%"
         width="auto"
@@ -293,7 +291,7 @@ const MalakanJewels_App = () => {
           <Route path="/FunFact" element={<FunFact />} />
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
-            <Route path="/p/*" element={<ProductListWrapper />} />
+            <Route path="/p/*" element={<ProductList />} />
             <Route path="/d/*" element={<ProductDetailWrapper />} />
             <Route path="/cartPage" element={<CartWrapper />} />
             <Route path="/myWishList" element={<WishlistWrapper />} />

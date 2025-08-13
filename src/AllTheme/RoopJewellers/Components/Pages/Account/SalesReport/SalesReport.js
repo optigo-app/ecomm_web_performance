@@ -195,19 +195,19 @@ function EnhancedTableHead(props) {
     <TableHead className="salesReporttabelHead">
       <TableRow>
         {headCells?.map((headCell) => {
-             const headCellsLits = [
-              'MetalAmount',
-              'DiamondAmount',
-              'ColorStoneAmount',
-              'LabourAmount',
-              'OtherAmount',
-              'UnitCost'
-            ];
-            const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
-            if (IsPriceShow === 0 && headCellsLits.includes(headCell?.id)) {
-              return null;  
-            }
-         return <TableCell
+          const headCellsLits = [
+            'MetalAmount',
+            'DiamondAmount',
+            'ColorStoneAmount',
+            'LabourAmount',
+            'OtherAmount',
+            'UnitCost'
+          ];
+          const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {};
+          if (IsPriceShow === 0 && headCellsLits.includes(headCell?.id)) {
+            return null;
+          }
+          return <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
@@ -235,7 +235,7 @@ function EnhancedTableHead(props) {
                 </TableSortLabel>
             }
           </TableCell>
-})}
+        })}
       </TableRow>
     </TableHead>
   );
@@ -529,7 +529,7 @@ const SalesReport = () => {
         let totals = { ...total };
         let designLists = [];
         response.Data?.rd?.forEach((e, i) => {
-          
+
           let dataObj = createData(
             i + 1,
             e?.Date,
@@ -614,11 +614,11 @@ const SalesReport = () => {
       tableContainer.scrollTop = 0;
     }
   };
-  const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+  const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {};
 
   return (
     <Box className="salesReport_Account_RPJ">
-   {IsPriceShow == 1 &&   <Box
+      {IsPriceShow == 1 && <Box
         sx={{
           display: "flex",
           alignItems: "center",
@@ -754,7 +754,8 @@ const SalesReport = () => {
             position: "relative",
             maxWidth: "max-content",
             paddingBottom: "15px",
-            paddingRight: "15px",
+            paddingRight: "0",
+            marginRight: "15px",
           }}
           className="searchbox"
         >
@@ -984,16 +985,16 @@ const SalesReport = () => {
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.designno}</TableCell>
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.MetalType}</TableCell>
                         {IsPriceShow == 1 && <>
-                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.MetalAmount)}</TableCell>
-                          <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;
-                          {formatAmount(row.DiamondAmount)}
-                        </TableCell>
-                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;
-                          {formatAmount(row.ColorStoneAmount)}
-                        </TableCell>
-                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.LabourAmount)}</TableCell>
-                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.OtherAmount)}</TableCell>
-                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.UnitCost)}</TableCell>
+                          <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span>&nbsp;{formatAmount(row.MetalAmount)}</TableCell>
+                          <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span>&nbsp;
+                            {formatAmount(row.DiamondAmount)}
+                          </TableCell>
+                          <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span>&nbsp;
+                            {formatAmount(row.ColorStoneAmount)}
+                          </TableCell>
+                          <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span>&nbsp;{formatAmount(row.LabourAmount)}</TableCell>
+                          <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span>&nbsp;{formatAmount(row.OtherAmount)}</TableCell>
+                          <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}><span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span>&nbsp;{formatAmount(row.UnitCost)}</TableCell>
                         </>}
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.Category}</TableCell>
                         <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.GrossWt}</TableCell>

@@ -433,27 +433,9 @@ const ProductList = () => {
             await FilterListAPI(productlisttype, cookie)
               .then((res) => {
                 setFilterData(res);
-                let diafilter =
-                  res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-                    ?.length > 0
-                    ? JSON.parse(
-                      res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-                    )[0]
-                    : [];
-                let diafilter1 =
-                  res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-                    ?.length > 0
-                    ? JSON.parse(
-                      res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-                    )[0]
-                    : [];
-                let diafilter2 =
-                  res?.filter((ele) => ele?.Name == "Gross")[0]?.options
-                    ?.length > 0
-                    ? JSON.parse(
-                      res?.filter((ele) => ele?.Name == "Gross")[0]?.options
-                    )[0]
-                    : [];
+                let diafilter = res?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0] : [];
+                let diafilter1 = res?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0] : [];
+                let diafilter2 = res?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0] : [];
                 setSliderValue(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
                 setSliderValue1(diafilter1?.Min != null || diafilter1?.Max != null ? [diafilter1?.Min, diafilter1?.Max] : []);
                 setSliderValue2(diafilter2?.Min != null || diafilter2?.Max != null ? [diafilter2?.Min, diafilter2?.Max] : []);

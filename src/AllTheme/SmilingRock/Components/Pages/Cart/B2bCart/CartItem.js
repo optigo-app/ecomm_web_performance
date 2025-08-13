@@ -48,8 +48,8 @@ const CartItem = ({
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
 
-  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
-  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+  // const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  // const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
 
   // const isLoading = item?.loading;
 
@@ -62,6 +62,36 @@ const CartItem = ({
 
     return () => clearTimeout(timer);
   }, [index]);
+
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+  const defaultUrl = item?.images && typeof item?.images === 'string'
+    ? item.images.replace("/Design_Thumb", "")
+    : "";
+  const firstPart = defaultUrl?.split(".")[0];
+  const secondPart = item?.ImageExtension;
+  const finalSelectedUrl = `${firstPart}.${secondPart}`;
+
+  const [imgSrc, setImgSrc] = useState('');
+
+  useEffect(() => {
+    let imageURL = item?.images
+      ? finalSelectedUrl
+      : item?.ImageCount > 1
+        ? `${CDNDesignImageFolThumb}${item?.designno}~1~${item?.metalcolorname}.jpg`
+        : `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+    const img = new Image();
+    img.onload = () => setImgSrc(imageURL);
+    img.onerror = () => {
+      if (item?.ImageCount > 0) {
+        setImgSrc(fullImagePath || noImageFound);
+      } else {
+        setImgSrc(noImageFound);
+      }
+    };
+    img.src = imageURL;
+  }, [item, CDNDesignImageFolThumb, finalSelectedUrl]);
 
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
@@ -189,9 +219,10 @@ const CartItem = ({
           ) : (
             <CardMedia
               component="img"
-              image={item?.images}
+              // image={item?.images}
+              image={imgSrc}
               alt=" "
-              loading='lazy'
+              loading='eager'
               sx={{
                 border: 'none',
                 outline: 'none',
@@ -204,10 +235,15 @@ const CartItem = ({
               className='smr_cartListImage'
               onClick={() => onSelect(item)}
               onError={(e) => {
-                if (item?.ImageCount > 0) {
-                  e.target.src = fullImagePath ? fullImagePath : noImageFound
-                } else {
-                  e.target.src = noImageFound;
+                const imgEl = e.target;
+
+                // Prevent infinite loop
+                if (!imgEl.dataset.triedFullImage && fullImagePath) {
+                  imgEl.src = fullImagePath;
+                  imgEl.dataset.triedFullImage = "true";
+                } else if (!imgEl.dataset.triedNoImage) {
+                  imgEl.src = noImageFound;
+                  imgEl.dataset.triedNoImage = "true";
                 }
               }}
             />
@@ -286,12 +322,18 @@ const CartItem = ({
               )}
             </CardContent>
             <Box className="smr_cartbtngroupReRm">
-              <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
+              <button
+                className='smr_ItemRemarkbtn'
+                onClick={() => handleOpen()}
+                style={{ border: 'none', background: 'none', cursor: 'pointer', textDecoration: 'underline' }}
+              >
                 {item?.Remarks ? "Update Remark" : "Add Remark"}
-              </Link>
-              <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >
+              </button>
+              <button
+                style={{ border: 'none', background: 'none', cursor: 'pointer' }}
+                className='smr_ReomoveCartbtn' variant="body2" onClick={() => handleRemoveItem(item, index)} >
                 Remove
-              </Link>
+              </button>
             </Box>
           </div>
         </Box>

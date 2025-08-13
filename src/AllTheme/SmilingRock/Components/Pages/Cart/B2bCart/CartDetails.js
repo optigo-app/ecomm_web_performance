@@ -66,7 +66,7 @@ const CartDetails = ({
         : `${storeinitData?.CDNDesignImageFol}${selectedItem?.designno}~1.${selectedItem?.ImageExtension}`;
 
     const img = new Image();
-    img.onload = () => setImgSrc(imageURL);
+    img.onload = () => setImgSrc(`${storeinitData?.CDNDesignImageFol}${selectedItem?.designno}~1~${selectedItem?.metalcolorname}.${selectedItem?.ImageExtension}`);
     img.onerror = () => {
       if (selectedItem?.ImageCount > 0) {
         setImgSrc(fullImagePath1 || noImageFound);
@@ -129,6 +129,18 @@ const CartDetails = ({
             className='smr_cartDetailImage'
             onClick={() => handleMoveToDetail(selectedItem)}
             loading="eager"
+            onError={(e) => {
+              const imgEl = e.target;
+
+              // Prevent infinite loop
+              if (!imgEl.dataset.triedFullImage && fullImagePath1) {
+                imgEl.src = fullImagePath1;
+                imgEl.dataset.triedFullImage = "true";
+              } else if (!imgEl.dataset.triedNoImage) {
+                imgEl.src = noImageFound;
+                imgEl.dataset.triedNoImage = "true";
+              }
+            }}
           />
         )}
       </div>

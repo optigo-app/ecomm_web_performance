@@ -1,5 +1,10 @@
 //backgroundcolors
 
+:root {
+  --primary-background-smr: black;
+  --primary-color-smr: black;
+}
+
 $backgroundColor: var(--background-color);
 // $backgroundColor:  storeInit?.IsPLW == 1 ? #c4cfdb :#c0bbb1 ;
 $btn1bgColor: #fff;

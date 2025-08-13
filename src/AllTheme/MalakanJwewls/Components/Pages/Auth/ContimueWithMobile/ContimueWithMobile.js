@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button, CircularProgress, TextField } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
 import './ContimueWithMobile.modul.scss'
-import {MuiInputPlaceholder} from '../style'
+import { MuiInputPlaceholder } from '../style'
 
 export default function ContimueWithMobile() {
     const [mobileNo, setMobileNo] = useState('');
@@ -122,7 +122,7 @@ export default function ContimueWithMobile() {
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <TextField
-                        sx={MuiInputPlaceholder}
+                            sx={MuiInputPlaceholder}
                             autoFocus
                             id="outlined-basic"
                             label="Enter Mobile No"
@@ -143,7 +143,7 @@ export default function ContimueWithMobile() {
                         <button className='submitBtnForgot' onClick={handleSubmit}>
                             SUBMIT
                         </button>
-                        <Button style={{ marginTop: '10px', color: 'white',fontFamily:'Rowan1' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: 'white', fontFamily: 'Rowan1' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>

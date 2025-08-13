@@ -558,7 +558,8 @@
 
     @media screen and (max-width:612px) {
         .smr_Swiper_designSet {
-            max-width: 360px;
+            max-width: 100%;
+            // max-width: 360px;
         }
 
         .compeletethelook_cont {
@@ -662,6 +663,12 @@
         border: 1px solid #e1e1e1;
         background-color: #fff;
         width: 513px
+    }
+
+    @media screen and (max-width: 400px) {
+        .completethelook_outer {
+            width: 300px !important;
+        }
     }
 
     .srthelook_img {

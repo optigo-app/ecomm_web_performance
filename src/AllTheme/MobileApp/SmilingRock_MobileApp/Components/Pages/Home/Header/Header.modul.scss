@@ -1,6 +1,8 @@
 .smrMA_HeaderMain {
 
-    background-color: #ede1d5;
+    // background-color: #ede1d5;
+    background-color: #ffd2eb;
+
     .smrMA_Fixed_Header {
         width: 100%;
         background-color: white;
@@ -14,7 +16,8 @@
     .smrMA_Fixed_Header.fixed {
         position: fixed;
         top: 0;
-        background-color: #ede1d5;
+        // background-color: #ede1d5;
+        background-color: #ffd2eb;
         // background-color: rgb(211 211 209);
         box-shadow: 0 2px 5px rgba(20, 19, 19, 0.1);
         z-index: 1000;

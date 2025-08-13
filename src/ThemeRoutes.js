@@ -317,8 +317,9 @@ const Themes = ({ themeNumber }) => {
     // <Suspense fallback={<ShinjiniLoadingFallback />}>
     // <Suspense fallback={<ShreeDiamondsLoadingFallback />}>
     // <Suspense fallback={<KamalikaJewelssLoadingFallback />}>
+    // <Suspense fallback={<ElveeLoadingFallback />}>
     // <Suspense fallback={<DefaultLoadingFallback />}>
-    <Suspense fallback={<ElveeLoadingFallback />}>
+    <Suspense fallback={<DefaultLoadingFallback />}>
       {themeNumber === 8 && <ForEveryRoutes />}
       {themeNumber === 3 && <Elveester_App />}
       {themeNumber === 1 && <SmilingRock_App />}

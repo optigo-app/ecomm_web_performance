@@ -561,6 +561,609 @@ const DynamicCollection = () => {
     handleRangeFilterApi2(newSliderValue);
   };
 
+  const resetRangeFilter = async ({
+    filterName,
+    setSliderValue,
+    setTempSliderValue,
+    handleRangeFilterApi,
+    prodListType,
+    cookie,
+    setIsShowBtn,
+    show, setShow,
+    setAppliedRange,
+  }) => {
+    try {
+      const res1 = await FilterListAPI(prodListType, cookie);
+      const optionsRaw = res1?.find((f) => f?.Name === filterName)?.options;
+
+      if (optionsRaw) {
+        const { Min = 0, Max = 100 } = JSON.parse(optionsRaw)?.[0] || {};
+        const resetValue = [Min, Max];
+        setSliderValue(resetValue);
+        setTempSliderValue(resetValue);
+        handleRangeFilterApi("");
+        setAppliedRange(["", ""])
+        // handleRangeFilterApi(resetValue);
+        setIsShowBtn?.(false);
+        if (show) setShow(false)
+      }
+    } catch (error) {
+      console.error(`Failed to reset filter "${filterName}":`, error);
+    }
+  };
+
+  const RangeFilterView = ({ ele, sliderValue, setSliderValue, handleRangeFilterApi, prodListType, cookie, setShow, show, setAppliedRange1, appliedRange1 }) => {
+    const parsedOptions = JSON.parse(ele?.options || "[]")?.[0] || {};
+    const min = Number(parsedOptions.Min || 0);  // Ensure min is a number
+    const max = Number(parsedOptions.Max || 100);
+    const [tempSliderValue, setTempSliderValue] = useState(sliderValue);
+    const [isShowBtn, setIsShowBtn] = useState(false);
+    const inputRefs = useRef([]);
+
+    useEffect(() => {
+      inputRefs.current = tempSliderValue.map((_, i) => inputRefs.current[i] ?? React.createRef());
+    }, [tempSliderValue]);
+
+    const handleKeyDown = (index) => (e) => {
+      if (e.key === 'Enter') {
+        if (index < tempSliderValue.length - 1) {
+          inputRefs.current[index + 1]?.current?.focus();
+        } else {
+          handleSave(); // last input triggers apply
+        }
+      }
+    };
+
+    useEffect(() => {
+      if (Array.isArray(sliderValue) && sliderValue.length === 2) {
+        setTempSliderValue(sliderValue);
+      }
+    }, [sliderValue]);
+
+    const handleInputChange = (index) => (event) => {
+      const value = event.target.value === "" ? "" : Number(event.target.value);
+      const updated = [...tempSliderValue];
+      updated[index] = value;
+      setTempSliderValue(updated);
+      setIsShowBtn(updated[0] !== sliderValue[0] || updated[1] !== sliderValue[1]);
+    };
+
+    const handleSliderChange = (_, newValue) => {
+      setTempSliderValue(newValue);
+      setIsShowBtn(newValue[0] !== sliderValue[0] || newValue[1] !== sliderValue[1]);
+    };
+
+    const handleSave = () => {
+      const [minDiaWt, maxDiaWt] = tempSliderValue;
+
+      // Empty or undefined
+      if (minDiaWt == null || maxDiaWt == null || minDiaWt === '' || maxDiaWt === '') {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Not a number
+      if (isNaN(minDiaWt) || isNaN(maxDiaWt)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Negative values
+      if (minDiaWt < 0 || maxDiaWt < 0) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Equal values
+      if (Number(minDiaWt) === Number(maxDiaWt)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Min > Max
+      if (Number(minDiaWt) > Number(maxDiaWt)) {
+        toast.error("Please enter valid range values.", {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Below actual min
+      if (minDiaWt < min) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Above actual max
+      if (maxDiaWt > max) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      setSliderValue(tempSliderValue);
+      setTempSliderValue(tempSliderValue);
+      handleRangeFilterApi(tempSliderValue);
+      setIsShowBtn(false);
+      setAppliedRange1([min, max])
+      setShow(true)
+    };
+
+    return (
+      <div style={{ position: "relative" }}>
+
+        {appliedRange1 && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "4px",
+              position: "absolute",
+              top: "-12px",
+              width: "100%",
+            }}
+          >
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange1[0] !== "" ? `Min: ${appliedRange1[0]}` : ""}
+            </Typography>
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange1[1] !== "" ? `Max: ${appliedRange1[1]}` : ""}
+            </Typography>
+          </div>
+        )}
+
+        <Slider
+          value={tempSliderValue}
+          onChange={handleSliderChange}
+          min={min}
+          max={max}
+          step={0.001}
+          disableSwap
+          valueLabelDisplay="off"
+          sx={{ marginTop: 1, transition: "all 0.2s ease-out" }}
+        />
+
+        <div style={{ display: "flex", gap: "10px", justifyContent: "space-around" }}>
+          {tempSliderValue.map((val, index) => (
+            <Input
+              key={index}
+              value={val}
+              inputRef={inputRefs.current[index]}
+              onKeyDown={handleKeyDown(index)}
+              onChange={handleInputChange(index)}
+              inputProps={{ step: 0.001, min, max, type: "number" }}
+              sx={{ textAlign: "center" }}
+            />
+          ))}
+        </div>
+
+        <Stack direction="row" justifyContent="flex-end" gap={1} mt={1}>
+          {show &&
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={() =>
+              resetRangeFilter({
+                filterName: "Diamond",
+                setSliderValue: setSliderValue,
+                setTempSliderValue,
+                handleRangeFilterApi: handleRangeFilterApi,
+                prodListType,
+                cookie,
+                setIsShowBtn,
+                show: show,
+                setShow: setShow,
+                setAppliedRange: setAppliedRange1,
+              })
+            } color="error">
+              Reset
+            </Button>
+          }
+          {isShowBtn && (
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={handleSave} color="success">
+              Apply
+            </Button>
+          )}
+        </Stack>
+      </div>
+    );
+  };
+
+  const RangeFilterView1 = ({ ele, sliderValue1, setSliderValue1, handleRangeFilterApi1, prodListType, cookie, show1,
+    setShow1, setAppliedRange2, appliedRange2 }) => {
+    const parsedOptions = JSON.parse(ele?.options || "[]")?.[0] || {};
+    const min = parsedOptions.Min || "";
+    const max = parsedOptions.Max || "";
+    const [tempSliderValue, setTempSliderValue] = useState(sliderValue1);
+    const [isShowBtn, setIsShowBtn] = useState(false);
+    const inputRefs = useRef([]);
+
+    useEffect(() => {
+      inputRefs.current = tempSliderValue.map((_, i) => inputRefs.current[i] ?? React.createRef());
+    }, [tempSliderValue]);
+
+    const handleKeyDown = (index) => (e) => {
+      if (e.key === 'Enter') {
+        if (index < tempSliderValue.length - 1) {
+          inputRefs.current[index + 1]?.current?.focus();
+        } else {
+          handleSave(); // last input triggers apply
+        }
+      }
+    };
+
+    useEffect(() => {
+      if (Array.isArray(sliderValue1) && sliderValue1.length === 2) {
+        setTempSliderValue(sliderValue1);
+      }
+    }, [sliderValue1]);
+
+
+    useEffect(() => {
+      if (Array.isArray(sliderValue1) && sliderValue1.length === 2) {
+        setTempSliderValue(sliderValue1);
+      }
+    }, [sliderValue1]);
+
+    const handleInputChange = (index) => (event) => {
+      const newValue = event.target.value === "" ? "" : Number(event.target.value);
+      const updated = [...tempSliderValue];
+      updated[index] = newValue;
+      setTempSliderValue(updated);
+      setIsShowBtn(updated[0] !== sliderValue1[0] || updated[1] !== sliderValue1[1]);
+    };
+
+    const handleSliderChange = (_, newValue) => {
+      setTempSliderValue(newValue);
+      setIsShowBtn(newValue[0] !== sliderValue1[0] || newValue[1] !== sliderValue1[1]);
+    };
+
+    const handleSave = () => {
+      const [minNetWt, maxNetWt] = tempSliderValue;
+
+      if (minNetWt == null || maxNetWt == null || minNetWt === '' || maxNetWt === '') {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (isNaN(minNetWt) || isNaN(maxNetWt)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (minNetWt < 0 || maxNetWt < 0) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // 👇 New specific validation
+      if (Number(minNetWt) === Number(maxNetWt)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (Number(minNetWt) > Number(maxNetWt)) {
+        toast.error("Please enter valid range values.", {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (minNetWt < min) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (maxNetWt > max) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      setSliderValue1(tempSliderValue);
+      setTempSliderValue(tempSliderValue)
+      handleRangeFilterApi1(tempSliderValue);
+      setAppliedRange2([min, max])
+
+      setIsShowBtn(false);
+      setShow1(true)
+    };
+
+    return (
+      <div style={{ position: "relative" }}>
+
+        {appliedRange2 && (
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "4px", position: "absolute", top: '-12px', width: "100%" }}>
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange2[0] !== "" ? `Min: ${appliedRange2[0]}` : ""}
+            </Typography>
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange2[1] !== "" ? `Max: ${appliedRange2[1]}` : ""}
+            </Typography>
+          </div>
+        )}
+
+        <Slider
+          value={tempSliderValue}
+          onChange={handleSliderChange}
+          valueLabelDisplay="off"
+          min={min}
+          max={max}
+          step={0.001}
+          disableSwap
+          sx={{
+            marginTop: "5px",
+            transition: "all 0.2s ease-out",
+            '& .MuiSlider-valueLabel': { display: 'none' },
+          }}
+        />
+        <div style={{ display: "flex", gap: "10px", justifyContent: "space-around" }}>
+          {tempSliderValue.map((val, index) => (
+            <Input
+              key={index}
+              inputRef={inputRefs.current[index]}
+              onKeyDown={handleKeyDown(index)}
+              value={val}
+              onChange={handleInputChange(index)}
+              inputProps={{ step: 0.001, min, max, type: "number" }}
+              sx={{ textAlign: "center" }}
+            />
+          ))}
+        </div>
+        <Stack flexDirection="row" justifyContent="flex-end" gap={1} mt={1}>
+          {show1 &&
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={() =>
+              resetRangeFilter({
+                filterName: "NetWt",
+                setSliderValue: setSliderValue1,
+                setTempSliderValue,
+                handleRangeFilterApi: handleRangeFilterApi1,
+                prodListType,
+                cookie,
+                setIsShowBtn,
+                show: show1,
+                setShow: setShow1,
+                setAppliedRange: setAppliedRange2,
+              })
+            } color="error">
+              Reset
+            </Button>
+          }
+          {isShowBtn && (
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={handleSave} color="success">
+              Apply
+            </Button>
+          )}
+        </Stack>
+      </div>
+    );
+  };
+
+  const RangeFilterView2 = ({ ele, sliderValue2, setSliderValue2, handleRangeFilterApi2, prodListType, cookie, show2, setShow2, setAppliedRange3, appliedRange3 }) => {
+    const parsedOptions = JSON.parse(ele?.options || "[]")?.[0] || {};
+    const min = parsedOptions.Min ?? "";
+    const max = parsedOptions.Max ?? "";
+    const [tempSliderValue, setTempSliderValue] = useState(sliderValue2);
+    const [isShowBtn, setIsShowBtn] = useState(false);
+    const inputRefs = useRef([]);
+
+    useEffect(() => {
+      inputRefs.current = tempSliderValue.map((_, i) => inputRefs.current[i] ?? React.createRef());
+    }, [tempSliderValue]);
+
+    const handleKeyDown = (index) => (e) => {
+      if (e.key === 'Enter') {
+        if (index < tempSliderValue.length - 1) {
+          inputRefs.current[index + 1]?.current?.focus();
+        } else {
+          handleSave(); // last input triggers apply
+        }
+      }
+    };
+
+    useEffect(() => {
+      if (Array.isArray(sliderValue2) && sliderValue2.length === 2) {
+        setTempSliderValue(sliderValue2);
+      }
+    }, [sliderValue2]);
+
+
+    const handleInputChange = (index) => (event) => {
+      const newValue = event.target.value === "" ? "" : Number(event.target.value);
+      const updated = [...tempSliderValue];
+      updated[index] = newValue;
+      setTempSliderValue(updated);
+      setIsShowBtn(
+        updated[0] !== sliderValue2[0] || updated[1] !== sliderValue2[1]
+      );
+    };
+
+    const handleSliderChange = (_, newValue) => {
+      setTempSliderValue(newValue);
+      setIsShowBtn(
+        newValue[0] !== sliderValue2[0] || newValue[1] !== sliderValue2[1]
+      );
+    };
+
+    const handleSave = () => {
+      const [minWeight, maxWeight] = tempSliderValue;
+
+      // Validation: Empty or undefined
+      if (minWeight == null || maxWeight == null || minWeight === '' || maxWeight === '') {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Validation: Not a number
+      if (isNaN(minWeight) || isNaN(maxWeight)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Validation: Negative values
+      if (minWeight < 0 || maxWeight < 0) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // 👇 New specific validation
+      if (Number(minWeight) === Number(maxWeight)) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Validation: Min > Max
+      if (Number(minWeight) > Number(maxWeight)) {
+        toast.error("Please enter valid range values.", {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // Validation: Range must stay within allowed min and max
+      if (minWeight < min) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (maxWeight > max) {
+        toast.error('Please enter valid range values.', {
+          hideProgressBar: true,
+          duration: 5000,
+        });
+        return;
+      }
+
+      // If validation passes, update the parent state and handle the API call
+      setSliderValue2(tempSliderValue);
+      setTempSliderValue(tempSliderValue)
+      handleRangeFilterApi2(tempSliderValue);
+      setAppliedRange3([min, max]);
+      setIsShowBtn(false);
+      setShow2(true)
+    };
+
+    return (
+      <div style={{ position: "relative" }}>
+
+        {appliedRange3 && (
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "4px", position: "absolute", top: '-12px', width: "100%" }}>
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange3[0] !== "" ? `Min: ${appliedRange3[0]}` : ""}
+            </Typography>
+            <Typography variant="caption" color="text.secondary" fontSize="11px">
+              {appliedRange3[1] !== "" ? `Max: ${appliedRange3[1]}` : ""}
+            </Typography>
+          </div>
+        )}
+
+        <Slider
+          value={tempSliderValue}
+          onChange={handleSliderChange}
+          valueLabelDisplay="off"
+          min={min}
+          max={max}
+          step={0.001}
+          disableSwap
+          sx={{
+            marginTop: "5px",
+            transition: "all 0.2s ease-out",
+            '& .MuiSlider-valueLabel': { display: 'none' },
+          }}
+        />
+
+        <div style={{ display: "flex", gap: "10px", justifyContent: "space-around" }}>
+          {tempSliderValue.map((val, index) => (
+            <Input
+              key={index}
+              inputRef={inputRefs.current[index]}
+              value={val}
+              onKeyDown={handleKeyDown(index)}
+              onChange={handleInputChange(index)}
+              inputProps={{ step: 0.001, type: "number" }}
+              sx={{ textAlign: "center" }}
+            />
+          ))}
+        </div>
+
+        <Stack direction="row" justifyContent="flex-end" gap={1} mt={1}>
+          {show2 &&
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={() =>
+              resetRangeFilter({
+                filterName: "Gross",
+                setSliderValue: setSliderValue2,
+                setTempSliderValue,
+                handleRangeFilterApi: handleRangeFilterApi2,
+                prodListType,
+                cookie,
+                setIsShowBtn,
+                show: show2,
+                setShow: setShow2,
+                setAppliedRange: setAppliedRange3,
+              })
+            } color="error">
+              Reset
+            </Button>
+          }
+          {isShowBtn && (
+            <Button variant="outlined" sx={{ paddingBottom: "0" }} onClick={handleSave} color="success">
+              Apply
+            </Button>
+          )}
+        </Stack>
+      </div>
+    );
+  };
+
   // range filter for diammond net wt  gross wet
 
   // const RangeFilterView = (ele) => {
@@ -857,17 +1460,26 @@ const DynamicCollection = () => {
                 setfilterData(res);
 
                 let diafilter =
-                  JSON?.parse(
-                    res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-                  )[0] || [];
+                  res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+                    ?.length > 0
+                    ? JSON.parse(
+                      res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+                    )[0]
+                    : [];
                 let diafilter1 =
-                  JSON?.parse(
-                    res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-                  )[0] || [];
+                  res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+                    ?.length > 0
+                    ? JSON.parse(
+                      res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+                    )[0]
+                    : [];
                 let diafilter2 =
-                  JSON?.parse(
-                    res?.filter((ele) => ele?.Name == "Gross")[0]?.options
-                  )[0] || [];
+                  res?.filter((ele) => ele?.Name == "Gross")[0]?.options
+                    ?.length > 0
+                    ? JSON.parse(
+                      res?.filter((ele) => ele?.Name == "Gross")[0]?.options
+                    )[0]
+                    : [];
 
                 setSliderValue(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
                 setSliderValue1(diafilter1?.Min != null || diafilter1?.Max != null ? [diafilter1?.Min, diafilter1?.Max] : []);
@@ -2600,8 +3212,8 @@ const DynamicCollection = () => {
                               {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                               <Box sx={{ width: 203, height: 88 }}>
                                 {/* {RangeFilterView(ele)} */}
-                                {/* <RangeFilterView ele={ele} sliderValue={sliderValue} setSliderValue={setSliderValue} handleRangeFilterApi={handleRangeFilterApi} prodListType={prodListType} cookie={cookie} show={show} setShow={setShow} appliedRange1={appliedRange1} setAppliedRange1={setAppliedRange1} /> */}
-                                <RangeFilter
+                                <RangeFilterView ele={ele} sliderValue={sliderValue} setSliderValue={setSliderValue} handleRangeFilterApi={handleRangeFilterApi} prodListType={prodListType} cookie={cookie} show={show} setShow={setShow} appliedRange1={appliedRange1} setAppliedRange1={setAppliedRange1} />
+                                {/* <RangeFilter
                                   ele={ele}
                                   sliderValue={sliderValue}
                                   setSliderValue={setSliderValue}
@@ -2613,7 +3225,7 @@ const DynamicCollection = () => {
                                   filterName="Diamond"
                                   setAppliedRange={setAppliedRange1}
                                   appliedRange={appliedRange1}
-                                />
+                                /> */}
                               </Box>
                             </AccordionDetails>
                           </Accordion>
@@ -2678,8 +3290,8 @@ const DynamicCollection = () => {
                               {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                               <Box sx={{ width: 204, height: 88 }}>
                                 {/* {RangeFilterView1(ele)} */}
-                                {/* <RangeFilterView1 ele={ele} sliderValue1={sliderValue1} setSliderValue1={setSliderValue1} handleRangeFilterApi1={handleRangeFilterApi1} prodListType={prodListType} cookie={cookie} show1={show1} setShow1={setShow1} appliedRange2={appliedRange2} setAppliedRange2={setAppliedRange2} /> */}
-                                <RangeFilter
+                                <RangeFilterView1 ele={ele} sliderValue1={sliderValue1} setSliderValue1={setSliderValue1} handleRangeFilterApi1={handleRangeFilterApi1} prodListType={prodListType} cookie={cookie} show1={show1} setShow1={setShow1} appliedRange2={appliedRange2} setAppliedRange2={setAppliedRange2} />
+                                {/* <RangeFilter
                                   ele={ele}
                                   sliderValue={sliderValue1}
                                   setSliderValue={setSliderValue1}
@@ -2691,7 +3303,7 @@ const DynamicCollection = () => {
                                   filterName="NetWt"
                                   setAppliedRange={setAppliedRange2}
                                   appliedRange={appliedRange2}
-                                />
+                                /> */}
                               </Box>
                             </AccordionDetails>
                           </Accordion>
@@ -2755,8 +3367,8 @@ const DynamicCollection = () => {
                             >
                               <Box sx={{ width: 204, height: 88 }}>
                                 {/* {RangeFilterView2(ele)} */}
-                                {/* <RangeFilterView2 ele={ele} sliderValue2={sliderValue2} setSliderValue2={setSliderValue2} handleRangeFilterApi2={handleRangeFilterApi2} prodListType={prodListType} cookie={cookie} show2={show2} setShow2={setShow2} appliedRange3={appliedRange3} setAppliedRange3={setAppliedRange3} /> */}
-                                <RangeFilter
+                                <RangeFilterView2 ele={ele} sliderValue2={sliderValue2} setSliderValue2={setSliderValue2} handleRangeFilterApi2={handleRangeFilterApi2} prodListType={prodListType} cookie={cookie} show2={show2} setShow2={setShow2} appliedRange3={appliedRange3} setAppliedRange3={setAppliedRange3} />
+                                {/* <RangeFilter
                                   ele={ele}
                                   sliderValue={sliderValue2}
                                   setSliderValue={setSliderValue2}
@@ -2768,7 +3380,7 @@ const DynamicCollection = () => {
                                   filterName="Gross"
                                   setAppliedRange={setAppliedRange3}
                                   appliedRange={appliedRange3}
-                                />
+                                /> */}
                               </Box>
                             </AccordionDetails>
                           </Accordion>

@@ -151,8 +151,34 @@ const Header = () => {
       };
     });
 
-    setMenuItems(uniqueMenuItems);
+    // setMenuItems(uniqueMenuItems);
+
+    // Add "Search by Stock" as a separate menu
+    const searchByStockMenu = {
+      menuid: 'search-by-stock',
+      menuname: 'Search by Stock',
+      param0dataid: null,
+      param0dataname: null,
+      param0id: null,
+      param0name: null,
+      param1: [
+        {
+          param1dataid: null,
+          param1dataname: null,
+          param1id: null,
+          param1name: null,
+          menuname: 'Search by Stock',
+          param2: [],
+        },
+      ],
+    };
+    // Append static menu to dynamic ones
+    const finalMenuItems = [...uniqueMenuItems, searchByStockMenu];
+
+    setMenuItems(finalMenuItems);
+
   }, [menuData]);
+
 
   // useEffect(() => {
   //   let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -321,7 +347,7 @@ const Header = () => {
 
       let menuEncoded = `${queryParameters}/${otherparamUrl}`;
       // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
-      const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
+      const url = param?.menuname === 'Search by Stock' ? '/searchbystock' : `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
         menuEncoded
       )}`;
 
@@ -777,7 +803,7 @@ const Header = () => {
                                     },
                                     {
                                       key: subMenuItem.param1name,
-                                      value: subMenuItem.param1dataname,
+                                      value: subMenuItem?.param1dataname,
                                     }
                                   )
                                 }
@@ -791,7 +817,7 @@ const Header = () => {
                                     color: "white",
                                   }}
                                 >
-                                  {subMenuItem.param1dataname}
+                                  {subMenuItem?.param1dataname}
                                 </p>
                               </ButtonBase>
                               {/* {selectedSubMenu === subMenuItem.param1dataname && ( */}
@@ -1786,7 +1812,7 @@ const NewMenuBar = ({ menuItems = [], handelMenu = () => { } }) => {
                               `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
                             )}`}
                         >
-                          {subMenuItem.param1dataname}
+                          {subMenuItem?.param1dataname}
                         </a>
                       </div>
                       <>
@@ -1965,7 +1991,7 @@ const OldMenuBar = ({ menuItems = [], handelMenu = () => { } }) => {
                             fontWeight: 650,
                           }}
                         >
-                          {subMenuItem.param1dataname}
+                          {subMenuItem?.param1dataname}
                         </p>
                       </a>
                       {/* </a> */}
@@ -2189,7 +2215,7 @@ const TopNavBar = ({ menuItems = [], handelMenu = () => { } }) => {
                                   `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
                                 )}`}
                             >
-                              {subMenuItem.param1dataname}
+                              {subMenuItem?.param1dataname}
                             </a>
                           </div>
                           <>

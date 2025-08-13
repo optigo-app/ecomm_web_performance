@@ -1,4 +1,4 @@
-import React, { memo, Suspense, useEffect, useState } from "react";
+import React, { memo, Suspense, lazy, useEffect, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import './Components/scss/variable.scss';
 import { HelmetProvider } from 'react-helmet-async';
@@ -74,48 +74,53 @@ import LoginWithEmailCode from './Components/Pages/Auth/LoginWithEmailCode/Login
 import LoginWithMobileCode from './Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode';
 import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass';
 import useGlobalPreventSave from "../../utils/Glob_Functions/useGlobalPreventSave";
+import SearchByStock from "./Components/Pages/SearchByStock/SearchByStock";
 
-const Home = React.lazy(() => import('./Components/Pages/Home/Index'));
-const Header = React.lazy(() => import('./Components/Pages/Home/Header/Header'));
-const Cart = React.lazy(() => import('./Components/Pages/Cart/CartMain'));
-// const LoginOption = React.lazy(() => import('./Components/Pages/Auth/LoginOption/LoginOption'));
-// const ContinueWithEmail = React.lazy(() => import('./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'));
-// const LoginWithEmail = React.lazy(() => import('./Components/Pages/Auth/LoginWithEmail/LoginWithEmail'));
-// const ForgotPass = React.lazy(() => import('./Components/Pages/Auth/forgotPass/ForgotPass'));
-// const ContimueWithMobile = React.lazy(() => import('./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile'));
-// const LoginWithEmailCode = React.lazy(() => import('./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode'));
-// const LoginWithMobileCode = React.lazy(() => import('./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode'));
-// const Register = React.lazy(() => import('./Components/Pages/Auth/Registretion/Register'));
-const ProductList = React.lazy(() => import('./Components/Pages/Product/ProductList/ProductList'));
-const ProductDetail = React.lazy(() => import('./Components/Pages/Product/ProductDetail/ProductDetail'));
-const ContactUs = React.lazy(() => import('./Components/Pages/FooterPages/contactUs/ContactUs'));
-const ServicePolicy = React.lazy(() => import('./Components/Pages/FooterPages/servicePolicy/ServicePolicy'));
-const ExpertAdvice = React.lazy(() => import('./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice'));
-const FunFact = React.lazy(() => import('./Components/Pages/FooterPages/FunFact/FunFact'));
-const AboutUs = React.lazy(() => import('./Components/Pages/aboutUs/AboutUs'));
-const Wishlist = React.lazy(() => import('./Components/Pages/Wishlist/Wishlist'));
-const PageNotFound = React.lazy(() => import('./Components/Pages/404Page/PageNotFound'));
-const Delivery = React.lazy(() => import('./Components/Pages/OrderFlow/DeliveryPage/Delivery'));
-const Payment = React.lazy(() => import('./Components/Pages/OrderFlow/PaymentPage/Payment'));
-const Confirmation = React.lazy(() => import('./Components/Pages/OrderFlow/ConfirmationPage/Confirmation'));
-const Header2 = React.lazy(() => import('./Components/Pages/Home/Header/Header2'));
-const Account = React.lazy(() => import('./Components/Pages/Account/Account'));
-const Lookbook = React.lazy(() => import('./Components/Pages/Home/LookBook/Lookbook'));
-const NatualDiamond = React.lazy(() => import('./Components/Pages/naturalDiamond/NaturalDiamond'));
-const DWSRprintComp = React.lazy(() => import('./Components/Pages/Account/DWSRprintComp/DWSRprintComp'));
-const PaymentFailure = React.lazy(() => import('../../utils/PaymentSuccessFail/PaymentFailure'));
-const TermsPolicy = React.lazy(() => import('./Components/Pages/FooterPages/TermsPolicy/TermsPolicy'));
-const Bespoke = React.lazy(() => import('./Components/Pages/Home/Bespokejewelry/Index'));
-const Wrapper = React.lazy(() => import('./Components/Pages/Home/Appointment/Wrapper'));
-const TermsData = React.lazy(() => import('./Components/Pages/FooterPages/TermsPolicy/Terms'));
-const PrivacyPolicy = React.lazy(() => import('./Components/Pages/FooterPages/PrivacyPolicy/PrivacyPolicy'));
-const TermsAndConditions = React.lazy(() => import('./Components/Pages/FooterPages/TermsPage/TermsPage'));
-const PromotionalBanner = React.lazy(() => import('./Components/Pages/Home/PromotionBanner/PromotionBanner'));
-const FooterNew = React.lazy(() => import('./Components/Pages/Home/Footer/New/FooterNew'));
-const WhatsAppChat = React.lazy(() => import('./Components/Pages/Home/ChatMenu/ChatMenu'));
-const HomePageBlock1 = React.lazy(() => import('./Components/Pages/Home/HomePageBlocks/Block1/HomePageBlock1'));
-const HomePageBlock2 = React.lazy(() => import('./Components/Pages/Home/HomePageBlocks/Block2/HomePageBlock2'));
-const PrintPageCard = React.lazy(() => import('./Components/Pages/Cart/PrintCartPage'));
+const Home = lazy(() => import('./Components/Pages/Home/Index'));
+const Header = lazy(() => import('./Components/Pages/Home/Header/Header'));
+// const Cart = lazy(() => import('./Components/Pages/Cart/CartMain'));
+const B2BCart = lazy(() => import('./Components/Pages/Cart/B2bCart/Cart'));
+const B2CCart = lazy(() => import('./Components/Pages/Cart/CartPageB2c/Cart'));
+const Cart3 = lazy(() => import('./Components/Pages/Cart/CartPage3/Cart'));
+// const LoginOption = lazy(() => import('./Components/Pages/Auth/LoginOption/LoginOption'));
+// const ContinueWithEmail = lazy(() => import('./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'));
+// const LoginWithEmail = lazy(() => import('./Components/Pages/Auth/LoginWithEmail/LoginWithEmail'));
+// const ForgotPass = lazy(() => import('./Components/Pages/Auth/forgotPass/ForgotPass'));
+// const ContimueWithMobile = lazy(() => import('./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile'));
+// const LoginWithEmailCode = lazy(() => import('./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode'));
+// const LoginWithMobileCode = lazy(() => import('./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode'));
+// const Register = lazy(() => import('./Components/Pages/Auth/Registretion/Register'));
+const ProductList = lazy(() => import('./Components/Pages/Product/ProductList/ProductList'));
+const ProdMain = lazy(() => import('./Components/Pages/Product/ProdMain'));
+const ProductDetail = lazy(() => import('./Components/Pages/Product/ProductDetail/ProductDetail'));
+const ContactUs = lazy(() => import('./Components/Pages/FooterPages/contactUs/ContactUs'));
+const ServicePolicy = lazy(() => import('./Components/Pages/FooterPages/servicePolicy/ServicePolicy'));
+const ExpertAdvice = lazy(() => import('./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice'));
+const FunFact = lazy(() => import('./Components/Pages/FooterPages/FunFact/FunFact'));
+const AboutUs = lazy(() => import('./Components/Pages/aboutUs/AboutUs'));
+const Wishlist = lazy(() => import('./Components/Pages/Wishlist/Wishlist'));
+const PageNotFound = lazy(() => import('./Components/Pages/404Page/PageNotFound'));
+const Delivery = lazy(() => import('./Components/Pages/OrderFlow/DeliveryPage/Delivery'));
+const Payment = lazy(() => import('./Components/Pages/OrderFlow/PaymentPage/Payment'));
+const Confirmation = lazy(() => import('./Components/Pages/OrderFlow/ConfirmationPage/Confirmation'));
+const Header2 = lazy(() => import('./Components/Pages/Home/Header/Header2'));
+const Account = lazy(() => import('./Components/Pages/Account/Account'));
+const Lookbook = lazy(() => import('./Components/Pages/Home/LookBook/Lookbook'));
+const NatualDiamond = lazy(() => import('./Components/Pages/naturalDiamond/NaturalDiamond'));
+const DWSRprintComp = lazy(() => import('./Components/Pages/Account/DWSRprintComp/DWSRprintComp'));
+const PaymentFailure = lazy(() => import('../../utils/PaymentSuccessFail/PaymentFailure'));
+const TermsPolicy = lazy(() => import('./Components/Pages/FooterPages/TermsPolicy/TermsPolicy'));
+const Bespoke = lazy(() => import('./Components/Pages/Home/Bespokejewelry/Index'));
+const Wrapper = lazy(() => import('./Components/Pages/Home/Appointment/Wrapper'));
+const TermsData = lazy(() => import('./Components/Pages/FooterPages/TermsPolicy/Terms'));
+const PrivacyPolicy = lazy(() => import('./Components/Pages/FooterPages/PrivacyPolicy/PrivacyPolicy'));
+const TermsAndConditions = lazy(() => import('./Components/Pages/FooterPages/TermsPage/TermsPage'));
+const PromotionalBanner = lazy(() => import('./Components/Pages/Home/PromotionBanner/PromotionBanner'));
+const FooterNew = lazy(() => import('./Components/Pages/Home/Footer/New/FooterNew'));
+const WhatsAppChat = lazy(() => import('./Components/Pages/Home/ChatMenu/ChatMenu'));
+const HomePageBlock1 = lazy(() => import('./Components/Pages/Home/HomePageBlocks/Block1/HomePageBlock1'));
+const HomePageBlock2 = lazy(() => import('./Components/Pages/Home/HomePageBlocks/Block2/HomePageBlock2'));
+const PrintPageCard = lazy(() => import('./Components/Pages/Cart/PrintCartPage'));
 
 const SmilingRock_App = () => {
   const { openPromotionalBanner, handleCloseBanner } = usePromotionalBanner();
@@ -132,6 +137,7 @@ const SmilingRock_App = () => {
     useRecoilState(smr_companyLogoM);
   const [htmlContent, setHtmlContent] = useState("");
   const [localData, setLocalData] = useState();
+  const [cartComponent, setCartComponent] = useState(null);
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -164,6 +170,27 @@ const SmilingRock_App = () => {
       .catch((error) => {
         console.error("Error fetching the file:", error);
       });
+  }, []);
+
+  useEffect(() => {
+    const storeInit = JSON?.parse(sessionStorage.getItem('storeInit'));
+    const cartNo = storeInit?.CartNo ?? 1;
+    // const cartNo = 1;
+
+    switch (cartNo) {
+      case 1:
+        setCartComponent(<B2BCart />);
+        break;
+      case 2:
+        setCartComponent(<B2CCart />);
+        break;
+      case 3:
+        setCartComponent(<Cart3 />);
+        break;
+      default:
+        setCartComponent(<B2BCart />);
+        break;
+    }
   }, []);
 
   useEffect(() => {
@@ -327,8 +354,12 @@ const SmilingRock_App = () => {
   }
   function CartWrapper() {
     return (
-      <div onContextMenu={handleContextMenu}>
-        <Cart />
+      <div
+        style={{
+          marginBottom: "3rem"
+        }}
+        onContextMenu={handleContextMenu}>
+        {cartComponent}
       </div>
     );
   }
@@ -341,15 +372,15 @@ const SmilingRock_App = () => {
   }
 
   return (
-    <div div className="ggg">
+    <div className="ggg">
       <HelmetProvider>
-        {openPromotionalBanner && (
-          <PromotionalBanner
-            disablescreen={openPromotionalBanner}
-            onClose={handleCloseBanner}
-          />
-        )}
         <Suspense fallback={<LoadingFallback />}>
+          {openPromotionalBanner && (
+            <PromotionalBanner
+              disablescreen={openPromotionalBanner}
+              onClose={handleCloseBanner}
+            />
+          )}
           {(!location.pathname.startsWith("/accountdwsr") && !location.pathname.startsWith("/block1") && !location.pathname.startsWith("/block2")) && (
             <div>
               {localData?.Headerno == 1 && <Header />}
@@ -438,6 +469,7 @@ const SmilingRock_App = () => {
             <Route path="/appointment" element={<Wrapper />} />
             <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+            <Route path="/searchbystock" element={<SearchByStock />} />
 
             {/* Maiora not needed fun facts */}
             {/* Kayra needed */}
@@ -446,17 +478,18 @@ const SmilingRock_App = () => {
             <Route path="/TermsPolicy" element={<TermsPolicy />} />
             <Route path="/natural-diamond" element={<NatualDiamond />} />
             <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
-              <Route path="/p/*" element={<ProductListWrapper />} />
-              <Route path="/d/*" element={<ProductDetailWrapper />} />
+              {/* <Route path="/p/*" element={<ProductList />} /> */}
+              <Route path="/p/*" element={<ProdMain />} />
+              <Route path="/d/*" element={<ProductDetail />} />
               <Route path="/cartPage" element={<CartWrapper />} />
-              <Route path="/myWishList" element={<WishlistWrapper />} />
+              <Route path="/myWishList" element={<Wishlist />} />
               <Route path="/Delivery" element={<Delivery />} />
               <Route path="/Payment" element={<Payment />} />
               <Route path="/productfeed" element={<ProductFeedGenerator />} />
               <Route path="/Confirmation" element={<Confirmation />} />
               <Route path="/account" element={<Account />} />
               {/* <Route path="/accountdwsr" element={<DWSRprintComp />} /> */}
-              <Route path="/Lookbook" element={<LookbookWrapper />} />
+              <Route path="/Lookbook" element={<Lookbook />} />
             </Route>
             <Route path="/accountdwsr" element={<DWSRprintComp />} />
             <Route path="/paymentFailure" element={<PaymentFailure />} />

@@ -113,27 +113,27 @@ const HomeTab = () => {
             </NavLink>}
 
           {/* {islogin === true ? */}
-            <NavLink to="/CartPage" style={styles.tab} activeClassName="active"
-              onClick={() => {
-                handleTabChange("/CartPage");
-              }}
-            >
-              <Button style={{ display: 'flex', flexDirection: 'column', color: 'rgb(102, 102, 102)' }}>
-                <Badge
-                  badgeContent={getCartListCount}
-                  overlap={"rectangular"}
-                  color="secondary"
-                  className="badge12"
-                  style={{ marginInline: '10px' }}
-                >
-                  <Tooltip title="Cart">
-                    <FaShoppingCart style={activeTab === "/CartPage" ? styles.activeIcon : styles.icon} />
-                  </Tooltip>
-                </Badge>
-                <span style={activeTab === "/CartPage" ? styles.activeText : styles.text}>Cart</span>
-              </Button>
-            </NavLink>
-            {/* :
+          <NavLink to="/CartPage" style={styles.tab} activeClassName="active"
+            onClick={() => {
+              handleTabChange("/CartPage");
+            }}
+          >
+            <Button style={{ display: 'flex', flexDirection: 'column', color: 'rgb(102, 102, 102)' }}>
+              <Badge
+                badgeContent={getCartListCount}
+                overlap={"rectangular"}
+                color="secondary"
+                className="badge12"
+                style={{ marginInline: '10px' }}
+              >
+                <Tooltip title="Cart">
+                  <FaShoppingCart style={activeTab === "/CartPage" ? styles.activeIcon : styles.icon} />
+                </Tooltip>
+              </Badge>
+              <span style={activeTab === "/CartPage" ? styles.activeText : styles.text}>Cart</span>
+            </Button>
+          </NavLink>
+          {/* :
             <NavLink to="/WithoutLoginCart" style={styles.tab} activeClassName="active"
               onClick={() => {
                 handleTabChange("/WithoutLoginCart");
@@ -166,7 +166,8 @@ const styles = {
     position: 'fixed',
     bottom: 0,
     width: '100%',
-    backgroundColor: '#f0f0f0',
+    // backgroundColor: '#f0f0f0',
+    backgroundColor: '#ffd2eb',
     height: '60px',
     borderTop: '1px solid #ccc',
     zIndex: 111111111111111

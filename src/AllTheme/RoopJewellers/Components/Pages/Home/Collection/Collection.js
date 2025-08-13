@@ -97,7 +97,7 @@ function Collection() {
       <p className='roop_whyshop_title'>
 
         {/* For Shinjini */}
-        Why shop with Shinjini Jewels?
+        {/* Why shop with Shinjini Jewels? */}
 
         {/* For Sonasons */}
         {/* Why Shop With Sonasons? */}
@@ -110,6 +110,9 @@ function Collection() {
 
         {/* For Pacific */}
         {/* Why shop with Pacific? */}
+
+        {/* For PRJewellers */}
+        Why shop with PR Jewellers?
         {/* Consider changing this if you want to personalize it for SEO or branding */}
       </p>
 

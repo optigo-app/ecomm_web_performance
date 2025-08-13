@@ -84,12 +84,34 @@ const TopSection = ({ data }) => {
 
 
         {/* for shinjini */}
-        < div className="slide">
+        {/* < div className="slide">
           <img src={`${storImagePath()}/images/HomePage/TopSection/home1.jpg`} alt={"TopBanner"}
             draggable={true}
             onContextMenu={(e) => e.preventDefault()}
           />
-        </div>
+        </div> */}
+        {/* <div id="top-banner-image-rp">
+          <img
+            src={`${storImagePath()}/images/HomePage/TopSection/home1.jpg`} // Fallback image
+            srcSet={`
+                  ${storImagePath()}/images/HomePage/TopSection/image-400.webp 400w,
+                  ${storImagePath()}/images/HomePage/TopSection/image-800.webp 800w,
+                  ${storImagePath()}/images/HomePage/TopSection/image-1200.webp 1200w
+              `}
+            sizes={`
+                  (max-width: 480px) 100vw,
+                  (max-width: 1024px) 90vw,
+                  (max-width: 1500px) 80vw,
+                  70vw
+              `}
+            draggable={true}
+            onContextMenu={(e) => e.preventDefault()}
+            alt=" "
+            className="top-banner-img"
+            loading="lazy"
+          />
+        </div> */}
+
 
         {/* Sonasons */}
         {/* <video
@@ -113,7 +135,7 @@ const TopSection = ({ data }) => {
 
         {/* {localData?.Blockno === 3 && ( */}
         {/* for sonasons, ojasvi */}
-        {/* <div id="top-banner-image-rp">
+        <div id="top-banner-image-rp">
           <img
             src={`${storImagePath()}/Banner/Homepagemainbanner4.png`} // Fallback image
             srcSet={`
@@ -133,7 +155,7 @@ const TopSection = ({ data }) => {
             className="top-banner-img"
             loading="lazy"
           />
-        </div> */}
+        </div>
 
         {/* for pacific */}
         {/* <div id="top-banner-image-rp">

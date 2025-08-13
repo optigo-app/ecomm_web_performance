@@ -2,7 +2,9 @@
 
 .mala_Footer1_main {
   background-color: #f8f5f3;
-  padding: 60px 20px;
+  padding-top: 60px;
+  padding-inline: 20px;
+  padding-bottom: 30px;
   font-family: $primaryFontFamilyMedium;
   color: rgb(56, 56, 56);
 
@@ -130,9 +132,10 @@
         align-items: flex-start;
         margin-bottom: 8px;
 
-        .mala_location-icon{
+        .mala_location-icon {
           margin-top: 5px;
         }
+
         @media (max-width: 1000px) {
           margin-top: 0;
         }
