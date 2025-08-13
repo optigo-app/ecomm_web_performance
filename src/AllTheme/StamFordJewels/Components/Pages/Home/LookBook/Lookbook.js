@@ -246,7 +246,7 @@ const Lookbook = () => {
     LookBookAPI(productlisttype, finalID)
       .then((res) => setFilterData(res))
       .catch((err) => console.log("err", err));
-  }, [designSetLstData]);
+  }, []);
 
   const handelFilterClearAll = () => {
     if (Object?.values(filterChecked)?.filter((ele) => ele?.checked)?.length > 0) {
@@ -1150,7 +1150,8 @@ const Lookbook = () => {
       {isProdLoading ? (
         // true ?
         <div style={{ marginInline: "6%", backgroundColor: "white" }}>
-          <ProductListSkeleton />
+          {/* <ProductListSkeleton /> */}
+          <LookbookSkeleton param={1} />
         </div>
       ) : (
 

@@ -31,7 +31,7 @@
   //       display: flex;
   //       padding: 40px;
   //       box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-       
+
   //       .smr_left_list {
   //         flex: 1;
   //         .smr_menu_level_list{
@@ -43,8 +43,8 @@
   //           overflow-x: auto;
   //           // scrollbar-width: thin;
   //           // -ms-overflow-style: none;
-           
-            
+
+
   //           @media screen and (max-width:1600px) {
   //             max-width: 60rem;
   //           }
@@ -63,7 +63,7 @@
   //             letter-spacing: 1;
   //             font-weight: 500;
   //             cursor: pointer;
-             
+
   //           }
   //         }
   //         .smr_menu_level_list::-webkit-scrollbar {
@@ -71,24 +71,24 @@
   //           height: 5px;
   //           background-color: transparent !important;
   //         }
-          
+
   //         /* Track */
   //         .smr_menu_level_list::-webkit-scrollbar-track {
   //           box-shadow: inset 0 0 5px rgba(128, 128, 128, 0.116) !important; 
   //           border-radius: 8px !important;
   //         }
-           
+
   //         /* Handle */
   //         .smr_menu_level_list::-webkit-scrollbar-thumb {
   //           background: rgba(153, 153, 153, 0.829) !important; 
   //           border-radius: 25px !important;
   //         }
-          
+
   //         /* Handle on hover */
   //         .smr_menu_level_list::-webkit-scrollbar-thumb:hover {
   //           background: #b4b4b4c4 !important; 
   //         }
-        
+
   //       }
   //       .smr_right_side_banner {
   //         flex: 0.6;
@@ -198,9 +198,11 @@
   .TopNavBar {
     width: 100%;
     transition: 0.3s ease-in-out;
+
     @media screen and (max-width: 1200px) {
       display: none;
     }
+
     .smr_flat_view_menu {
       background-color: $navbarbg;
       width: 100%;
@@ -213,6 +215,7 @@
       z-index: 788;
       gap: 1rem;
       position: relative;
+
       .new_hover_banner {
         width: 100%;
         position: absolute;
@@ -222,12 +225,13 @@
         height: 40vh;
         background-color: #fff;
         display: flex;
-        box-shadow: rgba(0, 0, 0  , 0.24) 0px 3px 8px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         overflow: hidden;
 
         .smr_left_list {
           flex: 1;
           padding: 40px 0 40px 40px; // Top, right, bottom, left 
+
           .smr_menu_level_list {
             width: 100%;
             display: flex;
@@ -241,12 +245,15 @@
             @media screen and (max-width: 1600px) {
               max-width: 60rem;
             }
+
             @media screen and (max-width: 1400px) {
               max-width: 50rem;
             }
+
             @media screen and (max-width: 1336px) {
               max-width: 45rem;
             }
+
             .level1MenuData {
               font-size: 14px;
               text-decoration: underline;
@@ -259,6 +266,7 @@
               white-space: nowrap;
             }
           }
+
           .smr_menu_level_list::-webkit-scrollbar {
             width: 12px !important;
             height: 5px;
@@ -282,6 +290,7 @@
             background: #b4b4b4c4 !important;
           }
         }
+
         .smr_right_side_banner {
           flex: 0.6;
           height: 40vh;
@@ -289,8 +298,10 @@
           align-items: center;
           gap: 1rem;
           padding: 45px;
+
           .image_box_s {
             width: 50%;
+
             img {
               width: 100%;
               height: 100%;
@@ -299,6 +310,7 @@
           }
         }
       }
+
       .menu_list_Smr {
         display: flex;
         align-items: center;
@@ -306,18 +318,22 @@
         gap: 1rem;
         padding: 15px 15px;
         position: relative;
+
         @media screen and (max-width: 1390px) {
           padding: 12px 15px;
           gap: 0.6rem;
         }
+
         &:hover {
           transition: 0.3s ease-in-out;
+
           .child_menu_hover {
             display: flex;
             flex-wrap: wrap;
             transition: 0.3s ease-in-out;
           }
         }
+
         .menu_list_Smr_0_title {
           font-size: 16px;
           font-weight: 600;
@@ -325,6 +341,7 @@
           text-transform: uppercase;
           text-decoration: none;
           position: relative;
+
           &::after {
             content: "";
             position: absolute;
@@ -336,15 +353,18 @@
             border-radius: 8px;
             transition: 0.3s ease-in-out;
           }
-          &:hover{
+
+          &:hover {
             &::after {
               width: 100%;
             }
           }
+
           @media screen and (max-width: 1390px) {
             font-size: 14px;
           }
         }
+
         .child_menu_hover {
           transition: 0.3s ease-in-out;
           position: absolute;
@@ -359,11 +379,13 @@
           min-height: auto;
           height: auto;
           padding: 10px;
+
           .smr_menu_menu {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
             width: 100%;
             gap: 0.4rem;
+
             .smr_view_more_button {
               background-color: transparent;
               border: none;
@@ -375,6 +397,7 @@
               font-size: 13px;
               text-transform: capitalize;
             }
+
             .smr_menu_title_1 {
               font-size: 15.5px;
               font-weight: 600;
@@ -386,6 +409,7 @@
               cursor: pointer;
               line-height: 15px;
             }
+
             .smr_menu_level1 {
               .smr_menu_title_2 {
                 font-size: 13.8px;
@@ -404,9 +428,42 @@
       }
     }
   }
+
+  .sbs_menu_list_Smr_0_title {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    text-transform: uppercase;
+    text-decoration: none;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0%;
+      background-color: #fff;
+      height: 2px;
+      border-radius: 8px;
+      transition: 0.3s ease-in-out;
+    }
+
+    &:hover {
+      &::after {
+        width: 100%;
+      }
+    }
+
+    @media screen and (max-width: 1390px) {
+      font-size: 14px;
+    }
+  }
+
   .smiling_Top_header {
     height: 110px;
     background-color: $navbarbg;
+
     h1,
     span,
     h3,
@@ -548,6 +605,7 @@
     text-align: center;
     transform: translateY(-200px);
     height: 60px;
+
     h1,
     span,
     h3,
@@ -667,7 +725,7 @@
     transition: all 0.9s ease-in-out;
   }
 
-  .smr_mobileMenuSubDivMain{
+  .smr_mobileMenuSubDivMain {
     margin-inline: 15px;
   }
 
@@ -692,6 +750,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     @media screen and (max-width: 768px) {
       margin: 10px 5px;
       padding: 0 15px;
@@ -753,10 +812,12 @@
   .smr_showDropOptionMainDiv {
     overflow: auto;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
     .smr_new_menu_ {
       width: 100%;
       padding: 1rem 0;
       display: flex;
+
       .smr_left_side_menu_list {
         flex: 1;
         //         grid-auto-rows: min-content;
@@ -765,22 +826,28 @@
         // grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
         // gap: 10px;
         display: block;
-        column-count: 5; /* Split into 4 columns */
-        column-gap: 1.2rem; /* Add gap between columns */
+        column-count: 5;
+        /* Split into 4 columns */
+        column-gap: 1.2rem;
+
+        /* Add gap between columns */
         // break-inside: avoid;       /* Prevent breaks within items (important for consistent flow) */
         a {
           text-decoration: none;
         }
+
         .smr_menu_level_0 {
           display: flex;
           flex-direction: column;
           align-items: start;
           text-align: start;
           border-right: 1px solid #9b978f;
+
           //   break-inside: avoid;
           &:nth-child(4n) {
             border-right: none;
           }
+
           .smr_menu_level_0_title {
             text-decoration: none;
             font-size: 16px;
@@ -793,11 +860,14 @@
             padding-bottom: 8px;
           }
         }
+
         .smr_menu_level_1 {
           all: unset;
+
           a {
             color: rgb(73, 73, 73) !important;
           }
+
           .smr_menu_level_1_title {
             text-decoration: none;
             font-size: 14px;
@@ -806,6 +876,7 @@
             margin: unset;
             padding: unset;
           }
+
           .smr_underline_button {
             all: unset;
             margin-bottom: 1rem;
@@ -815,14 +886,17 @@
             cursor: pointer;
           }
         }
+
         .smr_menu_level_2 {
           a {
             color: #808080 !important;
           }
+
           .smr_menu_level_2_title {
             text-decoration: none;
             margin: unset;
             padding: unset;
+
             p {
               font-size: 13px;
               text-transform: capitalize;
@@ -835,14 +909,17 @@
           }
         }
       }
+
       .smr_right_side_banner {
         flex: 0.6;
         display: flex;
         gap: 2rem;
+
         .image_box_s {
           width: 50%;
           max-height: 220px;
           min-height: 200px;
+
           img {
             width: 100%;
             height: 100%;
@@ -997,6 +1074,7 @@
     .nav_ul_shop_menu_Mobile {
       padding: 0px;
       margin: 0px !important;
+
       .muIconeMobileHeader {
         color: $menuColor;
       }
@@ -1030,6 +1108,13 @@
     .smiling_Top_header_div3 {
       padding-right: 5px;
     }
+  }
+
+  .sbs_smr_menuStaicMobile {
+    margin: 0px;
+    color: white;
+    padding: 5px 0px 5px 0px;
+    font-weight: 500;
   }
 
   @media screen and (min-width: 501px) {

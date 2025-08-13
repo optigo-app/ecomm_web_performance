@@ -1,23 +1,39 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 // import './Account.modul.scss'
-import './Account.scss';
-import { Box, CircularProgress, IconButton, InputAdornment, Tab, Tabs, TextField, Typography } from '@mui/material'
-import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import "./Account.scss";
+import {
+    Box,
+    CircularProgress,
+    IconButton,
+    InputAdornment,
+    Tab,
+    Tabs,
+    TextField,
+    Typography,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import { FaChevronRight } from "react-icons/fa";
 import { LuBox } from "react-icons/lu";
-import { MdContactEmergency, MdFavoriteBorder } from "react-icons/md";
+import { MdFavoriteBorder } from "react-icons/md";
 import { IoGiftOutline } from "react-icons/io5";
 import { FaHeadset } from "react-icons/fa6";
-import { PC_ApploginState } from '../../Recoil/atom';
-import { accountDetailPages, accountValidation } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import { PC_ApploginState, smrMA_loginState } from "../../Recoil/atom";
+import {
+    accountDetailPages,
+    accountValidation,
+} from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { MdAutoDelete } from "react-icons/md";
+import { DeleteAccount } from "../../../../../../utils/API/Auth/DeleteAccountApi";
+import { MdEditDocument } from "react-icons/md";
+import { MdOutlinePrivacyTip } from "react-icons/md";
+import { BiCopyright } from "react-icons/bi";
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
     useEffect(() => {
-        a11yProps(1)
-    }, [])
-
+        a11yProps(1);
+    }, []);
 
     return (
         <div
@@ -45,31 +61,29 @@ function CustomTabPanel(props) {
 function a11yProps(index) {
     return {
         id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
+        "aria-controls": `simple-tabpanel-${index}`,
     };
 }
 
 const tabIndicator = {
-    '& .MuiTab-textColorPrimary.Mui-selected': {
+    "& .MuiTab-textColorPrimary.Mui-selected": {
         color: "#3b3c3d",
     },
-    '& .MuiTabs-indicator': {
-        backgroundColor: "#3b3c3d"
-    }
-}
+    "& .MuiTabs-indicator": {
+        backgroundColor: "#3b3c3d",
+    },
+};
 
 export default function Account() {
-
     const [value, setValue] = useState(3);
     const [value1, setValue1] = useState(0);
     const naviagation = useNavigate();
-    const setIsLoginState = useSetRecoilState(PC_ApploginState)
+    const setIsLoginState = useSetRecoilState(PC_ApploginState);
     const navigation = useNavigate();
     const [accountInner, setAccountInner] = useState(accountDetailPages());
-    const [fName, setFname] = useState('');
-    const [lastNamr, setLasnane] = useState('');
-    const [userMobile, setUserMobile] = useState('');
-
+    const [fName, setFname] = useState("");
+    const [lastNamr, setLasnane] = useState("");
+    const [userMobile, setUserMobile] = useState("");
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -77,96 +91,240 @@ export default function Account() {
 
     const handleChangeSub = (event, newValue) => {
         setValue1(newValue);
-    }
+    };
 
     useEffect(() => {
-        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const loginUserDetail = JSON.parse(
+            sessionStorage.getItem("loginUserDetail")
+        );
         setFname(loginUserDetail?.firstname);
         setLasnane(loginUserDetail?.lastname);
         setUserMobile(loginUserDetail?.mobileno);
-    }, [])
+    }, []);
 
     const handleLogout = () => {
-        navigation("/");
         setIsLoginState(false);
-        localStorage.clear();
-        sessionStorage.setItem("LoginUser", false);
-        localStorage.removeItem("userLoginTokenProCatApp");
-        sessionStorage.removeItem("storeInit");
-        sessionStorage.removeItem("loginUserDetail");
-        sessionStorage.removeItem("remarks");
-        sessionStorage.removeItem("selectedAddressId");
-        sessionStorage.removeItem("orderNumber");
-        sessionStorage.removeItem("registerEmail");
-        sessionStorage.removeItem("UploadLogicalPath");
-        sessionStorage.removeItem("remarks");
-        sessionStorage.removeItem("registerMobile");
-        sessionStorage.removeItem("allproductlist");
         sessionStorage.clear();
-        window.location.reload();
-    }
+        sessionStorage.setItem("LoginUser", false);
+        setTimeout(() => {
+            navigation("/");
+            window.location.reload();
+        }, 300);
+    };
+
+    const HandleDeleteAccount = async () => {
+        // eslint-disable-next-line no-restricted-globals
+        if (confirm("Are you sure you want to delete your account?") === true) {
+            try {
+                const res = await DeleteAccount();
+                if (res?.status === 200) {
+                    setIsLoginState(false);
+                    sessionStorage.setItem("LoginUser", false);
+                    sessionStorage.clear();
+                    navigation("/");
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 100);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            return;
+        }
+    };
 
     return (
-        <div className='accountTab_Account_PCMJ'>
-        <div className='PC_AppSmiling_AccountMain'>
-            <div className='titleMain'>
-                <div style={{ width: '100%' }}>
-                    <p style={{ margin: '0px', fontSize: '25px', fontWeight: 600, paddingInline: '10px' }}>{fName + ' ' + lastNamr}</p>
-                    <p style={{ margin: '0px', fontSize: '15px', paddingInline: '10px' }}>+91 {userMobile}</p>
+        <div className="accountTab_Account_SMRM">
+            <div className="smrMA_Smiling_AccountMain">
+                <div className="titleMain">
+                    <div style={{ width: "100%" }}>
+                        <p
+                            style={{
+                                margin: "0px",
+                                fontSize: "25px",
+                                fontWeight: 600,
+                                paddingInline: "10px",
+                            }}
+                        >
+                            {fName + " " + lastNamr}
+                        </p>
+                        <p
+                            style={{ margin: "0px", fontSize: "15px", paddingInline: "10px" }}
+                        >
+                            +91 {userMobile}
+                        </p>
 
-                    <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%', marginTop: '10px', paddingInline: '10px' }}>
-                        <div className='boxMainTopSection' onClick={() => naviagation('/OrderHistory')}>
-                            <LuBox style={{ marginLeft: '15px' }} />
-                            <p style={{ margin: '0px 0px 0px 10px', fontWeight: 600, fontSize: '15px' }}>Orders</p>
-                        </div>
-                        <div className='boxMainTopSection' style={{ marginRight: '0px' }} onClick={() => naviagation('/myWishList')}>
-                            <MdFavoriteBorder style={{ marginLeft: '15px' }} />
-                            <p style={{ margin: '0px 0px 0px 10px', fontWeight: 600, fontSize: '15px' }}>Wishlist</p>
-                        </div>
-                    </div>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "space-around",
+                                width: "100%",
+                                marginTop: "10px",
+                                paddingInline: "10px",
+                            }}
+                        >
+                            <div
+                                className="boxMainTopSection"
+                                onClick={() => naviagation("/OrderHistory")}
+                            >
+                                <LuBox style={{ marginLeft: "15px" }} />
+                                <p
+                                    style={{
+                                        margin: "0px 0px 0px 10px",
+                                        fontWeight: 600,
+                                        fontSize: "15px",
+                                    }}
+                                >
+                                    Orders
+                                </p>
+                            </div>
+                            <div
+                                className="boxMainTopSection"
+                                style={{ marginRight: "0px", visibility: "hidden" }}
+                                onClick={() => naviagation("/myWishList")}
 
-                    <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%', marginTop: '10px', paddingInline: '10px' }}>
-                        <div className='boxMainTopSection' onClick={() => naviagation('/ContctUs')}>
-                            <MdContactEmergency style={{ marginLeft: '15px' }} />
-                            <p style={{ margin: '0px 0px 0px 10px', fontWeight: 600, fontSize: '15px' }}>Contct Us</p>
+                            >
+                                <MdFavoriteBorder style={{ marginLeft: "15px", }} />
+                                <p
+                                    style={{
+                                        margin: "0px 0px 0px 10px",
+                                        fontWeight: 600,
+                                        fontSize: "15px",
+                                    }}
+                                >
+                                    Wishlist
+                                </p>
+                            </div>
                         </div>
-                        <div className='boxMainTopSection' style={{ marginRight: '0px' }} onClick={() => naviagation('/HelpCenter')}>
-                            <FaHeadset style={{ marginLeft: '15px' }} />
-                            <p style={{ margin: '0px 0px 0px 10px', fontWeight: 600, fontSize: '15px' }}>Help Center</p>
+
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "space-around",
+                                width: "100%",
+                                marginTop: "10px",
+                                paddingInline: "10px",
+                            }}
+                        >
+                            <div
+                                className="boxMainTopSection"
+                                onClick={() => naviagation("/privacy-policy")}
+                            >
+                                <MdOutlinePrivacyTip style={{ marginLeft: "15px" }} />
+                                <p
+                                    style={{
+                                        margin: "0px 0px 0px 10px",
+                                        fontWeight: 600,
+                                        fontSize: "15px",
+                                    }}
+                                >
+                                    Privacy Policy
+                                </p>
+                            </div>
+                            {/* <div
+                className="boxMainTopSection"
+                style={{ marginRight: "0px" }}
+                onClick={() => naviagation("/HelpCenter")}
+              >
+                <FaHeadset style={{ marginLeft: "15px" }} />
+                <p
+                  style={{
+                    margin: "0px 0px 0px 10px",
+                    fontWeight: 600,
+                    fontSize: "15px",
+                  }}
+                >
+                  Help Center
+                </p>
+              </div> */}
+                            <div
+                                className="boxMainTopSection"
+                                style={{ marginRight: "0px" }}
+                                onClick={() => naviagation("/support")}
+                            >
+                                <FaHeadset style={{ marginLeft: "15px" }} />
+                                <p
+                                    style={{
+                                        margin: "0px 0px 0px 10px",
+                                        fontWeight: 600,
+                                        fontSize: "15px",
+                                    }}
+                                >
+                                    Support
+                                </p>
+                            </div>
+
                         </div>
+
                     </div>
                 </div>
-            </div>
-            <div className='smlingMA-AccountTabMain'>
-                <div className='smlingAccountTabMobileView YourAccountPageTabs' style={{ marginTop: '15px' }}>
-                    <div className='menuMainAccount' onClick={() => naviagation('/YourProfile')}>
-                        <p className='menuMainAccountTitle'>Your Profile</p>
-                        <FaChevronRight />
-                    </div>
-                    <div className='menuMainAccount' onClick={() => naviagation('/OrderHistory')}>
-                        <p className='menuMainAccountTitle'>Order History</p>
-                        <FaChevronRight />
-                    </div>
-                    <div className='menuMainAccount' onClick={() => naviagation('/ManageAddress')}>
-                        <p className='menuMainAccountTitle'>Manage Address</p>
-                        <FaChevronRight />
-                    </div>
-                    {accountValidation() && <div className='menuMainAccount' onClick={() => naviagation('/MobileViewComp')}>
-                        <p className='menuMainAccountTitle' >Account</p>
-                        <FaChevronRight />
-                    </div>}
-                    <div className='menuMainAccount' onClick={() => naviagation('/ChangePassword')}>
-                        <p className='menuMainAccountTitle'>Change Password</p>
-                        <FaChevronRight />
+                <div className="smlingMA-AccountTabMain">
+                    <div
+                        className="smlingAccountTabMobileView YourAccountPageTabs"
+                        style={{ marginTop: "15px" }}
+                    >
+                        <div
+                            className="menuMainAccount"
+                            onClick={() => naviagation("/YourProfile")}
+                        >
+                            <p className="menuMainAccountTitle">Your Profile</p>
+                            <FaChevronRight />
+                        </div>
+                        <div
+                            className="menuMainAccount"
+                            onClick={() => naviagation("/OrderHistory")}
+                        >
+                            <p className="menuMainAccountTitle">Order History</p>
+                            <FaChevronRight />
+                        </div>
+                        <div
+                            className="menuMainAccount"
+                            onClick={() => naviagation("/ManageAddress")}
+                        >
+                            <p className="menuMainAccountTitle">Manage Address</p>
+                            <FaChevronRight />
+                        </div>
+                        {accountValidation() && (
+                            <div
+                                className="menuMainAccount"
+                                onClick={() => naviagation("/MobileViewComp")}
+                            >
+                                <p className="menuMainAccountTitle">Account</p>
+                                <FaChevronRight />
+                            </div>
+                        )}
+                        <div
+                            className="menuMainAccount"
+                            onClick={() => naviagation("/ChangePassword")}
+                        >
+                            <p className="menuMainAccountTitle">Change Password</p>
+                            <FaChevronRight />
+                        </div>
+                        <div className="menuMainAccount" onClick={HandleDeleteAccount}>
+                            <p className="menuMainAccountTitle">Delete Your Account</p>
+                            <MdAutoDelete />
+                        </div>
+                        <div className="menuMainAccount"
+                            onClick={() => naviagation("/copyright")}
+                        >
+                            <p className="menuMainAccountTitle">Copyright</p>
+                            <BiCopyright />
+                        </div>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                marginTop: "30px",
+                            }}
+                        >
+                            <p className="smilingAccountLogoutMobile" onClick={handleLogout}>
+                                LOG OUT
+                            </p>
+                        </div>
                     </div>
 
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
-                        <p className='smilingAccountLogoutMobile' onClick={handleLogout}>LOG OUT</p>
-                    </div>
-                </div>
-
-
-                {/* <Box sx={{ width: '100%' }}>
+                    {/* <Box sx={{ width: '100%' }}>
                         <CustomTabPanel value={value} index={0}>
                             <div>
                                 <YourProfile />
@@ -224,8 +382,8 @@ export default function Account() {
                             </div>
                         </CustomTabPanel>
                     </Box> */}
+                </div>
             </div>
         </div>
-        </div>
-    )
+    );
 }

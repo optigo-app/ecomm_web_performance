@@ -50,13 +50,10 @@ const CartItem = ({
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
 
-  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
-  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
-
   // const isLoading = item?.loading;
 
   useEffect(() => {
-    const delay = (index + 1) * 100;
+    const delay = (index + 1) * 200;
 
     const timer = setTimeout(() => {
       setisLoading(false);
@@ -64,6 +61,37 @@ const CartItem = ({
 
     return () => clearTimeout(timer);
   }, [index]);
+
+  const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+  const defaultUrl = item?.images && typeof item?.images === 'string'
+    ? item.images.replace("/Design_Thumb", "")
+    : "";
+  const firstPart = defaultUrl?.split(".")[0];
+  const secondPart = item?.ImageExtension;
+  const finalSelectedUrl = `${firstPart}.${secondPart}`;
+
+  const [imgSrc, setImgSrc] = useState('');
+
+  useEffect(() => {
+    let imageURL = item?.images
+      ? finalSelectedUrl
+      : item?.ImageCount > 1
+        ? `${CDNDesignImageFolThumb}${item?.designno}~1~${item?.metalcolorname}.${item?.ImageExtension}`
+        : `${CDNDesignImageFolThumb}${item?.designno}~1.${item?.ImageExtension}`;
+
+    const img = new Image();
+    img.onload = () => setImgSrc(imageURL);
+    img.onerror = () => {
+      if (item?.ImageCount > 0) {
+        setImgSrc(fullImagePath || noImageFound);
+      } else {
+        setImgSrc(noImageFound);
+      }
+    };
+    img.src = imageURL;
+  }, [item, CDNDesignImageFolThumb, finalSelectedUrl]);
+
 
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
@@ -178,21 +206,24 @@ const CartItem = ({
               </CardMedia>
             ) : (
               <img
-                src={item?.images}
+                src={imgSrc}
                 alt=' '
-                sx={{
-                  border: 'none',
-                  outline: 'none',
-                  boxShadow: 'none',
+                style={{
+                  border: "none", outline: "none",
                   '&:focus': { outline: 'none' },
                   '&:active': { outline: 'none' },
-                }} style={{ border: "none", outline: "none" }}
+                }}
                 loading='lazy'
                 onError={(e) => {
-                  if (item?.ImageCount > 0) {
-                    e.target.src = fullImagePath ? fullImagePath : noImageFound
-                  } else {
-                    e.target.src = noImageFound;
+                  const imgEl = e.target;
+
+                  // Prevent infinite loop
+                  if (!imgEl.dataset.triedFullImage && fullImagePath) {
+                    imgEl.src = fullImagePath;
+                    imgEl.dataset.triedFullImage = "true";
+                  } else if (!imgEl.dataset.triedNoImage) {
+                    imgEl.src = noImageFound;
+                    imgEl.dataset.triedNoImage = "true";
                   }
                 }}
                 draggable={true}

@@ -459,6 +459,7 @@
   display: flex;
   flex-direction: column;
   flex: 1 100%;
+  width: 100%;
 }
 
 .smr_prodCard_2 {
@@ -467,14 +468,14 @@
 }
 
 .smr_prod_Title {
-  // padding-bottom: 7px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; // Or `space-between`, not `center` if you want full width usage
+  flex-direction: row-reverse;
   padding-bottom: 2.5px;
   font-family: $primaryFontFamily;
-  flex-direction: row-reverse;
 
+  width: 100%; // Optional if already constrained by layout
 }
 
 .smr1_prod_title_with_width {
@@ -482,19 +483,17 @@
   text-transform: uppercase;
   font-weight: 400;
   cursor: pointer;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
   padding: 0 5px;
-  min-height: 19.5px;
-  width: 300px !important;
   margin: 3px;
-  // max-height: 3em;
-  /* Adjust as needed */
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
+  min-height: 19.5px;
   letter-spacing: 0.5px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  flex: 1 1 auto; // key to allow it to grow/shrink inside flex
+  min-width: 0; // required for text-overflow to work inside flex
 }
 
 .smr1_prod_title_with_no_width {
@@ -502,17 +501,17 @@
   text-transform: uppercase;
   font-weight: 400;
   cursor: pointer;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
   padding: 0 5px;
+  margin: 3px;
   min-height: 19.5px;
-  /* width:300px; */
-  // margin: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   letter-spacing: 0.5px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  flex: 1 1 auto; // key to allow it to grow/shrink inside flex
+  min-width: 0; // required for text-overflow to work inside flex
 }
 
 .smr_prod_designno {
@@ -1009,7 +1008,8 @@
 
 @media screen and (max-width:590px) {
   .smr_prod_Allwt {
-    height: 30px;
+    // height: 30px;
+    height: 24px;
   }
 
   .smr_main_keys {

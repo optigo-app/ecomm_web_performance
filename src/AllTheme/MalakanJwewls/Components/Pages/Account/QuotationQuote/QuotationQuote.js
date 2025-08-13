@@ -397,7 +397,7 @@ const QuotationQuote = () => {
                             All
                         </Button>
                     </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 0px 35px 0", maxWidth: "max-content" }} className="searchbox QuotePadSec w_q">
+                    <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 0px 35px 0", marginRight: "15px", maxWidth: "max-content" }} className="searchbox QuotePadSec w_q">
                         <TextField id="standard-basic" label="Search" variant="outlined" className="w_q" value={searchVal} onChange={eve => {
                             setSearchVal(eve?.target?.value);
                             handleSearch(eve, eve?.target?.value, fromDate, toDate);

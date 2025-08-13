@@ -27,10 +27,10 @@ const CartMain = () => {
                 break;
         }
     }, []);
-
+    
     return (
         <div style={{
-            marginBottom:"3rem"
+            marginBottom: "3rem"
         }}>
             {cartComponent}
             <PrintPageCard />

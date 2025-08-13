@@ -763,7 +763,7 @@ const PendingMemo = () => {
               All
             </Button>
           </Box>
-          <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "15px", }} className="searchbox" >
+          <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "0", marginRight: "15px", }} className="searchbox" >
             <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch(eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to); }} />
             <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} >
               <SearchIcon />

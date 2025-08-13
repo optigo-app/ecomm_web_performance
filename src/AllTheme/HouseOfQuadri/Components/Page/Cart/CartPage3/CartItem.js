@@ -43,16 +43,57 @@ const CartItem = ({
 }) => {
   const [imageSrc, setImageSrc] = useState();
   const [open, setOpen] = useState(false);
+  const [isLoading, setisLoading] = useState(true);
   const [remark, setRemark] = useState(item?.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
   const setCartCountVal = useSetRecoilState(Hoq_CartCount)
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
 
+  // const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  // const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  // const isLoading = item?.loading;
+
+  useEffect(() => {
+    const delay = (index + 1) * 200;
+
+    const timer = setTimeout(() => {
+      setisLoading(false);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [index]);
+
   const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
   const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+  const defaultUrl = item?.images && typeof item?.images === 'string'
+    ? item.images.replace("/Design_Thumb", "")
+    : "";
+  const firstPart = defaultUrl?.split(".")[0];
+  const secondPart = item?.ImageExtension;
+  const finalSelectedUrl = `${firstPart}.${secondPart}`;
 
-  const isLoading = item?.loading;
+  const [imgSrc, setImgSrc] = useState('');
+
+  useEffect(() => {
+    let imageURL = item?.images
+      ? finalSelectedUrl
+      : item?.ImageCount > 1
+        ? `${CDNDesignImageFolThumb}${item?.designno}~1~${item?.metalcolorname}.${item?.ImageExtension}`
+        : `${CDNDesignImageFolThumb}${item?.designno}~1.${item?.ImageExtension}`;
+
+    const img = new Image();
+    img.onload = () => setImgSrc(imageURL);
+    img.onerror = () => {
+      if (item?.ImageCount > 0) {
+        setImgSrc(fullImagePath || noImageFound);
+      } else {
+        setImgSrc(noImageFound);
+      }
+    };
+    img.src = imageURL;
+  }, [item, CDNDesignImageFolThumb, finalSelectedUrl]);
 
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
@@ -167,7 +208,7 @@ const CartItem = ({
               </CardMedia>
             ) : (
               <img
-                src={item?.images}
+                src={imgSrc}
                 alt=" "
                 style={{
                   border: 'none',
@@ -176,13 +217,13 @@ const CartItem = ({
                   '&:focus': { outline: 'none' },
                   '&:active': { outline: 'none' },
                 }}
-                onError={(e) => {
-                  if (item?.ImageCount > 0) {
-                    e.target.src = fullImagePath ? fullImagePath : noImageFound;
-                  } else {
-                    e.target.src = noImageFound;
-                  }
-                }}
+                // onError={(e) => {
+                //   if (item?.ImageCount > 0) {
+                //     e.target.src = fullImagePath ? fullImagePath : noImageFound;
+                //   } else {
+                //     e.target.src = noImageFound;
+                //   }
+                // }}
                 loading="lazy"
               />
             )}

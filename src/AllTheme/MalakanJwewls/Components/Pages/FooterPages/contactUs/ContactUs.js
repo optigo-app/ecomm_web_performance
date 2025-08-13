@@ -20,9 +20,9 @@ export default function ContactUs() {
   };
 
   useEffect(() => {
-    // fetch(`${storImagePath()}/html/SonasonsContactPage.html`)
-    // fetch(`${storImagePath()}/html/ShreeDiaConatct.html`)
-    fetch(`${storImagePath()}/html/KamalikaContactpage.html`)
+    fetch(`${storImagePath()}/html/SonasonsContactPage.html`)
+      // fetch(`${storImagePath()}/html/ShreeDiaConatct.html`)
+      // fetch(`${storImagePath()}/html/KamalikaContactpage.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);

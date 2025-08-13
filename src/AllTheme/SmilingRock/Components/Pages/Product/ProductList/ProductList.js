@@ -8,7 +8,7 @@ import { findMetal, findMetalColor, findMetalType, formatRedirectTitleLine, form
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import {
-  Accordion, AccordionDetails, AccordionSummary, Box, Button, CardMedia, Checkbox, Drawer, FormControlLabel, Input, Pagination, PaginationItem, Skeleton, Slider,
+  Accordion, AccordionDetails, AccordionSummary, Box, Button, Card, CardMedia, Checkbox, Drawer, FormControlLabel, Input, Pagination, PaginationItem, Skeleton, Slider,
   Stack,
   Typography, useMediaQuery
 } from "@mui/material";
@@ -469,8 +469,6 @@ const ProductList = () => {
   }, [])
 
 
-
-
   useEffect(() => {
     let param = JSON?.parse(sessionStorage.getItem("menuparams"))
     if (location?.state?.SearchVal === undefined) {
@@ -522,13 +520,13 @@ const ProductList = () => {
 
       if (MenuVal?.length > 0) {
         let menuDecode = atob(MenuVal?.split("=")[1])
-
         let key = menuDecode?.split("/")[1].split(',')
         let val = menuDecode?.split("/")[0].split(',')
 
         setIsBreadcumShow(true)
 
         productlisttype = [key, val]
+        console.log("TCL: fetchData -> productlisttype", productlisttype)
       }
 
       if (SearchVar) {
@@ -553,7 +551,6 @@ const ProductList = () => {
       setIsProdLoading(true)
       //  if(location?.state?.SearchVal === undefined){ 
       setprodListType(productlisttype)
-
       let diafilter =
         filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
           ?.length > 0
@@ -595,14 +592,15 @@ const ProductList = () => {
       };
 
       // await ProductListApi({}, 1, obj, productlisttype,sortBySelect , cookie ,DiaRange, netRange ,grossRange)
-      await ProductListApi({}, 1, obj, productlisttype, cookie, sortBySelect,
-        DiaRange, netRange, grossRange
-      )
+      await ProductListApi({}, 1, obj, productlisttype, cookie, sortBySelect, DiaRange, netRange, grossRange)
         .then((res) => {
           if (res) {
             // console.log("productList", res);
 
-            setProductListData(res?.pdList);
+            setProductListData(res?.pdList?.sort((a, b) => {
+              return a?.autocode.localeCompare(b?.autocode);
+            }));
+            console.log(res?.pdList[0], "price")
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
           }
 
@@ -633,14 +631,9 @@ const ProductList = () => {
               let diafilter = res?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0] : [];
               let diafilter1 = res?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0] : [];
               let diafilter2 = res?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0] : [];
-              setSliderValue([diafilter?.Min, diafilter?.Max])
-              setSliderValue1([diafilter1?.Min, diafilter1?.Max])
-              setSliderValue2([diafilter2?.Min, diafilter2?.Max])
-              setRangeFilter({
-                Diamond: [diafilter?.Min, diafilter?.Max],
-                Gross: [diafilter1?.Min, diafilter1?.Max],
-                NetWt: [diafilter2?.Min, diafilter2?.Max]
-              })
+              setSliderValue(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
+              setSliderValue1(diafilter1?.Min != null || diafilter1?.Max != null ? [diafilter1?.Min, diafilter1?.Max] : []);
+              setSliderValue2(diafilter2?.Min != null || diafilter2?.Max != null ? [diafilter2?.Min, diafilter2?.Max] : []);
               forWardResp1 = res
             }).catch((err) => console.log("err", err))
           }
@@ -648,10 +641,12 @@ const ProductList = () => {
         }).finally(() => {
           setIsProdLoading(false)
           setIsOnlyProdLoading(false)
-          window.scroll({
-            top: 0,
-            behavior: 'smooth'
-          })
+          // window.scroll({
+          //   top: 0,
+          //   behavior: 'smooth'
+          // })
+
+
         })
         .catch((err) => console.log("err", err))
 
@@ -660,9 +655,6 @@ const ProductList = () => {
     }
 
     fetchData();
-
-    setCurrPage(1);
-    setInputPage(1);
     if (location?.key) {
       setLocationKey(location?.key)
     }
@@ -1025,6 +1017,7 @@ const ProductList = () => {
       JSON.stringify(sliderValue1) !== JSON.stringify((diafilter1?.Min != null || diafilter1?.Max != null) ? [diafilter1?.Min, diafilter1?.Max] : []) ||
       JSON.stringify(sliderValue2) !== JSON.stringify((diafilter2?.Min != null || diafilter2?.Max != null) ? [diafilter2?.Min, diafilter2?.Max] : []);
 
+
     // if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
     if (isFilterChecked || isSliderChanged) {
       let diafilter =
@@ -1048,9 +1041,9 @@ const ProductList = () => {
             filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
           )[0]
           : [];
-      setSliderValue([diafilter?.Min, diafilter?.Max]);
-      setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
-      setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
+      setSliderValue(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
+      setSliderValue1(diafilter1?.Min != null || diafilter1?.Max != null ? [diafilter1?.Min, diafilter1?.Max] : []);
+      setSliderValue2(diafilter2?.Min != null || diafilter2?.Max != null ? [diafilter2?.Min, diafilter2?.Max] : []);
       setInputDia([diafilter?.Min, diafilter?.Max]);
       setInputNet([diafilter1?.Min, diafilter1?.Max]);
       setInputGross([diafilter2?.Min, diafilter2?.Max]);
@@ -1062,7 +1055,6 @@ const ProductList = () => {
       setShow2(false);
       setIsReset(false);
       setFilterChecked({});
-      setExpandedAccordions({})
       if (Object.keys(filterChecked).length > 0 || isSliderChanged) {
         setIsClearAllClicked(true);
       }
@@ -4836,18 +4828,44 @@ const Product_Card = ({
           onClick={() => handleMoveToDetail(productData)}
         >
           {isLoading === true ?
-            <CardMedia
-              style={{ width: "100%", height: "100%" }}
-              className="cardMainSkeleton"
+            // <CardMedia
+            //   style={{ flex: 1, width: "100%", height: "100%" }}
+            //   className="cardMainSkeleton"
+            // >
+            //   <Skeleton
+            //     animation="wave"
+            //     variant="rect"
+            //     width="100%"
+            //     height="100%"
+            //     style={{ backgroundColor: "#e7e7e7" }}
+            //   />
+            // </CardMedia> 
+            <Card
+              sx={{
+                height: '100%', // or '100%' if parent has a defined height
+                display: 'flex',
+                flexDirection: 'column',
+              }}
             >
-              <Skeleton
-                animation="wave"
-                variant="rect"
-                width="100%"
-                height="100%"
-                style={{ backgroundColor: "#e7e7e7" }}
-              />
-            </CardMedia> :
+              <CardMedia
+                sx={{
+                  flex: 1,
+                  width: '100%',
+                  height: '100%',
+                }}
+              >
+                <Skeleton
+                  animation="wave"
+                  variant="rectangular"
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: '#e7e7e7',
+                  }}
+                />
+              </CardMedia>
+            </Card>
+            :
             <>
 
               <div style={{ display: isHover ? "block" : "none" }}>
@@ -4949,7 +4967,9 @@ const Product_Card = ({
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "flex-start",
+                  justifyContent: "center",
+                  lineHeight: "12px",
+                  gap: "2px",
                   alignItems: "center",
                   letterSpacing: maxwidth590px
                     ? "0px"

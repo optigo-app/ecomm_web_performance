@@ -145,13 +145,18 @@ const MobileCartDetails = ({
               draggable={true}
               onContextMenu={(e) => e.preventDefault()}
               loading="eager"
-            // onError={(e) => {
-            //   if (selectedItem?.ImageCount > 0) {
-            //     e.target.src = fullImagePath ? fullImagePath : noImageFound
-            //   } else {
-            //     e.target.src = noImageFound;
-            //   }
-            // }}
+              onError={(e) => {
+                const imgEl = e.target;
+
+                // Prevent infinite loop
+                if (!imgEl.dataset.triedFullImage && fullImagePath1) {
+                  imgEl.src = fullImagePath1;
+                  imgEl.dataset.triedFullImage = "true";
+                } else if (!imgEl.dataset.triedNoImage) {
+                  imgEl.src = noImageFound;
+                  imgEl.dataset.triedNoImage = "true";
+                }
+              }}
             />
           )}
         </div>

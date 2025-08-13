@@ -181,15 +181,36 @@ const TrendingView1 = ({ data }) => {
                     <div className='smr_leftSideBestTR'>
 
                         {/* For shinjini*/}
-                        <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} loading="lazy"
+                        {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} loading="lazy"
                             draggable={true}
                             onContextMenu={(e) => e.preventDefault()}
-                        />
+                        /> */}
+
+                        {/* <img
+                            src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} // Fallback image
+                            srcSet={`
+                                ${storImagePath()}/images/HomePage/TrendingViewBanner/mage-400.webp 400w,
+                                ${storImagePath()}/images/HomePage/TrendingViewBanner/image-800.webp 800w,
+                                ${storImagePath()}/images/HomePage/TrendingViewBanner/image-1200.webp 1200w
+                            `}
+                            sizes={`
+                                (max-width: 480px) 100vw,
+                                (max-width: 1024px) 90vw,
+                                (max-width: 1500px) 80vw,
+                                70vw
+                            `}
+                            alt=" "
+                            className="top-banner-img"
+                            loading="lazy"
+                            draggable={true}
+                            onContextMenu={(e) => e.preventDefault()}
+                        /> */}
+
 
                         {/* For sonasons, ojasvi */}
                         {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} loading="lazy" /> */}
                         {/* <img src={data?.image?.[1]} loading='lazy' /> */}
-                        {/* <img
+                        <img
                             src={`${storImagePath()}/Banner/trendingbanner2.png`} // Fallback image
                             srcSet={`
                                 ${storImagePath()}/Banner/trending-image-400.webp 400w,
@@ -205,7 +226,9 @@ const TrendingView1 = ({ data }) => {
                             alt=" "
                             className="top-banner-img"
                             loading="lazy"
-                        /> */}
+                            draggable={true}
+                            onContextMenu={(e) => e.preventDefault()}
+                        />
 
                         {/* For pacific */}
                         {/* <img src={data?.image?.[2]}

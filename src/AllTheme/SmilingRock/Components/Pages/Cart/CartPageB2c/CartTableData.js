@@ -9,6 +9,7 @@ import { CardMedia, Skeleton } from '@mui/material';
 import { formatTitleLine } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const ExampleComponent = ({
+    key,
     cartData,
     CurrencyData,
     qtyCount,
@@ -23,10 +24,48 @@ const ExampleComponent = ({
     const [imageSrc, setImageSrc] = useState();
     const setCartCountVal = useSetRecoilState(CartCount)
     const [storeInitData, setStoreInitData] = useState();
+    // const [isLoading, setisLoading] = useState(true);
     const visiterId = Cookies.get('visiterId');
+
+    // useEffect(() => {
+    //     const delay = (key + 1) * 200;
+
+    //     const timer = setTimeout(() => {
+    //         setisLoading(false);
+    //     }, delay);
+
+    //     return () => clearTimeout(timer);
+    // }, [key]);
 
     const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
     const fullImagePath = `${CDNDesignImageFolThumb}${cartData?.designno}~1.jpg`;
+    const defaultUrl = cartData?.images && typeof cartData?.images === 'string'
+        ? cartData.images.replace("/Design_Thumb", "")
+        : "";
+    const firstPart = defaultUrl?.split(".")[0];
+    const secondPart = cartData?.ImageExtension;
+    const finalSelectedUrl = `${firstPart}.${secondPart}`;
+
+    const [imgSrc, setImgSrc] = useState('');
+
+    useEffect(() => {
+        let imageURL = cartData?.images
+            ? finalSelectedUrl
+            : cartData?.ImageCount > 1
+                ? `${CDNDesignImageFolThumb}${cartData?.designno}~1~${cartData?.metalcolorname}.${cartData?.ImageExtension}`
+                : `${CDNDesignImageFolThumb}${cartData?.designno}~1.${cartData?.ImageExtension}`;
+
+        const img = new Image();
+        img.onload = () => setImgSrc(imageURL);
+        img.onerror = () => {
+            if (cartData?.ImageCount > 0) {
+                setImgSrc(fullImagePath || noImageFound);
+            } else {
+                setImgSrc(noImageFound);
+            }
+        };
+        img.src = imageURL;
+    }, [cartData, CDNDesignImageFolThumb, finalSelectedUrl]);
 
     const isLoading = cartData?.loading;
 
@@ -102,9 +141,10 @@ const ExampleComponent = ({
                         ) : (
                             <img
                                 className='smr_b2ccartImage'
-                                src={cartData?.images}
+                                src={imgSrc}
+                                // src={cartData?.images}
                                 alt={` `}
-                                sx={{
+                                style={{
                                     border: 'none',
                                     outline: 'none',
                                     boxShadow: 'none',
@@ -112,10 +152,15 @@ const ExampleComponent = ({
                                     '&:active': { outline: 'none' },
                                 }}
                                 onError={(e) => {
-                                    if (cartData?.ImageCount > 0) {
-                                        e.target.src = fullImagePath ? fullImagePath : noImageFound
-                                    } else {
-                                        e.target.src = noImageFound;
+                                    const imgEl = e.target;
+
+                                    // Prevent infinite loop
+                                    if (!imgEl.dataset.triedFullImage && fullImagePath) {
+                                        imgEl.src = fullImagePath;
+                                        imgEl.dataset.triedFullImage = "true";
+                                    } else if (!imgEl.dataset.triedNoImage) {
+                                        imgEl.src = noImageFound;
+                                        imgEl.dataset.triedNoImage = "true";
                                     }
                                 }}
                                 draggable={true}

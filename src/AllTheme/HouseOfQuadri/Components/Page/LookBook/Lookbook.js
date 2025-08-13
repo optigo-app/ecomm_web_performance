@@ -74,6 +74,7 @@ const Lookbook = () => {
   );
   const [imageSources, setImageSources] = React.useState({});
   const [designSetLstData, setDesignSetListData] = useState();
+  console.log("TCL: Lookbook -> designSetLstData", designSetLstData)
   const [filterData, setFilterData] = useState([]);
   const [filterChecked, setFilterChecked] = useState({});
   const [afterFilterCount, setAfterFilterCount] = useState();
@@ -254,7 +255,7 @@ const Lookbook = () => {
     LookBookAPI(productlisttype, finalID)
       .then((res) => setFilterData(res))
       .catch((err) => console.log("err", err));
-  }, [designSetLstData]);
+  }, []);
 
   const handelFilterClearAll = () => {
     if (Object?.values(filterChecked)?.filter((ele) => ele?.checked)?.length > 0) {

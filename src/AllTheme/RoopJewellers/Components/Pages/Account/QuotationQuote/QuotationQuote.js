@@ -101,11 +101,11 @@ function EnhancedTableHead(props) {
         <TableHead>
             <TableRow>
                 {headCells.map((headCell) => {
-                     const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
-                     if (IsPriceShow == 0 && headCell?.label == 'Total Amount') {
-                         return null;
-                     }
-                    return<>
+                    const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {};
+                    if (IsPriceShow == 0 && headCell?.label == 'Total Amount') {
+                        return null;
+                    }
+                    return <>
                         <TableCell
                             key={headCell.id}
                             align={headCell.align}
@@ -140,7 +140,7 @@ function EnhancedTableHead(props) {
                             }
                         </TableCell>
                     </>
-})}
+                })}
             </TableRow>
         </TableHead>
     );
@@ -169,7 +169,7 @@ const QuotationQuote = () => {
     const [currencyCode, setCurrencyCode] = useState('');
     const [currencyRate, setCurrencyRate] = useState(1);
 
-    
+
 
     const handleRequestSort = (event, property) => {
         if (property?.toLowerCase() === 'srno') return null;
@@ -358,7 +358,7 @@ const QuotationQuote = () => {
             setCurrencyCode(storedData?.CurrencyCode);
 
             const response = await getQuotationQuoteData(data, currencyRate, FrontEnd_RegNo, customerid);
-            
+
             if (response?.Data?.rd) {
                 let rows = [];
                 response?.Data?.rd?.forEach((e, i) => {
@@ -368,7 +368,7 @@ const QuotationQuote = () => {
                 });
 
                 // const formatedData = AccountPagesLoginCurrencyWise(rows, data);
-                
+
                 setData(rows);
                 setFilterData(rows);
             } else {
@@ -413,14 +413,14 @@ const QuotationQuote = () => {
 
     return (
         <div className="quotationQuote_Account_RPJ">
-            <Box className='smilingSavedAddressMain salesApiSectionQWeb' sx={{ padding: "20px", }}>
+            <Box className='smilingSavedAddressMain salesApiSectionQWeb' sx={{ padding: "20px" }}>
                 <Box className="d_flex_quote" sx={{ display: "flex", flexWrap: "wrap" }}>
                     <Box sx={{ paddingRight: "15px" }} className="AllQuoteBtn QuotePadSec">
                         <Button variant="contained" className="muiSmilingRocksBtn" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", fontFamily: "Spectral-Regular" }} onClick={eve => resetAllFilters(eve)}>
                             All
                         </Button>
                     </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox QuotePadSec w_q">
+                    <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 0px 35px 0", marginRight: "15px", maxWidth: "max-content" }} className="searchbox QuotePadSec w_q">
                         <TextField id="standard-basic" label="Search" variant="outlined"
                             InputProps={{
                                 style: { fontFamily: "Spectral-Regular" }
@@ -533,7 +533,7 @@ const QuotationQuote = () => {
                                         {filterData?.length > 0 ? visibleRows?.map((row, index) => {
 
                                             const labelId = `enhanced-table-checkbox-${index}`;
-                                            const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+                                            const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {};
 
                                             return (
                                                 <TableRow
@@ -555,12 +555,12 @@ const QuotationQuote = () => {
                                                     >
                                                         {page * rowsPerPage + index + 1}
                                                     </TableCell>
-                                                    
+
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.Date}</TableCell>
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.SKUNo}</TableCell>
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.TotalDesign}</TableCell>
-{IsPriceShow == 1 &&                                                     <TableCell align="right" style={{ fontFamily: "Spectral-Regular" }}> <span  dangerouslySetInnerHTML={{__html: row?.Currencycode }}></span>&nbsp; {formatAmount(row.Amount)}</TableCell>
-}                                                    <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>
+                                                    {IsPriceShow == 1 && <TableCell align="right" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span>&nbsp; {formatAmount(row.Amount)}</TableCell>
+                                                    }                                                    <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>
                                                         <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
                                                             <PrintIcon />
                                                         </div>

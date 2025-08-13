@@ -2899,17 +2899,18 @@ const ProductDetail = () => {
                               />
                             </div>
                             {/* <img
-                        className="smrMA_productCard_Image"
-                        src={
-                          storeInit?.DesignImageFol +
-                          ele?.designno +
-                          "_" +
-                          "1" +
-                          "." +
-                          ele?.ImageExtension
-                        }
-                        alt={""}
-                      /> */}
+                              className="smrMA_productCard_Image"
+                              src={
+                                storeInit?.CDNDesignImageFolThumb +
+                                ele?.designno +
+                                "~" +
+                                "1" +
+                                "." +
+                                'jpg'
+                              }
+                              onError={(e) => e.target.src = imageNotFound}
+                              alt={""}
+                            /> */}
                             <div
                               className="smr_stockutem_shortinfo"
                               style={{
@@ -3113,30 +3114,29 @@ const ProductDetail = () => {
                     </div>
                   )}
 
-                {storeInit?.IsProductDetailDesignSet === 1 && (
+                {storeInit?.IsProductDetailDesignSet === 1 &&
                   <div className="mobile_smr_DesignSet_main">
-                    {designSetList?.length > 0 && (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          width: "100%",
-                        }}
+                    {designSetList?.length > 0 && designSetList?.[0]?.stat_code != 1005 && <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        width: "100%",
+                      }}
+                    >
+                      <p
+                        className="smr_details_title"
+                      // style={{
+                      //   fontFamily: "Spectral-Bold, sans-serif",
+                      //   color: "#7d7f85",
+                      //   fontSize: "30px",
+                      //   // display:'none'
+                      // }}
                       >
-                        <p
-                          style={{
-                            fontFamily: "FreightDisp Pro Medium",
-                            color: "#7d7f85",
-                            fontSize: "30px",
-                            // display:'none'
-                          }}
-                        >
-                          Complete The Look
-                        </p>
-                      </div>
-                    )}
+                        Complete The Look
+                      </p>
+                    </div>}
 
-                    <div className="smr_Swiper_designSet">
+                    <div className="smr_Swiper_designSet" >
                       <Swiper
                         modules={[Navigation, Pagination, Scrollbar]}
                         // spaceBetween={50}
@@ -3150,26 +3150,27 @@ const ProductDetail = () => {
                             <div className="compeletethelook_cont">
                               <div className="smr_ctlImg_containe">
                                 <img
-                                  // src={selectedThumbImg?.link}
+                                  // src={
+                                  //   "https://cdn.accentuate.io/3245609615460/4121939443812/99-v1581576944425.jpg?2048x1950"
+                                  // }
                                   src={
-                                    designSetList?.DefaultImageName
-                                      ? storeInit?.DesignSetImageFol +
+                                    designSetList?.DefaultImageName ? storeInit?.DesignSetImageFol +
                                       designSetList?.designsetuniqueno +
                                       "/" +
                                       designSetList?.DefaultImageName
-                                      : imageNotFound
+                                      :
+                                      imageNotFound
                                   }
-                                  alt={"design set"}
-                                  className="ctl_img"
+                                  draggable={true}
+                                  onContextMenu={(e) => e.preventDefault()}
+                                  alt={""}
                                   loading="lazy"
+                                  className="ctl_img"
+                                  onError={(e) => e.target.src = imageNotFound}
                                 />
                               </div>
 
                               <div
-                                style={{
-                                  overflowX: "auto",
-                                  maxHeight: "400px !important",
-                                }}
                                 className={
                                   (designSetList?.Designdetail == undefined
                                     ? []
@@ -3180,63 +3181,47 @@ const ProductDetail = () => {
                                 }
                               >
                                 <p
-                                  style={{
-                                    fontFamily: "FreightDisp Pro Medium",
-                                    color: "#7d7f85",
-                                    fontSize: "30px",
-                                    display: "none",
-                                  }}
+                                  className="smr_details_title"
+                                // style={{
+                                //   fontFamily: "Spectral-Bold, sans-serif",
+                                //   color: "#7d7f85",
+                                //   fontSize: "30px",
+                                //   display: "none",
+                                // }}
                                 >
-                                  Complete The Look
+                                  {/* Complete The Look */}
                                 </p>
 
-                                <div
-                                  className="list_Smr_lookbook"
-                                  style={{
-                                    width: "100%",
-                                    height: "390px",
-                                    overflow: "auto",
-                                  }}
-                                >
-                                  {(designSetList?.Designdetail == undefined
-                                    ? []
-                                    : JSON.parse(designSetList?.Designdetail)
-                                  )?.map((ele, i) => (
+                                {(designSetList?.Designdetail == undefined
+                                  ? []
+                                  : JSON.parse(designSetList?.Designdetail)
+                                )?.map((ele, i) => {
+                                  // const imageUrl =
+                                  //   storeInit?.CDNDesignImageFol + ele?.designno + "~" + "1" + "." + ele?.ImageExtension;
+                                  const imageUrl =
+                                    storeInit?.CDNDesignImageFolThumb + ele?.designno + "~" + "1" + "." + "jpg";
+                                  return (
                                     <div
                                       className="completethelook_outer"
                                       onClick={() => handleMoveToDetail(ele)}
-                                      style={{
-                                        borderTop: i !== 0 ? "none" : "",
-                                      }}
+                                      style={{ borderTop: i !== 0 ? "none" : "", cursor: 'pointer' }}
                                     >
-                                      <div
-                                        style={{ display: "flex", gap: "60px" }}
-                                      >
+                                      <div style={{ display: "flex", gap: "60px" }}>
                                         <div style={{ marginLeft: "12px" }}>
                                           <img
                                             src={
                                               ele?.ImageCount > 0
-                                                ?
-                                                // storeInit?.CDNDesignImageFol +
-                                                // ele?.designno +
-                                                // "~" +
-                                                // "1" +
-                                                // "." +
-                                                // ele?.ImageExtension
-                                                storeInit?.CDNDesignImageFolThumb +
-                                                ele?.designno +
-                                                "~" +
-                                                "1" +
-                                                "." +
-                                                "jpg"
+                                                ? imageUrl
                                                 : imageNotFound
                                             }
                                             alt={""}
-                                            className="srthelook_img"
-                                            onError={(e) => {
-                                              e.target.src = imageNotFound;
-                                            }}
                                             loading="lazy"
+                                            draggable={true}
+                                            onContextMenu={(e) => e.preventDefault()}
+                                            // src={
+                                            //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
+                                            // }
+                                            className="srthelook_img"
                                           />
                                         </div>
                                         <div className="srthelook_prodinfo">
@@ -3249,41 +3234,39 @@ const ProductDetail = () => {
                                             className="srthelook_prodinfo_inner"
                                           >
                                             <p>
-                                              {ele?.designno} -{" "}
-                                              {ele?.CategoryName}
+                                              {ele?.designno} - {ele?.CategoryName}
                                               <br />
                                               {storeInit?.IsPriceShow == 1 && <>
+
                                                 <span className="smr_currencyFont">
-                                                  {loginInfo?.CurrencyCode ??
-                                                    storeInit?.CurrencyCode}
+                                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                 </span>
-
                                                 &nbsp;
-                                                {formatter.format(
-                                                  ele?.UnitCostWithMarkUp
-                                                )}
-
+                                                {
+                                                  formatter.format(
+                                                    ele?.UnitCostWithMarkUp
+                                                  )
+                                                }
                                               </>}
                                             </p>
                                           </div>
                                           {/* <div>
-                          <span style={{ fontSize: "30px", color: "#7d7f85",padding:'5px'}} className=''>
-                            &#8250;
-                          </span>
-                        </div> */}
+                                               <span style={{ fontSize: "30px", color: "#7d7f85",padding:'5px'}} className=''>
+                                                 &#8250;
+                                               </span>
+                                             </div> */}
                                         </div>
                                       </div>
                                     </div>
-                                  ))}
-                                </div>
+                                  )
+                                })}
                               </div>
                             </div>
                           </SwiperSlide>
                         ))}
                       </Swiper>
                     </div>
-                  </div>
-                )}
+                  </div>}
               </>
             )}
           </div>

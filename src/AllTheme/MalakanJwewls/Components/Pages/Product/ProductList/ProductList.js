@@ -67,6 +67,7 @@ import ProductCard_Skeleton from "./productCard_skeleton/Productcard_skeleton";
 import EditablePagination from "../../../../../RoopJewellers/Components/Pages/ReusableComponent/EditablePagination/EditablePagination";
 import RangeFilter from "../../../../../../utils/Glob_Functions/RangeFilter/RangeFilter";
 import usePerformanceTracker from "../../../../../../utils/Glob_Functions/usePerformanceTracker";
+
 const ProductList = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -117,7 +118,7 @@ const ProductList = () => {
   const [appliedRange2, setAppliedRange2] = useState(null);
   const [appliedRange3, setAppliedRange3] = useState(null);
 
-  const [sortBySelect, setSortBySelect] = useState("Recommended");
+  let [sortBySelect, setSortBySelect] = useState("Recommended");
 
   const [totalProductCount, setTotalProductCount] = useState();
 
@@ -153,16 +154,16 @@ const ProductList = () => {
     );
   };
 
-  usePerformanceTracker({
-    onComplete: ({ pageLoadTime, imageLoadTime, totalTime }) => {
-      // You can send to analytics or store somewhere
-      console.log('🔧 Performance data received in component:', {
-        pageLoadTime,
-        imageLoadTime,
-        totalTime,
-      });
-    },
-  });
+  // usePerformanceTracker({
+  //   onComplete: ({ pageLoadTime, imageLoadTime, totalTime }) => {
+  //     // You can send to analytics or store somewhere
+  //     console.log('🔧 Performance data received in component:', {
+  //       pageLoadTime,
+  //       imageLoadTime,
+  //       totalTime,
+  //     });
+  //   },
+  // });
 
   useEffect(() => {
     const mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
@@ -267,6 +268,28 @@ const ProductList = () => {
     setSortBySelect("Recommended");
   }, [location, islogin]);
 
+  let getDesignImageFol = storeInit?.CDNDesignImageFolThumb;
+  const getDesignVideoFol = storeInit?.CDNVPath;
+
+  const getDynamicRollImages = (designno, count, extension) => {
+    if (count > 1) {
+      return `${getDesignImageFol}${designno}~${2}.jpg`;
+    }
+    return;
+  };
+
+  const getDynamicImages = (designno, extension) => {
+    return `${getDesignImageFol}${designno}~${1}.jpg`;
+  };
+
+  const getDynamicVideo = (designno, count, extension) => {
+    if (extension && count > 0) {
+      const url = `${getDesignVideoFol}${designno}~${1}.${extension}`;
+      return url;
+    }
+    return;
+  };
+
   const callAllApi = () => {
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     let diaQcLocal = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
@@ -356,212 +379,236 @@ const ProductList = () => {
   // },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
-    const fetchData = async () => {
-      setSortBySelect("Recommended");
 
-      let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-      let UrlVal = location?.search.slice(1).split("/");
+    let metalTypeDrpdown = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
+    setMetalTypeCombo(metalTypeDrpdown);
 
-      // console.log("URLVal", UrlVal);
+    let diamondTypeDrpdown = JSON.parse(
+      sessionStorage.getItem("diamondQualityColorCombo")
+    );
+    setDiaQcCombo(diamondTypeDrpdown);
 
-      let MenuVal = "";
-      let MenuKey = "";
-      let SearchVar = "";
-      let TrendingVar = "";
-      let NewArrivalVar = "";
-      let BestSellerVar = "";
-      let AlbumVar = "";
+    let CsQcCombo = JSON.parse(
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
+    );
+    setCsQcCombo(CsQcCombo);
+  }, []);
 
-      let productlisttype;
 
-      UrlVal.forEach((ele) => {
-        let firstChar = ele.charAt(0);
+  const fetchData = async () => {
+    setSortBySelect("Recommended");
 
-        switch (firstChar) {
-          case "M":
-            MenuVal = ele;
-            break;
-          case "S":
-            SearchVar = ele;
-            break;
-          case "T":
-            TrendingVar = ele;
-            break;
-          case "N":
-            NewArrivalVar = ele;
-            break;
-          case "B":
-            BestSellerVar = ele;
-            break;
-          case "A":
-            AlbumVar = ele;
-            break;
-          default:
-            return "";
-        }
-      });
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-      if (MenuVal?.length > 0) {
-        let menuDecode = atob(MenuVal?.split("=")[1]);
+    let UrlVal = location?.search.slice(1).split("/");
 
-        let key = menuDecode?.split("/")[1].split(",");
-        let val = menuDecode?.split("/")[0].split(",");
+    // console.log("URLVal", UrlVal);
 
-        setIsBreadcumShow(true);
+    let MenuVal = "";
+    let MenuKey = "";
+    let SearchVar = "";
+    let TrendingVar = "";
+    let NewArrivalVar = "";
+    let BestSellerVar = "";
+    let AlbumVar = "";
 
-        productlisttype = [key, val];
+    let productlisttype;
+
+    UrlVal.forEach((ele) => {
+      let firstChar = ele.charAt(0);
+
+      switch (firstChar) {
+        case "M":
+          MenuVal = ele;
+          break;
+        case "S":
+          SearchVar = ele;
+          break;
+        case "T":
+          TrendingVar = ele;
+          break;
+        case "N":
+          NewArrivalVar = ele;
+          break;
+        case "B":
+          BestSellerVar = ele;
+          break;
+        case "A":
+          AlbumVar = ele;
+          break;
+        default:
+          return "";
       }
+    });
 
-      if (SearchVar) {
-        productlisttype = SearchVar;
-      }
+    if (MenuVal?.length > 0) {
+      let menuDecode = atob(MenuVal?.split("=")[1]);
 
-      if (TrendingVar) {
-        productlisttype = TrendingVar.split("=")[1];
-      }
-      if (NewArrivalVar) {
-        productlisttype = NewArrivalVar.split("=")[1];
-      }
+      let key = menuDecode?.split("/")[1].split(",");
+      let val = menuDecode?.split("/")[0].split(",");
 
-      if (BestSellerVar) {
-        productlisttype = BestSellerVar.split("=")[1];
-      }
+      setIsBreadcumShow(true);
 
-      if (AlbumVar) {
-        productlisttype = AlbumVar.split("=")[1];
-      }
+      productlisttype = [key, val];
+    }
 
-      setIsProdLoading(true);
-      setAfterCountStatus(true);
-      //  if(location?.state?.SearchVal === undefined){
-      setprodListType(productlisttype);
-      let diafilter =
-        filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-          ?.length > 0
-          ? JSON.parse(
-            filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-          )[0]
-          : [];
-      let diafilter1 =
-        filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-          ?.length > 0
-          ? JSON.parse(
-            filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-          )[0]
-          : [];
-      let diafilter2 =
-        filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-          ?.length > 0
-          ? JSON.parse(
-            filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
-          )[0]
-          : [];
-      const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
-      const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
-      const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
+    if (SearchVar) {
+      productlisttype = SearchVar;
+    }
 
-      let DiaRange = {
-        DiaMin: isDia ? sliderValue[0] ?? "" : "",
-        DiaMax: isDia ? sliderValue[1] ?? "" : ""
-      };
+    if (TrendingVar) {
+      productlisttype = TrendingVar.split("=")[1];
+    }
+    if (NewArrivalVar) {
+      productlisttype = NewArrivalVar.split("=")[1];
+    }
 
-      let netRange = {
-        netMin: isNet ? sliderValue1[0] ?? "" : "",
-        netMax: isNet ? sliderValue1[1] ?? "" : ""
-      };
+    if (BestSellerVar) {
+      productlisttype = BestSellerVar.split("=")[1];
+    }
 
-      let grossRange = {
-        grossMin: isGross ? sliderValue2[0] ?? "" : "",
-        grossMax: isGross ? sliderValue2[1] ?? "" : ""
-      };
+    if (AlbumVar) {
+      productlisttype = AlbumVar.split("=")[1];
+    }
 
+    setIsProdLoading(true);
+    setAfterCountStatus(true);
+    //  if(location?.state?.SearchVal === undefined){
+    setprodListType(productlisttype);
+    let diafilter =
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+        )[0]
+        : [];
+    let diafilter1 =
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+        )[0]
+        : [];
+    let diafilter2 =
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        ?.length > 0
+        ? JSON.parse(
+          filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+        )[0]
+        : [];
+    const isDia = JSON.stringify(sliderValue) !== JSON.stringify([diafilter?.Min, diafilter?.Max]);
+    const isNet = JSON.stringify(sliderValue1) !== JSON.stringify([diafilter1?.Min, diafilter1?.Max]);
+    const isGross = JSON.stringify(sliderValue2) !== JSON.stringify([diafilter2?.Min, diafilter2?.Max]);
 
-      await ProductListApi({}, 1, obj, productlisttype, cookie, sortBySelect,
-        DiaRange, netRange, grossRange
-      )
-        .then((res) => {
-          if (res) {
-            // console.log("productList", res);
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
-            // setSortBySelect("Recommended")
-          }
-          return res;
-        })
-        // .then( async(res) => {
-        //   let forWardResp;
-        //   if (res) {
-        //     await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList,obj,productlisttype).then((resp)=>{
-        //       if(resp){
-        //        console.log("productPriceData",resp);
-
-        //         setPriceListData(resp)
-        //         forWardResp = resp;
-        //       }
-        //     })
-        //   }
-        //   return forWardResp
-        // })
-        .then(async (res) => {
-          let forWardResp1;
-          if (res) {
-            await FilterListAPI(productlisttype, cookie)
-              .then((res) => {
-                setFilterData(res);
-
-                let diafilter =
-                  res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-                    ?.length > 0
-                    ? JSON.parse(
-                      res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-                    )[0]
-                    : [];
-                let diafilter1 =
-                  res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-                    ?.length > 0
-                    ? JSON.parse(
-                      res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-                    )[0]
-                    : [];
-                let diafilter2 =
-                  res?.filter((ele) => ele?.Name == "Gross")[0]?.options
-                    ?.length > 0
-                    ? JSON.parse(
-                      res?.filter((ele) => ele?.Name == "Gross")[0]?.options
-                    )[0]
-                    : [];
-
-                // console.log("diafilter",diafilter);
-                setSliderValue(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
-                setSliderValue1(diafilter1?.Min != null || diafilter1?.Max != null ? [diafilter1?.Min, diafilter1?.Max] : []);
-                setSliderValue2(diafilter2?.Min != null || diafilter2?.Max != null ? [diafilter2?.Min, diafilter2?.Max] : []);
-
-                forWardResp1 = res;
-              })
-              .catch((err) => console.log("err", err));
-          }
-          return forWardResp1;
-        })
-        .finally(() => {
-          setIsProdLoading(false);
-          setAfterCountStatus(false);
-          setIsOnlyProdLoading(false);
-          window.scroll({
-            top: 0,
-            behavior: "smooth",
-          });
-        })
-        .catch((err) => console.log("err", err));
-
-      // }
+    let DiaRange = {
+      DiaMin: isDia ? sliderValue[0] ?? "" : "",
+      DiaMax: isDia ? sliderValue[1] ?? "" : ""
     };
 
+    let netRange = {
+      netMin: isNet ? sliderValue1[0] ?? "" : "",
+      netMax: isNet ? sliderValue1[1] ?? "" : ""
+    };
+
+    let grossRange = {
+      grossMin: isGross ? sliderValue2[0] ?? "" : "",
+      grossMax: isGross ? sliderValue2[1] ?? "" : ""
+    };
+
+
+    await ProductListApi(
+      {},
+      1,
+      obj,
+      productlisttype,
+      cookie,
+      (sortBySelect = "Recommended"),
+      DiaRange, netRange, grossRange
+    )
+      .then((res) => {
+        if (res) {
+          // console.log("productList", res);
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+        }
+        return res;
+      })
+      // .then( async(res) => {
+      //   let forWardResp;
+      //   if (res) {
+      //     await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList,obj,productlisttype).then((resp)=>{
+      //       if(resp){
+      //        console.log("productPriceData",resp);
+
+      //         setPriceListData(resp)
+      //         forWardResp = resp;
+      //       }
+      //     })
+      //   }
+      //   return forWardResp
+      // })
+      .then(async (res) => {
+        let forWardResp1;
+        if (res) {
+          await FilterListAPI(productlisttype, cookie)
+            .then((res) => {
+              setFilterData(res);
+
+              let diafilter =
+                res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+                  ?.length > 0
+                  ? JSON.parse(
+                    res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+                  )[0]
+                  : [];
+              let diafilter1 =
+                res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+                  ?.length > 0
+                  ? JSON.parse(
+                    res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+                  )[0]
+                  : [];
+              let diafilter2 =
+                res?.filter((ele) => ele?.Name == "Gross")[0]?.options
+                  ?.length > 0
+                  ? JSON.parse(
+                    res?.filter((ele) => ele?.Name == "Gross")[0]?.options
+                  )[0]
+                  : [];
+
+              // console.log("diafilter",diafilter);
+              setSliderValue(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
+              setSliderValue1(diafilter1?.Min != null || diafilter1?.Max != null ? [diafilter1?.Min, diafilter1?.Max] : []);
+              setSliderValue2(diafilter2?.Min != null || diafilter2?.Max != null ? [diafilter2?.Min, diafilter2?.Max] : []);
+
+              forWardResp1 = res;
+            })
+            .catch((err) => console.log("err", err));
+        }
+        return forWardResp1;
+      })
+      .finally(() => {
+        setIsProdLoading(false);
+        setIsOnlyProdLoading(false);
+        setAfterCountStatus(false);
+        window.scroll({
+          top: 0,
+          behavior: "smooth",
+        });
+      })
+      .catch((err) => console.log("err", err));
+
+    // }
+  };
+
+  useEffect(() => {
     fetchData();
-    setCurrPage(1)
-    setInputPage(1);
     if (location?.key) {
       setLocationKey(location?.key);
     }
+
+    setCurrPage(1);
+    setInputPage(1);
   }, [location?.key]);
 
   // useEffect(() => {
@@ -683,27 +730,6 @@ const ProductList = () => {
   //   setFinalProductListData(finalProdWithPrice);
   // }, [productListData, priceListData]);
 
-  let getDesignImageFol = storeInit?.CDNDesignImageFolThumb;
-  const getDesignVideoFol = storeInit?.CDNVPath;
-
-  const getDynamicRollImages = (designno, count, extension) => {
-    if (count > 1) {
-      return `${getDesignImageFol}${designno}~${2}.jpg`;
-    }
-    return;
-  };
-
-  const getDynamicImages = (designno, extension) => {
-    return `${getDesignImageFol}${designno}~${1}.jpg`;
-  };
-
-  const getDynamicVideo = (designno, count, extension) => {
-    if (extension && count > 0) {
-      const url = `${getDesignVideoFol}${designno}~${1}.${extension}`;
-      return url;
-    }
-    return;
-  };
 
   useEffect(() => {
     const finalProdWithPrice = productListData && productListData?.map((product) => {

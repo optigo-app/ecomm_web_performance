@@ -46,6 +46,7 @@ const CartItem = ({
   const visiterId = Cookies.get("visiterId");
   const [imageSrc, setImageSrc] = useState();
   const [open, setOpen] = useState(false);
+  const [isLoading, setisLoading] = useState(true);
   const [remark, setRemark] = useState(item.Remarks || "");
   const [isSelectedItems, setIsSelectedItems] = useState();
   const [countstatus, setCountStatus] = useState();
@@ -53,10 +54,52 @@ const CartItem = ({
   const [storeInitData, setStoreInitData] = useState();
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
+  // const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
+  // const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+
+  // const isLoading = item?.loading;
+
+  useEffect(() => {
+    const delay = (index + 1) * 200;
+
+    const timer = setTimeout(() => {
+      setisLoading(false);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [index]);
+
+
   const CDNDesignImageFolThumb = storeInitData?.CDNDesignImageFolThumb;
   const fullImagePath = `${CDNDesignImageFolThumb}${item?.designno}~1.jpg`;
+  // const defaultUrl = item?.images?.replace("/Design_Thumb", "");
+  const defaultUrl = item?.images && typeof item?.images === 'string'
+    ? item.images.replace("/Design_Thumb", "")
+    : "";
+  const firstPart = defaultUrl?.split(".")[0];
+  const secondPart = item?.ImageExtension;
+  const finalSelectedUrl = `${firstPart}.${secondPart}`;
 
-  const isLoading = item?.loading;
+  const [imgSrc, setImgSrc] = useState('');
+
+  useEffect(() => {
+    let imageURL = item?.images
+      ? finalSelectedUrl
+      : item?.ImageCount > 1
+        ? `${CDNDesignImageFolThumb}${item?.designno}~1~${item?.metalcolorname}.${item?.ImageExtension}`
+        : `${CDNDesignImageFolThumb}${item?.designno}~1.${item?.ImageExtension}`;
+
+    const img = new Image();
+    img.onload = () => setImgSrc(imageURL);
+    img.onerror = () => {
+      if (item?.ImageCount > 0) {
+        setImgSrc(fullImagePath || noImageFound);
+      } else {
+        setImgSrc(noImageFound);
+      }
+    };
+    img.src = imageURL;
+  }, [item, CDNDesignImageFolThumb, finalSelectedUrl]);
 
   const isLargeScreen = useMediaQuery("(min-width: 1600px)");
   const isMediumScreen = useMediaQuery(
@@ -212,7 +255,7 @@ const CartItem = ({
           ) : (
             <CardMedia
               component="img"
-              image={item?.images}
+              image={imgSrc}
               alt=" "
               sx={{
                 border: 'none',
@@ -223,13 +266,13 @@ const CartItem = ({
               }}
               className="hoq_cartListImage"
               onClick={() => onSelect(item)}
-              onError={(e) => {
-                if (item?.ImageCount > 0) {
-                  e.target.src = fullImagePath ? fullImagePath : noImageFound;
-                } else {
-                  e.target.src = noImageFound;
-                }
-              }}
+              // onError={(e) => {
+              //   if (item?.ImageCount > 0) {
+              //     e.target.src = fullImagePath ? fullImagePath : noImageFound;
+              //   } else {
+              //     e.target.src = noImageFound;
+              //   }
+              // }}
               loading="lazy"
             />
           )}
@@ -309,24 +352,18 @@ const CartItem = ({
               )}
             </CardContent>
             <Box className="hoq_cartbtngroupReRm">
-              <Link
-                className="hoq_ItemRemarkbtn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleOpen();
-                }}
-                variant="body2"
+              <button
+                className='hoq_ItemRemarkbtn'
+                onClick={() => handleOpen()}
+                style={{ border: 'none', background: 'none', cursor: 'pointer', textDecoration: 'underline' }}
               >
                 {item?.Remarks ? "Update Remark" : "Add Remark"}
-              </Link>
-              <Link
-                className="hoq_ReomoveCartbtn"
-                href="#"
-                variant="body2"
-                onClick={() => handleRemoveItem(item, index)}
-              >
+              </button>
+              <button
+                style={{ border: 'none', background: 'none', cursor: 'pointer' }}
+                className='hoq_ReomoveCartbtn' variant="body2" onClick={() => handleRemoveItem(item, index)} >
                 Remove
-              </Link>
+              </button>
             </Box>
           </div>
         </Box>

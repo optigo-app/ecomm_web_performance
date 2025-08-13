@@ -10,6 +10,7 @@ import loaderImg1 from './Components/Assets/varaLogo.png';
 import loaderImg2 from './Components/Assets/pacificLogo.png';
 import loaderImg3 from './Components/Assets/ojasviLogo.png';
 import loaderImg4 from './Components/Assets/shinjiniLogo.png';
+import { Box, CircularProgress } from '@mui/material';
 import { roop_CartNo, roop_companyLogo, roop_loginState } from "./Components/Recoil/atom";
 import { storImagePath, storInitDataPath } from "../../utils/Glob_Functions/GlobalFunction";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
@@ -45,7 +46,6 @@ import Wishlist from "./Components/Pages/Wishlist/Wishlist";
 // import Header2 from "./Components/Pages/Home/Header/Header2";
 import Account from "./Components/Pages/Account/Account";
 // import AXboutUs from './Components/Pages/aboutUs/AQbout';
-import { Box, CircularProgress } from '@mui/material';
 // import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 // import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
 // import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
@@ -61,17 +61,20 @@ import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/Log
 import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
 import useGlobalPreventSave from '../../utils/Glob_Functions/useGlobalPreventSave';
 
+import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
+import AboutUs from "./Components/Pages/aboutUs/AboutUs";
+import AXboutUs from "./Components/Pages/aboutUs/AQbout";
+import TermsAndConditions from './Components/Pages/static/TermsPage/TermsPage';
+import ManagementTeam from './Components/Pages/static/Management/Management';
+
 const Home = lazy(() => import("./Components/Pages/Home/Index"));
 const Header = lazy(() => import("./Components/Pages/Home/Header/Header"));
 // const Cart = lazy(() => import("./Components/Pages/Cart/CartMain"));
 const ProductList = lazy(() => import("./Components/Pages/Product/ProductList/ProductList"));
 const ProductDetail = lazy(() => import("./Components/Pages/Product/ProductDetail/ProductDetail"));
-const ContactUs = lazy(() => import("./Components/Pages/FooterPages/contactUs/ContactUs"));
 // const ServicePolicy = lazy(() => import("./Components/Pages/FooterPages/servicePolicy/ServicePolicy"));
 // const ExpertAdvice = lazy(() => import("./Components/Pages/FooterPages/ExpertAdvice/ExpertAdvice"));
 // const FunFact = lazy(() => import("./Components/Pages/FooterPages/FunFact/FunFact"));
-const AboutUs = lazy(() => import("./Components/Pages/aboutUs/AboutUs"));
-const AXboutUs = lazy(() => import("./Components/Pages/aboutUs/AQbout"));
 // const Wishlist = lazy(() => import("./Components/Pages/Wishlist/Wishlist"));
 const PageNotFound = lazy(() => import("./Components/Pages/404Page/PageNotFound"));
 const Delivery = lazy(() => import("./Components/Pages/OrderFlow/DeliveryPage/Delivery"));
@@ -83,8 +86,6 @@ const Lookbook = lazy(() => import("./Components/Pages/Home/LookBook/Lookbook"))
 // const ScrollToTop = lazy(() => import("../DaimondTine/Components/Pages/ScrollToTop "));
 const StamScrollToTop = lazy(() => import("./Components/Pages/BackToTop/StamScrollToTop"));
 const Footer = lazy(() => import("./Components/Pages/Home/Footer/Footer"));
-const ManagementTeam = lazy(() => import('./Components/Pages/static/Management/Management'));
-const TermsAndConditions = lazy(() => import('./Components/Pages/static/TermsPage/TermsPage'));
 
 
 const RoopJewellers_App = () => {
@@ -237,7 +238,7 @@ const RoopJewellers_App = () => {
     >
       {/* <CircularProgress sx={{ color: 'rgba(255, 87, 34, 0.8)' }} /> */}
       <img
-        src={loaderImg4}
+        src={loaderImg}
         alt="Loading..."
         height="100%"
         width="auto"

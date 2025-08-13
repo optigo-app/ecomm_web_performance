@@ -93,18 +93,18 @@ function EnhancedTableHead(props) {
         <TableHead>
             <TableRow>
                 {headCells.map((headCell) => {
-                        const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {};
-                        if (IsPriceShow == 0 && headCell?.id == "Amount") {
-                            return null;
-                        }
-                    return                    <TableCell
+                    const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {};
+                    if (IsPriceShow == 0 && headCell?.id == "Amount") {
+                        return null;
+                    }
+                    return <TableCell
                         key={headCell.id}
                         align={headCell.align}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
                         style={{
                             fontFamily: "Spectral-Regular",
-                            backgroundColor:"#EAEAEB",
+                            backgroundColor: "#EAEAEB",
                         }}
                     >
                         {
@@ -124,7 +124,7 @@ function EnhancedTableHead(props) {
                                 </TableSortLabel>
                         }
                     </TableCell>
-})}
+                })}
             </TableRow>
         </TableHead>
     );
@@ -323,7 +323,7 @@ const Sales = () => {
                 let rows = [];
                 response?.Data?.rd?.forEach((e, i) => {
                     let printUrl = atob(e?.PrintUrl);
-                    
+
                     let dataa = createData(i + 1, e?.Date, e?.StockDocumentNo, e?.TotalDesign, e?.Amount, e?.Currencycode, printUrl);
                     rows?.push(dataa)
                 });
@@ -371,7 +371,7 @@ const Sales = () => {
             <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
                 <Box sx={{ display: "flex", flexWrap: "wrap" }}>
                     <Box sx={{ paddingRight: "15px" }} className="salesPagePagBtn"> <Button variant="contained" className="muiSmilingRocksBtn " sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>All</Button></Box>
-                    <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox salesPagePagBtn">
+                    <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 0px 35px 0", marginRight: "15px", maxWidth: "max-content" }} className="searchbox salesPagePagBtn">
                         <TextField id="standard-basic" label="Search" variant="outlined"
                             InputProps={{
                                 style: { fontFamily: "Spectral-Regular" }
@@ -501,7 +501,7 @@ const Sales = () => {
                                                     </TableCell>
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.Date}</TableCell>
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.StockDocumentNo}</TableCell>
-                                                {IsPriceShow == 1 &&    <TableCell align="right" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span> {formatAmount(row.Amount)}</TableCell>}
+                                                    {IsPriceShow == 1 && <TableCell align="right" style={{ fontFamily: "Spectral-Regular" }}> <span dangerouslySetInnerHTML={{ __html: row?.Currencycode }}></span> {formatAmount(row.Amount)}</TableCell>}
                                                     <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
                                                         <PrintIcon />
                                                     </div></TableCell>

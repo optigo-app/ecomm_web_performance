@@ -51,6 +51,15 @@ import useGlobalPreventSave from "../../utils/Glob_Functions/useGlobalPreventSav
 // import Lookbook from "./Components/Page/LookBook/Lookbook";
 // import Customization from "./Components/Page/staticPage/customization/Customization";
 // import ContactPage from "./Components/Page/Checker";
+import LoginOption from "./Components/Page/Auth/LoginOptions/Hoq_LoginOptions";
+import ContinueWithEmail from "./Components/Page/Auth/LoginWithEmail/Hoq_LoginWithEmail";
+import ContimueWithMobile from "./Components/Page/Auth/LoginWithMobile/Hoq_LoginWithMobile";
+import Register from "./Components/Page/Auth/Register/Hoq_Register";
+import LoginWithEmail from "./Components/Page/Auth/EmailLogin/Hoq_EmailLogin";
+import LoginWithEmailCode from "./Components/Page/Auth/LoginwithEmailCode/Hoq_LoginwithEmailCode";
+import LoginWithMobileCode from "./Components/Page/Auth/LoginWithMobileCode/Hoq_LoginWithMobileCode";
+import ForgotPass from "./Components/Page/Auth/ForgetPassword/Hoq_ForgetPassword";
+
 
 const Navbar = lazy(() => import("./Components/Page/Home/Navbar/Navbar"));
 const Footer = lazy(() => import("./Components/Page/Home/Footer/Footer"));
@@ -60,14 +69,6 @@ const DynamicCollection = lazy(() => import("./Components/Page/Home/CategoryTab/
 const ProductPage = lazy(() => import("./Components/Page/Product/Product"));
 const WishlistPage = lazy(() => import("./Components/Page/Wishlist/WishlistPage"));
 const CartPage = lazy(() => import("./Components/Page/Cart/CartPage"));
-const LoginOption = lazy(() => import("./Components/Page/Auth/LoginOptions/Hoq_LoginOptions"));
-const ContinueWithEmail = lazy(() => import("./Components/Page/Auth/LoginWithEmail/Hoq_LoginWithEmail"));
-const ContimueWithMobile = lazy(() => import("./Components/Page/Auth/LoginWithMobile/Hoq_LoginWithMobile"));
-const Register = lazy(() => import("./Components/Page/Auth/Register/Hoq_Register"));
-const LoginWithEmail = lazy(() => import("./Components/Page/Auth/EmailLogin/Hoq_EmailLogin"));
-const LoginWithEmailCode = lazy(() => import("./Components/Page/Auth/LoginwithEmailCode/Hoq_LoginwithEmailCode"));
-const LoginWithMobileCode = lazy(() => import("./Components/Page/Auth/LoginWithMobileCode/Hoq_LoginWithMobileCode"));
-const ForgotPass = lazy(() => import("./Components/Page/Auth/ForgetPassword/Hoq_ForgetPassword"));
 const ChatMenu = lazy(() => import("./Components/Page/Home/ChatMenu/ChatMenu"));
 const Delivery = lazy(() => import("./Components/Page/OrderFlow/DeliveryPage/Delivery"));
 const Payment = lazy(() => import("./Components/Page/OrderFlow/PaymentPage/Payment"));

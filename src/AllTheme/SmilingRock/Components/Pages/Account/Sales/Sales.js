@@ -362,7 +362,7 @@ const Sales = () => {
             <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
                 {!isSmallScreen && <Box sx={{ display: "flex", flexWrap: "wrap" }}>
                     <Box sx={{ paddingRight: "15px" }} className="salesPagePagBtn"> <Button variant="contained" className="muiSmilingRocksBtn " sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>All</Button></Box>
-                    <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox salesPagePagBtn">
+                    <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 0px 35px 0", marginRight: "15px", maxWidth: "max-content" }} className="searchbox salesPagePagBtn">
                         <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
                             setSearchVal(eve?.target?.value);
                             handleSearch(eve, eve?.target?.value, fromDate, toDate);

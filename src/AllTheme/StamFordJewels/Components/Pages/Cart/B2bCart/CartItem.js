@@ -275,12 +275,18 @@ const CartItem = ({
               )}
             </CardContent>
             <Box className="stam_cartbtngroupReRm">
-              <Link className='stam_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
+              <button
+                className='stam_ItemRemarkbtn'
+                onClick={() => handleOpen()}
+                style={{ border: 'none', background: 'none', cursor: 'pointer', textDecoration: 'underline' }}
+              >
                 {item?.Remarks ? "Update Remark" : "Add Remark"}
-              </Link>
-              <Link className='stam_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >
+              </button>
+              <button
+                style={{ border: 'none', background: 'none', cursor: 'pointer' }}
+                className='stam_ReomoveCartbtn' variant="body2" onClick={() => handleRemoveItem(item, index)} >
                 Remove
-              </Link>
+              </button>
             </Box>
           </div>
         </Box>

@@ -274,12 +274,18 @@ const CartItem = ({
               )}
             </CardContent>
             <Box className="roop_cartbtngroupReRm">
-              <Link className='roop_ItemRemarkbtn' onClick={(e) => { handleOpen(); }} variant="body2">
+              <button
+                className='roop_ItemRemarkbtn'
+                onClick={() => handleOpen()}
+                style={{ border: 'none', background: 'none', cursor: 'pointer', textDecoration: 'underline' }}
+              >
                 {item?.Remarks ? "Update Remark" : "Add Remark"}
-              </Link>
-              <Link className='roop_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >
+              </button>
+              <button
+                style={{ border: 'none', background: 'none', cursor: 'pointer' }}
+                className='roop_ReomoveCartbtn' variant="body2" onClick={() => handleRemoveItem(item, index)} >
                 Remove
-              </Link>
+              </button>
             </Box>
           </div>
         </Box>

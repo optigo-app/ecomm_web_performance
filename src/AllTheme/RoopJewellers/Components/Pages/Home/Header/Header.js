@@ -1160,7 +1160,10 @@ const Header = () => {
             {/* Welcome To Ojasvi Jewels Official Website */}
 
             {/* For Shinjini */}
-            Welcome To Shinjini Jewels Official Website
+            {/* Welcome To Shinjini Jewels Official Website */}
+
+            {/* For PRJewellers */}
+            Welcome To PR Jewellers Official Website
             {/* Welcome To Roop Jewellers's Official Website */}
           </p>
         </div>
