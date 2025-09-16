@@ -687,32 +687,11 @@ const ProductList = () => {
             res1?.filter((ele) => ele.Name == "Price")[0]?.options
           )[0];
           setFilterPriceSlider(priceFilter);
-          let diafilter =
-            res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-              ?.length > 0
-              ? JSON.parse(
-                res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-              )[0]
-              : [];
-          let diafilter1 =
-            res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-              ?.length > 0
-              ? JSON.parse(
-                res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-              )[0]
-              : [];
-          let diafilter2 =
-            res?.filter((ele) => ele?.Name == "Gross")[0]?.options
-              ?.length > 0
-              ? JSON.parse(
-                res?.filter((ele) => ele?.Name == "Gross")[0]?.options
-              )[0]
-              : [];
-          setFilterGrossSlider([diafilter2?.Min, diafilter2?.Max]);
-          setFilterNetWTSlider([
-            diafilter1?.Min.toFixed(3),
-            diafilter1?.Max.toFixed(3),
-          ]);
+          let diafilter = res1?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(res1?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0] : [];
+
+          let diafilter1 = res1?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(res1?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0] : [];
+
+          let diafilter2 = res1?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(res1?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0] : [];
 
           // const highestPrice = res?.pdList?.reduce((max, item) => {
           //   return Math.max(max, item?.UnitCostWithMarkUpIncTax);
@@ -727,10 +706,6 @@ const ProductList = () => {
 
           // setPriceRangeValue([lowestPrice, highestPrice]);
           // setInputPrice([lowestPrice, highestPrice])
-
-          // let diafilter = res1?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0] : [];
-          // let diafilter1 = res1?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0] : [];
-          // let diafilter2 = res1?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0] : [];
 
           setSliderValue(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
           setInputDia(diafilter?.Min != null || diafilter?.Max != null ? [diafilter.Min, diafilter.Max] : []);
@@ -758,7 +733,7 @@ const ProductList = () => {
       top: 0,
       behavior: "smooth"
     })
-  }, [location?.pathname]);
+  }, [location?.key]);
 
   // useEffect(() => {
   //   if (productListData?.length > 0) {
@@ -2207,6 +2182,7 @@ const ProductList = () => {
     return isFilterChecked || isSliderChanged || isInputFields;
   };
 
+
   const PriceRangeInputs = ({
     priceValue,
     setpriceValue,
@@ -3162,7 +3138,7 @@ const ProductList = () => {
                     flex: "100%",
                   }}
                 >
-                  {!maxwidth700px ? (
+                  {!maxwidth1400px ? (
                     <>
                       <ProductListSkeleton />
                       <ProductFilterSkeleton />
@@ -3888,12 +3864,11 @@ const ProductList = () => {
                     </div>
                     {isOnlyProdLoading ? (
                       <>
-                        {!maxwidth700px ? (
-
+                        {!maxwidth1400px ? (
                           <ProductFilterSkeleton />
                         ) :
                           <>
-                            <ProductListSkeleton />
+                            {/* <ProductListSkeleton /> */}
                             <ProductFilterSkeleton />
                           </>
                         }

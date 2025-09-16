@@ -103,7 +103,7 @@ function Collection() {
         {/* Why Shop With Sonasons? */}
 
         {/* For Vara */}
-        {/* Why shop with Vara? */}
+        Why shop with Vara?
 
         {/* For Ojasvi */}
         {/* Why shop with Ojasvi? */}
@@ -112,7 +112,7 @@ function Collection() {
         {/* Why shop with Pacific? */}
 
         {/* For PRJewellers */}
-        Why shop with PR Jewellers?
+        {/* Why shop with PR Jewellers? */}
         {/* Consider changing this if you want to personalize it for SEO or branding */}
       </p>
 

@@ -8,6 +8,7 @@ import jsonData from "../json/AccountDesignWiseSales.json";
 import SearchIcon from '@mui/icons-material/Search';
 import { NumberWithCommas, checkMonth } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import moment from 'moment';
+import imageNotFound from '../../../Assets/image-not-found.jpg';
 import ReactPaginate from 'react-paginate';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import Skeleton from '@mui/material/Skeleton';
@@ -206,19 +207,19 @@ const DesignWiseSalesReport = () => {
             let todat = moment(todates);
             if (!fromdates?.includes(undefined) && !todates?.includes(undefined)) {
 
-                
+
                 let salescount = dataRd2?.reduce((acc, cObj) => {
                     let cutDate = cObj?.["Date"]?.split(" ");
                     cutDate = `${cutDate[2]}-${cutDate[1]}-${cutDate[0]}`;
                     let cutDat = moment(cutDate);
-                    if(moment(fromdat).isSameOrBefore(todat)){   
+                    if (moment(fromdat).isSameOrBefore(todat)) {
                         const isBetween = cutDat.isBetween(fromdat, todat, null, '[]');
                         if (e?.designno === cObj?.designno && (isBetween || cutDat.isSame(fromdat) || cutDat.isSame(todat))) {
                             return acc + cObj?.salescount;
                         } else {
                             return acc;
                         }
-                    }else{
+                    } else {
                         setTimeout(() => {
                             resetAllFilters();
                         }, 0);
@@ -233,9 +234,9 @@ const DesignWiseSalesReport = () => {
 
             } else if (fromdates?.includes(undefined) && !todates?.includes(undefined)) {
                 let salescount = dataRd2?.reduce((acc, cObj) => {
-                   
+
                     return acc + cObj?.salescount;
-             
+
                 }, 0);
                 Swal.fire({
                     title: "Error !",
@@ -254,9 +255,9 @@ const DesignWiseSalesReport = () => {
 
             } else if (!fromdates?.includes(undefined) && todates?.includes(undefined)) {
                 let salescount = dataRd2?.reduce((acc, cObj) => {
-          
+
                     return acc + cObj?.salescount;
-               
+
                 }, 0);
                 Swal.fire({
                     title: "Error !",
@@ -279,7 +280,7 @@ const DesignWiseSalesReport = () => {
                     datass?.push(obj);
                 }
             }
-        //   } 
+            //   } 
         });
         datass?.forEach((e, i) => {
             let flags = {
@@ -304,10 +305,10 @@ const DesignWiseSalesReport = () => {
                     flags.grossWt = true;
                 }
             }
-            if(e?.designno?.toLowerCase()?.includes(design_No?.toLowerCase())){
+            if (e?.designno?.toLowerCase()?.includes(design_No?.toLowerCase())) {
                 flags.designNo = true;
             }
-           
+
             switch (purchase_Count?.toLowerCase()) {
                 case "all":
                     flags.purchaseCount = true;
@@ -400,7 +401,7 @@ const DesignWiseSalesReport = () => {
             // };
             // const response = await CommonAPI(body);
             const response = await getDesignWiseSalesReport(currencyRate, FrontEnd_RegNo, customerid, data);
-            
+
             if (response?.Data?.rd) {
                 resetAllFilters();
                 let datass = [];
@@ -541,7 +542,7 @@ const DesignWiseSalesReport = () => {
                     <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
                         <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
                     </Box>
-            
+
                     <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
@@ -783,7 +784,7 @@ const DesignWiseSalesReport = () => {
                 {isLoading ?
                     <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", margin: "0 auto" }}><CircularProgress className='loadingBarManage' /></Box> :
                     <Box sx={{ display: "grid", gap: "15px", paddingTop: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", }} className="designWiseSalesProducts">
-                        { filteredDataPaginated?.length > 0 ? filteredDataPaginated?.map((products, i) => (
+                        {filteredDataPaginated?.length > 0 ? filteredDataPaginated?.map((products, i) => (
                             <div
                                 style={{
                                     minWidth: "100%",
@@ -799,12 +800,15 @@ const DesignWiseSalesReport = () => {
                                 <Box sx={{
                                     paddingBottom: "10px"
                                 }}>
-                                
+
                                     <Box sx={{ minheight: "271px" }}>
-                                        {products?.imgsrc ? (
-                                            <img className="prod_img" src={products?.imgsrc} alt='' style={{ objectFit: "contain", height: "100%", minheight: "271px", maxHeight: "271px" }} />
+                                        {isLoading === false ? (
+                                            <img className="prod_img"
+                                                draggable={true}
+                                                onContextMenu={(e) => e.preventDefault()}
+                                                src={products?.imgsrc} onError={(e) => e.target.src = imageNotFound} alt='' style={{ objectFit: "contain", height: "100%", minheight: "271px", maxHeight: "271px" }} />
                                         ) : (
-                                            <Skeleton variant="rectangular" width={"100%"} height={335} style={{marginBottom:'76px'}} />
+                                            <Skeleton variant="rectangular" width={"100%"} style={{ marginBottom: '76px', height: '310px' }} />
                                         )}
                                     </Box>
 
@@ -845,11 +849,11 @@ const DesignWiseSalesReport = () => {
                                     <Typography style={{ fontSize: "12px", textAlign: "start", }}>
                                         Purchase Count: {NumberWithCommas(products?.salescount, 0)}
                                     </Typography>
-                                
+
                                 </Box>
 
                             </div>
-                        )) : <div   style={{color:'grey', display:'flex', justifyContent:'center',alignItems:'center', fontWeight:'bold'}}>Data Not Present</div>}
+                        )) : <div style={{ color: 'grey', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold' }}>Data Not Present</div>}
                     </Box>
 
                 }

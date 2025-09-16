@@ -5,6 +5,7 @@ import Home from "./Components/Pages/Home/Index";
 import Header from "./Components/Pages/Home/Header/Header";
 import Cart from "./Components/Pages/Cart/CartMain";
 import loaderImg from './Components/Assets/webLogo.png';
+import loaderImg1 from './Components/Assets/sarafflogo.png';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   companyLogo,
@@ -17,7 +18,7 @@ import ProCat_PrivateRoutes from "./ProCat_PrivateRoutes";
 import { storImagePath, storInitDataPath, } from "../../utils/Glob_Functions/GlobalFunction";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import { verifyToken, getLocalStorageValue } from "../../utils/Glob_Functions/Tokenizer";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 // import ProductList from "./Components/Pages/Product/ProductList/ProductList";
 
 // import AboutUs from "./Components/Pages/aboutUs/AboutUs";
@@ -281,9 +282,9 @@ const Procatalog_App = () => {
         minHeight: '100vh'
       }}
     >
-      {/* <CircularProgress sx={{ color: 'rgba(255, 87, 34, 0.8)' }} /> */}
-      <img
-        src={loaderImg}
+      <CircularProgress sx={{ color: 'rgba(255, 87, 34, 0.8)' }} />
+      {/* <img
+        src={loaderImg1}
         alt="Loading..."
         height="100%"
         width="auto"
@@ -291,7 +292,7 @@ const Procatalog_App = () => {
         style={{
           animation: 'scaleUpDown 1.5s ease-in-out infinite', // Apply the animation here
         }}
-      />
+      /> */}
     </Box>
   );
 

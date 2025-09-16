@@ -298,7 +298,7 @@ export default function LoginWithEmail() {
         ForgotPasswordEmailAPI(Domian, email).then((response) => {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
-                // toast.success('Reset Link Send On Your Email');
+                toast.success('Reset Link Send On Your Email');
             } else {
                 alert('Error')
             }

@@ -1148,7 +1148,7 @@ const Header = () => {
         <div className="roop_header_top_line">
           <p className="roop_header_top_line_text" aria-labelledby="title">
             {/* For Vara */}
-            {/* Welcome To Vara Jewels Official Website */}
+            Welcome To Vara Jewels Official Website
 
             {/* For Sonsosons */}
             {/* Welcome To Sonasons Official Website */}
@@ -1163,7 +1163,7 @@ const Header = () => {
             {/* Welcome To Shinjini Jewels Official Website */}
 
             {/* For PRJewellers */}
-            Welcome To PR Jewellers Official Website
+            {/* Welcome To PR Jewellers Official Website */}
             {/* Welcome To Roop Jewellers's Official Website */}
           </p>
         </div>

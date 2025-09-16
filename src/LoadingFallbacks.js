@@ -176,3 +176,36 @@ export const ShinjiniLoadingFallback = () => (
         />
     </Box>
 );
+
+export const SaraffLoadingFallback = () => (
+    <Box
+        sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+            backgroundColor: '#fff',
+        }}
+    >
+        <img
+            src="/sarafflogo.png"
+            alt="Loading..."
+            height="100%"
+            width="auto"
+            loading="lazy"
+        />
+    </Box>
+);
+
+export const ProcatalogLoadingFallback = () => (
+    <Box
+        sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh'
+        }}
+    >
+        <CircularProgress sx={{ color: 'rgba(255, 87, 34, 0.8)' }} />
+    </Box>
+);

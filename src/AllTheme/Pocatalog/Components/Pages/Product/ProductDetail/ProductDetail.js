@@ -111,7 +111,6 @@ const ProductDetail = () => {
   const setWishCountVal = useSetRecoilState(proCat_WishCount);
   const [pdVideoArr, setPdVideoArr] = useState([]);
   const [allListDataSlide, setAllListDataSlide] = useState([]);
-  console.log("TCL: ProductDetail -> allListDataSlide", allListDataSlide)
   const [imageData, setImageData] = useState([]);
   const SoketData = useRecoilValue(soketProductData);
   const [imageStates, setImageStates] = useState({});
@@ -3232,15 +3231,19 @@ const ProductDetail = () => {
                                       </span>
                                     )
                                   }
-                                  className={`${ele?.IsInCart === 1 ? 'btnColorProCatProductRemoveCart' : 'btnColorProCatProduct'} procat_cart_btn`}
+                                  // For pink one
+                                  // className={`${ele?.IsInCart === 1 ? 'btnColorProCatProductRemoveCart' : 'btnColorProCatProduct'} procat_cart_btn`}
                                   style={{
                                     marginInline: 0
                                   }}
-                                // className={
-                                //   cartArr[ele?.StockId] ?? ele?.IsInCart === 1
-                                //     ? "procat_cart_btn_alter"
-                                //     : "procat_cart_btn"
-                                // }
+                                  // For blue one
+                                  className={`
+                                  ${cartArr[ele?.StockId] ?? ele?.IsInCart === 1
+                                      ? "btnColorProCatProductRemoveCart"
+                                      : "btnColorProCatProduct"}
+                                    procat_cart_btn
+                                    `
+                                  }
                                 />
                               </div>
                             </div>

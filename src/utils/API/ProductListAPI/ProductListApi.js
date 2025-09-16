@@ -2,7 +2,6 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
 const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", visiterId, sortby = "", diaRange = {}, netWt = {}, gross = {}, Shape = "", dno = "", album = "") => {
-  console.log("TCL: ProductListApi -> filterObj", filterObj)
 
   let MenuParams = {};
   let serachVar = ""

@@ -149,7 +149,12 @@ const Album = () => {
       setDesignSubData(finalNewData);
     } else {
       sessionStorage.setItem('redirectURL', url);
-      navigate((islogin || data?.AlbumSecurityId === 0) ? url : redirectUrl, { state });
+      navigate(
+        (islogin || (data?.AlbumSecurityId == 0 && storeinit?.IsB2BWebsite === 0))
+          ? url
+          : redirectUrl,
+        { state }
+      );      
     }
   };
   
@@ -197,7 +202,7 @@ const Album = () => {
     const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
     sessionStorage.setItem('redirectURL', url)
     console.log("islogin || data?.AlbumSecurityId === 0",islogin || data?.AlbumSecurityId === 0)
-    navigate((islogin || data?.AlbumSecurityId === 0) ? url : redirectUrl, { state });
+    navigate((islogin || (data?.AlbumSecurityId == 0 && storeinit?.IsB2BWebsite === 0)) ? url : redirectUrl, { state });  
   };
   
   const prevLoadedProducts = useRef([]); 
