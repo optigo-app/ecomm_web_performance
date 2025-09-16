@@ -52,7 +52,6 @@ export default function ForgotPass() {
         }
     };
 
-
     const handleTogglePasswordVisibility = (fieldName) => {
         if (fieldName === 'password') {
             setShowPassword(!showPassword);

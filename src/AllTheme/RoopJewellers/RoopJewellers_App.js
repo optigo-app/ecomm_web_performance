@@ -223,7 +223,7 @@ const RoopJewellers_App = () => {
     );
   }
 
-  const Vaara = 0;
+  const Vaara = 1;
 
   const Vara = Vaara == 0 ? <AXboutUs /> : <AboutUsVara />
 
@@ -238,7 +238,7 @@ const RoopJewellers_App = () => {
     >
       {/* <CircularProgress sx={{ color: 'rgba(255, 87, 34, 0.8)' }} /> */}
       <img
-        src={loaderImg}
+        src={loaderImg1}
         alt="Loading..."
         height="100%"
         width="auto"
@@ -301,13 +301,13 @@ const RoopJewellers_App = () => {
             {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
 
             {/* For sonsons, shinjini, pacific, ojasvi */}
-            <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+            {/* <Route path="/privacyPolicy" element={<PrivacyPolicy />} /> */}
 
             {/* For vara */}
-            {/* <Route
+            <Route
               path="/ManagementTeam"
               element={<ManagementTeam />}
-            /> */}
+            />
             <Route
               path="/terms-and-conditions"
 

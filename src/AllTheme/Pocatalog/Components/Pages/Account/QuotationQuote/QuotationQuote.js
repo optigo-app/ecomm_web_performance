@@ -20,7 +20,7 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import SearchIcon from '@mui/icons-material/Search';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Paper from '@mui/material/Paper';
 import { getQuotationQuoteData } from "../../../../../../utils/API/AccountTabs/quotationQuote";
 
@@ -54,10 +54,10 @@ const descendingComparator = (a, b, orderBy) => {
         return 0;
     } else if (orderBy === 'SrNo' || orderBy === 'Amount') {
         return b[orderBy] - a[orderBy];
-    } else if ((orderBy === 'SKUNo') ) {
+    } else if ((orderBy === 'SKUNo')) {
         // Handle sorting for SKU# column
         return customComparator_Col(a[orderBy], b[orderBy]);
-    }  else {
+    } else {
         const valueA = typeof a[orderBy] === 'string' ? a[orderBy].toLowerCase() : a[orderBy];
         const valueB = typeof b[orderBy] === 'string' ? b[orderBy].toLowerCase() : b[orderBy];
 
@@ -75,11 +75,11 @@ const customComparator_Col = (a, b) => {
     const regex = /([^\d]+)(\d+)/;
     const [, wordA, numA] = a?.match(regex);
     const [, wordB, numB] = b?.match(regex);
-    
+
     if (wordA !== wordB) {
         return wordA?.localeCompare(wordB);
     }
-    
+
     return parseInt(numB, 10) - parseInt(numA, 10);
 };
 
@@ -120,11 +120,11 @@ function EnhancedTableHead(props) {
         <TableHead>
             <TableRow>
                 {headCells.map((headCell) => {
-                       const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
-                       if (IsPriceShow == 0 && headCell?.label == 'Total Amount') {
-                           return null;
-                       }
-                 return   <TableCell
+                    const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {};
+                    if (IsPriceShow == 0 && headCell?.label == 'Total Amount') {
+                        return null;
+                    }
+                    return <TableCell
                         key={headCell.id}
                         align={headCell.align}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
@@ -144,7 +144,7 @@ function EnhancedTableHead(props) {
                             ) : null}
                         </TableSortLabel>
                     </TableCell>
-})}
+                })}
             </TableRow>
         </TableHead>
     );
@@ -236,7 +236,7 @@ const QuotationQuote = () => {
 
     const handleSearch = (eve, searchValue, fromDatess, todatess) => {
         setPage(0);
-        
+
         let fromdates = `${fromDatess?.["$y"]}-${checkMonth(fromDatess?.["$M"])}-${fromDatess?.["$D"]}`;
         let todates = `${todatess?.["$y"]}-${checkMonth(todatess?.["$M"])}-${todatess?.["$D"]}`;
 
@@ -266,7 +266,7 @@ const QuotationQuote = () => {
             }
 
             if (cutDate !== undefined) {
-                
+
                 if (!fromdates?.includes(undefined) && !todates?.includes(undefined)) {
                     let fromdat = moment(fromdates);
                     let todat = moment(todates);
@@ -295,7 +295,7 @@ const QuotationQuote = () => {
                     });
                     reseltFil();
                 } else if (!fromdates?.includes(undefined) && todates?.includes(undefined)) {
-        
+
                     count = count + 1
                     flags.dateTo = true;
                     Swal.fire({
@@ -310,7 +310,7 @@ const QuotationQuote = () => {
                     flags.dateTo = true;
                     flags.dateFrom = true;
                 }
-                
+
             }
 
             if (flags.dateFrom === true && flags.dateTo === true && flags.search === true) {
@@ -331,7 +331,7 @@ const QuotationQuote = () => {
             setIsLoading(true);
             const storedData = sessionStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
-            const customerid = data.id; 
+            const customerid = data.id;
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
             // const combinedValue = JSON.stringify({
@@ -354,7 +354,7 @@ const QuotationQuote = () => {
                     let dataa = createData(i + 1, e?.Date, e?.SKUNo, e?.TotalDesign, e?.Amount, printUrl);
                     rows?.push(dataa)
                 });
-            
+
                 setData(rows);
                 setFilterData(rows);
             } else {
@@ -389,7 +389,7 @@ const QuotationQuote = () => {
         // Find the table container element and set its scrollTop property to 0
         const tableContainer = document.querySelector('.quotationJobSec');
         if (tableContainer) {
-          tableContainer.scrollTop = 0;
+            tableContainer.scrollTop = 0;
         }
     };
 
@@ -407,7 +407,7 @@ const QuotationQuote = () => {
                             setSearchVal(eve?.target?.value);
                             handleSearch(eve, eve?.target?.value, fromDate, toDate);
                         }} />
-                        <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
+                        <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
                             onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon /></Button>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="d_flex_quote w_q">
@@ -424,7 +424,7 @@ const QuotationQuote = () => {
                                             if (newValue === null) {
                                                 setFromDate(null)
                                             } else {
-                                            
+
 
                                                 if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
                                                     setFromDate(newValue)
@@ -439,7 +439,7 @@ const QuotationQuote = () => {
                                                     resetAllFilters();
                                                 }
                                             }
-                                        
+
                                         }}
                                         className='quotationFilterDates w_q'
                                         ref={fromDateRef}
@@ -454,10 +454,10 @@ const QuotationQuote = () => {
                                     <DatePicker
                                         label="Date To"
                                         value={toDate}
-                                
+
                                         format="DD MM YYYY"
                                         placeholder="DD MM YYYY"
-                                
+
                                         className='quotationFilterDates w_q'
                                         ref={toDateRef}
                                         inputProps={{ readOnly: true }}
@@ -488,11 +488,11 @@ const QuotationQuote = () => {
                     </Box>
                 </Box>
                 {isLoading ?
-                    <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
+                    <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> :
                     <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTableQWeb">
-                        <TableContainer style={{maxHeight: 580, overflowX:'auto', overflowY:'auto'}}>
+                        <TableContainer style={{ maxHeight: 580, overflowX: 'auto', overflowY: 'auto' }}>
                             <Table
-                                sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", overflowX:'auto', overflowY:'auto'}}
+                                sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", overflowX: 'auto', overflowY: 'auto' }}
                                 aria-labelledby="tableTitle"
                                 size={dense ? 'small' : 'medium'}
                             >
@@ -500,23 +500,23 @@ const QuotationQuote = () => {
                                     numSelected={selected.length}
                                     order={order}
                                     orderBy={orderBy}
-                                
+
                                     onRequestSort={handleRequestSort}
                                     rowCount={filterData.length}
                                 />
                                 <TableBody>
-                                    { filterData?.length > 0 ? visibleRows.map((row, index) => {
-                                    
+                                    {filterData?.length > 0 ? visibleRows.map((row, index) => {
+
                                         const labelId = `enhanced-table-checkbox-${index}`;
-                                        const {IsPriceShow} = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {} ;
+                                        const { IsPriceShow } = JSON?.parse(sessionStorage?.getItem('storeInit')) ?? {};
                                         return (
                                             <TableRow
                                                 hover
                                                 onClick={(event) => handleClick(event, index)}
-                                            
+
                                                 tabIndex={-1}
                                                 key={index}
-                                        
+
                                                 sx={{ cursor: 'pointer' }}
                                             >
 
@@ -528,26 +528,26 @@ const QuotationQuote = () => {
                                                     align="center"
                                                     sx={{ width: '125px' }}
                                                 >
-                                                
+
                                                     {page * rowsPerPage + index + 1}
                                                 </TableCell>
                                                 <TableCell align="center" sx={{ width: '125px' }}>{row.Date}</TableCell>
                                                 <TableCell align="center" sx={{ width: '125px' }}>{row.SKUNo}</TableCell>
                                                 <TableCell align="center" sx={{ width: '125px' }}>{row.TotalDesign}</TableCell>
-                                            {IsPriceShow == 1 &&    <TableCell align="right" sx={{ width: '125px' }}>{formatAmount(row.Amount)}</TableCell>}
+                                                {IsPriceShow == 1 && <TableCell align="right" sx={{ width: '125px' }}>{formatAmount(row.Amount)}</TableCell>}
                                                 <TableCell align="center" sx={{ width: '125px' }}>
-                                                    
-                                                
-                                                            <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
-                                                                <PrintIcon   />
-                                                            </div>
-                                                        
-                                                
+
+
+                                                    <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
+                                                        <PrintIcon />
+                                                    </div>
+
+
                                                 </TableCell>
-                                                
+
                                             </TableRow>
                                         );
-                                    }) : <TableCell colSpan={10} align="center" style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell> }
+                                    }) : <TableCell colSpan={10} align="center" style={{ color: 'grey', fontWeight: 'bold' }}>Data Not Present</TableCell>}
                                     {emptyRows > 0 && (
                                         <TableRow
                                             style={{

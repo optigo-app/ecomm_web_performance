@@ -25,7 +25,7 @@ import { lov_companyLogo, lov_companyLogoM, lov_loginState } from "./AllTheme/Lo
 import { companyLogo, companyLogoM, loginState, smr_companyLogo, smr_companyLogoM, smr_loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
 import { REACT_APP_WEB } from "./env";
 import { Box, CircularProgress } from "@mui/material";
-import { DefaultLoadingFallback, ElveeLoadingFallback, KamalikaJewelssLoadingFallback, LoadingFallback, OjasviLoadingFallback, PacificLoadingFallback, ShinjiniLoadingFallback, ShreeDiamondsLoadingFallback, VaraLoadingFallback } from "./LoadingFallbacks";
+import { DefaultLoadingFallback, ElveeLoadingFallback, KamalikaJewelssLoadingFallback, LoadingFallback, OjasviLoadingFallback, PacificLoadingFallback, ProcatalogLoadingFallback, SaraffLoadingFallback, ShinjiniLoadingFallback, ShreeDiamondsLoadingFallback, VaraLoadingFallback } from "./LoadingFallbacks";
 
 const ForEveryRoutes = React.lazy(() => import("./AllTheme/Forevery/ForeveryRoutes"));
 const SmilingRock_App = React.lazy(() => import("./AllTheme/SmilingRock/SmilingRock_App"));
@@ -319,7 +319,9 @@ const Themes = ({ themeNumber }) => {
     // <Suspense fallback={<KamalikaJewelssLoadingFallback />}>
     // <Suspense fallback={<ElveeLoadingFallback />}>
     // <Suspense fallback={<DefaultLoadingFallback />}>
-    <Suspense fallback={<DefaultLoadingFallback />}>
+    // <Suspense fallback={<SaraffLoadingFallback />}>
+    // <Suspense fallback={<ProcatalogLoadingFallback />}>
+    <Suspense fallback={<ElveeLoadingFallback />}>
       {themeNumber === 8 && <ForEveryRoutes />}
       {themeNumber === 3 && <Elveester_App />}
       {themeNumber === 1 && <SmilingRock_App />}

@@ -5,7 +5,7 @@ import './LoginWithMobileCode.modul.scss';
 import { useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import Cookies from 'js-cookie';
 import { roop_loginState } from '../../../Recoil/atom';
@@ -91,7 +91,7 @@ export default function LoginWithMobileCode() {
         ContimueWithMobileAPI(mobileNo).then((response) => {
             setIsLoading(false);
             if (response.Data.Table1[0].stat === '1') {
-                // toast.success('OTP send Sucssessfully');
+                toast.success('OTP send Sucssessfully');
             } else {
                 alert('Error..')
             }

@@ -62,25 +62,25 @@ const TopSection = ({ data }) => {
     <div className="roop_topVideoMain" role="region" aria-labelledby="top-video-banner" onContextMenu={(e) => e.preventDefault()}>
       <div className="rp_main_slider">
         {/* for vara */}
-        {/* <Slider {...settings} ref={slider}>
+        <Slider {...settings} ref={slider}>
           {isMobile
             ? data?.image?.slice(0, 3).map((val, i) => (
               <div className="slide" key={i}>
                 <LazyImage src={val} alt={`top-section-banner-${i}`}
-                 draggable={true}
-            onContextMenu={(e) => e.preventDefault()}
+                  draggable={true}
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </div>
             ))
             : data?.image?.slice(0, 3).map((val, i) => (
               <div className="slide" key={i}>
                 <LazyImage src={val} alt={`top-section-banner-${i}`}
-                 draggable={true}
-            onContextMenu={(e) => e.preventDefault()}
+                  draggable={true}
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </div>
             ))}
-        </Slider> */}
+        </Slider>
 
 
         {/* for shinjini */}
@@ -135,7 +135,7 @@ const TopSection = ({ data }) => {
 
         {/* {localData?.Blockno === 3 && ( */}
         {/* for sonasons, ojasvi */}
-        <div id="top-banner-image-rp">
+        {/* <div id="top-banner-image-rp">
           <img
             src={`${storImagePath()}/Banner/Homepagemainbanner4.png`} // Fallback image
             srcSet={`
@@ -155,7 +155,7 @@ const TopSection = ({ data }) => {
             className="top-banner-img"
             loading="lazy"
           />
-        </div>
+        </div> */}
 
         {/* for pacific */}
         {/* <div id="top-banner-image-rp">

@@ -14,6 +14,7 @@ import { useSetRecoilState } from "recoil";
 import Footer from "../../Home/Footer/Footer";
 import { RegisterAPI } from "../../../../../../utils/API/Auth/RegisterAPI";
 import { roop_loginState } from "../../../Recoil/atom";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const navigation = useNavigate();
@@ -262,6 +263,7 @@ export default function Register() {
           setIsLoading(false);
           if (response.Data.rd[0].stat === 1) {
             navigation(singupRedirectUrl);
+            // toast.success("Registraion successfu")
 
             // sessionStorage.setItem('LoginUser', true)
             // sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));

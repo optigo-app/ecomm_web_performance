@@ -18,6 +18,7 @@ const Footer = () => {
     const [selectedFooteVal, setSelectedVal] = useState(0);
     const navigation = useNavigate();
     const isLogin = useRecoilState(el_loginState)
+    const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
 
     useEffect(() => {
         let interval;
@@ -82,7 +83,6 @@ const Footer = () => {
             setResult("");
         }
 
-        const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
         const newslater = storeInit?.newslatter;
         if (newslater && email) {
             const requestOptions = {
@@ -244,7 +244,7 @@ const Footer = () => {
             <div className='elv_copyrights_div'>
                 <hr className='elv_copy_hr' />
                 <div className='elv_coprights'>
-                    <span className='elv_copyrights_text'>Copyright &#169; 2025 Elvee. All Rights Reserved.</span>
+                    <span className='elv_copyrights_text'>Copyright &#169; 2025 {storeInit?.companyname}. All Rights Reserved.</span>
                 </div>
             </div>
         </div>

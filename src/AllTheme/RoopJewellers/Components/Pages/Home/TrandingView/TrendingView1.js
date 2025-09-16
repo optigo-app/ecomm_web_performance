@@ -210,7 +210,7 @@ const TrendingView1 = ({ data }) => {
                         {/* For sonasons, ojasvi */}
                         {/* <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/trending.jpg`} loading="lazy" /> */}
                         {/* <img src={data?.image?.[1]} loading='lazy' /> */}
-                        <img
+                        {/* <img
                             src={`${storImagePath()}/Banner/trendingbanner2.png`} // Fallback image
                             srcSet={`
                                 ${storImagePath()}/Banner/trending-image-400.webp 400w,
@@ -228,7 +228,7 @@ const TrendingView1 = ({ data }) => {
                             loading="lazy"
                             draggable={true}
                             onContextMenu={(e) => e.preventDefault()}
-                        />
+                        /> */}
 
                         {/* For pacific */}
                         {/* <img src={data?.image?.[2]}
@@ -237,11 +237,11 @@ const TrendingView1 = ({ data }) => {
                         /> */}
 
                         {/* // for vara  */}
-                        {/* <img src={data?.image?.[0]}
+                        <img src={data?.image?.[0]}
                             alt="Trending Jewellery Collection Banner"
                             loading='lazy'
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"  // Responsive image size based on viewport width
-                        /> */}
+                        />
                     </div>
                     {/* <div className='smr_rightSideTR'> */}
 

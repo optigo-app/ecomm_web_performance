@@ -842,7 +842,7 @@ const SalesReport = () => {
               maxWidth: "max-content",
               minWidth: "max-content",
               position: "absolute",
-              right: "8px",
+              right: "20px",
               color: "#757575",
             }}
           >

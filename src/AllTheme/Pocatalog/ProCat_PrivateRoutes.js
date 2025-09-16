@@ -5,6 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { IsSecurityKey } from './Components/Recoil/atom';
 
 const PrivateRoutes = ({ isLoginStatus }) => {
+    console.log("TCL: PrivateRoutes -> isLoginStatus", isLoginStatus)
     const [isLoading, setIsLoading] = useState(true);
     const location = useLocation();
     const getSecurityKey = useRecoilValue(IsSecurityKey);
@@ -26,27 +27,28 @@ const PrivateRoutes = ({ isLoginStatus }) => {
 
     const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(location?.pathname)}${location?.search}`;
     const url = `${location?.pathname}${location?.search}`;
-    let navVal = url?.split('/')[3]; 
+    let navVal = url?.split('/')[3];
     let securityKey = navVal?.includes('K=') ? navVal.split('K=')[1].split('/')[0] : null;
     let albumSecurityId = null;
     try {
-      if (securityKey) {
-        albumSecurityId = atob(securityKey);
-      }
+        if (securityKey) {
+            albumSecurityId = atob(securityKey);
+        }
     } catch (e) {
-      console.warn("Invalid base64 securityKey:", e);
+        console.warn("Invalid base64 securityKey:", e);
     }
 
     if (location.pathname.startsWith('/p') && albumSecurityId == 0) {
         return <Outlet />;
-      }
-  
+    }
+
 
     if (storeInit?.IsB2BWebsite != 0) {
-        if (isLoginStatus != true && getSecurityKey == 1) {
+        if (isLoginStatus != true) {
             if (location.pathname.startsWith('/p')
                 || location.pathname.startsWith('/d')
-                || location.pathname.startsWith('/cartPage')) {
+                || location.pathname.startsWith('/cartPage')){
+                // || location.pathname.startsWith('/accountdwsr')) {
                 let storeInt = JSON.parse(sessionStorage.getItem("storeInit"));
                 if (!storeInt) {
                     Storeinit();
